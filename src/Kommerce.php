@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\Kommerce;
+namespace inklabs\kommerce;
 
 use DB;
 use ORM;
@@ -40,17 +40,17 @@ class Kommerce {
 		return preg_replace('/-+/', '-', $slug);
 	}
 
-	public static function base_decode($num, $base = NULL) {
+	public static function base_decode($encoded_string, $base = NULL) {
 		if ($base === NULL) {
 			$base = self::$encode_base;
 		}
 
 		$b = strlen($base);
-		$limit = strlen($num);
-		$res = strpos($base, $num[0]);
+		$limit = strlen($encoded_string);
+		$res = strpos($base, $encoded_string[0]);
 
 		for($i=1; $i < $limit; $i++) {
-			$res = $b * $res + strpos($base, $num[$i]);
+			$res = $b * $res + strpos($base, $encoded_string[$i]);
 		}
 
 		return (int) $res;
@@ -62,16 +62,16 @@ class Kommerce {
 		}
 
 		$b = strlen($base);
-		$res = '';
+		$encoded_string = '';
 		$num = $orig_num;
 		
 		do {
 			$r = $num % $b;
 			$num = floor($num / $b);
-			$res = $base[$r] . $res;
+			$encoded_string = $base[$r] . $encoded_string;
 		} while ($num);
 
-		return $res;
+		return $encoded_string;
 	}
 
 	/**

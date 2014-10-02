@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\Kommerce;
+namespace inklabs\kommerce;
 
 /**
  * Array helper.
