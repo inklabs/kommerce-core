@@ -1,6 +1,11 @@
 <?php
 namespace inklabs\Kommerce;
 
+use DB;
+use ORM;
+use DateTime;
+use DateTimeZone;
+
 class Kommerce {
 	const NAME = 'Zen Kommerce';
 	const SAFE_NAME = 'zen_kommerce';
@@ -8,6 +13,18 @@ class Kommerce {
 	const CODENAME = 'alpha';
 	const WEBSITE = 'http://inklabs.github.io/kommerce/';
 	const GITHUB = 'https://github.com/inklabs/kommerce';
+
+	const PRODUCTION  = 10;
+	const STAGING     = 20;
+	const TESTING     = 30;
+	const DEVELOPMENT = 40;
+
+	public static $environment = self::DEVELOPMENT;
+
+	public static $encode_base = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	public static $enable_x_forwarded_for = FALSE;
+	public static $mock_ip_address = NULL;
+	public static $internal_timezone = 'UTC';
 
 	public static $content_type = 'text/html';
 	public static $catalog_promotions = array();
@@ -25,7 +42,7 @@ class Kommerce {
 
 	public static function base_decode($num, $base = NULL) {
 		if ($base === NULL) {
-			$base = Kohana::$config->load('environment')->get('encode_base');
+			$base = self::$encode_base;
 		}
 
 		$b = strlen($base);
@@ -41,7 +58,7 @@ class Kommerce {
 
 	public static function base_encode($orig_num, $base = NULL) {
 		if ($base === NULL) {
-			$base = Kohana::$config->load('environment')->get('encode_base');
+			$base = self::$encode_base;
 		}
 
 		$b = strlen($base);
@@ -76,18 +93,18 @@ class Kommerce {
 
 		$ip = Arr::get($_SERVER, 'REMOTE_ADDR');
 
-		if (TRUE === Kohana::$config->load('environment')->get('enable')['x-forwarded-for']) {
+		if (TRUE === self::$enable_x_forwarded_for) {
 			$ip = Arr::get($_SERVER, 'HTTP_X_FORWARDED_FOR', $ip);
 		}
 
 		if ($mock_local AND self::is_private_ip($ip)) {
-			$ip = Kohana::$config->load('environment')->get('mock_ip_address');
+			$ip = self::$mock_ip_address;
 		}
 
 		return $ip;
 	}
 
-	public static function verify_country() {
+	public static function verify_country($allowed_countries) {
 		$ip_address = self::remote_ip(TRUE);
 		$country = Maxmind::get_country($ip_address);
 		$iso_3316 = Arr::path($country, 'country.iso_code');
@@ -95,8 +112,6 @@ class Kommerce {
 		if (empty($iso_3316)) {
 			return;
 		}
-
-		$allowed_countries = Kohana::$config->load('environment')->get('allowed_countries');
 
 		if ( ! empty($allowed_countries)) {
 			if ( ! in_array($iso_3316, $allowed_countries)) {
@@ -121,15 +136,15 @@ class Kommerce {
 	}
 
 	public static function is_prod() {
-		return (Kohana::$environment == Kohana::PRODUCTION);
+		return (self::$environment == self::PRODUCTION);
 	}
 
 	public static function is_stage() {
-		return (Kohana::$environment == Kohana::STAGING);
+		return (self::$environment == self::STAGING);
 	}
 
 	public static function is_dev() {
-		return (Kohana::$environment == Kohana::DEVELOPMENT);
+		return (self::$environment == self::DEVELOPMENT);
 	}
 
 	public static function show_profiler() {
@@ -146,10 +161,10 @@ class Kommerce {
 	}
 
 	public static function get_short_name() {
-		switch(Kohana::$environment) {
-			case Kohana::PRODUCTION:  $environment_name = 'prod';  break;
-			case Kohana::DEVELOPMENT: $environment_name = 'dev';   break;
-			case Kohana::STAGING:     $environment_name = 'stage'; break;
+		switch(self::$environment) {
+			case self::PRODUCTION:  $environment_name = 'prod';  break;
+			case self::DEVELOPMENT: $environment_name = 'dev';   break;
+			case self::STAGING:     $environment_name = 'stage'; break;
 		}
 		return $environment_name;
 	}
@@ -664,14 +679,12 @@ class Kommerce {
 			$date->setTimestamp($timestamp);
 		}
 
-		$date->setTimeZone(new DateTimeZone(Kohana::$config->load('environment')->get('internal_timezone')));
+		$date->setTimeZone(new DateTimeZone(self::$internal_timezone));
 		return $date->format($format);
 	}
 
 	public static function get_current_date($timestamp = NULL) {
-		return new DateTime($timestamp, new DateTimeZone(
-			Kohana::$config->load('environment')->get('internal_timezone')
-		));
+		return new DateTime($timestamp, new DateTimeZone(self::$internal_timezone));
 	}
 
 	public static function load_catalog_promotions() {
