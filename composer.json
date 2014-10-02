@@ -1,5 +1,5 @@
 {
-	"name": "inklabs/kommerce-core",
+	"name": "inklabs/kommerce",
 	"description": "Zen Kommerce Core",
 	"license": "proprietary",
 	"keywords": ["zen", "kommerce"],
@@ -15,7 +15,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"kommerce\\core\\": "src"
+			"inklabs\\kommerce\\": "src"
 		}
 	}
 }
