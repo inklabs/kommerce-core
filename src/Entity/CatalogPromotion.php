@@ -18,7 +18,6 @@ class CatalogPromotion extends Promotion
 	public $end;
 	public $created;
 
-
 	public function is_valid(\DateTime $date, Product $product)
 	{
 		return $this->is_date_valid($date)
