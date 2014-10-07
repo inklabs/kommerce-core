@@ -3,11 +3,17 @@ namespace inklabs\kommerce\Entity;
 
 class Promotion
 {
+	public $discount_type;
+	public $redemptions;
+	public $max_redemptions;
+	public $start;
+	public $end;
+
 	public function is_date_valid(\DateTime $date)
 	{
 		$current_date_ts = $date->getTimestamp();
 
-		if ($current_date_ts >= $this->start->getTimestamp() OR $current_date_ts <= $this->end->getTimestamp()) {
+		if ($current_date_ts >= $this->start->getTimestamp() AND $current_date_ts <= $this->end->getTimestamp()) {
 			return TRUE;
 		} else {
 			return FALSE;
