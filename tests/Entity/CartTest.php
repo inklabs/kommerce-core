@@ -43,6 +43,8 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_total_basic()
 	{
+		$pricing = new Pricing;
+
 		$product = $this->_setup_product();
 		$product->name = 'Test 1';
 		$product->price = 500;
@@ -64,8 +66,6 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total->total = 1300;
 		$cart_total->savings = 0;
 
-		$pricing = new Pricing;
-
 		$this->assertEquals($cart_total, $cart->get_total($pricing));
 	}
 
@@ -75,6 +75,8 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_total_coupon()
 	{
+		$pricing = new Pricing(new \DateTime('2014-02-01'));
+
 		$product = $this->_setup_product();
 		$product->name = 'Test 1';
 		$product->price = 500;
@@ -100,8 +102,6 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total->savings = 500;
 		$cart_total->coupons = [$coupon];
 
-		$pricing = new Pricing(new \DateTime('2014-02-01'));
-
 		$this->assertEquals($cart_total, $cart->get_total($pricing));
 	}
 
@@ -110,6 +110,16 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_total_coupon_with_catalog_promotion()
 	{
+		$catalog_promotion = new CatalogPromotion;
+		$catalog_promotion->name = '20% Off';
+		$catalog_promotion->discount_type = 'percent';
+		$catalog_promotion->discount_value = 20;
+		$catalog_promotion->start = new \DateTime('2014-01-01');
+		$catalog_promotion->end = new \DateTime('2014-12-31');
+
+		$pricing = new Pricing(new \DateTime('2014-02-01'));
+		$pricing->add_catalog_promotion($catalog_promotion);
+
 		$product = $this->_setup_product();
 		$product->name = 'Test 1';
 		$product->price = 500;
@@ -135,15 +145,77 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total->savings = 900;
 		$cart_total->coupons = [$coupon];
 
-		$catalog_promotion = new CatalogPromotion;
-		$catalog_promotion->name = '20% Off';
-		$catalog_promotion->discount_type = 'percent';
-		$catalog_promotion->discount_value = 20;
-		$catalog_promotion->start = new \DateTime('2014-01-01');
-		$catalog_promotion->end = new \DateTime('2014-12-31');
+		$this->assertEquals($cart_total, $cart->get_total($pricing));
+	}
 
+	/**
+	 * @covers Cart::get_total
+	 */
+	public function test_get_total_coupon_under_min_order_value()
+	{
 		$pricing = new Pricing(new \DateTime('2014-02-01'));
-		$pricing->add_catalog_promotion($catalog_promotion);
+
+		$product = $this->_setup_product();
+		$product->name = 'Test 1';
+		$product->price = 2000; // $20
+
+		$coupon = new Coupon;
+		$coupon->name = '20% Off orders over $100';
+		$coupon->discount_type = 'percent';
+		$coupon->discount_value = 20;
+		$coupon->min_order_value = 10000; // $100
+		$coupon->start = new \DateTime('2014-01-01');
+		$coupon->end = new \DateTime('2014-12-31');
+
+		$cart = new Cart;
+		$cart->add_coupon($coupon);
+		$cart->add_item($product, 1);
+
+		$cart_total = new CartTotal;
+		$cart_total->orig_subtotal = 2000;
+		$cart_total->subtotal = 2000;
+		$cart_total->shipping = 0;
+		$cart_total->discount = 0;
+		$cart_total->tax = 0;
+		$cart_total->total = 2000;
+		$cart_total->savings = 0;
+		$cart_total->coupons = [];
+
+		$this->assertEquals($cart_total, $cart->get_total($pricing));
+	}
+
+	/**
+	 * @covers Cart::get_total
+	 */
+	public function test_get_total_coupon_over_min_order_value()
+	{
+		$pricing = new Pricing(new \DateTime('2014-02-01'));
+
+		$product = $this->_setup_product();
+		$product->name = 'Test 1';
+		$product->price = 2000; // $20
+
+		$coupon = new Coupon;
+		$coupon->name = '20% Off orders over $100';
+		$coupon->discount_type = 'percent';
+		$coupon->discount_value = 20;
+		$coupon->min_order_value = 10000; // $100
+		$coupon->start = new \DateTime('2014-01-01');
+		$coupon->end = new \DateTime('2014-12-31');
+
+		$cart = new Cart;
+		$cart->add_coupon($coupon);
+		$cart->add_item($product, 6);
+
+		$cart_total = new CartTotal;
+		$cart_total->orig_subtotal = 12000;
+		$cart_total->subtotal = 12000;
+		$cart_total->shipping = 0;
+		$cart_total->discount = 2400;
+		$cart_total->tax = 0;
+		$cart_total->total = 9600;
+		$cart_total->savings = 2400;
+		$cart_total->coupons = [$coupon];
 
 		$this->assertEquals($cart_total, $cart->get_total($pricing));
 	}
