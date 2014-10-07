@@ -14,4 +14,5 @@ class CartTotal
 	public $total = 0;
 	public $savings = 0;
 	public $coupons = [];
+	public $tax_rate;
 }

@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\TaxRate;
 
 class CartTest extends PHPUnit_Framework_TestCase
 {
@@ -78,7 +79,6 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$pricing = new Pricing(new \DateTime('2014-02-01'));
 
 		$product = $this->_setup_product();
-		$product->name = 'Test 1';
 		$product->price = 500;
 
 		$coupon = new Coupon;
@@ -121,7 +121,6 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$pricing->add_catalog_promotion($catalog_promotion);
 
 		$product = $this->_setup_product();
-		$product->name = 'Test 1';
 		$product->price = 500;
 
 		$coupon = new Coupon;
@@ -156,7 +155,6 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$pricing = new Pricing(new \DateTime('2014-02-01'));
 
 		$product = $this->_setup_product();
-		$product->name = 'Test 1';
 		$product->price = 2000; // $20
 
 		$coupon = new Coupon;
@@ -192,7 +190,6 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$pricing = new Pricing(new \DateTime('2014-02-01'));
 
 		$product = $this->_setup_product();
-		$product->name = 'Test 1';
 		$product->price = 2000; // $20
 
 		$coupon = new Coupon;
@@ -228,7 +225,6 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$pricing = new Pricing(new \DateTime('2014-02-01'));
 
 		$product = $this->_setup_product();
-		$product->name = 'Test 1';
 		$product->price = 2000; // $20
 
 		$coupon = new Coupon;
@@ -264,7 +260,6 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$pricing = new Pricing(new \DateTime('2014-02-01'));
 
 		$product = $this->_setup_product();
-		$product->name = 'Test 1';
 		$product->price = 2000; // $20
 
 		$coupon = new Coupon;
@@ -300,7 +295,6 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$pricing = new Pricing(new \DateTime('2014-02-01'));
 
 		$product = $this->_setup_product();
-		$product->name = 'Test 1';
 		$product->price = 2000; // $20
 
 		$coupon = new Coupon;
@@ -325,6 +319,38 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total->total = 1600;
 		$cart_total->savings = 400;
 		$cart_total->coupons = [$coupon];
+
+		$this->assertEquals($cart_total, $cart->get_total($pricing));
+	}
+
+	/**
+	 * @covers Cart::get_total
+	 */
+	public function test_get_total_with_zip5_tax_applied_to_shipping()
+	{
+		$pricing = new Pricing;
+
+		$product = $this->_setup_product();
+		$product->price = 500;
+
+		$tax_rate = new TaxRate;
+		$tax_rate->zip5 = 92606;
+		$tax_rate->rate = 8.0;
+		$tax_rate->apply_to_shipping = TRUE;
+
+		$cart = new Cart;
+		$cart->set_tax_rate($tax_rate);
+		$cart->add_item($product, 2);
+
+		$cart_total = new CartTotal;
+		$cart_total->orig_subtotal = 1000;
+		$cart_total->subtotal = 1000;
+		$cart_total->shipping = 0;
+		$cart_total->discount = 0;
+		$cart_total->tax = 80;
+		$cart_total->total = 1080;
+		$cart_total->savings = 0;
+		$cart_total->tax_rate = $tax_rate;
 
 		$this->assertEquals($cart_total, $cart->get_total($pricing));
 	}
