@@ -76,7 +76,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_total_coupon()
 	{
-		$pricing = new Pricing(new \DateTime('2014-02-01'));
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
 		$product = $this->_setup_product();
 		$product->price = 500;
@@ -85,8 +85,8 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->name = '20% Off';
 		$coupon->discount_type = 'percent';
 		$coupon->discount_value = 20;
-		$coupon->start = new \DateTime('2014-01-01');
-		$coupon->end = new \DateTime('2014-12-31');
+		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -114,10 +114,10 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$catalog_promotion->name = '20% Off';
 		$catalog_promotion->discount_type = 'percent';
 		$catalog_promotion->discount_value = 20;
-		$catalog_promotion->start = new \DateTime('2014-01-01');
-		$catalog_promotion->end = new \DateTime('2014-12-31');
+		$catalog_promotion->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$catalog_promotion->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
-		$pricing = new Pricing(new \DateTime('2014-02-01'));
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 		$pricing->add_catalog_promotion($catalog_promotion);
 
 		$product = $this->_setup_product();
@@ -127,8 +127,8 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->name = '20% Off';
 		$coupon->discount_type = 'percent';
 		$coupon->discount_value = 20;
-		$coupon->start = new \DateTime('2014-01-01');
-		$coupon->end = new \DateTime('2014-12-31');
+		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -152,7 +152,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_total_coupon_under_min_order_value()
 	{
-		$pricing = new Pricing(new \DateTime('2014-02-01'));
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
 		$product = $this->_setup_product();
 		$product->price = 2000; // $20
@@ -162,8 +162,8 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->discount_type = 'percent';
 		$coupon->discount_value = 20;
 		$coupon->min_order_value = 10000; // $100
-		$coupon->start = new \DateTime('2014-01-01');
-		$coupon->end = new \DateTime('2014-12-31');
+		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -187,7 +187,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_total_coupon_over_min_order_value()
 	{
-		$pricing = new Pricing(new \DateTime('2014-02-01'));
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
 		$product = $this->_setup_product();
 		$product->price = 2000; // $20
@@ -197,8 +197,8 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->discount_type = 'percent';
 		$coupon->discount_value = 20;
 		$coupon->min_order_value = 10000; // $100
-		$coupon->start = new \DateTime('2014-01-01');
-		$coupon->end = new \DateTime('2014-12-31');
+		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -222,7 +222,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_total_coupon_over_max_order_value()
 	{
-		$pricing = new Pricing(new \DateTime('2014-02-01'));
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
 		$product = $this->_setup_product();
 		$product->price = 2000; // $20
@@ -232,8 +232,8 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->discount_type = 'percent';
 		$coupon->discount_value = 20;
 		$coupon->max_order_value = 10000; // $100
-		$coupon->start = new \DateTime('2014-01-01');
-		$coupon->end = new \DateTime('2014-12-31');
+		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -257,7 +257,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_total_coupon_under_max_order_value()
 	{
-		$pricing = new Pricing(new \DateTime('2014-02-01'));
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
 		$product = $this->_setup_product();
 		$product->price = 2000; // $20
@@ -267,8 +267,8 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->discount_type = 'percent';
 		$coupon->discount_value = 20;
 		$coupon->max_order_value = 10000; // $100
-		$coupon->start = new \DateTime('2014-01-01');
-		$coupon->end = new \DateTime('2014-12-31');
+		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -292,7 +292,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_total_coupon_valid_order_value()
 	{
-		$pricing = new Pricing(new \DateTime('2014-02-01'));
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
 		$product = $this->_setup_product();
 		$product->price = 2000; // $20
@@ -303,8 +303,8 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->discount_value = 20;
 		$coupon->min_order_value = 1000; // $10
 		$coupon->max_order_value = 10000; // $100
-		$coupon->start = new \DateTime('2014-01-01');
-		$coupon->end = new \DateTime('2014-12-31');
+		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
