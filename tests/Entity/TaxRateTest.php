@@ -1,6 +1,5 @@
 <?php
 use inklabs\kommerce\Entity\TaxRate;
-use inklabs\kommerce\Entity\CartTotal;
 
 class TaxRateTest extends PHPUnit_Framework_TestCase
 {
