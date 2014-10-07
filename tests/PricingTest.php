@@ -116,7 +116,7 @@ class PricingTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers Pricing::get_price
 	 */
-	public function test_get_price_with_catalog_promotion_percent_tag()
+	public function test_get_price_with_catalog_promotion_tag()
 	{
 		$tag = new Tag;
 		$tag->id = 1;
