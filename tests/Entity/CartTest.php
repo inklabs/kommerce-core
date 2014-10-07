@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\Shipping;
 
 class CartTest extends PHPUnit_Framework_TestCase
 {
@@ -326,7 +327,39 @@ class CartTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers Cart::get_total
 	 */
-	public function test_get_total_with_zip5_tax_applied_to_shipping()
+	public function test_get_total_with_shipping()
+	{
+		$pricing = new Pricing;
+
+		$product = $this->_setup_product();
+		$product->price = 500;
+
+		$usps_shipping_rate = new Shipping\Rate;
+		$usps_shipping_rate->code = '4';
+		$usps_shipping_rate->name = 'Parcel Post';
+		$usps_shipping_rate->cost = 1000;
+
+		$cart = new Cart;
+		$cart->add_item($product, 3);
+
+		$cart_total = new CartTotal;
+		$cart_total->orig_subtotal = 1500;
+		$cart_total->subtotal = 1500;
+		$cart_total->shipping = 1000;
+		$cart_total->discount = 0;
+		$cart_total->tax = 0;
+		$cart_total->total = 2500;
+		$cart_total->savings = 0;
+		$cart_total->tax_rate = $tax_rate;
+
+		$this->assertEquals($cart_total, $cart->get_total($pricing, $usps_shipping_rate));
+	}
+
+	/**
+	 * @covers Cart::set_tax_rate
+	 * @covers Cart::get_total
+	 */
+	public function test_get_total_with_zip5_tax_not_applied_to_shipping()
 	{
 		$pricing = new Pricing;
 
@@ -336,7 +369,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$tax_rate = new TaxRate;
 		$tax_rate->zip5 = 92606;
 		$tax_rate->rate = 8.0;
-		$tax_rate->apply_to_shipping = TRUE;
+		$tax_rate->apply_to_shipping = FALSE;
 
 		$cart = new Cart;
 		$cart->set_tax_rate($tax_rate);
@@ -353,5 +386,42 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total->tax_rate = $tax_rate;
 
 		$this->assertEquals($cart_total, $cart->get_total($pricing));
+	}
+
+	/**
+	 * @covers Cart::get_total
+	 */
+	public function test_get_total_with_zip5_tax_applied_to_shipping()
+	{
+		$pricing = new Pricing;
+
+		$product = $this->_setup_product();
+		$product->price = 500;
+
+		$tax_rate = new TaxRate;
+		$tax_rate->zip5 = 92606;
+		$tax_rate->rate = 8.0;
+		$tax_rate->apply_to_shipping = TRUE;
+
+		$usps_shipping_rate = new Shipping\Rate;
+		$usps_shipping_rate->code = '4';
+		$usps_shipping_rate->name = 'Parcel Post';
+		$usps_shipping_rate->cost = 1000;
+
+		$cart = new Cart;
+		$cart->set_tax_rate($tax_rate);
+		$cart->add_item($product, 2);
+
+		$cart_total = new CartTotal;
+		$cart_total->orig_subtotal = 1000;
+		$cart_total->subtotal = 1000;
+		$cart_total->shipping = 1000;
+		$cart_total->discount = 0;
+		$cart_total->tax = 160;
+		$cart_total->total = 2160;
+		$cart_total->savings = 0;
+		$cart_total->tax_rate = $tax_rate;
+
+		$this->assertEquals($cart_total, $cart->get_total($pricing, $usps_shipping_rate));
 	}
 }
