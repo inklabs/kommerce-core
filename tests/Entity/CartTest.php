@@ -59,6 +59,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart->add_item($product, 2);
 		$cart->add_item($product2, 1);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 1300;
 		$cart_total->subtotal = 1300;
@@ -93,6 +94,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart->add_coupon($coupon);
 		$cart->add_item($product, 5);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 2500;
 		$cart_total->subtotal = 2500;
@@ -135,6 +137,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart->add_coupon($coupon);
 		$cart->add_item($product, 5);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 2500;
 		$cart_total->subtotal = 2000;
@@ -170,6 +173,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart->add_coupon($coupon);
 		$cart->add_item($product, 1);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 2000;
 		$cart_total->subtotal = 2000;
@@ -205,6 +209,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart->add_coupon($coupon);
 		$cart->add_item($product, 6);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 12000;
 		$cart_total->subtotal = 12000;
@@ -240,6 +245,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart->add_coupon($coupon);
 		$cart->add_item($product, 6);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 12000;
 		$cart_total->subtotal = 12000;
@@ -275,6 +281,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart->add_coupon($coupon);
 		$cart->add_item($product, 4);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 8000;
 		$cart_total->subtotal = 8000;
@@ -311,6 +318,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart->add_coupon($coupon);
 		$cart->add_item($product, 1);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 2000;
 		$cart_total->subtotal = 2000;
@@ -342,6 +350,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart = new Cart;
 		$cart->add_item($product, 3);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 1500;
 		$cart_total->subtotal = 1500;
@@ -376,6 +385,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart->set_tax_rate($tax_rate);
 		$cart->add_item($product, 2);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 1000;
 		$cart_total->subtotal = 1000;
@@ -415,6 +425,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart->set_tax_rate($tax_rate);
 		$cart->add_item($product, 2);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 1000;
 		$cart_total->subtotal = 1000;
@@ -450,6 +461,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart->set_tax_rate($tax_rate);
 		$cart->add_item($product, 2);
 
+		// Expect:
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 1000;
 		$cart_total->subtotal = 1000;
@@ -458,6 +470,100 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total->tax = 0;
 		$cart_total->total = 1000;
 		$cart_total->savings = 0;
+
+		$this->assertEquals($cart_total, $cart->get_total($pricing));
+	}
+
+	/**
+	 * @covers Cart::get_total
+	 */
+	public function test_get_total_with_zip5_tax_and_coupon_reduce_subtotal()
+	{
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+
+		$product = $this->setup_product();
+		$product->price = 2000; // $20
+		$product->is_taxable = TRUE;
+
+		$tax_rate = new TaxRate;
+		$tax_rate->zip5 = 92606;
+		$tax_rate->rate = 8.0;
+		$tax_rate->apply_to_shipping = FALSE;
+
+		$coupon = new Coupon;
+		$coupon->name = '20% Off orders under $100';
+		$coupon->discount_type = 'percent';
+		$coupon->discount_value = 20;
+		$coupon->min_order_value = 1000; // $10
+		$coupon->max_order_value = 10000; // $100
+		$coupon->reduces_tax_subtotal = TRUE;
+		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
+		$cart = new Cart;
+		$cart->set_tax_rate($tax_rate);
+		$cart->add_coupon($coupon);
+		$cart->add_item($product, 1);
+
+		// Expect:
+		$cart_total = new CartTotal;
+		$cart_total->orig_subtotal = 2000;
+		$cart_total->subtotal = 2000;
+		$cart_total->tax_subtotal = 1600;
+		$cart_total->shipping = 0;
+		$cart_total->discount = 400;
+		$cart_total->tax = 128;
+		$cart_total->total = 1728;
+		$cart_total->savings = 400;
+		$cart_total->coupons = [$coupon];
+		$cart_total->tax_rate = $tax_rate;
+
+		$this->assertEquals($cart_total, $cart->get_total($pricing));
+	}
+
+	/**
+	 * @covers Cart::get_total
+	 */
+	public function test_get_total_with_zip5_tax_and_coupon_no_reduce_subtotal()
+	{
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+
+		$product = $this->setup_product();
+		$product->price = 2000; // $20
+		$product->is_taxable = TRUE;
+
+		$tax_rate = new TaxRate;
+		$tax_rate->zip5 = 92606;
+		$tax_rate->rate = 8.0;
+		$tax_rate->apply_to_shipping = FALSE;
+
+		$coupon = new Coupon;
+		$coupon->name = '20% Off orders under $100';
+		$coupon->discount_type = 'percent';
+		$coupon->discount_value = 20;
+		$coupon->min_order_value = 1000; // $10
+		$coupon->max_order_value = 10000; // $100
+		$coupon->reduces_tax_subtotal = FALSE;
+		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
+		$cart = new Cart;
+		$cart->set_tax_rate($tax_rate);
+		$cart->add_coupon($coupon);
+		$cart->add_item($product, 1);
+
+		// Expect:
+		$cart_total = new CartTotal;
+		$cart_total->orig_subtotal = 2000;
+		$cart_total->subtotal = 2000;
+		$cart_total->tax_subtotal = 2000;
+		$cart_total->shipping = 0;
+		$cart_total->discount = 400;
+		$cart_total->tax = 160;
+		$cart_total->total = 1760;
+		$cart_total->savings = 400;
+		$cart_total->coupons = [$coupon];
+		$cart_total->tax_rate = $tax_rate;
 
 		$this->assertEquals($cart_total, $cart->get_total($pricing));
 	}
