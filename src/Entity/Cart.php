@@ -41,6 +41,11 @@ class Cart
 			$cart_total->orig_subtotal += $price->orig_quantity_price;
 			$cart_total->subtotal += $price->quantity_price;
 
+			// TODO: Get coupon discounts
+			// TODO: Get shopping cart promotions
+			// TODO: Get tax
+			// TODO: Get shipping
+
 			$cart_total->total = (
 				$cart_total->subtotal
 				- $cart_total->discount
