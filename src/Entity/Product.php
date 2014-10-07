@@ -15,7 +15,7 @@ class Product
 	public $show_price;
 	public $active;
 	public $visible;
-	public $taxable;
+	public $is_taxable;
 	public $shipping;
 	public $shipping_weight;
 	public $description;

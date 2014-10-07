@@ -365,6 +365,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 
 		$product = $this->setup_product();
 		$product->price = 500;
+		$product->is_taxable = TRUE;
 
 		$tax_rate = new TaxRate;
 		$tax_rate->zip5 = 92606;
@@ -397,6 +398,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 
 		$product = $this->setup_product();
 		$product->price = 500;
+		$product->is_taxable = TRUE;
 
 		$tax_rate = new TaxRate;
 		$tax_rate->zip5 = 92606;
@@ -423,5 +425,38 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total->tax_rate = $tax_rate;
 
 		$this->assertEquals($cart_total, $cart->get_total($pricing, $usps_shipping_rate));
+	}
+
+	/**
+	 * @covers Cart::set_tax_rate
+	 * @covers Cart::get_total
+	 */
+	public function test_get_total_with_zip5_tax_not_taxable()
+	{
+		$pricing = new Pricing;
+
+		$product = $this->setup_product();
+		$product->price = 500;
+		$product->is_taxable = FALSE;
+
+		$tax_rate = new TaxRate;
+		$tax_rate->zip5 = 92606;
+		$tax_rate->rate = 8.0;
+		$tax_rate->apply_to_shipping = FALSE;
+
+		$cart = new Cart;
+		$cart->set_tax_rate($tax_rate);
+		$cart->add_item($product, 2);
+
+		$cart_total = new CartTotal;
+		$cart_total->orig_subtotal = 1000;
+		$cart_total->subtotal = 1000;
+		$cart_total->shipping = 0;
+		$cart_total->discount = 0;
+		$cart_total->tax = 0;
+		$cart_total->total = 1000;
+		$cart_total->savings = 0;
+
+		$this->assertEquals($cart_total, $cart->get_total($pricing));
 	}
 }
