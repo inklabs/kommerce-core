@@ -86,7 +86,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->discount_type = 'percent';
 		$coupon->discount_value = 20;
 		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+		$coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -115,7 +115,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$catalog_promotion->discount_type = 'percent';
 		$catalog_promotion->discount_value = 20;
 		$catalog_promotion->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-		$catalog_promotion->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+		$catalog_promotion->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 		$pricing->add_catalog_promotion($catalog_promotion);
@@ -128,7 +128,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->discount_type = 'percent';
 		$coupon->discount_value = 20;
 		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+		$coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -163,7 +163,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->discount_value = 20;
 		$coupon->min_order_value = 10000; // $100
 		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+		$coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -198,7 +198,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->discount_value = 20;
 		$coupon->min_order_value = 10000; // $100
 		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+		$coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -233,7 +233,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->discount_value = 20;
 		$coupon->max_order_value = 10000; // $100
 		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+		$coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -268,7 +268,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->discount_value = 20;
 		$coupon->max_order_value = 10000; // $100
 		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+		$coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
@@ -304,7 +304,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon->min_order_value = 1000; // $10
 		$coupon->max_order_value = 10000; // $100
 		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-		$coupon->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+		$coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
 		$cart = new Cart;
 		$cart->add_coupon($coupon);
