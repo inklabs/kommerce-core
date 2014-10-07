@@ -23,12 +23,22 @@ class Coupon extends Promotion
 	{
 		return $this->is_date_valid($date)
 			AND $this->is_redemption_count_valid()
-			AND $this->is_order_value_valid($subtotal);
+			AND $this->is_min_order_value_valid($subtotal)
+			AND $this->is_max_order_value_valid($subtotal);
 	}
 
-	public function is_order_value_valid($subtotal)
+	public function is_min_order_value_valid($subtotal)
 	{
 		if ($this->min_order_value !== NULL AND $subtotal < $this->min_order_value) {
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
+
+	public function is_max_order_value_valid($subtotal)
+	{
+		if ($this->max_order_value !== NULL AND $subtotal > $this->max_order_value) {
 			return FALSE;
 		} else {
 			return TRUE;
