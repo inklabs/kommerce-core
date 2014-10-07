@@ -41,7 +41,6 @@ class Cart
 		$cart_total = new CartTotal;
 
 		foreach ($this->items as $item) {
-
 			$price = $pricing->get_price($item->product, $item->quantity);
 
 			$cart_total->orig_subtotal += $price->orig_quantity_price;
@@ -75,6 +74,9 @@ class Cart
 			+ $cart_total->discount
 			+ $cart_total->shipping_discount
 		);
+
+		// No prices below zero!
+		$cart_total->total = max(0, $cart_total->total);
 
 		return $cart_total;
 	}
