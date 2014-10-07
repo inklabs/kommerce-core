@@ -8,10 +8,16 @@ class Cart
 	use Accessors;
 
 	public $items = [];
+	public $coupons = [];
 
 	public function add_item(Product $product, $quantity)
 	{
 		$this->items[] = new CartItem($product, $quantity);
+	}
+
+	public function add_coupon(Coupon $coupon)
+	{
+		$this->coupons[] = $coupon;
 	}
 
 	public function total_items()
@@ -40,27 +46,35 @@ class Cart
 
 			$cart_total->orig_subtotal += $price->orig_quantity_price;
 			$cart_total->subtotal += $price->quantity_price;
-
-			// TODO: Get coupon discounts
-			// TODO: Get shopping cart promotions
-			// TODO: Get tax
-			// TODO: Get shipping
-
-			$cart_total->total = (
-				$cart_total->subtotal
-				- $cart_total->discount
-				+ $cart_total->shipping
-				- $cart_total->shipping_discount
-				+ $cart_total->tax
-			);
-
-			$cart_total->savings = (
-				$cart_total->orig_subtotal
-				- $cart_total->subtotal
-				+ $cart_total->discount
-				+ $cart_total->shipping_discount
-			);
 		}
+
+		// Get coupon discounts
+		foreach ($this->coupons as $coupon) {
+			if ($coupon->is_valid($pricing->date)) {
+				$cart_total->discount += $coupon->get_discount_value($cart_total->subtotal);
+
+				$cart_total->coupons[] = $coupon;
+			}
+		}
+
+		// TODO: Get shopping cart promotions
+		// TODO: Get tax
+		// TODO: Get shipping
+
+		$cart_total->total = (
+			$cart_total->subtotal
+			- $cart_total->discount
+			+ $cart_total->shipping
+			- $cart_total->shipping_discount
+			+ $cart_total->tax
+		);
+
+		$cart_total->savings = (
+			$cart_total->orig_subtotal
+			- $cart_total->subtotal
+			+ $cart_total->discount
+			+ $cart_total->shipping_discount
+		);
 
 		return $cart_total;
 	}
