@@ -46,12 +46,18 @@ class Cart
 	{
 		$cart_total = new CartTotal;
 
+		$tax_subtotal = 0;
+
 		// Get item prices
 		foreach ($this->items as $item) {
 			$price = $pricing->get_price($item->product, $item->quantity);
 
 			$cart_total->orig_subtotal += $price->orig_quantity_price;
 			$cart_total->subtotal += $price->quantity_price;
+
+			if ($item->product->is_taxable) {
+				$tax_subtotal += $price->quantity_price;
+			}
 		}
 
 		// Get coupon discounts
@@ -71,7 +77,7 @@ class Cart
 
 		// Get taxes
 		if ($this->tax_rate !== NULL) {
-			$tax_subtotal = ($cart_total->subtotal - $cart_total->discount);
+			$tax_subtotal -= $cart_total->discount;
 			$cart_total->tax = $this->tax_rate->get_tax($tax_subtotal, $cart_total->shipping);
 
 			if ($cart_total->tax > 0) {
