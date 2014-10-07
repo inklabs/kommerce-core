@@ -3,7 +3,7 @@ use inklabs\kommerce\Entity\Product;
 
 class ProductTest extends PHPUnit_Framework_TestCase
 {
-	private function _setup_product()
+	private function setup_product()
 	{
 		$product = new Product;
 		$product->sku = 'TST101';
@@ -17,7 +17,7 @@ class ProductTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_required_in_stock()
 	{
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->require_inventory = TRUE;
 
 		$product->quantity = 0;
@@ -32,7 +32,7 @@ class ProductTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_not_required_in_stock()
 	{
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->require_inventory = FALSE;
 
 		$this->assertTrue($product->in_stock());
@@ -43,7 +43,7 @@ class ProductTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_rating()
 	{
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 
 		$product->rating = 150;
 		$this->assertSame(1.5, $product->get_rating());

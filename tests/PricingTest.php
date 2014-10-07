@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 
 class PricingTest extends PHPUnit_Framework_TestCase
 {
-	private function _setup_product()
+	private function setup_product()
 	{
 		$product = new Product;
 		$product->sku = 'TST101';
@@ -24,7 +24,7 @@ class PricingTest extends PHPUnit_Framework_TestCase
 	{
 		$pricing = new Pricing;
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 
 		$price = new Price;
 		$price->orig_unit_price = 1500;
@@ -58,7 +58,7 @@ class PricingTest extends PHPUnit_Framework_TestCase
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 		$pricing->add_catalog_promotion($catalog_promotion);
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 
 		$price = new Price;
 		$price->unit_price = 1200;
@@ -93,7 +93,7 @@ class PricingTest extends PHPUnit_Framework_TestCase
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 		$pricing->add_catalog_promotion($catalog_promotion);
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 
 		$price = new Price;
 		$price->unit_price = 1400;
@@ -133,7 +133,7 @@ class PricingTest extends PHPUnit_Framework_TestCase
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 		$pricing->add_catalog_promotion($catalog_promotion);
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 
 		$price = new Price;
 		$price->unit_price = 1500;
