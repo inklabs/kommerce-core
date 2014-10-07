@@ -67,8 +67,9 @@ class Cart
 				$cart_total->discount += $discount_value;
 				$cart_total->coupons[] = $coupon;
 
-				// TODO: Verify cart discounts affect product taxes correctly.
-				$cart_total->tax_subtotal -= $discount_value;
+				if ($coupon->reduces_tax_subtotal) {
+					$cart_total->tax_subtotal -= $discount_value;
+				}
 			}
 		}
 
