@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Entity\Shipping;
 
 use inklabs\kommerce\Entity;
 
-class Shipping\FedexRate extends Shipping\Rate
+class FedexRate extends Rate
 {
-	use Accessors;
+	use Entity\Accessors;
 
 	public $delivery_ts;
 	public $transit_time;
