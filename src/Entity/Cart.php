@@ -42,7 +42,7 @@ class Cart
 		return $total;
 	}
 
-	public function get_total(Pricing $pricing)
+	public function get_total(Pricing $pricing, Shipping\Rate $shipping_rate = NULL)
 	{
 		$cart_total = new CartTotal;
 
@@ -64,7 +64,9 @@ class Cart
 
 		// TODO: Get shopping cart promotions
 
-		// TODO: Get shipping
+		if ($shipping_rate !== NULL) {
+			$cart_total->shipping = $shipping_rate->cost;
+		}
 
 		// Get taxes
 		if ($this->tax_rate !== NULL) {
