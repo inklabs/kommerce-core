@@ -10,7 +10,7 @@ use inklabs\kommerce\Entity\Shipping;
 
 class CartTest extends PHPUnit_Framework_TestCase
 {
-	private function _setup_product()
+	private function setup_product()
 	{
 		$product = new Product;
 		$product->sku = 'TST101';
@@ -26,10 +26,10 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_add_item()
 	{
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->name = 'Test 1';
 
-		$product2 = $this->_setup_product();
+		$product2 = $this->setup_product();
 		$product2->name = 'Test 2';
 
 		$cart = new Cart;
@@ -47,11 +47,11 @@ class CartTest extends PHPUnit_Framework_TestCase
 	{
 		$pricing = new Pricing;
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->name = 'Test 1';
 		$product->price = 500;
 
-		$product2 = $this->_setup_product();
+		$product2 = $this->setup_product();
 		$product2->name = 'Test 2';
 		$product2->price = 300;
 
@@ -79,7 +79,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	{
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->price = 500;
 
 		$coupon = new Coupon;
@@ -121,7 +121,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 		$pricing->add_catalog_promotion($catalog_promotion);
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->price = 500;
 
 		$coupon = new Coupon;
@@ -155,7 +155,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	{
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->price = 2000; // $20
 
 		$coupon = new Coupon;
@@ -190,7 +190,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	{
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->price = 2000; // $20
 
 		$coupon = new Coupon;
@@ -225,7 +225,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	{
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->price = 2000; // $20
 
 		$coupon = new Coupon;
@@ -260,7 +260,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	{
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->price = 2000; // $20
 
 		$coupon = new Coupon;
@@ -295,7 +295,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	{
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->price = 2000; // $20
 
 		$coupon = new Coupon;
@@ -331,7 +331,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	{
 		$pricing = new Pricing;
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->price = 500;
 
 		$usps_shipping_rate = new Shipping\Rate;
@@ -363,7 +363,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	{
 		$pricing = new Pricing;
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->price = 500;
 
 		$tax_rate = new TaxRate;
@@ -395,7 +395,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 	{
 		$pricing = new Pricing;
 
-		$product = $this->_setup_product();
+		$product = $this->setup_product();
 		$product->price = 500;
 
 		$tax_rate = new TaxRate;
