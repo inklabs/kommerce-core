@@ -379,6 +379,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 1000;
 		$cart_total->subtotal = 1000;
+		$cart_total->tax_subtotal = 1000;
 		$cart_total->shipping = 0;
 		$cart_total->discount = 0;
 		$cart_total->tax = 80;
@@ -417,6 +418,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total = new CartTotal;
 		$cart_total->orig_subtotal = 1000;
 		$cart_total->subtotal = 1000;
+		$cart_total->tax_subtotal = 1000;
 		$cart_total->shipping = 1000;
 		$cart_total->discount = 0;
 		$cart_total->tax = 160;

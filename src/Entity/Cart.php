@@ -46,7 +46,7 @@ class Cart
 	{
 		$cart_total = new CartTotal;
 
-		$tax_subtotal = 0;
+		$cart_total->tax_subtotal = 0;
 
 		// Get item prices
 		foreach ($this->items as $item) {
@@ -56,16 +56,19 @@ class Cart
 			$cart_total->subtotal += $price->quantity_price;
 
 			if ($item->product->is_taxable) {
-				$tax_subtotal += $price->quantity_price;
+				$cart_total->tax_subtotal += $price->quantity_price;
 			}
 		}
 
 		// Get coupon discounts
 		foreach ($this->coupons as $coupon) {
 			if ($coupon->is_valid($pricing->date, $cart_total->subtotal)) {
-				$cart_total->discount += $coupon->get_discount_value($cart_total->subtotal);
-
+				$discount_value = $coupon->get_discount_value($cart_total->subtotal);
+				$cart_total->discount += $discount_value;
 				$cart_total->coupons[] = $coupon;
+
+				// TODO: Verify cart discounts affect product taxes correctly.
+				$cart_total->tax_subtotal -= $discount_value;
 			}
 		}
 
@@ -75,10 +78,15 @@ class Cart
 			$cart_total->shipping = $shipping_rate->cost;
 		}
 
+		// No taxes below zero!
+		$cart_total->tax_subtotal = max(0, $cart_total->tax_subtotal);
+
 		// Get taxes
 		if ($this->tax_rate !== NULL) {
-			$tax_subtotal -= $cart_total->discount;
-			$cart_total->tax = $this->tax_rate->get_tax($tax_subtotal, $cart_total->shipping);
+			$cart_total->tax = $this->tax_rate->get_tax(
+				$cart_total->tax_subtotal,
+				$cart_total->shipping
+			);
 
 			if ($cart_total->tax > 0) {
 				$cart_total->tax_rate = $this->tax_rate;
