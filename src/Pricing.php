@@ -13,7 +13,7 @@ class Pricing
 	public function __construct(\DateTime $date = NULL)
 	{
 		if ($date === NULL) {
-			$this->date = new \DateTime();
+			$this->date = new \DateTime('now', new \DateTimeZone('UTC'));
 		} else {
 			$this->date = $date;
 		}

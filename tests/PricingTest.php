@@ -52,10 +52,10 @@ class PricingTest extends PHPUnit_Framework_TestCase
 		$catalog_promotion->name = '20% Off';
 		$catalog_promotion->discount_type = 'percent';
 		$catalog_promotion->discount_value = 20;
-		$catalog_promotion->start = new \DateTime('2014-01-01');
-		$catalog_promotion->end = new \DateTime('2014-12-31');
+		$catalog_promotion->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$catalog_promotion->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
-		$pricing = new Pricing(new \DateTime('2014-02-01'));
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 		$pricing->add_catalog_promotion($catalog_promotion);
 
 		$product = $this->_setup_product();
@@ -87,10 +87,10 @@ class PricingTest extends PHPUnit_Framework_TestCase
 		$catalog_promotion->name = '$1 Off';
 		$catalog_promotion->discount_type = 'fixed';
 		$catalog_promotion->discount_value = 100;
-		$catalog_promotion->start = new \DateTime('2014-01-01');
-		$catalog_promotion->end = new \DateTime('2014-12-31');
+		$catalog_promotion->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$catalog_promotion->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
-		$pricing = new Pricing(new \DateTime('2014-02-01'));
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 		$pricing->add_catalog_promotion($catalog_promotion);
 
 		$product = $this->_setup_product();
@@ -127,10 +127,10 @@ class PricingTest extends PHPUnit_Framework_TestCase
 		$catalog_promotion->discount_type = 'percent';
 		$catalog_promotion->discount_value = 20;
 		$catalog_promotion->tag = $tag;
-		$catalog_promotion->start = new \DateTime('2014-01-01');
-		$catalog_promotion->end = new \DateTime('2014-12-31');
+		$catalog_promotion->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$catalog_promotion->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
-		$pricing = new Pricing(new \DateTime('2014-02-01'));
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 		$pricing->add_catalog_promotion($catalog_promotion);
 
 		$product = $this->_setup_product();
