@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 
 class Pricing
 {
-	private $date;
+	public $date;
 	private $catalog_promotions = [];
 
 	public function __construct(\DateTime $date = NULL)
