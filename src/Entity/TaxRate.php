@@ -15,12 +15,10 @@ class TaxRate
 	public $created;
 	public $updated;
 
-	public function get_tax(CartTotal $cart_total)
+	public function get_tax($tax_subtotal, $shipping)
 	{
-		$tax_subtotal = $cart_total->subtotal - $cart_total->discount;
-
 		if ($this->apply_to_shipping) {
-			$tax_subtotal += $cart_total->shipping;
+			$tax_subtotal += $shipping;
 		}
 
 		return (int) round($tax_subtotal * ($this->rate / 100));
