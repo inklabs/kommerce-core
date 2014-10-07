@@ -9,6 +9,7 @@ class Cart
 
 	public $items = [];
 	public $coupons = [];
+	public $tax_rate;
 
 	public function add_item(Product $product, $quantity)
 	{
@@ -18,6 +19,11 @@ class Cart
 	public function add_coupon(Coupon $coupon)
 	{
 		$this->coupons[] = $coupon;
+	}
+
+	public function set_tax_rate(TaxRate $tax_rate)
+	{
+		$this->tax_rate = $tax_rate;
 	}
 
 	public function total_items()
@@ -57,8 +63,17 @@ class Cart
 		}
 
 		// TODO: Get shopping cart promotions
-		// TODO: Get tax
+
 		// TODO: Get shipping
+
+		// Get taxes
+		if ($this->tax_rate !== NULL) {
+			$cart_total->tax = $this->tax_rate->get_tax($cart_total);
+
+			if ($cart_total->tax > 0) {
+				$cart_total->tax_rate = $this->tax_rate;
+			}
+		}
 
 		$cart_total->total = (
 			$cart_total->subtotal
