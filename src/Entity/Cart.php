@@ -60,6 +60,8 @@ class Cart
 			}
 		}
 
+		// TODO: Get shopping cart price rules
+
 		// Get coupon discounts
 		foreach ($this->coupons as $coupon) {
 			if ($coupon->is_valid($pricing->date, $cart_total->subtotal)) {
@@ -72,8 +74,6 @@ class Cart
 				}
 			}
 		}
-
-		// TODO: Get shopping cart price rules
 
 		if ($shipping_rate !== NULL) {
 			$cart_total->shipping = $shipping_rate->cost;
