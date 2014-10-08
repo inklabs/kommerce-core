@@ -359,7 +359,6 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total->tax = 0;
 		$cart_total->total = 2500;
 		$cart_total->savings = 0;
-		$cart_total->tax_rate = $tax_rate;
 
 		$this->assertEquals($cart_total, $cart->get_total($pricing, $usps_shipping_rate));
 	}
