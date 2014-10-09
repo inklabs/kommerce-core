@@ -26,6 +26,19 @@ class Product
 
 	public $tags = [];
 
+	public $options = [];
+	public $selected_option_products = [];
+
+	public function add_option(Option $option)
+	{
+		$this->options[] = $option;
+	}
+
+	public function add_selected_option_products(Product $product)
+	{
+		$this->selected_option_products[] = $product;
+	}
+
 	public function in_stock() {
 		if (($this->require_inventory AND $this->quantity > 0) OR ( ! $this->require_inventory)) {
 			return TRUE;

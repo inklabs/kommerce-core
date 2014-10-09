@@ -2,6 +2,7 @@
 use inklabs\kommerce\Pricing;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\CatalogPromotion;
 
@@ -26,6 +27,7 @@ class PricingTest extends PHPUnit_Framework_TestCase
 
 		$product = $this->setup_product();
 
+		// Expected
 		$price = new Price;
 		$price->orig_unit_price = 1500;
 		$price->unit_price = 1500;
@@ -60,6 +62,7 @@ class PricingTest extends PHPUnit_Framework_TestCase
 
 		$product = $this->setup_product();
 
+		// Expected
 		$price = new Price;
 		$price->unit_price = 1200;
 		$price->orig_unit_price = 1500;
@@ -95,6 +98,7 @@ class PricingTest extends PHPUnit_Framework_TestCase
 
 		$product = $this->setup_product();
 
+		// Expected
 		$price = new Price;
 		$price->unit_price = 1400;
 		$price->orig_unit_price = 1500;
@@ -135,6 +139,7 @@ class PricingTest extends PHPUnit_Framework_TestCase
 
 		$product = $this->setup_product();
 
+		// Expected
 		$price = new Price;
 		$price->unit_price = 1500;
 		$price->orig_unit_price = 1500;
@@ -149,5 +154,53 @@ class PricingTest extends PHPUnit_Framework_TestCase
 		$price->quantity_price = 2400;
 		$price->catalog_promotions = [$catalog_promotion];
 		$this->assertEquals($price, $pricing->get_price($product, 2));
+	}
+
+	/**
+	 * @covers Pricing::get_price
+	 */
+	public function test_get_price_with_product_options()
+	{
+		$option = new Option;
+		$option->name = 'Size';
+		$option->type = 'radio';
+		$option->description = 'Navy T-shirt size';
+
+		$product_small = new Product;
+		$product_small->sku = 'TS-NAVY-SM';
+		$product_small->name = 'Navy T-shirt (small)';
+		$product_small->price = 900;
+
+		$option->add_product($product_small);
+
+		$product = $this->setup_product();
+		$product->add_option($option);
+		$product->add_selected_option_products($product_small);
+
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 2400;
+		$price->orig_unit_price = 2400;
+		$price->quantity_price = 2400;
+		$price->orig_quantity_price = 2400;
+		$this->assertEquals($price, $pricing->get_price($product, 1));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 2400;
+		$price->orig_unit_price = 2400;
+		$price->quantity_price = 4800;
+		$price->orig_quantity_price = 4800;
+		$this->assertEquals($price, $pricing->get_price($product, 2));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 2400;
+		$price->orig_unit_price = 2400;
+		$price->quantity_price = 24000;
+		$price->orig_quantity_price = 24000;
+		$this->assertEquals($price, $pricing->get_price($product, 10));
 	}
 }
