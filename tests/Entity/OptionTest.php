@@ -21,7 +21,7 @@ class OptionTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('Size', $option->name);
 	}
 
-	public function test_create_with_products()
+	public function test_with_products()
 	{
 		$option = new Option;
 		$option->name = 'Size';
@@ -50,7 +50,7 @@ class OptionTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('Size', $option->name);
 	}
 
-	public function test_create_with_virtual_products()
+	public function test_with_virtual_products()
 	{
 		$current_date = new \DateTime('now', new \DateTimeZone('UTC'));
 

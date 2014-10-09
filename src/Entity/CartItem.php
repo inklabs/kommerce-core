@@ -5,9 +5,11 @@ class CartItem
 {
 	use Accessors;
 
+	public $id;
 	public $product;
-	public $product_options = [];
 	public $quantity;
+	public $created;
+	public $updated;
 
 	public function __construct(Product $product, $quantity)
 	{
