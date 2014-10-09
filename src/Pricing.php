@@ -45,6 +45,16 @@ class Pricing
 
 		$price->quantity_price = ($price->unit_price * $quantity);
 
+		// Add option prices
+		foreach ($product->selected_option_products as $option_product) {
+			$option_product_price = $this->get_price($option_product, $quantity);
+
+			$price->unit_price          += $option_product_price->unit_price;
+			$price->orig_unit_price     += $option_product_price->orig_unit_price;
+			$price->orig_quantity_price += $option_product_price->orig_quantity_price;
+			$price->quantity_price      += $option_product_price->quantity_price;
+		}
+
 		return $price;
 	}
 }
