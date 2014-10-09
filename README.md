@@ -41,3 +41,39 @@
 Buy 2 SKUs get 1 of the SKUs 10% Off
  - Limit to 1 Product Receiving Discount – Specific Customer Segment
 </pre>
+
+## Install aha for TextMate PHPUnit
+
+<pre>
+cd ~/bin/
+git clone https://github.com/theZiz/aha.git aha-project
+cd aha-project
+make
+ln -s ~/bin/aha-project ~/bin/aha
+</pre>
+
+Menu Action: Run single test
+Score Selector: source.php
+Key Equivalent: command-R
+<pre>
+	#!/usr/bin/env bash
+	echo '<pre>';
+	cd $TM_PROJECT_DIRECTORY;
+
+	# Strip colors
+	vendor/bin/phpunit $TM_FILEPATH | ~/bin/aha --no-header --black
+	echo '</pre>'
+</pre>
+
+Menu Action: Run tests
+Score Selector: source.php
+Key Equivalent: shift-command-r
+<pre>
+	#!/usr/bin/env bash
+	echo '<pre>';
+	cd $TM_PROJECT_DIRECTORY;
+
+	# Strip colors
+	vendor/bin/phpunit | ~/bin/aha --no-header --black
+	echo '</pre>'
+</pre>
