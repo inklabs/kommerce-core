@@ -28,14 +28,14 @@ class Pricing
 	{
 		$price = new Price;
 		$price->unit_price = $product->price;
-		$price->orig_unit_price = $product->price;
+		$price->orig_unit_price = $price->unit_price;
 		$price->orig_quantity_price = ($price->orig_unit_price * $quantity);
 
 		// Apply product quantity discounts
 		$product->sort_quantity_discounts();
 		foreach ($product->quantity_discounts as $quantity_discount) {
 			if ($quantity_discount->is_valid($this->date, $quantity)) {
-				$price->unit_price = $quantity_discount->get_price($price->unit_price);
+				$price->unit_price = $quantity_discount->get_unit_price($price->unit_price);
 				$price->add_quantity_discount($quantity_discount);
 				break;
 			}
@@ -44,7 +44,7 @@ class Pricing
 		// Apply catalog promotions
 		foreach ($this->catalog_promotions as $catalog_promotion) {
 			if ($catalog_promotion->is_valid($this->date, $product)) {
-				$price->unit_price = $catalog_promotion->get_price($price->unit_price);
+				$price->unit_price = $catalog_promotion->get_unit_price($price->unit_price);
 				$price->add_catalog_promotion($catalog_promotion);
 			}
 		}

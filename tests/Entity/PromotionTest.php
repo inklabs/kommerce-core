@@ -54,7 +54,7 @@ class PromotionTest extends PHPUnit_Framework_TestCase
 
 		$unit_price = 1000; // $10
 
-		$this->assertEquals(800, $promotion->get_price($unit_price));
+		$this->assertEquals(800, $promotion->get_unit_price($unit_price));
 	}
 
 	/**
@@ -69,6 +69,6 @@ class PromotionTest extends PHPUnit_Framework_TestCase
 
 		$unit_price = 10000; // $100
 
-		$this->assertEquals(9000, $promotion->get_price($unit_price));
+		$this->assertEquals(9000, $promotion->get_unit_price($unit_price));
 	}
 }
