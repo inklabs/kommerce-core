@@ -9,8 +9,6 @@ class CatalogPromotion extends Promotion
 	public $code;
 	public $name;
 	public $tag;
-	public $discount_type; // fixed/percent
-	public $discount_value;
 	public $free_shipping;
 	public $redemptions;
 	public $max_redemptions;

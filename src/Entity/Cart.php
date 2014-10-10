@@ -65,7 +65,8 @@ class Cart
 		// Get coupon discounts
 		foreach ($this->coupons as $coupon) {
 			if ($coupon->is_valid($pricing->date, $cart_total->subtotal)) {
-				$discount_value = $coupon->get_discount_value($cart_total->subtotal);
+				$new_subtotal = $coupon->get_price($cart_total->subtotal);
+				$discount_value = $cart_total->subtotal - $new_subtotal;
 				$cart_total->discount += $discount_value;
 				$cart_total->coupons[] = $coupon;
 

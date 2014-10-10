@@ -26,6 +26,7 @@ class Product
 	public $updated;
 
 	public $tags = [];
+	public $quantity_discounts = [];
 
 	public function in_stock() {
 		if (($this->require_inventory AND $this->quantity > 0) OR ( ! $this->require_inventory)) {
@@ -37,5 +38,10 @@ class Product
 
 	public function get_rating() {
 		return ($this->rating / 100);
+	}
+
+	public function add_quantity_discount(ProductQuantityDiscount $quantity_discount)
+	{
+		$this->quantity_discounts[] = $quantity_discount;
 	}
 }

@@ -17,7 +17,7 @@ class CatalogPromotionTest extends PHPUnit_Framework_TestCase
 		$catalog_promotion = new CatalogPromotion;
 		$catalog_promotion->name = '20% Off';
 		$catalog_promotion->discount_type = 'percent';
-		$catalog_promotion->discount_value = 20;
+		$catalog_promotion->value = 20;
 		$catalog_promotion->tag = $tag;
 		$catalog_promotion->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
 		$catalog_promotion->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
@@ -50,7 +50,7 @@ class CatalogPromotionTest extends PHPUnit_Framework_TestCase
 		$catalog_promotion = new CatalogPromotion;
 		$catalog_promotion->name = '20% Off';
 		$catalog_promotion->discount_type = 'percent';
-		$catalog_promotion->discount_value = 20;
+		$catalog_promotion->value = 20;
 		$catalog_promotion->tag = $tag;
 		$catalog_promotion->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
 		$catalog_promotion->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
