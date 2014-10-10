@@ -50,11 +50,11 @@ class PromotionTest extends PHPUnit_Framework_TestCase
 		$promotion = new Promotion;
 		$promotion->name = '20% Off';
 		$promotion->discount_type = 'percent';
-		$promotion->discount_value = 20;
+		$promotion->value = 20;
 
-		$price = 1000; // $10
+		$unit_price = 1000; // $10
 
-		$this->assertEquals(200, $promotion->get_discount_value($price));
+		$this->assertEquals(800, $promotion->get_price($unit_price));
 	}
 
 	/**
@@ -65,10 +65,10 @@ class PromotionTest extends PHPUnit_Framework_TestCase
 		$promotion = new Promotion;
 		$promotion->name = '$10 Off';
 		$promotion->discount_type = 'fixed';
-		$promotion->discount_value = 1000;
+		$promotion->value = 1000;
 
-		$price = 10000; // $100
+		$unit_price = 10000; // $100
 
-		$this->assertEquals(1000, $promotion->get_discount_value($price));
+		$this->assertEquals(9000, $promotion->get_price($unit_price));
 	}
 }

@@ -86,7 +86,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon = new Coupon;
 		$coupon->name = '20% Off';
 		$coupon->discount_type = 'percent';
-		$coupon->discount_value = 20;
+		$coupon->value = 20;
 		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
 		$coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
@@ -116,7 +116,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$catalog_promotion = new CatalogPromotion;
 		$catalog_promotion->name = '20% Off';
 		$catalog_promotion->discount_type = 'percent';
-		$catalog_promotion->discount_value = 20;
+		$catalog_promotion->value = 20;
 		$catalog_promotion->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
 		$catalog_promotion->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
@@ -129,7 +129,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon = new Coupon;
 		$coupon->name = '20% Off';
 		$coupon->discount_type = 'percent';
-		$coupon->discount_value = 20;
+		$coupon->value = 20;
 		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
 		$coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
@@ -164,7 +164,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon = new Coupon;
 		$coupon->name = '20% Off orders under $100';
 		$coupon->discount_type = 'percent';
-		$coupon->discount_value = 20;
+		$coupon->value = 20;
 		$coupon->min_order_value = 1000; // $10
 		$coupon->max_order_value = 10000; // $100
 		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
@@ -348,7 +348,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon = new Coupon;
 		$coupon->name = '20% Off orders under $100';
 		$coupon->discount_type = 'percent';
-		$coupon->discount_value = 20;
+		$coupon->value = 20;
 		$coupon->min_order_value = 1000; // $10
 		$coupon->max_order_value = 10000; // $100
 		$coupon->reduces_tax_subtotal = TRUE;
@@ -395,7 +395,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$coupon = new Coupon;
 		$coupon->name = '20% Off orders under $100';
 		$coupon->discount_type = 'percent';
-		$coupon->discount_value = 20;
+		$coupon->value = 20;
 		$coupon->min_order_value = 1000; // $10
 		$coupon->max_order_value = 10000; // $100
 		$coupon->reduces_tax_subtotal = FALSE;

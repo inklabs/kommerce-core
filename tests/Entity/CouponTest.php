@@ -11,7 +11,7 @@ class CouponTest extends PHPUnit_Framework_TestCase
 		$coupon = new Coupon;
 		$coupon->name = '20% Off orders over $100';
 		$coupon->discount_type = 'percent';
-		$coupon->discount_value = 20;
+		$coupon->value = 20;
 		$coupon->min_order_value = 10000; // $100
 
 		$this->assertFalse($coupon->is_min_order_value_valid(5000));
@@ -26,7 +26,7 @@ class CouponTest extends PHPUnit_Framework_TestCase
 		$coupon = new Coupon;
 		$coupon->name = '20% Off orders under $100';
 		$coupon->discount_type = 'percent';
-		$coupon->discount_value = 20;
+		$coupon->value = 20;
 		$coupon->max_order_value = 10000; // $100
 
 		$this->assertTrue( $coupon->is_max_order_value_valid(5000));
@@ -41,7 +41,7 @@ class CouponTest extends PHPUnit_Framework_TestCase
 		$coupon = new Coupon;
 		$coupon->name = '20% Off orders $10-$100';
 		$coupon->discount_type = 'percent';
-		$coupon->discount_value = 20;
+		$coupon->value = 20;
 		$coupon->min_order_value = 1000; // $10
 		$coupon->max_order_value = 10000; // $100
 		$coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
