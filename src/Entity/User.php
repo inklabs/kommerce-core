@@ -15,4 +15,17 @@ class User
 	public $last_login;
 	public $created;
 	public $updated;
+
+	public $roles;
+	public $tokens;
+
+	public function add_role(Role $role)
+	{
+		$this->roles[] = $role;
+	}
+
+	public function add_token(UserToken $token)
+	{
+		$this->tokens[] = $token;
+	}
 }
