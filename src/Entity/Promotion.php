@@ -32,7 +32,7 @@ class Promotion
 		}
 	}
 
-	public function get_price($unit_price)
+	public function get_unit_price($unit_price)
 	{
 		switch ($this->discount_type) {
 			case 'fixed':
