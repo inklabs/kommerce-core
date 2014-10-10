@@ -232,19 +232,34 @@ class PricingTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers Pricing::get_price
 	 */
-	public function test_get_price_with_product_quantity_discount()
+	public function test_get_price_with_product_quantity_discount_exact()
 	{
 		$quantity_discount_6 = new ProductQuantityDiscount;
-		$quantity_discount_6->apply_catalog_promotions = TRUE;
 		$quantity_discount_6->discount_type = 'exact';
 		$quantity_discount_6->quantity = 6;
 		$quantity_discount_6->value = 475;
 		$quantity_discount_6->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
 		$quantity_discount_6->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
 
+		$quantity_discount_12 = new ProductQuantityDiscount;
+		$quantity_discount_12->discount_type = 'exact';
+		$quantity_discount_12->quantity = 12;
+		$quantity_discount_12->value = 350;
+		$quantity_discount_12->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$quantity_discount_12->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
+		$quantity_discount_24 = new ProductQuantityDiscount;
+		$quantity_discount_24->discount_type = 'exact';
+		$quantity_discount_24->quantity = 24;
+		$quantity_discount_24->value = 325;
+		$quantity_discount_24->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$quantity_discount_24->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
 		$product = $this->setup_product();
 		$product->price = 500;
 		$product->add_quantity_discount($quantity_discount_6);
+		$product->add_quantity_discount($quantity_discount_12);
+		$product->add_quantity_discount($quantity_discount_24);
 
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
@@ -264,5 +279,163 @@ class PricingTest extends PHPUnit_Framework_TestCase
 		$price->orig_quantity_price = 3000;
 		$price->add_quantity_discount($quantity_discount_6);
 		$this->assertEquals($price, $pricing->get_price($product, 6));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 350;
+		$price->orig_unit_price = 500;
+		$price->quantity_price = 4200;
+		$price->orig_quantity_price = 6000;
+		$price->add_quantity_discount($quantity_discount_12);
+		$this->assertEquals($price, $pricing->get_price($product, 12));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 325;
+		$price->orig_unit_price = 500;
+		$price->quantity_price = 7800;
+		$price->orig_quantity_price = 12000;
+		$price->add_quantity_discount($quantity_discount_24);
+		$this->assertEquals($price, $pricing->get_price($product, 24));
+	}
+
+	/**
+	 * @covers Pricing::get_price
+	 */
+	public function test_get_price_with_product_quantity_discount_fixed()
+	{
+		$quantity_discount_6 = new ProductQuantityDiscount;
+		$quantity_discount_6->discount_type = 'fixed';
+		$quantity_discount_6->quantity = 6;
+		$quantity_discount_6->value = 25;
+		$quantity_discount_6->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$quantity_discount_6->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
+		$quantity_discount_12 = new ProductQuantityDiscount;
+		$quantity_discount_12->discount_type = 'fixed';
+		$quantity_discount_12->quantity = 12;
+		$quantity_discount_12->value = 150;
+		$quantity_discount_12->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$quantity_discount_12->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
+		$quantity_discount_24 = new ProductQuantityDiscount;
+		$quantity_discount_24->discount_type = 'fixed';
+		$quantity_discount_24->quantity = 24;
+		$quantity_discount_24->value = 175;
+		$quantity_discount_24->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$quantity_discount_24->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
+		$product = $this->setup_product();
+		$product->price = 500;
+		$product->add_quantity_discount($quantity_discount_6);
+		$product->add_quantity_discount($quantity_discount_12);
+		$product->add_quantity_discount($quantity_discount_24);
+
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 500;
+		$price->orig_unit_price = 500;
+		$price->quantity_price = 500;
+		$price->orig_quantity_price = 500;
+		$this->assertEquals($price, $pricing->get_price($product, 1));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 475;
+		$price->orig_unit_price = 500;
+		$price->quantity_price = 2850;
+		$price->orig_quantity_price = 3000;
+		$price->add_quantity_discount($quantity_discount_6);
+		$this->assertEquals($price, $pricing->get_price($product, 6));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 350;
+		$price->orig_unit_price = 500;
+		$price->quantity_price = 4200;
+		$price->orig_quantity_price = 6000;
+		$price->add_quantity_discount($quantity_discount_12);
+		$this->assertEquals($price, $pricing->get_price($product, 12));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 325;
+		$price->orig_unit_price = 500;
+		$price->quantity_price = 7800;
+		$price->orig_quantity_price = 12000;
+		$price->add_quantity_discount($quantity_discount_24);
+		$this->assertEquals($price, $pricing->get_price($product, 24));
+	}
+
+	/**
+	 * @covers Pricing::get_price
+	 */
+	public function test_get_price_with_product_quantity_discount_percent()
+	{
+		$quantity_discount_6 = new ProductQuantityDiscount;
+		$quantity_discount_6->discount_type = 'percent';
+		$quantity_discount_6->quantity = 6;
+		$quantity_discount_6->value = 5;
+		$quantity_discount_6->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$quantity_discount_6->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
+		$quantity_discount_12 = new ProductQuantityDiscount;
+		$quantity_discount_12->discount_type = 'percent';
+		$quantity_discount_12->quantity = 12;
+		$quantity_discount_12->value = 30;
+		$quantity_discount_12->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$quantity_discount_12->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
+		$quantity_discount_24 = new ProductQuantityDiscount;
+		$quantity_discount_24->discount_type = 'percent';
+		$quantity_discount_24->quantity = 24;
+		$quantity_discount_24->value = 35;
+		$quantity_discount_24->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$quantity_discount_24->end = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
+		$product = $this->setup_product();
+		$product->price = 500;
+		$product->add_quantity_discount($quantity_discount_6);
+		$product->add_quantity_discount($quantity_discount_12);
+		$product->add_quantity_discount($quantity_discount_24);
+
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 500;
+		$price->orig_unit_price = 500;
+		$price->quantity_price = 500;
+		$price->orig_quantity_price = 500;
+		$this->assertEquals($price, $pricing->get_price($product, 1));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 475;
+		$price->orig_unit_price = 500;
+		$price->quantity_price = 2850;
+		$price->orig_quantity_price = 3000;
+		$price->add_quantity_discount($quantity_discount_6);
+		$this->assertEquals($price, $pricing->get_price($product, 6));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 350;
+		$price->orig_unit_price = 500;
+		$price->quantity_price = 4200;
+		$price->orig_quantity_price = 6000;
+		$price->add_quantity_discount($quantity_discount_12);
+		$this->assertEquals($price, $pricing->get_price($product, 12));
+
+		// Expected
+		$price = new Price;
+		$price->unit_price = 325;
+		$price->orig_unit_price = 500;
+		$price->quantity_price = 7800;
+		$price->orig_quantity_price = 12000;
+		$price->add_quantity_discount($quantity_discount_24);
+		$this->assertEquals($price, $pricing->get_price($product, 24));
 	}
 }

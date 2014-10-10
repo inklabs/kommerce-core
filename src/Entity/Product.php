@@ -44,4 +44,10 @@ class Product
 	{
 		$this->quantity_discounts[] = $quantity_discount;
 	}
+
+	public function sort_quantity_discounts()
+	{
+		// Sort highest to lowest by quantity
+		uasort($this->quantity_discounts, create_function('$a, $b', 'return ($a->quantity < $b->quantity);'));
+	}
 }
