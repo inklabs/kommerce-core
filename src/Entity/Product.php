@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Entity;
 class Product
 {
 	use Accessors;
+	use OptionSelector;
 
 	public $id;
 	public $sku;
@@ -25,19 +26,6 @@ class Product
 	public $updated;
 
 	public $tags = [];
-
-	public $options = [];
-	public $selected_option_products = [];
-
-	public function add_option(Option $option)
-	{
-		$this->options[] = $option;
-	}
-
-	public function add_selected_option_products(Product $product)
-	{
-		$this->selected_option_products[] = $product;
-	}
 
 	public function in_stock() {
 		if (($this->require_inventory AND $this->quantity > 0) OR ( ! $this->require_inventory)) {

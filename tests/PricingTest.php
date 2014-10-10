@@ -175,7 +175,7 @@ class PricingTest extends PHPUnit_Framework_TestCase
 
 		$product = $this->setup_product();
 		$product->add_option($option);
-		$product->add_selected_option_products($product_small);
+		$product->add_selected_option_product($product_small);
 
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
 
