@@ -429,18 +429,18 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_total_cart_price_rule()
 	{
+		$cart_price_rule = new CartPriceRule;
+		$cart_price_rule->name = 'Buy a Shirt get a FREE poster';
+		$cart_price_rule->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$cart_price_rule->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
 		// $price_rule_condition = new CartPriceRuleCondition;
 		// $price_rule_condition->function = 'buy_x_get_y';
 		// $price_rule_condition->
-
-		$price_rule = new CartPriceRule;
-		$price_rule->name = 'Buy a Shirt get a FREE poster';
-		// $price_rule->conditions = [$price_rule_condition];
-		$price_rule->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-		$price_rule->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+		// $cart_price_rule->conditions = [$price_rule_condition];
 
 		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
-		$pricing->add_price_rule($price_rule);
+		$pricing->add_cart_price_rule($cart_price_rule);
 
 		$product_shirt = new Product;
 		$product_shirt->sku = 'TS-NAVY-LG';
@@ -465,7 +465,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total->tax = 0;
 		$cart_total->total = 1200;
 		$cart_total->savings = 500;
-		$cart_total->price_rules = [$price_rule];
+		$cart_total->cart_price_rules = [$cart_price_rule];
 
 		$this->assertEquals($cart_total, $cart->get_total($pricing));
 	}
