@@ -2,6 +2,7 @@
 use inklabs\kommerce\Pricing;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartTotal;
+use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Product;
@@ -419,6 +420,52 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total->savings = 400;
 		$cart_total->coupons = [$coupon];
 		$cart_total->tax_rate = $tax_rate;
+
+		$this->assertEquals($cart_total, $cart->get_total($pricing));
+	}
+
+	/**
+	 * @covers Cart::get_total
+	 */
+	public function test_get_total_cart_price_rule()
+	{
+		// $price_rule_condition = new CartPriceRuleCondition;
+		// $price_rule_condition->function = 'buy_x_get_y';
+		// $price_rule_condition->
+
+		$price_rule = new CartPriceRule;
+		$price_rule->name = 'Buy a Shirt get a FREE poster';
+		// $price_rule->conditions = [$price_rule_condition];
+		$price_rule->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$price_rule->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+		$pricing->add_price_rule($price_rule);
+
+		$product_shirt = new Product;
+		$product_shirt->sku = 'TS-NAVY-LG';
+		$product_shirt->name = 'Navy T-shirt (large)';
+		$product_shirt->price = 1200;
+
+		$product_poster = new Product;
+		$product_poster->sku = 'PST-CKN';
+		$product_poster->name = 'Citizen Kane (1941) Poster';
+		$product_poster->price = 500;
+
+		$cart = new Cart;
+		$cart->add_item($product_shirt, 1);
+		$cart->add_item($product_poster, 1);
+
+		// Expect:
+		$cart_total = new CartTotal;
+		$cart_total->orig_subtotal = 1700;
+		$cart_total->subtotal = 1200;
+		$cart_total->shipping = 0;
+		$cart_total->discount = 500;
+		$cart_total->tax = 0;
+		$cart_total->total = 1200;
+		$cart_total->savings = 500;
+		$cart_total->price_rules = [$price_rule];
 
 		$this->assertEquals($cart_total, $cart->get_total($pricing));
 	}

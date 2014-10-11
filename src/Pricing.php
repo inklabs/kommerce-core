@@ -4,11 +4,13 @@ namespace inklabs\kommerce;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\CartPriceRule;
 
 class Pricing
 {
 	public $date;
 	private $catalog_promotions = [];
+	private $price_rules = [];
 
 	public function __construct(\DateTime $date = NULL)
 	{
@@ -22,6 +24,11 @@ class Pricing
 	public function add_catalog_promotion(CatalogPromotion $catalog_promotion)
 	{
 		$this->catalog_promotions[] = $catalog_promotion;
+	}
+
+	public function add_price_rule(CartPriceRule $price_rule)
+	{
+		$this->price_rules[] = $price_rule;
 	}
 
 	public function get_price(Product $product, $quantity)
