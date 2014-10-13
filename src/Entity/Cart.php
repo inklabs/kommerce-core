@@ -64,6 +64,7 @@ class Cart
             }
         }
 
+        // Cart Price Rules
         foreach ($this->cart_price_rules as $cart_price_rule) {
             if ($cart_price_rule->isValid($pricing->date, $cart_total, $this->items)) {
                 foreach ($cart_price_rule->discounts as $discount) {
