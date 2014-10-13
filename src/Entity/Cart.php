@@ -52,8 +52,6 @@ class Cart
 	{
 		$cart_total = new CartTotal;
 
-		$cart_total->tax_subtotal = 0;
-
 		// Get item prices
 		foreach ($this->items as $item) {
 			$price = $pricing->get_price($item->product, $item->quantity);
@@ -66,7 +64,6 @@ class Cart
 			}
 		}
 
-		// TODO: Get shopping cart price rules
 		foreach ($this->cart_price_rules as $cart_price_rule) {
 			if ($cart_price_rule->is_valid($pricing->date, $cart_total, $this->items)) {
 				foreach ($cart_price_rule->discounts as $discount) {
@@ -83,6 +80,9 @@ class Cart
 			}
 		}
 
+		// No subtotal below zero after cart price rules!
+		$cart_total->subtotal = max(0, $cart_total->subtotal);
+
 		// Get coupon discounts
 		foreach ($this->coupons as $coupon) {
 			if ($coupon->is_valid($pricing->date, $cart_total->subtotal)) {
@@ -97,12 +97,12 @@ class Cart
 			}
 		}
 
+		// No taxes below zero!
+		$cart_total->tax_subtotal = max(0, $cart_total->tax_subtotal);
+
 		if ($shipping_rate !== NULL) {
 			$cart_total->shipping = $shipping_rate->cost;
 		}
-
-		// No taxes below zero!
-		$cart_total->tax_subtotal = max(0, $cart_total->tax_subtotal);
 
 		// Get taxes
 		if ($this->tax_rate !== NULL) {
@@ -131,7 +131,7 @@ class Cart
 			+ $cart_total->shipping_discount
 		);
 
-		// No prices below zero!
+		// No total below zero!
 		$cart_total->total = max(0, $cart_total->total);
 
 		return $cart_total;
