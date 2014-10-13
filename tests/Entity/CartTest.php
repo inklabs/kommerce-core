@@ -1,5 +1,7 @@
 <?php
-use inklabs\kommerce\Pricing;
+namespace inklabs\kommerce;
+
+// use inklabs\kommerce\Pricing;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\CartPriceRule;
@@ -11,9 +13,9 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\Shipping;
 
-class CartTest extends PHPUnit_Framework_TestCase
+class CartTest extends \PHPUnit_Framework_TestCase
 {
-    private function setup_product()
+    private function setupProduct()
     {
         $product = new Product;
         $product->sku = 'TST101';
@@ -23,44 +25,44 @@ class CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Cart::add_item
-     * @covers Cart::total_items
-     * @covers Cart::total_quantity
+     * @covers Cart::addItem
+     * @covers Cart::totalItems
+     * @covers Cart::totalQuantity
      */
-    public function test_add_item()
+    public function testAddItem()
     {
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
         $product->name = 'Test 1';
 
-        $product2 = $this->setup_product();
+        $product2 = $this->setupProduct();
         $product2->name = 'Test 2';
 
         $cart = new Cart;
-        $cart->add_item($product, 5);
-        $cart->add_item($product2, 5);
+        $cart->addItem($product, 5);
+        $cart->addItem($product2, 5);
 
-        $this->assertEquals(2, $cart->total_items());
-        $this->assertEquals(10, $cart->total_quantity());
+        $this->assertEquals(2, $cart->totalItems());
+        $this->assertEquals(10, $cart->totalQuantity());
     }
 
     /**
-     * @covers Cart::get_total
+     * @covers Cart::getTotal
      */
-    public function test_get_total_basic()
+    public function testGetTotalBasic()
     {
         $pricing = new Pricing;
 
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
         $product->name = 'Test 1';
         $product->price = 500;
 
-        $product2 = $this->setup_product();
+        $product2 = $this->setupProduct();
         $product2->name = 'Test 2';
         $product2->price = 300;
 
         $cart = new Cart;
-        $cart->add_item($product, 2);
-        $cart->add_item($product2, 1);
+        $cart->addItem($product, 2);
+        $cart->addItem($product2, 1);
 
         // Expect:
         $cart_total = new CartTotal;
@@ -72,30 +74,30 @@ class CartTest extends PHPUnit_Framework_TestCase
         $cart_total->total = 1300;
         $cart_total->savings = 0;
 
-        $this->assertEquals($cart_total, $cart->get_total($pricing));
+        $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
 
     /**
-     * @covers Cart::add_coupon
-     * @covers Cart::get_total
+     * @covers Cart::addCoupon
+     * @covers Cart::getTotal
      */
-    public function test_get_total_coupon()
+    public function testGetTotalCoupon()
     {
-        $pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
         $product->price = 500;
 
         $coupon = new Coupon;
         $coupon->name = '20% Off';
         $coupon->discount_type = 'percent';
         $coupon->value = 20;
-        $coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-        $coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+        $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
+        $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $cart = new Cart;
-        $cart->add_coupon($coupon);
-        $cart->add_item($product, 5);
+        $cart->addCoupon($coupon);
+        $cart->addItem($product, 5);
 
         // Expect:
         $cart_total = new CartTotal;
@@ -108,37 +110,37 @@ class CartTest extends PHPUnit_Framework_TestCase
         $cart_total->savings = 500;
         $cart_total->coupons = [$coupon];
 
-        $this->assertEquals($cart_total, $cart->get_total($pricing));
+        $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
 
     /**
-     * @covers Cart::get_total
+     * @covers Cart::getTotal
      */
-    public function test_get_total_coupon_with_catalog_promotion()
+    public function testGetTotalCouponWithCatalogPromotion()
     {
         $catalog_promotion = new CatalogPromotion;
         $catalog_promotion->name = '20% Off';
         $catalog_promotion->discount_type = 'percent';
         $catalog_promotion->value = 20;
-        $catalog_promotion->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-        $catalog_promotion->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+        $catalog_promotion->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
+        $catalog_promotion->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
-        $pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
-        $pricing->add_catalog_promotion($catalog_promotion);
+        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
+        $pricing->addCatalogPromotion($catalog_promotion);
 
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
         $product->price = 500;
 
         $coupon = new Coupon;
         $coupon->name = '20% Off';
         $coupon->discount_type = 'percent';
         $coupon->value = 20;
-        $coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-        $coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+        $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
+        $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $cart = new Cart;
-        $cart->add_coupon($coupon);
-        $cart->add_item($product, 5);
+        $cart->addCoupon($coupon);
+        $cart->addItem($product, 5);
 
         // Expect:
         $cart_total = new CartTotal;
@@ -151,17 +153,17 @@ class CartTest extends PHPUnit_Framework_TestCase
         $cart_total->savings = 900;
         $cart_total->coupons = [$coupon];
 
-        $this->assertEquals($cart_total, $cart->get_total($pricing));
+        $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
 
     /**
-     * @covers Cart::get_total
+     * @covers Cart::getTotal
      */
-    public function test_get_total_coupon_valid_order_value()
+    public function testGetTotalCouponValidOrderValue()
     {
-        $pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
         $product->price = 2000; // $20
 
         $coupon = new Coupon;
@@ -170,12 +172,12 @@ class CartTest extends PHPUnit_Framework_TestCase
         $coupon->value = 20;
         $coupon->min_order_value = 1000; // $10
         $coupon->max_order_value = 10000; // $100
-        $coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-        $coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+        $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
+        $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $cart = new Cart;
-        $cart->add_coupon($coupon);
-        $cart->add_item($product, 1);
+        $cart->addCoupon($coupon);
+        $cart->addItem($product, 1);
 
         // Expect:
         $cart_total = new CartTotal;
@@ -188,17 +190,17 @@ class CartTest extends PHPUnit_Framework_TestCase
         $cart_total->savings = 400;
         $cart_total->coupons = [$coupon];
 
-        $this->assertEquals($cart_total, $cart->get_total($pricing));
+        $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
 
     /**
-     * @covers Cart::get_total
+     * @covers Cart::getTotal
      */
-    public function test_get_total_with_shipping()
+    public function testGetTotalWithShipping()
     {
         $pricing = new Pricing;
 
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
         $product->price = 500;
 
         $usps_shipping_rate = new Shipping\Rate;
@@ -207,7 +209,7 @@ class CartTest extends PHPUnit_Framework_TestCase
         $usps_shipping_rate->cost = 1000;
 
         $cart = new Cart;
-        $cart->add_item($product, 3);
+        $cart->addItem($product, 3);
 
         // Expect:
         $cart_total = new CartTotal;
@@ -219,29 +221,29 @@ class CartTest extends PHPUnit_Framework_TestCase
         $cart_total->total = 2500;
         $cart_total->savings = 0;
 
-        $this->assertEquals($cart_total, $cart->get_total($pricing, $usps_shipping_rate));
+        $this->assertEquals($cart_total, $cart->getTotal($pricing, $usps_shipping_rate));
     }
 
     /**
-     * @covers Cart::set_tax_rate
-     * @covers Cart::get_total
+     * @covers Cart::setTaxRate
+     * @covers Cart::getTotal
      */
-    public function test_get_total_with_zip5_tax_not_applied_to_shipping()
+    public function testGetTotalWithZip5TaxNotAppliedToShipping()
     {
         $pricing = new Pricing;
 
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
         $product->price = 500;
-        $product->is_taxable = TRUE;
+        $product->is_taxable = true;
 
         $tax_rate = new TaxRate;
         $tax_rate->zip5 = 92606;
         $tax_rate->rate = 8.0;
-        $tax_rate->apply_to_shipping = FALSE;
+        $tax_rate->apply_to_shipping = false;
 
         $cart = new Cart;
-        $cart->set_tax_rate($tax_rate);
-        $cart->add_item($product, 2);
+        $cart->setTaxRate($tax_rate);
+        $cart->addItem($product, 2);
 
         // Expect:
         $cart_total = new CartTotal;
@@ -255,24 +257,24 @@ class CartTest extends PHPUnit_Framework_TestCase
         $cart_total->savings = 0;
         $cart_total->tax_rate = $tax_rate;
 
-        $this->assertEquals($cart_total, $cart->get_total($pricing));
+        $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
 
     /**
-     * @covers Cart::get_total
+     * @covers Cart::getTotal
      */
-    public function test_get_total_with_zip5_tax_applied_to_shipping()
+    public function testGetTotalWithZip5TaxAppliedToShipping()
     {
         $pricing = new Pricing;
 
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
         $product->price = 500;
-        $product->is_taxable = TRUE;
+        $product->is_taxable = true;
 
         $tax_rate = new TaxRate;
         $tax_rate->zip5 = 92606;
         $tax_rate->rate = 8.0;
-        $tax_rate->apply_to_shipping = TRUE;
+        $tax_rate->apply_to_shipping = true;
 
         $usps_shipping_rate = new Shipping\Rate;
         $usps_shipping_rate->code = '4';
@@ -280,8 +282,8 @@ class CartTest extends PHPUnit_Framework_TestCase
         $usps_shipping_rate->cost = 1000;
 
         $cart = new Cart;
-        $cart->set_tax_rate($tax_rate);
-        $cart->add_item($product, 2);
+        $cart->setTaxRate($tax_rate);
+        $cart->addItem($product, 2);
 
         // Expect:
         $cart_total = new CartTotal;
@@ -295,29 +297,29 @@ class CartTest extends PHPUnit_Framework_TestCase
         $cart_total->savings = 0;
         $cart_total->tax_rate = $tax_rate;
 
-        $this->assertEquals($cart_total, $cart->get_total($pricing, $usps_shipping_rate));
+        $this->assertEquals($cart_total, $cart->getTotal($pricing, $usps_shipping_rate));
     }
 
     /**
-     * @covers Cart::set_tax_rate
-     * @covers Cart::get_total
+     * @covers Cart::setTaxRate
+     * @covers Cart::getTotal
      */
-    public function test_get_total_with_zip5_tax_not_taxable()
+    public function testGetTotalWithZip5TaxNotTaxable()
     {
         $pricing = new Pricing;
 
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
         $product->price = 500;
-        $product->is_taxable = FALSE;
+        $product->is_taxable = false;
 
         $tax_rate = new TaxRate;
         $tax_rate->zip5 = 92606;
         $tax_rate->rate = 8.0;
-        $tax_rate->apply_to_shipping = FALSE;
+        $tax_rate->apply_to_shipping = false;
 
         $cart = new Cart;
-        $cart->set_tax_rate($tax_rate);
-        $cart->add_item($product, 2);
+        $cart->setTaxRate($tax_rate);
+        $cart->addItem($product, 2);
 
         // Expect:
         $cart_total = new CartTotal;
@@ -329,24 +331,24 @@ class CartTest extends PHPUnit_Framework_TestCase
         $cart_total->total = 1000;
         $cart_total->savings = 0;
 
-        $this->assertEquals($cart_total, $cart->get_total($pricing));
+        $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
 
     /**
-     * @covers Cart::get_total
+     * @covers Cart::getTotal
      */
-    public function test_get_total_with_zip5_tax_and_coupon_reduce_subtotal()
+    public function testGetTotalWithZip5TaxAndCouponReduceSubtotal()
     {
-        $pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
         $product->price = 2000; // $20
-        $product->is_taxable = TRUE;
+        $product->is_taxable = true;
 
         $tax_rate = new TaxRate;
         $tax_rate->zip5 = 92606;
         $tax_rate->rate = 8.0;
-        $tax_rate->apply_to_shipping = FALSE;
+        $tax_rate->apply_to_shipping = false;
 
         $coupon = new Coupon;
         $coupon->name = '20% Off orders under $100';
@@ -354,14 +356,14 @@ class CartTest extends PHPUnit_Framework_TestCase
         $coupon->value = 20;
         $coupon->min_order_value = 1000; // $10
         $coupon->max_order_value = 10000; // $100
-        $coupon->reduces_tax_subtotal = TRUE;
-        $coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-        $coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+        $coupon->reduces_tax_subtotal = true;
+        $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
+        $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $cart = new Cart;
-        $cart->set_tax_rate($tax_rate);
-        $cart->add_coupon($coupon);
-        $cart->add_item($product, 1);
+        $cart->setTaxRate($tax_rate);
+        $cart->addCoupon($coupon);
+        $cart->addItem($product, 1);
 
         // Expect:
         $cart_total = new CartTotal;
@@ -376,24 +378,24 @@ class CartTest extends PHPUnit_Framework_TestCase
         $cart_total->coupons = [$coupon];
         $cart_total->tax_rate = $tax_rate;
 
-        $this->assertEquals($cart_total, $cart->get_total($pricing));
+        $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
 
     /**
-     * @covers Cart::get_total
+     * @covers Cart::getTotal
      */
-    public function test_get_total_with_zip5_tax_and_coupon_no_reduce_subtotal()
+    public function testGetTotalWithZip5TaxAndCouponNoReduceSubtotal()
     {
-        $pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
         $product->price = 2000; // $20
-        $product->is_taxable = TRUE;
+        $product->is_taxable = true;
 
         $tax_rate = new TaxRate;
         $tax_rate->zip5 = 92606;
         $tax_rate->rate = 8.0;
-        $tax_rate->apply_to_shipping = FALSE;
+        $tax_rate->apply_to_shipping = false;
 
         $coupon = new Coupon;
         $coupon->name = '20% Off orders under $100';
@@ -401,14 +403,14 @@ class CartTest extends PHPUnit_Framework_TestCase
         $coupon->value = 20;
         $coupon->min_order_value = 1000; // $10
         $coupon->max_order_value = 10000; // $100
-        $coupon->reduces_tax_subtotal = FALSE;
-        $coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-        $coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+        $coupon->reduces_tax_subtotal = false;
+        $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
+        $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $cart = new Cart;
-        $cart->set_tax_rate($tax_rate);
-        $cart->add_coupon($coupon);
-        $cart->add_item($product, 1);
+        $cart->setTaxRate($tax_rate);
+        $cart->addCoupon($coupon);
+        $cart->addItem($product, 1);
 
         // Expect:
         $cart_total = new CartTotal;
@@ -423,13 +425,13 @@ class CartTest extends PHPUnit_Framework_TestCase
         $cart_total->coupons = [$coupon];
         $cart_total->tax_rate = $tax_rate;
 
-        $this->assertEquals($cart_total, $cart->get_total($pricing));
+        $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
 
     /**
-     * @covers Cart::get_total
+     * @covers Cart::getTotal
      */
-    public function test_get_total_cart_price_rule()
+    public function testGetTotalCartPriceRule()
     {
         $product_shirt = new Product;
         $product_shirt->id = 1;
@@ -445,18 +447,18 @@ class CartTest extends PHPUnit_Framework_TestCase
 
         $cart_price_rule = new CartPriceRule;
         $cart_price_rule->name = 'Buy a Shirt get a FREE poster';
-        $cart_price_rule->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-        $cart_price_rule->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
-        $cart_price_rule->add_item(new CartPriceRuleItem($product_shirt, 1));
-        $cart_price_rule->add_item(new CartPriceRuleItem($product_poster, 1));
-        $cart_price_rule->add_discount(new CartPriceRuleDiscount($product_poster, 1));
+        $cart_price_rule->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
+        $cart_price_rule->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $cart_price_rule->addItem(new CartPriceRuleItem($product_shirt, 1));
+        $cart_price_rule->addItem(new CartPriceRuleItem($product_poster, 1));
+        $cart_price_rule->addDiscount(new CartPriceRuleDiscount($product_poster, 1));
 
-        $pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         $cart = new Cart;
-        $cart->add_cart_price_rule($cart_price_rule);
-        $cart->add_item($product_shirt, 1);
-        $cart->add_item($product_poster, 1);
+        $cart->addCartPriceRule($cart_price_rule);
+        $cart->addItem($product_shirt, 1);
+        $cart->addItem($product_poster, 1);
 
         // Expect:
         $cart_total = new CartTotal;
@@ -469,12 +471,6 @@ class CartTest extends PHPUnit_Framework_TestCase
         $cart_total->savings = 500;
         $cart_total->cart_price_rules = [$cart_price_rule];
 
-        $this->assertEquals($cart_total, $cart->get_total($pricing));
+        $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
-
-    // $tag_poster = new Tag;
-    // $tag_poster->id = 1;
-    // $tag_poster->name = 'Poster';
-    // $product_poster->tags = [$tag_poster];
-
 }

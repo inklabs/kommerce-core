@@ -42,6 +42,12 @@ Buy 2 SKUs get 1 of the SKUs 10% Off
  - Limit to 1 Product Receiving Discount – Specific Customer Segment
 </pre>
 
+## Run Coding Standards Test:
+
+<pre>
+    vendor/bin/phpcs --standard=PSR2
+</pre>
+
 ## Install aha for TextMate PHPUnit
 
 <pre>

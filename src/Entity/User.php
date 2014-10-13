@@ -19,12 +19,12 @@ class User
     public $roles;
     public $tokens;
 
-    public function add_role(Role $role)
+    public function addRole(Role $role)
     {
         $this->roles[] = $role;
     }
 
-    public function add_token(UserToken $token)
+    public function addToken(UserToken $token)
     {
         $this->tokens[] = $token;
     }

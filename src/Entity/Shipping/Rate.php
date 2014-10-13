@@ -5,9 +5,9 @@ use inklabs\kommerce\Entity;
 
 class Rate
 {
-	use Entity\Accessors;
+    use Entity\Accessors;
 
-	public $code;
-	public $name;
-	public $cost;
+    public $code;
+    public $name;
+    public $cost;
 }

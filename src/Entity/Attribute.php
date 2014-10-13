@@ -14,7 +14,7 @@ class Attribute
 
     public $attribute_values = [];
 
-    public function add_attribute_value(AttributeValue $attribute_value)
+    public function addAttributeValue(AttributeValue $attribute_value)
     {
         $this->attribute_values[] = $attribute_value;
     }

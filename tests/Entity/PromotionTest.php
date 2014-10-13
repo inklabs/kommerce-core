@@ -1,51 +1,53 @@
 <?php
+namespace inklabs\kommerce;
+
 use inklabs\kommerce\Entity\Promotion;
 
-class PromotionTest extends PHPUnit_Framework_TestCase
+class PromotionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Promotion::is_date_valid
+     * @covers Promotion::isDateValid
      */
-    public function test_is_date_valid()
+    public function testIsDateValid()
     {
         $promotion = new Promotion;
         $promotion->name = '20% Off';
         $promotion->discount_type = 'percent';
         $promotion->discount_value = 20;
-        $promotion->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-        $promotion->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+        $promotion->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
+        $promotion->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
-        $this->assertTrue( $promotion->is_date_valid(new \DateTime('2014-02-01', new DateTimeZone('UTC'))));
-        $this->assertFalse($promotion->is_date_valid(new \DateTime('2013-02-01', new DateTimeZone('UTC'))));
-        $this->assertFalse($promotion->is_date_valid(new \DateTime('2015-02-01', new DateTimeZone('UTC'))));
+        $this->assertTrue($promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
     }
 
     /**
-     * @covers Promotion::is_redemption_count_valid
+     * @covers Promotion::isRedemptionCountValid
      */
-    public function test_is_redemption_count_valid()
+    public function testIsRedemptionCountValid()
     {
         $promotion = new Promotion;
         $promotion->name = '20% Off';
         $promotion->discount_type = 'percent';
         $promotion->discount_value = 20;
 
-        $promotion->max_redemptions = NULL;
-        $this->assertTrue($promotion->is_redemption_count_valid());
+        $promotion->max_redemptions = null;
+        $this->assertTrue($promotion->isRedemptionCountValid());
 
         $promotion->max_redemptions = 10;
         $promotion->redemptions = 0;
-        $this->assertTrue($promotion->is_redemption_count_valid());
+        $this->assertTrue($promotion->isRedemptionCountValid());
 
         $promotion->max_redemptions = 10;
         $promotion->redemptions = 15;
-        $this->assertFalse($promotion->is_redemption_count_valid());
+        $this->assertFalse($promotion->isRedemptionCountValid());
     }
 
     /**
      * @covers Promotion::get_discount_value
      */
-    public function test_get_discount_value_percent()
+    public function testGetDiscountValuePercent()
     {
         $promotion = new Promotion;
         $promotion->name = '20% Off';
@@ -54,13 +56,13 @@ class PromotionTest extends PHPUnit_Framework_TestCase
 
         $unit_price = 1000; // $10
 
-        $this->assertEquals(800, $promotion->get_unit_price($unit_price));
+        $this->assertEquals(800, $promotion->getUnitPrice($unit_price));
     }
 
     /**
      * @covers Promotion::get_discount_value
      */
-    public function test_get_discount_value_fixed()
+    public function testGetDiscountValueFixed()
     {
         $promotion = new Promotion;
         $promotion->name = '$10 Off';
@@ -69,6 +71,6 @@ class PromotionTest extends PHPUnit_Framework_TestCase
 
         $unit_price = 10000; // $100
 
-        $this->assertEquals(9000, $promotion->get_unit_price($unit_price));
+        $this->assertEquals(9000, $promotion->getUnitPrice($unit_price));
     }
 }

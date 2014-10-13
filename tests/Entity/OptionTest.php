@@ -1,14 +1,16 @@
 <?php
+namespace inklabs\kommerce;
+
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\VirtualProduct;
 
-class OptionTest extends PHPUnit_Framework_TestCase
+class OptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Option::__construct
      */
-    public function test_construct()
+    public function testConstruct()
     {
         $current_date = new \DateTime('now', new \DateTimeZone('UTC'));
 
@@ -21,7 +23,7 @@ class OptionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Size', $option->name);
     }
 
-    public function test_with_products()
+    public function testWithProducts()
     {
         $option = new Option;
         $option->name = 'Size';
@@ -43,14 +45,14 @@ class OptionTest extends PHPUnit_Framework_TestCase
         $product_large->name = 'Navy T-shirt (large)';
         $product_large->price = 1600;
 
-        $option->add_product($product_small);
-        $option->add_product($product_medium);
-        $option->add_product($product_large);
+        $option->addProduct($product_small);
+        $option->addProduct($product_medium);
+        $option->addProduct($product_large);
 
         $this->assertEquals('Size', $option->name);
     }
 
-    public function test_with_virtual_products()
+    public function testWithVirtualProducts()
     {
         $current_date = new \DateTime('now', new \DateTimeZone('UTC'));
 
@@ -71,9 +73,9 @@ class OptionTest extends PHPUnit_Framework_TestCase
         $virtual_product_large->sku = 'LG';
         $virtual_product_large->name = 'Large';
 
-        $option->add_product($virtual_product_small);
-        $option->add_product($virtual_product_medium);
-        $option->add_product($virtual_product_large);
+        $option->addProduct($virtual_product_small);
+        $option->addProduct($virtual_product_medium);
+        $option->addProduct($virtual_product_large);
 
         $this->assertEquals('Size', $option->name);
     }

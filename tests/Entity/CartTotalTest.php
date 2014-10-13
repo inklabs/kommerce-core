@@ -1,12 +1,14 @@
 <?php
+namespace inklabs\kommerce;
+
 use inklabs\kommerce\Entity\CartTotal;
 
-class CartTotalTest extends PHPUnit_Framework_TestCase
+class CartTotalTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers CartTotal::__construct
      */
-    public function test_construct()
+    public function testConstruct()
     {
         $cart_total = new CartTotal;
         $cart_total->orig_subtotal = 1300;

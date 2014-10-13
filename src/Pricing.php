@@ -11,21 +11,21 @@ class Pricing
     public $date;
     private $catalog_promotions = [];
 
-    public function __construct(\DateTime $date = NULL)
+    public function __construct(\DateTime $date = null)
     {
-        if ($date === NULL) {
+        if ($date === null) {
             $this->date = new \DateTime('now', new \DateTimeZone('UTC'));
         } else {
             $this->date = $date;
         }
     }
 
-    public function add_catalog_promotion(CatalogPromotion $catalog_promotion)
+    public function addCatalogPromotion(CatalogPromotion $catalog_promotion)
     {
         $this->catalog_promotions[] = $catalog_promotion;
     }
 
-    public function get_price(Product $product, $quantity)
+    public function getPrice(Product $product, $quantity)
     {
         $price = new Price;
         $price->unit_price = $product->price;
@@ -33,20 +33,20 @@ class Pricing
         $price->orig_quantity_price = ($price->orig_unit_price * $quantity);
 
         // Apply product quantity discounts
-        $product->sort_quantity_discounts();
+        $product->sortQuantityDiscounts();
         foreach ($product->quantity_discounts as $quantity_discount) {
-            if ($quantity_discount->is_valid($this->date, $quantity)) {
-                $price->unit_price = $quantity_discount->get_unit_price($price->unit_price);
-                $price->add_quantity_discount($quantity_discount);
+            if ($quantity_discount->isValid($this->date, $quantity)) {
+                $price->unit_price = $quantity_discount->getUnitPrice($price->unit_price);
+                $price->addQuantityDiscount($quantity_discount);
                 break;
             }
         }
 
         // Apply catalog promotions
         foreach ($this->catalog_promotions as $catalog_promotion) {
-            if ($catalog_promotion->is_valid($this->date, $product)) {
-                $price->unit_price = $catalog_promotion->get_unit_price($price->unit_price);
-                $price->add_catalog_promotion($catalog_promotion);
+            if ($catalog_promotion->isValid($this->date, $product)) {
+                $price->unit_price = $catalog_promotion->getUnitPrice($price->unit_price);
+                $price->addCatalogPromotion($catalog_promotion);
             }
         }
 
@@ -56,7 +56,7 @@ class Pricing
 
         // Add option prices
         foreach ($product->selected_option_products as $option_product) {
-            $option_product_price = $this->get_price($option_product, $quantity);
+            $option_product_price = $this->getPrice($option_product, $quantity);
 
             $price->unit_price          += $option_product_price->unit_price;
             $price->orig_unit_price     += $option_product_price->orig_unit_price;

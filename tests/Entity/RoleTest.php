@@ -1,12 +1,14 @@
 <?php
+namespace inklabs\kommerce;
+
 use inklabs\kommerce\Entity\Role;
 
-class RoleTest extends PHPUnit_Framework_TestCase
+class RoleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Role::__construct
      */
-    public function test_construct()
+    public function testConstruct()
     {
         $role = new Role;
         $role->id = 1;

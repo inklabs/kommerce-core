@@ -1,12 +1,14 @@
 <?php
+namespace inklabs\kommerce;
+
 use inklabs\kommerce\Entity\Coupon;
 
-class CouponTest extends PHPUnit_Framework_TestCase
+class CouponTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Coupon::is_min_order_value_valid
+     * @covers Coupon::isMinOrderValueValid
      */
-    public function test_is_min_order_value_valid()
+    public function testIsMinOrderValueValid()
     {
         $coupon = new Coupon;
         $coupon->name = '20% Off orders over $100';
@@ -14,14 +16,14 @@ class CouponTest extends PHPUnit_Framework_TestCase
         $coupon->value = 20;
         $coupon->min_order_value = 10000; // $100
 
-        $this->assertFalse($coupon->is_min_order_value_valid(5000));
-        $this->assertTrue( $coupon->is_min_order_value_valid(50000));
+        $this->assertFalse($coupon->isMinOrderValueValid(5000));
+        $this->assertTrue($coupon->isMinOrderValueValid(50000));
     }
 
     /**
-     * @covers Coupon::is_max_order_value_valid
+     * @covers Coupon::isMaxOrderValueValid
      */
-    public function test_is_max_order_value_valid()
+    public function testIsMaxOrderValueValid()
     {
         $coupon = new Coupon;
         $coupon->name = '20% Off orders under $100';
@@ -29,14 +31,14 @@ class CouponTest extends PHPUnit_Framework_TestCase
         $coupon->value = 20;
         $coupon->max_order_value = 10000; // $100
 
-        $this->assertTrue( $coupon->is_max_order_value_valid(5000));
-        $this->assertFalse($coupon->is_max_order_value_valid(50000));
+        $this->assertTrue($coupon->isMaxOrderValueValid(5000));
+        $this->assertFalse($coupon->isMaxOrderValueValid(50000));
     }
 
     /**
-     * @covers Coupon::is_valid
+     * @covers Coupon::isValid
      */
-    public function test_is_valid()
+    public function testIsValid()
     {
         $coupon = new Coupon;
         $coupon->name = '20% Off orders $10-$100';
@@ -44,11 +46,11 @@ class CouponTest extends PHPUnit_Framework_TestCase
         $coupon->value = 20;
         $coupon->min_order_value = 1000; // $10
         $coupon->max_order_value = 10000; // $100
-        $coupon->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-        $coupon->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+        $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
+        $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
-        $date = new \DateTime('2014-02-01', new DateTimeZone('UTC'));
+        $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
 
-        $this->assertTrue($coupon->is_valid($date, 5000));
+        $this->assertTrue($coupon->isValid($date, 5000));
     }
 }

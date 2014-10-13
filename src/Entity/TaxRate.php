@@ -15,7 +15,7 @@ class TaxRate
     public $created;
     public $updated;
 
-    public function get_tax($tax_subtotal, $shipping)
+    public function getTax($tax_subtotal, $shipping)
     {
         if ($this->apply_to_shipping) {
             $tax_subtotal += $shipping;

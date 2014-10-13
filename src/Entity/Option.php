@@ -14,7 +14,7 @@ class Option
 
     public $products = [];
 
-    public function add_product(Product $product)
+    public function addProduct(Product $product)
     {
         $this->products[] = $product;
     }
