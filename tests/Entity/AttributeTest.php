@@ -1,13 +1,15 @@
 <?php
+namespace inklabs\kommerce;
+
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 
-class AttributeTest extends PHPUnit_Framework_TestCase
+class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Attribute::__construct
      */
-    public function test_construct()
+    public function testConstruct()
     {
         $attribute = new Attribute;
         $attribute->id = 1;
@@ -15,15 +17,15 @@ class AttributeTest extends PHPUnit_Framework_TestCase
         $attribute->description = 'Test attribute description';
         $attribute->sort_order = 0;
         $attribute->created = new \DateTime('now', new \DateTimeZone('UTC'));
-        $attribute->updated = NULL;
+        $attribute->updated = null;
 
         $this->assertEquals(1, $attribute->id);
     }
 
     /**
-     * @covers Attribute::add_attribute_value
+     * @covers Attribute::addAttributeValue
      */
-    public function test_with_attribute_values()
+    public function testWithAttributeValues()
     {
         $attribute = new Attribute;
         $attribute->id = 1;
@@ -41,9 +43,9 @@ class AttributeTest extends PHPUnit_Framework_TestCase
         $attribute_value_blue->sku = 'BLU';
         $attribute_value_blue->name = 'Blue';
 
-        $attribute->add_attribute_value($attribute_value_red);
-        $attribute->add_attribute_value($attribute_value_green);
-        $attribute->add_attribute_value($attribute_value_blue);
+        $attribute->addAttributeValue($attribute_value_red);
+        $attribute->addAttributeValue($attribute_value_green);
+        $attribute->addAttributeValue($attribute_value_blue);
 
         $this->assertEquals(1, $attribute->id);
     }

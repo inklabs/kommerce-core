@@ -10,33 +10,33 @@ class Promotion
     public $start;
     public $end;
 
-    public function is_valid(\DateTime $date)
+    public function isValid(\DateTime $date)
     {
-        return $this->is_date_valid($date)
-            AND $this->is_redemption_count_valid();
+        return $this->isDateValid($date)
+            and $this->isRedemptionCountValid();
     }
 
-    public function is_date_valid(\DateTime $date)
+    public function isDateValid(\DateTime $date)
     {
         $current_date_ts = $date->getTimestamp();
 
-        if ($current_date_ts >= $this->start->getTimestamp() AND $current_date_ts <= $this->end->getTimestamp()) {
-            return TRUE;
+        if ($current_date_ts >= $this->start->getTimestamp() and $current_date_ts <= $this->end->getTimestamp()) {
+            return true;
         } else {
-            return FALSE;
+            return false;
         }
     }
 
-    public function is_redemption_count_valid()
+    public function isRedemptionCountValid()
     {
-        if ($this->max_redemptions !== NULL AND $this->redemptions >= $this->max_redemptions) {
-            return FALSE;
+        if ($this->max_redemptions !== null and $this->redemptions >= $this->max_redemptions) {
+            return false;
         } else {
-            return TRUE;
+            return true;
         }
     }
 
-    public function get_unit_price($unit_price)
+    public function getUnitPrice($unit_price)
     {
         switch ($this->discount_type) {
             case 'fixed':

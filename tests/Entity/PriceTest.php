@@ -1,12 +1,14 @@
 <?php
+namespace inklabs\kommerce;
+
 use inklabs\kommerce\Entity\Price;
 
-class PriceTest extends PHPUnit_Framework_TestCase
+class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Price::__construct
      */
-    public function test_construct()
+    public function testConstruct()
     {
         $price = new Price;
         $price->unit_price = 2400;

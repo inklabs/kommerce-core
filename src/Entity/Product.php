@@ -28,24 +28,26 @@ class Product
     public $tags = [];
     public $quantity_discounts = [];
 
-    public function in_stock() {
-        if (($this->require_inventory AND $this->quantity > 0) OR ( ! $this->require_inventory)) {
-            return TRUE;
+    public function inStock()
+    {
+        if (($this->require_inventory and $this->quantity > 0) or ( ! $this->require_inventory)) {
+            return true;
         } else {
-            return FALSE;
+            return false;
         }
     }
 
-    public function get_rating() {
+    public function getRating()
+    {
         return ($this->rating / 100);
     }
 
-    public function add_quantity_discount(ProductQuantityDiscount $quantity_discount)
+    public function addQuantityDiscount(ProductQuantityDiscount $quantity_discount)
     {
         $this->quantity_discounts[] = $quantity_discount;
     }
 
-    public function sort_quantity_discounts()
+    public function sortQuantityDiscounts()
     {
         // Sort highest to lowest by quantity
         uasort($this->quantity_discounts, create_function('$a, $b', 'return ($a->quantity < $b->quantity);'));

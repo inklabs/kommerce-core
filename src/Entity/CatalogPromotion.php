@@ -16,24 +16,24 @@ class CatalogPromotion extends Promotion
     public $end;
     public $created;
 
-    public function is_valid(\DateTime $date, Product $product)
+    public function isValid(\DateTime $date, Product $product)
     {
-        return parent::is_valid($date)
-            AND $this->is_tag_valid($product);
+        return parent::isValid($date)
+            and $this->isTagValid($product);
     }
 
-    public function is_tag_valid(Product $product)
+    public function isTagValid(Product $product)
     {
-        if ($this->tag !== NULL) {
+        if ($this->tag !== null) {
             foreach ($product->tags as $tag) {
                 if ($tag->id == $this->tag->id) {
-                    return TRUE;
+                    return true;
                 }
             }
 
-            return FALSE;
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 }

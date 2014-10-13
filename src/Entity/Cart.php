@@ -12,32 +12,32 @@ class Cart
     public $cart_price_rules = [];
     public $tax_rate;
 
-    public function add_item(Product $product, $quantity)
+    public function addItem(Product $product, $quantity)
     {
         $this->items[] = new CartItem($product, $quantity);
     }
 
-    public function add_coupon(Coupon $coupon)
+    public function addCoupon(Coupon $coupon)
     {
         $this->coupons[] = $coupon;
     }
 
-    public function add_cart_price_rule(CartPriceRule $cart_price_rule)
+    public function addCartPriceRule(CartPriceRule $cart_price_rule)
     {
         $this->cart_price_rules[] = $cart_price_rule;
     }
 
-    public function set_tax_rate(TaxRate $tax_rate)
+    public function setTaxRate(TaxRate $tax_rate)
     {
         $this->tax_rate = $tax_rate;
     }
 
-    public function total_items()
+    public function totalItems()
     {
         return count($this->items);
     }
 
-    public function total_quantity()
+    public function totalQuantity()
     {
         $total = 0;
 
@@ -48,13 +48,13 @@ class Cart
         return $total;
     }
 
-    public function get_total(Pricing $pricing, Shipping\Rate $shipping_rate = NULL)
+    public function getTotal(Pricing $pricing, Shipping\Rate $shipping_rate = null)
     {
         $cart_total = new CartTotal;
 
         // Get item prices
         foreach ($this->items as $item) {
-            $price = $pricing->get_price($item->product, $item->quantity);
+            $price = $pricing->getPrice($item->product, $item->quantity);
 
             $cart_total->orig_subtotal += $price->orig_quantity_price;
             $cart_total->subtotal += $price->quantity_price;
@@ -65,13 +65,13 @@ class Cart
         }
 
         foreach ($this->cart_price_rules as $cart_price_rule) {
-            if ($cart_price_rule->is_valid($pricing->date, $cart_total, $this->items)) {
+            if ($cart_price_rule->isValid($pricing->date, $cart_total, $this->items)) {
                 foreach ($cart_price_rule->discounts as $discount) {
-                    $price = $pricing->get_price($discount->product, $discount->quantity);
+                    $price = $pricing->getPrice($discount->product, $discount->quantity);
 
                     $cart_total->subtotal -= $price->quantity_price;
 
-                    if ($cart_price_rule->reduces_tax_subtotal AND $discount->product->is_taxable) {
+                    if ($cart_price_rule->reduces_tax_subtotal and $discount->product->is_taxable) {
                         $cart_total->tax_subtotal -= $price->quantity_price;
                     }
 
@@ -85,8 +85,8 @@ class Cart
 
         // Get coupon discounts
         foreach ($this->coupons as $coupon) {
-            if ($coupon->is_valid($pricing->date, $cart_total->subtotal)) {
-                $new_subtotal = $coupon->get_unit_price($cart_total->subtotal);
+            if ($coupon->isValid($pricing->date, $cart_total->subtotal)) {
+                $new_subtotal = $coupon->getUnitPrice($cart_total->subtotal);
                 $discount_value = $cart_total->subtotal - $new_subtotal;
                 $cart_total->discount += $discount_value;
                 $cart_total->coupons[] = $coupon;
@@ -100,13 +100,13 @@ class Cart
         // No taxes below zero!
         $cart_total->tax_subtotal = max(0, $cart_total->tax_subtotal);
 
-        if ($shipping_rate !== NULL) {
+        if ($shipping_rate !== null) {
             $cart_total->shipping = $shipping_rate->cost;
         }
 
         // Get taxes
-        if ($this->tax_rate !== NULL) {
-            $cart_total->tax = $this->tax_rate->get_tax(
+        if ($this->tax_rate !== null) {
+            $cart_total->tax = $this->tax_rate->getTax(
                 $cart_total->tax_subtotal,
                 $cart_total->shipping
             );

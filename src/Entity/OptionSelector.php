@@ -6,12 +6,12 @@ trait OptionSelector
     public $options = [];
     public $selected_option_products = [];
 
-    public function add_option(Option $option)
+    public function addOption(Option $option)
     {
         $this->options[] = $option;
     }
 
-    public function add_selected_option_product(Product $product)
+    public function addSelectedOptionProduct(Product $product)
     {
         $this->selected_option_products[] = $product;
     }

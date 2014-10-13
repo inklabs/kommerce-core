@@ -10,18 +10,18 @@ class ProductQuantityDiscount extends Promotion
     public $created;
     public $updated;
 
-    public function is_valid(\DateTime $date, $quantity)
+    public function isValid(\DateTime $date, $quantity)
     {
-        return parent::is_valid($date)
-            AND $this->is_quantity_valid($quantity);
+        return parent::isValid($date)
+            and $this->isQuantityValid($quantity);
     }
 
-    public function is_quantity_valid($quantity)
+    public function isQuantityValid($quantity)
     {
         if ($quantity >= $this->quantity) {
-            return TRUE;
+            return true;
         } else {
-            return FALSE;
+            return false;
         }
     }
 }

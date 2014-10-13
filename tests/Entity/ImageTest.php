@@ -1,12 +1,14 @@
 <?php
+namespace inklabs\kommerce;
+
 use inklabs\kommerce\Entity\Image;
 
-class ImageTest extends PHPUnit_Framework_TestCase
+class ImageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Image::__construct
      */
-    public function test_construct()
+    public function testConstruct()
     {
         $image = new Image;
         $image->id = 1;

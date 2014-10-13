@@ -1,16 +1,18 @@
 <?php
+namespace inklabs\kommerce;
+
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\OptionSelector;
 
-class OptionSelectorTest extends PHPUnit_Framework_TestCase
+class OptionSelectorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers OptionSelector::__construct
-     * @covers OptionSelector::add_option
-     * @covers OptionSelector::add_selected_option_product
+     * @covers OptionSelector::addOption
+     * @covers OptionSelector::addSelectedOptionProduct
      */
-    public function test_add_option()
+    public function testAddOption()
     {
         $option = new Option;
         $option->name = 'Size';
@@ -21,15 +23,15 @@ class OptionSelectorTest extends PHPUnit_Framework_TestCase
         $product_small->sku = 'TS-NAVY-SM';
         $product_small->name = 'Navy T-shirt (small)';
 
-        $option->add_product($product_small);
+        $option->addProduct($product_small);
 
         $product = new Product;
         $product->id = 1;
         $product->sku = 'TST101';
         $product->name = 'Test Product';
 
-        $product->add_option($option);
-        $product->add_selected_option_product($product_small);
+        $product->addOption($option);
+        $product->addSelectedOptionProduct($product_small);
 
         $this->assertEquals(1, $product->id);
     }

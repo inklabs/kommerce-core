@@ -8,34 +8,34 @@ class Coupon extends Promotion
     public $id;
     public $code;
     public $name;
-    public $free_shipping = FALSE;
-    public $reduces_tax_subtotal = TRUE;
+    public $free_shipping = false;
+    public $reduces_tax_subtotal = true;
     public $min_order_value;
     public $max_order_value;
     public $created;
 
-    public function is_valid(\DateTime $date, $subtotal)
+    public function isValid(\DateTime $date, $subtotal)
     {
-        return parent::is_valid($date)
-            AND $this->is_min_order_value_valid($subtotal)
-            AND $this->is_max_order_value_valid($subtotal);
+        return parent::isValid($date)
+            and $this->isMinOrderValueValid($subtotal)
+            and $this->isMaxOrderValueValid($subtotal);
     }
 
-    public function is_min_order_value_valid($subtotal)
+    public function isMinOrderValueValid($subtotal)
     {
-        if ($this->min_order_value !== NULL AND $subtotal < $this->min_order_value) {
-            return FALSE;
+        if ($this->min_order_value !== null and $subtotal < $this->min_order_value) {
+            return false;
         } else {
-            return TRUE;
+            return true;
         }
     }
 
-    public function is_max_order_value_valid($subtotal)
+    public function isMaxOrderValueValid($subtotal)
     {
-        if ($this->max_order_value !== NULL AND $subtotal > $this->max_order_value) {
-            return FALSE;
+        if ($this->max_order_value !== null and $subtotal > $this->max_order_value) {
+            return false;
         } else {
-            return TRUE;
+            return true;
         }
     }
 }

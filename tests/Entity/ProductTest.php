@@ -1,9 +1,11 @@
 <?php
+namespace inklabs\kommerce;
+
 use inklabs\kommerce\Entity\Product;
 
-class ProductTest extends PHPUnit_Framework_TestCase
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
-    private function setup_product()
+    private function setupProduct()
     {
         $product = new Product;
         $product->sku = 'TST101';
@@ -15,7 +17,7 @@ class ProductTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Product::__construct
      */
-    public function test_construct()
+    public function testConstruct()
     {
         $product = new Product;
         $product->id = 1;
@@ -23,60 +25,60 @@ class ProductTest extends PHPUnit_Framework_TestCase
         $product->name = 'Test Product';
         $product->price = 500;
         $product->quantity = 10;
-        $product->product_group_id = NULL;
-        $product->require_inventory = TRUE;
-        $product->show_price = TRUE;
-        $product->active = TRUE;
-        $product->visible = TRUE;
-        $product->is_taxable = TRUE;
-        $product->shipping = TRUE;
+        $product->product_group_id = null;
+        $product->require_inventory = true;
+        $product->show_price = true;
+        $product->active = true;
+        $product->visible = true;
+        $product->is_taxable = true;
+        $product->shipping = true;
         $product->shipping_weight = 16;
         $product->description = 'Test product description';
-        $product->rating = NULL;
-        $product->default_image = NULL;
+        $product->rating = null;
+        $product->default_image = null;
         $product->created = new \DateTime('now', new \DateTimeZone('UTC'));
-        $product->updated = NULL;
+        $product->updated = null;
 
         $this->assertEquals(1, $product->id);
     }
 
     /**
-     * @covers Product::in_stock
+     * @covers Product::inStock
      */
-    public function test_required_in_stock()
+    public function testRequiredInStock()
     {
-        $product = $this->setup_product();
-        $product->require_inventory = TRUE;
+        $product = $this->setupProduct();
+        $product->require_inventory = true;
 
         $product->quantity = 0;
-        $this->assertFalse($product->in_stock());
+        $this->assertFalse($product->inStock());
 
         $product->quantity = 1;
-        $this->assertTrue($product->in_stock());
+        $this->assertTrue($product->inStock());
     }
 
     /**
-     * @covers Product::in_stock
+     * @covers Product::inStock
      */
-    public function test_not_required_in_stock()
+    public function testNotRequiredInStock()
     {
-        $product = $this->setup_product();
-        $product->require_inventory = FALSE;
+        $product = $this->setupProduct();
+        $product->require_inventory = false;
 
-        $this->assertTrue($product->in_stock());
+        $this->assertTrue($product->inStock());
     }
 
     /**
-     * @covers Product::get_rating
+     * @covers Product::getRating
      */
-    public function test_get_rating()
+    public function testGetRating()
     {
-        $product = $this->setup_product();
+        $product = $this->setupProduct();
 
         $product->rating = 150;
-        $this->assertSame(1.5, $product->get_rating());
+        $this->assertSame(1.5, $product->getRating());
 
         $product->rating = 500;
-        $this->assertSame(5, $product->get_rating());
+        $this->assertSame(5, $product->getRating());
     }
 }
