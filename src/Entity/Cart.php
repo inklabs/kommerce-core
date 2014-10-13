@@ -12,6 +12,10 @@ class Cart
     public $cart_price_rules = [];
     public $tax_rate;
 
+    private $cart_total;
+    private $pricing;
+    private $shipping_rate;
+
     public function addItem(Product $product, $quantity)
     {
         $this->items[] = new CartItem($product, $quantity);
@@ -50,91 +54,119 @@ class Cart
 
     public function getTotal(Pricing $pricing, Shipping\Rate $shipping_rate = null)
     {
-        $cart_total = new CartTotal;
+        $this->cart_total = new CartTotal;
+        $this->pricing = $pricing;
+        $this->shipping_rate = $shipping_rate;
 
-        // Get item prices
+        $this->getItemPrices();
+        $this->getCartPriceRules();
+        $this->getCouponDiscounts();
+        $this->getShippingPrice();
+        $this->getTaxes();
+
+        $this->calculateTotal();
+        $this->calculateSavings();
+
+        return $this->cart_total;
+    }
+
+    public function getItemPrices()
+    {
         foreach ($this->items as $item) {
-            $price = $pricing->getPrice($item->product, $item->quantity);
+            $price = $this->pricing->getPrice($item->product, $item->quantity);
 
-            $cart_total->orig_subtotal += $price->orig_quantity_price;
-            $cart_total->subtotal += $price->quantity_price;
+            $this->cart_total->orig_subtotal += $price->orig_quantity_price;
+            $this->cart_total->subtotal += $price->quantity_price;
 
             if ($item->product->is_taxable) {
-                $cart_total->tax_subtotal += $price->quantity_price;
+                $this->cart_total->tax_subtotal += $price->quantity_price;
             }
         }
+    }
 
-        // Cart Price Rules
+    public function getCartPriceRules()
+    {
         foreach ($this->cart_price_rules as $cart_price_rule) {
-            if ($cart_price_rule->isValid($pricing->date, $cart_total, $this->items)) {
+            if ($cart_price_rule->isValid($this->pricing->date, $this->cart_total, $this->items)) {
                 foreach ($cart_price_rule->discounts as $discount) {
-                    $price = $pricing->getPrice($discount->product, $discount->quantity);
+                    $price = $this->pricing->getPrice($discount->product, $discount->quantity);
 
-                    $cart_total->subtotal -= $price->quantity_price;
+                    $this->cart_total->subtotal -= $price->quantity_price;
 
                     if ($cart_price_rule->reduces_tax_subtotal and $discount->product->is_taxable) {
-                        $cart_total->tax_subtotal -= $price->quantity_price;
+                        $this->cart_total->tax_subtotal -= $price->quantity_price;
                     }
 
-                    $cart_total->cart_price_rules[] = $cart_price_rule;
+                    $this->cart_total->cart_price_rules[] = $cart_price_rule;
                 }
             }
         }
 
-        // No subtotal below zero after cart price rules!
-        $cart_total->subtotal = max(0, $cart_total->subtotal);
+        // No subtotal below zero!
+        $this->cart_total->subtotal = max(0, $this->cart_total->subtotal);
+    }
 
-        // Get coupon discounts
+    public function getCouponDiscounts()
+    {
         foreach ($this->coupons as $coupon) {
-            if ($coupon->isValid($pricing->date, $cart_total->subtotal)) {
-                $new_subtotal = $coupon->getUnitPrice($cart_total->subtotal);
-                $discount_value = $cart_total->subtotal - $new_subtotal;
-                $cart_total->discount += $discount_value;
-                $cart_total->coupons[] = $coupon;
+            if ($coupon->isValid($this->pricing->date, $this->cart_total->subtotal)) {
+                $new_subtotal = $coupon->getUnitPrice($this->cart_total->subtotal);
+                $discount_value = $this->cart_total->subtotal - $new_subtotal;
+                $this->cart_total->discount += $discount_value;
+                $this->cart_total->coupons[] = $coupon;
 
                 if ($coupon->reduces_tax_subtotal) {
-                    $cart_total->tax_subtotal -= $discount_value;
+                    $this->cart_total->tax_subtotal -= $discount_value;
                 }
             }
         }
 
         // No taxes below zero!
-        $cart_total->tax_subtotal = max(0, $cart_total->tax_subtotal);
+        $this->cart_total->tax_subtotal = max(0, $this->cart_total->tax_subtotal);
+    }
 
-        if ($shipping_rate !== null) {
-            $cart_total->shipping = $shipping_rate->cost;
+    public function getShippingPrice()
+    {
+        if ($this->shipping_rate !== null) {
+            $this->cart_total->shipping = $this->shipping_rate->cost;
         }
+    }
 
-        // Get taxes
+    public function getTaxes()
+    {
         if ($this->tax_rate !== null) {
-            $cart_total->tax = $this->tax_rate->getTax(
-                $cart_total->tax_subtotal,
-                $cart_total->shipping
+            $this->cart_total->tax = $this->tax_rate->getTax(
+                $this->cart_total->tax_subtotal,
+                $this->cart_total->shipping
             );
 
-            if ($cart_total->tax > 0) {
-                $cart_total->tax_rate = $this->tax_rate;
+            if ($this->cart_total->tax > 0) {
+                $this->cart_total->tax_rate = $this->tax_rate;
             }
         }
+    }
 
-        $cart_total->total = (
-            $cart_total->subtotal
-            - $cart_total->discount
-            + $cart_total->shipping
-            - $cart_total->shipping_discount
-            + $cart_total->tax
-        );
-
-        $cart_total->savings = (
-            $cart_total->orig_subtotal
-            - $cart_total->subtotal
-            + $cart_total->discount
-            + $cart_total->shipping_discount
+    public function calculateTotal()
+    {
+        $this->cart_total->total = (
+            $this->cart_total->subtotal
+            - $this->cart_total->discount
+            + $this->cart_total->shipping
+            - $this->cart_total->shipping_discount
+            + $this->cart_total->tax
         );
 
         // No total below zero!
-        $cart_total->total = max(0, $cart_total->total);
+        $this->cart_total->total = max(0, $this->cart_total->total);
+    }
 
-        return $cart_total;
+    public function calculateSavings()
+    {
+        $this->cart_total->savings = (
+            $this->cart_total->orig_subtotal
+            - $this->cart_total->subtotal
+            + $this->cart_total->discount
+            + $this->cart_total->shipping_discount
+        );
     }
 }
