@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce;
 
-use inklabs\kommerce\Pricing;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Option;

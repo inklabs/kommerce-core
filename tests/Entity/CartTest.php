@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce;
 
-// use inklabs\kommerce\Pricing;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\CartPriceRule;
