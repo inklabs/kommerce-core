@@ -62,24 +62,34 @@ Menu Action: Run single test
 Score Selector: source.php
 Key Equivalent: command-R
 <pre>
-	#!/usr/bin/env bash
-	echo '<pre>';
-	cd $TM_PROJECT_DIRECTORY;
+    #!/usr/bin/env bash
+    echo '<pre>';
+    cd $TM_PROJECT_DIRECTORY;
 
-	# Strip colors
-	vendor/bin/phpunit $TM_FILEPATH | ~/bin/aha --no-header --black
-	echo '</pre>'
+    # Check PHP Codesniffer
+    if [ -f vendor/bin/phpcs ]; then
+        vendor/bin/phpcs --standard=PSR2 $TM_FILEPATH
+    fi
+
+    # Strip colors
+    vendor/bin/phpunit $TM_FILEPATH | ~/bin/aha --no-header --black
+    echo '</pre>'
 </pre>
 
 Menu Action: Run tests
 Score Selector: source.php
 Key Equivalent: shift-command-r
 <pre>
-	#!/usr/bin/env bash
-	echo '<pre>';
-	cd $TM_PROJECT_DIRECTORY;
+    #!/usr/bin/env bash
+    echo '<pre>';
+    cd $TM_PROJECT_DIRECTORY;
 
-	# Strip colors
-	vendor/bin/phpunit | ~/bin/aha --no-header --black
-	echo '</pre>'
+    # Check PHP Codesniffer
+    if [ -f vendor/bin/phpcs ]; then
+        vendor/bin/phpcs --standard=PSR2 $TM_FILEPATH
+    fi
+
+    # Strip colors
+    vendor/bin/phpunit | ~/bin/aha --no-header --black
+    echo '</pre>'
 </pre>
