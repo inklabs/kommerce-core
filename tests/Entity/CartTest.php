@@ -3,6 +3,8 @@ use inklabs\kommerce\Pricing;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\Entity\CartPriceRuleItem;
+use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Product;
@@ -429,30 +431,30 @@ class CartTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_get_total_cart_price_rule()
 	{
-		$cart_price_rule = new CartPriceRule;
-		$cart_price_rule->name = 'Buy a Shirt get a FREE poster';
-		$cart_price_rule->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
-		$cart_price_rule->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
-
-		// $price_rule_condition = new CartPriceRuleCondition;
-		// $price_rule_condition->function = 'buy_x_get_y';
-		// $price_rule_condition->
-		// $cart_price_rule->conditions = [$price_rule_condition];
-
-		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
-		$pricing->add_cart_price_rule($cart_price_rule);
-
 		$product_shirt = new Product;
+		$product_shirt->id = 1;
 		$product_shirt->sku = 'TS-NAVY-LG';
 		$product_shirt->name = 'Navy T-shirt (large)';
 		$product_shirt->price = 1200;
 
 		$product_poster = new Product;
+		$product_poster->id = 2;
 		$product_poster->sku = 'PST-CKN';
 		$product_poster->name = 'Citizen Kane (1941) Poster';
 		$product_poster->price = 500;
 
+		$cart_price_rule = new CartPriceRule;
+		$cart_price_rule->name = 'Buy a Shirt get a FREE poster';
+		$cart_price_rule->start = new \DateTime('2014-01-01', new DateTimeZone('UTC'));
+		$cart_price_rule->end   = new \DateTime('2014-12-31', new DateTimeZone('UTC'));
+		$cart_price_rule->add_item(new CartPriceRuleItem($product_shirt, 1));
+		$cart_price_rule->add_item(new CartPriceRuleItem($product_poster, 1));
+		$cart_price_rule->add_discount(new CartPriceRuleDiscount($product_poster, 1));
+
+		$pricing = new Pricing(new \DateTime('2014-02-01', new DateTimeZone('UTC')));
+
 		$cart = new Cart;
+		$cart->add_cart_price_rule($cart_price_rule);
 		$cart->add_item($product_shirt, 1);
 		$cart->add_item($product_poster, 1);
 
@@ -461,7 +463,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 		$cart_total->orig_subtotal = 1700;
 		$cart_total->subtotal = 1200;
 		$cart_total->shipping = 0;
-		$cart_total->discount = 500;
+		$cart_total->discount = 0;
 		$cart_total->tax = 0;
 		$cart_total->total = 1200;
 		$cart_total->savings = 500;
@@ -469,4 +471,10 @@ class CartTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($cart_total, $cart->get_total($pricing));
 	}
+
+	// $tag_poster = new Tag;
+	// $tag_poster->id = 1;
+	// $tag_poster->name = 'Poster';
+	// $product_poster->tags = [$tag_poster];
+
 }

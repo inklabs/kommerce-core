@@ -10,7 +10,11 @@ class Promotion
 	public $start;
 	public $end;
 
-	// Must define: public function is_valid(...){}
+	public function is_valid(\DateTime $date)
+	{
+		return $this->is_date_valid($date)
+			AND $this->is_redemption_count_valid();
+	}
 
 	public function is_date_valid(\DateTime $date)
 	{

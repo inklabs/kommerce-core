@@ -10,7 +10,6 @@ class Pricing
 {
 	public $date;
 	private $catalog_promotions = [];
-	private $cart_price_rules = [];
 
 	public function __construct(\DateTime $date = NULL)
 	{
@@ -24,11 +23,6 @@ class Pricing
 	public function add_catalog_promotion(CatalogPromotion $catalog_promotion)
 	{
 		$this->catalog_promotions[] = $catalog_promotion;
-	}
-
-	public function add_cart_price_rule(CartPriceRule $cart_price_rule)
-	{
-		$this->cart_price_rules[] = $cart_price_rule;
 	}
 
 	public function get_price(Product $product, $quantity)

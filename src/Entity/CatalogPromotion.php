@@ -18,8 +18,7 @@ class CatalogPromotion extends Promotion
 
 	public function is_valid(\DateTime $date, Product $product)
 	{
-		return $this->is_date_valid($date)
-			AND $this->is_redemption_count_valid()
+		return parent::is_valid($date)
 			AND $this->is_tag_valid($product);
 	}
 
