@@ -45,7 +45,7 @@ class Pricing
         return $this->price;
     }
 
-    public function applyProductQuantityDiscounts()
+    private function applyProductQuantityDiscounts()
     {
         $this->product->sortQuantityDiscounts();
         foreach ($this->product->quantity_discounts as $quantity_discount) {
@@ -60,7 +60,7 @@ class Pricing
         $this->price->unit_price = max(0, $this->price->unit_price);
     }
 
-    public function applyCatalogPromotions()
+    private function applyCatalogPromotions()
     {
         foreach ($this->catalog_promotions as $catalog_promotion) {
             if ($catalog_promotion->isValid($this->date, $this->product)) {
@@ -73,12 +73,12 @@ class Pricing
         $this->price->unit_price = max(0, $this->price->unit_price);
     }
 
-    public function calculateQuantityPrice()
+    private function calculateQuantityPrice()
     {
         $this->price->quantity_price = ($this->price->unit_price * $this->quantity);
     }
 
-    public function applyProductOptionPrices()
+    private function applyProductOptionPrices()
     {
         foreach ($this->product->selected_option_products as $option_product) {
             $sub_pricing = new Pricing($this->date);

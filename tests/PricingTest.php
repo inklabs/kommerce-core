@@ -10,14 +10,10 @@ use inklabs\kommerce\Entity\ProductQuantityDiscount;
 
 class PricingTest extends \PHPUnit_Framework_TestCase
 {
-    private function setupProduct()
+    public function setUp()
     {
-        $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 1500;
-
-        return $product;
+        $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
+        $this->pricing = new Pricing($date);
     }
 
     /**
@@ -25,9 +21,10 @@ class PricingTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPriceBasic()
     {
-        $pricing = new Pricing;
-
-        $product = $this->setupProduct();
+        $product = new Product;
+        $product->sku = 'TST101';
+        $product->name = 'Test Product';
+        $product->price = 1500;
 
         // Expected
         $price = new Price;
@@ -35,7 +32,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->unit_price = 1500;
         $price->orig_quantity_price = 1500;
         $price->quantity_price = 1500;
-        $this->assertEquals($price, $pricing->getPrice($product, 1));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
 
         // Expected
         $price = new Price;
@@ -43,7 +40,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->unit_price = 1500;
         $price->orig_quantity_price = 3000;
         $price->quantity_price = 3000;
-        $this->assertEquals($price, $pricing->getPrice($product, 2));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
 
         // Expected
         $price = new Price;
@@ -51,11 +48,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->unit_price = 1500;
         $price->orig_quantity_price = 15000;
         $price->quantity_price = 15000;
-        $this->assertEquals($price, $pricing->getPrice($product, 10));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 10));
     }
 
     /**
      * @covers Pricing::getPrice
+     * @covers Pricing::applyCatalogPromotions
      */
     public function testGetPriceWithCatalogPromotionPercent()
     {
@@ -66,10 +64,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $catalog_promotion->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
         $catalog_promotion->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
-        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
-        $pricing->addCatalogPromotion($catalog_promotion);
+        $this->pricing->addCatalogPromotion($catalog_promotion);
 
-        $product = $this->setupProduct();
+        $product = new Product;
+        $product->sku = 'TST101';
+        $product->name = 'Test Product';
+        $product->price = 1500;
 
         // Expected
         $price = new Price;
@@ -78,7 +78,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->addCatalogPromotion($catalog_promotion);
         $price->quantity_price = 1200;
         $price->orig_quantity_price = 1500;
-        $this->assertEquals($price, $pricing->getPrice($product, 1));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
 
         // Expected
         $price = new Price;
@@ -87,7 +87,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->addCatalogPromotion($catalog_promotion);
         $price->quantity_price = 2400;
         $price->orig_quantity_price = 3000;
-        $this->assertEquals($price, $pricing->getPrice($product, 2));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
 
         // Expected
         $price = new Price;
@@ -96,11 +96,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->addCatalogPromotion($catalog_promotion);
         $price->quantity_price = 12000;
         $price->orig_quantity_price = 15000;
-        $this->assertEquals($price, $pricing->getPrice($product, 10));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 10));
     }
 
     /**
      * @covers Pricing::getPrice
+     * @covers Pricing::applyCatalogPromotions
      */
     public function testGetPriceWithCatalogPromotionFixed()
     {
@@ -111,10 +112,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $catalog_promotion->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
         $catalog_promotion->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
-        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
-        $pricing->addCatalogPromotion($catalog_promotion);
+        $this->pricing->addCatalogPromotion($catalog_promotion);
 
-        $product = $this->setupProduct();
+        $product = new Product;
+        $product->sku = 'TST101';
+        $product->name = 'Test Product';
+        $product->price = 1500;
 
         // Expected
         $price = new Price;
@@ -123,7 +126,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->addCatalogPromotion($catalog_promotion);
         $price->quantity_price = 1400;
         $price->orig_quantity_price = 1500;
-        $this->assertEquals($price, $pricing->getPrice($product, 1));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
 
         // Expected
         $price = new Price;
@@ -132,7 +135,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->addCatalogPromotion($catalog_promotion);
         $price->quantity_price = 2800;
         $price->orig_quantity_price = 3000;
-        $this->assertEquals($price, $pricing->getPrice($product, 2));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
 
         // Expected
         $price = new Price;
@@ -141,11 +144,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->addCatalogPromotion($catalog_promotion);
         $price->quantity_price = 14000;
         $price->orig_quantity_price = 15000;
-        $this->assertEquals($price, $pricing->getPrice($product, 10));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 10));
     }
 
     /**
      * @covers Pricing::getPrice
+     * @covers Pricing::applyCatalogPromotions
      */
     public function testGetPriceWithCatalogPromotionTag()
     {
@@ -161,10 +165,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $catalog_promotion->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
         $catalog_promotion->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
-        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
-        $pricing->addCatalogPromotion($catalog_promotion);
+        $this->pricing->addCatalogPromotion($catalog_promotion);
 
-        $product = $this->setupProduct();
+        $product = new Product;
+        $product->sku = 'TST101';
+        $product->name = 'Test Product';
+        $product->price = 1500;
 
         // Expected
         $price = new Price;
@@ -172,18 +178,19 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->orig_unit_price = 1500;
         $price->quantity_price = 3000;
         $price->orig_quantity_price = 3000;
-        $this->assertEquals($price, $pricing->getPrice($product, 2));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
 
         // Add tag
         $product->tags[] = $tag;
         $price->unit_price = 1200;
         $price->quantity_price = 2400;
         $price->addCatalogPromotion($catalog_promotion);
-        $this->assertEquals($price, $pricing->getPrice($product, 2));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
     }
 
     /**
      * @covers Pricing::getPrice
+     * @covers Pricing::applyProductOptionPrices
      */
     public function testGetPriceWithProductOptions()
     {
@@ -199,11 +206,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
 
         $option->addProduct($product_small);
 
-        $product = $this->setupProduct();
+        $product = new Product;
+        $product->sku = 'TST101';
+        $product->name = 'Test Product';
+        $product->price = 1500;
         $product->addOption($option);
         $product->addSelectedOptionProduct($product_small);
-
-        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         // Expected
         $price = new Price;
@@ -211,7 +219,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->orig_unit_price = 2400;
         $price->quantity_price = 2400;
         $price->orig_quantity_price = 2400;
-        $this->assertEquals($price, $pricing->getPrice($product, 1));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
 
         // Expected
         $price = new Price;
@@ -219,7 +227,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->orig_unit_price = 2400;
         $price->quantity_price = 4800;
         $price->orig_quantity_price = 4800;
-        $this->assertEquals($price, $pricing->getPrice($product, 2));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
 
         // Expected
         $price = new Price;
@@ -227,11 +235,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->orig_unit_price = 2400;
         $price->quantity_price = 24000;
         $price->orig_quantity_price = 24000;
-        $this->assertEquals($price, $pricing->getPrice($product, 10));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 10));
     }
 
     /**
      * @covers Pricing::getPrice
+     * @covers Pricing::applyProductQuantityDiscounts
      */
     public function testGetPriceWithProductQuantityDiscountExact()
     {
@@ -256,13 +265,13 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_24->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
         $quantity_discount_24->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
-        $product = $this->setupProduct();
+        $product = new Product;
+        $product->sku = 'TST101';
+        $product->name = 'Test Product';
         $product->price = 500;
         $product->addQuantityDiscount($quantity_discount_6);
         $product->addQuantityDiscount($quantity_discount_12);
         $product->addQuantityDiscount($quantity_discount_24);
-
-        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         // Expected
         $price = new Price;
@@ -270,7 +279,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->orig_unit_price = 500;
         $price->quantity_price = 500;
         $price->orig_quantity_price = 500;
-        $this->assertEquals($price, $pricing->getPrice($product, 1));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
 
         // Expected
         $price = new Price;
@@ -279,7 +288,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->quantity_price = 2850;
         $price->orig_quantity_price = 3000;
         $price->addQuantityDiscount($quantity_discount_6);
-        $this->assertEquals($price, $pricing->getPrice($product, 6));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 6));
 
         // Expected
         $price = new Price;
@@ -288,7 +297,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->quantity_price = 4200;
         $price->orig_quantity_price = 6000;
         $price->addQuantityDiscount($quantity_discount_12);
-        $this->assertEquals($price, $pricing->getPrice($product, 12));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 12));
 
         // Expected
         $price = new Price;
@@ -297,11 +306,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->quantity_price = 7800;
         $price->orig_quantity_price = 12000;
         $price->addQuantityDiscount($quantity_discount_24);
-        $this->assertEquals($price, $pricing->getPrice($product, 24));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 24));
     }
 
     /**
      * @covers Pricing::getPrice
+     * @covers Pricing::applyProductQuantityDiscounts
      */
     public function testGetPriceWithProductQuantityDiscountFixed()
     {
@@ -326,13 +336,13 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_24->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
         $quantity_discount_24->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
-        $product = $this->setupProduct();
+        $product = new Product;
+        $product->sku = 'TST101';
+        $product->name = 'Test Product';
         $product->price = 500;
         $product->addQuantityDiscount($quantity_discount_6);
         $product->addQuantityDiscount($quantity_discount_12);
         $product->addQuantityDiscount($quantity_discount_24);
-
-        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         // Expected
         $price = new Price;
@@ -340,7 +350,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->orig_unit_price = 500;
         $price->quantity_price = 500;
         $price->orig_quantity_price = 500;
-        $this->assertEquals($price, $pricing->getPrice($product, 1));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
 
         // Expected
         $price = new Price;
@@ -349,7 +359,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->quantity_price = 2850;
         $price->orig_quantity_price = 3000;
         $price->addQuantityDiscount($quantity_discount_6);
-        $this->assertEquals($price, $pricing->getPrice($product, 6));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 6));
 
         // Expected
         $price = new Price;
@@ -358,7 +368,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->quantity_price = 4200;
         $price->orig_quantity_price = 6000;
         $price->addQuantityDiscount($quantity_discount_12);
-        $this->assertEquals($price, $pricing->getPrice($product, 12));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 12));
 
         // Expected
         $price = new Price;
@@ -367,11 +377,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->quantity_price = 7800;
         $price->orig_quantity_price = 12000;
         $price->addQuantityDiscount($quantity_discount_24);
-        $this->assertEquals($price, $pricing->getPrice($product, 24));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 24));
     }
 
     /**
      * @covers Pricing::getPrice
+     * @covers Pricing::applyProductQuantityDiscounts
      */
     public function testGetPriceWithProductQuantityDiscountPercent()
     {
@@ -396,13 +407,13 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_24->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
         $quantity_discount_24->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
-        $product = $this->setupProduct();
+        $product = new Product;
+        $product->sku = 'TST101';
+        $product->name = 'Test Product';
         $product->price = 500;
         $product->addQuantityDiscount($quantity_discount_6);
         $product->addQuantityDiscount($quantity_discount_12);
         $product->addQuantityDiscount($quantity_discount_24);
-
-        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         // Expected
         $price = new Price;
@@ -410,7 +421,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->orig_unit_price = 500;
         $price->quantity_price = 500;
         $price->orig_quantity_price = 500;
-        $this->assertEquals($price, $pricing->getPrice($product, 1));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
 
         // Expected
         $price = new Price;
@@ -419,7 +430,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->quantity_price = 2850;
         $price->orig_quantity_price = 3000;
         $price->addQuantityDiscount($quantity_discount_6);
-        $this->assertEquals($price, $pricing->getPrice($product, 6));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 6));
 
         // Expected
         $price = new Price;
@@ -428,7 +439,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->quantity_price = 4200;
         $price->orig_quantity_price = 6000;
         $price->addQuantityDiscount($quantity_discount_12);
-        $this->assertEquals($price, $pricing->getPrice($product, 12));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 12));
 
         // Expected
         $price = new Price;
@@ -437,6 +448,6 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price->quantity_price = 7800;
         $price->orig_quantity_price = 12000;
         $price->addQuantityDiscount($quantity_discount_24);
-        $this->assertEquals($price, $pricing->getPrice($product, 24));
+        $this->assertEquals($price, $this->pricing->getPrice($product, 24));
     }
 }
