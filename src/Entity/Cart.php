@@ -9,6 +9,7 @@ class Cart
 
 	public $items = [];
 	public $coupons = [];
+	public $cart_price_rules = [];
 	public $tax_rate;
 
 	public function add_item(Product $product, $quantity)
@@ -19,6 +20,11 @@ class Cart
 	public function add_coupon(Coupon $coupon)
 	{
 		$this->coupons[] = $coupon;
+	}
+
+	public function add_cart_price_rule(CartPriceRule $cart_price_rule)
+	{
+		$this->cart_price_rules[] = $cart_price_rule;
 	}
 
 	public function set_tax_rate(TaxRate $tax_rate)
@@ -61,6 +67,21 @@ class Cart
 		}
 
 		// TODO: Get shopping cart price rules
+		foreach ($this->cart_price_rules as $cart_price_rule) {
+			if ($cart_price_rule->is_valid($pricing->date, $cart_total, $this->items)) {
+				foreach ($cart_price_rule->discounts as $discount) {
+					$price = $pricing->get_price($discount->product, $discount->quantity);
+
+					$cart_total->subtotal -= $price->quantity_price;
+
+					if ($cart_price_rule->reduces_tax_subtotal AND $discount->product->is_taxable) {
+						$cart_total->tax_subtotal -= $price->quantity_price;
+					}
+
+					$cart_total->cart_price_rules[] = $cart_price_rule;
+				}
+			}
+		}
 
 		// Get coupon discounts
 		foreach ($this->coupons as $coupon) {
