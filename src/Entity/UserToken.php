@@ -3,12 +3,12 @@ namespace inklabs\kommerce\Entity;
 
 class UserToken
 {
-	use Accessors;
+    use Accessors;
 
-	public $id;
-	public $user_agent;
-	public $token;
-	public $type;
-	public $created;
-	public $expires;
+    public $id;
+    public $user_agent;
+    public $token;
+    public $type;
+    public $created;
+    public $expires;
 }

@@ -3,10 +3,10 @@ namespace inklabs\kommerce\Entity;
 
 class Role
 {
-	use Accessors;
+    use Accessors;
 
-	public $id;
-	public $name;
-	public $description;
-	public $created;
+    public $id;
+    public $name;
+    public $description;
+    public $created;
 }
