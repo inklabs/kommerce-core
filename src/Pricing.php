@@ -9,7 +9,9 @@ use inklabs\kommerce\Entity\CartPriceRule;
 class Pricing
 {
     public $date;
+
     private $catalog_promotions = [];
+    private $price;
 
     public function __construct(\DateTime $date = null)
     {
@@ -27,43 +29,65 @@ class Pricing
 
     public function getPrice(Product $product, $quantity)
     {
-        $price = new Price;
-        $price->unit_price = $product->price;
-        $price->orig_unit_price = $price->unit_price;
-        $price->orig_quantity_price = ($price->orig_unit_price * $quantity);
+        $this->product = $product;
+        $this->quantity = $quantity;
 
-        // Apply product quantity discounts
-        $product->sortQuantityDiscounts();
-        foreach ($product->quantity_discounts as $quantity_discount) {
-            if ($quantity_discount->isValid($this->date, $quantity)) {
-                $price->unit_price = $quantity_discount->getUnitPrice($price->unit_price);
-                $price->addQuantityDiscount($quantity_discount);
+        $this->price = new Price;
+        $this->price->orig_unit_price = $this->product->price;
+        $this->price->orig_quantity_price = ($this->price->orig_unit_price * $this->quantity);
+        $this->price->unit_price = $this->price->orig_unit_price;
+
+        $this->applyProductQuantityDiscounts();
+        $this->applyCatalogPromotions();
+        $this->calculateQuantityPrice();
+        $this->applyProductOptionPrices();
+
+        return $this->price;
+    }
+
+    public function applyProductQuantityDiscounts()
+    {
+        $this->product->sortQuantityDiscounts();
+        foreach ($this->product->quantity_discounts as $quantity_discount) {
+            if ($quantity_discount->isValid($this->date, $this->quantity)) {
+                $this->price->unit_price = $quantity_discount->getUnitPrice($this->price->unit_price);
+                $this->price->addQuantityDiscount($quantity_discount);
                 break;
             }
         }
 
-        // Apply catalog promotions
+        // No prices below zero!
+        $this->price->unit_price = max(0, $this->price->unit_price);
+    }
+
+    public function applyCatalogPromotions()
+    {
         foreach ($this->catalog_promotions as $catalog_promotion) {
-            if ($catalog_promotion->isValid($this->date, $product)) {
-                $price->unit_price = $catalog_promotion->getUnitPrice($price->unit_price);
-                $price->addCatalogPromotion($catalog_promotion);
+            if ($catalog_promotion->isValid($this->date, $this->product)) {
+                $this->price->unit_price = $catalog_promotion->getUnitPrice($this->price->unit_price);
+                $this->price->addCatalogPromotion($catalog_promotion);
             }
         }
 
         // No prices below zero!
-        $price->unit_price = max(0, $price->unit_price);
-        $price->quantity_price = ($price->unit_price * $quantity);
+        $this->price->unit_price = max(0, $this->price->unit_price);
+    }
 
-        // Add option prices
-        foreach ($product->selected_option_products as $option_product) {
-            $option_product_price = $this->getPrice($option_product, $quantity);
+    public function calculateQuantityPrice()
+    {
+        $this->price->quantity_price = ($this->price->unit_price * $this->quantity);
+    }
 
-            $price->unit_price          += $option_product_price->unit_price;
-            $price->orig_unit_price     += $option_product_price->orig_unit_price;
-            $price->orig_quantity_price += $option_product_price->orig_quantity_price;
-            $price->quantity_price      += $option_product_price->quantity_price;
+    public function applyProductOptionPrices()
+    {
+        foreach ($this->product->selected_option_products as $option_product) {
+            $sub_pricing = new Pricing($this->date);
+            $option_product_price = $sub_pricing->getPrice($option_product, $this->quantity);
+
+            $this->price->unit_price          += $option_product_price->unit_price;
+            $this->price->orig_unit_price     += $option_product_price->orig_unit_price;
+            $this->price->orig_quantity_price += $option_product_price->orig_quantity_price;
+            $this->price->quantity_price      += $option_product_price->quantity_price;
         }
-
-        return $price;
     }
 }
