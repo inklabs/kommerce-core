@@ -7,14 +7,14 @@ class CatalogPromotion extends Promotion
     protected $tag;
     protected $flagFreeShipping;
 
-    public function setCdoe($cdoe)
+    public function setCode($code)
     {
-        $this->cdoe = $cdoe;
+        $this->code = $code;
     }
 
-    public function getCdoe()
+    public function getCode()
     {
-        return $this->cdoe;
+        return $this->code;
     }
 
     public function setTag(Tag $tag)

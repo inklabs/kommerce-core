@@ -79,7 +79,7 @@ class Pricing
 
     private function applyProductOptionPrices()
     {
-        foreach ($this->product->selected_option_products as $option_product) {
+        foreach ($this->product->getSelectedOptionProducts() as $option_product) {
             $sub_pricing = new Pricing($this->date);
             $option_product_price = $sub_pricing->getPrice($option_product, $this->quantity);
 
