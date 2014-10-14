@@ -7,9 +7,6 @@ use inklabs\kommerce\Entity\Role;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers User::__construct
-     */
     public function testConstruct()
     {
         $user = new User;
@@ -27,9 +24,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $user->id);
     }
 
-    /**
-     * @covers User::addRole
-     */
     public function testAddRole()
     {
         $user = new User;
@@ -49,9 +43,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($user->roles));
     }
 
-    /**
-     * @covers User::addToken
-     */
     public function testAddToken()
     {
         $user = new User;

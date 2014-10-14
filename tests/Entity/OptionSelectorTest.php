@@ -7,11 +7,6 @@ use inklabs\kommerce\Entity\OptionSelector;
 
 class OptionSelectorTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers OptionSelector::__construct
-     * @covers OptionSelector::addOption
-     * @covers OptionSelector::addSelectedOptionProduct
-     */
     public function testAddOption()
     {
         $option = new Option;

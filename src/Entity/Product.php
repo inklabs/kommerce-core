@@ -37,6 +37,11 @@ class Product
         }
     }
 
+    public function setRating($rating)
+    {
+        return $this->rating = $rating;
+    }
+
     public function getRating()
     {
         return ($this->rating / 100);
@@ -44,7 +49,7 @@ class Product
 
     public function addQuantityDiscount(ProductQuantityDiscount $quantity_discount)
     {
-        $this->quantity_discounts[] = $quantity_discount;
+        $this->quantity_discounts[$quantity_discount->id] = $quantity_discount;
     }
 
     public function sortQuantityDiscounts()

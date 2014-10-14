@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\Tag;
 
 class TagTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Tag::__construct
-     */
     public function testConstruct()
     {
         $tag = new Tag;

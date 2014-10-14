@@ -84,12 +84,22 @@ Key Equivalent: shift-command-r
     echo '<pre>';
     cd $TM_PROJECT_DIRECTORY;
 
+    # Run unit tests
+    vendor/bin/phpunit | ~/bin/aha --no-header --black
+
+    SUCCESS=${PIPESTATUS[0]}
+
     # Check PHP Codesniffer
-    if [ -f vendor/bin/phpcs ]; then
-        vendor/bin/phpcs --standard=PSR2 $TM_FILEPATH
+    if [ $SUCCESS -eq 0 ] && [ -f vendor/bin/phpcs ]; then
+    	vendor/bin/phpcs --standard=PSR2 $TM_FILEPATH
+    	SUCCESS=$?
     fi
 
-    # Strip colors
-    vendor/bin/phpunit | ~/bin/aha --no-header --black
+    # Run coverage report
+    if [ $SUCCESS -eq 0 ] && [ -f ~/.php.ini ]; then
+    	php -c ~/.php.ini vendor/bin/phpunit --coverage-html coverage_report tests | ~/bin/aha --no-header --black
+    	echo '<a href="file://'$TM_PROJECT_DIRECTORY'/coverage_report/index.html">Report</a>';
+    fi
+
     echo '</pre>'
 </pre>

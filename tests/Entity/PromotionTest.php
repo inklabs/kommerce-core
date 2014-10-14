@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\Promotion;
 
 class PromotionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Promotion::isDateValid
-     */
     public function testIsDateValid()
     {
         $promotion = new Promotion;
@@ -22,9 +19,6 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
     }
 
-    /**
-     * @covers Promotion::isRedemptionCountValid
-     */
     public function testIsRedemptionCountValid()
     {
         $promotion = new Promotion;
@@ -44,9 +38,6 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($promotion->isRedemptionCountValid());
     }
 
-    /**
-     * @covers Promotion::get_discount_value
-     */
     public function testGetDiscountValuePercent()
     {
         $promotion = new Promotion;
@@ -59,9 +50,6 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(800, $promotion->getUnitPrice($unit_price));
     }
 
-    /**
-     * @covers Promotion::get_discount_value
-     */
     public function testGetDiscountValueFixed()
     {
         $promotion = new Promotion;
@@ -72,5 +60,16 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $unit_price = 10000; // $100
 
         $this->assertEquals(9000, $promotion->getUnitPrice($unit_price));
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testInvalidDiscountType()
+    {
+        $promotion = new Promotion;
+        $promotion->discount_type = 'invalid';
+
+        $unit_price = $promotion->getUnitPrice($unit_price);
     }
 }

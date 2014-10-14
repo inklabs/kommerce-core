@@ -16,9 +16,6 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->pricing = new Pricing($date);
     }
 
-    /**
-     * @covers Pricing::getPrice
-     */
     public function testGetPriceBasic()
     {
         $product = new Product;
@@ -51,10 +48,6 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($price, $this->pricing->getPrice($product, 10));
     }
 
-    /**
-     * @covers Pricing::getPrice
-     * @covers Pricing::applyCatalogPromotions
-     */
     public function testGetPriceWithCatalogPromotionPercent()
     {
         $catalog_promotion = new CatalogPromotion;
@@ -99,10 +92,6 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($price, $this->pricing->getPrice($product, 10));
     }
 
-    /**
-     * @covers Pricing::getPrice
-     * @covers Pricing::applyCatalogPromotions
-     */
     public function testGetPriceWithCatalogPromotionFixed()
     {
         $catalog_promotion = new CatalogPromotion;
@@ -147,10 +136,6 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($price, $this->pricing->getPrice($product, 10));
     }
 
-    /**
-     * @covers Pricing::getPrice
-     * @covers Pricing::applyCatalogPromotions
-     */
     public function testGetPriceWithCatalogPromotionTag()
     {
         $tag = new Tag;
@@ -188,10 +173,6 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($price, $this->pricing->getPrice($product, 2));
     }
 
-    /**
-     * @covers Pricing::getPrice
-     * @covers Pricing::applyProductOptionPrices
-     */
     public function testGetPriceWithProductOptions()
     {
         $option = new Option;
@@ -238,13 +219,10 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($price, $this->pricing->getPrice($product, 10));
     }
 
-    /**
-     * @covers Pricing::getPrice
-     * @covers Pricing::applyProductQuantityDiscounts
-     */
     public function testGetPriceWithProductQuantityDiscountExact()
     {
         $quantity_discount_6 = new ProductQuantityDiscount;
+        $quantity_discount_6->id = 1;
         $quantity_discount_6->discount_type = 'exact';
         $quantity_discount_6->quantity = 6;
         $quantity_discount_6->value = 475;
@@ -252,6 +230,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_6->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $quantity_discount_12 = new ProductQuantityDiscount;
+        $quantity_discount_12->id = 2;
         $quantity_discount_12->discount_type = 'exact';
         $quantity_discount_12->quantity = 12;
         $quantity_discount_12->value = 350;
@@ -259,6 +238,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_12->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $quantity_discount_24 = new ProductQuantityDiscount;
+        $quantity_discount_24->id = 3;
         $quantity_discount_24->discount_type = 'exact';
         $quantity_discount_24->quantity = 24;
         $quantity_discount_24->value = 325;
@@ -309,13 +289,10 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($price, $this->pricing->getPrice($product, 24));
     }
 
-    /**
-     * @covers Pricing::getPrice
-     * @covers Pricing::applyProductQuantityDiscounts
-     */
     public function testGetPriceWithProductQuantityDiscountFixed()
     {
         $quantity_discount_6 = new ProductQuantityDiscount;
+        $quantity_discount_6->id = 1;
         $quantity_discount_6->discount_type = 'fixed';
         $quantity_discount_6->quantity = 6;
         $quantity_discount_6->value = 25;
@@ -323,6 +300,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_6->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $quantity_discount_12 = new ProductQuantityDiscount;
+        $quantity_discount_12->id = 2;
         $quantity_discount_12->discount_type = 'fixed';
         $quantity_discount_12->quantity = 12;
         $quantity_discount_12->value = 150;
@@ -330,6 +308,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_12->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $quantity_discount_24 = new ProductQuantityDiscount;
+        $quantity_discount_24->id = 3;
         $quantity_discount_24->discount_type = 'fixed';
         $quantity_discount_24->quantity = 24;
         $quantity_discount_24->value = 175;
@@ -380,13 +359,10 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($price, $this->pricing->getPrice($product, 24));
     }
 
-    /**
-     * @covers Pricing::getPrice
-     * @covers Pricing::applyProductQuantityDiscounts
-     */
     public function testGetPriceWithProductQuantityDiscountPercent()
     {
         $quantity_discount_6 = new ProductQuantityDiscount;
+        $quantity_discount_6->id = 1;
         $quantity_discount_6->discount_type = 'percent';
         $quantity_discount_6->quantity = 6;
         $quantity_discount_6->value = 5;
@@ -394,6 +370,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_6->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $quantity_discount_12 = new ProductQuantityDiscount;
+        $quantity_discount_12->id = 2;
         $quantity_discount_12->discount_type = 'percent';
         $quantity_discount_12->quantity = 12;
         $quantity_discount_12->value = 30;
@@ -401,6 +378,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_12->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $quantity_discount_24 = new ProductQuantityDiscount;
+        $quantity_discount_24->id = 3;
         $quantity_discount_24->discount_type = 'percent';
         $quantity_discount_24->quantity = 24;
         $quantity_discount_24->value = 35;

@@ -7,9 +7,6 @@ use inklabs\kommerce\Entity\Tag;
 
 class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers CatalogPromotion::isTagValid
-     */
     public function testIsTagValid()
     {
         $tag = new Tag;
@@ -36,9 +33,6 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($catalog_promotion->isValid($date, $product));
     }
 
-    /**
-     * @covers CatalogPromotion::isValid
-     */
     public function testIsValid()
     {
         $tag = new Tag;

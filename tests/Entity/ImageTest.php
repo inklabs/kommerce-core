@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\Image;
 
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Image::__construct
-     */
     public function testConstruct()
     {
         $image = new Image;

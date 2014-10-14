@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\UserToken;
 
 class UserTokenTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers UserToken::__construct
-     */
     public function testConstruct()
     {
         $user_token = new UserToken;

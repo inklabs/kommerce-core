@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\UserLogin;
 
 class UserLoginTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers UserLogin::__construct
-     */
     public function testConstruct()
     {
         $user_login = new UserLogin;

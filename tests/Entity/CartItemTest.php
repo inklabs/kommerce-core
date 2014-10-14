@@ -6,9 +6,6 @@ use inklabs\kommerce\Entity\Product;
 
 class CartItemTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers CartItem::__construct
-     */
     public function testConstruct()
     {
         $product = new Product;

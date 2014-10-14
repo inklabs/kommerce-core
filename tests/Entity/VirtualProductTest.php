@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\VirtualProduct;
 
 class VirtualProductTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers VirtualProduct::__construct
-     */
     public function testConstruct()
     {
         $virtual_product = new VirtualProduct;

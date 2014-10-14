@@ -7,9 +7,6 @@ use inklabs\kommerce\Entity\VirtualProduct;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Option::__construct
-     */
     public function testConstruct()
     {
         $current_date = new \DateTime('now', new \DateTimeZone('UTC'));

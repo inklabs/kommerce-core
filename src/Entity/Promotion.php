@@ -50,6 +50,9 @@ class Promotion
             case 'exact':
                 return (int) $this->value;
                 break;
+
+            default:
+                throw new \Exception('Invalid discount type');
         }
     }
 }
