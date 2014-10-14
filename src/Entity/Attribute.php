@@ -1,21 +1,61 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class Attribute
 {
-    use Accessors;
+    use Accessor\Time;
 
-    public $id;
-    public $name;
-    public $description;
-    public $sort_order;
-    public $created;
-    public $updated;
+    protected $id;
+    protected $name;
+    protected $description;
+    protected $sortOrder;
 
-    public $attribute_values = [];
+    protected $attributeValues;
 
-    public function addAttributeValue(AttributeValue $attribute_value)
+    public function __construct()
     {
-        $this->attribute_values[] = $attribute_value;
+        $this->attributeValues = new ArrayCollection();
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setSortOrder($sortOrder)
+    {
+        $this->sortOrder = $sortOrder;
+    }
+
+    public function getSortOrder()
+    {
+        return $this->sortOrder;
+    }
+
+    public function addAttributeValue(AttributeValue $attributeValue)
+    {
+        $this->attributeValues[] = $attributeValue;
     }
 }

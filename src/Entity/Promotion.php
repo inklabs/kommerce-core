@@ -3,13 +3,107 @@ namespace inklabs\kommerce\Entity;
 
 class Promotion
 {
-    public $discount_type; // fixed, percent, exact
-    public $value;
-    public $redemptions;
-    public $max_redemptions;
-    private $reducesTaxSubtotal = true;
-    public $start;
-    public $end;
+    use Accessor\Time;
+
+    protected $id;
+    protected $name;
+    protected $discountType; // fixed, percent, exact
+    protected $value;
+    protected $redemptions;
+    protected $maxRedemptions;
+    protected $reducesTaxSubtotal;
+    protected $start;
+    protected $end;
+
+    public function __construct()
+    {
+        $this->reducesTaxSubtotal = true;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setDiscountType($discountType)
+    {
+        $this->discountType = $discountType;
+    }
+
+    public function getDiscountType()
+    {
+        return $this->discountType;
+    }
+
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function setRedemptions($redemptions)
+    {
+        $this->redemptions = $redemptions;
+    }
+
+    public function getRedemptions()
+    {
+        return $this->redemptions;
+    }
+
+    public function setMaxRedemptions($maxRedemptions)
+    {
+        $this->maxRedemptions = $maxRedemptions;
+    }
+
+    public function getMaxRedemptions()
+    {
+        return $this->maxRedemptions;
+    }
+
+    public function setReducesTaxSubtotal($reducesTaxSubtotal)
+    {
+        $this->reducesTaxSubtotal = $reducesTaxSubtotal;
+    }
+
+    public function getReducesTaxSubtotal()
+    {
+        return $this->reducesTaxSubtotal;
+    }
+
+    public function setStart(\DateTime $start)
+    {
+        $this->start = $start;
+    }
+
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    public function setEnd(\DateTime $end)
+    {
+        $this->end = $end;
+    }
+
+    public function getEnd()
+    {
+        return $this->end;
+    }
 
     public function isValidPromotion(\DateTime $date)
     {
@@ -30,32 +124,22 @@ class Promotion
 
     public function isRedemptionCountValid()
     {
-        if ($this->max_redemptions !== null and $this->redemptions >= $this->max_redemptions) {
+        if ($this->maxRedemptions !== null and $this->redemptions >= $this->maxRedemptions) {
             return false;
         } else {
             return true;
         }
     }
 
-    public function setReducesTaxSubtotal($reducesTaxSubtotal)
+    public function getUnitPrice($unitPrice)
     {
-        $this->reducesTaxSubtotal = $reducesTaxSubtotal;
-    }
-
-    public function reducesTaxSubtotal()
-    {
-        return $this->reducesTaxSubtotal;
-    }
-
-    public function getUnitPrice($unit_price)
-    {
-        switch ($this->discount_type) {
+        switch ($this->discountType) {
             case 'fixed':
-                return (int) ($unit_price - $this->value);
+                return (int) ($unitPrice - $this->value);
                 break;
 
             case 'percent':
-                return (int) ($unit_price - ($unit_price * ($this->value / 100)));
+                return (int) ($unitPrice - ($unitPrice * ($this->value / 100)));
                 break;
 
             case 'exact':

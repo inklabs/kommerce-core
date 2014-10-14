@@ -3,17 +3,40 @@ namespace inklabs\kommerce\Entity;
 
 class CartItem
 {
-    use Accessors;
+    use Accessor\Time;
 
-    public $id;
-    public $product;
-    public $quantity;
-    public $created;
-    public $updated;
+    protected $id;
+    protected $product;
+    protected $quantity;
 
     public function __construct(Product $product, $quantity)
     {
         $this->product = $product;
         $this->quantity = $quantity;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setProduct(Product $product)
+    {
+        $this->product = $product;
+    }
+
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    public function setQuantity($quantity)
+    {
+        $this->quantity = (string)$quantity;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
     }
 }

@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  **/
 class Product
 {
-    use TimeAccessors;
+    use Accessor\Time;
     use OptionSelector;
 
     /** @Id @Column(type="integer") @GeneratedValue **/
@@ -80,6 +80,16 @@ class Product
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setSku($sku)
+    {
+        $this->sku = $sku;
+    }
+
+    public function getSku()
+    {
+        return $this->sku;
     }
 
     public function setName($name)
@@ -192,16 +202,6 @@ class Product
         return $this->defaultImage;
     }
 
-    public function setSku($sku)
-    {
-        $this->sku = $sku;
-    }
-
-    public function getSku()
-    {
-        return $this->sku;
-    }
-
     public function setIsTaxable($isTaxable)
     {
         $this->isTaxable = $isTaxable;
@@ -243,7 +243,7 @@ class Product
 
     public function addQuantityDiscount(ProductQuantityDiscount $quantityDiscount)
     {
-        $this->quantityDiscounts[$quantityDiscount->id] = $quantityDiscount;
+        $this->quantityDiscounts[$quantityDiscount->getId()] = $quantityDiscount;
     }
 
     public function getQuantityDiscounts()

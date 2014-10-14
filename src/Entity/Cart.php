@@ -46,7 +46,7 @@ class Cart
         $total = 0;
 
         foreach ($this->items as $item) {
-            $total += $item->quantity;
+            $total += $item->getQuantity();
         }
 
         return $total;
@@ -73,12 +73,12 @@ class Cart
     private function getItemPrices()
     {
         foreach ($this->items as $item) {
-            $price = $this->pricing->getPrice($item->product, $item->quantity);
+            $price = $this->pricing->getPrice($item->getProduct(), $item->getQuantity());
 
             $this->cart_total->orig_subtotal += $price->orig_quantity_price;
             $this->cart_total->subtotal += $price->quantity_price;
 
-            if ($item->product->getIsTaxable()) {
+            if ($item->getProduct()->getIsTaxable()) {
                 $this->cart_total->tax_subtotal += $price->quantity_price;
             }
         }
@@ -89,11 +89,11 @@ class Cart
         foreach ($this->cart_price_rules as $cart_price_rule) {
             if ($cart_price_rule->isValid($this->pricing->date, $this->cart_total, $this->items)) {
                 foreach ($cart_price_rule->discounts as $discount) {
-                    $price = $this->pricing->getPrice($discount->product, $discount->quantity);
+                    $price = $this->pricing->getPrice($discount->getProduct(), $discount->getQuantity());
 
                     $this->cart_total->subtotal -= $price->quantity_price;
 
-                    if ($cart_price_rule->reducesTaxSubtotal() and $discount->product->getIsTaxable()) {
+                    if ($cart_price_rule->getReducesTaxSubtotal() and $discount->getProduct()->getIsTaxable()) {
                         $this->cart_total->tax_subtotal -= $price->quantity_price;
                     }
 
@@ -115,7 +115,7 @@ class Cart
                 $this->cart_total->discount += $discount_value;
                 $this->cart_total->coupons[] = $coupon;
 
-                if ($coupon->reducesTaxSubtotal()) {
+                if ($coupon->getReducesTaxSubtotal()) {
                     $this->cart_total->tax_subtotal -= $discount_value;
                 }
             }

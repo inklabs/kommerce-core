@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  **/
 class Tag
 {
-    use TimeAccessors;
+    use Accessor\Time;
     use OptionSelector;
 
     /** @Id @Column(type="integer") @GeneratedValue **/

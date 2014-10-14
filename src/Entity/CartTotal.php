@@ -3,8 +3,6 @@ namespace inklabs\kommerce\Entity;
 
 class CartTotal
 {
-    use Accessors;
-
     public $orig_subtotal = 0;     // Used to calculate total savings
     public $subtotal = 0;          // Subtotal after catalog promotions
     public $tax_subtotal = 0;      // Total used for tax calculation

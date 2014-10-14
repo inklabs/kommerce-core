@@ -3,13 +3,56 @@ namespace inklabs\kommerce\Entity;
 
 class AttributeValue
 {
-    use Accessors;
+    use Accessor\Time;
 
-    public $id;
-    public $sku;
-    public $name;
-    public $description;
-    public $sort_order;
-    public $created;
-    public $updated;
+    protected $id;
+    protected $sku;
+    protected $name;
+    protected $description;
+    protected $sortOrder;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setSku($sku)
+    {
+        $this->sku = $sku;
+    }
+
+    public function getSku()
+    {
+        return $this->sku;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setSortOrder($sortOrder)
+    {
+        $this->sortOrder = $sortOrder;
+    }
+
+    public function getSortOrder()
+    {
+        return $this->sortOrder;
+    }
 }

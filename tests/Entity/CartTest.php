@@ -64,11 +64,11 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product->setPrice(500);
 
         $coupon = new Coupon;
-        $coupon->name = '20% Off';
-        $coupon->discount_type = 'percent';
-        $coupon->value = 20;
-        $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $coupon->setName('20% Off');
+        $coupon->setDiscountType('percent');
+        $coupon->setValue(20);
+        $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $cart = new Cart;
         $cart->addCoupon($coupon);
@@ -90,15 +90,15 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTotalCouponWithCatalogPromotion()
     {
-        $catalog_promotion = new CatalogPromotion;
-        $catalog_promotion->name = '20% Off';
-        $catalog_promotion->discount_type = 'percent';
-        $catalog_promotion->value = 20;
-        $catalog_promotion->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $catalog_promotion->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $catalogPromotion = new CatalogPromotion;
+        $catalogPromotion->setName('20% Off');
+        $catalogPromotion->setDiscountType('percent');
+        $catalogPromotion->setValue(20);
+        $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
-        $pricing->addCatalogPromotion($catalog_promotion);
+        $pricing->addCatalogPromotion($catalogPromotion);
 
         $product = new Product;
         $product->setSku('TST101');
@@ -106,11 +106,11 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product->setPrice(500);
 
         $coupon = new Coupon;
-        $coupon->name = '20% Off';
-        $coupon->discount_type = 'percent';
-        $coupon->value = 20;
-        $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $coupon->setName('20% Off');
+        $coupon->setDiscountType('percent');
+        $coupon->setValue(20);
+        $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $cart = new Cart;
         $cart->addCoupon($coupon);
@@ -140,13 +140,13 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product->setPrice(2000); // $20
 
         $coupon = new Coupon;
-        $coupon->name = '20% Off orders under $100';
-        $coupon->discount_type = 'percent';
-        $coupon->value = 20;
-        $coupon->min_order_value = 1000; // $10
-        $coupon->max_order_value = 10000; // $100
-        $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $coupon->setName('20% Off orders under $100');
+        $coupon->setDiscountType('percent');
+        $coupon->setValue(20);
+        $coupon->setMinOrderValue(1000); // $10
+        $coupon->setMaxOrderValue(10000); // $100
+        $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $cart = new Cart;
         $cart->addCoupon($coupon);
@@ -206,13 +206,13 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product->setPrice(500);
         $product->setIsTaxable(true);
 
-        $tax_rate = new TaxRate;
-        $tax_rate->zip5 = 92606;
-        $tax_rate->rate = 8.0;
-        $tax_rate->apply_to_shipping = false;
+        $taxRate = new TaxRate;
+        $taxRate->setZip5(92606);
+        $taxRate->setRate(8.0);
+        $taxRate->setApplyToShipping(false);
 
         $cart = new Cart;
-        $cart->setTaxRate($tax_rate);
+        $cart->setTaxRate($taxRate);
         $cart->addItem($product, 2);
 
         // Expect:
@@ -225,7 +225,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart_total->tax = 80;
         $cart_total->total = 1080;
         $cart_total->savings = 0;
-        $cart_total->tax_rate = $tax_rate;
+        $cart_total->tax_rate = $taxRate;
 
         $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
@@ -240,10 +240,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product->setPrice(500);
         $product->setIsTaxable(true);
 
-        $tax_rate = new TaxRate;
-        $tax_rate->zip5 = 92606;
-        $tax_rate->rate = 8.0;
-        $tax_rate->apply_to_shipping = true;
+        $taxRate = new TaxRate;
+        $taxRate->setZip5(92606);
+        $taxRate->setRate(8.0);
+        $taxRate->setApplyToShipping(true);
 
         $usps_shipping_rate = new Shipping\Rate;
         $usps_shipping_rate->code = '4';
@@ -251,7 +251,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $usps_shipping_rate->cost = 1000;
 
         $cart = new Cart;
-        $cart->setTaxRate($tax_rate);
+        $cart->setTaxRate($taxRate);
         $cart->addItem($product, 2);
 
         // Expect:
@@ -264,7 +264,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart_total->tax = 160;
         $cart_total->total = 2160;
         $cart_total->savings = 0;
-        $cart_total->tax_rate = $tax_rate;
+        $cart_total->tax_rate = $taxRate;
 
         $this->assertEquals($cart_total, $cart->getTotal($pricing, $usps_shipping_rate));
     }
@@ -279,13 +279,13 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product->setPrice(500);
         $product->setIsTaxable(false);
 
-        $tax_rate = new TaxRate;
-        $tax_rate->zip5 = 92606;
-        $tax_rate->rate = 8.0;
-        $tax_rate->apply_to_shipping = false;
+        $taxRate = new TaxRate;
+        $taxRate->setZip5(92606);
+        $taxRate->setRate(8.0);
+        $taxRate->setApplyToShipping(false);
 
         $cart = new Cart;
-        $cart->setTaxRate($tax_rate);
+        $cart->setTaxRate($taxRate);
         $cart->addItem($product, 2);
 
         // Expect:
@@ -311,23 +311,23 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product->setPrice(2000); // $20
         $product->setIsTaxable(true);
 
-        $tax_rate = new TaxRate;
-        $tax_rate->zip5 = 92606;
-        $tax_rate->rate = 8.0;
-        $tax_rate->apply_to_shipping = false;
+        $taxRate = new TaxRate;
+        $taxRate->setZip5(92606);
+        $taxRate->setRate(8.0);
+        $taxRate->setApplyToShipping(false);
 
         $coupon = new Coupon;
-        $coupon->name = '20% Off orders under $100';
-        $coupon->discount_type = 'percent';
-        $coupon->value = 20;
-        $coupon->min_order_value = 1000; // $10
-        $coupon->max_order_value = 10000; // $100
+        $coupon->setName('20% Off orders under $100');
+        $coupon->setDiscountType('percent');
+        $coupon->setValue(20);
+        $coupon->setMinOrderValue(1000); // $10
+        $coupon->setMaxOrderValue(10000); // $100
         $coupon->setReducesTaxSubtotal(true);
-        $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $cart = new Cart;
-        $cart->setTaxRate($tax_rate);
+        $cart->setTaxRate($taxRate);
         $cart->addCoupon($coupon);
         $cart->addItem($product, 1);
 
@@ -342,7 +342,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart_total->total = 1728;
         $cart_total->savings = 400;
         $cart_total->coupons = [$coupon];
-        $cart_total->tax_rate = $tax_rate;
+        $cart_total->tax_rate = $taxRate;
 
         $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
@@ -357,23 +357,23 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product->setPrice(2000); // $20
         $product->setIsTaxable(true);
 
-        $tax_rate = new TaxRate;
-        $tax_rate->zip5 = 92606;
-        $tax_rate->rate = 8.0;
-        $tax_rate->apply_to_shipping = false;
+        $taxRate = new TaxRate;
+        $taxRate->setZip5(92606);
+        $taxRate->setRate(8.0);
+        $taxRate->setApplyToShipping(false);
 
         $coupon = new Coupon;
-        $coupon->name = '20% Off orders under $100';
-        $coupon->discount_type = 'percent';
-        $coupon->value = 20;
-        $coupon->min_order_value = 1000; // $10
-        $coupon->max_order_value = 10000; // $100
+        $coupon->setName('20% Off orders under $100');
+        $coupon->setDiscountType('percent');
+        $coupon->setValue(20);
+        $coupon->setMinOrderValue(1000); // $10
+        $coupon->setMaxOrderValue(10000); // $100
         $coupon->setReducesTaxSubtotal(false);
-        $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $cart = new Cart;
-        $cart->setTaxRate($tax_rate);
+        $cart->setTaxRate($taxRate);
         $cart->addCoupon($coupon);
         $cart->addItem($product, 1);
 
@@ -388,7 +388,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart_total->total = 1760;
         $cart_total->savings = 400;
         $cart_total->coupons = [$coupon];
-        $cart_total->tax_rate = $tax_rate;
+        $cart_total->tax_rate = $taxRate;
 
         $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
@@ -408,9 +408,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product_poster->setPrice(500);
 
         $cart_price_rule = new CartPriceRule;
-        $cart_price_rule->name = 'Buy a Shirt get a FREE poster';
-        $cart_price_rule->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $cart_price_rule->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $cart_price_rule->setName('Buy a Shirt get a FREE poster');
+        $cart_price_rule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $cart_price_rule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
         $cart_price_rule->addItem(new CartPriceRuleItem($product_shirt, 1));
         $cart_price_rule->addItem(new CartPriceRuleItem($product_poster, 1));
         $cart_price_rule->addDiscount(new CartPriceRuleDiscount($product_poster, 1));
@@ -453,23 +453,23 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product_poster->setIsTaxable(true);
 
         $cart_price_rule = new CartPriceRule;
-        $cart_price_rule->name = 'Buy a Shirt get a FREE poster';
+        $cart_price_rule->setName('Buy a Shirt get a FREE poster');
         $cart_price_rule->setReducesTaxSubtotal(true);
-        $cart_price_rule->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $cart_price_rule->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $cart_price_rule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $cart_price_rule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
         $cart_price_rule->addItem(new CartPriceRuleItem($product_shirt, 1));
         $cart_price_rule->addItem(new CartPriceRuleItem($product_poster, 1));
         $cart_price_rule->addDiscount(new CartPriceRuleDiscount($product_poster, 1));
 
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
-        $tax_rate = new TaxRate;
-        $tax_rate->zip5 = 92606;
-        $tax_rate->rate = 8.0;
-        $tax_rate->apply_to_shipping = false;
+        $taxRate = new TaxRate;
+        $taxRate->setZip5(92606);
+        $taxRate->setRate(8.0);
+        $taxRate->setApplyToShipping(false);
 
         $cart = new Cart;
-        $cart->setTaxRate($tax_rate);
+        $cart->setTaxRate($taxRate);
         $cart->addCartPriceRule($cart_price_rule);
         $cart->addItem($product_shirt, 1);
         $cart->addItem($product_poster, 1);
@@ -485,7 +485,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart_total->total = 1296;
         $cart_total->savings = 500;
         $cart_total->cart_price_rules = [$cart_price_rule];
-        $cart_total->tax_rate = $tax_rate;
+        $cart_total->tax_rate = $taxRate;
 
         $this->assertEquals($cart_total, $cart->getTotal($pricing));
     }
@@ -511,9 +511,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product_jacket->setPrice(2500);
 
         $cart_price_rule = new CartPriceRule;
-        $cart_price_rule->name = 'Buy a Shirt get a FREE poster';
-        $cart_price_rule->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $cart_price_rule->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $cart_price_rule->setName('Buy a Shirt get a FREE poster');
+        $cart_price_rule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $cart_price_rule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
         $cart_price_rule->addItem(new CartPriceRuleItem($product_shirt, 1));
         $cart_price_rule->addItem(new CartPriceRuleItem($product_poster, 1));
         $cart_price_rule->addDiscount(new CartPriceRuleDiscount($product_poster, 1));
