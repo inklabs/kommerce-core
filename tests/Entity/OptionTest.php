@@ -28,19 +28,19 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $option->description = 'Navy T-shirt size';
 
         $product_small = new Product;
-        $product_small->sku = 'TS-NAVY-SM';
-        $product_small->name = 'Navy T-shirt (small)';
-        $product_small->price = 900;
+        $product_small->setSku('TS-NAVY-SM');
+        $product_small->setName('Navy T-shirt (small)');
+        $product_small->setPrice(900);
 
         $product_medium = new Product;
-        $product_medium->sku = 'TS-NAVY-MD';
-        $product_medium->name = 'Navy T-shirt (medium)';
-        $product_medium->price = 1200;
+        $product_medium->setSku('TS-NAVY-MD');
+        $product_medium->setName('Navy T-shirt (medium)');
+        $product_medium->setPrice(1200);
 
         $product_large = new Product;
-        $product_large->sku = 'TS-NAVY-LG';
-        $product_large->name = 'Navy T-shirt (large)';
-        $product_large->price = 1600;
+        $product_large->setSku('TS-NAVY-LG');
+        $product_large->setName('Navy T-shirt (large)');
+        $product_large->setPrice(1600);
 
         $option->addProduct($product_small);
         $option->addProduct($product_medium);
@@ -59,16 +59,16 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $option->description = 'Generic Size';
 
         $virtual_product_small = new VirtualProduct;
-        $virtual_product_small->sku = 'SM';
-        $virtual_product_small->name = 'Small';
+        $virtual_product_small->setSku('SM');
+        $virtual_product_small->setName('Small');
 
         $virtual_product_medium = new VirtualProduct;
-        $virtual_product_medium->sku = 'MD';
-        $virtual_product_medium->name = 'Medium';
+        $virtual_product_medium->setSku('MD');
+        $virtual_product_medium->setName('Medium');
 
         $virtual_product_large = new VirtualProduct;
-        $virtual_product_large->sku = 'LG';
-        $virtual_product_large->name = 'Large';
+        $virtual_product_large->setSku('LG');
+        $virtual_product_large->setName('Large');
 
         $option->addProduct($virtual_product_small);
         $option->addProduct($virtual_product_medium);

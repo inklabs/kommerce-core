@@ -19,9 +19,9 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceBasic()
     {
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 1500;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(1500);
 
         // Expected
         $price = new Price;
@@ -60,9 +60,9 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->pricing->addCatalogPromotion($catalog_promotion);
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 1500;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(1500);
 
         // Expected
         $price = new Price;
@@ -104,9 +104,9 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->pricing->addCatalogPromotion($catalog_promotion);
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 1500;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(1500);
 
         // Expected
         $price = new Price;
@@ -139,8 +139,8 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceWithCatalogPromotionTag()
     {
         $tag = new Tag;
-        $tag->id = 1;
-        $tag->name = 'Test Tag';
+        // $tag->id = 1;
+        $tag->setName('Test Tag');
 
         $catalog_promotion = new CatalogPromotion;
         $catalog_promotion->name = '20% Off';
@@ -153,9 +153,9 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->pricing->addCatalogPromotion($catalog_promotion);
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 1500;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(1500);
 
         // Expected
         $price = new Price;
@@ -166,7 +166,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($price, $this->pricing->getPrice($product, 2));
 
         // Add tag
-        $product->tags[] = $tag;
+        $product->addTag($tag);
         $price->unit_price = 1200;
         $price->quantity_price = 2400;
         $price->addCatalogPromotion($catalog_promotion);
@@ -181,16 +181,16 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $option->description = 'Navy T-shirt size';
 
         $product_small = new Product;
-        $product_small->sku = 'TS-NAVY-SM';
-        $product_small->name = 'Navy T-shirt (small)';
-        $product_small->price = 900;
+        $product_small->setSku('TS-NAVY-SM');
+        $product_small->setName('Navy T-shirt (small)');
+        $product_small->setPrice(900);
 
         $option->addProduct($product_small);
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 1500;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(1500);
         $product->addOption($option);
         $product->addSelectedOptionProduct($product_small);
 
@@ -246,12 +246,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_24->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 500;
-        $product->addQuantityDiscount($quantity_discount_6);
-        $product->addQuantityDiscount($quantity_discount_12);
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(500);
         $product->addQuantityDiscount($quantity_discount_24);
+        $product->addQuantityDiscount($quantity_discount_12);
+        $product->addQuantityDiscount($quantity_discount_6);
 
         // Expected
         $price = new Price;
@@ -316,12 +316,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_24->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 500;
-        $product->addQuantityDiscount($quantity_discount_6);
-        $product->addQuantityDiscount($quantity_discount_12);
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(500);
         $product->addQuantityDiscount($quantity_discount_24);
+        $product->addQuantityDiscount($quantity_discount_12);
+        $product->addQuantityDiscount($quantity_discount_6);
 
         // Expected
         $price = new Price;
@@ -386,12 +386,12 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $quantity_discount_24->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 500;
-        $product->addQuantityDiscount($quantity_discount_6);
-        $product->addQuantityDiscount($quantity_discount_12);
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(500);
         $product->addQuantityDiscount($quantity_discount_24);
+        $product->addQuantityDiscount($quantity_discount_12);
+        $product->addQuantityDiscount($quantity_discount_6);
 
         // Expected
         $price = new Price;

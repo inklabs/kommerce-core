@@ -15,19 +15,18 @@ class OptionSelectorTest extends \PHPUnit_Framework_TestCase
         $option->description = 'Navy T-shirt size';
 
         $product_small = new Product;
-        $product_small->sku = 'TS-NAVY-SM';
-        $product_small->name = 'Navy T-shirt (small)';
+        $product_small->setSku('TS-NAVY-SM');
+        $product_small->setName('Navy T-shirt (small)');
 
         $option->addProduct($product_small);
 
         $product = new Product;
-        $product->id = 1;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
+        $product->setSku('TST101');
+        $product->setName('Test Product');
 
         $product->addOption($option);
         $product->addSelectedOptionProduct($product_small);
 
-        $this->assertEquals(1, $product->id);
+        $this->assertEquals('TST101', $product->getSku());
     }
 }

@@ -78,7 +78,7 @@ class Cart
             $this->cart_total->orig_subtotal += $price->orig_quantity_price;
             $this->cart_total->subtotal += $price->quantity_price;
 
-            if ($item->product->is_taxable) {
+            if ($item->product->getIsTaxable()) {
                 $this->cart_total->tax_subtotal += $price->quantity_price;
             }
         }
@@ -93,7 +93,7 @@ class Cart
 
                     $this->cart_total->subtotal -= $price->quantity_price;
 
-                    if ($cart_price_rule->reduces_tax_subtotal and $discount->product->is_taxable) {
+                    if ($cart_price_rule->reduces_tax_subtotal and $discount->product->getIsTaxable()) {
                         $this->cart_total->tax_subtotal -= $price->quantity_price;
                     }
 
