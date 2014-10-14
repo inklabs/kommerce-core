@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\AttributeValue;
 
 class AttributeValueTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers AttributeValue::__construct
-     */
     public function testConstruct()
     {
         $attribute_value = new AttributeValue;

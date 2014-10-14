@@ -6,9 +6,6 @@ use inklabs\kommerce\Entity\AttributeValue;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Attribute::__construct
-     */
     public function testConstruct()
     {
         $attribute = new Attribute;
@@ -22,9 +19,6 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $attribute->id);
     }
 
-    /**
-     * @covers Attribute::addAttributeValue
-     */
     public function testWithAttributeValues()
     {
         $attribute = new Attribute;

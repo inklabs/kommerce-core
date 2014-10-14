@@ -70,7 +70,7 @@ class Cart
         return $this->cart_total;
     }
 
-    public function getItemPrices()
+    private function getItemPrices()
     {
         foreach ($this->items as $item) {
             $price = $this->pricing->getPrice($item->product, $item->quantity);
@@ -84,7 +84,7 @@ class Cart
         }
     }
 
-    public function getCartPriceRules()
+    private function getCartPriceRules()
     {
         foreach ($this->cart_price_rules as $cart_price_rule) {
             if ($cart_price_rule->isValid($this->pricing->date, $this->cart_total, $this->items)) {
@@ -106,7 +106,7 @@ class Cart
         $this->cart_total->subtotal = max(0, $this->cart_total->subtotal);
     }
 
-    public function getCouponDiscounts()
+    private function getCouponDiscounts()
     {
         foreach ($this->coupons as $coupon) {
             if ($coupon->isValid($this->pricing->date, $this->cart_total->subtotal)) {
@@ -125,14 +125,14 @@ class Cart
         $this->cart_total->tax_subtotal = max(0, $this->cart_total->tax_subtotal);
     }
 
-    public function getShippingPrice()
+    private function getShippingPrice()
     {
         if ($this->shipping_rate !== null) {
             $this->cart_total->shipping = $this->shipping_rate->cost;
         }
     }
 
-    public function getTaxes()
+    private function getTaxes()
     {
         if ($this->tax_rate !== null) {
             $this->cart_total->tax = $this->tax_rate->getTax(
@@ -146,7 +146,7 @@ class Cart
         }
     }
 
-    public function calculateTotal()
+    private function calculateTotal()
     {
         $this->cart_total->total = (
             $this->cart_total->subtotal
@@ -160,7 +160,7 @@ class Cart
         $this->cart_total->total = max(0, $this->cart_total->total);
     }
 
-    public function calculateSavings()
+    private function calculateSavings()
     {
         $this->cart_total->savings = (
             $this->cart_total->orig_subtotal

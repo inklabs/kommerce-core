@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\TaxRate;
 
 class TaxRateTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers TaxRate::getTax
-     */
     public function testGetTax()
     {
         $tax_rate = new TaxRate;

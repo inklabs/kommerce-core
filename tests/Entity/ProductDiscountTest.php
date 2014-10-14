@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\ProductQuantityDiscount;
 
 class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers ProductDiscount::__construct
-     */
     public function testConstruct()
     {
         $quantity_discount = new ProductQuantityDiscount;

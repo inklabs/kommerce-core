@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\Coupon;
 
 class CouponTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Coupon::isMinOrderValueValid
-     */
     public function testIsMinOrderValueValid()
     {
         $coupon = new Coupon;
@@ -20,9 +17,6 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($coupon->isMinOrderValueValid(50000));
     }
 
-    /**
-     * @covers Coupon::isMaxOrderValueValid
-     */
     public function testIsMaxOrderValueValid()
     {
         $coupon = new Coupon;
@@ -35,9 +29,6 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($coupon->isMaxOrderValueValid(50000));
     }
 
-    /**
-     * @covers Coupon::isValid
-     */
     public function testIsValid()
     {
         $coupon = new Coupon;

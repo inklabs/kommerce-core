@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\CartTotal;
 
 class CartTotalTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers CartTotal::__construct
-     */
     public function testConstruct()
     {
         $cart_total = new CartTotal;

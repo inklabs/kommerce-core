@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\Role;
 
 class RoleTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Role::__construct
-     */
     public function testConstruct()
     {
         $role = new Role;

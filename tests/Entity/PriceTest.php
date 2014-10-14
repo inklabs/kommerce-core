@@ -5,9 +5,6 @@ use inklabs\kommerce\Entity\Price;
 
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Price::__construct
-     */
     public function testConstruct()
     {
         $price = new Price;
