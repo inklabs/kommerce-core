@@ -8,10 +8,25 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->promotion = new Promotion;
+        $this->promotion->setName('20% Off in 2014');
         $this->promotion->setDiscountType('percent');
         $this->promotion->setValue(20);
+        $this->promotion->setRedemptions(null);
+        $this->promotion->setMaxRedemptions(null);
         $this->promotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $this->promotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+    }
+
+    public function testGetters()
+    {
+        $this->assertEquals(null, $this->promotion->getId());
+        $this->assertEquals('20% Off in 2014', $this->promotion->getName());
+        $this->assertEquals('percent', $this->promotion->getDiscountType());
+        $this->assertEquals(20, $this->promotion->getValue());
+        $this->assertEquals(null, $this->promotion->getRedemptions());
+        $this->assertEquals(null, $this->promotion->getMaxRedemptions());
+        $this->assertInstanceOf('DateTime', $this->promotion->getStart());
+        $this->assertInstanceOf('DateTime', $this->promotion->getEnd());
     }
 
     public function testIsDateValid()

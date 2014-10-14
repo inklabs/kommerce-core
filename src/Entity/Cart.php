@@ -5,8 +5,6 @@ use inklabs\kommerce\Pricing;
 
 class Cart
 {
-    use Accessors;
-
     public $items = [];
     public $coupons = [];
     public $cart_price_rules = [];

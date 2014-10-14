@@ -9,7 +9,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->product = new Product;
-        // $this->product->setId(1);
         $this->product->setSku('TST101');
         $this->product->setName('Test Product');
         $this->product->setPrice(500);
@@ -28,9 +27,23 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
-    public function testGetSku()
+    public function testGetters()
     {
+        $this->assertEquals(null, $this->product->getId());
         $this->assertEquals('TST101', $this->product->getSku());
+        $this->assertEquals('Test Product', $this->product->getName());
+        $this->assertEquals(500, $this->product->getPrice());
+        $this->assertEquals(10, $this->product->getQuantity());
+        $this->assertEquals(true, $this->product->getIsInventoryRequired());
+        $this->assertEquals(true, $this->product->getIsPriceVisible());
+        $this->assertEquals(true, $this->product->getIsActive());
+        $this->assertEquals(true, $this->product->getIsVisible());
+        $this->assertEquals(true, $this->product->getIsTaxable());
+        $this->assertEquals(true, $this->product->getIsShippable());
+        $this->assertEquals(16, $this->product->getShippingWeight());
+        $this->assertEquals('Test product description', $this->product->getDescription());
+        $this->assertEquals(null, $this->product->getRating());
+        $this->assertEquals(null, $this->product->getDefaultImage());
     }
 
     public function testRequiredInStock()

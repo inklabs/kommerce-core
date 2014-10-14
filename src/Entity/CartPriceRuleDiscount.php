@@ -9,7 +9,7 @@ class CartPriceRuleDiscount
     protected $product;
     protected $quantity;
 
-    public function __construct(Product $product, $quantity)
+    public function __construct(Product $product = null, $quantity = null)
     {
         $this->product = $product;
         $this->quantity = $quantity;
