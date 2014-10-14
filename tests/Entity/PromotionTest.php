@@ -70,6 +70,6 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $promotion = new Promotion;
         $promotion->discount_type = 'invalid';
 
-        $unit_price = $promotion->getUnitPrice($unit_price);
+        $unit_price = $promotion->getUnitPrice(0);
     }
 }

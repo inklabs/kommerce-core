@@ -1,11 +1,20 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class CartPriceRule extends Promotion
 {
     public $name;
-    private $items = [];
-    public $discounts = [];
+
+    private $items;
+    public $discounts;
+
+    public function __construct()
+    {
+        $this->items = new ArrayCollection();
+        $this->discounts = new ArrayCollection();
+    }
 
     public function addItem(CartPriceRuleItem $item)
     {

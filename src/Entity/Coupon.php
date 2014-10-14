@@ -9,7 +9,6 @@ class Coupon extends Promotion
     public $code;
     public $name;
     public $free_shipping = false;
-    public $reduces_tax_subtotal = true;
     public $min_order_value;
     public $max_order_value;
     public $created;
