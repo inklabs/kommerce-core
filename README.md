@@ -85,22 +85,32 @@ Key Equivalent: shift-command-r
     cd $TM_PROJECT_DIRECTORY;
 
     # Run unit tests
-    vendor/bin/phpunit | ~/bin/aha --no-header --black
+    /usr/bin/php -c ~/.php.ini vendor/bin/phpunit | ~/bin/aha --no-header --black
 
     SUCCESS=${PIPESTATUS[0]}
 
     # Check PHP Codesniffer
     if [ $SUCCESS -eq 0 ] && [ -f vendor/bin/phpcs ]; then
-        vendor/bin/phpcs --standard=PSR2 $TM_FILEPATH
+        /usr/bin/php -c ~/.php.ini vendor/bin/phpcs --standard=PSR2 $TM_FILEPATH
         SUCCESS=$?
     fi
 
     # Run coverage report
-    if [ $SUCCESS -eq 0 ] && [ -f ~/.php.ini ]; then
+    if [ $SUCCESS -eq 0 ]; then
         echo '<hr/>';
-        php -c ~/.php.ini vendor/bin/phpunit --coverage-text --coverage-html coverage_report tests | ~/bin/aha --no-header --black
+        /usr/bin/php -c ~/.php.ini vendor/bin/phpunit --coverage-text --coverage-html coverage_report | ~/bin/aha --no-header --black
         echo '<a href="file://'$TM_PROJECT_DIRECTORY'/coverage_report/index.html">Report</a>';
     fi
 
     echo '</pre>'
+</pre>
+
+~/bin/.php.ini
+<pre>
+    [PHP]
+    date.timezone = 'UTC'
+    error_reporting = E_ALL
+
+    [xdebug]
+    zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so
 </pre>
