@@ -322,7 +322,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon->value = 20;
         $coupon->min_order_value = 1000; // $10
         $coupon->max_order_value = 10000; // $100
-        $coupon->reduces_tax_subtotal = true;
+        $coupon->setReducesTaxSubtotal(true);
         $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
         $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
@@ -368,7 +368,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon->value = 20;
         $coupon->min_order_value = 1000; // $10
         $coupon->max_order_value = 10000; // $100
-        $coupon->reduces_tax_subtotal = false;
+        $coupon->setReducesTaxSubtotal(false);
         $coupon->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
         $coupon->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
@@ -454,7 +454,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $cart_price_rule = new CartPriceRule;
         $cart_price_rule->name = 'Buy a Shirt get a FREE poster';
-        $cart_price_rule->reduces_tax_subtotal = true;
+        $cart_price_rule->setReducesTaxSubtotal(true);
         $cart_price_rule->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
         $cart_price_rule->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
         $cart_price_rule->addItem(new CartPriceRuleItem($product_shirt, 1));

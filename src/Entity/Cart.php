@@ -93,7 +93,7 @@ class Cart
 
                     $this->cart_total->subtotal -= $price->quantity_price;
 
-                    if ($cart_price_rule->reduces_tax_subtotal and $discount->product->getIsTaxable()) {
+                    if ($cart_price_rule->reducesTaxSubtotal() and $discount->product->getIsTaxable()) {
                         $this->cart_total->tax_subtotal -= $price->quantity_price;
                     }
 
@@ -115,7 +115,7 @@ class Cart
                 $this->cart_total->discount += $discount_value;
                 $this->cart_total->coupons[] = $coupon;
 
-                if ($coupon->reduces_tax_subtotal) {
+                if ($coupon->reducesTaxSubtotal()) {
                     $this->cart_total->tax_subtotal -= $discount_value;
                 }
             }

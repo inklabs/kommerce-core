@@ -7,6 +7,7 @@ class Promotion
     public $value;
     public $redemptions;
     public $max_redemptions;
+    private $reducesTaxSubtotal = true;
     public $start;
     public $end;
 
@@ -34,6 +35,16 @@ class Promotion
         } else {
             return true;
         }
+    }
+
+    public function setReducesTaxSubtotal($reducesTaxSubtotal)
+    {
+        $this->reducesTaxSubtotal = $reducesTaxSubtotal;
+    }
+
+    public function reducesTaxSubtotal()
+    {
+        return $this->reducesTaxSubtotal;
     }
 
     public function getUnitPrice($unit_price)
