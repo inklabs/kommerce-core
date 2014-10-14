@@ -5,14 +5,17 @@ use inklabs\kommerce\Entity\Price;
 
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstruct()
+    public function setUp()
     {
-        $price = new Price;
-        $price->unit_price = 2400;
-        $price->orig_unit_price = 2400;
-        $price->quantity_price = 2400;
-        $price->orig_quantity_price = 2400;
+        $this->price = new Price;
+        $this->price->unit_price = 2400;
+        $this->price->orig_unit_price = 2400;
+        $this->price->quantity_price = 2400;
+        $this->price->orig_quantity_price = 2400;
+    }
 
-        $this->assertEquals(2400, $price->unit_price);
+    public function testGetUnitPrice()
+    {
+        $this->assertEquals(2400, $this->price->unit_price);
     }
 }

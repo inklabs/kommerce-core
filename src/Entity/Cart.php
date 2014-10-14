@@ -88,7 +88,7 @@ class Cart
     {
         foreach ($this->cart_price_rules as $cart_price_rule) {
             if ($cart_price_rule->isValid($this->pricing->date, $this->cart_total, $this->items)) {
-                foreach ($cart_price_rule->discounts as $discount) {
+                foreach ($cart_price_rule->getDiscounts() as $discount) {
                     $price = $this->pricing->getPrice($discount->getProduct(), $discount->getQuantity());
 
                     $this->cart_total->subtotal -= $price->quantity_price;
