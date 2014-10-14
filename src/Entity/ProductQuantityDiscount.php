@@ -12,7 +12,7 @@ class ProductQuantityDiscount extends Promotion
 
     public function isValid(\DateTime $date, $quantity)
     {
-        return parent::isValid($date)
+        return $this->isValidPromotion($date)
             and $this->isQuantityValid($quantity);
     }
 

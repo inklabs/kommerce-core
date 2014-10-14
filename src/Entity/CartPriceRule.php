@@ -19,7 +19,7 @@ class CartPriceRule extends Promotion
 
     public function isValid(\DateTime $date, CartTotal $cart_total, array $cart_items)
     {
-        return parent::isValid($date)
+        return $this->isValidPromotion($date)
             and $this->isCartTotalValid($cart_total)
             and $this->isCartItemsValid($cart_items);
     }
@@ -35,7 +35,7 @@ class CartPriceRule extends Promotion
         $matched_items_count = 0;
         foreach ($this->items as $item) {
             foreach ($cart_items as $cart_item) {
-                if ($cart_item->product->id == $item->product->id and $cart_item->quantity >= $item->quantity) {
+                if ($cart_item->product == $item->product and $cart_item->quantity >= $item->quantity) {
                     $matched_items_count++;
                     break;
                 }

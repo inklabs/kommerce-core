@@ -9,7 +9,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $product = new Product;
-        $product->name = 'Test Product';
+        $product->setName('Test Product');
 
         $cart_item = new CartItem($product, 1);
         $cart_item->id = 1;

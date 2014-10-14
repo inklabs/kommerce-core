@@ -32,10 +32,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $pricing = new Pricing;
 
         $product = new Product;
-        $product->price = 500;
+        $product->setPrice(500);
 
         $product2 = new Product;
-        $product2->price = 300;
+        $product2->setPrice(300);
 
         $cart = new Cart;
         $cart->addItem($product, 2);
@@ -59,9 +59,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 500;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(500);
 
         $coupon = new Coupon;
         $coupon->name = '20% Off';
@@ -101,9 +101,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $pricing->addCatalogPromotion($catalog_promotion);
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 500;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(500);
 
         $coupon = new Coupon;
         $coupon->name = '20% Off';
@@ -135,9 +135,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 2000; // $20
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(2000); // $20
 
         $coupon = new Coupon;
         $coupon->name = '20% Off orders under $100';
@@ -171,9 +171,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $pricing = new Pricing;
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 500;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(500);
 
         $usps_shipping_rate = new Shipping\Rate;
         $usps_shipping_rate->code = '4';
@@ -201,10 +201,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $pricing = new Pricing;
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 500;
-        $product->is_taxable = true;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(500);
+        $product->setIsTaxable(true);
 
         $tax_rate = new TaxRate;
         $tax_rate->zip5 = 92606;
@@ -235,10 +235,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $pricing = new Pricing;
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 500;
-        $product->is_taxable = true;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(500);
+        $product->setIsTaxable(true);
 
         $tax_rate = new TaxRate;
         $tax_rate->zip5 = 92606;
@@ -274,10 +274,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $pricing = new Pricing;
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 500;
-        $product->is_taxable = false;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(500);
+        $product->setIsTaxable(false);
 
         $tax_rate = new TaxRate;
         $tax_rate->zip5 = 92606;
@@ -306,10 +306,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 2000; // $20
-        $product->is_taxable = true;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(2000); // $20
+        $product->setIsTaxable(true);
 
         $tax_rate = new TaxRate;
         $tax_rate->zip5 = 92606;
@@ -352,10 +352,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 2000; // $20
-        $product->is_taxable = true;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(2000); // $20
+        $product->setIsTaxable(true);
 
         $tax_rate = new TaxRate;
         $tax_rate->zip5 = 92606;
@@ -396,16 +396,16 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testGetTotalCartPriceRule()
     {
         $product_shirt = new Product;
-        $product_shirt->id = 1;
-        $product_shirt->sku = 'TS-NAVY-LG';
-        $product_shirt->name = 'Navy T-shirt (large)';
-        $product_shirt->price = 1200;
+        // $product_shirt->id = 1;
+        $product_shirt->setSku('TS-NAVY-LG');
+        $product_shirt->setName('Navy T-shirt (large)');
+        $product_shirt->setPrice(1200);
 
         $product_poster = new Product;
-        $product_poster->id = 2;
-        $product_poster->sku = 'PST-CKN';
-        $product_poster->name = 'Citizen Kane (1941) Poster';
-        $product_poster->price = 500;
+        // $product_poster->id = 2;
+        $product_poster->setSku('PST-CKN');
+        $product_poster->setName('Citizen Kane (1941) Poster');
+        $product_poster->setPrice(500);
 
         $cart_price_rule = new CartPriceRule;
         $cart_price_rule->name = 'Buy a Shirt get a FREE poster';
@@ -439,18 +439,18 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testGetTotalCartPriceRuleTaxReduceSubtotal()
     {
         $product_shirt = new Product;
-        $product_shirt->id = 1;
-        $product_shirt->sku = 'TS-NAVY-LG';
-        $product_shirt->name = 'Navy T-shirt (large)';
-        $product_shirt->price = 1200;
-        $product_shirt->is_taxable = true;
+        // $product_shirt->id = 1;
+        $product_shirt->setSku('TS-NAVY-LG');
+        $product_shirt->setName('Navy T-shirt (large)');
+        $product_shirt->setPrice(1200);
+        $product_shirt->setIsTaxable(true);
 
         $product_poster = new Product;
-        $product_poster->id = 2;
-        $product_poster->sku = 'PST-CKN';
-        $product_poster->name = 'Citizen Kane (1941) Poster';
-        $product_poster->price = 500;
-        $product_poster->is_taxable = true;
+        // $product_poster->id = 2;
+        $product_poster->setSku('PST-CKN');
+        $product_poster->setName('Citizen Kane (1941) Poster');
+        $product_poster->setPrice(500);
+        $product_poster->setIsTaxable(true);
 
         $cart_price_rule = new CartPriceRule;
         $cart_price_rule->name = 'Buy a Shirt get a FREE poster';
@@ -493,22 +493,22 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testGetTotalCartPriceRuleInvalidCartItems()
     {
         $product_shirt = new Product;
-        $product_shirt->id = 1;
-        $product_shirt->sku = 'TS-NAVY-LG';
-        $product_shirt->name = 'Navy T-shirt (large)';
-        $product_shirt->price = 1200;
+        // $product_shirt->id = 1;
+        $product_shirt->setSku('TS-NAVY-LG');
+        $product_shirt->setName('Navy T-shirt (large)');
+        $product_shirt->setPrice(1200);
 
         $product_poster = new Product;
-        $product_poster->id = 2;
-        $product_poster->sku = 'PST-CKN';
-        $product_poster->name = 'Citizen Kane (1941) Poster';
-        $product_poster->price = 500;
+        // $product_poster->id = 2;
+        $product_poster->setSku('PST-CKN');
+        $product_poster->setName('Citizen Kane (1941) Poster');
+        $product_poster->setPrice(500);
 
         $product_jacket = new Product;
-        $product_jacket->id = 3;
-        $product_jacket->sku = 'JKT001';
-        $product_jacket->name = 'Navy Jacket';
-        $product_jacket->price = 2500;
+        // $product_jacket->id = 3;
+        $product_jacket->setSku('JKT001');
+        $product_jacket->setName('Navy Jacket');
+        $product_jacket->setPrice(2500);
 
         $cart_price_rule = new CartPriceRule;
         $cart_price_rule->name = 'Buy a Shirt get a FREE poster';

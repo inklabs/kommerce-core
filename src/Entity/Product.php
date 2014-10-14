@@ -1,40 +1,215 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * @Entity(repositoryClass="Doctrine\ORM\EntityRepository")
+ * @Table(name="product")
+ **/
 class Product
 {
-    use Accessors;
+    use TimeAccessors;
     use OptionSelector;
 
-    public $id;
-    public $sku;
-    public $name;
-    public $price;
-    public $quantity;
-    public $product_group_id;
-    public $require_inventory;
-    public $show_price;
-    public $active;
-    public $visible;
-    public $is_taxable;
-    public $shipping;
-    public $shipping_weight;
-    public $description;
-    public $rating;
-    public $default_image;
-    public $created;
-    public $updated;
+    /** @Id @Column(type="integer") @GeneratedValue **/
+    protected $id;
 
-    public $tags = [];
-    public $quantity_discounts = [];
+    /** @Column(type="string") **/
+    protected $sku;
 
-    public function inStock()
+    /** @Column(type="string") **/
+    protected $name;
+
+    /** @Column(type="integer") **/
+    protected $price;
+
+    /** @Column(type="integer") **/
+    protected $quantity;
+
+    /**
+     * @OneToOne(targetEntity="Product")
+     * @JoinColumn(name="product_group_id")
+     **/
+    protected $product_group;
+
+    /** @Column(type="boolean", name="require_inventory") **/
+    protected $isInventoryRequired;
+
+    /** @Column(type="boolean", name="show_price") **/
+    protected $isPriceVisible;
+
+    /** @Column(type="boolean", name="active") **/
+    protected $isActive;
+
+    /** @Column(type="boolean", name="visible") **/
+    protected $isVisible;
+
+    /** @Column(type="boolean", name="taxable") **/
+    protected $isTaxable;
+
+    /** @Column(type="boolean") **/
+    protected $shipping;
+
+    /** @Column(type="integer") **/
+    protected $shipping_weight;
+
+    /** @Column(type="string") **/
+    protected $description;
+
+    /** @Column(type="integer") **/
+    protected $rating;
+
+    /** @Column(type="string") **/
+    protected $default_image;
+
+    /**
+     * @ManyToMany(targetEntity="Tag", fetch="EAGER")
+     * @JoinTable(name="product_tag")
+    **/
+    protected $tags;
+
+    private $quantityDiscounts;
+
+    public function __construct()
     {
-        if (($this->require_inventory and $this->quantity > 0) or ( ! $this->require_inventory)) {
-            return true;
-        } else {
-            return false;
-        }
+        $this->tags = new ArrayCollection();
+        $this->quantityDiscounts = new ArrayCollection();
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    public function setIsInventoryRequired($isInventoryRequired)
+    {
+        $this->isInventoryRequired = $isInventoryRequired;
+    }
+
+    public function getIsInventoryRequired()
+    {
+        return $this->isInventoryRequired;
+    }
+
+    public function setIsPriceVisible($isPriceVisible)
+    {
+        $this->isPriceVisible = $isPriceVisible;
+    }
+
+    public function getIsPriceVisible()
+    {
+        return $this->isPriceVisible;
+    }
+
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    }
+
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    public function setIsVisible($isVisible)
+    {
+        $this->isVisible = $isVisible;
+    }
+
+    public function getIsVisible()
+    {
+        return $this->isVisible;
+    }
+
+    public function setIsShippable($isShippable)
+    {
+        $this->isShippable = $isShippable;
+    }
+
+    public function getIsShippable()
+    {
+        return $this->isShippable;
+    }
+
+    public function setShippingWeight($shippingWeight)
+    {
+        $this->shippingWeight = $shippingWeight;
+    }
+
+    public function getShippingWeight()
+    {
+        return $this->shippingWeight;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDefaultImage($defaultImage)
+    {
+        $this->defaultImage = $defaultImage;
+    }
+
+    public function getDefaultImage()
+    {
+        return $this->defaultImage;
+    }
+
+    public function setSku($sku)
+    {
+        $this->sku = $sku;
+    }
+
+    public function getSku()
+    {
+        return $this->sku;
+    }
+
+    public function setIsTaxable($isTaxable)
+    {
+        $this->isTaxable = $isTaxable;
+    }
+
+    public function getIsTaxable()
+    {
+        return $this->isTaxable;
     }
 
     public function setRating($rating)
@@ -47,14 +222,32 @@ class Product
         return ($this->rating / 100);
     }
 
-    public function addQuantityDiscount(ProductQuantityDiscount $quantity_discount)
+    public function inStock()
     {
-        $this->quantity_discounts[$quantity_discount->id] = $quantity_discount;
+        if (($this->isInventoryRequired and $this->quantity > 0) or ( ! $this->isInventoryRequired)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public function sortQuantityDiscounts()
+    public function addTag($tag)
     {
-        // Sort highest to lowest by quantity
-        uasort($this->quantity_discounts, create_function('$a, $b', 'return ($a->quantity < $b->quantity);'));
+        $this->tags[$tag->getId()] = $tag;
+    }
+
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    public function addQuantityDiscount(ProductQuantityDiscount $quantityDiscount)
+    {
+        $this->quantityDiscounts[$quantityDiscount->id] = $quantityDiscount;
+    }
+
+    public function getQuantityDiscounts()
+    {
+        return $this->quantityDiscounts;
     }
 }

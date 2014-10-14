@@ -18,15 +18,15 @@ class CatalogPromotion extends Promotion
 
     public function isValid(\DateTime $date, Product $product)
     {
-        return parent::isValid($date)
+        return $this->isValidPromotion($date)
             and $this->isTagValid($product);
     }
 
     public function isTagValid(Product $product)
     {
         if ($this->tag !== null) {
-            foreach ($product->tags as $tag) {
-                if ($tag->id == $this->tag->id) {
+            foreach ($product->getTags() as $tag) {
+                if ($tag == $this->tag) {
                     return true;
                 }
             }

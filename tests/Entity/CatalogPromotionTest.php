@@ -10,8 +10,8 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
     public function testIsTagValid()
     {
         $tag = new Tag;
-        $tag->id = 1;
-        $tag->name = 'Test Tag';
+        // $tag->setId(1);
+        $tag->setName('Test Tag');
 
         $catalog_promotion = new CatalogPromotion;
         $catalog_promotion->name = '20% Off';
@@ -24,11 +24,10 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 500;
-
-        $product->tags[] = $tag;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(500);
+        $product->addTag($tag);
 
         $this->assertTrue($catalog_promotion->isValid($date, $product));
     }
@@ -36,12 +35,12 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
     public function testIsValid()
     {
         $tag = new Tag;
-        $tag->id = 1;
-        $tag->name = 'Test Tag 1';
+        // $tag->id = 1;
+        $tag->setName('Test Tag 1');
 
         $tag2 = new Tag;
-        $tag2->id = 2;
-        $tag2->name = 'Test Tag 2';
+        // $tag2->id = 2;
+        $tag2->setName('Test Tag 2');
 
         $catalog_promotion = new CatalogPromotion;
         $catalog_promotion->name = '20% Off';
@@ -54,16 +53,16 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
 
         $product = new Product;
-        $product->sku = 'TST101';
-        $product->name = 'Test Product';
-        $product->price = 500;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setPrice(500);
 
         $this->assertFalse($catalog_promotion->isTagValid($product));
 
-        $product->tags[] = $tag2;
+        $product->addTag($tag2);
         $this->assertFalse($catalog_promotion->isTagValid($product));
 
-        $product->tags[] = $tag;
+        $product->addTag($tag);
         $this->assertTrue($catalog_promotion->isTagValid($product));
     }
 }

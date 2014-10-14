@@ -16,7 +16,7 @@ class Coupon extends Promotion
 
     public function isValid(\DateTime $date, $subtotal)
     {
-        return parent::isValid($date)
+        return $this->isValidPromotion($date)
             and $this->isMinOrderValueValid($subtotal)
             and $this->isMaxOrderValueValid($subtotal);
     }

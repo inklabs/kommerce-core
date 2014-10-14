@@ -33,7 +33,7 @@ class Pricing
         $this->quantity = $quantity;
 
         $this->price = new Price;
-        $this->price->orig_unit_price = $this->product->price;
+        $this->price->orig_unit_price = $this->product->getPrice();
         $this->price->orig_quantity_price = ($this->price->orig_unit_price * $this->quantity);
         $this->price->unit_price = $this->price->orig_unit_price;
 
@@ -47,11 +47,10 @@ class Pricing
 
     private function applyProductQuantityDiscounts()
     {
-        $this->product->sortQuantityDiscounts();
-        foreach ($this->product->quantity_discounts as $quantity_discount) {
-            if ($quantity_discount->isValid($this->date, $this->quantity)) {
-                $this->price->unit_price = $quantity_discount->getUnitPrice($this->price->unit_price);
-                $this->price->addQuantityDiscount($quantity_discount);
+        foreach ($this->product->getQuantityDiscounts() as $quantityDiscount) {
+            if ($quantityDiscount->isValid($this->date, $this->quantity)) {
+                $this->price->unit_price = $quantityDiscount->getUnitPrice($this->price->unit_price);
+                $this->price->addQuantityDiscount($quantityDiscount);
                 break;
             }
         }

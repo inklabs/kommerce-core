@@ -10,7 +10,7 @@ class Promotion
     public $start;
     public $end;
 
-    public function isValid(\DateTime $date)
+    public function isValidPromotion(\DateTime $date)
     {
         return $this->isDateValid($date)
             and $this->isRedemptionCountValid();

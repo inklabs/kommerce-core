@@ -8,16 +8,14 @@ class TagTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $tag = new Tag;
-        $tag->id = 1;
-        $tag->name = 'Test Tag';
-        $tag->description = 'Test Description';
-        $tag->default_image = null;
-        $tag->is_product_group = false;
-        $tag->sort_order = 0;
-        $tag->visible = true;
-        $tag->created = new \DateTime('now', new \DateTimeZone('UTC'));
-        $tag->updated = null;
+        // $tag->id = 1;
+        $tag->setName('Test Tag');
+        $tag->setDescription('Test Description');
+        $tag->setIsProductGroup(false);
+        $tag->setSortOrder(0);
+        $tag->setIsVisible(true);
+        $tag->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
-        $this->assertEquals(1, $tag->id);
+        $this->assertEquals('Test Tag', $tag->getName());
     }
 }
