@@ -7,48 +7,37 @@ use inklabs\kommerce\Entity\Tag;
 
 class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        $this->tag = new Tag;
+        $this->tag->setName('Test Tag');
+
+        $this->catalogPromotion = new CatalogPromotion;
+        $this->catalogPromotion->setName('20% Off');
+        $this->catalogPromotion->setDiscountType('percent');
+        $this->catalogPromotion->setValue(20);
+        $this->catalogPromotion->setTag($this->tag);
+        $this->catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $this->catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+    }
+
     public function testIsTagValid()
     {
-        $tag = new Tag;
-        // $tag->setId(1);
-        $tag->setName('Test Tag');
-
-        $catalog_promotion = new CatalogPromotion;
-        $catalog_promotion->name = '20% Off';
-        $catalog_promotion->discount_type = 'percent';
-        $catalog_promotion->value = 20;
-        $catalog_promotion->tag = $tag;
-        $catalog_promotion->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $catalog_promotion->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
-
         $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
 
         $product = new Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
         $product->setPrice(500);
-        $product->addTag($tag);
+        $product->addTag($this->tag);
 
-        $this->assertTrue($catalog_promotion->isValid($date, $product));
+        $this->assertTrue($this->catalogPromotion->isValid($date, $product));
     }
 
     public function testIsValid()
     {
-        $tag = new Tag;
-        // $tag->id = 1;
-        $tag->setName('Test Tag 1');
-
         $tag2 = new Tag;
-        // $tag2->id = 2;
         $tag2->setName('Test Tag 2');
-
-        $catalog_promotion = new CatalogPromotion;
-        $catalog_promotion->name = '20% Off';
-        $catalog_promotion->discount_type = 'percent';
-        $catalog_promotion->value = 20;
-        $catalog_promotion->tag = $tag;
-        $catalog_promotion->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $catalog_promotion->end   = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
 
         $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
 
@@ -57,12 +46,12 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $product->setName('Test Product');
         $product->setPrice(500);
 
-        $this->assertFalse($catalog_promotion->isTagValid($product));
+        $this->assertFalse($this->catalogPromotion->isTagValid($product));
 
         $product->addTag($tag2);
-        $this->assertFalse($catalog_promotion->isTagValid($product));
+        $this->assertFalse($this->catalogPromotion->isTagValid($product));
 
-        $product->addTag($tag);
-        $this->assertTrue($catalog_promotion->isTagValid($product));
+        $product->addTag($this->tag);
+        $this->assertTrue($this->catalogPromotion->isTagValid($product));
     }
 }

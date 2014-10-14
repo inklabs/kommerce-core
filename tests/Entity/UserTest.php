@@ -7,56 +7,43 @@ use inklabs\kommerce\Entity\Role;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstruct()
+    public function setUp()
     {
-        $user = new User;
-        $user->id = 1;
-        $user->email = 'test@example.com';
-        $user->username = 'test';
-        $user->password = 'xxxx';
-        $user->first_name = 'John';
-        $user->last_name = 'Doe';
-        $user->logins = 0;
-        $user->last_login = null;
-        $user->created = new \DateTime('now', new \DateTimeZone('UTC'));
-        $user->updated = null;
+        $this->user = new User;
+        $this->user->setEmail('test@example.com');
+        $this->user->setUsername('test');
+        $this->user->setPassword('xxxx');
+        $this->user->setFirstName('John');
+        $this->user->setLastName('Doe');
+        $this->user->setLogins(0);
+        $this->user->setLastLogin(null);
+        $this->user->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+    }
 
-        $this->assertEquals(1, $user->id);
+    public function testGetUsername()
+    {
+        $this->assertEquals('test', $this->user->getUsername());
     }
 
     public function testAddRole()
     {
-        $user = new User;
-        $user->id = 1;
-        $user->first_name = 'John';
-        $user->last_name = 'Doe';
-        $user->created = new \DateTime('now', new \DateTimeZone('UTC'));
-
         $role = new Role;
-        $role->id = 1;
-        $role->name = 'admin';
-        $role->description = 'Administrative user, has access to everything';
-        $role->created = new \DateTime('now', new \DateTimeZone('UTC'));
+        $role->setName('admin');
+        $role->setDescription('Administrative user, has access to everything');
+        $role->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
-        $user->addRole($role);
+        $this->user->addRole($role);
 
-        $this->assertEquals(1, count($user->roles));
+        $this->assertEquals(1, count($this->user->getRoles()));
     }
 
     public function testAddToken()
     {
-        $user = new User;
-        $user->id = 1;
-        $user->first_name = 'John';
-        $user->last_name = 'Doe';
-        $user->created = new \DateTime('now', new \DateTimeZone('UTC'));
+        $userToken = new UserToken;
+        $userToken->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
-        $user_token = new UserToken;
-        $user_token->id = 1;
-        $user_token->created = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->user->addToken($userToken);
 
-        $user->addToken($user_token);
-
-        $this->assertEquals(1, count($user->tokens));
+        $this->assertEquals(1, count($this->user->getTokens()));
     }
 }

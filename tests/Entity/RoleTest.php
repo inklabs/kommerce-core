@@ -5,14 +5,16 @@ use inklabs\kommerce\Entity\Role;
 
 class RoleTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstruct()
+    public function setUp()
     {
-        $role = new Role;
-        $role->id = 1;
-        $role->name = 'admin';
-        $role->description = 'Administrative user, has access to everything';
-        $role->created = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->role = new Role;
+        $this->role->setName('admin');
+        $this->role->setDescription('Administrative user, has access to everything');
+        $this->role->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+    }
 
-        $this->assertEquals(1, $role->id);
+    public function testGetName()
+    {
+        $this->assertEquals('admin', $this->role->getName());
     }
 }

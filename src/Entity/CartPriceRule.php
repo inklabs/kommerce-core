@@ -5,8 +5,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class CartPriceRule extends Promotion
 {
-    public $name;
-
     private $items;
     public $discounts;
 
@@ -44,7 +42,9 @@ class CartPriceRule extends Promotion
         $matched_items_count = 0;
         foreach ($this->items as $item) {
             foreach ($cart_items as $cart_item) {
-                if ($cart_item->product == $item->product and $cart_item->quantity >= $item->quantity) {
+                if ($cart_item->getProduct() == $item->getProduct()
+                    and $cart_item->getQuantity() >= $item->getQuantity()
+                ) {
                     $matched_items_count++;
                     break;
                 }

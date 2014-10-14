@@ -5,16 +5,20 @@ use inklabs\kommerce\Entity\TaxRate;
 
 class TaxRateTest extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        $this->taxRate = new TaxRate;
+        $this->taxRate->setZip5(92606);
+        $this->taxRate->setRate(8.0);
+        $this->taxRate->setApplyToShipping(false);
+    }
+
     public function testGetTax()
     {
-        $tax_rate = new TaxRate;
-        $tax_rate->zip5 = 92606;
-        $tax_rate->rate = 8.0;
+        $this->taxRate->setApplyToShipping(false);
+        $this->assertEquals(80, $this->taxRate->getTax(1000, 500));
 
-        $tax_rate->apply_to_shipping = false;
-        $this->assertEquals(80, $tax_rate->getTax(1000, 500));
-
-        $tax_rate->apply_to_shipping = true;
-        $this->assertEquals(120, $tax_rate->getTax(1000, 500));
+        $this->taxRate->setApplyToShipping(true);
+        $this->assertEquals(120, $this->taxRate->getTax(1000, 500));
     }
 }

@@ -5,26 +5,28 @@ use inklabs\kommerce\Entity\VirtualProduct;
 
 class VirtualProductTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstruct()
+    public function setUp()
     {
-        $virtualProduct = new VirtualProduct;
-        $virtualProduct->setSku('TST101');
-        $virtualProduct->setName('Test Product');
-        $virtualProduct->setPrice(500);
-        $virtualProduct->setQuantity(10);
-        // $virtualProduct->setProduct_group_id(null);
-        $virtualProduct->setIsInventoryRequired(true);
-        $virtualProduct->setIsPriceVisible(true);
-        $virtualProduct->setIsActive(true);
-        $virtualProduct->setIsVisible(true);
-        $virtualProduct->setIsTaxable(true);
-        $virtualProduct->setIsShippable(true);
-        $virtualProduct->setShippingWeight(16);
-        $virtualProduct->setDescription('Test product description');
-        $virtualProduct->setRating(null);
-        $virtualProduct->setDefaultImage(null);
-        $virtualProduct->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+        $this->virtualProduct = new VirtualProduct;
+        $this->virtualProduct->setSku('TST101');
+        $this->virtualProduct->setName('Test Product');
+        $this->virtualProduct->setPrice(500);
+        $this->virtualProduct->setQuantity(10);
+        $this->virtualProduct->setIsInventoryRequired(true);
+        $this->virtualProduct->setIsPriceVisible(true);
+        $this->virtualProduct->setIsActive(true);
+        $this->virtualProduct->setIsVisible(true);
+        $this->virtualProduct->setIsTaxable(true);
+        $this->virtualProduct->setIsShippable(true);
+        $this->virtualProduct->setShippingWeight(16);
+        $this->virtualProduct->setDescription('Test product description');
+        $this->virtualProduct->setRating(null);
+        $this->virtualProduct->setDefaultImage(null);
+        $this->virtualProduct->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+    }
 
-        $this->assertEquals('TST101', $virtualProduct->getSku());
+    public function testGetSku()
+    {
+        $this->assertEquals('TST101', $this->virtualProduct->getSku());
     }
 }

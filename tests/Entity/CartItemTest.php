@@ -6,15 +6,17 @@ use inklabs\kommerce\Entity\Product;
 
 class CartItemTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstruct()
+    public function setUp()
     {
-        $product = new Product;
-        $product->setName('Test Product');
+        $this->product = new Product;
+        $this->product->setName('Test Product');
 
-        $cart_item = new CartItem($product, 1);
-        $cart_item->id = 1;
-        $cart_item->created = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->cartItem = new CartItem($this->product, 1);
+        $this->cartItem->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+    }
 
-        $this->assertEquals('1', $cart_item->id);
+    public function testGetProduct()
+    {
+        $this->assertEquals($this->product, $this->cartItem->getProduct());
     }
 }

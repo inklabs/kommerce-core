@@ -12,8 +12,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
-        $this->pricing = new Pricing($date);
+        $this->pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
     }
 
     public function testGetPriceBasic()
@@ -50,14 +49,14 @@ class PricingTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPriceWithCatalogPromotionPercent()
     {
-        $catalog_promotion = new CatalogPromotion;
-        $catalog_promotion->name = '20% Off';
-        $catalog_promotion->discount_type = 'percent';
-        $catalog_promotion->value = 20;
-        $catalog_promotion->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $catalog_promotion->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $catalogPromotion = new CatalogPromotion;
+        $catalogPromotion->setName('20% Off');
+        $catalogPromotion->setDiscountType('percent');
+        $catalogPromotion->setValue(20);
+        $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $this->pricing->addCatalogPromotion($catalog_promotion);
+        $this->pricing->addCatalogPromotion($catalogPromotion);
 
         $product = new Product;
         $product->setSku('TST101');
@@ -68,7 +67,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price = new Price;
         $price->unit_price = 1200;
         $price->orig_unit_price = 1500;
-        $price->addCatalogPromotion($catalog_promotion);
+        $price->addCatalogPromotion($catalogPromotion);
         $price->quantity_price = 1200;
         $price->orig_quantity_price = 1500;
         $this->assertEquals($price, $this->pricing->getPrice($product, 1));
@@ -77,7 +76,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price = new Price;
         $price->unit_price = 1200;
         $price->orig_unit_price = 1500;
-        $price->addCatalogPromotion($catalog_promotion);
+        $price->addCatalogPromotion($catalogPromotion);
         $price->quantity_price = 2400;
         $price->orig_quantity_price = 3000;
         $this->assertEquals($price, $this->pricing->getPrice($product, 2));
@@ -86,7 +85,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price = new Price;
         $price->unit_price = 1200;
         $price->orig_unit_price = 1500;
-        $price->addCatalogPromotion($catalog_promotion);
+        $price->addCatalogPromotion($catalogPromotion);
         $price->quantity_price = 12000;
         $price->orig_quantity_price = 15000;
         $this->assertEquals($price, $this->pricing->getPrice($product, 10));
@@ -94,14 +93,14 @@ class PricingTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPriceWithCatalogPromotionFixed()
     {
-        $catalog_promotion = new CatalogPromotion;
-        $catalog_promotion->name = '$1 Off';
-        $catalog_promotion->discount_type = 'fixed';
-        $catalog_promotion->value = 100;
-        $catalog_promotion->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $catalog_promotion->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $catalogPromotion = new CatalogPromotion;
+        $catalogPromotion->setName('$1 Off');
+        $catalogPromotion->setDiscountType('fixed');
+        $catalogPromotion->setValue(100);
+        $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $this->pricing->addCatalogPromotion($catalog_promotion);
+        $this->pricing->addCatalogPromotion($catalogPromotion);
 
         $product = new Product;
         $product->setSku('TST101');
@@ -112,7 +111,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price = new Price;
         $price->unit_price = 1400;
         $price->orig_unit_price = 1500;
-        $price->addCatalogPromotion($catalog_promotion);
+        $price->addCatalogPromotion($catalogPromotion);
         $price->quantity_price = 1400;
         $price->orig_quantity_price = 1500;
         $this->assertEquals($price, $this->pricing->getPrice($product, 1));
@@ -121,7 +120,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price = new Price;
         $price->unit_price = 1400;
         $price->orig_unit_price = 1500;
-        $price->addCatalogPromotion($catalog_promotion);
+        $price->addCatalogPromotion($catalogPromotion);
         $price->quantity_price = 2800;
         $price->orig_quantity_price = 3000;
         $this->assertEquals($price, $this->pricing->getPrice($product, 2));
@@ -130,7 +129,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $price = new Price;
         $price->unit_price = 1400;
         $price->orig_unit_price = 1500;
-        $price->addCatalogPromotion($catalog_promotion);
+        $price->addCatalogPromotion($catalogPromotion);
         $price->quantity_price = 14000;
         $price->orig_quantity_price = 15000;
         $this->assertEquals($price, $this->pricing->getPrice($product, 10));
@@ -142,15 +141,15 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         // $tag->id = 1;
         $tag->setName('Test Tag');
 
-        $catalog_promotion = new CatalogPromotion;
-        $catalog_promotion->name = '20% Off';
-        $catalog_promotion->discount_type = 'percent';
-        $catalog_promotion->value = 20;
-        $catalog_promotion->tag = $tag;
-        $catalog_promotion->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $catalog_promotion->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $catalogPromotion = new CatalogPromotion;
+        $catalogPromotion->setName('20% Off');
+        $catalogPromotion->setDiscountType('percent');
+        $catalogPromotion->setValue(20);
+        $catalogPromotion->setTag($tag);
+        $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $this->pricing->addCatalogPromotion($catalog_promotion);
+        $this->pricing->addCatalogPromotion($catalogPromotion);
 
         $product = new Product;
         $product->setSku('TST101');
@@ -169,7 +168,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product->addTag($tag);
         $price->unit_price = 1200;
         $price->quantity_price = 2400;
-        $price->addCatalogPromotion($catalog_promotion);
+        $price->addCatalogPromotion($catalogPromotion);
         $this->assertEquals($price, $this->pricing->getPrice($product, 2));
     }
 
@@ -222,28 +221,25 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceWithProductQuantityDiscountExact()
     {
         $quantity_discount_6 = new ProductQuantityDiscount;
-        $quantity_discount_6->id = 1;
-        $quantity_discount_6->discount_type = 'exact';
-        $quantity_discount_6->quantity = 6;
-        $quantity_discount_6->value = 475;
-        $quantity_discount_6->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $quantity_discount_6->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $quantity_discount_6->setDiscountType('exact');
+        $quantity_discount_6->setQuantity(6);
+        $quantity_discount_6->setValue(475);
+        $quantity_discount_6->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $quantity_discount_6->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $quantity_discount_12 = new ProductQuantityDiscount;
-        $quantity_discount_12->id = 2;
-        $quantity_discount_12->discount_type = 'exact';
-        $quantity_discount_12->quantity = 12;
-        $quantity_discount_12->value = 350;
-        $quantity_discount_12->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $quantity_discount_12->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $quantity_discount_12->setDiscountType('exact');
+        $quantity_discount_12->setQuantity(12);
+        $quantity_discount_12->setValue(350);
+        $quantity_discount_12->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $quantity_discount_12->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $quantity_discount_24 = new ProductQuantityDiscount;
-        $quantity_discount_24->id = 3;
-        $quantity_discount_24->discount_type = 'exact';
-        $quantity_discount_24->quantity = 24;
-        $quantity_discount_24->value = 325;
-        $quantity_discount_24->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $quantity_discount_24->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $quantity_discount_24->setDiscountType('exact');
+        $quantity_discount_24->setQuantity(24);
+        $quantity_discount_24->setValue(325);
+        $quantity_discount_24->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $quantity_discount_24->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $product = new Product;
         $product->setSku('TST101');
@@ -292,28 +288,25 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceWithProductQuantityDiscountFixed()
     {
         $quantity_discount_6 = new ProductQuantityDiscount;
-        $quantity_discount_6->id = 1;
-        $quantity_discount_6->discount_type = 'fixed';
-        $quantity_discount_6->quantity = 6;
-        $quantity_discount_6->value = 25;
-        $quantity_discount_6->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $quantity_discount_6->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $quantity_discount_6->setDiscountType('fixed');
+        $quantity_discount_6->setQuantity(6);
+        $quantity_discount_6->setValue(25);
+        $quantity_discount_6->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $quantity_discount_6->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $quantity_discount_12 = new ProductQuantityDiscount;
-        $quantity_discount_12->id = 2;
-        $quantity_discount_12->discount_type = 'fixed';
-        $quantity_discount_12->quantity = 12;
-        $quantity_discount_12->value = 150;
-        $quantity_discount_12->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $quantity_discount_12->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $quantity_discount_12->setDiscountType('fixed');
+        $quantity_discount_12->setQuantity(12);
+        $quantity_discount_12->setValue(150);
+        $quantity_discount_12->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $quantity_discount_12->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $quantity_discount_24 = new ProductQuantityDiscount;
-        $quantity_discount_24->id = 3;
-        $quantity_discount_24->discount_type = 'fixed';
-        $quantity_discount_24->quantity = 24;
-        $quantity_discount_24->value = 175;
-        $quantity_discount_24->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $quantity_discount_24->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $quantity_discount_24->setDiscountType('fixed');
+        $quantity_discount_24->setQuantity(24);
+        $quantity_discount_24->setValue(175);
+        $quantity_discount_24->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $quantity_discount_24->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $product = new Product;
         $product->setSku('TST101');
@@ -362,28 +355,25 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceWithProductQuantityDiscountPercent()
     {
         $quantity_discount_6 = new ProductQuantityDiscount;
-        $quantity_discount_6->id = 1;
-        $quantity_discount_6->discount_type = 'percent';
-        $quantity_discount_6->quantity = 6;
-        $quantity_discount_6->value = 5;
-        $quantity_discount_6->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $quantity_discount_6->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $quantity_discount_6->setDiscountType('percent');
+        $quantity_discount_6->setQuantity(6);
+        $quantity_discount_6->setValue(5);
+        $quantity_discount_6->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $quantity_discount_6->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $quantity_discount_12 = new ProductQuantityDiscount;
-        $quantity_discount_12->id = 2;
-        $quantity_discount_12->discount_type = 'percent';
-        $quantity_discount_12->quantity = 12;
-        $quantity_discount_12->value = 30;
-        $quantity_discount_12->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $quantity_discount_12->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $quantity_discount_12->setDiscountType('percent');
+        $quantity_discount_12->setQuantity(12);
+        $quantity_discount_12->setValue(30);
+        $quantity_discount_12->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $quantity_discount_12->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $quantity_discount_24 = new ProductQuantityDiscount;
-        $quantity_discount_24->id = 3;
-        $quantity_discount_24->discount_type = 'percent';
-        $quantity_discount_24->quantity = 24;
-        $quantity_discount_24->value = 35;
-        $quantity_discount_24->start = new \DateTime('2014-01-01', new \DateTimeZone('UTC'));
-        $quantity_discount_24->end = new \DateTime('2014-12-31', new \DateTimeZone('UTC'));
+        $quantity_discount_24->setDiscountType('percent');
+        $quantity_discount_24->setQuantity(24);
+        $quantity_discount_24->setValue(35);
+        $quantity_discount_24->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $quantity_discount_24->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $product = new Product;
         $product->setSku('TST101');

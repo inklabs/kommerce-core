@@ -26,7 +26,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product->setRating(null);
         $this->product->setDefaultImage(null);
         $this->product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+    }
 
+    public function testGetSku()
+    {
         $this->assertEquals('TST101', $this->product->getSku());
     }
 

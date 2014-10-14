@@ -3,12 +3,28 @@ namespace inklabs\kommerce\Entity;
 
 class ProductQuantityDiscount extends Promotion
 {
-    public $id;
-    public $name;
-    public $customer_group;
-    public $quantity;
-    public $created;
-    public $updated;
+    protected $customerGroup;
+    protected $quantity;
+
+    public function setCustomerGroup($customerGroup)
+    {
+        $this->customerGroup = $customerGroup;
+    }
+
+    public function getCustomerGroup()
+    {
+        return $this->customerGroup;
+    }
+
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
 
     public function isValid(\DateTime $date, $quantity)
     {
