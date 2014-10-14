@@ -5,8 +5,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class CartPriceRule extends Promotion
 {
-    private $items;
-    public $discounts;
+    protected $items;
+    protected $discounts;
 
     public function __construct()
     {
@@ -19,9 +19,19 @@ class CartPriceRule extends Promotion
         $this->items[] = $item;
     }
 
+    public function getItems()
+    {
+        return $this->items;
+    }
+
     public function addDiscount(CartPriceRuleDiscount $discount)
     {
         $this->discounts[] = $discount;
+    }
+
+    public function getDiscounts()
+    {
+        return $this->discounts;
     }
 
     public function isValid(\DateTime $date, CartTotal $cart_total, array $cart_items)

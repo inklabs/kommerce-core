@@ -7,26 +7,22 @@ use inklabs\kommerce\Entity\VirtualProduct;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstruct()
+    public function setUp()
     {
-        $current_date = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->option = new Option;
+        $this->option->setName('Size');
+        $this->option->setType('radio');
+        $this->option->setDescription('Shirt Size');
+        $this->option->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+    }
 
-        $option = new Option;
-        $option->name = 'Size';
-        $option->type = 'radio';
-        $option->description = 'Shirt Size';
-        $option->created = new \DateTime('now', new \DateTimeZone('UTC'));
-
-        $this->assertEquals('Size', $option->name);
+    public function testGetName()
+    {
+        $this->assertEquals('Size', $this->option->getName());
     }
 
     public function testWithProducts()
     {
-        $option = new Option;
-        $option->name = 'Size';
-        $option->type = 'radio';
-        $option->description = 'Navy T-shirt size';
-
         $product_small = new Product;
         $product_small->setSku('TS-NAVY-SM');
         $product_small->setName('Navy T-shirt (small)');
@@ -42,21 +38,16 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $product_large->setName('Navy T-shirt (large)');
         $product_large->setPrice(1600);
 
-        $option->addProduct($product_small);
-        $option->addProduct($product_medium);
-        $option->addProduct($product_large);
+        $this->option->addProduct($product_small);
+        $this->option->addProduct($product_medium);
+        $this->option->addProduct($product_large);
 
-        $this->assertEquals('Size', $option->name);
+        $this->assertEquals(3, count($this->option->getProducts()));
     }
 
     public function testWithVirtualProducts()
     {
         $current_date = new \DateTime('now', new \DateTimeZone('UTC'));
-
-        $option = new Option;
-        $option->name = 'Size';
-        $option->type = 'radio';
-        $option->description = 'Generic Size';
 
         $virtual_product_small = new VirtualProduct;
         $virtual_product_small->setSku('SM');
@@ -70,10 +61,10 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $virtual_product_large->setSku('LG');
         $virtual_product_large->setName('Large');
 
-        $option->addProduct($virtual_product_small);
-        $option->addProduct($virtual_product_medium);
-        $option->addProduct($virtual_product_large);
+        $this->option->addProduct($virtual_product_small);
+        $this->option->addProduct($virtual_product_medium);
+        $this->option->addProduct($virtual_product_large);
 
-        $this->assertEquals('Size', $option->name);
+        $this->assertEquals(3, count($this->option->getProducts()));
     }
 }

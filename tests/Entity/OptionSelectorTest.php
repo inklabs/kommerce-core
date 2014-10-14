@@ -10,9 +10,9 @@ class OptionSelectorTest extends \PHPUnit_Framework_TestCase
     public function testAddOption()
     {
         $option = new Option;
-        $option->name = 'Size';
-        $option->type = 'radio';
-        $option->description = 'Navy T-shirt size';
+        $option->setName('Size');
+        $option->setType('radio');
+        $option->setDescription('Navy T-shirt size');
 
         $product_small = new Product;
         $product_small->setSku('TS-NAVY-SM');
