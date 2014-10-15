@@ -17,12 +17,18 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->user->setLastName('Doe');
         $this->user->setLogins(0);
         $this->user->setLastLogin(null);
-        $this->user->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
-    public function testGetUsername()
+    public function testGetters()
     {
+        $this->assertEquals(null, $this->user->getId());
+        $this->assertEquals('test@example.com', $this->user->getEmail());
         $this->assertEquals('test', $this->user->getUsername());
+        $this->assertEquals('xxxx', $this->user->getPassword());
+        $this->assertEquals('John', $this->user->getFirstName());
+        $this->assertEquals('Doe', $this->user->getLastName());
+        $this->assertEquals(0, $this->user->getLogins());
+        $this->assertEquals(null, $this->user->getLastLogin());
     }
 
     public function testAddRole()

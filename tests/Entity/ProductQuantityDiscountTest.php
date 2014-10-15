@@ -18,8 +18,9 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $this->quantityDiscount->setcreated(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
-    public function testGetQuantity()
+    public function testGetters()
     {
+        $this->assertEquals(null, $this->quantityDiscount->getCustomerGroup());
         $this->assertEquals(6, $this->quantityDiscount->getQuantity());
     }
 }

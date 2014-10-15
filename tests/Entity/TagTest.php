@@ -16,8 +16,12 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->tag->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
-    public function testGetName()
+    public function testGetters()
     {
+        $this->assertEquals(null, $this->tag->getId());
         $this->assertEquals('Test Tag', $this->tag->getName());
+        $this->assertEquals(false, $this->tag->getIsProductGroup());
+        $this->assertEquals(0, $this->tag->getSortOrder());
+        $this->assertEquals(true, $this->tag->getIsVisible());
     }
 }

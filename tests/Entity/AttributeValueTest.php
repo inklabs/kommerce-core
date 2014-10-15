@@ -5,15 +5,22 @@ use inklabs\kommerce\Entity\AttributeValue;
 
 class AttributeValueTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstruct()
+    public function setUp()
     {
-        $attribute_value = new AttributeValue;
-        $attribute_value->setSku('TA');
-        $attribute_value->setName('Test Attribute');
-        $attribute_value->setDescription('Test attribute description');
-        $attribute_value->setSortOrder(0);
-        $attribute_value->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+        $this->attributeValue = new AttributeValue;
+        $this->attributeValue->setSku('TA');
+        $this->attributeValue->setName('Test Attribute');
+        $this->attributeValue->setDescription('Test attribute description');
+        $this->attributeValue->setSortOrder(0);
+        $this->attributeValue->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+    }
 
-        $this->assertEquals('TA', $attribute_value->getSku());
+    public function testGetters()
+    {
+        $this->assertEquals(null, $this->attributeValue->getId());
+        $this->assertEquals('TA', $this->attributeValue->getSku());
+        $this->assertEquals('Test Attribute', $this->attributeValue->getName());
+        $this->assertEquals('Test attribute description', $this->attributeValue->getDescription());
+        $this->assertEquals(0, $this->attributeValue->getSortOrder());
     }
 }

@@ -396,13 +396,11 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testGetTotalCartPriceRule()
     {
         $product_shirt = new Product;
-        // $product_shirt->id = 1;
         $product_shirt->setSku('TS-NAVY-LG');
         $product_shirt->setName('Navy T-shirt (large)');
         $product_shirt->setPrice(1200);
 
         $product_poster = new Product;
-        // $product_poster->id = 2;
         $product_poster->setSku('PST-CKN');
         $product_poster->setName('Citizen Kane (1941) Poster');
         $product_poster->setPrice(500);

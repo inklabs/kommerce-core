@@ -28,5 +28,6 @@ class OptionSelectorTest extends \PHPUnit_Framework_TestCase
         $product->addSelectedOptionProduct($product_small);
 
         $this->assertEquals('TST101', $product->getSku());
+        $this->assertEquals(1, count($product->getOptions()));
     }
 }
