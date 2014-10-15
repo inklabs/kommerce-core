@@ -13,12 +13,16 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $this->option->setName('Size');
         $this->option->setType('radio');
         $this->option->setDescription('Shirt Size');
-        $this->option->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+        $this->option->setSortOrder(0);
     }
 
-    public function testGetName()
+    public function testGetters()
     {
+        $this->assertEquals(null, $this->option->getId());
         $this->assertEquals('Size', $this->option->getName());
+        $this->assertEquals('radio', $this->option->getType());
+        $this->assertEquals('Shirt Size', $this->option->getDescription());
+        $this->assertEquals(0, $this->option->getSortOrder());
     }
 
     public function testWithProducts()

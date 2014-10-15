@@ -10,11 +10,12 @@ class RoleTest extends \PHPUnit_Framework_TestCase
         $this->role = new Role;
         $this->role->setName('admin');
         $this->role->setDescription('Administrative user, has access to everything');
-        $this->role->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
-    public function testGetName()
+    public function testGetters()
     {
+        $this->assertEquals(null, $this->role->getId());
         $this->assertEquals('admin', $this->role->getName());
+        $this->assertEquals('Administrative user, has access to everything', $this->role->getDescription());
     }
 }
