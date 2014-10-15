@@ -78,6 +78,11 @@ class ArrTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testEmptyRange()
+    {
+        $this->assertSame([], Arr::range(0));
+    }
+
     /**
      * Provides test data for testUnshift()
      *
