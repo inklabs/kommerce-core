@@ -54,7 +54,7 @@ class Arr
      */
     public static function isArray($value)
     {
-        if (isArray($value)) {
+        if (is_array($value)) {
             // Definitely an array
             return true;
         } else {
@@ -90,7 +90,7 @@ class Arr
             return $default;
         }
 
-        if (isArray($path)) {
+        if (is_array($path)) {
             // The path has already been separated into keys
             $keys = $path;
         } else {
@@ -180,7 +180,7 @@ class Arr
 
         // The path has already been separated into keys
         $keys = $path;
-        if (! isArray($path)) {
+        if (! is_array($path)) {
             // Split the keys by delimiter
             $keys = explode($delimiter, $path);
         }
@@ -348,10 +348,10 @@ class Arr
     public static function map($callbacks, $array, $keys = null)
     {
         foreach ($array as $key => $val) {
-            if (isArray($val)) {
+            if (is_array($val)) {
                 $array[$key] = Arr::map($callbacks, $array[$key]);
-            } elseif (! isArray($keys) or in_array($key, $keys)) {
-                if (isArray($callbacks)) {
+            } elseif (! is_array($keys) or in_array($key, $keys)) {
+                if (is_array($callbacks)) {
                     foreach ($callbacks as $cb) {
                         $array[$key] = call_user_func($cb, $array[$key]);
                     }
@@ -388,9 +388,9 @@ class Arr
     {
         if (Arr::isAssoc($array2)) {
             foreach ($array2 as $key => $value) {
-                if (isArray($value)
+                if (is_array($value)
                     and isset($array1[$key])
-                    and isArray($array1[$key])
+                    and is_array($array1[$key])
                 ) {
                     $array1[$key] = Arr::merge($array1[$key], $value);
                 } else {
@@ -529,7 +529,7 @@ class Arr
 
         $flat = array();
         foreach ($array as $key => $value) {
-            if (isArray($value)) {
+            if (is_array($value)) {
                 $flat = array_merge($flat, Arr::flatten($value));
             } else {
                 if ($is_assoc) {
