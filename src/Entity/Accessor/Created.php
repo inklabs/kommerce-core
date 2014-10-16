@@ -13,6 +13,8 @@ trait Created
 
     public function getCreated()
     {
-        return $this->created;
+        $created = new \DateTime();
+        $created->setTimestamp($this->created);
+        return $created;
     }
 }

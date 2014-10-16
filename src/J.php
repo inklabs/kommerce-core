@@ -52,9 +52,18 @@ class J
 
         $this->level++;
 
-        if (is_object($var) && in_array('Doctrine\Common\Collections\Collection', class_implements($var))) {
-            $var = $var->toArray();
+        if (is_object($var)) {
+            if (in_array('Doctrine\Common\Collections\Collection', class_implements($var))) {
+                $var = $var->toArray();
+            } elseif ($var instanceof \DateTime) {
+                $var = [
+                    '__CLASS__' => '\DateTime',
+                    'date' => $var->format('c'),
+                    'timezone' => $var->getTimeZone()->getName(),
+                ];
+            }
         }
+
 
         switch (gettype($var)) {
             case 'array':
@@ -231,6 +240,7 @@ class J
             $this->process($var->__getData());
         }
 
+        $this->processPublicProperties($var);
         $this->processGetters($var);
 
         // __dbResult
@@ -243,6 +253,28 @@ class J
         }
 
         $this->output .= '</td></tr></tbody></table>';
+    }
+
+    private function processPublicProperties($var)
+    {
+        $output = [];
+        $reflector = new ReflectionClass($var);
+        $properties = [];
+        foreach ($reflector->getProperties() as $property) {
+            $properties[$property->name] = $property;
+        }
+        ksort($properties);
+        foreach ($properties as $property) {
+            if (! $property->isPublic()) {
+                continue;
+            }
+
+            $output['$' . $property->name] = $var->{$property->name};
+        }
+
+        if (! empty($output)) {
+            $this->processArray($output, 'Public Properties');
+        }
     }
 
     private function processGetters($var)
@@ -266,10 +298,17 @@ class J
                     $value = $var->{$method->name}();
                 }
 
+                if ($method->name == 'getDefaultImage' and ! empty($value)) {
+                    $value = '<img src="/data/image/' . $value . '" />';
+                }
+
                 $output[$method->name . '()'] = $value;
             }
         }
-        $this->processArray($output, 'Public Getters');
+
+        if (! empty($output)) {
+            $this->processArray($output, 'Public Getters');
+        }
     }
 
     private function processRelated($var, $level = 1, $parent = '')
@@ -329,13 +368,11 @@ class J
         return '
             <script>
                 function jdebugToggleRow(source) {
-                    console.log(source);
                     var target = source.parentNode.lastChild;
                     toggleState(target);
                 };
 
                 function jdebugToggleTbody(source) {
-                    console.log(source);
                     var target = source.parentNode.parentNode.parentNode.tBodies[0];
                     toggleState(target);
                 };
@@ -362,6 +399,10 @@ class J
                 .jdebug h2 {
                     color: #0000A2;
                     font-weight: bold;
+                }
+                .jdebug img {
+                    max-width: 200px;
+                    max-height: 200px;
                 }
                 .jdebug-array { background-color: #060; border-collapse: collapse;
                     border: 1px solid #CCC; border-radius: 4px; }

@@ -20,8 +20,8 @@ class Tag
     /** @Column(type="string") **/
     protected $description;
 
-    /** @Column(type="string") **/
-    protected $default_image;
+    /** @Column(type="string", name="default_image") **/
+    protected $defaultImage;
 
     /** @Column(type="boolean", name="is_product_group") **/
     protected $isProductGroup;
@@ -66,6 +66,21 @@ class Tag
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDefaultImage($defaultImage)
+    {
+        $this->defaultImage = $defaultImage;
+    }
+
+    public function getDefaultImage()
+    {
+        return $this->defaultImage;
     }
 
     public function getIsProductGroup()

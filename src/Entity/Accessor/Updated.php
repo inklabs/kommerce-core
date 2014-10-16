@@ -13,6 +13,8 @@ trait Updated
 
     public function getUpdated()
     {
-        return $this->updated;
+        $updated = new \DateTime();
+        $updated->setTimestamp($this->updated);
+        return $updated;
     }
 }
