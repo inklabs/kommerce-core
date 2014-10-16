@@ -69,12 +69,11 @@ class Product
     **/
     protected $tags;
 
-    private $quantityDiscounts;
+    private $quantityDiscounts = [];
 
     public function __construct()
     {
         $this->tags = new ArrayCollection();
-        $this->quantityDiscounts = new ArrayCollection();
     }
 
     public function getId()

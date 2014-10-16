@@ -27,6 +27,13 @@ class Pricing
         $this->catalog_promotions[] = $catalog_promotion;
     }
 
+    public function addCatalogPromotions(array $catalogPromotions)
+    {
+        foreach ($catalogPromotions as $catalogPromotion) {
+            $this->addCatalogPromotion($catalogPromotion);
+        }
+    }
+
     public function getPrice(Product $product, $quantity)
     {
         $this->product = $product;
