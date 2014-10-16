@@ -8,7 +8,7 @@ trait Updated
 
     public function setUpdated(\DateTime $updated)
     {
-        $this->updated = $updated;
+        $this->updated = $updated->getTimestamp();
     }
 
     public function getUpdated()

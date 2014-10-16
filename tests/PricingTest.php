@@ -47,6 +47,14 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($price, $this->pricing->getPrice($product, 10));
     }
 
+    public function testAddCatalogPromotions()
+    {
+        $this->pricing->addCatalogPromotions([
+            new CatalogPromotion,
+            new CatalogPromotion,
+        ]);
+    }
+
     public function testGetPriceWithCatalogPromotionPercent()
     {
         $catalogPromotion = new CatalogPromotion;

@@ -8,7 +8,7 @@ trait Created
 
     public function setCreated(\DateTime $created)
     {
-        $this->created = $created;
+        $this->created = $created->gettimestamp();
     }
 
     public function getCreated()
