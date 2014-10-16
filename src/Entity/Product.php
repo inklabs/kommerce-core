@@ -33,6 +33,11 @@ class Product
         $this->tags = new ArrayCollection();
     }
 
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -190,11 +195,6 @@ class Product
     public function addTag($tag)
     {
         $this->tags[] = $tag;
-    }
-
-    public function getTags()
-    {
-        return $this->tags;
     }
 
     public function addQuantityDiscount(ProductQuantityDiscount $quantityDiscount)
