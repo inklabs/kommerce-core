@@ -10,6 +10,9 @@ class CatalogPromotion extends Promotion
     /** @Id @Column(type="integer") @GeneratedValue **/
     protected $id;
 
+    /** @Column(type="string") **/
+    protected $name;
+
     /** @Column(type="string", name="discount_type") **/
     protected $discountType;
 
