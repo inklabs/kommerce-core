@@ -3,70 +3,27 @@ namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * @Entity(repositoryClass="Doctrine\ORM\EntityRepository")
- * @Table(name="product")
- **/
 class Product
 {
     use Accessor\Time;
     use OptionSelector;
 
-    /** @Id @Column(type="integer") @GeneratedValue **/
     protected $id;
-
-    /** @Column(type="string") **/
     protected $sku;
-
-    /** @Column(type="string") **/
     protected $name;
-
-    /** @Column(type="integer") **/
     protected $price;
-
-    /** @Column(type="integer") **/
     protected $quantity;
-
-    /**
-     * @OneToOne(targetEntity="Product")
-     * @JoinColumn(name="product_group_id")
-     **/
-    protected $product_group;
-
-    /** @Column(type="boolean", name="require_inventory") **/
+    protected $productGroup;
     protected $isInventoryRequired;
-
-    /** @Column(type="boolean", name="show_price") **/
     protected $isPriceVisible;
-
-    /** @Column(type="boolean", name="active") **/
     protected $isActive;
-
-    /** @Column(type="boolean", name="visible") **/
     protected $isVisible;
-
-    /** @Column(type="boolean", name="taxable") **/
     protected $isTaxable;
-
-    /** @Column(type="boolean", name="shipping") **/
     protected $isShippable;
-
-    /** @Column(type="integer", name="shipping_weight") **/
     protected $shippingWeight;
-
-    /** @Column(type="string") **/
     protected $description;
-
-    /** @Column(type="integer") **/
     protected $rating;
-
-    /** @Column(type="string", name="default_image") **/
     protected $defaultImage;
-
-    /**
-     * @ManyToMany(targetEntity="Tag", fetch="EAGER")
-     * @JoinTable(name="product_tag")
-    **/
     protected $tags;
 
     private $quantityDiscounts = [];
