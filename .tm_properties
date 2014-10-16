@@ -1,3 +1,4 @@
+exclude = "{$exclude,coverage_report}"
 softWrap = true
 tabSize = 4
 softTabs = true

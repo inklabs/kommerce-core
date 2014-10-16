@@ -232,7 +232,7 @@ class Product
 
     public function addTag($tag)
     {
-        $this->tags[$tag->getId()] = $tag;
+        $this->tags[] = $tag;
     }
 
     public function getTags()
