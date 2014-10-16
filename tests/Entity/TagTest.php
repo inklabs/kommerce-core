@@ -23,5 +23,6 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $this->tag->getIsProductGroup());
         $this->assertEquals(0, $this->tag->getSortOrder());
         $this->assertEquals(true, $this->tag->getIsVisible());
+        $this->assertEquals(0, count($this->tag->getProducts()));
     }
 }
