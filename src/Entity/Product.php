@@ -242,7 +242,7 @@ class Product
 
     public function addQuantityDiscount(ProductQuantityDiscount $quantityDiscount)
     {
-        $this->quantityDiscounts[$quantityDiscount->getId()] = $quantityDiscount;
+        $this->quantityDiscounts[] = $quantityDiscount;
     }
 
     public function getQuantityDiscounts()

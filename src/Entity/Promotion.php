@@ -87,22 +87,26 @@ class Promotion
 
     public function setStart(\DateTime $start)
     {
-        $this->start = $start;
+        $this->start = $start->getTimestamp();
     }
 
     public function getStart()
     {
-        return $this->start;
+        $start = new \DateTime();
+        $start->setTimestamp($this->start);
+        return $start;
     }
 
     public function setEnd(\DateTime $end)
     {
-        $this->end = $end;
+        $this->end = $end->getTimestamp();
     }
 
     public function getEnd()
     {
-        return $this->end;
+        $end = new \DateTime();
+        $end->setTimestamp($this->end);
+        return $end;
     }
 
     public function isValidPromotion(\DateTime $date)
@@ -115,7 +119,9 @@ class Promotion
     {
         $current_date_ts = $date->getTimestamp();
 
-        if ($current_date_ts >= $this->start->getTimestamp() and $current_date_ts <= $this->end->getTimestamp()) {
+        if ($current_date_ts >= $this->getStart()->getTimestamp()
+            and $current_date_ts <= $this->getEnd()->getTimestamp()) {
+
             return true;
         } else {
             return false;
