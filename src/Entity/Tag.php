@@ -36,11 +36,16 @@ class Tag
      * @ManyToMany(targetEntity="Product")
      * @JoinTable(name="product_tag")
     **/
-    // protected $products;
+    protected $products;
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
+    }
+
+    public function getProducts()
+    {
+        return $this->products;
     }
 
     public function getId()

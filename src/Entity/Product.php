@@ -48,11 +48,11 @@ class Product
     /** @Column(type="boolean", name="taxable") **/
     protected $isTaxable;
 
-    /** @Column(type="boolean") **/
-    protected $shipping;
+    /** @Column(type="boolean", name="shipping") **/
+    protected $isShippable;
 
-    /** @Column(type="integer") **/
-    protected $shipping_weight;
+    /** @Column(type="integer", name="shipping_weight") **/
+    protected $shippingWeight;
 
     /** @Column(type="string") **/
     protected $description;
@@ -60,8 +60,8 @@ class Product
     /** @Column(type="integer") **/
     protected $rating;
 
-    /** @Column(type="string") **/
-    protected $default_image;
+    /** @Column(type="string", name="default_image") **/
+    protected $defaultImage;
 
     /**
      * @ManyToMany(targetEntity="Tag", fetch="EAGER")
