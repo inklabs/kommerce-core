@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class UserTokenTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->userToken = new Entity\UserToken;
+        $this->userToken = new UserToken;
         $this->userToken->setUserAgent('XXX');
         $this->userToken->setToken('XXX');
         $this->userToken->setType('XXX');

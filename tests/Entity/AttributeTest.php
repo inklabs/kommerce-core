@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->attribute = new Entity\Attribute;
+        $this->attribute = new Attribute;
         $this->attribute->setName('Test Attribute');
         $this->attribute->setDescription('Test attribute description');
         $this->attribute->setSortOrder(0);
@@ -21,18 +21,18 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     public function testWithAttributeValues()
     {
-        $this->attribute = new Entity\Attribute;
+        $this->attribute = new Attribute;
         $this->attribute->setName('Color');
 
-        $this->attribute_value_red = new Entity\AttributeValue;
+        $this->attribute_value_red = new AttributeValue;
         $this->attribute_value_red->setSku('RED');
         $this->attribute_value_red->setName('Red');
 
-        $this->attribute_value_green = new Entity\AttributeValue;
+        $this->attribute_value_green = new AttributeValue;
         $this->attribute_value_green->setSku('GRN');
         $this->attribute_value_green->setName('Green');
 
-        $this->attribute_value_blue = new Entity\AttributeValue;
+        $this->attribute_value_blue = new AttributeValue;
         $this->attribute_value_blue->setSku('BLU');
         $this->attribute_value_blue->setName('Blue');
 

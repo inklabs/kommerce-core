@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class TaxRateTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->taxRate = new Entity\TaxRate;
+        $this->taxRate = new TaxRate;
         $this->taxRate->setState(null);
         $this->taxRate->setZip5(92606);
         $this->taxRate->setZip5From(null);

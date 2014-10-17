@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class TagTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->tag = new Entity\Tag;
+        $this->tag = new Tag;
         $this->tag->setName('Test Tag');
         $this->tag->setDescription('Test Description');
         $this->tag->setDefaultImage('http://lorempixel.com/400/200/');

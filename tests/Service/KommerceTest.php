@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Service;
 
-class ServiceKommerceTest extends \PHPUnit_Framework_TestCase
+class KommerceTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->kommerce = Service\Kommerce::factory();
+        $this->kommerce = Kommerce::factory();
         $this->kommerce->setup([
             'driver'   => 'pdo_sqlite',
             'memory'   => true,

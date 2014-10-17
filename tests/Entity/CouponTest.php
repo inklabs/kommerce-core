@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class CouponTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->coupon = new Entity\Coupon;
+        $this->coupon = new Coupon;
         $this->coupon->setName('20% Off orders over $100');
         $this->coupon->setCode('20PCT100');
         $this->coupon->setDiscountType('percent');
@@ -46,7 +46,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
 
     public function testIsValid()
     {
-        $this->coupon = new Entity\Coupon;
+        $this->coupon = new Coupon;
         $this->coupon->setName('20% Off orders $10-$100');
         $this->coupon->setDiscountType('percent');
         $this->coupon->setValue(20);

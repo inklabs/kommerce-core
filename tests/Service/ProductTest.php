@@ -1,11 +1,13 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Service;
 
-class ServiceProductTest extends \PHPUnit_Framework_TestCase
+use inklabs\kommerce\Entity as Entity;
+
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $kommerce = Service\Kommerce::factory();
+        $kommerce = Kommerce::factory();
         $kommerce->setup([
             'driver'   => 'pdo_sqlite',
             'memory'   => true,
@@ -48,7 +50,7 @@ class ServiceProductTest extends \PHPUnit_Framework_TestCase
 
     public function testFindMissing()
     {
-        $product = Service\Product::find(0);
+        $product = Product::find(0);
         $this->assertEquals(null, $product);
     }
 
@@ -56,14 +58,14 @@ class ServiceProductTest extends \PHPUnit_Framework_TestCase
     {
         $this->product->setIsActive(false);
         $id = $this->product->getId();
-        $product = Service\Product::find($id);
+        $product = Product::find($id);
         $this->assertEquals(null, $product);
     }
 
     public function testFind()
     {
         $id = $this->product->getId();
-        $product = Service\Product::find($id);
+        $product = Product::find($id);
         $this->assertEquals($this->product, $product);
     }
 }
