@@ -8,7 +8,7 @@ class Product
         $pricingService = new Pricing;
         $pricing = $pricingService->getPricing();
 
-        $entityManager = Kommerce::factory()->getEntityManager();
+        $entityManager = Kommerce::getInstance()->getEntityManager();
         $product = $entityManager->getRepository('inklabs\kommerce\Entity\Product')->find($id);
 
         if ($product === null or ! $product->getIsActive()) {

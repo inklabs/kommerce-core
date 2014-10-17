@@ -9,7 +9,7 @@ class Pricing
 
     public function __construct()
     {
-        $entityManager = Kommerce::factory()->getEntityManager();
+        $entityManager = Kommerce::getInstance()->getEntityManager();
         $catalogPromotions = $entityManager->getRepository('inklabs\kommerce\Entity\CatalogPromotion')->findAll();
 
         $this->pricing = new Entity\Pricing;

@@ -7,7 +7,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $kommerce = Kommerce::factory();
+        $kommerce = Kommerce::getInstance();
         $kommerce->setup([
             'driver'   => 'pdo_sqlite',
             'memory'   => true,
