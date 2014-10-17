@@ -1,25 +1,19 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-class KommerceTest extends \PHPUnit_Framework_TestCase
+class KommerceTest extends DoctrineTestCase
 {
     public function setUp()
     {
-        $this->kommerce = Kommerce::factory();
-        $this->kommerce->setup([
-            'driver'   => 'pdo_sqlite',
-            'memory'   => true,
-        ]);
     }
 
     public function testGetEntityManager()
     {
-        $entityManager = $this->kommerce->getEntityManager();
-        $this->assertInstanceOf('Doctrine\ORM\EntityManager', $entityManager);
+        $this->assertInstanceOf('Doctrine\ORM\EntityManager', $this->entityManager);
     }
 
-    public function testSetupSqlLogger()
-    {
-        $this->kommerce->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger);
-    }
+    // public function testSetupSqlLogger()
+    // {
+    //     $this->kommerce->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger);
+    // }
 }
