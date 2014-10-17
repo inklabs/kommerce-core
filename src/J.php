@@ -25,7 +25,7 @@ class J
         return $object;
     }
 
-    public static function debug($var, $limit = 1, $return = false)
+    public static function debug($var, $limit = 2, $return = false)
     {
         $j = self::factory();
         $j->var = $var;
