@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class AttributeValueTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->attributeValue = new Entity\AttributeValue;
+        $this->attributeValue = new AttributeValue;
         $this->attributeValue->setSku('TA');
         $this->attributeValue->setName('Test Attribute');
         $this->attributeValue->setDescription('Test attribute description');

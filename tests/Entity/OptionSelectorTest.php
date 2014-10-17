@@ -1,22 +1,22 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class OptionSelectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testAddOption()
     {
-        $option = new Entity\Option;
+        $option = new Option;
         $option->setName('Size');
         $option->setType('radio');
         $option->setDescription('Navy T-shirt size');
 
-        $product_small = new Entity\Product;
+        $product_small = new Product;
         $product_small->setSku('TS-NAVY-SM');
         $product_small->setName('Navy T-shirt (small)');
 
         $option->addProduct($product_small);
 
-        $product = new Entity\Product;
+        $product = new Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
 

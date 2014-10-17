@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class UserLoginTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->userLogin = new Entity\UserLogin;
+        $this->userLogin = new UserLogin;
         $this->userLogin->setUsername('test');
         $this->userLogin->setUserId(1);
         $this->userLogin->setIp4('8.8.8.8');

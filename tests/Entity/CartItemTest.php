@@ -1,14 +1,14 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class CartItemTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->product = new Entity\Product;
+        $this->product = new Product;
         $this->product->setName('Test Product');
 
-        $this->cartItem = new Entity\CartItem;
+        $this->cartItem = new CartItem;
         $this->cartItem->setProduct($this->product);
         $this->cartItem->setQuantity(1);
         $this->cartItem->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));

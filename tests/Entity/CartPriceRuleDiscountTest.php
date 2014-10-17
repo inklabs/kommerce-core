@@ -1,13 +1,13 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class CartPriceRuleDiscountTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->product = new Entity\Product;
+        $this->product = new Product;
 
-        $this->cartPriceRuleDiscount = new Entity\CartPriceRuleDiscount;
+        $this->cartPriceRuleDiscount = new CartPriceRuleDiscount;
         $this->cartPriceRuleDiscount->setProduct($this->product);
         $this->cartPriceRuleDiscount->setQuantity(1);
     }

@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class PromotionTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->promotion = new Entity\Promotion;
+        $this->promotion = new Promotion;
         $this->promotion->setName('20% Off in 2014');
         $this->promotion->setDiscountType('percent');
         $this->promotion->setValue(20);

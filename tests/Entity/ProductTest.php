@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->product = new Entity\Product;
+        $this->product = new Product;
         $this->product->setSku('TST101');
         $this->product->setName('Test Product');
         $this->product->setPrice(500);
@@ -23,7 +23,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product->setDefaultImage(null);
         $this->product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
-        $this->price = new Entity\Price;
+        $this->price = new Price;
         $this->product->setPriceObj($this->price);
     }
 
@@ -76,8 +76,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testaddQuantityDiscount()
     {
-        $this->product = new Entity\Product;
-        $this->product->addQuantityDiscount(new Entity\ProductQuantityDiscount);
+        $this->product = new Product;
+        $this->product->addQuantityDiscount(new ProductQuantityDiscount);
 
         $this->assertEquals(1, count($this->product->getQuantityDiscounts()));
     }

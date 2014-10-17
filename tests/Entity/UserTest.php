@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->user = new Entity\User;
+        $this->user = new User;
         $this->user->setEmail('test@example.com');
         $this->user->setUsername('test');
         $this->user->setPassword('xxxx');
@@ -29,7 +29,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testAddRole()
     {
-        $role = new Entity\Role;
+        $role = new Role;
         $role->setName('admin');
         $role->setDescription('Administrative user, has access to everything');
         $role->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
@@ -41,7 +41,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testAddToken()
     {
-        $userToken = new Entity\UserToken;
+        $userToken = new UserToken;
         $userToken->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $this->user->addToken($userToken);
