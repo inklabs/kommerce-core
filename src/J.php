@@ -241,7 +241,9 @@ class J
         }
 
         $this->processPublicProperties($var);
-        $this->processGetters($var);
+        $this->processProtectedProperties($var);
+        $this->processPrivateProperties($var);
+        // $this->processGetters($var);
 
         // __dbResult
         if (method_exists($var, '__dbResult')) {
@@ -267,13 +269,72 @@ class J
         foreach ($properties as $property) {
             if (! $property->isPublic()) {
                 continue;
+            } elseif ($property->isStatic()) {
+                $output['static $' . $property->name] = $reflector->getStaticPropertyValue($property->name);
+            } else {
+                $output['$' . $property->name] = $var->{$property->name};
             }
-
-            $output['$' . $property->name] = $var->{$property->name};
         }
 
         if (! empty($output)) {
             $this->processArray($output, 'Public Properties');
+        }
+    }
+
+    private function processProtectedProperties($var)
+    {
+        $output = [];
+        $reflector = new ReflectionClass($var);
+        $properties = [];
+        foreach ($reflector->getProperties() as $property) {
+            $properties[$property->name] = $property;
+        }
+        ksort($properties);
+        foreach ($properties as $property) {
+            if (! $property->isProtected()) {
+                continue;
+            } elseif ($property->isStatic()) {
+                $output['static $' . $property->name] = $reflector->getStaticPropertyValue($property->name);
+            } else {
+                $property->setAccessible(true);
+
+                $value = $property->getValue($var);
+
+                if ($property->name == 'defaultImage' and ! empty($value)) {
+                    $value = '<img src="/data/image/' . $value . '" />';
+                }
+
+                $output['$' . $property->name] = $value;
+            }
+        }
+
+        if (! empty($output)) {
+            $this->processArray($output, 'Protected Properties');
+        }
+    }
+
+    private function processPrivateProperties($var)
+    {
+        $output = [];
+        $reflector = new ReflectionClass($var);
+        $properties = [];
+        foreach ($reflector->getProperties() as $property) {
+            $properties[$property->name] = $property;
+        }
+        ksort($properties);
+        foreach ($properties as $property) {
+            if (! $property->isPrivate()) {
+                continue;
+            } elseif ($property->isStatic()) {
+                $output['static $' . $property->name] = $reflector->getStaticPropertyValue($property->name);
+            } else {
+                $property->setAccessible(true);
+                $output['$' . $property->name] = $property->getValue($var);
+            }
+        }
+
+        if (! empty($output)) {
+            $this->processArray($output, 'Private Properties');
         }
     }
 
@@ -292,11 +353,7 @@ class J
                     continue;
                 }
 
-                if ($this->level > $this->limit) {
-                    $value = null;
-                } else {
-                    $value = $var->{$method->name}();
-                }
+                $value = $var->{$method->name}();
 
                 if ($method->name == 'getDefaultImage' and ! empty($value)) {
                     $value = '<img src="/data/image/' . $value . '" />';
@@ -405,7 +462,7 @@ class J
                     max-height: 200px;
                 }
                 .jdebug-array { background-color: #060; border-collapse: collapse;
-                    border: 1px solid #CCC; border-radius: 4px; }
+                    border: 1px solid #CCC; border-radius: 4px; margin-bottom: 10px; }
                 .jdebug-array thead th { background-color: #090; color: #fff; cursor: pointer; }
                 .jdebug-array>tbody>tr>td { background-color: #fff; padding: 0; }
                 .jdebug-array>tbody>tr>td:nth-child(1) { background-color: #CFC; cursor: pointer; }

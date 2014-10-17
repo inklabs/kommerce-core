@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="inklabs\kommerce\Entity\CatalogPromotion" table="`catalog_promotion`" repository-class="Doctrine\ORM\EntityRepository">
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="name"             column="`name`"             type="string" nullable="true" />
+        <field name="discountType"     column="`discount_type`"    type="string" />
+        <field name="value"            column="`discount_value`"   type="integer" />
+        <field name="flagFreeShipping" column="`free_shipping`"    type="boolean" />
+        <field name="redemptions"      column="`redemptions`"      type="integer" />
+        <field name="maxRedemptions"   column="`max_redemptions`"  type="integer" />
+        <field name="start"            column="`start`"            type="date" />
+        <field name="end"              column="`end`"              type="date" />
+        <field name="created"          column="`created`"          type="integer" />
+        <field name="updated"          column="`updated`"          type="integer" />
+
+        <many-to-one field="tag" target-entity="Tag" fetch="EAGER" />
+
+    </entity>
+
+</doctrine-mapping>
