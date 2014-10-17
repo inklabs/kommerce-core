@@ -27,10 +27,21 @@ class Product
     protected $tags;
 
     private $quantityDiscounts = [];
+    private $priceObj;
 
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+    }
+
+    public function setPriceObj($priceObj)
+    {
+        $this->priceObj = $priceObj;
+    }
+
+    public function getPriceObj()
+    {
+        return $this->priceObj;
     }
 
     public function getTags()

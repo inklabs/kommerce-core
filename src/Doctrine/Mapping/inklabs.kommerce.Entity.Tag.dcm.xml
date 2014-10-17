@@ -6,7 +6,7 @@
 
     <entity name="inklabs\kommerce\Entity\Tag" table="`tag`" repository-class="Doctrine\ORM\EntityRepository">
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer" column="`id`">
             <generator strategy="AUTO" />
         </id>
 
