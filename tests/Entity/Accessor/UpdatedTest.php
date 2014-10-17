@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce;
 
-use inklabs\kommerce\Entity\Accessor\Updated;
-
 class UpdatedTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()

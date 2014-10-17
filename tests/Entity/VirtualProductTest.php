@@ -1,13 +1,11 @@
 <?php
 namespace inklabs\kommerce;
 
-use inklabs\kommerce\Entity\VirtualProduct;
-
 class VirtualProductTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->virtualProduct = new VirtualProduct;
+        $this->virtualProduct = new Entity\VirtualProduct;
         $this->virtualProduct->setSku('TST101');
         $this->virtualProduct->setName('Test Product');
         $this->virtualProduct->setPrice(500);

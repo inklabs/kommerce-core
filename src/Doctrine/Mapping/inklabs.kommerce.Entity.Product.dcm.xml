@@ -21,10 +21,10 @@
         <field name="isShippable"         column="`shipping`"          type="boolean" />
         <field name="shippingWeight"      column="`shipping_weight`"   type="integer" />
         <field name="description"         column="`description`"       type="string" />
-        <field name="rating"              column="`rating`"            type="integer" />
-        <field name="defaultImage"        column="`default_image`"     type="string" />
+        <field name="rating"              column="`rating`"            type="integer" nullable="true" />
+        <field name="defaultImage"        column="`default_image`"     type="string" nullable="true" />
 
-        <many-to-many field="tags" target-entity="Tag" fetch="EAGER">
+        <many-to-many field="tags" inversed-by="products" target-entity="Tag">
             <join-table name="`product_tag`">
                 <join-columns>
                     <join-column name="`product_id`" referenced-column-name="id" />

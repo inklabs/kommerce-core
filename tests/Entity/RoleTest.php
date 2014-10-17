@@ -1,13 +1,11 @@
 <?php
 namespace inklabs\kommerce;
 
-use inklabs\kommerce\Entity\Role;
-
 class RoleTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->role = new Role;
+        $this->role = new Entity\Role;
         $this->role->setName('admin');
         $this->role->setDescription('Administrative user, has access to everything');
     }

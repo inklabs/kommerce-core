@@ -1,13 +1,11 @@
 <?php
 namespace inklabs\kommerce;
 
-use inklabs\kommerce\Entity\CartTotal;
-
 class CartTotalTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->cart_total = new CartTotal;
+        $this->cart_total = new Entity\CartTotal;
         $this->cart_total->orig_subtotal = 1300;
         $this->cart_total->subtotal = 1300;
         $this->cart_total->shipping = 0;

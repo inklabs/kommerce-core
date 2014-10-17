@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine\DBAL\Logging\SQLLogger;
-use inklabs\kommerce\Pricing;
 
 class Kommerce
 {
@@ -11,7 +10,6 @@ class Kommerce
 
     public function __construct()
     {
-        $this->setupEntityManager();
     }
 
     public static function factory()
@@ -33,20 +31,13 @@ class Kommerce
         $this->entityManagerConfiguration->setSQLLogger($sqlLogger);
     }
 
-    public function setupEntityManager()
+    public function setup(array $dbParams)
     {
-        $dbParams = array(
-            'driver'   => 'pdo_mysql',
-            'host'     => '127.0.0.1',
-            'user'     => 'root',
-            'password' => '',
-            'dbname'   => 'birdiesperch',
-        );
-        $paths = array(VENPATH . 'inklabs/kommerce/src/Entity');
+        $paths = array(__DIR__ . '/../Entity');
         $isDevMode = true;
 
         $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
-        $xmlDriver = new \Doctrine\ORM\Mapping\Driver\XmlDriver(VENPATH . '/inklabs/kommerce/src/Doctrine/Mapping');
+        $xmlDriver = new \Doctrine\ORM\Mapping\Driver\XmlDriver(__DIR__ . '/../Doctrine/Mapping');
         $config->setMetadataDriverImpl($xmlDriver);
         // $cacheDriver = self::getCacheDriver();
         // $config->setMetadataCacheImpl($cacheDriver);

@@ -1,10 +1,5 @@
 <?php
-namespace inklabs\kommerce;
-
-use inklabs\kommerce\Entity\Price;
-use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\CatalogPromotion;
-use inklabs\kommerce\Entity\CartPriceRule;
+namespace inklabs\kommerce\Entity;
 
 class Pricing
 {

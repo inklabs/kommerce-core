@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Pricing;
-
 class Cart
 {
     public $items = [];

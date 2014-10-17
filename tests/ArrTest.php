@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce;
 
-use inklabs\kommerce\Arr;
-
 class ArrTest extends \PHPUnit_Framework_TestCase
 {
     /**
