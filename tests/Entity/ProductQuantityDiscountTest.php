@@ -1,13 +1,11 @@
 <?php
 namespace inklabs\kommerce;
 
-use inklabs\kommerce\Entity\ProductQuantityDiscount;
-
 class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->quantityDiscount = new ProductQuantityDiscount;
+        $this->quantityDiscount = new Entity\ProductQuantityDiscount;
         $this->quantityDiscount->setName('6x for $5 ea.');
         $this->quantityDiscount->setCustomerGroup(null);
         $this->quantityDiscount->setDiscountType('exact');

@@ -17,16 +17,7 @@
         <field name="sortOrder"      column="`sort_order`"       type="integer" />
         <field name="isVisible"      column="`visible`"          type="boolean" />
 
-        <many-to-many field="products" target-entity="Product">
-            <join-table name="product_tag">
-                <join-columns>
-                    <join-column name="tag_id" referenced-column-name="id" />
-                </join-columns>
-                <inverse-join-columns>
-                    <join-column name="product_id" referenced-column-name="id" />
-                </inverse-join-columns>
-            </join-table>
-        </many-to-many>
+        <many-to-many field="products" mapped-by="tags" target-entity="Product" />
 
     </entity>
 

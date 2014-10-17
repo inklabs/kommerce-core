@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity as Entity;
+
 class Pricing
 {
     protected $pricing;
@@ -10,7 +12,7 @@ class Pricing
         $entityManager = Kommerce::factory()->getEntityManager();
         $catalogPromotions = $entityManager->getRepository('inklabs\kommerce\Entity\CatalogPromotion')->findAll();
 
-        $this->pricing = new \inklabs\kommerce\Pricing;
+        $this->pricing = new Entity\Pricing;
         $this->pricing->addCatalogPromotions($catalogPromotions);
     }
 

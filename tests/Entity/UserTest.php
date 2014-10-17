@@ -1,15 +1,11 @@
 <?php
 namespace inklabs\kommerce;
 
-use inklabs\kommerce\Entity\User;
-use inklabs\kommerce\Entity\UserToken;
-use inklabs\kommerce\Entity\Role;
-
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->user = new User;
+        $this->user = new Entity\User;
         $this->user->setEmail('test@example.com');
         $this->user->setUsername('test');
         $this->user->setPassword('xxxx');
@@ -33,7 +29,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testAddRole()
     {
-        $role = new Role;
+        $role = new Entity\Role;
         $role->setName('admin');
         $role->setDescription('Administrative user, has access to everything');
         $role->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
@@ -45,7 +41,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testAddToken()
     {
-        $userToken = new UserToken;
+        $userToken = new Entity\UserToken;
         $userToken->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $this->user->addToken($userToken);
