@@ -1,14 +1,11 @@
 <?php
 namespace inklabs\kommerce;
 
-use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\ProductQuantityDiscount;
-
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->product = new Product;
+        $this->product = new Entity\Product;
         $this->product->setSku('TST101');
         $this->product->setName('Test Product');
         $this->product->setPrice(500);
@@ -25,6 +22,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product->setRating(null);
         $this->product->setDefaultImage(null);
         $this->product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+
+        $this->price = new Entity\Price;
+        $this->product->setPriceObj($this->price);
     }
 
     public function testGetters()
@@ -44,6 +44,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Test product description', $this->product->getDescription());
         $this->assertEquals(null, $this->product->getRating());
         $this->assertEquals(null, $this->product->getDefaultImage());
+        $this->assertEquals($this->price, $this->product->getPriceObj());
     }
 
     public function testRequiredInStock()
@@ -75,8 +76,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testaddQuantityDiscount()
     {
-        $this->product = new Product;
-        $this->product->addQuantityDiscount(new ProductQuantityDiscount);
+        $this->product = new Entity\Product;
+        $this->product->addQuantityDiscount(new Entity\ProductQuantityDiscount);
 
         $this->assertEquals(1, count($this->product->getQuantityDiscounts()));
     }
