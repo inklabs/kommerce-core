@@ -8,32 +8,15 @@ class Kommerce
     protected $entityManager;
     protected $entityManagerConfiguration;
 
-    /**
-     * Protected method to prevent creating a new instance
-     * from outside of this class.
-     */
-    protected function __construct()
-    {
-    }
-
-    public static function getInstance()
-    {
-        static $instance = null;
-        if ($instance === null) {
-            $instance = new static();
-        }
-        return $instance;
-    }
-
     public function getEntityManager()
     {
         return $this->entityManager;
     }
 
-    // public function setSqlLogger(SQLLogger $sqlLogger)
-    // {
-    //     $this->entityManagerConfiguration->setSQLLogger($sqlLogger);
-    // }
+    public function setSqlLogger(SQLLogger $sqlLogger)
+    {
+        $this->entityManagerConfiguration->setSQLLogger($sqlLogger);
+    }
 
     public function setup(array $dbParams)
     {

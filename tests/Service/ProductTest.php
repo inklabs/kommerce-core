@@ -3,26 +3,14 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
 
-class ProductTest extends \PHPUnit_Framework_TestCase
+class ProductTest extends DoctrineTestCase
 {
     public function setUp()
     {
-        $kommerce = Kommerce::getInstance();
-        $kommerce->setup([
-            'driver'   => 'pdo_sqlite',
-            'memory'   => true,
-            // 'driver'   => 'pdo_mysql',
-            // 'host'     => '127.0.0.1',
-            // 'user'     => 'root',
-            // 'password' => '',
-            // 'dbname'   => 'birdiesperch',
-        ]);
+        $this->entityManager->clear();
 
-        $entityManager = $kommerce->getEntityManager();
-        $entityManager->clear();
-
-        $tool = new \Doctrine\ORM\Tools\SchemaTool($entityManager);
-        $classes = $entityManager->getMetaDataFactory()->getAllMetaData();
+        $tool = new \Doctrine\ORM\Tools\SchemaTool($this->entityManager);
+        $classes = $this->entityManager->getMetaDataFactory()->getAllMetaData();
 
         $tool->dropSchema($classes);
         $tool->createSchema($classes);
@@ -44,13 +32,13 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product->setDefaultImage(null);
         $this->product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
-        $entityManager->persist($this->product);
-        $entityManager->flush();
+        $this->entityManager->persist($this->product);
+        $this->entityManager->flush();
     }
 
     public function testFindMissing()
     {
-        $product = Product::find(0);
+        $product = (new Product($this->entityManager))->find(0);
         $this->assertEquals(null, $product);
     }
 
@@ -58,14 +46,20 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $this->product->setIsActive(false);
         $id = $this->product->getId();
-        $product = Product::find($id);
+
+        $product = new Product($this->entityManager);
+        $product = $product->find($id);
+
         $this->assertEquals(null, $product);
     }
 
     public function testFind()
     {
         $id = $this->product->getId();
-        $product = Product::find($id);
+
+        $product = new Product($this->entityManager);
+        $product = $product->find($id);
+
         $this->assertEquals($this->product, $product);
     }
 }

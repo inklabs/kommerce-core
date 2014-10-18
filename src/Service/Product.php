@@ -1,15 +1,14 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-class Product
+class Product extends EntityManager
 {
-    public static function find($id)
+    public function find($id)
     {
-        $pricingService = new Pricing;
+        $pricingService = new Pricing($this->entityManager);
         $pricing = $pricingService->getPricing();
 
-        $entityManager = Kommerce::getInstance()->getEntityManager();
-        $product = $entityManager->getRepository('inklabs\kommerce\Entity\Product')->find($id);
+        $product = $this->entityManager->getRepository('inklabs\kommerce\Entity\Product')->find($id);
 
         if ($product === null or ! $product->getIsActive()) {
             return null;

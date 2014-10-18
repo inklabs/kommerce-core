@@ -3,14 +3,19 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
 
-class Pricing
+class Pricing extends EntityManager
 {
     protected $pricing;
 
-    public function __construct()
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
     {
-        $entityManager = Kommerce::getInstance()->getEntityManager();
-        $catalogPromotions = $entityManager->getRepository('inklabs\kommerce\Entity\CatalogPromotion')->findAll();
+        parent::__construct($entityManager);
+        $this->loadCatalogPromotions();
+    }
+
+    public function loadCatalogPromotions()
+    {
+        $catalogPromotions = $this->entityManager->getRepository('inklabs\kommerce\Entity\CatalogPromotion')->findAll();
 
         $this->pricing = new Entity\Pricing;
         $this->pricing->addCatalogPromotions($catalogPromotions);
