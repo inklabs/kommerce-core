@@ -300,10 +300,6 @@ class J
 
                 $value = $property->getValue($var);
 
-                if ($property->name == 'defaultImage' and ! empty($value)) {
-                    $value = '<img src="/data/image/' . $value . '" />';
-                }
-
                 $output['$' . $property->name] = $value;
             }
         }
@@ -355,10 +351,6 @@ class J
 
                 $value = $var->{$method->name}();
 
-                if ($method->name == 'getDefaultImage' and ! empty($value)) {
-                    $value = '<img src="/data/image/' . $value . '" />';
-                }
-
                 $output[$method->name . '()'] = $value;
             }
         }
@@ -402,6 +394,10 @@ class J
             } elseif (method_exists($var, 'getId')) {
                 $output .= '(' . $var->getId() . ')';
             }
+        }
+
+        if (method_exists($var, 'getDefaultImage') and ! empty($img = $var->getDefaultImage())) {
+            $output .= '<img src="/data/image/' . $img . '" />';
         }
 
         if (method_exists($var, 'getRelated')) {
@@ -457,9 +453,13 @@ class J
                     color: #0000A2;
                     font-weight: bold;
                 }
-                .jdebug img {
+                .jdebug-object>thead>tr>th>img {
+                    max-height: 50px;
+                }
+                .jdebug-object>tbody>tr>td>img {
                     max-width: 200px;
                     max-height: 200px;
+                    float: right;
                 }
                 .jdebug-array { background-color: #060; border-collapse: collapse;
                     border: 1px solid #CCC; border-radius: 4px; margin-bottom: 10px; }
