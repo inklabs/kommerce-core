@@ -8,6 +8,17 @@ class Kommerce
     protected $entityManager;
     protected $entityManagerConfiguration;
 
+    public function __construct(array $dbParams)
+    {
+        $this->setup($dbParams);
+    }
+
+    public function service($serviceClassName)
+    {
+        $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
+        return new $serviceClassName($this->entityManager);
+    }
+
     public function getEntityManager()
     {
         return $this->entityManager;
