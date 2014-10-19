@@ -240,6 +240,7 @@ class J
             $this->process($var->__getData());
         }
 
+        $this->processVarProperties($var);
         $this->processPublicProperties($var);
         $this->processProtectedProperties($var);
         $this->processPrivateProperties($var);
@@ -255,6 +256,20 @@ class J
         }
 
         $this->output .= '</td></tr></tbody></table>';
+    }
+
+    private function processVarProperties($var)
+    {
+        $output = [];
+        $properties = get_object_vars($var);
+        ksort($properties);
+        foreach ($properties as $name => $value) {
+            $output['$' . $name] = $value;
+        }
+
+        if (! empty($output)) {
+            $this->processArray($output, 'Var Properties');
+        }
     }
 
     private function processPublicProperties($var)
@@ -464,9 +479,10 @@ class J
                 .jdebug-array { background-color: #060; border-collapse: collapse;
                     border: 1px solid #CCC; border-radius: 4px; margin-bottom: 10px; }
                 .jdebug-array thead th { background-color: #090; color: #fff; cursor: pointer; }
-                .jdebug-array>tbody>tr>td { background-color: #fff; padding: 0; }
+                .jdebug-array>tbody>tr>td { background-color: #fff; padding: 1px 2px; vertical-align: top; }
                 .jdebug-array>tbody>tr>td:nth-child(1) { background-color: #CFC; cursor: pointer; }
                 .jdebug-array>tbody>tr>td:nth-child(2) { font-size: .75em; }
+                .jdebug-array>tbody>tr>td:nth-child(3) { max-width: 500px; }
 
                 .jdebug-object { border-collapse: collapse;
                     border: 1px solid #000; border-radius: 4px; }

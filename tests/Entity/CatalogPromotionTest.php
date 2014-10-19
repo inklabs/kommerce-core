@@ -19,12 +19,41 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $this->catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
     }
 
-    public function testGetters()
+    public function testGetData()
     {
-        $this->assertEquals(null, $this->catalogPromotion->getId());
-        $this->assertEquals('20PCTOFF', $this->catalogPromotion->getCode());
-        $this->assertEquals($this->tag, $this->catalogPromotion->getTag());
-        $this->assertEquals(false, $this->catalogPromotion->getFlagFreeShipping());
+        $expected = new \stdClass;
+        $expected->name             = $this->catalogPromotion->getName();
+        $expected->discountType     = $this->catalogPromotion->getDiscountType();
+        $expected->value            = $this->catalogPromotion->getValue();
+        $expected->redemptions      = $this->catalogPromotion->getRedemptions();
+        $expected->maxRedemptions   = $this->catalogPromotion->getMaxRedemptions();
+        $expected->start            = $this->catalogPromotion->getStart();
+        $expected->end              = $this->catalogPromotion->getEnd();
+        $expected->created          = $this->catalogPromotion->getCreated();
+        $expected->updated          = $this->catalogPromotion->getUpdated();
+        $expected->flagFreeShipping = $this->catalogPromotion->getFlagFreeShipping();
+        $expected->code             = $this->catalogPromotion->getCode();
+
+        $this->assertEquals($expected, $this->catalogPromotion->getData());
+    }
+
+    public function testGetAllData()
+    {
+        $expected = new \stdClass;
+        $expected->name             = $this->catalogPromotion->getName();
+        $expected->discountType     = $this->catalogPromotion->getDiscountType();
+        $expected->value            = $this->catalogPromotion->getValue();
+        $expected->redemptions      = $this->catalogPromotion->getRedemptions();
+        $expected->maxRedemptions   = $this->catalogPromotion->getMaxRedemptions();
+        $expected->start            = $this->catalogPromotion->getStart();
+        $expected->end              = $this->catalogPromotion->getEnd();
+        $expected->created          = $this->catalogPromotion->getCreated();
+        $expected->updated          = $this->catalogPromotion->getUpdated();
+        $expected->flagFreeShipping = $this->catalogPromotion->getFlagFreeShipping();
+        $expected->code             = $this->catalogPromotion->getCode();
+        $expected->tag              = $this->catalogPromotion->getTag()->getData();
+
+        $this->assertEquals($expected, $this->catalogPromotion->getAllData());
     }
 
     public function testIsTagValid()

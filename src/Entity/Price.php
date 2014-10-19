@@ -20,4 +20,27 @@ class Price
     {
         $this->quantity_discounts[] = $quantity_discount;
     }
+
+    public function getData()
+    {
+        $class = new \stdClass;
+        $class->orig_unit_price = $this->orig_unit_price;
+        $class->unit_price = $this->unit_price;
+        $class->orig_quantity_price = $this->orig_quantity_price;
+        $class->quantity_price = $this->quantity_price;
+
+        return $class;
+    }
+
+    public function getAllData()
+    {
+        $class = $this->getData();
+
+        $class->catalog_promotions = [];
+        foreach ($this->catalog_promotions as $catalogPromotion) {
+            $class->catalog_promotions[] = $catalogPromotion->getAllData();
+        }
+
+        return $class;
+    }
 }

@@ -44,11 +44,6 @@ class Product
         return $this->priceObj;
     }
 
-    public function getTags()
-    {
-        return $this->tags;
-    }
-
     public function getId()
     {
         return $this->id;
@@ -208,6 +203,11 @@ class Product
         $this->tags[] = $tag;
     }
 
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
     public function addQuantityDiscount(ProductQuantityDiscount $quantityDiscount)
     {
         $this->quantityDiscounts[] = $quantityDiscount;
@@ -216,5 +216,49 @@ class Product
     public function getQuantityDiscounts()
     {
         return $this->quantityDiscounts;
+    }
+
+    public function getData()
+    {
+        $class = new \stdClass;
+        $class->id                  = $this->getId();
+        $class->sku                 = $this->getSku();
+        $class->name                = $this->getName();
+        $class->price               = $this->getPrice();
+        $class->quantity            = $this->getQuantity();
+        $class->isInventoryRequired = $this->getIsInventoryRequired();
+        $class->isPriceVisible      = $this->getIsPriceVisible();
+        $class->isVisible           = $this->getIsVisible();
+        $class->isActive            = $this->getIsActive();
+        $class->isTaxable           = $this->getIsTaxable();
+        $class->isShippable         = $this->getIsShippable();
+        $class->shippingWeight      = $this->getShippingWeight();
+        $class->description         = $this->getDescription();
+        $class->rating              = $this->getRating();
+        $class->defaultImage        = $this->getDefaultImage();
+
+        $class->priceObj = $this->getPriceObj();
+        if (! empty($class->priceObj)) {
+            $class->priceObj = $class->priceObj->getData();
+        }
+
+        return $class;
+    }
+
+    public function getAllData()
+    {
+        $class = $this->getData();
+
+        $class->priceObj = $this->getPriceObj();
+        if (! empty($class->priceObj)) {
+            $class->priceObj = $class->priceObj->getAllData();
+        }
+
+        $class->tags = [];
+        foreach ($this->getTags() as $tag) {
+            $class->tags[] = $tag->getData();
+        }
+
+        return $class;
     }
 }
