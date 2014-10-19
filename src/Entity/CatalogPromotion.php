@@ -73,7 +73,7 @@ class CatalogPromotion extends Promotion
     {
         $class = parent::getData();
         $class->flagFreeShipping = $this->getFlagFreeShipping();
-        $class->code = $this->getCode();
+        $class->code             = $this->getCode();
 
         return $class;
     }
