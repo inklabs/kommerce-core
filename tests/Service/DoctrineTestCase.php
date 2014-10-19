@@ -9,9 +9,10 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->getConnection();
+        $this->setupTestSchema();
     }
 
-    public function getConnection()
+    private function getConnection()
     {
         $kommerce = new Kommerce([
             'driver'   => 'pdo_sqlite',
@@ -19,5 +20,16 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->entityManager = $kommerce->getEntityManager();
+    }
+
+    private function setupTestSchema()
+    {
+        $this->entityManager->clear();
+
+        $tool = new \Doctrine\ORM\Tools\SchemaTool($this->entityManager);
+        $classes = $this->entityManager->getMetaDataFactory()->getAllMetaData();
+
+        $tool->dropSchema($classes);
+        $tool->createSchema($classes);
     }
 }
