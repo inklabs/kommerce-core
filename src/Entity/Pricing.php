@@ -5,7 +5,7 @@ class Pricing
 {
     public $date;
 
-    private $catalog_promotions = [];
+    private $catalogPromotions = [];
     private $price;
 
     public function __construct(\DateTime $date = null)
@@ -17,9 +17,9 @@ class Pricing
         }
     }
 
-    public function addCatalogPromotion(CatalogPromotion $catalog_promotion)
+    public function addCatalogPromotion(CatalogPromotion $catalogPromotion)
     {
-        $this->catalog_promotions[] = $catalog_promotion;
+        $this->catalogPromotions[] = $catalogPromotion;
     }
 
     public function addCatalogPromotions(array $catalogPromotions)
@@ -63,10 +63,10 @@ class Pricing
 
     private function applyCatalogPromotions()
     {
-        foreach ($this->catalog_promotions as $catalog_promotion) {
-            if ($catalog_promotion->isValid($this->date, $this->product)) {
-                $this->price->unit_price = $catalog_promotion->getUnitPrice($this->price->unit_price);
-                $this->price->addCatalogPromotion($catalog_promotion);
+        foreach ($this->catalogPromotions as $catalogPromotion) {
+            if ($catalogPromotion->isValid($this->date, $this->product)) {
+                $this->price->unit_price = $catalogPromotion->getUnitPrice($this->price->unit_price);
+                $this->price->addCatalogPromotion($catalogPromotion);
             }
         }
 

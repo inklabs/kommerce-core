@@ -8,17 +8,17 @@ class Price
     public $orig_quantity_price;
     public $quantity_price;
 
-    private $catalog_promotions = [];
+    private $catalogPromotions = [];
     private $quantity_discounts = [];
 
-    public function addCatalogPromotion(CatalogPromotion $catalog_promotion)
+    public function addCatalogPromotion(CatalogPromotion $catalogPromotion)
     {
-        $this->catalog_promotions[] = $catalog_promotion;
+        $this->catalogPromotions[] = $catalogPromotion;
     }
 
-    public function addQuantityDiscount(ProductQuantityDiscount $quantity_discount)
+    public function addQuantityDiscount(ProductQuantityDiscount $quantityDiscount)
     {
-        $this->quantity_discounts[] = $quantity_discount;
+        $this->quantityDiscounts[] = $quantityDiscount;
     }
 
     public function getData()
@@ -36,9 +36,9 @@ class Price
     {
         $class = $this->getData();
 
-        $class->catalog_promotions = [];
-        foreach ($this->catalog_promotions as $catalogPromotion) {
-            $class->catalog_promotions[] = $catalogPromotion->getAllData();
+        $class->catalogPromotions = [];
+        foreach ($this->catalogPromotions as $catalogPromotion) {
+            $class->catalogPromotions[] = $catalogPromotion->getAllData();
         }
 
         return $class;
