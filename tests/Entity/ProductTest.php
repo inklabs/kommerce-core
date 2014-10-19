@@ -23,28 +23,59 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product->setDefaultImage(null);
         $this->product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
+        $this->tag = new Tag;
+        $this->tag->setName('Test Tag');
+        $this->product->addTag($this->tag);
+
         $this->price = new Price;
         $this->product->setPriceObj($this->price);
     }
 
-    public function testGetters()
+    public function testGetData()
     {
-        $this->assertEquals(null, $this->product->getId());
-        $this->assertEquals('TST101', $this->product->getSku());
-        $this->assertEquals('Test Product', $this->product->getName());
-        $this->assertEquals(500, $this->product->getPrice());
-        $this->assertEquals(10, $this->product->getQuantity());
-        $this->assertEquals(true, $this->product->getIsInventoryRequired());
-        $this->assertEquals(true, $this->product->getIsPriceVisible());
-        $this->assertEquals(true, $this->product->getIsActive());
-        $this->assertEquals(true, $this->product->getIsVisible());
-        $this->assertEquals(true, $this->product->getIsTaxable());
-        $this->assertEquals(true, $this->product->getIsShippable());
-        $this->assertEquals(16, $this->product->getShippingWeight());
-        $this->assertEquals('Test product description', $this->product->getDescription());
-        $this->assertEquals(null, $this->product->getRating());
-        $this->assertEquals(null, $this->product->getDefaultImage());
-        $this->assertEquals($this->price, $this->product->getPriceObj());
+        $expected = new \stdClass;
+        $expected->id                  = $this->product->getId();
+        $expected->sku                 = $this->product->getSku();
+        $expected->name                = $this->product->getName();
+        $expected->price               = $this->product->getPrice();
+        $expected->quantity            = $this->product->getQuantity();
+        $expected->isInventoryRequired = $this->product->getIsInventoryRequired();
+        $expected->isPriceVisible      = $this->product->getIsPriceVisible();
+        $expected->isActive            = $this->product->getIsActive();
+        $expected->isVisible           = $this->product->getIsVisible();
+        $expected->isTaxable           = $this->product->getIsTaxable();
+        $expected->isShippable         = $this->product->getIsShippable();
+        $expected->shippingWeight      = $this->product->getShippingWeight();
+        $expected->description         = $this->product->getDescription();
+        $expected->rating              = $this->product->getRating();
+        $expected->defaultImage        = $this->product->getDefaultImage();
+        $expected->priceObj            = $this->product->getPriceObj()->getData();
+
+        $this->assertEquals($expected, $this->product->getData());
+    }
+
+    public function testGetAllData()
+    {
+        $expected = new \stdClass;
+        $expected->id                  = $this->product->getId();
+        $expected->sku                 = $this->product->getSku();
+        $expected->name                = $this->product->getName();
+        $expected->price               = $this->product->getPrice();
+        $expected->quantity            = $this->product->getQuantity();
+        $expected->isInventoryRequired = $this->product->getIsInventoryRequired();
+        $expected->isPriceVisible      = $this->product->getIsPriceVisible();
+        $expected->isActive            = $this->product->getIsActive();
+        $expected->isVisible           = $this->product->getIsVisible();
+        $expected->isTaxable           = $this->product->getIsTaxable();
+        $expected->isShippable         = $this->product->getIsShippable();
+        $expected->shippingWeight      = $this->product->getShippingWeight();
+        $expected->description         = $this->product->getDescription();
+        $expected->rating              = $this->product->getRating();
+        $expected->defaultImage        = $this->product->getDefaultImage();
+        $expected->priceObj            = $this->product->getPriceObj()->getAllData();
+        $expected->tags                = [$this->tag->getData()];
+
+        $this->assertEquals($expected, $this->product->getAllData());
     }
 
     public function testRequiredInStock()

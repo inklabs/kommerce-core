@@ -24,7 +24,7 @@
         <field name="rating"              column="`rating`"            type="integer" nullable="true" />
         <field name="defaultImage"        column="`default_image`"     type="string" nullable="true" />
 
-        <many-to-many field="tags" inversed-by="products" target-entity="Tag">
+        <many-to-many field="tags" inversed-by="products" target-entity="Tag" fetch-mode="EAGER">
             <join-table name="`product_tag`">
                 <join-columns>
                     <join-column name="`product_id`" referenced-column-name="id" />
