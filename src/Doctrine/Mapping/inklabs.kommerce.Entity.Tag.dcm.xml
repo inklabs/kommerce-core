@@ -11,11 +11,11 @@
         </id>
 
         <field name="name"           column="`name`"             type="string" nullable="true" />
-        <field name="description"    column="`description`"      type="string" />
-        <field name="defaultImage"   column="`default_image`"    type="string" />
+        <field name="description"    column="`description`"      type="string" nullable="true" />
+        <field name="defaultImage"   column="`default_image`"    type="string" nullable="true" />
         <field name="isProductGroup" column="`is_product_group`" type="string" />
-        <field name="sortOrder"      column="`sort_order`"       type="integer" />
         <field name="isVisible"      column="`visible`"          type="boolean" />
+        <field name="sortOrder"      column="`sort_order`"       type="integer" nullable="true" />
 
         <many-to-many field="products" mapped-by="tags" target-entity="Product" />
 
