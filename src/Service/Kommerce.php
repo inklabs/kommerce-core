@@ -8,9 +8,9 @@ class Kommerce
     protected $entityManager;
     protected $entityManagerConfiguration;
 
-    public function __construct(array $dbParams)
+    public function __construct()
     {
-        $this->setup($dbParams);
+        $this->setupConfig();
     }
 
     public function service($serviceClassName)
@@ -29,19 +29,32 @@ class Kommerce
         $this->entityManagerConfiguration->setSQLLogger($sqlLogger);
     }
 
-    public function setup(array $dbParams)
+    public function addSqliteFunctions()
+    {
+        $this->config->addCustomNumericFunction('RAND', 'inklabs\kommerce\Doctrine\Functions\Sqlite\Rand');
+    }
+
+    public function addMysqlFunctions()
+    {
+        $this->config->addCustomNumericFunction('RAND', 'inklabs\kommerce\Doctrine\Functions\Mysql\Rand');
+    }
+
+    public function setupConfig()
     {
         $paths = array(__DIR__ . '/../Entity');
         $isDevMode = true;
 
-        $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+        $this->config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
         $xmlDriver = new \Doctrine\ORM\Mapping\Driver\XmlDriver(__DIR__ . '/../Doctrine/Mapping');
-        $config->setMetadataDriverImpl($xmlDriver);
+        $this->config->setMetadataDriverImpl($xmlDriver);
         // $cacheDriver = self::getCacheDriver();
-        // $config->setMetadataCacheImpl($cacheDriver);
-        // $config->setQueryCacheImpl($cacheDriver);
+        // $this->config->setMetadataCacheImpl($cacheDriver);
+        // $this->config->setQueryCacheImpl($cacheDriver);
+    }
 
-        $this->entityManager = \Doctrine\ORM\EntityManager::create($dbParams, $config);
+    public function setup(array $dbParams)
+    {
+        $this->entityManager = \Doctrine\ORM\EntityManager::create($dbParams, $this->config);
         $this->entityManagerConfiguration = $this->entityManager->getConnection()->getConfiguration();
     }
 }

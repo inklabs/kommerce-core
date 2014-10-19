@@ -50,6 +50,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $expected->rating              = $this->product->getRating();
         $expected->defaultImage        = $this->product->getDefaultImage();
         $expected->priceObj            = $this->product->getPriceObj()->getData();
+        $expected->isInStock           = $this->product->inStock();
 
         $this->assertEquals($expected, $this->product->getData());
     }
@@ -74,6 +75,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $expected->defaultImage        = $this->product->getDefaultImage();
         $expected->priceObj            = $this->product->getPriceObj()->getAllData();
         $expected->tags                = [$this->tag->getData()];
+        $expected->isInStock           = $this->product->inStock();
 
         $this->assertEquals($expected, $this->product->getAllData());
     }

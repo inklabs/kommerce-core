@@ -29,10 +29,21 @@ class Product extends EntityManager
 
         $query = $qb->select('product')
             ->from('inklabs\kommerce\Entity\Product', 'product')
-            ->where('product.id <> :productId');
+            ->where('product.id <> :productId')
+            ->andWhere('product.isActive = true')
+            ->andWhere('product.isVisible = true')
+            ->andWhere('(
+                product.isInventoryRequired = true
+                AND product.quantity > 0
+            ) OR (
+                product.isInventoryRequired = false
+            )')
+            ->addSelect('RAND(:rand) as HIDDEN rand')
+            ->orderBy('rand');
 
         $parameters = [
-            'productId' => $product->getId()
+            'productId' => $product->getId(),
+            'rand' => $product->getId(),
         ];
 
         $tags = $product->getTags();
@@ -52,20 +63,12 @@ class Product extends EntityManager
             ->setParameters($parameters);
 
         // TODO:
-        // ->where('product.id', 'NOT IN', $product_ids)
-        // ->where('product.visible', '=', 1)
-        // ->where_open()
-        //     ->where('product.require_inventory', '=', 1)
-        //     ->where('product.quantity', '>', 0)
-        //     ->or_where_open()
-        //         ->where('product.require_inventory', '=', 0)
-        //     ->or_where_close()
-        // ->where_close()
-        // ->where('product.active', '=', 1)
         // ->group_by('product.id')
         // ->order_by($order_by)
         // ->limit($limit)
         // ->find_all()
+
+        // print_r([$query->getQuery()->getSql(), $parameters]);exit;
 
         $relatedProducts = $query->getQuery()->getResult();
 

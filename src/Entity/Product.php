@@ -237,6 +237,8 @@ class Product
         $class->rating              = $this->getRating();
         $class->defaultImage        = $this->getDefaultImage();
 
+        $class->isInStock = $this->inStock();
+
         $class->priceObj = $this->getPriceObj();
         if (! empty($class->priceObj)) {
             $class->priceObj = $class->priceObj->getData();

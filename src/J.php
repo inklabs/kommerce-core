@@ -411,8 +411,11 @@ class J
             }
         }
 
-        if (method_exists($var, 'getDefaultImage') and ! empty($img = $var->getDefaultImage())) {
-            $output .= '<img src="/data/image/' . $img . '" />';
+        if (method_exists($var, 'getDefaultImage')) {
+            $img = $var->getDefaultImage();
+            if (! empty($img)) {
+                $output .= '<img src="/data/image/' . $img . '" />';
+            }
         }
 
         if (method_exists($var, 'getRelated')) {

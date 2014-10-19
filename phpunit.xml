@@ -19,6 +19,7 @@
             <directory>src</directory>
             <exclude>
                 <file>src/J.php</file>
+                <directory>src/Doctrine</directory>
             </exclude>
         </whitelist>
     </filter>

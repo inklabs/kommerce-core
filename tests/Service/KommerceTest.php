@@ -5,7 +5,8 @@ class KommerceTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->kommerce = new Kommerce([
+        $this->kommerce = new Kommerce;
+        $this->kommerce->setup([
             'driver'   => 'pdo_sqlite',
             'memory'   => true,
         ]);
@@ -25,5 +26,15 @@ class KommerceTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->kommerce->service('Product');
         $this->assertInstanceOf('inklabs\kommerce\Service\Product', $product);
+    }
+
+    public function testAddSqliteFunctions()
+    {
+        $this->kommerce->addSqliteFunctions();
+    }
+
+    public function testAddMysqlFunctions()
+    {
+        $this->kommerce->addMysqlFunctions();
     }
 }

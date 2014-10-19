@@ -106,12 +106,8 @@ class ProductTest extends DoctrineTestCase
 
         $relatedProducts = $productService->getRelatedProducts($product);
 
-        $expected = [
-            $product2,
-            $product3,
-            $product4,
-        ];
-
-        $this->assertEquals($expected, $relatedProducts);
+        $this->assertTrue(in_array($product2, $relatedProducts));
+        $this->assertTrue(in_array($product3, $relatedProducts));
+        $this->assertTrue(in_array($product4, $relatedProducts));
     }
 }

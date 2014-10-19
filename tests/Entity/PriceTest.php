@@ -39,7 +39,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $expected->unit_price          = $this->price->unit_price;
         $expected->orig_quantity_price = $this->price->orig_quantity_price;
         $expected->quantity_price      = $this->price->quantity_price;
-        $expected->catalog_promotions  = [$this->catalogPromotion->getAllData()];
+        $expected->catalogPromotions  = [$this->catalogPromotion->getAllData()];
 
         $this->assertEquals($expected, $this->price->getAllData());
     }
