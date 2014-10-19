@@ -16,7 +16,6 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
         $this->product = new Product;
         $this->product->setSku('TST101');
-
         $this->tag->addProduct($this->product);
     }
 

@@ -8,7 +8,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->price = new Price;
         $this->price->orig_unit_price = 2500;
         $this->price->orig_quantity_price = 2500;
-
         $this->price->unit_price = 1750;
         $this->price->quantity_price = 1750;
 
