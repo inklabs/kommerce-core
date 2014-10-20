@@ -112,54 +112,65 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->assertTrue(in_array($product4, $relatedProducts));
     }
 
+    public function setupProductsByTag()
+    {
+        $this->tag = new Entity\Tag;
+        $this->tag->setName('Test Tag');
+        $this->tag->setDescription('Test Description');
+        $this->tag->setDefaultImage('http://lorempixel.com/400/200/');
+        $this->tag->setIsProductGroup(false);
+        $this->tag->setSortOrder(0);
+        $this->tag->setIsVisible(true);
+        $this->tag->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+
+        $this->product1 = $this->getDummyProduct(1);
+        $this->product2 = $this->getDummyProduct(2);
+        $this->product3 = $this->getDummyProduct(3);
+
+        $this->product1->addTag($this->tag);
+        $this->product2->addTag($this->tag);
+        $this->product3->addTag($this->tag);
+
+        $this->entityManager->persist($this->tag);
+        $this->entityManager->persist($this->product1);
+        $this->entityManager->persist($this->product2);
+        $this->entityManager->persist($this->product3);
+        $this->entityManager->flush();
+    }
+
     public function testGetProductsByTag()
     {
-        $tag = new Entity\Tag;
-        $tag->setName('Test Tag');
-        $tag->setDescription('Test Description');
-        $tag->setDefaultImage('http://lorempixel.com/400/200/');
-        $tag->setIsProductGroup(false);
-        $tag->setSortOrder(0);
-        $tag->setIsVisible(true);
-        $tag->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
-
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
-        $product3 = $this->getDummyProduct(3);
-
-        $product1->addTag($tag);
-        $product2->addTag($tag);
-        $product3->addTag($tag);
-
-        $this->entityManager->persist($tag);
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->persist($product3);
-        $this->entityManager->flush();
+        $this->setupProductsByTag();
 
         $productService = new Product($this->entityManager);
-
-        $tagProducts = $productService->getProductsByTag($tag);
+        $tagProducts = $productService->getProductsByTag($this->tag);
 
         $expected = [
-            $product1,
-            $product2,
-            $product3,
+            $this->product1,
+            $this->product2,
+            $this->product3,
         ];
 
         $this->assertEquals($expected, $tagProducts);
+    }
+
+    public function testGetProductsByTagPaginated()
+    {
+        $this->setupProductsByTag();
 
         $maxResults = 2;
         $page = 1;
         $pagination = new Entity\Paginate($maxResults, $page);
-        $tagProducts = $productService->getProductsByTag($tag, $pagination);
+
+        $productService = new Product($this->entityManager);
+        $tagProducts = $productService->getProductsByTag($this->tag, $pagination);
 
         $expected = [
-            $product1,
-            $product2,
+            $this->product1,
+            $this->product2,
         ];
 
         $this->assertEquals($expected, $tagProducts);
-        $this->assertEquals($maxResults, $pagination->total);
+        $this->assertEquals(3, $pagination->getTotal());
     }
 }
