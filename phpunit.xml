@@ -19,7 +19,7 @@
             <directory>src</directory>
             <exclude>
                 <file>src/J.php</file>
-                <directory>src/Doctrine</directory>
+                <directory>src/Doctrine/Functions/Mysql</directory>
             </exclude>
         </whitelist>
     </filter>
