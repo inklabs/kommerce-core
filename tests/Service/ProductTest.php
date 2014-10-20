@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
 
-class ProductTest extends DoctrineTestCase
+class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 {
     public function setUp()
     {
@@ -106,6 +106,7 @@ class ProductTest extends DoctrineTestCase
 
         $relatedProducts = $productService->getRelatedProducts($product);
 
+        $this->assertEquals(3, count($relatedProducts));
         $this->assertTrue(in_array($product2, $relatedProducts));
         $this->assertTrue(in_array($product3, $relatedProducts));
         $this->assertTrue(in_array($product4, $relatedProducts));

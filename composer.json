@@ -18,7 +18,8 @@
     },
     "autoload": {
         "psr-4": {
-            "inklabs\\kommerce\\": "src"
+            "inklabs\\kommerce\\": "src",
+            "inklabs\\kommerce\\tests\\": "tests"
         }
     }
 }
