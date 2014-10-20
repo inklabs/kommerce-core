@@ -34,6 +34,7 @@ class Product extends EntityManager
         $query = $qb->select('product')
             ->from('inklabs\kommerce\Entity\Product', 'product')
             ->where('product.id <> :productId')
+                ->setParameter('productId', $product->getId())
             ->andWhere('product.isActive = true')
             ->andWhere('product.isVisible = true')
             ->andWhere('(
@@ -43,38 +44,24 @@ class Product extends EntityManager
                 product.isInventoryRequired = false
             )')
             ->addSelect('RAND(:rand) as HIDDEN rand')
-            ->orderBy('rand');
-
-        $parameters = [
-            'productId' => $product->getId(),
-            'rand' => $product->getId(),
-        ];
+                ->setParameter('rand', $product->getId())
+            ->orderBy('rand')
+            ->setMaxResults($limit);
 
         $tags = $product->getTags();
         if (! empty($tags)) {
-            $parameters['tagIds'] = [];
+            $tagIds = [];
             foreach ($tags as $tag) {
-                $parameters['tagIds'][] = $tag->getId();
+                $tagIds[] = $tag->getId();
             }
 
             $query = $query
                 ->innerJoin('product.tags', 'tag')
-                ->andWhere('tag.id IN (:tagIds)');
+                ->andWhere('tag.id IN (:tagIds)')
+                    ->setParameter('tagIds', $tagIds);
         }
 
-        $query = $query
-            ->setMaxResults($limit)
-            ->setParameters($parameters);
-
-        // TODO:
-        // ->group_by('product.id')
-        // ->order_by($order_by)
-        // ->limit($limit)
-        // ->find_all()
-
-        // print_r([$query->getQuery()->getSql(), $parameters]);exit;
-
-        $relatedProducts = $query->getQuery()->getResult();
+        $relatedProducts = $query->findAll();
 
         foreach ($relatedProducts as $relatedProduct) {
             $price = $pricing->getPrice($relatedProduct, 1);
@@ -106,12 +93,10 @@ class Product extends EntityManager
             ->setParameter('tagId', $tag->getId());
 
         if ($pagination !== null) {
-            $query = $query->paginate($pagination);
+            $query->paginate($pagination);
         }
 
-        $tagProducts = $query
-            ->getQuery()
-            ->getResult();
+        $tagProducts = $query->findAll();
 
         foreach ($tagProducts as $tagProduct) {
             $price = $pricing->getPrice($tagProduct, 1);

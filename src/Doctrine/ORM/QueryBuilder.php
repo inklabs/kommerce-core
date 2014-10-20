@@ -17,4 +17,9 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
             ->setFirstResult($pagination->getMaxResults() * ($pagination->getPage() - 1))
             ->setMaxResults($pagination->getMaxResults());
     }
+
+    public function findAll()
+    {
+        return $this->getQuery()->getResult();
+    }
 }
