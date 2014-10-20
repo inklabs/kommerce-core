@@ -31,7 +31,7 @@ class CommonTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
     public function testFindByEncodedId()
     {
         $id = $this->product->getId();
-        $encodedId = Base::encode($id);
+        $encodedId = BaseConvert::encode($id);
 
         $productService = new Product($this->entityManager);
         $product = $productService->findByEncodedId($encodedId);

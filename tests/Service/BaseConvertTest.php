@@ -20,7 +20,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testEncode($expected, $input)
     {
-        $this->assertSame($expected, Base::encode($input));
+        $this->assertSame($expected, BaseConvert::encode($input));
     }
 
     /**
@@ -28,6 +28,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecode($input, $expected)
     {
-        $this->assertSame($expected, Base::decode($input));
+        $this->assertSame($expected, BaseConvert::decode($input));
     }
 }

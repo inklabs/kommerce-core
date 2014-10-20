@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-class Base
+class BaseConvert
 {
     private static $encodeBase = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
