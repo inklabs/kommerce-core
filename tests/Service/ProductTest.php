@@ -56,6 +56,17 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->assertEquals($this->product, $product);
     }
 
+    public function testFindByEncodedId()
+    {
+        $id = $this->product->getId();
+        $encodedId = Base::encode($id);
+
+        $productService = new Product($this->entityManager);
+        $product = $productService->findByEncodedId($encodedId);
+
+        $this->assertEquals($this->product, $product);
+    }
+
     private function getDummyProduct($num)
     {
         $product = new Entity\Product;

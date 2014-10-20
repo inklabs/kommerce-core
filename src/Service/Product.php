@@ -3,6 +3,12 @@ namespace inklabs\kommerce\Service;
 
 class Product extends EntityManager
 {
+    public function findByEncodedId($encodedId)
+    {
+        $id = Base::decode($encodedId);
+        return $this->find($id);
+    }
+
     public function find($id)
     {
         $pricingService = new Pricing($this->entityManager);
