@@ -160,7 +160,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
         $maxResults = 2;
         $page = 1;
-        $pagination = new Entity\Paginate($maxResults, $page);
+        $pagination = new Entity\Pagination($maxResults, $page);
 
         $productService = new Product($this->entityManager);
         $tagProducts = $productService->getProductsByTag($this->tag, $pagination);
