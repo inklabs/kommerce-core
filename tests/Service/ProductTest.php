@@ -56,17 +56,6 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->assertEquals($this->product, $product);
     }
 
-    public function testFindByEncodedId()
-    {
-        $id = $this->product->getId();
-        $encodedId = Base::encode($id);
-
-        $productService = new Product($this->entityManager);
-        $product = $productService->findByEncodedId($encodedId);
-
-        $this->assertEquals($this->product, $product);
-    }
-
     private function getDummyProduct($num)
     {
         $product = new Entity\Product;
@@ -121,5 +110,56 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->assertTrue(in_array($product2, $relatedProducts));
         $this->assertTrue(in_array($product3, $relatedProducts));
         $this->assertTrue(in_array($product4, $relatedProducts));
+    }
+
+    public function testGetProductsByTag()
+    {
+        $tag = new Entity\Tag;
+        $tag->setName('Test Tag');
+        $tag->setDescription('Test Description');
+        $tag->setDefaultImage('http://lorempixel.com/400/200/');
+        $tag->setIsProductGroup(false);
+        $tag->setSortOrder(0);
+        $tag->setIsVisible(true);
+        $tag->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+
+        $product1 = $this->getDummyProduct(1);
+        $product2 = $this->getDummyProduct(2);
+        $product3 = $this->getDummyProduct(3);
+
+        $product1->addTag($tag);
+        $product2->addTag($tag);
+        $product3->addTag($tag);
+
+        $this->entityManager->persist($tag);
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->persist($product3);
+        $this->entityManager->flush();
+
+        $productService = new Product($this->entityManager);
+
+        $tagProducts = $productService->getProductsByTag($tag);
+
+        $expected = [
+            $product1,
+            $product2,
+            $product3,
+        ];
+
+        $this->assertEquals($expected, $tagProducts);
+
+        $maxResults = 2;
+        $page = 1;
+        $pagination = new Entity\Paginate($maxResults, $page);
+        $tagProducts = $productService->getProductsByTag($tag, $pagination);
+
+        $expected = [
+            $product1,
+            $product2,
+        ];
+
+        $this->assertEquals($expected, $tagProducts);
+        $this->assertEquals($maxResults, $pagination->total);
     }
 }
