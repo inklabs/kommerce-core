@@ -173,4 +173,23 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->assertEquals($expected, $tagProducts);
         $this->assertEquals(3, $pagination->getTotal());
     }
+
+    public function testGetProductsByTagPaginatedSecondPage()
+    {
+        $this->setupProductsByTag();
+
+        $maxResults = 2;
+        $page = 2;
+        $pagination = new Entity\Pagination($maxResults, $page);
+
+        $productService = new Product($this->entityManager);
+        $tagProducts = $productService->getProductsByTag($this->tag, $pagination);
+
+        $expected = [
+            $this->product3,
+        ];
+
+        $this->assertEquals($expected, $tagProducts);
+        $this->assertEquals(3, $pagination->getTotal());
+    }
 }
