@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity as Entity;
+
 class Product extends EntityManager
 {
     use Common;
@@ -82,7 +84,7 @@ class Product extends EntityManager
         return $relatedProducts;
     }
 
-    public function getProductsByTag($tag, & $pagination = null)
+    public function getProductsByTag($tag, Entity\Paginate & $pagination = null)
     {
         $pricingService = new Pricing($this->entityManager);
         $pricing = $pricingService->getPricing();
