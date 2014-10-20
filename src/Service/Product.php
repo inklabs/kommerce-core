@@ -3,11 +3,7 @@ namespace inklabs\kommerce\Service;
 
 class Product extends EntityManager
 {
-    public function findByEncodedId($encodedId)
-    {
-        $id = Base::decode($encodedId);
-        return $this->find($id);
-    }
+    use Common;
 
     public function find($id)
     {
@@ -84,5 +80,42 @@ class Product extends EntityManager
         }
 
         return $relatedProducts;
+    }
+
+    public function getProductsByTag($tag, & $pagination = null)
+    {
+        $pricingService = new Pricing($this->entityManager);
+        $pricing = $pricingService->getPricing();
+
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $query = $qb->select('product')
+            ->from('inklabs\kommerce\Entity\Product', 'product')
+            ->innerJoin('product.tags', 'tag')
+            ->where('tag.id = :tagId')
+            ->andWhere('product.isActive = true')
+            ->andWhere('product.isVisible = true')
+            ->andWhere('(
+                product.isInventoryRequired = true
+                AND product.quantity > 0
+            ) OR (
+                product.isInventoryRequired = false
+            )')
+            ->setParameter('tagId', $tag->getId());
+
+        if ($pagination !== null) {
+            $query = $pagination->paginate($query);
+        }
+
+        $tagProducts = $query
+            ->getQuery()
+            ->getResult();
+
+        foreach ($tagProducts as $tagProduct) {
+            $price = $pricing->getPrice($tagProduct, 1);
+            $tagProduct->setPriceObj($price);
+        }
+
+        return $tagProducts;
     }
 }
