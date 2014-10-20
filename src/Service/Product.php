@@ -29,7 +29,7 @@ class Product extends EntityManager
         $pricingService = new Pricing($this->entityManager);
         $pricing = $pricingService->getPricing();
 
-        $qb = $this->entityManager->createQueryBuilder();
+        $qb = $this->createQueryBuilder();
 
         $query = $qb->select('product')
             ->from('inklabs\kommerce\Entity\Product', 'product')
@@ -84,12 +84,12 @@ class Product extends EntityManager
         return $relatedProducts;
     }
 
-    public function getProductsByTag($tag, Entity\Paginate & $pagination = null)
+    public function getProductsByTag($tag, Entity\Pagination & $pagination = null)
     {
         $pricingService = new Pricing($this->entityManager);
         $pricing = $pricingService->getPricing();
 
-        $qb = $this->entityManager->createQueryBuilder();
+        $qb = $this->createQueryBuilder();
 
         $query = $qb->select('product')
             ->from('inklabs\kommerce\Entity\Product', 'product')
@@ -106,7 +106,7 @@ class Product extends EntityManager
             ->setParameter('tagId', $tag->getId());
 
         if ($pagination !== null) {
-            $query = $pagination->paginate($query);
+            $query = $query->paginate($pagination);
         }
 
         $tagProducts = $query
