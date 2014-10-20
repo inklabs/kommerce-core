@@ -1,0 +1,33 @@
+<?php
+namespace inklabs\kommerce\Service;
+
+class BaseTest extends \PHPUnit_Framework_TestCase
+{
+    public function providerBase()
+    {
+        return [
+            ['1', 1],
+            ['A', 10],
+            ['10', 36],
+            ['1A', 46],
+            ['111', 1333],
+            ['ZZZ', 46655],
+        ];
+    }
+
+    /**
+     * @dataProvider providerBase()
+     */
+    public function testEncode($expected, $input)
+    {
+        $this->assertSame($expected, Base::encode($input));
+    }
+
+    /**
+     * @dataProvider providerBase()
+     */
+    public function testDecode($input, $expected)
+    {
+        $this->assertSame($expected, Base::decode($input));
+    }
+}

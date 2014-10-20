@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Service as Service;
+
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -35,6 +37,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $expected = new \stdClass;
         $expected->id                  = $this->product->getId();
+        $expected->encodedId           = Service\Base::encode($this->product->getId());
         $expected->sku                 = $this->product->getSku();
         $expected->name                = $this->product->getName();
         $expected->price               = $this->product->getPrice();
@@ -59,6 +62,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $expected = new \stdClass;
         $expected->id                  = $this->product->getId();
+        $expected->encodedId           = Service\Base::encode($this->product->getId());
         $expected->sku                 = $this->product->getSku();
         $expected->name                = $this->product->getName();
         $expected->price               = $this->product->getPrice();
