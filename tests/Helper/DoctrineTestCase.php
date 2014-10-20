@@ -1,5 +1,7 @@
 <?php
-namespace inklabs\kommerce\Service;
+namespace inklabs\kommerce\tests\Helper;
+
+use inklabs\kommerce\Service\Kommerce;
 
 abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 {
