@@ -5,7 +5,7 @@ trait Common
 {
     public function findByEncodedId($encodedId)
     {
-        $id = Base::decode($encodedId);
+        $id = BaseConvert::decode($encodedId);
         return $this->find($id);
     }
 }

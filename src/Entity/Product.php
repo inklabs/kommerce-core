@@ -223,7 +223,7 @@ class Product
     {
         $class = new \stdClass;
         $class->id                  = $this->getId();
-        $class->encodedId           = Service\Base::encode($this->getId());
+        $class->encodedId           = Service\BaseConvert::encode($this->getId());
         $class->sku                 = $this->getSku();
         $class->name                = $this->getName();
         $class->price               = $this->getPrice();

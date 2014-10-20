@@ -37,7 +37,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $expected = new \stdClass;
         $expected->id                  = $this->product->getId();
-        $expected->encodedId           = Service\Base::encode($this->product->getId());
+        $expected->encodedId           = Service\BaseConvert::encode($this->product->getId());
         $expected->sku                 = $this->product->getSku();
         $expected->name                = $this->product->getName();
         $expected->price               = $this->product->getPrice();
@@ -62,7 +62,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $expected = new \stdClass;
         $expected->id                  = $this->product->getId();
-        $expected->encodedId           = Service\Base::encode($this->product->getId());
+        $expected->encodedId           = Service\BaseConvert::encode($this->product->getId());
         $expected->sku                 = $this->product->getSku();
         $expected->name                = $this->product->getName();
         $expected->price               = $this->product->getPrice();
