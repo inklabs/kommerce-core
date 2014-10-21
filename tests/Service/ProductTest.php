@@ -112,6 +112,59 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->assertTrue(in_array($product4, $relatedProducts));
     }
 
+    public function testGetProductsByIds()
+    {
+        $productService = new Product($this->entityManager);
+
+        $product1 = $this->getDummyProduct(1);
+        $product2 = $this->getDummyProduct(2);
+        $product3 = $this->getDummyProduct(3);
+        $product4 = $this->getDummyProduct(4);
+        $product5 = $this->getDummyProduct(5);
+
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->persist($product3);
+        $this->entityManager->persist($product4);
+        $this->entityManager->persist($product5);
+        $this->entityManager->flush();
+
+        $productIds = [
+            $product2->getId(),
+            $product3->getId(),
+            $product4->getId(),
+        ];
+
+        $products = $productService->getProductsByIds($productIds);
+
+        $this->assertEquals(3, count($products));
+        $this->assertTrue(in_array($product2, $products));
+        $this->assertTrue(in_array($product3, $products));
+        $this->assertTrue(in_array($product4, $products));
+    }
+
+    public function testGetRandomProducts()
+    {
+        $productService = new Product($this->entityManager);
+
+        $product1 = $this->getDummyProduct(1);
+        $product2 = $this->getDummyProduct(2);
+        $product3 = $this->getDummyProduct(3);
+        $product4 = $this->getDummyProduct(4);
+        $product5 = $this->getDummyProduct(5);
+
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->persist($product3);
+        $this->entityManager->persist($product4);
+        $this->entityManager->persist($product5);
+        $this->entityManager->flush();
+
+        $products = $productService->getRandomProducts(3);
+
+        $this->assertEquals(3, count($products));
+    }
+
     public function setupProductsByTag()
     {
         $this->tag = new Entity\Tag;
