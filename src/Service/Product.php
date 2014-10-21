@@ -105,4 +105,68 @@ class Product extends EntityManager
 
         return $tagProducts;
     }
+
+    public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
+    {
+        $pricingService = new Pricing($this->entityManager);
+        $pricing = $pricingService->getPricing();
+
+        $qb = $this->createQueryBuilder();
+
+        $query = $qb->select('product')
+            ->from('inklabs\kommerce\Entity\Product', 'product')
+            ->where('product.id IN (:productIds)')
+            ->andWhere('product.isActive = true')
+            ->andWhere('product.isVisible = true')
+            ->andWhere('(
+                product.isInventoryRequired = true
+                AND product.quantity > 0
+            ) OR (
+                product.isInventoryRequired = false
+            )')
+            ->setParameter('productIds', $productIds);
+
+        if ($pagination !== null) {
+            $query->paginate($pagination);
+        }
+
+        $products = $query->findAll();
+
+        foreach ($products as $product) {
+            $price = $pricing->getPrice($product, 1);
+            $product->setPriceObj($price);
+        }
+
+        return $products;
+    }
+
+    public function getRandomProducts($limit)
+    {
+        $pricingService = new Pricing($this->entityManager);
+        $pricing = $pricingService->getPricing();
+
+        $qb = $this->createQueryBuilder();
+
+        $products = $qb->select('product')
+            ->from('inklabs\kommerce\Entity\Product', 'product')
+            ->andWhere('product.isActive = true')
+            ->andWhere('product.isVisible = true')
+            ->andWhere('(
+                product.isInventoryRequired = true
+                AND product.quantity > 0
+            ) OR (
+                product.isInventoryRequired = false
+            )')
+            ->addSelect('RAND() as HIDDEN rand')
+            ->orderBy('rand')
+            ->setMaxResults($limit)
+            ->findAll();
+
+        foreach ($products as $product) {
+            $price = $pricing->getPrice($product, 1);
+            $product->setPriceObj($price);
+        }
+
+        return $products;
+    }
 }
