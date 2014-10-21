@@ -90,11 +90,8 @@ class Product extends EntityManager
             ) OR (
                 product.isInventoryRequired = false
             )')
-            ->setParameter('tagId', $tag->getId());
-
-        if ($pagination !== null) {
-            $query->paginate($pagination);
-        }
+            ->setParameter('tagId', $tag->getId())
+            ->paginate($pagination);
 
         $tagProducts = $query->findAll();
 
@@ -124,11 +121,8 @@ class Product extends EntityManager
             ) OR (
                 product.isInventoryRequired = false
             )')
-            ->setParameter('productIds', $productIds);
-
-        if ($pagination !== null) {
-            $query->paginate($pagination);
-        }
+            ->setParameter('productIds', $productIds)
+            ->paginate($pagination);
 
         $products = $query->findAll();
 

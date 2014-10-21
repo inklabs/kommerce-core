@@ -6,8 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class QueryBuilder extends \Doctrine\ORM\QueryBuilder
 {
-    public function paginate(\inklabs\kommerce\Entity\Pagination & $pagination)
+    public function paginate(\inklabs\kommerce\Entity\Pagination & $pagination = null)
     {
+        if ($pagination === null) {
+            return $this;
+        }
+
         if ($pagination->getIsTotalIncluded()) {
             $paginator = new Paginator($this);
             $pagination->setTotal(count($paginator));
