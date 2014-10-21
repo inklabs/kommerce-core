@@ -35,14 +35,8 @@ class Product extends EntityManager
             ->from('inklabs\kommerce\Entity\Product', 'product')
             ->where('product.id <> :productId')
                 ->setParameter('productId', $product->getId())
-            ->andWhere('product.isActive = true')
-            ->andWhere('product.isVisible = true')
-            ->andWhere('(
-                product.isInventoryRequired = true
-                AND product.quantity > 0
-            ) OR (
-                product.isInventoryRequired = false
-            )')
+            ->productActiveVisible()
+            ->productAvailable()
             ->addSelect('RAND(:rand) as HIDDEN rand')
                 ->setParameter('rand', $product->getId())
             ->orderBy('rand')
@@ -82,14 +76,8 @@ class Product extends EntityManager
             ->from('inklabs\kommerce\Entity\Product', 'product')
             ->innerJoin('product.tags', 'tag')
             ->where('tag.id = :tagId')
-            ->andWhere('product.isActive = true')
-            ->andWhere('product.isVisible = true')
-            ->andWhere('(
-                product.isInventoryRequired = true
-                AND product.quantity > 0
-            ) OR (
-                product.isInventoryRequired = false
-            )')
+            ->productActiveVisible()
+            ->productAvailable()
             ->setParameter('tagId', $tag->getId())
             ->paginate($pagination);
 
@@ -113,14 +101,8 @@ class Product extends EntityManager
         $query = $qb->select('product')
             ->from('inklabs\kommerce\Entity\Product', 'product')
             ->where('product.id IN (:productIds)')
-            ->andWhere('product.isActive = true')
-            ->andWhere('product.isVisible = true')
-            ->andWhere('(
-                product.isInventoryRequired = true
-                AND product.quantity > 0
-            ) OR (
-                product.isInventoryRequired = false
-            )')
+            ->productActiveVisible()
+            ->productAvailable()
             ->setParameter('productIds', $productIds)
             ->paginate($pagination);
 
@@ -143,14 +125,8 @@ class Product extends EntityManager
 
         $products = $qb->select('product')
             ->from('inklabs\kommerce\Entity\Product', 'product')
-            ->andWhere('product.isActive = true')
-            ->andWhere('product.isVisible = true')
-            ->andWhere('(
-                product.isInventoryRequired = true
-                AND product.quantity > 0
-            ) OR (
-                product.isInventoryRequired = false
-            )')
+            ->productActiveVisible()
+            ->productAvailable()
             ->addSelect('RAND() as HIDDEN rand')
             ->orderBy('rand')
             ->setMaxResults($limit)
