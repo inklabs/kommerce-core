@@ -22,6 +22,24 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
             ->setMaxResults($pagination->getMaxResults());
     }
 
+    public function productActiveVisible()
+    {
+        return $this
+            ->andWhere('product.isActive = true')
+            ->andWhere('product.isVisible = true');
+    }
+
+    public function productAvailable()
+    {
+        return $this
+            ->andWhere('(
+                product.isInventoryRequired = true
+                AND product.quantity > 0
+            ) OR (
+                product.isInventoryRequired = false
+            )');
+    }
+
     public function findAll()
     {
         return $this->getQuery()->getResult();
