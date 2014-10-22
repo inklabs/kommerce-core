@@ -13,6 +13,11 @@ class TaxRate
     protected $rate;
     protected $applyToShipping;
 
+    public function __construct()
+    {
+        $this->setCreated();
+    }
+
     public function getId()
     {
         return $this->id;

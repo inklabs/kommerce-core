@@ -5,8 +5,12 @@ trait Created
 {
     protected $created;
 
-    public function setCreated(\DateTime $created)
+    public function setCreated(\DateTime $created = null)
     {
+        if ($created === null) {
+            $created = new \DateTime('now', new \DateTimeZone('UTC'));
+        }
+
         $this->created = $created->gettimestamp();
     }
 

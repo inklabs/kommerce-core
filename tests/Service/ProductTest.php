@@ -22,7 +22,6 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->product->setShippingWeight(16);
         $this->product->setRating(null);
         $this->product->setDefaultImage(null);
-        $this->product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $this->entityManager->persist($this->product);
         $this->entityManager->flush();
@@ -71,7 +70,6 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $product->setIsTaxable(true);
         $product->setIsShippable(true);
         $product->setShippingWeight(16);
-        $product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
         return $product;
     }
 
@@ -91,7 +89,6 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $tag->setName('Test Tag');
         $tag->setIsProductGroup(false);
         $tag->setIsVisible(true);
-        $tag->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $product->addTag($tag);
         $product2->addTag($tag);
@@ -176,7 +173,6 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->tag->setIsProductGroup(false);
         $this->tag->setSortOrder(0);
         $this->tag->setIsVisible(true);
-        $this->tag->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $this->product1 = $this->getDummyProduct(1);
         $this->product2 = $this->getDummyProduct(2);

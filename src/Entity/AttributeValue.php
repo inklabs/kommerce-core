@@ -11,6 +11,11 @@ class AttributeValue
     protected $description;
     protected $sortOrder;
 
+    public function __construct()
+    {
+        $this->setCreated();
+    }
+
     public function getId()
     {
         return $this->id;

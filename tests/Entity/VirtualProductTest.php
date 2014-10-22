@@ -20,7 +20,6 @@ class VirtualProductTest extends \PHPUnit_Framework_TestCase
         $this->virtualProduct->setDescription('Test product description');
         $this->virtualProduct->setRating(null);
         $this->virtualProduct->setDefaultImage(null);
-        $this->virtualProduct->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
     public function testGetSku()

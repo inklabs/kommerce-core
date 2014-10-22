@@ -5,12 +5,17 @@ class CreatedTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->createdMock = new Entity\Product;
-        $this->createdMock->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
+        $this->product = new Entity\Product;
     }
 
     public function testGetters()
     {
-        $this->assertInstanceOf('DateTime', $this->createdMock->getCreated());
+        $this->assertInstanceOf('DateTime', $this->product->getCreated());
+    }
+
+    public function testEmptyCreated()
+    {
+        $this->product = new Entity\Product;
+        $this->assertInstanceOf('DateTime', $this->product->getCreated());
     }
 }

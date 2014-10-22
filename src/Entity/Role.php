@@ -9,6 +9,11 @@ class Role
     protected $name;
     protected $description;
 
+    public function __construct()
+    {
+        $this->setCreated();
+    }
+
     public function getId()
     {
         return $this->id;

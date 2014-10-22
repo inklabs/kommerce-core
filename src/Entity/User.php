@@ -21,6 +21,7 @@ class User
 
     public function __construct()
     {
+        $this->setCreated();
         $this->roles = new ArrayCollection();
         $this->tokens = new ArrayCollection();
     }

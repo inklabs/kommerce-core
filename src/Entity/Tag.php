@@ -19,6 +19,7 @@ class Tag
 
     public function __construct()
     {
+        $this->setCreated();
         $this->products = new ArrayCollection();
     }
 

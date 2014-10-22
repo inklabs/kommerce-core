@@ -11,6 +11,11 @@ class UserLogin
     protected $ip4;
     protected $result; // success, fail, failock
 
+    public function __construct()
+    {
+        $this->setCreated();
+    }
+
     public function getId()
     {
         return $this->id;

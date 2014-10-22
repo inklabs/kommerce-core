@@ -34,6 +34,7 @@ class Product
 
     public function __construct()
     {
+        $this->setCreated();
         $this->tags = new ArrayCollection();
         $this->images = new ArrayCollection();
     }

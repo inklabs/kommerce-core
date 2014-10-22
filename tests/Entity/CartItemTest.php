@@ -11,7 +11,6 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $this->cartItem = new CartItem;
         $this->cartItem->setProduct($this->product);
         $this->cartItem->setQuantity(1);
-        $this->cartItem->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
     public function testGetters()

@@ -16,6 +16,7 @@ class Attribute
 
     public function __construct()
     {
+        $this->setCreated();
         $this->attributeValues = new ArrayCollection();
     }
 

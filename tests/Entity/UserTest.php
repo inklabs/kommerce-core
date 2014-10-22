@@ -32,7 +32,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $role = new Role;
         $role->setName('admin');
         $role->setDescription('Administrative user, has access to everything');
-        $role->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $this->user->addRole($role);
 
@@ -42,7 +41,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testAddToken()
     {
         $userToken = new UserToken;
-        $userToken->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $this->user->addToken($userToken);
 

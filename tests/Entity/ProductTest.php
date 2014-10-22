@@ -23,7 +23,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product->setDescription('Test product description');
         $this->product->setRating(null);
         $this->product->setDefaultImage(null);
-        $this->product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $this->tag = new Tag;
         $this->tag->setName('Test Tag');
