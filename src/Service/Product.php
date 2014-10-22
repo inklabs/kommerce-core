@@ -5,8 +5,6 @@ use inklabs\kommerce\Entity as Entity;
 
 class Product extends EntityManager
 {
-    use Common;
-
     public function find($id)
     {
         $pricingService = new Pricing($this->entityManager);
