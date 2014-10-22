@@ -22,7 +22,6 @@ class EntityManagerTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->product->setShippingWeight(16);
         $this->product->setRating(null);
         $this->product->setDefaultImage(null);
-        $this->product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $this->entityManager->persist($this->product);
         $this->entityManager->flush();

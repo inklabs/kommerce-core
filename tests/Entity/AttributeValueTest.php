@@ -10,7 +10,6 @@ class AttributeValueTest extends \PHPUnit_Framework_TestCase
         $this->attributeValue->setName('Test Attribute');
         $this->attributeValue->setDescription('Test attribute description');
         $this->attributeValue->setSortOrder(0);
-        $this->attributeValue->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
     public function testGetters()

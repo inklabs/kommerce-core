@@ -12,7 +12,6 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->tag->setIsProductGroup(false);
         $this->tag->setSortOrder(0);
         $this->tag->setIsVisible(true);
-        $this->tag->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $this->product = new Product;
         $this->product->setSku('TST101');

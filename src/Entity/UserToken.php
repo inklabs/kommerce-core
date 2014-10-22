@@ -11,6 +11,11 @@ class UserToken
     protected $type;
     protected $expires;
 
+    public function __construct()
+    {
+        $this->setCreated();
+    }
+
     public function getId()
     {
         return $this->id;

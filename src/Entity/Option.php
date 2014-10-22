@@ -17,6 +17,7 @@ class Option
 
     public function __construct()
     {
+        $this->setCreated();
         $this->products = new ArrayCollection;
     }
 

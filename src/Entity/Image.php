@@ -14,6 +14,11 @@ class Image
     protected $product;
     protected $tag;
 
+    public function __construct()
+    {
+        $this->setCreated();
+    }
+
     public function getId()
     {
         return $this->id;

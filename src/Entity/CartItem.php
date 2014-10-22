@@ -11,6 +11,7 @@ class CartItem
 
     public function __construct(Product $product = null, $quantity = null)
     {
+        $this->setCreated();
         $this->product = $product;
         $this->quantity = $quantity;
     }

@@ -17,6 +17,7 @@ class Promotion
 
     public function __construct()
     {
+        $this->setCreated();
         $this->reducesTaxSubtotal = true;
     }
 

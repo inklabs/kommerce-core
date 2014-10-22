@@ -14,7 +14,6 @@ class TagTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->tag->setIsProductGroup(false);
         $this->tag->setSortOrder(0);
         $this->tag->setIsVisible(true);
-        $this->tag->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $this->product1 = $this->getDummyProduct(1);
         $this->product2 = $this->getDummyProduct(2);
@@ -46,7 +45,6 @@ class TagTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $product->setIsTaxable(true);
         $product->setIsShippable(true);
         $product->setShippingWeight(16);
-        $product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
         return $product;
     }
 
