@@ -31,13 +31,12 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
 
     public function productAvailable()
     {
-        return $this
-            ->andWhere('(
-                product.isInventoryRequired = true
-                AND product.quantity > 0
-            ) OR (
-                product.isInventoryRequired = false
-            )');
+        return $this->andWhere('(
+            product.isInventoryRequired = true
+            AND product.quantity > 0
+        ) OR (
+            product.isInventoryRequired = false
+        )');
     }
 
     public function findAll()
