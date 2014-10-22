@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="inklabs\kommerce\Entity\Image" table="`image`" repository-class="Doctrine\ORM\EntityRepository">
+
+        <id name="id" type="integer" column="`id`">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="path"      column="`path`"       type="string" />
+        <field name="width"     column="`width`"      type="integer" />
+        <field name="height"    column="`height`"     type="integer" />
+        <field name="sortOrder" column="`sort_order`" type="integer" />
+        <field name="created"   column="`created`"    type="integer" />
+        <field name="updated"   column="`updated`"    type="integer" nullable="true" />
+
+        <many-to-one field="product" target-entity="Product" />
+        <many-to-one field="tag" target-entity="Tag" />
+
+        <entity-listeners>
+            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
+                <lifecycle-callback type="preUpdate" method="preUpdate"/>
+            </entity-listener>
+        </entity-listeners>
+
+    </entity>
+
+</doctrine-mapping>

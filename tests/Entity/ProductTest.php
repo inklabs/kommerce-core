@@ -31,6 +31,13 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $this->price = new Price;
         $this->product->setPriceObj($this->price);
+
+        $this->image = new Image;
+        $this->image->setPath('http://lorempixel.com/400/200/');
+        $this->image->setWidth(400);
+        $this->image->setHeight(200);
+        $this->image->setSortOrder(0);
+        $this->product->addImage($this->image);
     }
 
     public function testGetData()
@@ -78,8 +85,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $expected->rating              = $this->product->getRating();
         $expected->defaultImage        = $this->product->getDefaultImage();
         $expected->priceObj            = $this->product->getPriceObj()->getAllData();
-        $expected->tags                = [$this->tag->getData()];
         $expected->isInStock           = $this->product->inStock();
+        $expected->tags                = [$this->tag->getData()];
+        $expected->images              = [$this->image->getData()];
 
         $this->assertEquals($expected, $this->product->getAllData());
     }

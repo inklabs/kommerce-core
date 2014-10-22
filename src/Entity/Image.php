@@ -12,6 +12,7 @@ class Image
     protected $sortOrder = 0;
 
     protected $product;
+    protected $tag;
 
     public function getId()
     {
@@ -56,5 +57,17 @@ class Image
     public function getSortOrder()
     {
         return $this->sortOrder;
+    }
+
+    public function getData()
+    {
+        $class = new \stdClass;
+        $class->id        = $this->getId();
+        $class->path      = $this->getPath();
+        $class->width     = $this->getWidth();
+        $class->height    = $this->getHeight();
+        $class->sortOrder = $this->getSortOrder();
+
+        return $class;
     }
 }

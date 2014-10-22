@@ -16,8 +16,16 @@
         <field name="isProductGroup" column="`is_product_group`" type="string" />
         <field name="isVisible"      column="`visible`"          type="boolean" />
         <field name="sortOrder"      column="`sort_order`"       type="integer" nullable="true" />
+        <field name="created"        column="`created`"          type="integer" />
+        <field name="updated"        column="`updated`"          type="integer" nullable="true" />
 
         <many-to-many field="products" mapped-by="tags" target-entity="Product" />
+
+        <entity-listeners>
+            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
+                <lifecycle-callback type="preUpdate" method="preUpdate"/>
+            </entity-listener>
+        </entity-listeners>
 
     </entity>
 

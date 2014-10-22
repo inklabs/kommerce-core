@@ -46,6 +46,7 @@ class TagTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $product->setIsTaxable(true);
         $product->setIsShippable(true);
         $product->setShippingWeight(16);
+        $product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
         return $product;
     }
 
