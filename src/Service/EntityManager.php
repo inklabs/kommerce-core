@@ -16,4 +16,10 @@ class EntityManager
     {
         return new QueryBuilder($this->entityManager);
     }
+
+    public function findByEncodedId($encodedId)
+    {
+        $id = BaseConvert::decode($encodedId);
+        return $this->find($id);
+    }
 }

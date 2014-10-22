@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
 
-class CommonTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
+class EntityManagerTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 {
     public function setUp()
     {
