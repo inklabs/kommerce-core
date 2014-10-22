@@ -71,6 +71,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $product->setIsTaxable(true);
         $product->setIsShippable(true);
         $product->setShippingWeight(16);
+        $product->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
         return $product;
     }
 
@@ -90,6 +91,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $tag->setName('Test Tag');
         $tag->setIsProductGroup(false);
         $tag->setIsVisible(true);
+        $tag->setCreated(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $product->addTag($tag);
         $product2->addTag($tag);

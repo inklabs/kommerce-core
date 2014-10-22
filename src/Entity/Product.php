@@ -25,7 +25,9 @@ class Product
     protected $description;
     protected $rating;
     protected $defaultImage;
+
     protected $tags;
+    protected $images;
 
     private $quantityDiscounts = [];
     private $priceObj;
@@ -33,6 +35,7 @@ class Product
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function setPriceObj($priceObj)
@@ -209,6 +212,16 @@ class Product
         return $this->tags;
     }
 
+    public function addImage($image)
+    {
+        $this->images[] = $image;
+    }
+
+    public function getImages()
+    {
+        return $this->images;
+    }
+
     public function addQuantityDiscount(ProductQuantityDiscount $quantityDiscount)
     {
         $this->quantityDiscounts[] = $quantityDiscount;
@@ -261,6 +274,11 @@ class Product
         $class->tags = [];
         foreach ($this->getTags() as $tag) {
             $class->tags[] = $tag->getData();
+        }
+
+        $class->images = [];
+        foreach ($this->getImages() as $image) {
+            $class->images[] = $image->getData();
         }
 
         return $class;

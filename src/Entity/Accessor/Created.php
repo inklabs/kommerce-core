@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Entity\Accessor;
 
 trait Created
 {
-    /** @Column(type="integer") **/
     protected $created;
 
     public function setCreated(\DateTime $created)

@@ -23,6 +23,8 @@
         <field name="description"         column="`description`"       type="string" />
         <field name="rating"              column="`rating`"            type="integer" nullable="true" />
         <field name="defaultImage"        column="`default_image`"     type="string" nullable="true" />
+        <field name="created"             column="`created`"           type="integer" />
+        <field name="updated"             column="`updated`"           type="integer" nullable="true" />
 
         <many-to-many field="tags" inversed-by="products" target-entity="Tag" fetch-mode="EAGER">
             <join-table name="`product_tag`">
@@ -34,6 +36,21 @@
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
+
+        <one-to-many field="images" target-entity="Image" mapped-by="product">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <order-by>
+                <order-by-field name="`sort_order`" direction="ASC" />
+            </order-by>
+        </one-to-many>
+
+        <entity-listeners>
+            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
+                <lifecycle-callback type="preUpdate" method="preUpdate"/>
+            </entity-listener>
+        </entity-listeners>
 
     </entity>
 

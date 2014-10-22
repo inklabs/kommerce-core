@@ -19,11 +19,17 @@
         <field name="start"            column="`start`"            type="date" />
         <field name="end"              column="`end`"              type="date" />
         <field name="created"          column="`created`"          type="integer" />
-        <field name="updated"          column="`updated`"          type="integer" />
+        <field name="updated"          column="`updated`"          type="integer" nullable="true" />
 
         <many-to-one field="tag" target-entity="Tag" fetch="EAGER">
             <join-column name="`tag_id`" referenced-column-name="`id`" />
         </many-to-one>
+
+        <entity-listeners>
+            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
+                <lifecycle-callback type="preUpdate" method="preUpdate"/>
+            </entity-listener>
+        </entity-listeners>
 
     </entity>
 
