@@ -26,7 +26,7 @@
         <field name="created"             column="`created`"           type="integer" />
         <field name="updated"             column="`updated`"           type="integer" nullable="true" />
 
-        <many-to-many field="tags" inversed-by="products" target-entity="Tag" fetch-mode="EAGER">
+        <many-to-many field="tags" target-entity="Tag" inversed-by="products" fetch-mode="EAGER">
             <join-table name="`product_tag`">
                 <join-columns>
                     <join-column name="`product_id`" referenced-column-name="id" />
