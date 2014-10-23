@@ -3,10 +3,10 @@ namespace inklabs\kommerce\Entity;
 
 class Price
 {
-    public $orig_unit_price;
-    public $unit_price;
-    public $orig_quantity_price;
-    public $quantity_price;
+    public $origUnitPrice;
+    public $unitPrice;
+    public $origQuantityPrice;
+    public $quantityPrice;
 
     private $catalogPromotions = [];
     private $productQuantityDiscounts = [];

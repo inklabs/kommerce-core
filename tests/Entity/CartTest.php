@@ -31,16 +31,16 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addItem($product2, 1);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 1300;
-        $cart_total->subtotal = 1300;
-        $cart_total->shipping = 0;
-        $cart_total->discount = 0;
-        $cart_total->tax = 0;
-        $cart_total->total = 1300;
-        $cart_total->savings = 0;
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 1300;
+        $cartTotal->subtotal = 1300;
+        $cartTotal->shipping = 0;
+        $cartTotal->discount = 0;
+        $cartTotal->tax = 0;
+        $cartTotal->total = 1300;
+        $cartTotal->savings = 0;
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing));
     }
 
     public function testGetTotalCoupon()
@@ -64,17 +64,17 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addItem($product, 5);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 2500;
-        $cart_total->subtotal = 2500;
-        $cart_total->shipping = 0;
-        $cart_total->discount = 500;
-        $cart_total->tax = 0;
-        $cart_total->total = 2000;
-        $cart_total->savings = 500;
-        $cart_total->coupons = [$coupon];
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 2500;
+        $cartTotal->subtotal = 2500;
+        $cartTotal->shipping = 0;
+        $cartTotal->discount = 500;
+        $cartTotal->tax = 0;
+        $cartTotal->total = 2000;
+        $cartTotal->savings = 500;
+        $cartTotal->coupons = [$coupon];
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing));
     }
 
     public function testGetTotalCouponWithCatalogPromotion()
@@ -106,17 +106,17 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addItem($product, 5);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 2500;
-        $cart_total->subtotal = 2000;
-        $cart_total->shipping = 0;
-        $cart_total->discount = 400;
-        $cart_total->tax = 0;
-        $cart_total->total = 1600;
-        $cart_total->savings = 900;
-        $cart_total->coupons = [$coupon];
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 2500;
+        $cartTotal->subtotal = 2000;
+        $cartTotal->shipping = 0;
+        $cartTotal->discount = 400;
+        $cartTotal->tax = 0;
+        $cartTotal->total = 1600;
+        $cartTotal->savings = 900;
+        $cartTotal->coupons = [$coupon];
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing));
     }
 
     public function testGetTotalCouponValidOrderValue()
@@ -142,17 +142,17 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addItem($product, 1);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 2000;
-        $cart_total->subtotal = 2000;
-        $cart_total->shipping = 0;
-        $cart_total->discount = 400;
-        $cart_total->tax = 0;
-        $cart_total->total = 1600;
-        $cart_total->savings = 400;
-        $cart_total->coupons = [$coupon];
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 2000;
+        $cartTotal->subtotal = 2000;
+        $cartTotal->shipping = 0;
+        $cartTotal->discount = 400;
+        $cartTotal->tax = 0;
+        $cartTotal->total = 1600;
+        $cartTotal->savings = 400;
+        $cartTotal->coupons = [$coupon];
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing));
     }
 
     public function testGetTotalWithShipping()
@@ -164,25 +164,25 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product->setName('Test Product');
         $product->setPrice(500);
 
-        $usps_shipping_rate = new Shipping\Rate;
-        $usps_shipping_rate->code = '4';
-        $usps_shipping_rate->name = 'Parcel Post';
-        $usps_shipping_rate->cost = 1000;
+        $uspsShippingRate = new Shipping\Rate;
+        $uspsShippingRate->code = '4';
+        $uspsShippingRate->name = 'Parcel Post';
+        $uspsShippingRate->cost = 1000;
 
         $cart = new Cart;
         $cart->addItem($product, 3);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 1500;
-        $cart_total->subtotal = 1500;
-        $cart_total->shipping = 1000;
-        $cart_total->discount = 0;
-        $cart_total->tax = 0;
-        $cart_total->total = 2500;
-        $cart_total->savings = 0;
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 1500;
+        $cartTotal->subtotal = 1500;
+        $cartTotal->shipping = 1000;
+        $cartTotal->discount = 0;
+        $cartTotal->tax = 0;
+        $cartTotal->total = 2500;
+        $cartTotal->savings = 0;
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing, $usps_shipping_rate));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing, $uspsShippingRate));
     }
 
     public function testGetTotalWithZip5TaxNotAppliedToShipping()
@@ -205,18 +205,18 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addItem($product, 2);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 1000;
-        $cart_total->subtotal = 1000;
-        $cart_total->tax_subtotal = 1000;
-        $cart_total->shipping = 0;
-        $cart_total->discount = 0;
-        $cart_total->tax = 80;
-        $cart_total->total = 1080;
-        $cart_total->savings = 0;
-        $cart_total->tax_rate = $taxRate;
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 1000;
+        $cartTotal->subtotal = 1000;
+        $cartTotal->taxSubtotal = 1000;
+        $cartTotal->shipping = 0;
+        $cartTotal->discount = 0;
+        $cartTotal->tax = 80;
+        $cartTotal->total = 1080;
+        $cartTotal->savings = 0;
+        $cartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing));
     }
 
     public function testGetTotalWithZip5TaxAppliedToShipping()
@@ -234,28 +234,28 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(true);
 
-        $usps_shipping_rate = new Shipping\Rate;
-        $usps_shipping_rate->code = '4';
-        $usps_shipping_rate->name = 'Parcel Post';
-        $usps_shipping_rate->cost = 1000;
+        $uspsShippingRate = new Shipping\Rate;
+        $uspsShippingRate->code = '4';
+        $uspsShippingRate->name = 'Parcel Post';
+        $uspsShippingRate->cost = 1000;
 
         $cart = new Cart;
         $cart->setTaxRate($taxRate);
         $cart->addItem($product, 2);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 1000;
-        $cart_total->subtotal = 1000;
-        $cart_total->tax_subtotal = 1000;
-        $cart_total->shipping = 1000;
-        $cart_total->discount = 0;
-        $cart_total->tax = 160;
-        $cart_total->total = 2160;
-        $cart_total->savings = 0;
-        $cart_total->tax_rate = $taxRate;
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 1000;
+        $cartTotal->subtotal = 1000;
+        $cartTotal->taxSubtotal = 1000;
+        $cartTotal->shipping = 1000;
+        $cartTotal->discount = 0;
+        $cartTotal->tax = 160;
+        $cartTotal->total = 2160;
+        $cartTotal->savings = 0;
+        $cartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing, $usps_shipping_rate));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing, $uspsShippingRate));
     }
 
     public function testGetTotalWithZip5TaxNotTaxable()
@@ -278,16 +278,16 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addItem($product, 2);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 1000;
-        $cart_total->subtotal = 1000;
-        $cart_total->shipping = 0;
-        $cart_total->discount = 0;
-        $cart_total->tax = 0;
-        $cart_total->total = 1000;
-        $cart_total->savings = 0;
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 1000;
+        $cartTotal->subtotal = 1000;
+        $cartTotal->shipping = 0;
+        $cartTotal->discount = 0;
+        $cartTotal->tax = 0;
+        $cartTotal->total = 1000;
+        $cartTotal->savings = 0;
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing));
     }
 
     public function testGetTotalWithZip5TaxAndCouponReduceSubtotal()
@@ -321,19 +321,19 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addItem($product, 1);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 2000;
-        $cart_total->subtotal = 2000;
-        $cart_total->tax_subtotal = 1600;
-        $cart_total->shipping = 0;
-        $cart_total->discount = 400;
-        $cart_total->tax = 128;
-        $cart_total->total = 1728;
-        $cart_total->savings = 400;
-        $cart_total->coupons = [$coupon];
-        $cart_total->tax_rate = $taxRate;
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 2000;
+        $cartTotal->subtotal = 2000;
+        $cartTotal->taxSubtotal = 1600;
+        $cartTotal->shipping = 0;
+        $cartTotal->discount = 400;
+        $cartTotal->tax = 128;
+        $cartTotal->total = 1728;
+        $cartTotal->savings = 400;
+        $cartTotal->coupons = [$coupon];
+        $cartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing));
     }
 
     public function testGetTotalWithZip5TaxAndCouponNoReduceSubtotal()
@@ -367,86 +367,86 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addItem($product, 1);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 2000;
-        $cart_total->subtotal = 2000;
-        $cart_total->tax_subtotal = 2000;
-        $cart_total->shipping = 0;
-        $cart_total->discount = 400;
-        $cart_total->tax = 160;
-        $cart_total->total = 1760;
-        $cart_total->savings = 400;
-        $cart_total->coupons = [$coupon];
-        $cart_total->tax_rate = $taxRate;
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 2000;
+        $cartTotal->subtotal = 2000;
+        $cartTotal->taxSubtotal = 2000;
+        $cartTotal->shipping = 0;
+        $cartTotal->discount = 400;
+        $cartTotal->tax = 160;
+        $cartTotal->total = 1760;
+        $cartTotal->savings = 400;
+        $cartTotal->coupons = [$coupon];
+        $cartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing));
     }
 
     public function testGetTotalCartPriceRule()
     {
-        $product_shirt = new Product;
-        $product_shirt->setSku('TS-NAVY-LG');
-        $product_shirt->setName('Navy T-shirt (large)');
-        $product_shirt->setPrice(1200);
+        $productShirt = new Product;
+        $productShirt->setSku('TS-NAVY-LG');
+        $productShirt->setName('Navy T-shirt (large)');
+        $productShirt->setPrice(1200);
 
-        $product_poster = new Product;
-        $product_poster->setSku('PST-CKN');
-        $product_poster->setName('Citizen Kane (1941) Poster');
-        $product_poster->setPrice(500);
+        $productPoster = new Product;
+        $productPoster->setSku('PST-CKN');
+        $productPoster->setName('Citizen Kane (1941) Poster');
+        $productPoster->setPrice(500);
 
-        $cart_price_rule = new CartPriceRule;
-        $cart_price_rule->setName('Buy a Shirt get a FREE poster');
-        $cart_price_rule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $cart_price_rule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cart_price_rule->addItem(new CartPriceRuleItem($product_shirt, 1));
-        $cart_price_rule->addItem(new CartPriceRuleItem($product_poster, 1));
-        $cart_price_rule->addDiscount(new CartPriceRuleDiscount($product_poster, 1));
+        $cartPriceRule = new CartPriceRule;
+        $cartPriceRule->setName('Buy a Shirt get a FREE poster');
+        $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+        $cartPriceRule->addItem(new CartPriceRuleItem($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRuleItem($productPoster, 1));
+        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         $cart = new Cart;
-        $cart->addCartPriceRule($cart_price_rule);
-        $cart->addItem($product_shirt, 1);
-        $cart->addItem($product_poster, 1);
+        $cart->addCartPriceRule($cartPriceRule);
+        $cart->addItem($productShirt, 1);
+        $cart->addItem($productPoster, 1);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 1700;
-        $cart_total->subtotal = 1200;
-        $cart_total->shipping = 0;
-        $cart_total->discount = 0;
-        $cart_total->tax = 0;
-        $cart_total->total = 1200;
-        $cart_total->savings = 500;
-        $cart_total->cart_price_rules = [$cart_price_rule];
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 1700;
+        $cartTotal->subtotal = 1200;
+        $cartTotal->shipping = 0;
+        $cartTotal->discount = 0;
+        $cartTotal->tax = 0;
+        $cartTotal->total = 1200;
+        $cartTotal->savings = 500;
+        $cartTotal->cartPriceRules = [$cartPriceRule];
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing));
     }
 
     public function testGetTotalCartPriceRuleTaxReduceSubtotal()
     {
-        $product_shirt = new Product;
-        // $product_shirt->id = 1;
-        $product_shirt->setSku('TS-NAVY-LG');
-        $product_shirt->setName('Navy T-shirt (large)');
-        $product_shirt->setPrice(1200);
-        $product_shirt->setIsTaxable(true);
+        $productShirt = new Product;
+        // $productShirt->id = 1;
+        $productShirt->setSku('TS-NAVY-LG');
+        $productShirt->setName('Navy T-shirt (large)');
+        $productShirt->setPrice(1200);
+        $productShirt->setIsTaxable(true);
 
-        $product_poster = new Product;
-        // $product_poster->id = 2;
-        $product_poster->setSku('PST-CKN');
-        $product_poster->setName('Citizen Kane (1941) Poster');
-        $product_poster->setPrice(500);
-        $product_poster->setIsTaxable(true);
+        $productPoster = new Product;
+        // $productPoster->id = 2;
+        $productPoster->setSku('PST-CKN');
+        $productPoster->setName('Citizen Kane (1941) Poster');
+        $productPoster->setPrice(500);
+        $productPoster->setIsTaxable(true);
 
-        $cart_price_rule = new CartPriceRule;
-        $cart_price_rule->setName('Buy a Shirt get a FREE poster');
-        $cart_price_rule->setReducesTaxSubtotal(true);
-        $cart_price_rule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $cart_price_rule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cart_price_rule->addItem(new CartPriceRuleItem($product_shirt, 1));
-        $cart_price_rule->addItem(new CartPriceRuleItem($product_poster, 1));
-        $cart_price_rule->addDiscount(new CartPriceRuleDiscount($product_poster, 1));
+        $cartPriceRule = new CartPriceRule;
+        $cartPriceRule->setName('Buy a Shirt get a FREE poster');
+        $cartPriceRule->setReducesTaxSubtotal(true);
+        $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+        $cartPriceRule->addItem(new CartPriceRuleItem($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRuleItem($productPoster, 1));
+        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
@@ -457,72 +457,72 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $cart = new Cart;
         $cart->setTaxRate($taxRate);
-        $cart->addCartPriceRule($cart_price_rule);
-        $cart->addItem($product_shirt, 1);
-        $cart->addItem($product_poster, 1);
+        $cart->addCartPriceRule($cartPriceRule);
+        $cart->addItem($productShirt, 1);
+        $cart->addItem($productPoster, 1);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 1700;
-        $cart_total->subtotal = 1200;
-        $cart_total->tax_subtotal = 1200;
-        $cart_total->shipping = 0;
-        $cart_total->discount = 0;
-        $cart_total->tax = 96;
-        $cart_total->total = 1296;
-        $cart_total->savings = 500;
-        $cart_total->cart_price_rules = [$cart_price_rule];
-        $cart_total->tax_rate = $taxRate;
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 1700;
+        $cartTotal->subtotal = 1200;
+        $cartTotal->taxSubtotal = 1200;
+        $cartTotal->shipping = 0;
+        $cartTotal->discount = 0;
+        $cartTotal->tax = 96;
+        $cartTotal->total = 1296;
+        $cartTotal->savings = 500;
+        $cartTotal->cartPriceRules = [$cartPriceRule];
+        $cartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing));
     }
 
     public function testGetTotalCartPriceRuleInvalidCartItems()
     {
-        $product_shirt = new Product;
-        // $product_shirt->id = 1;
-        $product_shirt->setSku('TS-NAVY-LG');
-        $product_shirt->setName('Navy T-shirt (large)');
-        $product_shirt->setPrice(1200);
+        $productShirt = new Product;
+        // $productShirt->id = 1;
+        $productShirt->setSku('TS-NAVY-LG');
+        $productShirt->setName('Navy T-shirt (large)');
+        $productShirt->setPrice(1200);
 
-        $product_poster = new Product;
-        // $product_poster->id = 2;
-        $product_poster->setSku('PST-CKN');
-        $product_poster->setName('Citizen Kane (1941) Poster');
-        $product_poster->setPrice(500);
+        $productPoster = new Product;
+        // $productPoster->id = 2;
+        $productPoster->setSku('PST-CKN');
+        $productPoster->setName('Citizen Kane (1941) Poster');
+        $productPoster->setPrice(500);
 
-        $product_jacket = new Product;
-        // $product_jacket->id = 3;
-        $product_jacket->setSku('JKT001');
-        $product_jacket->setName('Navy Jacket');
-        $product_jacket->setPrice(2500);
+        $productJacket = new Product;
+        // $productJacket->id = 3;
+        $productJacket->setSku('JKT001');
+        $productJacket->setName('Navy Jacket');
+        $productJacket->setPrice(2500);
 
-        $cart_price_rule = new CartPriceRule;
-        $cart_price_rule->setName('Buy a Shirt get a FREE poster');
-        $cart_price_rule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $cart_price_rule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cart_price_rule->addItem(new CartPriceRuleItem($product_shirt, 1));
-        $cart_price_rule->addItem(new CartPriceRuleItem($product_poster, 1));
-        $cart_price_rule->addDiscount(new CartPriceRuleDiscount($product_poster, 1));
+        $cartPriceRule = new CartPriceRule;
+        $cartPriceRule->setName('Buy a Shirt get a FREE poster');
+        $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+        $cartPriceRule->addItem(new CartPriceRuleItem($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRuleItem($productPoster, 1));
+        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         $cart = new Cart;
-        $cart->addCartPriceRule($cart_price_rule);
-        $cart->addItem($product_shirt, 1);
-        $cart->addItem($product_jacket, 1);
+        $cart->addCartPriceRule($cartPriceRule);
+        $cart->addItem($productShirt, 1);
+        $cart->addItem($productJacket, 1);
 
         // Expect:
-        $cart_total = new CartTotal;
-        $cart_total->orig_subtotal = 3700;
-        $cart_total->subtotal = 3700;
-        $cart_total->shipping = 0;
-        $cart_total->discount = 0;
-        $cart_total->tax = 0;
-        $cart_total->total = 3700;
-        $cart_total->savings = 0;
-        $cart_total->cart_price_rules = [];
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 3700;
+        $cartTotal->subtotal = 3700;
+        $cartTotal->shipping = 0;
+        $cartTotal->discount = 0;
+        $cartTotal->tax = 0;
+        $cartTotal->total = 3700;
+        $cartTotal->savings = 0;
+        $cartTotal->cartPriceRules = [];
 
-        $this->assertEquals($cart_total, $cart->getTotal($pricing));
+        $this->assertEquals($cartTotal, $cart->getTotal($pricing));
     }
 }

@@ -22,7 +22,7 @@ class BaseConvert
         return (int) $res;
     }
 
-    public static function encode($orig_num, $base = null)
+    public static function encode($origNum, $base = null)
     {
         if ($base === null) {
             $base = static::$encodeBase;
@@ -30,7 +30,7 @@ class BaseConvert
 
         $b = strlen($base);
         $res = '';
-        $num = $orig_num;
+        $num = $origNum;
 
         do {
             $r = $num % $b;

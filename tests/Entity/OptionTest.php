@@ -23,24 +23,24 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
     public function testWithProducts()
     {
-        $product_small = new Product;
-        $product_small->setSku('TS-NAVY-SM');
-        $product_small->setName('Navy T-shirt (small)');
-        $product_small->setPrice(900);
+        $productSmall = new Product;
+        $productSmall->setSku('TS-NAVY-SM');
+        $productSmall->setName('Navy T-shirt (small)');
+        $productSmall->setPrice(900);
 
-        $product_medium = new Product;
-        $product_medium->setSku('TS-NAVY-MD');
-        $product_medium->setName('Navy T-shirt (medium)');
-        $product_medium->setPrice(1200);
+        $productMedium = new Product;
+        $productMedium->setSku('TS-NAVY-MD');
+        $productMedium->setName('Navy T-shirt (medium)');
+        $productMedium->setPrice(1200);
 
-        $product_large = new Product;
-        $product_large->setSku('TS-NAVY-LG');
-        $product_large->setName('Navy T-shirt (large)');
-        $product_large->setPrice(1600);
+        $productLarge = new Product;
+        $productLarge->setSku('TS-NAVY-LG');
+        $productLarge->setName('Navy T-shirt (large)');
+        $productLarge->setPrice(1600);
 
-        $this->option->addProduct($product_small);
-        $this->option->addProduct($product_medium);
-        $this->option->addProduct($product_large);
+        $this->option->addProduct($productSmall);
+        $this->option->addProduct($productMedium);
+        $this->option->addProduct($productLarge);
 
         $this->assertEquals(3, count($this->option->getProducts()));
     }
@@ -49,21 +49,21 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     {
         $current_date = new \DateTime('now', new \DateTimeZone('UTC'));
 
-        $virtual_product_small = new VirtualProduct;
-        $virtual_product_small->setSku('SM');
-        $virtual_product_small->setName('Small');
+        $virtualProductSmall = new VirtualProduct;
+        $virtualProductSmall->setSku('SM');
+        $virtualProductSmall->setName('Small');
 
-        $virtual_product_medium = new VirtualProduct;
-        $virtual_product_medium->setSku('MD');
-        $virtual_product_medium->setName('Medium');
+        $virtualProductMedium = new VirtualProduct;
+        $virtualProductMedium->setSku('MD');
+        $virtualProductMedium->setName('Medium');
 
-        $virtual_product_large = new VirtualProduct;
-        $virtual_product_large->setSku('LG');
-        $virtual_product_large->setName('Large');
+        $virtualProductLarge = new VirtualProduct;
+        $virtualProductLarge->setSku('LG');
+        $virtualProductLarge->setName('Large');
 
-        $this->option->addProduct($virtual_product_small);
-        $this->option->addProduct($virtual_product_medium);
-        $this->option->addProduct($virtual_product_large);
+        $this->option->addProduct($virtualProductSmall);
+        $this->option->addProduct($virtualProductMedium);
+        $this->option->addProduct($virtualProductLarge);
 
         $this->assertEquals(3, count($this->option->getProducts()));
     }

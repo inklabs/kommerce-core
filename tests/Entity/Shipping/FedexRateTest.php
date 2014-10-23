@@ -13,7 +13,7 @@ class FedexRateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $this->rate->code);
         $this->assertEquals(null, $this->rate->name);
         $this->assertEquals(null, $this->rate->cost);
-        $this->assertEquals(null, $this->rate->delivery_ts);
-        $this->assertEquals(null, $this->rate->transit_time);
+        $this->assertEquals(null, $this->rate->deliveryTs);
+        $this->assertEquals(null, $this->rate->transitTime);
     }
 }

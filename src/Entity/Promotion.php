@@ -114,10 +114,10 @@ class Promotion
 
     public function isDateValid(\DateTime $date)
     {
-        $current_date_ts = $date->getTimestamp();
+        $currentDateTs = $date->getTimestamp();
 
-        if ($current_date_ts >= $this->getStart()->getTimestamp()
-            and $current_date_ts <= $this->getEnd()->getTimestamp()) {
+        if ($currentDateTs >= $this->getStart()->getTimestamp()
+            and $currentDateTs <= $this->getEnd()->getTimestamp()) {
 
             return true;
         } else {

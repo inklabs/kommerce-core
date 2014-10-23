@@ -5,10 +5,10 @@ class Price
 {
     private $price;
 
-    public $orig_unit_price;
-    public $unit_price;
-    public $orig_quantity_price;
-    public $quantity_price;
+    public $origUnitPrice;
+    public $unitPrice;
+    public $origQuantityPrice;
+    public $quantityPrice;
     public $catalogPromotions = [];
     public $productQuantityDiscounts = [];
 
@@ -16,10 +16,10 @@ class Price
     {
         $this->price = $price;
 
-        $this->orig_unit_price     = $price->orig_unit_price;
-        $this->unit_price          = $price->unit_price;
-        $this->orig_quantity_price = $price->orig_quantity_price;
-        $this->quantity_price      = $price->quantity_price;
+        $this->origUnitPrice     = $price->origUnitPrice;
+        $this->unitPrice          = $price->unitPrice;
+        $this->origQuantityPrice = $price->origQuantityPrice;
+        $this->quantityPrice      = $price->quantityPrice;
 
         return $this;
     }

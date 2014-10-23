@@ -24,21 +24,21 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->attribute = new Attribute;
         $this->attribute->setName('Color');
 
-        $this->attribute_value_red = new AttributeValue;
-        $this->attribute_value_red->setSku('RED');
-        $this->attribute_value_red->setName('Red');
+        $this->attributeValueRed = new AttributeValue;
+        $this->attributeValueRed->setSku('RED');
+        $this->attributeValueRed->setName('Red');
 
-        $this->attribute_value_green = new AttributeValue;
-        $this->attribute_value_green->setSku('GRN');
-        $this->attribute_value_green->setName('Green');
+        $this->attributeValueGreen = new AttributeValue;
+        $this->attributeValueGreen->setSku('GRN');
+        $this->attributeValueGreen->setName('Green');
 
-        $this->attribute_value_blue = new AttributeValue;
-        $this->attribute_value_blue->setSku('BLU');
-        $this->attribute_value_blue->setName('Blue');
+        $this->attributeValueBlue = new AttributeValue;
+        $this->attributeValueBlue->setSku('BLU');
+        $this->attributeValueBlue->setName('Blue');
 
-        $this->attribute->addAttributeValue($this->attribute_value_red);
-        $this->attribute->addAttributeValue($this->attribute_value_green);
-        $this->attribute->addAttributeValue($this->attribute_value_blue);
+        $this->attribute->addAttributeValue($this->attributeValueRed);
+        $this->attribute->addAttributeValue($this->attributeValueGreen);
+        $this->attribute->addAttributeValue($this->attributeValueBlue);
 
         $this->assertEquals('Color', $this->attribute->getName());
     }
