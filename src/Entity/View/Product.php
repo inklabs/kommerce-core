@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity\View;
 
+use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Service as Service;
 
 class Product
@@ -23,15 +24,15 @@ class Product
     public $description;
     public $rating;
     public $defaultImage;
+    public $created;
+    public $updated;
     public $isInStock;
-
     public $tags = [];
     public $images = [];
-
     public $quantityDiscounts = [];
     public $priceObj;
 
-    public function __construct($product)
+    public function __construct(Entity\Product $product)
     {
         $this->product = $product;
 
@@ -51,9 +52,17 @@ class Product
         $this->description         = $product->getDescription();
         $this->rating              = $product->getRating();
         $this->defaultImage        = $product->getDefaultImage();
+        $this->created             = $product->getCreated();
+        $this->updated             = $product->getUpdated();
 
         $this->isInStock = $product->inStock();
 
+        return $this;
+    }
+
+    public function export()
+    {
+        unset($this->product);
         return $this;
     }
 
@@ -61,7 +70,9 @@ class Product
     {
         $this->priceObj = $this->product->getPriceObj();
         if (! empty($this->priceObj)) {
-            $this->priceObj = $this->priceObj->getData();
+            $this->priceObj = $this->priceObj
+                ->getView()
+                ->export();
         }
         return $this;
     }
@@ -70,7 +81,10 @@ class Product
     {
         $this->priceObj = $this->product->getPriceObj();
         if (! empty($this->priceObj)) {
-            $this->priceObj = $this->priceObj->getAllData();
+            $this->priceObj = $this->priceObj
+                ->getView()
+                ->withAllData()
+                ->export();
         }
         return $this;
     }
@@ -78,7 +92,9 @@ class Product
     public function withTags()
     {
         foreach ($this->product->getTags() as $tag) {
-            $this->tags[] = $tag->getData();
+            $this->tags[] = $tag
+                ->getView()
+                ->export();
         }
         return $this;
     }
@@ -86,12 +102,14 @@ class Product
     public function withImages()
     {
         foreach ($this->product->getImages() as $image) {
-            $this->images[] = $image->getData();
+            $this->images[] = $image
+                ->getView()
+                ->export();
         }
         return $this;
     }
 
-    public function getAllData()
+    public function withAllData()
     {
         return $this
             ->withAllPriceObj()

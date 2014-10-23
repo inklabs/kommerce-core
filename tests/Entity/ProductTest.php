@@ -37,58 +37,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->image->setHeight(200);
         $this->image->setSortOrder(0);
         $this->product->addImage($this->image);
-    }
 
-    public function testGetData()
-    {
-        $expected = new \stdClass;
-        $expected->id                  = $this->product->getId();
-        $expected->encodedId           = Service\BaseConvert::encode($this->product->getId());
-        $expected->sku                 = $this->product->getSku();
-        $expected->name                = $this->product->getName();
-        $expected->price               = $this->product->getPrice();
-        $expected->quantity            = $this->product->getQuantity();
-        $expected->isInventoryRequired = $this->product->getIsInventoryRequired();
-        $expected->isPriceVisible      = $this->product->getIsPriceVisible();
-        $expected->isActive            = $this->product->getIsActive();
-        $expected->isVisible           = $this->product->getIsVisible();
-        $expected->isTaxable           = $this->product->getIsTaxable();
-        $expected->isShippable         = $this->product->getIsShippable();
-        $expected->shippingWeight      = $this->product->getShippingWeight();
-        $expected->description         = $this->product->getDescription();
-        $expected->rating              = $this->product->getRating();
-        $expected->defaultImage        = $this->product->getDefaultImage();
-        $expected->priceObj            = $this->product->getPriceObj()->getData();
-        $expected->isInStock           = $this->product->inStock();
-
-        $this->assertEquals($expected, $this->product->getData());
-    }
-
-    public function testGetAllData()
-    {
-        $expected = new \stdClass;
-        $expected->id                  = $this->product->getId();
-        $expected->encodedId           = Service\BaseConvert::encode($this->product->getId());
-        $expected->sku                 = $this->product->getSku();
-        $expected->name                = $this->product->getName();
-        $expected->price               = $this->product->getPrice();
-        $expected->quantity            = $this->product->getQuantity();
-        $expected->isInventoryRequired = $this->product->getIsInventoryRequired();
-        $expected->isPriceVisible      = $this->product->getIsPriceVisible();
-        $expected->isActive            = $this->product->getIsActive();
-        $expected->isVisible           = $this->product->getIsVisible();
-        $expected->isTaxable           = $this->product->getIsTaxable();
-        $expected->isShippable         = $this->product->getIsShippable();
-        $expected->shippingWeight      = $this->product->getShippingWeight();
-        $expected->description         = $this->product->getDescription();
-        $expected->rating              = $this->product->getRating();
-        $expected->defaultImage        = $this->product->getDefaultImage();
-        $expected->priceObj            = $this->product->getPriceObj()->getAllData();
-        $expected->isInStock           = $this->product->inStock();
-        $expected->tags                = [$this->tag->getData()];
-        $expected->images              = [$this->image->getData()];
-
-        $this->assertEquals($expected, $this->product->getAllData());
+        $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\Product');
+        $this->expectedView = $reflection->newInstanceWithoutConstructor();
     }
 
     public function testRequiredInStock()
@@ -124,5 +75,62 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product->addQuantityDiscount(new ProductQuantityDiscount);
 
         $this->assertEquals(1, count($this->product->getQuantityDiscounts()));
+    }
+
+    public function testGetView()
+    {
+        $this->expectedView->id                  = $this->product->getId();
+        $this->expectedView->encodedId           = Service\BaseConvert::encode($this->product->getId());
+        $this->expectedView->sku                 = $this->product->getSku();
+        $this->expectedView->name                = $this->product->getName();
+        $this->expectedView->price               = $this->product->getPrice();
+        $this->expectedView->quantity            = $this->product->getQuantity();
+        $this->expectedView->isInventoryRequired = $this->product->getIsInventoryRequired();
+        $this->expectedView->isPriceVisible      = $this->product->getIsPriceVisible();
+        $this->expectedView->isActive            = $this->product->getIsActive();
+        $this->expectedView->isVisible           = $this->product->getIsVisible();
+        $this->expectedView->isTaxable           = $this->product->getIsTaxable();
+        $this->expectedView->isShippable         = $this->product->getIsShippable();
+        $this->expectedView->shippingWeight      = $this->product->getShippingWeight();
+        $this->expectedView->description         = $this->product->getDescription();
+        $this->expectedView->rating              = $this->product->getRating();
+        $this->expectedView->defaultImage        = $this->product->getDefaultImage();
+        $this->expectedView->created             = $this->product->getCreated();
+        $this->expectedView->isInStock           = $this->product->inStock();
+
+        $this->expectedView = $this->expectedView->export();
+        $productView = $this->product->getView()->export();
+
+        $this->assertEquals($this->expectedView, $productView);
+    }
+
+    public function testGetViewWithAllData()
+    {
+        $this->expectedView->id                  = $this->product->getId();
+        $this->expectedView->encodedId           = Service\BaseConvert::encode($this->product->getId());
+        $this->expectedView->sku                 = $this->product->getSku();
+        $this->expectedView->name                = $this->product->getName();
+        $this->expectedView->price               = $this->product->getPrice();
+        $this->expectedView->quantity            = $this->product->getQuantity();
+        $this->expectedView->isInventoryRequired = $this->product->getIsInventoryRequired();
+        $this->expectedView->isPriceVisible      = $this->product->getIsPriceVisible();
+        $this->expectedView->isActive            = $this->product->getIsActive();
+        $this->expectedView->isVisible           = $this->product->getIsVisible();
+        $this->expectedView->isTaxable           = $this->product->getIsTaxable();
+        $this->expectedView->isShippable         = $this->product->getIsShippable();
+        $this->expectedView->shippingWeight      = $this->product->getShippingWeight();
+        $this->expectedView->description         = $this->product->getDescription();
+        $this->expectedView->rating              = $this->product->getRating();
+        $this->expectedView->defaultImage        = $this->product->getDefaultImage();
+        $this->expectedView->created             = $this->product->getCreated();
+        $this->expectedView->priceObj            = $this->product->getPriceObj()->getView()->export();
+        $this->expectedView->isInStock           = $this->product->inStock();
+        $this->expectedView->tags                = [$this->tag->getView()->withAllData()->export()];
+        $this->expectedView->images              = [$this->image->getView()->withAllData()->export()];
+
+        $this->expectedView = $this->expectedView->export();
+        $productView = $this->product->getView()->withAllData()->export();
+
+        $this->assertEquals($this->expectedView, $productView);
     }
 }

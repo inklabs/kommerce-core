@@ -64,15 +64,8 @@ class Image
         return $this->sortOrder;
     }
 
-    public function getData()
+    public function getView()
     {
-        $class = new \stdClass;
-        $class->id        = $this->getId();
-        $class->path      = $this->getPath();
-        $class->width     = $this->getWidth();
-        $class->height    = $this->getHeight();
-        $class->sortOrder = $this->getSortOrder();
-
-        return $class;
+        return new View\Image($this);
     }
 }

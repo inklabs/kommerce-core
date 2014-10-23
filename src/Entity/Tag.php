@@ -98,29 +98,8 @@ class Tag
         return $this->isVisible;
     }
 
-    public function getData()
+    public function getView()
     {
-        $class = new \stdClass;
-        $class->id             = $this->getId();
-        $class->name           = $this->getName();
-        $class->description    = $this->getDescription();
-        $class->defaultImage   = $this->getDefaultImage();
-        $class->isProductGroup = $this->getIsProductGroup();
-        $class->sortOrder      = $this->getSortOrder();
-        $class->isVisible      = $this->getIsVisible();
-
-        return $class;
-    }
-
-    public function getAllData()
-    {
-        $class = $this->getData();
-
-        $class->products = [];
-        foreach ($this->getProducts() as $product) {
-            $class->products[] = $product->getData();
-        }
-
-        return $class;
+        return new View\Tag($this);
     }
 }

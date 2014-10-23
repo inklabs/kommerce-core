@@ -69,24 +69,8 @@ class CatalogPromotion extends Promotion
         return true;
     }
 
-    public function getData()
+    public function getView()
     {
-        $class = parent::getData();
-        $class->flagFreeShipping = $this->getFlagFreeShipping();
-        $class->code             = $this->getCode();
-
-        return $class;
-    }
-
-    public function getAllData()
-    {
-        $class = $this->getData();
-
-        $class->tag = $this->getTag();
-        if (! empty($class->tag)) {
-            $class->tag = $class->tag->getData();
-        }
-
-        return $class;
+        return new View\CatalogPromotion($this);
     }
 }
