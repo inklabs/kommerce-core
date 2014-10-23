@@ -58,8 +58,8 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDiscountValuePercent()
     {
-        $unit_price = 1000; // $10
-        $this->assertEquals(800, $this->promotion->getUnitPrice($unit_price));
+        $unitPrice = 1000; // $10
+        $this->assertEquals(800, $this->promotion->getUnitPrice($unitPrice));
     }
 
     public function testGetDiscountValueFixed()
@@ -67,8 +67,8 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $this->promotion->setDiscountType('fixed');
         $this->promotion->setValue(1000);
 
-        $unit_price = 10000; // $100
-        $this->assertEquals(9000, $this->promotion->getUnitPrice($unit_price));
+        $unitPrice = 10000; // $100
+        $this->assertEquals(9000, $this->promotion->getUnitPrice($unitPrice));
     }
 
     /**
@@ -77,6 +77,6 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
     public function testInvalidDiscountType()
     {
         $this->promotion->setDiscountType('invalid');
-        $unit_price = $this->promotion->getUnitPrice(0);
+        $unitPrice = $this->promotion->getUnitPrice(0);
     }
 }

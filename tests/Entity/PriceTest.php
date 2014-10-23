@@ -6,10 +6,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->price = new Price;
-        $this->price->orig_unit_price = 2500;
-        $this->price->orig_quantity_price = 2500;
-        $this->price->unit_price = 1750;
-        $this->price->quantity_price = 1750;
+        $this->price->origUnitPrice = 2500;
+        $this->price->origQuantityPrice = 2500;
+        $this->price->unitPrice = 1750;
+        $this->price->quantityPrice = 1750;
 
         $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\Price');
         $this->expected = $reflection->newInstanceWithoutConstructor();
@@ -20,10 +20,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetView()
     {
-        $this->expected->orig_unit_price     = $this->price->orig_unit_price;
-        $this->expected->unit_price          = $this->price->unit_price;
-        $this->expected->orig_quantity_price = $this->price->orig_quantity_price;
-        $this->expected->quantity_price      = $this->price->quantity_price;
+        $this->expected->origUnitPrice     = $this->price->origUnitPrice;
+        $this->expected->unitPrice          = $this->price->unitPrice;
+        $this->expected->origQuantityPrice = $this->price->origQuantityPrice;
+        $this->expected->quantityPrice      = $this->price->quantityPrice;
 
         $this->expected = $this->expected->export();
         $this->assertEquals($this->expected, $this->price->getView()->export());
@@ -40,10 +40,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->price->addCatalogPromotion($this->catalogPromotion);
 
-        $this->expected->orig_unit_price     = $this->price->orig_unit_price;
-        $this->expected->unit_price          = $this->price->unit_price;
-        $this->expected->orig_quantity_price = $this->price->orig_quantity_price;
-        $this->expected->quantity_price      = $this->price->quantity_price;
+        $this->expected->origUnitPrice     = $this->price->origUnitPrice;
+        $this->expected->unitPrice          = $this->price->unitPrice;
+        $this->expected->origQuantityPrice = $this->price->origQuantityPrice;
+        $this->expected->quantityPrice      = $this->price->quantityPrice;
         $this->expected->productQuantityDiscounts   = [];
         $this->expected->catalogPromotions   = [
             $this->catalogPromotion
@@ -70,10 +70,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->price->addProductQuantityDiscount($productQuantityDiscount);
 
-        $this->expected->orig_unit_price     = $this->price->orig_unit_price;
-        $this->expected->unit_price          = $this->price->unit_price;
-        $this->expected->orig_quantity_price = $this->price->orig_quantity_price;
-        $this->expected->quantity_price      = $this->price->quantity_price;
+        $this->expected->origUnitPrice     = $this->price->origUnitPrice;
+        $this->expected->unitPrice          = $this->price->unitPrice;
+        $this->expected->origQuantityPrice = $this->price->origQuantityPrice;
+        $this->expected->quantityPrice      = $this->price->quantityPrice;
         $this->expected->productQuantityDiscounts  = [
             $productQuantityDiscount
                 ->getView()
@@ -93,10 +93,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetViewWithAllData()
     {
-        $this->expected->orig_unit_price     = $this->price->orig_unit_price;
-        $this->expected->unit_price          = $this->price->unit_price;
-        $this->expected->orig_quantity_price = $this->price->orig_quantity_price;
-        $this->expected->quantity_price      = $this->price->quantity_price;
+        $this->expected->origUnitPrice     = $this->price->origUnitPrice;
+        $this->expected->unitPrice          = $this->price->unitPrice;
+        $this->expected->origQuantityPrice = $this->price->origQuantityPrice;
+        $this->expected->quantityPrice      = $this->price->quantityPrice;
         $this->expected->productQuantityDiscounts   = [];
         $this->expected->catalogPromotions   = [];
 

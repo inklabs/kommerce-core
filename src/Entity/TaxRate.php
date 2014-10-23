@@ -83,12 +83,12 @@ class TaxRate
         return $this->applyToShipping;
     }
 
-    public function getTax($tax_subtotal, $shipping)
+    public function getTax($taxSubtotal, $shipping)
     {
         if ($this->applyToShipping) {
-            $tax_subtotal += $shipping;
+            $taxSubtotal += $shipping;
         }
 
-        return (int) round($tax_subtotal * ($this->rate / 100));
+        return (int) round($taxSubtotal * ($this->rate / 100));
     }
 }

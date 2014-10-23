@@ -34,34 +34,34 @@ class CartPriceRule extends Promotion
         return $this->discounts;
     }
 
-    public function isValid(\DateTime $date, CartTotal $cart_total, array $cart_items)
+    public function isValid(\DateTime $date, CartTotal $cartTotal, array $cartItems)
     {
         return $this->isValidPromotion($date)
-            and $this->isCartTotalValid($cart_total)
-            and $this->isCartItemsValid($cart_items);
+            and $this->isCartTotalValid($cartTotal)
+            and $this->isCartItemsValid($cartItems);
     }
 
-    public function isCartTotalValid(CartTotal $cart_total)
+    public function isCartTotalValid(CartTotal $cartTotal)
     {
-        // TODO: Add support for cart_total_valid
+        // TODO: Add support for cartTotal_valid
         return true;
     }
 
-    public function isCartItemsValid(array $cart_items)
+    public function isCartItemsValid(array $cartItems)
     {
-        $matched_items_count = 0;
+        $matchedItemsCount = 0;
         foreach ($this->items as $item) {
-            foreach ($cart_items as $cart_item) {
-                if ($cart_item->getProduct() == $item->getProduct()
-                    and $cart_item->getQuantity() >= $item->getQuantity()
+            foreach ($cartItems as $cartItem) {
+                if ($cartItem->getProduct() == $item->getProduct()
+                    and $cartItem->getQuantity() >= $item->getQuantity()
                 ) {
-                    $matched_items_count++;
+                    $matchedItemsCount++;
                     break;
                 }
             }
         }
 
-        if ($matched_items_count == count($this->items)) {
+        if ($matchedItemsCount == count($this->items)) {
             return true;
         } else {
             return false;
