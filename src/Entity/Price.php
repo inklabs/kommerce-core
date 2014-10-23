@@ -9,11 +9,16 @@ class Price
     public $quantity_price;
 
     private $catalogPromotions = [];
-    private $quantity_discounts = [];
+    private $quantityDiscounts = [];
 
     public function addCatalogPromotion(CatalogPromotion $catalogPromotion)
     {
         $this->catalogPromotions[] = $catalogPromotion;
+    }
+
+    public function getCatalogPromotions()
+    {
+        return $this->catalogPromotions;
     }
 
     public function addQuantityDiscount(ProductQuantityDiscount $quantityDiscount)
@@ -21,26 +26,13 @@ class Price
         $this->quantityDiscounts[] = $quantityDiscount;
     }
 
-    public function getData()
+    public function getQuantityDiscounts()
     {
-        $class = new \stdClass;
-        $class->orig_unit_price = $this->orig_unit_price;
-        $class->unit_price = $this->unit_price;
-        $class->orig_quantity_price = $this->orig_quantity_price;
-        $class->quantity_price = $this->quantity_price;
-
-        return $class;
+        return $this->quantityDiscounts;
     }
 
-    public function getAllData()
+    public function getView()
     {
-        $class = $this->getData();
-
-        $class->catalogPromotions = [];
-        foreach ($this->catalogPromotions as $catalogPromotion) {
-            $class->catalogPromotions[] = $catalogPromotion->getAllData();
-        }
-
-        return $class;
+        return new View\Price($this);
     }
 }

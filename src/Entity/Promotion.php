@@ -154,19 +154,8 @@ class Promotion
         }
     }
 
-    public function getData()
+    public function getView()
     {
-        $class = new \stdClass;
-        $class->name = $this->getName();
-        $class->discountType = $this->getDiscountType();
-        $class->value = $this->getValue();
-        $class->redemptions = $this->getRedemptions();
-        $class->maxRedemptions = $this->getMaxRedemptions();
-        $class->start = $this->getStart();
-        $class->end = $this->getEnd();
-        $class->created = $this->getCreated();
-        $class->updated = $this->getUpdated();
-
-        return $class;
+        return new View\Promotion($this);
     }
 }

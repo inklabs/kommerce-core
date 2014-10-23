@@ -12,6 +12,10 @@ trait Updated
 
     public function getUpdated()
     {
+        if (empty($this->updated)) {
+            return $this->updated;
+        }
+
         $updated = new \DateTime();
         $updated->setTimestamp($this->updated);
         return $updated;

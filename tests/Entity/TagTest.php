@@ -16,34 +16,39 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->product = new Product;
         $this->product->setSku('TST101');
         $this->tag->addProduct($this->product);
+
+        $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\Tag');
+        $this->expectedView = $reflection->newInstanceWithoutConstructor();
     }
 
-    public function testGetData()
+    public function testGetView()
     {
-        $expected = new \stdClass;
-        $expected->id             = $this->tag->getId();
-        $expected->name           = $this->tag->getName();
-        $expected->description    = $this->tag->getDescription();
-        $expected->defaultImage   = $this->tag->getDefaultImage();
-        $expected->isProductGroup = $this->tag->getIsProductGroup();
-        $expected->sortOrder      = $this->tag->getSortOrder();
-        $expected->isVisible      = $this->tag->getIsVisible();
+        $this->expectedView->id             = $this->tag->getId();
+        $this->expectedView->name           = $this->tag->getName();
+        $this->expectedView->description    = $this->tag->getDescription();
+        $this->expectedView->defaultImage   = $this->tag->getDefaultImage();
+        $this->expectedView->isProductGroup = $this->tag->getIsProductGroup();
+        $this->expectedView->sortOrder      = $this->tag->getSortOrder();
+        $this->expectedView->isVisible      = $this->tag->getIsVisible();
 
-        $this->assertEquals($expected, $this->tag->getData());
+        $this->expectedView = $this->expectedView->export();
+
+        $this->assertEquals($this->expectedView, $this->tag->getView()->export());
     }
 
     public function testGetAllData()
     {
-        $expected = new \stdClass;
-        $expected->id             = $this->tag->getId();
-        $expected->name           = $this->tag->getName();
-        $expected->description    = $this->tag->getDescription();
-        $expected->defaultImage   = $this->tag->getDefaultImage();
-        $expected->isProductGroup = $this->tag->getIsProductGroup();
-        $expected->sortOrder      = $this->tag->getSortOrder();
-        $expected->isVisible      = $this->tag->getIsVisible();
-        $expected->products       = [$this->product->getData()];
+        $this->expectedView->id             = $this->tag->getId();
+        $this->expectedView->name           = $this->tag->getName();
+        $this->expectedView->description    = $this->tag->getDescription();
+        $this->expectedView->defaultImage   = $this->tag->getDefaultImage();
+        $this->expectedView->isProductGroup = $this->tag->getIsProductGroup();
+        $this->expectedView->sortOrder      = $this->tag->getSortOrder();
+        $this->expectedView->isVisible      = $this->tag->getIsVisible();
+        $this->expectedView->products       = [$this->product->getView()->export()];
 
-        $this->assertEquals($expected, $this->tag->getAllData());
+        $this->expectedView = $this->expectedView->export();
+
+        $this->assertEquals($this->expectedView, $this->tag->getView()->withAllData()->export());
     }
 }
