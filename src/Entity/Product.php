@@ -277,6 +277,8 @@ class Product
             $class->tags[] = $tag->getData();
         }
 
+        \inklabs\kommerce\J::debug($this->images);
+
         $class->images = [];
         foreach ($this->getImages() as $image) {
             $class->images[] = $image->getData();
