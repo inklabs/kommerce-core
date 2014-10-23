@@ -10,7 +10,7 @@ class Price
     public $orig_quantity_price;
     public $quantity_price;
     public $catalogPromotions = [];
-    public $quantityDiscounts = [];
+    public $productQuantityDiscounts = [];
 
     public function __construct($price)
     {
@@ -41,10 +41,10 @@ class Price
         return $this;
     }
 
-    public function withQuantityDiscounts()
+    public function withProductQuantityDiscounts()
     {
-        foreach ($this->price->getQuantityDiscounts() as $quantityDiscount) {
-            $this->quantityDiscounts[] = $quantityDiscount
+        foreach ($this->price->getProductQuantityDiscounts() as $productQuantityDiscount) {
+            $this->productQuantityDiscounts[] = $productQuantityDiscount
                 ->getView()
                 ->export();
         }
@@ -56,6 +56,6 @@ class Price
     {
         return $this
             ->withCatalogPromotions()
-            ->withQuantityDiscounts();
+            ->withProductQuantityDiscounts();
     }
 }

@@ -72,17 +72,6 @@ class Product
         if (! empty($this->priceObj)) {
             $this->priceObj = $this->priceObj
                 ->getView()
-                ->export();
-        }
-        return $this;
-    }
-
-    public function withAllPriceObj()
-    {
-        $this->priceObj = $this->product->getPriceObj();
-        if (! empty($this->priceObj)) {
-            $this->priceObj = $this->priceObj
-                ->getView()
                 ->withAllData()
                 ->export();
         }
@@ -112,7 +101,7 @@ class Product
     public function withAllData()
     {
         return $this
-            ->withAllPriceObj()
+            ->withPriceObj()
             ->withTags()
             ->withImages();
     }

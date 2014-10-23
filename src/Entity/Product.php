@@ -222,7 +222,7 @@ class Product
         return $this->images;
     }
 
-    public function addQuantityDiscount(ProductQuantityDiscount $quantityDiscount)
+    public function addProductQuantityDiscount(ProductQuantityDiscount $quantityDiscount)
     {
         $this->quantityDiscounts[] = $quantityDiscount;
     }

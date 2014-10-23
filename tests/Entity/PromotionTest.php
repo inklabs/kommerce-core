@@ -13,18 +13,26 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $this->promotion->setMaxRedemptions(null);
         $this->promotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $this->promotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+
+        $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\Promotion');
+        $this->expected = $reflection->newInstanceWithoutConstructor();
     }
 
-    public function testGetters()
+    public function testGetView()
     {
-        $this->assertEquals(null, $this->promotion->getId());
-        $this->assertEquals('20% Off in 2014', $this->promotion->getName());
-        $this->assertEquals('percent', $this->promotion->getDiscountType());
-        $this->assertEquals(20, $this->promotion->getValue());
-        $this->assertEquals(null, $this->promotion->getRedemptions());
-        $this->assertEquals(null, $this->promotion->getMaxRedemptions());
-        $this->assertInstanceOf('DateTime', $this->promotion->getStart());
-        $this->assertInstanceOf('DateTime', $this->promotion->getEnd());
+        $this->expected->id               = $this->promotion->getId();
+        $this->expected->name             = $this->promotion->getName();
+        $this->expected->discountType     = $this->promotion->getDiscountType();
+        $this->expected->value            = $this->promotion->getValue();
+        $this->expected->redemptions      = $this->promotion->getRedemptions();
+        $this->expected->maxRedemptions   = $this->promotion->getMaxRedemptions();
+        $this->expected->start            = $this->promotion->getStart();
+        $this->expected->end              = $this->promotion->getEnd();
+        $this->expected->created          = $this->promotion->getCreated();
+        $this->expected->updated          = $this->promotion->getUpdated();
+
+        $this->expected = $this->expected->export();
+        $this->assertEquals($this->expected, $this->promotion->getView()->export());
     }
 
     public function testIsDateValid()
