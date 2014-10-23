@@ -64,6 +64,26 @@ class Image
         return $this->sortOrder;
     }
 
+    public function setProduct($product)
+    {
+        $this->product = $product;
+    }
+
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+    }
+
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
     public function getView()
     {
         return new View\Image($this);

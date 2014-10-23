@@ -24,6 +24,8 @@ class Image
         $this->width     = $image->getWidth();
         $this->height    = $image->getHeight();
         $this->sortOrder = $image->getSortOrder();
+        $this->product   = $image->getProduct();
+        $this->tag       = $image->getTag();
 
         return $this;
     }

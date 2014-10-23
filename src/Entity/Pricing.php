@@ -52,7 +52,7 @@ class Pricing
         foreach ($this->product->getQuantityDiscounts() as $quantityDiscount) {
             if ($quantityDiscount->isValid($this->date, $this->quantity)) {
                 $this->price->unit_price = $quantityDiscount->getUnitPrice($this->price->unit_price);
-                $this->price->addQuantityDiscount($quantityDiscount);
+                $this->price->addProductQuantityDiscount($quantityDiscount);
                 break;
             }
         }

@@ -69,10 +69,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(5, $this->product->getRating());
     }
 
-    public function testaddQuantityDiscount()
+    public function testaddProductQuantityDiscount()
     {
         $this->product = new Product;
-        $this->product->addQuantityDiscount(new ProductQuantityDiscount);
+        $this->product->addProductQuantityDiscount(new ProductQuantityDiscount);
 
         $this->assertEquals(1, count($this->product->getQuantityDiscounts()));
     }
