@@ -18,11 +18,11 @@
         <field name="updated"   column="`updated`"    type="integer" nullable="true" />
 
         <many-to-one field="product" target-entity="Product" inversed-by="images">
-            <join-column name="product_id" referenced-column-name="id" />
+            <join-column name="`product_id`" referenced-column-name="`id`" />
         </many-to-one>
 
         <many-to-one field="tag" target-entity="Tag" inversed-by="images">
-            <join-column name="tag_id" referenced-column-name="id" />
+            <join-column name="`tag_id`" referenced-column-name="`id`" />
         </many-to-one>
 
         <entity-listeners>

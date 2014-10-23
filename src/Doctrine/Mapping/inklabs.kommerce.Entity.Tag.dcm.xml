@@ -19,7 +19,7 @@
         <field name="created"        column="`created`"          type="integer" />
         <field name="updated"        column="`updated`"          type="integer" nullable="true" />
 
-        <many-to-many field="products" mapped-by="tags" target-entity="Product" />
+        <many-to-many field="products" target-entity="Product" mapped-by="tags" />
 
         <entity-listeners>
             <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
