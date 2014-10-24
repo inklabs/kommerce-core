@@ -16,14 +16,16 @@ class Tag
     protected $sortOrder;
     protected $isVisible;
     protected $products;
+    protected $images;
 
     public function __construct()
     {
         $this->setCreated();
         $this->products = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
-    public function addProduct($product)
+    public function addProduct(Product $product)
     {
         $this->products[] = $product;
     }
@@ -31,6 +33,16 @@ class Tag
     public function getProducts()
     {
         return $this->products;
+    }
+
+    public function addImage(Image $image)
+    {
+        $this->images[] = $image;
+    }
+
+    public function getImages()
+    {
+        return $this->images;
     }
 
     public function getId()

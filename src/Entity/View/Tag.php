@@ -40,7 +40,7 @@ class Tag
 
     public function withImages()
     {
-        foreach ($this->product->getImages() as $image) {
+        foreach ($this->tag->getImages() as $image) {
             $this->images[] = $image
                 ->getView()
                 ->export();
