@@ -25,7 +25,6 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->expectedView->sortOrder = $this->image->getSortOrder();
 
         $this->expectedView = $this->expectedView->export();
-
         $this->assertEquals($this->expectedView, $this->image->getView()->export());
     }
 
@@ -44,7 +43,6 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->expectedView->product   = $product->getView()->export();
 
         $this->expectedView = $this->expectedView->export();
-
         $this->assertEquals($this->expectedView, $this->image->getView()->withProduct()->export());
     }
 
@@ -59,10 +57,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->expectedView->width     = $this->image->getWidth();
         $this->expectedView->height    = $this->image->getHeight();
         $this->expectedView->sortOrder = $this->image->getSortOrder();
-        $this->expectedView->tag   = $tag->getView()->export();
+        $this->expectedView->tag       = $tag->getView()->export();
 
         $this->expectedView = $this->expectedView->export();
-
         $this->assertEquals($this->expectedView, $this->image->getView()->withTag()->export());
     }
 }

@@ -64,7 +64,7 @@ class Image
         return $this->sortOrder;
     }
 
-    public function setProduct($product)
+    public function setProduct(Product $product)
     {
         $this->product = $product;
     }
@@ -74,7 +74,7 @@ class Image
         return $this->product;
     }
 
-    public function setTag($tag)
+    public function setTag(Tag $tag)
     {
         $this->tag = $tag;
     }

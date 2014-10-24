@@ -36,8 +36,9 @@ class Image
 
     public function withProduct()
     {
-        if (! empty($this->product)) {
-            $this->product = $this->product
+        $product = $this->image->getProduct();
+        if (! empty($product)) {
+            $this->product = $product
                 ->getView()
                 ->export();
         }
@@ -46,8 +47,9 @@ class Image
 
     public function withTag()
     {
-        if (! empty($this->tag)) {
-            $this->tag = $this->tag
+        $tag = $this->image->getTag();
+        if (! empty($tag)) {
+            $this->tag = $tag
                 ->getView()
                 ->export();
         }

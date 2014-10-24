@@ -202,7 +202,7 @@ class Product
         }
     }
 
-    public function addTag($tag)
+    public function addTag(Tag $tag)
     {
         $this->tags[] = $tag;
     }
@@ -212,7 +212,7 @@ class Product
         return $this->tags;
     }
 
-    public function addImage($image)
+    public function addImage(Image $image)
     {
         $this->images[] = $image;
     }

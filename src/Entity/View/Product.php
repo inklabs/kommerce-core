@@ -93,7 +93,7 @@ class Product
         foreach ($this->product->getTags() as $tag) {
             $this->tags[] = $tag
                 ->getView()
-                ->getImages()
+                ->withImages()
                 ->export();
         }
         return $this;
