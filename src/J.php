@@ -240,7 +240,7 @@ class J
             $this->process($var->__getData());
         }
 
-        $this->processVarProperties($var);
+        // $this->processVarProperties($var);
         $this->processPublicProperties($var);
         $this->processProtectedProperties($var);
         $this->processPrivateProperties($var);

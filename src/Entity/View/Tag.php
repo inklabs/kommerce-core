@@ -15,6 +15,7 @@ class Tag
     public $sortOrder;
     public $isVisible;
     public $products = [];
+    public $images = [];
 
     public function __construct(Entity\Tag $tag)
     {
@@ -37,7 +38,17 @@ class Tag
         return $this;
     }
 
-    public function withAllData()
+    public function withImages()
+    {
+        foreach ($this->product->getImages() as $image) {
+            $this->images[] = $image
+                ->getView()
+                ->export();
+        }
+        return $this;
+    }
+
+    public function withProducts()
     {
         foreach ($this->tag->getProducts() as $product) {
             $this->products[] = $product
@@ -46,5 +57,12 @@ class Tag
                 ->export();
         }
         return $this;
+    }
+
+    public function withAllData()
+    {
+        return $this
+            ->withImages()
+            ->withProducts();
     }
 }
