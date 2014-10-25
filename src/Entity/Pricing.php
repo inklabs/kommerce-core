@@ -49,10 +49,11 @@ class Pricing
 
     private function applyProductQuantityDiscounts()
     {
-        foreach ($this->product->getQuantityDiscounts() as $quantityDiscount) {
-            if ($quantityDiscount->isValid($this->date, $this->quantity)) {
-                $this->price->unitPrice = $quantityDiscount->getUnitPrice($this->price->unitPrice);
-                $this->price->addProductQuantityDiscount($quantityDiscount);
+        // productQuantityDiscounts must be ordered by qty: highest to lowest
+        foreach ($this->product->getProductQuantityDiscounts() as $productQuantityDiscount) {
+            if ($productQuantityDiscount->isValid($this->date, $this->quantity)) {
+                $this->price->unitPrice = $productQuantityDiscount->getUnitPrice($this->price->unitPrice);
+                $this->price->addProductQuantityDiscount($productQuantityDiscount);
                 break;
             }
         }

@@ -20,9 +20,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetView()
     {
-        $this->expected->origUnitPrice     = $this->price->origUnitPrice;
+        $this->expected->origUnitPrice      = $this->price->origUnitPrice;
         $this->expected->unitPrice          = $this->price->unitPrice;
-        $this->expected->origQuantityPrice = $this->price->origQuantityPrice;
+        $this->expected->origQuantityPrice  = $this->price->origQuantityPrice;
         $this->expected->quantityPrice      = $this->price->quantityPrice;
 
         $this->expected = $this->expected->export();
@@ -40,12 +40,12 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->price->addCatalogPromotion($this->catalogPromotion);
 
-        $this->expected->origUnitPrice     = $this->price->origUnitPrice;
+        $this->expected->origUnitPrice      = $this->price->origUnitPrice;
         $this->expected->unitPrice          = $this->price->unitPrice;
-        $this->expected->origQuantityPrice = $this->price->origQuantityPrice;
+        $this->expected->origQuantityPrice  = $this->price->origQuantityPrice;
         $this->expected->quantityPrice      = $this->price->quantityPrice;
-        $this->expected->productQuantityDiscounts   = [];
-        $this->expected->catalogPromotions   = [
+        $this->expected->productQuantityDiscounts = [];
+        $this->expected->catalogPromotions = [
             $this->catalogPromotion
                 ->getView()
                 ->withAllData()
@@ -70,9 +70,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->price->addProductQuantityDiscount($productQuantityDiscount);
 
-        $this->expected->origUnitPrice     = $this->price->origUnitPrice;
+        $this->expected->origUnitPrice      = $this->price->origUnitPrice;
         $this->expected->unitPrice          = $this->price->unitPrice;
-        $this->expected->origQuantityPrice = $this->price->origQuantityPrice;
+        $this->expected->origQuantityPrice  = $this->price->origQuantityPrice;
         $this->expected->quantityPrice      = $this->price->quantityPrice;
         $this->expected->productQuantityDiscounts  = [
             $productQuantityDiscount
@@ -93,12 +93,12 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetViewWithAllData()
     {
-        $this->expected->origUnitPrice     = $this->price->origUnitPrice;
+        $this->expected->origUnitPrice      = $this->price->origUnitPrice;
         $this->expected->unitPrice          = $this->price->unitPrice;
-        $this->expected->origQuantityPrice = $this->price->origQuantityPrice;
+        $this->expected->origQuantityPrice  = $this->price->origQuantityPrice;
         $this->expected->quantityPrice      = $this->price->quantityPrice;
-        $this->expected->productQuantityDiscounts   = [];
-        $this->expected->catalogPromotions   = [];
+        $this->expected->productQuantityDiscounts = [];
+        $this->expected->catalogPromotions = [];
 
         $this->expected = $this->expected->export();
         $this->assertEquals($this->expected, $this->price->getView()->withAllData()->export());

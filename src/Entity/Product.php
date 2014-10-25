@@ -27,8 +27,8 @@ class Product
 
     protected $tags;
     protected $images;
+    protected $productQuantityDiscounts;
 
-    private $quantityDiscounts = [];
     private $priceObj;
 
     public function __construct()
@@ -36,6 +36,7 @@ class Product
         $this->setCreated();
         $this->tags = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->productQuantityDiscounts = new ArrayCollection();
     }
 
     public function setPriceObj($priceObj)
@@ -222,14 +223,14 @@ class Product
         return $this->images;
     }
 
-    public function addProductQuantityDiscount(ProductQuantityDiscount $quantityDiscount)
+    public function addProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
     {
-        $this->quantityDiscounts[] = $quantityDiscount;
+        $this->productQuantityDiscounts[] = $productQuantityDiscount;
     }
 
-    public function getQuantityDiscounts()
+    public function getProductQuantityDiscounts()
     {
-        return $this->quantityDiscounts;
+        return $this->productQuantityDiscounts;
     }
 
     public function getView()
