@@ -29,7 +29,7 @@ class Product
     public $isInStock;
     public $tags = [];
     public $images = [];
-    public $quantityDiscounts = [];
+    public $productQuantityDiscounts = [];
     public $priceObj;
 
     public function __construct(Entity\Product $product)
@@ -109,10 +109,22 @@ class Product
         return $this;
     }
 
+    public function withProductQuantityDiscounts()
+    {
+        foreach ($this->product->getProductQuantityDiscounts() as $productQuantityDiscount) {
+            $this->productQuantityDiscounts[] = $productQuantityDiscount
+                ->getView()
+                ->withPriceObj()
+                ->export();
+        }
+        return $this;
+    }
+
     public function withAllData()
     {
         return $this
             ->withTags()
+            ->withProductQuantityDiscounts()
             ->withPriceObj()
             ->withImages();
     }

@@ -71,7 +71,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product = new Product;
         $this->product->addProductQuantityDiscount(new ProductQuantityDiscount);
 
-        $this->assertEquals(1, count($this->product->getQuantityDiscounts()));
+        $this->assertEquals(1, count($this->product->getProductQuantityDiscounts()));
     }
 
     private function setupExpectedView()

@@ -18,9 +18,10 @@ class Kommerce
         $this->config->setMetadataDriverImpl($xmlDriver);
 
         if ($cacheDriver !== null) {
-            $this->config->setMetadataCacheImpl($cacheDriver);
-            $this->config->setQueryCacheImpl($cacheDriver);
-            $this->config->setResultCacheImpl($cacheDriver);
+            $this->cacheDriver = $cacheDriver;
+            $this->config->setMetadataCacheImpl($this->cacheDriver);
+            $this->config->setQueryCacheImpl($this->cacheDriver);
+            $this->config->setResultCacheImpl($this->cacheDriver);
         }
     }
 
@@ -28,6 +29,11 @@ class Kommerce
     {
         $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
         return new $serviceClassName($this->entityManager);
+    }
+
+    public function clearCache()
+    {
+        $this->cacheDriver->deleteAll();
     }
 
     public function getEntityManager()

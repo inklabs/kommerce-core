@@ -19,6 +19,11 @@ class Product extends EntityManager
         $price = $pricing->getPrice($product, 1);
         $product->setPriceObj($price);
 
+        foreach ($product->getProductQuantityDiscounts() as $productQuantityDiscount) {
+            $price = $pricing->getPrice($product, $productQuantityDiscount->getQuantity());
+            $productQuantityDiscount->setPriceObj($price);
+        }
+
         return $product;
     }
 

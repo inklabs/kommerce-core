@@ -16,6 +16,8 @@ class Promotion
     public $reducesTaxSubtotal;
     public $start;
     public $end;
+    public $created;
+    public $updated;
 
     public $isRedemptionCountValid;
 

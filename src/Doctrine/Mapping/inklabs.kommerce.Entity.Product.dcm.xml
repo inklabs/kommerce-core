@@ -38,6 +38,11 @@
         </many-to-many>
 
         <one-to-many field="images" target-entity="Image" mapped-by="product" />
+        <one-to-many field="productQuantityDiscounts" target-entity="ProductQuantityDiscount" mapped-by="product">
+            <order-by>
+                <order-by-field name="quantity" direction="DESC" />
+            </order-by>
+        </one-to-many>
 
         <entity-listeners>
             <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
