@@ -42,6 +42,32 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
     }
 
+    public function testIsDateValidNullStartEnd()
+    {
+        $this->promotion->setStart(null);
+        $this->promotion->setEnd(null);
+
+        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+    }
+
+    public function testIsDateValidNullStart()
+    {
+        $this->promotion->setStart(null);
+
+        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
+    }
+
+    public function testIsDateValidNullEnd()
+    {
+        $this->promotion->setEnd(null);
+
+        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
+    }
+
     public function testIsRedemptionCountValid()
     {
         $this->promotion->setMaxRedemptions(null);

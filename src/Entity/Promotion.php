@@ -86,7 +86,7 @@ class Promotion
         return $this->reducesTaxSubtotal;
     }
 
-    public function setStart(\DateTime $start)
+    public function setStart(\DateTime $start = null)
     {
         $this->start = $start;
     }
@@ -96,7 +96,7 @@ class Promotion
         return $this->start;
     }
 
-    public function setEnd(\DateTime $end)
+    public function setEnd(\DateTime $end = null)
     {
         $this->end = $end;
     }
@@ -116,13 +116,18 @@ class Promotion
     {
         $currentDateTs = $date->getTimestamp();
 
-        if ($currentDateTs >= $this->getStart()->getTimestamp()
-            and $currentDateTs <= $this->getEnd()->getTimestamp()) {
+        $start = $this->getStart();
+        $end = $this->getEnd();
 
-            return true;
-        } else {
+        if (($start !== null) and ($currentDateTs < $start->getTimestamp())) {
             return false;
         }
+
+        if (($end !== null) and ($currentDateTs > $end->getTimestamp())) {
+            return false;
+        }
+
+        return true;
     }
 
     public function isRedemptionCountValid()
