@@ -1,12 +1,14 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class Pricing
 {
     public $date;
 
     private $catalogPromotions = [];
-    private $productQuantityDiscounts = [];
+    private $productQuantityDiscounts;
     private $price;
 
     public function __construct(\DateTime $date = null)
@@ -16,6 +18,8 @@ class Pricing
         } else {
             $this->date = $date;
         }
+
+        $this->productQuantityDiscounts = new ArrayCollection();
     }
 
     public function addCatalogPromotion(CatalogPromotion $catalogPromotion)
