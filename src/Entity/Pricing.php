@@ -30,7 +30,7 @@ class Pricing
         }
     }
 
-    public function setProductQuantityDiscounts(array $productQuantityDiscounts)
+    public function setProductQuantityDiscounts(\Doctrine\Common\Collections\ArrayCollection $productQuantityDiscounts)
     {
         $this->productQuantityDiscounts = $productQuantityDiscounts;
         $this->sortProductQuantityDiscounts();
@@ -38,8 +38,8 @@ class Pricing
 
     public function sortProductQuantityDiscounts()
     {
-        usort(
-            $this->productQuantityDiscounts,
+        $iterator = $this->productQuantityDiscounts->getIterator();
+        $iterator->uasort(
             create_function('$a, $b', 'return ($a->getQuantity() < $b->getQuantity());')
         );
     }
