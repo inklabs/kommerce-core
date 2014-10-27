@@ -6,6 +6,7 @@ class Pricing
     public $date;
 
     private $catalogPromotions = [];
+    private $productQuantityDiscounts = [];
     private $price;
 
     public function __construct(\DateTime $date = null)
@@ -29,6 +30,20 @@ class Pricing
         }
     }
 
+    public function setProductQuantityDiscounts(array $productQuantityDiscounts)
+    {
+        $this->productQuantityDiscounts = $productQuantityDiscounts;
+        $this->sortProductQuantityDiscounts();
+    }
+
+    public function sortProductQuantityDiscounts()
+    {
+        usort(
+            $this->productQuantityDiscounts,
+            create_function('$a, $b', 'return ($a->getQuantity() < $b->getQuantity());')
+        );
+    }
+
     public function getPrice(Product $product, $quantity)
     {
         $this->product = $product;
@@ -49,8 +64,7 @@ class Pricing
 
     private function applyProductQuantityDiscounts()
     {
-        // productQuantityDiscounts must be ordered by qty: highest to lowest
-        foreach ($this->product->getProductQuantityDiscounts() as $productQuantityDiscount) {
+        foreach ($this->productQuantityDiscounts as $productQuantityDiscount) {
             if ($productQuantityDiscount->isValid($this->date, $this->quantity)) {
                 $this->price->unitPrice = $productQuantityDiscount->getUnitPrice($this->price->unitPrice);
                 $this->price->addProductQuantityDiscount($productQuantityDiscount);
@@ -82,6 +96,7 @@ class Pricing
 
     private function applyProductOptionPrices()
     {
+        // TODO: code smell...
         foreach ($this->product->getSelectedOptionProducts() as $optionProduct) {
             $subPricing = new Pricing($this->date);
             $optionProductPrice = $subPricing->getPrice($optionProduct, $this->quantity);
