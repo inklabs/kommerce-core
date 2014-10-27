@@ -21,6 +21,26 @@ class KommerceTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
+    public function testClearCache()
+    {
+        $this->kommerce = new Kommerce(new \Doctrine\Common\Cache\ArrayCache());
+        $this->kommerce->setup([
+            'driver'   => 'pdo_sqlite',
+            'memory'   => true,
+        ]);
+
+        $cacheDriver = $this->kommerce->getCacheDriver();
+        $id = 'test-id';
+        $data = 'test-data';
+        $cacheDriver->save($id, $data);
+
+        $this->assertSame($data, $cacheDriver->fetch($id));
+
+        $this->kommerce->clearCache();
+
+        $this->assertSame(false, $cacheDriver->fetch($id));
+    }
+
     public function testGetEntityManager()
     {
         $this->assertInstanceOf('Doctrine\ORM\EntityManager', $this->kommerce->getEntityManager());

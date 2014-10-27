@@ -55,6 +55,29 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->assertEquals($this->product, $product);
     }
 
+    public function testFindWithProductQuantityDiscounts()
+    {
+        $id = $this->product->getId();
+
+        $productQuantityDiscount = new Entity\ProductQuantityDiscount;
+        $productQuantityDiscount->setCustomerGroup(null);
+        $productQuantityDiscount->setDiscountType('exact');
+        $productQuantityDiscount->setQuantity(6);
+        $productQuantityDiscount->setValue(500);
+        $productQuantityDiscount->setFlagApplyCatalogPromotions(true);
+        $productQuantityDiscount->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $productQuantityDiscount->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+        $this->entityManager->persist($productQuantityDiscount);
+
+        $this->product->addProductQuantityDiscount($productQuantityDiscount);
+        $this->entityManager->flush();
+
+        $productService = new Product($this->entityManager);
+        $product = $productService->find($id);
+
+        $this->assertEquals($this->product, $product);
+    }
+
     private function getDummyProduct($num)
     {
         $product = new Entity\Product;

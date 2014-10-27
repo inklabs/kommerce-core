@@ -135,6 +135,15 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->expectedView->tags     = [$this->tag->getView()->withAllData()->export()];
         $this->expectedView->images   = [$this->image->getView()->withAllData()->export()];
 
+        $productQuantityDiscount = new ProductQuantityDiscount;
+        $this->product->addProductQuantityDiscount($productQuantityDiscount);
+        $this->expectedView->productQuantityDiscounts = [
+            $productQuantityDiscount
+                ->getView()
+                ->withPriceObj()
+                ->export()
+        ];
+
         $this->expectedView = $this->expectedView->export();
         $productView = $this->product->getView()->withAllData()->export();
 
