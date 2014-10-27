@@ -10,16 +10,21 @@ class ProductQuantityDiscount extends Promotion
 
     private $priceObj;
 
+    public function setName($name)
+    {
+        throw new \Exception('Unable to set name.');
+    }
+
     public function getName()
     {
-        $name = 'Buy ' . $this->getQuantity() . ' or more';
+        $name = 'Buy ' . $this->getQuantity() . ' or more for ';
 
         if ($this->getDiscountType() == 'exact') {
-            $name .= ' for $' . ($this->getValue() / 100) . ' each';
+            $name .= '$' . ($this->getValue() / 100) . ' each';
         } elseif ($this->getDiscountType() == 'percent') {
-            $name .= ' for ' . $this->getValue() . '% off';
+            $name .= $this->getValue() . '% off';
         } elseif ($this->getDiscountType() == 'fixed') {
-            $name .= ' for $' . ($this->getValue() / 100) . ' off';
+            $name .= '$' . ($this->getValue() / 100) . ' off';
         }
 
         return $name;

@@ -7,6 +7,8 @@ class Kommerce
 {
     protected $entityManager;
     protected $entityManagerConfiguration;
+    protected $cacheDriver;
+    protected $config;
 
     public function __construct(\Doctrine\Common\Cache\CacheProvider $cacheDriver = null)
     {
@@ -34,6 +36,11 @@ class Kommerce
     public function clearCache()
     {
         $this->cacheDriver->deleteAll();
+    }
+
+    public function getCacheDriver()
+    {
+        return $this->cacheDriver;
     }
 
     public function getEntityManager()

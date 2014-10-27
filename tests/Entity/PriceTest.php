@@ -60,7 +60,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function testGetViewWithQuantityDiscounts()
     {
         $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setName('6x for $5 ea.');
         $productQuantityDiscount->setCustomerGroup(null);
         $productQuantityDiscount->setDiscountType('exact');
         $productQuantityDiscount->setQuantity(6);
