@@ -37,14 +37,7 @@ class CartPriceRule extends Promotion
     public function isValid(\DateTime $date, CartTotal $cartTotal, array $cartItems)
     {
         return $this->isValidPromotion($date)
-            and $this->isCartTotalValid($cartTotal)
             and $this->isCartItemsValid($cartItems);
-    }
-
-    public function isCartTotalValid(CartTotal $cartTotal)
-    {
-        // TODO: Add support for cartTotal_valid
-        return true;
     }
 
     public function isCartItemsValid(array $cartItems)

@@ -3,14 +3,14 @@ namespace inklabs\kommerce\Entity;
 
 class Cart
 {
-    public $items = [];
-    public $coupons = [];
-    public $cartPriceRules = [];
-    public $taxRate;
+    protected $items = [];
+    protected $coupons = [];
+    protected $cartPriceRules = [];
+    protected $taxRate;
 
-    private $cartTotal;
-    private $pricing;
-    private $shippingRate;
+    protected $cartTotal;
+    protected $pricing;
+    protected $shippingRate;
 
     public function addItem(Product $product, $quantity)
     {
