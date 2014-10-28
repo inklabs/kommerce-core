@@ -87,7 +87,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
-        $pricing->addCatalogPromotion($catalogPromotion);
+        $pricing->setCatalogPromotions([$catalogPromotion]);
 
         $product = new Product;
         $product->setSku('TST101');

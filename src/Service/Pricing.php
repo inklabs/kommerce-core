@@ -18,7 +18,7 @@ class Pricing extends EntityManager
         $catalogPromotions = $this->entityManager->getRepository('inklabs\kommerce\Entity\CatalogPromotion')->findAll();
 
         $this->pricing = new Entity\Pricing;
-        $this->pricing->addCatalogPromotions($catalogPromotions);
+        $this->pricing->setCatalogPromotions($catalogPromotions);
     }
 
     public function getPricing()
