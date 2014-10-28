@@ -44,7 +44,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
 
     public function testAddCatalogPromotions()
     {
-        $this->pricing->addCatalogPromotions([
+        $this->pricing->setCatalogPromotions([
             new Entity\CatalogPromotion,
             new Entity\CatalogPromotion,
         ]);
@@ -71,18 +71,18 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscount3 = $this->getProductQuantityDiscount(3, 300);
 
         $productQuantityDiscounts = new ArrayCollection([
-            0 => $productQuantityDiscount1,
-            1 => $productQuantityDiscount3,
-            2 => $productQuantityDiscount2,
+            $productQuantityDiscount1,
+            $productQuantityDiscount3,
+            $productQuantityDiscount2,
         ]);
 
         $this->pricing->setProductQuantityDiscounts($productQuantityDiscounts);
 
-        $expected = new ArrayCollection([
-            1 => $productQuantityDiscount3,
-            2 => $productQuantityDiscount2,
-            0 => $productQuantityDiscount1,
-        ]);
+        $expected = [
+            $productQuantityDiscount3,
+            $productQuantityDiscount2,
+            $productQuantityDiscount1,
+        ];
 
         $reflection = new \ReflectionClass('inklabs\kommerce\Entity\Pricing');
         $property = $reflection->getProperty('productQuantityDiscounts');
@@ -101,7 +101,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $this->pricing->addCatalogPromotion($catalogPromotion);
+        $this->pricing->setCatalogPromotions([$catalogPromotion]);
 
         $product = new Entity\Product;
         $product->setSku('TST101');
@@ -145,7 +145,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $this->pricing->addCatalogPromotion($catalogPromotion);
+        $this->pricing->setCatalogPromotions([$catalogPromotion]);
 
         $product = new Entity\Product;
         $product->setSku('TST101');
@@ -194,7 +194,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $this->pricing->addCatalogPromotion($catalogPromotion);
+        $this->pricing->setCatalogPromotions([$catalogPromotion]);
 
         $product = new Entity\Product;
         $product->setSku('TST101');

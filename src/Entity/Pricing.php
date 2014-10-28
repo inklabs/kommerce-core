@@ -8,7 +8,7 @@ class Pricing
     public $date;
 
     private $catalogPromotions = [];
-    private $productQuantityDiscounts;
+    private $productQuantityDiscounts = [];
     private $price;
 
     public function __construct(\DateTime $date = null)
@@ -18,32 +18,38 @@ class Pricing
         } else {
             $this->date = $date;
         }
-
-        $this->productQuantityDiscounts = new ArrayCollection();
     }
 
-    public function addCatalogPromotion(CatalogPromotion $catalogPromotion)
-    {
-        $this->catalogPromotions[] = $catalogPromotion;
-    }
-
-    public function addCatalogPromotions(array $catalogPromotions)
+    public function setCatalogPromotions(array $catalogPromotions)
     {
         foreach ($catalogPromotions as $catalogPromotion) {
             $this->addCatalogPromotion($catalogPromotion);
         }
     }
 
+    private function addCatalogPromotion(CatalogPromotion $catalogPromotion)
+    {
+        $this->catalogPromotions[] = $catalogPromotion;
+    }
+
     public function setProductQuantityDiscounts(\Doctrine\Common\Collections\ArrayCollection $productQuantityDiscounts)
     {
-        $this->productQuantityDiscounts = $productQuantityDiscounts;
+        foreach ($productQuantityDiscounts as $productQuantityDiscount) {
+            $this->addProductQuantityDiscount($productQuantityDiscount);
+        }
+
         $this->sortProductQuantityDiscounts();
+    }
+
+    private function addProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
+    {
+        $this->productQuantityDiscounts[] = $productQuantityDiscount;
     }
 
     public function sortProductQuantityDiscounts()
     {
-        $iterator = $this->productQuantityDiscounts->getIterator();
-        $iterator->uasort(
+        usort(
+            $this->productQuantityDiscounts,
             create_function('$a, $b', 'return ($a->getQuantity() < $b->getQuantity());')
         );
     }
