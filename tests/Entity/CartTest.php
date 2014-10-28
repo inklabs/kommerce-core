@@ -480,19 +480,16 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testGetTotalCartPriceRuleInvalidCartItems()
     {
         $productShirt = new Product;
-        // $productShirt->id = 1;
         $productShirt->setSku('TS-NAVY-LG');
         $productShirt->setName('Navy T-shirt (large)');
         $productShirt->setPrice(1200);
 
         $productPoster = new Product;
-        // $productPoster->id = 2;
         $productPoster->setSku('PST-CKN');
         $productPoster->setName('Citizen Kane (1941) Poster');
         $productPoster->setPrice(500);
 
         $productJacket = new Product;
-        // $productJacket->id = 3;
         $productJacket->setSku('JKT001');
         $productJacket->setName('Navy Jacket');
         $productJacket->setPrice(2500);
