@@ -43,10 +43,10 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $productPoster->setPrice(500);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->setName('Buy a Shirt get a FREE poster');
+        $cartPriceRule->setName('Buy two Shirts get a FREE poster');
         $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cartPriceRule->addItem(new CartPriceRuleItem($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRuleItem($productShirt, 2));
         $cartPriceRule->addItem(new CartPriceRuleItem($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
@@ -58,10 +58,19 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $cartItems = $property->getValue($cart);
         $this->assertFalse($cartPriceRule->isCartItemsValid($cartItems));
 
+        $cart = new Cart;
         $cart->addItem($productShirt, 1);
         $cartItems = $property->getValue($cart);
         $this->assertFalse($cartPriceRule->isCartItemsValid($cartItems));
 
+        $cart = new Cart;
+        $cart->addItem($productShirt, 1);
+        $cart->addItem($productPoster, 1);
+        $cartItems = $property->getValue($cart);
+        $this->assertFalse($cartPriceRule->isCartItemsValid($cartItems));
+
+        $cart = new Cart;
+        $cart->addItem($productShirt, 2);
         $cart->addItem($productPoster, 1);
         $cartItems = $property->getValue($cart);
         $this->assertTrue($cartPriceRule->isCartItemsValid($cartItems));
