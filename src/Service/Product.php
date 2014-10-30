@@ -7,19 +7,22 @@ class Product extends EntityManager
 {
     public function find($id)
     {
-        $pricing = new Pricing;
-        $pricing->loadCatalogPromotions($this->entityManager);
-
         $product = $this->entityManager->getRepository('inklabs\kommerce\Entity\Product')->find($id);
 
         if ($product === null or ! $product->getIsActive()) {
             return null;
         }
 
+        $pricing = new Pricing;
+        $pricing->loadCatalogPromotions($this->entityManager);
+
+        $productQuantityDiscounts = $product->getProductQuantityDiscounts();
+        $pricing->setProductQuantityDiscounts($productQuantityDiscounts);
+
         $price = $pricing->getPrice($product, 1);
         $product->setPriceObj($price);
 
-        foreach ($product->getProductQuantityDiscounts() as $productQuantityDiscount) {
+        foreach ($productQuantityDiscounts as $productQuantityDiscount) {
             $price = $pricing->getPrice($product, $productQuantityDiscount->getQuantity());
             $productQuantityDiscount->setPriceObj($price);
         }
@@ -38,7 +41,7 @@ class Product extends EntityManager
             ->from('inklabs\kommerce\Entity\Product', 'product')
             ->where('product.id <> :productId')
                 ->setParameter('productId', $product->getId())
-            ->productActiveVisible()
+            ->productActiveAndVisible()
             ->productAvailable()
             ->addSelect('RAND(:rand) as HIDDEN rand')
                 ->setParameter('rand', $product->getId())
@@ -79,7 +82,7 @@ class Product extends EntityManager
             ->from('inklabs\kommerce\Entity\Product', 'product')
             ->innerJoin('product.tags', 'tag')
             ->where('tag.id = :tagId')
-            ->productActiveVisible()
+            ->productActiveAndVisible()
             ->productAvailable()
             ->setParameter('tagId', $tag->getId())
             ->paginate($pagination);
@@ -104,7 +107,7 @@ class Product extends EntityManager
         $query = $qb->select('product')
             ->from('inklabs\kommerce\Entity\Product', 'product')
             ->where('product.id IN (:productIds)')
-            ->productActiveVisible()
+            ->productActiveAndVisible()
             ->productAvailable()
             ->setParameter('productIds', $productIds)
             ->paginate($pagination);
@@ -128,7 +131,7 @@ class Product extends EntityManager
 
         $products = $qb->select('product')
             ->from('inklabs\kommerce\Entity\Product', 'product')
-            ->productActiveVisible()
+            ->productActiveAndVisible()
             ->productAvailable()
             ->addSelect('RAND() as HIDDEN rand')
             ->orderBy('rand')
