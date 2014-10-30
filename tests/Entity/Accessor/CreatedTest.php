@@ -5,17 +5,24 @@ class CreatedTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->product = new Entity\Product;
+        $this->createdObject = $this->getObjectForTrait('inklabs\kommerce\Entity\Accessor\Created');
     }
 
-    public function testGetters()
+    public function testGetCreated()
     {
-        $this->assertInstanceOf('DateTime', $this->product->getCreated());
+        $this->assertInstanceOf('DateTime', $this->createdObject->getCreated());
     }
 
-    public function testEmptyCreated()
+    public function testSetCreated()
     {
-        $this->product = new Entity\Product;
-        $this->assertInstanceOf('DateTime', $this->product->getCreated());
+        $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
+        $this->createdObject->setCreated($date);
+        $this->assertEquals($date, $this->createdObject->getCreated());
+    }
+
+    public function testSetCreatedWithNull()
+    {
+        $this->createdObject->setCreated();
+        $this->assertInstanceOf('DateTime', $this->createdObject->getCreated());
     }
 }
