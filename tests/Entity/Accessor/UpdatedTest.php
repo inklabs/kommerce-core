@@ -5,12 +5,24 @@ class UpdatedTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->updatedMock = new Entity\Product;
-        $this->updatedMock->setUpdated(new \DateTime('now', new \DateTimeZone('UTC')));
+        $this->updatedObject = $this->getObjectForTrait('inklabs\kommerce\Entity\Accessor\Updated');
     }
 
-    public function testGetters()
+    public function testGetUpdatedWithNull()
     {
-        $this->assertInstanceOf('DateTime', $this->updatedMock->getUpdated());
+        $this->assertSame(null, $this->updatedObject->getUpdated());
+    }
+
+    public function testSetUpdated()
+    {
+        $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
+        $this->updatedObject->setUpdated($date);
+        $this->assertEquals($date, $this->updatedObject->getUpdated());
+    }
+
+    public function testSetUpdatedWithNull()
+    {
+        $this->updatedObject->setUpdated();
+        $this->assertInstanceOf('DateTime', $this->updatedObject->getUpdated());
     }
 }

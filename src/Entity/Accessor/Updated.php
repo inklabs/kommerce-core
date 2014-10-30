@@ -5,8 +5,12 @@ trait Updated
 {
     protected $updated;
 
-    public function setUpdated(\DateTime $updated)
+    public function setUpdated(\DateTime $updated = null)
     {
+        if ($updated === null) {
+            $updated = new \DateTime('now', new \DateTimeZone('UTC'));
+        }
+
         $this->updated = $updated->getTimestamp();
     }
 
