@@ -9,7 +9,7 @@ class Promotion
     protected $name;
     protected $discountType; // fixed, percent, exact
     protected $value;
-    protected $redemptions;
+    protected $redemptions = 0;
     protected $maxRedemptions;
     protected $reducesTaxSubtotal;
     protected $start;

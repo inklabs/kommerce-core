@@ -15,7 +15,7 @@
         <field name="value"            column="`discount_value`"   type="integer" />
         <field name="flagFreeShipping" column="`free_shipping`"    type="boolean" />
         <field name="redemptions"      column="`redemptions`"      type="integer" />
-        <field name="maxRedemptions"   column="`max_redemptions`"  type="integer" />
+        <field name="maxRedemptions"   column="`max_redemptions`"  type="integer" nullable="true" />
         <field name="start"            column="`start`"            type="date" />
         <field name="end"              column="`end`"              type="date" />
         <field name="created"          column="`created`"          type="integer" />

@@ -7,8 +7,8 @@ class Product extends EntityManager
 {
     public function find($id)
     {
-        $pricingService = new Pricing($this->entityManager);
-        $pricing = $pricingService->getPricing();
+        $pricing = new Pricing;
+        $pricing->loadCatalogPromotions($this->entityManager);
 
         $product = $this->entityManager->getRepository('inklabs\kommerce\Entity\Product')->find($id);
 
@@ -29,8 +29,8 @@ class Product extends EntityManager
 
     public function getRelatedProducts($product, $limit = 12)
     {
-        $pricingService = new Pricing($this->entityManager);
-        $pricing = $pricingService->getPricing();
+        $pricing = new Pricing;
+        $pricing->loadCatalogPromotions($this->entityManager);
 
         $qb = $this->createQueryBuilder();
 
@@ -70,8 +70,8 @@ class Product extends EntityManager
 
     public function getProductsByTag($tag, Entity\Pagination & $pagination = null)
     {
-        $pricingService = new Pricing($this->entityManager);
-        $pricing = $pricingService->getPricing();
+        $pricing = new Pricing;
+        $pricing->loadCatalogPromotions($this->entityManager);
 
         $qb = $this->createQueryBuilder();
 
@@ -96,8 +96,8 @@ class Product extends EntityManager
 
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
-        $pricingService = new Pricing($this->entityManager);
-        $pricing = $pricingService->getPricing();
+        $pricing = new Pricing;
+        $pricing->loadCatalogPromotions($this->entityManager);
 
         $qb = $this->createQueryBuilder();
 
@@ -121,8 +121,8 @@ class Product extends EntityManager
 
     public function getRandomProducts($limit)
     {
-        $pricingService = new Pricing($this->entityManager);
-        $pricing = $pricingService->getPricing();
+        $pricing = new Pricing;
+        $pricing->loadCatalogPromotions($this->entityManager);
 
         $qb = $this->createQueryBuilder();
 
