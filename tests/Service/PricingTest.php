@@ -1,13 +1,15 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Service\Pricing;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class PricingTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->pricing = new Entity\Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
+        $this->pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
     }
 
     public function testGetPriceBasic()
@@ -84,7 +86,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
             $productQuantityDiscount1,
         ];
 
-        $reflection = new \ReflectionClass('inklabs\kommerce\Entity\Pricing');
+        $reflection = new \ReflectionClass('inklabs\kommerce\Service\Pricing');
         $property = $reflection->getProperty('productQuantityDiscounts');
         $property->setAccessible(true);
         $resultProductQuantityDiscounts = $property->getValue($this->pricing);

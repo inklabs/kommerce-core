@@ -48,7 +48,7 @@ class Cart
         return $total;
     }
 
-    public function getTotal(Pricing $pricing, Shipping\Rate $shippingRate = null)
+    public function getTotal(\inklabs\kommerce\Service\Pricing $pricing, Shipping\Rate $shippingRate = null)
     {
         $this->cartTotal = new CartTotal;
         $this->pricing = $pricing;
@@ -83,7 +83,7 @@ class Cart
     private function getCartPriceRules()
     {
         foreach ($this->cartPriceRules as $cartPriceRule) {
-            if ($cartPriceRule->isValid($this->pricing->date, $this->cartTotal, $this->items)) {
+            if ($cartPriceRule->isValid($this->pricing->getDate(), $this->cartTotal, $this->items)) {
                 foreach ($cartPriceRule->getDiscounts() as $discount) {
                     $price = $this->pricing->getPrice($discount->getProduct(), $discount->getQuantity());
 
@@ -105,7 +105,7 @@ class Cart
     private function getCouponDiscounts()
     {
         foreach ($this->coupons as $coupon) {
-            if ($coupon->isValid($this->pricing->date, $this->cartTotal->subtotal)) {
+            if ($coupon->isValid($this->pricing->getDate(), $this->cartTotal->subtotal)) {
                 $newSubtotal = $coupon->getUnitPrice($this->cartTotal->subtotal);
                 $discountValue = $this->cartTotal->subtotal - $newSubtotal;
                 $this->cartTotal->discount += $discountValue;
