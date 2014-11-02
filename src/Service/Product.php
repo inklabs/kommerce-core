@@ -30,8 +30,21 @@ class Product extends EntityManager
         return $product;
     }
 
-    public function getRelatedProducts($product, $limit = 12)
+    public function getRelatedProducts($products, $limit = 12)
     {
+        if (! is_array($products)) {
+            $products = [$products];
+        }
+
+        $productIds = [];
+        $tagIds = [];
+        foreach ($products as $product) {
+            $productIds[] = $product->getId();
+            foreach ($product->getTags() as $tag) {
+                $tagIds[] = $tag->getId();
+            }
+        }
+
         $pricing = new Pricing;
         $pricing->loadCatalogPromotions($this->entityManager);
 
@@ -39,22 +52,16 @@ class Product extends EntityManager
 
         $query = $qb->select('product')
             ->from('inklabs\kommerce\Entity\Product', 'product')
-            ->where('product.id <> :productId')
-                ->setParameter('productId', $product->getId())
+            ->where('product.id NOT IN (:productId)')
+                ->setParameter('productId', $productIds)
             ->productActiveAndVisible()
             ->productAvailable()
             ->addSelect('RAND(:rand) as HIDDEN rand')
-                ->setParameter('rand', $product->getId())
+                ->setParameter('rand', array_sum($productIds))
             ->orderBy('rand')
             ->setMaxResults($limit);
 
-        $tags = $product->getTags();
-        if (! empty($tags)) {
-            $tagIds = [];
-            foreach ($tags as $tag) {
-                $tagIds[] = $tag->getId();
-            }
-
+        if (! empty($tagIds)) {
             $query = $query
                 ->innerJoin('product.tags', 'tag')
                 ->andWhere('tag.id IN (:tagIds)')

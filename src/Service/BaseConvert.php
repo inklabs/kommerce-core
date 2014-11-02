@@ -7,6 +7,10 @@ class BaseConvert
 
     public static function decode($num, $base = null)
     {
+        if ($num === null) {
+            return null;
+        }
+
         if ($base === null) {
             $base = static::$encodeBase;
         }
@@ -24,6 +28,10 @@ class BaseConvert
 
     public static function encode($origNum, $base = null)
     {
+        if ($origNum === null) {
+            return null;
+        }
+
         if ($base === null) {
             $base = static::$encodeBase;
         }

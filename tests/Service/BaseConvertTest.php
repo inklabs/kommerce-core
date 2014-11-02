@@ -6,6 +6,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function providerBase()
     {
         return [
+            [null, null],
             ['1', 1],
             ['A', 10],
             ['10', 36],

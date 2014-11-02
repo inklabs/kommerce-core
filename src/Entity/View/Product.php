@@ -9,6 +9,8 @@ class Product
     private $product;
 
     public $id;
+    public $encodedId;
+    public $slug;
     public $sku;
     public $name;
     public $price;
@@ -38,6 +40,7 @@ class Product
 
         $this->id                  = $product->getId();
         $this->encodedId           = Service\BaseConvert::encode($product->getId());
+        $this->slug                = Service\Slug::get($product->getName());
         $this->sku                 = $product->getSku();
         $this->name                = $product->getName();
         $this->price               = $product->getPrice();
