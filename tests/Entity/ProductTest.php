@@ -117,7 +117,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product->addTag($tag);
 
         $this->setupExpectedView();
-        $this->expectedView->tags     = [
+        $this->expectedView->tags = [
             $this->tag->getView()->withAllData()->export(),
             $tag->getView()->withAllData()->export(),
         ];
