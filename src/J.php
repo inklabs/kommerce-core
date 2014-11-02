@@ -240,7 +240,7 @@ class J
             $this->process($var->__getData());
         }
 
-        // $this->processVarProperties($var);
+        $this->processVarProperties($var);
         $this->processPublicProperties($var);
         $this->processProtectedProperties($var);
         $this->processPrivateProperties($var);
@@ -260,11 +260,19 @@ class J
 
     private function processVarProperties($var)
     {
+        $reflector = new ReflectionClass($var);
+        $publicProperties = [];
+        foreach ($reflector->getProperties() as $property) {
+            $publicProperties[$property->name] = $property;
+        }
+
         $output = [];
         $properties = get_object_vars($var);
         ksort($properties);
         foreach ($properties as $name => $value) {
-            $output['$' . $name] = $value;
+            if (! isset($publicProperties[$name])) {
+                $output['$' . $name] = $value;
+            }
         }
 
         if (! empty($output)) {

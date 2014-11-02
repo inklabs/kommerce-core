@@ -79,7 +79,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\Product');
         $this->expectedView = $reflection->newInstanceWithoutConstructor();
         $this->expectedView->id                  = $this->product->getId();
-        $this->expectedView->encodedId           = Service\BaseConvert::encode($this->product->getId());
+        $this->expectedView->encodedId           = null;
+        $this->expectedView->slug                = 'test-product';
         $this->expectedView->sku                 = $this->product->getSku();
         $this->expectedView->name                = $this->product->getName();
         $this->expectedView->price               = $this->product->getPrice();
@@ -101,7 +102,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testGetView()
     {
         $this->setupExpectedView();
-
         $this->expectedView = $this->expectedView->export();
         $productView = $this->product->getView()->export();
 
