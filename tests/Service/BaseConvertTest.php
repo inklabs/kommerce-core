@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-class BaseTest extends \PHPUnit_Framework_TestCase
+class BaseConvertTest extends \PHPUnit_Framework_TestCase
 {
     public function providerBase()
     {

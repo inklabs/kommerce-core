@@ -15,6 +15,9 @@ class Cart
     public function addItem(Product $product, $quantity)
     {
         $this->items[] = new CartItem($product, $quantity);
+
+        end($this->items);
+        return key($this->items);
     }
 
     public function addCoupon(Coupon $coupon)

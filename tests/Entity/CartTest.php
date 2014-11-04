@@ -18,6 +18,31 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $cart->totalQuantity());
     }
 
+    public function testAddItemReturnId()
+    {
+        $product = new Product;
+        $product2 = new Product;
+
+        $cart = new Cart;
+        $id1 = $cart->addItem($product, 5);
+        $id2 = $cart->addItem($product2, 5);
+
+        $this->assertEquals(0, $id1);
+        $this->assertEquals(1, $id2);
+    }
+
+    public function testAddDuplicateItem()
+    {
+        $product = new Product;
+
+        $cart = new Cart;
+        $cart->addItem($product, 5);
+        $cart->addItem($product, 2);
+
+        $this->assertEquals(2, $cart->totalItems());
+        $this->assertEquals(7, $cart->totalQuantity());
+    }
+
     public function testGetTotalBasic()
     {
         $pricing = new Pricing;

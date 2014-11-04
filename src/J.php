@@ -7,7 +7,8 @@ class J
 {
     private $output;
     private $level = 0;
-    private $limit = 2;
+    private $limit = 10;
+    private $objectChain = [];
 
     public static $localPath;
 
@@ -25,9 +26,14 @@ class J
         return $object;
     }
 
-    public static function debug($var, $limit = 2, $return = false)
+    public static function debug($var, $limit = null, $return = false)
     {
         $j = self::factory();
+
+        if ($limit === null) {
+            $limit = $j->limit;
+        }
+
         $j->var = $var;
         $j->limit = $limit * 2;
         $j->level = 0;
@@ -147,6 +153,15 @@ class J
 
         $name = $this->getName($var);
 
+        if (in_array($name, $this->objectChain)) {
+            $this->output .= $name;
+            return;
+        }
+
+        $this->objectChain[] = $name;
+
+        $name .= $this->getId($var) . $this->getDefaultImage($var) . $this->getRelated($var);
+
         $this->output .= '<table class="jdebug jdebug-object">';
 
         $this->output .= '<thead><tr><th colspan="100%" ' .
@@ -256,6 +271,8 @@ class J
         }
 
         $this->output .= '</td></tr></tbody></table>';
+
+        array_pop($this->objectChain);
     }
 
     private function processVarProperties($var)
@@ -409,9 +426,17 @@ class J
 
         if ($level == 0) {
             $reflector = new ReflectionClass($var);
-            $name = $reflector->getName();
-            $output .= $name;
+            $output = $reflector->getName();
+        }
 
+        return $output;
+    }
+
+    private function getId($var, $level = 0)
+    {
+        $output = '';
+
+        if ($level == 0) {
             if (method_exists($var, 'pk')) {
                 $output .= '(' . $var->pk() . ')';
             } elseif (method_exists($var, 'getId')) {
@@ -419,12 +444,31 @@ class J
             }
         }
 
+        return $output;
+    }
+
+    private function getDefaultImage($var)
+    {
+        $output = '';
+
         if (method_exists($var, 'getDefaultImage')) {
             $img = $var->getDefaultImage();
             if (! empty($img)) {
                 $output .= '<img src="/data/image/' . $img . '" />';
             }
+        } elseif ((get_class($var) === 'inklabs\kommerce\Entity\Image') and method_exists($var, 'getPath')) {
+            $img = $var->getPath();
+            if (! empty($img)) {
+                $output .= '<img src="/data/image/' . $img . '" />';
+            }
         }
+
+        return $output;
+    }
+
+    private function getRelated($var)
+    {
+        $output = '';
 
         if (method_exists($var, 'getRelated')) {
             foreach ($var->getRelated() as $related) {
