@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Service as Service;
+
 class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -50,29 +52,27 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->addItem(new CartPriceRuleItem($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
-        $reflector = new \ReflectionClass('inklabs\kommerce\Entity\Cart');
-        $property = $reflector->getProperty('items');
-        $property->setAccessible(true);
+        $pricing = new Service\Pricing;
 
         $cart = new Cart;
-        $cartItems = $property->getValue($cart);
+        $cartItems = $cart->getItems();
         $this->assertFalse($cartPriceRule->isCartItemsValid($cartItems));
 
-        $cart = new Cart;
+        $cart = new Cart($pricing);
         $cart->addItem($productShirt, 1);
-        $cartItems = $property->getValue($cart);
+        $cartItems = $cart->getItems();
         $this->assertFalse($cartPriceRule->isCartItemsValid($cartItems));
 
-        $cart = new Cart;
+        $cart = new Cart($pricing);
         $cart->addItem($productShirt, 1);
         $cart->addItem($productPoster, 1);
-        $cartItems = $property->getValue($cart);
+        $cartItems = $cart->getItems();
         $this->assertFalse($cartPriceRule->isCartItemsValid($cartItems));
 
-        $cart = new Cart;
+        $cart = new Cart($pricing);
         $cart->addItem($productShirt, 2);
         $cart->addItem($productPoster, 1);
-        $cartItems = $property->getValue($cart);
+        $cartItems = $cart->getItems();
         $this->assertTrue($cartPriceRule->isCartItemsValid($cartItems));
     }
 }

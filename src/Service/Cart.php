@@ -3,19 +3,23 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
 
-class Cart
+class Cart extends EntityManager
 {
     protected $sessionManager;
     protected $cartSessionKey = 'newcart';
     protected $cart;
 
-    public function __construct(SessionManager $sessionManager)
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager, SessionManager $sessionManager)
     {
+        $this->setEntityManager($entityManager);
         $this->sessionManager = $sessionManager;
 
         $this->load();
         if (! ($this->cart instanceof Entity\Cart)) {
-            $this->cart = new Entity\Cart;
+            $pricing = new Pricing;
+            $pricing->loadCatalogPromotions($entityManager);
+
+            $this->cart = new Entity\Cart($pricing);
         }
     }
 

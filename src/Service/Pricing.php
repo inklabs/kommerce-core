@@ -34,8 +34,7 @@ class Pricing
 
     public function loadCatalogPromotions(\Doctrine\ORM\EntityManager $entityManager)
     {
-        $catalogPromotionService = new CatalogPromotion;
-        $catalogPromotionService->setEntityManager($entityManager);
+        $catalogPromotionService = new CatalogPromotion($entityManager);
         $this->setCatalogPromotions($catalogPromotionService->findAll());
     }
 

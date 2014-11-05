@@ -7,8 +7,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 {
     public function setUp()
     {
-        $this->productService = new Product;
-        $this->productService->setEntityManager($this->entityManager);
+        $this->productService = new Product($this->entityManager);
 
         $this->product = new Entity\Product;
         $this->product->setSku('TST101');

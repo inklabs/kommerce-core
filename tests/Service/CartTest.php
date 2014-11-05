@@ -27,7 +27,7 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
     public function testCartPersistence()
     {
         $sessionManager = new ArraySessionManager;
-        $cart = new Cart($sessionManager);
+        $cart = new Cart($this->entityManager, $sessionManager);
 
         $this->assertEquals(0, $cart->totalItems());
 
@@ -35,14 +35,14 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->assertEquals(0, $itemId);
         $this->assertEquals(1, $cart->totalItems());
 
-        $cart = new Cart($sessionManager);
+        $cart = new Cart($this->entityManager, $sessionManager);
         $this->assertEquals(1, $cart->totalItems());
     }
 
     public function testGetItems()
     {
         $sessionManager = new ArraySessionManager;
-        $cart = new Cart($sessionManager);
+        $cart = new Cart($this->entityManager, $sessionManager);
 
         $itemId = $cart->addItem($this->product, 1);
         $itemId = $cart->addItem($this->product, 1);
@@ -53,7 +53,7 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
     public function testGetItem()
     {
         $sessionManager = new ArraySessionManager;
-        $cart = new Cart($sessionManager);
+        $cart = new Cart($this->entityManager, $sessionManager);
         $itemId = $cart->addItem($this->product, 1);
 
         $this->assertEquals($this->product, $cart->getItem(0)->getProduct());

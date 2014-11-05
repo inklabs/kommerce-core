@@ -1,42 +1,29 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-class KommerceTest extends \PHPUnit_Framework_TestCase
+class KommerceTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 {
-    public function setUp()
-    {
-        $this->kommerce = new Kommerce;
-        $this->kommerce->setup([
-            'driver'   => 'pdo_sqlite',
-            'memory'   => true,
-        ]);
-    }
-
     public function testWithArrayCacheDriver()
     {
-        $this->kommerce = new Kommerce(new \Doctrine\Common\Cache\ArrayCache());
-        $this->kommerce->setup([
-            'driver'   => 'pdo_sqlite',
-            'memory'   => true,
-        ]);
+        $kommerce = new Kommerce(new \Doctrine\Common\Cache\ArrayCache());
     }
 
     public function testClearCache()
     {
-        $this->kommerce = new Kommerce(new \Doctrine\Common\Cache\ArrayCache());
-        $this->kommerce->setup([
+        $kommerce = new Kommerce(new \Doctrine\Common\Cache\ArrayCache());
+        $kommerce->setup([
             'driver'   => 'pdo_sqlite',
             'memory'   => true,
         ]);
 
-        $cacheDriver = $this->kommerce->getCacheDriver();
+        $cacheDriver = $kommerce->getCacheDriver();
         $id = 'test-id';
         $data = 'test-data';
         $cacheDriver->save($id, $data);
 
         $this->assertSame($data, $cacheDriver->fetch($id));
 
-        $this->kommerce->clearCache();
+        $kommerce->clearCache();
 
         $this->assertSame(false, $cacheDriver->fetch($id));
     }
@@ -55,6 +42,13 @@ class KommerceTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->kommerce->service('Product');
         $this->assertInstanceOf('inklabs\kommerce\Service\Product', $product);
+    }
+
+    public function testSessionService()
+    {
+        $this->kommerce->setSessionManager(new ArraySessionManager);
+        $cart = $this->kommerce->sessionService('Cart');
+        $this->assertInstanceOf('inklabs\kommerce\Service\Cart', $cart);
     }
 
     public function testAddSqliteFunctions()

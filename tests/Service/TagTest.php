@@ -52,8 +52,7 @@ class TagTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
     {
         $id = $this->tag->getId();
 
-        $tagService = new Tag;
-        $tagService->setEntityManager($this->entityManager);
+        $tagService = new Tag($this->entityManager);
         $tag = $tagService->find($id);
 
         $this->assertEquals($this->tag, $tag);

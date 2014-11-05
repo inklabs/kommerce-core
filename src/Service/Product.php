@@ -5,6 +5,11 @@ use inklabs\kommerce\Entity as Entity;
 
 class Product extends EntityManager
 {
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    {
+        $this->setEntityManager($entityManager);
+    }
+
     public function find($id)
     {
         $product = $this->entityManager->getRepository('inklabs\kommerce\Entity\Product')->find($id);
