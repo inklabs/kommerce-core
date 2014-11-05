@@ -7,6 +7,7 @@ class Kommerce
 {
     protected $entityManager;
     protected $entityManagerConfiguration;
+    protected $sessionManager;
     protected $cacheDriver;
     protected $config;
 
@@ -30,8 +31,14 @@ class Kommerce
     public function service($serviceClassName)
     {
         $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
-        $serviceClass = new $serviceClassName;
-        $serviceClass->setEntityManager($this->entityManager);
+        $serviceClass = new $serviceClassName($this->entityManager);
+        return $serviceClass;
+    }
+
+    public function sessionService($serviceClassName)
+    {
+        $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
+        $serviceClass = new $serviceClassName($this->entityManager, $this->sessionManager);
         return $serviceClass;
     }
 
@@ -69,5 +76,10 @@ class Kommerce
     {
         $this->entityManager = \Doctrine\ORM\EntityManager::create($dbParams, $this->config);
         $this->entityManagerConfiguration = $this->entityManager->getConnection()->getConfiguration();
+    }
+
+    public function setSessionManager($sessionManager)
+    {
+        $this->sessionManager = $sessionManager;
     }
 }

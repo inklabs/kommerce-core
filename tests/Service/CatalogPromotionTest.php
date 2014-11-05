@@ -18,8 +18,7 @@ class CatalogPromotionTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCa
         $this->entityManager->persist($this->catalogPromotions[2]);
         $this->entityManager->flush();
 
-        $this->catalogPromotionService = new CatalogPromotion;
-        $this->catalogPromotionService->setEntityManager($this->entityManager);
+        $this->catalogPromotionService = new CatalogPromotion($this->entityManager);
     }
 
     private function getDummyCatalogPromotion($num)
