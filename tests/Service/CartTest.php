@@ -38,4 +38,24 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $cart = new Cart($sessionManager);
         $this->assertEquals(1, $cart->totalItems());
     }
+
+    public function testGetItems()
+    {
+        $sessionManager = new ArraySessionManager;
+        $cart = new Cart($sessionManager);
+
+        $itemId = $cart->addItem($this->product, 1);
+        $itemId = $cart->addItem($this->product, 1);
+
+        $this->assertEquals(2, count($cart->getItems()));
+    }
+
+    public function testGetItem()
+    {
+        $sessionManager = new ArraySessionManager;
+        $cart = new Cart($sessionManager);
+        $itemId = $cart->addItem($this->product, 1);
+
+        $this->assertEquals($this->product, $cart->getItem(0)->getProduct());
+    }
 }

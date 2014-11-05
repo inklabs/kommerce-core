@@ -30,7 +30,9 @@ class Kommerce
     public function service($serviceClassName)
     {
         $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
-        return new $serviceClassName($this->entityManager);
+        $serviceClass = new $serviceClassName;
+        $serviceClass->setEntityManager($this->entityManager);
+        return $serviceClass;
     }
 
     public function clearCache()

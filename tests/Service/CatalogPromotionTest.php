@@ -17,6 +17,9 @@ class CatalogPromotionTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCa
         $this->entityManager->persist($this->catalogPromotions[1]);
         $this->entityManager->persist($this->catalogPromotions[2]);
         $this->entityManager->flush();
+
+        $this->catalogPromotionService = new CatalogPromotion;
+        $this->catalogPromotionService->setEntityManager($this->entityManager);
     }
 
     private function getDummyCatalogPromotion($num)
@@ -35,8 +38,7 @@ class CatalogPromotionTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCa
 
     public function testFindAll()
     {
-        $catalogPromotionService = new CatalogPromotion($this->entityManager);
-        $catalogPromotions = $catalogPromotionService->findAll();
+        $catalogPromotions = $this->catalogPromotionService->findAll();
 
         $this->assertEquals($this->catalogPromotions, $catalogPromotions);
     }
