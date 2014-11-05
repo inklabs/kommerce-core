@@ -27,6 +27,16 @@ class Cart
         return $itemId;
     }
 
+    public function getItems()
+    {
+        return $this->cart->getItems();
+    }
+
+    public function getItem($id)
+    {
+        return $this->cart->getItem($id);
+    }
+
     public function totalItems()
     {
         return $this->cart->totalItems();

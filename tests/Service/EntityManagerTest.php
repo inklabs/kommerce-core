@@ -32,9 +32,8 @@ class EntityManagerTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $id = $this->product->getId();
         $encodedId = BaseConvert::encode($id);
 
-        $productService = new Product($this->entityManager);
-        $product = $productService->findByEncodedId($encodedId);
+        $stub = new StubEntityManager;
 
-        $this->assertEquals($this->product, $product);
+        $this->assertEquals($id, $stub->findByEncodedId($encodedId));
     }
 }

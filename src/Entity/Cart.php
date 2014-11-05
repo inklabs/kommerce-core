@@ -20,6 +20,20 @@ class Cart
         return key($this->items);
     }
 
+    public function getItem($id)
+    {
+        if (isset($this->items[$id])) {
+            return $this->items[$id];
+        } else {
+            return null;
+        }
+    }
+
+    public function getItems()
+    {
+        return $this->items;
+    }
+
     public function addCoupon(Coupon $coupon)
     {
         $this->coupons[] = $coupon;

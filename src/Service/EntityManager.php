@@ -7,7 +7,7 @@ class EntityManager
 {
     protected $entityManager;
 
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    public function setEntityManager(\Doctrine\ORM\EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
     }

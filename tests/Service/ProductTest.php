@@ -7,6 +7,9 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 {
     public function setUp()
     {
+        $this->productService = new Product;
+        $this->productService->setEntityManager($this->entityManager);
+
         $this->product = new Entity\Product;
         $this->product->setSku('TST101');
         $this->product->setName('Test Product');
@@ -29,8 +32,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
     public function testFindMissing()
     {
-        $productService = new Product($this->entityManager);
-        $product = $productService->find(0);
+        $product = $this->productService->find(0);
         $this->assertEquals(null, $product);
     }
 
@@ -39,8 +41,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->product->setIsActive(false);
         $id = $this->product->getId();
 
-        $productService = new Product($this->entityManager);
-        $product = $productService->find($id);
+        $product = $this->productService->find($id);
 
         $this->assertEquals(null, $product);
     }
@@ -49,8 +50,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
     {
         $id = $this->product->getId();
 
-        $productService = new Product($this->entityManager);
-        $product = $productService->find($id);
+        $product = $this->productService->find($id);
 
         $this->assertEquals($this->product, $product);
     }
@@ -72,8 +72,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->product->addProductQuantityDiscount($productQuantityDiscount);
         $this->entityManager->flush();
 
-        $productService = new Product($this->entityManager);
-        $product = $productService->find($id);
+        $product = $this->productService->find($id);
 
         $this->assertEquals($this->product, $product);
     }
@@ -99,8 +98,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
     public function testGetRelatedProducts()
     {
         $id = $this->product->getId();
-        $productService = new Product($this->entityManager);
-        $product = $productService->find($id);
+        $product = $this->productService->find($id);
 
         $product1 = $this->getDummyProduct(1);
         $product2 = $this->getDummyProduct(2);
@@ -126,7 +124,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->entityManager->persist($product5);
         $this->entityManager->flush();
 
-        $relatedProducts = $productService->getRelatedProducts($product);
+        $relatedProducts = $this->productService->getRelatedProducts($product);
 
         $this->assertEquals(3, count($relatedProducts));
         $this->assertTrue(in_array($product2, $relatedProducts));
@@ -136,8 +134,6 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
     public function testGetProductsByIds()
     {
-        $productService = new Product($this->entityManager);
-
         $product1 = $this->getDummyProduct(1);
         $product2 = $this->getDummyProduct(2);
         $product3 = $this->getDummyProduct(3);
@@ -157,7 +153,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
             $product4->getId(),
         ];
 
-        $products = $productService->getProductsByIds($productIds);
+        $products = $this->productService->getProductsByIds($productIds);
 
         $this->assertEquals(3, count($products));
         $this->assertTrue(in_array($product2, $products));
@@ -167,8 +163,6 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
     public function testGetRandomProducts()
     {
-        $productService = new Product($this->entityManager);
-
         $product1 = $this->getDummyProduct(1);
         $product2 = $this->getDummyProduct(2);
         $product3 = $this->getDummyProduct(3);
@@ -182,7 +176,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->entityManager->persist($product5);
         $this->entityManager->flush();
 
-        $products = $productService->getRandomProducts(3);
+        $products = $this->productService->getRandomProducts(3);
 
         $this->assertEquals(3, count($products));
     }
@@ -216,8 +210,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
     {
         $this->setupProductsByTag();
 
-        $productService = new Product($this->entityManager);
-        $tagProducts = $productService->getProductsByTag($this->tag);
+        $tagProducts = $this->productService->getProductsByTag($this->tag);
 
         $expected = [
             $this->product1,
@@ -236,8 +229,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $page = 1;
         $pagination = new Entity\Pagination($maxResults, $page);
 
-        $productService = new Product($this->entityManager);
-        $tagProducts = $productService->getProductsByTag($this->tag, $pagination);
+        $tagProducts = $this->productService->getProductsByTag($this->tag, $pagination);
 
         $expected = [
             $this->product1,
@@ -256,8 +248,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $page = 2;
         $pagination = new Entity\Pagination($maxResults, $page);
 
-        $productService = new Product($this->entityManager);
-        $tagProducts = $productService->getProductsByTag($this->tag, $pagination);
+        $tagProducts = $this->productService->getProductsByTag($this->tag, $pagination);
 
         $expected = [
             $this->product3,
