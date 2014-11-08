@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\tests\Helper as Helper;
 
 class EntityManagerTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 {
@@ -32,7 +33,7 @@ class EntityManagerTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $id = $this->product->getId();
         $encodedId = BaseConvert::encode($id);
 
-        $stub = new StubEntityManager;
+        $stub = new Helper\StubEntityManager;
 
         $this->assertEquals($id, $stub->findByEncodedId($encodedId));
     }

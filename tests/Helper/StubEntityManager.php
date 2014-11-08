@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Lib;
+namespace inklabs\kommerce\tests\Helper;
 
 class StubEntityManager extends \inklabs\kommerce\Lib\EntityManager
 {
