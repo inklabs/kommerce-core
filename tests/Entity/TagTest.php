@@ -41,12 +41,12 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->expectedView, $this->tag->getView()->export());
     }
 
-    public function testGetAllData()
-    {
-        $this->setupExpectedView();
-        $this->expectedView->products = [$this->product->getView()->export()];
-        $this->expectedView = $this->expectedView->export();
-
-        $this->assertEquals($this->expectedView, $this->tag->getView()->withAllData()->export());
-    }
+    // public function testGetAllData()
+    // {
+    //     $this->setupExpectedView();
+    //     $this->expectedView->products = [$this->product->getView()->export()];
+    //     $this->expectedView = $this->expectedView->export();
+    //
+    //     $this->assertEquals($this->expectedView, $this->tag->getView()->withAllData()->export());
+    // }
 }

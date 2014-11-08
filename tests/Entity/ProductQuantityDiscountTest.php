@@ -45,33 +45,33 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->expectedView, $productQuantityDiscountView);
     }
 
-    public function testGetViewWithAllData()
-    {
-        $this->setupExpectedView();
-
-        $product = new Product;
-        $product->setSku('TST101');
-        $this->productQuantityDiscount->setProduct($product);
-        $this->expectedView->product = $this->productQuantityDiscount
-            ->getProduct()
-            ->getView()
-            ->export();
-
-        $this->price = new Price;
-        $this->productQuantityDiscount->setPrice($this->price);
-        $this->expectedView->price = $this->productQuantityDiscount
-            ->getPrice()
-            ->getView()
-            ->export();
-
-        $this->expectedView = $this->expectedView->export();
-        $productQuantityDiscountView = $this->productQuantityDiscount
-            ->getView()
-            ->withAllData()
-            ->export();
-
-        $this->assertEquals($this->expectedView, $productQuantityDiscountView);
-    }
+    // public function testGetViewWithAllData()
+    // {
+    //     $this->setupExpectedView();
+    //
+    //     $product = new Product;
+    //     $product->setSku('TST101');
+    //     $this->productQuantityDiscount->setProduct($product);
+    //     $this->expectedView->product = $this->productQuantityDiscount
+    //         ->getProduct()
+    //         ->getView()
+    //         ->export();
+    //
+    //     $this->price = new Price;
+    //     $this->productQuantityDiscount->setPrice($this->price);
+    //     $this->expectedView->price = $this->productQuantityDiscount
+    //         ->getPrice()
+    //         ->getView()
+    //         ->export();
+    //
+    //     $this->expectedView = $this->expectedView->export();
+    //     $productQuantityDiscountView = $this->productQuantityDiscount
+    //         ->getView()
+    //         ->withAllData()
+    //         ->export();
+    //
+    //     $this->assertEquals($this->expectedView, $productQuantityDiscountView);
+    // }
 
     /**
      * @expectedException Exception

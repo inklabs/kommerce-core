@@ -19,29 +19,26 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product->setName('Test Product');
         $product->setUnitPrice(1500);
 
-        // Expected
-        $price = new Entity\Price;
-        $price->origUnitPrice = 1500;
-        $price->unitPrice = 1500;
-        $price->origQuantityPrice = 1500;
-        $price->quantityPrice = 1500;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->origUnitPrice = 1500;
+        $expectedPrice->unitPrice = 1500;
+        $expectedPrice->origQuantityPrice = 1500;
+        $expectedPrice->quantityPrice = 1500;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 1));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->origUnitPrice = 1500;
-        $price->unitPrice = 1500;
-        $price->origQuantityPrice = 3000;
-        $price->quantityPrice = 3000;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->origUnitPrice = 1500;
+        $expectedPrice->unitPrice = 1500;
+        $expectedPrice->origQuantityPrice = 3000;
+        $expectedPrice->quantityPrice = 3000;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 2));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->origUnitPrice = 1500;
-        $price->unitPrice = 1500;
-        $price->origQuantityPrice = 15000;
-        $price->quantityPrice = 15000;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 10));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->origUnitPrice = 1500;
+        $expectedPrice->unitPrice = 1500;
+        $expectedPrice->origQuantityPrice = 15000;
+        $expectedPrice->quantityPrice = 15000;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 10));
     }
 
     public function testAddCatalogPromotions()
@@ -110,32 +107,29 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product->setName('Test Product');
         $product->setUnitPrice(1500);
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 1200;
-        $price->origUnitPrice = 1500;
-        $price->addCatalogPromotion($catalogPromotion);
-        $price->quantityPrice = 1200;
-        $price->origQuantityPrice = 1500;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 1200;
+        $expectedPrice->origUnitPrice = 1500;
+        $expectedPrice->addCatalogPromotion($catalogPromotion);
+        $expectedPrice->quantityPrice = 1200;
+        $expectedPrice->origQuantityPrice = 1500;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 1));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 1200;
-        $price->origUnitPrice = 1500;
-        $price->addCatalogPromotion($catalogPromotion);
-        $price->quantityPrice = 2400;
-        $price->origQuantityPrice = 3000;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 1200;
+        $expectedPrice->origUnitPrice = 1500;
+        $expectedPrice->addCatalogPromotion($catalogPromotion);
+        $expectedPrice->quantityPrice = 2400;
+        $expectedPrice->origQuantityPrice = 3000;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 2));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 1200;
-        $price->origUnitPrice = 1500;
-        $price->addCatalogPromotion($catalogPromotion);
-        $price->quantityPrice = 12000;
-        $price->origQuantityPrice = 15000;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 10));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 1200;
+        $expectedPrice->origUnitPrice = 1500;
+        $expectedPrice->addCatalogPromotion($catalogPromotion);
+        $expectedPrice->quantityPrice = 12000;
+        $expectedPrice->origQuantityPrice = 15000;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 10));
     }
 
     public function testGetPriceWithCatalogPromotionFixed()
@@ -154,32 +148,29 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product->setName('Test Product');
         $product->setUnitPrice(1500);
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 1400;
-        $price->origUnitPrice = 1500;
-        $price->addCatalogPromotion($catalogPromotion);
-        $price->quantityPrice = 1400;
-        $price->origQuantityPrice = 1500;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 1400;
+        $expectedPrice->origUnitPrice = 1500;
+        $expectedPrice->addCatalogPromotion($catalogPromotion);
+        $expectedPrice->quantityPrice = 1400;
+        $expectedPrice->origQuantityPrice = 1500;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 1));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 1400;
-        $price->origUnitPrice = 1500;
-        $price->addCatalogPromotion($catalogPromotion);
-        $price->quantityPrice = 2800;
-        $price->origQuantityPrice = 3000;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 1400;
+        $expectedPrice->origUnitPrice = 1500;
+        $expectedPrice->addCatalogPromotion($catalogPromotion);
+        $expectedPrice->quantityPrice = 2800;
+        $expectedPrice->origQuantityPrice = 3000;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 2));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 1400;
-        $price->origUnitPrice = 1500;
-        $price->addCatalogPromotion($catalogPromotion);
-        $price->quantityPrice = 14000;
-        $price->origQuantityPrice = 15000;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 10));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 1400;
+        $expectedPrice->origUnitPrice = 1500;
+        $expectedPrice->addCatalogPromotion($catalogPromotion);
+        $expectedPrice->quantityPrice = 14000;
+        $expectedPrice->origQuantityPrice = 15000;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 10));
     }
 
     public function testGetPriceWithCatalogPromotionTag()
@@ -203,20 +194,19 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product->setName('Test Product');
         $product->setUnitPrice(1500);
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 1500;
-        $price->origUnitPrice = 1500;
-        $price->quantityPrice = 3000;
-        $price->origQuantityPrice = 3000;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 1500;
+        $expectedPrice->origUnitPrice = 1500;
+        $expectedPrice->quantityPrice = 3000;
+        $expectedPrice->origQuantityPrice = 3000;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 2));
 
         // Add tag
         $product->addTag($tag);
-        $price->unitPrice = 1200;
-        $price->quantityPrice = 2400;
-        $price->addCatalogPromotion($catalogPromotion);
-        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
+        $expectedPrice->unitPrice = 1200;
+        $expectedPrice->quantityPrice = 2400;
+        $expectedPrice->addCatalogPromotion($catalogPromotion);
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 2));
     }
 
     public function testGetPriceWithProductOptions()
@@ -240,29 +230,26 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product->addOption($option);
         $product->addSelectedOptionProduct($productSmall);
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 2400;
-        $price->origUnitPrice = 2400;
-        $price->quantityPrice = 2400;
-        $price->origQuantityPrice = 2400;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 2400;
+        $expectedPrice->origUnitPrice = 2400;
+        $expectedPrice->quantityPrice = 2400;
+        $expectedPrice->origQuantityPrice = 2400;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 1));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 2400;
-        $price->origUnitPrice = 2400;
-        $price->quantityPrice = 4800;
-        $price->origQuantityPrice = 4800;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 2));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 2400;
+        $expectedPrice->origUnitPrice = 2400;
+        $expectedPrice->quantityPrice = 4800;
+        $expectedPrice->origQuantityPrice = 4800;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 2));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 2400;
-        $price->origUnitPrice = 2400;
-        $price->quantityPrice = 24000;
-        $price->origQuantityPrice = 24000;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 10));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 2400;
+        $expectedPrice->origUnitPrice = 2400;
+        $expectedPrice->quantityPrice = 24000;
+        $expectedPrice->origQuantityPrice = 24000;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 10));
     }
 
     public function testGetPriceWithProductQuantityDiscountExact()
@@ -299,40 +286,36 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscounts = $product->getProductQuantityDiscounts();
         $this->pricing->setProductQuantityDiscounts($productQuantityDiscounts);
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 500;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 500;
-        $price->origQuantityPrice = 500;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 500;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 500;
+        $expectedPrice->origQuantityPrice = 500;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 1));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 475;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 2850;
-        $price->origQuantityPrice = 3000;
-        $price->addProductQuantityDiscount($productQuantityDiscount6);
-        $this->assertEquals($price, $this->pricing->getPrice($product, 6));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 475;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 2850;
+        $expectedPrice->origQuantityPrice = 3000;
+        $expectedPrice->addProductQuantityDiscount($productQuantityDiscount6);
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 6));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 350;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 4200;
-        $price->origQuantityPrice = 6000;
-        $price->addProductQuantityDiscount($productQuantityDiscount12);
-        $this->assertEquals($price, $this->pricing->getPrice($product, 12));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 350;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 4200;
+        $expectedPrice->origQuantityPrice = 6000;
+        $expectedPrice->addProductQuantityDiscount($productQuantityDiscount12);
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 12));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 325;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 7800;
-        $price->origQuantityPrice = 12000;
-        $price->addProductQuantityDiscount($productQuantityDiscount24);
-        $this->assertEquals($price, $this->pricing->getPrice($product, 24));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 325;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 7800;
+        $expectedPrice->origQuantityPrice = 12000;
+        $expectedPrice->addProductQuantityDiscount($productQuantityDiscount24);
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 24));
     }
 
     public function testGetPriceWithProductQuantityDiscountFixed()
@@ -369,40 +352,36 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscounts = $product->getProductQuantityDiscounts();
         $this->pricing->setProductQuantityDiscounts($productQuantityDiscounts);
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 500;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 500;
-        $price->origQuantityPrice = 500;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 500;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 500;
+        $expectedPrice->origQuantityPrice = 500;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 1));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 475;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 2850;
-        $price->origQuantityPrice = 3000;
-        $price->addProductQuantityDiscount($productQuantityDiscount6);
-        $this->assertEquals($price, $this->pricing->getPrice($product, 6));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 475;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 2850;
+        $expectedPrice->origQuantityPrice = 3000;
+        $expectedPrice->addProductQuantityDiscount($productQuantityDiscount6);
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 6));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 350;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 4200;
-        $price->origQuantityPrice = 6000;
-        $price->addProductQuantityDiscount($productQuantityDiscount12);
-        $this->assertEquals($price, $this->pricing->getPrice($product, 12));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 350;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 4200;
+        $expectedPrice->origQuantityPrice = 6000;
+        $expectedPrice->addProductQuantityDiscount($productQuantityDiscount12);
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 12));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 325;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 7800;
-        $price->origQuantityPrice = 12000;
-        $price->addProductQuantityDiscount($productQuantityDiscount24);
-        $this->assertEquals($price, $this->pricing->getPrice($product, 24));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 325;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 7800;
+        $expectedPrice->origQuantityPrice = 12000;
+        $expectedPrice->addProductQuantityDiscount($productQuantityDiscount24);
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 24));
     }
 
     public function testGetPriceWithProductQuantityDiscountPercent()
@@ -439,39 +418,35 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscounts = $product->getProductQuantityDiscounts();
         $this->pricing->setProductQuantityDiscounts($productQuantityDiscounts);
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 500;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 500;
-        $price->origQuantityPrice = 500;
-        $this->assertEquals($price, $this->pricing->getPrice($product, 1));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 500;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 500;
+        $expectedPrice->origQuantityPrice = 500;
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 1));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 475;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 2850;
-        $price->origQuantityPrice = 3000;
-        $price->addProductQuantityDiscount($productQuantityDiscount6);
-        $this->assertEquals($price, $this->pricing->getPrice($product, 6));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 475;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 2850;
+        $expectedPrice->origQuantityPrice = 3000;
+        $expectedPrice->addProductQuantityDiscount($productQuantityDiscount6);
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 6));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 350;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 4200;
-        $price->origQuantityPrice = 6000;
-        $price->addProductQuantityDiscount($productQuantityDiscount12);
-        $this->assertEquals($price, $this->pricing->getPrice($product, 12));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 350;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 4200;
+        $expectedPrice->origQuantityPrice = 6000;
+        $expectedPrice->addProductQuantityDiscount($productQuantityDiscount12);
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 12));
 
-        // Expected
-        $price = new Entity\Price;
-        $price->unitPrice = 325;
-        $price->origUnitPrice = 500;
-        $price->quantityPrice = 7800;
-        $price->origQuantityPrice = 12000;
-        $price->addProductQuantityDiscount($productQuantityDiscount24);
-        $this->assertEquals($price, $this->pricing->getPrice($product, 24));
+        $expectedPrice = new Entity\Price;
+        $expectedPrice->unitPrice = 325;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->quantityPrice = 7800;
+        $expectedPrice->origQuantityPrice = 12000;
+        $expectedPrice->addProductQuantityDiscount($productQuantityDiscount24);
+        $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 24));
     }
 }

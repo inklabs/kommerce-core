@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity\View;
 
+use inklabs\kommerce\Entity as Entity;
+
 class Price
 {
     private $price;
@@ -12,16 +14,21 @@ class Price
     public $catalogPromotions = [];
     public $productQuantityDiscounts = [];
 
-    public function __construct($price)
+    public function __construct(Entity\Price $price)
     {
         $this->price = $price;
 
-        $this->origUnitPrice     = $price->origUnitPrice;
+        $this->origUnitPrice      = $price->origUnitPrice;
         $this->unitPrice          = $price->unitPrice;
-        $this->origQuantityPrice = $price->origQuantityPrice;
+        $this->origQuantityPrice  = $price->origQuantityPrice;
         $this->quantityPrice      = $price->quantityPrice;
 
         return $this;
+    }
+
+    public static function factory(Entity\Price $price)
+    {
+        return new static($price);
     }
 
     public function export()

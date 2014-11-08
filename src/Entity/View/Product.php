@@ -63,21 +63,14 @@ class Product
         return $this;
     }
 
+    public static function factory(Entity\Product $product)
+    {
+        return new static($product);
+    }
+
     public function export()
     {
         unset($this->product);
-        return $this;
-    }
-
-    public function withPrice()
-    {
-        // $this->price = $this->product->getPrice();
-        if (! empty($this->price)) {
-            $this->price = $this->price
-                ->getView()
-                ->withAllData()
-                ->export();
-        }
         return $this;
     }
 
@@ -112,23 +105,39 @@ class Product
         return $this;
     }
 
-    public function withProductQuantityDiscounts()
+    public function withPrice(\inklabs\kommerce\Service\Pricing $pricing)
     {
-        foreach ($this->product->getProductQuantityDiscounts() as $productQuantityDiscount) {
-            $this->productQuantityDiscounts[] = $productQuantityDiscount
-                ->getView()
-                ->withPrice()
-                ->export();
-        }
+        $this->price = Price::factory($this->product->getPrice($pricing))
+            ->withAllData()
+            ->export();
+
         return $this;
     }
 
-    public function withAllData()
+    public function withProductQuantityDiscounts(\inklabs\kommerce\Service\Pricing $pricing)
+    {
+        $productQuantityDiscounts = $this->product->getProductQuantityDiscounts();
+        $pricing->setProductQuantityDiscounts($productQuantityDiscounts);
+
+        foreach ($productQuantityDiscounts as $productQuantityDiscount) {
+            $price = $this->product->getPrice($pricing, $productQuantityDiscount->getQuantity());
+            $productQuantityDiscount->setPrice($price);
+
+            $viewProductQuantityDiscount = new ProductQuantityDiscount($productQuantityDiscount);
+            $this->productQuantityDiscounts[] = $viewProductQuantityDiscount
+                ->withPrice()
+                ->export();
+        }
+
+        return $this;
+    }
+
+    public function withAllData(\inklabs\kommerce\Service\Pricing $pricing)
     {
         return $this
             ->withTags()
-            ->withProductQuantityDiscounts()
-            ->withPrice()
+            ->withProductQuantityDiscounts($pricing)
+            ->withPrice($pricing)
             ->withImages();
     }
 }

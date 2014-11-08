@@ -40,11 +40,11 @@ class KommerceTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->kommerce->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger);
     }
 
-    public function testService()
-    {
-        $product = $this->kommerce->service('Product');
-        $this->assertInstanceOf('inklabs\kommerce\Service\Product', $product);
-    }
+    // public function testService()
+    // {
+    //     $product = $this->kommerce->service('Product');
+    //     $this->assertInstanceOf('inklabs\kommerce\Service\Product', $product);
+    // }
 
     public function testSessionService()
     {

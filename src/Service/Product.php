@@ -5,41 +5,28 @@ use inklabs\kommerce\Entity as Entity;
 
 class Product extends \inklabs\kommerce\Lib\EntityManager
 {
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    private $pricing;
+
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager, \inklabs\kommerce\Service\Pricing $pricing)
     {
         $this->setEntityManager($entityManager);
-    }
 
-    private function getPricingWithCatalogPromotions()
-    {
-        $pricing = new Pricing;
-        $pricing->loadCatalogPromotions($this->entityManager);
-
-        return $pricing;
+        $this->pricing = $pricing;
+        $this->pricing->loadCatalogPromotions($entityManager);
     }
 
     public function find($id)
     {
-        $product = $this->entityManager->getRepository('inklabs\kommerce\Entity\Product')->find($id);
+        $entityProduct = $this->entityManager->getRepository('inklabs\kommerce\Entity\Product')->find($id);
 
-        if ($product === null or ! $product->getIsActive()) {
+        if ($entityProduct === null or ! $entityProduct->getIsActive()) {
             return null;
         }
 
-        $pricing = $this->getPricingWithCatalogPromotions();
-
-        $productQuantityDiscounts = $product->getProductQuantityDiscounts();
-        $pricing->setProductQuantityDiscounts($productQuantityDiscounts);
-
-        // $price = $pricing->getPrice($product, 1);
-        // $product->setPrice($price);
-
-        // foreach ($productQuantityDiscounts as $productQuantityDiscount) {
-        //     $price = $pricing->getPrice($product, $productQuantityDiscount->getQuantity());
-        //     $productQuantityDiscount->setPrice($price);
-        // }
-
-        return $product;
+        $viewProduct = new Entity\View\Product($entityProduct);
+        return $viewProduct
+            ->withAllData($this->pricing)
+            ->export();
     }
 
     public function getRelatedProducts($products, $limit = 12)
@@ -56,8 +43,6 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
                 $tagIds[] = $tag->getId();
             }
         }
-
-        $pricing = $this->getPricingWithCatalogPromotions();
 
         $qb = $this->createQueryBuilder();
 
@@ -81,18 +66,18 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
 
         $relatedProducts = $query->findAll();
 
-        // foreach ($relatedProducts as $relatedProduct) {
-        //     $price = $pricing->getPrice($relatedProduct, 1);
-        //     $relatedProduct->setPrice($price);
-        // }
+        $viewProducts = [];
+        foreach ($relatedProducts as $product) {
+            $viewProducts[] = Entity\View\Product::factory($product)
+                ->withPrice($this->pricing)
+                ->export();
+        }
 
-        return $relatedProducts;
+        return $viewProducts;
     }
 
     public function getProductsByTag($tag, Entity\Pagination & $pagination = null)
     {
-        $pricing = $this->getPricingWithCatalogPromotions();
-
         $qb = $this->createQueryBuilder();
 
         $query = $qb->select('product')
@@ -106,18 +91,18 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
 
         $tagProducts = $query->findAll();
 
-        // foreach ($tagProducts as $tagProduct) {
-        //     $price = $pricing->getPrice($tagProduct, 1);
-        //     $tagProduct->setPrice($price);
-        // }
+        $viewProducts = [];
+        foreach ($tagProducts as $product) {
+            $viewProducts[] = Entity\View\Product::factory($product)
+                ->withPrice($this->pricing)
+                ->export();
+        }
 
-        return $tagProducts;
+        return $viewProducts;
     }
 
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
-        $pricing = $this->getPricingWithCatalogPromotions();
-
         $qb = $this->createQueryBuilder();
 
         $query = $qb->select('product')
@@ -130,18 +115,18 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
 
         $products = $query->findAll();
 
-        // foreach ($products as $product) {
-        //     $price = $pricing->getPrice($product, 1);
-        //     $product->setPrice($price);
-        // }
+        $viewProducts = [];
+        foreach ($products as $product) {
+            $viewProducts[] = Entity\View\Product::factory($product)
+                ->withPrice($this->pricing)
+                ->export();
+        }
 
-        return $products;
+        return $viewProducts;
     }
 
     public function getRandomProducts($limit)
     {
-        $pricing = $this->getPricingWithCatalogPromotions();
-
         $qb = $this->createQueryBuilder();
 
         $products = $qb->select('product')
@@ -153,11 +138,13 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
             ->setMaxResults($limit)
             ->findAll();
 
-        // foreach ($products as $product) {
-        //     $price = $pricing->getPrice($product, 1);
-        //     $product->setPrice($price);
-        // }
+        $viewProducts = [];
+        foreach ($products as $product) {
+            $viewProducts[] = Entity\View\Product::factory($product)
+                ->withPrice($this->pricing)
+                ->export();
+        }
 
-        return $products;
+        return $viewProducts;
     }
 }
