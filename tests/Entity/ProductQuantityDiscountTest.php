@@ -35,15 +35,15 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $this->expectedView->updated       = $this->productQuantityDiscount->getUpdated();
     }
 
-    public function testGetView()
-    {
-        $this->setupExpectedView();
-
-        $this->expectedView = $this->expectedView->export();
-        $productQuantityDiscountView = $this->productQuantityDiscount->getView()->export();
-
-        $this->assertEquals($this->expectedView, $productQuantityDiscountView);
-    }
+    // public function testGetView()
+    // {
+    //     $this->setupExpectedView();
+    //
+    //     $this->expectedView = $this->expectedView->export();
+    //     $productQuantityDiscountView = $this->productQuantityDiscount->getView()->export();
+    //
+    //     $this->assertEquals($this->expectedView, $productQuantityDiscountView);
+    // }
 
     // public function testGetViewWithAllData()
     // {

@@ -17,6 +17,11 @@ class CatalogPromotion extends Promotion
         $this->code             = $catalogPromotion->getCode();
     }
 
+    public static function factory(Entity\CatalogPromotion $catalogPromotion)
+    {
+        return new static($catalogPromotion);
+    }
+
     public function withTag()
     {
         $this->tag = $this->promotion->getTag();

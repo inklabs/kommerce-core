@@ -21,15 +21,17 @@ class ProductQuantityDiscount extends Promotion
         $this->product                    = $productQuantityDiscount->getProduct();
     }
 
+    public static function factory(Entity\ProductQuantityDiscount $productQuantityDiscount)
+    {
+        return new static($productQuantityDiscount);
+    }
+
     public function withPrice()
     {
-        $this->price = $this->promotion->getPrice();
-        if (! empty($this->price)) {
-            $this->price = $this->price
-                ->getView()
-                ->withAllData()
-                ->export();
-        }
+        $this->price = Price::factory($this->promotion->getPrice())
+            ->withAllData()
+            ->export();
+
         return $this;
     }
 

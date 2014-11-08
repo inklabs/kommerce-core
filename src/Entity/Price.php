@@ -30,9 +30,4 @@ class Price
     {
         return $this->productQuantityDiscounts;
     }
-
-    public function getView()
-    {
-        return new View\Price($this);
-    }
 }

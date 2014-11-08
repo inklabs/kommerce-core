@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity as Entity;
+
 class Tag extends \inklabs\kommerce\Lib\EntityManager
 {
     public function __construct(\Doctrine\ORM\EntityManager $entityManager)
@@ -12,6 +14,9 @@ class Tag extends \inklabs\kommerce\Lib\EntityManager
     {
         $tag = $this->entityManager->getRepository('inklabs\kommerce\Entity\Tag')->find($id);
 
-        return $tag;
+        $viewTag = Entity\View\Tag::factory($tag)
+            ->export();
+
+        return $viewTag;
     }
 }

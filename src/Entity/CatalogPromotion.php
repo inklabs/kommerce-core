@@ -68,9 +68,4 @@ class CatalogPromotion extends Promotion
 
         return true;
     }
-
-    public function getView()
-    {
-        return new View\CatalogPromotion($this);
-    }
 }

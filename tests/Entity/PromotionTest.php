@@ -18,22 +18,22 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $this->expected = $reflection->newInstanceWithoutConstructor();
     }
 
-    public function testGetView()
-    {
-        $this->expected->id               = $this->promotion->getId();
-        $this->expected->name             = $this->promotion->getName();
-        $this->expected->discountType     = $this->promotion->getDiscountType();
-        $this->expected->value            = $this->promotion->getValue();
-        $this->expected->redemptions      = $this->promotion->getRedemptions();
-        $this->expected->maxRedemptions   = $this->promotion->getMaxRedemptions();
-        $this->expected->start            = $this->promotion->getStart();
-        $this->expected->end              = $this->promotion->getEnd();
-        $this->expected->created          = $this->promotion->getCreated();
-        $this->expected->updated          = $this->promotion->getUpdated();
-
-        $this->expected = $this->expected->export();
-        $this->assertEquals($this->expected, $this->promotion->getView()->export());
-    }
+    // public function testGetView()
+    // {
+    //     $this->expected->id               = $this->promotion->getId();
+    //     $this->expected->name             = $this->promotion->getName();
+    //     $this->expected->discountType     = $this->promotion->getDiscountType();
+    //     $this->expected->value            = $this->promotion->getValue();
+    //     $this->expected->redemptions      = $this->promotion->getRedemptions();
+    //     $this->expected->maxRedemptions   = $this->promotion->getMaxRedemptions();
+    //     $this->expected->start            = $this->promotion->getStart();
+    //     $this->expected->end              = $this->promotion->getEnd();
+    //     $this->expected->created          = $this->promotion->getCreated();
+    //     $this->expected->updated          = $this->promotion->getUpdated();
+    //
+    //     $this->expected = $this->expected->export();
+    //     $this->assertEquals($this->expected, $this->promotion->getView()->export());
+    // }
 
     public function testIsDateValid()
     {
