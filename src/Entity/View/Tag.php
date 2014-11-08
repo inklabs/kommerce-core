@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\Lib as Lib;
 
 class Tag
 {
@@ -25,8 +25,8 @@ class Tag
         $this->tag = $tag;
 
         $this->id             = $tag->getId();
-        $this->encodedId      = Service\BaseConvert::encode($tag->getId());
-        $this->slug           = Service\Slug::get($tag->getName());
+        $this->encodedId      = Lib\BaseConvert::encode($tag->getId());
+        $this->slug           = Lib\Slug::get($tag->getName());
         $this->name           = $tag->getName();
         $this->description    = $tag->getDescription();
         $this->defaultImage   = $tag->getDefaultImage();

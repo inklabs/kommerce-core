@@ -44,8 +44,8 @@ class CartItem
     public function getPrice(\inklabs\kommerce\Service\Pricing $pricing)
     {
         return $pricing->getPrice(
-            $this->getProduct(),
-            $this->getQuantity()
+            $this->product,
+            $this->quantity
         );
     }
 }

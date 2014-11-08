@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\Lib as Lib;
 
 class Product
 {
@@ -39,8 +39,8 @@ class Product
         $this->product = $product;
 
         $this->id                  = $product->getId();
-        $this->encodedId           = Service\BaseConvert::encode($product->getId());
-        $this->slug                = Service\Slug::get($product->getName());
+        $this->encodedId           = Lib\BaseConvert::encode($product->getId());
+        $this->slug                = Lib\Slug::get($product->getName());
         $this->sku                 = $product->getSku();
         $this->name                = $product->getName();
         $this->unitPrice           = $product->getUnitPrice();

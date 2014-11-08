@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Service;
+namespace inklabs\kommerce\Lib;
 
 class ArraySessionManager extends SessionManager
 {

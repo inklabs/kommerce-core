@@ -2,14 +2,15 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Lib as Lib;
 
-class Cart extends EntityManager
+class Cart extends Lib\EntityManager
 {
     protected $sessionManager;
     protected $cartSessionKey = 'newcart';
     protected $cart;
 
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager, SessionManager $sessionManager)
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager, Lib\SessionManager $sessionManager)
     {
         $this->setEntityManager($entityManager);
         $this->sessionManager = $sessionManager;

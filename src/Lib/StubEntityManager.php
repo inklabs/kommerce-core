@@ -1,7 +1,5 @@
 <?php
-namespace inklabs\kommerce\Service;
-
-use inklabs\kommerce\Entity as Entity;
+namespace inklabs\kommerce\Lib;
 
 class StubEntityManager extends EntityManager
 {
