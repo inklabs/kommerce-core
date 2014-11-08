@@ -227,9 +227,4 @@ class Product
     {
         return $this->productQuantityDiscounts;
     }
-
-    public function getView()
-    {
-        return new View\Product($this);
-    }
 }

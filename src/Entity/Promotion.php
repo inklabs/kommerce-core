@@ -158,9 +158,4 @@ class Promotion
                 throw new \Exception('Invalid discount type');
         }
     }
-
-    public function getView()
-    {
-        return new View\Promotion($this);
-    }
 }

@@ -22,49 +22,49 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $this->expected = $reflection->newInstanceWithoutConstructor();
     }
 
-    public function testGetView()
-    {
-        $this->expected->name             = $this->catalogPromotion->getName();
-        $this->expected->discountType     = $this->catalogPromotion->getDiscountType();
-        $this->expected->value            = $this->catalogPromotion->getValue();
-        $this->expected->redemptions      = $this->catalogPromotion->getRedemptions();
-        $this->expected->maxRedemptions   = $this->catalogPromotion->getMaxRedemptions();
-        $this->expected->start            = $this->catalogPromotion->getStart();
-        $this->expected->end              = $this->catalogPromotion->getEnd();
-        $this->expected->created          = $this->catalogPromotion->getCreated();
-        $this->expected->updated          = $this->catalogPromotion->getUpdated();
-        $this->expected->flagFreeShipping = $this->catalogPromotion->getFlagFreeShipping();
-        $this->expected->code             = $this->catalogPromotion->getCode();
+    // public function testGetView()
+    // {
+    //     $this->expected->name             = $this->catalogPromotion->getName();
+    //     $this->expected->discountType     = $this->catalogPromotion->getDiscountType();
+    //     $this->expected->value            = $this->catalogPromotion->getValue();
+    //     $this->expected->redemptions      = $this->catalogPromotion->getRedemptions();
+    //     $this->expected->maxRedemptions   = $this->catalogPromotion->getMaxRedemptions();
+    //     $this->expected->start            = $this->catalogPromotion->getStart();
+    //     $this->expected->end              = $this->catalogPromotion->getEnd();
+    //     $this->expected->created          = $this->catalogPromotion->getCreated();
+    //     $this->expected->updated          = $this->catalogPromotion->getUpdated();
+    //     $this->expected->flagFreeShipping = $this->catalogPromotion->getFlagFreeShipping();
+    //     $this->expected->code             = $this->catalogPromotion->getCode();
+    //
+    //     $this->expected = $this->expected->export();
+    //
+    //     $this->assertEquals($this->expected, $this->catalogPromotion->getView()->export());
+    // }
 
-        $this->expected = $this->expected->export();
-
-        $this->assertEquals($this->expected, $this->catalogPromotion->getView()->export());
-    }
-
-    public function testGetViewWithAllData()
-    {
-        $this->expected->name             = $this->catalogPromotion->getName();
-        $this->expected->discountType     = $this->catalogPromotion->getDiscountType();
-        $this->expected->value            = $this->catalogPromotion->getValue();
-        $this->expected->redemptions      = $this->catalogPromotion->getRedemptions();
-        $this->expected->maxRedemptions   = $this->catalogPromotion->getMaxRedemptions();
-        $this->expected->start            = $this->catalogPromotion->getStart();
-        $this->expected->end              = $this->catalogPromotion->getEnd();
-        $this->expected->created          = $this->catalogPromotion->getCreated();
-        $this->expected->updated          = $this->catalogPromotion->getUpdated();
-        $this->expected->flagFreeShipping = $this->catalogPromotion->getFlagFreeShipping();
-        $this->expected->code             = $this->catalogPromotion->getCode();
-
-        $this->expected->tag = $this->catalogPromotion
-            ->getTag()
-            ->getView()
-            ->withAllData()
-            ->export();
-
-        $this->expected = $this->expected->export();
-
-        $this->assertEquals($this->expected, $this->catalogPromotion->getView()->withAllData()->export());
-    }
+    // public function testGetViewWithAllData()
+    // {
+    //     $this->expected->name             = $this->catalogPromotion->getName();
+    //     $this->expected->discountType     = $this->catalogPromotion->getDiscountType();
+    //     $this->expected->value            = $this->catalogPromotion->getValue();
+    //     $this->expected->redemptions      = $this->catalogPromotion->getRedemptions();
+    //     $this->expected->maxRedemptions   = $this->catalogPromotion->getMaxRedemptions();
+    //     $this->expected->start            = $this->catalogPromotion->getStart();
+    //     $this->expected->end              = $this->catalogPromotion->getEnd();
+    //     $this->expected->created          = $this->catalogPromotion->getCreated();
+    //     $this->expected->updated          = $this->catalogPromotion->getUpdated();
+    //     $this->expected->flagFreeShipping = $this->catalogPromotion->getFlagFreeShipping();
+    //     $this->expected->code             = $this->catalogPromotion->getCode();
+    //
+    //     $this->expected->tag = $this->catalogPromotion
+    //         ->getTag()
+    //         ->getView()
+    //         ->withAllData()
+    //         ->export();
+    //
+    //     $this->expected = $this->expected->export();
+    //
+    //     $this->assertEquals($this->expected, $this->catalogPromotion->getView()->withAllData()->export());
+    // }
 
     public function testIsTagValid()
     {

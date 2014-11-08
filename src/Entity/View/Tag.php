@@ -37,6 +37,11 @@ class Tag
         return $this;
     }
 
+    public static function factory(Entity\Tag $tag)
+    {
+        return new static($tag);
+    }
+
     public function export()
     {
         unset($this->tag);

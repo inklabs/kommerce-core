@@ -40,8 +40,7 @@ class Price
     public function withCatalogPromotions()
     {
         foreach ($this->price->getCatalogPromotions() as $catalogPromotion) {
-            $this->catalogPromotions[] = $catalogPromotion
-                ->getView()
+            $this->catalogPromotions[] = CatalogPromotion::factory($catalogPromotion)
                 ->export();
         }
 
@@ -51,8 +50,7 @@ class Price
     public function withProductQuantityDiscounts()
     {
         foreach ($this->price->getProductQuantityDiscounts() as $productQuantityDiscount) {
-            $this->productQuantityDiscounts[] = $productQuantityDiscount
-                ->getView()
+            $this->productQuantityDiscounts[] = ProductQuantityDiscount::factory($productQuantityDiscount)
                 ->export();
         }
 
