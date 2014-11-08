@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Lib as Lib;
+
 class KommerceTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 {
     public function testWithArrayCacheDriver()
@@ -46,7 +48,7 @@ class KommerceTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
     public function testSessionService()
     {
-        $this->kommerce->setSessionManager(new ArraySessionManager);
+        $this->kommerce->setSessionManager(new Lib\ArraySessionManager);
         $cart = $this->kommerce->sessionService('Cart');
         $this->assertInstanceOf('inklabs\kommerce\Service\Cart', $cart);
     }

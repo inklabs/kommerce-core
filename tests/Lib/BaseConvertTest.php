@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Service;
+namespace inklabs\kommerce\Lib;
 
 class BaseConvertTest extends \PHPUnit_Framework_TestCase
 {

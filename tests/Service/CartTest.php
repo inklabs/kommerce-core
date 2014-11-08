@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Lib as Lib;
 
 class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 {
@@ -26,7 +27,7 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
     public function testCartPersistence()
     {
-        $sessionManager = new ArraySessionManager;
+        $sessionManager = new Lib\ArraySessionManager;
         $cart = new Cart($this->entityManager, $sessionManager);
 
         $this->assertEquals(0, $cart->totalItems());
@@ -41,7 +42,7 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
     public function testGetItems()
     {
-        $sessionManager = new ArraySessionManager;
+        $sessionManager = new Lib\ArraySessionManager;
         $cart = new Cart($this->entityManager, $sessionManager);
 
         $itemId = $cart->addItem($this->product, 1);
@@ -52,7 +53,7 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
     public function testGetItem()
     {
-        $sessionManager = new ArraySessionManager;
+        $sessionManager = new Lib\ArraySessionManager;
         $cart = new Cart($this->entityManager, $sessionManager);
         $itemId = $cart->addItem($this->product, 1);
 

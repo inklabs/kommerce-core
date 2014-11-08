@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Service;
+namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Entity as Entity;
 
