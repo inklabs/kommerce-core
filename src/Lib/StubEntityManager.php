@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-class StubEntityManager extends EntityManager
+class StubEntityManager extends \inklabs\kommerce\Lib\EntityManager
 {
     public function find($id)
     {

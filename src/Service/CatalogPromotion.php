@@ -1,9 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Lib as Lib;
-
-class CatalogPromotion extends Lib\EntityManager
+class CatalogPromotion extends \inklabs\kommerce\Lib\EntityManager
 {
     public function __construct(\Doctrine\ORM\EntityManager $entityManager)
     {
