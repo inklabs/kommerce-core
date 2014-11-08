@@ -11,9 +11,8 @@ class Product
     protected $id;
     protected $sku;
     protected $name;
-    protected $price;
+    protected $unitPrice;
     protected $quantity;
-    protected $productGroup;
     protected $isInventoryRequired;
     protected $isPriceVisible;
     protected $isActive;
@@ -29,8 +28,6 @@ class Product
     protected $images;
     protected $productQuantityDiscounts;
 
-    private $priceObj;
-
     public function __construct()
     {
         $this->setCreated();
@@ -39,14 +36,12 @@ class Product
         $this->productQuantityDiscounts = new ArrayCollection();
     }
 
-    public function setPriceObj($priceObj)
+    public function getPrice(\inklabs\kommerce\Service\Pricing $pricing, $quantity = 1)
     {
-        $this->priceObj = $priceObj;
-    }
-
-    public function getPriceObj()
-    {
-        return $this->priceObj;
+        return $pricing->getPrice(
+            $this,
+            $quantity
+        );
     }
 
     public function getId()
@@ -74,14 +69,14 @@ class Product
         return $this->name;
     }
 
-    public function setPrice($price)
+    public function setUnitPrice($unitPrice)
     {
-        $this->price = $price;
+        $this->unitPrice = $unitPrice;
     }
 
-    public function getPrice()
+    public function getUnitPrice()
     {
-        return $this->price;
+        return $this->unitPrice;
     }
 
     public function setQuantity($quantity)

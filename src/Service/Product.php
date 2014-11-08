@@ -24,12 +24,12 @@ class Product extends EntityManager
         $productQuantityDiscounts = $product->getProductQuantityDiscounts();
         $pricing->setProductQuantityDiscounts($productQuantityDiscounts);
 
-        $price = $pricing->getPrice($product, 1);
-        $product->setPriceObj($price);
+        // $price = $pricing->getPrice($product, 1);
+        // $product->setPrice($price);
 
         foreach ($productQuantityDiscounts as $productQuantityDiscount) {
             $price = $pricing->getPrice($product, $productQuantityDiscount->getQuantity());
-            $productQuantityDiscount->setPriceObj($price);
+            $productQuantityDiscount->setPrice($price);
         }
 
         return $product;
@@ -75,10 +75,10 @@ class Product extends EntityManager
 
         $relatedProducts = $query->findAll();
 
-        foreach ($relatedProducts as $relatedProduct) {
-            $price = $pricing->getPrice($relatedProduct, 1);
-            $relatedProduct->setPriceObj($price);
-        }
+        // foreach ($relatedProducts as $relatedProduct) {
+        //     $price = $pricing->getPrice($relatedProduct, 1);
+        //     $relatedProduct->setPrice($price);
+        // }
 
         return $relatedProducts;
     }
@@ -101,10 +101,10 @@ class Product extends EntityManager
 
         $tagProducts = $query->findAll();
 
-        foreach ($tagProducts as $tagProduct) {
-            $price = $pricing->getPrice($tagProduct, 1);
-            $tagProduct->setPriceObj($price);
-        }
+        // foreach ($tagProducts as $tagProduct) {
+        //     $price = $pricing->getPrice($tagProduct, 1);
+        //     $tagProduct->setPrice($price);
+        // }
 
         return $tagProducts;
     }
@@ -126,10 +126,10 @@ class Product extends EntityManager
 
         $products = $query->findAll();
 
-        foreach ($products as $product) {
-            $price = $pricing->getPrice($product, 1);
-            $product->setPriceObj($price);
-        }
+        // foreach ($products as $product) {
+        //     $price = $pricing->getPrice($product, 1);
+        //     $product->setPrice($price);
+        // }
 
         return $products;
     }
@@ -150,10 +150,10 @@ class Product extends EntityManager
             ->setMaxResults($limit)
             ->findAll();
 
-        foreach ($products as $product) {
-            $price = $pricing->getPrice($product, 1);
-            $product->setPriceObj($price);
-        }
+        // foreach ($products as $product) {
+        //     $price = $pricing->getPrice($product, 1);
+        //     $product->setPrice($price);
+        // }
 
         return $products;
     }

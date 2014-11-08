@@ -13,7 +13,7 @@ class Product
     public $slug;
     public $sku;
     public $name;
-    public $price;
+    public $unitPrice;
     public $quantity;
     public $productGroup;
     public $isInventoryRequired;
@@ -32,7 +32,7 @@ class Product
     public $tags = [];
     public $images = [];
     public $productQuantityDiscounts = [];
-    public $priceObj;
+    public $price;
 
     public function __construct(Entity\Product $product)
     {
@@ -43,7 +43,7 @@ class Product
         $this->slug                = Service\Slug::get($product->getName());
         $this->sku                 = $product->getSku();
         $this->name                = $product->getName();
-        $this->price               = $product->getPrice();
+        $this->unitPrice           = $product->getUnitPrice();
         $this->quantity            = $product->getQuantity();
         $this->isInventoryRequired = $product->getIsInventoryRequired();
         $this->isPriceVisible      = $product->getIsPriceVisible();
@@ -69,11 +69,11 @@ class Product
         return $this;
     }
 
-    public function withPriceObj()
+    public function withPrice()
     {
-        $this->priceObj = $this->product->getPriceObj();
-        if (! empty($this->priceObj)) {
-            $this->priceObj = $this->priceObj
+        // $this->price = $this->product->getPrice();
+        if (! empty($this->price)) {
+            $this->price = $this->price
                 ->getView()
                 ->withAllData()
                 ->export();
@@ -117,7 +117,7 @@ class Product
         foreach ($this->product->getProductQuantityDiscounts() as $productQuantityDiscount) {
             $this->productQuantityDiscounts[] = $productQuantityDiscount
                 ->getView()
-                ->withPriceObj()
+                ->withPrice()
                 ->export();
         }
         return $this;
@@ -128,7 +128,7 @@ class Product
         return $this
             ->withTags()
             ->withProductQuantityDiscounts()
-            ->withPriceObj()
+            ->withPrice()
             ->withImages();
     }
 }

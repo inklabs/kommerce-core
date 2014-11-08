@@ -49,7 +49,7 @@ class Pricing
             $this->addProductQuantityDiscount($productQuantityDiscount);
         }
 
-        $this->sortProductQuantityDiscounts();
+        $this->sortProductQuantityDiscountsByQuantityDescending();
     }
 
     private function addProductQuantityDiscount(Entity\ProductQuantityDiscount $productQuantityDiscount)
@@ -57,7 +57,7 @@ class Pricing
         $this->productQuantityDiscounts[] = $productQuantityDiscount;
     }
 
-    public function sortProductQuantityDiscounts()
+    public function sortProductQuantityDiscountsByQuantityDescending()
     {
         usort(
             $this->productQuantityDiscounts,
@@ -71,7 +71,7 @@ class Pricing
         $this->quantity = $quantity;
 
         $this->price = new Entity\Price;
-        $this->price->origUnitPrice = $this->product->getPrice();
+        $this->price->origUnitPrice = $this->product->getUnitPrice();
         $this->price->origQuantityPrice = ($this->price->origUnitPrice * $this->quantity);
         $this->price->unitPrice = $this->price->origUnitPrice;
 

@@ -9,8 +9,6 @@ class CartItem
     protected $product;
     protected $quantity;
 
-    private $priceObj;
-
     public function __construct(Product $product = null, $quantity = null)
     {
         $this->setCreated();
@@ -43,23 +41,11 @@ class CartItem
         return $this->quantity;
     }
 
-    public function setPriceObj($priceObj)
-    {
-        $this->priceObj = $priceObj;
-    }
-
-    public function getPriceObj()
-    {
-        return $this->priceObj;
-    }
-
     public function getPrice(\inklabs\kommerce\Service\Pricing $pricing)
     {
-        $this->setPriceObj($pricing->getPrice(
+        return $pricing->getPrice(
             $this->getProduct(),
             $this->getQuantity()
-        ));
-
-        return $this->getPriceObj();
+        );
     }
 }

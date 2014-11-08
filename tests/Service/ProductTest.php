@@ -13,7 +13,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->product->setSku('TST101');
         $this->product->setName('Test Product');
         $this->product->setDescription('Test product description');
-        $this->product->setPrice(500);
+        $this->product->setUnitPrice(500);
         $this->product->setQuantity(10);
         $this->product->setIsInventoryRequired(true);
         $this->product->setIsPriceVisible(true);
@@ -82,7 +82,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $product->setSku('TST' . $num);
         $product->setName('Test Product');
         $product->setDescription('Test product description');
-        $product->setPrice(500);
+        $product->setUnitPrice(500);
         $product->setQuantity(2);
         $product->setIsInventoryRequired(true);
         $product->setIsPriceVisible(true);

@@ -20,6 +20,7 @@ class Cart extends EntityManager
             $pricing->loadCatalogPromotions($entityManager);
 
             $this->cart = new Entity\Cart($pricing);
+            $this->save();
         }
     }
 
@@ -44,6 +45,11 @@ class Cart extends EntityManager
     public function totalItems()
     {
         return $this->cart->totalItems();
+    }
+
+    public function getTotal()
+    {
+        return $this->cart->getTotal();
     }
 
     private function load()

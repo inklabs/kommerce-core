@@ -58,9 +58,9 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
             ->export();
 
         $this->price = new Price;
-        $this->productQuantityDiscount->setPriceObj($this->price);
-        $this->expectedView->priceObj = $this->productQuantityDiscount
-            ->getPriceObj()
+        $this->productQuantityDiscount->setPrice($this->price);
+        $this->expectedView->price = $this->productQuantityDiscount
+            ->getPrice()
             ->getView()
             ->export();
 

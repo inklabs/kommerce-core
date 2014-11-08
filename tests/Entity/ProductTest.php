@@ -10,9 +10,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product = new Product;
         $this->product->setSku('TST101');
         $this->product->setName('Test Product');
-        $this->product->setPrice(500);
+        $this->product->setUnitPrice(500);
         $this->product->setQuantity(10);
-        // $this->product->setProduct_group_id(null);
         $this->product->setIsInventoryRequired(true);
         $this->product->setIsPriceVisible(true);
         $this->product->setIsActive(true);
@@ -27,9 +26,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->tag = new Tag;
         $this->tag->setName('Test Tag');
         $this->product->addTag($this->tag);
-
-        $this->price = new Price;
-        $this->product->setPriceObj($this->price);
 
         $this->image = new Image;
         $this->image->setPath('http://lorempixel.com/400/200/');
@@ -72,81 +68,5 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product->addProductQuantityDiscount(new ProductQuantityDiscount);
 
         $this->assertEquals(1, count($this->product->getProductQuantityDiscounts()));
-    }
-
-    private function setupExpectedView()
-    {
-        $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\Product');
-        $this->expectedView = $reflection->newInstanceWithoutConstructor();
-        $this->expectedView->id                  = $this->product->getId();
-        $this->expectedView->encodedId           = null;
-        $this->expectedView->slug                = 'test-product';
-        $this->expectedView->sku                 = $this->product->getSku();
-        $this->expectedView->name                = $this->product->getName();
-        $this->expectedView->price               = $this->product->getPrice();
-        $this->expectedView->quantity            = $this->product->getQuantity();
-        $this->expectedView->isInventoryRequired = $this->product->getIsInventoryRequired();
-        $this->expectedView->isPriceVisible      = $this->product->getIsPriceVisible();
-        $this->expectedView->isActive            = $this->product->getIsActive();
-        $this->expectedView->isVisible           = $this->product->getIsVisible();
-        $this->expectedView->isTaxable           = $this->product->getIsTaxable();
-        $this->expectedView->isShippable         = $this->product->getIsShippable();
-        $this->expectedView->shippingWeight      = $this->product->getShippingWeight();
-        $this->expectedView->description         = $this->product->getDescription();
-        $this->expectedView->rating              = $this->product->getRating();
-        $this->expectedView->defaultImage        = $this->product->getDefaultImage();
-        $this->expectedView->created             = $this->product->getCreated();
-        $this->expectedView->isInStock           = $this->product->inStock();
-    }
-
-    public function testGetView()
-    {
-        $this->setupExpectedView();
-        $this->expectedView = $this->expectedView->export();
-        $productView = $this->product->getView()->export();
-
-        $this->assertEquals($this->expectedView, $productView);
-    }
-
-    public function testGetViewWithTagsWithImages()
-    {
-        $tagImage = new Image;
-        $tag = new Tag;
-        $tag->setName('Test Tag 2');
-        $tag->addImage($tagImage);
-        $this->product->addTag($tag);
-
-        $this->setupExpectedView();
-        $this->expectedView->tags = [
-            $this->tag->getView()->withAllData()->export(),
-            $tag->getView()->withAllData()->export(),
-        ];
-
-        $this->expectedView = $this->expectedView->export();
-        $productView = $this->product->getView()->withTagsWithImages()->export();
-
-        $this->assertEquals($this->expectedView, $productView);
-    }
-
-    public function testGetViewWithAllData()
-    {
-        $this->setupExpectedView();
-        $this->expectedView->priceObj = $this->product->getPriceObj()->getView()->export();
-        $this->expectedView->tags     = [$this->tag->getView()->withAllData()->export()];
-        $this->expectedView->images   = [$this->image->getView()->withAllData()->export()];
-
-        $productQuantityDiscount = new ProductQuantityDiscount;
-        $this->product->addProductQuantityDiscount($productQuantityDiscount);
-        $this->expectedView->productQuantityDiscounts = [
-            $productQuantityDiscount
-                ->getView()
-                ->withPriceObj()
-                ->export()
-        ];
-
-        $this->expectedView = $this->expectedView->export();
-        $productView = $this->product->getView()->withAllData()->export();
-
-        $this->assertEquals($this->expectedView, $productView);
     }
 }

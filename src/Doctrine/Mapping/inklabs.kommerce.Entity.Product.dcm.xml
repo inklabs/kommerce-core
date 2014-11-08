@@ -11,7 +11,7 @@
         </id>
 
         <field name="name"                column="`name`"              type="string" nullable="true" />
-        <field name="price"               column="`price`"             type="integer" />
+        <field name="unitPrice"           column="`price`"             type="integer" />
         <field name="quantity"            column="`quantity`"          type="integer" />
         <field name="isInventoryRequired" column="`require_inventory`" type="boolean" />
         <field name="isPriceVisible"      column="`show_price`"        type="boolean" />

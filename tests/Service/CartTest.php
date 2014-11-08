@@ -11,7 +11,7 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->product->setSku('TST101');
         $this->product->setName('Test Product');
         $this->product->setDescription('Test product description');
-        $this->product->setPrice(500);
+        $this->product->setUnitPrice(500);
         $this->product->setQuantity(10);
         $this->product->setIsInventoryRequired(true);
         $this->product->setIsPriceVisible(true);

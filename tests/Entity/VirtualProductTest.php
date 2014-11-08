@@ -8,7 +8,7 @@ class VirtualProductTest extends \PHPUnit_Framework_TestCase
         $this->virtualProduct = new VirtualProduct;
         $this->virtualProduct->setSku('TST101');
         $this->virtualProduct->setName('Test Product');
-        $this->virtualProduct->setPrice(500);
+        $this->virtualProduct->setUnitPrice(500);
         $this->virtualProduct->setQuantity(10);
         $this->virtualProduct->setIsInventoryRequired(true);
         $this->virtualProduct->setIsPriceVisible(true);
