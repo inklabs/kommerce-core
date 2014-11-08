@@ -10,12 +10,12 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $this->productShirt = new Product;
         $this->productShirt->setSku('TS-NAVY-LG');
         $this->productShirt->setName('Navy T-shirt (large)');
-        $this->productShirt->setPrice(1200);
+        $this->productShirt->setUnitPrice(1200);
 
         $this->productPoster = new Product;
         $this->productPoster->setSku('PST-CKN');
         $this->productPoster->setName('Citizen Kane (1941) Poster');
-        $this->productPoster->setPrice(500);
+        $this->productPoster->setUnitPrice(500);
 
         $this->cartPriceRule = new CartPriceRule;
         $this->cartPriceRule->setName('Buy a Shirt get a FREE poster');
@@ -37,12 +37,12 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $productShirt = new Product;
         $productShirt->setSku('TS-NAVY-LG');
         $productShirt->setName('Navy T-shirt (large)');
-        $productShirt->setPrice(1200);
+        $productShirt->setUnitPrice(1200);
 
         $productPoster = new Product;
         $productPoster->setSku('PST-CKN');
         $productPoster->setName('Citizen Kane (1941) Poster');
-        $productPoster->setPrice(500);
+        $productPoster->setUnitPrice(500);
 
         $cartPriceRule = new CartPriceRule;
         $cartPriceRule->setName('Buy two Shirts get a FREE poster');

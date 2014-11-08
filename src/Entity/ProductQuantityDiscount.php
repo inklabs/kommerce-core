@@ -8,7 +8,7 @@ class ProductQuantityDiscount extends Promotion
     protected $quantity;
     protected $product;
 
-    private $priceObj;
+    private $price;
 
     public function setName($name)
     {
@@ -30,14 +30,14 @@ class ProductQuantityDiscount extends Promotion
         return $name;
     }
 
-    public function setPriceObj($priceObj)
+    public function setPrice(Price $price)
     {
-        $this->priceObj = $priceObj;
+        $this->price = $price;
     }
 
-    public function getPriceObj()
+    public function getPrice()
     {
-        return $this->priceObj;
+        return $this->price;
     }
 
     public function setCustomerGroup($customerGroup)

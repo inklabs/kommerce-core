@@ -17,7 +17,7 @@ class Kommerce
         $isDevMode = true;
 
         $this->config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
-        $xmlDriver = new \Doctrine\ORM\Mapping\Driver\XmlDriver(__DIR__ . '/../Doctrine/Mapping');
+        $xmlDriver = new \Doctrine\ORM\Mapping\Driver\XmlDriver(realpath(__DIR__ . '/../Doctrine/Mapping'));
         $this->config->setMetadataDriverImpl($xmlDriver);
 
         if ($cacheDriver !== null) {

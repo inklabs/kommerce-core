@@ -73,7 +73,7 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $product = new Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
-        $product->setPrice(500);
+        $product->setUnitPrice(500);
         $product->addTag($this->tag);
 
         $this->assertTrue($this->catalogPromotion->isValid($date, $product));
@@ -89,7 +89,7 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $product = new Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
-        $product->setPrice(500);
+        $product->setUnitPrice(500);
 
         $this->assertFalse($this->catalogPromotion->isTagValid($product));
 

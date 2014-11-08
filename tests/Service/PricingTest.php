@@ -17,7 +17,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product = new Entity\Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
-        $product->setPrice(1500);
+        $product->setUnitPrice(1500);
 
         // Expected
         $price = new Entity\Price;
@@ -108,7 +108,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product = new Entity\Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
-        $product->setPrice(1500);
+        $product->setUnitPrice(1500);
 
         // Expected
         $price = new Entity\Price;
@@ -152,7 +152,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product = new Entity\Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
-        $product->setPrice(1500);
+        $product->setUnitPrice(1500);
 
         // Expected
         $price = new Entity\Price;
@@ -201,7 +201,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product = new Entity\Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
-        $product->setPrice(1500);
+        $product->setUnitPrice(1500);
 
         // Expected
         $price = new Entity\Price;
@@ -229,14 +229,14 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $productSmall = new Entity\Product;
         $productSmall->setSku('TS-NAVY-SM');
         $productSmall->setName('Navy T-shirt (small)');
-        $productSmall->setPrice(900);
+        $productSmall->setUnitPrice(900);
 
         $option->addProduct($productSmall);
 
         $product = new Entity\Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
-        $product->setPrice(1500);
+        $product->setUnitPrice(1500);
         $product->addOption($option);
         $product->addSelectedOptionProduct($productSmall);
 
@@ -291,7 +291,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product = new Entity\Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
-        $product->setPrice(500);
+        $product->setUnitPrice(500);
         $product->addProductQuantityDiscount($productQuantityDiscount24);
         $product->addProductQuantityDiscount($productQuantityDiscount12);
         $product->addProductQuantityDiscount($productQuantityDiscount6);
@@ -361,7 +361,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product = new Entity\Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
-        $product->setPrice(500);
+        $product->setUnitPrice(500);
         $product->addProductQuantityDiscount($productQuantityDiscount24);
         $product->addProductQuantityDiscount($productQuantityDiscount12);
         $product->addProductQuantityDiscount($productQuantityDiscount6);
@@ -431,7 +431,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product = new Entity\Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
-        $product->setPrice(500);
+        $product->setUnitPrice(500);
         $product->addProductQuantityDiscount($productQuantityDiscount24);
         $product->addProductQuantityDiscount($productQuantityDiscount12);
         $product->addProductQuantityDiscount($productQuantityDiscount6);

@@ -26,17 +26,17 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $productSmall = new Product;
         $productSmall->setSku('TS-NAVY-SM');
         $productSmall->setName('Navy T-shirt (small)');
-        $productSmall->setPrice(900);
+        $productSmall->setUnitPrice(900);
 
         $productMedium = new Product;
         $productMedium->setSku('TS-NAVY-MD');
         $productMedium->setName('Navy T-shirt (medium)');
-        $productMedium->setPrice(1200);
+        $productMedium->setUnitPrice(1200);
 
         $productLarge = new Product;
         $productLarge->setSku('TS-NAVY-LG');
         $productLarge->setName('Navy T-shirt (large)');
-        $productLarge->setPrice(1600);
+        $productLarge->setUnitPrice(1600);
 
         $this->option->addProduct($productSmall);
         $this->option->addProduct($productMedium);

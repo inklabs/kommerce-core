@@ -9,7 +9,7 @@ class ProductQuantityDiscount extends Promotion
     public $flagApplyCatalogPromotions;
     public $quantity;
     public $product;
-    public $priceObj;
+    public $price;
 
     public function __construct(Entity\ProductQuantityDiscount $productQuantityDiscount)
     {
@@ -21,11 +21,11 @@ class ProductQuantityDiscount extends Promotion
         $this->product                    = $productQuantityDiscount->getProduct();
     }
 
-    public function withPriceObj()
+    public function withPrice()
     {
-        $this->priceObj = $this->promotion->getPriceObj();
-        if (! empty($this->priceObj)) {
-            $this->priceObj = $this->priceObj
+        $this->price = $this->promotion->getPrice();
+        if (! empty($this->price)) {
+            $this->price = $this->price
                 ->getView()
                 ->withAllData()
                 ->export();
@@ -47,7 +47,7 @@ class ProductQuantityDiscount extends Promotion
     public function withAllData()
     {
         return $this
-            ->withPriceObj()
+            ->withPrice()
             ->withProduct();
     }
 }

@@ -9,7 +9,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
     {
         $this->product = new Product;
         $this->product->setName('Test Product');
-        $this->product->setPrice(500);
+        $this->product->setUnitPrice(500);
 
         $this->cartItem = new CartItem;
         $this->cartItem->setProduct($this->product);
@@ -25,7 +25,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
     public function testGetItemPrice()
     {
         $pricing = new Service\Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
-        $priceObj = $this->cartItem->getPrice($pricing);
+        $price = $this->cartItem->getPrice($pricing);
 
         // Expected
         $price = new Price;
@@ -33,6 +33,6 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $price->unitPrice = 500;
         $price->origQuantityPrice = 500;
         $price->quantityPrice = 500;
-        $this->assertEquals($price, $priceObj);
+        $this->assertEquals($price, $price);
     }
 }
