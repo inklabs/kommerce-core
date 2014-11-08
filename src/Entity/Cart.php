@@ -9,19 +9,13 @@ class Cart
     protected $taxRate;
 
     protected $cartTotal;
-    protected $pricing;
     protected $shippingRate;
 
-    public function __construct(\inklabs\kommerce\Service\Pricing $pricing = null)
-    {
-        $this->pricing = $pricing;
-    }
+    private $pricing;
 
     public function addItem(Product $product, $quantity)
     {
-        $cartItem = new CartItem($product, $quantity);
-        $price = $cartItem->getPrice($this->pricing);
-        $this->items[] = $cartItem;
+        $this->items[] = new CartItem($product, $quantity);
 
         end($this->items);
         return key($this->items);
@@ -72,8 +66,10 @@ class Cart
         return $total;
     }
 
-    public function getTotal(Shipping\Rate $shippingRate = null)
+    public function getTotal(\inklabs\kommerce\Service\Pricing $pricing, Shipping\Rate $shippingRate = null)
     {
+        $this->pricing = $pricing;
+
         $this->cartTotal = new CartTotal;
         $this->shippingRate = $shippingRate;
 

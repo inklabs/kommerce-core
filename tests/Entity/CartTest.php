@@ -87,7 +87,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product2 = new Product;
         $product2->setUnitPrice(300);
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->addItem($product, 2);
         $cart->addItem($product2, 1);
 
@@ -101,7 +101,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->total = 1300;
         $cartTotal->savings = 0;
 
-        $this->assertEquals($cartTotal, $cart->getTotal());
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing));
     }
 
     public function testGetTotalCoupon()
@@ -118,7 +118,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->addCoupon($coupon);
         $cart->addItem($product, 5);
 
@@ -133,7 +133,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->savings = 500;
         $cartTotal->coupons = [$coupon];
 
-        $this->assertEquals($cartTotal, $cart->getTotal());
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing));
     }
 
     public function testGetTotalCouponWithCatalogPromotion()
@@ -159,7 +159,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->addCoupon($coupon);
         $cart->addItem($product, 5);
 
@@ -174,7 +174,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->savings = 900;
         $cartTotal->coupons = [$coupon];
 
-        $this->assertEquals($cartTotal, $cart->getTotal());
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing));
     }
 
     public function testGetTotalCouponValidOrderValue()
@@ -193,7 +193,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->addCoupon($coupon);
         $cart->addItem($product, 1);
 
@@ -208,7 +208,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->savings = 400;
         $cartTotal->coupons = [$coupon];
 
-        $this->assertEquals($cartTotal, $cart->getTotal());
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing));
     }
 
     public function testGetTotalWithShipping()
@@ -223,7 +223,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $uspsShippingRate->name = 'Parcel Post';
         $uspsShippingRate->cost = 1000;
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->addItem($product, 3);
 
         // Expect:
@@ -236,7 +236,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->total = 2500;
         $cartTotal->savings = 0;
 
-        $this->assertEquals($cartTotal, $cart->getTotal($uspsShippingRate));
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing, $uspsShippingRate));
     }
 
     public function testGetTotalWithZip5TaxNotAppliedToShipping()
@@ -252,7 +252,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->setTaxRate($taxRate);
         $cart->addItem($product, 2);
 
@@ -268,7 +268,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->savings = 0;
         $cartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($cartTotal, $cart->getTotal());
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing));
     }
 
     public function testGetTotalWithZip5TaxAppliedToShipping()
@@ -289,7 +289,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $uspsShippingRate->name = 'Parcel Post';
         $uspsShippingRate->cost = 1000;
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->setTaxRate($taxRate);
         $cart->addItem($product, 2);
 
@@ -305,7 +305,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->savings = 0;
         $cartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($cartTotal, $cart->getTotal($uspsShippingRate));
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing, $uspsShippingRate));
     }
 
     public function testGetTotalWithZip5TaxNotTaxable()
@@ -321,7 +321,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->setTaxRate($taxRate);
         $cart->addItem($product, 2);
 
@@ -335,7 +335,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->total = 1000;
         $cartTotal->savings = 0;
 
-        $this->assertEquals($cartTotal, $cart->getTotal());
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing));
     }
 
     public function testGetTotalWithZip5TaxAndCouponReduceSubtotal()
@@ -361,7 +361,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->setTaxRate($taxRate);
         $cart->addCoupon($coupon);
         $cart->addItem($product, 1);
@@ -379,7 +379,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->coupons = [$coupon];
         $cartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($cartTotal, $cart->getTotal());
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing));
     }
 
     public function testGetTotalWithZip5TaxAndCouponNoReduceSubtotal()
@@ -405,7 +405,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->setTaxRate($taxRate);
         $cart->addCoupon($coupon);
         $cart->addItem($product, 1);
@@ -423,7 +423,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->coupons = [$coupon];
         $cartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($cartTotal, $cart->getTotal());
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing));
     }
 
     public function testGetTotalCartPriceRule()
@@ -446,7 +446,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->addItem(new CartPriceRuleItem($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->addCartPriceRule($cartPriceRule);
         $cart->addItem($productShirt, 1);
         $cart->addItem($productPoster, 1);
@@ -462,7 +462,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->savings = 500;
         $cartTotal->cartPriceRules = [$cartPriceRule];
 
-        $this->assertEquals($cartTotal, $cart->getTotal());
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing));
     }
 
     public function testGetTotalCartPriceRuleTaxReduceSubtotal()
@@ -495,7 +495,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->setTaxRate($taxRate);
         $cart->addCartPriceRule($cartPriceRule);
         $cart->addItem($productShirt, 1);
@@ -514,7 +514,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->cartPriceRules = [$cartPriceRule];
         $cartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($cartTotal, $cart->getTotal());
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing));
     }
 
     public function testGetTotalCartPriceRuleInvalidCartItems()
@@ -542,7 +542,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->addItem(new CartPriceRuleItem($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
-        $cart = new Cart($this->pricing);
+        $cart = new Cart;
         $cart->addCartPriceRule($cartPriceRule);
         $cart->addItem($productShirt, 1);
         $cart->addItem($productJacket, 1);
@@ -558,6 +558,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartTotal->savings = 0;
         $cartTotal->cartPriceRules = [];
 
-        $this->assertEquals($cartTotal, $cart->getTotal());
+        $this->assertEquals($cartTotal, $cart->getTotal($this->pricing));
     }
 }
