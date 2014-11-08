@@ -2,9 +2,8 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
 
-class Product extends Lib\EntityManager
+class Product extends \inklabs\kommerce\Lib\EntityManager
 {
     public function __construct(\Doctrine\ORM\EntityManager $entityManager)
     {

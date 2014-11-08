@@ -1,9 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Lib as Lib;
-
-class Tag extends Lib\EntityManager
+class Tag extends \inklabs\kommerce\Lib\EntityManager
 {
     public function __construct(\Doctrine\ORM\EntityManager $entityManager)
     {
