@@ -41,7 +41,6 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $id = $this->product->getId();
 
         $product = $this->productService->find($id);
-
         $this->assertEquals(null, $product);
     }
 
@@ -50,7 +49,6 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $id = $this->product->getId();
 
         $product = $this->productService->find($id);
-
         $this->assertEquals($this->product, $product);
     }
 
@@ -72,8 +70,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->entityManager->flush();
 
         $product = $this->productService->find($id);
-
-        $this->assertEquals($this->product, $product);
+        $this->assertEquals($productQuantityDiscount, $product->getProductQuantityDiscounts()[0]);
     }
 
     private function getDummyProduct($num)
