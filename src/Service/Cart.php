@@ -48,6 +48,28 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
         return $itemId;
     }
 
+    public function updateQuantity($cartItemId, $quantity)
+    {
+        $item = $this->cart->getItem($cartItemId);
+        if ($item === null) {
+            throw new Exception('Item not found');
+        }
+
+        $item->setQuantity($quantity);
+        $this->save();
+    }
+
+    public function deleteItem($cartItemId)
+    {
+        $item = $this->getItem($cartItemId);
+        if ($item === null) {
+            throw new Exception('Item not found');
+        }
+
+        $this->cart->deleteItem($cartItemId);
+        $this->save();
+    }
+
     public function getItems()
     {
         $viewCartItems = [];
@@ -71,6 +93,11 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
     public function totalItems()
     {
         return $this->cart->totalItems();
+    }
+
+    public function totalQuantity()
+    {
+        return $this->cart->totalQuantity();
     }
 
     public function getTotal()

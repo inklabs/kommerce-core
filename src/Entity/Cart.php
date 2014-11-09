@@ -16,7 +16,11 @@ class Cart
         $this->items[] = new CartItem($product, $quantity);
 
         end($this->items);
-        return key($this->items);
+        $cartItemId = key($this->items);
+
+        $this->items[$cartItemId]->setId($cartItemId);
+
+        return $cartItemId;
     }
 
     public function getItem($id)
@@ -31,6 +35,15 @@ class Cart
     public function getItems()
     {
         return $this->items;
+    }
+
+    public function deleteItem($id)
+    {
+        if (isset($this->items[$id])) {
+            unset($this->items[$id]);
+        } else {
+            throw new Exception('Item missing');
+        }
     }
 
     public function addCoupon(Coupon $coupon)
