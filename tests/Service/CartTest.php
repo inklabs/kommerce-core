@@ -8,6 +8,10 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 {
     public function setUp()
     {
+        $this->pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
+        $this->sessionManager = new Lib\ArraySessionManager;
+        $this->cart = new Cart($this->entityManager, $this->pricing, $this->sessionManager);
+
         $this->product = new Entity\Product;
         $this->product->setSku('TST101');
         $this->product->setName('Test Product');
@@ -27,36 +31,35 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
     public function testCartPersistence()
     {
-        $sessionManager = new Lib\ArraySessionManager;
-        $cart = new Cart($this->entityManager, $sessionManager);
+        $this->assertEquals(0, $this->cart->totalItems());
 
-        $this->assertEquals(0, $cart->totalItems());
-
-        $itemId = $cart->addItem($this->product, 1);
+        $itemId = $this->cart->addItem($this->product, 1);
         $this->assertEquals(0, $itemId);
-        $this->assertEquals(1, $cart->totalItems());
+        $this->assertEquals(1, $this->cart->totalItems());
 
-        $cart = new Cart($this->entityManager, $sessionManager);
-        $this->assertEquals(1, $cart->totalItems());
+        $this->cart = new Cart($this->entityManager, $this->pricing, $this->sessionManager);
+        $this->assertEquals(1, $this->cart->totalItems());
     }
 
     public function testGetItems()
     {
-        $sessionManager = new Lib\ArraySessionManager;
-        $cart = new Cart($this->entityManager, $sessionManager);
+        $itemId = $this->cart->addItem($this->product, 1);
+        $itemId = $this->cart->addItem($this->product, 1);
 
-        $itemId = $cart->addItem($this->product, 1);
-        $itemId = $cart->addItem($this->product, 1);
-
-        $this->assertEquals(2, count($cart->getItems()));
+        $this->assertEquals(2, count($this->cart->getItems()));
+        $this->assertEquals('TST101', $this->cart->getItems()[0]->product->sku);
+        $this->assertEquals('TST101', $this->cart->getItems()[1]->product->sku);
     }
 
     public function testGetItem()
     {
-        $sessionManager = new Lib\ArraySessionManager;
-        $cart = new Cart($this->entityManager, $sessionManager);
-        $itemId = $cart->addItem($this->product, 1);
+        $itemId = $this->cart->addItem($this->product, 1);
+        $this->assertEquals('TST101', $this->cart->getItem(0)->product->sku);
+    }
 
-        $this->assertEquals($this->product, $cart->getItem(0)->getProduct());
+    public function testGetTotal()
+    {
+        $itemId = $this->cart->addItem($this->product, 1);
+        $this->assertEquals(500, $this->cart->getTotal()->total);
     }
 }

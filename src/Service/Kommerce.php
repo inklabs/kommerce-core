@@ -8,6 +8,7 @@ class Kommerce
     protected $entityManager;
     protected $entityManagerConfiguration;
     protected $sessionManager;
+    protected $pricing;
     protected $cacheDriver;
     protected $config;
 
@@ -35,10 +36,17 @@ class Kommerce
         return $serviceClass;
     }
 
-    public function sessionService($serviceClassName)
+    public function pricingService($serviceClassName)
     {
         $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
-        $serviceClass = new $serviceClassName($this->entityManager, $this->sessionManager);
+        $serviceClass = new $serviceClassName($this->entityManager, $this->pricing);
+        return $serviceClass;
+    }
+
+    public function pricingSessionService($serviceClassName)
+    {
+        $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
+        $serviceClass = new $serviceClassName($this->entityManager, $this->pricing, $this->sessionManager);
         return $serviceClass;
     }
 
@@ -81,5 +89,10 @@ class Kommerce
     public function setSessionManager($sessionManager)
     {
         $this->sessionManager = $sessionManager;
+    }
+
+    public function setPricing(Pricing $pricing)
+    {
+        $this->pricing = $pricing;
     }
 }

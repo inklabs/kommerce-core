@@ -14,9 +14,7 @@ class Tag extends \inklabs\kommerce\Lib\EntityManager
     {
         $tag = $this->entityManager->getRepository('inklabs\kommerce\Entity\Tag')->find($id);
 
-        $viewTag = Entity\View\Tag::factory($tag)
+        return Entity\View\Tag::factory($tag)
             ->export();
-
-        return $viewTag;
     }
 }
