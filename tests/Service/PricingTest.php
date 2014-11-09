@@ -176,7 +176,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceWithCatalogPromotionTag()
     {
         $tag = new Entity\Tag;
-        // $tag->id = 1;
+        $tag->setId(1);
         $tag->setName('Test Tag');
 
         $catalogPromotion = new Entity\CatalogPromotion;

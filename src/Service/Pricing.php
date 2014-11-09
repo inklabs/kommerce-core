@@ -79,7 +79,7 @@ class Pricing
         $this->applyProductQuantityDiscounts();
         $this->applyCatalogPromotions();
         $this->calculateQuantityPrice();
-        // $this->applyProductOptionPrices();
+        $this->applyProductOptionPrices();
 
         return $this->price;
     }
