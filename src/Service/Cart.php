@@ -23,7 +23,6 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
         $this->load();
         if (! ($this->cart instanceof Entity\Cart)) {
             $this->cart = new Entity\Cart;
-            $this->save();
         }
     }
 
