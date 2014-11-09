@@ -9,19 +9,20 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
     protected $cartSessionKey = 'newcart';
     protected $cart;
 
+    private $pricing;
+
     public function __construct(
         \Doctrine\ORM\EntityManager $entityManager,
+        \inklabs\kommerce\Service\Pricing $pricing,
         \inklabs\kommerce\Lib\SessionManager $sessionManager
     ) {
         $this->setEntityManager($entityManager);
+        $this->pricing = $pricing;
         $this->sessionManager = $sessionManager;
 
         $this->load();
         if (! ($this->cart instanceof Entity\Cart)) {
-            $pricing = new Pricing;
-            $pricing->loadCatalogPromotions($entityManager);
-
-            $this->cart = new Entity\Cart($pricing);
+            $this->cart = new Entity\Cart;
             $this->save();
         }
     }
@@ -46,12 +47,22 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
 
     public function getItems()
     {
-        return $this->cart->getItems();
+        $viewCartItems = [];
+        foreach ($this->cart->getItems() as $cartItem)
+        {
+            $viewCartItems[] = Entity\View\CartItem::factory($cartItem)
+                ->withAllData($this->pricing)
+                ->export();
+        }
+
+        return $viewCartItems;
     }
 
     public function getItem($id)
     {
-        return $this->cart->getItem($id);
+        return Entity\View\CartItem::factory($this->cart->getItem($id))
+            ->withAllData($this->pricing)
+            ->export();
     }
 
     public function totalItems()
@@ -61,6 +72,6 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
 
     public function getTotal()
     {
-        return $this->cart->getTotal();
+        return $this->cart->getTotal($this->pricing);
     }
 }

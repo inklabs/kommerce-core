@@ -40,16 +40,24 @@ class KommerceTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->kommerce->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger);
     }
 
-    // public function testService()
-    // {
-    //     $product = $this->kommerce->service('Product');
-    //     $this->assertInstanceOf('inklabs\kommerce\Service\Product', $product);
-    // }
+    public function testService()
+    {
+        $tag = $this->kommerce->service('Tag');
+        $this->assertInstanceOf('inklabs\kommerce\Service\Tag', $tag);
+    }
 
-    public function testSessionService()
+    public function testPricingService()
+    {
+        $this->kommerce->setPricing(new Pricing);
+        $product = $this->kommerce->pricingService('Product');
+        $this->assertInstanceOf('inklabs\kommerce\Service\Product', $product);
+    }
+
+    public function testPricingSessionService()
     {
         $this->kommerce->setSessionManager(new Lib\ArraySessionManager);
-        $cart = $this->kommerce->sessionService('Cart');
+        $this->kommerce->setPricing(new Pricing);
+        $cart = $this->kommerce->pricingSessionService('Cart');
         $this->assertInstanceOf('inklabs\kommerce\Service\Cart', $cart);
     }
 

@@ -7,8 +7,10 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
 {
     private $pricing;
 
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager, \inklabs\kommerce\Service\Pricing $pricing)
-    {
+    public function __construct(
+        \Doctrine\ORM\EntityManager $entityManager,
+        \inklabs\kommerce\Service\Pricing $pricing
+    ) {
         $this->setEntityManager($entityManager);
 
         $this->pricing = $pricing;
@@ -23,8 +25,7 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
             return null;
         }
 
-        $viewProduct = new Entity\View\Product($entityProduct);
-        return $viewProduct
+        return Entity\View\Product::factory($entityProduct)
             ->withAllData($this->pricing)
             ->export();
     }
@@ -64,10 +65,10 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
                     ->setParameter('tagIds', $tagIds);
         }
 
-        $relatedProducts = $query->findAll();
+        $products = $query->findAll();
 
         $viewProducts = [];
-        foreach ($relatedProducts as $product) {
+        foreach ($products as $product) {
             $viewProducts[] = Entity\View\Product::factory($product)
                 ->withPrice($this->pricing)
                 ->export();
@@ -80,19 +81,18 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
     {
         $qb = $this->createQueryBuilder();
 
-        $query = $qb->select('product')
+        $products = $qb->select('product')
             ->from('inklabs\kommerce\Entity\Product', 'product')
             ->innerJoin('product.tags', 'tag')
             ->where('tag.id = :tagId')
             ->productActiveAndVisible()
             ->productAvailable()
             ->setParameter('tagId', $tag->getId())
-            ->paginate($pagination);
-
-        $tagProducts = $query->findAll();
+            ->paginate($pagination)
+            ->findAll();
 
         $viewProducts = [];
-        foreach ($tagProducts as $product) {
+        foreach ($products as $product) {
             $viewProducts[] = Entity\View\Product::factory($product)
                 ->withPrice($this->pricing)
                 ->export();
@@ -105,15 +105,14 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
     {
         $qb = $this->createQueryBuilder();
 
-        $query = $qb->select('product')
+        $products = $qb->select('product')
             ->from('inklabs\kommerce\Entity\Product', 'product')
             ->where('product.id IN (:productIds)')
             ->productActiveAndVisible()
             ->productAvailable()
             ->setParameter('productIds', $productIds)
-            ->paginate($pagination);
-
-        $products = $query->findAll();
+            ->paginate($pagination)
+            ->findAll();
 
         $viewProducts = [];
         foreach ($products as $product) {
