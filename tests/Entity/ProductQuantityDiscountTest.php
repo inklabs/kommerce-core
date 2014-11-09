@@ -88,7 +88,7 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscount->setDiscountType('exact');
         $productQuantityDiscount->setQuantity(10);
         $productQuantityDiscount->setValue(500);
-        $this->assertEquals('Buy 10 or more for $5 each', $productQuantityDiscount->getName());
+        $this->assertEquals('Buy 10 or more for $5.00 each', $productQuantityDiscount->getName());
 
         $productQuantityDiscount = new ProductQuantityDiscount;
         $productQuantityDiscount->setDiscountType('percent');
@@ -100,7 +100,7 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscount->setDiscountType('fixed');
         $productQuantityDiscount->setQuantity(10);
         $productQuantityDiscount->setValue(500);
-        $this->assertEquals('Buy 10 or more for $5 off', $productQuantityDiscount->getName());
+        $this->assertEquals('Buy 10 or more for $5.00 off', $productQuantityDiscount->getName());
     }
 
     public function testIsQuanityValid()

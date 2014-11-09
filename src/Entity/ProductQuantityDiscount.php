@@ -20,14 +20,19 @@ class ProductQuantityDiscount extends Promotion
         $name = 'Buy ' . $this->getQuantity() . ' or more for ';
 
         if ($this->getDiscountType() == 'exact') {
-            $name .= '$' . ($this->getValue() / 100) . ' each';
+            $name .= $this->displayCents($this->getValue()) . ' each';
         } elseif ($this->getDiscountType() == 'percent') {
             $name .= $this->getValue() . '% off';
         } elseif ($this->getDiscountType() == 'fixed') {
-            $name .= '$' . ($this->getValue() / 100) . ' off';
+            $name .= $this->displayCents($this->getValue()) . ' off';
         }
 
         return $name;
+    }
+
+    private function displayCents($priceInCents)
+    {
+        return '$' . number_format(($priceInCents / 100), 2);
     }
 
     public function setPrice(Price $price)
