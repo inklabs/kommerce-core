@@ -28,6 +28,11 @@ class Image
         return $this;
     }
 
+    public static function factory(Entity\Image $image)
+    {
+        return new static($image);
+    }
+
     public function export()
     {
         unset($this->image);

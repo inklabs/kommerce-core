@@ -45,9 +45,11 @@ class CartItem
         return $this;
     }
 
-    public function withProduct()
+    public function withProduct(\inklabs\kommerce\Service\Pricing $pricing)
     {
         $this->product = Product::factory($this->cartItem->getProduct())
+            ->withTags()
+            ->withProductQuantityDiscounts($pricing)
             ->export();
 
         return $this;
@@ -56,7 +58,7 @@ class CartItem
     public function withAllData(\inklabs\kommerce\Service\Pricing $pricing)
     {
         return $this
-            ->withProduct()
+            ->withProduct($pricing)
             ->withPrice($pricing);
     }
 }

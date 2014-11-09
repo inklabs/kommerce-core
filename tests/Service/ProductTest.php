@@ -144,7 +144,8 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->entityManager->persist($product5);
         $this->entityManager->flush();
 
-        $relatedProducts = $this->productService->getRelatedProducts($this->product);
+        $viewProduct = Entity\View\Product::factory($this->product)->withTags()->export();
+        $relatedProducts = $this->productService->getRelatedProducts($viewProduct);
         $this->assertEquals(3, count($relatedProducts));
     }
 
@@ -220,13 +221,15 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->entityManager->persist($this->product2);
         $this->entityManager->persist($this->product3);
         $this->entityManager->flush();
+
+        $this->viewTag = Entity\View\Tag::factory($this->tag)->export();
     }
 
     public function testGetProductsByTag()
     {
         $this->setupProductsByTag();
 
-        $products = $this->productService->getProductsByTag($this->tag);
+        $products = $this->productService->getProductsByTag($this->viewTag);
 
         $this->assertEquals(3, count($products));
         $this->assertEquals('TST1', $products[0]->sku);
@@ -242,7 +245,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $page = 1;
         $pagination = new Entity\Pagination($maxResults, $page);
 
-        $products = $this->productService->getProductsByTag($this->tag, $pagination);
+        $products = $this->productService->getProductsByTag($this->viewTag, $pagination);
 
         $this->assertEquals(3, $pagination->getTotal());
         $this->assertEquals(2, count($products));
@@ -258,7 +261,7 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $page = 2;
         $pagination = new Entity\Pagination($maxResults, $page);
 
-        $products = $this->productService->getProductsByTag($this->tag, $pagination);
+        $products = $this->productService->getProductsByTag($this->viewTag, $pagination);
 
         $this->assertEquals(3, $pagination->getTotal());
         $this->assertEquals(1, count($products));

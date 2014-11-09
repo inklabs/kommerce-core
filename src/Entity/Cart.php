@@ -11,8 +11,6 @@ class Cart
     protected $cartTotal;
     protected $shippingRate;
 
-    private $pricing;
-
     public function addItem(Product $product, $quantity)
     {
         $this->items[] = new CartItem($product, $quantity);
@@ -81,6 +79,8 @@ class Cart
 
         $this->calculateTotal();
         $this->calculateSavings();
+
+        unset($this->pricing);
 
         return $this->cartTotal;
     }

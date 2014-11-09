@@ -77,8 +77,7 @@ class Product
     public function withTags()
     {
         foreach ($this->product->getTags() as $tag) {
-            $this->tags[] = $tag
-                ->getView()
+            $this->tags[] = Tag::factory($tag)
                 ->export();
         }
         return $this;
@@ -87,8 +86,7 @@ class Product
     public function withTagsWithImages()
     {
         foreach ($this->product->getTags() as $tag) {
-            $this->tags[] = $tag
-                ->getView()
+            $this->tags[] = Tag::factory($tag)
                 ->withImages()
                 ->export();
         }
@@ -98,8 +96,7 @@ class Product
     public function withImages()
     {
         foreach ($this->product->getImages() as $image) {
-            $this->images[] = $image
-                ->getView()
+            $this->images[] = Image::factory($image)
                 ->export();
         }
         return $this;
