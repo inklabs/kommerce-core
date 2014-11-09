@@ -27,6 +27,7 @@ class Pricing
 
     public function setCatalogPromotions(array $catalogPromotions)
     {
+        $this->catalogPromotions = [];
         foreach ($catalogPromotions as $catalogPromotion) {
             $this->addCatalogPromotion($catalogPromotion);
         }
@@ -78,7 +79,7 @@ class Pricing
         $this->applyProductQuantityDiscounts();
         $this->applyCatalogPromotions();
         $this->calculateQuantityPrice();
-        $this->applyProductOptionPrices();
+        // $this->applyProductOptionPrices();
 
         return $this->price;
     }

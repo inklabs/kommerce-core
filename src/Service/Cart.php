@@ -37,8 +37,12 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
         $this->sessionManager->set($this->cartSessionKey, $this->cart);
     }
 
-    public function addItem(Entity\Product $product, $quantity)
+    public function addItem(Entity\View\Product $viewProduct, $quantity)
     {
+        $product = $this->entityManager
+            ->getRepository('inklabs\kommerce\Entity\Product')
+            ->find($viewProduct->id);
+
         $itemId = $this->cart->addItem($product, $quantity);
         $this->save();
 

@@ -12,9 +12,7 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
         \inklabs\kommerce\Service\Pricing $pricing
     ) {
         $this->setEntityManager($entityManager);
-
         $this->pricing = $pricing;
-        $this->pricing->loadCatalogPromotions($entityManager);
     }
 
     public function find($id)
@@ -39,9 +37,9 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
         $productIds = [];
         $tagIds = [];
         foreach ($products as $product) {
-            $productIds[] = $product->getId();
-            foreach ($product->getTags() as $tag) {
-                $tagIds[] = $tag->getId();
+            $productIds[] = $product->id;
+            foreach ($product->tags as $tag) {
+                $tagIds[] = $tag->id;
             }
         }
 
@@ -77,7 +75,7 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
         return $viewProducts;
     }
 
-    public function getProductsByTag($tag, Entity\Pagination & $pagination = null)
+    public function getProductsByTag(Entity\View\Tag $tag, Entity\Pagination & $pagination = null)
     {
         $qb = $this->createQueryBuilder();
 
@@ -87,7 +85,7 @@ class Product extends \inklabs\kommerce\Lib\EntityManager
             ->where('tag.id = :tagId')
             ->productActiveAndVisible()
             ->productAvailable()
-            ->setParameter('tagId', $tag->getId())
+            ->setParameter('tagId', $tag->id)
             ->paginate($pagination)
             ->findAll();
 

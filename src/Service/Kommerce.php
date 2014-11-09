@@ -91,8 +91,9 @@ class Kommerce
         $this->sessionManager = $sessionManager;
     }
 
-    public function setPricing(Pricing $pricing)
+    public function setupPricingWithCatalogPromotions()
     {
-        $this->pricing = $pricing;
+        $this->pricing = new Pricing;
+        $this->pricing->loadCatalogPromotions($this->entityManager);
     }
 }

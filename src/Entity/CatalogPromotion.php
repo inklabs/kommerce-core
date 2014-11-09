@@ -58,7 +58,7 @@ class CatalogPromotion extends Promotion
     {
         if ($this->tag !== null) {
             foreach ($product->getTags() as $tag) {
-                if ($tag == $this->tag) {
+                if ($tag->getId() == $this->tag->getId()) {
                     return true;
                 }
             }
