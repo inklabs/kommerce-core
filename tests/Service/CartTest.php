@@ -27,13 +27,19 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->product->setShippingWeight(16);
         $this->product->setRating(null);
         $this->product->setDefaultImage(null);
+
+        $this->entityManager->persist($this->product);
+        $this->entityManager->flush();
+
+        $this->viewProduct = Entity\View\Product::factory($this->product)
+            ->export();
     }
 
     public function testCartPersistence()
     {
         $this->assertEquals(0, $this->cart->totalItems());
 
-        $itemId = $this->cart->addItem($this->product, 1);
+        $itemId = $this->cart->addItem($this->viewProduct, 1);
         $this->assertEquals(0, $itemId);
         $this->assertEquals(1, $this->cart->totalItems());
 
@@ -43,8 +49,8 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
     public function testGetItems()
     {
-        $itemId = $this->cart->addItem($this->product, 1);
-        $itemId = $this->cart->addItem($this->product, 1);
+        $itemId = $this->cart->addItem($this->viewProduct, 1);
+        $itemId = $this->cart->addItem($this->viewProduct, 1);
 
         $this->assertEquals(2, count($this->cart->getItems()));
         $this->assertEquals('TST101', $this->cart->getItems()[0]->product->sku);
@@ -53,13 +59,13 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
     public function testGetItem()
     {
-        $itemId = $this->cart->addItem($this->product, 1);
+        $itemId = $this->cart->addItem($this->viewProduct, 1);
         $this->assertEquals('TST101', $this->cart->getItem(0)->product->sku);
     }
 
     public function testGetTotal()
     {
-        $itemId = $this->cart->addItem($this->product, 1);
+        $itemId = $this->cart->addItem($this->viewProduct, 1);
         $this->assertEquals(500, $this->cart->getTotal()->total);
     }
 }

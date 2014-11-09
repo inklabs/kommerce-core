@@ -6,6 +6,7 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->tag = new Tag;
+        $this->tag->setId(1);
         $this->tag->setName('Test Tag');
 
         $this->catalogPromotion = new CatalogPromotion;
@@ -82,6 +83,7 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
     public function testIsValid()
     {
         $tag2 = new Tag;
+        $tag2->setId(2);
         $tag2->setName('Test Tag 2');
 
         $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));

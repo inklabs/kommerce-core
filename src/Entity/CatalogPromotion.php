@@ -56,16 +56,16 @@ class CatalogPromotion extends Promotion
 
     public function isTagValid(Product $product)
     {
-        if ($this->tag !== null) {
-            foreach ($product->getTags() as $tag) {
-                if ($tag->getId() == $this->tag->getId()) {
-                    return true;
-                }
-            }
-
-            return false;
+        if ($this->tag === null) {
+            return true;
         }
 
-        return true;
+        foreach ($product->getTags() as $tag) {
+            if (($tag->getId() !== null) and ($tag->getId() == $this->tag->getId())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

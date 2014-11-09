@@ -69,6 +69,8 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->entityManager->flush();
 
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
+        $pricing->loadCatalogPromotions($this->entityManager);
+
         $productService = new Product($this->entityManager, $pricing);
 
         $id = $this->product->getId();
@@ -76,7 +78,6 @@ class ProductTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
         $this->assertEquals(800, $product->price->unitPrice);
         $this->assertEquals(20, $product->price->catalogPromotions[0]->value);
-
     }
 
     public function testFindWithProductQuantityDiscounts()
