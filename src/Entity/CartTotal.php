@@ -7,8 +7,8 @@ class CartTotal
     public $subtotal = 0;          // Subtotal after catalog promotions
     public $taxSubtotal = 0;       // Total used for tax calculation
     public $discount = 0;          // Coupons and cart price rules
-    public $shipping = 0;
-    public $shipping_discount = 0; // Coupons and cart price rules (separate from $discount)
+    public $shipping = null;
+    public $shippingDiscount = 0; // Coupons and cart price rules (separate from $discount)
     public $tax = 0;
     public $total = 0;
     public $savings = 0;
