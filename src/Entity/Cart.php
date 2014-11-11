@@ -46,6 +46,11 @@ class Cart
         }
     }
 
+    public function getCoupons()
+    {
+        return $this->coupons;
+    }
+
     public function addCoupon(Coupon $coupon)
     {
         $this->coupons[] = $coupon;
@@ -85,7 +90,7 @@ class Cart
         $this->shippingRate = $shippingRate;
 
         $this->getItemPrices();
-        $this->getCartPriceRules();
+        $this->calculateCartPriceRules();
         $this->getCouponDiscounts();
         $this->getShippingPrice();
         $this->getTaxes();
@@ -112,7 +117,7 @@ class Cart
         }
     }
 
-    private function getCartPriceRules()
+    private function calculateCartPriceRules()
     {
         foreach ($this->cartPriceRules as $cartPriceRule) {
             if ($cartPriceRule->isValid($this->pricing->getDate(), $this->cartTotal, $this->items)) {
@@ -180,7 +185,7 @@ class Cart
             $this->cartTotal->subtotal
             - $this->cartTotal->discount
             + $this->cartTotal->shipping
-            - $this->cartTotal->shipping_discount
+            - $this->cartTotal->shippingDiscount
             + $this->cartTotal->tax
         );
 
@@ -194,7 +199,7 @@ class Cart
             $this->cartTotal->origSubtotal
             - $this->cartTotal->subtotal
             + $this->cartTotal->discount
-            + $this->cartTotal->shipping_discount
+            + $this->cartTotal->shippingDiscount
         );
     }
 }

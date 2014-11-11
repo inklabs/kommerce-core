@@ -11,6 +11,7 @@
         </id>
 
         <field name="name"                column="`name`"              type="string" nullable="true" />
+        <field name="sku"                 column="`sku`"               type="string" nullable="true" />
         <field name="unitPrice"           column="`price`"             type="integer" />
         <field name="quantity"            column="`quantity`"          type="integer" />
         <field name="isInventoryRequired" column="`require_inventory`" type="boolean" />

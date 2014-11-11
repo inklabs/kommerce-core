@@ -73,14 +73,22 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
     public function getItems()
     {
         $viewCartItems = [];
-        foreach ($this->cart->getItems() as $cartItem)
-        {
+        foreach ($this->cart->getItems() as $cartItem) {
             $viewCartItems[] = Entity\View\CartItem::factory($cartItem)
                 ->withAllData($this->pricing)
                 ->export();
         }
 
         return $viewCartItems;
+    }
+
+    public function getProducts()
+    {
+        $products = [];
+        foreach ($this->getItems() as $item) {
+            $products[] = $item->product;
+        }
+        return $products;
     }
 
     public function getItem($id)
@@ -103,5 +111,12 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
     public function getTotal()
     {
         return $this->cart->getTotal($this->pricing);
+    }
+
+    public function getView()
+    {
+        return Entity\View\Cart::factory($this->cart)
+            ->withAllData($this->pricing)
+            ->export();
     }
 }
