@@ -39,12 +39,14 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
     {
         $this->assertEquals(0, $this->cart->totalItems());
 
-        $itemId = $this->cart->addItem($this->viewProduct, 1);
+        $itemId = $this->cart->addItem($this->viewProduct, 2);
         $this->assertEquals(0, $itemId);
         $this->assertEquals(1, $this->cart->totalItems());
+        $this->assertEquals(2, $this->cart->totalQuantity());
 
         $this->cart = new Cart($this->entityManager, $this->pricing, $this->sessionManager);
         $this->assertEquals(1, $this->cart->totalItems());
+        $this->assertEquals(2, $this->cart->totalQuantity());
     }
 
     public function testGetItems()
@@ -67,5 +69,57 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
     {
         $itemId = $this->cart->addItem($this->viewProduct, 1);
         $this->assertEquals(500, $this->cart->getTotal()->total);
+    }
+
+    public function testUpdateQuantity()
+    {
+        $itemId = $this->cart->addItem($this->viewProduct, 1);
+        $this->cart->updateQuantity($itemId, 2);
+        $this->assertEquals(1000, $this->cart->getTotal()->total);
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testUpdateQuantityAndItemNotFound()
+    {
+        $this->cart->updateQuantity(1, 2);
+    }
+
+    public function testDeleteItem()
+    {
+        $itemId1 = $this->cart->addItem($this->viewProduct, 1);
+        $itemId2 = $this->cart->addItem($this->viewProduct, 1);
+        $this->cart->deleteItem($itemId2);
+        $this->assertEquals(500, $this->cart->getTotal()->total);
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testDeleteItemAndItemNotFound()
+    {
+        $this->cart->deleteItem(1);
+    }
+
+    public function testGetProducts()
+    {
+        $itemId1 = $this->cart->addItem($this->viewProduct, 1);
+        $itemId2 = $this->cart->addItem($this->viewProduct, 1);
+
+        $products = $this->cart->getProducts();
+        $this->assertEquals(2, count($products));
+        $this->assertEquals('TST101', $products[0]->sku);
+        $this->assertEquals('TST101', $products[1]->sku);
+    }
+
+    public function testGetView()
+    {
+        $itemId1 = $this->cart->addItem($this->viewProduct, 1);
+        $itemId2 = $this->cart->addItem($this->viewProduct, 1);
+
+        $cartView = $this->cart->getView();
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Cart', $cartView);
+        $this->assertEquals(1000, $cartView->cartTotal->total);
     }
 }

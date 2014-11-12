@@ -75,10 +75,10 @@ class ProductQuantityDiscount extends Promotion
         return $this->quantity;
     }
 
-    public function setProduct(Product $product)
-    {
-        $this->product = $product;
-    }
+    // public function setProduct(Product $product)
+    // {
+    //     $this->product = $product;
+    // }
 
     public function getProduct()
     {

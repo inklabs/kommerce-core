@@ -23,6 +23,23 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $cart->totalQuantity());
     }
 
+    public function testDeleteItem()
+    {
+        $cart = new Cart($this->pricing);
+        $itemId = $cart->addItem(new Product, 5);
+        $cart->deleteItem($itemId);
+        $this->assertEquals(0, $cart->totalItems());
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testDeleteItemAndItemNotFound()
+    {
+        $cart = new Cart($this->pricing);
+        $cart->deleteItem(1);
+    }
+
     public function testAddItemReturnId()
     {
         $product = new Product;

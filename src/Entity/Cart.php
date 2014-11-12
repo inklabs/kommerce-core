@@ -42,7 +42,7 @@ class Cart
         if (isset($this->items[$id])) {
             unset($this->items[$id]);
         } else {
-            throw new Exception('Item missing');
+            throw new \Exception('Item missing');
         }
     }
 
