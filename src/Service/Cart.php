@@ -52,7 +52,7 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
     {
         $item = $this->cart->getItem($cartItemId);
         if ($item === null) {
-            throw new Exception('Item not found');
+            throw new \Exception('Item not found');
         }
 
         $item->setQuantity($quantity);
@@ -63,7 +63,7 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
     {
         $item = $this->getItem($cartItemId);
         if ($item === null) {
-            throw new Exception('Item not found');
+            throw new \Exception('Item not found');
         }
 
         $this->cart->deleteItem($cartItemId);
@@ -93,7 +93,13 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
 
     public function getItem($id)
     {
-        return Entity\View\CartItem::factory($this->cart->getItem($id))
+        $cartItem = $this->cart->getItem($id);
+
+        if ($cartItem === null) {
+            return null;
+        }
+
+        return Entity\View\CartItem::factory($cartItem)
             ->withAllData($this->pricing)
             ->export();
     }

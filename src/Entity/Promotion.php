@@ -21,10 +21,10 @@ class Promotion
         $this->reducesTaxSubtotal = true;
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
+    // public function getId()
+    // {
+    //     return $this->id;
+    // }
 
     public function setName($name)
     {

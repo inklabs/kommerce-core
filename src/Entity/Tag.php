@@ -30,20 +30,20 @@ class Tag
         $this->products[] = $product;
     }
 
-    public function getProducts()
-    {
-        return $this->products;
-    }
+    // public function getProducts()
+    // {
+    //     return $this->products;
+    // }
 
-    public function addImage(Image $image)
-    {
-        $this->images[] = $image;
-    }
+    // public function addImage(Image $image)
+    // {
+    //     $this->images[] = $image;
+    // }
 
-    public function getImages()
-    {
-        return $this->images;
-    }
+    // public function getImages()
+    // {
+    //     return $this->images;
+    // }
 
     public function setId($id)
     {
