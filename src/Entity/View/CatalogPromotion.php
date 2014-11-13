@@ -26,8 +26,7 @@ class CatalogPromotion extends Promotion
     {
         $this->tag = $this->promotion->getTag();
         if (! empty($this->tag)) {
-            $this->tag = $this->tag
-                ->getView()
+            $this->tag = Tag::factory($this->tag)
                 ->export();
         }
         return $this;
