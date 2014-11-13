@@ -5,8 +5,6 @@ use inklabs\kommerce\Entity as Entity;
 
 class Price
 {
-    private $price;
-
     public $origUnitPrice;
     public $unitPrice;
     public $origQuantityPrice;

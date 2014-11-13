@@ -5,8 +5,6 @@ use inklabs\kommerce\Entity as Entity;
 
 class Promotion
 {
-    protected $promotion;
-
     public $id;
     public $name;
     public $discountType; // fixed, percent, exact

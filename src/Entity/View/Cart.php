@@ -12,8 +12,6 @@ class Cart
     public $totalQuantity;
     public $cartTotal;
 
-    private $cart;
-
     public function __construct(Entity\Cart $cart)
     {
         $this->cart = $cart;
