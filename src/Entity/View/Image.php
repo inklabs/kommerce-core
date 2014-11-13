@@ -43,8 +43,7 @@ class Image
     {
         $product = $this->image->getProduct();
         if (! empty($product)) {
-            $this->product = $product
-                ->getView()
+            $this->product = Product::factory($product)
                 ->export();
         }
         return $this;
@@ -54,8 +53,7 @@ class Image
     {
         $tag = $this->image->getTag();
         if (! empty($tag)) {
-            $this->tag = $tag
-                ->getView()
+            $this->tag = Tag::factory($tag)
                 ->export();
         }
         return $this;
