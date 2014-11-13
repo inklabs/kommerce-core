@@ -6,8 +6,6 @@ use inklabs\kommerce\Lib as Lib;
 
 class Product
 {
-    private $product;
-
     public $id;
     public $encodedId;
     public $slug;

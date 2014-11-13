@@ -9,6 +9,9 @@ class J
     private $level = 0;
     private $limit = 10;
     private $objectChain = [];
+    private $disallowedNames = [
+        'Doctrine\ORM\EntityManager',
+    ];
 
     public static $localPath;
 
@@ -153,7 +156,7 @@ class J
 
         $name = $this->getName($var);
 
-        if (in_array($name, $this->objectChain)) {
+        if (in_array($name, $this->objectChain) or in_array($name, $this->disallowedNames)) {
             $this->output .= $name;
             return;
         }
@@ -171,7 +174,7 @@ class J
         $local_file = str_replace('/vagrant', self::$localPath, $reflector->getFileName());
         $this->output .= '<tbody style="display: none;"><tr><td>' .
             'Location: ' . $reflector->getFileName() . ':' . $reflector->getStartLine().
-            ' (<a href="txmt://open/?url=file://' . $local_file . '">txmt</a>)';
+            ' (<a href="txmt://open/?url=file://' . $local_file . '&line=' . $reflector->getStartLine() . '">txmt</a>)';
 
         $methods = [
             'public' => [],

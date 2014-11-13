@@ -5,8 +5,6 @@ use inklabs\kommerce\Entity as Entity;
 
 class Image
 {
-    private $image;
-
     public $id;
     public $path;
     public $width;

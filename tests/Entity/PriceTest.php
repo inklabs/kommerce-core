@@ -11,11 +11,11 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->price->unitPrice = 1750;
         $this->price->quantityPrice = 1750;
 
-        $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\Price');
-        $this->expected = $reflection->newInstanceWithoutConstructor();
-        $reflectionProperty = $reflection->getProperty('price');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($this->expected, $this->price);
+        // $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\Price');
+        // $this->expected = $reflection->newInstanceWithoutConstructor();
+        // $reflectionProperty = $reflection->getProperty('price');
+        // $reflectionProperty->setAccessible(true);
+        // $reflectionProperty->setValue($this->expected, $this->price);
     }
 
     public function test()

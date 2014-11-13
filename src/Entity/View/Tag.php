@@ -6,8 +6,6 @@ use inklabs\kommerce\Lib as Lib;
 
 class Tag
 {
-    private $tag;
-
     public $id;
     public $encodedId;
     public $slug;
