@@ -24,33 +24,4 @@ class TagTest extends \PHPUnit_Framework_TestCase
     public function test()
     {
     }
-
-    // private function setupExpectedView()
-    // {
-    //     $this->expectedView->id             = $this->tag->getId();
-    //     $this->expectedView->slug           = 'test-tag';
-    //     $this->expectedView->name           = $this->tag->getName();
-    //     $this->expectedView->description    = $this->tag->getDescription();
-    //     $this->expectedView->defaultImage   = $this->tag->getDefaultImage();
-    //     $this->expectedView->isProductGroup = $this->tag->getIsProductGroup();
-    //     $this->expectedView->sortOrder      = $this->tag->getSortOrder();
-    //     $this->expectedView->isVisible      = $this->tag->getIsVisible();
-    // }
-
-    // public function testGetView()
-    // {
-    //     $this->setupExpectedView();
-    //     $this->expectedView = $this->expectedView->export();
-    //
-    //     $this->assertEquals($this->expectedView, $this->tag->getView()->export());
-    // }
-
-    // public function testGetAllData()
-    // {
-    //     $this->setupExpectedView();
-    //     $this->expectedView->products = [$this->product->getView()->export()];
-    //     $this->expectedView = $this->expectedView->export();
-    //
-    //     $this->assertEquals($this->expectedView, $this->tag->getView()->withAllData()->export());
-    // }
 }

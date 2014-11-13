@@ -201,7 +201,6 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $expectedPrice->origQuantityPrice = 3000;
         $this->assertEquals($expectedPrice, $this->pricing->getPrice($product, 2));
 
-        // Add tag
         $product->addTag($tag);
         $expectedPrice->unitPrice = 1200;
         $expectedPrice->quantityPrice = 2400;

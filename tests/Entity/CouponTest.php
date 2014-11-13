@@ -10,7 +10,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $this->coupon->setCode('20PCT100');
         $this->coupon->setDiscountType('percent');
         $this->coupon->setValue(20);
-        $this->coupon->setMinOrderValue(10000); // $100
+        $this->coupon->setMinOrderValue(10000);
         $this->coupon->setMaxOrderValue(null);
         $this->coupon->setFlagFreeShipping(null);
     }
@@ -38,7 +38,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $this->coupon->setDiscountType('percent');
         $this->coupon->setValue(20);
         $this->coupon->setMaxOrderValue(null);
-        $this->coupon->setMaxOrderValue(10000); // $100
+        $this->coupon->setMaxOrderValue(10000);
 
         $this->assertTrue($this->coupon->isMaxOrderValueValid(5000));
         $this->assertFalse($this->coupon->isMaxOrderValueValid(50000));
@@ -50,8 +50,8 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $this->coupon->setName('20% Off orders $10-$100');
         $this->coupon->setDiscountType('percent');
         $this->coupon->setValue(20);
-        $this->coupon->setMinOrderValue(1000); // $10
-        $this->coupon->setMaxOrderValue(10000); // $100
+        $this->coupon->setMinOrderValue(1000);
+        $this->coupon->setMaxOrderValue(10000);
         $this->coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $this->coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 

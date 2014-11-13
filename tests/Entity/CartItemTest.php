@@ -27,12 +27,11 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $pricing = new Service\Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
         $price = $this->cartItem->getPrice($pricing);
 
-        // Expected
-        $price = new Price;
-        $price->origUnitPrice = 500;
-        $price->unitPrice = 500;
-        $price->origQuantityPrice = 500;
-        $price->quantityPrice = 500;
-        $this->assertEquals($price, $price);
+        $expectedPrice = new Price;
+        $expectedPrice->origUnitPrice = 500;
+        $expectedPrice->unitPrice = 500;
+        $expectedPrice->origQuantityPrice = 500;
+        $expectedPrice->quantityPrice = 500;
+        $this->assertEquals($expectedPrice, $price);
     }
 }
