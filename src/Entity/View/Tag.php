@@ -51,28 +51,26 @@ class Tag
     public function withImages()
     {
         foreach ($this->tag->getImages() as $image) {
-            $this->images[] = $image
-                ->getView()
+            $this->images[] = Image::factory($image)
                 ->export();
         }
         return $this;
     }
 
-    public function withProducts()
+    public function withProducts(\inklabs\kommerce\Service\Pricing $pricing)
     {
         foreach ($this->tag->getProducts() as $product) {
-            $this->products[] = $product
-                ->getView()
-                ->withAllData()
+            $this->products[] = Product::factory($product)
+                ->withAllData($pricing)
                 ->export();
         }
         return $this;
     }
 
-    public function withAllData()
+    public function withAllData(\inklabs\kommerce\Service\Pricing $pricing)
     {
         return $this
             ->withImages()
-            ->withProducts();
+            ->withProducts($pricing);
     }
 }
