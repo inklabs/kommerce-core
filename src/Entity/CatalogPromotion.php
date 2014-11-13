@@ -33,10 +33,10 @@ class CatalogPromotion extends Promotion
         $this->tag = $tag;
     }
 
-    // public function getTag()
-    // {
-    //     return $this->tag;
-    // }
+    public function getTag()
+    {
+        return $this->tag;
+    }
 
     public function setFlagFreeShipping($flagFreeShipping)
     {
