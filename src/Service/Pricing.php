@@ -121,7 +121,7 @@ class Pricing
         // TODO: code smell...
         foreach ($this->product->getSelectedOptionProducts() as $optionProduct) {
             $subPricing = new Pricing($this->date);
-            $optionProductPrice = $subPricing->getPrice($optionProduct, $this->quantity);
+            $optionProductPrice = $optionProduct->getPrice($subPricing, $this->quantity);
 
             $this->price->unitPrice          += $optionProductPrice->unitPrice;
             $this->price->origUnitPrice      += $optionProductPrice->origUnitPrice;

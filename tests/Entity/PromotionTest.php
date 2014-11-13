@@ -18,23 +18,6 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $this->expected = $reflection->newInstanceWithoutConstructor();
     }
 
-    // public function testGetView()
-    // {
-    //     $this->expected->id               = $this->promotion->getId();
-    //     $this->expected->name             = $this->promotion->getName();
-    //     $this->expected->discountType     = $this->promotion->getDiscountType();
-    //     $this->expected->value            = $this->promotion->getValue();
-    //     $this->expected->redemptions      = $this->promotion->getRedemptions();
-    //     $this->expected->maxRedemptions   = $this->promotion->getMaxRedemptions();
-    //     $this->expected->start            = $this->promotion->getStart();
-    //     $this->expected->end              = $this->promotion->getEnd();
-    //     $this->expected->created          = $this->promotion->getCreated();
-    //     $this->expected->updated          = $this->promotion->getUpdated();
-    //
-    //     $this->expected = $this->expected->export();
-    //     $this->assertEquals($this->expected, $this->promotion->getView()->export());
-    // }
-
     public function testIsDateValid()
     {
         $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
@@ -84,7 +67,7 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDiscountValuePercent()
     {
-        $unitPrice = 1000; // $10
+        $unitPrice = 1000;
         $this->assertEquals(800, $this->promotion->getUnitPrice($unitPrice));
     }
 
@@ -93,7 +76,7 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $this->promotion->setDiscountType('fixed');
         $this->promotion->setValue(1000);
 
-        $unitPrice = 10000; // $100
+        $unitPrice = 10000;
         $this->assertEquals(9000, $this->promotion->getUnitPrice($unitPrice));
     }
 
