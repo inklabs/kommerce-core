@@ -14,7 +14,8 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $this->productQuantityDiscount->setValue(500);
 
         $product = new Entity\Product;
-        $product->setUnitPrice(500);
+        $product->setSku('TST1');
+        $product->setUnitPrice(600);
         $this->productQuantityDiscount->setProduct($product);
 
         $this->viewProductQuantityDiscount = ProductQuantityDiscount::factory($this->productQuantityDiscount);
@@ -28,5 +29,6 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
             ->withAllData($pricing)
             ->export();
         $this->assertEquals(500, $viewProductQuantityDiscount->value);
+        $this->assertEquals('TST1', $viewProductQuantityDiscount->product->sku);
     }
 }
