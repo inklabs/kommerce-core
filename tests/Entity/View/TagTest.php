@@ -14,12 +14,6 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->viewTag = Tag::factory($this->tag);
     }
 
-    public function testBasic()
-    {
-        $viewTag = $this->viewTag->export();
-        $this->assertEquals('Test Tag', $viewTag->name);
-    }
-
     public function testWithAllData()
     {
         $this->tag->addImage(new Entity\Image);

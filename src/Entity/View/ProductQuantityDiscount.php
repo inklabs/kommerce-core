@@ -26,30 +26,29 @@ class ProductQuantityDiscount extends Promotion
         return new static($productQuantityDiscount);
     }
 
-    public function withPrice()
+    public function withPrice(\inklabs\kommerce\Service\Pricing $pricing)
     {
-        $this->price = Price::factory($this->promotion->getPrice())
+        $this->price = Price::factory($this->promotion->getPrice($pricing))
             ->withAllData()
             ->export();
 
         return $this;
     }
 
-    public function withProduct()
+    public function withProduct(\inklabs\kommerce\Service\Pricing $pricing)
     {
         if (! empty($this->product)) {
-            $this->product = $this->product
-                ->getView()
-                ->withAllData()
+            $this->product = Product::factory($this->product)
+                ->withAllData($pricing)
                 ->export();
         }
         return $this;
     }
 
-    public function withAllData()
+    public function withAllData(\inklabs\kommerce\Service\Pricing $pricing)
     {
         return $this
-            ->withPrice()
-            ->withProduct();
+            ->withPrice($pricing)
+            ->withProduct($pricing);
     }
 }
