@@ -116,12 +116,9 @@ class Product
         $pricing->setProductQuantityDiscounts($productQuantityDiscounts);
 
         foreach ($productQuantityDiscounts as $productQuantityDiscount) {
-            $price = $this->product->getPrice($pricing, $productQuantityDiscount->getQuantity());
-            $productQuantityDiscount->setPrice($price);
-
-            $viewProductQuantityDiscount = new ProductQuantityDiscount($productQuantityDiscount);
-            $this->productQuantityDiscounts[] = $viewProductQuantityDiscount
-                ->withPrice()
+            $productQuantityDiscount->setProduct($this->product);
+            $this->productQuantityDiscounts[] = ProductQuantityDiscount::factory($productQuantityDiscount)
+                ->withPrice($pricing)
                 ->export();
         }
 

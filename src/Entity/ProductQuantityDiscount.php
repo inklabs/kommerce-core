@@ -8,8 +8,6 @@ class ProductQuantityDiscount extends Promotion
     protected $quantity;
     protected $product;
 
-    private $price;
-
     public function setName($name)
     {
         throw new \Exception('Unable to set name.');
@@ -35,14 +33,12 @@ class ProductQuantityDiscount extends Promotion
         return '$' . number_format(($priceInCents / 100), 2);
     }
 
-    public function setPrice(Price $price)
+    public function getPrice(\inklabs\kommerce\Service\Pricing $pricing)
     {
-        $this->price = $price;
-    }
-
-    public function getPrice()
-    {
-        return $this->price;
+        return $pricing->getPrice(
+            $this->product,
+            $this->quantity
+        );
     }
 
     public function setCustomerGroup($customerGroup)
@@ -75,10 +71,10 @@ class ProductQuantityDiscount extends Promotion
         return $this->quantity;
     }
 
-    // public function setProduct(Product $product)
-    // {
-    //     $this->product = $product;
-    // }
+    public function setProduct(Product $product)
+    {
+        $this->product = $product;
+    }
 
     public function getProduct()
     {
