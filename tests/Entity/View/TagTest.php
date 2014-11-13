@@ -10,14 +10,19 @@ class TagTest extends \PHPUnit_Framework_TestCase
     {
         $this->tag = new Entity\Tag;
         $this->tag->setName('Test Tag');
-
-        $this->viewTag = Tag::factory($this->tag);
     }
 
     public function testWithAllData()
     {
-        $this->tag->addImage(new Entity\Image);
-        $this->tag->addProduct(new Entity\Product);
+        $image = new Entity\Image;
+        $image->setPath('xxx');
+        $this->tag->addImage($image);
+
+        $product = new Entity\Product;
+        $product->setSku('TST1');
+        $this->tag->addProduct($product);
+
+        $this->viewTag = Tag::factory($this->tag);
 
         $pricing = new Service\Pricing();
 
@@ -25,5 +30,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
             ->withAllData($pricing)
             ->export();
         $this->assertEquals('Test Tag', $viewTag->name);
+        $this->assertEquals('xxx', $viewTag->images[0]->path);
+        $this->assertEquals('TST1', $viewTag->products[0]->sku);
     }
 }
