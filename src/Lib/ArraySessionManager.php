@@ -8,7 +8,7 @@ class ArraySessionManager extends SessionManager
     public function get($key)
     {
         if (isset($this->session[$key])) {
-            return $this->session[$key];
+            return unserialize($this->session[$key]);
         } else {
             return null;
         }
@@ -16,6 +16,6 @@ class ArraySessionManager extends SessionManager
 
     public function set($key, $data)
     {
-        $this->session[$key] = $data;
+        $this->session[$key] = serialize($data);
     }
 }
