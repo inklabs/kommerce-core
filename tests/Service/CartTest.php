@@ -51,8 +51,6 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
 
     public function testCartPersistenceWithPriceChange()
     {
-        $this->markTestSkipped('Cart must account for changed product details');
-
         $this->assertEquals(0, $this->cart->totalItems());
 
         $itemId = $this->cart->addItem($this->viewProduct, 2);
