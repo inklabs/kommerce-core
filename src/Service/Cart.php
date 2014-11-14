@@ -8,6 +8,7 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
     protected $sessionManager;
     protected $cartSessionKey = 'newcart';
     protected $cart;
+    protected $shippingRate;
 
     private $pricing;
 
@@ -109,6 +110,11 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
         return $this->cart->getShippingWeight();
     }
 
+    public function getShippingWeightInPounds()
+    {
+        return ceil($this->cart->getShippingWeight() / 16);
+    }
+
     public function totalItems()
     {
         return $this->cart->totalItems();
@@ -121,13 +127,19 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
 
     public function getTotal()
     {
-        return $this->cart->getTotal($this->pricing);
+        return $this->cart->getTotal($this->pricing, $this->shippingRate);
+    }
+
+    public function setShippingRate(\inklabs\kommerce\Entity\Shipping\Rate $shippingRate)
+    {
+        $this->shippingRate = $shippingRate;
+        $this->save();
     }
 
     public function getView()
     {
         return Entity\View\Cart::factory($this->cart)
-            ->withAllData($this->pricing)
+            ->withAllData($this->pricing, $this->shippingRate)
             ->export();
     }
 }

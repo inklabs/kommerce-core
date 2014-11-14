@@ -37,9 +37,11 @@ class Cart
         return $this;
     }
 
-    public function withCartTotal(\inklabs\kommerce\Service\Pricing $pricing)
-    {
-        $this->cartTotal = $this->cart->getTotal($pricing);
+    public function withCartTotal(
+        \inklabs\kommerce\Service\Pricing $pricing,
+        \inklabs\kommerce\Entity\Shipping\Rate $shippingRate = null
+    ) {
+        $this->cartTotal = $this->cart->getTotal($pricing, $shippingRate);
 
         return $this;
     }
@@ -55,10 +57,12 @@ class Cart
         return $this;
     }
 
-    public function withAllData(\inklabs\kommerce\Service\Pricing $pricing)
-    {
+    public function withAllData(
+        \inklabs\kommerce\Service\Pricing $pricing,
+        \inklabs\kommerce\Entity\Shipping\Rate $shippingRate = null
+    ) {
         return $this
             ->withCartItems($pricing)
-            ->withCartTotal($pricing);
+            ->withCartTotal($pricing, $shippingRate);
     }
 }
