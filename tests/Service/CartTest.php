@@ -49,6 +49,28 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->assertEquals(2, $this->cart->totalQuantity());
     }
 
+    public function testCartPersistenceWithPriceChange()
+    {
+        $this->markTestSkipped('Cart must account for changed product details');
+
+        $this->assertEquals(0, $this->cart->totalItems());
+
+        $itemId = $this->cart->addItem($this->viewProduct, 2);
+
+        $this->assertEquals(0, $itemId);
+        $this->assertEquals(1, $this->cart->totalItems());
+        $this->assertEquals(2, $this->cart->totalQuantity());
+        $this->assertEquals(500, $this->cart->getItem($itemId)->product->unitPrice);
+
+        $this->product->setUnitPrice(501);
+        $this->entityManager->flush();
+
+        $this->cart = new Cart($this->entityManager, $this->pricing, $this->sessionManager);
+        $this->assertEquals(1, $this->cart->totalItems());
+        $this->assertEquals(2, $this->cart->totalQuantity());
+        $this->assertEquals(501, $this->cart->getItem($itemId)->product->unitPrice);
+    }
+
     public function testGetItems()
     {
         $itemId = $this->cart->addItem($this->viewProduct, 1);
