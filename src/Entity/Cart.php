@@ -8,9 +8,6 @@ class Cart
     protected $cartPriceRules = [];
     protected $taxRate;
 
-    protected $cartTotal;
-    protected $shippingRate;
-
     public function addItem(Product $product, $quantity)
     {
         $this->items[] = new CartItem($product, $quantity);
@@ -93,8 +90,10 @@ class Cart
         return $shippingWeight;
     }
 
-    public function getTotal(\inklabs\kommerce\Service\Pricing $pricing, Shipping\Rate $shippingRate = null)
-    {
+    public function getTotal(
+        \inklabs\kommerce\Service\Pricing $pricing,
+        \inklabs\kommerce\Entity\Shipping\Rate $shippingRate = null
+    ) {
         $this->pricing = $pricing;
 
         $this->cartTotal = new CartTotal;

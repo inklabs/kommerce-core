@@ -146,14 +146,33 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->assertEquals(64, $this->cart->getShippingWeight());
     }
 
+    public function testGetShippingWeightInPounds()
+    {
+        $itemId1 = $this->cart->addItem($this->viewProduct, 2);
+        $itemId2 = $this->cart->addItem($this->viewProduct, 2);
+
+        $items = $this->cart->getItems();
+        $this->assertEquals(32, $items[0]->shippingWeight);
+        $this->assertEquals(32, $items[1]->shippingWeight);
+        $this->assertEquals(4, $this->cart->getShippingWeightInPounds());
+    }
+
     public function testGetView()
     {
         $itemId1 = $this->cart->addItem($this->viewProduct, 2);
         $itemId2 = $this->cart->addItem($this->viewProduct, 2);
 
+        $uspsShippingRate = new Entity\Shipping\Rate;
+        $uspsShippingRate->code = '4';
+        $uspsShippingRate->name = 'Parcel Post';
+        $uspsShippingRate->cost = 1000;
+        $this->cart->setShippingRate($uspsShippingRate);
+
         $cartView = $this->cart->getView();
         $this->assertInstanceOf('inklabs\kommerce\Entity\View\Cart', $cartView);
-        $this->assertEquals(2000, $cartView->cartTotal->total);
+        $this->assertEquals(2000, $cartView->cartTotal->subtotal);
+        $this->assertEquals(1000, $cartView->cartTotal->shipping);
+        $this->assertEquals(3000, $cartView->cartTotal->total);
         $this->assertEquals(2, count($cartView->items));
         $this->assertEquals(32, $cartView->items[0]->shippingWeight);
         $this->assertEquals(32, $cartView->items[1]->shippingWeight);
