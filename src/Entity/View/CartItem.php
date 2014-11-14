@@ -10,6 +10,8 @@ class CartItem
     public $product;
     public $quantity;
     public $price;
+    public $created;
+    public $updated;
 
     public function __construct(Entity\CartItem $cartItem)
     {

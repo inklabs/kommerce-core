@@ -9,7 +9,7 @@ class CartItem
     protected $product;
     protected $quantity;
 
-    public function __construct(Product $product = null, $quantity = null)
+    public function __construct(Product $product, $quantity)
     {
         $this->setCreated();
         $this->product = $product;
@@ -39,6 +39,7 @@ class CartItem
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
+        $this->setUpdated();
     }
 
     public function getQuantity()

@@ -11,9 +11,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $this->product->setName('Test Product');
         $this->product->setUnitPrice(500);
 
-        $this->cartItem = new CartItem;
-        $this->cartItem->setProduct($this->product);
-        $this->cartItem->setQuantity(1);
+        $this->cartItem = new CartItem($this->product, 1);
     }
 
     public function testGetters()
