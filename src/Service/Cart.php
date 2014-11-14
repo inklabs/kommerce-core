@@ -22,14 +22,34 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
         $this->sessionManager = $sessionManager;
 
         $this->load();
-        if (! ($this->cart instanceof Entity\Cart)) {
-            $this->cart = new Entity\Cart;
-        }
     }
 
     private function load()
     {
         $this->cart = $this->sessionManager->get($this->cartSessionKey);
+
+        if (! ($this->cart instanceof Entity\Cart)) {
+            $this->cart = new Entity\Cart;
+        }
+
+        $this->reloadProductsFromEntityManager();
+    }
+
+    private function reloadProductsFromEntityManager()
+    {
+        $numberProductsUpdated = 0;
+        foreach ($this->cart->getItems() as $cartItem) {
+            $product = $this->entityManager
+                ->getRepository('inklabs\kommerce\Entity\Product')
+                ->find($cartItem->getProduct()->getId());
+
+            $cartItem->setProduct($product);
+            $numberProductsUpdated++;
+        }
+
+        if ($numberProductsUpdated > 0) {
+            $this->save();
+        }
     }
 
     private function save()
