@@ -11,6 +11,7 @@ class J
     private $objectChain = [];
     private $disallowedNames = [
         'Doctrine\ORM\EntityManager',
+        'Database_PDO',
     ];
 
     public static $localPath;
@@ -334,16 +335,19 @@ class J
         }
         ksort($properties);
         foreach ($properties as $property) {
-            if (! $property->isProtected()) {
-                continue;
-            } elseif ($property->isStatic()) {
-                $output['static $' . $property->name] = $reflector->getStaticPropertyValue($property->name);
-            } else {
-                $property->setAccessible(true);
+            try {
+                if (! $property->isProtected()) {
+                    continue;
+                } elseif ($property->isStatic()) {
+                    $output['static $' . $property->name] = $reflector->getStaticPropertyValue($property->name);
+                } else {
+                    $property->setAccessible(true);
 
-                $value = $property->getValue($var);
+                    $value = $property->getValue($var);
 
-                $output['$' . $property->name] = $value;
+                    $output['$' . $property->name] = $value;
+                }
+            } catch (\Exception $e) {
             }
         }
 
