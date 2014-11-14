@@ -76,6 +76,21 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($product, $item->getProduct());
     }
 
+    public function testGetShippingWeight()
+    {
+        $product1 = new Product;
+        $product1->setShippingWeight(16);
+
+        $product2 = new Product;
+        $product2->setShippingWeight(16);
+
+        $cart = new Cart($this->pricing);
+        $cart->addItem($product1, 2);
+        $cart->addItem($product2, 2);
+
+        $this->assertEquals(64, $cart->getShippingWeight());
+    }
+
     public function testGetItemMissing()
     {
         $cart = new Cart($this->pricing);

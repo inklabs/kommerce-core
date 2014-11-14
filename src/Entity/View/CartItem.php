@@ -9,6 +9,7 @@ class CartItem
     public $id;
     public $product;
     public $quantity;
+    public $shippingWeight;
     public $price;
     public $created;
     public $updated;
@@ -17,10 +18,11 @@ class CartItem
     {
         $this->cartItem = $cartItem;
 
-        $this->id       = $cartItem->getId();
-        $this->quantity = $cartItem->getQuantity();
-        $this->created  = $cartItem->getCreated();
-        $this->updated  = $cartItem->getUpdated();
+        $this->id             = $cartItem->getId();
+        $this->quantity       = $cartItem->getQuantity();
+        $this->shippingWeight = $cartItem->getShippingWeight();
+        $this->created        = $cartItem->getCreated();
+        $this->updated        = $cartItem->getUpdated();
 
         return $this;
     }

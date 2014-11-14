@@ -104,6 +104,11 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
             ->export();
     }
 
+    public function getShippingWeight()
+    {
+        return $this->cart->getShippingWeight();
+    }
+
     public function totalItems()
     {
         return $this->cart->totalItems();
