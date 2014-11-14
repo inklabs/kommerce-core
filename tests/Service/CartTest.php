@@ -135,13 +135,28 @@ class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
         $this->assertEquals('TST101', $products[1]->sku);
     }
 
+    public function testGetShippingWeight()
+    {
+        $itemId1 = $this->cart->addItem($this->viewProduct, 2);
+        $itemId2 = $this->cart->addItem($this->viewProduct, 2);
+
+        $items = $this->cart->getItems();
+        $this->assertEquals(32, $items[0]->shippingWeight);
+        $this->assertEquals(32, $items[1]->shippingWeight);
+        $this->assertEquals(64, $this->cart->getShippingWeight());
+    }
+
     public function testGetView()
     {
-        $itemId1 = $this->cart->addItem($this->viewProduct, 1);
-        $itemId2 = $this->cart->addItem($this->viewProduct, 1);
+        $itemId1 = $this->cart->addItem($this->viewProduct, 2);
+        $itemId2 = $this->cart->addItem($this->viewProduct, 2);
 
         $cartView = $this->cart->getView();
         $this->assertInstanceOf('inklabs\kommerce\Entity\View\Cart', $cartView);
-        $this->assertEquals(1000, $cartView->cartTotal->total);
+        $this->assertEquals(2000, $cartView->cartTotal->total);
+        $this->assertEquals(2, count($cartView->items));
+        $this->assertEquals(32, $cartView->items[0]->shippingWeight);
+        $this->assertEquals(32, $cartView->items[1]->shippingWeight);
+        $this->assertEquals(64, $cartView->shippingWeight);
     }
 }

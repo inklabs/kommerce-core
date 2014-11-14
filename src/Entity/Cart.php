@@ -82,6 +82,17 @@ class Cart
         return $total;
     }
 
+    public function getShippingWeight()
+    {
+        $shippingWeight = 0;
+
+        foreach ($this->items as $item) {
+            $shippingWeight += $item->getShippingWeight();
+        }
+
+        return $shippingWeight;
+    }
+
     public function getTotal(\inklabs\kommerce\Service\Pricing $pricing, Shipping\Rate $shippingRate = null)
     {
         $this->pricing = $pricing;

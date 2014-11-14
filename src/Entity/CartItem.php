@@ -26,11 +26,6 @@ class CartItem
         return $this->id;
     }
 
-    public function setProduct(Product $product)
-    {
-        $this->product = $product;
-    }
-
     public function getProduct()
     {
         return $this->product;
@@ -53,5 +48,10 @@ class CartItem
             $this->product,
             $this->quantity
         );
+    }
+
+    public function getShippingWeight()
+    {
+        return ($this->product->getShippingWeight() * $this->quantity);
     }
 }

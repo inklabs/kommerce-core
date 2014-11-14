@@ -10,16 +10,18 @@ class Cart
     public $coupons = [];
     public $totalItems;
     public $totalQuantity;
+    public $shippingWeight;
     public $cartTotal;
 
     public function __construct(Entity\Cart $cart)
     {
         $this->cart = $cart;
 
-        $this->items         = $cart->getItems();
-        $this->coupons       = $cart->getCoupons();
-        $this->totalItems    = $cart->totalItems();
-        $this->totalQuantity = $cart->totalQuantity();
+        $this->items          = $cart->getItems();
+        $this->coupons        = $cart->getCoupons();
+        $this->totalItems     = $cart->totalItems();
+        $this->totalQuantity  = $cart->totalQuantity();
+        $this->shippingWeight = $cart->getShippingWeight();
 
         return $this;
     }
