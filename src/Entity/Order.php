@@ -5,6 +5,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class Order
 {
+    use Accessor\Time;
+
     protected $status = 'pending'; // 'pending','processing','shipped','complete','canceled'
     protected $total;
     protected $shippingAddress;
