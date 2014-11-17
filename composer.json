@@ -14,7 +14,8 @@
         "composer/installers": "~1.0",
         "php": ">=5.4",
         "pdt256/shipping": "dev-master",
-        "doctrine/orm": ">=2.4"
+        "doctrine/dbal": "2.5.*@dev",
+        "doctrine/orm": "2.5.*@dev"
     },
     "autoload": {
         "psr-4": {
