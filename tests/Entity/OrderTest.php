@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\Helper as Helper;
 
 class OrderTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,5 +46,55 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $orderItems = $this->order->getItems();
         $this->assertEquals(2, count($orderItems));
         $this->assertEquals(1000, $orderItems[0]->getPrice()->quantityPrice);
+    }
+
+    public function testCreateOrderWithCashPayment()
+    {
+        $this->order->addPayment(new CashPayment(2000));
+        $this->assertEquals(1, count($this->order->getPayments()));
+    }
+
+    public function testCreateOrderWithMultipleCashPayment()
+    {
+        $this->order->addPayment(new CashPayment(1000));
+        $this->order->addPayment(new CashPayment(1000));
+        $this->assertEquals(2, count($this->order->getPayments()));
+    }
+
+    public function xtestCreateOrderWithCredit()
+    {
+        \Stripe::setApiKey('sk_xxxxxxxxxxxxxxxxxxxxxxxx');
+        $myCard = [
+            'number' => '4242424242424242',
+            'exp_month' => 5,
+            'exp_year' => 2015
+        ];
+
+        // $stub = $this->getMock('Stripe_Charge');
+        // $stub->method('create')
+        //     ->willReturn(Payment\StripeChargeStub::create());
+
+        $charge = Helper\StripeChargeStub::create([
+            'card' => $myCard,
+            'amount' => 2000,
+            'currency' => 'usd'
+        ]);
+
+        print_r($charge);
+
+        // $creditPayment = new StripePayment(2000);
+        // $creditPayment->addCharge();
+
+        // $this->order->addPayment($creditPayment);
+        $payments = $this->order->getPayments();
+        $payment = $payments[0];
+        $this->assertEquals(1, count($payments));
+        $this->assertEquals(2000, $payment->getAmount());
+        $this->assertEquals(88, $payment->getFee());
+        $this->assertTrue($payment->getCreated() > 0);
+        $this->assertEquals('4242', $payment->getCard()->getLast4());
+        $this->assertEquals('Visa', $payment->getCard()->getType());
+        $this->assertEquals('5', $payment->getCard()->getExpMonth());
+        $this->assertEquals('2015', $payment->getCard()->getExpYear());
     }
 }

@@ -12,10 +12,12 @@ class Order
     protected $shippingAddress;
     protected $billingAddress;
     protected $items;
+    protected $payments;
 
     public function __construct(Cart $cart, \inklabs\kommerce\Service\Pricing $pricing)
     {
         $this->items = new ArrayCollection();
+        $this->payments = new ArrayCollection();
         $this->total = $cart->getTotal($pricing);
         $this->setItems($cart->getItems(), $pricing);
     }
@@ -60,5 +62,15 @@ class Order
     public function getItems()
     {
         return $this->items;
+    }
+
+    public function addPayment(Payment $payment)
+    {
+        $this->payments[] = $payment;
+    }
+
+    public function getPayments()
+    {
+        return $this->payments;
     }
 }
