@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Service\Pricing;
 
 class CartItem
 {
@@ -38,7 +39,7 @@ class CartItem
         return $this;
     }
 
-    public function withPrice(\inklabs\kommerce\Service\Pricing $pricing)
+    public function withPrice(Pricing $pricing)
     {
         $this->price = Price::factory($this->cartItem->getPrice($pricing))
             ->withAllData()
@@ -47,7 +48,7 @@ class CartItem
         return $this;
     }
 
-    public function withProduct(\inklabs\kommerce\Service\Pricing $pricing)
+    public function withProduct(Pricing $pricing)
     {
         $this->product = Product::factory($this->cartItem->getProduct())
             ->withTags()
@@ -57,7 +58,7 @@ class CartItem
         return $this;
     }
 
-    public function withAllData(\inklabs\kommerce\Service\Pricing $pricing)
+    public function withAllData(Pricing $pricing)
     {
         return $this
             ->withProduct($pricing)

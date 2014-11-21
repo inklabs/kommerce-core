@@ -3,10 +3,11 @@ namespace inklabs\kommerce\Doctrine\ORM;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Entity\Pagination;
 
 class QueryBuilder extends \Doctrine\ORM\QueryBuilder
 {
-    public function paginate(\inklabs\kommerce\Entity\Pagination & $pagination = null)
+    public function paginate(Pagination & $pagination = null)
     {
         if ($pagination === null) {
             return $this;

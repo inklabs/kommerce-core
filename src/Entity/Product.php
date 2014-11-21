@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Service\Pricing;
 
 class Product
 {
@@ -36,7 +37,7 @@ class Product
         $this->productQuantityDiscounts = new ArrayCollection();
     }
 
-    public function getPrice(\inklabs\kommerce\Service\Pricing $pricing, $quantity = 1)
+    public function getPrice(Pricing $pricing, $quantity = 1)
     {
         return $pricing->getPrice(
             $this,

@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Service\Pricing;
 
 class ProductQuantityDiscount extends Promotion
 {
@@ -26,7 +27,7 @@ class ProductQuantityDiscount extends Promotion
         return new static($productQuantityDiscount);
     }
 
-    public function withPrice(\inklabs\kommerce\Service\Pricing $pricing)
+    public function withPrice(Pricing $pricing)
     {
         $this->price = Price::factory($this->promotion->getPrice($pricing))
             ->withAllData()
@@ -35,7 +36,7 @@ class ProductQuantityDiscount extends Promotion
         return $this;
     }
 
-    public function withProduct(\inklabs\kommerce\Service\Pricing $pricing)
+    public function withProduct(Pricing $pricing)
     {
         if (! empty($this->product)) {
             $this->product = Product::factory($this->product)
@@ -45,7 +46,7 @@ class ProductQuantityDiscount extends Promotion
         return $this;
     }
 
-    public function withAllData(\inklabs\kommerce\Service\Pricing $pricing)
+    public function withAllData(Pricing $pricing)
     {
         return $this
             ->withPrice($pricing)

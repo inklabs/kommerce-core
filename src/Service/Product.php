@@ -1,15 +1,15 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Lib as Lib;
 
-class Product extends \inklabs\kommerce\Lib\EntityManager
+class Product extends Lib\EntityManager
 {
     private $pricing;
 
-    public function __construct(
-        \Doctrine\ORM\EntityManager $entityManager,
-        \inklabs\kommerce\Service\Pricing $pricing
+    public function __construct(EntityManager $entityManager, Pricing $pricing
     ) {
         $this->setEntityManager($entityManager);
         $this->pricing = $pricing;

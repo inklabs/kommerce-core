@@ -2,7 +2,9 @@
 namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity\Shipping as Shipping;
 use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Service\Pricing;
 
 class Cart
 {
@@ -37,16 +39,13 @@ class Cart
         return $this;
     }
 
-    public function withCartTotal(
-        \inklabs\kommerce\Service\Pricing $pricing,
-        \inklabs\kommerce\Entity\Shipping\Rate $shippingRate = null
-    ) {
+    public function withCartTotal(Pricing $pricing, Shipping\Rate $shippingRate = null) {
         $this->cartTotal = $this->cart->getTotal($pricing, $shippingRate);
 
         return $this;
     }
 
-    public function withCartItems(\inklabs\kommerce\Service\Pricing $pricing)
+    public function withCartItems(Pricing $pricing)
     {
         foreach ($this->cart->getItems() as $cartItem) {
             $this->items[$cartItem->getId()] = CartItem::factory($cartItem)
@@ -57,10 +56,7 @@ class Cart
         return $this;
     }
 
-    public function withAllData(
-        \inklabs\kommerce\Service\Pricing $pricing,
-        \inklabs\kommerce\Entity\Shipping\Rate $shippingRate = null
-    ) {
+    public function withAllData(Pricing $pricing, Shipping\Rate $shippingRate = null) {
         return $this
             ->withCartItems($pricing)
             ->withCartTotal($pricing, $shippingRate);

@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\tests\Helper as Helper;
 
-class CatalogPromotionTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
+class CatalogPromotionTest extends Helper\DoctrineTestCase
 {
     public function setUp()
     {

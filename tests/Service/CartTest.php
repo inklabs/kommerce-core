@@ -3,8 +3,9 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\tests\Helper as Helper;
 
-class CartTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
+class CartTest extends Helper\DoctrineTestCase
 {
     public function setUp()
     {

@@ -1,9 +1,12 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Entity\Shipping as Shipping;
 
-class Cart extends \inklabs\kommerce\Lib\EntityManager
+class Cart extends Lib\EntityManager
 {
     protected $sessionManager;
     protected $cartSessionKey = 'newcart';
@@ -12,11 +15,8 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
 
     private $pricing;
 
-    public function __construct(
-        \Doctrine\ORM\EntityManager $entityManager,
-        \inklabs\kommerce\Service\Pricing $pricing,
-        \inklabs\kommerce\Lib\SessionManager $sessionManager
-    ) {
+    public function __construct(EntityManager $entityManager, Pricing $pricing, Lib\SessionManager $sessionManager)
+    {
         $this->setEntityManager($entityManager);
         $this->pricing = $pricing;
         $this->sessionManager = $sessionManager;
@@ -150,7 +150,7 @@ class Cart extends \inklabs\kommerce\Lib\EntityManager
         return $this->cart->getTotal($this->pricing, $this->shippingRate);
     }
 
-    public function setShippingRate(\inklabs\kommerce\Entity\Shipping\Rate $shippingRate)
+    public function setShippingRate(Shipping\Rate $shippingRate)
     {
         $this->shippingRate = $shippingRate;
         $this->save();
