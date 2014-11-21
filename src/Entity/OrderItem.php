@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Service\Pricing;
+
 class OrderItem
 {
     use Accessor\Time;
@@ -10,7 +12,7 @@ class OrderItem
     protected $quantity;
     protected $price;
 
-    public function __construct(CartItem $cartItem, \inklabs\kommerce\Service\Pricing $pricing)
+    public function __construct(CartItem $cartItem, Pricing $pricing)
     {
         $this->product = $cartItem->getProduct();
         $this->quantity = $cartItem->getQuantity();

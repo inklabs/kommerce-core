@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Service\Pricing;
+
 class ProductQuantityDiscount extends Promotion
 {
     protected $customerGroup;
@@ -33,7 +35,7 @@ class ProductQuantityDiscount extends Promotion
         return '$' . number_format(($priceInCents / 100), 2);
     }
 
-    public function getPrice(\inklabs\kommerce\Service\Pricing $pricing)
+    public function getPrice(Pricing $pricing)
     {
         return $pricing->getPrice(
             $this->product,

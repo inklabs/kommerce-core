@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\tests\Helper as Helper;
 
-class KommerceTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
+class KommerceTest extends Helper\DoctrineTestCase
 {
     public function testWithArrayCacheDriver()
     {

@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Service\Pricing;
+
 class Cart
 {
     protected $items = [];
@@ -90,10 +92,7 @@ class Cart
         return $shippingWeight;
     }
 
-    public function getTotal(
-        \inklabs\kommerce\Service\Pricing $pricing,
-        \inklabs\kommerce\Entity\Shipping\Rate $shippingRate = null
-    ) {
+    public function getTotal(Pricing $pricing, Shipping\Rate $shippingRate = null) {
         $this->pricing = $pricing;
 
         $this->cartTotal = new CartTotal;

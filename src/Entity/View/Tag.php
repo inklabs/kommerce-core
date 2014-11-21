@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Service\Pricing;
 
 class Tag
 {
@@ -55,7 +56,7 @@ class Tag
         return $this;
     }
 
-    public function withProducts(\inklabs\kommerce\Service\Pricing $pricing)
+    public function withProducts(Pricing $pricing)
     {
         foreach ($this->tag->getProducts() as $product) {
             $this->products[] = Product::factory($product)
@@ -65,7 +66,7 @@ class Tag
         return $this;
     }
 
-    public function withAllData(\inklabs\kommerce\Service\Pricing $pricing)
+    public function withAllData(Pricing $pricing)
     {
         return $this
             ->withImages()

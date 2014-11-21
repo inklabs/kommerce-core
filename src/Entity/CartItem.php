@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Service\Pricing;
+
 class CartItem
 {
     use Accessor\Time;
@@ -47,7 +49,7 @@ class CartItem
         return $this->quantity;
     }
 
-    public function getPrice(\inklabs\kommerce\Service\Pricing $pricing)
+    public function getPrice(Pricing $pricing)
     {
         return $pricing->getPrice(
             $this->product,

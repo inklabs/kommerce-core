@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\Doctrine\Functions\Sqlite;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\tests\Helper as Helper;
 
-class RandTest extends \inklabs\kommerce\tests\Helper\DoctrineTestCase
+class RandTest extends Helper\DoctrineTestCase
 {
     private function getDummyProduct($num)
     {

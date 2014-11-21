@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Service\Pricing;
 
 class Order
 {
@@ -14,7 +15,7 @@ class Order
     protected $items;
     protected $payments;
 
-    public function __construct(Cart $cart, \inklabs\kommerce\Service\Pricing $pricing)
+    public function __construct(Cart $cart, Pricing $pricing)
     {
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
@@ -22,14 +23,14 @@ class Order
         $this->setItems($cart->getItems(), $pricing);
     }
 
-    private function setItems($cartItems, \inklabs\kommerce\Service\Pricing $pricing)
+    private function setItems($cartItems, Pricing $pricing)
     {
         foreach ($cartItems as $cartItem) {
             $this->addItem($cartItem, $pricing);
         }
     }
 
-    private function addItem(CartItem $cartItem, \inklabs\kommerce\Service\Pricing $pricing)
+    private function addItem(CartItem $cartItem, Pricing $pricing)
     {
         $this->items[] = new OrderItem($cartItem, $pricing);
 
