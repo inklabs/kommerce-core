@@ -45,7 +45,6 @@ class J
         $j->process($j->var);
 
         if ($return) {
-            $output = $j->output;
             $j->output = '';
             return $j->output;
         } else {

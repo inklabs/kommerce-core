@@ -3,17 +3,13 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Lib as Lib;
 use inklabs\kommerce\tests\Helper as Helper;
+use Doctrine as Doctrine;
 
 class KommerceTest extends Helper\DoctrineTestCase
 {
-    public function testWithArrayCacheDriver()
-    {
-        $kommerce = new Kommerce(new \Doctrine\Common\Cache\ArrayCache());
-    }
-
     public function testClearCache()
     {
-        $kommerce = new Kommerce(new \Doctrine\Common\Cache\ArrayCache());
+        $kommerce = new Kommerce(new Doctrine\Common\Cache\ArrayCache());
         $kommerce->setup([
             'driver'   => 'pdo_sqlite',
             'memory'   => true,
@@ -38,7 +34,7 @@ class KommerceTest extends Helper\DoctrineTestCase
 
     public function testSetupSqlLogger()
     {
-        $this->kommerce->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger);
+        $this->kommerce->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
     }
 
     public function testService()

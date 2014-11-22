@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\Helper;
 
 use inklabs\kommerce\Service\Kommerce;
+use Doctrine as Doctrine;
 
 abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +32,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->entityManager->clear();
 
-        $tool = new \Doctrine\ORM\Tools\SchemaTool($this->entityManager);
+        $tool = new Doctrine\ORM\Tools\SchemaTool($this->entityManager);
         $classes = $this->entityManager->getMetaDataFactory()->getAllMetaData();
         $tool->dropSchema($classes);
         $tool->createSchema($classes);

@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Service\Pricing;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class PricingTest extends \PHPUnit_Framework_TestCase

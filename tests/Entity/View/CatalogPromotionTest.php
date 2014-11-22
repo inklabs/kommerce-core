@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Service as Service;
 
 class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,8 +23,6 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
 
     public function testWithAllData()
     {
-        $pricing = new Service\Pricing();
-
         $viewCatalogPromotion = $this->viewCatalogPromotion
             ->withAllData()
             ->export();
