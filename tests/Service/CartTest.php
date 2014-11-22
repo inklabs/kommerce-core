@@ -97,6 +97,57 @@ class CartTest extends Helper\DoctrineTestCase
         $this->assertEquals(500, $this->cart->getTotal()->total);
     }
 
+    public function testGetTotalWithShipping()
+    {
+        $itemId = $this->cart->addItem($this->viewProduct, 1);
+
+        $uspsShippingRate = new Entity\Shipping\Rate;
+        $uspsShippingRate->code = '4';
+        $uspsShippingRate->name = 'Parcel Post';
+        $uspsShippingRate->cost = 1000;
+        $this->cart->setShippingRate($uspsShippingRate);
+
+        $this->assertEquals(1500, $this->cart->getTotal()->total);
+    }
+
+    public function testGetTotalWithTax()
+    {
+        $itemId = $this->cart->addItem($this->viewProduct, 1);
+
+        $taxRate = new Entity\TaxRate;
+        $taxRate->setState(null);
+        $taxRate->setZip5(92606);
+        $taxRate->setZip5From(null);
+        $taxRate->setZip5To(null);
+        $taxRate->setRate(8.0);
+        $taxRate->setApplyToShipping(true);
+        $this->cart->setTaxRate($taxRate);
+
+        $this->assertEquals(540, $this->cart->getTotal()->total);
+    }
+
+    public function testGetTotalWithShippingAndTax()
+    {
+        $itemId = $this->cart->addItem($this->viewProduct, 1);
+
+        $uspsShippingRate = new Entity\Shipping\Rate;
+        $uspsShippingRate->code = '4';
+        $uspsShippingRate->name = 'Parcel Post';
+        $uspsShippingRate->cost = 1000;
+        $this->cart->setShippingRate($uspsShippingRate);
+
+        $taxRate = new Entity\TaxRate;
+        $taxRate->setState(null);
+        $taxRate->setZip5(92606);
+        $taxRate->setZip5From(null);
+        $taxRate->setZip5To(null);
+        $taxRate->setRate(8.0);
+        $taxRate->setApplyToShipping(true);
+        $this->cart->setTaxRate($taxRate);
+
+        $this->assertEquals(1620, $this->cart->getTotal()->total);
+    }
+
     public function testUpdateQuantity()
     {
         $itemId = $this->cart->addItem($this->viewProduct, 1);
