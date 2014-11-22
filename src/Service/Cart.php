@@ -4,7 +4,6 @@ namespace inklabs\kommerce\Service;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
-use inklabs\kommerce\Entity\Shipping as Shipping;
 
 class Cart extends Lib\EntityManager
 {
@@ -12,6 +11,7 @@ class Cart extends Lib\EntityManager
     protected $cartSessionKey = 'newcart';
     protected $cart;
     protected $shippingRate;
+    protected $taxRate;
 
     private $pricing;
 
@@ -147,12 +147,18 @@ class Cart extends Lib\EntityManager
 
     public function getTotal()
     {
-        return $this->cart->getTotal($this->pricing, $this->shippingRate);
+        return $this->cart->getTotal($this->pricing, $this->shippingRate, $this->taxRate);
     }
 
-    public function setShippingRate(Shipping\Rate $shippingRate)
+    public function setShippingRate(Entity\Shipping\Rate $shippingRate)
     {
         $this->shippingRate = $shippingRate;
+        $this->save();
+    }
+
+    public function setTaxRate(Entity\TaxRate $taxRate)
+    {
+        $this->taxRate = $taxRate;
         $this->save();
     }
 
