@@ -42,75 +42,20 @@ Buy 2 SKUs get 1 of the SKUs 10% Off
  - Limit to 1 Product Receiving Discount – Specific Customer Segment
 </pre>
 
+## Unit Tests:
+
+<pre>
+    vendor/bin/phpunit
+</pre>
+
+### With Code Coverage:
+
+<pre>
+    vendor/bin/phpunit --coverage-text --coverage-html coverage_report
+</pre>
+
 ## Run Coding Standards Test:
 
 <pre>
-    vendor/bin/phpcs --standard=PSR2
-</pre>
-
-## Install aha for TextMate PHPUnit
-
-<pre>
-cd ~/bin/
-git clone https://github.com/theZiz/aha.git aha-project
-cd aha-project
-make
-ln -s ~/bin/aha-project ~/bin/aha
-</pre>
-
-Menu Action: Run single test
-Score Selector: source.php
-Key Equivalent: command-R
-<pre>
-    #!/usr/bin/env bash
-    echo '<pre>';
-    cd $TM_PROJECT_DIRECTORY;
-
-    # Check PHP Codesniffer
-    if [ -f vendor/bin/phpcs ]; then
-        vendor/bin/phpcs --standard=PSR2 $TM_FILEPATH
-    fi
-
-    # Strip colors
-    vendor/bin/phpunit $TM_FILEPATH | ~/bin/aha --no-header --black
-    echo '</pre>'
-</pre>
-
-Menu Action: Run tests
-Score Selector: source.php
-Key Equivalent: shift-command-r
-<pre>
-    #!/usr/bin/env bash
-    echo '<pre>';
-    cd $TM_PROJECT_DIRECTORY;
-
-    # Run unit tests
-    /usr/bin/php -c ~/.php.ini vendor/bin/phpunit | ~/bin/aha --no-header --black
-
-    SUCCESS=${PIPESTATUS[0]}
-
-    # Check PHP Codesniffer
-    if [ $SUCCESS -eq 0 ] && [ -f vendor/bin/phpcs ]; then
-        /usr/bin/php -c ~/.php.ini vendor/bin/phpcs --standard=PSR2 $TM_FILEPATH
-        SUCCESS=$?
-    fi
-
-    # Run coverage report
-    if [ $SUCCESS -eq 0 ]; then
-        echo '<hr/>';
-        /usr/bin/php -c ~/.php.ini vendor/bin/phpunit --coverage-text --coverage-html coverage_report | ~/bin/aha --no-header --black
-        echo '<a href="file://'$TM_PROJECT_DIRECTORY'/coverage_report/index.html">Report</a>';
-    fi
-
-    echo '</pre>'
-</pre>
-
-~/bin/.php.ini
-<pre>
-    [PHP]
-    date.timezone = 'UTC'
-    error_reporting = E_ALL
-
-    [xdebug]
-    zend_extension=/usr/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so
+    vendor/bin/phpcs --standard=PSR2 src/ tests/
 </pre>

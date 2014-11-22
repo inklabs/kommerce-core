@@ -39,7 +39,8 @@ class Cart
         return $this;
     }
 
-    public function withCartTotal(Pricing $pricing, Shipping\Rate $shippingRate = null) {
+    public function withCartTotal(Pricing $pricing, Shipping\Rate $shippingRate = null)
+    {
         $this->cartTotal = $this->cart->getTotal($pricing, $shippingRate);
 
         return $this;
@@ -56,7 +57,8 @@ class Cart
         return $this;
     }
 
-    public function withAllData(Pricing $pricing, Shipping\Rate $shippingRate = null) {
+    public function withAllData(Pricing $pricing, Shipping\Rate $shippingRate = null)
+    {
         return $this
             ->withCartItems($pricing)
             ->withCartTotal($pricing, $shippingRate);

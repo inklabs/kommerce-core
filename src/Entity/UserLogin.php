@@ -9,7 +9,7 @@ class UserLogin
     protected $username;
     protected $userId;
     protected $ip4;
-    protected $result; // success, fail, failock
+    protected $result; // success, fail, fail_lock
 
     public function __construct()
     {

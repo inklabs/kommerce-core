@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
+use Doctrine as Doctrine;
 
 class Pricing
 {
@@ -33,7 +34,7 @@ class Pricing
         }
     }
 
-    public function loadCatalogPromotions(\Doctrine\ORM\EntityManager $entityManager)
+    public function loadCatalogPromotions(Doctrine\ORM\EntityManager $entityManager)
     {
         $catalogPromotionService = new CatalogPromotion($entityManager);
         $this->setCatalogPromotions($catalogPromotionService->findAll());
@@ -44,7 +45,7 @@ class Pricing
         $this->catalogPromotions[] = $catalogPromotion;
     }
 
-    public function setProductQuantityDiscounts(\Doctrine\Common\Collections\Collection $productQuantityDiscounts)
+    public function setProductQuantityDiscounts(Doctrine\Common\Collections\Collection $productQuantityDiscounts)
     {
         foreach ($productQuantityDiscounts as $productQuantityDiscount) {
             $this->addProductQuantityDiscount($productQuantityDiscount);

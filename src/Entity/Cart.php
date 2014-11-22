@@ -92,7 +92,8 @@ class Cart
         return $shippingWeight;
     }
 
-    public function getTotal(Pricing $pricing, Shipping\Rate $shippingRate = null) {
+    public function getTotal(Pricing $pricing, Shipping\Rate $shippingRate = null)
+    {
         $this->pricing = $pricing;
 
         $this->cartTotal = new CartTotal;
