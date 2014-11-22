@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Tests" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" singleton="true">
+    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/tests" scope="XML" use_alternative_configuration_file="true" />
+    <RunnerSettings RunnerId="PhpRunner" />
+    <RunnerSettings RunnerId="PhpUnitCoverageRunner" />
+    <ConfigurationWrapper RunnerId="PhpRunner" />
+    <ConfigurationWrapper RunnerId="PhpUnitCoverageRunner" />
+    <method />
+  </configuration>
+</component>

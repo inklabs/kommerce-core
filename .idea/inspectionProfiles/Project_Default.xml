@@ -1,0 +1,10 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0" is_locked="false">
+    <option name="myName" value="Project Default" />
+    <option name="myLocal" value="false" />
+    <inspection_tool class="PhpCSValidationInspection" enabled="true" level="ERROR" enabled_by_default="true">
+      <option name="CODING_STANDARD" value="PSR2" />
+      <option name="WARNING_HIGHLIGHT_LEVEL_NAME" value="ERROR" />
+    </inspection_tool>
+  </profile>
+</component>

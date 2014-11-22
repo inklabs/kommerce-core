@@ -9,8 +9,8 @@ class Product extends Lib\EntityManager
 {
     private $pricing;
 
-    public function __construct(EntityManager $entityManager, Pricing $pricing
-    ) {
+    public function __construct(EntityManager $entityManager, Pricing $pricing)
+    {
         $this->setEntityManager($entityManager);
         $this->pricing = $pricing;
     }

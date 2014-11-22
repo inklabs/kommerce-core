@@ -145,7 +145,7 @@ class J
             $toggle = 'onclick="jdebugToggleRow(this)"';
 
             $this->output .= '<tr><td ' . $toggle . '>' . $k . '</td><td>' . $type . '</td><td>';
-            $this->output .= $this->process($v);
+            $this->process($v);
             $this->output .= '</td></tr>';
         }
         $this->output .= '</tbody></table>';
@@ -500,17 +500,17 @@ class J
                 function jdebugToggleRow(source) {
                     var target = source.parentNode.lastChild;
                     toggleState(target);
-                };
+                }
 
                 function jdebugToggleTbody(source) {
                     var target = source.parentNode.parentNode.parentNode.tBodies[0];
                     toggleState(target);
-                };
+                }
 
                 function jdebugToggleNext(source) {
                     var target = source.nextSibling;
                     toggleState(target);
-                };
+                }
 
                 function toggleState(target)
                 {
@@ -519,7 +519,7 @@ class J
                     } else {
                         target.style.display = "none";
                     }
-                };
+                }
             </script>
             <style>
                 .jdebug {

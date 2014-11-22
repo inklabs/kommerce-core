@@ -1,8 +1,9 @@
 <?php
 namespace inklabs\kommerce\Doctrine\Functions\Sqlite;
 
-use \Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use \Doctrine\ORM\Query\Lexer;
+use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\ORM\Query\Lexer;
+use Doctrine as Doctrine;
 
 /**
  * "RAND" "(" SimpleArithmeticExpression ")"
@@ -11,7 +12,7 @@ class Rand extends FunctionNode
 {
     private $arithmeticExpression = null;
 
-    public function parse(\Doctrine\ORM\Query\Parser $parser)
+    public function parse(Doctrine\ORM\Query\Parser $parser)
     {
         $lexer = $parser->getLexer();
 
@@ -25,7 +26,7 @@ class Rand extends FunctionNode
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
-    public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
+    public function getSql(Doctrine\ORM\Query\SqlWalker $sqlWalker)
     {
         if ($this->arithmeticExpression !== null) {
             return $this->arithmeticExpression->dispatch($sqlWalker) . ', RANDOM()';

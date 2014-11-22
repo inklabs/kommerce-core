@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use Doctrine\DBAL\Logging\SQLLogger;
+use Doctrine as Doctrine;
 
 class Kommerce
 {
@@ -12,13 +12,13 @@ class Kommerce
     protected $cacheDriver;
     protected $config;
 
-    public function __construct(\Doctrine\Common\Cache\CacheProvider $cacheDriver = null)
+    public function __construct(Doctrine\Common\Cache\CacheProvider $cacheDriver = null)
     {
         $paths = array(__DIR__ . '/../Entity');
         $isDevMode = true;
 
-        $this->config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
-        $xmlDriver = new \Doctrine\ORM\Mapping\Driver\XmlDriver(realpath(__DIR__ . '/../Doctrine/Mapping'));
+        $this->config = Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+        $xmlDriver = new Doctrine\ORM\Mapping\Driver\XmlDriver(realpath(__DIR__ . '/../Doctrine/Mapping'));
         $this->config->setMetadataDriverImpl($xmlDriver);
 
         if ($cacheDriver !== null) {
@@ -65,7 +65,7 @@ class Kommerce
         return $this->entityManager;
     }
 
-    public function setSqlLogger(SQLLogger $sqlLogger)
+    public function setSqlLogger(Doctrine\DBAL\Logging\SQLLogger $sqlLogger)
     {
         $this->entityManagerConfiguration->setSQLLogger($sqlLogger);
     }
@@ -82,7 +82,7 @@ class Kommerce
 
     public function setup(array $dbParams)
     {
-        $this->entityManager = \Doctrine\ORM\EntityManager::create($dbParams, $this->config);
+        $this->entityManager = Doctrine\ORM\EntityManager::create($dbParams, $this->config);
         $this->entityManagerConfiguration = $this->entityManager->getConnection()->getConfiguration();
     }
 
