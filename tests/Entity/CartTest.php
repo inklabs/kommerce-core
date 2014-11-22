@@ -280,7 +280,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $taxRate->setApplyToShipping(false);
 
         $cart = new Cart;
-        $cart->setTaxRate($taxRate);
         $cart->addItem($product, 2);
 
         $expectedCartTotal = new CartTotal;
@@ -294,7 +293,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->savings = 0;
         $expectedCartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing));
+        $shippingRate = null;
+        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing, $shippingRate, $taxRate));
     }
 
     public function testGetTotalWithZip5TaxAppliedToShipping()
@@ -316,7 +316,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $uspsShippingRate->cost = 1000;
 
         $cart = new Cart;
-        $cart->setTaxRate($taxRate);
         $cart->addItem($product, 2);
 
         $expectedCartTotal = new CartTotal;
@@ -330,7 +329,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->savings = 0;
         $expectedCartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing, $uspsShippingRate));
+        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing, $uspsShippingRate, $taxRate));
     }
 
     public function testGetTotalWithZip5TaxNotTaxable()
@@ -347,7 +346,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $taxRate->setApplyToShipping(false);
 
         $cart = new Cart;
-        $cart->setTaxRate($taxRate);
         $cart->addItem($product, 2);
 
         $expectedCartTotal = new CartTotal;
@@ -359,7 +357,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->total = 1000;
         $expectedCartTotal->savings = 0;
 
-        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing));
+        $shippingRate = null;
+        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing, $shippingRate, $taxRate));
     }
 
     public function testGetTotalWithZip5TaxAndCouponReduceSubtotal()
@@ -386,7 +385,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $cart = new Cart;
-        $cart->setTaxRate($taxRate);
         $cart->addCoupon($coupon);
         $cart->addItem($product, 1);
 
@@ -402,7 +400,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->coupons = [$coupon];
         $expectedCartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing));
+        $shippingRate = null;
+        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing, $shippingRate, $taxRate));
     }
 
     public function testGetTotalWithZip5TaxAndCouponNoReduceSubtotal()
@@ -429,7 +428,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $cart = new Cart;
-        $cart->setTaxRate($taxRate);
         $cart->addCoupon($coupon);
         $cart->addItem($product, 1);
 
@@ -445,7 +443,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->coupons = [$coupon];
         $expectedCartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing));
+        $shippingRate = null;
+        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing, $shippingRate, $taxRate));
     }
 
     public function testGetTotalCartPriceRule()
@@ -515,7 +514,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $taxRate->setApplyToShipping(false);
 
         $cart = new Cart;
-        $cart->setTaxRate($taxRate);
         $cart->addCartPriceRule($cartPriceRule);
         $cart->addItem($productShirt, 1);
         $cart->addItem($productPoster, 1);
@@ -532,7 +530,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->cartPriceRules = [$cartPriceRule];
         $expectedCartTotal->taxRate = $taxRate;
 
-        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing));
+        $shippingRate = null;
+        $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing, $shippingRate, $taxRate));
     }
 
     public function testGetTotalCartPriceRuleInvalidCartItems()

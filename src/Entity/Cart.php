@@ -8,7 +8,6 @@ class Cart
     protected $items = [];
     protected $coupons = [];
     protected $cartPriceRules = [];
-    protected $taxRate;
 
     public function addItem(Product $product, $quantity)
     {
@@ -60,11 +59,6 @@ class Cart
         $this->cartPriceRules[] = $cartPriceRule;
     }
 
-    public function setTaxRate(TaxRate $taxRate)
-    {
-        $this->taxRate = $taxRate;
-    }
-
     public function totalItems()
     {
         return count($this->items);
@@ -92,18 +86,17 @@ class Cart
         return $shippingWeight;
     }
 
-    public function getTotal(Pricing $pricing, Shipping\Rate $shippingRate = null)
+    public function getTotal(Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
     {
         $this->pricing = $pricing;
 
         $this->cartTotal = new CartTotal;
-        $this->shippingRate = $shippingRate;
 
         $this->getItemPrices();
         $this->calculateCartPriceRules();
         $this->getCouponDiscounts();
-        $this->getShippingPrice();
-        $this->getTaxes();
+        $this->getShippingPrice($shippingRate);
+        $this->getTaxes($taxRate);
 
         $this->calculateTotal();
         $this->calculateSavings();
@@ -168,23 +161,23 @@ class Cart
         $this->cartTotal->taxSubtotal = max(0, $this->cartTotal->taxSubtotal);
     }
 
-    private function getShippingPrice()
+    private function getShippingPrice(Shipping\Rate $shippingRate = null)
     {
-        if ($this->shippingRate !== null) {
-            $this->cartTotal->shipping = $this->shippingRate->cost;
+        if ($shippingRate !== null) {
+            $this->cartTotal->shipping = $shippingRate->cost;
         }
     }
 
-    private function getTaxes()
+    private function getTaxes(TaxRate $taxRate = null)
     {
-        if ($this->taxRate !== null) {
-            $this->cartTotal->tax = $this->taxRate->getTax(
+        if ($taxRate !== null) {
+            $this->cartTotal->tax = $taxRate->getTax(
                 $this->cartTotal->taxSubtotal,
                 $this->cartTotal->shipping
             );
 
             if ($this->cartTotal->tax > 0) {
-                $this->cartTotal->taxRate = $this->taxRate;
+                $this->cartTotal->taxRate = $taxRate;
             }
         }
     }
