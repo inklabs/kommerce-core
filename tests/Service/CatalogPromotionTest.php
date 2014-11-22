@@ -6,23 +6,26 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class CatalogPromotionTest extends Helper\DoctrineTestCase
 {
+    private $catalogPromotionService;
+    private $catalogPromotions;
+
     public function setUp()
     {
         $this->catalogPromotions = [
-            $this->getDummyCatalogPromotion(1),
-            $this->getDummyCatalogPromotion(2),
-            $this->getDummyCatalogPromotion(3),
+            $this->getCatalogPromotion(1),
+            $this->getCatalogPromotion(2),
+            $this->getCatalogPromotion(3),
         ];
 
-        $this->entityManager->persist($this->catalogPromotions[0]);
-        $this->entityManager->persist($this->catalogPromotions[1]);
-        $this->entityManager->persist($this->catalogPromotions[2]);
+        foreach ($this->catalogPromotions as $catalogPromotion) {
+            $this->entityManager->persist($catalogPromotion);
+        }
         $this->entityManager->flush();
 
         $this->catalogPromotionService = new CatalogPromotion($this->entityManager);
     }
 
-    private function getDummyCatalogPromotion($num)
+    private function getCatalogPromotion($num)
     {
         $catalogPromotion = new Entity\CatalogPromotion;
         $catalogPromotion->setCode('test' . $num);
