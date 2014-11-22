@@ -47,8 +47,6 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
     public function testWithVirtualProducts()
     {
-        $current_date = new \DateTime('now', new \DateTimeZone('UTC'));
-
         $virtualProductSmall = new VirtualProduct;
         $virtualProductSmall->setSku('SM');
         $virtualProductSmall->setName('Small');

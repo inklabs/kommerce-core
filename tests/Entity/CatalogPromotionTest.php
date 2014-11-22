@@ -42,8 +42,6 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $tag2->setId(2);
         $tag2->setName('Test Tag 2');
 
-        $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
-
         $product = new Product;
         $product->setSku('TST101');
         $product->setName('Test Product');

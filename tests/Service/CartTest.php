@@ -7,6 +7,11 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class CartTest extends Helper\DoctrineTestCase
 {
+    private $pricing;
+    private $sessionManager;
+    private $cart;
+    private $product;
+
     public function setUp()
     {
         $this->pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
@@ -72,8 +77,8 @@ class CartTest extends Helper\DoctrineTestCase
 
     public function testGetItems()
     {
-        $itemId = $this->cart->addItem($this->viewProduct, 1);
-        $itemId = $this->cart->addItem($this->viewProduct, 1);
+        $itemId1 = $this->cart->addItem($this->viewProduct, 1);
+        $itemId2 = $this->cart->addItem($this->viewProduct, 1);
 
         $this->assertEquals(2, count($this->cart->getItems()));
         $this->assertEquals('TST101', $this->cart->getItems()[0]->product->sku);
