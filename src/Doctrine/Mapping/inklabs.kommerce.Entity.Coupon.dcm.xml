@@ -10,10 +10,11 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="code"             column="`code`"             type="string" />
-        <field name="flagFreeShipping" column="`free_shipping`"    type="boolean" />
-        <field name="minOrderValue"    column="`min_order_value`"  type="integer" nullable="true" />
-        <field name="maxOrderValue"    column="`max_order_value`"  type="integer" nullable="true" />
+        <field name="code"                       column="`code`"            type="string" />
+        <field name="flagFreeShipping"           column="`free_shipping`"   type="boolean" />
+        <field name="minOrderValue"              column="`min_order_value`" type="integer" nullable="true" />
+        <field name="maxOrderValue"              column="`max_order_value`" type="integer" nullable="true" />
+        <field name="canCombineWithOtherCoupons" column="`can_combine`"     type="boolean" />
 
         <field name="name"             column="`name`"             type="string" />
         <field name="discountType"     column="`discount_type`"    type="string" />
