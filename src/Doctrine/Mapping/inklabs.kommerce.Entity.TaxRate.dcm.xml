@@ -14,7 +14,7 @@
         <field name="zip5"            column="`zip5`"              type="integer" nullable="true" />
         <field name="zip5From"        column="`zip5_from`"         type="integer" nullable="true" />
         <field name="zip5To"          column="`zip5_to`"           type="integer" nullable="true" />
-        <field name="rate"            column="`rate`"              type="integer" />
+        <field name="rate"            column="`rate`"              type="decimal" precision="4" scale="2" />
         <field name="applyToShipping" column="`apply_to_shipping`" type="boolean" />
         <field name="created"         column="`created`"           type="integer" />
         <field name="updated"         column="`updated`"           type="integer" nullable="true" />

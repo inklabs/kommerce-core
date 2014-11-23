@@ -165,7 +165,7 @@ class Cart extends Lib\EntityManager
     public function getView()
     {
         return Entity\View\Cart::factory($this->cart)
-            ->withAllData($this->pricing, $this->shippingRate)
+            ->withAllData($this->pricing, $this->shippingRate, $this->taxRate)
             ->export();
     }
 }

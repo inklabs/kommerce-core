@@ -65,7 +65,7 @@ class TaxRate
 
     public function setRate($rate)
     {
-        $this->rate = $rate;
+        $this->rate = (double) $rate;
     }
 
     public function getRate()
@@ -85,10 +85,11 @@ class TaxRate
 
     public function getTax($taxSubtotal, $shipping)
     {
+        $newTaxSubtotal = $taxSubtotal;
         if ($this->applyToShipping) {
-            $taxSubtotal += $shipping;
+            $newTaxSubtotal += $shipping;
         }
 
-        return (int) round($taxSubtotal * ($this->rate / 100));
+        return (int) round($newTaxSubtotal * ($this->rate / 100));
     }
 }

@@ -68,6 +68,6 @@ class TaxRate extends Lib\EntityManager
             return null;
         }
 
-        return Entity\View\TaxRate::factory($taxRate);
+        return $taxRate;
     }
 }
