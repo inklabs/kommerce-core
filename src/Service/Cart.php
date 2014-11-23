@@ -69,6 +69,11 @@ class Cart extends Lib\EntityManager
         return $itemId;
     }
 
+    public function addCoupon(Entity\Coupon $coupon)
+    {
+        $this->cart->addCoupon($coupon);
+    }
+
     public function updateQuantity($cartItemId, $quantity)
     {
         $item = $this->cart->getItem($cartItemId);
