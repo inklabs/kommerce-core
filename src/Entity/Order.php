@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\Lib\Payment\Payment;
 
 class Order
 {
