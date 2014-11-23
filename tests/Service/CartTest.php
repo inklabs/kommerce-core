@@ -12,6 +12,8 @@ class CartTest extends Helper\DoctrineTestCase
     private $cart;
     private $product;
 
+
+
     public function setUp()
     {
         $this->pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
@@ -232,5 +234,21 @@ class CartTest extends Helper\DoctrineTestCase
         $this->assertEquals(32, $cartView->items[0]->shippingWeight);
         $this->assertEquals(32, $cartView->items[1]->shippingWeight);
         $this->assertEquals(64, $cartView->shippingWeight);
+    }
+
+    public function testAddCoupon()
+    {
+        $itemId1 = $this->cart->addItem($this->viewProduct, 2);
+
+        $coupon = new Entity\Coupon;
+        $coupon->setName('20% Off');
+        $coupon->setDiscountType('percent');
+        $coupon->setValue(20);
+        $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+
+        $this->cart->addCoupon($coupon);
+
+        $this->assertEquals(800, $this->cart->getTotal()->total);
     }
 }
