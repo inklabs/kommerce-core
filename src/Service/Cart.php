@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
+use Exception;
 
 class Cart extends Lib\EntityManager
 {
@@ -63,14 +64,26 @@ class Cart extends Lib\EntityManager
             ->getRepository('inklabs\kommerce\Entity\Product')
             ->find($viewProduct->id);
 
+        if ($product === null) {
+            throw new Exception('Product not found');
+        }
+
         $itemId = $this->cart->addItem($product, $quantity);
         $this->save();
 
         return $itemId;
     }
 
-    public function addCoupon(Entity\Coupon $coupon)
+    public function addCoupon($couponCode)
     {
+        $coupon = $this->entityManager
+            ->getRepository('inklabs\kommerce\Entity\Coupon')
+            ->findOneByCode($couponCode);
+
+        if ($coupon === null) {
+            throw new Exception('Coupon not found');
+        }
+
         $this->cart->addCoupon($coupon);
     }
 
@@ -78,7 +91,7 @@ class Cart extends Lib\EntityManager
     {
         $item = $this->cart->getItem($cartItemId);
         if ($item === null) {
-            throw new \Exception('Item not found');
+            throw new Exception('Item not found');
         }
 
         $item->setQuantity($quantity);
@@ -89,7 +102,7 @@ class Cart extends Lib\EntityManager
     {
         $item = $this->getItem($cartItemId);
         if ($item === null) {
-            throw new \Exception('Item not found');
+            throw new Exception('Item not found');
         }
 
         $this->cart->deleteItem($cartItemId);

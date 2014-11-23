@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Service\Pricing;
+use Exception;
 
 class Cart
 {
@@ -51,7 +52,26 @@ class Cart
 
     public function addCoupon(Coupon $coupon)
     {
+        if (! $this->canAddCoupon($coupon)) {
+            throw new Exception('Unable to add coupon');
+        }
+
         $this->coupons[] = $coupon;
+    }
+
+    private function canAddCoupon(Coupon $addedCoupon)
+    {
+        if ($addedCoupon->getCanCombineWithOtherCoupons()) {
+            return true;
+        }
+
+        foreach ($this->coupons as $coupon) {
+            if (! $coupon->getCanCombineWithOtherCoupons()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function addCartPriceRule(CartPriceRule $cartPriceRule)
