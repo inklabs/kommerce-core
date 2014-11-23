@@ -1,10 +1,8 @@
 <?php
-namespace inklabs\kommerce\Entity;
+namespace inklabs\kommerce\Lib\Payment;
 
-class CashPayment extends Payment
+class Cash extends Payment
 {
-    protected $amount;
-
     public function __construct($amount)
     {
         $this->amount = $amount;
