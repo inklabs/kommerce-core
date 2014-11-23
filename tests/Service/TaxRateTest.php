@@ -54,29 +54,29 @@ class TaxRateTest extends Helper\DoctrineTestCase
     public function testFindByZip5AndStateWithZip5()
     {
         $taxRate = $this->taxRateService->findByZip5AndState('92606');
-        $this->assertEquals(2, $taxRate->id);
-        $this->assertEquals(8, $taxRate->rate);
+        $this->assertEquals(2, $taxRate->getId());
+        $this->assertEquals(8, $taxRate->getRate());
     }
 
     public function testFindByZip5AndStateWithZip5Ranged()
     {
         $taxRate = $this->taxRateService->findByZip5AndState('92603');
-        $this->assertEquals(3, $taxRate->id);
-        $this->assertEquals(8, $taxRate->rate);
+        $this->assertEquals(3, $taxRate->getId());
+        $this->assertEquals(8, $taxRate->getRate());
     }
 
     public function testFindByZip5AndStateWithState()
     {
         $taxRate = $this->taxRateService->findByZip5AndState(null, 'CA');
-        $this->assertEquals(1, $taxRate->id);
-        $this->assertEquals(7.5, $taxRate->rate);
+        $this->assertEquals(1, $taxRate->getId());
+        $this->assertEquals(7.5, $taxRate->getRate());
     }
 
     public function testFindByZip5AndStateWithZip5AndState()
     {
         $taxRate = $this->taxRateService->findByZip5AndState('92606', 'CA');
-        $this->assertEquals(2, $taxRate->id);
-        $this->assertEquals(8, $taxRate->rate);
+        $this->assertEquals(2, $taxRate->getId());
+        $this->assertEquals(8, $taxRate->getRate());
     }
 
     public function testFindByZip5AndStateMissing()
