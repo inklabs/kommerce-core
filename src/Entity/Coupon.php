@@ -7,9 +7,13 @@ class Coupon extends Promotion
     protected $flagFreeShipping;
     protected $minOrderValue;
     protected $maxOrderValue;
+    protected $canCombineWithOtherCoupons;
+
+    protected $tag;
 
     public function __construct()
     {
+        $this->setCreated();
         $this->flagFreeShipping = false;
     }
 
@@ -37,7 +41,7 @@ class Coupon extends Promotion
     {
         $this->minOrderValue = $minOrderValue;
     }
-    
+
     public function getMinOrderValue()
     {
         return $this->minOrderValue;
@@ -51,6 +55,16 @@ class Coupon extends Promotion
     public function getMaxOrderValue()
     {
         return $this->maxOrderValue;
+    }
+
+    public function getCanCombineWithOtherCoupons()
+    {
+        return $this->canCombineWithOtherCoupons;
+    }
+
+    public function setCanCombineWithOtherCoupons($canCombineWithOtherCoupons)
+    {
+        $this->canCombineWithOtherCoupons = (bool) $canCombineWithOtherCoupons;
     }
 
     public function isValid(\DateTime $date, $subtotal)

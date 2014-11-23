@@ -241,13 +241,17 @@ class CartTest extends Helper\DoctrineTestCase
         $itemId1 = $this->cart->addItem($this->viewProduct, 2);
 
         $coupon = new Entity\Coupon;
+        $coupon->setCode('20PCT');
         $coupon->setName('20% Off');
         $coupon->setDiscountType('percent');
         $coupon->setValue(20);
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $this->cart->addCoupon($coupon);
+        $this->entityManager->persist($coupon);
+        $this->entityManager->flush();
+
+        $this->cart->addCoupon($coupon->getCode());
 
         $this->assertEquals(800, $this->cart->getTotal()->total);
     }

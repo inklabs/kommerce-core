@@ -135,6 +135,89 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedCartTotal, $cart->getTotal($this->pricing));
     }
 
+    public function testAddCoupon()
+    {
+        $coupon = new Coupon;
+        $coupon->setName('20% Off');
+        $coupon->setDiscountType('percent');
+        $coupon->setValue(20);
+        $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon);
+        $this->assertEquals(1, count($cart->getCoupons()));
+    }
+
+    public function testAddCouponWithStackableCoupon()
+    {
+        $coupon1 = $this->getPercentCoupon(20);
+        $coupon1->setCanCombineWithOtherCoupons(true);
+
+        $coupon2 = $this->getPercentCoupon(20);
+        $coupon2->setCanCombineWithOtherCoupons(true);
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon1);
+        $cart->addCoupon($coupon2);
+        $this->assertEquals(2, count($cart->getCoupons()));
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testAddCouponWithNonStackableCoupon()
+    {
+        $coupon1 = $this->getPercentCoupon(20);
+        $coupon1->setCanCombineWithOtherCoupons(false);
+
+        $coupon2 = $this->getPercentCoupon(20);
+        $coupon2->setCanCombineWithOtherCoupons(false);
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon1);
+        $cart->addCoupon($coupon2);
+    }
+
+    public function testAddCouponWithSecondStackableCoupon()
+    {
+        $coupon1 = $this->getPercentCoupon(20);
+        $coupon1->setCanCombineWithOtherCoupons(false);
+
+        $coupon2 = $this->getPercentCoupon(20);
+        $coupon2->setCanCombineWithOtherCoupons(true);
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon1);
+        $cart->addCoupon($coupon2);
+        $this->assertEquals(2, count($cart->getCoupons()));
+    }
+
+    public function testAddCouponWithFirstStackableCoupon()
+    {
+        $coupon1 = $this->getPercentCoupon(20);
+        $coupon1->setCanCombineWithOtherCoupons(true);
+
+        $coupon2 = $this->getPercentCoupon(20);
+        $coupon2->setCanCombineWithOtherCoupons(false);
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon1);
+        $cart->addCoupon($coupon2);
+        $this->assertEquals(2, count($cart->getCoupons()));
+    }
+
+    private function getPercentCoupon($value)
+    {
+        $coupon = new Coupon;
+        $coupon->setName($value . '% Off');
+        $coupon->setDiscountType('percent');
+        $coupon->setValue($value);
+        $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+        return $coupon;
+    }
+
     public function testGetTotalCoupon()
     {
         $product = new Product;

@@ -12,8 +12,6 @@ class CatalogPromotion extends Promotion
     protected $maxRedemptions;
     protected $start;
     protected $end;
-    protected $created;
-    protected $updated;
     protected $tag;
 
     protected $code;
