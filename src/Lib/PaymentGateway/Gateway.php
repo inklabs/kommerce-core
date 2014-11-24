@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Lib\Payment\Gateway;
+namespace inklabs\kommerce\Lib\PaymentGateway;
 
 interface Gateway
 {

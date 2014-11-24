@@ -1,7 +1,8 @@
 <?php
-namespace inklabs\kommerce\Lib\Payment;
+namespace inklabs\kommerce\Entity;
 
-class CreditCard {
+class CreditCard
+{
     protected $number;
     protected $expirationMonth;
     protected $expirationYear;
