@@ -20,6 +20,7 @@
         <field name="updated"        column="`updated`"          type="integer" nullable="true" />
 
         <many-to-many field="products" target-entity="Product" mapped-by="tags" />
+        <one-to-many field="images" target-entity="Image" mapped-by="tag" />
 
         <entity-listeners>
             <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">

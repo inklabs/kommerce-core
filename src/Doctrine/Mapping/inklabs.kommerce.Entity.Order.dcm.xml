@@ -45,6 +45,8 @@
         <field name="billingPhone"     column="`billing_phone`"      type="string" nullable="true" />
         <field name="billingEmail"     column="`billing_email`"      type="string" />
 
+        <one-to-many field="payments" target-entity="inklabs\kommerce\Entity\Payment\Payment" mapped-by="order" />
+
         <field name="created" column="`created`" type="integer" />
         <field name="updated" column="`updated`" type="integer" nullable="true" />
 

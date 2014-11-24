@@ -337,7 +337,7 @@ class CartTest extends Helper\DoctrineTestCase
 
         $order = $this->cart->createOrder(new Payment\Cash(2000), $shippingAddress);
 
-        $payment = $order->getCashPayments()[0];
+        $payment = $order->getPayments()[0];
         $this->assertEquals(1, $payment->getId());
         $this->assertEquals(2000, $payment->getAmount());
     }
@@ -355,7 +355,7 @@ class CartTest extends Helper\DoctrineTestCase
         $shippingAddress = $this->getShippingAddress();
         $order = $this->cart->createOrder($creditPayment, $shippingAddress);
 
-        $payments = $order->getCreditPayments();
+        $payments = $order->getPayments();
         $payment = $payments[0];
         $charge = $payment->getCharge();
 
