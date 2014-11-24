@@ -49,25 +49,17 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1000, $orderItems[0]->getPrice()->quantityPrice);
     }
 
-    /**
-     * @expectedException Exception
-     */
-    public function testCreateOrderWithUnsupportedPayment()
-    {
-        $this->order->addPayment(new Helper\PaymentTypeStub(2000));
-    }
-
     public function testCreateOrderWithCashPayment()
     {
         $this->order->addPayment(new Payment\Cash(2000));
-        $this->assertEquals(1, count($this->order->getCashPayments()));
+        $this->assertEquals(1, count($this->order->getPayments()));
     }
 
     public function testCreateOrderWithMultipleCashPayment()
     {
         $this->order->addPayment(new Payment\Cash(1000));
         $this->order->addPayment(new Payment\Cash(1000));
-        $this->assertEquals(2, count($this->order->getCashPayments()));
+        $this->assertEquals(2, count($this->order->getPayments()));
     }
 
     public function testCreateOrderWithCreditCard()
@@ -82,7 +74,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
         $this->order->addPayment($creditPayment);
 
-        $payments = $this->order->getCreditPayments();
+        $payments = $this->order->getPayments();
         $payment = $payments[0];
         $charge = $payment->getCharge();
 

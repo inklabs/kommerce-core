@@ -55,8 +55,7 @@ class Order
     protected $billingEmail;
 
     protected $items;
-    protected $cash_payments;
-    protected $credit_payments;
+    protected $payments;
 
     public function __construct(
         Cart $cart,
@@ -158,22 +157,11 @@ class Order
 
     public function addPayment(Payment\Payment $payment)
     {
-        if ($payment instanceof Payment\Cash) {
-            $this->cash_payments[] = $payment;
-        } elseif ($payment instanceof Payment\Credit) {
-            $this->credit_payments[] = $payment;
-        } else {
-            throw new \Exception('Unsupported Payment Type');
-        }
+        $this->payments[] = $payment;
     }
 
-    public function getCashPayments()
+    public function getPayments()
     {
-        return $this->cash_payments;
-    }
-
-    public function getCreditPayments()
-    {
-        return $this->credit_payments;
+        return $this->payments;
     }
 }

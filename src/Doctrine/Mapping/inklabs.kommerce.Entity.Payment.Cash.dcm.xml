@@ -6,23 +6,6 @@
 
     <entity name="inklabs\kommerce\Entity\Payment\Cash" table="`payment_cash`" repository-class="Doctrine\ORM\EntityRepository">
 
-        <id name="id" type="integer" column="`id`">
-            <generator strategy="AUTO" />
-        </id>
-
-        <field name="amount"  column="`amount`"  type="integer" />
-        <field name="created" column="`created`" type="integer" />
-        <field name="updated" column="`updated`" type="integer" nullable="true" />
-
-        <many-to-one field="order" target-entity="inklabs\kommerce\Entity\Order" inversed-by="cash_payments">
-            <join-column name="`order_id`" referenced-column-name="`id`" />
-        </many-to-one>
-
-        <entity-listeners>
-            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
-                <lifecycle-callback type="preUpdate" method="preUpdate"/>
-            </entity-listener>
-        </entity-listeners>
 
     </entity>
 
