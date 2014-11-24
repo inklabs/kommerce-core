@@ -59,3 +59,9 @@ Buy 2 SKUs get 1 of the SKUs 10% Off
 <pre>
     vendor/bin/phpcs --standard=PSR2 src/ tests/
 </pre>
+
+## Count Lines of Code:
+
+<pre>
+    vendor/bin/phploc src/ tests/
+</pre>
