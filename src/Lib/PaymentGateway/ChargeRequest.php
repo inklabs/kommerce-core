@@ -1,7 +1,7 @@
 <?php
-namespace inklabs\kommerce\Lib\Payment\Gateway;
+namespace inklabs\kommerce\Lib\PaymentGateway;
 
-use inklabs\kommerce\Lib\Payment\CreditCard;
+use inklabs\kommerce\Entity\CreditCard;
 
 class ChargeRequest
 {

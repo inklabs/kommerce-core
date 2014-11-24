@@ -2,8 +2,8 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Service\Pricing;
-use inklabs\kommerce\Lib\Payment as Payment;
-use inklabs\kommerce\Helper as Helper;
+use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Lib\PaymentGateway;
 
 class OrderTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,32 +49,40 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1000, $orderItems[0]->getPrice()->quantityPrice);
     }
 
+    /**
+     * @expectedException Exception
+     */
+    public function testCreateOrderWithUnsupportedPayment()
+    {
+        $this->order->addPayment(new Helper\PaymentTypeStub(2000));
+    }
+
     public function testCreateOrderWithCashPayment()
     {
         $this->order->addPayment(new Payment\Cash(2000));
-        $this->assertEquals(1, count($this->order->getPayments()));
+        $this->assertEquals(1, count($this->order->getCashPayments()));
     }
 
     public function testCreateOrderWithMultipleCashPayment()
     {
         $this->order->addPayment(new Payment\Cash(1000));
         $this->order->addPayment(new Payment\Cash(1000));
-        $this->assertEquals(2, count($this->order->getPayments()));
+        $this->assertEquals(2, count($this->order->getCashPayments()));
     }
 
     public function testCreateOrderWithCreditCard()
     {
-        $chargeRequest = new Payment\Gateway\ChargeRequest(
-            new Payment\CreditCard('4242424242424242', 5, 2015),
+        $chargeRequest = new PaymentGateway\ChargeRequest(
+            new CreditCard('4242424242424242', 5, 2015),
             2000,
             'usd',
             'test@example.com'
         );
-        $creditPayment = new Payment\Credit($chargeRequest, new Payment\Gateway\StripeStub);
+        $creditPayment = new Payment\Credit($chargeRequest, new PaymentGateway\StripeStub);
 
         $this->order->addPayment($creditPayment);
 
-        $payments = $this->order->getPayments();
+        $payments = $this->order->getCreditPayments();
         $payment = $payments[0];
         $charge = $payment->getCharge();
 

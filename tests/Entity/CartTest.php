@@ -149,6 +149,23 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($cart->getCoupons()));
     }
 
+    public function testUpdateCoupon()
+    {
+        $coupon1 = $this->getPercentCoupon(1, 20);
+        $coupon2 = $this->getPercentCoupon(1, 50);
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon1);
+        $coupons = $cart->getCoupons();
+        $this->assertEquals(1, count($coupons));
+        $this->assertEquals(20, $coupons[0]->getValue());
+
+        $cart->updateCoupon(0, $coupon2);
+        $coupons = $cart->getCoupons();
+        $this->assertEquals(1, count($coupons));
+        $this->assertEquals(50, $coupons[0]->getValue());
+    }
+
     public function testAddCouponWithStackableCoupon()
     {
         $coupon1 = $this->getPercentCoupon(1, 20);
@@ -243,6 +260,30 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1000, $cartTotal->shipping);
         $this->assertEquals(1000, $cartTotal->shippingDiscount);
         $this->assertEquals(800, $cartTotal->total);
+    }
+
+    public function testRemoveCoupon()
+    {
+        $coupon = new Coupon;
+        $coupon->setName('20% Off');
+        $coupon->setDiscountType('percent');
+        $coupon->setValue(20);
+        $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon);
+        $cart->removeCoupon(0);
+        $this->assertEquals(0, count($cart->getCoupons()));
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testRemoveCouponMissing()
+    {
+        $cart = new Cart;
+        $cart->removeCoupon(0);
     }
 
     private function getPercentCoupon($id, $value)

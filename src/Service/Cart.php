@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
+use inklabs\kommerce\Entity\OrderAddress;
+use inklabs\kommerce\Entity\Payment\Payment;
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
 use Exception;
@@ -103,11 +105,17 @@ class Cart extends Lib\EntityManager
         }
 
         $this->cart->addCoupon($coupon);
+        $this->save();
     }
 
     public function removeCoupon($key)
     {
         $this->cart->removeCoupon($key);
+    }
+
+    public function getCoupons()
+    {
+        return $this->cart->getCoupons();
     }
 
     public function updateQuantity($cartItemId, $quantity)
@@ -201,6 +209,25 @@ class Cart extends Lib\EntityManager
     {
         $this->taxRate = $taxRate;
         $this->save();
+    }
+
+    public function createOrder(Payment $payment, OrderAddress $shippingAddress, OrderAddress $billingAddress = null)
+    {
+        if ($billingAddress === null) {
+            $billingAddress = clone $shippingAddress;
+        }
+
+        $order = new Entity\Order($this->cart, $this->pricing);
+        $order->setStatus('pending');
+        $order->setShippingAddress($shippingAddress);
+        $order->setBillingAddress($billingAddress);
+        $order->addPayment($payment);
+
+        $this->entityManager->persist($order);
+        $this->entityManager->persist($payment);
+        $this->entityManager->flush();
+
+        return $order;
     }
 
     public function getView()

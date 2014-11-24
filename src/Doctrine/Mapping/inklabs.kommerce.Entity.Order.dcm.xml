@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="inklabs\kommerce\Entity\Order" table="`order`" repository-class="Doctrine\ORM\EntityRepository">
+
+        <id name="id" type="integer" column="`id`">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="status"  column="`status`"  type="string" />
+
+        <field name="origSubtotal"     column="`orig_subtotal`"     type="integer"/>
+        <field name="subtotal"         column="`subtotal`"          type="integer"/>
+        <field name="taxSubtotal"      column="`tax_subtotal`"      type="integer"/>
+        <field name="shipping"         column="`shipping`"          type="integer"/>
+        <field name="shippingDiscount" column="`shipping_discount`" type="integer"/>
+        <field name="tax"              column="`tax`"               type="integer"/>
+        <field name="total"            column="`total`"             type="integer"/>
+        <field name="savings"          column="`savings`"           type="integer"/>
+
+        <field name="shippingFirstName" column="`shipping_first_name`" type="string" />
+        <field name="shippingLastName"  column="`shipping_last_name`"  type="string" />
+        <field name="shippingCompany"   column="`shipping_company`"    type="string" nullable="true" />
+        <field name="shippingAddress1"  column="`shipping_address_1`"  type="string" />
+        <field name="shippingAddress2"  column="`shipping_address_2`"  type="string" nullable="true" />
+        <field name="shippingCity"      column="`shipping_city`"       type="string" />
+        <field name="shippingState"     column="`shipping_state`"      type="string" />
+        <field name="shippingZip5"      column="`shipping_zip5`"       type="string" />
+        <field name="shippingZip4"      column="`shipping_zip4`"       type="string" nullable="true" />
+        <field name="shippingPhone"     column="`shipping_phone`"      type="string" nullable="true" />
+        <field name="shippingEmail"     column="`shipping_email`"      type="string" />
+
+        <field name="billingFirstName" column="`billing_first_name`" type="string" />
+        <field name="billingLastName"  column="`billing_last_name`"  type="string" />
+        <field name="billingCompany"   column="`billing_company`"    type="string" nullable="true" />
+        <field name="billingAddress1"  column="`billing_address_1`"  type="string" />
+        <field name="billingAddress2"  column="`billing_address_2`"  type="string" nullable="true" />
+        <field name="billingCity"      column="`billing_city`"       type="string" />
+        <field name="billingState"     column="`billing_state`"      type="string" />
+        <field name="billingZip5"      column="`billing_zip5`"       type="string" />
+        <field name="billingZip4"      column="`billing_zip4`"       type="string" nullable="true" />
+        <field name="billingPhone"     column="`billing_phone`"      type="string" nullable="true" />
+        <field name="billingEmail"     column="`billing_email`"      type="string" />
+
+        <field name="created" column="`created`" type="integer" />
+        <field name="updated" column="`updated`" type="integer" nullable="true" />
+
+        <entity-listeners>
+            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
+                <lifecycle-callback type="preUpdate" method="preUpdate"/>
+            </entity-listener>
+        </entity-listeners>
+
+    </entity>
+
+</doctrine-mapping>

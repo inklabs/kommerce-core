@@ -20,7 +20,7 @@
             <exclude>
                 <file>src/J.php</file>
                 <directory>src/Doctrine/Functions/Mysql</directory>
-                <file>src/Lib/Payment/Gateway/Stripe.php</file>
+                <file>src/Lib/PaymentGateway/Stripe.php</file>
             </exclude>
         </whitelist>
     </filter>
