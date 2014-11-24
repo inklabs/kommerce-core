@@ -13,7 +13,6 @@
         <field name="name"             column="`name`"             type="string" nullable="true" />
         <field name="discountType"     column="`discount_type`"    type="string" />
         <field name="value"            column="`discount_value`"   type="integer" />
-        <field name="flagFreeShipping" column="`free_shipping`"    type="boolean" />
         <field name="redemptions"      column="`redemptions`"      type="integer" />
         <field name="maxRedemptions"   column="`max_redemptions`"  type="integer" nullable="true" />
         <field name="start"            column="`start`"            type="date" />

@@ -62,7 +62,6 @@ class ProductTest extends Helper\DoctrineTestCase
         $catalogPromotion->setDiscountType('percent');
         $catalogPromotion->setValue(20);
         $catalogPromotion->setRedemptions(0);
-        $catalogPromotion->setFlagFreeShipping(false);
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 

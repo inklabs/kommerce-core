@@ -207,6 +207,31 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($cart->getCoupons()));
     }
 
+    public function testAddCouponWithFreeShipping()
+    {
+        $coupon = $this->getPercentCoupon(20);
+        $coupon->setFlagFreeShipping(true);
+
+        $product = new Product;
+        $product->setSku('TST101');
+        $product->setName('Test Product');
+        $product->setUnitPrice(500);
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon);
+        $cart->addItem($product, 2);
+
+        $uspsShippingRate = new Shipping\Rate;
+        $uspsShippingRate->code = '4';
+        $uspsShippingRate->name = 'Parcel Post';
+        $uspsShippingRate->cost = 1000;
+
+        $cartTotal = $cart->getTotal($this->pricing, $uspsShippingRate);
+        $this->assertEquals(1000, $cartTotal->shipping);
+        $this->assertEquals(1000, $cartTotal->shippingDiscount);
+        $this->assertEquals(800, $cartTotal->total);
+    }
+
     private function getPercentCoupon($value)
     {
         $coupon = new Coupon;
