@@ -151,10 +151,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     public function testAddCouponWithStackableCoupon()
     {
-        $coupon1 = $this->getPercentCoupon(20);
+        $coupon1 = $this->getPercentCoupon(1, 20);
         $coupon1->setCanCombineWithOtherCoupons(true);
 
-        $coupon2 = $this->getPercentCoupon(20);
+        $coupon2 = $this->getPercentCoupon(2, 20);
         $coupon2->setCanCombineWithOtherCoupons(true);
 
         $cart = new Cart;
@@ -168,10 +168,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddCouponWithNonStackableCoupon()
     {
-        $coupon1 = $this->getPercentCoupon(20);
+        $coupon1 = $this->getPercentCoupon(1, 20);
         $coupon1->setCanCombineWithOtherCoupons(false);
 
-        $coupon2 = $this->getPercentCoupon(20);
+        $coupon2 = $this->getPercentCoupon(2, 20);
         $coupon2->setCanCombineWithOtherCoupons(false);
 
         $cart = new Cart;
@@ -179,12 +179,25 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addCoupon($coupon2);
     }
 
+    /**
+     * @expectedException Exception
+     */
+    public function testAddCouponWithDuplicateCoupon()
+    {
+        $coupon1 = $this->getPercentCoupon(1, 20);
+        $coupon1->setCanCombineWithOtherCoupons(true);
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon1);
+        $cart->addCoupon($coupon1);
+    }
+
     public function testAddCouponWithSecondStackableCoupon()
     {
-        $coupon1 = $this->getPercentCoupon(20);
+        $coupon1 = $this->getPercentCoupon(1, 20);
         $coupon1->setCanCombineWithOtherCoupons(false);
 
-        $coupon2 = $this->getPercentCoupon(20);
+        $coupon2 = $this->getPercentCoupon(2, 20);
         $coupon2->setCanCombineWithOtherCoupons(true);
 
         $cart = new Cart;
@@ -195,10 +208,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     public function testAddCouponWithFirstStackableCoupon()
     {
-        $coupon1 = $this->getPercentCoupon(20);
+        $coupon1 = $this->getPercentCoupon(1, 20);
         $coupon1->setCanCombineWithOtherCoupons(true);
 
-        $coupon2 = $this->getPercentCoupon(20);
+        $coupon2 = $this->getPercentCoupon(2, 20);
         $coupon2->setCanCombineWithOtherCoupons(false);
 
         $cart = new Cart;
@@ -209,7 +222,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     public function testAddCouponWithFreeShipping()
     {
-        $coupon = $this->getPercentCoupon(20);
+        $coupon = $this->getPercentCoupon(1, 20);
         $coupon->setFlagFreeShipping(true);
 
         $product = new Product;
@@ -232,9 +245,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(800, $cartTotal->total);
     }
 
-    private function getPercentCoupon($value)
+    private function getPercentCoupon($id, $value)
     {
         $coupon = new Coupon;
+        $coupon->setId($id);
         $coupon->setName($value . '% Off');
         $coupon->setDiscountType('percent');
         $coupon->setValue($value);

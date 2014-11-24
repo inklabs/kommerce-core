@@ -66,17 +66,49 @@ class Cart
 
     private function canAddCoupon(Coupon $addedCoupon)
     {
+        if ($this->isExistingCoupon($addedCoupon)) {
+            return false;
+        }
+
         if ($addedCoupon->getCanCombineWithOtherCoupons()) {
             return true;
         }
 
-        foreach ($this->coupons as $coupon) {
-            if (! $coupon->getCanCombineWithOtherCoupons()) {
-                return false;
-            }
+        if ($this->existingCouponsCannotCombineWithOtherCoupons($addedCoupon)) {
+            return false;
         }
 
         return true;
+    }
+
+    private function isExistingCoupon(Coupon $addedCoupon)
+    {
+        foreach ($this->coupons as $coupon) {
+            if ($coupon->getId() === $addedCoupon->getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function existingCouponsCannotCombineWithOtherCoupons(Coupon $addedCoupon)
+    {
+        foreach ($this->coupons as $coupon) {
+            if (! $coupon->getCanCombineWithOtherCoupons()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function removeCoupon($key)
+    {
+        if (! isset($this->coupons[$key])) {
+            throw new Exception('Coupon missing');
+        }
+
+        unset($this->coupons[$key]);
     }
 
     public function addCartPriceRule(CartPriceRule $cartPriceRule)
