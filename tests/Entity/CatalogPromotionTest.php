@@ -15,7 +15,6 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $this->catalogPromotion->setDiscountType('percent');
         $this->catalogPromotion->setValue(20);
         $this->catalogPromotion->setTag($this->tag);
-        $this->catalogPromotion->setFlagFreeShipping(false);
         $this->catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $this->catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 

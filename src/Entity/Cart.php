@@ -50,6 +50,11 @@ class Cart
         return $this->coupons;
     }
 
+    public function updateCoupon($id, Coupon $coupon)
+    {
+        $this->coupons[$id] = $coupon;
+    }
+
     public function addCoupon(Coupon $coupon)
     {
         if (! $this->canAddCoupon($coupon)) {
@@ -112,11 +117,11 @@ class Cart
 
         $this->cartTotal = new CartTotal;
 
-        $this->getItemPrices();
+        $this->calculateItemPrices();
         $this->calculateCartPriceRules();
-        $this->getCouponDiscounts();
-        $this->getShippingPrice($shippingRate);
-        $this->getTaxes($taxRate);
+        $this->calculateShippingPrice($shippingRate);
+        $this->calculateCouponDiscounts();
+        $this->calculateTaxes($taxRate);
 
         $this->calculateTotal();
         $this->calculateSavings();
@@ -126,7 +131,7 @@ class Cart
         return $this->cartTotal;
     }
 
-    private function getItemPrices()
+    private function calculateItemPrices()
     {
         foreach ($this->items as $item) {
             $price = $item->getPrice($this->pricing);
@@ -162,7 +167,7 @@ class Cart
         $this->cartTotal->subtotal = max(0, $this->cartTotal->subtotal);
     }
 
-    private function getCouponDiscounts()
+    private function calculateCouponDiscounts()
     {
         foreach ($this->coupons as $coupon) {
             if ($coupon->isValid($this->pricing->getDate(), $this->cartTotal->subtotal)) {
@@ -174,6 +179,11 @@ class Cart
                 if ($coupon->getReducesTaxSubtotal()) {
                     $this->cartTotal->taxSubtotal -= $discountValue;
                 }
+
+                if ($coupon->getFlagFreeShipping()) {
+                    $this->cartTotal->shippingDiscount = $this->cartTotal->shipping;
+                    $this->cartTotal->discount += $this->cartTotal->shipping;
+                }
             }
         }
 
@@ -181,19 +191,19 @@ class Cart
         $this->cartTotal->taxSubtotal = max(0, $this->cartTotal->taxSubtotal);
     }
 
-    private function getShippingPrice(Shipping\Rate $shippingRate = null)
+    private function calculateShippingPrice(Shipping\Rate $shippingRate = null)
     {
         if ($shippingRate !== null) {
             $this->cartTotal->shipping = $shippingRate->cost;
         }
     }
 
-    private function getTaxes(TaxRate $taxRate = null)
+    private function calculateTaxes(TaxRate $taxRate = null)
     {
         if ($taxRate !== null) {
             $this->cartTotal->tax = $taxRate->getTax(
                 $this->cartTotal->taxSubtotal,
-                $this->cartTotal->shipping
+                ($this->cartTotal->shipping - $this->cartTotal->shippingDiscount)
             );
 
             if ($this->cartTotal->tax > 0) {
@@ -208,7 +218,6 @@ class Cart
             $this->cartTotal->subtotal
             - $this->cartTotal->discount
             + $this->cartTotal->shipping
-            - $this->cartTotal->shippingDiscount
             + $this->cartTotal->tax
         );
 
@@ -222,7 +231,6 @@ class Cart
             $this->cartTotal->origSubtotal
             - $this->cartTotal->subtotal
             + $this->cartTotal->discount
-            + $this->cartTotal->shippingDiscount
         );
     }
 }

@@ -15,6 +15,7 @@ class Coupon extends Promotion
     {
         $this->setCreated();
         $this->flagFreeShipping = false;
+        $this->canCombineWithOtherCoupons = false;
     }
 
     public function setCode($code)

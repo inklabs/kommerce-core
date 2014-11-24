@@ -7,7 +7,6 @@ class CatalogPromotion extends Promotion
     protected $name;
     protected $discountType;
     protected $value;
-    protected $flagFreeShipping;
     protected $redemptions;
     protected $maxRedemptions;
     protected $start;
@@ -34,16 +33,6 @@ class CatalogPromotion extends Promotion
     public function getTag()
     {
         return $this->tag;
-    }
-
-    public function setFlagFreeShipping($flagFreeShipping)
-    {
-        $this->flagFreeShipping = $flagFreeShipping;
-    }
-
-    public function getFlagFreeShipping()
-    {
-        return $this->flagFreeShipping;
     }
 
     public function isValid(\DateTime $date, Product $product)

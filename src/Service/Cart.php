@@ -34,6 +34,7 @@ class Cart extends Lib\EntityManager
         }
 
         $this->reloadProductsFromEntityManager();
+        $this->reloadCouponsFromEntityManager();
     }
 
     private function reloadProductsFromEntityManager()
@@ -49,6 +50,23 @@ class Cart extends Lib\EntityManager
         }
 
         if ($numberProductsUpdated > 0) {
+            $this->save();
+        }
+    }
+
+    private function reloadCouponsFromEntityManager()
+    {
+        $numberCouponsUpdated = 0;
+        foreach ($this->cart->getCoupons() as $key => $coupon) {
+            $newCoupon = $this->entityManager
+                ->getRepository('inklabs\kommerce\Entity\Coupon')
+                ->find($coupon->getId());
+
+            $this->cart->updateCoupon($key, $newCoupon);
+            $numberCouponsUpdated++;
+        }
+
+        if ($numberCouponsUpdated > 0) {
             $this->save();
         }
     }
