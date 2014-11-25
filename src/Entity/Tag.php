@@ -23,6 +23,7 @@ class Tag
         $this->setCreated();
         $this->products = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->sortOrder = 0;
     }
 
     public function addProduct(Product $product)

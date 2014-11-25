@@ -69,7 +69,5 @@ Buy 2 SKUs get 1 of the SKUs 10% Off
 ## Export SQL
 
 <pre>
-    echo 'SET FOREIGN_KEY_CHECKS=0;' && \
-    vendor/bin/doctrine orm:schema-tool:create --dump-sql | sed -e 's/ NOT DEFERRABLE INITIALLY IMMEDIATE//g' -e 's/"/`/g' && \
-    echo 'SET FOREIGN_KEY_CHECKS=1;'
+    vendor/bin/doctrine orm:schema-tool:create --dump-sql
 </pre>

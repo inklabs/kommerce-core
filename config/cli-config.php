@@ -15,8 +15,12 @@ $config->setQueryCacheImpl(new \Doctrine\Common\Cache\ArrayCache());
 $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache());
 
 $params = array(
-    'driver' => 'pdo_sqlite',
-    'memory' => true,
+    'driver' => 'pdo_mysql',
+    'dbname' => 'test',
+    'user' => 'root',
+    'password' => 'rooty',
+    'host' => '127.0.0.1',
+    'port' => '4706',
 );
 
 $entityManager = \Doctrine\ORM\EntityManager::create($params, $config);
