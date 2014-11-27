@@ -16,8 +16,17 @@
         <field name="quantity"                   column="`quantity`"                 type="integer" />
         <field name="start"                      column="`start`"                    type="date" />
         <field name="end"                        column="`end`"                      type="date" />
-        <field name="created"                    column="`created`"                  type="integer" />
-        <field name="updated"                    column="`updated`"                  type="integer" nullable="true" />
+
+        <field name="created" column="`created`" type="integer" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="updated" column="`updated`" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
 
         <many-to-one field="product" target-entity="Product" inversed-by="productQuantityDiscounts">
             <join-column name="`product_id`" referenced-column-name="`id`" />

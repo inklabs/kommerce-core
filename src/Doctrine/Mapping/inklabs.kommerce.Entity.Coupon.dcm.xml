@@ -23,8 +23,17 @@
         <field name="maxRedemptions"   column="`max_redemptions`"  type="integer" nullable="true" />
         <field name="start"            column="`start`"            type="date" />
         <field name="end"              column="`end`"              type="date" />
-        <field name="created"          column="`created`"          type="integer" />
-        <field name="updated"          column="`updated`"          type="integer" nullable="true" />
+
+        <field name="created" column="`created`" type="integer" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="updated" column="`updated`" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
 
         <many-to-one field="tag" target-entity="Tag" fetch="EAGER">
             <join-column name="`tag_id`" referenced-column-name="`id`" />

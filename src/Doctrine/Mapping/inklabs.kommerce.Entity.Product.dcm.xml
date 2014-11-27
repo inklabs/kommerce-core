@@ -24,8 +24,17 @@
         <field name="description"         column="`description`"       type="string" />
         <field name="rating"              column="`rating`"            type="integer" nullable="true" />
         <field name="defaultImage"        column="`default_image`"     type="string" nullable="true" />
-        <field name="created"             column="`created`"           type="integer" />
-        <field name="updated"             column="`updated`"           type="integer" nullable="true" />
+
+        <field name="created" column="`created`" type="integer" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="updated" column="`updated`" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
 
         <many-to-many field="tags" target-entity="Tag" inversed-by="products" fetch-mode="EAGER">
             <join-table name="`product_tag`">

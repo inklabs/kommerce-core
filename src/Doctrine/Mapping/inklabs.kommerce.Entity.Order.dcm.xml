@@ -26,8 +26,16 @@
 
         <one-to-many field="payments" target-entity="inklabs\kommerce\Entity\Payment\Payment" mapped-by="order" />
 
-        <field name="created" column="`created`" type="integer" />
-        <field name="updated" column="`updated`" type="integer" nullable="true" />
+        <field name="created" column="`created`" type="integer" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="updated" column="`updated`" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
 
         <entity-listeners>
             <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
