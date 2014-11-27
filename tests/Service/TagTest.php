@@ -6,8 +6,17 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class TagTest extends Helper\DoctrineTestCase
 {
+    /* @var Tag */
+    protected $tagService;
+    protected $tag;
+    protected $product1;
+    protected $product2;
+    protected $product3;
+
     public function setUp()
     {
+        $this->tagService = new Tag($this->entityManager);
+
         $this->tag = new Entity\Tag;
         $this->tag->setName('Test Tag');
         $this->tag->setDescription('Test Description');
@@ -51,11 +60,7 @@ class TagTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $id = $this->tag->getId();
-
-        $tagService = new Tag($this->entityManager);
-        $tag = $tagService->find($id);
-
+        $tag = $this->tagService->find(1);
         $this->assertEquals('Test Tag', $tag->name);
     }
 }

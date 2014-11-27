@@ -8,10 +8,11 @@ use inklabs\kommerce\Entity\Payment as Payment;
 
 class CartTest extends Helper\DoctrineTestCase
 {
-    private $pricing;
-    private $sessionManager;
-    private $cart;
-    private $product;
+    /* @var Cart */
+    protected $cart;
+    protected $pricing;
+    protected $sessionManager;
+    protected $product;
 
     public function setUp()
     {

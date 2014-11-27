@@ -6,6 +6,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class PricingTest extends \PHPUnit_Framework_TestCase
 {
+    /* @var Pricing */
+    protected $pricing;
+
     public function setUp()
     {
         $this->pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
