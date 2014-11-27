@@ -6,6 +6,7 @@ use Doctrine as Doctrine;
 
 abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 {
+    /* @var \Doctrine\ORM\EntityManager */
     protected $entityManager;
     protected $kommerce;
 

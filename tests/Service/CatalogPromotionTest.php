@@ -6,8 +6,9 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class CatalogPromotionTest extends Helper\DoctrineTestCase
 {
-    private $catalogPromotionService;
-    private $catalogPromotions;
+    /* @var CatalogPromotion */
+    protected $catalogPromotionService;
+    protected $catalogPromotions;
 
     public function setUp()
     {

@@ -6,6 +6,10 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class ProductTest extends Helper\DoctrineTestCase
 {
+    /* @var Product */
+    protected $productService;
+    protected $product;
+
     public function setUp()
     {
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
