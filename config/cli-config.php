@@ -20,7 +20,7 @@ $params = array(
     'user' => 'root',
     'password' => 'rooty',
     'host' => '127.0.0.1',
-    'port' => '4706',
+    'port' => '4409',
 );
 
 $entityManager = \Doctrine\ORM\EntityManager::create($params, $config);

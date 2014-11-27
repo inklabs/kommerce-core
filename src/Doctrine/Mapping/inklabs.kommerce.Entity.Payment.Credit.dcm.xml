@@ -4,14 +4,9 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="inklabs\kommerce\Entity\Payment\Credit" table="`payment_credit`" repository-class="Doctrine\ORM\EntityRepository">
+    <entity name="inklabs\kommerce\Entity\Payment\Credit">
 
-        <field name="chargeId"          column="`charge_id`"          type="string" />
-        <field name="chargeCreated"     column="`charge_created`"     type="integer" />
-        <field name="chargeAmount"      column="`charge_amount`"      type="integer" />
-        <field name="chargeCurrency"    column="`charge_currency`"    type="string" />
-        <field name="chargeFee"         column="`charge_fee`"         type="integer" />
-        <field name="chargeDescription" column="`charge_description`" type="string" />
+        <embedded name="charge" class="inklabs\kommerce\lib\PaymentGateway\ChargeResponse" column-prefix="charge_" />
 
     </entity>
 

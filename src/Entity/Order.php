@@ -26,33 +26,8 @@ class Order
     protected $cartPriceRules;
     protected $taxRate;
 
-    // OrderAddress
     protected $shippingAddress;
-    protected $shippingFirstName;
-    protected $shippingLastName;
-    protected $shippingCompany;
-    protected $shippingAddress1;
-    protected $shippingAddress2;
-    protected $shippingCity;
-    protected $shippingState;
-    protected $shippingZip5;
-    protected $shippingZip4;
-    protected $shippingPhone;
-    protected $shippingEmail;
-
-    // OrderAddress
     protected $billingAddress;
-    protected $billingFirstName;
-    protected $billingLastName;
-    protected $billingCompany;
-    protected $billingAddress1;
-    protected $billingAddress2;
-    protected $billingCity;
-    protected $billingState;
-    protected $billingZip5;
-    protected $billingZip4;
-    protected $billingPhone;
-    protected $billingEmail;
 
     protected $items;
     protected $payments;
@@ -119,35 +94,11 @@ class Order
     public function setShippingAddress(OrderAddress $shippingAddress)
     {
         $this->shippingAddress = $shippingAddress;
-
-        $this->shippingFirstName = $shippingAddress->firstName;
-        $this->shippingLastName = $shippingAddress->lastName;
-        $this->shippingCompany = $shippingAddress->company;
-        $this->shippingAddress1 = $shippingAddress->address1;
-        $this->shippingAddress2 = $shippingAddress->address2;
-        $this->shippingCity = $shippingAddress->city;
-        $this->shippingState = $shippingAddress->state;
-        $this->shippingZip5 = $shippingAddress->zip5;
-        $this->shippingZip4 = $shippingAddress->zip4;
-        $this->shippingPhone = $shippingAddress->phone;
-        $this->shippingEmail = $shippingAddress->email;
     }
 
     public function setBillingAddress(OrderAddress $billingAddress)
     {
         $this->billingAddress = $billingAddress;
-
-        $this->billingFirstName = $billingAddress->firstName;
-        $this->billingLastName = $billingAddress->lastName;
-        $this->billingCompany = $billingAddress->company;
-        $this->billingAddress1 = $billingAddress->address1;
-        $this->billingAddress2 = $billingAddress->address2;
-        $this->billingCity = $billingAddress->city;
-        $this->billingState = $billingAddress->state;
-        $this->billingZip5 = $billingAddress->zip5;
-        $this->billingZip4 = $billingAddress->zip4;
-        $this->billingPhone = $billingAddress->phone;
-        $this->billingEmail = $billingAddress->email;
     }
 
     public function getItems()
