@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <embeddable name="inklabs\kommerce\Lib\PaymentGateway\ChargeResponse">
+
+        <field name="id"          column="`id`"          type="string" />
+        <field name="created"     column="`created`"     type="integer" />
+        <field name="amount"      column="`amount`"      type="integer" />
+        <field name="currency"    column="`currency`"    type="string" />
+        <field name="fee"         column="`fee`"         type="integer" />
+        <field name="description" column="`description`" type="string" />
+
+    </embeddable>
+
+</doctrine-mapping>

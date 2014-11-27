@@ -21,29 +21,8 @@
         <field name="total"            column="`total`"             type="integer"/>
         <field name="savings"          column="`savings`"           type="integer"/>
 
-        <field name="shippingFirstName" column="`shipping_first_name`" type="string" />
-        <field name="shippingLastName"  column="`shipping_last_name`"  type="string" />
-        <field name="shippingCompany"   column="`shipping_company`"    type="string" nullable="true" />
-        <field name="shippingAddress1"  column="`shipping_address_1`"  type="string" />
-        <field name="shippingAddress2"  column="`shipping_address_2`"  type="string" nullable="true" />
-        <field name="shippingCity"      column="`shipping_city`"       type="string" />
-        <field name="shippingState"     column="`shipping_state`"      type="string" />
-        <field name="shippingZip5"      column="`shipping_zip5`"       type="string" />
-        <field name="shippingZip4"      column="`shipping_zip4`"       type="string" nullable="true" />
-        <field name="shippingPhone"     column="`shipping_phone`"      type="string" nullable="true" />
-        <field name="shippingEmail"     column="`shipping_email`"      type="string" />
-
-        <field name="billingFirstName" column="`billing_first_name`" type="string" />
-        <field name="billingLastName"  column="`billing_last_name`"  type="string" />
-        <field name="billingCompany"   column="`billing_company`"    type="string" nullable="true" />
-        <field name="billingAddress1"  column="`billing_address_1`"  type="string" />
-        <field name="billingAddress2"  column="`billing_address_2`"  type="string" nullable="true" />
-        <field name="billingCity"      column="`billing_city`"       type="string" />
-        <field name="billingState"     column="`billing_state`"      type="string" />
-        <field name="billingZip5"      column="`billing_zip5`"       type="string" />
-        <field name="billingZip4"      column="`billing_zip4`"       type="string" nullable="true" />
-        <field name="billingPhone"     column="`billing_phone`"      type="string" nullable="true" />
-        <field name="billingEmail"     column="`billing_email`"      type="string" />
+        <embedded name="shippingAddress" class="OrderAddress" column-prefix="shipping_" />
+        <embedded name="billingAddress" class="OrderAddress" column-prefix="billing_" />
 
         <one-to-many field="payments" target-entity="inklabs\kommerce\Entity\Payment\Payment" mapped-by="order" />
 

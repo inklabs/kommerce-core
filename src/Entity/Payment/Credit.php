@@ -8,14 +8,7 @@ use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 class Credit extends Payment
 {
     protected $creditCard;
-
     protected $charge;
-    protected $chargeId;
-    protected $chargeCreated;
-    protected $chargeAmount;
-    protected $chargeCurrency;
-    protected $chargeFee;
-    protected $chargeDescription;
 
     public function __construct(ChargeRequest $chargeRequest, Gateway $gateway)
     {
@@ -28,12 +21,6 @@ class Credit extends Payment
     private function setCharge(ChargeResponse $chargeResponse)
     {
         $this->charge = $chargeResponse;
-        $this->chargeId = $chargeResponse->getId();
-        $this->chargeCreated = $chargeResponse->getCreated();
-        $this->chargeAmount = $chargeResponse->getAmount();
-        $this->chargeCurrency = $chargeResponse->getCurrency();
-        $this->chargeFee = $chargeResponse->getFee();
-        $this->chargeDescription = $chargeResponse->getDescription();
     }
 
     public function getCharge()
