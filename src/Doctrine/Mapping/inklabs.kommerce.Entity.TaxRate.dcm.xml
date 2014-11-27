@@ -16,8 +16,17 @@
         <field name="zip5To"          column="`zip5_to`"           type="integer" nullable="true" />
         <field name="rate"            column="`rate`"              type="decimal" precision="4" scale="2" />
         <field name="applyToShipping" column="`apply_to_shipping`" type="boolean" />
-        <field name="created"         column="`created`"           type="integer" />
-        <field name="updated"         column="`updated`"           type="integer" nullable="true" />
+
+        <field name="created" column="`created`" type="integer" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="updated" column="`updated`" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
 
         <entity-listeners>
             <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
