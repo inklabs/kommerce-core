@@ -7,20 +7,15 @@
     <entity name="inklabs\kommerce\Entity\Order" table="`order`" repository-class="Doctrine\ORM\EntityRepository">
 
         <id name="id" type="integer" column="`id`">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
             <generator strategy="AUTO" />
         </id>
 
-        <field name="status"  column="`status`"  type="string" />
+        <field name="status"  column="`status`"  type="string" length="10" />
 
-        <field name="origSubtotal"     column="`orig_subtotal`"     type="integer"/>
-        <field name="subtotal"         column="`subtotal`"          type="integer"/>
-        <field name="taxSubtotal"      column="`tax_subtotal`"      type="integer"/>
-        <field name="shipping"         column="`shipping`"          type="integer"/>
-        <field name="shippingDiscount" column="`shipping_discount`" type="integer"/>
-        <field name="tax"              column="`tax`"               type="integer"/>
-        <field name="total"            column="`total`"             type="integer"/>
-        <field name="savings"          column="`savings`"           type="integer"/>
-
+        <embedded name="total" class="CartTotal" column-prefix="" />
         <embedded name="shippingAddress" class="OrderAddress" column-prefix="shipping_" />
         <embedded name="billingAddress" class="OrderAddress" column-prefix="billing_" />
 

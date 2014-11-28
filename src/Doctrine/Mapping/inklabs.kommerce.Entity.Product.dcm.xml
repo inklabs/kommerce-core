@@ -7,6 +7,9 @@
     <entity name="inklabs\kommerce\Entity\Product" table="`product`" repository-class="Doctrine\ORM\EntityRepository">
 
         <id name="id" type="integer" column="`id`">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
             <generator strategy="AUTO" />
         </id>
 

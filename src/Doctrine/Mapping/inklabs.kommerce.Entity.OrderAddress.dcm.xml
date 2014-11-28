@@ -6,17 +6,33 @@
 
     <embeddable name="inklabs\kommerce\Entity\OrderAddress">
 
-        <field name="firstName" column="`first_name`" type="string" />
-        <field name="lastName"  column="`last_name`"  type="string" />
-        <field name="company"   column="`company`"    type="string" nullable="true" />
-        <field name="address1"  column="`address_1`"  type="string" />
-        <field name="address2"  column="`address_2`"  type="string" nullable="true" />
-        <field name="city"      column="`city`"       type="string" />
-        <field name="state"     column="`state`"      type="string" />
-        <field name="zip5"      column="`zip5`"       type="string" />
-        <field name="zip4"      column="`zip4`"       type="string" nullable="true" />
-        <field name="phone"     column="`phone`"      type="string" nullable="true" />
-        <field name="email"     column="`email`"      type="string" />
+        <field name="firstName" column="`first_name`" type="string" length="32" />
+        <field name="lastName"  column="`last_name`"  type="string" length="32" />
+        <field name="company"   column="`company`"    type="string" length="128" nullable="true" />
+        <field name="address1"  column="`address_1`"  type="string" length="128" />
+        <field name="address2"  column="`address_2`"  type="string" length="128" nullable="true" />
+        <field name="city"      column="`city`"       type="string" length="128" />
+
+        <field name="state"     column="`state`"      type="string" length="2">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
+
+        <field name="zip5"      column="`zip5`"       type="string" length="5">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
+
+        <field name="zip4"      column="`zip4`"       type="string" length="4" nullable="true">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
+
+        <field name="phone"     column="`phone`"      type="string" length="20" nullable="true" />
+        <field name="email"     column="`email`"      type="string" length="128" nullable="true" />
 
     </embeddable>
 

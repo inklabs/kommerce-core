@@ -12,20 +12,7 @@ class Order
     protected $id;
     protected $status = 'pending'; // 'pending','processing','shipped','complete','canceled'
 
-    protected $cartTotal;
-    protected $origSubtotal;
-    protected $subtotal;
-    protected $taxSubtotal;
-    protected $discount;
-    protected $shipping;
-    protected $shippingDiscount;
-    protected $tax;
     protected $total;
-    protected $savings;
-    protected $coupons;
-    protected $cartPriceRules;
-    protected $taxRate;
-
     protected $shippingAddress;
     protected $billingAddress;
 
@@ -42,26 +29,8 @@ class Order
         $this->items = new ArrayCollection();
         $this->cash_payments = new ArrayCollection();
         $this->credit_payments = new ArrayCollection();
-        $this->setCartTotal($cart->getTotal($pricing, $shippingRate, $taxRate));
+        $this->total = $cart->getTotal($pricing, $shippingRate, $taxRate);
         $this->setItems($cart->getItems(), $pricing);
-    }
-
-    private function setCartTotal(CartTotal $cartTotal)
-    {
-        $this->cartTotal = $cartTotal;
-
-        $this->origSubtotal = $cartTotal->origSubtotal;
-        $this->subtotal = $cartTotal->subtotal;
-        $this->taxSubtotal = $cartTotal->taxSubtotal;
-        $this->discount = $cartTotal->discount;
-        $this->shipping = $cartTotal->shipping;
-        $this->shippingDiscount = $cartTotal->shippingDiscount;
-        $this->tax = $cartTotal->tax;
-        $this->total = $cartTotal->total;
-        $this->savings = $cartTotal->savings;
-        $this->coupons = $cartTotal->coupons;
-        $this->cartPriceRules = $cartTotal->cartPriceRules;
-        $this->taxRate = $cartTotal->taxRate;
     }
 
     private function setItems($cartItems, Pricing $pricing)
@@ -88,7 +57,7 @@ class Order
 
     public function getTotal()
     {
-        return $this->cartTotal;
+        return $this->total;
     }
 
     public function setShippingAddress(OrderAddress $shippingAddress)
