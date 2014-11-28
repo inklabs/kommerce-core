@@ -13,20 +13,39 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="name"               column="`name`"                 type="string" length="255" nullable="true" />
-        <field name="type"               column="`type`"                 type="string" length="7" />
-        <field name="value"              column="`value`"                type="integer" />
-        <field name="redemptions"        column="`redemptions`"          type="integer" />
-        <field name="start"              column="`start`"                type="date" />
-        <field name="end"                column="`end`"                  type="date" />
-        <field name="reducesTaxSubtotal" column="`reduces_tax_subtotal`" type="boolean" nullable="false" />
-        <field name="maxRedemptions"     column="`max_redemptions`"      type="integer" nullable="true">
+        <field name="name" column="`name`" type="string" length="255" nullable="true" />
+
+        <field name="type" column="`type`" type="string" length="7">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
+
+        <field name="value" column="`value`" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="code"               column="`code`"                 type="string" length="16" />
+        <field name="redemptions" column="`redemptions`" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="start" column="`start`" type="date" nullable="true" />
+
+        <field name="end" column="`end`" type="date" nullable="true" />
+
+        <field name="reducesTaxSubtotal" column="`reduces_tax_subtotal`" type="boolean" nullable="false" />
+
+        <field name="maxRedemptions" column="`max_redemptions`" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="code" column="`code`" type="string" length="16" />
 
         <many-to-one field="tag" target-entity="Tag" fetch="EAGER">
             <join-column name="`tag_id`" referenced-column-name="`id`" />

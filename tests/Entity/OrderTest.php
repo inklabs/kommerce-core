@@ -7,6 +7,9 @@ use inklabs\kommerce\Lib\PaymentGateway;
 
 class OrderTest extends \PHPUnit_Framework_TestCase
 {
+    /* @var Order */
+    protected $order;
+
     public function setUp()
     {
         $product = new Product;

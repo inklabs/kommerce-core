@@ -13,10 +13,25 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="path"      column="`path`"       type="string" />
-        <field name="width"     column="`width`"      type="integer" />
-        <field name="height"    column="`height`"     type="integer" />
-        <field name="sortOrder" column="`sort_order`" type="integer" />
+        <field name="path" column="`path`" type="string" length="255" />
+
+        <field name="width" column="`width`" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="height" column="`height`" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="sortOrder" column="`sort_order`" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
 
         <field name="created" column="`created`" type="integer" nullable="false">
             <options>
