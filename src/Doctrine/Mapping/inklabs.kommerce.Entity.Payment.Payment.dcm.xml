@@ -13,6 +13,9 @@
         </discriminator-map>
 
         <id name="id" type="integer" column="`id`">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
             <generator strategy="AUTO" />
         </id>
 
