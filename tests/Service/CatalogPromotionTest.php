@@ -31,7 +31,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         $catalogPromotion = new Entity\CatalogPromotion;
         $catalogPromotion->setCode('test' . $num);
         $catalogPromotion->setName('test' . $num);
-        $catalogPromotion->setDiscountType('percent');
+        $catalogPromotion->setType('percent');
         $catalogPromotion->setValue(10);
         $catalogPromotion->setRedemptions(0);
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));

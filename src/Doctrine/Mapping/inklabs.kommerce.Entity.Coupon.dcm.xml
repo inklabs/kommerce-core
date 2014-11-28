@@ -10,19 +10,28 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="code"                       column="`code`"            type="string" />
-        <field name="flagFreeShipping"           column="`free_shipping`"   type="boolean" />
-        <field name="minOrderValue"              column="`min_order_value`" type="integer" nullable="true" />
-        <field name="maxOrderValue"              column="`max_order_value`" type="integer" nullable="true" />
-        <field name="canCombineWithOtherCoupons" column="`can_combine`"     type="boolean" />
+        <field name="name"               column="`name`"                 type="string" length="255" nullable="true" />
+        <field name="type"               column="`type`"                 type="string" length="7" />
+        <field name="value"              column="`value`"                type="integer" />
+        <field name="redemptions"        column="`redemptions`"          type="integer" />
+        <field name="start"              column="`start`"                type="date" />
+        <field name="end"                column="`end`"                  type="date" />
+        <field name="reducesTaxSubtotal" column="`reduces_tax_subtotal`" type="boolean" nullable="false" />
+        <field name="maxRedemptions"     column="`max_redemptions`"      type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
 
-        <field name="name"             column="`name`"             type="string" />
-        <field name="discountType"     column="`discount_type`"    type="string" />
-        <field name="value"            column="`discount_value`"   type="integer" />
-        <field name="redemptions"      column="`redemptions`"      type="integer" />
-        <field name="maxRedemptions"   column="`max_redemptions`"  type="integer" nullable="true" />
-        <field name="start"            column="`start`"            type="date" />
-        <field name="end"              column="`end`"              type="date" />
+        <field name="code"                       column="`code`"               type="string" length="16" />
+        <field name="canCombineWithOtherCoupons" column="`can_combine`"        type="boolean" />
+        <field name="flagFreeShipping"           column="`flag_free_shipping`" type="boolean" />
+        <field name="minOrderValue"              column="`min_order_value`"    type="integer" nullable="true" />
+        <field name="maxOrderValue"              column="`max_order_value`"    type="integer" nullable="true" />
+
+        <many-to-one field="tag" target-entity="Tag" fetch="EAGER">
+            <join-column name="`tag_id`" referenced-column-name="`id`" />
+        </many-to-one>
 
         <field name="created" column="`created`" type="integer" nullable="false">
             <options>
@@ -34,10 +43,6 @@
                 <option name="unsigned">true</option>
             </options>
         </field>
-
-        <many-to-one field="tag" target-entity="Tag" fetch="EAGER">
-            <join-column name="`tag_id`" referenced-column-name="`id`" />
-        </many-to-one>
 
         <entity-listeners>
             <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">

@@ -55,7 +55,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     {
         $productQuantityDiscount = new Entity\ProductQuantityDiscount;
         $productQuantityDiscount->setCustomerGroup(null);
-        $productQuantityDiscount->setDiscountType('exact');
+        $productQuantityDiscount->setType('exact');
         $productQuantityDiscount->setQuantity($quantity);
         $productQuantityDiscount->setValue($value);
         $productQuantityDiscount->setFlagApplyCatalogPromotions(false);
@@ -97,7 +97,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     {
         $catalogPromotion = new Entity\CatalogPromotion;
         $catalogPromotion->setName('20% Off');
-        $catalogPromotion->setDiscountType('percent');
+        $catalogPromotion->setType('percent');
         $catalogPromotion->setValue(20);
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
@@ -138,7 +138,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     {
         $catalogPromotion = new Entity\CatalogPromotion;
         $catalogPromotion->setName('$1 Off');
-        $catalogPromotion->setDiscountType('fixed');
+        $catalogPromotion->setType('fixed');
         $catalogPromotion->setValue(100);
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
@@ -183,7 +183,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
 
         $catalogPromotion = new Entity\CatalogPromotion;
         $catalogPromotion->setName('20% Off');
-        $catalogPromotion->setDiscountType('percent');
+        $catalogPromotion->setType('percent');
         $catalogPromotion->setValue(20);
         $catalogPromotion->setTag($tag);
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
@@ -256,21 +256,21 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceWithProductQuantityDiscountExact()
     {
         $productQuantityDiscount6 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount6->setDiscountType('exact');
+        $productQuantityDiscount6->setType('exact');
         $productQuantityDiscount6->setQuantity(6);
         $productQuantityDiscount6->setValue(475);
         $productQuantityDiscount6->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $productQuantityDiscount6->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $productQuantityDiscount12 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount12->setDiscountType('exact');
+        $productQuantityDiscount12->setType('exact');
         $productQuantityDiscount12->setQuantity(12);
         $productQuantityDiscount12->setValue(350);
         $productQuantityDiscount12->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $productQuantityDiscount12->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $productQuantityDiscount24 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount24->setDiscountType('exact');
+        $productQuantityDiscount24->setType('exact');
         $productQuantityDiscount24->setQuantity(24);
         $productQuantityDiscount24->setValue(325);
         $productQuantityDiscount24->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
@@ -322,21 +322,21 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceWithProductQuantityDiscountFixed()
     {
         $productQuantityDiscount6 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount6->setDiscountType('fixed');
+        $productQuantityDiscount6->setType('fixed');
         $productQuantityDiscount6->setQuantity(6);
         $productQuantityDiscount6->setValue(25);
         $productQuantityDiscount6->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $productQuantityDiscount6->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $productQuantityDiscount12 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount12->setDiscountType('fixed');
+        $productQuantityDiscount12->setType('fixed');
         $productQuantityDiscount12->setQuantity(12);
         $productQuantityDiscount12->setValue(150);
         $productQuantityDiscount12->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $productQuantityDiscount12->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $productQuantityDiscount24 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount24->setDiscountType('fixed');
+        $productQuantityDiscount24->setType('fixed');
         $productQuantityDiscount24->setQuantity(24);
         $productQuantityDiscount24->setValue(175);
         $productQuantityDiscount24->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
@@ -388,21 +388,21 @@ class PricingTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceWithProductQuantityDiscountPercent()
     {
         $productQuantityDiscount6 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount6->setDiscountType('percent');
+        $productQuantityDiscount6->setType('percent');
         $productQuantityDiscount6->setQuantity(6);
         $productQuantityDiscount6->setValue(5);
         $productQuantityDiscount6->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $productQuantityDiscount6->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $productQuantityDiscount12 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount12->setDiscountType('percent');
+        $productQuantityDiscount12->setType('percent');
         $productQuantityDiscount12->setQuantity(12);
         $productQuantityDiscount12->setValue(30);
         $productQuantityDiscount12->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $productQuantityDiscount12->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $productQuantityDiscount24 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount24->setDiscountType('percent');
+        $productQuantityDiscount24->setType('percent');
         $productQuantityDiscount24->setQuantity(24);
         $productQuantityDiscount24->setValue(35);
         $productQuantityDiscount24->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));

@@ -19,11 +19,11 @@ class ProductQuantityDiscount extends Promotion
     {
         $name = 'Buy ' . $this->getQuantity() . ' or more for ';
 
-        if ($this->getDiscountType() == 'exact') {
+        if ($this->getType() == 'exact') {
             $name .= $this->displayCents($this->getValue()) . ' each';
-        } elseif ($this->getDiscountType() == 'percent') {
+        } elseif ($this->getType() == 'percent') {
             $name .= $this->getValue() . '% off';
-        } elseif ($this->getDiscountType() == 'fixed') {
+        } elseif ($this->getType() == 'fixed') {
             $name .= $this->displayCents($this->getValue()) . ' off';
         }
 

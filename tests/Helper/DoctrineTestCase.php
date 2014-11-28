@@ -8,6 +8,8 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 {
     /* @var \Doctrine\ORM\EntityManager */
     protected $entityManager;
+
+    /* @var Kommerce */
     protected $kommerce;
 
     public function __construct($name = null, array $data = array(), $dataName = '')

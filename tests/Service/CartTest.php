@@ -82,7 +82,7 @@ class CartTest extends Helper\DoctrineTestCase
         $coupon = new Entity\Coupon;
         $coupon->setCode('20PCT');
         $coupon->setName('20% Off');
-        $coupon->setDiscountType('percent');
+        $coupon->setType('percent');
         $coupon->setValue(20);
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
@@ -272,7 +272,7 @@ class CartTest extends Helper\DoctrineTestCase
         $coupon = new Entity\Coupon;
         $coupon->setCode('20PCT');
         $coupon->setName('20% Off');
-        $coupon->setDiscountType('percent');
+        $coupon->setType('percent');
         $coupon->setValue(20);
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
@@ -300,7 +300,7 @@ class CartTest extends Helper\DoctrineTestCase
         $coupon = new Entity\Coupon;
         $coupon->setCode('20PCT');
         $coupon->setName('20% Off');
-        $coupon->setDiscountType('percent');
+        $coupon->setType('percent');
         $coupon->setValue(20);
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));

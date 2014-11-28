@@ -10,26 +10,48 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="name"                column="`name`"              type="string" nullable="true" />
-        <field name="sku"                 column="`sku`"               type="string" nullable="true" />
-        <field name="unitPrice"           column="`price`"             type="integer" />
-        <field name="quantity"            column="`quantity`"          type="integer" />
-        <field name="isInventoryRequired" column="`require_inventory`" type="boolean" />
-        <field name="isPriceVisible"      column="`show_price`"        type="boolean" />
-        <field name="isActive"            column="`active`"            type="boolean" />
-        <field name="isVisible"           column="`visible`"           type="boolean" />
-        <field name="isTaxable"           column="`taxable`"           type="boolean" />
-        <field name="isShippable"         column="`shipping`"          type="boolean" />
-        <field name="shippingWeight"      column="`shipping_weight`"   type="integer" />
-        <field name="description"         column="`description`"       type="string" />
-        <field name="rating"              column="`rating`"            type="integer" nullable="true" />
-        <field name="defaultImage"        column="`default_image`"     type="string" nullable="true" />
+        <field name="name"                column="`name`"              type="string" length="255"   nullable="false" />
+        <field name="sku"                 column="`sku`"               type="string" length="64"    nullable="true" />
+        <field name="description"         column="`description`"       type="text"   length="65535" nullable="true" />
+        <field name="defaultImage"        column="`default_image`"     type="string" length="255"   nullable="true" />
+
+        <field name="isInventoryRequired" column="`is_inventory_required`" type="boolean" />
+        <field name="isPriceVisible"      column="`is_price_visible`"      type="boolean" />
+        <field name="isActive"            column="`is_active`"             type="boolean" />
+        <field name="isVisible"           column="`is_visible`"            type="boolean" />
+        <field name="isTaxable"           column="`is_taxable`"            type="boolean" />
+        <field name="isShippable"         column="`is_shippable`"          type="boolean" />
+
+        <field name="unitPrice" column="`unit_price`" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="quantity" column="`quantity`" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="shippingWeight" column="`shipping_weight`" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="rating" column="`rating`" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
 
         <field name="created" column="`created`" type="integer" nullable="false">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
+
         <field name="updated" column="`updated`" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
@@ -48,6 +70,7 @@
         </many-to-many>
 
         <one-to-many field="images" target-entity="Image" mapped-by="product" />
+
         <one-to-many field="productQuantityDiscounts" target-entity="ProductQuantityDiscount" mapped-by="product">
             <order-by>
                 <order-by-field name="quantity" direction="DESC" />

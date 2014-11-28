@@ -7,7 +7,7 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
     {
         $this->promotion = new Promotion;
         $this->promotion->setName('20% Off in 2014');
-        $this->promotion->setDiscountType('percent');
+        $this->promotion->setType('percent');
         $this->promotion->setValue(20);
         $this->promotion->setRedemptions(null);
         $this->promotion->setMaxRedemptions(null);
@@ -73,7 +73,7 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDiscountValueFixed()
     {
-        $this->promotion->setDiscountType('fixed');
+        $this->promotion->setType('fixed');
         $this->promotion->setValue(1000);
 
         $unitPrice = 10000;
@@ -83,9 +83,9 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Exception
      */
-    public function testInvalidDiscountType()
+    public function testInvalidType()
     {
-        $this->promotion->setDiscountType('invalid');
+        $this->promotion->setType('invalid');
         $unitPrice = $this->promotion->getUnitPrice(0);
     }
 }

@@ -63,7 +63,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $catalogPromotion = new Entity\CatalogPromotion;
         $catalogPromotion->setName('20% Off');
         $catalogPromotion->setCode('20PCT');
-        $catalogPromotion->setDiscountType('percent');
+        $catalogPromotion->setType('percent');
         $catalogPromotion->setValue(20);
         $catalogPromotion->setRedemptions(0);
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
@@ -90,7 +90,7 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $productQuantityDiscount = new Entity\ProductQuantityDiscount;
         $productQuantityDiscount->setCustomerGroup(null);
-        $productQuantityDiscount->setDiscountType('exact');
+        $productQuantityDiscount->setType('exact');
         $productQuantityDiscount->setQuantity(6);
         $productQuantityDiscount->setValue(500);
         $productQuantityDiscount->setFlagApplyCatalogPromotions(true);

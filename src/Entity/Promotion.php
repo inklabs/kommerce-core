@@ -7,7 +7,7 @@ class Promotion
 
     protected $id;
     protected $name;
-    protected $discountType; // fixed, percent, exact
+    protected $type; // fixed, percent, exact
     protected $value;
     protected $redemptions = 0;
     protected $maxRedemptions;
@@ -41,14 +41,14 @@ class Promotion
         return $this->name;
     }
 
-    public function setDiscountType($discountType)
+    public function setType($type)
     {
-        $this->discountType = $discountType;
+        $this->type = $type;
     }
 
-    public function getDiscountType()
+    public function getType()
     {
-        return $this->discountType;
+        return $this->type;
     }
 
     public function setValue($value)
@@ -146,7 +146,7 @@ class Promotion
 
     public function getUnitPrice($unitPrice)
     {
-        switch ($this->discountType) {
+        switch ($this->type) {
             case 'fixed':
                 return (int) ($unitPrice - $this->value);
                 break;

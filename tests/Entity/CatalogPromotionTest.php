@@ -12,7 +12,7 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $this->catalogPromotion = new CatalogPromotion;
         $this->catalogPromotion->setCode('20PCTOFF');
         $this->catalogPromotion->setName('20% Off');
-        $this->catalogPromotion->setDiscountType('percent');
+        $this->catalogPromotion->setType('percent');
         $this->catalogPromotion->setValue(20);
         $this->catalogPromotion->setTag($this->tag);
         $this->catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));

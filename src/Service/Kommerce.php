@@ -2,11 +2,14 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine as Doctrine;
+use inklabs\kommerce\Doctrine\Extensions\TablePrefix;
 
 class Kommerce
 {
+    protected $tablePrefix = 'zk_';
     protected $entityManager;
     protected $entityManagerConfiguration;
+    protected $eventManager;
     protected $sessionManager;
     protected $pricing;
     protected $cacheDriver;
@@ -27,6 +30,10 @@ class Kommerce
             $this->config->setQueryCacheImpl($this->cacheDriver);
             $this->config->setResultCacheImpl($this->cacheDriver);
         }
+
+        $tablePrefix = new TablePrefix($this->tablePrefix);
+        $this->eventManager = new Doctrine\Common\EventManager;
+        $this->eventManager->addEventListener(Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
     }
 
     public function service($serviceClassName)
@@ -82,7 +89,7 @@ class Kommerce
 
     public function setup(array $dbParams)
     {
-        $this->entityManager = Doctrine\ORM\EntityManager::create($dbParams, $this->config);
+        $this->entityManager = Doctrine\ORM\EntityManager::create($dbParams, $this->config, $this->eventManager);
         $this->entityManagerConfiguration = $this->entityManager->getConnection()->getConfiguration();
     }
 
