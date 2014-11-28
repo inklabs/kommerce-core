@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-use inklabs\kommerce\Lib\Payment;
-
 class StripeStub implements Gateway
 {
     public function getCharge(ChargeRequest $chargeRequest)
