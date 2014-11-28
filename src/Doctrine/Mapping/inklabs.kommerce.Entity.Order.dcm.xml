@@ -15,7 +15,7 @@
 
         <field name="status"  column="`status`"  type="string" length="10" />
 
-        <embedded name="total" class="CartTotal" column-prefix="" />
+        <embedded name="total" class="CartTotal" column-prefix="_" />
         <embedded name="shippingAddress" class="OrderAddress" column-prefix="shipping_" />
         <embedded name="billingAddress" class="OrderAddress" column-prefix="billing_" />
 
