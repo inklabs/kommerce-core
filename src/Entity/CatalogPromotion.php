@@ -3,17 +3,8 @@ namespace inklabs\kommerce\Entity;
 
 class CatalogPromotion extends Promotion
 {
-    protected $id;
-    protected $name;
-    protected $discountType;
-    protected $value;
-    protected $redemptions;
-    protected $maxRedemptions;
-    protected $start;
-    protected $end;
-    protected $tag;
-
     protected $code;
+    protected $tag;
 
     public function setCode($code)
     {

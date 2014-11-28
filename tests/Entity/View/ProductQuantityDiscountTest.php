@@ -9,7 +9,7 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->productQuantityDiscount = new Entity\ProductQuantityDiscount;
-        $this->productQuantityDiscount->setDiscountType('exact');
+        $this->productQuantityDiscount->setType('exact');
         $this->productQuantityDiscount->setQuantity(10);
         $this->productQuantityDiscount->setValue(500);
 

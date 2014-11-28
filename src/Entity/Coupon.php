@@ -13,7 +13,7 @@ class Coupon extends Promotion
 
     public function __construct()
     {
-        $this->setCreated();
+        parent::__construct();
         $this->flagFreeShipping = false;
         $this->canCombineWithOtherCoupons = false;
     }

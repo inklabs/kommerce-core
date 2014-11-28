@@ -8,7 +8,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $this->coupon = new Coupon;
         $this->coupon->setName('20% Off orders over $100');
         $this->coupon->setCode('20PCT100');
-        $this->coupon->setDiscountType('percent');
+        $this->coupon->setType('percent');
         $this->coupon->setValue(20);
         $this->coupon->setMinOrderValue(10000);
         $this->coupon->setMaxOrderValue(null);
@@ -19,7 +19,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('20% Off orders over $100', $this->coupon->getName());
         $this->assertEquals('20PCT100', $this->coupon->getCode());
-        $this->assertEquals('percent', $this->coupon->getDiscountType());
+        $this->assertEquals('percent', $this->coupon->getType());
         $this->assertEquals(20, $this->coupon->getValue());
         $this->assertEquals(10000, $this->coupon->getMinOrderValue());
         $this->assertEquals(null, $this->coupon->getMaxOrderValue());
@@ -35,7 +35,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
     public function testIsMaxOrderValueValid()
     {
         $this->coupon->setName('20% Off orders under $100');
-        $this->coupon->setDiscountType('percent');
+        $this->coupon->setType('percent');
         $this->coupon->setValue(20);
         $this->coupon->setMaxOrderValue(null);
         $this->coupon->setMaxOrderValue(10000);
@@ -48,7 +48,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
     {
         $this->coupon = new Coupon;
         $this->coupon->setName('20% Off orders $10-$100');
-        $this->coupon->setDiscountType('percent');
+        $this->coupon->setType('percent');
         $this->coupon->setValue(20);
         $this->coupon->setMinOrderValue(1000);
         $this->coupon->setMaxOrderValue(10000);

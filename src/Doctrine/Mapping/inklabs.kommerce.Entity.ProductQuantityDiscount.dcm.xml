@@ -10,27 +10,37 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="discountType"               column="`discount_type`"            type="string" />
-        <field name="value"                      column="`discount_value`"           type="integer" />
+        <field name="name"               column="`name`"                 type="string" length="255" nullable="true" />
+        <field name="type"               column="`type`"                 type="string" length="7" />
+        <field name="value"              column="`value`"                type="integer" />
+        <field name="redemptions"        column="`redemptions`"          type="integer" />
+        <field name="start"              column="`start`"                type="date" />
+        <field name="end"                column="`end`"                  type="date" />
+        <field name="reducesTaxSubtotal" column="`reduces_tax_subtotal`" type="boolean" nullable="false" />
+        <field name="maxRedemptions"     column="`max_redemptions`"      type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <field name="flagApplyCatalogPromotions" column="`apply_catalog_promotions`" type="boolean" />
         <field name="quantity"                   column="`quantity`"                 type="integer" />
-        <field name="start"                      column="`start`"                    type="date" />
-        <field name="end"                        column="`end`"                      type="date" />
+
+        <many-to-one field="product" target-entity="Product" inversed-by="productQuantityDiscounts">
+            <join-column name="`product_id`" referenced-column-name="`id`" />
+        </many-to-one>
 
         <field name="created" column="`created`" type="integer" nullable="false">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
+
         <field name="updated" column="`updated`" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
-
-        <many-to-one field="product" target-entity="Product" inversed-by="productQuantityDiscounts">
-            <join-column name="`product_id`" referenced-column-name="`id`" />
-        </many-to-one>
 
         <entity-listeners>
             <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">

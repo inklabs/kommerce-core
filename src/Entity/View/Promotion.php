@@ -7,7 +7,7 @@ class Promotion
 {
     public $id;
     public $name;
-    public $discountType; // fixed, percent, exact
+    public $type; // fixed, percent, exact
     public $value;
     public $redemptions;
     public $maxRedemptions;
@@ -24,7 +24,7 @@ class Promotion
         $this->promotion = $promotion;
 
         $this->name           = $promotion->getName();
-        $this->discountType   = $promotion->getDiscountType();
+        $this->type           = $promotion->getType();
         $this->value          = $promotion->getValue();
         $this->redemptions    = $promotion->getRedemptions();
         $this->maxRedemptions = $promotion->getMaxRedemptions();

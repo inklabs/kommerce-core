@@ -13,31 +13,12 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="name" column="`name`" type="string" nullable="false">
-            <options>
-                <option name="length">255</option>
-            </options>
-        </field>
-        <field name="description" column="`description`" type="text" nullable="true">
-            <options>
-                <option name="length">65535</option>
-            </options>
-        </field>
-        <field name="defaultImage" column="`default_image`" type="string" nullable="true">
-            <options>
-                <option name="length">255</option>
-            </options>
-        </field>
-        <field name="isProductGroup" column="`is_product_group`" type="boolean" nullable="false">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-        <field name="isVisible" column="`visible`" type="boolean" nullable="false">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
+        <field name="name"           column="`name`"             type="string"  length="255"   nullable="false" />
+        <field name="description"    column="`description`"      type="text"    length="65535" nullable="true" />
+        <field name="defaultImage"   column="`default_image`"    type="string"  length="255"   nullable="true" />
+        <field name="isProductGroup" column="`is_product_group`" type="boolean" nullable="false" />
+        <field name="isVisible"      column="`visible`"          type="boolean" nullable="false" />
+
         <field name="sortOrder" column="`sort_order`" type="integer" nullable="false">
             <options>
                 <option name="unsigned">true</option>

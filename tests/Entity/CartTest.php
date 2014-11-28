@@ -139,7 +139,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $coupon = new Coupon;
         $coupon->setName('20% Off');
-        $coupon->setDiscountType('percent');
+        $coupon->setType('percent');
         $coupon->setValue(20);
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
@@ -266,7 +266,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $coupon = new Coupon;
         $coupon->setName('20% Off');
-        $coupon->setDiscountType('percent');
+        $coupon->setType('percent');
         $coupon->setValue(20);
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
@@ -291,7 +291,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon = new Coupon;
         $coupon->setId($id);
         $coupon->setName($value . '% Off');
-        $coupon->setDiscountType('percent');
+        $coupon->setType('percent');
         $coupon->setValue($value);
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
@@ -307,7 +307,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $coupon = new Coupon;
         $coupon->setName('20% Off');
-        $coupon->setDiscountType('percent');
+        $coupon->setType('percent');
         $coupon->setValue(20);
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
@@ -333,7 +333,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $catalogPromotion = new CatalogPromotion;
         $catalogPromotion->setName('20% Off');
-        $catalogPromotion->setDiscountType('percent');
+        $catalogPromotion->setType('percent');
         $catalogPromotion->setValue(20);
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
@@ -347,7 +347,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $coupon = new Coupon;
         $coupon->setName('20% Off');
-        $coupon->setDiscountType('percent');
+        $coupon->setType('percent');
         $coupon->setValue(20);
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
@@ -378,7 +378,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $coupon = new Coupon;
         $coupon->setName('20% Off orders under $100');
-        $coupon->setDiscountType('percent');
+        $coupon->setType('percent');
         $coupon->setValue(20);
         $coupon->setMinOrderValue(1000);
         $coupon->setMaxOrderValue(10000);
@@ -539,7 +539,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $coupon = new Coupon;
         $coupon->setName('20% Off orders under $100');
-        $coupon->setDiscountType('percent');
+        $coupon->setType('percent');
         $coupon->setValue(20);
         $coupon->setMinOrderValue(1000);
         $coupon->setMaxOrderValue(10000);
@@ -582,7 +582,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $coupon = new Coupon;
         $coupon->setName('20% Off orders under $100');
-        $coupon->setDiscountType('percent');
+        $coupon->setType('percent');
         $coupon->setValue(20);
         $coupon->setMinOrderValue(1000);
         $coupon->setMaxOrderValue(10000);
