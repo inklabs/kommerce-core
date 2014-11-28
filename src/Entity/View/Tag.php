@@ -13,7 +13,6 @@ class Tag
     public $name;
     public $description;
     public $defaultImage;
-    public $isProductGroup;
     public $sortOrder;
     public $isVisible;
     public $products = [];
@@ -29,7 +28,6 @@ class Tag
         $this->name           = $tag->getName();
         $this->description    = $tag->getDescription();
         $this->defaultImage   = $tag->getDefaultImage();
-        $this->isProductGroup = $tag->getIsProductGroup();
         $this->sortOrder      = $tag->getSortOrder();
         $this->isVisible      = $tag->getIsVisible();
 

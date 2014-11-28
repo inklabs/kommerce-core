@@ -12,7 +12,6 @@ class Tag
     protected $name;
     protected $description;
     protected $defaultImage;
-    protected $isProductGroup;
     protected $sortOrder;
     protected $isVisible;
     protected $products;
@@ -84,16 +83,6 @@ class Tag
     public function getDefaultImage()
     {
         return $this->defaultImage;
-    }
-
-    public function getIsProductGroup()
-    {
-        return $this->isProductGroup;
-    }
-
-    public function setIsProductGroup($isProductGroup)
-    {
-        $this->isProductGroup = $isProductGroup;
     }
 
     public function getSortOrder()

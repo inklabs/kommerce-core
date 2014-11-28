@@ -133,7 +133,6 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $tag = new Entity\Tag;
         $tag->setName('Test Tag');
-        $tag->setIsProductGroup(false);
         $tag->setIsVisible(true);
 
         $this->product->addTag($tag);
@@ -209,7 +208,6 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->tag->setName('Test Tag');
         $this->tag->setDescription('Test Description');
         $this->tag->setDefaultImage('http://lorempixel.com/400/200/');
-        $this->tag->setIsProductGroup(false);
         $this->tag->setSortOrder(0);
         $this->tag->setIsVisible(true);
 
