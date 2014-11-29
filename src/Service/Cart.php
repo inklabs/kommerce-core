@@ -224,7 +224,6 @@ class Cart extends Lib\EntityManager
         $order->addPayment($payment);
 
         $this->entityManager->persist($order);
-        $this->entityManager->persist($payment);
         $this->entityManager->flush();
 
         return $order;
