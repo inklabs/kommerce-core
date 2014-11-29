@@ -626,8 +626,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
         $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cartPriceRule->addItem(new CartPriceRuleItem($productShirt, 1));
-        $cartPriceRule->addItem(new CartPriceRuleItem($productPoster, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProduct($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProduct($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $cart = new Cart;
@@ -667,8 +667,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->setReducesTaxSubtotal(true);
         $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cartPriceRule->addItem(new CartPriceRuleItem($productShirt, 1));
-        $cartPriceRule->addItem(new CartPriceRuleItem($productPoster, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProduct($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProduct($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $taxRate = new TaxRate;
@@ -700,16 +700,19 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testGetTotalCartPriceRuleInvalidCartItems()
     {
         $productShirt = new Product;
+        $productShirt->setId(1);
         $productShirt->setSku('TS-NAVY-LG');
         $productShirt->setName('Navy T-shirt (large)');
         $productShirt->setUnitPrice(1200);
 
         $productPoster = new Product;
+        $productPoster->setId(2);
         $productPoster->setSku('PST-CKN');
         $productPoster->setName('Citizen Kane (1941) Poster');
         $productPoster->setUnitPrice(500);
 
         $productJacket = new Product;
+        $productJacket->setId(3);
         $productJacket->setSku('JKT001');
         $productJacket->setName('Navy Jacket');
         $productJacket->setUnitPrice(2500);
@@ -718,8 +721,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
         $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cartPriceRule->addItem(new CartPriceRuleItem($productShirt, 1));
-        $cartPriceRule->addItem(new CartPriceRuleItem($productPoster, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProduct($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProduct($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $cart = new Cart;
