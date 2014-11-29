@@ -25,6 +25,10 @@
 
         <embedded name="price" class="Price" column-prefix="_" />
 
+        <field name="productSku"    column="`product_sku`"     type="string" length="64"  nullable="true" />
+        <field name="productName"   column="`product_name`"    type="string" length="255" nullable="false" />
+        <field name="discountNames" column="`discount_names`"  type="string" length="255" nullable="true" />
+
         <many-to-many field="catalogPromotions" target-entity="CatalogPromotion">
             <join-table name="`order_item_catalog_promotion`">
                 <join-columns>
