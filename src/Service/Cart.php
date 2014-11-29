@@ -12,6 +12,8 @@ class Cart extends Lib\EntityManager
 {
     protected $sessionManager;
     protected $cartSessionKey = 'newcart';
+
+    /* @var Entity\Cart */
     protected $cart;
     protected $shippingRate;
     protected $taxRate;
@@ -222,6 +224,10 @@ class Cart extends Lib\EntityManager
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
         $order->addPayment($payment);
+
+        foreach ($this->cart->getCoupons() as $coupon) {
+            $order->addCoupon($coupon);
+        }
 
         $this->entityManager->persist($order);
         $this->entityManager->flush();
