@@ -54,6 +54,11 @@ class Order
         $this->status = $status;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getTotal()
     {
         return $this->total;
