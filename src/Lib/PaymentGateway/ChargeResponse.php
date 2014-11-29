@@ -6,6 +6,7 @@ class ChargeResponse
     protected $id;
     protected $created;
     protected $amount;
+    protected $last4;
     protected $currency;
     protected $fee;
     protected $description;
@@ -18,6 +19,16 @@ class ChargeResponse
     public function setAmount($amount)
     {
         $this->amount = $amount;
+    }
+
+    public function getLast4()
+    {
+        return $this->last4;
+    }
+
+    public function setLast4($last4)
+    {
+        $this->last4 = $last4;
     }
 
     public function getCreated()
