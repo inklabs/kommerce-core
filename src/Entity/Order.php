@@ -76,6 +76,7 @@ class Order
 
     public function addPayment(Payment\Payment $payment)
     {
+        $payment->addOrder($this);
         $this->payments[] = $payment;
     }
 
