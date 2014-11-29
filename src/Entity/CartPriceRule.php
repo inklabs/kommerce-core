@@ -45,9 +45,7 @@ class CartPriceRule extends Promotion
         $matchedItemsCount = 0;
         foreach ($this->items as $item) {
             foreach ($cartItems as $cartItem) {
-                if ($cartItem->getProduct() == $item->getProduct()
-                    and $cartItem->getQuantity() >= $item->getQuantity()
-                ) {
+                if ($item->matches($cartItem)) {
                     $matchedItemsCount++;
                     break;
                 }
