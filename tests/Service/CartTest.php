@@ -338,7 +338,7 @@ class CartTest extends Helper\DoctrineTestCase
 
         $order = $this->cart->createOrder(new Payment\Cash(2000), $shippingAddress);
 
-        $payment = $order->getPayments()[0];
+        $payment = $this->entityManager->getRepository('inklabs\kommerce\Entity\Payment\Payment')->find(1);
         $this->assertEquals(1, $payment->getId());
         $this->assertEquals(2000, $payment->getAmount());
     }
