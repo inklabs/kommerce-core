@@ -31,7 +31,7 @@
             </options>
         </field>
 
-        <field name="quantity" column="`quantity`" type="integer">
+        <field name="quantity" column="`quantity`" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
