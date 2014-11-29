@@ -6,7 +6,6 @@
     "support": {
         "source": "https://github.com/inklabs/kommerce-core"
     },
-    "minimum-stability": "dev",
     "require-dev": {
         "phpunit/phpunit": "4.3.*",
         "squizlabs/php_codesniffer": "1.5.5",
