@@ -1,18 +1,20 @@
 <?php
-namespace inklabs\kommerce\Entity;
+namespace inklabs\kommerce\Entity\CartPriceRule;
 
-class CartPriceRuleTag extends CartPriceRuleItem
+use inklabs\kommerce\Entity as Entity;
+
+class Tag extends Item
 {
     protected $tag;
 
-    public function __construct(Tag $tag, $quantity)
+    public function __construct(Entity\Tag $tag, $quantity)
     {
         $this->setCreated();
         $this->tag = $tag;
         $this->quantity = $quantity;
     }
 
-    public function matches(CartItem $cartItem)
+    public function matches(Entity\CartItem $cartItem)
     {
         foreach ($cartItem->getProduct()->getTags() as $tag) {
             if (

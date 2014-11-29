@@ -626,8 +626,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
         $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cartPriceRule->addItem(new CartPriceRuleProduct($productShirt, 1));
-        $cartPriceRule->addItem(new CartPriceRuleProduct($productPoster, 1));
+        $cartPriceRule->addItem(new CartPriceRule\Product($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRule\Product($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $cart = new Cart;
@@ -667,8 +667,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->setReducesTaxSubtotal(true);
         $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cartPriceRule->addItem(new CartPriceRuleProduct($productShirt, 1));
-        $cartPriceRule->addItem(new CartPriceRuleProduct($productPoster, 1));
+        $cartPriceRule->addItem(new CartPriceRule\Product($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRule\Product($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $taxRate = new TaxRate;
@@ -721,8 +721,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
         $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cartPriceRule->addItem(new CartPriceRuleProduct($productShirt, 1));
-        $cartPriceRule->addItem(new CartPriceRuleProduct($productPoster, 1));
+        $cartPriceRule->addItem(new CartPriceRule\Product($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRule\Product($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $cart = new Cart;

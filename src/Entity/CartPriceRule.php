@@ -14,7 +14,7 @@ class CartPriceRule extends Promotion
         $this->discounts = new ArrayCollection();
     }
 
-    public function addItem(CartPriceRuleItem $item)
+    public function addItem(CartPriceRule\Item $item)
     {
         $this->items[] = $item;
     }

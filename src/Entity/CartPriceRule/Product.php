@@ -1,18 +1,20 @@
 <?php
-namespace inklabs\kommerce\Entity;
+namespace inklabs\kommerce\Entity\CartPriceRule;
 
-class CartPriceRuleProduct extends CartPriceRuleItem
+use inklabs\kommerce\Entity as Entity;
+
+class Product extends Item
 {
     protected $product;
 
-    public function __construct(Product $product, $quantity)
+    public function __construct(Entity\Product $product, $quantity)
     {
         $this->setCreated();
         $this->product = $product;
         $this->quantity = $quantity;
     }
 
-    public function matches(CartItem $cartItem)
+    public function matches(Entity\CartItem $cartItem)
     {
         if (
             $cartItem->getProduct()->getId() == $this->product->getId()
