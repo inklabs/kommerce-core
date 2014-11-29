@@ -21,8 +21,8 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->setName('Buy two Shirts (TS-NAVY-LG) get a FREE poster (PST-CKN)');
         $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cartPriceRule->addItem(new CartPriceRuleProduct($productShirt, 2));
-        $cartPriceRule->addItem(new CartPriceRuleProduct($productPoster, 1));
+        $cartPriceRule->addItem(new CartPriceRule\Product($productShirt, 2));
+        $cartPriceRule->addItem(new CartPriceRule\Product($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $pricing = new Service\Pricing;
@@ -75,8 +75,8 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->setName('Buy two Shirts get a FREE poster');
         $cartPriceRule->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $cartPriceRule->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $cartPriceRule->addItem(new CartPriceRuleTag($tagShirt, 2));
-        $cartPriceRule->addItem(new CartPriceRuleTag($tagPoster, 1));
+        $cartPriceRule->addItem(new CartPriceRule\Tag($tagShirt, 2));
+        $cartPriceRule->addItem(new CartPriceRule\Tag($tagPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $pricing = new Service\Pricing;

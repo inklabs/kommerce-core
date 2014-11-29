@@ -1,14 +1,17 @@
 <?php
-namespace inklabs\kommerce\Entity;
+namespace inklabs\kommerce\Entity\CartPriceRule;
 
-abstract class CartPriceRuleItem
+use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity\Accessor;
+
+abstract class Item
 {
     use Accessor\Time;
 
     protected $id;
     protected $quantity;
 
-    abstract public function matches(CartItem $cartItem);
+    abstract public function matches(Entity\CartItem $cartItem);
 
     public function setId($id)
     {
