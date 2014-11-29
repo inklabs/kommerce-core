@@ -77,7 +77,7 @@ class Pricing
         $this->price->origQuantityPrice = ($this->price->origUnitPrice * $this->quantity);
         $this->price->unitPrice = $this->price->origUnitPrice;
 
-        $this->applyProductQuantityDiscounts();
+        $this->applyProductQuantityDiscount();
         $this->applyCatalogPromotions();
         $this->calculateQuantityPrice();
         $this->applyProductOptionPrices();
@@ -85,12 +85,12 @@ class Pricing
         return $this->price;
     }
 
-    private function applyProductQuantityDiscounts()
+    private function applyProductQuantityDiscount()
     {
         foreach ($this->productQuantityDiscounts as $productQuantityDiscount) {
             if ($productQuantityDiscount->isValid($this->date, $this->quantity)) {
                 $this->price->unitPrice = $productQuantityDiscount->getUnitPrice($this->price->unitPrice);
-                $this->price->addProductQuantityDiscount($productQuantityDiscount);
+                $this->price->setProductQuantityDiscount($productQuantityDiscount);
                 break;
             }
         }

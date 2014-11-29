@@ -24,8 +24,6 @@
             </options>
         </field>
 
-        <!--private $productQuantityDiscounts = [];-->
-
     </embeddable>
 
 </doctrine-mapping>
