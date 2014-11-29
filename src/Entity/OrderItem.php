@@ -34,7 +34,7 @@ class OrderItem
             $this->catalogPromotions[] = $catalogPromotion;
         }
 
-//        $this->productQuantityDiscount = $price->getProductQuantityDiscount();
+        $this->productQuantityDiscount = $price->getProductQuantityDiscount();
     }
 
     public function getId()

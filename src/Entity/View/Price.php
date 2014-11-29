@@ -10,7 +10,7 @@ class Price
     public $origQuantityPrice;
     public $quantityPrice;
     public $catalogPromotions = [];
-    public $productQuantityDiscounts = [];
+    public $productQuantityDiscount;
 
     public function __construct(Entity\Price $price)
     {
@@ -47,8 +47,10 @@ class Price
 
     public function withProductQuantityDiscounts()
     {
-        foreach ($this->price->getProductQuantityDiscounts() as $productQuantityDiscount) {
-            $this->productQuantityDiscounts[] = ProductQuantityDiscount::factory($productQuantityDiscount)
+        $productQuantityDiscount = $this->price->getProductQuantityDiscount();
+
+        if ($productQuantityDiscount !== null) {
+            $this->productQuantityDiscount = ProductQuantityDiscount::factory($productQuantityDiscount)
                 ->export();
         }
 

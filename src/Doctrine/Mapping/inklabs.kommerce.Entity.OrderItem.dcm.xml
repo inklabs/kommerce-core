@@ -36,7 +36,11 @@
             </join-table>
         </many-to-many>
 
-        <many-to-one field="order" target-entity="inklabs\kommerce\Entity\Order" inversed-by="items">
+        <many-to-one field="productQuantityDiscount" target-entity="ProductQuantityDiscount">
+            <join-column name="`product_quantity_discount_id`" referenced-column-name="`id`" />
+        </many-to-one>
+
+        <many-to-one field="order" target-entity="Order" inversed-by="items">
             <join-column name="`order_id`" referenced-column-name="`id`" />
         </many-to-one>
 

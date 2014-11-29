@@ -24,6 +24,12 @@
             </options>
         </field>
 
+        <field name="discount" column="`discount`" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <field name="shipping" column="`shipping`" type="integer">
             <options>
                 <option name="unsigned">true</option>
