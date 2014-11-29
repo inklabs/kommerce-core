@@ -5,6 +5,7 @@ use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
 
 class EntityManager
 {
+    /* @var \Doctrine\ORM\EntityManager */
     protected $entityManager;
 
     public function setEntityManager(\Doctrine\ORM\EntityManager $entityManager)

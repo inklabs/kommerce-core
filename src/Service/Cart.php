@@ -217,7 +217,7 @@ class Cart extends Lib\EntityManager
             $billingAddress = clone $shippingAddress;
         }
 
-        $order = new Entity\Order($this->cart, $this->pricing);
+        $order = new Entity\Order($this->cart, $this->pricing, $this->shippingRate, $this->taxRate);
         $order->setStatus('pending');
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);

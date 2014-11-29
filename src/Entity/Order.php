@@ -27,8 +27,7 @@ class Order
     ) {
         $this->setCreated();
         $this->items = new ArrayCollection();
-        $this->cash_payments = new ArrayCollection();
-        $this->credit_payments = new ArrayCollection();
+        $this->payments = new ArrayCollection();
         $this->total = $cart->getTotal($pricing, $shippingRate, $taxRate);
         $this->setItems($cart->getItems(), $pricing);
     }
