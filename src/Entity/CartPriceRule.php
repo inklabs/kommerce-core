@@ -19,10 +19,10 @@ class CartPriceRule extends Promotion
         $this->items[] = $item;
     }
 
-    public function getItems()
-    {
-        return $this->items;
-    }
+//    public function getItems()
+//    {
+//        return $this->items;
+//    }
 
     public function addDiscount(CartPriceRuleDiscount $discount)
     {
