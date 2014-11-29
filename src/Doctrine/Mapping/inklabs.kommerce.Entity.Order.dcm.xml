@@ -19,16 +19,28 @@
         <embedded name="shippingAddress" class="OrderAddress" column-prefix="shipping_" />
         <embedded name="billingAddress" class="OrderAddress" column-prefix="billing_" />
 
-        <one-to-many field="items" target-entity="inklabs\kommerce\Entity\OrderItem" mapped-by="order">
+        <one-to-many field="items" target-entity="OrderItem" mapped-by="order">
             <cascade>
                 <cascade-persist/>
             </cascade>
         </one-to-many>
+
         <one-to-many field="payments" target-entity="inklabs\kommerce\Entity\Payment\Payment" mapped-by="order">
             <cascade>
                 <cascade-persist/>
             </cascade>
         </one-to-many>
+
+        <many-to-many field="coupons" target-entity="Coupon">
+            <join-table name="`order_coupon`">
+                <join-columns>
+                    <join-column name="`order_id`" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="`coupon_id`" referenced-column-name="id" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
 
         <field name="created" column="`created`" type="integer" nullable="false">
             <options>

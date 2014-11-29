@@ -18,6 +18,7 @@ class Order
 
     protected $items;
     protected $payments;
+    protected $coupons;
 
     public function __construct(
         Cart $cart,
@@ -28,7 +29,9 @@ class Order
         $this->setCreated();
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
-        $this->total = $cart->getTotal($pricing, $shippingRate, $taxRate);
+        $this->coupons = new ArrayCollection();
+
+        $this->setTotal($cart->getTotal($pricing, $shippingRate, $taxRate));
         $this->setItems($cart->getItems(), $pricing);
     }
 
@@ -61,6 +64,11 @@ class Order
         return $this->id;
     }
 
+    private function setTotal(CartTotal $total)
+    {
+        $this->total = $total;
+    }
+
     public function getTotal()
     {
         return $this->total;
@@ -90,5 +98,15 @@ class Order
     public function getPayments()
     {
         return $this->payments;
+    }
+
+    public function addCoupon(Coupon $coupon)
+    {
+        $this->coupons[] = $coupon;
+    }
+
+    public function getCoupons()
+    {
+        return $this->coupons;
     }
 }
