@@ -41,7 +41,9 @@ class Order
 
     private function addItem(CartItem $cartItem, Pricing $pricing)
     {
-        $this->items[] = new OrderItem($cartItem, $pricing);
+        $orderItem = new OrderItem($cartItem, $pricing);
+        $orderItem->setOrder($this);
+        $this->items[] = $orderItem;
 
         end($this->items);
         $id = key($this->items);

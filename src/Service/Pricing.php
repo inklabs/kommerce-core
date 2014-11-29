@@ -59,7 +59,7 @@ class Pricing
         $this->productQuantityDiscounts[] = $productQuantityDiscount;
     }
 
-    public function sortProductQuantityDiscountsByQuantityDescending()
+    private function sortProductQuantityDiscountsByQuantityDescending()
     {
         usort(
             $this->productQuantityDiscounts,
