@@ -17,6 +17,7 @@ class Stripe implements Gateway
         $chargeResponse = new ChargeResponse;
         $chargeResponse->setId($stripeCharge['id']);
         $chargeResponse->setAmount($stripeCharge['amount']);
+        $chargeResponse->setLast4($stripeCharge['card']['last4']);
         $chargeResponse->setCreated($stripeCharge['created']);
         $chargeResponse->setCurrency($stripeCharge['currency']);
         $chargeResponse->setFee($stripeCharge['fee']);
