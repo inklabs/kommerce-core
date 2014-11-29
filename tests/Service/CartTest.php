@@ -356,11 +356,10 @@ class CartTest extends Helper\DoctrineTestCase
         $shippingAddress = $this->getShippingAddress();
         $order = $this->cart->createOrder($creditPayment, $shippingAddress);
 
-        $payments = $order->getPayments();
-        $payment = $payments[0];
+        $payment = $this->entityManager->getRepository('inklabs\kommerce\Entity\Payment\Payment')->find(1);
         $charge = $payment->getCharge();
-
         $this->assertEquals(1, $payment->getId());
+        $this->assertEquals(1, $payment->getOrder()->getId());
         $this->assertEquals(2000, $payment->getAmount());
         $this->assertEquals(2000, $charge->getAmount());
         $this->assertEquals(88, $charge->getFee());
