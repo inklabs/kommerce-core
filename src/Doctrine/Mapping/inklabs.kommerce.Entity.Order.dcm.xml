@@ -26,6 +26,7 @@
                 <option name="unsigned">true</option>
             </options>
         </field>
+
         <field name="updated" column="`updated`" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>

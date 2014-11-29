@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity\Payment;
 
+use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Entity\Accessor;
 
 abstract class Payment
@@ -9,6 +10,7 @@ abstract class Payment
 
     protected $id;
     protected $amount;
+
     protected $order;
 
     public function getId()
@@ -19,5 +21,10 @@ abstract class Payment
     public function getAmount()
     {
         return $this->amount;
+    }
+
+    public function addOrder(Entity\Order $order)
+    {
+        $this->order = $order;
     }
 }
