@@ -8,10 +8,9 @@ class TagTest extends Helper\DoctrineTestCase
 {
     /* @var Tag */
     protected $tagService;
+
+    /* @var Entity\Tag */
     protected $tag;
-    protected $product1;
-    protected $product2;
-    protected $product3;
 
     public function setUp()
     {
@@ -25,18 +24,18 @@ class TagTest extends Helper\DoctrineTestCase
         $this->tag->setIsVisible(true);
         $this->tag->setIsActive(true);
 
-        $this->product1 = $this->getDummyProduct(1);
-        $this->product2 = $this->getDummyProduct(2);
-        $this->product3 = $this->getDummyProduct(3);
+        $product1 = $this->getDummyProduct(1);
+        $product2 = $this->getDummyProduct(2);
+        $product3 = $this->getDummyProduct(3);
 
-        $this->product1->addTag($this->tag);
-        $this->product2->addTag($this->tag);
-        $this->product3->addTag($this->tag);
+        $product1->addTag($this->tag);
+        $product2->addTag($this->tag);
+        $product3->addTag($this->tag);
 
         $this->entityManager->persist($this->tag);
-        $this->entityManager->persist($this->product1);
-        $this->entityManager->persist($this->product2);
-        $this->entityManager->persist($this->product3);
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->persist($product3);
         $this->entityManager->flush();
     }
 
