@@ -45,7 +45,7 @@ class TaxRateTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testFindByZip5AndStateEmpty()
     {
