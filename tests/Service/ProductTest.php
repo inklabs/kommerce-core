@@ -8,6 +8,8 @@ class ProductTest extends Helper\DoctrineTestCase
 {
     /* @var Product */
     protected $productService;
+
+    /* @var Entity\Product */
     protected $product;
 
     public function setUp()
@@ -44,17 +46,14 @@ class ProductTest extends Helper\DoctrineTestCase
     public function testFindNotActive()
     {
         $this->product->setIsActive(false);
-        $id = $this->product->getId();
 
-        $product = $this->productService->find($id);
+        $product = $this->productService->find(1);
         $this->assertEquals(null, $product);
     }
 
     public function testFind()
     {
-        $id = $this->product->getId();
-
-        $product = $this->productService->find($id);
+        $product = $this->productService->find(1);
         $this->assertEquals('TST101', $product->sku);
     }
 

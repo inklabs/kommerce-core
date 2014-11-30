@@ -23,6 +23,7 @@ class TagTest extends Helper\DoctrineTestCase
         $this->tag->setDefaultImage('http://lorempixel.com/400/200/');
         $this->tag->setSortOrder(0);
         $this->tag->setIsVisible(true);
+        $this->tag->setIsActive(true);
 
         $this->product1 = $this->getDummyProduct(1);
         $this->product2 = $this->getDummyProduct(2);
@@ -55,6 +56,20 @@ class TagTest extends Helper\DoctrineTestCase
         $product->setIsShippable(true);
         $product->setShippingWeight(16);
         return $product;
+    }
+
+    public function testFindMissing()
+    {
+        $tag = $this->tagService->find(0);
+        $this->assertEquals(null, $tag);
+    }
+
+    public function testFindNotActive()
+    {
+        $this->tag->setIsActive(false);
+
+        $tag = $this->tagService->find(1);
+        $this->assertEquals(null, $tag);
     }
 
     public function testFind()

@@ -95,6 +95,9 @@ class Order
         $this->payments[] = $payment;
     }
 
+    /**
+     * @return Payment\Payment[]
+     */
     public function getPayments()
     {
         return $this->payments;

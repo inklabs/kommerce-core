@@ -154,6 +154,9 @@ class Cart extends Lib\EntityManager
         return $viewCartItems;
     }
 
+    /**
+     * @return Entity\Product[]
+     */
     public function getProducts()
     {
         $products = [];
@@ -163,6 +166,9 @@ class Cart extends Lib\EntityManager
         return $products;
     }
 
+    /**
+     * @return Entity\View\CartItem|null
+     */
     public function getItem($id)
     {
         $cartItem = $this->cart->getItem($id);
@@ -213,6 +219,9 @@ class Cart extends Lib\EntityManager
         $this->save();
     }
 
+    /**
+     * @return Entity\Order
+     */
     public function createOrder(Payment $payment, OrderAddress $shippingAddress, OrderAddress $billingAddress = null)
     {
         if ($billingAddress === null) {
@@ -235,6 +244,9 @@ class Cart extends Lib\EntityManager
         return $order;
     }
 
+    /**
+     * @return Entity\View\Cart
+     */
     public function getView()
     {
         return Entity\View\Cart::factory($this->cart)

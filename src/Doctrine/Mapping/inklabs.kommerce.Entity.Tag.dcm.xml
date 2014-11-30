@@ -16,6 +16,7 @@
         <field name="name"           column="`name`"             type="string"  length="255"   nullable="false" />
         <field name="description"    column="`description`"      type="text"    length="65535" nullable="true" />
         <field name="defaultImage"   column="`default_image`"    type="string"  length="255"   nullable="true" />
+        <field name="isActive"       column="`is_active`"        type="boolean" nullable="false" />
         <field name="isVisible"      column="`is_visible`"       type="boolean" nullable="false" />
 
         <field name="sortOrder" column="`sort_order`" type="integer" nullable="false">

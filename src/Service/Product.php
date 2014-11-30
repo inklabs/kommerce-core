@@ -15,6 +15,9 @@ class Product extends Lib\EntityManager
         $this->pricing = $pricing;
     }
 
+    /**
+     * @return Entity\View\Product|null
+     */
     public function find($id)
     {
         $entityProduct = $this->entityManager->getRepository('inklabs\kommerce\Entity\Product')->find($id);
@@ -28,6 +31,9 @@ class Product extends Lib\EntityManager
             ->export();
     }
 
+    /**
+     * @return Entity\View\Product[]
+     */
     public function getRelatedProducts($products, $limit = 12)
     {
         if (! is_array($products)) {
@@ -75,6 +81,9 @@ class Product extends Lib\EntityManager
         return $viewProducts;
     }
 
+    /**
+     * @return Entity\View\Product[]
+     */
     public function getProductsByTag(Entity\View\Tag $tag, Entity\Pagination & $pagination = null)
     {
         $qb = $this->createQueryBuilder();
@@ -99,6 +108,9 @@ class Product extends Lib\EntityManager
         return $viewProducts;
     }
 
+    /**
+     * @return Entity\View\Product[]
+     */
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->createQueryBuilder();
@@ -122,6 +134,9 @@ class Product extends Lib\EntityManager
         return $viewProducts;
     }
 
+    /**
+     * @return Entity\View\Product[]
+     */
     public function getRandomProducts($limit)
     {
         $qb = $this->createQueryBuilder();
