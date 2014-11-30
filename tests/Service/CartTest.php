@@ -382,6 +382,20 @@ class CartTest extends Helper\DoctrineTestCase
 
     public function testCreateOrderWithAllOptions()
     {
+        $user = new Entity\User;
+        $user->setFirstName('John');
+        $user->setLastName('Doe');
+        $user->setEmail('test@example.com');
+        $user->setUsername('test');
+        $user->setPassword('qwerty');
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        $userService = new User($this->entityManager, $this->sessionManager);
+        $userService->login('test', 'qwerty');
+        $this->cart->setUser($userService->getUser());
+
         $itemId1 = $this->cart->addItem($this->viewProduct, 4);
 
         $chargeRequest = new Lib\PaymentGateway\ChargeRequest(
@@ -410,6 +424,7 @@ class CartTest extends Helper\DoctrineTestCase
         $expectedTotal->taxRate = null;
 
         $this->assertEquals(1, $order->getId());
+        $this->assertEquals(1, $order->getUser()->getId());
         $this->assertEquals($expectedTotal, $order->getTotal());
 
         /** @var Payment\Credit $payment */
