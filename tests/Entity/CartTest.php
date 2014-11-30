@@ -32,7 +32,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testDeleteItemAndItemNotFound()
     {
@@ -181,7 +181,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testAddCouponWithNonStackableCoupon()
     {
@@ -197,7 +197,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testAddCouponWithDuplicateCoupon()
     {
@@ -278,7 +278,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testRemoveCouponMissing()
     {

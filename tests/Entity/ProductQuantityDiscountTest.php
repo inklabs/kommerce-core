@@ -3,6 +3,10 @@ namespace inklabs\kommerce\Entity;
 
 class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
 {
+    /* @var ProductQuantityDiscount */
+    protected $productQuantityDiscount;
+    protected $expectedView;
+
     public function setUp()
     {
         $this->productQuantityDiscount = new ProductQuantityDiscount;
@@ -36,7 +40,7 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testSetName()
     {

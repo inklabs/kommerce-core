@@ -101,7 +101,7 @@ class CartTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testAddItemMissing()
     {
@@ -190,7 +190,7 @@ class CartTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testUpdateQuantityAndItemNotFound()
     {
@@ -206,7 +206,7 @@ class CartTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testDeleteItemAndItemNotFound()
     {
@@ -289,7 +289,7 @@ class CartTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testAddCouponMissing()
     {

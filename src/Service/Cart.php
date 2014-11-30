@@ -155,7 +155,7 @@ class Cart extends Lib\EntityManager
     }
 
     /**
-     * @return Entity\Product[]
+     * @return Entity\View\Product[]
      */
     public function getProducts()
     {
