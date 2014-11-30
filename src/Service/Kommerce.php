@@ -57,6 +57,13 @@ class Kommerce
         return $serviceClass;
     }
 
+    public function sessionService($serviceClassName)
+    {
+        $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
+        $serviceClass = new $serviceClassName($this->entityManager, $this->sessionManager);
+        return $serviceClass;
+    }
+
     public function clearCache()
     {
         $this->cacheDriver->deleteAll();

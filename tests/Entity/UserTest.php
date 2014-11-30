@@ -3,6 +3,9 @@ namespace inklabs\kommerce\Entity;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
+    /* @var User */
+    protected $user;
+
     public function setUp()
     {
         $this->user = new User;
@@ -11,8 +14,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->user->setPassword('xxxx');
         $this->user->setFirstName('John');
         $this->user->setLastName('Doe');
-        $this->user->setLogins(0);
-        $this->user->setLastLogin(null);
     }
 
     public function testGetters()
@@ -20,10 +21,9 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $this->user->getId());
         $this->assertEquals('test@example.com', $this->user->getEmail());
         $this->assertEquals('test', $this->user->getUsername());
-        $this->assertEquals('xxxx', $this->user->getPassword());
         $this->assertEquals('John', $this->user->getFirstName());
         $this->assertEquals('Doe', $this->user->getLastName());
-        $this->assertEquals(0, $this->user->getLogins());
+        $this->assertEquals(0, $this->user->getTotalLogins());
         $this->assertEquals(null, $this->user->getLastLogin());
     }
 
@@ -40,10 +40,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testAddToken()
     {
-        $userToken = new UserToken;
-
-        $this->user->addToken($userToken);
-
+        $this->user->addToken(new UserToken);
         $this->assertEquals(1, count($this->user->getTokens()));
     }
 }

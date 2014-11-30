@@ -19,6 +19,7 @@ class Cart extends Lib\EntityManager
     protected $taxRate;
 
     private $pricing;
+    private $user;
 
     public function __construct(EntityManager $entityManager, Pricing $pricing, Lib\SessionManager $sessionManager)
     {
@@ -229,13 +230,16 @@ class Cart extends Lib\EntityManager
         }
 
         $order = new Entity\Order($this->cart, $this->pricing, $this->shippingRate, $this->taxRate);
-        $order->setStatus('pending');
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
         $order->addPayment($payment);
 
         foreach ($this->cart->getCoupons() as $coupon) {
             $order->addCoupon($coupon);
+        }
+
+        if ($this->user !== null) {
+            $order->setUser($this->user);
         }
 
         $this->entityManager->persist($order);
@@ -252,5 +256,10 @@ class Cart extends Lib\EntityManager
         return Entity\View\Cart::factory($this->cart)
             ->withAllData($this->pricing, $this->shippingRate, $this->taxRate)
             ->export();
+    }
+
+    public function setUser(Entity\User $user)
+    {
+        $this->user = $user;
     }
 }

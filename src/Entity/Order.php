@@ -10,12 +10,18 @@ class Order
     use Accessor\Time;
 
     protected $id;
-    protected $status = 'pending'; // 'pending','processing','shipped','complete','canceled'
-
     protected $total;
     protected $shippingAddress;
     protected $billingAddress;
 
+    protected $status;
+    const STATUS_PENDING    = 0;
+    const STATUS_PROCESSING = 1;
+    const STATUS_SHIPPED    = 2;
+    const STATUS_COMPLETE   = 3;
+    const STATUS_CANCELED   = 4;
+
+    protected $user;
     protected $items;
     protected $payments;
     protected $coupons;
@@ -31,6 +37,7 @@ class Order
         $this->payments = new ArrayCollection();
         $this->coupons = new ArrayCollection();
 
+        $this->setStatus(new OrderStatus\Pending);
         $this->setTotal($cart->getTotal($pricing, $shippingRate, $taxRate));
         $this->setItems($cart->getItems(), $pricing);
     }
@@ -54,9 +61,9 @@ class Order
         return $id;
     }
 
-    public function setStatus($status)
+    public function setStatus(OrderStatus\Status $status)
     {
-        $this->status = $status;
+        $this->status = $status->getCode();
     }
 
     public function getId()
@@ -111,5 +118,18 @@ class Order
     public function getCoupons()
     {
         return $this->coupons;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

@@ -10,25 +10,45 @@ class User
     protected $id;
     protected $email;
     protected $username;
-    protected $password;
+    protected $passwordHash;
     protected $firstName;
     protected $lastName;
-    protected $logins;
+    protected $totalLogins;
     protected $lastLogin;
+
+    protected $status;
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_LOCKED = 2;
 
     protected $roles;
     protected $tokens;
+    protected $orders;
 
     public function __construct()
     {
         $this->setCreated();
         $this->roles = new ArrayCollection();
         $this->tokens = new ArrayCollection();
+        $this->orders = new ArrayCollection();
+        $this->totalLogins = 0;
+        $this->lastLogin = null;
+        $this->status = self::STATUS_ACTIVE;
     }
 
     public function getId()
     {
         return $this->id;
+    }
+
+    public function isActive()
+    {
+        return $this->status === self::STATUS_ACTIVE;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     public function setEmail($email)
@@ -53,12 +73,12 @@ class User
 
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->passwordHash = password_hash($password, PASSWORD_BCRYPT);
     }
 
-    public function getPassword()
+    public function verifyPassword($password)
     {
-        return $this->password;
+        return password_verify($password, $this->passwordHash);
     }
 
     public function setFirstName($firstName)
@@ -81,19 +101,20 @@ class User
         return $this->lastName;
     }
 
-    public function setLogins($logins)
+    public function incrementTotalLogins()
     {
-        $this->logins = $logins;
+        $this->totalLogins++;
+        $this->setLastLogin(new \DateTime('now', new \DateTimeZone('UTC')));
     }
 
-    public function getLogins()
+    public function getTotalLogins()
     {
-        return $this->logins;
+        return $this->totalLogins;
     }
 
-    public function setLastLogin($lastLogin)
+    public function setLastLogin(\DateTime $lastLogin)
     {
-        $this->lastLogin = $lastLogin;
+        $this->lastLogin = $lastLogin->getTimestamp();
     }
 
     public function getLastLogin()

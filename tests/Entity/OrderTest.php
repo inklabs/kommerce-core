@@ -37,7 +37,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $billingAddress = clone $shippingAddress;
 
         $this->order = new Order($cart, new Pricing);
-        $this->order->setStatus('pending');
         $this->order->setShippingAddress($shippingAddress);
         $this->order->setBillingAddress($billingAddress);
     }
