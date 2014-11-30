@@ -8,12 +8,17 @@ use inklabs\kommerce\Service\Pricing;
 class CartItem
 {
     public $id;
-    public $product;
+
     public $quantity;
     public $shippingWeight;
-    public $price;
     public $created;
     public $updated;
+
+    /* @var Product */
+    public $product;
+
+    /* @var Price */
+    public $price;
 
     public function __construct(Entity\CartItem $cartItem)
     {

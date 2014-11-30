@@ -12,7 +12,10 @@ class CartTest extends Helper\DoctrineTestCase
     protected $cart;
     protected $pricing;
     protected $sessionManager;
+
+    /* @var Entity\Product */
     protected $product;
+    protected $viewProduct;
 
     public function setUp()
     {
@@ -334,9 +337,11 @@ class CartTest extends Helper\DoctrineTestCase
 
     public function testCreateOrderWithCashPayment()
     {
-        $shippingAddress = $this->getShippingAddress();
+        $itemId1 = $this->cart->addItem($this->viewProduct, 4);
 
+        $shippingAddress = $this->getShippingAddress();
         $order = $this->cart->createOrder(new Payment\Cash(2000), $shippingAddress);
+        unset($order);
 
         $payment = $this->entityManager->getRepository('inklabs\kommerce\Entity\Payment\Payment')->find(1);
         $this->assertEquals(1, $payment->getId());
@@ -346,6 +351,8 @@ class CartTest extends Helper\DoctrineTestCase
 
     public function testCreateOrderWithCreditCardPayment()
     {
+        $itemId1 = $this->cart->addItem($this->viewProduct, 4);
+
         $chargeRequest = new Lib\PaymentGateway\ChargeRequest(
             new Entity\CreditCard('4242424242424242', 5, 2015),
             2000,
@@ -356,8 +363,58 @@ class CartTest extends Helper\DoctrineTestCase
 
         $shippingAddress = $this->getShippingAddress();
         $order = $this->cart->createOrder($creditPayment, $shippingAddress);
+        unset($order);
 
+        /** @var Payment\Credit $payment */
         $payment = $this->entityManager->getRepository('inklabs\kommerce\Entity\Payment\Payment')->find(1);
+        $charge = $payment->getCharge();
+        $this->assertEquals(1, $payment->getId());
+        $this->assertEquals(1, $payment->getOrder()->getId());
+        $this->assertEquals(2000, $payment->getAmount());
+        $this->assertEquals(2000, $charge->getAmount());
+        $this->assertEquals(88, $charge->getFee());
+        $this->assertEquals('usd', $charge->getCurrency());
+        $this->assertEquals('test@example.com', $charge->getDescription());
+        $this->assertEquals('ch_xxxxxxxxxxxxxx', $charge->getId());
+        $this->assertEquals('4242', $charge->getLast4());
+        $this->assertTrue($charge->getCreated() > 0);
+    }
+
+    public function testCreateOrderWithAllOptions()
+    {
+        $itemId1 = $this->cart->addItem($this->viewProduct, 4);
+
+        $chargeRequest = new Lib\PaymentGateway\ChargeRequest(
+            new Entity\CreditCard('4242424242424242', 5, 2015),
+            2000,
+            'usd',
+            'test@example.com'
+        );
+        $creditPayment = new Payment\Credit($chargeRequest, new Lib\PaymentGateway\StripeStub);
+
+        $shippingAddress = $this->getShippingAddress();
+        $order = $this->cart->createOrder($creditPayment, $shippingAddress);
+        unset($order);
+
+        /** @var Entity\Order $order*/
+        $order = $this->entityManager->getRepository('inklabs\kommerce\Entity\Order')->find(1);
+        $expectedTotal = new Entity\CartTotal;
+        $expectedTotal->origSubtotal = 2000;
+        $expectedTotal->subtotal = 2000;
+        $expectedTotal->taxSubtotal = 2000;
+        $expectedTotal->shipping = 0;
+        $expectedTotal->discount = 0;
+        $expectedTotal->tax = 0;
+        $expectedTotal->total = 2000;
+        $expectedTotal->savings = 0;
+        $expectedTotal->taxRate = null;
+
+        $this->assertEquals(1, $order->getId());
+        $this->assertEquals($expectedTotal, $order->getTotal());
+
+        /** @var Payment\Credit $payment */
+        $payment = $order->getPayments()[0];
+
         $charge = $payment->getCharge();
         $this->assertEquals(1, $payment->getId());
         $this->assertEquals(1, $payment->getOrder()->getId());

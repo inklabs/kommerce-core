@@ -12,11 +12,19 @@ class Tag extends Lib\EntityManager
         $this->setEntityManager($entityManager);
     }
 
+    /**
+     * @return Entity\View\Tag
+     */
     public function find($id)
     {
-        $tag = $this->entityManager->getRepository('inklabs\kommerce\Entity\Tag')->find($id);
+        /* @var Entity\Tag $entityTag */
+        $entityTag = $this->entityManager->getRepository('inklabs\kommerce\Entity\Tag')->find($id);
 
-        return Entity\View\Tag::factory($tag)
+        if ($entityTag === null or ! $entityTag->getIsActive()) {
+            return null;
+        }
+
+        return Entity\View\Tag::factory($entityTag)
             ->export();
     }
 }

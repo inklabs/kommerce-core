@@ -13,6 +13,7 @@ class Tag
     protected $description;
     protected $defaultImage;
     protected $sortOrder;
+    protected $isActive;
     protected $isVisible;
     protected $products;
     protected $images;
@@ -23,6 +24,8 @@ class Tag
         $this->products = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->sortOrder = 0;
+        $this->isActive = false;
+        $this->isVisible = false;
     }
 
     public function addProduct(Product $product)
@@ -93,6 +96,16 @@ class Tag
     public function setSortOrder($sortOrder)
     {
         $this->sortOrder = $sortOrder;
+    }
+
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    }
+
+    public function getIsActive()
+    {
+        return $this->isActive;
     }
 
     public function setIsVisible($isVisible)
