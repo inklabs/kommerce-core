@@ -37,7 +37,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
         $tool = new Doctrine\ORM\Tools\SchemaTool($this->entityManager);
         $classes = $this->entityManager->getMetaDataFactory()->getAllMetaData();
-        $tool->dropSchema($classes);
+        // $tool->dropSchema($classes);
         $tool->createSchema($classes);
     }
 }
