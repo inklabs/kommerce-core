@@ -430,16 +430,9 @@ class CartTest extends Helper\DoctrineTestCase
         /** @var Payment\Credit $payment */
         $payment = $order->getPayments()[0];
 
-        $charge = $payment->getCharge();
         $this->assertEquals(1, $payment->getId());
         $this->assertEquals(1, $payment->getOrder()->getId());
         $this->assertEquals(2000, $payment->getAmount());
-        $this->assertEquals(2000, $charge->getAmount());
-        $this->assertEquals(88, $charge->getFee());
-        $this->assertEquals('usd', $charge->getCurrency());
-        $this->assertEquals('test@example.com', $charge->getDescription());
-        $this->assertEquals('ch_xxxxxxxxxxxxxx', $charge->getId());
-        $this->assertEquals('4242', $charge->getLast4());
-        $this->assertTrue($charge->getCreated() > 0);
+        $this->assertEquals(2000, $payment->getCharge()->getAmount());
     }
 }

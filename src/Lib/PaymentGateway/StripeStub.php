@@ -3,6 +3,9 @@ namespace inklabs\kommerce\Lib\PaymentGateway;
 
 class StripeStub implements Gateway
 {
+    /**
+     * @return ChargeResponse
+     */
     public function getCharge(ChargeRequest $chargeRequest)
     {
         $stripeCharge = $this->createCharge($chargeRequest);
