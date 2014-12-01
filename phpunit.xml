@@ -18,8 +18,8 @@
         <whitelist>
             <directory>src</directory>
             <exclude>
-                <file>src/J.php</file>
                 <directory>src/Doctrine/Functions/Mysql</directory>
+                <file>src/J.php</file>
                 <file>src/Doctrine/Extensions/TablePrefix.php</file>
                 <file>src/Lib/PaymentGateway/Stripe.php</file>
             </exclude>
