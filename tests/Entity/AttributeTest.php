@@ -3,43 +3,20 @@ namespace inklabs\kommerce\Entity;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreateAttribute()
     {
-        $this->attribute = new Attribute;
-        $this->attribute->setName('Test Attribute');
-        $this->attribute->setDescription('Test attribute description');
-        $this->attribute->setSortOrder(0);
-    }
+        $attribute = new Attribute;
+        $attribute->setId(1);
+        $attribute->setName('Test Attribute');
+        $attribute->setDescription('Test attribute description');
+        $attribute->setSortOrder(0);
+        $attribute->addAttributeValue(new AttributeValue);
+        $attribute->addAttributeValue(new AttributeValue);
 
-    public function testGetters()
-    {
-        $this->assertEquals(null, $this->attribute->getId());
-        $this->assertEquals('Test Attribute', $this->attribute->getName());
-        $this->assertEquals('Test attribute description', $this->attribute->getDescription());
-        $this->assertEquals(0, $this->attribute->getSortOrder());
-    }
-
-    public function testWithAttributeValues()
-    {
-        $this->attribute = new Attribute;
-        $this->attribute->setName('Color');
-
-        $this->attributeValueRed = new AttributeValue;
-        $this->attributeValueRed->setSku('RED');
-        $this->attributeValueRed->setName('Red');
-
-        $this->attributeValueGreen = new AttributeValue;
-        $this->attributeValueGreen->setSku('GRN');
-        $this->attributeValueGreen->setName('Green');
-
-        $this->attributeValueBlue = new AttributeValue;
-        $this->attributeValueBlue->setSku('BLU');
-        $this->attributeValueBlue->setName('Blue');
-
-        $this->attribute->addAttributeValue($this->attributeValueRed);
-        $this->attribute->addAttributeValue($this->attributeValueGreen);
-        $this->attribute->addAttributeValue($this->attributeValueBlue);
-
-        $this->assertEquals('Color', $this->attribute->getName());
+        $this->assertEquals(1, $attribute->getId());
+        $this->assertEquals('Test Attribute', $attribute->getName());
+        $this->assertEquals('Test attribute description', $attribute->getDescription());
+        $this->assertEquals(0, $attribute->getSortOrder());
+        $this->assertEquals(2, count($attribute->getAttributeValues()));
     }
 }

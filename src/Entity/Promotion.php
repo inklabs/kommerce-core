@@ -144,6 +144,10 @@ class Promotion
         }
     }
 
+    /**
+     * @return int
+     * @throws \Exception
+     */
     public function getUnitPrice($unitPrice)
     {
         switch ($this->type) {
@@ -158,9 +162,8 @@ class Promotion
             case 'exact':
                 return (int) $this->value;
                 break;
-
-            default:
-                throw new \Exception('Invalid discount type');
         }
+
+        throw new \Exception('Invalid discount type');
     }
 }
