@@ -15,12 +15,12 @@ class CartItem
     {
         $this->setCreated();
         $this->product = $product;
-        $this->quantity = $quantity;
+        $this->quantity = (int) $quantity;
     }
 
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = (int) $id;
     }
 
     public function getId()
@@ -38,15 +38,14 @@ class CartItem
         $this->product = $product;
     }
 
-    public function setQuantity($quantity)
-    {
-        $this->quantity = $quantity;
-        $this->setUpdated();
-    }
-
     public function getQuantity()
     {
         return $this->quantity;
+    }
+
+    public function setQuantity($quantity)
+    {
+        $this->quantity = (int) $quantity;
     }
 
     public function getPrice(Pricing $pricing)

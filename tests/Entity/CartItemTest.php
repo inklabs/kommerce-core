@@ -5,31 +5,31 @@ use inklabs\kommerce\Service as Service;
 
 class CartItemTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreateCartItem()
     {
-        $this->product = new Product;
-        $this->product->setName('Test Product');
-        $this->product->setUnitPrice(500);
+        $product = new Product;
+        $product->setUnitPrice(500);
+        $product->setShippingWeight(10);
 
-        $this->cartItem = new CartItem($this->product, 1);
+        $cartItem = new CartItem($product, 2);
+        $cartItem->setId(1);
+
+        $pricing = new Service\Pricing;
+
+        $this->assertEquals(1, $cartItem->getId());
+        $this->assertEquals(2, $cartItem->getQuantity());
+        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $cartItem->getProduct());
+        $this->assertInstanceOf('inklabs\kommerce\Entity\Price', $cartItem->getPrice($pricing));
+        $this->assertEquals(20, $cartItem->getShippingWeight());
     }
 
-    public function testGetters()
+    public function testSetProductAndQuantity()
     {
-        $this->assertEquals(null, $this->cartItem->getId());
-        $this->assertEquals($this->product, $this->cartItem->getProduct());
-    }
+        $cartItem = new CartItem(new Product, 2);
+        $cartItem->setProduct(new Product);
+        $cartItem->setQuantity(3);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $cartItem->getProduct());
+        $this->assertEquals(3, $cartItem->getQuantity());
 
-    public function testGetItemPrice()
-    {
-        $pricing = new Service\Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
-        $price = $this->cartItem->getPrice($pricing);
-
-        $expectedPrice = new Price;
-        $expectedPrice->origUnitPrice = 500;
-        $expectedPrice->unitPrice = 500;
-        $expectedPrice->origQuantityPrice = 500;
-        $expectedPrice->quantityPrice = 500;
-        $this->assertEquals($expectedPrice, $price);
     }
 }

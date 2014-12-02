@@ -20,6 +20,11 @@ class Attribute
         $this->attributeValues = new ArrayCollection();
     }
 
+    public function setId($id)
+    {
+        $this->id = (int) $id;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -58,5 +63,10 @@ class Attribute
     public function addAttributeValue(AttributeValue $attributeValue)
     {
         $this->attributeValues[] = $attributeValue;
+    }
+
+    public function getAttributeValues()
+    {
+        return $this->attributeValues;
     }
 }

@@ -16,6 +16,11 @@ class AttributeValue
         $this->setCreated();
     }
 
+    public function setid($id)
+    {
+        $this->id = (int) $id;
+    }
+
     public function getId()
     {
         return $this->id;
