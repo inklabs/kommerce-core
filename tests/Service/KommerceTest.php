@@ -58,6 +58,13 @@ class KommerceTest extends Helper\DoctrineTestCase
         $this->assertInstanceOf('inklabs\kommerce\Service\Cart', $cart);
     }
 
+    public function testSessionService()
+    {
+        $this->kommerce->setSessionManager(new Lib\ArraySessionManager);
+        $user = $this->kommerce->sessionService('User');
+        $this->assertInstanceOf('inklabs\kommerce\Service\User', $user);
+    }
+
     public function testAddSqliteFunctions()
     {
         $this->kommerce->addSqliteFunctions();
