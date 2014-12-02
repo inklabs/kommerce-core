@@ -63,7 +63,7 @@ Buy 2 SKUs get 1 of the SKUs 10% Off
 ## Count Lines of Code:
 
 <pre>
-    vendor/bin/phploc src/ tests/
+    vendor/bin/phploc src/ tests/ --names="*.php,*.xml"
 </pre>
 
 ## Export SQL
