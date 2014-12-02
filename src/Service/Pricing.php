@@ -45,7 +45,7 @@ class Pricing
         $this->catalogPromotions[] = $catalogPromotion;
     }
 
-    public function setProductQuantityDiscounts(Doctrine\Common\Collections\Collection $productQuantityDiscounts)
+    public function setProductQuantityDiscounts($productQuantityDiscounts)
     {
         foreach ($productQuantityDiscounts as $productQuantityDiscount) {
             $this->addProductQuantityDiscount($productQuantityDiscount);

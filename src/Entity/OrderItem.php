@@ -69,6 +69,11 @@ class OrderItem
         return $this->price;
     }
 
+    public function getDiscountNames()
+    {
+        return $this->discountNames;
+    }
+
     public function setOrder(Order $order)
     {
         $this->order = $order;
