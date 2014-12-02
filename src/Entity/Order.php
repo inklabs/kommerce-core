@@ -37,7 +37,7 @@ class Order
         $this->payments = new ArrayCollection();
         $this->coupons = new ArrayCollection();
 
-        $this->setStatus(new OrderStatus\Pending);
+        $this->setStatus(self::STATUS_PENDING);
         $this->setTotal($cart->getTotal($pricing, $shippingRate, $taxRate));
         $this->setItems($cart->getItems(), $pricing);
     }
@@ -61,9 +61,9 @@ class Order
         return $id;
     }
 
-    public function setStatus(OrderStatus\Status $status)
+    public function setStatus($status)
     {
-        $this->status = $status->getCode();
+        $this->status = (int) $status;
     }
 
     public function getId()
