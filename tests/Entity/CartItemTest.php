@@ -30,6 +30,5 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $cartItem->setQuantity(3);
         $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $cartItem->getProduct());
         $this->assertEquals(3, $cartItem->getQuantity());
-
     }
 }

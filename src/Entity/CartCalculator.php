@@ -36,8 +36,6 @@ class CartCalculator
         $this->calculateTotal();
         $this->calculateSavings();
 
-        unset($this->pricing);
-
         return $this->cartTotal;
     }
 
