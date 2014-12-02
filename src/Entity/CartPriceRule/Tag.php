@@ -32,9 +32,4 @@ class Tag extends Item
     {
         return $this->tag;
     }
-
-    public function setTag(Tag $tag)
-    {
-        $this->tag = $tag;
-    }
 }
