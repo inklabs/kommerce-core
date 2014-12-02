@@ -97,7 +97,7 @@ class Cart extends Lib\EntityManager
         return $itemId;
     }
 
-    public function addCoupon($couponCode)
+    public function addCouponByCode($couponCode)
     {
         $coupon = $this->entityManager
             ->getRepository('inklabs\kommerce\Entity\Coupon')

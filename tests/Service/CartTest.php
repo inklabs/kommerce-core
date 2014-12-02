@@ -93,7 +93,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->entityManager->persist($coupon);
         $this->entityManager->flush();
 
-        $this->cart->addCoupon($coupon->getCode());
+        $this->cart->addCouponByCode($coupon->getCode());
         $this->assertEquals(1, count($this->cart->getCoupons()));
 
         $cart = new Cart($this->entityManager, $this->pricing, $this->sessionManager);
@@ -283,7 +283,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->entityManager->persist($coupon);
         $this->entityManager->flush();
 
-        $this->cart->addCoupon($coupon->getCode());
+        $this->cart->addCouponByCode($coupon->getCode());
 
         $this->assertEquals(800, $this->cart->getTotal()->total);
     }
@@ -293,7 +293,7 @@ class CartTest extends Helper\DoctrineTestCase
      */
     public function testAddCouponMissing()
     {
-        $this->cart->addCoupon('xxx');
+        $this->cart->addCouponByCode('xxx');
     }
 
     public function testRemoveCoupon()
@@ -311,7 +311,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->entityManager->persist($coupon);
         $this->entityManager->flush();
 
-        $this->cart->addCoupon($coupon->getCode());
+        $this->cart->addCouponByCode($coupon->getCode());
         $this->assertEquals(800, $this->cart->getTotal()->total);
         $this->cart->removeCoupon(0);
         $this->assertEquals(1000, $this->cart->getTotal()->total);
@@ -389,12 +389,22 @@ class CartTest extends Helper\DoctrineTestCase
         $user->setUsername('test');
         $user->setPassword('qwerty');
 
+        $coupon = new Entity\Coupon;
+        $coupon->setCode('20PCT');
+        $coupon->setName('20% Off');
+        $coupon->setType('percent');
+        $coupon->setValue(20);
+        $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+
         $this->entityManager->persist($user);
+        $this->entityManager->persist($coupon);
         $this->entityManager->flush();
 
         $userService = new User($this->entityManager, $this->sessionManager);
         $userService->login('test', 'qwerty');
         $this->cart->setUser($userService->getUser());
+        $this->cart->addCouponByCode($coupon->getCode());
 
         $itemId1 = $this->cart->addItem($this->viewProduct, 4);
 
@@ -412,20 +422,10 @@ class CartTest extends Helper\DoctrineTestCase
 
         /** @var Entity\Order $order*/
         $order = $this->entityManager->getRepository('inklabs\kommerce\Entity\Order')->find(1);
-        $expectedTotal = new Entity\CartTotal;
-        $expectedTotal->origSubtotal = 2000;
-        $expectedTotal->subtotal = 2000;
-        $expectedTotal->taxSubtotal = 2000;
-        $expectedTotal->shipping = 0;
-        $expectedTotal->discount = 0;
-        $expectedTotal->tax = 0;
-        $expectedTotal->total = 2000;
-        $expectedTotal->savings = 0;
-        $expectedTotal->taxRate = null;
 
         $this->assertEquals(1, $order->getId());
         $this->assertEquals(1, $order->getUser()->getId());
-        $this->assertEquals($expectedTotal, $order->getTotal());
+        $this->assertInstanceOf('inklabs\kommerce\Entity\CartTotal', $order->getTotal());
 
         /** @var Payment\Credit $payment */
         $payment = $order->getPayments()[0];
