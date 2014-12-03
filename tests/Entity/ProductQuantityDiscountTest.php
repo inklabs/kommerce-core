@@ -1,67 +1,74 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Service as Service;
+
 class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
 {
-    /* @var ProductQuantityDiscount */
-    protected $productQuantityDiscount;
-    protected $expectedView;
-
-    public function setUp()
+    public function testCreate()
     {
-        $this->productQuantityDiscount = new ProductQuantityDiscount;
-        $this->productQuantityDiscount->setCustomerGroup(null);
-        $this->productQuantityDiscount->setType('exact');
-        $this->productQuantityDiscount->setQuantity(6);
-        $this->productQuantityDiscount->setValue(500);
-        $this->productQuantityDiscount->setFlagApplyCatalogPromotions(false);
-        $this->productQuantityDiscount->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $this->productQuantityDiscount->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-    }
+        $productQuantityDiscount = new ProductQuantityDiscount;
+        $productQuantityDiscount->setCustomerGroup(null);
+        $productQuantityDiscount->setQuantity(6);
+        $productQuantityDiscount->setFlagApplyCatalogPromotions(true);
+        $productQuantityDiscount->setProduct(new Product);
 
-    public function setupExpectedView()
-    {
-        $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\ProductQuantityDiscount');
-        $this->expectedView = $reflection->newInstanceWithoutConstructor();
-
-        $this->expectedView->id            = $this->productQuantityDiscount->getId();
-        $this->expectedView->name          = $this->productQuantityDiscount->getName();
-        $this->expectedView->customerGroup = $this->productQuantityDiscount->getCustomerGroup();
-        $this->expectedView->type          = $this->productQuantityDiscount->getType();
-        $this->expectedView->quantity      = $this->productQuantityDiscount->getQuantity();
-        $this->expectedView->value         = $this->productQuantityDiscount->getValue();
-        $this->expectedView->flagApplyCatalogPromotions =
-            $this->productQuantityDiscount->getFlagApplyCatalogPromotions();
-
-        $this->expectedView->start         = $this->productQuantityDiscount->getStart();
-        $this->expectedView->end           = $this->productQuantityDiscount->getEnd();
-        $this->expectedView->created       = $this->productQuantityDiscount->getCreated();
-        $this->expectedView->updated       = $this->productQuantityDiscount->getUpdated();
+        $this->assertEquals(null, $productQuantityDiscount->getCustomerGroup());
+        $this->assertEquals(6, $productQuantityDiscount->getQuantity());
+        $this->assertEquals(true, $productQuantityDiscount->getFlagApplyCatalogPromotions());
+        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $productQuantityDiscount->getProduct());
     }
 
     /**
      * @expectedException \Exception
      */
-    public function testSetName()
+    public function testSetNameThrowsException()
     {
         $productQuantityDiscount = new ProductQuantityDiscount;
         $productQuantityDiscount->setName('test');
     }
 
-    public function testGetName()
+    public function testIsQuantityValid()
+    {
+        $productQuantityDiscount = new ProductQuantityDiscount;
+        $productQuantityDiscount->setQuantity(5);
+        $this->assertTrue($productQuantityDiscount->isQuantityValid(6));
+    }
+
+    public function testIsQuantityValidReturnsFalse()
+    {
+        $productQuantityDiscount = new ProductQuantityDiscount;
+        $productQuantityDiscount->setQuantity(5);
+        $this->assertFalse($productQuantityDiscount->isQuantityValid(4));
+    }
+
+    public function testIsValid()
+    {
+        $productQuantityDiscount = new ProductQuantityDiscount;
+        $productQuantityDiscount->setQuantity(5);
+        $this->assertTrue($productQuantityDiscount->isValid(new \DateTime, 6));
+    }
+
+    public function testGetNameExact()
     {
         $productQuantityDiscount = new ProductQuantityDiscount;
         $productQuantityDiscount->setType('exact');
         $productQuantityDiscount->setQuantity(10);
         $productQuantityDiscount->setValue(500);
         $this->assertEquals('Buy 10 or more for $5.00 each', $productQuantityDiscount->getName());
+    }
 
+    public function testGetNamePercent()
+    {
         $productQuantityDiscount = new ProductQuantityDiscount;
         $productQuantityDiscount->setType('percent');
         $productQuantityDiscount->setQuantity(10);
         $productQuantityDiscount->setValue(50);
         $this->assertEquals('Buy 10 or more for 50% off', $productQuantityDiscount->getName());
+    }
 
+    public function testGetNameFixed()
+    {
         $productQuantityDiscount = new ProductQuantityDiscount;
         $productQuantityDiscount->setType('fixed');
         $productQuantityDiscount->setQuantity(10);
@@ -69,15 +76,14 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Buy 10 or more for $5.00 off', $productQuantityDiscount->getName());
     }
 
-    public function testIsQuanityValid()
+    public function testGetPrice()
     {
         $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setType('exact');
-        $productQuantityDiscount->setQuantity(10);
-        $productQuantityDiscount->setValue(500);
-
-        $this->assertFalse($productQuantityDiscount->isQuantityValid(9));
-        $this->assertTrue($productQuantityDiscount->isQuantityValid(10));
-        $this->assertTrue($productQuantityDiscount->isQuantityValid(11));
+        $productQuantityDiscount->setProduct(new Product);
+        $productQuantityDiscount->setQuantity(1);
+        $this->assertInstanceOf(
+            'inklabs\kommerce\Entity\Price',
+            $productQuantityDiscount->getPrice(new Service\Pricing)
+        );
     }
 }
