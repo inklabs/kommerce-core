@@ -14,6 +14,11 @@ class Role
         $this->setCreated();
     }
 
+    public function setId($id)
+    {
+        $this->id = (int) $id;
+    }
+
     public function getId()
     {
         return $this->id;
