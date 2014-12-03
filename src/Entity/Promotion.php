@@ -9,7 +9,7 @@ class Promotion
     protected $name;
     protected $type; // fixed, percent, exact
     protected $value;
-    protected $redemptions = 0;
+    protected $redemptions;
     protected $maxRedemptions;
     protected $reducesTaxSubtotal;
     protected $start;
@@ -18,12 +18,13 @@ class Promotion
     public function __construct()
     {
         $this->setCreated();
+        $this->redemptions = 0;
         $this->reducesTaxSubtotal = true;
     }
 
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = (int) $id;
     }
 
     public function getId()
@@ -33,7 +34,7 @@ class Promotion
 
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
     }
 
     public function getName()
@@ -43,7 +44,7 @@ class Promotion
 
     public function setType($type)
     {
-        $this->type = $type;
+        $this->type = (string) $type;
     }
 
     public function getType()
@@ -53,7 +54,7 @@ class Promotion
 
     public function setValue($value)
     {
-        $this->value = $value;
+        $this->value = (int) $value;
     }
 
     public function getValue()
@@ -63,7 +64,7 @@ class Promotion
 
     public function setRedemptions($redemptions)
     {
-        $this->redemptions = $redemptions;
+        $this->redemptions = (int) $redemptions;
     }
 
     public function getRedemptions()
@@ -83,7 +84,7 @@ class Promotion
 
     public function setReducesTaxSubtotal($reducesTaxSubtotal)
     {
-        $this->reducesTaxSubtotal = $reducesTaxSubtotal;
+        $this->reducesTaxSubtotal = (bool) $reducesTaxSubtotal;
     }
 
     public function getReducesTaxSubtotal()
@@ -137,10 +138,12 @@ class Promotion
 
     public function isRedemptionCountValid()
     {
-        if ($this->maxRedemptions !== null and $this->redemptions >= $this->maxRedemptions) {
-            return false;
-        } else {
+        if ($this->maxRedemptions === null) {
             return true;
+        } elseif ($this->redemptions < $this->maxRedemptions) {
+            return true;
+        } else {
+            return false;
         }
     }
 
