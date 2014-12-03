@@ -48,12 +48,18 @@
         <field name="code"                       column="`code`"               type="string" length="16" />
         <field name="canCombineWithOtherCoupons" column="`can_combine`"        type="boolean" />
         <field name="flagFreeShipping"           column="`flag_free_shipping`" type="boolean" />
-        <field name="minOrderValue"              column="`min_order_value`"    type="integer" nullable="true" />
-        <field name="maxOrderValue"              column="`max_order_value`"    type="integer" nullable="true" />
 
-        <many-to-one field="tag" target-entity="Tag" fetch="EAGER">
-            <join-column name="`tag_id`" referenced-column-name="`id`" />
-        </many-to-one>
+        <field name="minOrderValue" column="`min_order_value`" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="maxOrderValue" column="`max_order_value`" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
 
         <field name="created" column="`created`" type="integer" nullable="false">
             <options>

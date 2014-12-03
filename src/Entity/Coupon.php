@@ -9,8 +9,6 @@ class Coupon extends Promotion
     protected $maxOrderValue;
     protected $canCombineWithOtherCoupons;
 
-    protected $tag;
-
     public function __construct()
     {
         parent::__construct();
