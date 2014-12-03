@@ -5,15 +5,17 @@ use inklabs\kommerce\Entity\CreditCard;
 
 class ChargeRequest
 {
-    protected $creditCard;
     protected $amount;
     protected $currency;
     protected $description;
 
+    /* @var CreditCard */
+    protected $creditCard;
+
     public function __construct(CreditCard $creditCard, $amount, $currency, $description)
     {
         $this->creditCard = $creditCard;
-        $this->amount = $amount;
+        $this->amount = (int) $amount;
         $this->currency = $currency;
         $this->description = $description;
     }
@@ -23,6 +25,9 @@ class ChargeRequest
         return $this->amount;
     }
 
+    /**
+     * @return CreditCard
+     */
     public function getCreditCard()
     {
         return $this->creditCard;
