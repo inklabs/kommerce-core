@@ -9,9 +9,9 @@ class CreditCard
 
     public function __construct($number, $expirationMonth, $expirationYear)
     {
-        $this->number = $number;
-        $this->expirationMonth = $expirationMonth;
-        $this->expirationYear = $expirationYear;
+        $this->number = (string) $number;
+        $this->expirationMonth = (string) $expirationMonth;
+        $this->expirationYear = (string) $expirationYear;
     }
 
     public function getNumber()
