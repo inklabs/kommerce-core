@@ -5,13 +5,25 @@ use inklabs\kommerce\Entity as Entity;
 
 class TagTestTest extends \PHPUnit_Framework_TestCase
 {
+    public function testCreate()
+    {
+        $priceRule = new Tag(new Entity\Tag, 1);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\Tag', $priceRule->getTag());
+    }
+
+    /**
+     * @return Entity\Tag
+     */
     private function getTag($id)
     {
-        $tag = new Entity\Tag();
+        $tag = new Entity\Tag;
         $tag->setId($id);
         return $tag;
     }
 
+    /**
+     * @return Entity\Product
+     */
     private function getProduct($id)
     {
         $product = new Entity\Product();
