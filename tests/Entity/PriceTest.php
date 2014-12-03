@@ -3,16 +3,20 @@ namespace inklabs\kommerce\Entity;
 
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->price = new Price;
-        $this->price->origUnitPrice = 2500;
-        $this->price->origQuantityPrice = 2500;
-        $this->price->unitPrice = 1750;
-        $this->price->quantityPrice = 1750;
-    }
+        $price = new Price;
+        $price->origUnitPrice = 2500;
+        $price->unitPrice = 1750;
+        $price->origQuantityPrice = 2500;
+        $price->quantityPrice = 1750;
+        $price->addCatalogPromotion(new CatalogPromotion);
+        $price->setProductQuantityDiscount(new ProductQuantityDiscount);
 
-    public function test()
-    {
+        $this->assertInstanceOf('inklabs\kommerce\Entity\CatalogPromotion', $price->getCatalogPromotions()[0]);
+        $this->assertInstanceOf(
+            'inklabs\kommerce\Entity\ProductQuantityDiscount',
+            $price->getProductQuantityDiscount()
+        );
     }
 }
