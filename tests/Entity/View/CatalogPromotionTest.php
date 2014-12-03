@@ -5,28 +5,15 @@ use inklabs\kommerce\Entity as Entity;
 
 class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->catalogPromotion = new Entity\CatalogPromotion;
-        $this->catalogPromotion->setName('20% Off');
-        $this->catalogPromotion->setType('percent');
-        $this->catalogPromotion->setValue(20);
-        $this->catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $this->catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+        $entityCatalogPromotion = new Entity\CatalogPromotion;
+        $entityCatalogPromotion->setTag(new Entity\Tag);
 
-        $this->tag = new Entity\Tag;
-        $this->tag->setName('Test Tag');
-        $this->catalogPromotion->setTag($this->tag);
-
-        $this->viewCatalogPromotion = CatalogPromotion::factory($this->catalogPromotion);
-    }
-
-    public function testWithAllData()
-    {
-        $viewCatalogPromotion = $this->viewCatalogPromotion
+        $catalogPromotion = CatalogPromotion::factory($entityCatalogPromotion)
             ->withAllData()
             ->export();
-        $this->assertEquals(20, $viewCatalogPromotion->value);
-        $this->assertEquals('Test Tag', $viewCatalogPromotion->tag->name);
+
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Tag', $catalogPromotion->tag);
     }
 }

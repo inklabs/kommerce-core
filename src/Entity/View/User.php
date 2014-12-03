@@ -14,7 +14,11 @@ class User
     public $totalLogins;
     public $lastLogin;
     public $status;
+
+    /* @var Role[] */
     public $roles = [];
+
+    /* @var Token[] */
     public $tokens = [];
 
     public function __construct(Entity\User $user)

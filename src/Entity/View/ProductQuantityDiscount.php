@@ -9,7 +9,11 @@ class ProductQuantityDiscount extends Promotion
     public $customerGroup;
     public $flagApplyCatalogPromotions;
     public $quantity;
+
+    /* @var Product */
     public $product;
+
+    /* @var Price */
     public $price;
 
     public function __construct(Entity\ProductQuantityDiscount $productQuantityDiscount)

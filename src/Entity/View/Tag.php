@@ -15,7 +15,11 @@ class Tag
     public $defaultImage;
     public $sortOrder;
     public $isVisible;
+
+    /* @var Product[] */
     public $products = [];
+
+    /* @var Image[] */
     public $images = [];
 
     public function __construct(Entity\Tag $tag)

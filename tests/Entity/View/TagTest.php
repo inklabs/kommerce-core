@@ -6,31 +6,16 @@ use inklabs\kommerce\Service as Service;
 
 class TagTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->tag = new Entity\Tag;
-        $this->tag->setName('Test Tag');
-    }
-
-    public function testWithAllData()
-    {
-        $image = new Entity\Image;
-        $image->setPath('xxx');
-        $this->tag->addImage($image);
-
-        $product = new Entity\Product;
-        $product->setSku('TST1');
-        $this->tag->addProduct($product);
-
-        $this->viewTag = Tag::factory($this->tag);
-
-        $pricing = new Service\Pricing();
-
-        $viewTag = $this->viewTag
-            ->withAllData($pricing)
+        $entityTag = new Entity\Tag;
+        $entityTag->addImage(new Entity\Image);
+        $entityTag->addProduct(new Entity\Product);
+        $tag = Tag::factory($entityTag)
+            ->withAllData(new Service\Pricing)
             ->export();
-        $this->assertEquals('Test Tag', $viewTag->name);
-        $this->assertEquals('xxx', $viewTag->images[0]->path);
-        $this->assertEquals('TST1', $viewTag->products[0]->sku);
+
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Image', $tag->images[0]);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Product', $tag->products[0]);
     }
 }

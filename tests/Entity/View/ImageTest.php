@@ -2,53 +2,20 @@
 namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Service as Service;
 
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->image = new Entity\Image;
-        $this->image->setPath('xxx');
+        $entityImage = new Entity\Image;
+        $entityImage->setProduct(new Entity\Product);
+        $entityImage->setTag(new Entity\Tag);
 
-        $this->viewImage = Image::factory($this->image);
-    }
-
-    public function testWithAllData()
-    {
-        $viewImage = $this->viewImage
+        $image = Image::factory($entityImage)
             ->withAllData()
             ->export();
-        $this->assertEquals('xxx', $viewImage->path);
-    }
 
-    public function testWithTag()
-    {
-        $tag = new Entity\Tag;
-        $tag->setName('Test Tag');
-        $this->image->setTag($tag);
-
-        $this->viewImage = Image::factory($this->image);
-
-        $viewImage = $this->viewImage
-            ->withTag()
-            ->export();
-        $this->assertEquals('xxx', $viewImage->path);
-        $this->assertEquals('Test Tag', $viewImage->tag->name);
-    }
-
-    public function testWithProduct()
-    {
-        $product = new Entity\Product;
-        $product->setSku('TST1');
-        $this->image->setProduct($product);
-
-        $this->viewImage = Image::factory($this->image);
-
-        $viewImage = $this->viewImage
-            ->withProduct()
-            ->export();
-        $this->assertEquals('xxx', $viewImage->path);
-        $this->assertEquals('TST1', $viewImage->product->sku);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Product', $image->product);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Tag', $image->tag);
     }
 }

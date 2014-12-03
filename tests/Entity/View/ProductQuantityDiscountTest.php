@@ -6,29 +6,16 @@ use inklabs\kommerce\Service as Service;
 
 class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->productQuantityDiscount = new Entity\ProductQuantityDiscount;
-        $this->productQuantityDiscount->setType('exact');
-        $this->productQuantityDiscount->setQuantity(10);
-        $this->productQuantityDiscount->setValue(500);
+        $entityProductQuantityDiscount = new Entity\ProductQuantityDiscount;
+        $entityProductQuantityDiscount->setProduct(new Entity\Product);
 
-        $product = new Entity\Product;
-        $product->setSku('TST1');
-        $product->setUnitPrice(600);
-        $this->productQuantityDiscount->setProduct($product);
-
-        $this->viewProductQuantityDiscount = ProductQuantityDiscount::factory($this->productQuantityDiscount);
-    }
-
-    public function testWithAllData()
-    {
-        $pricing = new Service\Pricing();
-
-        $viewProductQuantityDiscount = $this->viewProductQuantityDiscount
-            ->withAllData($pricing)
+        $productQuantityDiscount = ProductQuantityDiscount::factory($entityProductQuantityDiscount)
+            ->withAllData(new Service\Pricing)
             ->export();
-        $this->assertEquals(500, $viewProductQuantityDiscount->value);
-        $this->assertEquals('TST1', $viewProductQuantityDiscount->product->sku);
+
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Price', $productQuantityDiscount->price);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Product', $productQuantityDiscount->product);
     }
 }
