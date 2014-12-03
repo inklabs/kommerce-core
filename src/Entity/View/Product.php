@@ -28,9 +28,17 @@ class Product
     public $created;
     public $updated;
     public $isInStock;
+
+    /* @var Tag[] */
     public $tags = [];
+
+    /* @var Image[] */
     public $images = [];
+
+    /* @var ProductQuantityDiscount[] */
     public $productQuantityDiscounts = [];
+
+    /* @var Price */
     public $price;
 
     public function __construct(Entity\Product $product)

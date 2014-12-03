@@ -9,7 +9,11 @@ class Price
     public $unitPrice;
     public $origQuantityPrice;
     public $quantityPrice;
+
+    /* @var CatalogPromotion[] */
     public $catalogPromotions = [];
+
+    /* @var ProductQuantityDiscount */
     public $productQuantityDiscount;
 
     public function __construct(Entity\Price $price)

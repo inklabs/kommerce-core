@@ -6,54 +6,41 @@ use inklabs\kommerce\Service as Service;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->product = new Entity\Product;
-        $this->product->setSku('TST101');
+        $entityProduct = new Entity\Product;
+        $entityProduct->addTag(new Entity\Tag);
+        $entityProduct->addImage(new Entity\Image);
 
-        $this->viewProduct = Product::factory($this->product);
-    }
+        $productQuantityDiscount = new Entity\ProductQuantityDiscount;
+        $productQuantityDiscount->setType('exact');
+        $productQuantityDiscount->setQuantity(2);
+        $productQuantityDiscount->setValue(400);
 
-    public function testWithAllData()
-    {
-        $pricing = new Service\Pricing();
+        $entityProduct->addProductQuantityDiscount($productQuantityDiscount);
 
-        $viewProduct = $this->viewProduct
-            ->withAllData($pricing)
+        $product = Product::factory($entityProduct)
+            ->withAllData(new Service\Pricing)
             ->export();
-        $this->assertEquals('TST101', $viewProduct->sku);
-    }
 
-    public function testWithImages()
-    {
-        $image = new Entity\Image;
-        $image->setPath('xxx');
-
-        $this->product->addImage($image);
-        $this->viewProduct = Product::factory($this->product);
-
-        $viewProduct = $this->viewProduct
-            ->withImages()
-            ->export();
-        $this->assertEquals('xxx', $viewProduct->images[0]->path);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Tag', $product->tags[0]);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Image', $product->images[0]);
+        $this->assertInstanceOf(
+            'inklabs\kommerce\Entity\View\ProductQuantityDiscount',
+            $product->productQuantityDiscounts[0]
+        );
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Price', $product->price);
     }
 
     public function testWithTagsWithImages()
     {
-        $image = new Entity\Image;
-        $image->setPath('xxx');
+        $entityProduct = new Entity\Product;
+        $entityProduct->addTag(new Entity\Tag);
 
-        $tag = new Entity\Tag;
-        $tag->setName('Test Tag');
-        $tag->addImage($image);
-
-        $this->product->addTag($tag);
-
-        $this->viewProduct = Product::factory($this->product);
-
-        $viewProduct = $this->viewProduct
-            ->withTagsWithImages()
+        $product = Product::factory($entityProduct)
+            ->withTagsWithImages(new Service\Pricing)
             ->export();
-        $this->assertEquals('xxx', $viewProduct->tags[0]->images[0]->path);
+
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Tag', $product->tags[0]);
     }
 }

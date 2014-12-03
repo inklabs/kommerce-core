@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
 
-class Promotion
+abstract class Promotion
 {
     public $id;
     public $name;
@@ -32,6 +32,8 @@ class Promotion
         $this->end            = $promotion->getEnd();
         $this->created        = $promotion->getCreated();
         $this->updated        = $promotion->getUpdated();
+
+        $this->isRedemptionCountValid = $promotion->isRedemptionCountValid();
 
         return $this;
     }

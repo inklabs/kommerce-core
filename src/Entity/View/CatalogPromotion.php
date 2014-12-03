@@ -5,8 +5,10 @@ use inklabs\kommerce\Entity as Entity;
 
 class CatalogPromotion extends Promotion
 {
-    public $tag;
     public $code;
+
+    /* @var Tag */
+    public $tag;
 
     public function __construct(Entity\CatalogPromotion $catalogPromotion)
     {
