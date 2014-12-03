@@ -13,12 +13,18 @@ class Option
     protected $description;
     protected $sortOrder;
 
+    /* @var Product[] */
     protected $products;
 
     public function __construct()
     {
         $this->setCreated();
         $this->products = new ArrayCollection;
+    }
+
+    public function setId($id)
+    {
+        $this->id = (int) $id;
     }
 
     public function getId()
@@ -71,6 +77,9 @@ class Option
         return $this->sortOrder;
     }
 
+    /**
+     * @param Product[]
+     */
     public function getProducts()
     {
         return $this->products;
