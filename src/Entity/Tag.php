@@ -14,7 +14,11 @@ class Tag
     protected $sortOrder;
     protected $isActive;
     protected $isVisible;
+
+    /* @var Product[] */
     protected $products;
+
+    /* @var Image[] */
     protected $images;
 
     public function __construct()
@@ -32,6 +36,9 @@ class Tag
         $this->products[] = $product;
     }
 
+    /**
+     * @return Product[]
+     */
     public function getProducts()
     {
         return $this->products;
@@ -42,6 +49,9 @@ class Tag
         $this->images[] = $image;
     }
 
+    /**
+     * @return Image[]
+     */
     public function getImages()
     {
         return $this->images;

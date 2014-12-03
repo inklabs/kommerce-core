@@ -3,24 +3,27 @@ namespace inklabs\kommerce\Entity;
 
 class TagTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->tag = new Tag;
-        $this->tag->setName('Test Tag');
-        $this->tag->setDescription('Test Description');
-        $this->tag->setDefaultImage('http://lorempixel.com/400/200/');
-        $this->tag->setSortOrder(0);
-        $this->tag->setIsVisible(true);
+        $tag = new Tag;
+        $tag->setId(1);
+        $tag->setName('Test Tag');
+        $tag->setDescription('Test Description');
+        $tag->setDefaultImage('http://lorempixel.com/400/200/');
+        $tag->setSortOrder(0);
+        $tag->setIsVisible(true);
+        $tag->setIsActive(true);
+        $tag->addProduct(new Product);
+        $tag->addImage(new Image);
 
-        $this->product = new Product;
-        $this->product->setSku('TST101');
-        $this->tag->addProduct($this->product);
-
-        $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\Tag');
-        $this->expectedView = $reflection->newInstanceWithoutConstructor();
-    }
-
-    public function test()
-    {
+        $this->assertEquals(1, $tag->getId());
+        $this->assertEquals('Test Tag', $tag->getName());
+        $this->assertEquals('Test Description', $tag->getDescription());
+        $this->assertEquals('http://lorempixel.com/400/200/', $tag->getDefaultImage());
+        $this->assertEquals(0, $tag->getSortOrder());
+        $this->assertTrue($tag->getIsVisible());
+        $this->assertTrue($tag->getIsActive());
+        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $tag->getProducts()[0]);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\Image', $tag->getImages()[0]);
     }
 }
