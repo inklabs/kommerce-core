@@ -3,89 +3,134 @@ namespace inklabs\kommerce\Entity;
 
 class PromotionTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->promotion = new Promotion;
-        $this->promotion->setName('20% Off in 2014');
-        $this->promotion->setType('percent');
-        $this->promotion->setValue(20);
-        $this->promotion->setRedemptions(null);
-        $this->promotion->setMaxRedemptions(null);
-        $this->promotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $this->promotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+        $promotion = new Promotion;
+        $promotion->setid(1);
+        $promotion->setName('20% Off in 2014');
+        $promotion->setType('percent');
+        $promotion->setValue(20);
+        $promotion->setRedemptions(10);
+        $promotion->setMaxRedemptions(100);
+        $promotion->setReducesTaxSubtotal(true);
+        $promotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $promotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
-        $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\Promotion');
-        $this->expected = $reflection->newInstanceWithoutConstructor();
+        $this->assertEquals(1, $promotion->getId());
+        $this->assertEquals('20% Off in 2014', $promotion->getName());
+        $this->assertEquals('percent', $promotion->getType());
+        $this->assertEquals(20, $promotion->getValue());
+        $this->assertEquals(10, $promotion->getRedemptions());
+        $this->assertEquals(100, $promotion->getMaxRedemptions());
+        $this->assertEquals(true, $promotion->getReducesTaxSubtotal());
+        $this->assertEquals(new \DateTime('2014-01-01', new \DateTimeZone('UTC')), $promotion->getStart());
+        $this->assertEquals(new \DateTime('2014-12-31', new \DateTimeZone('UTC')), $promotion->getEnd());
+    }
+
+    private function getDatePromotion()
+    {
+        $promotion = new Promotion;
+        $promotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $promotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+        return $promotion;
     }
 
     public function testIsDateValid()
     {
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
+        $promotion = $this->getDatePromotion();
+
+        $this->assertTrue($promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
     }
 
-    public function testIsDateValidNullStartEnd()
+    public function testIsDateValidWithNullStartAndEnd()
     {
-        $this->promotion->setStart(null);
-        $this->promotion->setEnd(null);
+        $promotion = $this->getDatePromotion();
+        $promotion->setStart(null);
+        $promotion->setEnd(null);
 
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
     }
 
-    public function testIsDateValidNullStart()
+    public function testIsDateValidWithNullStart()
     {
-        $this->promotion->setStart(null);
+        $promotion = $this->getDatePromotion();
+        $promotion->setStart(null);
 
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
     }
 
-    public function testIsDateValidNullEnd()
+    public function testIsDateValidWithNullEnd()
     {
-        $this->promotion->setEnd(null);
+        $promotion = $this->getDatePromotion();
+        $promotion->setEnd(null);
 
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
     }
 
     public function testIsRedemptionCountValid()
     {
-        $this->promotion->setMaxRedemptions(null);
-        $this->assertTrue($this->promotion->isRedemptionCountValid());
+        $promotion = new Promotion;
+        $promotion->setMaxRedemptions(null);
+        $this->assertTrue($promotion->isRedemptionCountValid());
 
-        $this->promotion->setMaxRedemptions(10);
-        $this->promotion->setRedemptions(0);
-        $this->assertTrue($this->promotion->isRedemptionCountValid());
+        $promotion->setMaxRedemptions(10);
+        $promotion->setRedemptions(0);
+        $this->assertTrue($promotion->isRedemptionCountValid());
 
-        $this->promotion->setMaxRedemptions(10);
-        $this->promotion->setRedemptions(15);
-        $this->assertFalse($this->promotion->isRedemptionCountValid());
+        $promotion->setRedemptions(9);
+        $this->assertTrue($promotion->isRedemptionCountValid());
+
+        $promotion->setRedemptions(10);
+        $this->assertFalse($promotion->isRedemptionCountValid());
+
+        $promotion->setRedemptions(15);
+        $this->assertFalse($promotion->isRedemptionCountValid());
     }
 
-    public function testGetDiscountValuePercent()
+    public function testIsValid()
     {
-        $unitPrice = 1000;
-        $this->assertEquals(800, $this->promotion->getUnitPrice($unitPrice));
+        $promotion = new Promotion;
+        $promotion->setMaxRedemptions(null);
+        $this->assertTrue($promotion->isValidPromotion(new \DateTime));
     }
 
-    public function testGetDiscountValueFixed()
+    public function testGetUnitPriceWithPercent()
     {
-        $this->promotion->setType('fixed');
-        $this->promotion->setValue(1000);
+        $promotion = new Promotion;
+        $promotion->setType('percent');
+        $promotion->setValue(20);
+        $this->assertEquals(800, $promotion->getUnitPrice(1000));
+    }
 
-        $unitPrice = 10000;
-        $this->assertEquals(9000, $this->promotion->getUnitPrice($unitPrice));
+    public function testGetUnitPriceWithFixed()
+    {
+        $promotion = new Promotion;
+        $promotion->setType('fixed');
+        $promotion->setValue(20);
+        $this->assertEquals(980, $promotion->getUnitPrice(1000));
+    }
+
+    public function testGetUnitPriceWithExact()
+    {
+        $promotion = new Promotion;
+        $promotion->setType('exact');
+        $promotion->setValue(20);
+        $this->assertEquals(20, $promotion->getUnitPrice(1000));
     }
 
     /**
      * @expectedException \Exception
      */
-    public function testInvalidType()
+    public function testGetUnitPriceWithInvalidType()
     {
-        $this->promotion->setType('invalid');
-        $unitPrice = $this->promotion->getUnitPrice(0);
+        $promotion = new Promotion;
+        $promotion->setType('invalid');
+        $promotion->getUnitPrice(0);
     }
 }
