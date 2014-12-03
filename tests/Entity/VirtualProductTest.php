@@ -3,27 +3,10 @@ namespace inklabs\kommerce\Entity;
 
 class VirtualProductTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->virtualProduct = new VirtualProduct;
-        $this->virtualProduct->setSku('TST101');
-        $this->virtualProduct->setName('Test Product');
-        $this->virtualProduct->setUnitPrice(500);
-        $this->virtualProduct->setQuantity(10);
-        $this->virtualProduct->setIsInventoryRequired(true);
-        $this->virtualProduct->setIsPriceVisible(true);
-        $this->virtualProduct->setIsActive(true);
-        $this->virtualProduct->setIsVisible(true);
-        $this->virtualProduct->setIsTaxable(true);
-        $this->virtualProduct->setIsShippable(true);
-        $this->virtualProduct->setShippingWeight(16);
-        $this->virtualProduct->setDescription('Test product description');
-        $this->virtualProduct->setRating(null);
-        $this->virtualProduct->setDefaultImage(null);
-    }
-
-    public function testGetSku()
-    {
-        $this->assertEquals('TST101', $this->virtualProduct->getSku());
+        $virtualProduct = new VirtualProduct;
+        $this->assertInstanceOf('inklabs\kommerce\Entity\VirtualProduct', $virtualProduct);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $virtualProduct);
     }
 }
