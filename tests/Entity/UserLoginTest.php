@@ -3,21 +3,19 @@ namespace inklabs\kommerce\Entity;
 
 class UserLoginTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->userLogin = new UserLogin;
-        $this->userLogin->setUsername('test');
-        $this->userLogin->setUserId(1);
-        $this->userLogin->setIp4('8.8.8.8');
-        $this->userLogin->setResult('success');
-    }
+        $userLogin = new UserLogin;
+        $userLogin->setId(1);
+        $userLogin->setUsername('test');
+        $userLogin->setUserId(1);
+        $userLogin->setIp4('8.8.8.8');
+        $userLogin->setResult('success');
 
-    public function testGetters()
-    {
-        $this->assertEquals(null, $this->userLogin->getId());
-        $this->assertEquals('test', $this->userLogin->getUsername());
-        $this->assertEquals(1, $this->userLogin->getUserId());
-        $this->assertEquals('8.8.8.8', $this->userLogin->getIp4());
-        $this->assertEquals('success', $this->userLogin->getResult());
+        $this->assertEquals(1, $userLogin->getId());
+        $this->assertEquals('test', $userLogin->getUsername());
+        $this->assertEquals(1, $userLogin->getUserId());
+        $this->assertEquals('8.8.8.8', $userLogin->getIp4());
+        $this->assertEquals('success', $userLogin->getResult());
     }
 }
