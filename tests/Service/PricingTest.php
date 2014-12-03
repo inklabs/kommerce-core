@@ -229,7 +229,7 @@ class PricingTest extends \PHPUnit_Framework_TestCase
         $product->setName('Test Product');
         $product->setUnitPrice(1500);
         $product->addOption($option);
-        $product->addSelectedOptionProduct($productSmall);
+        $product->addProduct($productSmall);
 
         $expectedPrice = new Entity\Price;
         $expectedPrice->unitPrice = 2400;
