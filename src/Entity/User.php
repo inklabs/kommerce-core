@@ -21,8 +21,13 @@ class User
     const STATUS_ACTIVE = 1;
     const STATUS_LOCKED = 2;
 
+    /* @var Role[] */
     protected $roles;
+
+    /* @var Token[] */
     protected $tokens;
+
+    /* @var Order[] */
     protected $orders;
 
     public function __construct()
@@ -36,6 +41,11 @@ class User
         $this->status = self::STATUS_ACTIVE;
     }
 
+    public function setId($id)
+    {
+        $this->id = (int) $id;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -44,6 +54,11 @@ class User
     public function isActive()
     {
         return $this->status === self::STATUS_ACTIVE;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = (int) $status;
     }
 
     public function getStatus()
@@ -127,6 +142,9 @@ class User
         $this->roles[] = $role;
     }
 
+    /**
+     * @return Role[]
+     */
     public function getRoles()
     {
         return $this->roles;
@@ -137,6 +155,9 @@ class User
         $this->tokens[] = $token;
     }
 
+    /**
+     * @return Token[]
+     */
     public function getTokens()
     {
         return $this->tokens;

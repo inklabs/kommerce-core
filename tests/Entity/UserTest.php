@@ -3,44 +3,46 @@ namespace inklabs\kommerce\Entity;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
-    /* @var User */
-    protected $user;
-
-    public function setUp()
+    public function testCreate()
     {
-        $this->user = new User;
-        $this->user->setEmail('test@example.com');
-        $this->user->setUsername('test');
-        $this->user->setPassword('xxxx');
-        $this->user->setFirstName('John');
-        $this->user->setLastName('Doe');
+        $user = new User;
+        $user->setid(1);
+        $user->setStatus(User::STATUS_ACTIVE);
+        $user->setEmail('test@example.com');
+        $user->setUsername('test');
+        $user->setPassword('xxxx');
+        $user->setFirstName('John');
+        $user->setLastName('Doe');
+        $user->setLastLogin(new \DateTime);
+        $user->addRole(new Role);
+        $user->addToken(new UserToken);
+
+        $this->assertEquals(1, $user->getId());
+        $this->assertEquals(User::STATUS_ACTIVE, $user->getStatus());
+        $this->assertTrue($user->isActive());
+        $this->assertEquals('test@example.com', $user->getEmail());
+        $this->assertEquals('test', $user->getUsername());
+        $this->assertEquals('John', $user->getFirstName());
+        $this->assertEquals('Doe', $user->getLastName());
+        $this->assertEquals(0, $user->getTotalLogins());
+        $this->assertTrue($user->getLastLogin() > 0);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\Role', $user->getRoles()[0]);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\UserToken', $user->getTokens()[0]);
     }
 
-    public function testGetters()
+    public function testVerifyPassword()
     {
-        $this->assertEquals(null, $this->user->getId());
-        $this->assertEquals('test@example.com', $this->user->getEmail());
-        $this->assertEquals('test', $this->user->getUsername());
-        $this->assertEquals('John', $this->user->getFirstName());
-        $this->assertEquals('Doe', $this->user->getLastName());
-        $this->assertEquals(0, $this->user->getTotalLogins());
-        $this->assertEquals(null, $this->user->getLastLogin());
+        $user = new User;
+        $user->setPassword('qwerty');
+        $this->assertTrue($user->verifyPassword('qwerty'));
+        $this->assertFalse($user->verifyPassword('wrong'));
     }
 
-    public function testAddRole()
+    public function testIncrementTotalLogins()
     {
-        $role = new Role;
-        $role->setName('admin');
-        $role->setDescription('Administrative user, has access to everything');
-
-        $this->user->addRole($role);
-
-        $this->assertEquals(1, count($this->user->getRoles()));
-    }
-
-    public function testAddToken()
-    {
-        $this->user->addToken(new UserToken);
-        $this->assertEquals(1, count($this->user->getTokens()));
+        $user = new User;
+        $user->incrementTotalLogins();
+        $this->assertEquals(1, $user->getTotalLogins());
+        $this->assertTrue($user->getLastLogin() > 0);
     }
 }
