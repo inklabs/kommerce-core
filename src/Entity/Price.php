@@ -8,7 +8,10 @@ class Price
     public $origQuantityPrice;
     public $quantityPrice;
 
+    /* @var CatalogPromotion[] */
     private $catalogPromotions = [];
+
+    /* @var ProductQuantityDiscount */
     private $productQuantityDiscount;
 
     public function addCatalogPromotion(CatalogPromotion $catalogPromotion)
@@ -16,6 +19,9 @@ class Price
         $this->catalogPromotions[] = $catalogPromotion;
     }
 
+    /**
+     * @return CatalogPromotion[]
+     */
     public function getCatalogPromotions()
     {
         return $this->catalogPromotions;
@@ -26,6 +32,9 @@ class Price
         $this->productQuantityDiscount = $productQuantityDiscount;
     }
 
+    /**
+     * @return ProductQuantityDiscount
+     */
     public function getProductQuantityDiscount()
     {
         return $this->productQuantityDiscount;
