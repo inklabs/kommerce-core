@@ -3,19 +3,17 @@ namespace inklabs\kommerce\Entity;
 
 class CartPriceRuleDiscountTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->product = new Product;
+        $cartPriceRuleDiscount = new CartPriceRuleDiscount(new Product, 1);
+        $cartPriceRuleDiscount->setId(1);
 
-        $this->cartPriceRuleDiscount = new CartPriceRuleDiscount;
-        $this->cartPriceRuleDiscount->setProduct($this->product);
-        $this->cartPriceRuleDiscount->setQuantity(1);
-    }
+        $this->assertEquals(1, $cartPriceRuleDiscount->getId());
+        $this->assertEquals(1, $cartPriceRuleDiscount->getQuantity());
+        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $cartPriceRuleDiscount->getProduct());
 
-    public function testGetters()
-    {
-        $this->assertEquals(null, $this->cartPriceRuleDiscount->getId());
-        $this->assertEquals($this->product, $this->cartPriceRuleDiscount->getProduct());
-        $this->assertEquals(1, $this->cartPriceRuleDiscount->getQuantity());
+        $cartPriceRuleDiscount->setProduct(new Product);
+        $cartPriceRuleDiscount->setQuantity(2);
+        $this->assertEquals(2, $cartPriceRuleDiscount->getQuantity());
     }
 }
