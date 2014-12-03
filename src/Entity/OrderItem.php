@@ -15,7 +15,10 @@ class OrderItem
 
     protected $order;
 
+    /* @var CatalogPromotion[] */
     protected $catalogPromotions;
+
+    /* @var ProductQuantityDiscount */
     protected $productQuantityDiscount;
 
     /* Flattened Columns */
