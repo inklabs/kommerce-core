@@ -3,20 +3,22 @@ namespace inklabs\kommerce\Entity;
 
 class CartTotalTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->cartTotal = new CartTotal;
-        $this->cartTotal->origSubtotal = 1300;
-        $this->cartTotal->subtotal = 1300;
-        $this->cartTotal->shipping = 0;
-        $this->cartTotal->discount = 0;
-        $this->cartTotal->tax = 0;
-        $this->cartTotal->total = 1300;
-        $this->cartTotal->savings = 0;
-    }
+        $cartTotal = new CartTotal;
+        $cartTotal->origSubtotal = 1;
+        $cartTotal->subtotal = 1;
+        $cartTotal->taxSubtotal = 1;
+        $cartTotal->discount = 1;
+        $cartTotal->shipping = 1;
+        $cartTotal->shippingDiscount = 1;
+        $cartTotal->tax = 1;
+        $cartTotal->total = 1;
+        $cartTotal->savings = 1;
+        $cartTotal->coupons = [new Coupon];
+        $cartTotal->cartPriceRules = [new CartPriceRule];
+        $cartTotal->taxRate = new TaxRate;
 
-    public function testValues()
-    {
-        $this->assertEquals(1300, $this->cartTotal->total);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\CartTotal', $cartTotal);
     }
 }
