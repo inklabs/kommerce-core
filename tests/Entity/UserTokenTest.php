@@ -3,21 +3,18 @@ namespace inklabs\kommerce\Entity;
 
 class UserTokenTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->userToken = new UserToken;
-        $this->userToken->setUserAgent('XXX');
-        $this->userToken->setToken('XXX');
-        $this->userToken->setType('XXX');
-        $this->userToken->setExpires(null);
-    }
+        $userToken = new UserToken;
+        $userToken->setUserAgent('UserAgent');
+        $userToken->setToken('token');
+        $userToken->setType('type');
+        $userToken->setExpires(null);
 
-    public function testGetter()
-    {
-        $this->assertEquals(null, $this->userToken->getId());
-        $this->assertEquals('XXX', $this->userToken->getUserAgent());
-        $this->assertEquals('XXX', $this->userToken->getToken());
-        $this->assertEquals('XXX', $this->userToken->getType());
-        $this->assertEquals(null, $this->userToken->getExpires());
+        $this->assertEquals(null, $userToken->getId());
+        $this->assertEquals('UserAgent', $userToken->getUserAgent());
+        $this->assertEquals('token', $userToken->getToken());
+        $this->assertEquals('type', $userToken->getType());
+        $this->assertEquals(null, $userToken->getExpires());
     }
 }
