@@ -7,6 +7,7 @@ use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 
 class Credit extends Payment
 {
+    /* @var ChargeResponse */
     protected $charge;
 
     public function __construct(ChargeRequest $chargeRequest, Gateway $gateway)
