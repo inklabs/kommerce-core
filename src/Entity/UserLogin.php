@@ -16,6 +16,11 @@ class UserLogin
         $this->setCreated();
     }
 
+    public function setId($id)
+    {
+        $this->id = (int) $id;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -43,12 +48,12 @@ class UserLogin
 
     public function setIp4($ip4)
     {
-        $this->ip4 = $ip4;
+        $this->ip4 = ip2long($ip4);
     }
 
     public function getIp4()
     {
-        return $this->ip4;
+        return long2ip($this->ip4);
     }
 
     public function setResult($result)
