@@ -14,6 +14,9 @@ trait Created
         $this->created = $created->gettimestamp();
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getCreated()
     {
         $created = new \DateTime();
