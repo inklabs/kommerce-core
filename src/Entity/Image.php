@@ -11,12 +11,20 @@ class Image
     protected $height;
     protected $sortOrder = 0;
 
+    /* @var Product */
     protected $product;
+
+    /* @var Tag */
     protected $tag;
 
     public function __construct()
     {
         $this->setCreated();
+    }
+
+    public function setid($id)
+    {
+        $this->id = (int) $id;
     }
 
     public function getId()
@@ -69,6 +77,9 @@ class Image
         $this->product = $product;
     }
 
+    /**
+     * @return Product
+     */
     public function getProduct()
     {
         return $this->product;
@@ -79,6 +90,9 @@ class Image
         $this->tag = $tag;
     }
 
+    /**
+     * @return Tag
+     */
     public function getTag()
     {
         return $this->tag;
