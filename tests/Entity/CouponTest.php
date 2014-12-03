@@ -3,60 +3,65 @@ namespace inklabs\kommerce\Entity;
 
 class CouponTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->coupon = new Coupon;
-        $this->coupon->setName('20% Off orders over $100');
-        $this->coupon->setCode('20PCT100');
-        $this->coupon->setType('percent');
-        $this->coupon->setValue(20);
-        $this->coupon->setMinOrderValue(10000);
-        $this->coupon->setMaxOrderValue(null);
-        $this->coupon->setFlagFreeShipping(null);
-    }
+        $coupon = new Coupon;
+        $coupon->setName('20% Off orders over $100');
+        $coupon->setCode('20PCT100');
+        $coupon->setType('percent');
+        $coupon->setValue(20);
+        $coupon->setMinOrderValue(10000);
+        $coupon->setMaxOrderValue(100000);
+        $coupon->setFlagFreeShipping(true);
+        $coupon->setCanCombineWithOtherCoupons(true);
 
-    public function testGetters()
-    {
-        $this->assertEquals('20% Off orders over $100', $this->coupon->getName());
-        $this->assertEquals('20PCT100', $this->coupon->getCode());
-        $this->assertEquals('percent', $this->coupon->getType());
-        $this->assertEquals(20, $this->coupon->getValue());
-        $this->assertEquals(10000, $this->coupon->getMinOrderValue());
-        $this->assertEquals(null, $this->coupon->getMaxOrderValue());
-        $this->assertEquals(null, $this->coupon->getFlagFreeShipping());
+        $this->assertEquals('20% Off orders over $100', $coupon->getName());
+        $this->assertEquals('20PCT100', $coupon->getCode());
+        $this->assertEquals('percent', $coupon->getType());
+        $this->assertEquals(20, $coupon->getValue());
+        $this->assertEquals(10000, $coupon->getMinOrderValue());
+        $this->assertEquals(100000, $coupon->getMaxOrderValue());
+        $this->assertTrue($coupon->getFlagFreeShipping());
+        $this->assertTrue($coupon->getCanCombineWithOtherCoupons());
     }
 
     public function testIsMinOrderValueValid()
     {
-        $this->assertFalse($this->coupon->isMinOrderValueValid(5000));
-        $this->assertTrue($this->coupon->isMinOrderValueValid(50000));
+        $coupon = new Coupon;
+        $this->assertTrue($coupon->isMinOrderValueValid(100));
+
+        $coupon->setMinOrderValue(100);
+        $this->assertTrue($coupon->isMinOrderValueValid(100));
+        $this->assertTrue($coupon->isMinOrderValueValid(200));
+    }
+
+    public function testIsMinOrderValueValidReturnsFalse()
+    {
+        $coupon = new Coupon;
+        $coupon->setMinOrderValue(100);
+        $this->assertFalse($coupon->isMinOrderValueValid(50));
     }
 
     public function testIsMaxOrderValueValid()
     {
-        $this->coupon->setName('20% Off orders under $100');
-        $this->coupon->setType('percent');
-        $this->coupon->setValue(20);
-        $this->coupon->setMaxOrderValue(null);
-        $this->coupon->setMaxOrderValue(10000);
+        $coupon = new Coupon;
+        $this->assertTrue($coupon->isMaxOrderValueValid(100));
 
-        $this->assertTrue($this->coupon->isMaxOrderValueValid(5000));
-        $this->assertFalse($this->coupon->isMaxOrderValueValid(50000));
+        $coupon->setMaxOrderValue(1000);
+        $this->assertTrue($coupon->isMaxOrderValueValid(1000));
+        $this->assertTrue($coupon->isMaxOrderValueValid(900));
+    }
+
+    public function testIsMaxOrderValueValidReturnsFalse()
+    {
+        $coupon = new Coupon;
+        $coupon->setMaxOrderValue(1000);
+        $this->assertFalse($coupon->isMaxOrderValueValid(2000));
     }
 
     public function testIsValid()
     {
-        $this->coupon = new Coupon;
-        $this->coupon->setName('20% Off orders $10-$100');
-        $this->coupon->setType('percent');
-        $this->coupon->setValue(20);
-        $this->coupon->setMinOrderValue(1000);
-        $this->coupon->setMaxOrderValue(10000);
-        $this->coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $this->coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-
-        $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
-
-        $this->assertTrue($this->coupon->isValid($date, 5000));
+        $coupon = new Coupon;
+        $this->assertTrue($coupon->isValid(new \DateTime, 200));
     }
 }
