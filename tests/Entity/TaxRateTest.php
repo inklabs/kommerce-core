@@ -3,34 +3,34 @@ namespace inklabs\kommerce\Entity;
 
 class TaxRateTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->taxRate = new TaxRate;
-        $this->taxRate->setState(null);
-        $this->taxRate->setZip5(92606);
-        $this->taxRate->setZip5From(null);
-        $this->taxRate->setZip5To(null);
-        $this->taxRate->setRate(8.0);
-        $this->taxRate->setApplyToShipping(false);
-    }
+        $taxRate = new TaxRate;
+        $taxRate->setId(1);
+        $taxRate->setState(null);
+        $taxRate->setZip5('92606');
+        $taxRate->setZip5From(null);
+        $taxRate->setZip5To(null);
+        $taxRate->setRate(8.0);
+        $taxRate->setApplyToShipping(false);
 
-    public function testGetters()
-    {
-        $this->assertEquals(null, $this->taxRate->getId());
-        $this->assertEquals(null, $this->taxRate->getState());
-        $this->assertEquals(92606, $this->taxRate->getZip5());
-        $this->assertEquals(null, $this->taxRate->getZip5From());
-        $this->assertEquals(null, $this->taxRate->getZip5To());
-        $this->assertEquals(8.0, $this->taxRate->getRate());
-        $this->assertEquals(false, $this->taxRate->getApplyToShipping());
+        $this->assertEquals(1, $taxRate->getId());
+        $this->assertEquals(null, $taxRate->getState());
+        $this->assertEquals('92606', $taxRate->getZip5());
+        $this->assertEquals(null, $taxRate->getZip5From());
+        $this->assertEquals(null, $taxRate->getZip5To());
+        $this->assertEquals(8.0, $taxRate->getRate());
+        $this->assertEquals(false, $taxRate->getApplyToShipping());
     }
 
     public function testGetTax()
     {
-        $this->taxRate->setApplyToShipping(false);
-        $this->assertEquals(80, $this->taxRate->getTax(1000, 500));
+        $taxRate = new TaxRate;
+        $taxRate->setRate(10.0);
+        $taxRate->setApplyToShipping(false);
+        $this->assertEquals(100, $taxRate->getTax(1000, 500));
 
-        $this->taxRate->setApplyToShipping(true);
-        $this->assertEquals(120, $this->taxRate->getTax(1000, 500));
+        $taxRate->setApplyToShipping(true);
+        $this->assertEquals(150, $taxRate->getTax(1000, 500));
     }
 }

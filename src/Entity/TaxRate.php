@@ -18,6 +18,11 @@ class TaxRate
         $this->setCreated();
     }
 
+    public function setId($id)
+    {
+        $this->id = (int) $id;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -75,7 +80,7 @@ class TaxRate
 
     public function setApplyToShipping($applyToShipping)
     {
-        $this->applyToShipping = $applyToShipping;
+        $this->applyToShipping = (bool) $applyToShipping;
     }
 
     public function getApplyToShipping()
@@ -83,7 +88,7 @@ class TaxRate
         return $this->applyToShipping;
     }
 
-    public function getTax($taxSubtotal, $shipping)
+    public function getTax($taxSubtotal, $shipping = 0)
     {
         $newTaxSubtotal = $taxSubtotal;
         if ($this->applyToShipping) {
