@@ -3,55 +3,53 @@ namespace inklabs\kommerce\Entity;
 
 class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->tag = new Tag;
-        $this->tag->setId(1);
-        $this->tag->setName('Test Tag');
+        $catalogPromotion = new CatalogPromotion;
+        $catalogPromotion->setCode('20PCTOFF');
+        $catalogPromotion->setTag(new Tag);
 
-        $this->catalogPromotion = new CatalogPromotion;
-        $this->catalogPromotion->setCode('20PCTOFF');
-        $this->catalogPromotion->setName('20% Off');
-        $this->catalogPromotion->setType('percent');
-        $this->catalogPromotion->setValue(20);
-        $this->catalogPromotion->setTag($this->tag);
-        $this->catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $this->catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-
-        $reflection = new \ReflectionClass('inklabs\kommerce\Entity\View\CatalogPromotion');
-        $this->expected = $reflection->newInstanceWithoutConstructor();
+        $this->assertEquals('20PCTOFF', $catalogPromotion->getCode());
+        $this->assertInstanceOf('inklabs\kommerce\Entity\Tag', $catalogPromotion->getTag());
     }
 
     public function testIsTagValid()
     {
-        $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
+        $tag = new Tag;
+        $tag->setId(1);
 
         $product = new Product;
-        $product->setSku('TST101');
-        $product->setName('Test Product');
-        $product->setUnitPrice(500);
-        $product->addTag($this->tag);
+        $product->addTag($tag);
 
-        $this->assertTrue($this->catalogPromotion->isValid($date, $product));
+        $catalogPromotion = new CatalogPromotion;
+        $catalogPromotion->setCode('20PCTOFF');
+        $catalogPromotion->setTag($tag);
+
+        $this->assertTrue($catalogPromotion->isTagValid($product));
+    }
+
+    public function testIsTagValidWithNullTag()
+    {
+        $catalogPromotion = new CatalogPromotion;
+        $catalogPromotion->setCode('20PCTOFF');
+
+        $this->assertTrue($catalogPromotion->isTagValid(new Product));
+    }
+
+    public function testIsTagValidWithNonMatchingTag()
+    {
+        $catalogPromotion = new CatalogPromotion;
+        $catalogPromotion->setCode('20PCTOFF');
+        $catalogPromotion->setTag(new Tag);
+
+        $this->assertFalse($catalogPromotion->isTagValid(new Product));
     }
 
     public function testIsValid()
     {
-        $tag2 = new Tag;
-        $tag2->setId(2);
-        $tag2->setName('Test Tag 2');
+        $catalogPromotion = new CatalogPromotion;
+        $catalogPromotion->setCode('20PCTOFF');
 
-        $product = new Product;
-        $product->setSku('TST101');
-        $product->setName('Test Product');
-        $product->setUnitPrice(500);
-
-        $this->assertFalse($this->catalogPromotion->isTagValid($product));
-
-        $product->addTag($tag2);
-        $this->assertFalse($this->catalogPromotion->isTagValid($product));
-
-        $product->addTag($this->tag);
-        $this->assertTrue($this->catalogPromotion->isTagValid($product));
+        $this->assertTrue($catalogPromotion->isValid(new \DateTime, new Product));
     }
 }

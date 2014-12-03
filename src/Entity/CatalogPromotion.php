@@ -4,11 +4,13 @@ namespace inklabs\kommerce\Entity;
 class CatalogPromotion extends Promotion
 {
     protected $code;
+
+    /* @var Tag */
     protected $tag;
 
     public function setCode($code)
     {
-        $this->code = $code;
+        $this->code = (string) $code;
     }
 
     public function getCode()
@@ -21,6 +23,9 @@ class CatalogPromotion extends Promotion
         $this->tag = $tag;
     }
 
+    /**
+     * @return Tag
+     */
     public function getTag()
     {
         return $this->tag;

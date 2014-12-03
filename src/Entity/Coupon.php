@@ -20,7 +20,7 @@ class Coupon extends Promotion
 
     public function setCode($code)
     {
-        $this->code = $code;
+        $this->code = (string) $code;
     }
 
     public function getCode()
@@ -30,7 +30,7 @@ class Coupon extends Promotion
 
     public function setFlagFreeShipping($flagFreeShipping)
     {
-        $this->flagFreeShipping = $flagFreeShipping;
+        $this->flagFreeShipping = (bool) $flagFreeShipping;
     }
 
     public function getFlagFreeShipping()
