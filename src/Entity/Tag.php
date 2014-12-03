@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Tag
 {
     use Accessor\Time;
-    use OptionSelector;
 
     protected $id;
     protected $name;
