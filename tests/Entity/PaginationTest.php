@@ -3,19 +3,19 @@ namespace inklabs\kommerce\Entity;
 
 class PaginationTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->pagination = new Pagination(10, 1);
-        $this->pagination->setTotal(100);
-        $this->pagination->setIsTotalIncluded(true);
-    }
+        $pagination = new Pagination(10, 1);
+        $pagination->setTotal(100);
+        $pagination->setIsTotalIncluded(true);
 
-    public function testGetData()
-    {
-        $pagination = $this->pagination->getData();
-        $this->assertEquals(10, $pagination->maxResults);
-        $this->assertEquals(1, $pagination->page);
-        $this->assertEquals(100, $pagination->total);
-        $this->assertEquals(true, $pagination->isTotalIncluded);
+        $expectedResult = new \stdClass;
+        $expectedResult->maxResults = 10;
+        $expectedResult->page = 1;
+        $expectedResult->total = 100;
+        $expectedResult->isTotalIncluded = true;
+
+        $this->assertEquals(100, $pagination->getTotal());
+        $this->assertEquals($expectedResult, $pagination->getData());
     }
 }
