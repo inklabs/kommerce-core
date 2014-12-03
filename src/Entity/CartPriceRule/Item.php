@@ -12,4 +12,24 @@ abstract class Item
     protected $quantity;
 
     abstract public function matches(Entity\CartItem $cartItem);
+
+    public function setId($id)
+    {
+        $this->id = (int) $id;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setQuantity($quantity)
+    {
+        $this->quantity = (int) $quantity;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
 }

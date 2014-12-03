@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity as Entity;
 
 class Tag extends Item
 {
+    /* @var Entity\Tag */
     protected $tag;
 
     public function __construct(Entity\Tag $tag, $quantity)
@@ -28,6 +29,9 @@ class Tag extends Item
         return false;
     }
 
+    /**
+     * @return Entity\Tag
+     */
     public function getTag()
     {
         return $this->tag;
