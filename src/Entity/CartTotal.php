@@ -12,7 +12,13 @@ class CartTotal
     public $tax = 0;
     public $total = 0;
     public $savings = 0;
+
+    /* @var Coupon[] */
     public $coupons = [];
+
+    /* @var CartPriceRule[] */
     public $cartPriceRules = [];
+
+    /* @var TaxRate */
     public $taxRate;
 }
