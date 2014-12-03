@@ -15,7 +15,7 @@
         </testsuite>
     </testsuites>
     <filter>
-        <whitelist>
+        <whitelist addUncoveredFilesFromWhitelist="false">
             <directory>src</directory>
             <exclude>
                 <directory>src/Doctrine/Functions/Mysql</directory>
