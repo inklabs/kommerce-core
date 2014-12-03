@@ -14,7 +14,7 @@ class CatalogPromotion extends Promotion
     {
         parent::__construct($catalogPromotion);
 
-        $this->code             = $catalogPromotion->getCode();
+        $this->code = $catalogPromotion->getCode();
     }
 
     public static function factory(Entity\CatalogPromotion $catalogPromotion)

@@ -8,19 +8,23 @@ use inklabs\kommerce\Service\Pricing;
 
 class Cart
 {
-    public $items = [];
-    public $coupons = [];
     public $totalItems;
     public $totalQuantity;
     public $shippingWeight;
+
+    /* @var CartTotal */
     public $cartTotal;
+
+    /* @var CartItem[] */
+    public $items = [];
+
+    /* @var Coupon[] */
+    public $coupons = [];
 
     public function __construct(Entity\Cart $cart)
     {
         $this->cart = $cart;
 
-        $this->items          = $cart->getItems();
-        $this->coupons        = $cart->getCoupons();
         $this->totalItems     = $cart->totalItems();
         $this->totalQuantity  = $cart->totalQuantity();
         $this->shippingWeight = $cart->getShippingWeight();
@@ -57,10 +61,22 @@ class Cart
         return $this;
     }
 
+    public function withCoupons()
+    {
+        foreach ($this->cart->getCoupons() as $coupon) {
+            $this->coupons[$coupon->getId()] = Coupon::factory($coupon)
+                ->export();
+        }
+
+        return $this;
+    }
+
+
     public function withAllData(Pricing $pricing, Shipping\Rate $shippingRate = null, Entity\TaxRate $taxRate = null)
     {
         return $this
+            ->withCartTotal($pricing, $shippingRate, $taxRate)
             ->withCartItems($pricing)
-            ->withCartTotal($pricing, $shippingRate, $taxRate);
+            ->withCoupons();
     }
 }
