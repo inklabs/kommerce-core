@@ -14,10 +14,13 @@ trait Updated
         $this->updated = $updated->getTimestamp();
     }
 
+    /**
+     * @return \DateTime|null
+     */
     public function getUpdated()
     {
         if (empty($this->updated)) {
-            return $this->updated;
+            return null;
         }
 
         $updated = new \DateTime();

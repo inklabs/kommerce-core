@@ -3,26 +3,23 @@ namespace inklabs\kommerce;
 
 class UpdatedTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testCreate()
     {
-        $this->updatedObject = $this->getObjectForTrait('inklabs\kommerce\Entity\Accessor\Updated');
-    }
-
-    public function testGetUpdatedWithNull()
-    {
-        $this->assertSame(null, $this->updatedObject->getUpdated());
-    }
-
-    public function testSetUpdated()
-    {
-        $date = new \DateTime('2014-02-01', new \DateTimeZone('UTC'));
-        $this->updatedObject->setUpdated($date);
-        $this->assertEquals($date, $this->updatedObject->getUpdated());
+        $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\Accessor\Updated');
+        $mock->setUpdated(new \DateTime);
+        $this->assertInstanceOf('DateTime', $mock->getUpdated());
     }
 
     public function testSetUpdatedWithNull()
     {
-        $this->updatedObject->setUpdated();
-        $this->assertInstanceOf('DateTime', $this->updatedObject->getUpdated());
+        $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\Accessor\Updated');
+        $mock->setUpdated();
+        $this->assertInstanceOf('DateTime', $mock->getUpdated());
+    }
+
+    public function testGetUpdatedWithNull()
+    {
+        $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\Accessor\Updated');
+        $this->assertSame(null, $mock->getUpdated());
     }
 }
