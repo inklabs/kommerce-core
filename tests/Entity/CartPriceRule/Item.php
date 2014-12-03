@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity as Entity;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
 {
-    public function testItem()
+    public function testCreate()
     {
         $stub = $this->getMockForAbstractClass('inklabs\kommerce\Entity\CartPriceRule\Item');
         $stub->expects($this->any())

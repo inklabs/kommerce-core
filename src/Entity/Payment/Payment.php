@@ -11,11 +11,22 @@ abstract class Payment
     protected $id;
     protected $amount;
 
+    /* @var Entity\Order */
     protected $order;
+
+    public function setId($id)
+    {
+        $this->id = (int) $id;
+    }
 
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setAmount($amount)
+    {
+        $this->amount = (int) $amount;
     }
 
     public function getAmount()
@@ -27,7 +38,6 @@ abstract class Payment
     {
         $this->order = $order;
     }
-
 
     /**
      * @return Entity\Order
