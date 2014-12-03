@@ -25,8 +25,13 @@ class Product
     protected $rating;
     protected $defaultImage;
 
+    /* @var Tag[] */
     protected $tags;
+
+    /* @var Image[] */
     protected $images;
+
+    /* @var ProductQuantityDiscount */
     protected $productQuantityDiscounts;
 
     public function __construct()
@@ -37,6 +42,9 @@ class Product
         $this->productQuantityDiscounts = new ArrayCollection();
     }
 
+    /**
+     * @return Price
+     */
     public function getPrice(Pricing $pricing, $quantity = 1)
     {
         return $pricing->getPrice(
@@ -197,10 +205,10 @@ class Product
 
     public function inStock()
     {
-        if (($this->isInventoryRequired and $this->quantity > 0) or ( ! $this->isInventoryRequired)) {
-            return true;
-        } else {
+        if ($this->isInventoryRequired && ($this->quantity < 1)) {
             return false;
+        } else {
+            return true;
         }
     }
 
@@ -209,6 +217,9 @@ class Product
         $this->tags[] = $tag;
     }
 
+    /**
+     * @return Tag[]
+     */
     public function getTags()
     {
         return $this->tags;
@@ -219,6 +230,9 @@ class Product
         $this->images[] = $image;
     }
 
+    /**
+     * @return Image[]
+     */
     public function getImages()
     {
         return $this->images;
@@ -229,6 +243,9 @@ class Product
         $this->productQuantityDiscounts[] = $productQuantityDiscount;
     }
 
+    /**
+     * @return ProductQuantityDiscount[]
+     */
     public function getProductQuantityDiscounts()
     {
         return $this->productQuantityDiscounts;
