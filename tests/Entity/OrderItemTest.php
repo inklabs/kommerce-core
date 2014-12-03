@@ -5,7 +5,7 @@ use inklabs\kommerce\Service\Pricing;
 
 class OrderItemTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreateOrderItem()
+    public function testCreate()
     {
         $product = new Product;
         $product->setUnitPrice(500);

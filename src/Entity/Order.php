@@ -10,8 +10,14 @@ class Order
     use Accessor\Time;
 
     protected $id;
+
+    /* @var CartTotal */
     protected $total;
+
+    /* @var OrderAddress */
     protected $shippingAddress;
+
+    /* @var OrderAddress */
     protected $billingAddress;
 
     protected $status;
@@ -21,9 +27,16 @@ class Order
     const STATUS_COMPLETE   = 3;
     const STATUS_CANCELED   = 4;
 
+    /* @var User */
     protected $user;
+
+    /* @var OrderItem[] */
     protected $items;
+
+    /* @var Payment\Payment[] */
     protected $payments;
+
+    /* @var Coupon[] */
     protected $coupons;
 
     public function __construct(
@@ -61,9 +74,9 @@ class Order
         return $id;
     }
 
-    public function setStatus($status)
+    public function setId($id)
     {
-        $this->status = (int) $status;
+        $this->id = (int) $id;
     }
 
     public function getId()
@@ -71,11 +84,19 @@ class Order
         return $this->id;
     }
 
+    public function setStatus($status)
+    {
+        $this->status = (int) $status;
+    }
+
     private function setTotal(CartTotal $total)
     {
         $this->total = $total;
     }
 
+    /**
+     * @return CartTotal
+     */
     public function getTotal()
     {
         return $this->total;
@@ -86,11 +107,30 @@ class Order
         $this->shippingAddress = $shippingAddress;
     }
 
+    /**
+     * @return OrderAddress
+     */
+    public function getShippingAddress()
+    {
+        return $this->shippingAddress;
+    }
+
     public function setBillingAddress(OrderAddress $billingAddress)
     {
         $this->billingAddress = $billingAddress;
     }
 
+    /**
+     * @return OrderAddress
+     */
+    public function getBillingAddress()
+    {
+        return $this->billingAddress;
+    }
+
+    /**
+     * @return OrderItem[]
+     */
     public function getItems()
     {
         return $this->items;
@@ -115,6 +155,9 @@ class Order
         $this->coupons[] = $coupon;
     }
 
+    /**
+     * @return Coupon[]
+     */
     public function getCoupons()
     {
         return $this->coupons;
