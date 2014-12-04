@@ -16,7 +16,10 @@ class ProductTest extends Helper\DoctrineTestCase
     {
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
         $this->productService = new Product($this->entityManager, $pricing);
+    }
 
+    public function setupProduct()
+    {
         $this->product = new Entity\Product;
         $this->product->setSku('TST101');
         $this->product->setName('Test Product');
@@ -45,7 +48,9 @@ class ProductTest extends Helper\DoctrineTestCase
 
     public function testFindNotActive()
     {
+        $this->setupProduct();
         $this->product->setIsActive(false);
+        $this->entityManager->flush();
 
         $product = $this->productService->find(1);
         $this->assertEquals(null, $product);
@@ -53,57 +58,14 @@ class ProductTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
+        $this->setupProduct();
         $product = $this->productService->find(1);
-        $this->assertEquals('TST101', $product->sku);
+        $this->assertEquals(1, $product->id);
     }
 
-    public function testFindWithCatalogPromotion()
-    {
-        $catalogPromotion = new Entity\CatalogPromotion;
-        $catalogPromotion->setName('20% Off');
-        $catalogPromotion->setCode('20PCT');
-        $catalogPromotion->setType('percent');
-        $catalogPromotion->setValue(20);
-        $catalogPromotion->setRedemptions(0);
-        $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-
-        $this->entityManager->persist($catalogPromotion);
-        $this->entityManager->flush();
-
-        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
-        $pricing->loadCatalogPromotions($this->entityManager);
-
-        $productService = new Product($this->entityManager, $pricing);
-
-        $id = $this->product->getId();
-        $product = $productService->find($id);
-
-        $this->assertEquals(800, $product->price->unitPrice);
-        $this->assertEquals(20, $product->price->catalogPromotions[0]->value);
-    }
-
-    public function testFindWithProductQuantityDiscounts()
-    {
-        $id = $this->product->getId();
-
-        $productQuantityDiscount = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount->setCustomerGroup(null);
-        $productQuantityDiscount->setType('exact');
-        $productQuantityDiscount->setQuantity(6);
-        $productQuantityDiscount->setValue(500);
-        $productQuantityDiscount->setFlagApplyCatalogPromotions(true);
-        $productQuantityDiscount->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $productQuantityDiscount->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        $this->entityManager->persist($productQuantityDiscount);
-
-        $this->product->addProductQuantityDiscount($productQuantityDiscount);
-        $this->entityManager->flush();
-
-        $product = $this->productService->find($id);
-        $this->assertEquals(500, $product->productQuantityDiscounts[0]->value);
-    }
-
+    /**
+     * @return Entity\Product
+     */
     private function getDummyProduct($num)
     {
         $product = new Entity\Product;
@@ -124,6 +86,8 @@ class ProductTest extends Helper\DoctrineTestCase
 
     public function testGetRelatedProducts()
     {
+        $this->setupProduct();
+
         $product1 = $this->getDummyProduct(1);
         $product2 = $this->getDummyProduct(2);
         $product3 = $this->getDummyProduct(3);
@@ -148,8 +112,8 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
 
         $viewProduct = Entity\View\Product::factory($this->product)->withTags()->export();
-        $relatedProducts = $this->productService->getRelatedProducts($viewProduct);
-        $this->assertEquals(3, count($relatedProducts));
+        $products = $this->productService->getRelatedProducts($viewProduct);
+        $this->assertEquals(3, count($products));
     }
 
     public function testGetProductsByIds()
@@ -176,9 +140,9 @@ class ProductTest extends Helper\DoctrineTestCase
         $products = $this->productService->getProductsByIds($productIds);
 
         $this->assertEquals(3, count($products));
-        $this->assertEquals('TST2', $products[0]->sku);
-        $this->assertEquals('TST3', $products[1]->sku);
-        $this->assertEquals('TST4', $products[2]->sku);
+        $this->assertEquals(2, $products[0]->id);
+        $this->assertEquals(3, $products[1]->id);
+        $this->assertEquals(4, $products[2]->id);
     }
 
     public function testGetRandomProducts()
@@ -201,7 +165,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->assertEquals(3, count($products));
     }
 
-    public function setupProductsByTag()
+    private function setupProductsByTag()
     {
         $this->tag = new Entity\Tag;
         $this->tag->setName('Test Tag');
@@ -234,9 +198,9 @@ class ProductTest extends Helper\DoctrineTestCase
         $products = $this->productService->getProductsByTag($this->viewTag);
 
         $this->assertEquals(3, count($products));
-        $this->assertEquals('TST1', $products[0]->sku);
-        $this->assertEquals('TST2', $products[1]->sku);
-        $this->assertEquals('TST3', $products[2]->sku);
+        $this->assertEquals(1, $products[0]->id);
+        $this->assertEquals(2, $products[1]->id);
+        $this->assertEquals(3, $products[2]->id);
     }
 
     public function testGetProductsByTagPaginated()
@@ -249,10 +213,10 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $products = $this->productService->getProductsByTag($this->viewTag, $pagination);
 
-        $this->assertEquals(3, $pagination->getTotal());
         $this->assertEquals(2, count($products));
-        $this->assertEquals('TST1', $products[0]->sku);
-        $this->assertEquals('TST2', $products[1]->sku);
+        $this->assertEquals(1, $products[0]->id);
+        $this->assertEquals(2, $products[1]->id);
+        $this->assertEquals(3, $pagination->getTotal());
     }
 
     public function testGetProductsByTagPaginatedSecondPage()
@@ -265,8 +229,8 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $products = $this->productService->getProductsByTag($this->viewTag, $pagination);
 
-        $this->assertEquals(3, $pagination->getTotal());
         $this->assertEquals(1, count($products));
-        $this->assertEquals('TST3', $products[0]->sku);
+        $this->assertEquals(3, $products[0]->id);
+        $this->assertEquals(3, $pagination->getTotal());
     }
 }

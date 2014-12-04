@@ -7,6 +7,7 @@ use inklabs\kommerce\Lib as Lib;
 
 class Product extends Lib\EntityManager
 {
+    /* @var Pricing */
     private $pricing;
 
     public function __construct(EntityManager $entityManager, Pricing $pricing)
