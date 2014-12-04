@@ -1,8 +1,0 @@
-exclude = "{$exclude,coverage_report}"
-
-windowTitle = "$TM_DISPLAYNAME - ${TM_DIRECTORY}"
-
-softWrap = true
-softTabs = true
-tabSize = 4
-wrapColumn = 120
