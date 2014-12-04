@@ -15,7 +15,10 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->sessionManager = new Lib\ArraySessionManager;
         $this->userService = new User($this->entityManager, $this->sessionManager);
+    }
 
+    public function setupUser()
+    {
         $user = new Entity\User;
         $user->setFirstName('John');
         $user->setLastName('Doe');
@@ -35,45 +38,42 @@ class UserTest extends Helper\DoctrineTestCase
 
     public function testUserExists()
     {
+        $this->setupUser();
+
         $user = $this->userService->find(1);
         $this->assertEquals(1, $user->id);
-        $this->assertEquals('John', $user->firstName);
-        $this->assertEquals('Doe', $user->lastName);
-        $this->assertEquals('test@example.com', $user->email);
-        $this->assertEquals('test', $user->username);
-        $this->assertEquals(Entity\User::STATUS_ACTIVE, $user->status);
     }
 
     public function testUserLoginWithUsername()
     {
-        $result = $this->userService->login('test', 'qwerty');
-        $this->assertEquals(true, $result);
+        $this->setupUser();
+        $this->assertTrue($this->userService->login('test', 'qwerty'));
     }
 
     public function testUserLoginWithWrongPassword()
     {
-        $result = $this->userService->login('test', 'xxxxx');
-        $this->assertEquals(false, $result);
+        $this->setupUser();
+        $this->assertFalse($this->userService->login('test', 'xxxxx'));
     }
 
     public function testUserLoginWithWrongUsername()
     {
-        $result = $this->userService->login('xxxxx', 'xxxxx');
-        $this->assertEquals(false, $result);
+        $this->setupUser();
+        $this->assertFalse($this->userService->login('xxxxx', 'xxxxx'));
     }
 
     public function testUserPersistence()
     {
-        $user = $this->userService->getView();
-        $this->assertEquals(null, $user->id);
-        $this->assertEquals(0, $user->totalLogins);
+        $this->setupUser();
+        $this->assertTrue($this->userService->login('test', 'qwerty'));
 
-        $result = $this->userService->login('test', 'qwerty');
-        $this->assertEquals(true, $result);
+        $newUserService = new User($this->entityManager, $this->sessionManager);
+        $this->assertEquals(1, $newUserService->getUser()->getId());
+    }
 
-        $userService = new User($this->entityManager, $this->sessionManager);
-        $user = $userService->getView();
-        $this->assertEquals(1, $user->id);
-        $this->assertEquals(1, $user->totalLogins);
+    public function testGetView()
+    {
+        $this->setupUser();
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\User', $this->userService->getView());
     }
 }

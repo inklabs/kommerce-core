@@ -36,7 +36,7 @@ class User extends Lib\EntityManager
         $entityUser = $this->entityManager->getRepository('inklabs\kommerce\Entity\User')->findOneByUsername($username);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
-            return null;
+            return false;
         }
 
         if ($entityUser->verifyPassword($password)) {
