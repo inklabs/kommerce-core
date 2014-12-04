@@ -9,6 +9,9 @@ Zen Kommerce is a PHP shopping cart system written with SOLID design principles,
 PSR compatible, dependency free, and with 100% code coverage using TDD practices.
 More information can be found [here](http://inklabs.github.io/kommerce/).
 
+All code (including tests) conform to the PSR-2 coding standards. The autoloader
+conforms to the PSR-4 standards.
+
 ## Installation
 
 Add the following lines to your ``composer.json`` file.
