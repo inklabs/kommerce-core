@@ -21,7 +21,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     private function getConnection()
     {
-        $this->kommerce = new Kommerce;
+        $this->kommerce = new Kommerce(new Doctrine\Common\Cache\ArrayCache());
         $this->kommerce->addSqliteFunctions();
         $this->kommerce->setup([
             'driver'   => 'pdo_sqlite',
