@@ -10,16 +10,24 @@ use Exception;
 
 class Cart extends Lib\EntityManager
 {
+    /* @var Lib\SessionManager */
     protected $sessionManager;
     protected $cartSessionKey = 'newcart';
 
     /* @var Entity\Cart */
     protected $cart;
+
+    /* @var Entity\Shipping\Rate */
     protected $shippingRate;
+
+    /* @var Entity\TaxRate */
     protected $taxRate;
 
-    private $pricing;
-    private $user;
+    /* @var Pricing */
+    protected $pricing;
+
+    /* @var Entity\User */
+    protected $user;
 
     public function __construct(EntityManager $entityManager, Pricing $pricing, Lib\SessionManager $sessionManager)
     {
@@ -116,6 +124,9 @@ class Cart extends Lib\EntityManager
         $this->cart->removeCoupon($key);
     }
 
+    /**
+     * @return Entity\Coupon[]
+     */
     public function getCoupons()
     {
         return $this->cart->getCoupons();
