@@ -15,10 +15,14 @@ Add the following lines to your ``composer.json`` file.
 
 ```JSON
 {
-	"require": {
-		"inklabs/kommerce-core": "dev-master"
-	}
+    "require": {
+        "inklabs/kommerce-core": "dev-master"
+    }
 }
+```
+
+```
+   composer install
 ```
 
 ## Unit Tests:
