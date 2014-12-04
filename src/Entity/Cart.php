@@ -63,6 +63,10 @@ class Cart
         }
 
         $this->coupons[] = $coupon;
+
+        end($this->coupons);
+        $couponId = key($this->coupons);
+        return $couponId;
     }
 
     public function updateCoupon($id, Coupon $coupon)
