@@ -15,7 +15,10 @@ class TagTest extends Helper\DoctrineTestCase
     public function setUp()
     {
         $this->tagService = new Tag($this->entityManager);
+    }
 
+    private function setupTag()
+    {
         $this->tag = new Entity\Tag;
         $this->tag->setName('Test Tag');
         $this->tag->setDescription('Test Description');
@@ -39,6 +42,9 @@ class TagTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
     }
 
+    /**
+     * @return Entity\Product
+     */
     private function getDummyProduct($num)
     {
         $product = new Entity\Product;
@@ -54,6 +60,7 @@ class TagTest extends Helper\DoctrineTestCase
         $product->setIsTaxable(true);
         $product->setIsShippable(true);
         $product->setShippingWeight(16);
+
         return $product;
     }
 
@@ -65,7 +72,9 @@ class TagTest extends Helper\DoctrineTestCase
 
     public function testFindNotActive()
     {
+        $this->setupTag();
         $this->tag->setIsActive(false);
+        $this->entityManager->flush();
 
         $tag = $this->tagService->find(1);
         $this->assertEquals(null, $tag);
@@ -73,7 +82,8 @@ class TagTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
+        $this->setupTag();
         $tag = $this->tagService->find(1);
-        $this->assertEquals('Test Tag', $tag->name);
+        $this->assertEquals(1, $tag->id);
     }
 }

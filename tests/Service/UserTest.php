@@ -17,7 +17,7 @@ class UserTest extends Helper\DoctrineTestCase
         $this->userService = new User($this->entityManager, $this->sessionManager);
     }
 
-    public function setupUser()
+    private function setupUser()
     {
         $user = new Entity\User;
         $user->setFirstName('John');
