@@ -17,7 +17,6 @@ class TaxRate extends Lib\EntityManager
         return $this->entityManager->getRepository('inklabs\kommerce\Entity\TaxRate')->findAll();
     }
 
-
     /**
      * @return Entity\TaxRate|null
      * @throws \Exception
