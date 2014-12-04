@@ -6,30 +6,25 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class CatalogPromotionTest extends Helper\DoctrineTestCase
 {
-    /* @var CatalogPromotion */
-    protected $catalogPromotionService;
-    protected $catalogPromotions;
-
-    public function setUp()
+    public function testFindAll()
     {
-        $this->catalogPromotions = [
-            $this->getCatalogPromotion(1),
-            $this->getCatalogPromotion(2),
-            $this->getCatalogPromotion(3),
-        ];
-
-        foreach ($this->catalogPromotions as $catalogPromotion) {
-            $this->entityManager->persist($catalogPromotion);
-        }
+        $this->entityManager->persist($this->getCatalogPromotion(1));
+        $this->entityManager->persist($this->getCatalogPromotion(2));
         $this->entityManager->flush();
 
-        $this->catalogPromotionService = new CatalogPromotion($this->entityManager);
+        $catalogPromotionService = new CatalogPromotion($this->entityManager);
+        $catalogPromotions = $catalogPromotionService->findAll();
+
+        $this->assertEquals(2, count($catalogPromotions));
     }
 
+    /**
+     * @return Entity\CatalogPromotion
+     */
     private function getCatalogPromotion($num)
     {
         $catalogPromotion = new Entity\CatalogPromotion;
-        $catalogPromotion->setCode('test' . $num);
+        $catalogPromotion->setCode('TST' . $num);
         $catalogPromotion->setName('test' . $num);
         $catalogPromotion->setType('percent');
         $catalogPromotion->setValue(10);
@@ -37,12 +32,5 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
         return $catalogPromotion;
-    }
-
-    public function testFindAll()
-    {
-        $catalogPromotions = $this->catalogPromotionService->findAll();
-
-        $this->assertEquals($this->catalogPromotions, $catalogPromotions);
     }
 }
