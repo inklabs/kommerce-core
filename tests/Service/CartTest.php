@@ -199,6 +199,16 @@ class CartTest extends Helper\DoctrineTestCase
         $cart->addCouponByCode('xxx');
     }
 
+    public function testDeleteCoupon()
+    {
+        $this->setCoupon();
+        $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
+        $couponId = $cart->addCouponByCode($this->coupon->getCode());
+        $cart->removeCoupon($couponId);
+
+        $this->assertEquals(0, count($cart->getCoupons()));
+    }
+
     /**
      * @return Entity\OrderAddress
      */

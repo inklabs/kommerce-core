@@ -115,8 +115,10 @@ class Cart extends Lib\EntityManager
             throw new Exception('Coupon not found');
         }
 
-        $this->cart->addCoupon($coupon);
+        $couponId = $this->cart->addCoupon($coupon);
         $this->save();
+
+        return $couponId;
     }
 
     public function removeCoupon($key)
