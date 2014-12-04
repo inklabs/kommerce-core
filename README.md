@@ -1,7 +1,7 @@
 Zen Kommerce Core
 =================
 
-PHP Kohana E-commerce Platform
+PHP E-commerce Platform
 
 ## Introduction
 
