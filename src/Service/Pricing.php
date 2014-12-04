@@ -6,11 +6,14 @@ use Doctrine as Doctrine;
 
 class Pricing
 {
+    /* @var \DateTime */
     protected $date;
 
-    private $catalogPromotions = [];
-    private $productQuantityDiscounts = [];
-    private $price;
+    /* @var Entity\CatalogPromotion[] */
+    protected $catalogPromotions = [];
+
+    /* @var Entity\ProductQuantityDiscount[] */
+    protected $productQuantityDiscounts = [];
 
     public function __construct(\DateTime $date = null)
     {
@@ -21,6 +24,9 @@ class Pricing
         }
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getDate()
     {
         return $this->date;
@@ -45,6 +51,14 @@ class Pricing
         $this->catalogPromotions[] = $catalogPromotion;
     }
 
+    /**
+     * @return Entity\CatalogPromotion[]
+     */
+    public function getCatalogPromotions()
+    {
+        return $this->catalogPromotions;
+    }
+
     public function setProductQuantityDiscounts($productQuantityDiscounts)
     {
         foreach ($productQuantityDiscounts as $productQuantityDiscount) {
@@ -67,67 +81,20 @@ class Pricing
         );
     }
 
+    /**
+     * @return Entity\ProductQuantityDiscount[]
+     */
+    public function getProductQuantityDiscounts()
+    {
+        return $this->productQuantityDiscounts;
+    }
+
+    /**
+     * @return Entity\Price
+     */
     public function getPrice(Entity\Product $product, $quantity)
     {
-        $this->product = $product;
-        $this->quantity = $quantity;
-
-        $this->price = new Entity\Price;
-        $this->price->origUnitPrice = $this->product->getUnitPrice();
-        $this->price->origQuantityPrice = ($this->price->origUnitPrice * $this->quantity);
-        $this->price->unitPrice = $this->price->origUnitPrice;
-
-        $this->applyProductQuantityDiscount();
-        $this->applyCatalogPromotions();
-        $this->calculateQuantityPrice();
-        $this->applyProductOptionPrices();
-
-        return $this->price;
-    }
-
-    private function applyProductQuantityDiscount()
-    {
-        foreach ($this->productQuantityDiscounts as $productQuantityDiscount) {
-            if ($productQuantityDiscount->isValid($this->date, $this->quantity)) {
-                $this->price->unitPrice = $productQuantityDiscount->getUnitPrice($this->price->unitPrice);
-                $this->price->setProductQuantityDiscount($productQuantityDiscount);
-                break;
-            }
-        }
-
-        // No prices below zero!
-        $this->price->unitPrice = max(0, $this->price->unitPrice);
-    }
-
-    private function applyCatalogPromotions()
-    {
-        foreach ($this->catalogPromotions as $catalogPromotion) {
-            if ($catalogPromotion->isValid($this->date, $this->product)) {
-                $this->price->unitPrice = $catalogPromotion->getUnitPrice($this->price->unitPrice);
-                $this->price->addCatalogPromotion($catalogPromotion);
-            }
-        }
-
-        // No prices below zero!
-        $this->price->unitPrice = max(0, $this->price->unitPrice);
-    }
-
-    private function calculateQuantityPrice()
-    {
-        $this->price->quantityPrice = ($this->price->unitPrice * $this->quantity);
-    }
-
-    private function applyProductOptionPrices()
-    {
-        // TODO: code smell...
-        foreach ($this->product->getProducts() as $optionProduct) {
-            $subPricing = new Pricing($this->date);
-            $optionProductPrice = $optionProduct->getPrice($subPricing, $this->quantity);
-
-            $this->price->unitPrice          += $optionProductPrice->unitPrice;
-            $this->price->origUnitPrice      += $optionProductPrice->origUnitPrice;
-            $this->price->origQuantityPrice  += $optionProductPrice->origQuantityPrice;
-            $this->price->quantityPrice      += $optionProductPrice->quantityPrice;
-        }
+        $pricingCalculator = new PricingCalculator($this);
+        return $pricingCalculator->getPrice($product, $quantity);
     }
 }

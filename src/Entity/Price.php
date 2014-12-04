@@ -39,4 +39,15 @@ class Price
     {
         return $this->productQuantityDiscount;
     }
+
+    public static function add(Price $a, Price $b)
+    {
+        $price = new Price;
+        $price->unitPrice         = $a->unitPrice         + $b->unitPrice;
+        $price->origUnitPrice     = $a->origUnitPrice     + $b->origUnitPrice;
+        $price->quantityPrice     = $a->quantityPrice     + $b->quantityPrice;
+        $price->origQuantityPrice = $a->origQuantityPrice + $b->origQuantityPrice;
+
+        return $price;
+    }
 }
