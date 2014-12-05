@@ -1,8 +1,9 @@
 Zen Kommerce Core
 =================
 [![Test Coverage](https://codeclimate.com/github/inklabs/kommerce-core/badges/coverage.svg)](https://codeclimate.com/github/inklabs/kommerce-core)
-[![Apache License 2.0](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/inklabs/kommerce-core/blob/master/LICENSE.txt)
+[![Build Status](https://travis-ci.org/inklabs/kommerce-core.svg?branch=master)](https://travis-ci.org/inklabs/kommerce-core)
 [![Downloads](https://img.shields.io/packagist/dt/inklabs/kommerce-core.svg)](https://packagist.org/packages/inklabs/kommerce-core)
+[![Apache License 2.0](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/inklabs/kommerce-core/blob/master/LICENSE.txt)
 
 ## Introduction
 
