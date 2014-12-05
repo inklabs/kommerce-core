@@ -1,7 +1,7 @@
 {
     "name": "inklabs/kommerce-core",
     "description": "Zen Kommerce Core",
-    "license": "proprietary",
+    "license": "Apache-2.0",
     "keywords": ["zen", "kommerce"],
     "support": {
         "source": "https://github.com/inklabs/kommerce-core"
