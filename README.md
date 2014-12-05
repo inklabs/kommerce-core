@@ -58,7 +58,7 @@ main types of modules in this project:
       ```
 
 * Views (src/Entity/View)
-    - Sometimes you want to use your entities as plain objects in your main application, typically in your view
+    - Sometimes you want to use your entities as plain value objects in your main application, typically in your view
       templates. These classes act as a decorator. They format the entities as simple objects with class member
       variables or "properties" with public access. The complete network relationships of entities are also available
       if you request them.
