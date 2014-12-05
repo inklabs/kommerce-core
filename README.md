@@ -33,15 +33,15 @@ main types of modules in this project:
 * Libraries (src/Lib)
     - This is where you will find a variety of utility code including the Payment Gateway (src/Lib/PaymentGateway).
 
-    ```php
-    namespace inklabs\kommerce\Lib\PaymentGateway;
-    $chargeRequest = new ChargeRequest(
-        new Entity\CreditCard('4242424242424242', 5, 2015),
-        2000, 'usd', 'test@example.com'
-    );
-    $stripe = new StripeStub;
-    $charge = $stripe->getCharge($chargeRequest);
-    ```
+      ```php
+      namespace inklabs\kommerce\Lib\PaymentGateway;
+      $chargeRequest = new ChargeRequest(
+          new Entity\CreditCard('4242424242424242', 5, 2015),
+          2000, 'usd', 'test@example.com'
+      );
+      $stripe = new StripeStub;
+      $charge = $stripe->getCharge($chargeRequest);
+      ```
 
 * Services (src/Service)
     - These are the interactors that manage the choreography between entities and the database via
@@ -58,7 +58,7 @@ main types of modules in this project:
       ```
 
 * Views (src/Entity/View)
-    - Sometimes you want to use your entities as plain objects in your main application, typically in your view
+    - Sometimes you want to use your entities as plain value objects in your main application, typically in your view
       templates. These classes act as a decorator. They format the entities as simple objects with class member
       variables or "properties" with public access. The complete network relationships of entities are also available
       if you request them.
