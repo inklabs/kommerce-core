@@ -6,4 +6,5 @@ before_script:
   - composer install --prefer-dist
 
 script:
-  - php vendor/bin/phpunit
+  - vendor/bin/phpcs --standard=PSR2 src/ tests/
+  - vendor/bin/phpunit
