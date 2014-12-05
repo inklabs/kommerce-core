@@ -8,7 +8,7 @@ class CartPriceRule extends Promotion
     /* @var CartPriceRuleItem\Item[] */
     protected $items;
 
-    /* @var CartPriceRuleDiscount\Discount */
+    /* @var CartPriceRuleDiscount[] */
     protected $discounts;
 
     public function __construct()
@@ -32,7 +32,7 @@ class CartPriceRule extends Promotion
         return $this->items;
     }
 
-    public function addDiscount(CartPriceRuleDiscount\Discount $discount)
+    public function addDiscount(CartPriceRuleDiscount $discount)
     {
         $discount->setCartPriceRule($this);
         $this->discounts[] = $discount;
