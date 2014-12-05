@@ -28,7 +28,6 @@ main types of modules in this project:
       $product->setName('Test Product');
       $product->setUnitPrice(500);
       $product->addTag(new Tag);
-      ...
       ```
 
 * Libraries (src/Lib)
@@ -55,7 +54,6 @@ main types of modules in this project:
       $cart->setTaxRate(new Entity\TaxRate);
       $cart->setUser(new Entity\User);
       $cart->addItem($viewProduct, 1);
-      ...
       ```
 
 * Views (src/Entity/View)
