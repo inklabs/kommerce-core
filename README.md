@@ -11,6 +11,8 @@ It is PSR compatible, dependency free, and contains 100% code coverage using TDD
 All code (including tests) conform to the PSR-2 coding standards. The namespace and autoloader
 are using the PSR-4 standard.
 
+## Description
+
 This project is over 11,000 lines of code. Unit tests are 30-40% of those lines. There are three
 main types of modules in this project:
 
