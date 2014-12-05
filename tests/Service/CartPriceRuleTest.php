@@ -4,28 +4,27 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\tests\Helper as Helper;
 
-class CatalogPromotionTest extends Helper\DoctrineTestCase
+class CartPriceRuleTest extends Helper\DoctrineTestCase
 {
     public function testFindAll()
     {
-        $this->entityManager->persist($this->getCatalogPromotion(1));
-        $this->entityManager->persist($this->getCatalogPromotion(2));
+        $this->entityManager->persist($this->getCartPriceRule(1));
+        $this->entityManager->persist($this->getCartPriceRule(2));
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $catalogPromotionService = new CatalogPromotion($this->entityManager);
+        $catalogPromotionService = new CartPriceRule($this->entityManager);
         $catalogPromotions = $catalogPromotionService->findAll();
 
         $this->assertEquals(2, count($catalogPromotions));
     }
 
     /**
-     * @return Entity\CatalogPromotion
+     * @return Entity\CartPriceRule
      */
-    private function getCatalogPromotion($num)
+    private function getCartPriceRule($num)
     {
-        $catalogPromotion = new Entity\CatalogPromotion;
-        $catalogPromotion->setCode('TST' . $num);
+        $catalogPromotion = new Entity\CartPriceRule;
         $catalogPromotion->setName('test' . $num);
         $catalogPromotion->setType('percent');
         $catalogPromotion->setValue(10);

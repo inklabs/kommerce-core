@@ -37,6 +37,10 @@
             </options>
         </field>
 
+        <many-to-one field="cartPriceRule" target-entity="inklabs\kommerce\Entity\CartPriceRule" inversed-by="items">
+            <join-column name="`cart_price_rule_id`" referenced-column-name="`id`" />
+        </many-to-one>
+
     </entity>
 
 </doctrine-mapping>

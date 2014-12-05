@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="inklabs\kommerce\Entity\CartPriceRuleDiscount"
+            table="`cart_price_rule_discount`"
+            repository-class="Doctrine\ORM\EntityRepository">
+
+        <id name="id" type="integer" column="`id`">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="quantity" column="`quantity`" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product">
+            <join-column name="`product_id`" referenced-column-name="`id`" />
+        </many-to-one>
+
+        <many-to-one field="cartPriceRule"
+                     target-entity="inklabs\kommerce\Entity\CartPriceRule"
+                     inversed-by="discounts">
+            <join-column name="`cart_price_rule_id`" referenced-column-name="`id`" />
+        </many-to-one>
+
+        <field name="created" column="`created`" type="integer" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="updated" column="`updated`" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <entity-listeners>
+            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
+                <lifecycle-callback type="preUpdate" method="preUpdate"/>
+            </entity-listener>
+        </entity-listeners>
+
+    </entity>
+
+</doctrine-mapping>

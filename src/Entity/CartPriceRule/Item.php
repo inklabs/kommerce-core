@@ -11,6 +11,9 @@ abstract class Item
     protected $id;
     protected $quantity;
 
+    /* @var Entity\CartPriceRule */
+    protected $cartPriceRule;
+
     abstract public function matches(Entity\CartItem $cartItem);
 
     public function setId($id)
@@ -31,5 +34,18 @@ abstract class Item
     public function getQuantity()
     {
         return $this->quantity;
+    }
+
+    public function setCartPriceRule(Entity\CartPriceRule $cartPriceRule)
+    {
+        $this->cartPriceRule = $cartPriceRule;
+    }
+
+    /**
+     * @return Entity\CartPriceRule
+     */
+    public function getCartPriceRule()
+    {
+        return $this->cartPriceRule;
     }
 }

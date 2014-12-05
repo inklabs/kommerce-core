@@ -6,7 +6,7 @@
 
     <entity name="inklabs\kommerce\Entity\CartPriceRule\Product">
 
-        <many-to-one field="product" target-entity="Product" fetch="EAGER">
+        <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product" fetch="EAGER">
             <join-column name="`product_id`" referenced-column-name="`id`" />
         </many-to-one>
 

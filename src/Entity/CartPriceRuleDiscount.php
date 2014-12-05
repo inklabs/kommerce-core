@@ -11,7 +11,10 @@ class CartPriceRuleDiscount
     /* @var Product */
     protected $product;
 
-    public function __construct(Product $product = null, $quantity = null)
+    /* @var CartPriceRule */
+    protected $cartPriceRule;
+
+    public function __construct(Product $product = null, $quantity = 1)
     {
         $this->setCreated();
         $this->product = $product;
@@ -49,5 +52,18 @@ class CartPriceRuleDiscount
     public function getQuantity()
     {
         return $this->quantity;
+    }
+
+    public function setCartPriceRule(CartPriceRule $cartPriceRule)
+    {
+        $this->cartPriceRule = $cartPriceRule;
+    }
+
+    /**
+     * @return CartPriceRule
+     */
+    public function getCartPriceRule()
+    {
+        return $this->cartPriceRule;
     }
 }

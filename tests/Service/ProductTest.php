@@ -51,6 +51,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->setupProduct();
         $this->product->setIsActive(false);
         $this->entityManager->flush();
+        $this->entityManager->clear();
 
         $product = $this->productService->find(1);
         $this->assertEquals(null, $product);
@@ -59,6 +60,9 @@ class ProductTest extends Helper\DoctrineTestCase
     public function testFind()
     {
         $this->setupProduct();
+
+        $this->entityManager->clear();
+
         $product = $this->productService->find(1);
         $this->assertEquals(1, $product->id);
     }
@@ -110,6 +114,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->persist($product4);
         $this->entityManager->persist($product5);
         $this->entityManager->flush();
+        $this->entityManager->clear();
 
         $viewProduct = Entity\View\Product::factory($this->product)->withTags()->export();
         $products = $this->productService->getRelatedProducts($viewProduct);
@@ -130,6 +135,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->persist($product4);
         $this->entityManager->persist($product5);
         $this->entityManager->flush();
+        $this->entityManager->clear();
 
         $productIds = [
             $product2->getId(),
@@ -159,6 +165,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->persist($product4);
         $this->entityManager->persist($product5);
         $this->entityManager->flush();
+        $this->entityManager->clear();
 
         $products = $this->productService->getRandomProducts(3);
 
@@ -195,6 +202,8 @@ class ProductTest extends Helper\DoctrineTestCase
     {
         $this->setupProductsByTag();
 
+        $this->entityManager->clear();
+
         $products = $this->productService->getProductsByTag($this->viewTag);
 
         $this->assertEquals(3, count($products));
@@ -206,6 +215,8 @@ class ProductTest extends Helper\DoctrineTestCase
     public function testGetProductsByTagPaginated()
     {
         $this->setupProductsByTag();
+
+        $this->entityManager->clear();
 
         $maxResults = 2;
         $page = 1;
@@ -222,6 +233,8 @@ class ProductTest extends Helper\DoctrineTestCase
     public function testGetProductsByTagPaginatedSecondPage()
     {
         $this->setupProductsByTag();
+
+        $this->entityManager->clear();
 
         $maxResults = 2;
         $page = 2;

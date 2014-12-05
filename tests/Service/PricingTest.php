@@ -48,6 +48,7 @@ class PricingTest extends Helper\DoctrineTestCase
 
         $this->entityManager->persist($catalogPromotion);
         $this->entityManager->flush();
+        $this->entityManager->clear();
 
         $pricing = new Pricing;
         $pricing->loadCatalogPromotions($this->entityManager);

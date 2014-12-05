@@ -109,15 +109,15 @@ class CartTest extends Helper\DoctrineTestCase
     public function testCartPersistence()
     {
         $sessionManager = new Lib\ArraySessionManager;
-        $viewProduct = $this->getViewProduct();
 
         $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
         $this->assertEquals(0, $cart->totalItems());
 
+        $viewProduct = $this->getViewProduct();
         $itemId1 = $cart->addItem($viewProduct, 1);
         $this->assertEquals(1, $cart->totalItems());
 
-        unset($cart);
+        $this->entityManager->clear();
 
         $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
         $this->assertEquals(1, $cart->totalItems());
@@ -134,14 +134,13 @@ class CartTest extends Helper\DoctrineTestCase
 
         $this->product->setUnitPrice(501);
         $this->entityManager->flush();
-
-        unset($cart);
+        $this->entityManager->clear();
 
         $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
         $this->assertEquals(501, $cart->getItem($itemId)->product->unitPrice);
     }
 
-    public function testCartPegersistenceWithCouponChange()
+    public function testCartPersistenceWithCouponChange()
     {
         $this->setCoupon();
 
@@ -153,8 +152,7 @@ class CartTest extends Helper\DoctrineTestCase
 
         $this->coupon->setValue(10);
         $this->entityManager->flush();
-
-        unset($cart);
+        $this->entityManager->clear();
 
         $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
         $this->assertEquals(10, $cart->getCoupons()[0]->getValue());
@@ -243,7 +241,8 @@ class CartTest extends Helper\DoctrineTestCase
 
         $shippingAddress = $this->getShippingAddress();
         $order = $cart->createOrder(new Payment\Cash(1600), $shippingAddress);
-        unset($order);
+
+        $this->entityManager->clear();
 
         /* @var Entity\Order $order */
         $order = $this->entityManager->getRepository('inklabs\kommerce\Entity\Order')->find(1);
@@ -253,5 +252,40 @@ class CartTest extends Helper\DoctrineTestCase
         $payment = $this->entityManager->getRepository('inklabs\kommerce\Entity\Payment\Payment')->find(1);
         $this->assertEquals(1, $payment->getId());
         $this->assertEquals(1600, $payment->getAmount());
+    }
+
+    public function testLoadCartPriceRules()
+    {
+        $viewProduct = $this->getViewProduct();
+
+        $cartPriceRuleDiscount = new Entity\CartPriceRuleDiscount($this->product);
+
+        $cartPriceRule = new Entity\CartPriceRule;
+        $cartPriceRule->setType('fixed');
+        $cartPriceRule->setValue(0);
+
+        $cartPriceRule->addItem(new Entity\CartPriceRule\Product($this->product, 1));
+        $cartPriceRule->addDiscount($cartPriceRuleDiscount);
+
+        $this->entityManager->persist($cartPriceRule);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
+        $cart->loadCartPriceRules($this->entityManager);
+
+        $cartPriceRules = $cart->getCartPriceRules();
+        $this->assertInstanceOf(
+            'inklabs\kommerce\Entity\CartPriceRule',
+            $cartPriceRules[0]
+        );
+        $this->assertInstanceOf(
+            'inklabs\kommerce\Entity\CartPriceRule\Item',
+            $cartPriceRules[0]->getItems()[0]
+        );
+        $this->assertInstanceOf(
+            'inklabs\kommerce\Entity\CartPriceRuleDiscount',
+            $cartPriceRules[0]->getDiscounts()[0]
+        );
     }
 }
