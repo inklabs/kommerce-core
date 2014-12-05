@@ -23,8 +23,8 @@ INSERT INTO zk_catalog_promotion (name, type, value, redemptions, start, end, re
 SELECT cp.name, cp.discount_type, cp.discount_value, cp.redemptions, cp.start, cp.end, 1, cp.max_redemptions, null, cp.created, cp.updated, cp.id, cp.tag_id FROM catalog_promotion cp;
 
 -- Migrate coupon
-INSERT INTO zk_coupon (name, type, value, redemptions, start, end, reduces_tax_subtotal, max_redemptions, code, can_combine, flag_free_shipping, min_order_value, max_order_value, created, updated, id, tag_id)
-SELECT c.name, c.discount_type, c.discount_value, c.redemptions, c.start, c.end, 1, c.max_redemptions, c.code, c.can_combine, c.free_shipping, c.min_order_value, c.max_order_value, c.created, c.updated, c.id, c.tag_id FROM coupon c;
+INSERT INTO zk_coupon (name, type, value, redemptions, start, end, reduces_tax_subtotal, max_redemptions, code, can_combine, flag_free_shipping, min_order_value, max_order_value, created, updated, id)
+SELECT c.name, c.discount_type, c.discount_value, c.redemptions, c.start, c.end, 1, c.max_redemptions, c.code, c.can_combine, c.free_shipping, c.min_order_value, c.max_order_value, c.created, c.updated, c.id FROM coupon c;
 
 -- Migrate product_quantity_discount
 INSERT INTO zk_product_quantity_discount (name, type, value, redemptions, start, end, reduces_tax_subtotal, max_redemptions, apply_catalog_promotions, quantity, created, updated, id, product_id)
