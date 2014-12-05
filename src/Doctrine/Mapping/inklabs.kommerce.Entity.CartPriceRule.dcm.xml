@@ -9,7 +9,7 @@
             repository-class="Doctrine\ORM\EntityRepository">
 
         <one-to-many field="items"
-                     target-entity="inklabs\kommerce\Entity\CartPriceRule\Item"
+                     target-entity="inklabs\kommerce\Entity\CartPriceRuleItem\Item"
                      mapped-by="cartPriceRule"
                      fetch="EAGER">
             <cascade>
@@ -18,7 +18,7 @@
         </one-to-many>
 
         <one-to-many field="discounts"
-                     target-entity="inklabs\kommerce\Entity\CartPriceRuleDiscount"
+                     target-entity="inklabs\kommerce\Entity\CartPriceRuleDiscount\Discount"
                      mapped-by="cartPriceRule"
                      fetch="EAGER">
             <cascade>
