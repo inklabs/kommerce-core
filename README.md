@@ -50,7 +50,6 @@ main types of modules in this project:
       $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
       $cart->setTaxRate(new Entity\TaxRate);
       $cart->setUser(new Entity\User);
-      $cart->addCouponByCode($this->coupon->getCode());
       $cart->addItem($viewProduct, 1);
       ...
       ```
