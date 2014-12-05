@@ -8,45 +8,6 @@
             table="`product_quantity_discount`"
             repository-class="Doctrine\ORM\EntityRepository">
 
-        <id name="id" type="integer" column="`id`">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-            <generator strategy="AUTO" />
-        </id>
-
-        <field name="name" column="`name`" type="string" length="255" nullable="true" />
-
-        <field name="type" column="`type`" type="string" length="7">
-            <options>
-                <option name="fixed">true</option>
-            </options>
-        </field>
-
-        <field name="value" column="`value`" type="integer">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="redemptions" column="`redemptions`" type="integer">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="start" column="`start`" type="date" nullable="true" />
-
-        <field name="end" column="`end`" type="date" nullable="true" />
-
-        <field name="reducesTaxSubtotal" column="`reduces_tax_subtotal`" type="boolean" nullable="false" />
-
-        <field name="maxRedemptions" column="`max_redemptions`" type="integer" nullable="true">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
         <field name="flagApplyCatalogPromotions" column="`apply_catalog_promotions`" type="boolean" />
 
         <field name="quantity" column="`quantity`" type="smallint">
@@ -58,24 +19,6 @@
         <many-to-one field="product" target-entity="Product" inversed-by="productQuantityDiscounts">
             <join-column name="`product_id`" referenced-column-name="`id`" />
         </many-to-one>
-
-        <field name="created" column="`created`" type="integer" nullable="false">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="updated" column="`updated`" type="integer" nullable="true">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <entity-listeners>
-            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
-                <lifecycle-callback type="preUpdate" method="preUpdate"/>
-            </entity-listener>
-        </entity-listeners>
 
     </entity>
 
