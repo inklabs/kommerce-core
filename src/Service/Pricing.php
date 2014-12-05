@@ -32,18 +32,18 @@ class Pricing
         return $this->date;
     }
 
+    public function loadCatalogPromotions(Doctrine\ORM\EntityManager $entityManager)
+    {
+        $catalogPromotionService = new CatalogPromotion($entityManager);
+        $this->setCatalogPromotions($catalogPromotionService->findAll());
+    }
+
     public function setCatalogPromotions(array $catalogPromotions)
     {
         $this->catalogPromotions = [];
         foreach ($catalogPromotions as $catalogPromotion) {
             $this->addCatalogPromotion($catalogPromotion);
         }
-    }
-
-    public function loadCatalogPromotions(Doctrine\ORM\EntityManager $entityManager)
-    {
-        $catalogPromotionService = new CatalogPromotion($entityManager);
-        $this->setCatalogPromotions($catalogPromotionService->findAll());
     }
 
     private function addCatalogPromotion(Entity\CatalogPromotion $catalogPromotion)

@@ -13,12 +13,14 @@ class CartPriceRule extends Promotion
 
     public function __construct()
     {
+        parent::__construct();
         $this->items = new ArrayCollection();
         $this->discounts = new ArrayCollection();
     }
 
     public function addItem(CartPriceRule\Item $item)
     {
+        $item->setCartPriceRule($this);
         $this->items[] = $item;
     }
 
@@ -32,6 +34,7 @@ class CartPriceRule extends Promotion
 
     public function addDiscount(CartPriceRuleDiscount $discount)
     {
+        $discount->setCartPriceRule($this);
         $this->discounts[] = $discount;
     }
 

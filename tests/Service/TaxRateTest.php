@@ -24,6 +24,7 @@ class TaxRateTest extends Helper\DoctrineTestCase
             $this->entityManager->persist($taxRate);
         }
         $this->entityManager->flush();
+        $this->entityManager->clear();
 
         $this->taxRateService = new TaxRate($this->entityManager);
     }
