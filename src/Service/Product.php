@@ -72,14 +72,7 @@ class Product extends Lib\EntityManager
 
         $products = $query->findAll();
 
-        $viewProducts = [];
-        foreach ($products as $product) {
-            $viewProducts[] = Entity\View\Product::factory($product)
-                ->withPrice($this->pricing)
-                ->export();
-        }
-
-        return $viewProducts;
+        return $this->getViewProductsWithPrice($products);
     }
 
     /**
@@ -99,14 +92,7 @@ class Product extends Lib\EntityManager
             ->paginate($pagination)
             ->findAll();
 
-        $viewProducts = [];
-        foreach ($products as $product) {
-            $viewProducts[] = Entity\View\Product::factory($product)
-                ->withPrice($this->pricing)
-                ->export();
-        }
-
-        return $viewProducts;
+        return $this->getViewProductsWithPrice($products);
     }
 
     /**
@@ -125,14 +111,7 @@ class Product extends Lib\EntityManager
             ->paginate($pagination)
             ->findAll();
 
-        $viewProducts = [];
-        foreach ($products as $product) {
-            $viewProducts[] = Entity\View\Product::factory($product)
-                ->withPrice($this->pricing)
-                ->export();
-        }
-
-        return $viewProducts;
+        return $this->getViewProductsWithPrice($products);
     }
 
     /**
@@ -151,6 +130,14 @@ class Product extends Lib\EntityManager
             ->setMaxResults($limit)
             ->findAll();
 
+        return $this->getViewProductsWithPrice($products);
+    }
+
+    /**
+     * @return Entity\View\Product[]
+     */
+    private function getViewProductsWithPrice($products)
+    {
         $viewProducts = [];
         foreach ($products as $product) {
             $viewProducts[] = Entity\View\Product::factory($product)
