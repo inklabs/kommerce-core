@@ -60,12 +60,12 @@ main types of modules in this project:
       variables or "properties" with public access. The entities complete network relationships are also available
       if you request them.
 
-    ```php
-    namespace inklabs\kommerce\Entity\View;
-    $product = Product::factory(new Entity\Product)
+      ```php
+      namespace inklabs\kommerce\Entity\View;
+      $product = Product::factory(new Entity\Product)
         ->withAllData(new Service\Pricing)
         ->export();
-    ```
+      ```
 
 ## Installation
 
