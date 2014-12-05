@@ -23,6 +23,7 @@ main types of modules in this project:
       $product = new Product;
       $product->setName('Test Product');
       $product->setUnitPrice(500);
+      $product->addTag(new Tag);
       ...
       ```
 
