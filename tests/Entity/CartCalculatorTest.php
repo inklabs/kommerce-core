@@ -44,7 +44,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
         $cartPriceRule->addItem(new CartPriceRuleItem\Product($productShirt, 1));
         $cartPriceRule->addItem(new CartPriceRuleItem\Product($productPoster, 1));
-        $cartPriceRule->addDiscount(new CartPriceRuleDiscount\Product($productPoster, 1));
+        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster));
 
         $cart = new Cart;
         $cart->addCartPriceRule($cartPriceRule);
@@ -83,7 +83,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
         $cartPriceRule->addItem(new CartPriceRuleItem\Product($productShirt, 1));
         $cartPriceRule->addItem(new CartPriceRuleItem\Product($productPoster, 1));
-        $cartPriceRule->addDiscount(new CartPriceRuleDiscount\Product($productPoster, 1));
+        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
         $cart = new Cart;
         $cart->addCartPriceRule($cartPriceRule);
@@ -122,7 +122,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
         $cartPriceRule->addItem(new CartPriceRuleItem\Product($productShirt, 1));
         $cartPriceRule->addItem(new CartPriceRuleItem\Product($productPoster, 1));
-        $cartPriceRule->addDiscount(new CartPriceRuleDiscount\Product($productPoster, 1));
+        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
         $cartPriceRule->setReducesTaxSubtotal(true);
 
         $cart = new Cart;

@@ -18,7 +18,7 @@
         </one-to-many>
 
         <one-to-many field="discounts"
-                     target-entity="inklabs\kommerce\Entity\CartPriceRuleDiscount\Discount"
+                     target-entity="inklabs\kommerce\Entity\CartPriceRuleDiscount"
                      mapped-by="cartPriceRule"
                      fetch="EAGER">
             <cascade>

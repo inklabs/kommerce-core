@@ -4,15 +4,9 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="inklabs\kommerce\Entity\CartPriceRuleDiscount\Discount"
+    <entity name="inklabs\kommerce\Entity\CartPriceRuleDiscount"
             table="`cart_price_rule_discount`"
-            inheritance-type="SINGLE_TABLE">
-
-        <discriminator-column name="type" type="string" length="7" />
-        <discriminator-map>
-            <discriminator-mapping value="product" class="Product" />
-            <discriminator-mapping value="tag" class="Tag" />
-        </discriminator-map>
+            repository-class="Doctrine\ORM\EntityRepository">
 
         <id name="id" type="integer" column="`id`">
             <options>
@@ -26,6 +20,10 @@
                 <option name="unsigned">true</option>
             </options>
         </field>
+
+        <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product">
+            <join-column name="`product_id`" referenced-column-name="`id`" />
+        </many-to-one>
 
         <many-to-one field="cartPriceRule"
                      target-entity="inklabs\kommerce\Entity\CartPriceRule"
