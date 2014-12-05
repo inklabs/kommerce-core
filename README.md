@@ -1,7 +1,7 @@
 Zen Kommerce Core
 =================
 [![Test Coverage](https://codeclimate.com/github/inklabs/kommerce-core/badges/coverage.svg)](https://codeclimate.com/github/inklabs/kommerce-core)
-[![Code Climate](https://codeclimate.com/github/inklabs/kommerce-core/badges/gpa.svg)](https://codeclimate.com/github/inklabs/kommerce-core)
+[![Apache License 2.0](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/inklabs/kommerce-core/blob/master/LICENSE.txt)
 
 ## Introduction
 
