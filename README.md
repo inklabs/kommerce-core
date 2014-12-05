@@ -1,8 +1,6 @@
 Zen Kommerce Core
 =================
 
-PHP E-commerce Platform
-
 ## Introduction
 
 Zen Kommerce is a PHP shopping cart system written with SOLID design principles.
