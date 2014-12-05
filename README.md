@@ -5,12 +5,67 @@ PHP E-commerce Platform
 
 ## Introduction
 
-Zen Kommerce is a PHP shopping cart system written with SOLID design principles,
-PSR compatible, dependency free, and with 100% code coverage using TDD practices.
-More information can be found [here](http://inklabs.github.io/kommerce/).
+Zen Kommerce is a PHP shopping cart system written with SOLID design principles.
+It is PSR compatible, dependency free, and contains 100% code coverage using TDD practices.
 
-All code (including tests) conform to the PSR-2 coding standards. The autoloader
-conforms to the PSR-4 standards.
+All code (including tests) conform to the PSR-2 coding standards. The namespace and autoloader
+are using the PSR-4 standard.
+
+This project is over 11,000 lines of code. Unit tests are 30-40% of those lines. There are three
+main types of modules in this project:
+
+* Entities (src/Entity)
+    - These are plain old PHP objects. You will not find any ORM code or external dependencies here. This is where
+      object relationships are constructed.
+
+      ```php
+      namespace inklabs\kommerce\Entity;
+      $product = new Product;
+      $product->setName('Test Product');
+      $product->setUnitPrice(500);
+      ...
+      ```
+
+* Libraries (src/Lib)
+    - This is where you will find a variety of utility code including the Payment Gateway (src/Lib/PaymentGateway).
+
+    ```php
+    namespace inklabs\kommerce\Lib\PaymentGateway;
+    $chargeRequest = new ChargeRequest(
+        new Entity\CreditCard('4242424242424242', 5, 2015),
+        2000, 'usd', 'test@example.com'
+    );
+    $stripe = new StripeStub;
+    $charge = $stripe->getCharge($chargeRequest);
+    ```
+
+* Services (src/Service)
+    - These are the interactors that manage the choreography between entities and the database via
+      the Doctrine EntityManager. There is heavy dependency injection into the constructors in this layer.
+      Sometimes a SessionManager is used for some types of persistence, such as a cart.
+
+      ```php
+      namespace inklabs\kommerce\Service;
+      $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
+      $cart->setTaxRate(new Entity\TaxRate);
+      $cart->setUser(new Entity\User);
+      $cart->addCouponByCode($this->coupon->getCode());
+      $cart->addItem($viewProduct, 1);
+      ...
+      ```
+
+* Views (src/Entity/View)
+    - Sometimes you want to use your entities as plain objects in your main application, typically in your view
+      templates. These classes act as a decorator. They format the entities as simple objects with class member
+      variables or "properties" with public access. The entities complete network relationships are also available
+      if you request them.
+
+    ```php
+    namespace inklabs\kommerce\Entity\View;
+    $product = Product::factory(new Entity\Product)
+        ->withAllData(new Service\Pricing)
+        ->export();
+    ```
 
 ## Installation
 
