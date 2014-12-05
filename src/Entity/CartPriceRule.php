@@ -5,10 +5,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class CartPriceRule extends Promotion
 {
-    /* @var CartPriceRule\Item[] */
+    /* @var CartPriceRuleItem\Item[] */
     protected $items;
 
-    /* @var CartPriceRuleDiscount */
+    /* @var CartPriceRuleDiscount\Discount */
     protected $discounts;
 
     public function __construct()
@@ -18,21 +18,21 @@ class CartPriceRule extends Promotion
         $this->discounts = new ArrayCollection();
     }
 
-    public function addItem(CartPriceRule\Item $item)
+    public function addItem(CartPriceRuleItem\Item $item)
     {
         $item->setCartPriceRule($this);
         $this->items[] = $item;
     }
 
     /**
-     * @return CartPriceRule\Item[]
+     * @return CartPriceRuleItem\Item[]
      */
     public function getItems()
     {
         return $this->items;
     }
 
-    public function addDiscount(CartPriceRuleDiscount $discount)
+    public function addDiscount(CartPriceRuleDiscount\Discount $discount)
     {
         $discount->setCartPriceRule($this);
         $this->discounts[] = $discount;

@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Entity\CartPriceRule;
+namespace inklabs\kommerce\Entity\CartPriceRuleItem;
 
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Entity\Accessor;

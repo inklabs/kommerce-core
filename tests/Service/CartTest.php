@@ -258,14 +258,12 @@ class CartTest extends Helper\DoctrineTestCase
     {
         $viewProduct = $this->getViewProduct();
 
-        $cartPriceRuleDiscount = new Entity\CartPriceRuleDiscount($this->product);
-
         $cartPriceRule = new Entity\CartPriceRule;
         $cartPriceRule->setType('fixed');
         $cartPriceRule->setValue(0);
 
-        $cartPriceRule->addItem(new Entity\CartPriceRule\Product($this->product, 1));
-        $cartPriceRule->addDiscount($cartPriceRuleDiscount);
+        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($this->product, 1));
+        $cartPriceRule->addDiscount(new Entity\CartPriceRuleDiscount\Product($this->product, 1));
 
         $this->entityManager->persist($cartPriceRule);
         $this->entityManager->flush();
@@ -280,11 +278,11 @@ class CartTest extends Helper\DoctrineTestCase
             $cartPriceRules[0]
         );
         $this->assertInstanceOf(
-            'inklabs\kommerce\Entity\CartPriceRule\Item',
+            'inklabs\kommerce\Entity\CartPriceRuleItem\Item',
             $cartPriceRules[0]->getItems()[0]
         );
         $this->assertInstanceOf(
-            'inklabs\kommerce\Entity\CartPriceRuleDiscount',
+            'inklabs\kommerce\Entity\CartPriceRuleDiscount\Discount',
             $cartPriceRules[0]->getDiscounts()[0]
         );
     }

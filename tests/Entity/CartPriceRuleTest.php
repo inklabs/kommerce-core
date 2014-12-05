@@ -15,8 +15,8 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
     public function testAdders()
     {
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRule\Product(new Product, 1));
-        $cartPriceRule->addDiscount(new CartPriceRuleDiscount);
+        $cartPriceRule->addItem(new CartPriceRuleItem\Product(new Product, 1));
+        $cartPriceRule->addDiscount(new CartPriceRuleDiscount\Product(new Product, 1));
         $this->assertEquals(1, count($cartPriceRule->getItems()));
         $this->assertEquals(1, count($cartPriceRule->getDiscounts()));
     }
@@ -27,7 +27,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product->setid(1);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRule\Product($product, 1));
+        $cartPriceRule->addItem(new CartPriceRuleItem\Product($product, 1));
 
         $cartItems = [new CartItem($product, 1)];
 
@@ -43,8 +43,8 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product2->setid(2);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRule\Product($product1, 1));
-        $cartPriceRule->addItem(new CartPriceRule\Product($product2, 1));
+        $cartPriceRule->addItem(new CartPriceRuleItem\Product($product1, 1));
+        $cartPriceRule->addItem(new CartPriceRuleItem\Product($product2, 1));
 
         $cartItems = [
             new CartItem($product1, 1),
@@ -63,7 +63,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product2->setid(2);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRule\Product($product1, 1));
+        $cartPriceRule->addItem(new CartPriceRuleItem\Product($product1, 1));
 
         $cartItems = [new CartItem($product2, 1)];
 
@@ -76,7 +76,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product->setid(1);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRule\Product($product, 1));
+        $cartPriceRule->addItem(new CartPriceRuleItem\Product($product, 1));
 
         $cartItems = [new CartItem($product, 1)];
 
