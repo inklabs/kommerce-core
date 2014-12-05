@@ -51,6 +51,7 @@ main types of modules in this project:
       ```php
       namespace inklabs\kommerce\Service;
       $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
+      $cart->loadCartPriceRules();
       $cart->setTaxRate(new Entity\TaxRate);
       $cart->setUser(new Entity\User);
       $cart->addItem($viewProduct, 1);
@@ -64,7 +65,7 @@ main types of modules in this project:
 
       ```php
       namespace inklabs\kommerce\Entity\View;
-      $product = Product::factory(new Entity\Product)
+      $viewProduct = Product::factory(new Entity\Product)
         ->withAllData(new Service\Pricing)
         ->export();
       ```
