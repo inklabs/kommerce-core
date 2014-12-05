@@ -92,9 +92,9 @@ class Cart extends Lib\EntityManager
         $this->sessionManager->set($this->cartSessionKey, $this->cart);
     }
 
-    public function loadCartPriceRules(EntityManager $entityManager)
+    public function loadCartPriceRules()
     {
-        $cartPriceRuleService = new CartPriceRule($entityManager);
+        $cartPriceRuleService = new CartPriceRule($this->entityManager);
         $this->setCartPriceRules($cartPriceRuleService->findAll());
     }
 

@@ -272,7 +272,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
 
         $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-        $cart->loadCartPriceRules($this->entityManager);
+        $cart->loadCartPriceRules();
 
         $cartPriceRules = $cart->getCartPriceRules();
         $this->assertInstanceOf(
