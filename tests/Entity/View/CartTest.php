@@ -23,6 +23,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('inklabs\kommerce\Entity\View\CartTotal', $cart->cartTotal);
         $this->assertInstanceOf('inklabs\kommerce\Entity\View\CartItem', $cart->items[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Coupon', $cart->coupons[1]);
+        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Coupon', $cart->coupons[0]);
     }
 }
