@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity as Entity;
 
 class Product extends Item
 {
-    /* @var Entity|Product */
+    /* @var Entity\Product */
     protected $product;
 
     public function __construct(Entity\Product $product, $quantity)

@@ -45,7 +45,9 @@ class Cart
 
     public function withCartTotal(Pricing $pricing, Shipping\Rate $shippingRate = null, Entity\TaxRate $taxRate = null)
     {
-        $this->cartTotal = $this->cart->getTotal($pricing, $shippingRate, $taxRate);
+        $this->cartTotal = CartTotal::factory($this->cart->getTotal($pricing, $shippingRate, $taxRate))
+            ->withAllData()
+            ->export();
 
         return $this;
     }
@@ -63,8 +65,8 @@ class Cart
 
     public function withCoupons()
     {
-        foreach ($this->cart->getCoupons() as $coupon) {
-            $this->coupons[$coupon->getId()] = Coupon::factory($coupon)
+        foreach ($this->cart->getCoupons() as $key => $coupon) {
+            $this->coupons[$key] = Coupon::factory($coupon)
                 ->export();
         }
 

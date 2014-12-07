@@ -29,9 +29,6 @@ class Cart extends Lib\EntityManager
     /* @var Entity\User */
     protected $user;
 
-    /* @var Entity\CartPriceRule[] */
-    protected $cartPriceRules;
-
     public function __construct(EntityManager $entityManager, Pricing $pricing, Lib\SessionManager $sessionManager)
     {
         $this->setEntityManager($entityManager);
@@ -51,6 +48,11 @@ class Cart extends Lib\EntityManager
 
         $this->reloadProductsFromEntityManager();
         $this->reloadCouponsFromEntityManager();
+    }
+
+    private function save()
+    {
+        $this->sessionManager->set($this->cartSessionKey, $this->cart);
     }
 
     private function reloadProductsFromEntityManager()
@@ -85,38 +87,6 @@ class Cart extends Lib\EntityManager
         if ($numberCouponsUpdated > 0) {
             $this->save();
         }
-    }
-
-    private function save()
-    {
-        $this->sessionManager->set($this->cartSessionKey, $this->cart);
-    }
-
-    public function loadCartPriceRules()
-    {
-        $cartPriceRuleService = new CartPriceRule($this->entityManager);
-        $this->setCartPriceRules($cartPriceRuleService->findAll());
-    }
-
-    public function setCartPriceRules(array $cartPriceRules)
-    {
-        $this->cartPriceRules = [];
-        foreach ($cartPriceRules as $cartPriceRule) {
-            $this->addCartPriceRule($cartPriceRule);
-        }
-    }
-
-    private function addCartPriceRule(Entity\CartPriceRule $cartPriceRule)
-    {
-        $this->cartPriceRules[] = $cartPriceRule;
-    }
-
-    /**
-     * @return Entity\CartPriceRule[]
-     */
-    public function getCartPriceRules()
-    {
-        return $this->cartPriceRules;
     }
 
     public function addItem(Entity\View\Product $viewProduct, $quantity)

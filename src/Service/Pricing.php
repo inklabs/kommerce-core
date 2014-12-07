@@ -15,6 +15,9 @@ class Pricing
     /* @var Entity\ProductQuantityDiscount[] */
     protected $productQuantityDiscounts = [];
 
+    /* @var Entity\CartPriceRule[] */
+    protected $cartPriceRules = [];
+
     public function __construct(\DateTime $date = null)
     {
         if ($date === null) {
@@ -57,6 +60,33 @@ class Pricing
     public function getCatalogPromotions()
     {
         return $this->catalogPromotions;
+    }
+
+    public function loadCartPriceRules(Doctrine\ORM\EntityManager $entityManager)
+    {
+        $cartPriceRuleService = new CartPriceRule($entityManager);
+        $this->setCartPriceRules($cartPriceRuleService->findAll());
+    }
+
+    public function setCartPriceRules(array $cartPriceRules)
+    {
+        $this->cartPriceRules = [];
+        foreach ($cartPriceRules as $cartPriceRule) {
+            $this->addCartPriceRule($cartPriceRule);
+        }
+    }
+
+    private function addCartPriceRule(Entity\CartPriceRule $cartPriceRule)
+    {
+        $this->cartPriceRules[] = $cartPriceRule;
+    }
+
+    /**
+     * @return Entity\CartPriceRule[]
+     */
+    public function getCartPriceRules()
+    {
+        return $this->cartPriceRules;
     }
 
     public function setProductQuantityDiscounts($productQuantityDiscounts)

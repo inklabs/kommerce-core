@@ -5,7 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\CartPriceRule"
-            table="`cart_price_rule`"
+            table="cart_price_rule"
             repository-class="Doctrine\ORM\EntityRepository">
 
         <one-to-many field="items"
@@ -17,7 +17,7 @@
             </cascade>
         </one-to-many>
 
-        <one-to-many field="discounts"
+        <one-to-many field="cartPriceRuleDiscounts"
                      target-entity="inklabs\kommerce\Entity\CartPriceRuleDiscount"
                      mapped-by="cartPriceRule"
                      fetch="EAGER">

@@ -1,90 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="inklabs\kommerce\Entity\Product" table="`product`" repository-class="Doctrine\ORM\EntityRepository">
-
-        <id name="id" type="integer" column="`id`">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-            <generator strategy="AUTO" />
-        </id>
-
-        <field name="name"                column="`name`"              type="string" length="255"   nullable="false" />
-        <field name="sku"                 column="`sku`"               type="string" length="64"    nullable="true" />
-        <field name="description"         column="`description`"       type="text"   length="65535" nullable="true" />
-        <field name="defaultImage"        column="`default_image`"     type="string" length="255"   nullable="true" />
-
-        <field name="isInventoryRequired" column="`is_inventory_required`" type="boolean" />
-        <field name="isPriceVisible"      column="`is_price_visible`"      type="boolean" />
-        <field name="isActive"            column="`is_active`"             type="boolean" />
-        <field name="isVisible"           column="`is_visible`"            type="boolean" />
-        <field name="isTaxable"           column="`is_taxable`"            type="boolean" />
-        <field name="isShippable"         column="`is_shippable`"          type="boolean" />
-
-        <field name="unitPrice" column="`unit_price`" type="integer">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="quantity" column="`quantity`" type="smallint">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="shippingWeight" column="`shipping_weight`" type="integer">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="rating" column="`rating`" type="integer" nullable="true">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="created" column="`created`" type="integer" nullable="false">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="updated" column="`updated`" type="integer" nullable="true">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <many-to-many field="tags" target-entity="Tag" inversed-by="products" fetch-mode="EAGER">
-            <join-table name="`product_tag`">
-                <join-columns>
-                    <join-column name="`product_id`" referenced-column-name="id" />
-                </join-columns>
-                <inverse-join-columns>
-                    <join-column name="`tag_id`" referenced-column-name="id" />
-                </inverse-join-columns>
-            </join-table>
-        </many-to-many>
-
-        <one-to-many field="images" target-entity="Image" mapped-by="product" />
-
-        <one-to-many field="productQuantityDiscounts" target-entity="ProductQuantityDiscount" mapped-by="product">
-            <order-by>
-                <order-by-field name="quantity" direction="DESC" />
-            </order-by>
-        </one-to-many>
+    <entity name="inklabs\kommerce\Entity\Product" table="product" repository-class="Doctrine\ORM\EntityRepository">
 
         <entity-listeners>
             <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
                 <lifecycle-callback type="preUpdate" method="preUpdate"/>
             </entity-listener>
         </entity-listeners>
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </id>
+
+        <field name="name" column="name" type="string" length="255" nullable="false"/>
+        <field name="sku" column="sku" type="string" length="64" nullable="true"/>
+        <field name="description" column="description" type="text" length="65535" nullable="true"/>
+        <field name="defaultImage" column="default_image" type="string" length="255" nullable="true"/>
+
+        <field name="isInventoryRequired" column="is_inventory_required" type="boolean"/>
+        <field name="isPriceVisible" column="is_price_visible" type="boolean"/>
+        <field name="isActive" column="is_active" type="boolean"/>
+        <field name="isVisible" column="is_visible" type="boolean"/>
+        <field name="isTaxable" column="is_taxable" type="boolean"/>
+        <field name="isShippable" column="is_shippable" type="boolean"/>
+
+        <field name="unitPrice" column="unit_price" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="quantity" column="quantity" type="smallint">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="shippingWeight" column="shipping_weight" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="rating" column="rating" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="created" column="created" type="integer" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="updated" column="updated" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <one-to-many field="images"
+                     target-entity="Image"
+                     mapped-by="product"/>
+
+        <one-to-many field="productQuantityDiscounts"
+                     target-entity="ProductQuantityDiscount"
+                     mapped-by="product">
+            <order-by>
+                <order-by-field name="quantity" direction="DESC"/>
+            </order-by>
+        </one-to-many>
+
+        <many-to-many field="tags"
+                      target-entity="Tag"
+                      inversed-by="products">
+            <join-table name="product_tag">
+                <join-columns>
+                    <join-column name="product_id" referenced-column-name="id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="tag_id" referenced-column-name="id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
 
     </entity>
 

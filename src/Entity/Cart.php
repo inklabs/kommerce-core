@@ -12,9 +12,6 @@ class Cart
     /* @var Coupon[] */
     protected $coupons = [];
 
-    /* @var CartPriceRule[] */
-    protected $cartPriceRules = [];
-
     public function addItem(Product $product, $quantity)
     {
         $this->items[] = new CartItem($product, $quantity);
@@ -127,16 +124,6 @@ class Cart
         }
 
         unset($this->coupons[$key]);
-    }
-
-    public function addCartPriceRule(CartPriceRule $cartPriceRule)
-    {
-        $this->cartPriceRules[] = $cartPriceRule;
-    }
-
-    public function getCartPriceRules()
-    {
-        return $this->cartPriceRules;
     }
 
     public function totalItems()

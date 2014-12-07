@@ -172,14 +172,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->removeCoupon(0);
     }
 
-    public function testAddCartPriceRule()
-    {
-        $cart = new Cart;
-        $cart->addCartPriceRule(new CartPriceRule);
-        $cart->addCartPriceRule(new CartPriceRule);
-        $this->assertEquals(2, count($cart->getCartPriceRules()));
-    }
-
     public function testGetShippingWeight()
     {
         $product1 = new Product;

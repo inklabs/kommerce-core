@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <embeddable name="inklabs\kommerce\Lib\PaymentGateway\ChargeResponse">
 
-        <field name="id" column="`id`" type="string" length="255" />
+        <field name="id" column="id" type="string" length="255"/>
 
-        <field name="created" column="`created`" type="integer">
+        <field name="created" column="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="last4" column="`last4`" type="string" length="4">
+        <field name="last4" column="last4" type="string" length="4">
             <options>
                 <option name="fixed">true</option>
             </options>
         </field>
 
-        <field name="amount" column="`amount`" type="integer" />
+        <field name="amount" column="amount" type="integer"/>
 
-        <field name="currency" column="`currency`" type="string" length="3">
+        <field name="currency" column="currency" type="string" length="3">
             <options>
                 <option name="fixed">true</option>
             </options>
         </field>
 
-        <field name="fee" column="`fee`" type="integer">
+        <field name="fee" column="fee" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="description" column="`description`" type="string" length="255" />
+        <field name="description" column="description" type="string" length="255"/>
 
     </embeddable>
 
