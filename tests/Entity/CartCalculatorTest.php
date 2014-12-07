@@ -46,23 +46,25 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->addItem(new CartPriceRuleItem\Product($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster));
 
+        $pricing = new Service\Pricing;
+        $pricing->setCartPriceRules([$cartPriceRule]);
+
         $cart = new Cart;
-        $cart->addCartPriceRule($cartPriceRule);
         $cart->addItem($productShirt, 1);
         $cart->addItem($productPoster, 1);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1700;
-        $expectedCartTotal->subtotal = 1200;
+        $expectedCartTotal->subtotal = 1700;
         $expectedCartTotal->shipping = 0;
-        $expectedCartTotal->discount = 0;
+        $expectedCartTotal->discount = 500;
         $expectedCartTotal->tax = 0;
         $expectedCartTotal->total = 1200;
         $expectedCartTotal->savings = 500;
         $expectedCartTotal->cartPriceRules = [$cartPriceRule];
 
         $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Service\Pricing));
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($pricing));
     }
 
     public function testGetTotalCartPriceRuleInvalidCartItems()
@@ -85,8 +87,10 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->addItem(new CartPriceRuleItem\Product($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
+        $pricing = new Service\Pricing;
+        $pricing->setCartPriceRules([$cartPriceRule]);
+
         $cart = new Cart;
-        $cart->addCartPriceRule($cartPriceRule);
         $cart->addItem($productShirt, 1);
         $cart->addItem($productJacket, 1);
 
@@ -101,7 +105,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->cartPriceRules = [];
 
         $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Service\Pricing));
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($pricing));
     }
 
     public function testGetTotalWithCartPriceRulesAndReducesTaxSubtotal()
@@ -125,8 +129,10 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
         $cartPriceRule->setReducesTaxSubtotal(true);
 
+        $pricing = new Service\Pricing;
+        $pricing->setCartPriceRules([$cartPriceRule]);
+
         $cart = new Cart;
-        $cart->addCartPriceRule($cartPriceRule);
         $cart->addItem($productShirt, 1);
         $cart->addItem($productPoster, 1);
 
@@ -137,10 +143,10 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1700;
-        $expectedCartTotal->subtotal = 1200;
+        $expectedCartTotal->subtotal = 1700;
         $expectedCartTotal->taxSubtotal = 1200;
         $expectedCartTotal->shipping = 0;
-        $expectedCartTotal->discount = 0;
+        $expectedCartTotal->discount = 500;
         $expectedCartTotal->tax = 96;
         $expectedCartTotal->total = 1296;
         $expectedCartTotal->savings = 500;
@@ -149,7 +155,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $shippingRate = null;
         $cartCalculator = new CartCalculator($cart);
-        $cartTotal = $cartCalculator->getTotal(new Service\Pricing, $shippingRate, $taxRate);
+        $cartTotal = $cartCalculator->getTotal($pricing, $shippingRate, $taxRate);
         $this->assertEquals($expectedCartTotal, $cartTotal);
     }
 

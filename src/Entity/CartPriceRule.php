@@ -9,13 +9,13 @@ class CartPriceRule extends Promotion
     protected $items;
 
     /* @var CartPriceRuleDiscount[] */
-    protected $discounts;
+    protected $cartPriceRuleDiscounts;
 
     public function __construct()
     {
         parent::__construct();
         $this->items = new ArrayCollection();
-        $this->discounts = new ArrayCollection();
+        $this->cartPriceRuleDiscounts = new ArrayCollection();
     }
 
     public function addItem(CartPriceRuleItem\Item $item)
@@ -35,12 +35,15 @@ class CartPriceRule extends Promotion
     public function addDiscount(CartPriceRuleDiscount $discount)
     {
         $discount->setCartPriceRule($this);
-        $this->discounts[] = $discount;
+        $this->cartPriceRuleDiscounts[] = $discount;
     }
 
-    public function getDiscounts()
+    /**
+     * @return CartPriceRuleDiscount[]
+     */
+    public function getCartPriceRuleDiscounts()
     {
-        return $this->discounts;
+        return $this->cartPriceRuleDiscounts;
     }
 
     public function isValid(\DateTime $date, array $cartItems)

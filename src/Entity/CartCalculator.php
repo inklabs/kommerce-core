@@ -55,15 +55,16 @@ class CartCalculator
 
     private function calculateCartPriceRules()
     {
-        foreach ($this->cart->getCartPriceRules() as $cartPriceRule) {
+        foreach ($this->pricing->getCartPriceRules() as $cartPriceRule) {
             if ($cartPriceRule->isValid($this->pricing->getDate(), $this->cart->getItems())) {
-                foreach ($cartPriceRule->getDiscounts() as $discount) {
+                foreach ($cartPriceRule->getCartPriceRuleDiscounts() as $discount) {
                     $price = $this->pricing->getPrice($discount->getProduct(), $discount->getQuantity());
+                    $discountValue = $price->quantityPrice;
 
-                    $this->cartTotal->subtotal -= $price->quantityPrice;
+                    $this->cartTotal->discount += $discountValue;
 
                     if ($cartPriceRule->getReducesTaxSubtotal() and $discount->getProduct()->getIsTaxable()) {
-                        $this->cartTotal->taxSubtotal -= $price->quantityPrice;
+                        $this->cartTotal->taxSubtotal -= $discountValue;
                     }
 
                     $this->cartTotal->cartPriceRules[] = $cartPriceRule;
@@ -77,12 +78,12 @@ class CartCalculator
 
     private function calculateCouponDiscounts()
     {
-        foreach ($this->cart->getCoupons() as $coupon) {
+        foreach ($this->cart->getCoupons() as $key => $coupon) {
             if ($coupon->isValid($this->pricing->getDate(), $this->cartTotal->subtotal)) {
                 $newSubtotal = $coupon->getUnitPrice($this->cartTotal->subtotal);
                 $discountValue = $this->cartTotal->subtotal - $newSubtotal;
                 $this->cartTotal->discount += $discountValue;
-                $this->cartTotal->coupons[] = $coupon;
+                $this->cartTotal->coupons[$key] = $coupon;
 
                 if ($coupon->getReducesTaxSubtotal()) {
                     $this->cartTotal->taxSubtotal -= $discountValue;

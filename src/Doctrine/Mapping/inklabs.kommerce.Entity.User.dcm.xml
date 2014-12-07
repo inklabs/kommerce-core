@@ -1,54 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="inklabs\kommerce\Entity\User" table="`user`" repository-class="Doctrine\ORM\EntityRepository">
+    <entity name="inklabs\kommerce\Entity\User" table="user" repository-class="Doctrine\ORM\EntityRepository">
 
-        <id name="id" type="integer" column="`id`">
+        <entity-listeners>
+            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
+                <lifecycle-callback type="preUpdate" method="preUpdate"/>
+            </entity-listener>
+        </entity-listeners>
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
-            <generator strategy="AUTO" />
         </id>
 
-        <field name="firstName"    column="`first_name`"    type="string" length="50"  nullable="false" />
-        <field name="lastName"     column="`last_name`"     type="string" length="50"  nullable="false" />
-        <field name="email"        column="`email`"         type="string" length="255" nullable="false" />
-        <field name="username"     column="`username`"      type="string" length="32"  nullable="false" />
+        <field name="firstName" column="first_name" type="string" length="50" nullable="false"/>
+        <field name="lastName" column="last_name" type="string" length="50" nullable="false"/>
+        <field name="email" column="email" type="string" length="255" nullable="false"/>
+        <field name="username" column="username" type="string" length="32" nullable="false"/>
 
-        <field name="passwordHash" column="`password_hash`" type="string" length="60"  nullable="false">
+        <field name="passwordHash" column="password_hash" type="string" length="60" nullable="false">
             <options>
                 <option name="fixed">true</option>
             </options>
         </field>
 
-        <field name="totalLogins" column="`total_logins`" type="integer" nullable="false">
+        <field name="totalLogins" column="total_logins" type="integer" nullable="false">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="lastLogin" column="`last_login`" type="integer" nullable="true">
+        <field name="lastLogin" column="last_login" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="status" column="`status`" type="smallint" nullable="false">
+        <field name="status" column="status" type="smallint" nullable="false">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="`created`" type="integer" nullable="false">
+        <field name="created" column="created" type="integer" nullable="false">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="`updated`" type="integer" nullable="true">
+        <field name="updated" column="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
@@ -56,12 +62,6 @@
 
         <!--protected $roles;-->
         <!--protected $tokens;-->
-
-        <entity-listeners>
-            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
-                <lifecycle-callback type="preUpdate" method="preUpdate"/>
-            </entity-listener>
-        </entity-listeners>
 
     </entity>
 

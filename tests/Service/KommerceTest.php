@@ -45,7 +45,7 @@ class KommerceTest extends Helper\DoctrineTestCase
 
     public function testPricingService()
     {
-        $this->kommerce->setupPricingWithCatalogPromotions();
+        $this->kommerce->setupPricing();
         $product = $this->kommerce->pricingService('Product');
         $this->assertInstanceOf('inklabs\kommerce\Service\Product', $product);
     }
@@ -53,7 +53,7 @@ class KommerceTest extends Helper\DoctrineTestCase
     public function testPricingSessionService()
     {
         $this->kommerce->setSessionManager(new Lib\ArraySessionManager);
-        $this->kommerce->setupPricingWithCatalogPromotions();
+        $this->kommerce->setupPricing();
         $cart = $this->kommerce->pricingSessionService('Cart');
         $this->assertInstanceOf('inklabs\kommerce\Service\Cart', $cart);
     }

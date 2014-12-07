@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="inklabs\kommerce\Entity\Image" table="`image`" repository-class="Doctrine\ORM\EntityRepository">
-
-        <id name="id" type="integer" column="`id`">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-            <generator strategy="AUTO" />
-        </id>
-
-        <field name="path" column="`path`" type="string" length="255" />
-
-        <field name="width" column="`width`" type="integer">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="height" column="`height`" type="integer">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="sortOrder" column="`sort_order`" type="integer">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="created" column="`created`" type="integer" nullable="false">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-        <field name="updated" column="`updated`" type="integer" nullable="true">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <many-to-one field="product" target-entity="Product" inversed-by="images">
-            <join-column name="`product_id`" referenced-column-name="`id`" />
-        </many-to-one>
-
-        <many-to-one field="tag" target-entity="Tag" inversed-by="images">
-            <join-column name="`tag_id`" referenced-column-name="`id`" />
-        </many-to-one>
+    <entity name="inklabs\kommerce\Entity\Image" table="image" repository-class="Doctrine\ORM\EntityRepository">
 
         <entity-listeners>
             <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
                 <lifecycle-callback type="preUpdate" method="preUpdate"/>
             </entity-listener>
         </entity-listeners>
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </id>
+
+        <field name="path" column="path" type="string" length="255"/>
+
+        <field name="width" column="width" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="height" column="height" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="sortOrder" column="sort_order" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="created" column="created" type="integer" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="updated" column="updated" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <many-to-one field="product" target-entity="Product" inversed-by="images">
+            <join-column name="product_id" referenced-column-name="id" nullable="true"/>
+        </many-to-one>
+
+        <many-to-one field="tag" target-entity="Tag" inversed-by="images">
+            <join-column name="tag_id" referenced-column-name="id" nullable="true"/>
+        </many-to-one>
 
     </entity>
 

@@ -1,49 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="inklabs\kommerce\Entity\Tag" table="`tag`" repository-class="Doctrine\ORM\EntityRepository">
-
-        <id name="id" type="integer" column="`id`">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-            <generator strategy="AUTO" />
-        </id>
-
-        <field name="name"           column="`name`"             type="string"  length="255"   nullable="false" />
-        <field name="description"    column="`description`"      type="text"    length="65535" nullable="true" />
-        <field name="defaultImage"   column="`default_image`"    type="string"  length="255"   nullable="true" />
-        <field name="isActive"       column="`is_active`"        type="boolean" nullable="false" />
-        <field name="isVisible"      column="`is_visible`"       type="boolean" nullable="false" />
-
-        <field name="sortOrder" column="`sort_order`" type="integer" nullable="false">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="created" column="`created`" type="integer" nullable="false">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-        <field name="updated" column="`updated`" type="integer" nullable="true">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <many-to-many field="products" target-entity="Product" mapped-by="tags" />
-        <one-to-many field="images" target-entity="Image" mapped-by="tag" />
+    <entity name="inklabs\kommerce\Entity\Tag" table="tag" repository-class="Doctrine\ORM\EntityRepository">
 
         <entity-listeners>
             <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
                 <lifecycle-callback type="preUpdate" method="preUpdate"/>
             </entity-listener>
         </entity-listeners>
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </id>
+
+        <field name="name" column="name" type="string" length="255" nullable="false"/>
+        <field name="description" column="description" type="text" length="65535" nullable="true"/>
+        <field name="defaultImage" column="default_image" type="string" length="255" nullable="true"/>
+        <field name="isActive" column="is_active" type="boolean" nullable="false"/>
+        <field name="isVisible" column="is_visible" type="boolean" nullable="false"/>
+
+        <field name="sortOrder" column="sort_order" type="integer" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="created" column="created" type="integer" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="updated" column="updated" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <one-to-many field="images" target-entity="Image" mapped-by="tag"/>
+
+        <many-to-many field="products" target-entity="Product" mapped-by="tags"/>
 
     </entity>
 

@@ -1,27 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="inklabs\kommerce\Entity\Order" table="`order`" repository-class="Doctrine\ORM\EntityRepository">
+    <entity name="inklabs\kommerce\Entity\Order" table="order" repository-class="Doctrine\ORM\EntityRepository">
 
-        <id name="id" type="integer" column="`id`">
+        <entity-listeners>
+            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
+                <lifecycle-callback type="preUpdate" method="preUpdate"/>
+            </entity-listener>
+        </entity-listeners>
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
-            <generator strategy="AUTO" />
         </id>
 
-        <field name="status" column="`status`" type="smallint" nullable="false">
+        <field name="status" column="status" type="smallint" nullable="false">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <embedded name="total" class="CartTotal" />
-        <embedded name="shippingAddress" class="OrderAddress" column-prefix="shipping_" />
-        <embedded name="billingAddress" class="OrderAddress" column-prefix="billing_" />
+        <field name="created" column="created" type="integer" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="updated" column="updated" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <embedded name="total" class="CartTotal"/>
+        <embedded name="shippingAddress" class="OrderAddress" column-prefix="shipping_"/>
+        <embedded name="billingAddress" class="OrderAddress" column-prefix="billing_"/>
 
         <one-to-many field="items" target-entity="OrderItem" mapped-by="order">
             <cascade>
@@ -35,38 +53,20 @@
             </cascade>
         </one-to-many>
 
+        <many-to-one field="user" target-entity="User" inversed-by="orders">
+            <join-column name="user_id" referenced-column-name="id" nullable="true"/>
+        </many-to-one>
+
         <many-to-many field="coupons" target-entity="Coupon">
-            <join-table name="`order_coupon`">
+            <join-table name="order_coupon">
                 <join-columns>
-                    <join-column name="`order_id`" referenced-column-name="id" />
+                    <join-column name="order_id" referenced-column-name="id"/>
                 </join-columns>
                 <inverse-join-columns>
-                    <join-column name="`coupon_id`" referenced-column-name="id" />
+                    <join-column name="coupon_id" referenced-column-name="id"/>
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
-
-        <many-to-one field="user" target-entity="User" inversed-by="orders">
-            <join-column name="`user_id`" referenced-column-name="`id`" />
-        </many-to-one>
-
-        <field name="created" column="`created`" type="integer" nullable="false">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="updated" column="`updated`" type="integer" nullable="true">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <entity-listeners>
-            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
-                <lifecycle-callback type="preUpdate" method="preUpdate"/>
-            </entity-listener>
-        </entity-listeners>
 
     </entity>
 
