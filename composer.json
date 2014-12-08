@@ -14,7 +14,6 @@
     "require": {
         "composer/installers": "~1.0",
         "php": ">=5.5",
-        "pdt256/shipping": "dev-master",
         "doctrine/dbal": "2.5.*@dev",
         "doctrine/orm": "2.5.*@dev",
         "stripe/stripe-php": "1.*"
