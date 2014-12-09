@@ -21,7 +21,7 @@ class Product extends Lib\EntityManager
      */
     public function find($id)
     {
-        $entityProduct = $this->entityManager->getRepository('inklabs\kommerce\Entity\Product')->find($id);
+        $entityProduct = $this->entityManager->getRepository('kommerce:Product')->find($id);
 
         if ($entityProduct === null or ! $entityProduct->getIsActive()) {
             return null;
