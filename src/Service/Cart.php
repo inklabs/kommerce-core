@@ -60,7 +60,7 @@ class Cart extends Lib\EntityManager
         $numberProductsUpdated = 0;
         foreach ($this->cart->getItems() as $cartItem) {
             $product = $this->entityManager
-                ->getRepository('inklabs\kommerce\Entity\Product')
+                ->getRepository('kommerce:Product')
                 ->find($cartItem->getProduct()->getId());
 
             $cartItem->setProduct($product);
@@ -77,7 +77,7 @@ class Cart extends Lib\EntityManager
         $numberCouponsUpdated = 0;
         foreach ($this->cart->getCoupons() as $key => $coupon) {
             $newCoupon = $this->entityManager
-                ->getRepository('inklabs\kommerce\Entity\Coupon')
+                ->getRepository('kommerce:Coupon')
                 ->find($coupon->getId());
 
             $this->cart->updateCoupon($key, $newCoupon);
@@ -92,7 +92,7 @@ class Cart extends Lib\EntityManager
     public function addItem(Entity\View\Product $viewProduct, $quantity)
     {
         $product = $this->entityManager
-            ->getRepository('inklabs\kommerce\Entity\Product')
+            ->getRepository('kommerce:Product')
             ->find($viewProduct->id);
 
         if ($product === null) {
@@ -108,7 +108,7 @@ class Cart extends Lib\EntityManager
     public function addCouponByCode($couponCode)
     {
         $coupon = $this->entityManager
-            ->getRepository('inklabs\kommerce\Entity\Coupon')
+            ->getRepository('kommerce:Coupon')
             ->findOneByCode($couponCode);
 
         if ($coupon === null) {
