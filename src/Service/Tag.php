@@ -18,7 +18,7 @@ class Tag extends Lib\EntityManager
     public function find($id)
     {
         /* @var Entity\Tag $entityTag */
-        $entityTag = $this->entityManager->getRepository('inklabs\kommerce\Entity\Tag')->find($id);
+        $entityTag = $this->entityManager->getRepository('kommerce:Tag')->find($id);
 
         if ($entityTag === null or ! $entityTag->getIsActive()) {
             return null;
