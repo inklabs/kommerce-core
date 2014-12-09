@@ -33,7 +33,7 @@ class User extends Lib\EntityManager
 
     public function login($username, $password)
     {
-        $entityUser = $this->entityManager->getRepository('inklabs\kommerce\Entity\User')->findOneByUsername($username);
+        $entityUser = $this->entityManager->getRepository('kommerce:User')->findOneByUsername($username);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
             return false;
@@ -54,7 +54,7 @@ class User extends Lib\EntityManager
      */
     public function find($id)
     {
-        $entityUser = $this->entityManager->getRepository('inklabs\kommerce\Entity\User')->find($id);
+        $entityUser = $this->entityManager->getRepository('kommerce:User')->find($id);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
             return null;

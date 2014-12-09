@@ -13,6 +13,6 @@ class CatalogPromotion extends Lib\EntityManager
 
     public function findAll()
     {
-        return $this->entityManager->getRepository('inklabs\kommerce\Entity\CatalogPromotion')->findAll();
+        return $this->entityManager->getRepository('kommerce:CatalogPromotion')->findAll();
     }
 }

@@ -13,6 +13,6 @@ class CartPriceRule extends Lib\EntityManager
 
     public function findAll()
     {
-        return $this->entityManager->getRepository('inklabs\kommerce\Entity\CartPriceRule')->findAll();
+        return $this->entityManager->getRepository('kommerce:CartPriceRule')->findAll();
     }
 }

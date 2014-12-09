@@ -245,11 +245,11 @@ class CartTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
 
         /* @var Entity\Order $order */
-        $order = $this->entityManager->getRepository('inklabs\kommerce\Entity\Order')->find(1);
+        $order = $this->entityManager->getRepository('kommerce:Order')->find(1);
         $this->assertEquals(1, $order->getId());
         $this->assertEquals(1600, $order->getTotal()->total);
 
-        $payment = $this->entityManager->getRepository('inklabs\kommerce\Entity\Payment\Payment')->find(1);
+        $payment = $this->entityManager->getRepository('kommerce:Payment\Payment')->find(1);
         $this->assertEquals(1, $payment->getId());
         $this->assertEquals(1600, $payment->getAmount());
     }

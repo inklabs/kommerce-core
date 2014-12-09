@@ -14,7 +14,7 @@ class TaxRate extends Lib\EntityManager
 
     public function findAll()
     {
-        return $this->entityManager->getRepository('inklabs\kommerce\Entity\TaxRate')->findAll();
+        return $this->entityManager->getRepository('kommerce:TaxRate')->findAll();
     }
 
     /**
