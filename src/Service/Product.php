@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
+use inklabs\kommerce\EntityRepository as EntityRepository;
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
 
@@ -10,10 +11,14 @@ class Product extends Lib\EntityManager
     /* @var Pricing */
     private $pricing;
 
+    /* @var EntityRepository\Product */
+    private $productRepository;
+
     public function __construct(EntityManager $entityManager, Pricing $pricing)
     {
         $this->setEntityManager($entityManager);
         $this->pricing = $pricing;
+        $this->productRepository = $entityManager->getRepository('kommerce:Product');
     }
 
     /**
@@ -21,7 +26,7 @@ class Product extends Lib\EntityManager
      */
     public function find($id)
     {
-        $entityProduct = $this->entityManager->getRepository('kommerce:Product')->find($id);
+        $entityProduct = $this->productRepository->find($id);
 
         if ($entityProduct === null or ! $entityProduct->getIsActive()) {
             return null;
@@ -50,27 +55,8 @@ class Product extends Lib\EntityManager
             }
         }
 
-        $qb = $this->createQueryBuilder();
-
-        $query = $qb->select('product')
-            ->from('inklabs\kommerce\Entity\Product', 'product')
-            ->where('product.id NOT IN (:productId)')
-                ->setParameter('productId', $productIds)
-            ->productActiveAndVisible()
-            ->productAvailable()
-            ->addSelect('RAND(:rand) as HIDDEN rand')
-                ->setParameter('rand', array_sum($productIds))
-            ->orderBy('rand')
-            ->setMaxResults($limit);
-
-        if (! empty($tagIds)) {
-            $query = $query
-                ->innerJoin('product.tags', 'tag')
-                ->andWhere('tag.id IN (:tagIds)')
-                    ->setParameter('tagIds', $tagIds);
-        }
-
-        $products = $query->findAll();
+        $products = $this->productRepository
+            ->getRelatedProductsByIds($productIds, $tagIds, $limit);
 
         return $this->getViewProductsWithPrice($products);
     }
@@ -80,17 +66,8 @@ class Product extends Lib\EntityManager
      */
     public function getProductsByTag(Entity\View\Tag $tag, Entity\Pagination & $pagination = null)
     {
-        $qb = $this->createQueryBuilder();
-
-        $products = $qb->select('product')
-            ->from('inklabs\kommerce\Entity\Product', 'product')
-            ->innerJoin('product.tags', 'tag')
-            ->where('tag.id = :tagId')
-            ->productActiveAndVisible()
-            ->productAvailable()
-            ->setParameter('tagId', $tag->id)
-            ->paginate($pagination)
-            ->findAll();
+        $products = $this->productRepository
+            ->getProductsByTagId($tag->id);
 
         return $this->getViewProductsWithPrice($products);
     }
@@ -100,16 +77,8 @@ class Product extends Lib\EntityManager
      */
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
-        $qb = $this->createQueryBuilder();
-
-        $products = $qb->select('product')
-            ->from('inklabs\kommerce\Entity\Product', 'product')
-            ->where('product.id IN (:productIds)')
-            ->productActiveAndVisible()
-            ->productAvailable()
-            ->setParameter('productIds', $productIds)
-            ->paginate($pagination)
-            ->findAll();
+        $products = $this->productRepository
+            ->getProductsByIds($productIds);
 
         return $this->getViewProductsWithPrice($products);
     }
@@ -119,16 +88,8 @@ class Product extends Lib\EntityManager
      */
     public function getRandomProducts($limit)
     {
-        $qb = $this->createQueryBuilder();
-
-        $products = $qb->select('product')
-            ->from('inklabs\kommerce\Entity\Product', 'product')
-            ->productActiveAndVisible()
-            ->productAvailable()
-            ->addSelect('RAND() as HIDDEN rand')
-            ->orderBy('rand')
-            ->setMaxResults($limit)
-            ->findAll();
+        $products = $this->productRepository
+            ->getRandomProducts($limit);
 
         return $this->getViewProductsWithPrice($products);
     }

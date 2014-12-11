@@ -1,70 +1,21 @@
 <?php
-namespace inklabs\kommerce\Service;
+namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\tests\Helper as Helper;
 
 class ProductTest extends Helper\DoctrineTestCase
 {
-    /* @var Product */
-    protected $productService;
-
     /* @var Entity\Product */
     protected $product;
 
-    public function setUp()
+    /**
+     * @return Product
+     */
+    private function getRepository()
     {
-        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
-        $this->productService = new Product($this->entityManager, $pricing);
-    }
-
-    public function setupProduct()
-    {
-        $this->product = new Entity\Product;
-        $this->product->setSku('TST101');
-        $this->product->setName('Test Product');
-        $this->product->setDescription('Test product description');
-        $this->product->setUnitPrice(1000);
-        $this->product->setQuantity(10);
-        $this->product->setIsInventoryRequired(true);
-        $this->product->setIsPriceVisible(true);
-        $this->product->setIsActive(true);
-        $this->product->setIsVisible(true);
-        $this->product->setIsTaxable(true);
-        $this->product->setIsShippable(true);
-        $this->product->setShippingWeight(16);
-        $this->product->setRating(null);
-        $this->product->setDefaultImage(null);
-
-        $this->entityManager->persist($this->product);
-        $this->entityManager->flush();
-    }
-
-    public function testFindMissing()
-    {
-        $product = $this->productService->find(0);
-        $this->assertEquals(null, $product);
-    }
-
-    public function testFindNotActive()
-    {
-        $this->setupProduct();
-        $this->product->setIsActive(false);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $product = $this->productService->find(1);
-        $this->assertEquals(null, $product);
-    }
-
-    public function testFind()
-    {
-        $this->setupProduct();
-
-        $this->entityManager->clear();
-
-        $product = $this->productService->find(1);
-        $this->assertEquals(1, $product->id);
+        return $this->entityManager->getRepository('kommerce:Product');
     }
 
     /**
@@ -88,32 +39,46 @@ class ProductTest extends Helper\DoctrineTestCase
         return $product;
     }
 
+    public function testFindByEncodedId()
+    {
+        $product1 = $this->getDummyProduct(1);
+
+        $this->entityManager->persist($product1);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        $product = $this->getRepository()
+            ->findByEncodedId(BaseConvert::encode(1));
+
+        $this->assertEquals(1, $product->getId());
+    }
+
     public function testGetRelatedProducts()
     {
-        $this->setupProduct();
-
         $product1 = $this->getDummyProduct(1);
         $product2 = $this->getDummyProduct(2);
+        $product3 = $this->getDummyProduct(3);
+        $product4 = $this->getDummyProduct(4);
 
         $tag = new Entity\Tag;
         $tag->setName('Test Tag');
         $tag->setIsVisible(true);
 
-        $this->product->addTag($tag);
         $product1->addTag($tag);
         $product2->addTag($tag);
+        $product3->addTag($tag);
 
         $this->entityManager->persist($tag);
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
+        $this->entityManager->persist($product3);
+        $this->entityManager->persist($product4);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $viewProduct = Entity\View\Product::factory($this->product)
-            ->withTags()
-            ->export();
+        $products = $this->getRepository()
+            ->getRelatedProducts($product1);
 
-        $products = $this->productService->getRelatedProducts($viewProduct);
         $this->assertEquals(2, count($products));
     }
 
@@ -132,7 +97,6 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $product1->addTag($tag);
         $product2->addTag($tag);
-        $product3->addTag($tag);
 
         $this->entityManager->persist($tag);
         $this->entityManager->persist($product1);
@@ -141,14 +105,12 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $viewTag = Entity\View\Tag::factory($tag)->export();
+        $products = $this->getRepository()
+            ->getProductsByTag($tag);
 
-        $products = $this->productService->getProductsByTag($viewTag);
-
-        $this->assertEquals(3, count($products));
-        $this->assertEquals(1, $products[0]->id);
-        $this->assertEquals(2, $products[1]->id);
-        $this->assertEquals(3, $products[2]->id);
+        $this->assertEquals(2, count($products));
+        $this->assertEquals(1, $products[0]->getId());
+        $this->assertEquals(2, $products[1]->getid());
     }
 
     public function testGetProductsByIds()
@@ -173,12 +135,13 @@ class ProductTest extends Helper\DoctrineTestCase
             $product4->getId(),
         ];
 
-        $products = $this->productService->getProductsByIds($productIds);
+        $products = $this->getRepository()
+            ->getProductsByIds($productIds);
 
         $this->assertEquals(3, count($products));
-        $this->assertEquals(2, $products[0]->id);
-        $this->assertEquals(3, $products[1]->id);
-        $this->assertEquals(4, $products[2]->id);
+        $this->assertEquals(2, $products[0]->getId());
+        $this->assertEquals(3, $products[1]->getId());
+        $this->assertEquals(4, $products[2]->getId());
     }
 
     public function testGetRandomProducts()
@@ -197,8 +160,58 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $products = $this->productService->getRandomProducts(3);
+        $products = $this->getRepository()
+            ->getRandomProducts(3);
 
         $this->assertEquals(3, count($products));
+    }
+
+    public function testGetProductsByTagPaginated()
+    {
+        $tag = new Entity\Tag;
+        $tag->setName('Test Tag');
+        $tag->setDescription('Test Description');
+        $tag->setDefaultImage('http://lorempixel.com/400/200/');
+        $tag->setSortOrder(0);
+        $tag->setIsVisible(true);
+
+        $product1 = $this->getDummyProduct(1);
+        $product2 = $this->getDummyProduct(2);
+        $product3 = $this->getDummyProduct(3);
+
+        $product1->addTag($tag);
+        $product2->addTag($tag);
+        $product3->addTag($tag);
+
+        $this->entityManager->persist($tag);
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->persist($product3);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        $maxResults = 2;
+        $page = 1;
+        $pagination = new Entity\Pagination($maxResults, $page);
+
+        $products = $this->getRepository()
+            ->getProductsByTag($tag, $pagination);
+
+        $this->assertEquals(2, count($products));
+        $this->assertEquals(1, $products[0]->getId());
+        $this->assertEquals(2, $products[1]->getId());
+        $this->assertEquals(3, $pagination->getTotal());
+
+        // Page 2
+        $maxResults = 2;
+        $page = 2;
+        $pagination = new Entity\Pagination($maxResults, $page);
+
+        $products = $this->getRepository()
+            ->getProductsByTag($tag, $pagination);
+
+        $this->assertEquals(1, count($products));
+        $this->assertEquals(3, $products[0]->getId());
+        $this->assertEquals(3, $pagination->getTotal());
     }
 }
