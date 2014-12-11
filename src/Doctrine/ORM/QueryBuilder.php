@@ -22,6 +22,9 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
             ->setMaxResults($pagination->getMaxResults());
     }
 
+    /**
+     * @returns $this
+     */
     public function productActiveAndVisible()
     {
         return $this
