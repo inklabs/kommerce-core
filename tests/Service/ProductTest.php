@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\tests\Helper as Helper;
 
 class ProductTest extends Helper\DoctrineTestCase
@@ -64,6 +65,16 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
 
         $product = $this->productService->find(1);
+        $this->assertEquals(1, $product->id);
+    }
+
+    public function testFindByEncodedId()
+    {
+        $this->setupProduct();
+
+        $this->entityManager->clear();
+
+        $product = $this->productService->findByEncodedId(BaseConvert::encode(1));
         $this->assertEquals(1, $product->id);
     }
 

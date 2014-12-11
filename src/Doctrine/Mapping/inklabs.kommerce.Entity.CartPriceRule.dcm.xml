@@ -8,7 +8,7 @@
             table="cart_price_rule"
             repository-class="Doctrine\ORM\EntityRepository">
 
-        <one-to-many field="items"
+        <one-to-many field="cartPriceRuleItems"
                      target-entity="inklabs\kommerce\Entity\CartPriceRuleItem\Item"
                      mapped-by="cartPriceRule"
                      fetch="EAGER">
