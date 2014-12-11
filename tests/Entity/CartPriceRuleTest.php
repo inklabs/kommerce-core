@@ -8,7 +8,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $cartPriceRule = new CartPriceRule;
-        $this->assertEquals(0, count($cartPriceRule->getItems()));
+        $this->assertEquals(0, count($cartPriceRule->getCartPriceRuleItems()));
         $this->assertEquals(0, count($cartPriceRule->getCartPriceRuleDiscounts()));
     }
 
@@ -17,7 +17,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule = new CartPriceRule;
         $cartPriceRule->addItem(new CartPriceRuleItem\Product(new Product, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount(new Product, 1));
-        $this->assertEquals(1, count($cartPriceRule->getItems()));
+        $this->assertEquals(1, count($cartPriceRule->getCartPriceRuleItems()));
         $this->assertEquals(1, count($cartPriceRule->getCartPriceRuleDiscounts()));
     }
 
