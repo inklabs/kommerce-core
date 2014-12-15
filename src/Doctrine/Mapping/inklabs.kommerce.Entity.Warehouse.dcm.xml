@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="inklabs\kommerce\Entity\Warehouse"
+            table="warehouse"
+            repository-class="inklabs\kommerce\EntityRepository\Warehouse">
+
+        <entity-listeners>
+            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
+                <lifecycle-callback type="preUpdate" method="preUpdate"/>
+            </entity-listener>
+        </entity-listeners>
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </id>
+
+        <field name="name" column="name" type="string"/>
+
+        <embedded name="address" class="address" column-prefix="address_"/>
+
+    </entity>
+
+</doctrine-mapping>
