@@ -15,8 +15,8 @@ are using the PSR-4 standard.
 
 ## Description
 
-This project is over 11,000 lines of code. Unit tests are 30-40% of those lines. There are three
-main types of modules in this project:
+This project is over 12,000 lines of code. Unit tests account for 30-40% of that total. There are four
+main modules in this project:
 
 * Entities (src/Entity)
     - These are plain old PHP objects. You will not find any ORM code or external dependencies here. This is where
