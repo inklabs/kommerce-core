@@ -88,11 +88,13 @@ class Kommerce
     public function addSqliteFunctions()
     {
         $this->config->addCustomNumericFunction('RAND', 'inklabs\kommerce\Doctrine\Functions\Sqlite\Rand');
+        $this->config->addCustomNumericFunction('DISTANCE', 'inklabs\kommerce\Doctrine\Functions\Sqlite\Distance');
     }
 
     public function addMysqlFunctions()
     {
         $this->config->addCustomNumericFunction('RAND', 'inklabs\kommerce\Doctrine\Functions\Mysql\Rand');
+        $this->config->addCustomNumericFunction('DISTANCE', 'inklabs\kommerce\Doctrine\Functions\Mysql\Distance');
     }
 
     public function setup(array $dbParams)

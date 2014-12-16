@@ -41,17 +41,50 @@ class WarehouseTest extends Helper\DoctrineTestCase
         return $warehouse;
     }
 
-    public function testFind()
+    private function setupWarehouse()
     {
         $warehouse1 = $this->getDummyWarehouse(1);
 
         $this->entityManager->persist($warehouse1);
         $this->entityManager->flush();
         $this->entityManager->clear();
+    }
+
+    public function testFind()
+    {
+        $this->setupWarehouse();
 
         $warehouse = $this->getRepository()
             ->find(1);
 
         $this->assertEquals(1, $warehouse->getId());
+    }
+
+    public function testFindByPointNotInRange()
+    {
+        $this->setupWarehouse();
+
+        $losAngeles = new Entity\Point(34.052234, -118.243685);
+
+        $warehouse = $this->getRepository()
+            ->findByPoint($losAngeles, 1);
+
+        $this->assertEquals(0, count($warehouse));
+    }
+
+    public function testFindByPoint()
+    {
+        $this->setupWarehouse();
+
+        $losAngeles = new Entity\Point(34.052234, -118.243685);
+
+        $warehouses = $this->getRepository()
+            ->findByPoint($losAngeles, 50);
+
+        $this->assertEquals(1, $warehouses[0][0]->getId());
+
+        // Correct distance is 14.421 miles.
+        // Check scalar distance column is within 5 miles (for Sqlite).
+        $this->assertTrue(($warehouses[0][1] - 14.421) < 5);
     }
 }
