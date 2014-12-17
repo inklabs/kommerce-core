@@ -6,7 +6,7 @@
 
     <entity name="inklabs\kommerce\Entity\CartPriceRule"
             table="cart_price_rule"
-            repository-class="Doctrine\ORM\EntityRepository">
+            repository-class="inklabs\kommerce\EntityRepository\CartPriceRule">
 
         <one-to-many field="cartPriceRuleItems"
                      target-entity="inklabs\kommerce\Entity\CartPriceRuleItem\Item"

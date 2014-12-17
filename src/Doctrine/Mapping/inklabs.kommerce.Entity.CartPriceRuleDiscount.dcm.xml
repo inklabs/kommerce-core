@@ -6,7 +6,7 @@
 
     <entity name="inklabs\kommerce\Entity\CartPriceRuleDiscount"
             table="cart_price_rule_discount"
-            repository-class="Doctrine\ORM\EntityRepository">
+            repository-class="inklabs\kommerce\EntityRepository\CartPriceRuleDiscount">
 
         <entity-listeners>
             <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
