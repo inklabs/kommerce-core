@@ -3,8 +3,10 @@ php:
   - 5.5
 
 before_script:
-  - composer install --prefer-dist
+  - composer self-update
+  - composer update --prefer-dist
 
 script:
   - vendor/bin/phpcs --standard=PSR2 src/ tests/
   - vendor/bin/phpunit
+
