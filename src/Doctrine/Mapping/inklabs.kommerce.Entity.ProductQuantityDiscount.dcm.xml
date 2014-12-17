@@ -6,7 +6,7 @@
 
     <entity name="inklabs\kommerce\Entity\ProductQuantityDiscount"
             table="product_quantity_discount"
-            repository-class="Doctrine\ORM\EntityRepository">
+            repository-class="inklabs\kommerce\EntityRepository\ProductQuantityDiscount">
 
         <field name="flagApplyCatalogPromotions" column="apply_catalog_promotions" type="boolean"/>
 
