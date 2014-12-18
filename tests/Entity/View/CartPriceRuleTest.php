@@ -7,18 +7,17 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $product = new Entity\Product;
-
         $entityCartPriceRule = new Entity\CartPriceRule;
-        $entityCartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($product, 1));
-        $entityCartPriceRule->addDiscount(new Entity\CartPriceruleDiscount($product));
+        $entityCartPriceRule->addItem(new Entity\CartPriceRuleItem\Product(new Entity\Product, 1));
+        $entityCartPriceRule->addItem(new Entity\CartPriceRuleItem\Tag(new Entity\Tag, 1));
+        $entityCartPriceRule->addDiscount(new Entity\CartPriceruleDiscount(new Entity\Product));
 
         $cartPriceRule = CartPriceRule::factory($entityCartPriceRule)
-            ->withAllData()
-            ->export();
+            ->withAllData();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\CartPriceRule', $cartPriceRule);
-//        $this->assertInstanceOf('inklabs\kommerce\Entity\View\CartPriceRuleItem\Item', $cartPriceRule->items[0]);
-//        $this->assertInstanceOf('inklabs\kommerce\Entity\View\CartPriceRuleDiscount', $cartPriceRule->discount);
+        $this->assertTrue($cartPriceRule instanceof CartPriceRule);
+        $this->assertTrue($cartPriceRule->cartPriceRuleItems[0] instanceof CartPriceRuleItem\Product);
+        $this->assertTrue($cartPriceRule->cartPriceRuleItems[1] instanceof CartPriceRuleItem\Tag);
+        $this->assertTrue($cartPriceRule->cartPriceRuleDiscounts[0] instanceof CartPriceRuleDiscount);
     }
 }

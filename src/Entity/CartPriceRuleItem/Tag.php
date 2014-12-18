@@ -36,4 +36,9 @@ class Tag extends Item
     {
         return $this->tag;
     }
+
+    public function getView()
+    {
+        return new Entity\View\CartPriceRuleItem\Tag($this);
+    }
 }

@@ -66,4 +66,9 @@ class CartPriceRuleDiscount
     {
         return $this->cartPriceRule;
     }
+
+    public function getView()
+    {
+        return new View\CartPriceRuleDiscount($this);
+    }
 }
