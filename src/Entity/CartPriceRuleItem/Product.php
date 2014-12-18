@@ -34,4 +34,9 @@ class Product extends Item
     {
         return $this->product;
     }
+
+    public function getView()
+    {
+        return new Entity\View\CartPriceRuleItem\Product($this);
+    }
 }

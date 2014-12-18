@@ -70,4 +70,9 @@ class CartPriceRule extends Promotion
             return false;
         }
     }
+
+    public function getView()
+    {
+        return new View\CartPriceRule($this);
+    }
 }
