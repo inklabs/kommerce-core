@@ -50,5 +50,5 @@ abstract class Payment
     /**
      * @return Entity\View\Payment\Payment
      */
-    abstract function getView();
+    abstract public function getView();
 }
