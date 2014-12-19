@@ -21,14 +21,17 @@ class User
     const STATUS_ACTIVE = 1;
     const STATUS_LOCKED = 2;
 
-    /* @var Role[] */
+    /* @var UserRole[] */
     protected $roles;
 
-    /* @var Token[] */
+    /* @var UserToken[] */
     protected $tokens;
 
     /* @var Order[] */
     protected $orders;
+
+    /* @var UserLogin */
+    protected $logins;
 
     public function __construct()
     {
@@ -36,6 +39,8 @@ class User
         $this->roles = new ArrayCollection();
         $this->tokens = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->logins = new ArrayCollection();
+
         $this->totalLogins = 0;
         $this->lastLogin = null;
         $this->status = self::STATUS_ACTIVE;
@@ -137,13 +142,14 @@ class User
         return $this->lastLogin;
     }
 
-    public function addRole(Role $role)
+    public function addRole(UserRole $role)
     {
+        $role->setUser($this);
         $this->roles[] = $role;
     }
 
     /**
-     * @return Role[]
+     * @return UserRole[]
      */
     public function getRoles()
     {
@@ -152,15 +158,30 @@ class User
 
     public function addToken(UserToken $token)
     {
+        $token->setUser($this);
         $this->tokens[] = $token;
     }
 
     /**
-     * @return Token[]
+     * @return UserToken[]
      */
     public function getTokens()
     {
         return $this->tokens;
+    }
+
+    public function addLogin(UserLogin $login)
+    {
+        $login->setUser($this);
+        $this->logins[] = $login;
+    }
+
+    /**
+     * @return UserLogin[]
+     */
+    public function getLogins()
+    {
+        return $this->logins;
     }
 
     public function getView()

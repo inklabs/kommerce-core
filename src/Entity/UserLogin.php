@@ -7,9 +7,15 @@ class UserLogin
 
     protected $id;
     protected $username;
-    protected $userId;
     protected $ip4;
-    protected $result; // success, fail, fail_lock
+
+    protected $result;
+    const RESULT_SUCCESS   = 0;
+    const RESULT_FAIL      = 1;
+    const RESULT_FAIL_LOCK = 2;
+
+    /* @var User */
+    protected $user;
 
     public function __construct()
     {
@@ -36,21 +42,27 @@ class UserLogin
         return $this->username;
     }
 
-    public function setUserId($userId)
+    public function setUser(User $user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
     }
 
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
+    /**
+     * @param $ip4 string
+     */
     public function setIp4($ip4)
     {
         $this->ip4 = ip2long($ip4);
     }
 
+    /**
+     * @return string
+     */
     public function getIp4()
     {
         return long2ip($this->ip4);
@@ -58,7 +70,7 @@ class UserLogin
 
     public function setResult($result)
     {
-        $this->result = $result;
+        $this->result = (int) $result;
     }
 
     public function getResult()
