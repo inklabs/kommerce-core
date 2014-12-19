@@ -20,7 +20,7 @@ class ChargeResponse
 
     public function setAmount($amount)
     {
-        $this->amount = $amount;
+        $this->amount = (int) $amount;
     }
 
     public function getLast4()
@@ -30,7 +30,7 @@ class ChargeResponse
 
     public function setLast4($last4)
     {
-        $this->last4 = $last4;
+        $this->last4 = (string) $last4;
     }
 
     public function getCreated()
@@ -40,7 +40,7 @@ class ChargeResponse
 
     public function setCreated($created)
     {
-        $this->created = $created;
+        $this->created = (int) $created;
     }
 
     public function getCurrency()
@@ -50,7 +50,7 @@ class ChargeResponse
 
     public function setCurrency($currency)
     {
-        $this->currency = $currency;
+        $this->currency = (string) $currency;
     }
 
     public function getFee()
@@ -60,7 +60,7 @@ class ChargeResponse
 
     public function setFee($fee)
     {
-        $this->fee = $fee;
+        $this->fee = (int) $fee;
     }
 
     public function getId()
@@ -70,7 +70,7 @@ class ChargeResponse
 
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = (string) $id;
     }
 
     public function getDescription()
@@ -80,7 +80,7 @@ class ChargeResponse
 
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = (string) $description;
     }
 
     public function getView()
