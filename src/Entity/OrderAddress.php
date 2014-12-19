@@ -14,4 +14,9 @@ class OrderAddress
     public $zip4;
     public $phone;
     public $email;
+
+    public function getView()
+    {
+        return new View\OrderAddress($this);
+    }
 }

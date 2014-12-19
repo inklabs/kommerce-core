@@ -45,7 +45,7 @@ class Cart
 
     public function withCartTotal(Pricing $pricing, Shipping\Rate $shippingRate = null, Entity\TaxRate $taxRate = null)
     {
-        $this->cartTotal = CartTotal::factory($this->cart->getTotal($pricing, $shippingRate, $taxRate))
+        $this->cartTotal = $this->cart->getTotal($pricing, $shippingRate, $taxRate)->getView()
             ->withAllData()
             ->export();
 

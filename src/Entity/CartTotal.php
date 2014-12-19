@@ -21,4 +21,9 @@ class CartTotal
 
     /* @var TaxRate */
     public $taxRate;
+
+    public function getView()
+    {
+        return new View\CartTotal($this);
+    }
 }

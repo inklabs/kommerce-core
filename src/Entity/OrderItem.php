@@ -9,10 +9,13 @@ class OrderItem
     use Accessor\Time;
 
     protected $id;
-    protected $product;
     protected $quantity;
     protected $price;
 
+    /* @var Product */
+    protected $product;
+
+    /* @var Order */
     protected $order;
 
     /* @var CatalogPromotion[] */
@@ -41,6 +44,29 @@ class OrderItem
 
         $this->productSku = $product->getSku();
         $this->productName = $product->getName();
+    }
+
+    /**
+     * @return Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    public function getProductSku()
+    {
+        return $this->productSku;
+    }
+
+    public function getProductName()
+    {
+        return $this->productName;
     }
 
     private function setPrice(Price $price)
@@ -80,5 +106,20 @@ class OrderItem
     public function setOrder(Order $order)
     {
         $this->order = $order;
+    }
+
+    public function getCatalogPromotions()
+    {
+        return $this->catalogPromotions;
+    }
+
+    public function getProductQuantityDiscount()
+    {
+        return $this->productQuantityDiscount;
+    }
+
+    public function getView()
+    {
+        return new View\OrderItem($this);
     }
 }

@@ -90,4 +90,9 @@ class Coupon extends Promotion
             return true;
         }
     }
+
+    public function getView()
+    {
+        return new View\Coupon($this);
+    }
 }
