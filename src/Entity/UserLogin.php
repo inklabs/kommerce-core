@@ -10,9 +10,8 @@ class UserLogin
     protected $ip4;
 
     protected $result;
-    const RESULT_SUCCESS   = 0;
-    const RESULT_FAIL      = 1;
-    const RESULT_FAIL_LOCK = 2;
+    const RESULT_FAIL      = 0;
+    const RESULT_SUCCESS   = 1;
 
     /* @var User */
     protected $user;
