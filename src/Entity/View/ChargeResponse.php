@@ -18,6 +18,7 @@ class ChargeResponse
     {
         $this->chargeResponse = $chargeResponse;
 
+        $this->id          = $chargeResponse->getId();
         $this->created     = $chargeResponse->getCreated();
         $this->amount      = $chargeResponse->getAmount();
         $this->last4       = $chargeResponse->getLast4();

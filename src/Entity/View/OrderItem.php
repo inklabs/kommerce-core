@@ -22,7 +22,7 @@ class OrderItem
         $this->id            = $orderItem->getId();
         $this->quantity      = $orderItem->getQuantity();
         $this->price         = $orderItem->getPrice();
-        $this->product       = $orderItem->getProduct()->getView();
+        $this->product       = $orderItem->getProduct()->getView()->export();
         $this->productSku    = $orderItem->getProductSku();
         $this->productName   = $orderItem->getProductName();
         $this->discountNames = $orderItem->getDiscountNames();
