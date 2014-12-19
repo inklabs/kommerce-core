@@ -41,11 +41,6 @@ class CartTotal
         return $this;
     }
 
-    public static function factory(Entity\CartTotal $cartTotal)
-    {
-        return new static($cartTotal);
-    }
-
     public function export()
     {
         unset($this->cartTotal);

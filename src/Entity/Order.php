@@ -89,6 +89,11 @@ class Order
         $this->status = (int) $status;
     }
 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
     private function setTotal(CartTotal $total)
     {
         $this->total = $total;
@@ -174,5 +179,10 @@ class Order
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function getView()
+    {
+        return new View\Order($this);
     }
 }

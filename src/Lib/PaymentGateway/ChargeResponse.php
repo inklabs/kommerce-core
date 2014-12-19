@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
+use inklabs\kommerce\Entity\View as View;
+
 class ChargeResponse
 {
     protected $id;
@@ -79,5 +81,10 @@ class ChargeResponse
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    public function getView()
+    {
+        return new View\ChargeResponse($this);
     }
 }

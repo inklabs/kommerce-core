@@ -46,4 +46,9 @@ abstract class Payment
     {
         return $this->order;
     }
+
+    /**
+     * @return Entity\View\Payment\Payment
+     */
+    abstract function getView();
 }

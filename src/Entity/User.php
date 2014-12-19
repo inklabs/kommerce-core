@@ -162,4 +162,9 @@ class User
     {
         return $this->tokens;
     }
+
+    public function getView()
+    {
+        return new View\User($this);
+    }
 }

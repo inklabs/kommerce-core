@@ -19,9 +19,10 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $order = new Order(new Cart, $pricing);
         $orderItem->setOrder($order);
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Price', $orderItem->getPrice());
+        $this->assertTrue($orderItem->getPrice() instanceof Price);
         $this->assertEquals('', $orderItem->getDiscountNames());
         $this->assertEquals(null, $orderItem->getId());
+        $this->assertTrue($orderItem->getProduct() instanceof Product);
     }
 
     public function testCreateOrderItemWithDiscounts()

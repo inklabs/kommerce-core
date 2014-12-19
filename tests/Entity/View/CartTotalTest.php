@@ -18,7 +18,7 @@ class CartTotalTest extends \PHPUnit_Framework_TestCase
         $entityCartTotal->coupons = [new Entity\Coupon];
         $entityCartTotal->cartPriceRules = [new Entity\CartPriceRule];
 
-        $cartTotal = CartTotal::factory($entityCartTotal)
+        $cartTotal = $entityCartTotal->getView()
             ->withAllData()
             ->export();
 
