@@ -3,13 +3,21 @@ namespace inklabs\kommerce\Entity;
 
 class UserToken
 {
-    use Accessor\Created;
+    use Accessor\Time;
 
     protected $id;
     protected $userAgent;
     protected $token;
-    protected $type;
     protected $expires;
+
+    protected $type;
+    const TYPE_GOOGLE   = 0;
+    const TYPE_FACEBOOK = 1;
+    const TYPE_TWITTER  = 2;
+    const TYPE_YAHOO    = 3;
+
+    /* @var User */
+    protected $user;
 
     public function __construct()
     {
@@ -43,7 +51,7 @@ class UserToken
 
     public function setType($type)
     {
-        $this->type = $type;
+        $this->type = (int) $type;
     }
 
     public function getType()
@@ -51,13 +59,37 @@ class UserToken
         return $this->type;
     }
 
-    public function setExpires($expires)
+    public function setExpires(\DateTime $expires = null)
     {
-        $this->expires = $expires;
+        if ($expires === null) {
+            $this->expires = null;
+            return;
+        }
+
+        $this->expires = $expires->gettimestamp();
     }
 
+    /**
+     * @return \DateTime|null
+     */
     public function getExpires()
     {
-        return $this->expires;
+        if ($this->expires === null) {
+            return null;
+        }
+
+        $expires = new \DateTime();
+        $expires->setTimestamp($this->expires);
+        return $expires;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 }

@@ -62,8 +62,23 @@
             </options>
         </field>
 
-        <!--protected $roles;-->
-        <!--protected $tokens;-->
+        <one-to-many field="logins" target-entity="UserLogin" mapped-by="user">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+
+        <one-to-many field="tokens" target-entity="UserToken" mapped-by="user">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+
+        <one-to-many field="roles" target-entity="UserRole" mapped-by="user">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
 
     </entity>
 

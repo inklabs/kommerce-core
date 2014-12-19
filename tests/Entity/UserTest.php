@@ -14,7 +14,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->setFirstName('John');
         $user->setLastName('Doe');
         $user->setLastLogin(new \DateTime);
-        $user->addRole(new Role);
+        $user->addRole(new UserRole);
         $user->addToken(new UserToken);
 
         $this->assertEquals(1, $user->getId());
@@ -26,8 +26,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Doe', $user->getLastName());
         $this->assertEquals(0, $user->getTotalLogins());
         $this->assertTrue($user->getLastLogin() > 0);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Role', $user->getRoles()[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\UserToken', $user->getTokens()[0]);
+        $this->assertTrue($user->getRoles()[0] instanceof UserRole);
+        $this->assertTrue($user->getTokens()[0] instanceof UserToken);
     }
 
     public function testVerifyPassword()

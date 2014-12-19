@@ -5,7 +5,7 @@ class RoleTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $role = new Role;
+        $role = new UserRole;
         $role->setid(1);
         $role->setName('admin');
         $role->setDescription('Test Description');

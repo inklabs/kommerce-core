@@ -1,13 +1,16 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-class Role
+class UserRole
 {
     use Accessor\Time;
 
     protected $id;
     protected $name;
     protected $description;
+
+    /* @var User */
+    protected $user;
 
     public function __construct()
     {
@@ -26,7 +29,7 @@ class Role
 
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
     }
 
     public function getName()
@@ -36,11 +39,21 @@ class Role
 
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = (string) $description;
     }
 
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 }
