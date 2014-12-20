@@ -161,4 +161,9 @@ class Cart
         $cartCalculator = new CartCalculator($this);
         return $cartCalculator->getTotal($pricing, $shippingRate, $taxRate);
     }
+
+    public function getView()
+    {
+        return new View\Cart($this);
+    }
 }

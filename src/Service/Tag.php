@@ -24,7 +24,7 @@ class Tag extends Lib\EntityManager
             return null;
         }
 
-        return Entity\View\Tag::factory($entityTag)
+        return $entityTag->getView()
             ->export();
     }
 }

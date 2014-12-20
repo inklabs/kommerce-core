@@ -12,6 +12,7 @@ class Attribute
     protected $description;
     protected $sortOrder;
 
+    /* @var AttributeValue[] */
     protected $attributeValues;
 
     public function __construct()
@@ -68,5 +69,10 @@ class Attribute
     public function getAttributeValues()
     {
         return $this->attributeValues;
+    }
+
+    public function getView()
+    {
+        return new View\Attribute($this);
     }
 }

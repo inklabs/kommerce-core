@@ -18,6 +18,6 @@ class OrderAddressTest extends \PHPUnit_Framework_TestCase
         $orderAddress->phone = '555-123-4567';
         $orderAddress->email = 'john@example.com';
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\OrderAddress', $orderAddress);
+        $this->assertTrue($orderAddress instanceof OrderAddress);
     }
 }

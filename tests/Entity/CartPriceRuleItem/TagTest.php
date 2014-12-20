@@ -8,7 +8,7 @@ class TagTestTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $priceRule = new Tag(new Entity\Tag, 1);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Tag', $priceRule->getTag());
+        $this->assertTrue($priceRule->getTag() instanceof Entity\Tag);
     }
 
     /**
@@ -86,6 +86,6 @@ class TagTestTest extends \PHPUnit_Framework_TestCase
     {
         $tag1 = $this->getTag(1);
         $priceRule = new Tag($tag1, 1);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Tag', $priceRule->getTag());
+        $this->assertTrue($priceRule->getTag() instanceof Entity\Tag);
     }
 }

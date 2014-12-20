@@ -160,7 +160,7 @@ class Cart extends Lib\EntityManager
     {
         $viewCartItems = [];
         foreach ($this->cart->getItems() as $cartItem) {
-            $viewCartItems[] = Entity\View\CartItem::factory($cartItem)
+            $viewCartItems[] = $cartItem->getView()
                 ->withAllData($this->pricing)
                 ->export();
         }
@@ -191,7 +191,7 @@ class Cart extends Lib\EntityManager
             return null;
         }
 
-        return Entity\View\CartItem::factory($cartItem)
+        return $cartItem->getView()
             ->withAllData($this->pricing)
             ->export();
     }
@@ -266,7 +266,7 @@ class Cart extends Lib\EntityManager
      */
     public function getView()
     {
-        return Entity\View\Cart::factory($this->cart)
+        return $this->cart->getView()
             ->withAllData($this->pricing, $this->shippingRate, $this->taxRate)
             ->export();
     }

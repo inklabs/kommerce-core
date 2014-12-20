@@ -18,25 +18,16 @@ class PricingTest extends Helper\DoctrineTestCase
         $catalogPromotion->setType('fixed');
         $pricing->setCatalogPromotions([$catalogPromotion]);
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Price', $pricing->getPrice(new Entity\Product, 1));
-        $this->assertInstanceOf('DateTime', $pricing->getDate());
-        $this->assertInstanceOf(
-            'inklabs\kommerce\Entity\ProductQuantityDiscount',
-            $pricing->getProductQuantityDiscounts()[0]
-        );
-        $this->assertInstanceOf(
-            'inklabs\kommerce\Entity\CatalogPromotion',
-            $pricing->getCatalogPromotions()[0]
-        );
+        $this->assertTrue($pricing->getPrice(new Entity\Product, 1) instanceof Entity\Price);
+        $this->assertTrue($pricing->getDate() instanceof \DateTime);
+        $this->assertTrue($pricing->getProductQuantityDiscounts()[0] instanceof Entity\ProductQuantityDiscount);
+        $this->assertTrue($pricing->getCatalogPromotions()[0] instanceof Entity\CatalogPromotion);
     }
 
     public function testCreateWithEmptyDate()
     {
         $pricing = new Pricing;
-        $this->assertInstanceOf(
-            'inklabs\kommerce\Entity\Price',
-            $pricing->getPrice(new Entity\Product, 1)
-        );
+        $this->assertTrue($pricing->getPrice(new Entity\Product, 1) instanceof Entity\Price);
     }
 
     public function testLoadCatalogPromotions()
@@ -53,9 +44,6 @@ class PricingTest extends Helper\DoctrineTestCase
         $pricing = new Pricing;
         $pricing->loadCatalogPromotions($this->entityManager);
 
-        $this->assertInstanceOf(
-            'inklabs\kommerce\Entity\CatalogPromotion',
-            $pricing->getCatalogPromotions()[0]
-        );
+        $this->assertTrue($pricing->getCatalogPromotions()[0] instanceof Entity\CatalogPromotion);
     }
 }

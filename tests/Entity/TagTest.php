@@ -23,7 +23,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $tag->getSortOrder());
         $this->assertTrue($tag->getIsVisible());
         $this->assertTrue($tag->getIsActive());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $tag->getProducts()[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Image', $tag->getImages()[0]);
+        $this->assertTrue($tag->getProducts()[0] instanceof Product);
+        $this->assertTrue($tag->getImages()[0] instanceof Image);
     }
 }

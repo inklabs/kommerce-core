@@ -29,7 +29,7 @@ class KommerceTest extends Helper\DoctrineTestCase
 
     public function testGetEntityManager()
     {
-        $this->assertInstanceOf('Doctrine\ORM\EntityManager', $this->kommerce->getEntityManager());
+        $this->assertTrue($this->kommerce->getEntityManager() instanceof Doctrine\ORM\EntityManager);
     }
 
     public function testSetupSqlLogger()
@@ -40,14 +40,14 @@ class KommerceTest extends Helper\DoctrineTestCase
     public function testService()
     {
         $tag = $this->kommerce->service('Tag');
-        $this->assertInstanceOf('inklabs\kommerce\Service\Tag', $tag);
+        $this->assertTrue($tag instanceof Tag);
     }
 
     public function testPricingService()
     {
         $this->kommerce->setupPricing();
         $product = $this->kommerce->pricingService('Product');
-        $this->assertInstanceOf('inklabs\kommerce\Service\Product', $product);
+        $this->assertTrue($product instanceof Product);
     }
 
     public function testPricingSessionService()
@@ -55,14 +55,14 @@ class KommerceTest extends Helper\DoctrineTestCase
         $this->kommerce->setSessionManager(new Lib\ArraySessionManager);
         $this->kommerce->setupPricing();
         $cart = $this->kommerce->pricingSessionService('Cart');
-        $this->assertInstanceOf('inklabs\kommerce\Service\Cart', $cart);
+        $this->assertTrue($cart instanceof Cart);
     }
 
     public function testSessionService()
     {
         $this->kommerce->setSessionManager(new Lib\ArraySessionManager);
         $user = $this->kommerce->sessionService('User');
-        $this->assertInstanceOf('inklabs\kommerce\Service\User', $user);
+        $this->assertTrue($user instanceof User);
     }
 
     public function testAddSqliteFunctions()

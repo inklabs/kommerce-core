@@ -21,16 +21,9 @@ class Order
 
         $this->id              = $order->getId();
         $this->total           = $order->getTotal()->getView()->export();
-        $this->shippingAddress = $order->getShippingAddress()->getView()->export();
-        $this->billingAddress  = $order->getBillingAddress()->getView()->export();
+        $this->shippingAddress = $order->getShippingAddress()->getView();
+        $this->billingAddress  = $order->getBillingAddress()->getView();
         $this->status          = $order->getStatus();
-
-        return $this;
-    }
-
-    public static function factory(Entity\Order $order)
-    {
-        return new static($order);
     }
 
     public function export()
@@ -53,7 +46,8 @@ class Order
     {
         foreach ($this->order->getItems() as $orderItem) {
             $this->items[] = $orderItem->getView()
-                ->withAllData();
+                ->withAllData()
+                ->export();
         }
         return $this;
     }
@@ -82,7 +76,6 @@ class Order
             ->withUser()
             ->withItems()
             ->withPayments()
-            ->withCoupons()
-            ->export();
+            ->withCoupons();
     }
 }

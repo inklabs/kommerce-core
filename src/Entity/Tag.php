@@ -126,4 +126,9 @@ class Tag
     {
         return $this->isVisible;
     }
+
+    public function getView()
+    {
+        return new View\Tag($this);
+    }
 }

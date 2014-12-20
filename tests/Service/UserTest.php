@@ -67,6 +67,6 @@ class UserTest extends Helper\DoctrineTestCase
 
     public function testGetView()
     {
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\User', $this->userService->getView());
+        $this->assertTrue($this->userService->getView() instanceof Entity\View\User);
     }
 }

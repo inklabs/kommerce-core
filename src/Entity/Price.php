@@ -50,4 +50,9 @@ class Price
 
         return $price;
     }
+
+    public function getView()
+    {
+        return new View\Price($this);
+    }
 }

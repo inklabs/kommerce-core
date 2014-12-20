@@ -7,13 +7,13 @@ class OptionSelectorTest extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getMockForTrait('inklabs\kommerce\Entity\OptionSelector');
         $mock->addOption(new Option);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Option', $mock->getOptions()[0]);
+        $this->assertTrue($mock->getOptions()[0] instanceof Option);
     }
 
     public function testAddProduct()
     {
         $mock = $this->getMockForTrait('inklabs\kommerce\Entity\OptionSelector');
         $mock->addProduct(new Product);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $mock->getProducts()[0]);
+        $this->assertTrue($mock->getProducts()[0] instanceof Product);
     }
 }

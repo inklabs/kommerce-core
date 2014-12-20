@@ -13,11 +13,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $price->addCatalogPromotion(new CatalogPromotion);
         $price->setProductQuantityDiscount(new ProductQuantityDiscount);
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\CatalogPromotion', $price->getCatalogPromotions()[0]);
-        $this->assertInstanceOf(
-            'inklabs\kommerce\Entity\ProductQuantityDiscount',
-            $price->getProductQuantityDiscount()
-        );
+        $this->assertTrue($price->getCatalogPromotions()[0] instanceof CatalogPromotion);
+        $this->assertTrue($price->getProductQuantityDiscount() instanceof ProductQuantityDiscount);
     }
 
     public function testAdd()

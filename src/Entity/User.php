@@ -149,7 +149,7 @@ class User
     }
 
     /**
-     * @return UserRole[]
+     * @return ArrayCollection|UserRole[]
      */
     public function getRoles()
     {
@@ -163,7 +163,7 @@ class User
     }
 
     /**
-     * @return UserToken[]
+     * @return ArrayCollection|UserToken[]
      */
     public function getTokens()
     {
@@ -177,11 +177,25 @@ class User
     }
 
     /**
-     * @return UserLogin[]
+     * @return ArrayCollection|UserLogin[]
      */
     public function getLogins()
     {
         return $this->logins;
+    }
+
+    public function addOrder(Order $order)
+    {
+        $order->setUser($this);
+        $this->orders[] = $order;
+    }
+
+    /**
+     * @return ArrayCollection|Order[]
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 
     public function getView()

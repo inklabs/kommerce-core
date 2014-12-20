@@ -19,6 +19,6 @@ class CartTotalTest extends \PHPUnit_Framework_TestCase
         $cartTotal->cartPriceRules = [new CartPriceRule];
         $cartTotal->taxRate = new TaxRate;
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\CartTotal', $cartTotal);
+        $this->assertTrue($cartTotal instanceof CartTotal);
     }
 }

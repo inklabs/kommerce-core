@@ -19,8 +19,6 @@ class OrderAddress
 
     public function __construct(Entity\OrderAddress $orderAddress)
     {
-        $this->orderAddress = $orderAddress;
-
         $this->firstName = $orderAddress->firstName;
         $this->lastName  = $orderAddress->lastName;
         $this->company   = $orderAddress->company;
@@ -32,18 +30,5 @@ class OrderAddress
         $this->zip4      = $orderAddress->zip4;
         $this->phone     = $orderAddress->phone;
         $this->email     = $orderAddress->email;
-
-        return $this;
-    }
-
-    public function export()
-    {
-        unset($this->orderAddress);
-        return $this;
-    }
-
-    public function withAllData()
-    {
-        return $this;
     }
 }

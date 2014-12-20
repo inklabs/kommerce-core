@@ -22,13 +22,6 @@ class Image
         $this->width     = $image->getWidth();
         $this->height    = $image->getHeight();
         $this->sortOrder = $image->getSortOrder();
-
-        return $this;
-    }
-
-    public static function factory(Entity\Image $image)
-    {
-        return new static($image);
     }
 
     public function export()
@@ -41,7 +34,7 @@ class Image
     {
         $product = $this->image->getProduct();
         if (! empty($product)) {
-            $this->product = Product::factory($product)
+            $this->product = $product->getView()
                 ->export();
         }
         return $this;
@@ -51,7 +44,7 @@ class Image
     {
         $tag = $this->image->getTag();
         if (! empty($tag)) {
-            $this->tag = Tag::factory($tag)
+            $this->tag = $tag->getView()
                 ->export();
         }
         return $this;

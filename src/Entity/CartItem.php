@@ -60,4 +60,9 @@ class CartItem
     {
         return ($this->product->getShippingWeight() * $this->quantity);
     }
+
+    public function getView()
+    {
+        return new View\CartItem($this);
+    }
 }

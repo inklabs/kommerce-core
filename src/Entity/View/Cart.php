@@ -28,13 +28,6 @@ class Cart
         $this->totalItems     = $cart->totalItems();
         $this->totalQuantity  = $cart->totalQuantity();
         $this->shippingWeight = $cart->getShippingWeight();
-
-        return $this;
-    }
-
-    public static function factory(Entity\Cart $cart)
-    {
-        return new static($cart);
     }
 
     public function export()
@@ -55,7 +48,7 @@ class Cart
     public function withCartItems(Pricing $pricing)
     {
         foreach ($this->cart->getItems() as $cartItem) {
-            $this->items[$cartItem->getId()] = CartItem::factory($cartItem)
+            $this->items[$cartItem->getId()] = $cartItem->getView()
                 ->withAllData($pricing)
                 ->export();
         }
@@ -66,13 +59,12 @@ class Cart
     public function withCoupons()
     {
         foreach ($this->cart->getCoupons() as $key => $coupon) {
-            $this->coupons[$key] = Coupon::factory($coupon)
+            $this->coupons[$key] = $coupon->getView()
                 ->export();
         }
 
         return $this;
     }
-
 
     public function withAllData(Pricing $pricing, Shipping\Rate $shippingRate = null, Entity\TaxRate $taxRate = null)
     {

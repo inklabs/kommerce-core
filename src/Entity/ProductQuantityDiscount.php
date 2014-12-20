@@ -105,4 +105,9 @@ class ProductQuantityDiscount extends Promotion
             return false;
         }
     }
+
+    public function getView()
+    {
+        return new View\ProductQuantityDiscount($this);
+    }
 }

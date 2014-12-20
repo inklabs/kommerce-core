@@ -10,6 +10,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $order = new Entity\Order(new Entity\Cart, new Service\Pricing);
 
+        /* @var $mock Payment */
         $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Payment\Payment');
         $mock->setId(1);
         $mock->setAmount(100);
@@ -17,6 +18,6 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, $mock->getId());
         $this->assertEquals(100, $mock->getAmount());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Order', $mock->getOrder());
+        $this->assertTrue($mock->getOrder() instanceof Entity\Order);
     }
 }

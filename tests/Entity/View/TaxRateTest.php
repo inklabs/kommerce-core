@@ -8,8 +8,8 @@ class TaxRateTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $entityTaxRate = new Entity\TaxRate;
-        $taxRate = TaxRate::factory($entityTaxRate);
+        $taxRate = $entityTaxRate->getView();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\TaxRate', $taxRate);
+        $this->assertTrue($taxRate instanceof TaxRate);
     }
 }

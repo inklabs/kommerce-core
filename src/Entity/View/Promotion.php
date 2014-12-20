@@ -34,8 +34,6 @@ abstract class Promotion
         $this->updated        = $promotion->getUpdated();
 
         $this->isRedemptionCountValid = $promotion->isRedemptionCountValid();
-
-        return $this;
     }
 
     public function export()

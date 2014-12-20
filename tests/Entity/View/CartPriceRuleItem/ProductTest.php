@@ -13,7 +13,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $cartPriceRuleItem = new Product($entityCartPriceRuleItem);
         $cartPriceRuleItem
-            ->withAllData();
+            ->withAllData()
+            ->export();
 
         $this->assertTrue($cartPriceRuleItem instanceof Product);
         $this->assertTrue($cartPriceRuleItem->product instanceof View\Product);

@@ -65,4 +65,9 @@ class AttributeValue
     {
         return $this->sortOrder;
     }
+
+    public function getView()
+    {
+        return new View\AttributeValue($this);
+    }
 }

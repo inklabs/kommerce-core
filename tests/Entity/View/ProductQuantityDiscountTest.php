@@ -11,11 +11,11 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $entityProductQuantityDiscount = new Entity\ProductQuantityDiscount;
         $entityProductQuantityDiscount->setProduct(new Entity\Product);
 
-        $productQuantityDiscount = ProductQuantityDiscount::factory($entityProductQuantityDiscount)
+        $productQuantityDiscount = $entityProductQuantityDiscount->getView()
             ->withAllData(new Service\Pricing)
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Price', $productQuantityDiscount->price);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Product', $productQuantityDiscount->product);
+        $this->assertTrue($productQuantityDiscount->price instanceof Price);
+        $this->assertTrue($productQuantityDiscount->product instanceof Product);
     }
 }

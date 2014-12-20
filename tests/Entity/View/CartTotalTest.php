@@ -22,8 +22,8 @@ class CartTotalTest extends \PHPUnit_Framework_TestCase
             ->withAllData()
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\CartTotal', $cartTotal);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Coupon', $cartTotal->coupons[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\CartPricerule', $cartTotal->cartPriceRules[0]);
+        $this->assertTrue($cartTotal instanceof CartTotal);
+        $this->assertTrue($cartTotal->coupons[0] instanceof Coupon);
+        $this->assertTrue($cartTotal->cartPriceRules[0] instanceof CartPricerule);
     }
 }

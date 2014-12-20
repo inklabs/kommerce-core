@@ -18,8 +18,8 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, $cartItem->getId());
         $this->assertEquals(2, $cartItem->getQuantity());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $cartItem->getProduct());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Price', $cartItem->getPrice($pricing));
+        $this->assertTrue($cartItem->getProduct() instanceof Product);
+        $this->assertTrue($cartItem->getPrice($pricing) instanceof Price);
         $this->assertEquals(20, $cartItem->getShippingWeight());
     }
 
@@ -28,7 +28,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $cartItem = new CartItem(new Product, 2);
         $cartItem->setProduct(new Product);
         $cartItem->setQuantity(3);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $cartItem->getProduct());
+        $this->assertTrue($cartItem->getProduct() instanceof Product);
         $this->assertEquals(3, $cartItem->getQuantity());
     }
 }

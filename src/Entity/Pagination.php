@@ -3,10 +3,10 @@ namespace inklabs\kommerce\Entity;
 
 class Pagination
 {
-    private $maxResults;
-    private $page;
-    private $total;
-    private $isTotalIncluded;
+    protected $maxResults;
+    protected $page;
+    protected $total;
+    protected $isTotalIncluded;
 
     public function __construct($maxResults = 10, $page = 1)
     {
@@ -56,5 +56,10 @@ class Pagination
         $obj->total           = $this->total;
         $obj->isTotalIncluded = $this->isTotalIncluded;
         return $obj;
+    }
+
+    public function getView()
+    {
+        return new View\Pagination($this);
     }
 }

@@ -60,7 +60,7 @@ class User extends Lib\EntityManager
             return null;
         }
 
-        return Entity\View\User::factory($entityUser)
+        return $entityUser->getView()
             ->withAllData()
             ->export();
     }
@@ -80,7 +80,7 @@ class User extends Lib\EntityManager
      */
     public function getView()
     {
-        return Entity\View\User::factory($this->user)
+        return $this->user->getView()
             ->withAllData()
             ->export();
     }

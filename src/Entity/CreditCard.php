@@ -28,4 +28,9 @@ class CreditCard
     {
         return $this->expirationYear;
     }
+
+    public function getView()
+    {
+        return new View\CreditCard($this);
+    }
 }

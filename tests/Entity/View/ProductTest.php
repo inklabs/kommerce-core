@@ -19,17 +19,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $entityProduct->addProductQuantityDiscount($productQuantityDiscount);
 
-        $product = Product::factory($entityProduct)
+        $product = $entityProduct->getView()
             ->withAllData(new Service\Pricing)
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Tag', $product->tags[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Image', $product->images[0]);
-        $this->assertInstanceOf(
-            'inklabs\kommerce\Entity\View\ProductQuantityDiscount',
-            $product->productQuantityDiscounts[0]
-        );
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Price', $product->price);
+        $this->assertTrue($product->tags[0] instanceof Tag);
+        $this->assertTrue($product->images[0] instanceof Image);
+        $this->assertTrue($product->productQuantityDiscounts[0] instanceof ProductQuantityDiscount);
+        $this->assertTrue($product->price instanceof Price);
     }
 
     public function testWithTagsWithImages()
@@ -37,10 +34,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $entityProduct = new Entity\Product;
         $entityProduct->addTag(new Entity\Tag);
 
-        $product = Product::factory($entityProduct)
+        $product = $entityProduct->getView()
             ->withTagsWithImages(new Service\Pricing)
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Tag', $product->tags[0]);
+        $this->assertTrue($product->tags[0] instanceof Tag);
     }
 }

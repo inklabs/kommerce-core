@@ -29,13 +29,6 @@ class CartItem
         $this->shippingWeight = $cartItem->getShippingWeight();
         $this->created        = $cartItem->getCreated();
         $this->updated        = $cartItem->getUpdated();
-
-        return $this;
-    }
-
-    public static function factory(Entity\CartItem $cartItem)
-    {
-        return new static($cartItem);
     }
 
     public function export()
@@ -46,7 +39,7 @@ class CartItem
 
     public function withPrice(Pricing $pricing)
     {
-        $this->price = Price::factory($this->cartItem->getPrice($pricing))
+        $this->price = $this->cartItem->getPrice($pricing)->getView()
             ->withAllData()
             ->export();
 
@@ -55,7 +48,7 @@ class CartItem
 
     public function withProduct(Pricing $pricing)
     {
-        $this->product = Product::factory($this->cartItem->getProduct())
+        $this->product = $this->cartItem->getProduct()->getView()
             ->withTags()
             ->withProductQuantityDiscounts($pricing)
             ->export();

@@ -37,8 +37,6 @@ class CartTotal
         $this->tax              = $cartTotal->tax;
         $this->total            = $cartTotal->total;
         $this->savings          = $cartTotal->savings;
-
-        return $this;
     }
 
     public function export()
@@ -50,7 +48,7 @@ class CartTotal
     public function withCoupons()
     {
         foreach ($this->cartTotal->coupons as $key => $coupon) {
-            $this->coupons[$key] = Coupon::factory($coupon)
+            $this->coupons[$key] = $coupon->getView()
                 ->export();
         }
 
@@ -60,7 +58,7 @@ class CartTotal
     public function withCartPriceRules()
     {
         foreach ($this->cartTotal->cartPriceRules as $key => $cartPriceRule) {
-            $this->cartPriceRules[$key] = CartPriceRule::factory($cartPriceRule)
+            $this->cartPriceRules[$key] = $cartPriceRule->getView()
                 ->export();
         }
 

@@ -62,10 +62,15 @@
             </options>
         </field>
 
-        <one-to-many field="logins" target-entity="UserLogin" mapped-by="user">
+        <one-to-many field="orders" target-entity="Order" mapped-by="user" fetch="EXTRA_LAZY"/>
+
+        <one-to-many field="logins" target-entity="UserLogin" mapped-by="user" fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>
+            <order-by>
+                <order-by-field name="id" direction="DESC"/>
+            </order-by>
         </one-to-many>
 
         <one-to-many field="tokens" target-entity="UserToken" mapped-by="user">

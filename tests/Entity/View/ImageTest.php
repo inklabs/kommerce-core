@@ -11,11 +11,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $entityImage->setProduct(new Entity\Product);
         $entityImage->setTag(new Entity\Tag);
 
-        $image = Image::factory($entityImage)
+        $image = $entityImage->getView()
             ->withAllData()
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Product', $image->product);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Tag', $image->tag);
+        $this->assertTrue($image->product instanceof Product);
+        $this->assertTrue($image->tag instanceof Tag);
     }
 }

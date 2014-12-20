@@ -12,8 +12,9 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $entityCartPriceRule->addItem(new Entity\CartPriceRuleItem\Tag(new Entity\Tag, 1));
         $entityCartPriceRule->addDiscount(new Entity\CartPriceruleDiscount(new Entity\Product));
 
-        $cartPriceRule = CartPriceRule::factory($entityCartPriceRule)
-            ->withAllData();
+        $cartPriceRule = $entityCartPriceRule->getView()
+            ->withAllData()
+            ->export();
 
         $this->assertTrue($cartPriceRule instanceof CartPriceRule);
         $this->assertTrue($cartPriceRule->cartPriceRuleItems[0] instanceof CartPriceRuleItem\Product);

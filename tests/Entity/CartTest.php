@@ -20,7 +20,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testCreateCart()
     {
         $cart = new Cart;
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Cart', $cart);
+        $this->assertTrue($cart instanceof Cart);
     }
 
     public function testAddItem()
@@ -34,7 +34,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(0, $itemId1);
         $this->assertEquals(1, $itemId2);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\CartItem', $cart->getItem(0));
+        $this->assertTrue($cart->getItem(0) instanceof CartItem);
         $this->assertEquals(2, count($cart->getItems()));
     }
 
@@ -194,6 +194,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $cart = new Cart;
         $cart->addItem($product, 2);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\CartTotal', $cart->getTotal(new Pricing));
+        $this->assertTrue($cart->getTotal(new Pricing) instanceof CartTotal);
     }
 }

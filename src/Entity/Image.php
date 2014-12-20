@@ -97,4 +97,9 @@ class Image
     {
         return $this->tag;
     }
+
+    public function getView()
+    {
+        return new View\Image($this);
+    }
 }

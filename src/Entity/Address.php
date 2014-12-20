@@ -113,4 +113,9 @@ class Address
     {
         $this->longitude = (float) $longitude;
     }
+
+    public function getView()
+    {
+        return new View\Address($this);
+    }
 }
