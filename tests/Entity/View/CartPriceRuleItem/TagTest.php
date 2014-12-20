@@ -13,7 +13,8 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
         $cartPriceRuleItem = new Tag($entityCartPriceRuleItem);
         $cartPriceRuleItem
-            ->withAllData();
+            ->withAllData()
+            ->export();
 
         $this->assertTrue($cartPriceRuleItem instanceof Tag);
         $this->assertTrue($cartPriceRuleItem->tag instanceof View\Tag);

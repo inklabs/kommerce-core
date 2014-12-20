@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+// TODO: Make Abstract
 class Promotion
 {
     use Accessor\Time;

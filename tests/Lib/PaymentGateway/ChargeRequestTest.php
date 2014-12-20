@@ -17,6 +17,6 @@ class ChargeRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2000, $chargeRequest->getAmount());
         $this->assertEquals('usd', $chargeRequest->getCurrency());
         $this->assertEquals('test@example.com', $chargeRequest->getDescription());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\CreditCard', $chargeRequest->getCreditCard());
+        $this->assertTrue($chargeRequest->getCreditCard() instanceof Entity\CreditCard);
     }
 }

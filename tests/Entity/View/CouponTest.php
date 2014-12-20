@@ -9,9 +9,9 @@ class CouponTest extends \PHPUnit_Framework_TestCase
     {
         $entityCoupon = new Entity\Coupon;
 
-        $coupon = Coupon::factory($entityCoupon)
+        $coupon = $entityCoupon->getView()
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Coupon', $coupon);
+        $this->assertTrue($coupon instanceof Coupon);
     }
 }

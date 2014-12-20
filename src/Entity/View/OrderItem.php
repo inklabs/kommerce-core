@@ -28,13 +28,6 @@ class OrderItem
         $this->discountNames = $orderItem->getDiscountNames();
 
         $this->productQuantityDiscount = $orderItem->getProductQuantityDiscount();
-
-        return $this;
-    }
-
-    public static function factory(Entity\OrderItem $orderItem)
-    {
-        return new static($orderItem);
     }
 
     public function export()
@@ -55,7 +48,6 @@ class OrderItem
     public function withAllData()
     {
         return $this
-            ->withCatalogPromotions()
-            ->export();
+            ->withCatalogPromotions();
     }
 }

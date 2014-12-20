@@ -19,7 +19,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(400, $image->getWidth());
         $this->assertEquals(200, $image->getHeight());
         $this->assertEquals(0, $image->getSortOrder());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $image->getProduct());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Tag', $image->getTag());
+        $this->assertTrue($image->getProduct() instanceof Product);
+        $this->assertTrue($image->getTag() instanceof Tag);
     }
 }

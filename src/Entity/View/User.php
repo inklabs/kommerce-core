@@ -15,11 +15,14 @@ class User
     public $lastLogin;
     public $status;
 
-    /* @var Role[] */
+    /* @var UserRole[] */
     public $roles = [];
 
-    /* @var Token[] */
+    /* @var UserToken[] */
     public $tokens = [];
+
+    /* @var UserLogin[] */
+    public $logins = [];
 
     public function __construct(Entity\User $user)
     {
@@ -33,13 +36,6 @@ class User
         $this->totalLogins = $user->getTotalLogins();
         $this->lastLogin   = $user->getLastLogin();
         $this->status      = $user->getStatus();
-
-        return $this;
-    }
-
-    public static function factory(Entity\User $user)
-    {
-        return new static($user);
     }
 
     public function export()
@@ -50,19 +46,28 @@ class User
 
     public function withRoles()
     {
-//        foreach ($this->user->getRoles() as $role) {
-//            $this->roles[] = Role::factory($role)
-//                ->export();
-//        }
+        foreach ($this->user->getRoles() as $role) {
+            $this->roles[] = $role->getView()
+                ->export();
+        }
         return $this;
     }
 
     public function withTokens()
     {
-//        foreach ($this->user->getTokens() as $token) {
-//            $this->tokens[] = Token::factory($token)
-//                ->export();
-//        }
+        foreach ($this->user->getTokens() as $token) {
+            $this->tokens[] = $token->getView()
+                ->export();
+        }
+        return $this;
+    }
+
+    public function withLogins()
+    {
+        foreach ($this->user->getLogins() as $login) {
+            $this->logins[] = $login->getView()
+                ->export();
+        }
         return $this;
     }
 
@@ -70,6 +75,7 @@ class User
     {
         return $this
             ->withRoles()
-            ->withTokens();
+            ->withTokens()
+            ->withLogins();
     }
 }

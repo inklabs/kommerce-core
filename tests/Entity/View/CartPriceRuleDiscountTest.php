@@ -12,7 +12,8 @@ class CartPriceRuleDiscountTest extends \PHPUnit_Framework_TestCase
 
         $cartPriceRuleDiscount = new CartPriceRuleDiscount($entityCartPriceRuleDiscount);
         $cartPriceRuleDiscount
-            ->withAllData();
+            ->withAllData()
+            ->export();
 
         $this->assertTrue($cartPriceRuleDiscount instanceof CartPriceRuleDiscount);
         $this->assertTrue($cartPriceRuleDiscount->product instanceof Product);

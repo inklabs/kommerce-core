@@ -11,14 +11,11 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $entityPrice->addCatalogPromotion(new Entity\CatalogPromotion);
         $entityPrice->setProductQuantityDiscount(new Entity\ProductQuantityDiscount);
 
-        $price = Price::factory($entityPrice)
+        $price = $entityPrice->getView()
             ->withAllData()
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\CatalogPromotion', $price->catalogPromotions[0]);
-        $this->assertInstanceOf(
-            'inklabs\kommerce\Entity\View\ProductQuantityDiscount',
-            $price->productQuantityDiscount
-        );
+        $this->assertTrue($price->catalogPromotions[0] instanceof CatalogPromotion);
+        $this->assertTrue($price->productQuantityDiscount instanceof ProductQuantityDiscount);
     }
 }

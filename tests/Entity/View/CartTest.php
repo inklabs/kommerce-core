@@ -17,12 +17,12 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $entityCart->addCoupon($coupon);
 
-        $cart = Cart::factory($entityCart)
+        $cart = $entityCart->getView()
             ->withAllData(new Service\Pricing)
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\CartTotal', $cart->cartTotal);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\CartItem', $cart->items[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Coupon', $cart->coupons[0]);
+        $this->assertTrue($cart->cartTotal instanceof CartTotal);
+        $this->assertTrue($cart->items[0] instanceof CartItem);
+        $this->assertTrue($cart->coupons[0] instanceof Coupon);
     }
 }

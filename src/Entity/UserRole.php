@@ -56,4 +56,9 @@ class UserRole
     {
         return $this->user;
     }
+
+    public function getView()
+    {
+        return new View\UserRole($this);
+    }
 }

@@ -7,14 +7,14 @@ class UpdatedTest extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\Accessor\Updated');
         $mock->setUpdated(new \DateTime);
-        $this->assertInstanceOf('DateTime', $mock->getUpdated());
+        $this->assertTrue($mock->getUpdated() instanceof \DateTime);
     }
 
     public function testSetUpdatedWithNull()
     {
         $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\Accessor\Updated');
         $mock->setUpdated();
-        $this->assertInstanceOf('DateTime', $mock->getUpdated());
+        $this->assertTrue($mock->getUpdated() instanceof \DateTime);
     }
 
     public function testGetUpdatedWithNull()

@@ -10,11 +10,11 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
     {
         $entityCartItem = new Entity\CartItem(new Entity\Product, 1);
 
-        $cartitem = CartItem::factory($entityCartItem)
+        $cartitem = $entityCartItem->getView()
             ->withAllData(new Service\Pricing)
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Price', $cartitem->price);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Product', $cartitem->product);
+        $this->assertTrue($cartitem->price instanceof Price);
+        $this->assertTrue($cartitem->product instanceof Product);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Service as Service;
+
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -16,6 +18,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->setLastLogin(new \DateTime);
         $user->addRole(new UserRole);
         $user->addToken(new UserToken);
+        $user->addLogin(new UserLogin);
+        $user->addOrder(new Order(new Cart, new Service\Pricing));
 
         $this->assertEquals(1, $user->getId());
         $this->assertEquals(User::STATUS_ACTIVE, $user->getStatus());
@@ -28,6 +32,9 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($user->getLastLogin() > 0);
         $this->assertTrue($user->getRoles()[0] instanceof UserRole);
         $this->assertTrue($user->getTokens()[0] instanceof UserToken);
+        $this->assertTrue($user->getLogins()[0] instanceof UserLogin);
+        $this->assertTrue($user->getOrders()[0] instanceof Order);
+        $this->assertTrue($user->getView() instanceof View\User);
     }
 
     public function testVerifyPassword()

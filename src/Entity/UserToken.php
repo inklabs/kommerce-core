@@ -92,4 +92,9 @@ class UserToken
     {
         return $this->user;
     }
+
+    public function getView()
+    {
+        return new View\UserToken($this);
+    }
 }

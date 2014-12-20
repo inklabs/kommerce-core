@@ -37,12 +37,12 @@ class CartTest extends Helper\DoctrineTestCase
         $this->assertEquals(2, $cart->totalQuantity());
         $this->assertEquals(32, $cart->getShippingWeight());
         $this->assertEquals(2, $cart->getShippingWeightInPounds());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\CartTotal', $cart->getTotal());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Coupon', $cart->getCoupons()[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\CartItem', $cart->getItems()[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\CartItem', $cart->getItem(0));
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Product', $cart->getProducts()[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Cart', $cart->getView());
+        $this->assertTrue($cart->getTotal() instanceof Entity\CartTotal);
+        $this->assertTrue($cart->getCoupons()[0] instanceof Entity\Coupon);
+        $this->assertTrue($cart->getItems()[0] instanceof Entity\View\CartItem);
+        $this->assertTrue($cart->getItem(0) instanceof Entity\View\CartItem);
+        $this->assertTrue($cart->getProducts()[0] instanceof Entity\View\Product);
+        $this->assertTrue($cart->getView() instanceof Entity\View\Cart);
     }
 
     /**
@@ -69,7 +69,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->entityManager->persist($this->product);
         $this->entityManager->flush();
 
-        return Entity\View\Product::factory($this->product)
+        return $this->product->getView()
             ->export();
     }
 

@@ -8,7 +8,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $priceRule = new Product(new Entity\Product, 1);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $priceRule->getProduct());
+        $this->assertTrue($priceRule->getProduct() instanceof Entity\Product);
     }
 
     /**

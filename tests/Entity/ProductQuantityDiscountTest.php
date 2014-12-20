@@ -16,7 +16,7 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $productQuantityDiscount->getCustomerGroup());
         $this->assertEquals(6, $productQuantityDiscount->getQuantity());
         $this->assertEquals(true, $productQuantityDiscount->getFlagApplyCatalogPromotions());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $productQuantityDiscount->getProduct());
+        $this->assertTrue($productQuantityDiscount->getProduct() instanceof Product);
     }
 
     /**
@@ -81,9 +81,6 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscount = new ProductQuantityDiscount;
         $productQuantityDiscount->setProduct(new Product);
         $productQuantityDiscount->setQuantity(1);
-        $this->assertInstanceOf(
-            'inklabs\kommerce\Entity\Price',
-            $productQuantityDiscount->getPrice(new Service\Pricing)
-        );
+        $this->assertTrue($productQuantityDiscount->getPrice(new Service\Pricing) instanceof Price);
     }
 }

@@ -12,6 +12,6 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\View\Promotion', [$entityPromotion])
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Promotion', $mock);
+        $this->assertTrue($mock instanceof Promotion);
     }
 }

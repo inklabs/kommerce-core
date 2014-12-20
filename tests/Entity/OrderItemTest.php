@@ -52,7 +52,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $order = new Order(new Cart, $pricing);
         $orderItem->setOrder($order);
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Price', $orderItem->getPrice());
+        $this->assertTrue($orderItem->getPrice() instanceof Price);
         $this->assertEquals('10% OFF, Buy 2 or more for $4.00 each', $orderItem->getDiscountNames());
         $this->assertEquals(null, $orderItem->getId());
     }

@@ -76,4 +76,9 @@ class UserLogin
     {
         return $this->result;
     }
+
+    public function getView()
+    {
+        return new View\UserLogin($this);
+    }
 }

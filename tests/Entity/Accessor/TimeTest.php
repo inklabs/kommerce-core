@@ -7,6 +7,6 @@ class TimeTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\Accessor\Time');
-        $this->assertInstanceOf('DateTime', $mock->getCreated());
+        $this->assertTrue($mock->getCreated() instanceof \DateTime);
     }
 }

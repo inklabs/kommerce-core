@@ -11,8 +11,7 @@ class Credit extends Payment
     {
         parent::__construct($credit);
 
-        $this->charge = $credit->getCharge()->getView()
-            ->export();
+        $this->charge = $credit->getCharge()->getView();
 
         return $this;
     }

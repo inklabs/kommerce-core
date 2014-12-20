@@ -18,7 +18,7 @@ class Tag extends Item
     {
         $tag = $this->item->getTag();
         if (! empty($tag)) {
-            $this->tag = View\Tag::factory($tag)
+            $this->tag = $tag->getView()
                 ->export();
         }
         return $this;

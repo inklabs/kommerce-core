@@ -97,4 +97,9 @@ class TaxRate
 
         return (int) round($newTaxSubtotal * ($this->rate / 100));
     }
+
+    public function getView()
+    {
+        return new View\TaxRate($this);
+    }
 }

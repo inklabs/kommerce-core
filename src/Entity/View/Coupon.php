@@ -20,12 +20,5 @@ class Coupon extends Promotion
         $this->minOrderValue    = $coupon->getMinOrderValue();
         $this->maxOrderValue    = $coupon->getMaxOrderValue();
         $this->canCombineWithOtherCoupons = $coupon->getCanCombineWithOtherCoupons();
-
-        return $this;
-    }
-
-    public static function factory(Entity\Coupon $coupon)
-    {
-        return new static($coupon);
     }
 }

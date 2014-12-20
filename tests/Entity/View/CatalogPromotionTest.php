@@ -10,10 +10,10 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $entityCatalogPromotion = new Entity\CatalogPromotion;
         $entityCatalogPromotion->setTag(new Entity\Tag);
 
-        $catalogPromotion = CatalogPromotion::factory($entityCatalogPromotion)
+        $catalogPromotion = $entityCatalogPromotion->getView()
             ->withAllData()
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Tag', $catalogPromotion->tag);
+        $this->assertTrue($catalogPromotion->tag instanceof Tag);
     }
 }

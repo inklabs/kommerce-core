@@ -6,7 +6,7 @@ class VirtualProductTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $virtualProduct = new VirtualProduct;
-        $this->assertInstanceOf('inklabs\kommerce\Entity\VirtualProduct', $virtualProduct);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $virtualProduct);
+        $this->assertTrue($virtualProduct instanceof VirtualProduct);
+        $this->assertTrue($virtualProduct instanceof Product);
     }
 }

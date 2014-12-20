@@ -32,7 +32,7 @@ class Product extends Lib\EntityManager
             return null;
         }
 
-        return Entity\View\Product::factory($entityProduct)
+        return $entityProduct->getView()
             ->withAllData($this->pricing)
             ->export();
     }
@@ -101,7 +101,7 @@ class Product extends Lib\EntityManager
     {
         $viewProducts = [];
         foreach ($products as $product) {
-            $viewProducts[] = Entity\View\Product::factory($product)
+            $viewProducts[] = $product->getView()
                 ->withPrice($this->pricing)
                 ->export();
         }

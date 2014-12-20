@@ -84,4 +84,9 @@ class Option
     {
         return $this->products;
     }
+
+    public function getView()
+    {
+        return new View\Option($this);
+    }
 }

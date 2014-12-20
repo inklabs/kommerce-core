@@ -18,6 +18,6 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('radio', $option->getType());
         $this->assertEquals('Shirt Size', $option->getDescription());
         $this->assertEquals(0, $option->getSortOrder());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Product', $option->getProducts()[0]);
+        $this->assertTrue($option->getProducts()[0] instanceof Product);
     }
 }

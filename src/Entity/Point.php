@@ -48,4 +48,9 @@ class Point
 
         return [$upperLeft, $bottomRight];
     }
+
+    public function getView()
+    {
+        return new View\Point($this);
+    }
 }

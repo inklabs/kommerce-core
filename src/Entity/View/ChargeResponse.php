@@ -16,8 +16,6 @@ class ChargeResponse
 
     public function __construct(Lib\PaymentGateway\ChargeResponse $chargeResponse)
     {
-        $this->chargeResponse = $chargeResponse;
-
         $this->id          = $chargeResponse->getId();
         $this->created     = $chargeResponse->getCreated();
         $this->amount      = $chargeResponse->getAmount();
@@ -25,13 +23,5 @@ class ChargeResponse
         $this->currency    = $chargeResponse->getCurrency();
         $this->fee         = $chargeResponse->getFee();
         $this->description = $chargeResponse->getDescription();
-
-        return $this;
-    }
-
-    public function export()
-    {
-        unset($this->chargeResponse);
-        return $this;
     }
 }

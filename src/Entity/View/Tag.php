@@ -34,13 +34,6 @@ class Tag
         $this->defaultImage   = $tag->getDefaultImage();
         $this->sortOrder      = $tag->getSortOrder();
         $this->isVisible      = $tag->getIsVisible();
-
-        return $this;
-    }
-
-    public static function factory(Entity\Tag $tag)
-    {
-        return new static($tag);
     }
 
     public function export()
@@ -52,7 +45,7 @@ class Tag
     public function withImages()
     {
         foreach ($this->tag->getImages() as $image) {
-            $this->images[] = Image::factory($image)
+            $this->images[] = $image->getView()
                 ->export();
         }
         return $this;
@@ -61,7 +54,7 @@ class Tag
     public function withProducts(Pricing $pricing)
     {
         foreach ($this->tag->getProducts() as $product) {
-            $this->products[] = Product::factory($product)
+            $this->products[] = $product->getView()
                 ->withAllData($pricing)
                 ->export();
         }

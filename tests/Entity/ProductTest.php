@@ -42,12 +42,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Test description', $product->getDescription());
         $this->assertEquals(5, $product->getRating());
         $this->assertEquals('http://lorempixel.com/400/200/', $product->getDefaultImage());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Tag', $product->getTags()[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Image', $product->getImages()[0]);
-        $this->assertInstanceOf(
-            'inklabs\kommerce\Entity\ProductQuantityDiscount',
-            $product->getProductQuantityDiscounts()[0]
-        );
+        $this->assertTrue($product->getTags()[0] instanceof Tag);
+        $this->assertTrue($product->getImages()[0] instanceof Image);
+        $this->assertTrue($product->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
     }
 
     public function testInStock()
@@ -77,6 +74,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $product = new Product;
         $product->setQuantity(1);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Price', $product->getPrice(new Service\Pricing));
+        $this->assertTrue($product->getPrice(new Service\Pricing) instanceof Price);
     }
 }

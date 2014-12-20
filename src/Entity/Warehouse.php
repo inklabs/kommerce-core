@@ -48,4 +48,9 @@ class Warehouse
     {
         $this->address = $address;
     }
+
+    public function getView()
+    {
+        return new View\Warehouse($this);
+    }
 }

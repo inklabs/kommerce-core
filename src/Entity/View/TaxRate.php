@@ -26,12 +26,5 @@ class TaxRate
         $this->applyToShipping = $taxRate->getApplyToShipping();
         $this->created         = $taxRate->getCreated();
         $this->updated         = $taxRate->getUpdated();
-
-        return $this;
-    }
-
-    public static function factory(Entity\TaxRate $taxRate)
-    {
-        return new static($taxRate);
     }
 }

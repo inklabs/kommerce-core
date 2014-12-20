@@ -11,11 +11,11 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $entityTag = new Entity\Tag;
         $entityTag->addImage(new Entity\Image);
         $entityTag->addProduct(new Entity\Product);
-        $tag = Tag::factory($entityTag)
+        $tag = $entityTag->getView()
             ->withAllData(new Service\Pricing)
             ->export();
 
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Image', $tag->images[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\View\Product', $tag->products[0]);
+        $this->assertTrue($tag->images[0] instanceof Image);
+        $this->assertTrue($tag->products[0] instanceof Product);
     }
 }

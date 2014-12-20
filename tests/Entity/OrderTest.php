@@ -21,12 +21,12 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->addPayment(new Payment\Cash(100));
 
         $this->assertEquals(1, $order->getId());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\CartTotal', $order->getTotal());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\OrderAddress', $order->getShippingAddress());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\OrderAddress', $order->getBillingAddress());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\User', $order->getUser());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Coupon', $order->getCoupons()[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\OrderItem', $order->getItems()[0]);
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Payment\Payment', $order->getPayments()[0]);
+        $this->assertTrue($order->getTotal() instanceof CartTotal);
+        $this->assertTrue($order->getShippingAddress() instanceof OrderAddress);
+        $this->assertTrue($order->getBillingAddress() instanceof OrderAddress);
+        $this->assertTrue($order->getUser() instanceof User);
+        $this->assertTrue($order->getCoupons()[0] instanceof Coupon);
+        $this->assertTrue($order->getItems()[0] instanceof OrderItem);
+        $this->assertTrue($order->getPayments()[0] instanceof Payment\Payment);
     }
 }

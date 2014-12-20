@@ -120,7 +120,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $viewProduct = Entity\View\Product::factory($this->product)
+        $viewProduct = $this->product->getView()
             ->withTags()
             ->export();
 
@@ -152,7 +152,8 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $viewTag = Entity\View\Tag::factory($tag)->export();
+        $viewTag = $tag->getView()
+            ->export();
 
         $products = $this->productService->getProductsByTag($viewTag);
 

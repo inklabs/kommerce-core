@@ -18,7 +18,7 @@ class Product extends Item
     {
         $product = $this->item->getProduct();
         if (! empty($product)) {
-            $this->product = View\Product::factory($product)
+            $this->product = $product->getView()
                 ->export();
         }
         return $this;

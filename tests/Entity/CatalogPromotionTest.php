@@ -10,7 +10,7 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $catalogPromotion->setTag(new Tag);
 
         $this->assertEquals('20PCTOFF', $catalogPromotion->getCode());
-        $this->assertInstanceOf('inklabs\kommerce\Entity\Tag', $catalogPromotion->getTag());
+        $this->assertTrue($catalogPromotion->getTag() instanceof Tag);
     }
 
     public function testIsTagValid()

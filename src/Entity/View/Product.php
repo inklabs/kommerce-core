@@ -65,13 +65,6 @@ class Product
         $this->created             = $product->getCreated();
         $this->updated             = $product->getUpdated();
         $this->isInStock = $product->inStock();
-
-        return $this;
-    }
-
-    public static function factory(Entity\Product $product)
-    {
-        return new static($product);
     }
 
     public function export()
@@ -83,7 +76,7 @@ class Product
     public function withTags()
     {
         foreach ($this->product->getTags() as $tag) {
-            $this->tags[] = Tag::factory($tag)
+            $this->tags[] = $tag->getView()
                 ->export();
         }
         return $this;
@@ -92,7 +85,7 @@ class Product
     public function withTagsWithImages()
     {
         foreach ($this->product->getTags() as $tag) {
-            $this->tags[] = Tag::factory($tag)
+            $this->tags[] = $tag->getView()
                 ->withImages()
                 ->export();
         }
@@ -102,7 +95,7 @@ class Product
     public function withImages()
     {
         foreach ($this->product->getImages() as $image) {
-            $this->images[] = Image::factory($image)
+            $this->images[] = $image->getView()
                 ->export();
         }
         return $this;
@@ -110,7 +103,7 @@ class Product
 
     public function withPrice(Pricing $pricing)
     {
-        $this->price = Price::factory($this->product->getPrice($pricing))
+        $this->price = $this->product->getPrice($pricing)->getView()
             ->withAllData()
             ->export();
 
@@ -124,7 +117,7 @@ class Product
 
         foreach ($productQuantityDiscounts as $productQuantityDiscount) {
             $productQuantityDiscount->setProduct($this->product);
-            $this->productQuantityDiscounts[] = ProductQuantityDiscount::factory($productQuantityDiscount)
+            $this->productQuantityDiscounts[] = $productQuantityDiscount->getView()
                 ->withPrice($pricing)
                 ->export();
         }

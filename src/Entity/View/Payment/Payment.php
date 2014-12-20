@@ -18,8 +18,6 @@ abstract class Payment
         $this->amount  = $payment->getAmount();
         $this->created = $payment->getCreated();
         $this->updated = $payment->getUpdated();
-
-        return $this;
     }
 
     public function export()

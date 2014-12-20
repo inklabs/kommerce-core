@@ -24,13 +24,6 @@ class Price
         $this->unitPrice          = $price->unitPrice;
         $this->origQuantityPrice  = $price->origQuantityPrice;
         $this->quantityPrice      = $price->quantityPrice;
-
-        return $this;
-    }
-
-    public static function factory(Entity\Price $price)
-    {
-        return new static($price);
     }
 
     public function export()
@@ -42,7 +35,7 @@ class Price
     public function withCatalogPromotions()
     {
         foreach ($this->price->getCatalogPromotions() as $catalogPromotion) {
-            $this->catalogPromotions[] = CatalogPromotion::factory($catalogPromotion)
+            $this->catalogPromotions[] = $catalogPromotion->getView()
                 ->export();
         }
 
@@ -54,7 +47,7 @@ class Price
         $productQuantityDiscount = $this->price->getProductQuantityDiscount();
 
         if ($productQuantityDiscount !== null) {
-            $this->productQuantityDiscount = ProductQuantityDiscount::factory($productQuantityDiscount)
+            $this->productQuantityDiscount = $productQuantityDiscount->getView()
                 ->export();
         }
 

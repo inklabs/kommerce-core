@@ -7,13 +7,13 @@ class CreatedTest extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\Accessor\Created');
         $mock->setCreated(new \DateTime);
-        $this->assertInstanceOf('DateTime', $mock->getCreated());
+        $this->assertTrue($mock->getCreated() instanceof \DateTime);
     }
 
     public function testSetCreatedWithNull()
     {
         $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\Accessor\Created');
         $mock->setCreated();
-        $this->assertInstanceOf('DateTime', $mock->getCreated());
+        $this->assertTrue($mock->getCreated() instanceof \DateTime);
     }
 }

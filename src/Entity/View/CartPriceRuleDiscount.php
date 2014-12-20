@@ -17,8 +17,6 @@ class CartPriceRuleDiscount
 
         $this->id       = $cartPriceRuleDiscount->getId();
         $this->quantity = $cartPriceRuleDiscount->getQuantity();
-
-        return $this;
     }
 
     public function export()
@@ -29,7 +27,7 @@ class CartPriceRuleDiscount
 
     public function withProduct()
     {
-        $this->product = Product::factory($this->cartPriceRuleDiscount->getProduct())
+        $this->product = $this->cartPriceRuleDiscount->getProduct()->getView()
             ->withTags()
             ->export();
 
