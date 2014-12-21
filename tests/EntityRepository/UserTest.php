@@ -68,4 +68,22 @@ class UserTest extends Helper\DoctrineTestCase
 
         $this->assertEquals(4, $userLogins[0]->getId());
     }
+
+    public function testFindByUsernameOrEmailUsingUsername()
+    {
+        /* @var Entity\User $user */
+        $user = $this->getRepository()
+            ->findOneByUsernameOrEmail('johndoe');
+
+        $this->assertEquals(1, $user->getId());
+    }
+
+    public function testFindByUsernameOrEmailUsingEmail()
+    {
+        /* @var Entity\User $user */
+        $user = $this->getRepository()
+            ->findOneByUsernameOrEmail('john@example.com');
+
+        $this->assertEquals(1, $user->getId());
+    }
 }

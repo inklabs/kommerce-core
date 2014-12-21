@@ -75,6 +75,9 @@ class Kommerce
         return $this->cacheDriver;
     }
 
+    /**
+     * @return Doctrine\ORM\EntityManager
+     */
     public function getEntityManager()
     {
         return $this->entityManager;

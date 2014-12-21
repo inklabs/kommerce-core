@@ -15,4 +15,9 @@ $kommerce->setup([
 ]);
 
 $entityManager = $kommerce->getEntityManager();
+
+// Fix MySQL enum
+$platform = $entityManager->getConnection()->getDatabasePlatform();
+$platform->registerDoctrineTypeMapping('enum', 'string');
+
 return ConsoleRunner::createHelperSet($entityManager);

@@ -71,4 +71,9 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
     {
         return $this->getQuery()->getResult();
     }
+
+    public function findOne()
+    {
+        return $this->getQuery()->getOneOrNullResult();
+    }
 }

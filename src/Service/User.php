@@ -4,7 +4,6 @@ namespace inklabs\kommerce\Service;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
-use Exception;
 
 class User extends Lib\EntityManager
 {
@@ -26,14 +25,38 @@ class User extends Lib\EntityManager
     {
         $this->user = $this->sessionManager->get($this->userSessionKey);
 
-        if (! ($this->user instanceof Entity\User)) {
-            $this->user = new Entity\User;
+        if ($this->user !== null) {
+            $this->user = $this->entityManager->merge($this->user);
         }
     }
 
-    public function login($username, $password)
+    private function save()
     {
-        $entityUser = $this->entityManager->getRepository('kommerce:User')->findOneByUsername($username);
+        if ($this->user !== null) {
+            $this->entityManager->detach($this->user);
+            $this->sessionManager->set($this->userSessionKey, $this->user);
+            $this->user = $this->entityManager->merge($this->user);
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function login($username, $password, $remoteIp)
+    {
+        if ($this->performLogin($username, $password)) {
+            $this->recordLogin($username, $remoteIp);
+            return true;
+        } else {
+            $this->recordLogin($username, $remoteIp, Entity\UserLogin::RESULT_FAIL);
+            return false;
+        }
+    }
+
+    protected function performLogin($username, $password)
+    {
+        $entityUser = $this->entityManager->getRepository('kommerce:User')
+            ->findOneByUsernameOrEmail($username);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
             return false;
@@ -41,12 +64,30 @@ class User extends Lib\EntityManager
 
         if ($entityUser->verifyPassword($password)) {
             $this->user = $entityUser;
-            $this->user->incrementTotalLogins();
             $this->save();
             return true;
         } else {
             return false;
         }
+    }
+
+    protected function recordLogin($username, $remoteIp, $status = Entity\UserLogin::RESULT_SUCCESS)
+    {
+        $userLogin = new Entity\UserLogin;
+        $userLogin->setUsername($username);
+        $userLogin->setIp4($remoteIp);
+        $userLogin->setResult($status);
+
+        if ($this->user !== null) {
+            $this->user->addLogin($userLogin);
+
+            if ($status == Entity\UserLogin::RESULT_SUCCESS) {
+                $this->user->incrementTotalLogins();
+            }
+        }
+
+        $this->entityManager->persist($userLogin);
+        $this->entityManager->flush();
     }
 
     /**
@@ -65,23 +106,8 @@ class User extends Lib\EntityManager
             ->export();
     }
 
-    private function save()
-    {
-        $this->sessionManager->set($this->userSessionKey, $this->user);
-    }
-
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * @return Entity\View\User
-     */
-    public function getView()
-    {
-        return $this->user->getView()
-            ->withAllData()
-            ->export();
     }
 }
