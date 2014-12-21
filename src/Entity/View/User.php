@@ -47,8 +47,7 @@ class User
     public function withRoles()
     {
         foreach ($this->user->getRoles() as $role) {
-            $this->roles[] = $role->getView()
-                ->export();
+            $this->roles[] = $role->getView();
         }
         return $this;
     }
