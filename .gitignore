@@ -4,3 +4,4 @@ coverage_report
 .idea/*.iws
 .idea/workspace.xml
 .idea/tasks.xml
+config/cli-config.php

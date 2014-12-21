@@ -202,4 +202,9 @@ class User
     {
         return new View\User($this);
     }
+
+//    public function __toString()
+//    {
+//        return print_r($this->getView()->export(), true);
+//    }
 }

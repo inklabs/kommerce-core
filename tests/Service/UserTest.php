@@ -42,31 +42,36 @@ class UserTest extends Helper\DoctrineTestCase
 
     public function testUserLoginWithUsername()
     {
-        $this->assertTrue($this->userService->login('test', 'qwerty'));
+        $this->assertTrue($this->userService->login('test', 'qwerty', '127.0.0.1'));
+
+        $userLogin = $this->entityManager->getRepository('kommerce:UserLogin')
+            ->find(1);
+
+        $this->assertEquals(Entity\UserLogin::RESULT_SUCCESS, $userLogin->getResult());
     }
 
     public function testUserLoginWithWrongPassword()
     {
-        $this->assertFalse($this->userService->login('test', 'xxxxx'));
+        $this->assertFalse($this->userService->login('test', 'xxxxx', '127.0.0.1'));
+
+        $userLogin = $this->entityManager->getRepository('kommerce:UserLogin')
+            ->find(1);
+
+        $this->assertEquals(Entity\UserLogin::RESULT_FAIL, $userLogin->getResult());
     }
 
     public function testUserLoginWithWrongUsername()
     {
-        $this->assertFalse($this->userService->login('xxxxx', 'xxxxx'));
+        $this->assertFalse($this->userService->login('xxxxx', 'xxxxx', '127.0.0.1'));
     }
 
     public function testUserPersistence()
     {
-        $this->assertTrue($this->userService->login('test', 'qwerty'));
+        $this->assertTrue($this->userService->login('test', 'qwerty', '127.0.0.1'));
 
         $this->entityManager->clear();
 
         $newUserService = new User($this->entityManager, $this->sessionManager);
         $this->assertEquals(1, $newUserService->getUser()->getId());
-    }
-
-    public function testGetView()
-    {
-        $this->assertTrue($this->userService->getView() instanceof Entity\View\User);
     }
 }
