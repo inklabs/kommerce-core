@@ -144,7 +144,6 @@ class User
 
     public function addRole(UserRole $role)
     {
-        $role->setUser($this);
         $this->roles[] = $role;
     }
 

@@ -8,13 +8,7 @@ class UserRoleTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $entityUserRole = new Entity\UserRole;
-        $entityUserRole->setUser(new Entity\User);
-
-        $userRole = $entityUserRole->getView()
-            ->withAllData()
-            ->export();
-
+        $userRole = $entityUserRole->getView();
         $this->assertTrue($userRole instanceof UserRole);
-        $this->assertTrue($userRole->user instanceof User);
     }
 }

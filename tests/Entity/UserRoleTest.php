@@ -9,11 +9,9 @@ class UserRoleTest extends \PHPUnit_Framework_TestCase
         $userRole->setId(1);
         $userRole->setName('Administrator');
         $userRole->setDescription('Admin account with access to everything.');
-        $userRole->setUser(new User);
 
         $this->assertEquals(1, $userRole->getId());
         $this->assertEquals('Administrator', $userRole->getName());
         $this->assertEquals('Admin account with access to everything.', $userRole->getDescription());
-        $this->assertTrue($userRole->getUser() instanceof User);
     }
 }
