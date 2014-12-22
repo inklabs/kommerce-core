@@ -52,4 +52,16 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $user->getTotalLogins());
         $this->assertTrue($user->getLastLogin() > 0);
     }
+
+    public function testHasRoles()
+    {
+        $adminRole = new UserRole;
+        $adminRole->setname('admin');
+
+        $user = new User;
+        $user->addRole($adminRole);
+
+        $this->assertTrue($user->hasRoles(['admin']));
+        $this->assertFalse($user->hasRoles(['developer']));
+    }
 }
