@@ -44,45 +44,44 @@ class User extends Lib\EntityManager
      */
     public function login($username, $password, $remoteIp)
     {
-        if ($this->performLogin($username, $password)) {
-            $this->recordLogin($username, $remoteIp);
-            return true;
-        } else {
-            $this->recordLogin($username, $remoteIp, Entity\UserLogin::RESULT_FAIL);
-            return false;
-        }
-    }
-
-    protected function performLogin($username, $password)
-    {
+        /* @var Entity\User $entityUser */
         $entityUser = $this->entityManager->getRepository('kommerce:User')
             ->findOneByUsernameOrEmail($username);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
+            $this->recordLogin($username, $remoteIp, Entity\UserLogin::RESULT_FAIL);
             return false;
         }
 
         if ($entityUser->verifyPassword($password)) {
             $this->user = $entityUser;
             $this->save();
+            $this->recordLogin($username, $remoteIp, Entity\UserLogin::RESULT_SUCCESS, $this->user);
             return true;
         } else {
+            $this->recordLogin($username, $remoteIp, Entity\UserLogin::RESULT_FAIL, $entityUser);
             return false;
         }
     }
 
-    protected function recordLogin($username, $remoteIp, $status = Entity\UserLogin::RESULT_SUCCESS)
+    public function logout()
+    {
+        $this->user = null;
+        $this->sessionManager->delete($this->userSessionKey);
+    }
+
+    protected function recordLogin($username, $remoteIp, $status, Entity\User $user = null)
     {
         $userLogin = new Entity\UserLogin;
         $userLogin->setUsername($username);
         $userLogin->setIp4($remoteIp);
         $userLogin->setResult($status);
 
-        if ($this->user !== null) {
-            $this->user->addLogin($userLogin);
+        if ($user !== null) {
+            $user->addLogin($userLogin);
 
             if ($status == Entity\UserLogin::RESULT_SUCCESS) {
-                $this->user->incrementTotalLogins();
+                $user->incrementTotalLogins();
             }
         }
 

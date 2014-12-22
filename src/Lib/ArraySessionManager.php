@@ -18,4 +18,9 @@ class ArraySessionManager extends SessionManager
     {
         $this->session[$key] = serialize($data);
     }
+
+    public function delete($key)
+    {
+        unset($this->session[$key]);
+    }
 }
