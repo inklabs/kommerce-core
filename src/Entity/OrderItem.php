@@ -10,6 +10,8 @@ class OrderItem
 
     protected $id;
     protected $quantity;
+
+    /* @var Price */
     protected $price;
 
     /* @var Product */

@@ -21,13 +21,12 @@ class OrderItem
 
         $this->id            = $orderItem->getId();
         $this->quantity      = $orderItem->getQuantity();
-        $this->price         = $orderItem->getPrice();
-        $this->product       = $orderItem->getProduct()->getView()->export();
         $this->productSku    = $orderItem->getProductSku();
         $this->productName   = $orderItem->getProductName();
         $this->discountNames = $orderItem->getDiscountNames();
 
-        $this->productQuantityDiscount = $orderItem->getProductQuantityDiscount();
+        $this->price = $orderItem->getPrice()->getView()->export();
+        $this->product = $orderItem->getProduct()->getView()->export();
     }
 
     public function export()
@@ -45,9 +44,19 @@ class OrderItem
         return $this;
     }
 
+    public function withProductQuantityDiscount()
+    {
+        $productQuantityDiscount = $this->orderItem->getProductQuantityDiscount();
+        if ($productQuantityDiscount !== null) {
+            $this->productQuantityDiscount = $productQuantityDiscount->getView()->export();
+        }
+        return $this;
+    }
+
     public function withAllData()
     {
         return $this
-            ->withCatalogPromotions();
+            ->withCatalogPromotions()
+            ->withProductQuantityDiscount();
     }
 }
