@@ -25,8 +25,12 @@ class OrderItem
         $this->productName   = $orderItem->getProductName();
         $this->discountNames = $orderItem->getDiscountNames();
 
-        $this->price = $orderItem->getPrice()->getView()->export();
-        $this->product = $orderItem->getProduct()->getView()->export();
+        $this->price = $orderItem->getPrice()->getView()
+            ->withAllData()
+            ->export();
+
+        $this->product = $orderItem->getProduct()->getView()
+            ->export();
     }
 
     public function export()
