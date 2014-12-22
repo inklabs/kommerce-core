@@ -20,10 +20,13 @@ class Order
         $this->order = $order;
 
         $this->id              = $order->getId();
-        $this->total           = $order->getTotal()->getView()->export();
         $this->shippingAddress = $order->getShippingAddress()->getView();
         $this->billingAddress  = $order->getBillingAddress()->getView();
         $this->status          = $order->getStatus();
+
+        $this->total = $order->getTotal()->getView()
+            ->withAllData()
+            ->export();
     }
 
     public function export()
