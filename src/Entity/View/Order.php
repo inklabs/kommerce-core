@@ -14,6 +14,8 @@ class Order
     public $items;
     public $payments;
     public $coupons;
+    public $created;
+    public $updated;
 
     public function __construct(Entity\Order $order)
     {
@@ -23,6 +25,8 @@ class Order
         $this->shippingAddress = $order->getShippingAddress()->getView();
         $this->billingAddress  = $order->getBillingAddress()->getView();
         $this->status          = $order->getStatus();
+        $this->created         = $order->getCreated();
+        $this->updated         = $order->getUpdated();
 
         $this->total = $order->getTotal()->getView()
             ->withAllData()
