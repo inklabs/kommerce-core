@@ -44,25 +44,43 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->assertTrue($this->userService->login('test', 'qwerty', '127.0.0.1'));
 
-        $userLogin = $this->entityManager->getRepository('kommerce:UserLogin')
+        $this->entityManager->clear();
+
+        /* @var Entity\User $user */
+        $user = $this->entityManager->getRepository('kommerce:User')
             ->find(1);
 
-        $this->assertEquals(Entity\UserLogin::RESULT_SUCCESS, $userLogin->getResult());
+        $this->assertEquals(1, $user->getTotalLogins());
+        $this->assertEquals(Entity\UserLogin::RESULT_SUCCESS, $user->getLogins()[0]->getResult());
     }
 
     public function testUserLoginWithWrongPassword()
     {
         $this->assertFalse($this->userService->login('test', 'xxxxx', '127.0.0.1'));
 
-        $userLogin = $this->entityManager->getRepository('kommerce:UserLogin')
+        $this->entityManager->clear();
+
+        /* @var Entity\User $user */
+        $user = $this->entityManager->getRepository('kommerce:User')
             ->find(1);
 
-        $this->assertEquals(Entity\UserLogin::RESULT_FAIL, $userLogin->getResult());
+        $this->assertEquals(0, $user->getTotalLogins());
+        $this->assertEquals(Entity\UserLogin::RESULT_FAIL, $user->getLogins()[0]->getResult());
     }
 
     public function testUserLoginWithWrongUsername()
     {
         $this->assertFalse($this->userService->login('xxxxx', 'xxxxx', '127.0.0.1'));
+    }
+
+    public function testLogout()
+    {
+        $this->userService->login('test', 'qwerty', '127.0.0.1');
+
+        $this->userService->logout();
+
+        $this->assertEquals(null, $this->userService->getUser());
+
     }
 
     public function testUserPersistence()

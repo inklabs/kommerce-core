@@ -79,7 +79,7 @@
             </cascade>
         </one-to-many>
 
-        <many-to-many field="roles" target-entity="UserRole">
+        <many-to-many field="roles" target-entity="UserRole" fetch="EAGER">
             <cascade>
                 <cascade-persist/>
             </cascade>
