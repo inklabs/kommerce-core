@@ -155,6 +155,22 @@ class User
         return $this->roles;
     }
 
+    public function hasRoles(array $roleNames)
+    {
+        $userRoles = [];
+        foreach ($this->roles as $role) {
+            $userRoles[$role->getName()] = true;
+        }
+
+        foreach ($roleNames as $roleName) {
+            if (! isset($userRoles[$roleName])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function addToken(UserToken $token)
     {
         $token->setUser($this);
