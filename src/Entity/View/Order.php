@@ -10,12 +10,20 @@ class Order
     public $shippingAddress;
     public $billingAddress;
     public $status;
-    public $user;
-    public $items;
-    public $payments;
-    public $coupons;
     public $created;
     public $updated;
+
+    /* @var User */
+    public $user;
+
+    /* @var OrderItem[] */
+    public $items = [];
+
+    /* @var Payment\Payment[] */
+    public $payments = [];
+
+    /* @var Coupon[] */
+    public $coupons = [];
 
     public function __construct(Entity\Order $order)
     {

@@ -8,11 +8,17 @@ class OrderItem
     public $id;
     public $quantity;
     public $price;
+
+    /* @var Product */
     public $product;
     public $productSku;
     public $productName;
     public $discountNames;
+
+    /* @var CatalogPromotion[] */
     public $catalogPromotions;
+
+    /* @var ProductQuantityDiscount */
     public $productQuantityDiscount;
 
     public function __construct(Entity\OrderItem $orderItem)
@@ -30,6 +36,7 @@ class OrderItem
             ->export();
 
         $this->product = $orderItem->getProduct()->getView()
+            ->withTags()
             ->export();
     }
 
