@@ -23,7 +23,6 @@ class ProductQuantityDiscount extends Promotion
         $this->customerGroup              = $productQuantityDiscount->getCustomerGroup();
         $this->quantity                   = $productQuantityDiscount->getQuantity();
         $this->flagApplyCatalogPromotions = $productQuantityDiscount->getFlagApplyCatalogPromotions();
-        $this->product                    = $productQuantityDiscount->getProduct();
     }
 
     public function withPrice(Pricing $pricing)
@@ -37,8 +36,9 @@ class ProductQuantityDiscount extends Promotion
 
     public function withProduct(Pricing $pricing)
     {
-        if (! empty($this->product)) {
-            $this->product = $this->product->getView()
+        $product = $this->promotion->getProduct();
+        if ($product !== null) {
+            $this->product = $product->getView()
                 ->withAllData($pricing)
                 ->export();
         }
