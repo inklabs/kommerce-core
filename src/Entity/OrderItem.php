@@ -33,6 +33,7 @@ class OrderItem
 
     public function __construct(CartItem $cartItem, Pricing $pricing)
     {
+        $this->setCreated();
         $this->catalogPromotions = new ArrayCollection;
         $this->quantity = $cartItem->getQuantity();
 

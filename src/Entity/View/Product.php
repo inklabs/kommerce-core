@@ -64,6 +64,7 @@ class Product
         $this->defaultImage        = $product->getDefaultImage();
         $this->created             = $product->getCreated();
         $this->updated             = $product->getUpdated();
+
         $this->isInStock = $product->inStock();
     }
 

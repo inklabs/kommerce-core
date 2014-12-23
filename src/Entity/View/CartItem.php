@@ -12,7 +12,6 @@ class CartItem
     public $quantity;
     public $shippingWeight;
     public $created;
-    public $updated;
 
     /* @var Product */
     public $product;
@@ -28,7 +27,6 @@ class CartItem
         $this->quantity       = $cartItem->getQuantity();
         $this->shippingWeight = $cartItem->getShippingWeight();
         $this->created        = $cartItem->getCreated();
-        $this->updated        = $cartItem->getUpdated();
     }
 
     public function export()

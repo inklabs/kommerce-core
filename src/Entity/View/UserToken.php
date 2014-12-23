@@ -11,6 +11,8 @@ class UserToken
     public $token;
     public $expires;
     public $type;
+    public $created;
+    public $updated;
 
     /* @var User */
     public $user;
@@ -24,6 +26,8 @@ class UserToken
         $this->token     = $userToken->getToken();
         $this->expires   = $userToken->getExpires();
         $this->type      = $userToken->getType();
+        $this->created   = $userToken->getCreated();
+        $this->updated   = $userToken->getUpdated();
     }
 
     public function export()

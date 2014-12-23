@@ -8,6 +8,8 @@ class Warehouse
 {
     public $id;
     public $name;
+    public $created;
+    public $updated;
 
     /* @var Address */
     public $address;
@@ -17,5 +19,7 @@ class Warehouse
         $this->id      = $warehouse->getId();
         $this->name    = $warehouse->getName();
         $this->address = $warehouse->getAddress()->getView();
+        $this->created = $warehouse->getCreated();
+        $this->updated = $warehouse->getUpdated();
     }
 }

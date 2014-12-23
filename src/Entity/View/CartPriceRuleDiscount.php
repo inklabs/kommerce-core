@@ -7,6 +7,8 @@ class CartPriceRuleDiscount
 {
     public $id;
     public $quantity;
+    public $created;
+    public $updated;
 
     /* @var Product */
     public $product;
@@ -17,6 +19,8 @@ class CartPriceRuleDiscount
 
         $this->id       = $cartPriceRuleDiscount->getId();
         $this->quantity = $cartPriceRuleDiscount->getQuantity();
+        $this->created  = $cartPriceRuleDiscount->getCreated();
+        $this->updated  = $cartPriceRuleDiscount->getUpdated();
     }
 
     public function export()

@@ -5,7 +5,7 @@ use inklabs\kommerce\Service\Pricing;
 
 class CartItem
 {
-    use Accessor\Time;
+    use Accessor\Created;
 
     protected $id;
     protected $product;

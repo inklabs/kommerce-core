@@ -11,6 +11,8 @@ class Option
     public $type;
     public $description;
     public $sortOrder;
+    public $created;
+    public $updated;
 
     /* @var Product[] */
     public $products;
@@ -24,6 +26,8 @@ class Option
         $this->type        = $option->getType();
         $this->description = $option->getDescription();
         $this->sortOrder   = $option->getSortOrder();
+        $this->created     = $option->getCreated();
+        $this->updated     = $option->getUpdated();
     }
 
     public function export()

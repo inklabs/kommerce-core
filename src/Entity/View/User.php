@@ -14,6 +14,8 @@ class User
     public $totalLogins;
     public $lastLogin;
     public $status;
+    public $created;
+    public $updated;
 
     /* @var UserRole[] */
     public $roles = [];
@@ -36,6 +38,8 @@ class User
         $this->totalLogins = $user->getTotalLogins();
         $this->lastLogin   = $user->getLastLogin();
         $this->status      = $user->getStatus();
+        $this->created     = $user->getCreated();
+        $this->updated     = $user->getUpdated();
     }
 
     public function export()

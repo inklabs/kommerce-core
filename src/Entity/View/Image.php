@@ -12,6 +12,8 @@ class Image
     public $sortOrder;
     public $product;
     public $tag;
+    public $created;
+    public $updated;
 
     public function __construct(Entity\Image $image)
     {
@@ -22,6 +24,8 @@ class Image
         $this->width     = $image->getWidth();
         $this->height    = $image->getHeight();
         $this->sortOrder = $image->getSortOrder();
+        $this->created   = $image->getCreated();
+        $this->updated   = $image->getUpdated();
     }
 
     public function export()

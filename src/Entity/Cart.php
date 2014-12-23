@@ -6,11 +6,18 @@ use Exception;
 
 class Cart
 {
+    use Accessor\Created;
+
     /* @var CartItem[] */
     protected $items = [];
 
     /* @var Coupon[] */
     protected $coupons = [];
+
+    public function __construct()
+    {
+        $this->setCreated();
+    }
 
     public function addItem(Product $product, $quantity)
     {

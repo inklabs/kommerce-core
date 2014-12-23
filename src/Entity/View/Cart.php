@@ -11,6 +11,7 @@ class Cart
     public $totalItems;
     public $totalQuantity;
     public $shippingWeight;
+    public $created;
 
     /* @var CartTotal */
     public $cartTotal;
@@ -28,6 +29,7 @@ class Cart
         $this->totalItems     = $cart->totalItems();
         $this->totalQuantity  = $cart->totalQuantity();
         $this->shippingWeight = $cart->getShippingWeight();
+        $this->created        = $cart->getCreated();
     }
 
     public function export()
