@@ -21,6 +21,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->addPayment(new Payment\Cash(100));
 
         $this->assertEquals(1, $order->getId());
+        $this->assertEquals(Order::STATUS_PENDING, $order->getStatus());
+        $this->assertEquals('Pending', $order->getStatusText());
         $this->assertEquals(1, $order->totalItems());
         $this->assertEquals(2, $order->totalQuantity());
         $this->assertTrue($order->getTotal() instanceof CartTotal);

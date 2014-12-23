@@ -110,6 +110,22 @@ class Order
         return $this->status;
     }
 
+    public function getStatusMapping()
+    {
+        return [
+            static::STATUS_PENDING => 'Pending',
+            static::STATUS_PROCESSING => 'Processing',
+            static::STATUS_SHIPPED => 'Shipped',
+            static::STATUS_COMPLETE => 'Complete',
+            static::STATUS_CANCELED => 'Canceled',
+        ];
+    }
+
+    public function getStatusText()
+    {
+        return $this->getStatusMapping()[$this->status];
+    }
+
     private function setTotal(CartTotal $total)
     {
         $this->total = $total;
