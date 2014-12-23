@@ -74,6 +74,22 @@ class Order
         return $id;
     }
 
+    public function totalItems()
+    {
+        return count($this->items);
+    }
+
+    public function totalQuantity()
+    {
+        $total = 0;
+
+        foreach ($this->items as $item) {
+            $total += $item->getQuantity();
+        }
+
+        return $total;
+    }
+
     public function setId($id)
     {
         $this->id = (int) $id;

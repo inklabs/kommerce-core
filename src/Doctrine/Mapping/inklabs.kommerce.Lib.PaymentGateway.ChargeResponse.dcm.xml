@@ -20,6 +20,8 @@
             </options>
         </field>
 
+        <field name="brand" column="brand" type="string" length="16"/>
+
         <field name="amount" column="amount" type="integer"/>
 
         <field name="currency" column="currency" type="string" length="3">
