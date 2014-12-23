@@ -8,6 +8,8 @@ class OrderItem
     public $id;
     public $quantity;
     public $price;
+    public $created;
+    public $updated;
 
     /* @var Product */
     public $product;
@@ -30,6 +32,8 @@ class OrderItem
         $this->productSku    = $orderItem->getProductSku();
         $this->productName   = $orderItem->getProductName();
         $this->discountNames = $orderItem->getDiscountNames();
+        $this->created       = $orderItem->getCreated();
+        $this->updated       = $orderItem->getUpdated();
 
         $this->price = $orderItem->getPrice()->getView()
             ->withAllData()

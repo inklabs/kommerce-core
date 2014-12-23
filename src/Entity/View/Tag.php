@@ -15,6 +15,8 @@ class Tag
     public $defaultImage;
     public $sortOrder;
     public $isVisible;
+    public $created;
+    public $updated;
 
     /* @var Product[] */
     public $products = [];
@@ -34,6 +36,8 @@ class Tag
         $this->defaultImage   = $tag->getDefaultImage();
         $this->sortOrder      = $tag->getSortOrder();
         $this->isVisible      = $tag->getIsVisible();
+        $this->created        = $tag->getCreated();
+        $this->updated        = $tag->getUpdated();
     }
 
     public function export()
