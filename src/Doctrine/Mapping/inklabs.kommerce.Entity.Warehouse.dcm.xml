@@ -23,7 +23,7 @@
 
         <field name="name" column="name" type="string"/>
 
-        <embedded name="address" class="address" column-prefix="address_"/>
+        <embedded name="address" class="Address" column-prefix="address_"/>
 
     </entity>
 
