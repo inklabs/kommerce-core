@@ -10,6 +10,7 @@ class ChargeResponse
     public $created;
     public $amount;
     public $last4;
+    public $brand;
     public $currency;
     public $fee;
     public $description;
@@ -20,6 +21,7 @@ class ChargeResponse
         $this->created     = $chargeResponse->getCreated();
         $this->amount      = $chargeResponse->getAmount();
         $this->last4       = $chargeResponse->getLast4();
+        $this->brand       = $chargeResponse->getBrand();
         $this->currency    = $chargeResponse->getCurrency();
         $this->fee         = $chargeResponse->getFee();
         $this->description = $chargeResponse->getDescription();

@@ -10,7 +10,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $cart = new Cart;
-        $cart->addItem(new Product, 1);
+        $cart->addItem(new Product, 2);
 
         $order = new Order($cart, new Pricing);
         $order->setId(1);
@@ -21,6 +21,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->addPayment(new Payment\Cash(100));
 
         $this->assertEquals(1, $order->getId());
+        $this->assertEquals(1, $order->totalItems());
+        $this->assertEquals(2, $order->totalQuantity());
         $this->assertTrue($order->getTotal() instanceof CartTotal);
         $this->assertTrue($order->getShippingAddress() instanceof OrderAddress);
         $this->assertTrue($order->getBillingAddress() instanceof OrderAddress);

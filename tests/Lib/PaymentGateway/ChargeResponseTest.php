@@ -10,6 +10,7 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
         $chargeResponse->setId('ch_xxxxxxxxxxxxxx');
         $chargeResponse->setAmount(2000);
         $chargeResponse->setLast4('4242');
+        $chargeResponse->setBrand('Visa');
         $chargeResponse->setCreated(1);
         $chargeResponse->setCurrency('usd');
         $chargeResponse->setFee(88);
@@ -18,6 +19,7 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('ch_xxxxxxxxxxxxxx', $chargeResponse->getId());
         $this->assertEquals(2000, $chargeResponse->getAmount());
         $this->assertEquals('4242', $chargeResponse->getLast4());
+        $this->assertEquals('Visa', $chargeResponse->getBrand());
         $this->assertEquals(1, $chargeResponse->getCreated());
         $this->assertEquals('usd', $chargeResponse->getCurrency());
         $this->assertEquals(88, $chargeResponse->getFee());

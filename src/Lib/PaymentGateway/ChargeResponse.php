@@ -9,6 +9,7 @@ class ChargeResponse
     protected $created;
     protected $amount;
     protected $last4;
+    protected $brand; // Visa, American Express, MasterCard, Discover, JCB, Diners Club, or Unknown.
     protected $currency;
     protected $fee;
     protected $description;
@@ -31,6 +32,16 @@ class ChargeResponse
     public function setLast4($last4)
     {
         $this->last4 = (string) $last4;
+    }
+
+    public function getBrand()
+    {
+        return $this->brand;
+    }
+
+    public function setBrand($brand)
+    {
+        $this->brand = (string) $brand;
     }
 
     public function getCreated()

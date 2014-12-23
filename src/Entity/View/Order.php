@@ -10,6 +10,8 @@ class Order
     public $shippingAddress;
     public $billingAddress;
     public $status;
+    public $totalItems;
+    public $totalQuantity;
     public $created;
     public $updated;
 
@@ -33,6 +35,8 @@ class Order
         $this->shippingAddress = $order->getShippingAddress()->getView();
         $this->billingAddress  = $order->getBillingAddress()->getView();
         $this->status          = $order->getStatus();
+        $this->totalItems      = $order->totalItems();
+        $this->totalQuantity   = $order->totalQuantity();
         $this->created         = $order->getCreated();
         $this->updated         = $order->getUpdated();
 
