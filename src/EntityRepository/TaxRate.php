@@ -36,7 +36,8 @@ class TaxRate extends EntityRepository
 
         $taxRates = $query
             ->orderBy('tax_rate.id')
-            ->findAll();
+            ->getQuery()
+            ->getResult();
 
         return $this->getZip5OrRateOrStateTaxRate($taxRates);
     }

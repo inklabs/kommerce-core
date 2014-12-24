@@ -95,6 +95,7 @@ class Product extends Lib\EntityManager
     }
 
     /**
+     * @param Entity\Product[] $products
      * @return Entity\View\Product[]
      */
     private function getViewProductsWithPrice($products)

@@ -15,9 +15,9 @@ class User extends EntityRepository
             ->from('kommerce:User', 'user')
             ->where('user.username = :username')->setParameter('username', $username)
             ->orWhere('user.email = :email')->setParameter('email', $username)
-            ->findOne();
+            ->getQuery()
+            ->getOneOrNullResult();
 
         return $user;
-
     }
 }

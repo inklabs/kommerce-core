@@ -33,4 +33,31 @@ class Order extends Lib\EntityManager
             ->withAllData()
             ->export();
     }
+
+    /**
+     * @return Entity\View\Order[]
+     */
+    public function getLatestOrders(Entity\Pagination & $pagination = null)
+    {
+        $orders = $this->orderRepository
+            ->getLatestOrders($pagination);
+
+        return $this->getViewOrders($orders);
+    }
+
+    /**
+     * @param Entity\Order[] $orders
+     * @return Entity\View\Order[]
+     */
+    private function getViewOrders($orders)
+    {
+        $viewOrders = [];
+        foreach ($orders as $order) {
+            $viewOrders[] = $order->getView()
+                ->withAllData()
+                ->export();
+        }
+
+        return $viewOrders;
+    }
 }
