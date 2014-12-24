@@ -2,10 +2,12 @@
 namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Lib as Lib;
 
 class Order
 {
     public $id;
+    public $encodedId;
     public $total;
     public $shippingAddress;
     public $billingAddress;
@@ -33,6 +35,7 @@ class Order
         $this->order = $order;
 
         $this->id              = $order->getId();
+        $this->encodedId       = Lib\BaseConvert::encode($order->getId());
         $this->shippingAddress = $order->getShippingAddress()->getView();
         $this->billingAddress  = $order->getBillingAddress()->getView();
         $this->status          = $order->getStatus();
