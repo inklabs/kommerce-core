@@ -7,9 +7,11 @@ class OrderItem
 {
     public $id;
     public $quantity;
-    public $price;
     public $created;
     public $updated;
+
+    /* @var Price */
+    public $price;
 
     /* @var Product */
     public $product;
