@@ -8,7 +8,6 @@ class Order
 {
     public $id;
     public $encodedId;
-    public $total;
     public $shippingAddress;
     public $billingAddress;
     public $status;
@@ -17,6 +16,9 @@ class Order
     public $totalQuantity;
     public $created;
     public $updated;
+
+    /* @var CartTotal */
+    public $total;
 
     /* @var User */
     public $user;
