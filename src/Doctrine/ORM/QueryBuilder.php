@@ -6,6 +6,9 @@ use inklabs\kommerce\Entity as Entity;
 
 class QueryBuilder extends \Doctrine\ORM\QueryBuilder
 {
+    /**
+     * @return QueryBuilder
+     */
     public function paginate(Entity\Pagination & $pagination = null)
     {
         if ($pagination === null) {
@@ -65,15 +68,5 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
                 'DISTANCE(warehouse.address.latitude,warehouse.address.longitude,' .
                 $point->getLatitude() . ',' . $point->getLongitude() . ')'
             );
-    }
-
-    public function findAll()
-    {
-        return $this->getQuery()->getResult();
-    }
-
-    public function findOne()
-    {
-        return $this->getQuery()->getOneOrNullResult();
     }
 }

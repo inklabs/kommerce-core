@@ -19,7 +19,8 @@ class Warehouse extends EntityRepository
             ->withDistance($point)
             ->withinRange($point, $rangeInMiles, 'warehouse.address.')
             ->paginate($pagination)
-            ->findAll();
+            ->getQuery()
+            ->getResult();
 
         return $warehouses;
     }

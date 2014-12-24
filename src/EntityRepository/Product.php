@@ -52,7 +52,9 @@ class Product extends EntityRepository
                 ->setParameter('tagIds', $tagIds);
         }
 
-        $products = $query->findAll();
+        $products = $query
+            ->getQuery()
+            ->getResult();
 
         return $products;
     }
@@ -80,7 +82,8 @@ class Product extends EntityRepository
             ->productAvailable()
             ->setParameter('tagId', $tagId)
             ->paginate($pagination)
-            ->findAll();
+            ->getQuery()
+            ->getResult();
 
         return $products;
     }
@@ -99,7 +102,8 @@ class Product extends EntityRepository
             ->productAvailable()
             ->setParameter('productIds', $productIds)
             ->paginate($pagination)
-            ->findAll();
+            ->getQuery()
+            ->getResult();
 
         return $products;
     }
@@ -118,7 +122,8 @@ class Product extends EntityRepository
             ->addSelect('RAND() as HIDDEN rand')
             ->orderBy('rand')
             ->setMaxResults($limit)
-            ->findAll();
+            ->getQuery()
+            ->getResult();
 
         return $products;
     }
