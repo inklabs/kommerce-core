@@ -103,7 +103,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->assertEquals(1, $order->id);
     }
 
-    public function testOrders()
+    public function testGetLatestOrders()
     {
         $this->addOrder();
         $this->addOrder();
