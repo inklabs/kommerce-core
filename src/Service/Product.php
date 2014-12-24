@@ -40,6 +40,17 @@ class Product extends Lib\EntityManager
     /**
      * @return Entity\View\Product[]
      */
+    public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
+    {
+        $products = $this->productRepository
+            ->getAllProducts($queryString, $pagination);
+
+        return $this->getViewProducts($products);
+    }
+
+    /**
+     * @return Entity\View\Product[]
+     */
     public function getRelatedProducts($products, $limit = 12)
     {
         if (! is_array($products)) {
@@ -86,6 +97,17 @@ class Product extends Lib\EntityManager
     /**
      * @return Entity\View\Product[]
      */
+    public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
+    {
+        $products = $this->productRepository
+            ->getAllProductsByIds($productIds);
+
+        return $this->getViewProductsWithPrice($products);
+    }
+
+    /**
+     * @return Entity\View\Product[]
+     */
     public function getRandomProducts($limit)
     {
         $products = $this->productRepository
@@ -104,6 +126,21 @@ class Product extends Lib\EntityManager
         foreach ($products as $product) {
             $viewProducts[] = $product->getView()
                 ->withPrice($this->pricing)
+                ->export();
+        }
+
+        return $viewProducts;
+    }
+
+    /**
+     * @param Entity\Product[] $products
+     * @return Entity\View\Product[]
+     */
+    private function getViewProducts($products)
+    {
+        $viewProducts = [];
+        foreach ($products as $product) {
+            $viewProducts[] = $product->getView()
                 ->export();
         }
 
