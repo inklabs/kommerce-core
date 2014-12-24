@@ -96,10 +96,28 @@ class Product extends EntityRepository
         $qb = $this->getQueryBuilder();
 
         $products = $qb->select('product')
-            ->from('inklabs\kommerce\Entity\Product', 'product')
+            ->from('kommerce:Product', 'product')
             ->where('product.id IN (:productIds)')
             ->productActiveAndVisible()
             ->productAvailable()
+            ->setParameter('productIds', $productIds)
+            ->paginate($pagination)
+            ->getQuery()
+            ->getResult();
+
+        return $products;
+    }
+
+    /**
+     * @return Entity\View\Product[]
+     */
+    public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
+    {
+        $qb = $this->getQueryBuilder();
+
+        $products = $qb->select('product')
+            ->from('kommerce:Product', 'product')
+            ->where('product.id IN (:productIds)')
             ->setParameter('productIds', $productIds)
             ->paginate($pagination)
             ->getQuery()
@@ -116,12 +134,37 @@ class Product extends EntityRepository
         $qb = $this->getQueryBuilder();
 
         $products = $qb->select('product')
-            ->from('inklabs\kommerce\Entity\Product', 'product')
+            ->from('kommerce:Product', 'product')
             ->productActiveAndVisible()
             ->productAvailable()
             ->addSelect('RAND() as HIDDEN rand')
             ->orderBy('rand')
             ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return $products;
+    }
+
+    /**
+     * @return Entity\View\Product[]
+     */
+    public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
+    {
+        $qb = $this->getQueryBuilder();
+
+        $products = $qb->select('product')
+            ->from('kommerce:Product', 'product');
+
+        if ($queryString !== null) {
+            $products = $products
+                ->where('product.sku LIKE :query')
+                ->orWhere('product.name LIKE :query')
+                ->setParameter('query', '%' . $queryString . '%');
+        }
+
+        $products = $products
+            ->paginate($pagination)
             ->getQuery()
             ->getResult();
 

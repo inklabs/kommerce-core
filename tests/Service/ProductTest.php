@@ -169,28 +169,44 @@ class ProductTest extends Helper\DoctrineTestCase
         $product2 = $this->getDummyProduct(2);
         $product3 = $this->getDummyProduct(3);
         $product4 = $this->getDummyProduct(4);
-        $product5 = $this->getDummyProduct(5);
 
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
         $this->entityManager->persist($product3);
         $this->entityManager->persist($product4);
-        $this->entityManager->persist($product5);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
         $productIds = [
             $product2->getId(),
             $product3->getId(),
-            $product4->getId(),
         ];
 
         $products = $this->productService->getProductsByIds($productIds);
 
-        $this->assertEquals(3, count($products));
+        $this->assertEquals(2, count($products));
         $this->assertEquals(2, $products[0]->id);
         $this->assertEquals(3, $products[1]->id);
-        $this->assertEquals(4, $products[2]->id);
+    }
+
+    public function testGetAllProductsByIds()
+    {
+        $product1 = $this->getDummyProduct(1);
+        $product2 = $this->getDummyProduct(2);
+
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        $productIds = [
+            $product1->getId(),
+            $product2->getId(),
+        ];
+
+        $products = $this->productService->getAllProductsByIds($productIds);
+
+        $this->assertEquals(2, count($products));
     }
 
     public function testGetRandomProducts()
@@ -212,5 +228,35 @@ class ProductTest extends Helper\DoctrineTestCase
         $products = $this->productService->getRandomProducts(3);
 
         $this->assertEquals(3, count($products));
+    }
+
+    public function testGetAllProducts()
+    {
+        $product1 = $this->getDummyProduct(1);
+        $product2 = $this->getDummyProduct(2);
+
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        $products = $this->productService->getAllProducts();
+
+        $this->assertEquals(2, count($products));
+    }
+
+    public function testGetAllProductsWithQuery()
+    {
+        $product1 = $this->getDummyProduct(1);
+        $product2 = $this->getDummyProduct(2);
+
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        $products = $this->productService->getAllProducts('TST1');
+
+        $this->assertEquals(1, count($products));
     }
 }
