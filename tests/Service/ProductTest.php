@@ -2,261 +2,178 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity\View as View;
 use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\tests\Helper as Helper;
 
 class ProductTest extends Helper\DoctrineTestCase
 {
-    /* @var Product */
-    protected $productService;
+    /* @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\Product */
+    protected $mockProductRepository;
 
-    /* @var Entity\Product */
-    protected $product;
+    /* @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
+    protected $mockEntityManager;
 
     public function setUp()
     {
-        $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
-        $this->productService = new Product($this->entityManager, $pricing);
+        $this->mockProductRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Product');
+        $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
     }
 
-    public function setupProduct()
+    public function testFind()
     {
-        $this->product = new Entity\Product;
-        $this->product->setSku('TST101');
-        $this->product->setName('Test Product');
-        $this->product->setDescription('Test product description');
-        $this->product->setUnitPrice(1000);
-        $this->product->setQuantity(10);
-        $this->product->setIsInventoryRequired(true);
-        $this->product->setIsPriceVisible(true);
-        $this->product->setIsActive(true);
-        $this->product->setIsVisible(true);
-        $this->product->setIsTaxable(true);
-        $this->product->setIsShippable(true);
-        $this->product->setShippingWeight(16);
-        $this->product->setRating(null);
-        $this->product->setDefaultImage(null);
+        $product = new Entity\Product;
+        $product->setIsActive(true);
 
-        $this->entityManager->persist($this->product);
-        $this->entityManager->flush();
+        $this->mockProductRepository
+            ->shouldReceive('find')
+            ->andReturn($product);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockProductRepository);
+
+        $productService = new Product($this->mockEntityManager, new Pricing);
+
+        $product = $productService->find(1);
+        $this->assertTrue($product instanceof View\Product);
     }
 
     public function testFindMissing()
     {
-        $product = $this->productService->find(0);
+        $this->mockProductRepository
+            ->shouldReceive('find')
+            ->andReturn(null);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockProductRepository);
+
+        $productService = new Product($this->mockEntityManager, new Pricing);
+
+        $product = $productService->find(1);
         $this->assertEquals(null, $product);
     }
 
     public function testFindNotActive()
     {
-        $this->setupProduct();
-        $this->product->setIsActive(false);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $product = $this->productService->find(1);
-        $this->assertEquals(null, $product);
-    }
-
-    public function testFind()
-    {
-        $this->setupProduct();
-
-        $this->entityManager->clear();
-
-        $product = $this->productService->find(1);
-        $this->assertEquals(1, $product->id);
-    }
-
-    public function testFindByEncodedId()
-    {
-        $this->setupProduct();
-
-        $this->entityManager->clear();
-
-        $product = $this->productService->findByEncodedId(BaseConvert::encode(1));
-        $this->assertEquals(1, $product->id);
-    }
-
-    /**
-     * @return Entity\Product
-     */
-    private function getDummyProduct($num)
-    {
         $product = new Entity\Product;
-        $product->setSku('TST' . $num);
-        $product->setName('Test Product');
-        $product->setDescription('Test product description');
-        $product->setUnitPrice(500);
-        $product->setQuantity(2);
-        $product->setIsInventoryRequired(true);
-        $product->setIsPriceVisible(true);
-        $product->setIsActive(true);
-        $product->setIsVisible(true);
-        $product->setIsTaxable(true);
-        $product->setIsShippable(true);
-        $product->setShippingWeight(16);
-        return $product;
-    }
+        $product->setIsActive(false);
 
-    public function testGetRelatedProducts()
-    {
-        $this->setupProduct();
+        $this->mockProductRepository
+            ->shouldReceive('find')
+            ->andReturn($product);
 
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockProductRepository);
 
-        $tag = new Entity\Tag;
-        $tag->setName('Test Tag');
-        $tag->setIsVisible(true);
+        $productService = new Product($this->mockEntityManager, new Pricing);
 
-        $this->product->addTag($tag);
-        $product1->addTag($tag);
-        $product2->addTag($tag);
-
-        $this->entityManager->persist($tag);
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $viewProduct = $this->product->getView()
-            ->withTags()
-            ->export();
-
-        $products = $this->productService->getRelatedProducts($viewProduct);
-        $this->assertEquals(2, count($products));
-    }
-
-    public function testGetProductsByTag()
-    {
-        $tag = new Entity\Tag;
-        $tag->setName('Test Tag');
-        $tag->setDescription('Test Description');
-        $tag->setDefaultImage('http://lorempixel.com/400/200/');
-        $tag->setSortOrder(0);
-        $tag->setIsVisible(true);
-
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
-        $product3 = $this->getDummyProduct(3);
-
-        $product1->addTag($tag);
-        $product2->addTag($tag);
-        $product3->addTag($tag);
-
-        $this->entityManager->persist($tag);
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->persist($product3);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $viewTag = $tag->getView()
-            ->export();
-
-        $products = $this->productService->getProductsByTag($viewTag);
-
-        $this->assertEquals(3, count($products));
-        $this->assertEquals(1, $products[0]->id);
-        $this->assertEquals(2, $products[1]->id);
-        $this->assertEquals(3, $products[2]->id);
-    }
-
-    public function testGetProductsByIds()
-    {
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
-        $product3 = $this->getDummyProduct(3);
-        $product4 = $this->getDummyProduct(4);
-
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->persist($product3);
-        $this->entityManager->persist($product4);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $productIds = [
-            $product2->getId(),
-            $product3->getId(),
-        ];
-
-        $products = $this->productService->getProductsByIds($productIds);
-
-        $this->assertEquals(2, count($products));
-        $this->assertEquals(2, $products[0]->id);
-        $this->assertEquals(3, $products[1]->id);
-    }
-
-    public function testGetAllProductsByIds()
-    {
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
-
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $productIds = [
-            $product1->getId(),
-            $product2->getId(),
-        ];
-
-        $products = $this->productService->getAllProductsByIds($productIds);
-
-        $this->assertEquals(2, count($products));
-    }
-
-    public function testGetRandomProducts()
-    {
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
-        $product3 = $this->getDummyProduct(3);
-        $product4 = $this->getDummyProduct(4);
-        $product5 = $this->getDummyProduct(5);
-
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->persist($product3);
-        $this->entityManager->persist($product4);
-        $this->entityManager->persist($product5);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $products = $this->productService->getRandomProducts(3);
-
-        $this->assertEquals(3, count($products));
+        $product = $productService->find(1);
+        $this->assertEquals(null, $product);
     }
 
     public function testGetAllProducts()
     {
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
+        $this->mockProductRepository
+            ->shouldReceive('getAllProducts')
+            ->andReturn([new Entity\Product]);
 
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockProductRepository);
 
-        $products = $this->productService->getAllProducts();
+        $productService = new Product($this->mockEntityManager, new Pricing);
 
-        $this->assertEquals(2, count($products));
+        $products = $productService->getAllProducts();
+        $this->assertTrue($products[0] instanceof View\Product);
     }
 
-    public function testGetAllProductsWithQuery()
+    public function testGetRelatedProducts()
     {
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
+        $this->mockProductRepository
+            ->shouldReceive('getRelatedProductsByIds')
+            ->andReturn([new Entity\Product]);
 
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockProductRepository);
 
-        $products = $this->productService->getAllProducts('TST1');
+        $productService = new Product($this->mockEntityManager, new Pricing);
 
-        $this->assertEquals(1, count($products));
+        $product = new Entity\Product;
+        $product->addTag(new Entity\Tag);
+
+        $productView = $product->getView()
+            ->withTags()
+            ->export();
+
+        $products = $productService->getRelatedProducts($productView);
+        $this->assertTrue($products[0] instanceof View\Product);
+    }
+
+    public function testGetProductsByTag()
+    {
+        $this->mockProductRepository
+            ->shouldReceive('getProductsByTagId')
+            ->andReturn([new Entity\Product]);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockProductRepository);
+
+        $productService = new Product($this->mockEntityManager, new Pricing);
+
+        $products = $productService->getProductsByTag(new Entity\View\Tag(new Entity\Tag));
+        $this->assertTrue($products[0] instanceof View\Product);
+    }
+
+    public function testGetProductsByIds()
+    {
+        $this->mockProductRepository
+            ->shouldReceive('getProductsByIds')
+            ->andReturn([new Entity\Product]);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockProductRepository);
+
+        $productService = new Product($this->mockEntityManager, new Pricing);
+
+        $products = $productService->getProductsByIds([1]);
+        $this->assertTrue($products[0] instanceof View\Product);
+    }
+
+    public function testGetAllProductsByIds()
+    {
+        $this->mockProductRepository
+            ->shouldReceive('getAllProductsByIds')
+            ->andReturn([new Entity\Product]);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockProductRepository);
+
+        $productService = new Product($this->mockEntityManager, new Pricing);
+
+        $products = $productService->getAllProductsByIds([1]);
+        $this->assertTrue($products[0] instanceof View\Product);
+    }
+
+    public function testGetRandomProducts()
+    {
+        $this->mockProductRepository
+            ->shouldReceive('getRandomProducts')
+            ->andReturn([new Entity\Product]);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockProductRepository);
+
+        $productService = new Product($this->mockEntityManager, new Pricing);
+
+        $products = $productService->getRandomProducts(1);
+        $this->assertTrue($products[0] instanceof View\Product);
     }
 }

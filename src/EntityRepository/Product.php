@@ -89,7 +89,7 @@ class Product extends EntityRepository
     }
 
     /**
-     * @return Entity\View\Product[]
+     * @return Entity\Product[]
      */
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
@@ -110,6 +110,31 @@ class Product extends EntityRepository
 
     /**
      * @return Entity\View\Product[]
+     */
+    public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
+    {
+        $qb = $this->getQueryBuilder();
+
+        $products = $qb->select('product')
+            ->from('kommerce:Product', 'product');
+
+        if ($queryString !== null) {
+            $products = $products
+                ->where('product.sku LIKE :query')
+                ->orWhere('product.name LIKE :query')
+                ->setParameter('query', '%' . $queryString . '%');
+        }
+
+        $products = $products
+            ->paginate($pagination)
+            ->getQuery()
+            ->getResult();
+
+        return $products;
+    }
+
+    /**
+     * @return Entity\Product[]
      */
     public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
@@ -140,31 +165,6 @@ class Product extends EntityRepository
             ->addSelect('RAND() as HIDDEN rand')
             ->orderBy('rand')
             ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
-
-        return $products;
-    }
-
-    /**
-     * @return Entity\View\Product[]
-     */
-    public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
-    {
-        $qb = $this->getQueryBuilder();
-
-        $products = $qb->select('product')
-            ->from('kommerce:Product', 'product');
-
-        if ($queryString !== null) {
-            $products = $products
-                ->where('product.sku LIKE :query')
-                ->orWhere('product.name LIKE :query')
-                ->setParameter('query', '%' . $queryString . '%');
-        }
-
-        $products = $products
-            ->paginate($pagination)
             ->getQuery()
             ->getResult();
 

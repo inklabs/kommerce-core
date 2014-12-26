@@ -39,26 +39,11 @@ class ProductTest extends Helper\DoctrineTestCase
         return $product;
     }
 
-    public function testFindByEncodedId()
-    {
-        $product1 = $this->getDummyProduct(1);
-
-        $this->entityManager->persist($product1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $product = $this->getRepository()
-            ->findByEncodedId(BaseConvert::encode(1));
-
-        $this->assertEquals(1, $product->getId());
-    }
-
     public function testGetRelatedProducts()
     {
         $product1 = $this->getDummyProduct(1);
         $product2 = $this->getDummyProduct(2);
         $product3 = $this->getDummyProduct(3);
-        $product4 = $this->getDummyProduct(4);
 
         $tag = new Entity\Tag;
         $tag->setName('Test Tag');
@@ -66,20 +51,19 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $product1->addTag($tag);
         $product2->addTag($tag);
-        $product3->addTag($tag);
 
         $this->entityManager->persist($tag);
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
         $this->entityManager->persist($product3);
-        $this->entityManager->persist($product4);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
         $products = $this->getRepository()
             ->getRelatedProducts($product1);
 
-        $this->assertEquals(2, count($products));
+        $this->assertEquals(1, count($products));
+        $this->assertEquals(2, $products[0]->getId());
     }
 
     public function testGetProductsByTag()
@@ -117,31 +101,45 @@ class ProductTest extends Helper\DoctrineTestCase
     {
         $product1 = $this->getDummyProduct(1);
         $product2 = $this->getDummyProduct(2);
-        $product3 = $this->getDummyProduct(3);
-        $product4 = $this->getDummyProduct(4);
-        $product5 = $this->getDummyProduct(5);
 
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
-        $this->entityManager->persist($product3);
-        $this->entityManager->persist($product4);
-        $this->entityManager->persist($product5);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $productIds = [
-            $product2->getId(),
-            $product3->getId(),
-            $product4->getId(),
-        ];
+        $products = $this->getRepository()
+            ->getProductsByIds([1]);
+
+        $this->assertEquals(1, count($products));
+        $this->assertEquals(1, $products[0]->getId());
+    }
+
+    public function testGetAllProducts()
+    {
+        $product1 = $this->getDummyProduct(1);
+
+        $this->entityManager->persist($product1);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
 
         $products = $this->getRepository()
-            ->getProductsByIds($productIds);
+            ->getAllProducts('TST1');
 
-        $this->assertEquals(3, count($products));
-        $this->assertEquals(2, $products[0]->getId());
-        $this->assertEquals(3, $products[1]->getId());
-        $this->assertEquals(4, $products[2]->getId());
+        $this->assertEquals(1, $products[0]->getId());
+    }
+
+    public function testGetAllProductsByIds()
+    {
+        $product1 = $this->getDummyProduct(1);
+
+        $this->entityManager->persist($product1);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        $products = $this->getRepository()
+            ->getAllProductsByIds([1]);
+
+        $this->assertEquals(1, $products[0]->getId());
     }
 
     public function testGetRandomProducts()
@@ -149,21 +147,17 @@ class ProductTest extends Helper\DoctrineTestCase
         $product1 = $this->getDummyProduct(1);
         $product2 = $this->getDummyProduct(2);
         $product3 = $this->getDummyProduct(3);
-        $product4 = $this->getDummyProduct(4);
-        $product5 = $this->getDummyProduct(5);
 
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
         $this->entityManager->persist($product3);
-        $this->entityManager->persist($product4);
-        $this->entityManager->persist($product5);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
         $products = $this->getRepository()
-            ->getRandomProducts(3);
+            ->getRandomProducts(2);
 
-        $this->assertEquals(3, count($products));
+        $this->assertEquals(2, count($products));
     }
 
     public function testGetProductsByTagPaginated()
