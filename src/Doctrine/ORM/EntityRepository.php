@@ -12,10 +12,4 @@ class EntityRepository extends \Doctrine\ORM\EntityRepository
     {
         return new QueryBuilder($this->getEntityManager());
     }
-
-    public function findByEncodedId($encodedId)
-    {
-        $id = BaseConvert::decode($encodedId);
-        return $this->find($id);
-    }
 }
