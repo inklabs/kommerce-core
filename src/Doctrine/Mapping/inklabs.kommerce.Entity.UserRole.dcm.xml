@@ -21,11 +21,11 @@
             </options>
         </id>
 
-        <field name="name" column="name" type="string" length="32" nullable="false"/>
+        <field name="name" column="name" type="string" length="32"/>
 
-        <field name="description" column="description" type="string" length="255" nullable="false"/>
+        <field name="description" column="description" type="string" length="255"/>
 
-        <field name="created" column="created" type="integer" nullable="false">
+        <field name="created" column="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>

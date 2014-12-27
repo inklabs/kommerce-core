@@ -21,9 +21,9 @@
             </options>
         </id>
 
-        <field name="userAgent" column="user_agent" type="string" length="40" nullable="false"/>
+        <field name="userAgent" column="user_agent" type="string" length="40"/>
 
-        <field name="token" column="token" type="string" length="40" nullable="false"/>
+        <field name="token" column="token" type="string" length="40"/>
 
         <field name="expires" column="expires" type="integer" nullable="true">
             <options>
@@ -31,13 +31,13 @@
             </options>
         </field>
 
-        <field name="type" column="type" type="smallint" nullable="false">
+        <field name="type" column="type" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer" nullable="false">
+        <field name="created" column="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>

@@ -21,18 +21,18 @@
             </options>
         </id>
 
-        <field name="firstName" column="first_name" type="string" length="50" nullable="false"/>
-        <field name="lastName" column="last_name" type="string" length="50" nullable="false"/>
-        <field name="email" column="email" type="string" length="255" nullable="false"/>
-        <field name="username" column="username" type="string" length="32" nullable="false"/>
+        <field name="firstName" column="first_name" type="string" length="50"/>
+        <field name="lastName" column="last_name" type="string" length="50"/>
+        <field name="email" column="email" type="string" length="255"/>
+        <field name="username" column="username" type="string" length="32"/>
 
-        <field name="passwordHash" column="password_hash" type="string" length="60" nullable="false">
+        <field name="passwordHash" column="password_hash" type="string" length="60">
             <options>
                 <option name="fixed">true</option>
             </options>
         </field>
 
-        <field name="totalLogins" column="total_logins" type="integer" nullable="false">
+        <field name="totalLogins" column="total_logins" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
@@ -44,13 +44,13 @@
             </options>
         </field>
 
-        <field name="status" column="status" type="smallint" nullable="false">
+        <field name="status" column="status" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer" nullable="false">
+        <field name="created" column="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
