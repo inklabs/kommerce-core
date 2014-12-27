@@ -28,7 +28,7 @@
         <field name="rate" column="rate" type="decimal" precision="4" scale="2"/>
         <field name="applyToShipping" column="apply_to_shipping" type="boolean"/>
 
-        <field name="created" column="created" type="integer" nullable="false">
+        <field name="created" column="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>

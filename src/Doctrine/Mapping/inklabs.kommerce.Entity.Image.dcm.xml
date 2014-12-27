@@ -41,7 +41,7 @@
             </options>
         </field>
 
-        <field name="created" column="created" type="integer" nullable="false">
+        <field name="created" column="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>

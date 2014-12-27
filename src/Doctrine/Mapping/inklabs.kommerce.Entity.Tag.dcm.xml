@@ -21,19 +21,19 @@
             </options>
         </id>
 
-        <field name="name" column="name" type="string" length="255" nullable="false"/>
+        <field name="name" column="name" type="string" length="255"/>
         <field name="description" column="description" type="text" length="65535" nullable="true"/>
         <field name="defaultImage" column="default_image" type="string" length="255" nullable="true"/>
-        <field name="isActive" column="is_active" type="boolean" nullable="false"/>
-        <field name="isVisible" column="is_visible" type="boolean" nullable="false"/>
+        <field name="isActive" column="is_active" type="boolean"/>
+        <field name="isVisible" column="is_visible" type="boolean"/>
 
-        <field name="sortOrder" column="sort_order" type="integer" nullable="false">
+        <field name="sortOrder" column="sort_order" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer" nullable="false">
+        <field name="created" column="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>

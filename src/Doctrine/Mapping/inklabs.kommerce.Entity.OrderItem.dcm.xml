@@ -22,7 +22,7 @@
         </field>
 
         <field name="productSku" column="product_sku" type="string" length="64" nullable="true"/>
-        <field name="productName" column="product_name" type="string" length="255" nullable="false"/>
+        <field name="productName" column="product_name" type="string" length="255"/>
         <field name="discountNames" column="discount_names" type="string" length="255" nullable="true"/>
 
         <embedded name="price" class="Price"/>

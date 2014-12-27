@@ -15,20 +15,20 @@
             </options>
         </id>
 
-        <field name="username" column="username" type="string" length="32" nullable="false"/>
-        <field name="ip4" column="ip4" type="integer" nullable="false">
+        <field name="username" column="username" type="string" length="32"/>
+        <field name="ip4" column="ip4" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="result" column="result" type="smallint" nullable="false">
+        <field name="result" column="result" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer" nullable="false">
+        <field name="created" column="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>

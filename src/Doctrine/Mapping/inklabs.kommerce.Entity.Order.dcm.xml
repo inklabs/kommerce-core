@@ -21,13 +21,13 @@
             </options>
         </id>
 
-        <field name="status" column="status" type="smallint" nullable="false">
+        <field name="status" column="status" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer" nullable="false">
+        <field name="created" column="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>

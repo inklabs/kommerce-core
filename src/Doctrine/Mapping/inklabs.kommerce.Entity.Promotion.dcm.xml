@@ -45,12 +45,12 @@
             </options>
         </field>
 
-        <field name="reducesTaxSubtotal" column="reduces_tax_subtotal" type="boolean" nullable="false"/>
+        <field name="reducesTaxSubtotal" column="reduces_tax_subtotal" type="boolean"/>
 
         <field name="start" column="start" type="date" nullable="true"/>
         <field name="end" column="end" type="date" nullable="true"/>
 
-        <field name="created" column="created" type="integer" nullable="false">
+        <field name="created" column="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
