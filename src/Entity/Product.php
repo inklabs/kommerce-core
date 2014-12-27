@@ -3,6 +3,8 @@ namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Service\Pricing;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Product
 {
@@ -40,6 +42,32 @@ class Product
         $this->tags = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->productQuantityDiscounts = new ArrayCollection();
+
+        $this->isInventoryRequired = false;
+        $this->isPriceVisible = false;
+        $this->isActive = false;
+        $this->isVisible = false;
+        $this->isTaxable = false;
+        $this->isShippable = false;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('name', new Assert\Length([
+            'max' => 255,
+        ]));
+
+        $metadata->addPropertyConstraint('sku', new Assert\Length([
+            'max' => 64,
+        ]));
+
+        $metadata->addPropertyConstraint('unitPrice', new Assert\NotNull);
+        $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
+
+        $metadata->addPropertyConstraint('description', new Assert\Length([
+            'max' => 65535,
+        ]));
     }
 
     /**
@@ -55,7 +83,7 @@ class Product
 
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = (int) $id;
     }
 
     public function getId()
@@ -65,7 +93,7 @@ class Product
 
     public function setSku($sku)
     {
-        $this->sku = $sku;
+        $this->sku = (string) $sku;
     }
 
     public function getSku()
@@ -75,7 +103,7 @@ class Product
 
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
     }
 
     public function getName()
@@ -85,7 +113,7 @@ class Product
 
     public function setUnitPrice($unitPrice)
     {
-        $this->unitPrice = $unitPrice;
+        $this->unitPrice = (int) $unitPrice;
     }
 
     public function getUnitPrice()
@@ -95,7 +123,7 @@ class Product
 
     public function setQuantity($quantity)
     {
-        $this->quantity = $quantity;
+        $this->quantity = (int) $quantity;
     }
 
     public function getQuantity()
@@ -105,7 +133,7 @@ class Product
 
     public function setIsInventoryRequired($isInventoryRequired)
     {
-        $this->isInventoryRequired = $isInventoryRequired;
+        $this->isInventoryRequired = (bool) $isInventoryRequired;
     }
 
     public function getIsInventoryRequired()
@@ -115,7 +143,7 @@ class Product
 
     public function setIsPriceVisible($isPriceVisible)
     {
-        $this->isPriceVisible = $isPriceVisible;
+        $this->isPriceVisible = (bool) $isPriceVisible;
     }
 
     public function getIsPriceVisible()
@@ -125,7 +153,7 @@ class Product
 
     public function setIsActive($isActive)
     {
-        $this->isActive = $isActive;
+        $this->isActive = (bool) $isActive;
     }
 
     public function getIsActive()
@@ -135,7 +163,7 @@ class Product
 
     public function setIsVisible($isVisible)
     {
-        $this->isVisible = $isVisible;
+        $this->isVisible = (bool) $isVisible;
     }
 
     public function getIsVisible()
@@ -145,7 +173,7 @@ class Product
 
     public function setIsShippable($isShippable)
     {
-        $this->isShippable = $isShippable;
+        $this->isShippable = (bool) $isShippable;
     }
 
     public function getIsShippable()
@@ -155,7 +183,7 @@ class Product
 
     public function setShippingWeight($shippingWeight)
     {
-        $this->shippingWeight = $shippingWeight;
+        $this->shippingWeight = (int) $shippingWeight;
     }
 
     public function getShippingWeight()
@@ -165,7 +193,7 @@ class Product
 
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = (string) $description;
     }
 
     public function getDescription()
@@ -175,7 +203,7 @@ class Product
 
     public function setDefaultImage($defaultImage)
     {
-        $this->defaultImage = $defaultImage;
+        $this->defaultImage = (string) $defaultImage;
     }
 
     public function getDefaultImage()
@@ -185,7 +213,7 @@ class Product
 
     public function setIsTaxable($isTaxable)
     {
-        $this->isTaxable = $isTaxable;
+        $this->isTaxable = (bool) $isTaxable;
     }
 
     public function getIsTaxable()
@@ -195,7 +223,7 @@ class Product
 
     public function setRating($rating)
     {
-        return $this->rating = $rating;
+        return $this->rating = (float) $rating;
     }
 
     public function getRating()

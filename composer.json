@@ -17,6 +17,7 @@
         "php": ">=5.5",
         "doctrine/dbal": "2.5.*@dev",
         "doctrine/orm": "2.5.*@dev",
+        "symfony/validator": "2.6.1",
         "stripe/stripe-php": "1.*"
     },
     "autoload": {

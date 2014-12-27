@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Service as Service;
+use Symfony\Component\Validator\Validation;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,6 +28,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->addImage(new Image);
         $product->addProductQuantityDiscount(new ProductQuantityDiscount);
 
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($product));
         $this->assertEquals(1, $product->getId());
         $this->assertEquals('TST101', $product->getSku());
         $this->assertEquals('Test Product', $product->getName());
