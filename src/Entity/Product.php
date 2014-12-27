@@ -62,10 +62,19 @@ class Product
             'max' => 64,
         ]));
 
-        $metadata->addPropertyConstraint('unitPrice', new Assert\NotNull);
-        $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
-
         $metadata->addPropertyConstraint('description', new Assert\Length([
+            'max' => 65535,
+        ]));
+
+        $metadata->addPropertyConstraint('unitPrice', new Assert\NotNull);
+        $metadata->addPropertyConstraint('unitPrice', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+
+        $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
+        $metadata->addPropertyConstraint('quantity', new Assert\Range([
+            'min' => 0,
             'max' => 65535,
         ]));
     }
