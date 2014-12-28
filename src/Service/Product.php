@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Validator\Exception\ValidatorException;
+use Symfony\Component\Validator\Validation;
 use inklabs\kommerce\EntityRepository as EntityRepository;
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
@@ -35,6 +37,44 @@ class Product extends Lib\EntityManager
         return $entityProduct->getView()
             ->withAllData($this->pricing)
             ->export();
+    }
+
+    /**
+     * @throws ValidatorException
+     */
+    public function edit($id, Entity\View\Product $newProduct)
+    {
+        /* @var Entity\Product $product */
+        $product = $this->productRepository->find($id);
+
+        if ($product === null) {
+            throw new \LogicException('Missing Product');
+        }
+
+        $product->setName($newProduct->name);
+        $product->setUnitPrice($newProduct->unitPrice);
+        $product->setQuantity($newProduct->quantity);
+        $product->setIsInventoryRequired($newProduct->isInventoryRequired);
+        $product->setIsActive($newProduct->isActive);
+        $product->setIsVisible($newProduct->isVisible);
+        $product->setIsTaxable($newProduct->isTaxable);
+        $product->setSku($newProduct->sku);
+        $product->setShippingWeight($newProduct->shippingWeight);
+        $product->setDescription($newProduct->description);
+
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $errors = $validator->validate($product);
+
+        if (count($errors) > 0) {
+            $exception = new ValidatorException;
+            $exception->errors = $errors;
+            throw $exception;
+        }
+
+        $this->entityManager->flush();
     }
 
     /**
