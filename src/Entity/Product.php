@@ -77,6 +77,11 @@ class Product
             'min' => 0,
             'max' => 65535,
         ]));
+
+        $metadata->addPropertyConstraint('shippingWeight', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
     }
 
     /**

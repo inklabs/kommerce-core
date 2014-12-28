@@ -52,7 +52,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $productService = new Product($this->mockEntityManager, new Pricing);
 
         $product = $productService->find(1);
-        $this->assertEquals(null, $product);
+        $this->assertSame(null, $product);
     }
 
     public function testFindNotActive()
@@ -71,7 +71,93 @@ class ProductTest extends Helper\DoctrineTestCase
         $productService = new Product($this->mockEntityManager, new Pricing);
 
         $product = $productService->find(1);
-        $this->assertEquals(null, $product);
+        $this->assertSame(null, $product);
+    }
+
+    private function getProduct()
+    {
+        $product = new Entity\Product;
+        $product->setSku('TST1');
+        $product->setName('Test Product');
+        $product->setDescription('Test product description');
+        $product->setUnitPrice(400);
+        $product->setQuantity(2);
+        $product->setIsInventoryRequired(true);
+        $product->setIsPriceVisible(true);
+        $product->setIsActive(true);
+        $product->setIsVisible(true);
+        $product->setIsTaxable(true);
+        $product->setIsShippable(true);
+        $product->setShippingWeight(16);
+
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        return $product;
+    }
+
+    public function testEdit()
+    {
+        $product = $this->getProduct();
+
+        $productService = new Product($this->entityManager, new Pricing);
+
+        $productValues = new View\Product($product);
+        $productValues->sku = 'TST1';
+        $productValues->name = 'Test Product';
+        $productValues->description = 'Test product description';
+        $productValues->unitPrice = 500;
+        $productValues->quantity = 10;
+        $productValues->isInventoryRequired = true;
+        $productValues->isPriceVisible = true;
+        $productValues->isActive = true;
+        $productValues->isVisible = true;
+        $productValues->isTaxable = true;
+        $productValues->isShippable = true;
+        $productValues->shippingWeight = 16;
+
+        $productService->edit($product->getId(), $productValues);
+
+        $this->entityManager->clear();
+
+        $product = $this->entityManager->find('kommerce:Product', 1);
+        $this->assertSame(500, $product->getUnitPrice());
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testEditWithMissingProduct()
+    {
+        $productService = new Product($this->entityManager, new Pricing);
+        $productService->edit(1, new View\Product(new Entity\Product));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Validator\Exception\ValidatorException
+     */
+    public function testEditFailsValidation()
+    {
+        $product = $this->getProduct();
+
+        $productService = new Product($this->entityManager, new Pricing);
+
+        $productValues = new View\Product($product);
+        $productValues->sku = 'TST1';
+        $productValues->name = null;
+        $productValues->description = 'Test product description';
+        $productValues->unitPrice = -1;
+        $productValues->quantity = -1;
+        $productValues->isInventoryRequired = true;
+        $productValues->isPriceVisible = true;
+        $productValues->isActive = true;
+        $productValues->isVisible = true;
+        $productValues->isTaxable = true;
+        $productValues->isShippable = true;
+        $productValues->shippingWeight = -1;
+
+        $productService->edit($product->getId(), $productValues);
     }
 
     public function testGetAllProducts()
