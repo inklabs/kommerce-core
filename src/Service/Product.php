@@ -30,7 +30,7 @@ class Product extends Lib\EntityManager
     {
         $entityProduct = $this->productRepository->find($id);
 
-        if ($entityProduct === null or ! $entityProduct->getIsActive()) {
+        if ($entityProduct === null) {
             return null;
         }
 
@@ -55,9 +55,11 @@ class Product extends Lib\EntityManager
         $product->setUnitPrice($newProduct->unitPrice);
         $product->setQuantity($newProduct->quantity);
         $product->setIsInventoryRequired($newProduct->isInventoryRequired);
+        $product->setIsPriceVisible($newProduct->isPriceVisible);
         $product->setIsActive($newProduct->isActive);
         $product->setIsVisible($newProduct->isVisible);
         $product->setIsTaxable($newProduct->isTaxable);
+        $product->setIsShippable($newProduct->isShippable);
         $product->setSku($newProduct->sku);
         $product->setShippingWeight($newProduct->shippingWeight);
         $product->setDescription($newProduct->description);

@@ -49,6 +49,10 @@ class Product
         $this->isVisible = false;
         $this->isTaxable = false;
         $this->isShippable = false;
+
+        $this->unitPrice = 0;
+        $this->quantity = 0;
+        $this->shippingWeight = 0;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -78,6 +82,7 @@ class Product
             'max' => 65535,
         ]));
 
+        $metadata->addPropertyConstraint('shippingWeight', new Assert\NotNull);
         $metadata->addPropertyConstraint('shippingWeight', new Assert\Range([
             'min' => 0,
             'max' => 65535,

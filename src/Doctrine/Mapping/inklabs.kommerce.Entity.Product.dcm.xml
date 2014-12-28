@@ -45,7 +45,7 @@
             </options>
         </field>
 
-        <field name="shippingWeight" column="shipping_weight" type="smallint" nullable="true">
+        <field name="shippingWeight" column="shipping_weight" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
