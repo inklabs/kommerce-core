@@ -55,25 +55,6 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $product);
     }
 
-    public function testFindNotActive()
-    {
-        $product = new Entity\Product;
-        $product->setIsActive(false);
-
-        $this->mockProductRepository
-            ->shouldReceive('find')
-            ->andReturn($product);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockProductRepository);
-
-        $productService = new Product($this->mockEntityManager, new Pricing);
-
-        $product = $productService->find(1);
-        $this->assertSame(null, $product);
-    }
-
     private function getProduct()
     {
         $product = new Entity\Product;
