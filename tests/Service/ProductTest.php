@@ -104,6 +104,7 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $product = $this->entityManager->find('kommerce:Product', 1);
         $this->assertSame(500, $product->getUnitPrice());
+        $this->assertNotSame($productValues->updated, $product->getUpdated());
     }
 
     /**

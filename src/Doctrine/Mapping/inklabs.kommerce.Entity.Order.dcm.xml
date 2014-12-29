@@ -8,11 +8,9 @@
             table="order"
             repository-class="inklabs\kommerce\EntityRepository\Order">
 
-        <entity-listeners>
-            <entity-listener class="inklabs\kommerce\Entity\Accessor\UpdatedListener">
-                <lifecycle-callback type="preUpdate" method="preUpdate"/>
-            </entity-listener>
-        </entity-listeners>
+        <lifecycle-callbacks>
+            <lifecycle-callback type="preUpdate" method="preUpdate"/>
+        </lifecycle-callbacks>
 
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO"/>
