@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity\Accessor;
 
+use Doctrine\ORM\Event\PreUpdateEventArgs;
+
 trait Updated
 {
     protected $updated;
@@ -12,6 +14,11 @@ trait Updated
         }
 
         $this->updated = $updated->getTimestamp();
+    }
+
+    public function preUpdate(PreUpdateEventArgs $event)
+    {
+        $this->setUpdated();
     }
 
     /**
