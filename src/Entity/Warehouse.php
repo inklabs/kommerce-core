@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Warehouse
 {
     use Accessor\Time;
@@ -14,6 +17,16 @@ class Warehouse
     public function __construct()
     {
         $this->setCreated();
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('name', new Assert\Length([
+            'max' => 255,
+        ]));
+
+        $metadata->addPropertyConstraint('address', new Assert\Valid);
     }
 
     public function getId()

@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class UserToken
 {
     use Accessor\Time;
@@ -22,6 +25,28 @@ class UserToken
     public function __construct()
     {
         $this->setCreated();
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('userAgent', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('userAgent', new Assert\Length([
+            'max' => 40,
+        ]));
+
+        $metadata->addPropertyConstraint('token', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('token', new Assert\Length([
+            'max' => 40,
+        ]));
+
+        $metadata->addPropertyConstraint('expires', new Assert\GreaterThanOrEqual(array(
+            'value' => 0,
+        )));
+
+        $metadata->addPropertyConstraint('type', new Assert\Choice(array(
+            'choices' => array_keys(static::getTypeMapping()),
+            'message' => 'Choose a valid type',
+        )));
     }
 
     public function getId()
@@ -57,6 +82,21 @@ class UserToken
     public function getType()
     {
         return $this->type;
+    }
+
+    public static function getTypeMapping()
+    {
+        return [
+            static::TYPE_GOOGLE => 'Google',
+            static::TYPE_FACEBOOK => 'Facebook',
+            static::TYPE_TWITTER => 'Twitter',
+            static::TYPE_YAHOO => 'Yahoo',
+        ];
+    }
+
+    public function getTypeText()
+    {
+        return $this->getTypeMapping()[$this->type];
     }
 
     public function setExpires(\DateTime $expires = null)

@@ -110,7 +110,7 @@ class Order
         return $this->status;
     }
 
-    public function getStatusMapping()
+    public static function getStatusMapping()
     {
         return [
             static::STATUS_PENDING => 'Pending',

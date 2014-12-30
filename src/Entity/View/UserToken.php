@@ -11,6 +11,7 @@ class UserToken
     public $token;
     public $expires;
     public $type;
+    public $typeText;
     public $created;
     public $updated;
 
@@ -25,6 +26,7 @@ class UserToken
         $this->userAgent = $userToken->getUserAgent();
         $this->token     = $userToken->getToken();
         $this->expires   = $userToken->getExpires();
+        $this->type      = $userToken->getType();
         $this->type      = $userToken->getType();
         $this->created   = $userToken->getCreated();
         $this->updated   = $userToken->getUpdated();

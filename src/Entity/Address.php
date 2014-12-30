@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Address
 {
     protected $attention;
@@ -13,6 +16,62 @@ class Address
     protected $zip4;
     protected $latitude;
     protected $longitude;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('attention', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('attention', new Assert\Length([
+            'max' => 128,
+        ]));
+
+        $metadata->addPropertyConstraint('company', new Assert\Length([
+            'max' => 128,
+        ]));
+
+        $metadata->addPropertyConstraint('address1', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('address1', new Assert\Length([
+            'max' => 128,
+        ]));
+
+        $metadata->addPropertyConstraint('address2', new Assert\Length([
+            'max' => 128,
+        ]));
+
+        $metadata->addPropertyConstraint('city', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('city', new Assert\Length([
+            'max' => 128,
+        ]));
+
+        $metadata->addPropertyConstraint('state', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('state', new Assert\Length([
+            'max' => 2,
+        ]));
+
+        $metadata->addPropertyConstraint('zip5', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('zip5', new Assert\Regex(array(
+            'pattern' => '/[0-9]{5}/',
+            'match'   => true,
+            'message' => 'Must be a valid 5 digit postal code',
+        )));
+
+        $metadata->addPropertyConstraint('zip4', new Assert\Regex(array(
+            'pattern' => '/[0-9]{4}/',
+            'match'   => true,
+            'message' => 'Must be a valid 4 digit ZIP+4 postal code',
+        )));
+
+        $metadata->addPropertyConstraint('latitude', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('latitude', new Assert\Length([
+            'min' => -90,
+            'max' => 90,
+        ]));
+
+        $metadata->addPropertyConstraint('longitude', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('longitude', new Assert\Length([
+            'min' => -180,
+            'max' => 180,
+        ]));
+    }
 
     public function getAddress1()
     {
