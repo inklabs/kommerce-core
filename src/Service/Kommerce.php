@@ -17,7 +17,7 @@ class Kommerce
 
     public function __construct(Doctrine\Common\Cache\CacheProvider $cacheDriver = null)
     {
-        $paths = array(__DIR__ . '/../Entity');
+        $paths = [__DIR__ . '/../Entity'];
         $isDevMode = true;
 
         $this->config = Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);

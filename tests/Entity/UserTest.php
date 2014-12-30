@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Service as Service;
+use Symfony\Component\Validator\Validation;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,14 +22,20 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->addLogin(new UserLogin);
         $user->addOrder(new Order(new Cart, new Service\Pricing));
 
-        $this->assertEquals(1, $user->getId());
-        $this->assertEquals(User::STATUS_ACTIVE, $user->getStatus());
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($user));
+        $this->assertSame(1, $user->getId());
+        $this->assertSame(User::STATUS_ACTIVE, $user->getStatus());
+        $this->assertSame('Active', $user->getStatusText());
         $this->assertTrue($user->isActive());
-        $this->assertEquals('test@example.com', $user->getEmail());
-        $this->assertEquals('test', $user->getUsername());
-        $this->assertEquals('John', $user->getFirstName());
-        $this->assertEquals('Doe', $user->getLastName());
-        $this->assertEquals(0, $user->getTotalLogins());
+        $this->assertSame('test@example.com', $user->getEmail());
+        $this->assertSame('test', $user->getUsername());
+        $this->assertSame('John', $user->getFirstName());
+        $this->assertSame('Doe', $user->getLastName());
+        $this->assertSame(0, $user->getTotalLogins());
         $this->assertTrue($user->getLastLogin() > 0);
         $this->assertTrue($user->getRoles()[0] instanceof UserRole);
         $this->assertTrue($user->getTokens()[0] instanceof UserToken);
@@ -49,7 +56,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $user = new User;
         $user->incrementTotalLogins();
-        $this->assertEquals(1, $user->getTotalLogins());
+        $this->assertSame(1, $user->getTotalLogins());
         $this->assertTrue($user->getLastLogin() > 0);
     }
 

@@ -39,14 +39,14 @@ class UserToken
             'max' => 40,
         ]));
 
-        $metadata->addPropertyConstraint('expires', new Assert\GreaterThanOrEqual(array(
+        $metadata->addPropertyConstraint('expires', new Assert\GreaterThanOrEqual([
             'value' => 0,
-        )));
+        ]));
 
-        $metadata->addPropertyConstraint('type', new Assert\Choice(array(
+        $metadata->addPropertyConstraint('type', new Assert\Choice([
             'choices' => array_keys(static::getTypeMapping()),
-            'message' => 'Choose a valid type',
-        )));
+            'message' => 'The type is not a valid choice',
+        ]));
     }
 
     public function getId()
