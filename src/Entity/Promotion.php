@@ -1,14 +1,16 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-// TODO: Make Abstract
-class Promotion
+abstract class Promotion
 {
     use Accessor\Time;
 
     protected $id;
     protected $name;
+
+    // TODO: Make this class constant
     protected $type; // fixed, percent, exact
+
     protected $value;
     protected $redemptions;
     protected $maxRedemptions;

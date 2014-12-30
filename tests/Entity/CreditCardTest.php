@@ -7,8 +7,9 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
     {
         $creditCard = new CreditCard('4242424242424242', '01', '2020');
 
-        $this->assertEquals('4242424242424242', $creditCard->getNumber());
-        $this->assertEquals('01', $creditCard->getExpirationMonth());
-        $this->assertEquals('2020', $creditCard->getExpirationYear());
+        $this->assertSame('4242424242424242', $creditCard->getNumber());
+        $this->assertSame('01', $creditCard->getExpirationMonth());
+        $this->assertSame('2020', $creditCard->getExpirationYear());
+        $this->assertTrue($creditCard->getView() instanceof View\CreditCard);
     }
 }

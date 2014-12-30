@@ -16,11 +16,12 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
 
         $pricing = new Service\Pricing;
 
-        $this->assertEquals(1, $cartItem->getId());
-        $this->assertEquals(2, $cartItem->getQuantity());
+        $this->assertSame(1, $cartItem->getId());
+        $this->assertSame(2, $cartItem->getQuantity());
         $this->assertTrue($cartItem->getProduct() instanceof Product);
         $this->assertTrue($cartItem->getPrice($pricing) instanceof Price);
-        $this->assertEquals(20, $cartItem->getShippingWeight());
+        $this->assertSame(20, $cartItem->getShippingWeight());
+        $this->assertTrue($cartItem->getView() instanceof View\CartItem);
     }
 
     public function testSetProductAndQuantity()
@@ -29,6 +30,6 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $cartItem->setProduct(new Product);
         $cartItem->setQuantity(3);
         $this->assertTrue($cartItem->getProduct() instanceof Product);
-        $this->assertEquals(3, $cartItem->getQuantity());
+        $this->assertSame(3, $cartItem->getQuantity());
     }
 }

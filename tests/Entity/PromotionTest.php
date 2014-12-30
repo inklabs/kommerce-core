@@ -5,7 +5,7 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $promotion = new Promotion;
+        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
         $promotion->setid(1);
         $promotion->setName('20% Off in 2014');
         $promotion->setType('percent');
@@ -13,23 +13,23 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
         $promotion->setRedemptions(10);
         $promotion->setMaxRedemptions(100);
         $promotion->setReducesTaxSubtotal(true);
-        $promotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $promotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+        $promotion->setStart(new \DateTime);
+        $promotion->setEnd(new \DateTime);
 
-        $this->assertEquals(1, $promotion->getId());
-        $this->assertEquals('20% Off in 2014', $promotion->getName());
-        $this->assertEquals('percent', $promotion->getType());
-        $this->assertEquals(20, $promotion->getValue());
-        $this->assertEquals(10, $promotion->getRedemptions());
-        $this->assertEquals(100, $promotion->getMaxRedemptions());
-        $this->assertEquals(true, $promotion->getReducesTaxSubtotal());
-        $this->assertEquals(new \DateTime('2014-01-01', new \DateTimeZone('UTC')), $promotion->getStart());
-        $this->assertEquals(new \DateTime('2014-12-31', new \DateTimeZone('UTC')), $promotion->getEnd());
+        $this->assertSame(1, $promotion->getId());
+        $this->assertSame('20% Off in 2014', $promotion->getName());
+        $this->assertSame('percent', $promotion->getType());
+        $this->assertSame(20, $promotion->getValue());
+        $this->assertSame(10, $promotion->getRedemptions());
+        $this->assertSame(100, $promotion->getMaxRedemptions());
+        $this->assertSame(true, $promotion->getReducesTaxSubtotal());
+        $this->assertTrue($promotion->getStart() instanceof \DateTime);
+        $this->assertTrue($promotion->getEnd() instanceof \DateTime);
     }
 
     private function getDatePromotion()
     {
-        $promotion = new Promotion;
+        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
         $promotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $promotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
         return $promotion;
@@ -75,7 +75,7 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
 
     public function testIsRedemptionCountValid()
     {
-        $promotion = new Promotion;
+        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
         $promotion->setMaxRedemptions(null);
         $this->assertTrue($promotion->isRedemptionCountValid());
 
@@ -95,33 +95,37 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
 
     public function testIsValid()
     {
-        $promotion = new Promotion;
+        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
+
         $promotion->setMaxRedemptions(null);
         $this->assertTrue($promotion->isValidPromotion(new \DateTime));
     }
 
     public function testGetUnitPriceWithPercent()
     {
-        $promotion = new Promotion;
+        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
+
         $promotion->setType('percent');
         $promotion->setValue(20);
-        $this->assertEquals(800, $promotion->getUnitPrice(1000));
+        $this->assertSame(800, $promotion->getUnitPrice(1000));
     }
 
     public function testGetUnitPriceWithFixed()
     {
-        $promotion = new Promotion;
+        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
+
         $promotion->setType('fixed');
         $promotion->setValue(20);
-        $this->assertEquals(980, $promotion->getUnitPrice(1000));
+        $this->assertSame(980, $promotion->getUnitPrice(1000));
     }
 
     public function testGetUnitPriceWithExact()
     {
-        $promotion = new Promotion;
+        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
+
         $promotion->setType('exact');
         $promotion->setValue(20);
-        $this->assertEquals(20, $promotion->getUnitPrice(1000));
+        $this->assertSame(20, $promotion->getUnitPrice(1000));
     }
 
     /**
@@ -129,7 +133,8 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUnitPriceWithInvalidType()
     {
-        $promotion = new Promotion;
+        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
+
         $promotion->setType('invalid');
         $promotion->getUnitPrice(0);
     }

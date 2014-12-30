@@ -13,10 +13,11 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscount->setFlagApplyCatalogPromotions(true);
         $productQuantityDiscount->setProduct(new Product);
 
-        $this->assertEquals(null, $productQuantityDiscount->getCustomerGroup());
-        $this->assertEquals(6, $productQuantityDiscount->getQuantity());
-        $this->assertEquals(true, $productQuantityDiscount->getFlagApplyCatalogPromotions());
+        $this->assertSame(null, $productQuantityDiscount->getCustomerGroup());
+        $this->assertSame(6, $productQuantityDiscount->getQuantity());
+        $this->assertSame(true, $productQuantityDiscount->getFlagApplyCatalogPromotions());
         $this->assertTrue($productQuantityDiscount->getProduct() instanceof Product);
+        $this->assertTrue($productQuantityDiscount->getView() instanceof View\ProductQuantityDiscount);
     }
 
     /**
@@ -55,7 +56,7 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscount->setType('exact');
         $productQuantityDiscount->setQuantity(10);
         $productQuantityDiscount->setValue(500);
-        $this->assertEquals('Buy 10 or more for $5.00 each', $productQuantityDiscount->getName());
+        $this->assertSame('Buy 10 or more for $5.00 each', $productQuantityDiscount->getName());
     }
 
     public function testGetNamePercent()
@@ -64,7 +65,7 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscount->setType('percent');
         $productQuantityDiscount->setQuantity(10);
         $productQuantityDiscount->setValue(50);
-        $this->assertEquals('Buy 10 or more for 50% off', $productQuantityDiscount->getName());
+        $this->assertSame('Buy 10 or more for 50% off', $productQuantityDiscount->getName());
     }
 
     public function testGetNameFixed()
@@ -73,7 +74,7 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscount->setType('fixed');
         $productQuantityDiscount->setQuantity(10);
         $productQuantityDiscount->setValue(500);
-        $this->assertEquals('Buy 10 or more for $5.00 off', $productQuantityDiscount->getName());
+        $this->assertSame('Buy 10 or more for $5.00 off', $productQuantityDiscount->getName());
     }
 
     public function testGetPrice()

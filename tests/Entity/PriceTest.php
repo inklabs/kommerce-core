@@ -15,6 +15,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($price->getCatalogPromotions()[0] instanceof CatalogPromotion);
         $this->assertTrue($price->getProductQuantityDiscount() instanceof ProductQuantityDiscount);
+        $this->assertTrue($price->getView() instanceof View\Price);
     }
 
     public function testAdd()

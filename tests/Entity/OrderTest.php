@@ -20,11 +20,11 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->addCoupon(new Coupon);
         $order->addPayment(new Payment\Cash(100));
 
-        $this->assertEquals(1, $order->getId());
-        $this->assertEquals(Order::STATUS_PENDING, $order->getStatus());
-        $this->assertEquals('Pending', $order->getStatusText());
-        $this->assertEquals(1, $order->totalItems());
-        $this->assertEquals(2, $order->totalQuantity());
+        $this->assertSame(1, $order->getId());
+        $this->assertSame(Order::STATUS_PENDING, $order->getStatus());
+        $this->assertSame('Pending', $order->getStatusText());
+        $this->assertSame(1, $order->totalItems());
+        $this->assertSame(2, $order->totalQuantity());
         $this->assertTrue($order->getTotal() instanceof CartTotal);
         $this->assertTrue($order->getShippingAddress() instanceof OrderAddress);
         $this->assertTrue($order->getBillingAddress() instanceof OrderAddress);
@@ -32,5 +32,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($order->getCoupons()[0] instanceof Coupon);
         $this->assertTrue($order->getItems()[0] instanceof OrderItem);
         $this->assertTrue($order->getPayments()[0] instanceof Payment\Payment);
+        $this->assertTrue($order->getView() instanceof View\Order);
     }
 }
