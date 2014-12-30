@@ -41,6 +41,6 @@ class UserLoginTest extends Helper\DoctrineTestCase
         $userLogin = $this->getRepository()
             ->find(1);
 
-        $this->assertEquals(1, $userLogin->getId());
+        $this->assertSame(1, $userLogin->getId());
     }
 }

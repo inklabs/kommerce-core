@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-define('FLOAT_DELTA', 0.000001);
-
 class PointTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()

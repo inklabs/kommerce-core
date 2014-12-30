@@ -42,6 +42,6 @@ class UserTokenTest extends Helper\DoctrineTestCase
         $userToken = $this->getRepository()
             ->find(1);
 
-        $this->assertEquals(1, $userToken->getId());
+        $this->assertSame(1, $userToken->getId());
     }
 }

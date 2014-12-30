@@ -203,7 +203,7 @@ class Cart extends Lib\EntityManager
 
     public function getShippingWeightInPounds()
     {
-        return ceil($this->cart->getShippingWeight() / 16);
+        return (int) ceil($this->cart->getShippingWeight() / 16);
     }
 
     public function totalItems()

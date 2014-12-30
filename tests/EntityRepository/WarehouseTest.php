@@ -57,7 +57,7 @@ class WarehouseTest extends Helper\DoctrineTestCase
         $warehouse = $this->getRepository()
             ->find(1);
 
-        $this->assertEquals(1, $warehouse->getId());
+        $this->assertSame(1, $warehouse->getId());
     }
 
     public function testFindByPointNotInRange()
@@ -69,7 +69,7 @@ class WarehouseTest extends Helper\DoctrineTestCase
         $warehouse = $this->getRepository()
             ->findByPoint($losAngeles, 1);
 
-        $this->assertEquals(0, count($warehouse));
+        $this->assertSame(0, count($warehouse));
     }
 
     public function testFindByPoint()
@@ -81,7 +81,7 @@ class WarehouseTest extends Helper\DoctrineTestCase
         $warehouses = $this->getRepository()
             ->findByPoint($losAngeles, 50);
 
-        $this->assertEquals(1, $warehouses[0][0]->getId());
+        $this->assertSame(1, $warehouses[0][0]->getId());
 
         // Correct distance is 14.421 miles.
         // Check scalar distance column is within 5 miles (for Sqlite).

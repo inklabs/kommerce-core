@@ -7,8 +7,8 @@ class RateTest extends \PHPUnit_Framework_TestCase
     {
         $rate = new Entity\Shipping\Rate;
 
-        $this->assertEquals(null, $rate->code);
-        $this->assertEquals(null, $rate->name);
-        $this->assertEquals(null, $rate->cost);
+        $this->assertSame(null, $rate->code);
+        $this->assertSame(null, $rate->name);
+        $this->assertSame(null, $rate->cost);
     }
 }

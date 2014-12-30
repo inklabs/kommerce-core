@@ -16,7 +16,7 @@ class CartPriceRuleTest extends Helper\DoctrineTestCase
         $catalogPromotionService = new CartPriceRule($this->entityManager);
         $catalogPromotions = $catalogPromotionService->findAll();
 
-        $this->assertEquals(2, count($catalogPromotions));
+        $this->assertSame(2, count($catalogPromotions));
     }
 
     /**

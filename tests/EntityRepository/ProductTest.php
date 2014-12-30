@@ -62,8 +62,8 @@ class ProductTest extends Helper\DoctrineTestCase
         $products = $this->getRepository()
             ->getRelatedProducts($product1);
 
-        $this->assertEquals(1, count($products));
-        $this->assertEquals(2, $products[0]->getId());
+        $this->assertSame(1, count($products));
+        $this->assertSame(2, $products[0]->getId());
     }
 
     public function testGetProductsByTag()
@@ -92,9 +92,9 @@ class ProductTest extends Helper\DoctrineTestCase
         $products = $this->getRepository()
             ->getProductsByTag($tag);
 
-        $this->assertEquals(2, count($products));
-        $this->assertEquals(1, $products[0]->getId());
-        $this->assertEquals(2, $products[1]->getid());
+        $this->assertSame(2, count($products));
+        $this->assertSame(1, $products[0]->getId());
+        $this->assertSame(2, $products[1]->getid());
     }
 
     public function testGetProductsByIds()
@@ -110,8 +110,8 @@ class ProductTest extends Helper\DoctrineTestCase
         $products = $this->getRepository()
             ->getProductsByIds([1]);
 
-        $this->assertEquals(1, count($products));
-        $this->assertEquals(1, $products[0]->getId());
+        $this->assertSame(1, count($products));
+        $this->assertSame(1, $products[0]->getId());
     }
 
     public function testGetAllProducts()
@@ -125,7 +125,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $products = $this->getRepository()
             ->getAllProducts('TST1');
 
-        $this->assertEquals(1, $products[0]->getId());
+        $this->assertSame(1, $products[0]->getId());
     }
 
     public function testGetAllProductsByIds()
@@ -139,7 +139,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $products = $this->getRepository()
             ->getAllProductsByIds([1]);
 
-        $this->assertEquals(1, $products[0]->getId());
+        $this->assertSame(1, $products[0]->getId());
     }
 
     public function testGetRandomProducts()
@@ -157,7 +157,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $products = $this->getRepository()
             ->getRandomProducts(2);
 
-        $this->assertEquals(2, count($products));
+        $this->assertSame(2, count($products));
     }
 
     public function testGetProductsByTagPaginated()
@@ -191,10 +191,10 @@ class ProductTest extends Helper\DoctrineTestCase
         $products = $this->getRepository()
             ->getProductsByTag($tag, $pagination);
 
-        $this->assertEquals(2, count($products));
-        $this->assertEquals(1, $products[0]->getId());
-        $this->assertEquals(2, $products[1]->getId());
-        $this->assertEquals(3, $pagination->getTotal());
+        $this->assertSame(2, count($products));
+        $this->assertSame(1, $products[0]->getId());
+        $this->assertSame(2, $products[1]->getId());
+        $this->assertSame(3, $pagination->getTotal());
 
         // Page 2
         $maxResults = 2;
@@ -204,8 +204,8 @@ class ProductTest extends Helper\DoctrineTestCase
         $products = $this->getRepository()
             ->getProductsByTag($tag, $pagination);
 
-        $this->assertEquals(1, count($products));
-        $this->assertEquals(3, $products[0]->getId());
-        $this->assertEquals(3, $pagination->getTotal());
+        $this->assertSame(1, count($products));
+        $this->assertSame(3, $products[0]->getId());
+        $this->assertSame(3, $pagination->getTotal());
     }
 }

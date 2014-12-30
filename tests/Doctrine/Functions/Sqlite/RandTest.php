@@ -47,7 +47,7 @@ class RandTest extends Helper\DoctrineTestCase
             ->getQuery()
             ->getResult();
 
-        $this->assertEquals(3, count($randomProducts));
+        $this->assertSame(3, count($randomProducts));
         $this->assertTrue(in_array($this->product1, $randomProducts));
         $this->assertTrue(in_array($this->product2, $randomProducts));
         $this->assertTrue(in_array($this->product3, $randomProducts));
@@ -65,7 +65,7 @@ class RandTest extends Helper\DoctrineTestCase
             ->getQuery()
             ->getResult();
 
-        $this->assertEquals(3, count($randomProducts));
+        $this->assertSame(3, count($randomProducts));
         $this->assertTrue(in_array($this->product1, $randomProducts));
         $this->assertTrue(in_array($this->product2, $randomProducts));
         $this->assertTrue(in_array($this->product3, $randomProducts));

@@ -16,13 +16,13 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
         $chargeResponse->setFee(88);
         $chargeResponse->setDescription('test@example.com');
 
-        $this->assertEquals('ch_xxxxxxxxxxxxxx', $chargeResponse->getId());
-        $this->assertEquals(2000, $chargeResponse->getAmount());
-        $this->assertEquals('4242', $chargeResponse->getLast4());
-        $this->assertEquals('Visa', $chargeResponse->getBrand());
-        $this->assertEquals(1, $chargeResponse->getCreated());
-        $this->assertEquals('usd', $chargeResponse->getCurrency());
-        $this->assertEquals(88, $chargeResponse->getFee());
-        $this->assertEquals('test@example.com', $chargeResponse->getDescription());
+        $this->assertSame('ch_xxxxxxxxxxxxxx', $chargeResponse->getId());
+        $this->assertSame(2000, $chargeResponse->getAmount());
+        $this->assertSame('4242', $chargeResponse->getLast4());
+        $this->assertSame('Visa', $chargeResponse->getBrand());
+        $this->assertSame(1, $chargeResponse->getCreated());
+        $this->assertSame('usd', $chargeResponse->getCurrency());
+        $this->assertSame(88, $chargeResponse->getFee());
+        $this->assertSame('test@example.com', $chargeResponse->getDescription());
     }
 }

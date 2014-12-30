@@ -18,8 +18,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $mock->setCartPriceRule(new Entity\CartPriceRule);
 
         $this->assertTrue($mock->matches(new Entity\CartItem(new Entity\Product, 1)));
-        $this->assertEquals(1, $mock->getId());
-        $this->assertEquals(2, $mock->getQuantity());
+        $this->assertSame(1, $mock->getId());
+        $this->assertSame(2, $mock->getQuantity());
         $this->assertTrue($mock->getCartPriceRule() instanceof Entity\CartPriceRule);
     }
 }

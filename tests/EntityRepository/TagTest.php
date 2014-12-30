@@ -37,6 +37,6 @@ class TagTest extends Helper\DoctrineTestCase
         $tag = $this->getRepository()
             ->find(1);
 
-        $this->assertEquals(1, $tag->getId());
+        $this->assertSame(1, $tag->getId());
     }
 }

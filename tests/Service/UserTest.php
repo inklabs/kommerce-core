@@ -31,13 +31,13 @@ class UserTest extends Helper\DoctrineTestCase
     public function testUserDoesNotExist()
     {
         $user = $this->userService->find(0);
-        $this->assertEquals(null, $user);
+        $this->assertSame(null, $user);
     }
 
     public function testUserExists()
     {
         $user = $this->userService->find(1);
-        $this->assertEquals(1, $user->id);
+        $this->assertSame(1, $user->id);
     }
 
     public function testUserLoginWithUsername()
@@ -50,8 +50,8 @@ class UserTest extends Helper\DoctrineTestCase
         $user = $this->entityManager->getRepository('kommerce:User')
             ->find(1);
 
-        $this->assertEquals(1, $user->getTotalLogins());
-        $this->assertEquals(Entity\UserLogin::RESULT_SUCCESS, $user->getLogins()[0]->getResult());
+        $this->assertSame(1, $user->getTotalLogins());
+        $this->assertSame(Entity\UserLogin::RESULT_SUCCESS, $user->getLogins()[0]->getResult());
     }
 
     public function testUserLoginWithWrongPassword()
@@ -64,8 +64,8 @@ class UserTest extends Helper\DoctrineTestCase
         $user = $this->entityManager->getRepository('kommerce:User')
             ->find(1);
 
-        $this->assertEquals(0, $user->getTotalLogins());
-        $this->assertEquals(Entity\UserLogin::RESULT_FAIL, $user->getLogins()[0]->getResult());
+        $this->assertSame(0, $user->getTotalLogins());
+        $this->assertSame(Entity\UserLogin::RESULT_FAIL, $user->getLogins()[0]->getResult());
     }
 
     public function testUserLoginWithWrongUsername()
@@ -79,7 +79,7 @@ class UserTest extends Helper\DoctrineTestCase
 
         $this->userService->logout();
 
-        $this->assertEquals(null, $this->userService->getUser());
+        $this->assertSame(null, $this->userService->getUser());
 
     }
 
@@ -90,6 +90,6 @@ class UserTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
 
         $newUserService = new User($this->entityManager, $this->sessionManager);
-        $this->assertEquals(1, $newUserService->getUser()->getId());
+        $this->assertSame(1, $newUserService->getUser()->getId());
     }
 }

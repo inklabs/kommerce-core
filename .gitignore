@@ -5,3 +5,4 @@ coverage_report
 .idea/workspace.xml
 .idea/tasks.xml
 config/cli-config.php
+.DS_Store

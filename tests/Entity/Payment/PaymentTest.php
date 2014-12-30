@@ -16,8 +16,8 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $mock->setAmount(100);
         $mock->addOrder($order);
 
-        $this->assertEquals(1, $mock->getId());
-        $this->assertEquals(100, $mock->getAmount());
+        $this->assertSame(1, $mock->getId());
+        $this->assertSame(100, $mock->getAmount());
         $this->assertTrue($mock->getOrder() instanceof Entity\Order);
     }
 }

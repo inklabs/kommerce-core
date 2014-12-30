@@ -33,10 +33,10 @@ class CartTest extends Helper\DoctrineTestCase
         $cart->updateQuantity($itemId1, 2);
         $cart->deleteItem($itemId2);
 
-        $this->assertEquals(1, $cart->totalItems());
-        $this->assertEquals(2, $cart->totalQuantity());
-        $this->assertEquals(32, $cart->getShippingWeight());
-        $this->assertEquals(2, $cart->getShippingWeightInPounds());
+        $this->assertSame(1, $cart->totalItems());
+        $this->assertSame(2, $cart->totalQuantity());
+        $this->assertSame(32, $cart->getShippingWeight());
+        $this->assertSame(2, $cart->getShippingWeightInPounds());
         $this->assertTrue($cart->getTotal() instanceof Entity\CartTotal);
         $this->assertTrue($cart->getCoupons()[0] instanceof Entity\Coupon);
         $this->assertTrue($cart->getItems()[0] instanceof Entity\View\CartItem);
@@ -111,16 +111,16 @@ class CartTest extends Helper\DoctrineTestCase
         $sessionManager = new Lib\ArraySessionManager;
 
         $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
-        $this->assertEquals(0, $cart->totalItems());
+        $this->assertSame(0, $cart->totalItems());
 
         $viewProduct = $this->getViewProduct();
         $itemId1 = $cart->addItem($viewProduct, 1);
-        $this->assertEquals(1, $cart->totalItems());
+        $this->assertSame(1, $cart->totalItems());
 
         $this->entityManager->clear();
 
         $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
-        $this->assertEquals(1, $cart->totalItems());
+        $this->assertSame(1, $cart->totalItems());
     }
 
     public function testCartPersistenceWithPriceChange()
@@ -130,14 +130,14 @@ class CartTest extends Helper\DoctrineTestCase
 
         $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
         $itemId = $cart->addItem($viewProduct, 2);
-        $this->assertEquals(500, $cart->getItem($itemId)->product->unitPrice);
+        $this->assertSame(500, $cart->getItem($itemId)->product->unitPrice);
 
         $this->product->setUnitPrice(501);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
         $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
-        $this->assertEquals(501, $cart->getItem($itemId)->product->unitPrice);
+        $this->assertSame(501, $cart->getItem($itemId)->product->unitPrice);
     }
 
     public function testCartPersistenceWithCouponChange()
@@ -148,14 +148,14 @@ class CartTest extends Helper\DoctrineTestCase
 
         $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
         $cart->addCouponByCode($this->coupon->getCode());
-        $this->assertEquals(20, $cart->getCoupons()[0]->getValue());
+        $this->assertSame(20, $cart->getCoupons()[0]->getValue());
 
         $this->coupon->setValue(10);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
         $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
-        $this->assertEquals(10, $cart->getCoupons()[0]->getValue());
+        $this->assertSame(10, $cart->getCoupons()[0]->getValue());
     }
 
     /**
@@ -204,7 +204,7 @@ class CartTest extends Helper\DoctrineTestCase
         $couponId = $cart->addCouponByCode($this->coupon->getCode());
         $cart->removeCoupon($couponId);
 
-        $this->assertEquals(0, count($cart->getCoupons()));
+        $this->assertSame(0, count($cart->getCoupons()));
     }
 
     /**
@@ -246,11 +246,11 @@ class CartTest extends Helper\DoctrineTestCase
 
         /* @var Entity\Order $order */
         $order = $this->entityManager->getRepository('kommerce:Order')->find(1);
-        $this->assertEquals(1, $order->getId());
-        $this->assertEquals(1600, $order->getTotal()->total);
+        $this->assertSame(1, $order->getId());
+        $this->assertSame(1600, $order->getTotal()->total);
 
         $payment = $this->entityManager->getRepository('kommerce:Payment\Payment')->find(1);
-        $this->assertEquals(1, $payment->getId());
-        $this->assertEquals(1600, $payment->getAmount());
+        $this->assertSame(1, $payment->getId());
+        $this->assertSame(1600, $payment->getAmount());
     }
 }

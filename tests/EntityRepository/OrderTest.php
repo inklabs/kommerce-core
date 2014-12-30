@@ -85,10 +85,10 @@ class OrderTest extends Helper\DoctrineTestCase
         $order = $this->getRepository()
             ->find(1);
 
-        $this->assertEquals(1, $order->getId());
-        $this->assertEquals(1, $order->getItems()[0]->getProduct()->getid());
-        $this->assertEquals(1, $order->getUser()->getId());
-        $this->assertEquals(1, $order->getPayments()[0]->getId());
-        $this->assertEquals(2, $order->getPayments()[1]->getId());
+        $this->assertSame(1, $order->getId());
+        $this->assertSame(1, $order->getItems()[0]->getProduct()->getid());
+        $this->assertSame(1, $order->getUser()->getId());
+        $this->assertSame(1, $order->getPayments()[0]->getId());
+        $this->assertSame(2, $order->getPayments()[1]->getId());
     }
 }
