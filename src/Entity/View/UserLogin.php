@@ -10,6 +10,7 @@ class UserLogin
     public $username;
     public $ip4;
     public $result;
+    public $resultText;
     public $created;
 
     /* @var User */
@@ -19,11 +20,12 @@ class UserLogin
     {
         $this->userLogin = $userLogin;
 
-        $this->id       = $userLogin->getId();
-        $this->username = $userLogin->getUsername();
-        $this->ip4      = $userLogin->getIp4();
-        $this->result   = $userLogin->getResult();
-        $this->created  = $userLogin->getCreated();
+        $this->id         = $userLogin->getId();
+        $this->username   = $userLogin->getUsername();
+        $this->ip4        = $userLogin->getIp4();
+        $this->result     = $userLogin->getResult();
+        $this->resultText = $userLogin->getResultText();
+        $this->created    = $userLogin->getCreated();
     }
 
     public function export()

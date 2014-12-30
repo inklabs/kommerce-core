@@ -12,7 +12,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     /* @var Kommerce */
     protected $kommerce;
 
-    public function __construct($name = null, array $data = array(), $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         $this->getConnection();

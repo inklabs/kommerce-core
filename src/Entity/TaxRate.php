@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class TaxRate
 {
     use Accessor\Time;
@@ -16,6 +19,32 @@ class TaxRate
     public function __construct()
     {
         $this->setCreated();
+
+        $this->applyToShipping = false;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('state', new Assert\Length([
+            'min' => 2,
+            'max' => 2,
+        ]));
+
+        $zipRegex = [
+            'pattern' => '/[0-9]{5}/',
+            'match'   => true,
+            'message' => 'Must be a valid 5 digit postal code',
+        ];
+
+        $metadata->addPropertyConstraint('zip5', new Assert\Regex($zipRegex));
+        $metadata->addPropertyConstraint('zip5From', new Assert\Regex($zipRegex));
+        $metadata->addPropertyConstraint('zip5To', new Assert\Regex($zipRegex));
+
+        $metadata->addPropertyConstraint('rate', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('rate', new Assert\Range([
+            'min' => 0,
+            'max' => 100,
+        ]));
     }
 
     public function setId($id)

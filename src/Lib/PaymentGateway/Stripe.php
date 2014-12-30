@@ -32,7 +32,7 @@ class Stripe implements Gateway
     {
         $card = $chargeRequest->getCreditCard();
 
-        return \Stripe_Charge::create(array(
+        return \Stripe_Charge::create([
             'amount' => $chargeRequest->getAmount(),
             'currency' => $chargeRequest->getCurrency(),
             'card' => [
@@ -41,6 +41,6 @@ class Stripe implements Gateway
                 'exp_year' => $card->getExpirationYear(),
             ],
             'description' => $chargeRequest->getDescription(),
-        ));
+        ]);
     }
 }

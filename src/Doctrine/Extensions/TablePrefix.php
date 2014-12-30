@@ -14,7 +14,7 @@ class TablePrefix implements \Doctrine\Common\EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return array('loadClassMetadata');
+        return ['loadClassMetadata'];
     }
 
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs)
@@ -26,7 +26,7 @@ class TablePrefix implements \Doctrine\Common\EventSubscriber
         }
 
         if (false !== strpos($classMetadata->namespace, 'kommerce')) {
-            $classMetadata->setPrimaryTable(array('name' => $this->prefix . $classMetadata->getTableName()));
+            $classMetadata->setPrimaryTable(['name' => $this->prefix . $classMetadata->getTableName()]);
 
             foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
                 if (

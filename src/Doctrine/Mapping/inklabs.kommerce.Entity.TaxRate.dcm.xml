@@ -19,10 +19,30 @@
             </options>
         </id>
 
-        <field name="state" column="state" type="string" nullable="true"/>
-        <field name="zip5" column="zip5" type="integer" nullable="true"/>
-        <field name="zip5From" column="zip5_from" type="integer" nullable="true"/>
-        <field name="zip5To" column="zip5_to" type="integer" nullable="true"/>
+        <field name="state" column="state" type="string" length="2" nullable="true">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
+
+        <field name="zip5" column="zip5" type="string" length="5" nullable="true">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
+
+        <field name="zip5From" column="zip5_from" type="string" length="5" nullable="true">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
+
+        <field name="zip5To" column="zip5_to" type="string" length="5" nullable="true">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
+
         <field name="rate" column="rate" type="decimal" precision="4" scale="2"/>
         <field name="applyToShipping" column="apply_to_shipping" type="boolean"/>
 

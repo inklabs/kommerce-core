@@ -14,6 +14,7 @@ class User
     public $totalLogins;
     public $lastLogin;
     public $status;
+    public $statusText;
     public $created;
     public $updated;
 
@@ -38,6 +39,7 @@ class User
         $this->totalLogins = $user->getTotalLogins();
         $this->lastLogin   = $user->getLastLogin();
         $this->status      = $user->getStatus();
+        $this->statusText  = $user->getStatusText();
         $this->created     = $user->getCreated();
         $this->updated     = $user->getUpdated();
     }

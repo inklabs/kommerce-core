@@ -6,8 +6,8 @@ class Slug
     public static function get($string)
     {
         $slug = preg_replace(
-            array('/\'/', '/[^a-z0-9-]+/'),
-            array('',     '-'),
+            ['/\'/', '/[^a-z0-9-]+/'],
+            ['',     '-'],
             strtolower($string)
         );
         return preg_replace('/-+/', '-', $slug);

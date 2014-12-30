@@ -44,30 +44,31 @@ class Address
 
         $metadata->addPropertyConstraint('state', new Assert\NotBlank);
         $metadata->addPropertyConstraint('state', new Assert\Length([
+            'min' => 2,
             'max' => 2,
         ]));
 
         $metadata->addPropertyConstraint('zip5', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('zip5', new Assert\Regex(array(
+        $metadata->addPropertyConstraint('zip5', new Assert\Regex([
             'pattern' => '/[0-9]{5}/',
             'match'   => true,
             'message' => 'Must be a valid 5 digit postal code',
-        )));
+        ]));
 
-        $metadata->addPropertyConstraint('zip4', new Assert\Regex(array(
+        $metadata->addPropertyConstraint('zip4', new Assert\Regex([
             'pattern' => '/[0-9]{4}/',
             'match'   => true,
             'message' => 'Must be a valid 4 digit ZIP+4 postal code',
-        )));
+        ]));
 
         $metadata->addPropertyConstraint('latitude', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('latitude', new Assert\Length([
+        $metadata->addPropertyConstraint('latitude', new Assert\Range([
             'min' => -90,
             'max' => 90,
         ]));
 
         $metadata->addPropertyConstraint('longitude', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('longitude', new Assert\Length([
+        $metadata->addPropertyConstraint('longitude', new Assert\Range([
             'min' => -180,
             'max' => 180,
         ]));

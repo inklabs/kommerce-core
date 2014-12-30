@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class UserLogin
 {
     use Accessor\Created;
@@ -19,6 +22,25 @@ class UserLogin
     public function __construct()
     {
         $this->setCreated();
+        $this->result = static::RESULT_FAIL;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('username', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('username', new Assert\Length([
+            'max' => 32,
+        ]));
+
+        $metadata->addPropertyConstraint('ip4', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('ip4', new Assert\GreaterThanOrEqual([
+            'value' => 0,
+        ]));
+
+        $metadata->addPropertyConstraint('result', new Assert\Choice([
+            'choices' => array_keys(static::getResultMapping()),
+            'message' => 'The result is not a valid choice',
+        ]));
     }
 
     public function setId($id)
@@ -56,7 +78,7 @@ class UserLogin
      */
     public function setIp4($ip4)
     {
-        $this->ip4 = ip2long($ip4);
+        $this->ip4 = (int) ip2long($ip4);
     }
 
     /**
@@ -76,6 +98,20 @@ class UserLogin
     {
         return $this->result;
     }
+
+    public static function getResultMapping()
+    {
+        return [
+            static::RESULT_FAIL => 'Fail',
+            static::RESULT_SUCCESS => 'Success',
+        ];
+    }
+
+    public function getResultText()
+    {
+        return $this->getResultMapping()[$this->result];
+    }
+
 
     public function getView()
     {

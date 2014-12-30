@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class User
 {
@@ -46,6 +48,42 @@ class User
         $this->status = self::STATUS_ACTIVE;
     }
 
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('firstName', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('firstName', new Assert\Length([
+            'max' => 50,
+        ]));
+
+        $metadata->addPropertyConstraint('lastName', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('lastName', new Assert\Length([
+            'max' => 50,
+        ]));
+
+        $metadata->addPropertyConstraint('email', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('email', new Assert\Length([
+            'max' => 255,
+        ]));
+        $metadata->addPropertyConstraint('email', new Assert\Email);
+
+        $metadata->addPropertyConstraint('passwordHash', new Assert\NotBlank);
+
+        $metadata->addPropertyConstraint('totalLogins', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('totalLogins', new Assert\GreaterThanOrEqual([
+            'value' => 0,
+        ]));
+
+        $metadata->addPropertyConstraint('lastLogin', new Assert\GreaterThanOrEqual([
+            'value' => 0,
+        ]));
+
+        $metadata->addPropertyConstraint('status', new Assert\Choice([
+            'choices' => array_keys(static::getStatusMapping()),
+            'message' => 'The status is not a valid choice',
+        ]));
+
+    }
+
     public function setId($id)
     {
         $this->id = (int) $id;
@@ -69,6 +107,20 @@ class User
     public function getStatus()
     {
         return $this->status;
+    }
+
+    public static function getStatusMapping()
+    {
+        return [
+            static::STATUS_INACTIVE => 'Inactive',
+            static::STATUS_ACTIVE => 'Active',
+            static::STATUS_LOCKED => 'Locked',
+        ];
+    }
+
+    public function getStatusText()
+    {
+        return $this->getStatusMapping()[$this->status];
     }
 
     public function setEmail($email)
