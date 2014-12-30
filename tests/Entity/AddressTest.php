@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Validation;
+
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -17,15 +19,21 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $address->setLatitude(34.010947);
         $address->setLongitude(-118.490541);
 
-        $this->assertEquals('John Doe', $address->getAttention());
-        $this->assertEquals('Acme Co.', $address->getCompany());
-        $this->assertEquals('123 Any St', $address->getAddress1());
-        $this->assertEquals('Ste 3', $address->getAddress2());
-        $this->assertEquals('Santa Monica', $address->getCity());
-        $this->assertEquals('CA', $address->getState());
-        $this->assertEquals('90401', $address->getZip5());
-        $this->assertEquals('3274', $address->getZip4());
-        $this->assertEquals(34.010947, $address->getLatitude(), '', 0.000001);
-        $this->assertEquals(-118.490541, $address->getLongitude(), '', 0.000001);
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($address));
+        $this->assertSame('John Doe', $address->getAttention());
+        $this->assertSame('Acme Co.', $address->getCompany());
+        $this->assertSame('123 Any St', $address->getAddress1());
+        $this->assertSame('Ste 3', $address->getAddress2());
+        $this->assertSame('Santa Monica', $address->getCity());
+        $this->assertSame('CA', $address->getState());
+        $this->assertSame('90401', $address->getZip5());
+        $this->assertSame('3274', $address->getZip4());
+        $this->assertSame(34.010947, $address->getLatitude(), '', 0.000001);
+        $this->assertSame(-118.490541, $address->getLongitude(), '', 0.000001);
+        $this->assertTrue($address->getView() instanceof View\Address);
     }
 }

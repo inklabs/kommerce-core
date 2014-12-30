@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Validation;
+
 class UserRoleTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -10,8 +12,14 @@ class UserRoleTest extends \PHPUnit_Framework_TestCase
         $userRole->setName('Administrator');
         $userRole->setDescription('Admin account with access to everything.');
 
-        $this->assertEquals(1, $userRole->getId());
-        $this->assertEquals('Administrator', $userRole->getName());
-        $this->assertEquals('Admin account with access to everything.', $userRole->getDescription());
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($userRole));
+        $this->assertSame(1, $userRole->getId());
+        $this->assertSame('Administrator', $userRole->getName());
+        $this->assertSame('Admin account with access to everything.', $userRole->getDescription());
+        $this->assertTrue($userRole->getView() instanceof View\UserRole);
     }
 }
