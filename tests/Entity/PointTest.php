@@ -11,6 +11,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(34.052234, $point->getLatitude(), '', FLOAT_DELTA);
         $this->assertEquals(-118.243685, $point->getLongitude(), '', FLOAT_DELTA);
+        $this->assertTrue($point->getView() instanceof View\Point);
     }
 
     public function testGetGeoBox()

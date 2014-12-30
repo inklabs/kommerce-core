@@ -14,12 +14,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $image->setProduct(new Product);
         $image->setTag(new Tag);
 
-        $this->assertEquals(1, $image->getId());
-        $this->assertEquals('http://lorempixel.com/400/200/', $image->getPath());
-        $this->assertEquals(400, $image->getWidth());
-        $this->assertEquals(200, $image->getHeight());
-        $this->assertEquals(0, $image->getSortOrder());
+        $this->assertSame(1, $image->getId());
+        $this->assertSame('http://lorempixel.com/400/200/', $image->getPath());
+        $this->assertSame(400, $image->getWidth());
+        $this->assertSame(200, $image->getHeight());
+        $this->assertSame(0, $image->getSortOrder());
         $this->assertTrue($image->getProduct() instanceof Product);
         $this->assertTrue($image->getTag() instanceof Tag);
+        $this->assertTrue($image->getView() instanceof View\Image);
     }
 }

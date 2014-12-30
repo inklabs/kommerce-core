@@ -16,14 +16,15 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $tag->addProduct(new Product);
         $tag->addImage(new Image);
 
-        $this->assertEquals(1, $tag->getId());
-        $this->assertEquals('Test Tag', $tag->getName());
-        $this->assertEquals('Test Description', $tag->getDescription());
-        $this->assertEquals('http://lorempixel.com/400/200/', $tag->getDefaultImage());
-        $this->assertEquals(0, $tag->getSortOrder());
+        $this->assertSame(1, $tag->getId());
+        $this->assertSame('Test Tag', $tag->getName());
+        $this->assertSame('Test Description', $tag->getDescription());
+        $this->assertSame('http://lorempixel.com/400/200/', $tag->getDefaultImage());
+        $this->assertSame(0, $tag->getSortOrder());
         $this->assertTrue($tag->getIsVisible());
         $this->assertTrue($tag->getIsActive());
         $this->assertTrue($tag->getProducts()[0] instanceof Product);
         $this->assertTrue($tag->getImages()[0] instanceof Image);
+        $this->assertTrue($tag->getView() instanceof View\Tag);
     }
 }

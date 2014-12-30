@@ -13,10 +13,11 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $attribute->addAttributeValue(new AttributeValue);
         $attribute->addAttributeValue(new AttributeValue);
 
-        $this->assertEquals(1, $attribute->getId());
-        $this->assertEquals('Test Attribute', $attribute->getName());
-        $this->assertEquals('Test attribute description', $attribute->getDescription());
-        $this->assertEquals(0, $attribute->getSortOrder());
-        $this->assertEquals(2, count($attribute->getAttributeValues()));
+        $this->assertSame(1, $attribute->getId());
+        $this->assertSame('Test Attribute', $attribute->getName());
+        $this->assertSame('Test attribute description', $attribute->getDescription());
+        $this->assertSame(0, $attribute->getSortOrder());
+        $this->assertSame(2, count($attribute->getAttributeValues()));
+        $this->assertTrue($attribute->getView() instanceof View\Attribute);
     }
 }

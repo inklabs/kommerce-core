@@ -64,7 +64,7 @@ class Image
 
     public function setSortOrder($sortOrder)
     {
-        $this->sortOrder = (string)$sortOrder;
+        $this->sortOrder = (int) $sortOrder;
     }
 
     public function getSortOrder()

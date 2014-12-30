@@ -35,11 +35,11 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $order = new Order(new Cart, $pricing);
         $orderItem->setOrder($order);
 
-        $this->assertEquals(2, $orderItem->getQuantity());
-        $this->assertEquals('sku', $orderItem->getProductSku());
-        $this->assertEquals('test name', $orderItem->getProductName());
-        $this->assertEquals('20% OFF, Buy 2 or more for $1.00 each', $orderItem->getDiscountNames());
-        $this->assertEquals(null, $orderItem->getId());
+        $this->assertSame(2, $orderItem->getQuantity());
+        $this->assertSame('sku', $orderItem->getProductSku());
+        $this->assertSame('test name', $orderItem->getProductName());
+        $this->assertSame('20% OFF, Buy 2 or more for $1.00 each', $orderItem->getDiscountNames());
+        $this->assertSame(null, $orderItem->getId());
         $this->assertTrue($orderItem->getPrice() instanceof Price);
         $this->assertTrue($orderItem->getProduct() instanceof Product);
         $this->assertTrue($orderItem->getCatalogPromotions()[0] instanceof CatalogPromotion);
@@ -75,7 +75,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $orderItem->setOrder($order);
 
         $this->assertTrue($orderItem->getPrice() instanceof Price);
-        $this->assertEquals('10% OFF, Buy 2 or more for $4.00 each', $orderItem->getDiscountNames());
-        $this->assertEquals(null, $orderItem->getId());
+        $this->assertSame('10% OFF, Buy 2 or more for $4.00 each', $orderItem->getDiscountNames());
+        $this->assertSame(null, $orderItem->getId());
     }
 }

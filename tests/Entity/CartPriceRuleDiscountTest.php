@@ -13,9 +13,10 @@ class CartPriceRuleDiscountTest extends \PHPUnit_Framework_TestCase
         $cartPriceRuleDiscount->setCartPriceRule(new Entity\CartPriceRule);
         $cartPriceRuleDiscount->setProduct(new Product);
 
-        $this->assertEquals(1, $cartPriceRuleDiscount->getId());
-        $this->assertEquals(2, $cartPriceRuleDiscount->getQuantity());
+        $this->assertSame(1, $cartPriceRuleDiscount->getId());
+        $this->assertSame(2, $cartPriceRuleDiscount->getQuantity());
         $this->assertTrue($cartPriceRuleDiscount->getProduct() instanceof Product);
         $this->assertTrue($cartPriceRuleDiscount->getCartPriceRule() instanceof CartPriceRule);
+        $this->assertTrue($cartPriceRuleDiscount->getView() instanceof View\CartPriceRuleDiscount);
     }
 }

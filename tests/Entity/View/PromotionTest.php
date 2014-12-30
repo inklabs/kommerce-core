@@ -7,7 +7,7 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $entityPromotion = new Entity\Promotion;
+        $entityPromotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
 
         $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\View\Promotion', [$entityPromotion])
             ->export();

@@ -14,13 +14,14 @@ class TaxRateTest extends \PHPUnit_Framework_TestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $this->assertEquals(1, $taxRate->getId());
-        $this->assertEquals(null, $taxRate->getState());
-        $this->assertEquals('92606', $taxRate->getZip5());
-        $this->assertEquals(null, $taxRate->getZip5From());
-        $this->assertEquals(null, $taxRate->getZip5To());
-        $this->assertEquals(8.0, $taxRate->getRate());
-        $this->assertEquals(false, $taxRate->getApplyToShipping());
+        $this->assertSame(1, $taxRate->getId());
+        $this->assertSame(null, $taxRate->getState());
+        $this->assertSame('92606', $taxRate->getZip5());
+        $this->assertSame(null, $taxRate->getZip5From());
+        $this->assertSame(null, $taxRate->getZip5To());
+        $this->assertSame(8.0, $taxRate->getRate());
+        $this->assertSame(false, $taxRate->getApplyToShipping());
+        $this->assertTrue($taxRate->getView() instanceof View\TaxRate);
     }
 
     public function testGetTax()
@@ -28,9 +29,9 @@ class TaxRateTest extends \PHPUnit_Framework_TestCase
         $taxRate = new TaxRate;
         $taxRate->setRate(10.0);
         $taxRate->setApplyToShipping(false);
-        $this->assertEquals(100, $taxRate->getTax(1000, 500));
+        $this->assertSame(100, $taxRate->getTax(1000, 500));
 
         $taxRate->setApplyToShipping(true);
-        $this->assertEquals(150, $taxRate->getTax(1000, 500));
+        $this->assertSame(150, $taxRate->getTax(1000, 500));
     }
 }

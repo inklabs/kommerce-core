@@ -20,5 +20,6 @@ class CartTotalTest extends \PHPUnit_Framework_TestCase
         $cartTotal->taxRate = new TaxRate;
 
         $this->assertTrue($cartTotal instanceof CartTotal);
+        $this->assertTrue($cartTotal->getView() instanceof View\CartTotal);
     }
 }

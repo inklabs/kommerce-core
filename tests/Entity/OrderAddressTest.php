@@ -19,5 +19,6 @@ class OrderAddressTest extends \PHPUnit_Framework_TestCase
         $orderAddress->email = 'john@example.com';
 
         $this->assertTrue($orderAddress instanceof OrderAddress);
+        $this->assertTrue($orderAddress->getView() instanceof View\OrderAddress);
     }
 }

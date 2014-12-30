@@ -15,14 +15,15 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $coupon->setFlagFreeShipping(true);
         $coupon->setCanCombineWithOtherCoupons(true);
 
-        $this->assertEquals('20% Off orders over $100', $coupon->getName());
-        $this->assertEquals('20PCT100', $coupon->getCode());
-        $this->assertEquals('percent', $coupon->getType());
-        $this->assertEquals(20, $coupon->getValue());
-        $this->assertEquals(10000, $coupon->getMinOrderValue());
-        $this->assertEquals(100000, $coupon->getMaxOrderValue());
+        $this->assertSame('20% Off orders over $100', $coupon->getName());
+        $this->assertSame('20PCT100', $coupon->getCode());
+        $this->assertSame('percent', $coupon->getType());
+        $this->assertSame(20, $coupon->getValue());
+        $this->assertSame(10000, $coupon->getMinOrderValue());
+        $this->assertSame(100000, $coupon->getMaxOrderValue());
         $this->assertTrue($coupon->getFlagFreeShipping());
         $this->assertTrue($coupon->getCanCombineWithOtherCoupons());
+        $this->assertTrue($coupon->getView() instanceof View\Coupon);
     }
 
     public function testIsMinOrderValueValid()

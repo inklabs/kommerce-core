@@ -12,10 +12,11 @@ class AttributeValueTest extends \PHPUnit_Framework_TestCase
         $attributeValue->setDescription('Test attribute description');
         $attributeValue->setSortOrder(0);
 
-        $this->assertEquals(1, $attributeValue->getId());
-        $this->assertEquals('TA', $attributeValue->getSku());
-        $this->assertEquals('Test Attribute', $attributeValue->getName());
-        $this->assertEquals('Test attribute description', $attributeValue->getDescription());
-        $this->assertEquals(0, $attributeValue->getSortOrder());
+        $this->assertSame(1, $attributeValue->getId());
+        $this->assertSame('TA', $attributeValue->getSku());
+        $this->assertSame('Test Attribute', $attributeValue->getName());
+        $this->assertSame('Test attribute description', $attributeValue->getDescription());
+        $this->assertSame(0, $attributeValue->getSortOrder());
+        $this->assertTrue($attributeValue->getView() instanceof View\AttributeValue);
     }
 }

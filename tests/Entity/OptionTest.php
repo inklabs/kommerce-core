@@ -13,11 +13,12 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $option->setSortOrder(0);
         $option->addProduct(new Product);
 
-        $this->assertEquals(1, $option->getId());
-        $this->assertEquals('Size', $option->getname());
-        $this->assertEquals('radio', $option->getType());
-        $this->assertEquals('Shirt Size', $option->getDescription());
-        $this->assertEquals(0, $option->getSortOrder());
+        $this->assertSame(1, $option->getId());
+        $this->assertSame('Size', $option->getname());
+        $this->assertSame('radio', $option->getType());
+        $this->assertSame('Shirt Size', $option->getDescription());
+        $this->assertSame(0, $option->getSortOrder());
         $this->assertTrue($option->getProducts()[0] instanceof Product);
+        $this->assertTrue($option->getView() instanceof View\Option);
     }
 }

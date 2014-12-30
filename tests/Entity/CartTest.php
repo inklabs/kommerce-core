@@ -21,6 +21,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $cart = new Cart;
         $this->assertTrue($cart instanceof Cart);
+        $this->assertTrue($cart->getView() instanceof View\Cart);
     }
 
     public function testAddItem()
@@ -32,10 +33,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $itemId1 = $cart->addItem($product1, 2);
         $itemId2 = $cart->addItem($product2, 2);
 
-        $this->assertEquals(0, $itemId1);
-        $this->assertEquals(1, $itemId2);
+        $this->assertSame(0, $itemId1);
+        $this->assertSame(1, $itemId2);
         $this->assertTrue($cart->getItem(0) instanceof CartItem);
-        $this->assertEquals(2, count($cart->getItems()));
+        $this->assertSame(2, count($cart->getItems()));
     }
 
     public function testAddItemWithDuplicate()
@@ -46,14 +47,14 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addItem($product, 5);
         $cart->addItem($product, 2);
 
-        $this->assertEquals(2, $cart->totalItems());
-        $this->assertEquals(7, $cart->totalQuantity());
+        $this->assertSame(2, $cart->totalItems());
+        $this->assertSame(7, $cart->totalQuantity());
     }
 
     public function testGetItemMissing()
     {
         $cart = new Cart;
-        $this->assertEquals(null, $cart->getItem(1));
+        $this->assertSame(null, $cart->getItem(1));
     }
 
     public function testDeleteItem()
@@ -61,9 +62,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart = new Cart;
         $itemId = $cart->addItem(new Product, 2);
 
-        $this->assertEquals(1, $cart->totalItems());
+        $this->assertSame(1, $cart->totalItems());
         $cart->deleteItem($itemId);
-        $this->assertEquals(0, $cart->totalItems());
+        $this->assertSame(0, $cart->totalItems());
     }
 
     /**
@@ -79,7 +80,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $cart = new Cart;
         $cart->addCoupon(new Coupon);
-        $this->assertEquals(1, count($cart->getCoupons()));
+        $this->assertSame(1, count($cart->getCoupons()));
     }
 
     public function testUpdateCoupon()
@@ -92,10 +93,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $cart = new Cart;
         $cart->addCoupon($coupon1);
-        $this->assertEquals(1, $cart->getCoupons()[0]->getId());
+        $this->assertSame(1, $cart->getCoupons()[0]->getId());
 
         $cart->updateCoupon(0, $coupon2);
-        $this->assertEquals(2, $cart->getCoupons()[0]->getId());
+        $this->assertSame(2, $cart->getCoupons()[0]->getId());
     }
 
     /**
@@ -138,7 +139,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart = new Cart;
         $cart->addCoupon($coupon1);
         $cart->addCoupon($coupon2);
-        $this->assertEquals(2, count($cart->getCoupons()));
+        $this->assertSame(2, count($cart->getCoupons()));
     }
 
     public function testAddCouponWithFirstStackableCoupon()
@@ -152,7 +153,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart = new Cart;
         $cart->addCoupon($coupon1);
         $cart->addCoupon($coupon2);
-        $this->assertEquals(2, count($cart->getCoupons()));
+        $this->assertSame(2, count($cart->getCoupons()));
     }
 
     public function testRemoveCoupon()
@@ -160,7 +161,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart = new Cart;
         $cart->addCoupon(new Coupon);
         $cart->removeCoupon(0);
-        $this->assertEquals(0, count($cart->getCoupons()));
+        $this->assertSame(0, count($cart->getCoupons()));
     }
 
     /**
@@ -184,7 +185,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addItem($product1, 2);
         $cart->addItem($product2, 2);
 
-        $this->assertEquals(64, $cart->getShippingWeight());
+        $this->assertSame(64, $cart->getShippingWeight());
     }
 
     public function testGetTotal()
