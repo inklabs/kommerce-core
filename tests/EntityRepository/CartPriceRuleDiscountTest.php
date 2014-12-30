@@ -61,7 +61,7 @@ class CartPriceRuleDiscountTest extends Helper\DoctrineTestCase
         $cartPriceRuleDiscount = $this->getRepository()
             ->find(1);
 
-        $this->assertEquals(1, $cartPriceRuleDiscount->getId());
-        $this->assertEquals(2, $cartPriceRuleDiscount->getProduct()->getId());
+        $this->assertSame(1, $cartPriceRuleDiscount->getId());
+        $this->assertSame(2, $cartPriceRuleDiscount->getProduct()->getId());
     }
 }

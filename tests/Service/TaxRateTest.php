@@ -47,12 +47,12 @@ class TaxRateTest extends Helper\DoctrineTestCase
     public function testFindAll()
     {
         $taxRates = $this->taxRateService->findAll();
-        $this->assertEquals(3, count($taxRates));
+        $this->assertSame(3, count($taxRates));
     }
 
     public function testFindByZip5AndStateWithZip5()
     {
         $taxRate = $this->taxRateService->findByZip5AndState('92606');
-        $this->assertEquals(2, $taxRate->getId());
+        $this->assertSame(2, $taxRate->getId());
     }
 }

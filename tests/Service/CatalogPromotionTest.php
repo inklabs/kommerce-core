@@ -16,7 +16,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         $catalogPromotionService = new CatalogPromotion($this->entityManager);
         $catalogPromotions = $catalogPromotionService->findAll();
 
-        $this->assertEquals(2, count($catalogPromotions));
+        $this->assertSame(2, count($catalogPromotions));
     }
 
     /**

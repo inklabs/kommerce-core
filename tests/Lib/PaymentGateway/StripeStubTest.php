@@ -17,12 +17,12 @@ class StripeStubTest extends \PHPUnit_Framework_TestCase
         $stripe = new StripeStub;
         $charge = $stripe->getCharge($chargeRequest);
 
-        $this->assertEquals(2000, $charge->getAmount());
-        $this->assertEquals(88, $charge->getFee());
-        $this->assertEquals('usd', $charge->getCurrency());
-        $this->assertEquals('test@example.com', $charge->getDescription());
-        $this->assertEquals('ch_xxxxxxxxxxxxxx', $charge->getId());
-        $this->assertEquals('4242', $charge->getLast4());
+        $this->assertSame(2000, $charge->getAmount());
+        $this->assertSame(88, $charge->getFee());
+        $this->assertSame('usd', $charge->getCurrency());
+        $this->assertSame('test@example.com', $charge->getDescription());
+        $this->assertSame('ch_xxxxxxxxxxxxxx', $charge->getId());
+        $this->assertSame('4242', $charge->getLast4());
         $this->assertTrue($charge->getCreated() > 0);
     }
 }

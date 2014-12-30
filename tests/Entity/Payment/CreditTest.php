@@ -17,7 +17,7 @@ class CreditTest extends \PHPUnit_Framework_TestCase
             'test@example.com'
         );
         $payment = new Credit($chargeRequest, new StripeStub);
-        $this->assertEquals(100, $payment->getAmount());
+        $this->assertSame(100, $payment->getAmount());
         $this->assertTrue($payment->getCharge() instanceof ChargeResponse);
     }
 }

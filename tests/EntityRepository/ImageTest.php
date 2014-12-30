@@ -33,6 +33,6 @@ class ImageTest extends Helper\DoctrineTestCase
         $image = $this->getRepository()
             ->find(1);
 
-        $this->assertEquals(1, $image->getId());
+        $this->assertSame(1, $image->getId());
     }
 }

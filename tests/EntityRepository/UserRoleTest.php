@@ -40,6 +40,6 @@ class UserRoleTest extends Helper\DoctrineTestCase
         $userRole = $this->getRepository()
             ->find(1);
 
-        $this->assertEquals(1, $userRole->getId());
+        $this->assertSame(1, $userRole->getId());
     }
 }

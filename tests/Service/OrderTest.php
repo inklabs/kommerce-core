@@ -90,7 +90,7 @@ class OrderTest extends Helper\DoctrineTestCase
     public function testFindMissing()
     {
         $product = $this->orderService->find(0);
-        $this->assertEquals(null, $product);
+        $this->assertSame(null, $product);
     }
 
     public function testFind()
@@ -100,7 +100,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
 
         $order = $this->orderService->find(1);
-        $this->assertEquals(1, $order->id);
+        $this->assertSame(1, $order->id);
     }
 
     public function testGetLatestOrders()
@@ -111,6 +111,6 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
 
         $orders = $this->orderService->getLatestOrders();
-        $this->assertEquals(2, count($orders));
+        $this->assertSame(2, count($orders));
     }
 }

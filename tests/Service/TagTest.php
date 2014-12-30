@@ -67,7 +67,7 @@ class TagTest extends Helper\DoctrineTestCase
     public function testFindMissing()
     {
         $tag = $this->tagService->find(0);
-        $this->assertEquals(null, $tag);
+        $this->assertSame(null, $tag);
     }
 
     public function testFindNotActive()
@@ -79,7 +79,7 @@ class TagTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
 
         $tag = $this->tagService->find(1);
-        $this->assertEquals(null, $tag);
+        $this->assertSame(null, $tag);
     }
 
     public function testFind()
@@ -88,6 +88,6 @@ class TagTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
 
         $tag = $this->tagService->find(1);
-        $this->assertEquals(1, $tag->id);
+        $this->assertSame(1, $tag->id);
     }
 }

@@ -32,8 +32,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('CA', $address->getState());
         $this->assertSame('90401', $address->getZip5());
         $this->assertSame('3274', $address->getZip4());
-        $this->assertEquals(34.010947, $address->getLatitude(), '', 0.000001);
-        $this->assertEquals(-118.490541, $address->getLongitude(), '', 0.000001);
+        $this->assertEquals(34.010947, $address->getLatitude(), '', FLOAT_DELTA);
+        $this->assertEquals(-118.490541, $address->getLongitude(), '', FLOAT_DELTA);
         $this->assertTrue($address->getView() instanceof View\Address);
     }
 }

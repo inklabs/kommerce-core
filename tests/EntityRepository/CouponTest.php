@@ -33,6 +33,6 @@ class CouponTest extends Helper\DoctrineTestCase
         $coupon = $this->getRepository()
             ->find(1);
 
-        $this->assertEquals(1, $coupon->getId());
+        $this->assertSame(1, $coupon->getId());
     }
 }

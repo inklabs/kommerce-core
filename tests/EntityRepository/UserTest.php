@@ -59,14 +59,14 @@ class UserTest extends Helper\DoctrineTestCase
         $user = $this->getRepository()
             ->find(1);
 
-        $this->assertEquals(1, $user->getId());
-        $this->assertEquals(1, $user->getRoles()[0]->getId());
-        $this->assertEquals(1, $user->getTokens()[0]->getId());
+        $this->assertSame(1, $user->getId());
+        $this->assertSame(1, $user->getRoles()[0]->getId());
+        $this->assertSame(1, $user->getTokens()[0]->getId());
 
         /* @var Entity\UserLogin[] $userLogins; */
         $userLogins = $user->getLogins()->slice(0, 3);
 
-        $this->assertEquals(4, $userLogins[0]->getId());
+        $this->assertSame(4, $userLogins[0]->getId());
     }
 
     public function testFindByUsernameOrEmailUsingUsername()
@@ -75,7 +75,7 @@ class UserTest extends Helper\DoctrineTestCase
         $user = $this->getRepository()
             ->findOneByUsernameOrEmail('johndoe');
 
-        $this->assertEquals(1, $user->getId());
+        $this->assertSame(1, $user->getId());
     }
 
     public function testFindByUsernameOrEmailUsingEmail()
@@ -84,6 +84,6 @@ class UserTest extends Helper\DoctrineTestCase
         $user = $this->getRepository()
             ->findOneByUsernameOrEmail('john@example.com');
 
-        $this->assertEquals(1, $user->getId());
+        $this->assertSame(1, $user->getId());
     }
 }

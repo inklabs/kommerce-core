@@ -7,7 +7,7 @@ class FedexRateTest extends \PHPUnit_Framework_TestCase
     {
         $rate = new Entity\Shipping\FedexRate;
 
-        $this->assertEquals(null, $rate->deliveryTs);
-        $this->assertEquals(null, $rate->transitTime);
+        $this->assertSame(null, $rate->deliveryTs);
+        $this->assertSame(null, $rate->transitTime);
     }
 }

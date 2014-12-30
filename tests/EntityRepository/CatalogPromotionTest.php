@@ -37,7 +37,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         $catalogPromotion = $this->getRepository()
             ->find(1);
 
-        $this->assertEquals(1, $catalogPromotion->getId());
-        $this->assertEquals(1, $catalogPromotion->getTag()->getId());
+        $this->assertSame(1, $catalogPromotion->getId());
+        $this->assertSame(1, $catalogPromotion->getTag()->getId());
     }
 }
