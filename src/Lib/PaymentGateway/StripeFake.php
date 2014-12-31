@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-class StripeStub implements Gateway
+class StripeFake implements Gateway
 {
     /**
      * @return ChargeResponse

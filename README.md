@@ -39,7 +39,7 @@ main modules in this project:
           new Entity\CreditCard('4242424242424242', 5, 2015),
           2000, 'usd', 'test@example.com'
       );
-      $stripe = new StripeStub;
+      $stripe = new StripeFake;
       $charge = $stripe->getCharge($chargeRequest);
       ```
 
