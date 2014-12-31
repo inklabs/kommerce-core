@@ -25,7 +25,7 @@
         <field name="isActive" column="is_active" type="boolean"/>
         <field name="isVisible" column="is_visible" type="boolean"/>
 
-        <field name="sortOrder" column="sort_order" type="integer">
+        <field name="sortOrder" column="sort_order" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>

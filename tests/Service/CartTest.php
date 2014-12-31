@@ -83,8 +83,6 @@ class CartTest extends Helper\DoctrineTestCase
         $this->coupon->setName('20% Off');
         $this->coupon->setType('percent');
         $this->coupon->setValue(20);
-        $this->coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $this->coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         $this->entityManager->persist($this->coupon);
         $this->entityManager->flush();
@@ -93,17 +91,19 @@ class CartTest extends Helper\DoctrineTestCase
     /**
      * @return Entity\User
      */
-    private function setUser()
+    private function getUser()
     {
-        $this->user = new Entity\User;
-        $this->user->setFirstName('John');
-        $this->user->setLastName('Doe');
-        $this->user->setEmail('test@example.com');
-        $this->user->setUsername('test');
-        $this->user->setPassword('qwerty');
+        $user = new Entity\User;
+        $user->setFirstName('John');
+        $user->setLastName('Doe');
+        $user->setEmail('test@example.com');
+        $user->setUsername('test');
+        $user->setPassword('qwerty');
 
-        $this->entityManager->persist($this->user);
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        return $user;
     }
 
     public function testCartPersistence()
@@ -232,12 +232,12 @@ class CartTest extends Helper\DoctrineTestCase
     {
         $viewProduct = $this->getViewProduct();
         $this->setCoupon();
-        $this->setUser();
+        $user = $this->getUser();
 
         $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
         $itemId1 = $cart->addItem($viewProduct, 4);
         $cart->addCouponByCode($this->coupon->getCode());
-        $cart->setUser($this->user);
+        $cart->setUser($user);
 
         $shippingAddress = $this->getShippingAddress();
         $order = $cart->createOrder(new Payment\Cash(1600), $shippingAddress);

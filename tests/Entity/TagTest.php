@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Validation;
+
 class TagTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -16,6 +18,11 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $tag->addProduct(new Product);
         $tag->addImage(new Image);
 
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($tag));
         $this->assertSame(1, $tag->getId());
         $this->assertSame('Test Tag', $tag->getName());
         $this->assertSame('Test Description', $tag->getDescription());
