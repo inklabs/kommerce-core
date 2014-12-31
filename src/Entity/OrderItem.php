@@ -49,9 +49,6 @@ class OrderItem
         $this->productName = $product->getName();
     }
 
-    /**
-     * @return Product
-     */
     public function getProduct()
     {
         return $this->product;

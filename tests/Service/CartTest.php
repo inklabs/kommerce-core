@@ -45,9 +45,6 @@ class CartTest extends Helper\DoctrineTestCase
         $this->assertTrue($cart->getView() instanceof Entity\View\Cart);
     }
 
-    /**
-     * @return Entity\View\Product
-     */
     private function getViewProduct()
     {
         $this->product = new Entity\Product;
@@ -73,9 +70,6 @@ class CartTest extends Helper\DoctrineTestCase
             ->export();
     }
 
-    /**
-     * @return Entity\Coupon
-     */
     private function setCoupon()
     {
         $this->coupon = new Entity\Coupon;
@@ -88,9 +82,6 @@ class CartTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
     }
 
-    /**
-     * @return Entity\User
-     */
     private function getUser()
     {
         $user = new Entity\User;
@@ -207,9 +198,6 @@ class CartTest extends Helper\DoctrineTestCase
         $this->assertSame(0, count($cart->getCoupons()));
     }
 
-    /**
-     * @return Entity\OrderAddress
-     */
     private function getShippingAddress()
     {
         $shippingAddress = new Entity\OrderAddress;

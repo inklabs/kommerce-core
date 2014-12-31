@@ -6,9 +6,6 @@ use inklabs\kommerce\Entity as Entity;
 
 class QueryBuilder extends \Doctrine\ORM\QueryBuilder
 {
-    /**
-     * @return QueryBuilder
-     */
     public function paginate(Entity\Pagination & $pagination = null)
     {
         if ($pagination === null) {
@@ -25,9 +22,6 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
             ->setMaxResults($pagination->getMaxResults());
     }
 
-    /**
-     * @returns $this
-     */
     public function productActiveAndVisible()
     {
         return $this

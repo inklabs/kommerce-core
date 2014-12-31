@@ -34,9 +34,6 @@ class Order extends Lib\EntityManager
             ->export();
     }
 
-    /**
-     * @return Entity\View\Order[]
-     */
     public function getLatestOrders(Entity\Pagination & $pagination = null)
     {
         $orders = $this->orderRepository

@@ -41,9 +41,6 @@ abstract class Item
         $this->cartPriceRule = $cartPriceRule;
     }
 
-    /**
-     * @return Entity\CartPriceRule
-     */
     public function getCartPriceRule()
     {
         return $this->cartPriceRule;

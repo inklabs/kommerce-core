@@ -17,9 +17,6 @@ class WarehouseTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:Warehouse');
     }
 
-    /**
-     * @return Entity\Warehouse
-     */
     private function getDummyWarehouse($num)
     {
         $address = new Entity\Address;

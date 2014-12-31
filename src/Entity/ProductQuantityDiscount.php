@@ -50,9 +50,6 @@ class ProductQuantityDiscount extends Promotion
         return '$' . number_format(($priceInCents / 100), 2);
     }
 
-    /**
-     * @return Price
-     */
     public function getPrice(Pricing $pricing)
     {
         return $pricing->getPrice(
@@ -96,9 +93,6 @@ class ProductQuantityDiscount extends Promotion
         $this->product = $product;
     }
 
-    /**
-     * @return Product
-     */
     public function getProduct()
     {
         return $this->product;

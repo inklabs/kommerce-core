@@ -79,9 +79,6 @@ class Product extends Lib\EntityManager
         $this->entityManager->flush();
     }
 
-    /**
-     * @return Entity\View\Product[]
-     */
     public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
     {
         $products = $this->productRepository
@@ -90,9 +87,6 @@ class Product extends Lib\EntityManager
         return $this->getViewProducts($products);
     }
 
-    /**
-     * @return Entity\View\Product[]
-     */
     public function getRelatedProducts($products, $limit = 12)
     {
         if (! is_array($products)) {
@@ -114,9 +108,6 @@ class Product extends Lib\EntityManager
         return $this->getViewProductsWithPrice($products);
     }
 
-    /**
-     * @return Entity\View\Product[]
-     */
     public function getProductsByTag(Entity\View\Tag $tag, Entity\Pagination & $pagination = null)
     {
         $products = $this->productRepository
@@ -125,9 +116,6 @@ class Product extends Lib\EntityManager
         return $this->getViewProductsWithPrice($products);
     }
 
-    /**
-     * @return Entity\View\Product[]
-     */
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
         $products = $this->productRepository
@@ -136,9 +124,6 @@ class Product extends Lib\EntityManager
         return $this->getViewProductsWithPrice($products);
     }
 
-    /**
-     * @return Entity\View\Product[]
-     */
     public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
         $products = $this->productRepository
@@ -147,9 +132,6 @@ class Product extends Lib\EntityManager
         return $this->getViewProductsWithPrice($products);
     }
 
-    /**
-     * @return Entity\View\Product[]
-     */
     public function getRandomProducts($limit)
     {
         $products = $this->productRepository

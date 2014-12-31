@@ -8,9 +8,6 @@ class Stripe implements Gateway
         \Stripe::setApiKey($apiKey);
     }
 
-    /**
-     * @return ChargeResponse
-     */
     public function getCharge(ChargeRequest $chargeRequest)
     {
         $stripeCharge = $this->createCharge($chargeRequest);

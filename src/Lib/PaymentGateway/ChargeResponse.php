@@ -94,9 +94,6 @@ class ChargeResponse
         $this->description = (string) $description;
     }
 
-    /**
-     * @return View\ChargeResponse
-     */
     public function getView()
     {
         return new View\ChargeResponse($this);

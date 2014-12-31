@@ -18,9 +18,7 @@ class CartCalculator
     {
         $this->cart = $cart;
     }
-    /**
-     * @return CartTotal
-     */
+
     public function getTotal(Service\Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
     {
         $this->pricing = $pricing;

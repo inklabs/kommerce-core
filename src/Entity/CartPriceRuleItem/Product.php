@@ -27,9 +27,6 @@ class Product extends Item
         return false;
     }
 
-    /**
-     * @return Entity\Product
-     */
     public function getProduct()
     {
         return $this->product;

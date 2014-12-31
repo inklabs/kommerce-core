@@ -46,9 +46,6 @@ class CartPriceRuleDiscount
         $this->product = $product;
     }
 
-    /**
-     * @return Product
-     */
     public function getProduct()
     {
         return $this->product;
@@ -59,9 +56,6 @@ class CartPriceRuleDiscount
         $this->cartPriceRule = $cartPriceRule;
     }
 
-    /**
-     * @return CartPriceRule
-     */
     public function getCartPriceRule()
     {
         return $this->cartPriceRule;

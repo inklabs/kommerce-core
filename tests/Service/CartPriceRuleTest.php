@@ -19,9 +19,6 @@ class CartPriceRuleTest extends Helper\DoctrineTestCase
         $this->assertSame(2, count($catalogPromotions));
     }
 
-    /**
-     * @return Entity\CartPriceRule
-     */
     private function getCartPriceRule($num)
     {
         $catalogPromotion = new Entity\CartPriceRule;

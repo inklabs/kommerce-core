@@ -3,9 +3,6 @@ namespace inklabs\kommerce\Lib\PaymentGateway;
 
 class StripeFake implements Gateway
 {
-    /**
-     * @return ChargeResponse
-     */
     public function getCharge(ChargeRequest $chargeRequest)
     {
         $stripeCharge = $this->createCharge($chargeRequest);

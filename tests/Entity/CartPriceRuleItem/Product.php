@@ -11,9 +11,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($priceRule->getProduct() instanceof Entity\Product);
     }
 
-    /**
-     * @return Entity\Product
-     */
     private function getProduct($id)
     {
         $product = new Entity\Product;

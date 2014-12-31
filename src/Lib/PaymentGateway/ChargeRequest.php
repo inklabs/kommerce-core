@@ -25,9 +25,6 @@ class ChargeRequest
         return $this->amount;
     }
 
-    /**
-     * @return CreditCard
-     */
     public function getCreditCard()
     {
         return $this->creditCard;

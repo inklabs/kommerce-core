@@ -43,9 +43,6 @@ class Cart
         }
     }
 
-    /**
-     * @return CartItem[]
-     */
     public function getItems()
     {
         return $this->items;
@@ -78,9 +75,6 @@ class Cart
         $this->coupons[$id] = $coupon;
     }
 
-    /**
-     * @return Coupon[]
-     */
     public function getCoupons()
     {
         return $this->coupons;
@@ -160,9 +154,6 @@ class Cart
         return $shippingWeight;
     }
 
-    /**
-     * @return CartTotal
-     */
     public function getTotal(Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
     {
         $cartCalculator = new CartCalculator($this);

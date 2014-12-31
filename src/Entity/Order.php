@@ -131,9 +131,6 @@ class Order
         $this->total = $total;
     }
 
-    /**
-     * @return CartTotal
-     */
     public function getTotal()
     {
         return $this->total;
@@ -144,9 +141,6 @@ class Order
         $this->shippingAddress = $shippingAddress;
     }
 
-    /**
-     * @return OrderAddress
-     */
     public function getShippingAddress()
     {
         return $this->shippingAddress;
@@ -157,17 +151,11 @@ class Order
         $this->billingAddress = $billingAddress;
     }
 
-    /**
-     * @return OrderAddress
-     */
     public function getBillingAddress()
     {
         return $this->billingAddress;
     }
 
-    /**
-     * @return OrderItem[]
-     */
     public function getItems()
     {
         return $this->items;
@@ -179,9 +167,6 @@ class Order
         $this->payments[] = $payment;
     }
 
-    /**
-     * @return Payment\Payment[]
-     */
     public function getPayments()
     {
         return $this->payments;
@@ -192,9 +177,6 @@ class Order
         $this->coupons[] = $coupon;
     }
 
-    /**
-     * @return Coupon[]
-     */
     public function getCoupons()
     {
         return $this->coupons;
@@ -205,9 +187,6 @@ class Order
         $this->user = $user;
     }
 
-    /**
-     * @return User
-     */
     public function getUser()
     {
         return $this->user;

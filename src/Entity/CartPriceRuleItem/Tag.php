@@ -29,9 +29,6 @@ class Tag extends Item
         return false;
     }
 
-    /**
-     * @return Entity\Tag
-     */
     public function getTag()
     {
         return $this->tag;

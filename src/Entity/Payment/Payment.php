@@ -39,9 +39,6 @@ abstract class Payment
         $this->order = $order;
     }
 
-    /**
-     * @return Entity\Order
-     */
     public function getOrder()
     {
         return $this->order;

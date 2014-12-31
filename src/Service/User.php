@@ -105,9 +105,6 @@ class User extends Lib\EntityManager
             ->export();
     }
 
-    /**
-     * @return Entity\User
-     */
     public function getUser()
     {
         return $this->user;

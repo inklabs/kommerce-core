@@ -23,16 +23,16 @@ class User
     const STATUS_ACTIVE = 1;
     const STATUS_LOCKED = 2;
 
-    /* @var UserRole[] */
+    /* @var ArrayCollection|UserRole[] */
     protected $roles;
 
-    /* @var UserToken[] */
+    /* @var ArrayCollection|UserToken[] */
     protected $tokens;
 
-    /* @var Order[] */
+    /* @var ArrayCollection|Order[] */
     protected $orders;
 
-    /* @var UserLogin */
+    /* @var ArrayCollection|UserLogin[] */
     protected $logins;
 
     public function __construct()
@@ -199,9 +199,6 @@ class User
         $this->roles[] = $role;
     }
 
-    /**
-     * @return ArrayCollection|UserRole[]
-     */
     public function getRoles()
     {
         return $this->roles;
@@ -229,9 +226,6 @@ class User
         $this->tokens[] = $token;
     }
 
-    /**
-     * @return ArrayCollection|UserToken[]
-     */
     public function getTokens()
     {
         return $this->tokens;
@@ -243,9 +237,6 @@ class User
         $this->logins[] = $login;
     }
 
-    /**
-     * @return ArrayCollection|UserLogin[]
-     */
     public function getLogins()
     {
         return $this->logins;
@@ -257,9 +248,6 @@ class User
         $this->orders[] = $order;
     }
 
-    /**
-     * @return ArrayCollection|Order[]
-     */
     public function getOrders()
     {
         return $this->orders;

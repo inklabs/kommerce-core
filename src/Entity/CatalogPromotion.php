@@ -36,9 +36,6 @@ class CatalogPromotion extends Promotion
         $this->tag = $tag;
     }
 
-    /**
-     * @return Tag
-     */
     public function getTag()
     {
         return $this->tag;
