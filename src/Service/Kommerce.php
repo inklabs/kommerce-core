@@ -7,12 +7,20 @@ use inklabs\kommerce\Doctrine\Extensions\TablePrefix;
 class Kommerce
 {
     protected $tablePrefix = 'zk_';
-    protected $entityManager;
-    protected $entityManagerConfiguration;
     protected $eventManager;
     protected $sessionManager;
     protected $pricing;
+
+    /* @var Doctrine\ORM\EntityManager */
+    protected $entityManager;
+
+    /* @var Doctrine\DBAL\Configuration */
+    protected $entityManagerConfiguration;
+
+    /* @var Doctrine\Common\Cache\CacheProvider */
     protected $cacheDriver;
+
+    /* @var Doctrine\DBAL\Configuration */
     protected $config;
 
     public function __construct(Doctrine\Common\Cache\CacheProvider $cacheDriver = null)
@@ -75,9 +83,6 @@ class Kommerce
         return $this->cacheDriver;
     }
 
-    /**
-     * @return Doctrine\ORM\EntityManager
-     */
     public function getEntityManager()
     {
         return $this->entityManager;

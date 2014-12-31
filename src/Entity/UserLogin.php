@@ -81,9 +81,6 @@ class UserLogin
         $this->ip4 = (int) ip2long($ip4);
     }
 
-    /**
-     * @return string
-     */
     public function getIp4()
     {
         return long2ip($this->ip4);

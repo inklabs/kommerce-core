@@ -11,9 +11,6 @@ class TagTestTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($priceRule->getTag() instanceof Entity\Tag);
     }
 
-    /**
-     * @return Entity\Tag
-     */
     private function getTag($id)
     {
         $tag = new Entity\Tag;
@@ -21,9 +18,6 @@ class TagTestTest extends \PHPUnit_Framework_TestCase
         return $tag;
     }
 
-    /**
-     * @return Entity\Product
-     */
     private function getProduct($id)
     {
         $product = new Entity\Product();

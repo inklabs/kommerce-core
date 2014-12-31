@@ -27,9 +27,6 @@ class Pricing
         }
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getDate()
     {
         return $this->date;
@@ -54,9 +51,6 @@ class Pricing
         $this->catalogPromotions[] = $catalogPromotion;
     }
 
-    /**
-     * @return Entity\CatalogPromotion[]
-     */
     public function getCatalogPromotions()
     {
         return $this->catalogPromotions;
@@ -81,9 +75,6 @@ class Pricing
         $this->cartPriceRules[] = $cartPriceRule;
     }
 
-    /**
-     * @return Entity\CartPriceRule[]
-     */
     public function getCartPriceRules()
     {
         return $this->cartPriceRules;
@@ -111,17 +102,11 @@ class Pricing
         );
     }
 
-    /**
-     * @return Entity\ProductQuantityDiscount[]
-     */
     public function getProductQuantityDiscounts()
     {
         return $this->productQuantityDiscounts;
     }
 
-    /**
-     * @return Entity\Price
-     */
     public function getPrice(Entity\Product $product, $quantity)
     {
         $pricingCalculator = new PricingCalculator($this);

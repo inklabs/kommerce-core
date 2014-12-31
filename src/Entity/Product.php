@@ -89,9 +89,6 @@ class Product
         ]));
     }
 
-    /**
-     * @return Price
-     */
     public function getPrice(Pricing $pricing, $quantity = 1)
     {
         return $pricing->getPrice(
@@ -264,9 +261,6 @@ class Product
         $this->tags[] = $tag;
     }
 
-    /**
-     * @return Tag[]
-     */
     public function getTags()
     {
         return $this->tags;
@@ -277,9 +271,6 @@ class Product
         $this->images[] = $image;
     }
 
-    /**
-     * @return Image[]
-     */
     public function getImages()
     {
         return $this->images;
@@ -290,9 +281,6 @@ class Product
         $this->productQuantityDiscounts[] = $productQuantityDiscount;
     }
 
-    /**
-     * @return ProductQuantityDiscount[]
-     */
     public function getProductQuantityDiscounts()
     {
         return $this->productQuantityDiscounts;

@@ -42,9 +42,6 @@ class TagTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
     }
 
-    /**
-     * @return Entity\Product
-     */
     private function getDummyProduct($num)
     {
         $product = new Entity\Product;

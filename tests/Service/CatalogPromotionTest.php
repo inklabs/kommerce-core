@@ -19,9 +19,6 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         $this->assertSame(2, count($catalogPromotions));
     }
 
-    /**
-     * @return Entity\CatalogPromotion
-     */
     private function getCatalogPromotion($num)
     {
         $catalogPromotion = new Entity\CatalogPromotion;

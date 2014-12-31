@@ -23,9 +23,6 @@ class Credit extends Payment
         $this->charge = $chargeResponse;
     }
 
-    /**
-     * @return ChargeResponse
-     */
     public function getCharge()
     {
         return $this->charge;

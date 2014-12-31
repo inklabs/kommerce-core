@@ -126,9 +126,6 @@ class Cart extends Lib\EntityManager
         $this->cart->removeCoupon($key);
     }
 
-    /**
-     * @return Entity\Coupon[]
-     */
     public function getCoupons()
     {
         return $this->cart->getCoupons();
@@ -233,9 +230,6 @@ class Cart extends Lib\EntityManager
         $this->save();
     }
 
-    /**
-     * @return Entity\Order
-     */
     public function createOrder(Payment $payment, OrderAddress $shippingAddress, OrderAddress $billingAddress = null)
     {
         if ($billingAddress === null) {
@@ -261,9 +255,6 @@ class Cart extends Lib\EntityManager
         return $order;
     }
 
-    /**
-     * @return Entity\View\Cart
-     */
     public function getView()
     {
         return $this->cart->getView()

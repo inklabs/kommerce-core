@@ -77,9 +77,6 @@ class Image
         $this->product = $product;
     }
 
-    /**
-     * @return Product
-     */
     public function getProduct()
     {
         return $this->product;
@@ -90,9 +87,6 @@ class Image
         $this->tag = $tag;
     }
 
-    /**
-     * @return Tag
-     */
     public function getTag()
     {
         return $this->tag;

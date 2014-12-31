@@ -49,9 +49,6 @@ class Warehouse
         $this->name = (string) $name;
     }
 
-    /**
-     * @return Address
-     */
     public function getAddress()
     {
         return $this->address;

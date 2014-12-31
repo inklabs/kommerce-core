@@ -12,9 +12,6 @@ class Tag extends Lib\EntityManager
         $this->setEntityManager($entityManager);
     }
 
-    /**
-     * @return Entity\View\Tag
-     */
     public function find($id)
     {
         /* @var Entity\Tag $entityTag */

@@ -77,9 +77,6 @@ class Option
         return $this->sortOrder;
     }
 
-    /**
-     * @param Product[]
-     */
     public function getProducts()
     {
         return $this->products;

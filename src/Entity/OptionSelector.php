@@ -14,9 +14,6 @@ trait OptionSelector
         $this->options[] = $option;
     }
 
-    /**
-     * @return Option[]
-     */
     public function getOptions()
     {
         return $this->options;
@@ -27,9 +24,6 @@ trait OptionSelector
         $this->products[] = $product;
     }
 
-    /**
-     * @return Product[]
-     */
     public function getProducts()
     {
         return $this->products;

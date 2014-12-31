@@ -29,9 +29,6 @@ class TaxRateTest extends Helper\DoctrineTestCase
         $this->taxRateService = new TaxRate($this->entityManager);
     }
 
-    /**
-     * @return Entity\TaxRate
-     */
     private function getTaxRate($state, $zip5, $zip5From, $zip5To, $rate, $applyToShipping)
     {
         $taxRate = new Entity\TaxRate;
