@@ -16,8 +16,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $address->setState('CA');
         $address->setZip5('90401');
         $address->setZip4('3274');
-        $address->setLatitude(34.010947);
-        $address->setLongitude(-118.490541);
+        $address->setPoint(new Point(34.052234, -118.243685));
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -32,8 +31,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('CA', $address->getState());
         $this->assertSame('90401', $address->getZip5());
         $this->assertSame('3274', $address->getZip4());
-        $this->assertEquals(34.010947, $address->getLatitude(), '', FLOAT_DELTA);
-        $this->assertEquals(-118.490541, $address->getLongitude(), '', FLOAT_DELTA);
+        $this->assertTrue($address->getPoint() instanceof Point);
         $this->assertTrue($address->getView() instanceof View\Address);
     }
 }
