@@ -11,11 +11,11 @@ class PricingTest extends Helper\DoctrineTestCase
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));
 
         $productQuantityDiscount = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount->setType('fixed');
+        $productQuantityDiscount->setType(Entity\Promotion::TYPE_FIXED);
         $pricing->setProductQuantityDiscounts([$productQuantityDiscount]);
 
         $catalogPromotion = new Entity\CatalogPromotion;
-        $catalogPromotion->setType('fixed');
+        $catalogPromotion->setType(Entity\Promotion::TYPE_FIXED);
         $pricing->setCatalogPromotions([$catalogPromotion]);
 
         $this->assertTrue($pricing->getPrice(new Entity\Product, 1) instanceof Entity\Price);
@@ -34,7 +34,7 @@ class PricingTest extends Helper\DoctrineTestCase
     {
         $catalogPromotion = new Entity\CatalogPromotion;
         $catalogPromotion->setCode('TST101');
-        $catalogPromotion->setType('percent');
+        $catalogPromotion->setType(Entity\Promotion::TYPE_PERCENT);
         $catalogPromotion->setValue(10);
 
         $this->entityManager->persist($catalogPromotion);

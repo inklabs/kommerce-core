@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CartPriceRule extends Promotion
 {
@@ -16,6 +18,11 @@ class CartPriceRule extends Promotion
         parent::__construct();
         $this->cartPriceRuleItems = new ArrayCollection();
         $this->cartPriceRuleDiscounts = new ArrayCollection();
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        parent::loadValidatorMetadata($metadata);
     }
 
     public function addItem(CartPriceRuleItem\Item $item)

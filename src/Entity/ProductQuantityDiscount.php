@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Service\Pricing;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ProductQuantityDiscount extends Promotion
 {
@@ -12,6 +14,17 @@ class ProductQuantityDiscount extends Promotion
     /* @var Product */
     protected $product;
 
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        parent::loadValidatorMetadata($metadata);
+
+        $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
+        $metadata->addPropertyConstraint('quantity', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+    }
+
     public function setName($name)
     {
         throw new \Exception('Unable to set name.');
@@ -21,11 +34,11 @@ class ProductQuantityDiscount extends Promotion
     {
         $name = 'Buy ' . $this->getQuantity() . ' or more for ';
 
-        if ($this->getType() == 'exact') {
+        if ($this->getType() === Promotion::TYPE_EXACT) {
             $name .= $this->displayCents($this->getValue()) . ' each';
-        } elseif ($this->getType() == 'percent') {
+        } elseif ($this->getType() === Promotion::TYPE_PERCENT) {
             $name .= $this->getValue() . '% off';
-        } elseif ($this->getType() == 'fixed') {
+        } elseif ($this->getType() === Promotion::TYPE_FIXED) {
             $name .= $this->displayCents($this->getValue()) . ' off';
         }
 

@@ -26,7 +26,7 @@ class CartPriceRuleTest extends Helper\DoctrineTestCase
     {
         $catalogPromotion = new Entity\CartPriceRule;
         $catalogPromotion->setName('test' . $num);
-        $catalogPromotion->setType('percent');
+        $catalogPromotion->setType(Entity\Promotion::TYPE_PERCENT);
         $catalogPromotion->setValue(10);
         $catalogPromotion->setRedemptions(0);
         $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));

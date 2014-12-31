@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Coupon extends Promotion
 {
     protected $code;
@@ -14,6 +17,26 @@ class Coupon extends Promotion
         parent::__construct();
         $this->flagFreeShipping = false;
         $this->canCombineWithOtherCoupons = false;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        parent::loadValidatorMetadata($metadata);
+
+        $metadata->addPropertyConstraint('code', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('code', new Assert\Length([
+            'max' => 16,
+        ]));
+
+        $metadata->addPropertyConstraint('minOrderValue', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+
+        $metadata->addPropertyConstraint('maxOrderValue', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
     }
 
     public function setCode($code)

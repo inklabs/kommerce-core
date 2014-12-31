@@ -7,7 +7,8 @@ abstract class Promotion
 {
     public $id;
     public $name;
-    public $type; // fixed, percent, exact
+    public $type;
+    public $typeText;
     public $value;
     public $redemptions;
     public $maxRedemptions;
@@ -25,6 +26,7 @@ abstract class Promotion
 
         $this->name           = $promotion->getName();
         $this->type           = $promotion->getType();
+        $this->typeText       = $promotion->getTypeText();
         $this->value          = $promotion->getValue();
         $this->redemptions    = $promotion->getRedemptions();
         $this->maxRedemptions = $promotion->getMaxRedemptions();

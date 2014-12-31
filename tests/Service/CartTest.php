@@ -81,7 +81,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->coupon = new Entity\Coupon;
         $this->coupon->setCode('20PCT');
         $this->coupon->setName('20% Off');
-        $this->coupon->setType('percent');
+        $this->coupon->setType(Entity\Promotion::TYPE_PERCENT);
         $this->coupon->setValue(20);
 
         $this->entityManager->persist($this->coupon);

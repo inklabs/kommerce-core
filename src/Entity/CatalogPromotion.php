@@ -1,12 +1,25 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class CatalogPromotion extends Promotion
 {
     protected $code;
 
     /* @var Tag */
     protected $tag;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        parent::loadValidatorMetadata($metadata);
+
+        $metadata->addPropertyConstraint('code', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('code', new Assert\Length([
+            'max' => 16,
+        ]));
+    }
 
     public function setCode($code)
     {

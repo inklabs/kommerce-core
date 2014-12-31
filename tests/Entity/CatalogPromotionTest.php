@@ -1,14 +1,22 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Validation;
+
 class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
         $catalogPromotion = new CatalogPromotion;
         $catalogPromotion->setCode('20PCTOFF');
+        $catalogPromotion->setValue(20);
         $catalogPromotion->setTag(new Tag);
 
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($catalogPromotion));
         $this->assertSame('20PCTOFF', $catalogPromotion->getCode());
         $this->assertTrue($catalogPromotion->getTag() instanceof Tag);
         $this->assertTrue($catalogPromotion->getView() instanceof View\CatalogPromotion);

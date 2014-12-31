@@ -1,13 +1,19 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service as Service;
+use Symfony\Component\Validator\Validation;
 
 class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
         $cartPriceRule = new CartPriceRule;
+
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($cartPriceRule));
         $this->assertSame(0, count($cartPriceRule->getCartPriceRuleItems()));
         $this->assertSame(0, count($cartPriceRule->getCartPriceRuleDiscounts()));
         $this->assertTrue($cartPriceRule->getView() instanceof View\CartPriceRule);

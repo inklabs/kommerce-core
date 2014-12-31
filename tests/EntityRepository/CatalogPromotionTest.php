@@ -21,7 +21,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
 
         $catalogPromotion = new Entity\CatalogPromotion;
         $catalogPromotion->setCode('20PCTOFF');
-        $catalogPromotion->setType('percent');
+        $catalogPromotion->setType(Entity\Promotion::TYPE_PERCENT);
         $catalogPromotion->setValue(20);
         $catalogPromotion->setTag($tag);
 

@@ -1,131 +1,135 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Validation;
+
 class PromotionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreate()
-    {
-        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
-        $promotion->setid(1);
-        $promotion->setName('20% Off in 2014');
-        $promotion->setType('percent');
-        $promotion->setValue(20);
-        $promotion->setRedemptions(10);
-        $promotion->setMaxRedemptions(100);
-        $promotion->setReducesTaxSubtotal(true);
-        $promotion->setStart(new \DateTime);
-        $promotion->setEnd(new \DateTime);
+    /* @var Promotion */
+    protected $promotion;
 
-        $this->assertSame(1, $promotion->getId());
-        $this->assertSame('20% Off in 2014', $promotion->getName());
-        $this->assertSame('percent', $promotion->getType());
-        $this->assertSame(20, $promotion->getValue());
-        $this->assertSame(10, $promotion->getRedemptions());
-        $this->assertSame(100, $promotion->getMaxRedemptions());
-        $this->assertSame(true, $promotion->getReducesTaxSubtotal());
-        $this->assertTrue($promotion->getStart() instanceof \DateTime);
-        $this->assertTrue($promotion->getEnd() instanceof \DateTime);
+    public function setUp()
+    {
+        $this->promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
     }
 
-    private function getDatePromotion()
+    public function testCreate()
     {
-        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
-        $promotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $promotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        return $promotion;
+        $this->promotion->setid(1);
+        $this->promotion->setName('20% Off in 2014');
+        $this->promotion->setType(Promotion::TYPE_PERCENT);
+        $this->promotion->setValue(20);
+        $this->promotion->setRedemptions(10);
+        $this->promotion->setMaxRedemptions(100);
+        $this->promotion->setReducesTaxSubtotal(true);
+        $this->promotion->setStart(new \DateTime);
+        $this->promotion->setEnd(new \DateTime);
+
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($this->promotion));
+        $this->assertSame(1, $this->promotion->getId());
+        $this->assertSame('20% Off in 2014', $this->promotion->getName());
+        $this->assertSame(Promotion::TYPE_PERCENT, $this->promotion->getType());
+        $this->assertSame('Percent', $this->promotion->getTypeText());
+        $this->assertSame(20, $this->promotion->getValue());
+        $this->assertSame(10, $this->promotion->getRedemptions());
+        $this->assertSame(100, $this->promotion->getMaxRedemptions());
+        $this->assertSame(true, $this->promotion->getReducesTaxSubtotal());
+        $this->assertTrue($this->promotion->getStart() instanceof \DateTime);
+        $this->assertTrue($this->promotion->getEnd() instanceof \DateTime);
+    }
+
+    private function setDatePromotion()
+    {
+        $this->promotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
+        $this->promotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
     }
 
     public function testIsDateValid()
     {
-        $promotion = $this->getDatePromotion();
+        $this->setDatePromotion();
 
-        $this->assertTrue($promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
     }
 
     public function testIsDateValidWithNullStartAndEnd()
     {
-        $promotion = $this->getDatePromotion();
-        $promotion->setStart(null);
-        $promotion->setEnd(null);
+        $this->setDatePromotion();
+        $this->promotion->setStart(null);
+        $this->promotion->setEnd(null);
 
-        $this->assertTrue($promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
     }
 
     public function testIsDateValidWithNullStart()
     {
-        $promotion = $this->getDatePromotion();
-        $promotion->setStart(null);
+        $this->setDatePromotion();
+        $this->promotion->setStart(null);
 
-        $this->assertTrue($promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
-        $this->assertTrue($promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
     }
 
     public function testIsDateValidWithNullEnd()
     {
-        $promotion = $this->getDatePromotion();
-        $promotion->setEnd(null);
+        $this->setDatePromotion();
+        $this->promotion->setEnd(null);
 
-        $this->assertTrue($promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
-        $this->assertTrue($promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
     }
 
     public function testIsRedemptionCountValid()
     {
-        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
-        $promotion->setMaxRedemptions(null);
-        $this->assertTrue($promotion->isRedemptionCountValid());
+        $this->promotion->setMaxRedemptions(null);
+        $this->assertTrue($this->promotion->isRedemptionCountValid());
 
-        $promotion->setMaxRedemptions(10);
-        $promotion->setRedemptions(0);
-        $this->assertTrue($promotion->isRedemptionCountValid());
+        $this->promotion->setMaxRedemptions(10);
+        $this->promotion->setRedemptions(0);
+        $this->assertTrue($this->promotion->isRedemptionCountValid());
 
-        $promotion->setRedemptions(9);
-        $this->assertTrue($promotion->isRedemptionCountValid());
+        $this->promotion->setRedemptions(9);
+        $this->assertTrue($this->promotion->isRedemptionCountValid());
 
-        $promotion->setRedemptions(10);
-        $this->assertFalse($promotion->isRedemptionCountValid());
+        $this->promotion->setRedemptions(10);
+        $this->assertFalse($this->promotion->isRedemptionCountValid());
 
-        $promotion->setRedemptions(15);
-        $this->assertFalse($promotion->isRedemptionCountValid());
+        $this->promotion->setRedemptions(15);
+        $this->assertFalse($this->promotion->isRedemptionCountValid());
     }
 
     public function testIsValid()
     {
-        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
-
-        $promotion->setMaxRedemptions(null);
-        $this->assertTrue($promotion->isValidPromotion(new \DateTime));
+        $this->promotion->setMaxRedemptions(null);
+        $this->assertTrue($this->promotion->isValidPromotion(new \DateTime));
     }
 
     public function testGetUnitPriceWithPercent()
     {
-        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
-
-        $promotion->setType('percent');
-        $promotion->setValue(20);
-        $this->assertSame(800, $promotion->getUnitPrice(1000));
+        $this->promotion->setType(Promotion::TYPE_PERCENT);
+        $this->promotion->setValue(20);
+        $this->assertSame(800, $this->promotion->getUnitPrice(1000));
     }
 
     public function testGetUnitPriceWithFixed()
     {
-        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
-
-        $promotion->setType('fixed');
-        $promotion->setValue(20);
-        $this->assertSame(980, $promotion->getUnitPrice(1000));
+        $this->promotion->setType(Promotion::TYPE_FIXED);
+        $this->promotion->setValue(20);
+        $this->assertSame(980, $this->promotion->getUnitPrice(1000));
     }
 
     public function testGetUnitPriceWithExact()
     {
-        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
-
-        $promotion->setType('exact');
-        $promotion->setValue(20);
-        $this->assertSame(20, $promotion->getUnitPrice(1000));
+        $this->promotion->setType(Promotion::TYPE_EXACT);
+        $this->promotion->setValue(20);
+        $this->assertSame(20, $this->promotion->getUnitPrice(1000));
     }
 
     /**
@@ -133,9 +137,7 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUnitPriceWithInvalidType()
     {
-        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
-
-        $promotion->setType('invalid');
-        $promotion->getUnitPrice(0);
+        $this->promotion->setType(-1);
+        $this->promotion->getUnitPrice(0);
     }
 }

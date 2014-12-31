@@ -13,7 +13,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $entityProduct->addImage(new Entity\Image);
 
         $productQuantityDiscount = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount->setType('exact');
+        $productQuantityDiscount->setType(Entity\Promotion::TYPE_EXACT);
         $productQuantityDiscount->setQuantity(2);
         $productQuantityDiscount->setValue(400);
 

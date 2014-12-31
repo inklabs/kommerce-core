@@ -10,7 +10,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon = new Coupon;
         $coupon->setId($id);
         $coupon->setName($value . '% Off');
-        $coupon->setType('percent');
+        $coupon->setType(Promotion::TYPE_PERCENT);
         $coupon->setValue($value);
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
