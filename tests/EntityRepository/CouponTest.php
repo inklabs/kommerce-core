@@ -19,7 +19,7 @@ class CouponTest extends Helper\DoctrineTestCase
         $coupon = new Entity\Coupon;
         $coupon->setName('20% OFF');
         $coupon->setCode('20PCT');
-        $coupon->setType('percent');
+        $coupon->setType(Entity\Promotion::TYPE_PERCENT);
         $coupon->setValue(20);
 
         $this->entityManager->persist($coupon);

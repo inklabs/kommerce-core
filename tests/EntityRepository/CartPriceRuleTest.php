@@ -42,7 +42,7 @@ class CartPriceRuleTest extends Helper\DoctrineTestCase
 
         $cartPriceRule = new Entity\CartPriceRule;
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
-        $cartPriceRule->setType('fixed');
+        $cartPriceRule->setType(Entity\Promotion::TYPE_FIXED);
         $cartPriceRule->setValue(0);
         $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productShirt, 1));
         $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productPoster, 1));

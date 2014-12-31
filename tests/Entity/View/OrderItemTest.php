@@ -9,10 +9,10 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $catalogPromotion = new Entity\CatalogPromotion;
-        $catalogPromotion->setType('fixed');
+        $catalogPromotion->setType(Entity\Promotion::TYPE_FIXED);
 
         $productQuantityDiscount = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount->setType('exact');
+        $productQuantityDiscount->setType(Entity\Promotion::TYPE_EXACT);
 
         $pricing = new Service\Pricing;
         $pricing->setCatalogPromotions([$catalogPromotion]);

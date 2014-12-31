@@ -14,7 +14,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $product->setQuantity(10);
 
         $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setType('exact');
+        $productQuantityDiscount->setType(Promotion::TYPE_EXACT);
         $productQuantityDiscount->setQuantity(2);
         $productQuantityDiscount->setValue(100);
 
@@ -22,7 +22,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
 
         $catalogPromotion = new CatalogPromotion;
         $catalogPromotion->setName('20% OFF');
-        $catalogPromotion->setType('percent');
+        $catalogPromotion->setType(Promotion::TYPE_PERCENT);
         $catalogPromotion->setValue(20);
 
         $pricing = new Pricing;
@@ -51,11 +51,11 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
     {
         $catalogPromotion = new CatalogPromotion;
         $catalogPromotion->setName('10% OFF');
-        $catalogPromotion->setType('percent');
+        $catalogPromotion->setType(Promotion::TYPE_PERCENT);
         $catalogPromotion->setValue(10);
 
         $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setType('exact');
+        $productQuantityDiscount->setType(Promotion::TYPE_EXACT);
         $productQuantityDiscount->setQuantity(2);
         $productQuantityDiscount->setValue(400);
 

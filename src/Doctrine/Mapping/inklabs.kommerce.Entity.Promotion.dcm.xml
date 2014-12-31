@@ -19,25 +19,25 @@
 
         <field name="name" column="name" type="string" length="255" nullable="true"/>
 
-        <field name="type" column="type" type="string" length="7">
-            <options>
-                <option name="fixed">true</option>
-            </options>
-        </field>
-
-        <field name="value" column="value" type="integer">
+        <field name="type" column="type" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="redemptions" column="redemptions" type="integer">
+        <field name="value" column="value" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="maxRedemptions" column="max_redemptions" type="integer" nullable="true">
+        <field name="redemptions" column="redemptions" type="smallint">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="maxRedemptions" column="max_redemptions" type="smallint" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>

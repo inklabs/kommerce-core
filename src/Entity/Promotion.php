@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 abstract class Promotion
 {
     use Accessor\Time;
@@ -8,8 +11,10 @@ abstract class Promotion
     protected $id;
     protected $name;
 
-    // TODO: Make this class constant
-    protected $type; // fixed, percent, exact
+    protected $type;
+    const TYPE_FIXED   = 0;
+    const TYPE_PERCENT = 1;
+    const TYPE_EXACT   = 2;
 
     protected $value;
     protected $redemptions;
@@ -21,8 +26,40 @@ abstract class Promotion
     public function __construct()
     {
         $this->setCreated();
+        $this->type = static::TYPE_FIXED;
         $this->redemptions = 0;
         $this->reducesTaxSubtotal = true;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('name', new Assert\Length([
+            'max' => 255,
+        ]));
+
+        $metadata->addPropertyConstraint('type', new Assert\Choice([
+            'choices' => array_keys(static::getTypeMapping()),
+            'message' => 'The type is not a valid choice',
+        ]));
+
+        $metadata->addPropertyConstraint('value', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+
+        $metadata->addPropertyConstraint('redemptions', new Assert\NotNull);
+        $metadata->addPropertyConstraint('redemptions', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+
+        $metadata->addPropertyConstraint('maxRedemptions', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+
+        $metadata->addPropertyConstraint('start', new Assert\Date());
+        $metadata->addPropertyConstraint('end', new Assert\Date());
     }
 
     public function setId($id)
@@ -47,12 +84,26 @@ abstract class Promotion
 
     public function setType($type)
     {
-        $this->type = (string) $type;
+        $this->type = (int) $type;
     }
 
     public function getType()
     {
         return $this->type;
+    }
+
+    public static function getTypeMapping()
+    {
+        return [
+            static::TYPE_FIXED => 'Fixed',
+            static::TYPE_PERCENT => 'Percent',
+            static::TYPE_EXACT => 'Exact',
+        ];
+    }
+
+    public function getTypeText()
+    {
+        return $this->getTypeMapping()[$this->type];
     }
 
     public function setValue($value)
@@ -157,15 +208,15 @@ abstract class Promotion
     public function getUnitPrice($unitPrice)
     {
         switch ($this->type) {
-            case 'fixed':
+            case static::TYPE_FIXED:
                 return (int) ($unitPrice - $this->value);
                 break;
 
-            case 'percent':
+            case static::TYPE_PERCENT:
                 return (int) ($unitPrice - ($unitPrice * ($this->value / 100)));
                 break;
 
-            case 'exact':
+            case static::TYPE_EXACT:
                 return (int) $this->value;
                 break;
         }
