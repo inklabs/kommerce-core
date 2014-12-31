@@ -14,8 +14,14 @@ class Address
     protected $state;
     protected $zip5;
     protected $zip4;
-    protected $latitude;
-    protected $longitude;
+
+    /* @var Point */
+    protected $point;
+
+    public function __construct()
+    {
+        $this->point = new Point;
+    }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
@@ -61,17 +67,7 @@ class Address
             'message' => 'Must be a valid 4 digit ZIP+4 postal code',
         ]));
 
-        $metadata->addPropertyConstraint('latitude', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('latitude', new Assert\Range([
-            'min' => -90,
-            'max' => 90,
-        ]));
-
-        $metadata->addPropertyConstraint('longitude', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('longitude', new Assert\Range([
-            'min' => -180,
-            'max' => 180,
-        ]));
+        $metadata->addPropertyConstraint('point', new Assert\Valid);
     }
 
     public function getAddress1()
@@ -154,24 +150,14 @@ class Address
         $this->zip5 = (string) $zip5;
     }
 
-    public function getLatitude()
+    public function getPoint()
     {
-        return $this->latitude;
+        return $this->point;
     }
 
-    public function setLatitude($latitude)
+    public function setPoint(Point $point)
     {
-        $this->latitude = (float) $latitude;
-    }
-
-    public function getLongitude()
-    {
-        return $this->longitude;
-    }
-
-    public function setLongitude($longitude)
-    {
-        $this->longitude = (float) $longitude;
+        $this->point = $point;
     }
 
     public function getView()

@@ -1,15 +1,31 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Point
 {
     protected $latitude;
     protected $longitude;
 
-    public function __construct($latitude, $longitude)
+    public function __construct($latitude = null, $longitude = null)
     {
         $this->setLatitude($latitude);
         $this->setLongitude($longitude);
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('latitude', new Assert\Range([
+            'min' => -90,
+            'max' => 90,
+        ]));
+
+        $metadata->addPropertyConstraint('longitude', new Assert\Range([
+            'min' => -180,
+            'max' => 180,
+        ]));
     }
 
     public function getLatitude()
@@ -19,7 +35,7 @@ class Point
 
     public function setLatitude($latitude)
     {
-        $this->latitude = (float) $latitude;
+        $this->latitude = $latitude;
     }
 
     public function getLongitude()
@@ -29,7 +45,7 @@ class Point
 
     public function setLongitude($longitude)
     {
-        $this->longitude = (float) $longitude;
+        $this->longitude = $longitude;
     }
 
     /**

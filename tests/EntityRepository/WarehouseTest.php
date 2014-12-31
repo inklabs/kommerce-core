@@ -31,8 +31,7 @@ class WarehouseTest extends Helper\DoctrineTestCase
         $address->setState('CA');
         $address->setZip5('90401');
         $address->setZip4('3274');
-        $address->setLatitude(34.010947);
-        $address->setLongitude(-118.490541);
+        $address->setPoint(new Entity\Point(34.010947, -118.490541));
 
         $warehouse = new Entity\Warehouse;
         $warehouse->setName('Test Warehouse #' . $num);

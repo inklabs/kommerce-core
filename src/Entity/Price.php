@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Price
 {
     public $origUnitPrice;
@@ -14,14 +17,35 @@ class Price
     /* @var ProductQuantityDiscount */
     private $productQuantityDiscount;
 
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('origUnitPrice', new Assert\NotNull);
+        $metadata->addPropertyConstraint('origUnitPrice', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+        $metadata->addPropertyConstraint('unitPrice', new Assert\NotNull);
+        $metadata->addPropertyConstraint('unitPrice', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+        $metadata->addPropertyConstraint('origQuantityPrice', new Assert\NotNull);
+        $metadata->addPropertyConstraint('origQuantityPrice', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+        $metadata->addPropertyConstraint('quantityPrice', new Assert\NotNull);
+        $metadata->addPropertyConstraint('quantityPrice', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+    }
+
     public function addCatalogPromotion(CatalogPromotion $catalogPromotion)
     {
         $this->catalogPromotions[] = $catalogPromotion;
     }
 
-    /**
-     * @return CatalogPromotion[]
-     */
     public function getCatalogPromotions()
     {
         return $this->catalogPromotions;
@@ -32,9 +56,6 @@ class Price
         $this->productQuantityDiscount = $productQuantityDiscount;
     }
 
-    /**
-     * @return ProductQuantityDiscount
-     */
     public function getProductQuantityDiscount()
     {
         return $this->productQuantityDiscount;

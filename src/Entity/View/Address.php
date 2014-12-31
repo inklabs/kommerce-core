@@ -13,8 +13,9 @@ class Address
     public $state;
     public $zip5;
     public $zip4;
-    public $latitude;
-    public $longitude;
+
+    /* @var Point */
+    public $point;
 
     public function __construct(Entity\Address $address)
     {
@@ -26,7 +27,6 @@ class Address
         $this->state     = $address->getstate();
         $this->zip5      = $address->getzip5();
         $this->zip4      = $address->getzip4();
-        $this->latitude  = $address->getLatitude();
-        $this->longitude = $address->getLongitude();
+        $this->point     = $address->getPoint()->getView();
     }
 }

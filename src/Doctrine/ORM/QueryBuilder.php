@@ -53,8 +53,8 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
         $bottomRight = $points[1];
 
         return $this
-            ->where($prefix . 'latitude BETWEEN :upperLeftLatitude AND :bottomRightLatitude')
-            ->andWhere($prefix . 'longitude BETWEEN :upperLeftLongitude AND :bottomRightLongitude')
+            ->where($prefix . 'point.latitude BETWEEN :upperLeftLatitude AND :bottomRightLatitude')
+            ->andWhere($prefix . 'point.longitude BETWEEN :upperLeftLongitude AND :bottomRightLongitude')
             ->setParameter('upperLeftLatitude', $upperLeft->getLatitude())
             ->setParameter('upperLeftLongitude', $upperLeft->getLongitude())
             ->setParameter('bottomRightLatitude', $bottomRight->getLatitude())
@@ -65,7 +65,7 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
     {
         return $this
             ->addSelect(
-                'DISTANCE(warehouse.address.latitude,warehouse.address.longitude,' .
+                'DISTANCE(warehouse.address.point.latitude,warehouse.address.point.longitude,' .
                 $point->getLatitude() . ',' . $point->getLongitude() . ')'
             );
     }

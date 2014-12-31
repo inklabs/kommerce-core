@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Validation;
+
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -13,6 +15,11 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $price->addCatalogPromotion(new CatalogPromotion);
         $price->setProductQuantityDiscount(new ProductQuantityDiscount);
 
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($price));
         $this->assertTrue($price->getCatalogPromotions()[0] instanceof CatalogPromotion);
         $this->assertTrue($price->getProductQuantityDiscount() instanceof ProductQuantityDiscount);
         $this->assertTrue($price->getView() instanceof View\Price);

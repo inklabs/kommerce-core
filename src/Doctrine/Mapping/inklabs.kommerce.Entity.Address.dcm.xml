@@ -30,8 +30,7 @@
             </options>
         </field>
 
-        <field name="latitude"  column="latitude"  type="decimal" precision="10" scale="6"/>
-        <field name="longitude" column="longitude" type="decimal" precision="10" scale="6"/>
+        <embedded name="point" class="Point" column-prefix="point_"/>
 
     </embeddable>
 
