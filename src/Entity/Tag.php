@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Tag
 {
@@ -31,14 +33,29 @@ class Tag
         $this->isVisible = false;
     }
 
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('name', new Assert\Length([
+            'max' => 255,
+        ]));
+
+        $metadata->addPropertyConstraint('description', new Assert\Length([
+            'max' => 65535,
+        ]));
+
+        $metadata->addPropertyConstraint('sortOrder', new Assert\NotNull);
+        $metadata->addPropertyConstraint('sortOrder', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+    }
+
     public function addProduct(Product $product)
     {
         $this->products[] = $product;
     }
 
-    /**
-     * @return Product[]
-     */
     public function getProducts()
     {
         return $this->products;
@@ -49,9 +66,6 @@ class Tag
         $this->images[] = $image;
     }
 
-    /**
-     * @return Image[]
-     */
     public function getImages()
     {
         return $this->images;
