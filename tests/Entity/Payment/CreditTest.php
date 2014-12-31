@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Entity\Payment;
 use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
-use inklabs\kommerce\Lib\PaymentGateway\StripeStub;
+use inklabs\kommerce\Lib\PaymentGateway\StripeFake;
 
 class CreditTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +16,7 @@ class CreditTest extends \PHPUnit_Framework_TestCase
             'usd',
             'test@example.com'
         );
-        $payment = new Credit($chargeRequest, new StripeStub);
+        $payment = new Credit($chargeRequest, new StripeFake);
         $this->assertSame(100, $payment->getAmount());
         $this->assertTrue($payment->getCharge() instanceof ChargeResponse);
     }

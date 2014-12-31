@@ -81,7 +81,7 @@ class OrderTest extends Helper\DoctrineTestCase
             'test@example.com'
         );
 
-        $order->addPayment(new Entity\Payment\Credit($chargeRequest, new Lib\PaymentGateway\StripeStub));
+        $order->addPayment(new Entity\Payment\Credit($chargeRequest, new Lib\PaymentGateway\StripeFake));
 
         $this->entityManager->persist($order);
         $this->entityManager->flush();

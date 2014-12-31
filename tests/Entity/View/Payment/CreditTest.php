@@ -14,7 +14,7 @@ class CreditTest extends \PHPUnit_Framework_TestCase
             'usd',
             'john@example.com'
         );
-        $entityCredit = new Entity\Payment\Credit($chargeRequest, new Lib\PaymentGateway\StripeStub);
+        $entityCredit = new Entity\Payment\Credit($chargeRequest, new Lib\PaymentGateway\StripeFake);
 
         $credit = $entityCredit->getView()->export();
 

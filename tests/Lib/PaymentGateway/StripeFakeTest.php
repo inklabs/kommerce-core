@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Lib\PaymentGateway;
 
 use inklabs\kommerce\Entity as Entity;
 
-class StripeStubTest extends \PHPUnit_Framework_TestCase
+class StripeFakeTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetCharge()
     {
@@ -14,7 +14,7 @@ class StripeStubTest extends \PHPUnit_Framework_TestCase
             'test@example.com'
         );
 
-        $stripe = new StripeStub;
+        $stripe = new StripeFake;
         $charge = $stripe->getCharge($chargeRequest);
 
         $this->assertSame(2000, $charge->getAmount());
