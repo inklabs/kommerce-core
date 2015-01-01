@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Validation;
+
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -14,6 +16,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $image->setProduct(new Product);
         $image->setTag(new Tag);
 
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($image));
         $this->assertSame(1, $image->getId());
         $this->assertSame('http://lorempixel.com/400/200/', $image->getPath());
         $this->assertSame(400, $image->getWidth());
