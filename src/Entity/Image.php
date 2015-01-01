@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Image
 {
     use Accessor\Time;
@@ -20,6 +23,32 @@ class Image
     public function __construct()
     {
         $this->setCreated();
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('path', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('path', new Assert\Length([
+            'max' => 255,
+        ]));
+
+        $metadata->addPropertyConstraint('width', new Assert\NotNull);
+        $metadata->addPropertyConstraint('width', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+
+        $metadata->addPropertyConstraint('height', new Assert\NotNull);
+        $metadata->addPropertyConstraint('height', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+
+        $metadata->addPropertyConstraint('sortOrder', new Assert\NotNull);
+        $metadata->addPropertyConstraint('sortOrder', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
     }
 
     public function setid($id)
