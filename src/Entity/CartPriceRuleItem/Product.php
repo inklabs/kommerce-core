@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity\CartPriceRuleItem;
 
 use inklabs\kommerce\Entity as Entity;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class Product extends Item
 {
@@ -13,6 +14,11 @@ class Product extends Item
         $this->setCreated();
         $this->product = $product;
         $this->quantity = $quantity;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        parent::loadValidatorMetadata($metadata);
     }
 
     public function matches(Entity\CartItem $cartItem)

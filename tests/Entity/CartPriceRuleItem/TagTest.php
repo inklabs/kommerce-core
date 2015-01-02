@@ -2,12 +2,19 @@
 namespace inklabs\kommerce\Entity\CartPriceRuleItem;
 
 use inklabs\kommerce\Entity as Entity;
+use Symfony\Component\Validator\Validation;
 
 class TagTestTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
         $priceRule = new Tag(new Entity\Tag, 1);
+
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($priceRule));
         $this->assertTrue($priceRule->getTag() instanceof Entity\Tag);
     }
 
