@@ -3,6 +3,8 @@ namespace inklabs\kommerce\Entity\CartPriceRuleItem;
 
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Entity\Accessor;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class Item
 {
@@ -15,6 +17,15 @@ abstract class Item
     protected $cartPriceRule;
 
     abstract public function matches(Entity\CartItem $cartItem);
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
+        $metadata->addPropertyConstraint('quantity', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+    }
 
     public function setId($id)
     {
