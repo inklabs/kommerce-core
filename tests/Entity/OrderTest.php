@@ -4,22 +4,49 @@ namespace inklabs\kommerce\Entity;
 use inklabs\kommerce\Service\Pricing;
 use inklabs\kommerce\tests\Helper as Helper;
 use inklabs\kommerce\Lib\PaymentGateway;
+use Symfony\Component\Validator\Validation;
 
 class OrderTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
+        $shippingAddress = new OrderAddress;
+        $shippingAddress->firstName = 'John';
+        $shippingAddress->lastName = 'Doe';
+        $shippingAddress->company = 'Acme Co.';
+        $shippingAddress->address1 = '123 Any St';
+        $shippingAddress->address2 = 'Ste 3';
+        $shippingAddress->city = 'Santa Monica';
+        $shippingAddress->state = 'CA';
+        $shippingAddress->zip5 = '90401';
+        $shippingAddress->zip4 = '3274';
+        $shippingAddress->phone = '555-123-4567';
+        $shippingAddress->email = 'john@example.com';
+
+        $billingAddress = clone $shippingAddress;
+
+        $product = new Product;
+        $product->setSku('sku');
+        $product->setname('test name');
+        $product->setUnitPrice(500);
+        $product->setQuantity(10);
+
         $cart = new Cart;
-        $cart->addItem(new Product, 2);
+        $cart->addItem($product, 2);
 
         $order = new Order($cart, new Pricing);
         $order->setId(1);
-        $order->setShippingAddress(new OrderAddress);
-        $order->setBillingAddress(new OrderAddress);
+        $order->setShippingAddress($shippingAddress);
+        $order->setBillingAddress($billingAddress);
         $order->setUser(new User);
         $order->addCoupon(new Coupon);
         $order->addPayment(new Payment\Cash(100));
 
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($order));
         $this->assertSame(1, $order->getId());
         $this->assertSame(Order::STATUS_PENDING, $order->getStatus());
         $this->assertSame('Pending', $order->getStatusText());
