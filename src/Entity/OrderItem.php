@@ -3,6 +3,8 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Service\Pricing;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class OrderItem
 {
@@ -39,6 +41,30 @@ class OrderItem
 
         $this->setProduct($cartItem->getProduct());
         $this->setPrice($cartItem->getPrice($pricing));
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
+        $metadata->addPropertyConstraint('quantity', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+
+        $metadata->addPropertyConstraint('productSku', new Assert\Length([
+            'max' => 64,
+        ]));
+
+        $metadata->addPropertyConstraint('productName', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('productName', new Assert\Length([
+            'max' => 255,
+        ]));
+
+        $metadata->addPropertyConstraint('discountNames', new Assert\Length([
+            'max' => 255,
+        ]));
+
+        $metadata->addPropertyConstraint('price', new Assert\Valid);
     }
 
     private function setProduct(Product $product)
