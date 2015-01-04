@@ -4,6 +4,8 @@ namespace inklabs\kommerce\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Service\Pricing;
 use inklabs\kommerce\Entity\Payment as Payment;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Order
 {
@@ -53,6 +55,19 @@ class Order
         $this->setStatus(self::STATUS_PENDING);
         $this->setTotal($cart->getTotal($pricing, $shippingRate, $taxRate));
         $this->setItems($cart->getItems(), $pricing);
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('status', new Assert\Choice([
+            'choices' => array_keys(static::getStatusMapping()),
+            'message' => 'The status is not a valid choice',
+        ]));
+
+        $metadata->addPropertyConstraint('total', new Assert\Valid);
+        $metadata->addPropertyConstraint('shippingAddress', new Assert\Valid);
+        $metadata->addPropertyConstraint('billingAddress', new Assert\Valid);
+        $metadata->addPropertyConstraint('items', new Assert\Valid);
     }
 
     private function setItems($cartItems, Pricing $pricing)
