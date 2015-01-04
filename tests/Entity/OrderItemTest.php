@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Service\Pricing;
+use Symfony\Component\Validator\Validation;
 
 class OrderItemTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,6 +36,11 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $order = new Order(new Cart, $pricing);
         $orderItem->setOrder($order);
 
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($orderItem));
         $this->assertSame(2, $orderItem->getQuantity());
         $this->assertSame('sku', $orderItem->getProductSku());
         $this->assertSame('test name', $orderItem->getProductName());
