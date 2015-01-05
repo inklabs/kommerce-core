@@ -9,6 +9,8 @@ class Option
 
     protected $id;
     protected $name;
+
+    // TODO: Convert to class constant
     protected $type; // select, radio, checkbox, text, textarea, file, date, time, datetime
     protected $description;
     protected $sortOrder;
