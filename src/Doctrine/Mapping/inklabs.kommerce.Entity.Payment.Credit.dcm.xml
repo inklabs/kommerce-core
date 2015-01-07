@@ -6,7 +6,9 @@
 
     <entity name="inklabs\kommerce\Entity\Payment\Credit">
 
-        <embedded name="charge" class="inklabs\kommerce\Lib\PaymentGateway\ChargeResponse" column-prefix="charge_"/>
+        <embedded name="chargeResponse"
+                  class="inklabs\kommerce\Lib\PaymentGateway\ChargeResponse"
+                  column-prefix="charge_response_"/>
 
     </entity>
 

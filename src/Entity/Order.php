@@ -68,6 +68,7 @@ class Order
         $metadata->addPropertyConstraint('shippingAddress', new Assert\Valid);
         $metadata->addPropertyConstraint('billingAddress', new Assert\Valid);
         $metadata->addPropertyConstraint('items', new Assert\Valid);
+        $metadata->addPropertyConstraint('payments', new Assert\Valid);
     }
 
     private function setItems($cartItems, Pricing $pricing)

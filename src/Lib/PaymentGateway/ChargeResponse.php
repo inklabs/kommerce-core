@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
 use inklabs\kommerce\Entity\View as View;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ChargeResponse
 {
@@ -13,6 +15,52 @@ class ChargeResponse
     protected $currency;
     protected $fee;
     protected $description;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('created', new Assert\NotNull);
+        $metadata->addPropertyConstraint('created', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+
+        // TODO: Verify regex actually works
+        $metadata->addPropertyConstraint('last4', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('last4', new Assert\Regex([
+            'pattern' => '/[0-9]{4}/',
+            'match'   => true,
+            'message' => 'Must be the last 4 digits of a credit card number',
+        ]));
+
+        $metadata->addPropertyConstraint('brand', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('brand', new Assert\Length([
+            'max' => 16,
+        ]));
+
+        // TODO: Verify integer bounds
+        $metadata->addPropertyConstraint('amount', new Assert\NotNull);
+        $metadata->addPropertyConstraint('amount', new Assert\Range([
+            'min' => -2147483646,
+            'max' => 2147483646,
+        ]));
+
+        $metadata->addPropertyConstraint('currency', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('currency', new Assert\Length([
+            'max' => 3,
+        ]));
+
+        // TODO: Verify integer bounds
+        $metadata->addPropertyConstraint('fee', new Assert\NotNull);
+        $metadata->addPropertyConstraint('fee', new Assert\Range([
+            'min' => -2147483646,
+            'max' => 2147483646,
+        ]));
+
+        $metadata->addPropertyConstraint('description', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('description', new Assert\Length([
+            'max' => 255,
+        ]));
+    }
 
     public function getAmount()
     {

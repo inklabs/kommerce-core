@@ -3,6 +3,8 @@ namespace inklabs\kommerce\Entity\Payment;
 
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Entity\Accessor;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class Payment
 {
@@ -13,6 +15,15 @@ abstract class Payment
 
     /* @var Entity\Order */
     protected $order;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('amount', new Assert\NotNull);
+        $metadata->addPropertyConstraint('amount', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+    }
 
     public function setId($id)
     {

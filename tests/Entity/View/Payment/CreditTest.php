@@ -19,6 +19,6 @@ class CreditTest extends \PHPUnit_Framework_TestCase
         $credit = $entityCredit->getView()->export();
 
         $this->assertTrue($credit instanceof Payment\Credit);
-        $this->assertTrue($credit->charge instanceof ChargeResponse);
+        $this->assertTrue($credit->chargeResponse instanceof ChargeResponse);
     }
 }
