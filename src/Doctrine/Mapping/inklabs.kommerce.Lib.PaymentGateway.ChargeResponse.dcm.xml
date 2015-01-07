@@ -30,11 +30,7 @@
             </options>
         </field>
 
-        <field name="fee" column="fee" type="integer">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
+        <field name="fee" column="fee" type="integer"/>
 
         <field name="description" column="description" type="string" length="255"/>
 

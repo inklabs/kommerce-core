@@ -5,13 +5,13 @@ use inklabs\kommerce\Entity as Entity;
 
 class Credit extends Payment
 {
-    public $charge;
+    public $chargeResponse;
 
     public function __construct(Entity\Payment\Credit $credit)
     {
         parent::__construct($credit);
 
-        $this->charge = $credit->getCharge()->getView();
+        $this->chargeResponse = $credit->getChargeResponse()->getView();
 
         return $this;
     }

@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 use inklabs\kommerce\Lib\PaymentGateway\StripeFake;
+use Symfony\Component\Validator\Validation;
 
 class CreditTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +18,13 @@ class CreditTest extends \PHPUnit_Framework_TestCase
             'test@example.com'
         );
         $payment = new Credit($chargeRequest, new StripeFake);
+
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($payment));
         $this->assertSame(100, $payment->getAmount());
-        $this->assertTrue($payment->getCharge() instanceof ChargeResponse);
+        $this->assertTrue($payment->getChargeResponse() instanceof ChargeResponse);
     }
 }

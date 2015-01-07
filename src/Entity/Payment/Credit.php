@@ -5,11 +5,13 @@ use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib\PaymentGateway\Gateway;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Credit extends Payment
 {
     /* @var ChargeResponse */
-    protected $charge;
+    protected $chargeResponse;
 
     public function __construct(ChargeRequest $chargeRequest, Gateway $gateway)
     {
@@ -18,14 +20,21 @@ class Credit extends Payment
         $this->setCharge($gateway->getCharge($chargeRequest));
     }
 
-    private function setCharge(ChargeResponse $chargeResponse)
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $this->charge = $chargeResponse;
+        parent::loadValidatorMetadata($metadata);
+
+        $metadata->addPropertyConstraint('chargeResponse', new Assert\Valid);
     }
 
-    public function getCharge()
+    private function setCharge(ChargeResponse $chargeResponse)
     {
-        return $this->charge;
+        $this->chargeResponse = $chargeResponse;
+    }
+
+    public function getChargeResponse()
+    {
+        return $this->chargeResponse;
     }
 
     public function getView()
