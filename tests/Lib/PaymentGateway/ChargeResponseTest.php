@@ -37,14 +37,14 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
     {
         $chargeResponse = new ChargeResponse;
 
-        $chargeResponse->setId(str_pad('x', 256));
+        $chargeResponse->setId(str_pad('x', 256, 'x'));
         $chargeResponse->setAmount(2147483648);
         $chargeResponse->setLast4('xxxx');
         $chargeResponse->setBrand('12345678901234567');
         $chargeResponse->setCreated(-1);
         $chargeResponse->setCurrency('xxxx');
         $chargeResponse->setFee(2147483648);
-        $chargeResponse->setDescription(str_pad('x', 256));
+        $chargeResponse->setDescription(str_pad('x', 256, 'x'));
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -54,44 +54,13 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(8, sizeof($errors));
 
-        $this->assertSame(
-            'This value is too long. It should have 255 characters or less.',
-            $errors->get(0)->getMessage()
-        );
-
-        $this->assertSame(
-            'This value should be 0 or more.',
-            $errors->get(1)->getMessage()
-        );
-
-        $this->assertSame(
-            'Must be the last 4 digits of a credit card number.',
-            $errors->get(2)->getMessage()
-        );
-
-        $this->assertSame(
-            'This value is too long. It should have 16 characters or less.',
-            $errors->get(3)->getMessage()
-        );
-
-        $this->assertSame(
-            'This value should be 2147483647 or less.',
-            $errors->get(4)->getMessage()
-        );
-
-        $this->assertSame(
-            'This value is too long. It should have 3 characters or less.',
-            $errors->get(5)->getMessage()
-        );
-
-        $this->assertSame(
-            'This value should be 2147483647 or less.',
-            $errors->get(6)->getMessage()
-        );
-
-        $this->assertSame(
-            'This value is too long. It should have 255 characters or less.',
-            $errors->get(7)->getMessage()
-        );
+        $this->assertSame('id', $errors->get(0)->getPropertyPath());
+        $this->assertSame('created', $errors->get(1)->getPropertyPath());
+        $this->assertSame('last4', $errors->get(2)->getPropertyPath());
+        $this->assertSame('brand', $errors->get(3)->getPropertyPath());
+        $this->assertSame('amount', $errors->get(4)->getPropertyPath());
+        $this->assertSame('currency', $errors->get(5)->getPropertyPath());
+        $this->assertSame('fee', $errors->get(6)->getPropertyPath());
+        $this->assertSame('description', $errors->get(7)->getPropertyPath());
     }
 }
