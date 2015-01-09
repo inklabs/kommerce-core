@@ -37,7 +37,7 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
     {
         $chargeResponse = new ChargeResponse;
 
-        $chargeResponse->setId('ch_xxxxxxxxxxxxxx');
+        $chargeResponse->setId(str_pad('x', 256));
         $chargeResponse->setAmount(2147483648);
         $chargeResponse->setLast4('xxxx');
         $chargeResponse->setBrand('12345678901234567');
@@ -52,41 +52,46 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
 
         $errors = $validator->validate($chargeResponse);
 
-        $this->assertSame(7, sizeof($errors));
+        $this->assertSame(8, sizeof($errors));
 
         $this->assertSame(
-            'This value should be 0 or more.',
+            'This value is too long. It should have 255 characters or less.',
             $errors->get(0)->getMessage()
         );
 
         $this->assertSame(
-            'Must be the last 4 digits of a credit card number.',
+            'This value should be 0 or more.',
             $errors->get(1)->getMessage()
         );
 
         $this->assertSame(
-            'This value is too long. It should have 16 characters or less.',
+            'Must be the last 4 digits of a credit card number.',
             $errors->get(2)->getMessage()
         );
 
         $this->assertSame(
-            'This value should be 2147483647 or less.',
+            'This value is too long. It should have 16 characters or less.',
             $errors->get(3)->getMessage()
         );
 
         $this->assertSame(
-            'This value is too long. It should have 3 characters or less.',
+            'This value should be 2147483647 or less.',
             $errors->get(4)->getMessage()
         );
 
         $this->assertSame(
-            'This value should be 2147483647 or less.',
+            'This value is too long. It should have 3 characters or less.',
             $errors->get(5)->getMessage()
         );
 
         $this->assertSame(
-            'This value is too long. It should have 255 characters or less.',
+            'This value should be 2147483647 or less.',
             $errors->get(6)->getMessage()
+        );
+
+        $this->assertSame(
+            'This value is too long. It should have 255 characters or less.',
+            $errors->get(7)->getMessage()
         );
     }
 }

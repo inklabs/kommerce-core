@@ -18,6 +18,11 @@ class ChargeResponse
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
+        $metadata->addPropertyConstraint('id', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('id', new Assert\Length([
+            'max' => 255,
+        ]));
+
         $metadata->addPropertyConstraint('created', new Assert\NotNull);
         $metadata->addPropertyConstraint('created', new Assert\Range([
             'min' => 0,
