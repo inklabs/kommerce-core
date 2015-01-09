@@ -24,12 +24,11 @@ class ChargeResponse
             'max' => 4294967295,
         ]));
 
-        // TODO: Verify regex actually works
         $metadata->addPropertyConstraint('last4', new Assert\NotBlank);
         $metadata->addPropertyConstraint('last4', new Assert\Regex([
-            'pattern' => '/[0-9]{4}/',
+            'pattern' => '/^[0-9]{4}$/',
             'match'   => true,
-            'message' => 'Must be the last 4 digits of a credit card number',
+            'message' => 'Must be the last 4 digits of a credit card number.',
         ]));
 
         $metadata->addPropertyConstraint('brand', new Assert\NotBlank);
@@ -37,11 +36,10 @@ class ChargeResponse
             'max' => 16,
         ]));
 
-        // TODO: Verify integer bounds
         $metadata->addPropertyConstraint('amount', new Assert\NotNull);
         $metadata->addPropertyConstraint('amount', new Assert\Range([
-            'min' => -2147483646,
-            'max' => 2147483646,
+            'min' => -2147483648,
+            'max' => 2147483647,
         ]));
 
         $metadata->addPropertyConstraint('currency', new Assert\NotBlank);
@@ -49,11 +47,10 @@ class ChargeResponse
             'max' => 3,
         ]));
 
-        // TODO: Verify integer bounds
         $metadata->addPropertyConstraint('fee', new Assert\NotNull);
         $metadata->addPropertyConstraint('fee', new Assert\Range([
-            'min' => -2147483646,
-            'max' => 2147483646,
+            'min' => -2147483648,
+            'max' => 2147483647,
         ]));
 
         $metadata->addPropertyConstraint('description', new Assert\NotBlank);
