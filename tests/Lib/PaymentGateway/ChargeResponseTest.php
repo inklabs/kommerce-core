@@ -8,7 +8,6 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $chargeResponse = new ChargeResponse;
-
         $chargeResponse->setId('ch_xxxxxxxxxxxxxx');
         $chargeResponse->setAmount(2000);
         $chargeResponse->setLast4('4242');
@@ -53,7 +52,6 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
         $errors = $validator->validate($chargeResponse);
 
         $this->assertSame(8, sizeof($errors));
-
         $this->assertSame('id', $errors->get(0)->getPropertyPath());
         $this->assertSame('created', $errors->get(1)->getPropertyPath());
         $this->assertSame('last4', $errors->get(2)->getPropertyPath());
