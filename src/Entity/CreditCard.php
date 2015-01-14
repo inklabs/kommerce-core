@@ -26,7 +26,7 @@ class CreditCard
 
         $metadata->addPropertyConstraint('expirationMonth', new Assert\NotBlank);
         $metadata->addPropertyConstraint('expirationMonth', new Assert\Length([
-            'min' => 1,
+            'min' => 2,
             'max' => 2,
         ]));
 
