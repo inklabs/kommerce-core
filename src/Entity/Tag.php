@@ -123,7 +123,7 @@ class Tag
 
     public function setIsActive($isActive)
     {
-        $this->isActive = $isActive;
+        $this->isActive = (bool) $isActive;
     }
 
     public function getIsActive()
@@ -133,7 +133,7 @@ class Tag
 
     public function setIsVisible($isVisible)
     {
-        $this->isVisible = $isVisible;
+        $this->isVisible = (bool) $isVisible;
     }
 
     public function getIsVisible()

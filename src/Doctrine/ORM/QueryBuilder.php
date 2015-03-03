@@ -22,6 +22,13 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
             ->setMaxResults($pagination->getMaxResults());
     }
 
+    public function tagActiveAndVisible()
+    {
+        return $this
+            ->andWhere('tag.isActive = true')
+            ->andWhere('tag.isVisible = true');
+    }
+
     public function productActiveAndVisible()
     {
         return $this
