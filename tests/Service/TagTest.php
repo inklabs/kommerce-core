@@ -2,10 +2,17 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity\View as View;
 use inklabs\kommerce\tests\Helper as Helper;
 
 class TagTest extends Helper\DoctrineTestCase
 {
+    /* @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\Tag */
+    protected $mockTagRepository;
+
+    /* @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
+    protected $mockEntityManager;
+
     /* @var Tag */
     protected $tagService;
 
@@ -14,6 +21,8 @@ class TagTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        $this->mockTagRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Tag');
+        $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
         $this->tagService = new Tag($this->entityManager);
     }
 
@@ -86,5 +95,21 @@ class TagTest extends Helper\DoctrineTestCase
 
         $tag = $this->tagService->find(1);
         $this->assertSame(1, $tag->id);
+    }
+
+    public function testGetAllProducts()
+    {
+        $this->mockTagRepository
+            ->shouldReceive('getAllTags')
+            ->andReturn([new Entity\Tag]);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockTagRepository);
+
+        $tagService = new Tag($this->mockEntityManager);
+
+        $tags = $tagService->getAllTags();
+        $this->assertTrue($tags[0] instanceof View\Tag);
     }
 }
