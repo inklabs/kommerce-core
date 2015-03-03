@@ -18,20 +18,6 @@ class TagTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:Tag');
     }
 
-    public function setUp()
-    {
-        $tag = new Entity\Tag;
-        $tag->setName('Test Tag');
-        $tag->setDescription('Test Description');
-        $tag->setDefaultImage('http://lorempixel.com/400/200/');
-        $tag->setSortOrder(0);
-        $tag->setIsVisible(true);
-
-        $this->entityManager->persist($tag);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-    }
-
     /**
      * @return Entity\Tag
      */
@@ -42,12 +28,19 @@ class TagTest extends Helper\DoctrineTestCase
         $tag->setDescription('Test Description');
         $tag->setDefaultImage('http://lorempixel.com/400/200/');
         $tag->setSortOrder(0);
+        $tag->setIsActive(true);
         $tag->setIsVisible(true);
         return $tag;
     }
 
     public function testFind()
     {
+        $tag1 = $this->getDummyTag(1);
+
+        $this->entityManager->persist($tag1);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
         $tag = $this->getRepository()
             ->find(1);
 
@@ -65,6 +58,23 @@ class TagTest extends Helper\DoctrineTestCase
         $tags = $this->getRepository()
             ->getAllTags('Test');
 
+        $this->assertSame(1, $tags[0]->getId());
+    }
+
+    public function testGetTagsByIds()
+    {
+        $tag1 = $this->getDummyTag(1);
+        $tag2 = $this->getDummyTag(2);
+
+        $this->entityManager->persist($tag1);
+        $this->entityManager->persist($tag2);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        $tags = $this->getRepository()
+            ->getTagsByIds([1]);
+
+        $this->assertSame(1, count($tags));
         $this->assertSame(1, $tags[0]->getId());
     }
 }

@@ -97,7 +97,23 @@ class TagTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $tag->id);
     }
 
-    public function testGetAllProducts()
+    public function testGetTagsByIds()
+    {
+        $this->mockTagRepository
+            ->shouldReceive('getTagsByIds')
+            ->andReturn([new Entity\Tag]);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockTagRepository);
+
+        $tagService = new Tag($this->mockEntityManager);
+
+        $tags = $tagService->getTagsByIds([1]);
+        $this->assertTrue($tags[0] instanceof View\Tag);
+    }
+
+    public function testGetAllTags()
     {
         $this->mockTagRepository
             ->shouldReceive('getAllTags')
