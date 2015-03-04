@@ -109,7 +109,7 @@ class Product extends EntityRepository
     }
 
     /**
-     * @return Entity\View\Product[]
+     * @return Entity\Product[]
      */
     public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
     {
