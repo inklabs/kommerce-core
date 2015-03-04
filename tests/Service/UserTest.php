@@ -2,17 +2,26 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity\View as View;
 use inklabs\kommerce\Lib as Lib;
 use inklabs\kommerce\tests\Helper as Helper;
 
 class UserTest extends Helper\DoctrineTestCase
 {
+    /* @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\User */
+    protected $mockUserRepository;
+
+    /* @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
+    protected $mockEntityManager;
+
     /* @var User */
     protected $userService;
     protected $sessionManager;
 
     public function setUp()
     {
+        $this->mockUserRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\User');
+        $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
         $this->sessionManager = new Lib\ArraySessionManager;
         $this->userService = new User($this->entityManager, $this->sessionManager);
 
@@ -46,7 +55,6 @@ class UserTest extends Helper\DoctrineTestCase
 
         $this->entityManager->clear();
 
-        /* @var Entity\User $user */
         $user = $this->entityManager->getRepository('kommerce:User')
             ->find(1);
 
@@ -60,7 +68,6 @@ class UserTest extends Helper\DoctrineTestCase
 
         $this->entityManager->clear();
 
-        /* @var Entity\User $user */
         $user = $this->entityManager->getRepository('kommerce:User')
             ->find(1);
 
@@ -80,7 +87,6 @@ class UserTest extends Helper\DoctrineTestCase
         $this->userService->logout();
 
         $this->assertSame(null, $this->userService->getUser());
-
     }
 
     public function testUserPersistence()
@@ -91,5 +97,37 @@ class UserTest extends Helper\DoctrineTestCase
 
         $newUserService = new User($this->entityManager, $this->sessionManager);
         $this->assertSame(1, $newUserService->getUser()->getId());
+    }
+
+    public function testGetAllUsers()
+    {
+        $this->mockUserRepository
+            ->shouldReceive('getAllUsers')
+            ->andReturn([new Entity\User]);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockUserRepository);
+
+        $userService = new User($this->mockEntityManager, $this->sessionManager);
+
+        $users = $userService->getAllUsers();
+        $this->assertTrue($users[0] instanceof View\User);
+    }
+
+    public function testAllGetUsersByIds()
+    {
+        $this->mockUserRepository
+            ->shouldReceive('getAllUsersByIds')
+            ->andReturn([new Entity\User]);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockUserRepository);
+
+        $userService = new User($this->mockEntityManager, $this->sessionManager);
+
+        $users = $userService->getAllUsersByIds([1]);
+        $this->assertTrue($users[0] instanceof View\User);
     }
 }

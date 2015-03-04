@@ -6,6 +6,9 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class UserTest extends Helper\DoctrineTestCase
 {
+    /* @var Entity\User */
+    protected $user;
+
     /**
      * @return User
      */
@@ -14,7 +17,10 @@ class UserTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:User');
     }
 
-    public function setUp()
+    /**
+     * @return Entity\User
+     */
+    private function getDummyUser($num)
     {
         $userRole = new Entity\UserRole;
         $userRole->setName('Administrator');
@@ -36,7 +42,7 @@ class UserTest extends Helper\DoctrineTestCase
         $userLogin4 = clone $userLogin1;
 
         $user = new Entity\User;
-        $user->setFirstName('John');
+        $user->setFirstName('John ' . $num);
         $user->setLastName('Doe');
         $user->setEmail('john@example.com');
         $user->setUsername('johndoe');
@@ -47,31 +53,52 @@ class UserTest extends Helper\DoctrineTestCase
         $user->addLogin($userLogin2);
         $user->addLogin($userLogin3);
         $user->addLogin($userLogin4);
+        return $user;
+    }
 
-        $this->entityManager->persist($user);
+    private function setupUser()
+    {
+        $user1 = $this->getDummyUser(1);
+
+        $this->entityManager->persist($user1);
         $this->entityManager->flush();
         $this->entityManager->clear();
     }
 
     public function testFind()
     {
-        /* @var Entity\User $user */
+        $this->setupUser();
+
         $user = $this->getRepository()
             ->find(1);
 
         $this->assertSame(1, $user->getId());
-        $this->assertSame(1, $user->getRoles()[0]->getId());
-        $this->assertSame(1, $user->getTokens()[0]->getId());
+    }
 
-        /* @var Entity\UserLogin[] $userLogins; */
-        $userLogins = $user->getLogins()->slice(0, 3);
+    public function testGetAllUsers()
+    {
+        $this->setupUser();
 
-        $this->assertSame(4, $userLogins[0]->getId());
+        $users = $this->getRepository()
+            ->getAllUsers('John');
+
+        $this->assertSame(1, $users[0]->getId());
+    }
+
+    public function testGetAllUsersByIds()
+    {
+        $this->setupUser();
+
+        $users = $this->getRepository()
+            ->getAllUsersByIds([1]);
+
+        $this->assertSame(1, $users[0]->getId());
     }
 
     public function testFindByUsernameOrEmailUsingUsername()
     {
-        /* @var Entity\User $user */
+        $this->setupUser();
+
         $user = $this->getRepository()
             ->findOneByUsernameOrEmail('johndoe');
 
@@ -80,7 +107,8 @@ class UserTest extends Helper\DoctrineTestCase
 
     public function testFindByUsernameOrEmailUsingEmail()
     {
-        /* @var Entity\User $user */
+        $this->setupUser();
+
         $user = $this->getRepository()
             ->findOneByUsernameOrEmail('john@example.com');
 

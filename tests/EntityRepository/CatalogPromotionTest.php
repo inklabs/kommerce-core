@@ -6,21 +6,8 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class CatalogPromotionTest extends Helper\DoctrineTestCase
 {
-    /* @var Entity\Tag */
-    protected $tag;
-
     /* @var Entity\CatalogPromotion */
     protected $catalogPromotion;
-
-    public function setUp()
-    {
-        $this->tag = new Entity\Tag;
-        $this->tag->setName('Tag');
-
-        $this->entityManager->persist($this->tag);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-    }
 
     /**
      * @return CatalogPromotion
@@ -43,13 +30,18 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         return $catalogPromotion;
     }
 
-    public function testFind()
+    private function setupCatalogPromotion()
     {
         $catalogPromotion1 = $this->getDummyCatalogPromotion(1);
 
         $this->entityManager->persist($catalogPromotion1);
         $this->entityManager->flush();
         $this->entityManager->clear();
+    }
+
+    public function testFind()
+    {
+        $this->setupCatalogPromotion();
 
         $catalogPromotion = $this->getRepository()
             ->find(1);
@@ -59,11 +51,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
 
     public function testFindAll()
     {
-        $catalogPromotion1 = $this->getDummyCatalogPromotion(1);
-
-        $this->entityManager->persist($catalogPromotion1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setupCatalogPromotion();
 
         $catalogPromotions = $this->getRepository()
             ->findAll();
@@ -73,11 +61,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
 
     public function testGetAllCatalogPromotions()
     {
-        $catalogPromotion1 = $this->getDummyCatalogPromotion(1);
-
-        $this->entityManager->persist($catalogPromotion1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setupCatalogPromotion();
 
         $catalogPromotions = $this->getRepository()
             ->getAllCatalogPromotions('Test');
@@ -87,11 +71,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
 
     public function testGetAllCatalogPromotionsByIds()
     {
-        $catalogPromotion1 = $this->getDummyCatalogPromotion(1);
-
-        $this->entityManager->persist($catalogPromotion1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setupCatalogPromotion();
 
         $catalogPromotions = $this->getRepository()
             ->getAllCatalogPromotionsByIds([1]);

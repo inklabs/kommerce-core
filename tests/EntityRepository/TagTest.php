@@ -33,13 +33,18 @@ class TagTest extends Helper\DoctrineTestCase
         return $tag;
     }
 
-    public function testFind()
+    private function setupTag()
     {
         $tag1 = $this->getDummyTag(1);
 
         $this->entityManager->persist($tag1);
         $this->entityManager->flush();
         $this->entityManager->clear();
+    }
+
+    public function testFind()
+    {
+        $this->setupTag();
 
         $tag = $this->getRepository()
             ->find(1);
@@ -49,11 +54,7 @@ class TagTest extends Helper\DoctrineTestCase
 
     public function testGetAllTags()
     {
-        $tag1 = $this->getDummyTag(1);
-
-        $this->entityManager->persist($tag1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setupTag();
 
         $tags = $this->getRepository()
             ->getAllTags('Test');
@@ -63,13 +64,7 @@ class TagTest extends Helper\DoctrineTestCase
 
     public function testGetTagsByIds()
     {
-        $tag1 = $this->getDummyTag(1);
-        $tag2 = $this->getDummyTag(2);
-
-        $this->entityManager->persist($tag1);
-        $this->entityManager->persist($tag2);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setupTag();
 
         $tags = $this->getRepository()
             ->getTagsByIds([1]);
@@ -80,11 +75,7 @@ class TagTest extends Helper\DoctrineTestCase
 
     public function testGetAllTagsByIds()
     {
-        $tag1 = $this->getDummyTag(1);
-
-        $this->entityManager->persist($tag1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setupTag();
 
         $tags = $this->getRepository()
             ->getAllTagsByIds([1]);
