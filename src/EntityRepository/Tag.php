@@ -48,4 +48,22 @@ class Tag extends EntityRepository
 
         return $tags;
     }
+
+    /**
+     * @return Entity\Tag[]
+     */
+    public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null)
+    {
+        $qb = $this->getQueryBuilder();
+
+        $tags = $qb->select('tag')
+            ->from('kommerce:Tag', 'tag')
+            ->where('tag.id IN (:tagIds)')
+            ->setParameter('tagIds', $tagIds)
+            ->paginate($pagination)
+            ->getQuery()
+            ->getResult();
+
+        return $tags;
+    }
 }

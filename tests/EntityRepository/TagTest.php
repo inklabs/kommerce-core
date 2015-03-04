@@ -77,4 +77,18 @@ class TagTest extends Helper\DoctrineTestCase
         $this->assertSame(1, count($tags));
         $this->assertSame(1, $tags[0]->getId());
     }
+
+    public function testGetAllTagsByIds()
+    {
+        $tag1 = $this->getDummyTag(1);
+
+        $this->entityManager->persist($tag1);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        $tags = $this->getRepository()
+            ->getAllTagsByIds([1]);
+
+        $this->assertSame(1, $tags[0]->getId());
+    }
 }

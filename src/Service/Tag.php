@@ -46,6 +46,14 @@ class Tag extends Lib\EntityManager
         return $this->getViewTags($tags);
     }
 
+    public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null)
+    {
+        $tags = $this->tagRepository
+            ->getAllTagsByIds($tagIds);
+
+        return $this->getViewTags($tags);
+    }
+
     /**
      * @param Entity\Tag[] $tags
      * @return Entity\View\Tag[]
