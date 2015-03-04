@@ -30,13 +30,18 @@ class CouponTest extends Helper\DoctrineTestCase
         return $coupon;
     }
 
-    public function testFind()
+    private function setupCoupon()
     {
         $coupon1 = $this->getDummyCoupon(1);
 
         $this->entityManager->persist($coupon1);
         $this->entityManager->flush();
         $this->entityManager->clear();
+    }
+
+    public function testFind()
+    {
+        $this->setupCoupon();
 
         $coupon = $this->getRepository()
             ->find(1);
@@ -46,11 +51,7 @@ class CouponTest extends Helper\DoctrineTestCase
 
     public function testGetAllCoupons()
     {
-        $coupon1 = $this->getDummyCoupon(1);
-
-        $this->entityManager->persist($coupon1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setupCoupon();
 
         $coupons = $this->getRepository()
             ->getAllCoupons('Test');
@@ -60,11 +61,7 @@ class CouponTest extends Helper\DoctrineTestCase
 
     public function testGetAllCouponsByIds()
     {
-        $coupon1 = $this->getDummyCoupon(1);
-
-        $this->entityManager->persist($coupon1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setupCoupon();
 
         $coupons = $this->getRepository()
             ->getAllCouponsByIds([1]);

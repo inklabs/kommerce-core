@@ -3,12 +3,16 @@ namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\EntityRepository as EntityRepository;
 use inklabs\kommerce\Lib as Lib;
 
 class User extends Lib\EntityManager
 {
     protected $sessionManager;
     protected $userSessionKey = 'newuser';
+
+    /* @var EntityRepository\User */
+    private $userRepository;
 
     /* @var Entity\User */
     protected $user;
@@ -17,6 +21,7 @@ class User extends Lib\EntityManager
     {
         $this->setEntityManager($entityManager);
         $this->sessionManager = $sessionManager;
+        $this->userRepository = $entityManager->getRepository('kommerce:User');
 
         $this->load();
     }
@@ -89,12 +94,17 @@ class User extends Lib\EntityManager
         $this->entityManager->flush();
     }
 
+    public function getUser()
+    {
+        return $this->user;
+    }
+
     /**
      * @return Entity\View\User|null
      */
     public function find($id)
     {
-        $entityUser = $this->entityManager->getRepository('kommerce:User')->find($id);
+        $entityUser = $this->userRepository->find($id);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
             return null;
@@ -105,8 +115,34 @@ class User extends Lib\EntityManager
             ->export();
     }
 
-    public function getUser()
+    public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
-        return $this->user;
+        $users = $this->userRepository
+            ->getAllUsers($queryString, $pagination);
+
+        return $this->getViewUsers($users);
+    }
+
+    public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null)
+    {
+        $users = $this->userRepository
+            ->getAllUsersByIds($userIds);
+
+        return $this->getViewUsers($users);
+    }
+
+    /**
+     * @param Entity\User[] $users
+     * @return Entity\View\User[]
+     */
+    private function getViewUsers($users)
+    {
+        $viewUsers = [];
+        foreach ($users as $user) {
+            $viewUsers[] = $user->getView()
+                ->export();
+        }
+
+        return $viewUsers;
     }
 }

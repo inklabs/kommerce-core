@@ -39,6 +39,15 @@ class ProductTest extends Helper\DoctrineTestCase
         return $product;
     }
 
+    private function setupProduct()
+    {
+        $product1 = $this->getDummyProduct(1);
+
+        $this->entityManager->persist($product1);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+    }
+
     public function testGetRelatedProducts()
     {
         $product1 = $this->getDummyProduct(1);
@@ -99,13 +108,7 @@ class ProductTest extends Helper\DoctrineTestCase
 
     public function testGetProductsByIds()
     {
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
-
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setupProduct();
 
         $products = $this->getRepository()
             ->getProductsByIds([1]);
@@ -116,11 +119,7 @@ class ProductTest extends Helper\DoctrineTestCase
 
     public function testGetAllProducts()
     {
-        $product1 = $this->getDummyProduct(1);
-
-        $this->entityManager->persist($product1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setupProduct();
 
         $products = $this->getRepository()
             ->getAllProducts('TST1');
@@ -130,11 +129,7 @@ class ProductTest extends Helper\DoctrineTestCase
 
     public function testGetAllProductsByIds()
     {
-        $product1 = $this->getDummyProduct(1);
-
-        $this->entityManager->persist($product1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setupProduct();
 
         $products = $this->getRepository()
             ->getAllProductsByIds([1]);
