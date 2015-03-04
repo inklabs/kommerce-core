@@ -8,7 +8,7 @@ use inklabs\kommerce\tests\Helper as Helper;
 class TagTest extends Helper\DoctrineTestCase
 {
     /* @var Entity\Tag */
-    protected $product;
+    protected $tag;
 
     /**
      * @return Tag
