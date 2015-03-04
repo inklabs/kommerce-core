@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Lib as Lib;
 
 abstract class Promotion
 {
@@ -24,6 +25,8 @@ abstract class Promotion
     {
         $this->promotion = $promotion;
 
+        $this->id             = $promotion->getId();
+        $this->encodedId      = Lib\BaseConvert::encode($promotion->getId());
         $this->name           = $promotion->getName();
         $this->type           = $promotion->getType();
         $this->typeText       = $promotion->getTypeText();
