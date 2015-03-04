@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity as Entity;
 class Tag extends EntityRepository
 {
     /**
-     * @return Entity\View\Tag[]
+     * @return Entity\Tag[]
      */
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
     {
