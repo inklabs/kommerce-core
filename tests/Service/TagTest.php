@@ -97,6 +97,22 @@ class TagTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $tag->id);
     }
 
+    public function testGetAllTags()
+    {
+        $this->mockTagRepository
+            ->shouldReceive('getAllTags')
+            ->andReturn([new Entity\Tag]);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockTagRepository);
+
+        $tagService = new Tag($this->mockEntityManager);
+
+        $tags = $tagService->getAllTags();
+        $this->assertTrue($tags[0] instanceof View\Tag);
+    }
+
     public function testGetTagsByIds()
     {
         $this->mockTagRepository
@@ -113,10 +129,10 @@ class TagTest extends Helper\DoctrineTestCase
         $this->assertTrue($tags[0] instanceof View\Tag);
     }
 
-    public function testGetAllTags()
+    public function testAllGetTagsByIds()
     {
         $this->mockTagRepository
-            ->shouldReceive('getAllTags')
+            ->shouldReceive('getAllTagsByIds')
             ->andReturn([new Entity\Tag]);
 
         $this->mockEntityManager
@@ -125,7 +141,7 @@ class TagTest extends Helper\DoctrineTestCase
 
         $tagService = new Tag($this->mockEntityManager);
 
-        $tags = $tagService->getAllTags();
+        $tags = $tagService->getAllTagsByIds([1]);
         $this->assertTrue($tags[0] instanceof View\Tag);
     }
 }
