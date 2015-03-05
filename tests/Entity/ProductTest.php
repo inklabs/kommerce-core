@@ -54,6 +54,13 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($product->getView() instanceof View\Product);
     }
 
+    public function testLoadFromView()
+    {
+        $product = new Product;
+        $product->loadFromView(new View\Product(new Product));
+        $this->assertTrue($product instanceof Product);
+    }
+
     public function testInStock()
     {
         $product = new Product;

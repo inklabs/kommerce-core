@@ -42,7 +42,7 @@ class Product extends Lib\ServiceManager
     /**
      * @throws ValidatorException
      */
-    public function edit($id, Entity\View\Product $newProduct)
+    public function edit($id, Entity\View\Product $viewProduct)
     {
         /* @var Entity\Product $product */
         $product = $this->productRepository->find($id);
@@ -51,18 +51,7 @@ class Product extends Lib\ServiceManager
             throw new \LogicException('Missing Product');
         }
 
-        $product->setName($newProduct->name);
-        $product->setUnitPrice($newProduct->unitPrice);
-        $product->setQuantity($newProduct->quantity);
-        $product->setIsInventoryRequired($newProduct->isInventoryRequired);
-        $product->setIsPriceVisible($newProduct->isPriceVisible);
-        $product->setIsActive($newProduct->isActive);
-        $product->setIsVisible($newProduct->isVisible);
-        $product->setIsTaxable($newProduct->isTaxable);
-        $product->setIsShippable($newProduct->isShippable);
-        $product->setSku($newProduct->sku);
-        $product->setShippingWeight($newProduct->shippingWeight);
-        $product->setDescription($newProduct->description);
+        $product->loadFromView($viewProduct);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -76,6 +65,33 @@ class Product extends Lib\ServiceManager
             throw $exception;
         }
 
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @return Entity\Product
+     * @throws ValidatorException
+     */
+    public function create(Entity\View\Product $viewProduct)
+    {
+        /* @var Entity\Product $product */
+        $product = new Entity\Product;
+
+        $product->loadFromView($viewProduct);
+
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $errors = $validator->validate($product);
+
+        if (count($errors) > 0) {
+            $exception = new ValidatorException;
+            $exception->errors = $errors;
+            throw $exception;
+        }
+
+        $this->entityManager->persist($product);
         $this->entityManager->flush();
     }
 
