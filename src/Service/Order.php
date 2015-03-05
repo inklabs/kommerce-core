@@ -6,7 +6,7 @@ use inklabs\kommerce\EntityRepository as EntityRepository;
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
 
-class Order extends Lib\EntityManager
+class Order extends Lib\ServiceManager
 {
     /* @var EntityRepository\Order */
     private $orderRepository;

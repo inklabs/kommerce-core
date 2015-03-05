@@ -8,7 +8,7 @@ use inklabs\kommerce\EntityRepository as EntityRepository;
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
 
-class Product extends Lib\EntityManager
+class Product extends Lib\ServiceManager
 {
     /* @var Pricing */
     private $pricing;

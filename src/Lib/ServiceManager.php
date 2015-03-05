@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Lib as Lib;
 
-class EntityManager
+class ServiceManager
 {
     /* @var \Doctrine\ORM\EntityManager */
     protected $entityManager;

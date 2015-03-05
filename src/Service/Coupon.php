@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib as Lib;
 use inklabs\kommerce\EntityRepository as EntityRepository;
 use Doctrine\ORM\EntityManager;
 
-class Coupon extends Lib\EntityManager
+class Coupon extends Lib\ServiceManager
 {
     /* @var EntityRepository\Coupon */
     private $couponRepository;

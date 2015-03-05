@@ -5,17 +5,17 @@ use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\tests\Helper as Helper;
 use inklabs\kommerce\Service as Service;
 
-class EntityManagerTest extends Helper\DoctrineTestCase
+class ServiceManagerTest extends Helper\DoctrineTestCase
 {
     public function testSetEntityManager()
     {
-        $emClass = new EntityManager;
+        $emClass = new ServiceManager;
         $emClass->setEntityManager($this->entityManager);
     }
 
     public function testFindByEncodedId()
     {
-        $mockEntityManager = \Mockery::mock('inklabs\kommerce\Lib\EntityManager')
+        $mockEntityManager = \Mockery::mock('inklabs\kommerce\Lib\ServiceManager')
             ->makePartial();
 
         $mockEntityManager
