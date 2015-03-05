@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib as Lib;
 use inklabs\kommerce\EntityRepository as EntityRepository;
 use Doctrine\ORM\EntityManager;
 
-class CatalogPromotion extends Lib\EntityManager
+class CatalogPromotion extends Lib\ServiceManager
 {
     /* @var EntityRepository\CatalogPromotion */
     private $catalogPromotionRepository;

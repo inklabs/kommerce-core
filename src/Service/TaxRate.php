@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
 use Doctrine as Doctrine;
 
-class TaxRate extends Lib\EntityManager
+class TaxRate extends Lib\ServiceManager
 {
 
     /* @var EntityRepository\TaxRate */

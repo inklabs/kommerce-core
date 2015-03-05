@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Lib as Lib;
 use Doctrine as Doctrine;
 
-class CartPriceRule extends Lib\EntityManager
+class CartPriceRule extends Lib\ServiceManager
 {
     public function __construct(Doctrine\ORM\EntityManager $entityManager)
     {

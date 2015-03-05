@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib as Lib;
 use inklabs\kommerce\EntityRepository as EntityRepository;
 use Doctrine\ORM\EntityManager;
 
-class Tag extends Lib\EntityManager
+class Tag extends Lib\ServiceManager
 {
     /* @var EntityRepository\Tag */
     private $tagRepository;

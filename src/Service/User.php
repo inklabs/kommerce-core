@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\EntityRepository as EntityRepository;
 use inklabs\kommerce\Lib as Lib;
 
-class User extends Lib\EntityManager
+class User extends Lib\ServiceManager
 {
     protected $sessionManager;
     protected $userSessionKey = 'newuser';

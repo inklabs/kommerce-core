@@ -8,7 +8,7 @@ use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
 use Exception;
 
-class Cart extends Lib\EntityManager
+class Cart extends Lib\ServiceManager
 {
     /* @var Lib\SessionManager */
     protected $sessionManager;
