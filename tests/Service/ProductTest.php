@@ -142,6 +142,33 @@ class ProductTest extends Helper\DoctrineTestCase
         $productService->edit($product->getId(), $productValues);
     }
 
+    public function testCreate()
+    {
+        $product = $this->getProduct();
+        $productValues = new View\Product($product);
+
+        $productService = new Product($this->entityManager, new Pricing);
+        $productService->create($productValues);
+
+        $this->entityManager->clear();
+
+        $product = $this->entityManager->find('kommerce:Product', 1);
+        $this->assertTrue($product instanceof Entity\Product);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Validator\Exception\ValidatorException
+     */
+    public function testCreateFailsValidation()
+    {
+        $product = $this->getProduct();
+        $productValues = new View\Product($product);
+        $productValues->unitPrice = -1;
+
+        $productService = new Product($this->entityManager, new Pricing);
+        $productService->create($productValues);
+    }
+
     public function testGetAllProducts()
     {
         $this->mockProductRepository

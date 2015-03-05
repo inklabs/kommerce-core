@@ -89,6 +89,22 @@ class Product
         ]));
     }
 
+    public function loadFromView(View\Product $viewProduct)
+    {
+        $this->setName($viewProduct->name);
+        $this->setUnitPrice($viewProduct->unitPrice);
+        $this->setQuantity($viewProduct->quantity);
+        $this->setIsInventoryRequired($viewProduct->isInventoryRequired);
+        $this->setIsPriceVisible($viewProduct->isPriceVisible);
+        $this->setIsActive($viewProduct->isActive);
+        $this->setIsVisible($viewProduct->isVisible);
+        $this->setIsTaxable($viewProduct->isTaxable);
+        $this->setIsShippable($viewProduct->isShippable);
+        $this->setSku($viewProduct->sku);
+        $this->setShippingWeight($viewProduct->shippingWeight);
+        $this->setDescription($viewProduct->description);
+    }
+
     public function getPrice(Pricing $pricing, $quantity = 1)
     {
         return $pricing->getPrice(
