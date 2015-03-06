@@ -28,6 +28,7 @@ class Product extends Lib\ServiceManager
      */
     public function find($id)
     {
+        /* @var Entity\Product $entityProduct */
         $entityProduct = $this->productRepository->find($id);
 
         if ($entityProduct === null) {

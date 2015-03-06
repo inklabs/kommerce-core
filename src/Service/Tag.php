@@ -5,6 +5,8 @@ use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
 use inklabs\kommerce\EntityRepository as EntityRepository;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Validator\Exception\ValidatorException;
+use Symfony\Component\Validator\Validation;
 
 class Tag extends Lib\ServiceManager
 {
@@ -21,7 +23,7 @@ class Tag extends Lib\ServiceManager
     public function find($id)
     {
         /* @var Entity\Tag $entityTag */
-        $entityTag = $this->entityManager->getRepository('kommerce:Tag')->find($id);
+        $entityTag = $this->tagRepository->find($id);
 
         if ($entityTag === null or ! $entityTag->getIsActive()) {
             return null;
@@ -29,6 +31,62 @@ class Tag extends Lib\ServiceManager
 
         return $entityTag->getView()
             ->export();
+    }
+
+    /**
+     * @throws ValidatorException
+     */
+    public function edit($id, Entity\View\Tag $viewTag)
+    {
+        /* @var Entity\Tag $tag */
+        $tag = $this->tagRepository->find($id);
+
+        if ($tag === null) {
+            throw new \LogicException('Missing Tag');
+        }
+
+        $tag->loadFromView($viewTag);
+
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $errors = $validator->validate($tag);
+
+        if (count($errors) > 0) {
+            $exception = new ValidatorException;
+            $exception->errors = $errors;
+            throw $exception;
+        }
+
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @return Entity\Tag
+     * @throws ValidatorException
+     */
+    public function create(Entity\View\Tag $viewTag)
+    {
+        /* @var Entity\Tag $tag */
+        $tag = new Entity\Tag;
+
+        $tag->loadFromView($viewTag);
+
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $errors = $validator->validate($tag);
+
+        if (count($errors) > 0) {
+            $exception = new ValidatorException;
+            $exception->errors = $errors;
+            throw $exception;
+        }
+
+        $this->entityManager->persist($tag);
+        $this->entityManager->flush();
     }
 
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
