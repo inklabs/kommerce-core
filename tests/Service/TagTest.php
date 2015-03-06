@@ -13,42 +13,44 @@ class TagTest extends Helper\DoctrineTestCase
     /* @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
     protected $mockEntityManager;
 
-    /* @var Tag */
-    protected $tagService;
-
-    /* @var Entity\Tag */
-    protected $tag;
-
     public function setUp()
     {
         $this->mockTagRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Tag');
         $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
-        $this->tagService = new Tag($this->entityManager);
     }
 
     private function setupTag()
     {
-        $this->tag = new Entity\Tag;
-        $this->tag->setName('Test Tag');
-        $this->tag->setDescription('Test Description');
-        $this->tag->setDefaultImage('http://lorempixel.com/400/200/');
-        $this->tag->setSortOrder(0);
-        $this->tag->setIsVisible(true);
-        $this->tag->setIsActive(true);
+        $tag = $this->getDummyTag();
 
         $product1 = $this->getDummyProduct(1);
         $product2 = $this->getDummyProduct(2);
         $product3 = $this->getDummyProduct(3);
 
-        $product1->addTag($this->tag);
-        $product2->addTag($this->tag);
-        $product3->addTag($this->tag);
+        $product1->addTag($tag);
+        $product2->addTag($tag);
+        $product3->addTag($tag);
 
-        $this->entityManager->persist($this->tag);
+        $this->entityManager->persist($tag);
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
         $this->entityManager->persist($product3);
         $this->entityManager->flush();
+
+        return $tag;
+    }
+
+    private function getDummyTag()
+    {
+        $tag = new Entity\Tag;
+        $tag->setName('Test Tag');
+        $tag->setDescription('Test Description');
+        $tag->setDefaultImage('http://lorempixel.com/400/200/');
+        $tag->setSortOrder(0);
+        $tag->setIsVisible(true);
+        $tag->setIsActive(true);
+
+        return $tag;
     }
 
     private function getDummyProduct($num)
@@ -70,31 +72,118 @@ class TagTest extends Helper\DoctrineTestCase
         return $product;
     }
 
+    public function testFind()
+    {
+        $tag = $this->getDummyTag();
+
+        $this->mockTagRepository
+            ->shouldReceive('find')
+            ->andReturn($tag);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockTagRepository);
+
+        $tagService = new Tag($this->mockEntityManager);
+
+        $tag = $tagService->find(1);
+        $this->assertTrue($tag instanceof View\Tag);
+    }
+
     public function testFindMissing()
     {
-        $tag = $this->tagService->find(0);
+        $this->mockTagRepository
+            ->shouldReceive('find')
+            ->andReturn(null);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockTagRepository);
+
+        $tagService = new Tag($this->mockEntityManager);
+
+        $tag = $tagService->find(1);
         $this->assertSame(null, $tag);
     }
 
     public function testFindNotActive()
     {
-        $this->setupTag();
+        $tag = $this->getDummyTag();
+        $tag->setIsActive(false);
 
-        $this->tag->setIsActive(false);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->mockTagRepository
+            ->shouldReceive('find')
+            ->andReturn($tag);
 
-        $tag = $this->tagService->find(1);
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockTagRepository);
+
+        $tagService = new Tag($this->mockEntityManager);
+
+        $tag = $tagService->find(1);
         $this->assertSame(null, $tag);
     }
 
-    public function testFind()
+    public function testEdit()
     {
-        $this->setupTag();
+        $tagValues = $this->setupTag()->getView()->export();
+        $tagValues->name = 'Test Tag 2';
+
+        $tagService = new Tag($this->entityManager);
+        $tagService->edit($tagValues->id, $tagValues);
+
         $this->entityManager->clear();
 
-        $tag = $this->tagService->find(1);
-        $this->assertSame(1, $tag->id);
+        $tag = $this->entityManager->find('kommerce:Tag', 1);
+        $this->assertSame('Test Tag 2', $tag->getName());
+        $this->assertNotSame($tagValues->updated, $tag->getUpdated());
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testEditWithMissingTag()
+    {
+        $tagService = new Tag($this->entityManager);
+        $tagService->edit(1, new View\Tag(new Entity\Tag));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Validator\Exception\ValidatorException
+     */
+    public function testEditFailsValidation()
+    {
+        $tagValues = $this->setupTag()->getView()->export();
+        $tagValues->sortOrder = -1;
+
+        $tagService = new Tag($this->entityManager);
+        $tagService->edit($tagValues->id, $tagValues);
+    }
+
+    public function testCreate()
+    {
+        $tagValues = $this->setupTag()->getView()->export();
+
+        $tagService = new Tag($this->entityManager);
+        $tagService->create($tagValues);
+
+        $this->entityManager->clear();
+
+        $tag = $this->entityManager->find('kommerce:Tag', 1);
+        $this->assertTrue($tag instanceof Entity\Tag);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Validator\Exception\ValidatorException
+     */
+    public function testCreateFailsValidation()
+    {
+        $tagValues = $this->setupTag()->getView()->export();
+        $tagValues->sortOrder = -1;
+
+        $tagService = new Tag($this->entityManager);
+        $tagService->create($tagValues);
     }
 
     public function testGetAllTags()

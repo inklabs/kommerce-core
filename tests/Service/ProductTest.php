@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Entity\View as View;
-use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\tests\Helper as Helper;
 
 class ProductTest extends Helper\DoctrineTestCase
@@ -20,10 +19,39 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
     }
 
-    public function testFind()
+    private function setupProduct()
+    {
+        $product = $this->getDummyProduct();
+
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        return $product;
+    }
+
+    private function getDummyProduct()
     {
         $product = new Entity\Product;
+        $product->setSku('TST1');
+        $product->setName('Test Product');
+        $product->setDescription('Test product description');
+        $product->setUnitPrice(400);
+        $product->setQuantity(2);
+        $product->setIsInventoryRequired(true);
+        $product->setIsPriceVisible(true);
         $product->setIsActive(true);
+        $product->setIsVisible(true);
+        $product->setIsTaxable(true);
+        $product->setIsShippable(true);
+        $product->setShippingWeight(16);
+
+        return $product;
+    }
+
+    public function testFind()
+    {
+        $product = $this->getDummyProduct();
 
         $this->mockProductRepository
             ->shouldReceive('find')
@@ -55,50 +83,13 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $product);
     }
 
-    private function getProduct()
-    {
-        $product = new Entity\Product;
-        $product->setSku('TST1');
-        $product->setName('Test Product');
-        $product->setDescription('Test product description');
-        $product->setUnitPrice(400);
-        $product->setQuantity(2);
-        $product->setIsInventoryRequired(true);
-        $product->setIsPriceVisible(true);
-        $product->setIsActive(true);
-        $product->setIsVisible(true);
-        $product->setIsTaxable(true);
-        $product->setIsShippable(true);
-        $product->setShippingWeight(16);
-
-        $this->entityManager->persist($product);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        return $product;
-    }
-
     public function testEdit()
     {
-        $product = $this->getProduct();
+        $productValues = $this->setupProduct()->getView()->export();
+        $productValues->unitPrice = 500;
 
         $productService = new Product($this->entityManager, new Pricing);
-
-        $productValues = new View\Product($product);
-        $productValues->sku = 'TST1';
-        $productValues->name = 'Test Product';
-        $productValues->description = 'Test product description';
-        $productValues->unitPrice = 500;
-        $productValues->quantity = 10;
-        $productValues->isInventoryRequired = true;
-        $productValues->isPriceVisible = true;
-        $productValues->isActive = true;
-        $productValues->isVisible = true;
-        $productValues->isTaxable = true;
-        $productValues->isShippable = true;
-        $productValues->shippingWeight = 16;
-
-        $productService->edit($product->getId(), $productValues);
+        $productService->edit($productValues->id, $productValues);
 
         $this->entityManager->clear();
 
@@ -121,31 +112,16 @@ class ProductTest extends Helper\DoctrineTestCase
      */
     public function testEditFailsValidation()
     {
-        $product = $this->getProduct();
+        $productValues = $this->setupProduct()->getView()->export();
+        $productValues->unitPrice = -1;
 
         $productService = new Product($this->entityManager, new Pricing);
-
-        $productValues = new View\Product($product);
-        $productValues->sku = 'TST1';
-        $productValues->name = null;
-        $productValues->description = 'Test product description';
-        $productValues->unitPrice = -1;
-        $productValues->quantity = -1;
-        $productValues->isInventoryRequired = true;
-        $productValues->isPriceVisible = true;
-        $productValues->isActive = true;
-        $productValues->isVisible = true;
-        $productValues->isTaxable = true;
-        $productValues->isShippable = true;
-        $productValues->shippingWeight = -1;
-
-        $productService->edit($product->getId(), $productValues);
+        $productService->edit($productValues->id, $productValues);
     }
 
     public function testCreate()
     {
-        $product = $this->getProduct();
-        $productValues = new View\Product($product);
+        $productValues = $this->setupProduct()->getView()->export();
 
         $productService = new Product($this->entityManager, new Pricing);
         $productService->create($productValues);
@@ -161,8 +137,7 @@ class ProductTest extends Helper\DoctrineTestCase
      */
     public function testCreateFailsValidation()
     {
-        $product = $this->getProduct();
-        $productValues = new View\Product($product);
+        $productValues = $this->setupProduct()->getView()->export();
         $productValues->unitPrice = -1;
 
         $productService = new Product($this->entityManager, new Pricing);
