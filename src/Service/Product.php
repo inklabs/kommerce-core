@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Exception\ValidatorException;
-use Symfony\Component\Validator\Validation;
 use inklabs\kommerce\EntityRepository as EntityRepository;
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Lib as Lib;
@@ -54,17 +53,7 @@ class Product extends Lib\ServiceManager
 
         $product->loadFromView($viewProduct);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $errors = $validator->validate($product);
-
-        if (count($errors) > 0) {
-            $exception = new ValidatorException;
-            $exception->errors = $errors;
-            throw $exception;
-        }
+        $this->throwValidationErrors($product);
 
         $this->entityManager->flush();
     }
@@ -80,17 +69,7 @@ class Product extends Lib\ServiceManager
 
         $product->loadFromView($viewProduct);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $errors = $validator->validate($product);
-
-        if (count($errors) > 0) {
-            $exception = new ValidatorException;
-            $exception->errors = $errors;
-            throw $exception;
-        }
+        $this->throwValidationErrors($product);
 
         $this->entityManager->persist($product);
         $this->entityManager->flush();

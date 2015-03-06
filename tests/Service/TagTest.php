@@ -149,18 +149,6 @@ class TagTest extends Helper\DoctrineTestCase
         $tagService->edit(1, new View\Tag(new Entity\Tag));
     }
 
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\ValidatorException
-     */
-    public function testEditFailsValidation()
-    {
-        $tagValues = $this->setupTag()->getView()->export();
-        $tagValues->sortOrder = -1;
-
-        $tagService = new Tag($this->entityManager);
-        $tagService->edit($tagValues->id, $tagValues);
-    }
-
     public function testCreate()
     {
         $tagValues = $this->setupTag()->getView()->export();
@@ -172,18 +160,6 @@ class TagTest extends Helper\DoctrineTestCase
 
         $tag = $this->entityManager->find('kommerce:Tag', 1);
         $this->assertTrue($tag instanceof Entity\Tag);
-    }
-
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\ValidatorException
-     */
-    public function testCreateFailsValidation()
-    {
-        $tagValues = $this->setupTag()->getView()->export();
-        $tagValues->sortOrder = -1;
-
-        $tagService = new Tag($this->entityManager);
-        $tagService->create($tagValues);
     }
 
     public function testGetAllTags()

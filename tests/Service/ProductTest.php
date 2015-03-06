@@ -107,18 +107,6 @@ class ProductTest extends Helper\DoctrineTestCase
         $productService->edit(1, new View\Product(new Entity\Product));
     }
 
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\ValidatorException
-     */
-    public function testEditFailsValidation()
-    {
-        $productValues = $this->setupProduct()->getView()->export();
-        $productValues->unitPrice = -1;
-
-        $productService = new Product($this->entityManager, new Pricing);
-        $productService->edit($productValues->id, $productValues);
-    }
-
     public function testCreate()
     {
         $productValues = $this->setupProduct()->getView()->export();
@@ -130,18 +118,6 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $product = $this->entityManager->find('kommerce:Product', 1);
         $this->assertTrue($product instanceof Entity\Product);
-    }
-
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\ValidatorException
-     */
-    public function testCreateFailsValidation()
-    {
-        $productValues = $this->setupProduct()->getView()->export();
-        $productValues->unitPrice = -1;
-
-        $productService = new Product($this->entityManager, new Pricing);
-        $productService->create($productValues);
     }
 
     public function testGetAllProducts()
