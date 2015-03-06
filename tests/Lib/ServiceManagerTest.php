@@ -9,20 +9,63 @@ class ServiceManagerTest extends Helper\DoctrineTestCase
 {
     public function testSetEntityManager()
     {
-        $emClass = new ServiceManager;
-        $emClass->setEntityManager($this->entityManager);
+        $serviceManager = new ServiceManager;
+        $serviceManager->setEntityManager($this->entityManager);
     }
 
     public function testFindByEncodedId()
     {
-        $mockEntityManager = \Mockery::mock('inklabs\kommerce\Lib\ServiceManager')
+        $mockServiceManager = \Mockery::mock('inklabs\kommerce\Lib\ServiceManager')
             ->makePartial();
 
-        $mockEntityManager
+        $mockServiceManager
             ->shouldReceive('find')
             ->andReturn(new Entity\Product);
 
-        $product = $mockEntityManager->findByEncodedId(1);
+        $product = $mockServiceManager->findByEncodedId(1);
         $this->assertTrue($product instanceof Entity\Product);
+    }
+
+    public function testThrowValidationErrors()
+    {
+        $mockServiceManager = \Mockery::mock('inklabs\kommerce\Lib\ServiceManager')
+            ->makePartial();
+
+        $mockServiceManager
+            ->shouldReceive('find')
+            ->andReturn(new Entity\Product);
+
+        $tag = new Entity\Tag;
+        $tag->setName('Test Tag');
+        $tag->setDescription('Test Description');
+        $tag->setDefaultImage('http://lorempixel.com/400/200/');
+        $tag->setSortOrder(0);
+        $tag->setIsVisible(true);
+        $tag->setIsActive(true);
+
+        $mockServiceManager->throwValidationErrors($tag);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Validator\Exception\ValidatorException
+     */
+    public function testThrowValidationErrorsThrowsError()
+    {
+        $mockServiceManager = \Mockery::mock('inklabs\kommerce\Lib\ServiceManager')
+            ->makePartial();
+
+        $mockServiceManager
+            ->shouldReceive('find')
+            ->andReturn(new Entity\Product);
+
+        $tag = new Entity\Tag;
+        $tag->setName('Test Tag');
+        $tag->setDescription('Test Description');
+        $tag->setDefaultImage('http://lorempixel.com/400/200/');
+        $tag->setSortOrder(-1);
+        $tag->setIsVisible(true);
+        $tag->setIsActive(true);
+
+        $mockServiceManager->throwValidationErrors($tag);
     }
 }

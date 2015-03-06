@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Lib as Lib;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Exception\ValidatorException;
 
 class ServiceManager
 {
@@ -16,5 +18,20 @@ class ServiceManager
     public function findByEncodedId($encodedId)
     {
         return $this->find(Lib\BaseConvert::decode($encodedId));
+    }
+
+    protected function throwValidationErrors($entity)
+    {
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $errors = $validator->validate($entity);
+
+        if (count($errors) > 0) {
+            $exception = new ValidatorException;
+            $exception->errors = $errors;
+            throw $exception;
+        }
     }
 }

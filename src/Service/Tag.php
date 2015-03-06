@@ -6,7 +6,6 @@ use inklabs\kommerce\Lib as Lib;
 use inklabs\kommerce\EntityRepository as EntityRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Exception\ValidatorException;
-use Symfony\Component\Validator\Validation;
 
 class Tag extends Lib\ServiceManager
 {
@@ -47,17 +46,7 @@ class Tag extends Lib\ServiceManager
 
         $tag->loadFromView($viewTag);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $errors = $validator->validate($tag);
-
-        if (count($errors) > 0) {
-            $exception = new ValidatorException;
-            $exception->errors = $errors;
-            throw $exception;
-        }
+        $this->throwValidationErrors($tag);
 
         $this->entityManager->flush();
     }
@@ -73,17 +62,7 @@ class Tag extends Lib\ServiceManager
 
         $tag->loadFromView($viewTag);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $errors = $validator->validate($tag);
-
-        if (count($errors) > 0) {
-            $exception = new ValidatorException;
-            $exception->errors = $errors;
-            throw $exception;
-        }
+        $this->throwValidationErrors($tag);
 
         $this->entityManager->persist($tag);
         $this->entityManager->flush();
