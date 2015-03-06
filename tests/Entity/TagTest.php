@@ -34,4 +34,11 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($tag->getImages()[0] instanceof Image);
         $this->assertTrue($tag->getView() instanceof View\Tag);
     }
+
+    public function testLoadFromView()
+    {
+        $tag = new Tag;
+        $tag->loadFromView(new View\Tag(new Tag));
+        $this->assertTrue($tag instanceof Tag);
+    }
 }

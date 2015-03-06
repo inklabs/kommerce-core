@@ -15,6 +15,7 @@ class Tag
     public $defaultImage;
     public $sortOrder;
     public $isVisible;
+    public $isActive;
     public $created;
     public $updated;
 
@@ -36,6 +37,7 @@ class Tag
         $this->defaultImage   = $tag->getDefaultImage();
         $this->sortOrder      = $tag->getSortOrder();
         $this->isVisible      = $tag->getIsVisible();
+        $this->isActive       = $tag->getIsActive();
         $this->created        = $tag->getCreated();
         $this->updated        = $tag->getUpdated();
     }

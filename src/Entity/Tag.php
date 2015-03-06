@@ -51,6 +51,16 @@ class Tag
         ]));
     }
 
+    public function loadFromView(View\Tag $viewTag)
+    {
+        $this->setName($viewTag->name);
+        $this->setDescription($viewTag->description);
+        $this->setDefaultImage($viewTag->defaultImage);
+        $this->setSortOrder($viewTag->sortOrder);
+        $this->setIsVisible($viewTag->isVisible);
+        $this->setIsActive($viewTag->isActive);
+    }
+
     public function addProduct(Product $product)
     {
         $this->products[] = $product;
