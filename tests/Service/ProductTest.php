@@ -89,7 +89,8 @@ class ProductTest extends Helper\DoctrineTestCase
         $productValues->unitPrice = 500;
 
         $productService = new Product($this->entityManager, new Pricing);
-        $productService->edit($productValues->id, $productValues);
+        $product = $productService->edit($productValues->id, $productValues);
+        $this->assertTrue($product instanceof Entity\Product);
 
         $this->entityManager->clear();
 
@@ -104,7 +105,7 @@ class ProductTest extends Helper\DoctrineTestCase
     public function testEditWithMissingProduct()
     {
         $productService = new Product($this->entityManager, new Pricing);
-        $productService->edit(1, new View\Product(new Entity\Product));
+        $product = $productService->edit(1, new View\Product(new Entity\Product));
     }
 
     public function testCreate()

@@ -40,6 +40,7 @@ class Product extends Lib\ServiceManager
     }
 
     /**
+     * @return Entity\Product
      * @throws ValidatorException
      */
     public function edit($id, Entity\View\Product $viewProduct)
@@ -56,6 +57,8 @@ class Product extends Lib\ServiceManager
         $this->throwValidationErrors($product);
 
         $this->entityManager->flush();
+
+        return $product;
     }
 
     /**
