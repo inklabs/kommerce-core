@@ -73,6 +73,8 @@ class Product extends Lib\ServiceManager
 
         $this->entityManager->persist($product);
         $this->entityManager->flush();
+
+        return $product;
     }
 
     public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)

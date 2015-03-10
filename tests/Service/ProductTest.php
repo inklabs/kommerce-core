@@ -112,7 +112,8 @@ class ProductTest extends Helper\DoctrineTestCase
         $productValues = $this->setupProduct()->getView()->export();
 
         $productService = new Product($this->entityManager, new Pricing);
-        $productService->create($productValues);
+        $product = $productService->create($productValues);
+        $this->assertTrue($product instanceof Entity\Product);
 
         $this->entityManager->clear();
 
