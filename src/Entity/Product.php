@@ -260,6 +260,10 @@ class Product
 
     public function getRating()
     {
+        if ($this->rating === null) {
+            return null;
+        }
+
         return ($this->rating / 100);
     }
 

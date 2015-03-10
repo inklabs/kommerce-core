@@ -9,6 +9,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $product = new Product;
+        $this->assertSame(null, $product->getRating());
+
         $product->setId(1);
         $product->setSku('TST101');
         $product->setName('Test Product');
