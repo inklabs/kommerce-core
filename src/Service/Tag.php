@@ -18,13 +18,15 @@ class Tag extends Lib\ServiceManager
         $this->tagRepository = $entityManager->getRepository('kommerce:Tag');
     }
 
-    /* @return Entity\View\Tag */
+    /**
+     * @return Entity\View\Tag|null
+     */
     public function find($id)
     {
         /* @var Entity\Tag $entityTag */
         $entityTag = $this->tagRepository->find($id);
 
-        if ($entityTag === null or ! $entityTag->getIsActive()) {
+        if ($entityTag === null) {
             return null;
         }
 
@@ -33,6 +35,7 @@ class Tag extends Lib\ServiceManager
     }
 
     /**
+     * @return Entity\Tag
      * @throws ValidatorException
      */
     public function edit($id, Entity\View\Tag $viewTag)
@@ -49,6 +52,8 @@ class Tag extends Lib\ServiceManager
         $this->throwValidationErrors($tag);
 
         $this->entityManager->flush();
+
+        return $tag;
     }
 
     /**
@@ -66,6 +71,8 @@ class Tag extends Lib\ServiceManager
 
         $this->entityManager->persist($tag);
         $this->entityManager->flush();
+
+        return $tag;
     }
 
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
