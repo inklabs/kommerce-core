@@ -106,32 +106,14 @@ class TagTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $tag);
     }
 
-    public function testFindNotActive()
-    {
-        $tag = $this->getDummyTag();
-        $tag->setIsActive(false);
-
-        $this->mockTagRepository
-            ->shouldReceive('find')
-            ->andReturn($tag);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockTagRepository);
-
-        $tagService = new Tag($this->mockEntityManager);
-
-        $tag = $tagService->find(1);
-        $this->assertSame(null, $tag);
-    }
-
     public function testEdit()
     {
         $tagValues = $this->setupTag()->getView()->export();
         $tagValues->name = 'Test Tag 2';
 
         $tagService = new Tag($this->entityManager);
-        $tagService->edit($tagValues->id, $tagValues);
+        $tag = $tagService->edit($tagValues->id, $tagValues);
+        $this->assertTrue($tag instanceof Entity\Tag);
 
         $this->entityManager->clear();
 
@@ -154,7 +136,8 @@ class TagTest extends Helper\DoctrineTestCase
         $tagValues = $this->setupTag()->getView()->export();
 
         $tagService = new Tag($this->entityManager);
-        $tagService->create($tagValues);
+        $tag = $tagService->create($tagValues);
+        $this->assertTrue($tag instanceof Entity\Tag);
 
         $this->entityManager->clear();
 

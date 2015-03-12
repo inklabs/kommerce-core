@@ -8,6 +8,10 @@ class TagTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $tag = new Tag;
+
+        $tag->setDescription(null);
+        $this->assertSame(null, $tag->getDescription());
+
         $tag->setId(1);
         $tag->setName('Test Tag');
         $tag->setDescription('Test Description');

@@ -125,7 +125,7 @@ class Product
 
     public function setSku($sku)
     {
-        $this->sku = (string) $sku;
+        $this->sku = $sku;
     }
 
     public function getSku()
@@ -225,7 +225,7 @@ class Product
 
     public function setDescription($description)
     {
-        $this->description = (string) $description;
+        $this->description = $description;
     }
 
     public function getDescription()
