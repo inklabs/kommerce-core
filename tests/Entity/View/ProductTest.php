@@ -8,8 +8,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
+        $tag = new Entity\Tag;
+        $tag->addImage(new Entity\Image);
+
         $entityProduct = new Entity\Product;
-        $entityProduct->addTag(new Entity\Tag);
+        $entityProduct->addTag($tag);
         $entityProduct->addImage(new Entity\Image);
 
         $productQuantityDiscount = new Entity\ProductQuantityDiscount;
@@ -31,13 +34,16 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testWithTagsWithImages()
     {
+        $tag = new Entity\Tag;
+        $tag->addImage(new Entity\Image);
         $entityProduct = new Entity\Product;
-        $entityProduct->addTag(new Entity\Tag);
+        $entityProduct->addTag($tag);
 
         $product = $entityProduct->getView()
             ->withTagsWithImages(new Service\Pricing)
             ->export();
 
         $this->assertTrue($product->tags[0] instanceof Tag);
+        $this->assertTrue($product->tags[0]->images[0] instanceof Image);
     }
 }

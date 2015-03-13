@@ -92,6 +92,7 @@ class Product
     public function loadFromView(View\Product $viewProduct)
     {
         $this->setName($viewProduct->name);
+        $this->setDefaultImage($viewProduct->defaultImage);
         $this->setUnitPrice($viewProduct->unitPrice);
         $this->setQuantity($viewProduct->quantity);
         $this->setIsInventoryRequired($viewProduct->isInventoryRequired);

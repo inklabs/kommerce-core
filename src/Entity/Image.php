@@ -51,6 +51,14 @@ class Image
         ]));
     }
 
+    public function loadFromView(View\Image $viewImage)
+    {
+        $this->setPath($viewImage->path);
+        $this->setWidth($viewImage->width);
+        $this->setHeight($viewImage->height);
+        $this->setSortOrder($viewImage->sortOrder);
+    }
+
     public function setid($id)
     {
         $this->id = (int) $id;
