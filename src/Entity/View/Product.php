@@ -35,6 +35,9 @@ class Product
     /* @var Image[] */
     public $images = [];
 
+    /* @var Image[] */
+    public $tagImages = [];
+
     /* @var ProductQuantityDiscount[] */
     public $productQuantityDiscounts = [];
 
@@ -78,6 +81,7 @@ class Product
     {
         foreach ($this->product->getTags() as $tag) {
             $this->tags[] = $tag->getView()
+                ->withImages()
                 ->export();
         }
         return $this;
@@ -99,6 +103,14 @@ class Product
             $this->images[] = $image->getView()
                 ->export();
         }
+
+        foreach ($this->product->getTags() as $tag) {
+            foreach ($tag->getImages() as $image) {
+                $this->tagImages[] = $image->getView()
+                    ->export();
+            }
+        }
+
         return $this;
     }
 

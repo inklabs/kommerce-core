@@ -2,10 +2,12 @@
 namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Lib as Lib;
 
 class Image
 {
     public $id;
+    public $encodedId;
     public $path;
     public $width;
     public $height;
@@ -20,6 +22,7 @@ class Image
         $this->image = $image;
 
         $this->id        = $image->getId();
+        $this->encodedId = Lib\BaseConvert::encode($image->getId());
         $this->path      = $image->getPath();
         $this->width     = $image->getWidth();
         $this->height    = $image->getHeight();
