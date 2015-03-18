@@ -27,10 +27,16 @@ class Option
     /* @var Product[] */
     protected $products;
 
+    /* @var Tag[] */
+    protected $tags;
+
     public function __construct()
     {
         $this->setCreated();
-        $this->products = new ArrayCollection;
+        $this->products = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+
+        $this->sortOrder = 0;
     }
 
     public static function getTypeMapping()
@@ -96,11 +102,6 @@ class Option
         return $this->description;
     }
 
-    public function addProduct(Product $product)
-    {
-        $this->products[] = $product;
-    }
-
     public function setSortOrder($sortOrder)
     {
         $this->sortOrder = $sortOrder;
@@ -111,9 +112,25 @@ class Option
         return $this->sortOrder;
     }
 
+    public function addProduct(Product $product)
+    {
+        $this->products[] = $product;
+    }
+
     public function getProducts()
     {
         return $this->products;
+    }
+
+    public function addTag(Tag $tag)
+    {
+        $tag->addOption($this);
+        $this->tags[] = $tag;
+    }
+
+    public function getTags()
+    {
+        return $this->tags;
     }
 
     public function getView()

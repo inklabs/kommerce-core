@@ -21,6 +21,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $tag->setIsActive(true);
         $tag->addProduct(new Product);
         $tag->addImage(new Image);
+        $tag->addOption(new Option);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -36,6 +37,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($tag->getIsActive());
         $this->assertTrue($tag->getProducts()[0] instanceof Product);
         $this->assertTrue($tag->getImages()[0] instanceof Image);
+        $this->assertTrue($tag->getOptions()[0] instanceof Option);
         $this->assertTrue($tag->getView() instanceof View\Tag);
     }
 

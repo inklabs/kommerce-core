@@ -52,6 +52,42 @@ class TagTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $tag->getId());
     }
 
+    public function testFindWithAllData()
+    {
+        $image = new Entity\Image;
+        $image->setPath('/tmp/test');
+        $image->setWidth(500);
+        $image->setHeight(500);
+
+        $product = new Entity\Product;
+        $product->setName('Test Product');
+
+        $option = new Entity\Option;
+        $option->setName('Test Option');
+        $option->setType(Entity\Option::TYPE_SELECT);
+
+        $tag = $this->getDummyTag(1);
+        $tag->addImage($image);
+        $tag->addProduct($product);
+        $tag->addOption($option);
+
+        $this->entityManager->persist($tag);
+        $this->entityManager->persist($image);
+        $this->entityManager->persist($product);
+        $this->entityManager->persist($option);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        /* @var Entity\Tag $tag */
+        $tag = $this->getRepository()
+            ->find(1);
+
+        $this->assertSame(1, $tag->getId());
+        $this->assertSame(1, $tag->getImages()[0]->getId());
+        $this->assertSame(1, $tag->getProducts()[0]->getId());
+        $this->assertSame(1, $tag->getOptions()[0]->getId());
+    }
+
     public function testGetAllTags()
     {
         $this->setupTag();

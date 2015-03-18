@@ -23,11 +23,16 @@ class Tag
     /* @var Image[] */
     protected $images;
 
+    /* @var Option[] */
+    protected $options;
+
     public function __construct()
     {
         $this->setCreated();
         $this->products = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->options = new ArrayCollection();
+
         $this->sortOrder = 0;
         $this->isActive = false;
         $this->isVisible = false;
@@ -63,6 +68,7 @@ class Tag
 
     public function addProduct(Product $product)
     {
+        $product->addTag($this);
         $this->products[] = $product;
     }
 
@@ -73,12 +79,23 @@ class Tag
 
     public function addImage(Image $image)
     {
+        $image->setTag($this);
         $this->images[] = $image;
     }
 
     public function getImages()
     {
         return $this->images;
+    }
+
+    public function addOption(Option $option)
+    {
+        $this->options[] = $option;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
     }
 
     public function setId($id)

@@ -25,6 +25,9 @@ class Tag
     /* @var Image[] */
     public $images = [];
 
+    /* @var Option[] */
+    public $options = [];
+
     public function __construct(Entity\Tag $tag)
     {
         $this->tag = $tag;
@@ -67,10 +70,21 @@ class Tag
         return $this;
     }
 
+    public function withOptions()
+    {
+        foreach ($this->tag->getOptions() as $option) {
+            $this->options[] = $option->getView()
+                ->withProducts()
+                ->export();
+        }
+        return $this;
+    }
+
     public function withAllData(Pricing $pricing)
     {
         return $this
             ->withImages()
-            ->withProducts($pricing);
+            ->withProducts($pricing)
+            ->withOptions();
     }
 }

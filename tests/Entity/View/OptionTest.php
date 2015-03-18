@@ -9,6 +9,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     {
         $entityOption = new Entity\Option;
         $entityOption->addProduct(new Entity\Product);
+        $entityOption->addTag(new Entity\Tag);
 
         $option = $entityOption->getView()
             ->withAllData()
@@ -16,5 +17,6 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($option instanceof Option);
         $this->assertTrue($option->products[0] instanceof Product);
+        $this->assertTrue($option->tags[0] instanceof Tag);
     }
 }
