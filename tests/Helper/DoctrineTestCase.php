@@ -19,6 +19,11 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $this->setupTestSchema();
     }
 
+    public function setEchoLogger()
+    {
+        $this->kommerce->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
+    }
+
     private function getConnection()
     {
         $this->kommerce = new Kommerce(new Doctrine\Common\Cache\ArrayCache());
