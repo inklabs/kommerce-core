@@ -15,7 +15,10 @@ class Option
     public $updated;
 
     /* @var Product[] */
-    public $products;
+    public $products = [];
+
+    /* @var Tag[] */
+    public $tags = [];
 
     public function __construct(Entity\Option $option)
     {
@@ -44,9 +47,18 @@ class Option
         return $this;
     }
 
+    public function withTags()
+    {
+        foreach ($this->option->getTags() as $tag) {
+            $this->tags[] = $tag->getView()->export();
+        }
+        return $this;
+    }
+
     public function withAllData()
     {
         return $this
-            ->withProducts();
+            ->withProducts()
+            ->withTags();
     }
 }
