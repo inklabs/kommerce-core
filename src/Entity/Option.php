@@ -9,11 +9,20 @@ class Option
 
     protected $id;
     protected $name;
-
-    // TODO: Convert to class constant
-    protected $type; // select, radio, checkbox, text, textarea, file, date, time, datetime
     protected $description;
     protected $sortOrder;
+
+    /* @var int */
+    protected $type;
+    const TYPE_SELECT   = 0;
+    const TYPE_RADIO    = 1;
+    const TYPE_CHECKBOX = 2;
+    const TYPE_TEXT     = 3;
+    const TYPE_TEXTAREA = 4;
+    const TYPE_FILE     = 5;
+    const TYPE_DATE     = 6;
+    const TYPE_TIME     = 7;
+    const TYPE_DATETIME = 8;
 
     /* @var Product[] */
     protected $products;
@@ -22,6 +31,26 @@ class Option
     {
         $this->setCreated();
         $this->products = new ArrayCollection;
+    }
+
+    public static function getTypeMapping()
+    {
+        return [
+            static::TYPE_SELECT => 'Select',
+            static::TYPE_RADIO => 'Radio',
+            static::TYPE_CHECKBOX => 'Checkbox',
+            static::TYPE_TEXT => 'Text',
+            static::TYPE_TEXTAREA => 'Textarea',
+            static::TYPE_FILE => 'File',
+            static::TYPE_DATE => 'Date',
+            static::TYPE_TIME => 'Time',
+            static::TYPE_DATETIME => 'Datetime',
+        ];
+    }
+
+    public function getTypeText()
+    {
+        return $this->getTypeMapping()[$this->type];
     }
 
     public function setId($id)
@@ -44,9 +73,12 @@ class Option
         return $this->name;
     }
 
+    /**
+     * @param int $type
+     */
     public function setType($type)
     {
-        $this->type = $type;
+        $this->type = (int) $type;
     }
 
     public function getType()

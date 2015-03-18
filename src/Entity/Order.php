@@ -22,6 +22,7 @@ class Order
     /* @var OrderAddress */
     protected $billingAddress;
 
+    /* @var int */
     protected $status;
     const STATUS_PENDING    = 0;
     const STATUS_PROCESSING = 1;
