@@ -32,18 +32,18 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($product->price instanceof Price);
     }
 
-    public function testWithTagsWithImages()
+    public function testCreateWithTagsOnly()
     {
         $tag = new Entity\Tag;
         $tag->addImage(new Entity\Image);
+
         $entityProduct = new Entity\Product;
         $entityProduct->addTag($tag);
 
         $product = $entityProduct->getView()
-            ->withTagsWithImages(new Service\Pricing)
+            ->withTags()
             ->export();
 
         $this->assertTrue($product->tags[0] instanceof Tag);
-        $this->assertTrue($product->tags[0]->images[0] instanceof Image);
     }
 }

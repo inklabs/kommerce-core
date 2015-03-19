@@ -87,11 +87,12 @@ class Product
         return $this;
     }
 
-    public function withTagsWithImages()
+    public function withTagsAndOptions(Pricing $pricing)
     {
         foreach ($this->product->getTags() as $tag) {
             $this->tags[] = $tag->getView()
                 ->withImages()
+                ->withOptions($pricing)
                 ->export();
         }
         return $this;
@@ -141,7 +142,7 @@ class Product
     public function withAllData(Pricing $pricing)
     {
         return $this
-            ->withTags()
+            ->withTagsAndOptions($pricing)
             ->withProductQuantityDiscounts($pricing)
             ->withPrice($pricing)
             ->withImages();

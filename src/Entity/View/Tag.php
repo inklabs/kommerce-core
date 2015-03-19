@@ -70,11 +70,11 @@ class Tag
         return $this;
     }
 
-    public function withOptions()
+    public function withOptions(Pricing $pricing)
     {
         foreach ($this->tag->getOptions() as $option) {
             $this->options[] = $option->getView()
-                ->withProducts()
+                ->withProducts($pricing)
                 ->export();
         }
         return $this;
@@ -85,6 +85,6 @@ class Tag
         return $this
             ->withImages()
             ->withProducts($pricing)
-            ->withOptions();
+            ->withOptions($pricing);
     }
 }

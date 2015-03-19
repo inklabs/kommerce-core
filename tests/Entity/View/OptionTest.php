@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity\View;
 
 use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Service as Service;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +13,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $entityOption->addTag(new Entity\Tag);
 
         $option = $entityOption->getView()
-            ->withAllData()
+            ->withAllData(new Service\Pricing)
             ->export();
 
         $this->assertTrue($option instanceof Option);

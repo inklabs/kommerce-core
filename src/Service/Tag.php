@@ -31,9 +31,7 @@ class Tag extends Lib\ServiceManager
         }
 
         return $entityTag->getView()
-            ->withImages()
-            ->withProducts(new Pricing)
-            ->withOptions()
+            ->withAllData(new Pricing)
             ->export();
     }
 
