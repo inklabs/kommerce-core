@@ -118,6 +118,10 @@ class Cart
         return false;
     }
 
+    /**
+     * @param int $key
+     * @throws Exception
+     */
     public function removeCoupon($key)
     {
         if (! isset($this->coupons[$key])) {
