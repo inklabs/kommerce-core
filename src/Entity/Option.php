@@ -124,7 +124,6 @@ class Option
 
     public function addTag(Tag $tag)
     {
-        $tag->addOption($this);
         $this->tags[] = $tag;
     }
 

@@ -90,6 +90,7 @@ class Tag
 
     public function addOption(Option $option)
     {
+        $option->addTag($this);
         $this->options[] = $option;
     }
 
