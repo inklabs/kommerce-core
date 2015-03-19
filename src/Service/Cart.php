@@ -89,6 +89,11 @@ class Cart extends Lib\ServiceManager
         }
     }
 
+    /**
+     * @param int $quantity
+     * @return int
+     * @throws Exception
+     */
     public function addItem(Entity\View\Product $viewProduct, $quantity)
     {
         $product = $this->entityManager
@@ -121,16 +126,28 @@ class Cart extends Lib\ServiceManager
         return $couponId;
     }
 
+    /**
+     * @param int $key
+     * @throws Exception
+     */
     public function removeCoupon($key)
     {
         $this->cart->removeCoupon($key);
     }
 
+    /**
+     * @return Entity\Coupon[]
+     */
     public function getCoupons()
     {
         return $this->cart->getCoupons();
     }
 
+    /**
+     * @param int $cartItemId
+     * @param int $quantity
+     * @throws Exception
+     */
     public function updateQuantity($cartItemId, $quantity)
     {
         $item = $this->cart->getItem($cartItemId);
@@ -142,17 +159,19 @@ class Cart extends Lib\ServiceManager
         $this->save();
     }
 
+    /**
+     * @param int $cartItemId
+     * @throws Exception
+     */
     public function deleteItem($cartItemId)
     {
-        $item = $this->getItem($cartItemId);
-        if ($item === null) {
-            throw new Exception('Item not found');
-        }
-
         $this->cart->deleteItem($cartItemId);
         $this->save();
     }
 
+    /**
+     * @return Entity\View\CartItem[]
+     */
     public function getItems()
     {
         $viewCartItems = [];
