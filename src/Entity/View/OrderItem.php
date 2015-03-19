@@ -41,8 +41,7 @@ class OrderItem
             ->withAllData()
             ->export();
 
-        $this->product = $orderItem->getProduct()->getView()
-            ->withTags()
+        $this->product = $this->orderItem->getProduct()->getView()
             ->export();
     }
 
