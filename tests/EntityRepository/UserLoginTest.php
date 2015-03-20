@@ -14,19 +14,11 @@ class UserLoginTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:UserLogin');
     }
 
-    public function setUp()
+    private function setupUserWithLogin()
     {
-        $userLogin = new Entity\UserLogin;
-        $userLogin->setUsername('johndoe');
-        $userLogin->setIp4('8.8.8.8');
-        $userLogin->setResult(Entity\UserLogin::RESULT_SUCCESS);
+        $userLogin = $this->getDummyUserLogin();
 
-        $user = new Entity\User;
-        $user->setFirstName('John');
-        $user->setLastName('Doe');
-        $user->setEmail('john@example.com');
-        $user->setUsername('johndoe');
-        $user->setPassword('xxx');
+        $user = $this->getDummyUser();
         $user->addLogin($userLogin);
 
         $this->entityManager->persist($userLogin);
@@ -35,12 +27,38 @@ class UserLoginTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
+    private function getDummyUserLogin()
+    {
+        $userLogin = new Entity\UserLogin;
+        $userLogin->setUsername('johndoe');
+        $userLogin->setIp4('8.8.8.8');
+        $userLogin->setResult(Entity\UserLogin::RESULT_SUCCESS);
+        return $userLogin;
+    }
+
+    private function getDummyUser()
+    {
+        $user = new Entity\User;
+        $user->setFirstName('John');
+        $user->setLastName('Doe');
+        $user->setEmail('john@example.com');
+        $user->setUsername('johndoe');
+        $user->setPassword('xxx');
+        return $user;
+    }
+
     public function testFind()
     {
-        /* @var Entity\UserLogin $userLogin */
+        $this->setupUserWithLogin();
+
+        $this->setCountLogger();
+
         $userLogin = $this->getRepository()
             ->find(1);
 
-        $this->assertSame(1, $userLogin->getId());
+        $userLogin->getUser()->getEmail();
+
+        $this->assertTrue($userLogin instanceof Entity\UserLogin);
+        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 }
