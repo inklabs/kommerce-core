@@ -4,6 +4,10 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Doctrine\ORM\EntityRepository;
 use inklabs\kommerce\Entity as Entity;
 
+/**
+ * @method Entity\TaxRate find($id)
+ * @method Entity\TaxRate[] findAll()
+ */
 class TaxRate extends EntityRepository
 {
     /**

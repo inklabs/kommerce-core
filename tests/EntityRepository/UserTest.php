@@ -14,9 +14,15 @@ class UserTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:User');
     }
 
-    /**
-     * @return Entity\User
-     */
+    private function setupUser()
+    {
+        $user = $this->getDummyUser();
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+    }
+
     private function getDummyUser($num = 1)
     {
         $user = new Entity\User;
@@ -27,15 +33,6 @@ class UserTest extends Helper\DoctrineTestCase
         $user->setPassword('xxx');
 
         return $user;
-    }
-
-    private function setupUser()
-    {
-        $user = $this->getDummyUser();
-
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
     }
 
     public function testFind()
