@@ -18,9 +18,6 @@ class ProductTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:Product');
     }
 
-    /**
-     * @return Entity\Product
-     */
     private function getDummyProduct($num)
     {
         $product = new Entity\Product;
@@ -36,6 +33,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $product->setIsTaxable(true);
         $product->setIsShippable(true);
         $product->setShippingWeight(16);
+
         return $product;
     }
 
