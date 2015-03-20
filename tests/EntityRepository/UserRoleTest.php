@@ -14,6 +14,19 @@ class UserRoleTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:UserRole');
     }
 
+    public function setupUserWithRole()
+    {
+        $userRole = $this->getDummyUserRole();
+
+        $user = $this->getDummyUser();
+        $user->addRole($userRole);
+
+        $this->entityManager->persist($userRole);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+    }
+
     private function getDummyUserRole()
     {
         $userRole = new Entity\UserRole;
@@ -35,22 +48,9 @@ class UserRoleTest extends Helper\DoctrineTestCase
         return $user;
     }
 
-    public function setupUser()
-    {
-        $userRole = $this->getDummyUserRole();
-
-        $user = $this->getDummyUser();
-        $user->addRole($userRole);
-
-        $this->entityManager->persist($userRole);
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-    }
-
     public function testFind()
     {
-        $this->setupUser();
+        $this->setupUserWithRole();
 
         $this->setCountLogger();
 

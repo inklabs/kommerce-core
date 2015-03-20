@@ -14,6 +14,19 @@ class UserTokenTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:UserToken');
     }
 
+    public function setupUserWithToken()
+    {
+        $userToken = $this->getDummyUserToken();
+
+        $user = $this->getDummyUser();
+        $user->addToken($userToken);
+
+        $this->entityManager->persist($userToken);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+    }
+
     private function getDummyUser()
     {
         $user = new Entity\User;
@@ -35,19 +48,6 @@ class UserTokenTest extends Helper\DoctrineTestCase
         $userToken->setType(Entity\UserToken::TYPE_FACEBOOK);
 
         return $userToken;
-    }
-
-    public function setupUserWithToken()
-    {
-        $userToken = $this->getDummyUserToken();
-
-        $user = $this->getDummyUser();
-        $user->addToken($userToken);
-
-        $this->entityManager->persist($userToken);
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
     }
 
     public function testFind()
