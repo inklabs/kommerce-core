@@ -7,9 +7,6 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class TagTest extends Helper\DoctrineTestCase
 {
-    /* @var Entity\Tag */
-    protected $tag;
-
     /**
      * @return Tag
      */
@@ -18,74 +15,43 @@ class TagTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:Tag');
     }
 
-    /**
-     * @return Entity\Tag
-     */
-    private function getDummyTag($num)
+    private function setupTag()
+    {
+        $tag = $this->getDummyTag();
+
+        $this->entityManager->persist($tag);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+    }
+
+    private function getDummyTag()
     {
         $tag = new Entity\Tag;
-        $tag->setName('Test Tag ' . $num);
+        $tag->setName('Test Tag');
         $tag->setDescription('Test Description');
         $tag->setDefaultImage('http://lorempixel.com/400/200/');
         $tag->setSortOrder(0);
         $tag->setIsActive(true);
         $tag->setIsVisible(true);
+
         return $tag;
-    }
-
-    private function setupTag()
-    {
-        $tag1 = $this->getDummyTag(1);
-
-        $this->entityManager->persist($tag1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
     }
 
     public function testFind()
     {
         $this->setupTag();
 
+        $this->setCountLogger();
+
         $tag = $this->getRepository()
             ->find(1);
 
-        $this->assertSame(1, $tag->getId());
-    }
+        $tag->getImages()->toArray();
+        $tag->getProducts()->toArray();
+        $tag->getOptions()->toArray();
 
-    public function testFindWithAllData()
-    {
-        $image = new Entity\Image;
-        $image->setPath('/tmp/test');
-        $image->setWidth(500);
-        $image->setHeight(500);
-
-        $product = new Entity\Product;
-        $product->setName('Test Product');
-
-        $option = new Entity\Option;
-        $option->setName('Test Option');
-        $option->setType(Entity\Option::TYPE_SELECT);
-
-        $tag = $this->getDummyTag(1);
-        $tag->addImage($image);
-        $tag->addProduct($product);
-        $tag->addOption($option);
-
-        $this->entityManager->persist($tag);
-        $this->entityManager->persist($image);
-        $this->entityManager->persist($product);
-        $this->entityManager->persist($option);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        /* @var Entity\Tag $tag */
-        $tag = $this->getRepository()
-            ->find(1);
-
-        $this->assertSame(1, $tag->getId());
-        $this->assertSame(1, $tag->getImages()[0]->getId());
-        $this->assertSame(1, $tag->getProducts()[0]->getId());
-        $this->assertSame(1, $tag->getOptions()[0]->getId());
+        $this->assertTrue($tag instanceof Entity\Tag);
+        $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testGetAllTags()
@@ -95,7 +61,8 @@ class TagTest extends Helper\DoctrineTestCase
         $tags = $this->getRepository()
             ->getAllTags('Test');
 
-        $this->assertSame(1, $tags[0]->getId());
+        $this->assertSame(1, count($tags));
+        $this->assertTrue($tags[0] instanceof Entity\Tag);
     }
 
     public function testGetTagsByIds()
@@ -106,7 +73,7 @@ class TagTest extends Helper\DoctrineTestCase
             ->getTagsByIds([1]);
 
         $this->assertSame(1, count($tags));
-        $this->assertSame(1, $tags[0]->getId());
+        $this->assertTrue($tags[0] instanceof Entity\Tag);
     }
 
     public function testGetAllTagsByIds()
@@ -116,6 +83,7 @@ class TagTest extends Helper\DoctrineTestCase
         $tags = $this->getRepository()
             ->getAllTagsByIds([1]);
 
-        $this->assertSame(1, $tags[0]->getId());
+        $this->assertSame(1, count($tags));
+        $this->assertTrue($tags[0] instanceof Entity\Tag);
     }
 }
