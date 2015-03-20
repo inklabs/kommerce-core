@@ -16,7 +16,7 @@
             </options>
         </field>
 
-        <many-to-one field="product" target-entity="Product" inversed-by="productQuantityDiscounts">
+        <many-to-one field="product" target-entity="Product" inversed-by="productQuantityDiscounts" fetch="EAGER">
             <join-column name="product_id" referenced-column-name="id" nullable="false"/>
         </many-to-one>
 
