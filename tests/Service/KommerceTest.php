@@ -39,8 +39,8 @@ class KommerceTest extends Helper\DoctrineTestCase
 
     public function testService()
     {
-        $tag = $this->kommerce->service('Tag');
-        $this->assertTrue($tag instanceof Tag);
+        $image = $this->kommerce->service('Image');
+        $this->assertTrue($image instanceof Image);
     }
 
     public function testPricingService()

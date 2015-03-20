@@ -84,13 +84,13 @@ class TagTest extends Helper\DoctrineTestCase
             ->shouldReceive('getRepository')
             ->andReturn($this->mockTagRepository);
 
-        $tagService = new Tag($this->mockEntityManager);
+        $tagService = new Tag($this->mockEntityManager, new Pricing);
 
         $tag = $tagService->find(1);
         $this->assertTrue($tag instanceof View\Tag);
     }
 
-    public function testFindMissing()
+    public function testFindReturnsNull()
     {
         $this->mockTagRepository
             ->shouldReceive('find')
@@ -100,9 +100,43 @@ class TagTest extends Helper\DoctrineTestCase
             ->shouldReceive('getRepository')
             ->andReturn($this->mockTagRepository);
 
-        $tagService = new Tag($this->mockEntityManager);
+        $tagService = new Tag($this->mockEntityManager, new Pricing);
 
         $tag = $tagService->find(1);
+        $this->assertSame(null, $tag);
+    }
+
+    public function testFindSimple()
+    {
+        $tag = $this->getDummyTag();
+
+        $this->mockTagRepository
+            ->shouldReceive('find')
+            ->andReturn($tag);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockTagRepository);
+
+        $tagService = new Tag($this->mockEntityManager, new Pricing);
+
+        $tag = $tagService->findSimple(1);
+        $this->assertTrue($tag instanceof View\Tag);
+    }
+
+    public function testFindSimpleReturnsNull()
+    {
+        $this->mockTagRepository
+            ->shouldReceive('find')
+            ->andReturn(null);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockTagRepository);
+
+        $tagService = new Tag($this->mockEntityManager, new Pricing);
+
+        $tag = $tagService->findSimple(1);
         $this->assertSame(null, $tag);
     }
 
@@ -111,7 +145,7 @@ class TagTest extends Helper\DoctrineTestCase
         $tagValues = $this->setupTag()->getView()->export();
         $tagValues->name = 'Test Tag 2';
 
-        $tagService = new Tag($this->entityManager);
+        $tagService = new Tag($this->entityManager, new Pricing);
         $tag = $tagService->edit($tagValues->id, $tagValues);
         $this->assertTrue($tag instanceof Entity\Tag);
 
@@ -127,7 +161,7 @@ class TagTest extends Helper\DoctrineTestCase
      */
     public function testEditWithMissingTag()
     {
-        $tagService = new Tag($this->entityManager);
+        $tagService = new Tag($this->entityManager, new Pricing);
         $tagService->edit(1, new View\Tag(new Entity\Tag));
     }
 
@@ -135,7 +169,7 @@ class TagTest extends Helper\DoctrineTestCase
     {
         $tagValues = $this->setupTag()->getView()->export();
 
-        $tagService = new Tag($this->entityManager);
+        $tagService = new Tag($this->entityManager, new Pricing);
         $tag = $tagService->create($tagValues);
         $this->assertTrue($tag instanceof Entity\Tag);
 
@@ -155,7 +189,7 @@ class TagTest extends Helper\DoctrineTestCase
             ->shouldReceive('getRepository')
             ->andReturn($this->mockTagRepository);
 
-        $tagService = new Tag($this->mockEntityManager);
+        $tagService = new Tag($this->mockEntityManager, new Pricing);
 
         $tags = $tagService->getAllTags();
         $this->assertTrue($tags[0] instanceof View\Tag);
@@ -171,7 +205,7 @@ class TagTest extends Helper\DoctrineTestCase
             ->shouldReceive('getRepository')
             ->andReturn($this->mockTagRepository);
 
-        $tagService = new Tag($this->mockEntityManager);
+        $tagService = new Tag($this->mockEntityManager, new Pricing);
 
         $tags = $tagService->getTagsByIds([1]);
         $this->assertTrue($tags[0] instanceof View\Tag);
@@ -187,7 +221,7 @@ class TagTest extends Helper\DoctrineTestCase
             ->shouldReceive('getRepository')
             ->andReturn($this->mockTagRepository);
 
-        $tagService = new Tag($this->mockEntityManager);
+        $tagService = new Tag($this->mockEntityManager, new Pricing);
 
         $tags = $tagService->getAllTagsByIds([1]);
         $this->assertTrue($tags[0] instanceof View\Tag);

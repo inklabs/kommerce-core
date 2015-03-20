@@ -72,12 +72,16 @@ class Product extends EntityRepository
      */
     public function getProductsByTagId($tagId, Entity\Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $products = $qb->select('product')
+        $products = $this->getQueryBuilder()
+            ->select('product')
             ->from('kommerce:Product', 'product')
             ->innerJoin('product.tags', 'tag')
             ->where('tag.id = :tagId')
+
+            // Doesn't cause query in loop for pricing
+            ->addSelect('tag2')
+            ->leftJoin('product.tags', 'tag2')
+
             ->productActiveAndVisible()
             ->productAvailable()
             ->setParameter('tagId', $tagId)
