@@ -9,12 +9,16 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 
 class Tag extends Lib\ServiceManager
 {
+    /* @var Pricing */
+    private $pricing;
+
     /* @var EntityRepository\Tag */
     private $tagRepository;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, Pricing $pricing)
     {
         $this->setEntityManager($entityManager);
+        $this->pricing = $pricing;
         $this->tagRepository = $entityManager->getRepository('kommerce:Tag');
     }
 
@@ -31,7 +35,24 @@ class Tag extends Lib\ServiceManager
         }
 
         return $entityTag->getView()
-            ->withAllData(new Pricing)
+            ->withAllData($this->pricing)
+            ->export();
+    }
+
+    /**
+     * @param string $encodedId
+     * @return Entity\View\Tag|null
+     */
+    public function findSimple($encodedId)
+    {
+        /* @var Entity\Tag $entityTag */
+        $entityTag = $this->tagRepository->find(Lib\BaseConvert::decode($encodedId));
+
+        if ($entityTag === null) {
+            return null;
+        }
+
+        return $entityTag->getView()
             ->export();
     }
 
