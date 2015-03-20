@@ -2,20 +2,25 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\tests\Helper as Helper;
 
 class ProductTest extends Helper\DoctrineTestCase
 {
-    /* @var Entity\Product */
-    protected $product;
-
     /**
      * @return Product
      */
     private function getRepository()
     {
         return $this->entityManager->getRepository('kommerce:Product');
+    }
+
+    private function setupProduct()
+    {
+        $product1 = $this->getDummyProduct(1);
+
+        $this->entityManager->persist($product1);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
     }
 
     private function getDummyProduct($num)
@@ -37,13 +42,21 @@ class ProductTest extends Helper\DoctrineTestCase
         return $product;
     }
 
-    private function setupProduct()
+    public function testFind()
     {
-        $product1 = $this->getDummyProduct(1);
+        $this->setupProduct();
 
-        $this->entityManager->persist($product1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->setCountLogger();
+
+        $product = $this->getRepository()
+            ->find(1);
+
+        $product->getImages()->toArray();
+        $product->getProductQuantityDiscounts()->toArray();
+        $product->getTags()->toArray();
+
+        $this->assertTrue($product instanceof Entity\Product);
+        $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testGetRelatedProducts()

@@ -69,11 +69,13 @@
 
         <one-to-many field="images"
                      target-entity="Image"
-                     mapped-by="product"/>
+                     mapped-by="product"
+                     fetch="EXTRA_LAZY"/>
 
         <one-to-many field="productQuantityDiscounts"
                      target-entity="ProductQuantityDiscount"
-                     mapped-by="product">
+                     mapped-by="product"
+                     fetch="EXTRA_LAZY">
             <order-by>
                 <order-by-field name="quantity" direction="DESC"/>
             </order-by>
@@ -81,7 +83,8 @@
 
         <many-to-many field="tags"
                       target-entity="Tag"
-                      inversed-by="products">
+                      inversed-by="products"
+                      fetch="EXTRA_LAZY">
             <join-table name="product_tag">
                 <join-columns>
                     <join-column name="product_id" referenced-column-name="id"/>
