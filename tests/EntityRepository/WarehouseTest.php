@@ -6,9 +6,6 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class WarehouseTest extends Helper\DoctrineTestCase
 {
-    /* @var Entity\Warehouse */
-    protected $warehouse;
-
     /**
      * @return Warehouse
      */
@@ -17,7 +14,10 @@ class WarehouseTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:Warehouse');
     }
 
-    private function getDummyWarehouse($num)
+    /**
+     * @return Entity\Warehouse
+     */
+    private function getDummyWarehouse($num = 1)
     {
         $address = new Entity\Address;
         $address->setAttention('John Doe');
@@ -39,9 +39,9 @@ class WarehouseTest extends Helper\DoctrineTestCase
 
     private function setupWarehouse()
     {
-        $warehouse1 = $this->getDummyWarehouse(1);
+        $warehouse = $this->getDummyWarehouse();
 
-        $this->entityManager->persist($warehouse1);
+        $this->entityManager->persist($warehouse);
         $this->entityManager->flush();
         $this->entityManager->clear();
     }
@@ -50,10 +50,13 @@ class WarehouseTest extends Helper\DoctrineTestCase
     {
         $this->setupWarehouse();
 
+        $this->setCountLogger();
+
         $warehouse = $this->getRepository()
             ->find(1);
 
-        $this->assertSame(1, $warehouse->getId());
+        $this->assertTrue($warehouse instanceof Entity\Warehouse);
+        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testFindByPointNotInRange()
@@ -77,10 +80,13 @@ class WarehouseTest extends Helper\DoctrineTestCase
         $warehouses = $this->getRepository()
             ->findByPoint($losAngeles, 50);
 
-        $this->assertSame(1, $warehouses[0][0]->getId());
+        $warehouse = $warehouses[0][0];
+        $distance = $warehouses[0]['distance'];
+
+        $this->assertTrue($warehouse instanceof Entity\Warehouse);
 
         // Correct distance is 14.421 miles.
         // Check scalar distance column is within 5 miles (for Sqlite).
-        $this->assertTrue(($warehouses[0][1] - 14.421) < 5);
+        $this->assertTrue(($distance - 14.421) < 5);
     }
 }

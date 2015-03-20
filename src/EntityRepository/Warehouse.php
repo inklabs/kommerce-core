@@ -1,13 +1,18 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use Doctrine\ORM\NativeQuery;
+use Doctrine\ORM\Query\ResultSetMapping;
 use inklabs\kommerce\Doctrine\ORM\EntityRepository;
 use inklabs\kommerce\Entity as Entity;
 
+/**
+ * @method Entity\Warehouse find($id)
+ */
 class Warehouse extends EntityRepository
 {
     /**
-     * @return Entity\Warehouse[]
+     * @return array
      */
     public function findByPoint(Entity\Point $point, $rangeInMiles = 50, Entity\Pagination & $pagination = null)
     {

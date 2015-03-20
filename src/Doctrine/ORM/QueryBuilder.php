@@ -5,10 +5,28 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use inklabs\kommerce\Entity as Entity;
 
 /**
- * @method QueryBuilder|\Doctrine\ORM\QueryBuilder select($select)
- * @method QueryBuilder|\Doctrine\ORM\QueryBuilder from($from, $alias, $indexBy)
- * @method QueryBuilder|\Doctrine\ORM\QueryBuilder where($predicates)
  * @method QueryBuilder|\Doctrine\ORM\QueryBuilder setParameter($key, $value, $type)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder select($select)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder distinct($flag)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder addSelect($select)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder delete($delete, $alias)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder update($update, $alias)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder from($from, $alias, $indexBy)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder indexBy($alias, $indexBy)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder join($join, $alias, $conditionType, $condition, $indexBy)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder innerJoin($join, $alias, $conditionType, $condition, $indexBy)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder leftJoin($join, $alias, $conditionType, $condition, $indexBy)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder set($key, $value)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder where($predicates)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder andWhere()
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder orWhere()
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder groupBy($groupBy)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder addGroupBy($groupBy)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder having($having)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder andHaving($having)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder orHaving($having)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder orderBy($sort, $order)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder addOrderBy($sort, $order)
  */
 class QueryBuilder extends \Doctrine\ORM\QueryBuilder
 {
@@ -73,7 +91,7 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
         return $this
             ->addSelect(
                 'DISTANCE(warehouse.address.point.latitude,warehouse.address.point.longitude,' .
-                $point->getLatitude() . ',' . $point->getLongitude() . ')'
+                $point->getLatitude() . ',' . $point->getLongitude() . ') AS distance'
             );
     }
 }
