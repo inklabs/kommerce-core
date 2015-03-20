@@ -14,18 +14,32 @@ class UserRoleTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:UserRole');
     }
 
-    public function setUp()
+    private function getDummyUserRole()
     {
         $userRole = new Entity\UserRole;
         $userRole->setName('Administrator');
         $userRole->setDescription('Admin account. Access to everything');
 
+        return $userRole;
+    }
+
+    private function getDummyUser()
+    {
         $user = new Entity\User;
         $user->setFirstName('John');
         $user->setLastName('Doe');
         $user->setEmail('john@example.com');
         $user->setUsername('johndoe');
         $user->setPassword('xxx');
+
+        return $user;
+    }
+
+    public function setupUser()
+    {
+        $userRole = $this->getDummyUserRole();
+
+        $user = $this->getDummyUser();
         $user->addRole($userRole);
 
         $this->entityManager->persist($userRole);
@@ -36,10 +50,14 @@ class UserRoleTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        /* @var Entity\UserRole $userRole */
+        $this->setupUser();
+
+        $this->setCountLogger();
+
         $userRole = $this->getRepository()
             ->find(1);
 
-        $this->assertSame(1, $userRole->getId());
+        $this->assertTrue($userRole instanceof Entity\UserRole);
+        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 }
