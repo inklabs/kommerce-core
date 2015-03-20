@@ -71,7 +71,7 @@
             </order-by>
         </one-to-many>
 
-        <one-to-many field="tokens" target-entity="UserToken" mapped-by="user">
+        <one-to-many field="tokens" target-entity="UserToken" mapped-by="user" fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>

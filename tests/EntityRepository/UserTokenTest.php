@@ -14,7 +14,19 @@ class UserTokenTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:UserToken');
     }
 
-    public function setUp()
+    private function getDummyUser()
+    {
+        $user = new Entity\User;
+        $user->setFirstName('John');
+        $user->setLastName('Doe');
+        $user->setEmail('john@example.com');
+        $user->setUsername('johndoe');
+        $user->setPassword('xxx');
+
+        return $user;
+    }
+
+    private function getDummyUserToken()
     {
         $userToken = new Entity\UserToken;
         $userToken->setUserAgent('SampleBot/1.1');
@@ -22,12 +34,14 @@ class UserTokenTest extends Helper\DoctrineTestCase
         $userToken->setexpires(new \DateTime);
         $userToken->setType(Entity\UserToken::TYPE_FACEBOOK);
 
-        $user = new Entity\User;
-        $user->setFirstName('John');
-        $user->setLastName('Doe');
-        $user->setEmail('john@example.com');
-        $user->setUsername('johndoe');
-        $user->setPassword('xxx');
+        return $userToken;
+    }
+
+    public function setupUserWithToken()
+    {
+        $userToken = $this->getDummyUserToken();
+
+        $user = $this->getDummyUser();
         $user->addToken($userToken);
 
         $this->entityManager->persist($userToken);
@@ -38,10 +52,16 @@ class UserTokenTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        /* @var Entity\UserToken $userToken */
+        $this->setupUserWithToken();
+
+        $this->setCountLogger();
+
         $userToken = $this->getRepository()
             ->find(1);
 
-        $this->assertSame(1, $userToken->getId());
+        $userToken->getUser()->getEmail();
+
+        $this->assertTrue($userToken instanceof Entity\UserToken);
+        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 }

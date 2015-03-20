@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use Doctrine\ORM\NativeQuery;
-use Doctrine\ORM\Query\ResultSetMapping;
 use inklabs\kommerce\Doctrine\ORM\EntityRepository;
 use inklabs\kommerce\Entity as Entity;
 
