@@ -4,6 +4,12 @@ namespace inklabs\kommerce\Doctrine\ORM;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use inklabs\kommerce\Entity as Entity;
 
+/**
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder select($select)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder from($from, $alias, $indexBy)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder where($predicates)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder setParameter($key, $value, $type)
+ */
 class QueryBuilder extends \Doctrine\ORM\QueryBuilder
 {
     public function paginate(Entity\Pagination & $pagination = null)

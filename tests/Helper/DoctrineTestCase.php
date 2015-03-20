@@ -12,6 +12,9 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     /* @var Kommerce */
     protected $kommerce;
 
+    /* @var CountSQLLogger */
+    protected $countSQLLogger;
+
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
@@ -22,6 +25,12 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     public function setEchoLogger()
     {
         $this->kommerce->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
+    }
+
+    public function setCountLogger()
+    {
+        $this->countSQLLogger = new CountSQLLogger;
+        $this->kommerce->setSqlLogger($this->countSQLLogger);
     }
 
     private function getConnection()
