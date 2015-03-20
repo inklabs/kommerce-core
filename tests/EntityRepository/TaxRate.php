@@ -6,12 +6,6 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class TaxRateTest extends Helper\DoctrineTestCase
 {
-    /* @var Entity\Product */
-    protected $product;
-
-    /* @var Entity\TaxRate[] */
-    protected $taxRates;
-
     /**
      * @return TaxRate
      */
@@ -22,22 +16,20 @@ class TaxRateTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->taxRates = [
+        $taxRates = [
             0 => $this->getTaxRate('CA', null, null, null, 7.5, true),
             1 => $this->getTaxRate(null, 92606, null, null, 8, true),
             2 => $this->getTaxRate(null, null, 92602, 92604, 8, true),
         ];
 
-        foreach ($this->taxRates as $taxRate) {
+        foreach ($taxRates as $taxRate) {
             $this->entityManager->persist($taxRate);
         }
+
         $this->entityManager->flush();
         $this->entityManager->clear();
     }
 
-    /**
-     * @return Entity\TaxRate
-     */
     private function getTaxRate($state, $zip5, $zip5From, $zip5To, $rate, $applyToShipping)
     {
         $taxRate = new Entity\TaxRate;
@@ -47,6 +39,7 @@ class TaxRateTest extends Helper\DoctrineTestCase
         $taxRate->setZip5To($zip5To);
         $taxRate->setRate($rate);
         $taxRate->setApplyToShipping($applyToShipping);
+
         return $taxRate;
     }
 
