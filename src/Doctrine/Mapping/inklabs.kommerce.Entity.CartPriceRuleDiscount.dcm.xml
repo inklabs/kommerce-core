@@ -37,11 +37,11 @@
             </options>
         </field>
 
-        <many-to-one field="product" target-entity="Product">
+        <many-to-one field="product" target-entity="Product" fetch="EAGER">
             <join-column name="product_id" referenced-column-name="id" nullable="false"/>
         </many-to-one>
 
-        <many-to-one field="cartPriceRule" target-entity="CartPriceRule">
+        <many-to-one field="cartPriceRule" target-entity="CartPriceRule" fetch="EAGER">
             <join-column name="cart_price_rule_id" referenced-column-name="id" nullable="false"/>
         </many-to-one>
 
