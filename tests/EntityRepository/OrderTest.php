@@ -3,10 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Service as Service;
-use inklabs\kommerce\Lib as Lib;
 use inklabs\kommerce\tests\Helper as Helper;
-
-use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 
 class OrderTest extends Helper\DoctrineTestCase
 {
@@ -18,7 +15,28 @@ class OrderTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:Order');
     }
 
-    public function setUp()
+    public function setupOrder()
+    {
+        $product = $this->getDummyProduct();
+        $orderAddress = $this->getDummyOrderAddress();
+        $user = $this->getDummyUser();
+
+        $cart = new Entity\Cart;
+        $cart->addItem($product, 1);
+
+        $order = new Entity\Order($cart, new Service\Pricing);
+        $order->setShippingAddress($orderAddress);
+        $order->setBillingAddress($orderAddress);
+        $order->setUser($user);
+
+        $this->entityManager->persist($product);
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+    }
+
+    private function getDummyProduct()
     {
         $productShirt = new Entity\Product;
         $productShirt->setName('Shirt');
@@ -32,9 +50,11 @@ class OrderTest extends Helper\DoctrineTestCase
         $productShirt->setQuantity(10);
         $productShirt->setUnitPrice(1200);
 
-        $cart = new Entity\Cart;
-        $cart->addItem($productShirt, 1);
+        return $productShirt;
+    }
 
+    private function getDummyOrderAddress()
+    {
         $orderAddress = new Entity\OrderAddress;
         $orderAddress->firstName = 'John';
         $orderAddress->lastName = 'Doe';
@@ -48,6 +68,11 @@ class OrderTest extends Helper\DoctrineTestCase
         $orderAddress->phone = '555-123-4567';
         $orderAddress->email = 'john@example.com';
 
+        return $orderAddress;
+    }
+
+    private function getDummyUser()
+    {
         $user = new Entity\User;
         $user->setStatus(Entity\User::STATUS_ACTIVE);
         $user->setEmail('test@example.com');
@@ -55,40 +80,25 @@ class OrderTest extends Helper\DoctrineTestCase
         $user->setPassword('xxxx');
         $user->setFirstName('John');
         $user->setLastName('Doe');
-        $user->setLastLogin(new \DateTime);
 
-        $order = new Entity\Order($cart, new Service\Pricing);
-        $order->setShippingAddress($orderAddress);
-        $order->setBillingAddress($orderAddress);
-        $order->setUser($user);
-        $order->addPayment(new Entity\Payment\Cash(100));
-
-        $chargeRequest = new ChargeRequest(
-            new Entity\CreditCard('4242424242424242', '01', '2014'),
-            100,
-            'usd',
-            'test@example.com'
-        );
-
-        $order->addPayment(new Entity\Payment\Credit($chargeRequest, new Lib\PaymentGateway\StripeFake));
-
-        $this->entityManager->persist($productShirt);
-        $this->entityManager->persist($user);
-        $this->entityManager->persist($order);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        return $user;
     }
 
     public function testFind()
     {
-        /* @var Entity\Order $order */
+        $this->setupOrder();
+
+        $this->setCountLogger();
+
         $order = $this->getRepository()
             ->find(1);
 
-        $this->assertSame(1, $order->getId());
-        $this->assertSame(1, $order->getItems()[0]->getProduct()->getid());
-        $this->assertSame(1, $order->getUser()->getId());
-        $this->assertSame(1, $order->getPayments()[0]->getId());
-        $this->assertSame(2, $order->getPayments()[1]->getId());
+        $order->getItems()->toArray();
+        $order->getpayments()->toArray();
+        $order->getUser()->getEmail();
+        $order->getCoupons()->toArray();
+
+        $this->assertTrue($order instanceof Entity\Order);
+        $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
     }
 }
