@@ -6,7 +6,8 @@
 
     <entity name="inklabs\kommerce\Entity\CartPriceRuleItem\Item"
             table="cart_price_rule_item"
-            inheritance-type="SINGLE_TABLE">
+            inheritance-type="SINGLE_TABLE"
+            repository-class="inklabs\kommerce\EntityRepository\CartPriceRuleItem\Item">
 
         <discriminator-column name="type" type="string" length="7"/>
         <discriminator-map>
@@ -41,7 +42,7 @@
 
         <many-to-one field="cartPriceRule"
                      target-entity="inklabs\kommerce\Entity\CartPriceRule"
-                     fetch="EXTRA_LAZY">
+                     fetch="EAGER">
             <join-column name="cart_price_rule_id" referenced-column-name="id" nullable="false"/>
         </many-to-one>
 
