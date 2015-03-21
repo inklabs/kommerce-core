@@ -4,6 +4,9 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Doctrine\ORM\EntityRepository;
 use inklabs\kommerce\Entity as Entity;
 
+/**
+ * @method Entity\Coupon find($id)
+ */
 class Coupon extends EntityRepository
 {
     /**
