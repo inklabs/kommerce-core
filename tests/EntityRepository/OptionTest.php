@@ -7,14 +7,14 @@ use inklabs\kommerce\tests\Helper as Helper;
 class OptionTest extends Helper\DoctrineTestCase
 {
     /**
-     * @return Order
+     * @return Option
      */
     private function getRepository()
     {
         return $this->entityManager->getRepository('kommerce:Option');
     }
 
-    public function setUp()
+    private function setupOption()
     {
         $option = new Entity\Option;
         $option->setName('Size');
@@ -29,10 +29,17 @@ class OptionTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        /* @var Entity\Option $option */
+        $this->setupOption();
+
+        $this->setCountLogger();
+
         $option = $this->getRepository()
             ->find(1);
 
-        $this->assertSame(1, $option->getId());
+        $option->getProducts()->toArray();
+        $option->getTags()->toArray();
+
+        $this->assertTrue($option instanceof Entity\Option);
+        $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
     }
 }
