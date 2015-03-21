@@ -6,9 +6,6 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class CatalogPromotionTest extends Helper\DoctrineTestCase
 {
-    /* @var Entity\CatalogPromotion */
-    protected $catalogPromotion;
-
     /**
      * @return CatalogPromotion
      */
@@ -17,36 +14,55 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:CatalogPromotion');
     }
 
-    /**
-     * @return Entity\CatalogPromotion
-     */
-    private function getDummyCatalogPromotion($num)
+    private function setupCatalogPromotion()
+    {
+        $tag = $this->getDummyTag();
+        $catalogPromotion = $this->getDummyCatalogPromotion();
+        $catalogPromotion->setTag($tag);
+
+        $this->entityManager->persist($catalogPromotion);
+        $this->entityManager->persist($tag);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+    }
+
+    private function getDummyCatalogPromotion($num = 1)
     {
         $catalogPromotion = new Entity\CatalogPromotion;
         $catalogPromotion->setName('20% OFF Test ' . $num);
         $catalogPromotion->setCode('20PCT' . $num);
         $catalogPromotion->setType(Entity\Promotion::TYPE_PERCENT);
         $catalogPromotion->setValue(20);
+
         return $catalogPromotion;
     }
 
-    private function setupCatalogPromotion()
+    private function getDummyTag()
     {
-        $catalogPromotion1 = $this->getDummyCatalogPromotion(1);
+        $tag = new Entity\Tag;
+        $tag->setName('Test Tag');
+        $tag->setDescription('Test Description');
+        $tag->setDefaultImage('http://lorempixel.com/400/200/');
+        $tag->setSortOrder(0);
+        $tag->setIsActive(true);
+        $tag->setIsVisible(true);
 
-        $this->entityManager->persist($catalogPromotion1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        return $tag;
     }
 
     public function testFind()
     {
         $this->setupCatalogPromotion();
 
+        $this->setCountLogger();
+
         $catalogPromotion = $this->getRepository()
             ->find(1);
 
-        $this->assertSame(1, $catalogPromotion->getId());
+        $catalogPromotion->getTag()->getName();
+
+        $this->assertTrue($catalogPromotion instanceof Entity\CatalogPromotion);
+        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testFindAll()
@@ -66,7 +82,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         $catalogPromotions = $this->getRepository()
             ->getAllCatalogPromotions('Test');
 
-        $this->assertSame(1, $catalogPromotions[0]->getId());
+        $this->assertTrue($catalogPromotions[0] instanceof Entity\CatalogPromotion);
     }
 
     public function testGetAllCatalogPromotionsByIds()
@@ -76,6 +92,6 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         $catalogPromotions = $this->getRepository()
             ->getAllCatalogPromotionsByIds([1]);
 
-        $this->assertSame(1, $catalogPromotions[0]->getId());
+        $this->assertTrue($catalogPromotions[0] instanceof Entity\CatalogPromotion);
     }
 }
