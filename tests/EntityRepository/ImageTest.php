@@ -85,7 +85,7 @@ class ImageTest extends Helper\DoctrineTestCase
         $image->getProduct()->getName();
         $image->getTag()->getName();
 
-        $this->assertSame(1, $image->getId());
+        $this->assertTrue($image instanceof Entity\Image);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 }
