@@ -11,7 +11,7 @@
         <one-to-many field="cartPriceRuleItems"
                      target-entity="inklabs\kommerce\Entity\CartPriceRuleItem\Item"
                      mapped-by="cartPriceRule"
-                     fetch="EAGER">
+                     fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>
@@ -20,7 +20,7 @@
         <one-to-many field="cartPriceRuleDiscounts"
                      target-entity="inklabs\kommerce\Entity\CartPriceRuleDiscount"
                      mapped-by="cartPriceRule"
-                     fetch="EAGER">
+                     fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>

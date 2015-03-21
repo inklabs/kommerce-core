@@ -14,31 +14,10 @@ class CartPriceRuleTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:CartPriceRule');
     }
 
-    public function setUp()
+    public function setupCartPriceRuleDiscount()
     {
-        $productShirt = new Entity\Product;
-        $productShirt->setName('Shirt');
-        $productShirt->setIsInventoryRequired(true);
-        $productShirt->setIsPriceVisible(true);
-        $productShirt->setIsActive(true);
-        $productShirt->setIsVisible(true);
-        $productShirt->setIsTaxable(true);
-        $productShirt->setIsShippable(true);
-        $productShirt->setShippingWeight(16);
-        $productShirt->setQuantity(10);
-        $productShirt->setUnitPrice(1200);
-
-        $productPoster = new Entity\Product;
-        $productPoster->setName('Poster');
-        $productPoster->setIsInventoryRequired(true);
-        $productPoster->setIsPriceVisible(true);
-        $productPoster->setIsActive(true);
-        $productPoster->setIsVisible(true);
-        $productPoster->setIsTaxable(true);
-        $productPoster->setIsShippable(true);
-        $productPoster->setShippingWeight(16);
-        $productPoster->setQuantity(10);
-        $productPoster->setUnitPrice(500);
+        $productShirt = $this->getDummyProduct(1);
+        $productPoster = $this->getDummyProduct(2);
 
         $cartPriceRule = new Entity\CartPriceRule;
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
@@ -55,14 +34,38 @@ class CartPriceRuleTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
+    private function getDummyProduct($num)
+    {
+        $product = new Entity\Product;
+        $product->setSku('TST' . $num);
+        $product->setName('Test Product');
+        $product->setDescription('Test product description');
+        $product->setUnitPrice(500);
+        $product->setQuantity(2);
+        $product->setIsInventoryRequired(true);
+        $product->setIsPriceVisible(true);
+        $product->setIsActive(true);
+        $product->setIsVisible(true);
+        $product->setIsTaxable(true);
+        $product->setIsShippable(true);
+        $product->setShippingWeight(16);
+
+        return $product;
+    }
+
     public function testFind()
     {
-        /* @var Entity\CartPriceRule $cartPriceRule */
+        $this->setupCartPriceRuleDiscount();
+
+        $this->setCountLogger();
+
         $cartPriceRule = $this->getRepository()
             ->find(1);
 
-        $this->assertSame(1, $cartPriceRule->getId());
-        $this->assertSame(1, $cartPriceRule->getCartPriceRuleItems()[0]->getId());
-        $this->assertSame(1, $cartPriceRule->getCartPriceRuleDiscounts()[0]->getId());
+        $cartPriceRule->getCartPriceRuleItems()->toArray();
+        $cartPriceRule->getCartPriceRuleDiscounts()->toArray();
+
+        $this->assertTrue($cartPriceRule instanceof Entity\CartPriceRule);
+        $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
     }
 }
