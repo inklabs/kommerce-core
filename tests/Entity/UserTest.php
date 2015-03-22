@@ -20,7 +20,11 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->addRole(new UserRole);
         $user->addToken(new UserToken);
         $user->addLogin(new UserLogin);
-        $user->addOrder(new Order(new Cart, new Service\Pricing));
+
+        $orderItem = new OrderItem(new Product, 1, new Price);
+        $order = new Order([$orderItem], new CartTotal);
+
+        $user->addOrder($order);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')

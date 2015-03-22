@@ -26,30 +26,6 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
-    private function getDummyCatalogPromotion($num = 1)
-    {
-        $catalogPromotion = new Entity\CatalogPromotion;
-        $catalogPromotion->setName('20% OFF Test ' . $num);
-        $catalogPromotion->setCode('20PCT' . $num);
-        $catalogPromotion->setType(Entity\Promotion::TYPE_PERCENT);
-        $catalogPromotion->setValue(20);
-
-        return $catalogPromotion;
-    }
-
-    private function getDummyTag()
-    {
-        $tag = new Entity\Tag;
-        $tag->setName('Test Tag');
-        $tag->setDescription('Test Description');
-        $tag->setDefaultImage('http://lorempixel.com/400/200/');
-        $tag->setSortOrder(0);
-        $tag->setIsActive(true);
-        $tag->setIsVisible(true);
-
-        return $tag;
-    }
-
     public function testFind()
     {
         $this->setupCatalogPromotion();

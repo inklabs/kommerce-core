@@ -13,7 +13,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $price->origQuantityPrice = 2500;
         $price->quantityPrice = 1750;
         $price->addCatalogPromotion(new CatalogPromotion);
-        $price->setProductQuantityDiscount(new ProductQuantityDiscount);
+        $price->addProductQuantityDiscount(new ProductQuantityDiscount);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -21,7 +21,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($price));
         $this->assertTrue($price->getCatalogPromotions()[0] instanceof CatalogPromotion);
-        $this->assertTrue($price->getProductQuantityDiscount() instanceof ProductQuantityDiscount);
+        $this->assertTrue($price->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
         $this->assertTrue($price->getView() instanceof View\Price);
     }
 

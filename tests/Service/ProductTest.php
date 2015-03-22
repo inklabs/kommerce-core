@@ -30,25 +30,6 @@ class ProductTest extends Helper\DoctrineTestCase
         return $product;
     }
 
-    private function getDummyProduct()
-    {
-        $product = new Entity\Product;
-        $product->setSku('TST1');
-        $product->setName('Test Product');
-        $product->setDescription('Test product description');
-        $product->setUnitPrice(400);
-        $product->setQuantity(2);
-        $product->setIsInventoryRequired(true);
-        $product->setIsPriceVisible(true);
-        $product->setIsActive(true);
-        $product->setIsVisible(true);
-        $product->setIsTaxable(true);
-        $product->setIsShippable(true);
-        $product->setShippingWeight(16);
-
-        return $product;
-    }
-
     public function testFind()
     {
         $product = $this->getDummyProduct();

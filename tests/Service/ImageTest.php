@@ -30,18 +30,6 @@ class ImageTest extends Helper\DoctrineTestCase
         return $image;
     }
 
-    private function getDummyImage()
-    {
-        $image = new Entity\Image;
-        $image->setId(1);
-        $image->setPath('http://lorempixel.com/400/200/');
-        $image->setWidth(400);
-        $image->setHeight(200);
-        $image->setSortOrder(0);
-
-        return $image;
-    }
-
     public function testFind()
     {
         $image = $this->getDummyImage();

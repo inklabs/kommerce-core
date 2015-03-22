@@ -24,19 +24,6 @@ class TagTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
-    private function getDummyTag()
-    {
-        $tag = new Entity\Tag;
-        $tag->setName('Test Tag');
-        $tag->setDescription('Test Description');
-        $tag->setDefaultImage('http://lorempixel.com/400/200/');
-        $tag->setSortOrder(0);
-        $tag->setIsActive(true);
-        $tag->setIsVisible(true);
-
-        return $tag;
-    }
-
     public function testFind()
     {
         $this->setupTag();

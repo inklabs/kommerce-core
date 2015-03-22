@@ -44,7 +44,7 @@ class PricingCalculator
         foreach ($this->pricing->getProductQuantityDiscounts() as $productQuantityDiscount) {
             if ($productQuantityDiscount->isValid($this->pricing->getDate(), $this->quantity)) {
                 $this->price->unitPrice = $productQuantityDiscount->getUnitPrice($this->price->unitPrice);
-                $this->price->setProductQuantityDiscount($productQuantityDiscount);
+                $this->price->addProductQuantityDiscount($productQuantityDiscount);
                 break;
             }
         }

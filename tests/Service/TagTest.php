@@ -40,38 +40,6 @@ class TagTest extends Helper\DoctrineTestCase
         return $tag;
     }
 
-    private function getDummyTag()
-    {
-        $tag = new Entity\Tag;
-        $tag->setName('Test Tag');
-        $tag->setDescription('Test Description');
-        $tag->setDefaultImage('http://lorempixel.com/400/200/');
-        $tag->setSortOrder(0);
-        $tag->setIsVisible(true);
-        $tag->setIsActive(true);
-
-        return $tag;
-    }
-
-    private function getDummyProduct($num)
-    {
-        $product = new Entity\Product;
-        $product->setSku('TST' . $num);
-        $product->setName('Test Product');
-        $product->setDescription('Test product description');
-        $product->setUnitPrice(500);
-        $product->setQuantity(2);
-        $product->setIsInventoryRequired(true);
-        $product->setIsPriceVisible(true);
-        $product->setIsActive(true);
-        $product->setIsVisible(true);
-        $product->setIsTaxable(true);
-        $product->setIsShippable(true);
-        $product->setShippingWeight(16);
-
-        return $product;
-    }
-
     public function testFind()
     {
         $tag = $this->getDummyTag();

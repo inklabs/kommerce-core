@@ -27,35 +27,6 @@ class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
-    private function getDummyProduct()
-    {
-        $product = new Entity\Product;
-        $product->setSku('TST');
-        $product->setName('Test Product');
-        $product->setDescription('Test product description');
-        $product->setUnitPrice(500);
-        $product->setQuantity(2);
-        $product->setIsInventoryRequired(true);
-        $product->setIsPriceVisible(true);
-        $product->setIsActive(true);
-        $product->setIsVisible(true);
-        $product->setIsTaxable(true);
-        $product->setIsShippable(true);
-        $product->setShippingWeight(16);
-
-        return $product;
-    }
-
-    private function getDummyProductQuantityDiscount()
-    {
-        $productQuantityDiscount = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount->setCustomerGroup(null);
-        $productQuantityDiscount->setQuantity(6);
-        $productQuantityDiscount->setFlagApplyCatalogPromotions(true);
-
-        return $productQuantityDiscount;
-    }
-
     public function testFind()
     {
         $this->setupProductWithProductQuantityDiscount();

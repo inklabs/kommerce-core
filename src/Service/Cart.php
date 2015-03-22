@@ -255,7 +255,7 @@ class Cart extends Lib\ServiceManager
             $billingAddress = clone $shippingAddress;
         }
 
-        $order = new Entity\Order($this->cart, $this->pricing, $this->shippingRate, $this->taxRate);
+        $order = $this->cart->getOrder($this->pricing, $this->shippingRate, $this->taxRate);
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
         $order->addPayment($payment);

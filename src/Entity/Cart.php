@@ -140,7 +140,7 @@ class Cart
     {
         $total = 0;
 
-        foreach ($this->items as $item) {
+        foreach ($this->getItems() as $item) {
             $total += $item->getQuantity();
         }
 
@@ -151,7 +151,7 @@ class Cart
     {
         $shippingWeight = 0;
 
-        foreach ($this->items as $item) {
+        foreach ($this->getItems() as $item) {
             $shippingWeight += $item->getShippingWeight();
         }
 
@@ -162,6 +162,16 @@ class Cart
     {
         $cartCalculator = new CartCalculator($this);
         return $cartCalculator->getTotal($pricing, $shippingRate, $taxRate);
+    }
+
+    public function getOrder(Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
+    {
+        $orderItems = [];
+        foreach ($this->getItems() as $item) {
+            $orderItems[] = $item->getOrderItem($pricing);
+        }
+
+        return new Order($orderItems, $this->getTotal($pricing, $shippingRate, $taxRate));
     }
 
     public function getView()

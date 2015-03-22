@@ -27,29 +27,6 @@ class UserTokenTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
-    private function getDummyUser()
-    {
-        $user = new Entity\User;
-        $user->setFirstName('John');
-        $user->setLastName('Doe');
-        $user->setEmail('john@example.com');
-        $user->setUsername('johndoe');
-        $user->setPassword('xxx');
-
-        return $user;
-    }
-
-    private function getDummyUserToken()
-    {
-        $userToken = new Entity\UserToken;
-        $userToken->setUserAgent('SampleBot/1.1');
-        $userToken->settoken('xxxx');
-        $userToken->setexpires(new \DateTime);
-        $userToken->setType(Entity\UserToken::TYPE_FACEBOOK);
-
-        return $userToken;
-    }
-
     public function testFind()
     {
         $this->setupUserWithToken();
