@@ -42,7 +42,8 @@ class Order
     /* @var Coupon[] */
     protected $coupons;
 
-    public function __construct(array $orderItems, CartTotal $total) {
+    public function __construct(array $orderItems, CartTotal $total)
+    {
         $this->setCreated();
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
