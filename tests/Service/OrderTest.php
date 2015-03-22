@@ -68,7 +68,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $orderAddress->phone = '555-123-4567';
         $orderAddress->email = 'john@example.com';
 
-        $order = new Entity\Order($cart, new Service\Pricing);
+        $order = $cart->getOrder(new Service\Pricing);
         $order->setShippingAddress($orderAddress);
         $order->setBillingAddress($orderAddress);
         $order->setUser($this->user);

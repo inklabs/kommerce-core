@@ -27,27 +27,6 @@ class UserRoleTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
-    private function getDummyUserRole()
-    {
-        $userRole = new Entity\UserRole;
-        $userRole->setName('Administrator');
-        $userRole->setDescription('Admin account. Access to everything');
-
-        return $userRole;
-    }
-
-    private function getDummyUser()
-    {
-        $user = new Entity\User;
-        $user->setFirstName('John');
-        $user->setLastName('Doe');
-        $user->setEmail('john@example.com');
-        $user->setUsername('johndoe');
-        $user->setPassword('xxx');
-
-        return $user;
-    }
-
     public function testFind()
     {
         $this->setupUserWithRole();

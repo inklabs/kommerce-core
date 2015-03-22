@@ -23,17 +23,6 @@ class CouponTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
-    private function getDummyCoupon($num = 1)
-    {
-        $coupon = new Entity\Coupon;
-        $coupon->setName('20% OFF Test ' . $num);
-        $coupon->setCode('20PCT' . $num);
-        $coupon->setType(Entity\Promotion::TYPE_PERCENT);
-        $coupon->setValue(20);
-
-        return $coupon;
-    }
-
     public function testFind()
     {
         $this->setupCoupon();

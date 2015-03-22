@@ -14,29 +14,6 @@ class WarehouseTest extends Helper\DoctrineTestCase
         return $this->entityManager->getRepository('kommerce:Warehouse');
     }
 
-    /**
-     * @return Entity\Warehouse
-     */
-    private function getDummyWarehouse($num = 1)
-    {
-        $address = new Entity\Address;
-        $address->setAttention('John Doe');
-        $address->setCompany('Acme Co.');
-        $address->setAddress1('123 Any St');
-        $address->setAddress2('Ste 3');
-        $address->setCity('Santa Monica');
-        $address->setState('CA');
-        $address->setZip5('90401');
-        $address->setZip4('3274');
-        $address->setPoint(new Entity\Point(34.010947, -118.490541));
-
-        $warehouse = new Entity\Warehouse;
-        $warehouse->setName('Test Warehouse #' . $num);
-        $warehouse->setAddress($address);
-
-        return $warehouse;
-    }
-
     private function setupWarehouse()
     {
         $warehouse = $this->getDummyWarehouse();

@@ -23,25 +23,6 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
-    private function getDummyProduct($num)
-    {
-        $product = new Entity\Product;
-        $product->setSku('TST' . $num);
-        $product->setName('Test Product');
-        $product->setDescription('Test product description');
-        $product->setUnitPrice(500);
-        $product->setQuantity(2);
-        $product->setIsInventoryRequired(true);
-        $product->setIsPriceVisible(true);
-        $product->setIsActive(true);
-        $product->setIsVisible(true);
-        $product->setIsTaxable(true);
-        $product->setIsShippable(true);
-        $product->setShippingWeight(16);
-
-        return $product;
-    }
-
     public function testFind()
     {
         $this->setupProduct();
@@ -133,7 +114,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->setupProduct();
 
         $products = $this->getRepository()
-            ->getAllProducts('TST1');
+            ->getAllProducts('#1');
 
         $this->assertSame(1, $products[0]->getId());
     }

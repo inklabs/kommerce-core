@@ -23,18 +23,6 @@ class UserTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
-    private function getDummyUser($num = 1)
-    {
-        $user = new Entity\User;
-        $user->setFirstName('John ' . $num);
-        $user->setLastName('Doe');
-        $user->setEmail('john@example.com');
-        $user->setUsername('johndoe');
-        $user->setPassword('xxx');
-
-        return $user;
-    }
-
     public function testFind()
     {
         $this->setupUser();
@@ -78,7 +66,7 @@ class UserTest extends Helper\DoctrineTestCase
         $this->setupUser();
 
         $user = $this->getRepository()
-            ->findOneByUsernameOrEmail('johndoe');
+            ->findOneByUsernameOrEmail('testusername');
 
         $this->assertTrue($user instanceof Entity\User);
     }
@@ -88,7 +76,7 @@ class UserTest extends Helper\DoctrineTestCase
         $this->setupUser();
 
         $user = $this->getRepository()
-            ->findOneByUsernameOrEmail('john@example.com');
+            ->findOneByUsernameOrEmail('test@example.com');
 
         $this->assertTrue($user instanceof Entity\User);
     }

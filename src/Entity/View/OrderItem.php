@@ -22,8 +22,8 @@ class OrderItem
     /* @var CatalogPromotion[] */
     public $catalogPromotions;
 
-    /* @var ProductQuantityDiscount */
-    public $productQuantityDiscount;
+    /* @var ProductQuantityDiscount[] */
+    public $productQuantityDiscounts;
 
     public function __construct(Entity\OrderItem $orderItem)
     {
@@ -60,11 +60,11 @@ class OrderItem
         return $this;
     }
 
-    public function withProductQuantityDiscount()
+    public function withProductQuantityDiscounts()
     {
-        $productQuantityDiscount = $this->orderItem->getProductQuantityDiscount();
-        if ($productQuantityDiscount !== null) {
-            $this->productQuantityDiscount = $productQuantityDiscount->getView()->export();
+        foreach ($this->orderItem->getProductQuantityDiscounts() as $productQuantityDiscount) {
+            $this->productQuantityDiscounts[] = $productQuantityDiscount->getView()
+                ->export();
         }
         return $this;
     }
@@ -73,6 +73,6 @@ class OrderItem
     {
         return $this
             ->withCatalogPromotions()
-            ->withProductQuantityDiscount();
+            ->withProductQuantityDiscounts();
     }
 }

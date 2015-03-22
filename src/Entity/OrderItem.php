@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service\Pricing;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,22 +24,26 @@ class OrderItem
     /* @var CatalogPromotion[] */
     protected $catalogPromotions;
 
-    /* @var ProductQuantityDiscount */
-    protected $productQuantityDiscount;
+    /* @var ProductQuantityDiscount[] */
+    protected $productQuantityDiscounts;
 
     /* Flattened Columns */
     protected $productSku;
     protected $productName;
     protected $discountNames;
 
-    public function __construct(CartItem $cartItem, Pricing $pricing)
+    /**
+     * @param int $quantity
+     */
+    public function __construct(Product $product, $quantity, Price $price)
     {
         $this->setCreated();
         $this->catalogPromotions = new ArrayCollection;
-        $this->quantity = $cartItem->getQuantity();
+        $this->productQuantityDiscounts = new ArrayCollection;
 
-        $this->setProduct($cartItem->getProduct());
-        $this->setPrice($cartItem->getPrice($pricing));
+        $this->setProduct($product);
+        $this->setQuantity($quantity);
+        $this->setPrice($price);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -80,6 +83,14 @@ class OrderItem
         return $this->product;
     }
 
+    /**
+     * @param int $quantity
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = (int) $quantity;
+    }
+
     public function getQuantity()
     {
         return $this->quantity;
@@ -101,14 +112,13 @@ class OrderItem
 
         $discountNames = [];
         foreach ($price->getCatalogPromotions() as $catalogPromotion) {
-            $this->catalogPromotions[] = $catalogPromotion;
+            $this->addCatalogPromotion($catalogPromotion);
             $discountNames[] = $catalogPromotion->getName();
         }
 
-        $this->productQuantityDiscount = $price->getProductQuantityDiscount();
-
-        if ($this->productQuantityDiscount !== null) {
-            $discountNames[] = $this->productQuantityDiscount->getName();
+        foreach ($price->getProductQuantityDiscounts() as $productQuantityDiscount) {
+            $this->addProductQuantityDiscount($productQuantityDiscount);
+            $discountNames[] = $productQuantityDiscount->getName();
         }
 
         $this->discountNames = implode(', ', $discountNames);
@@ -134,14 +144,29 @@ class OrderItem
         $this->order = $order;
     }
 
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    public function addCatalogPromotion(CatalogPromotion $catalogPromotion)
+    {
+        $this->catalogPromotions[] = $catalogPromotion;
+    }
+
     public function getCatalogPromotions()
     {
         return $this->catalogPromotions;
     }
 
-    public function getProductQuantityDiscount()
+    public function addProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
     {
-        return $this->productQuantityDiscount;
+        $this->productQuantityDiscounts[] = $productQuantityDiscount;
+    }
+
+    public function getProductQuantityDiscounts()
+    {
+        return $this->productQuantityDiscounts;
     }
 
     public function getView()

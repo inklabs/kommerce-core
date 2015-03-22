@@ -9,13 +9,13 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     {
         $entityPrice = new Entity\Price;
         $entityPrice->addCatalogPromotion(new Entity\CatalogPromotion);
-        $entityPrice->setProductQuantityDiscount(new Entity\ProductQuantityDiscount);
+        $entityPrice->addProductQuantityDiscount(new Entity\ProductQuantityDiscount);
 
         $price = $entityPrice->getView()
             ->withAllData()
             ->export();
 
         $this->assertTrue($price->catalogPromotions[0] instanceof CatalogPromotion);
-        $this->assertTrue($price->productQuantityDiscount instanceof ProductQuantityDiscount);
+        $this->assertTrue($price->productQuantityDiscounts[0] instanceof ProductQuantityDiscount);
     }
 }

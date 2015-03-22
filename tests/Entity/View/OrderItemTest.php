@@ -8,32 +8,20 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $catalogPromotion = new Entity\CatalogPromotion;
-        $catalogPromotion->setType(Entity\Promotion::TYPE_FIXED);
+        $price = new Entity\Price;
+        $price->addCatalogPromotion(new Entity\CatalogPromotion);
+        $price->addProductQuantityDiscount(new Entity\ProductQuantityDiscount);
 
-        $productQuantityDiscount = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount->setType(Entity\Promotion::TYPE_EXACT);
+        $orderItem = new Entity\OrderItem(new Entity\Product, 1, $price);
 
-        $pricing = new Service\Pricing;
-        $pricing->setCatalogPromotions([$catalogPromotion]);
-        $pricing->setProductQuantityDiscounts([$productQuantityDiscount]);
-
-        $product = new Entity\Product;
-        $product->addProductQuantityDiscount($productQuantityDiscount);
-
-        $cartItem = new Entity\CartItem($product, 1);
-        $entityOrderItem = new Entity\OrderItem($cartItem, $pricing);
-
-        $order = new Entity\Order(new Entity\Cart, $pricing);
-        $entityOrderItem->setOrder($order);
-
-        $orderItem = $entityOrderItem->getView()
+        $orderItemView = $orderItem->getView()
             ->withAllData()
             ->export();
 
-        $this->assertTrue($orderItem instanceof OrderItem);
-        $this->assertTrue($orderItem->price instanceof Price);
-        $this->assertTrue($orderItem->product instanceof Product);
-        $this->assertTrue($orderItem->catalogPromotions[0] instanceof CatalogPromotion);
+        $this->assertTrue($orderItemView instanceof OrderItem);
+        $this->assertTrue($orderItemView->price instanceof Price);
+        $this->assertTrue($orderItemView->product instanceof Product);
+        $this->assertTrue($orderItemView->catalogPromotions[0] instanceof CatalogPromotion);
+        $this->assertTrue($orderItemView->productQuantityDiscounts[0] instanceof ProductQuantityDiscount);
     }
 }

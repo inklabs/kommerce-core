@@ -42,20 +42,18 @@ class Order
     /* @var Coupon[] */
     protected $coupons;
 
-    public function __construct(
-        Cart $cart,
-        Pricing $pricing,
-        Shipping\Rate $shippingRate = null,
-        TaxRate $taxRate = null
-    ) {
+    public function __construct(array $orderItems, CartTotal $total) {
         $this->setCreated();
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
         $this->coupons = new ArrayCollection();
 
         $this->setStatus(self::STATUS_PENDING);
-        $this->setTotal($cart->getTotal($pricing, $shippingRate, $taxRate));
-        $this->setItems($cart->getItems(), $pricing);
+        $this->setTotal($total);
+
+        foreach ($orderItems as $orderItem) {
+            $this->addItem($orderItem);
+        }
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -72,23 +70,18 @@ class Order
         $metadata->addPropertyConstraint('payments', new Assert\Valid);
     }
 
-    private function setItems($cartItems, Pricing $pricing)
+    /**
+     * @return int
+     */
+    private function addItem(OrderItem $orderItem)
     {
-        foreach ($cartItems as $cartItem) {
-            $this->addItem($cartItem, $pricing);
-        }
-    }
-
-    private function addItem(CartItem $cartItem, Pricing $pricing)
-    {
-        $orderItem = new OrderItem($cartItem, $pricing);
         $orderItem->setOrder($this);
         $this->items[] = $orderItem;
 
         end($this->items);
-        $id = key($this->items);
+        $itemId = key($this->items);
 
-        return $id;
+        return $itemId;
     }
 
     public function totalItems()
@@ -176,6 +169,11 @@ class Order
     public function getItems()
     {
         return $this->items;
+    }
+
+    public function getItem($itemId)
+    {
+        return $this->items[$itemId];
     }
 
     public function addPayment(Payment\Payment $payment)

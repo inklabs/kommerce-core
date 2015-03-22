@@ -5,20 +5,27 @@ use inklabs\kommerce\Entity as Entity;
 use inklabs\kommerce\Service as Service;
 use inklabs\kommerce\tests\Helper as Helper;
 
-class OrderTest extends Helper\DoctrineTestCase
+class OrderItemTest extends Helper\DoctrineTestCase
 {
     /**
-     * @return Order
+     * @return OrderItem
      */
     private function getRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Order');
+        return $this->entityManager->getRepository('kommerce:OrderItem');
     }
 
     public function setupOrder()
     {
+        $catalogPromotion = $this->getDummyCatalogPromotion();
+
         $product = $this->getDummyProduct();
+        $productQuantityDiscount = $this->getDummyProductQuantityDiscount();
+        $productQuantityDiscount->setProduct($product);
+
         $price = $this->getDummyPrice();
+        $price->addCatalogPromotion($catalogPromotion);
+        $price->addProductQuantityDiscount($productQuantityDiscount);
 
         $user = $this->getDummyUser();
         $orderItem = $this->getDummyOrderItem($product, $price);
@@ -27,7 +34,9 @@ class OrderTest extends Helper\DoctrineTestCase
         $order = $this->getDummyOrder([$orderItem], $cartTotal);
         $order->setUser($user);
 
+        $this->entityManager->persist($catalogPromotion);
         $this->entityManager->persist($product);
+        $this->entityManager->persist($productQuantityDiscount);
         $this->entityManager->persist($user);
         $this->entityManager->persist($order);
         $this->entityManager->flush();
@@ -40,15 +49,15 @@ class OrderTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $order = $this->getRepository()
+        $orderItem = $this->getRepository()
             ->find(1);
 
-        $order->getItems()->toArray();
-        $order->getpayments()->toArray();
-        $order->getUser()->getEmail();
-        $order->getCoupons()->toArray();
+        $orderItem->getProduct()->getCreated();
+        $orderItem->getOrder();
+        $orderItem->getCatalogPromotions()->toArray();
+        $orderItem->getProductQuantityDiscounts()->toArray();
 
-        $this->assertTrue($order instanceof Entity\Order);
+        $this->assertTrue($orderItem instanceof Entity\OrderItem);
         $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
     }
 }

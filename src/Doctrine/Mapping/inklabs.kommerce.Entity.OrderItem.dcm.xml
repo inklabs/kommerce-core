@@ -27,25 +27,32 @@
 
         <embedded name="price" class="Price"/>
 
-        <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product">
+        <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product" fetch="EAGER">
             <join-column name="product_id" referenced-column-name="id" nullable="false"/>
         </many-to-one>
 
-        <many-to-one field="productQuantityDiscount" target-entity="ProductQuantityDiscount">
-            <join-column name="product_quantity_discount_id" referenced-column-name="id" nullable="true"/>
-        </many-to-one>
-
-        <many-to-one field="order" target-entity="Order" inversed-by="items">
+        <many-to-one field="order" target-entity="Order" inversed-by="items" fetch="EAGER">
             <join-column name="order_id" referenced-column-name="id" nullable="false"/>
         </many-to-one>
 
-        <many-to-many field="catalogPromotions" target-entity="CatalogPromotion">
+        <many-to-many field="catalogPromotions" target-entity="CatalogPromotion" fetch="EXTRA_LAZY">
             <join-table name="order_item_catalog_promotion">
                 <join-columns>
                     <join-column name="order_item_id" referenced-column-name="id"/>
                 </join-columns>
                 <inverse-join-columns>
                     <join-column name="catalog_promotion_id" referenced-column-name="id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+
+        <many-to-many field="productQuantityDiscounts" target-entity="ProductQuantityDiscount" fetch="EXTRA_LAZY">
+            <join-table name="order_item_product_quantity_discount">
+                <join-columns>
+                    <join-column name="order_item_id" referenced-column-name="id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="product_quantity_discount_id" referenced-column-name="id"/>
                 </inverse-join-columns>
             </join-table>
         </many-to-many>

@@ -44,10 +44,8 @@ class Price
 
     public function withProductQuantityDiscounts()
     {
-        $productQuantityDiscount = $this->price->getProductQuantityDiscount();
-
-        if ($productQuantityDiscount !== null) {
-            $this->productQuantityDiscount = $productQuantityDiscount->getView()
+        foreach ($this->price->getProductQuantityDiscounts() as $productQuantityDiscount) {
+            $this->productQuantityDiscounts[] = $productQuantityDiscount->getView()
                 ->export();
         }
 

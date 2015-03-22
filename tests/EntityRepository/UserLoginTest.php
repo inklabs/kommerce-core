@@ -27,26 +27,6 @@ class UserLoginTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
-    private function getDummyUserLogin()
-    {
-        $userLogin = new Entity\UserLogin;
-        $userLogin->setUsername('johndoe');
-        $userLogin->setIp4('8.8.8.8');
-        $userLogin->setResult(Entity\UserLogin::RESULT_SUCCESS);
-        return $userLogin;
-    }
-
-    private function getDummyUser()
-    {
-        $user = new Entity\User;
-        $user->setFirstName('John');
-        $user->setLastName('Doe');
-        $user->setEmail('john@example.com');
-        $user->setUsername('johndoe');
-        $user->setPassword('xxx');
-        return $user;
-    }
-
     public function testFind()
     {
         $this->setupUserWithLogin();

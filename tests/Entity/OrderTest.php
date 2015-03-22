@@ -34,7 +34,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $cart = new Cart;
         $cart->addItem($product, 2);
 
-        $order = new Order($cart, new Pricing);
+        $order = $cart->getOrder(new Pricing);
         $order->setId(1);
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
@@ -57,6 +57,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($order->getBillingAddress() instanceof OrderAddress);
         $this->assertTrue($order->getUser() instanceof User);
         $this->assertTrue($order->getCoupons()[0] instanceof Coupon);
+        $this->assertTrue($order->getItem(0) instanceof OrderItem);
         $this->assertTrue($order->getItems()[0] instanceof OrderItem);
         $this->assertTrue($order->getPayments()[0] instanceof Payment\Payment);
         $this->assertTrue($order->getView() instanceof View\Order);

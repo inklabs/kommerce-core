@@ -6,23 +6,14 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class RandTest extends Helper\DoctrineTestCase
 {
-    private function getDummyProduct($num)
-    {
-        $product = new Entity\Product;
-        $product->setSku('TST' . $num);
-        $product->setName('Test Product');
-        $product->setDescription('Test product description');
-        $product->setUnitPrice(500);
-        $product->setQuantity(2);
-        $product->setIsInventoryRequired(true);
-        $product->setIsPriceVisible(true);
-        $product->setIsActive(true);
-        $product->setIsVisible(true);
-        $product->setIsTaxable(true);
-        $product->setIsShippable(true);
-        $product->setShippingWeight(16);
-        return $product;
-    }
+    /* @var Entity\Product */
+    private $product1;
+
+    /* @var Entity\Product */
+    private $product2;
+
+    /* @var Entity\Product */
+    private $product3;
 
     public function setUp()
     {

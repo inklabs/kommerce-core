@@ -14,8 +14,8 @@ class Price
     /* @var CatalogPromotion[] */
     private $catalogPromotions = [];
 
-    /* @var ProductQuantityDiscount */
-    private $productQuantityDiscount;
+    /* @var ProductQuantityDiscount[] */
+    private $productQuantityDiscounts = [];
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
@@ -51,14 +51,14 @@ class Price
         return $this->catalogPromotions;
     }
 
-    public function setProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
+    public function addProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
     {
-        $this->productQuantityDiscount = $productQuantityDiscount;
+        $this->productQuantityDiscounts[] = $productQuantityDiscount;
     }
 
-    public function getProductQuantityDiscount()
+    public function getProductQuantityDiscounts()
     {
-        return $this->productQuantityDiscount;
+        return $this->productQuantityDiscounts;
     }
 
     public static function add(Price $a, Price $b)

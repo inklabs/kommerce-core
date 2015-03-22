@@ -19,10 +19,7 @@ class ItemTest extends Helper\DoctrineTestCase
         $productShirt = $this->getDummyProduct(1);
         $productPoster = $this->getDummyProduct(2);
 
-        $cartPriceRule = new Entity\CartPriceRule;
-        $cartPriceRule->setName('Buy a Shirt get a FREE poster');
-        $cartPriceRule->setType(Entity\Promotion::TYPE_FIXED);
-        $cartPriceRule->setValue(0);
+        $cartPriceRule = $this->getDummyCartPriceRule();
         $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productShirt, 1));
         $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productPoster, 1));
         $cartPriceRule->addDiscount(new Entity\CartPriceRuleDiscount($productPoster));
@@ -32,25 +29,6 @@ class ItemTest extends Helper\DoctrineTestCase
         $this->entityManager->persist($cartPriceRule);
         $this->entityManager->flush();
         $this->entityManager->clear();
-    }
-
-    private function getDummyProduct($num)
-    {
-        $product = new Entity\Product;
-        $product->setSku('TST' . $num);
-        $product->setName('Test Product');
-        $product->setDescription('Test product description');
-        $product->setUnitPrice(500);
-        $product->setQuantity(2);
-        $product->setIsInventoryRequired(true);
-        $product->setIsPriceVisible(true);
-        $product->setIsActive(true);
-        $product->setIsVisible(true);
-        $product->setIsTaxable(true);
-        $product->setIsShippable(true);
-        $product->setShippingWeight(16);
-
-        return $product;
     }
 
     public function testFind()
