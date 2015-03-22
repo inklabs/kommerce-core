@@ -53,36 +53,4 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($orderItem->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
         $this->assertTrue($orderItem->getView() instanceof View\Orderitem);
     }
-
-//    public function testCreateOrderItemWithDiscounts()
-//    {
-//        $catalogPromotion = new CatalogPromotion;
-//        $catalogPromotion->setName('10% OFF');
-//        $catalogPromotion->setType(Promotion::TYPE_PERCENT);
-//        $catalogPromotion->setValue(10);
-//
-//        $productQuantityDiscount = new ProductQuantityDiscount;
-//        $productQuantityDiscount->setType(Promotion::TYPE_EXACT);
-//        $productQuantityDiscount->setQuantity(2);
-//        $productQuantityDiscount->setValue(400);
-//
-//        $product = new Product;
-//        $product->setUnitPrice(500);
-//        $product->setQuantity(10);
-//        $product->addProductQuantityDiscount($productQuantityDiscount);
-//
-//        $pricing = new Pricing;
-//        $pricing->setCatalogPromotions([$catalogPromotion]);
-//        $pricing->setProductQuantityDiscounts([$productQuantityDiscount]);
-//
-//        $cartItem = new CartItem($product, 2);
-//        $orderItem = new OrderItem($cartItem, $pricing);
-//
-//        $order = new Order(new Cart, $pricing);
-//        $orderItem->setOrder($order);
-//
-//        $this->assertTrue($orderItem->getPrice() instanceof Price);
-//        $this->assertSame('10% OFF, Buy 2 or more for $4.00 each', $orderItem->getDiscountNames());
-//        $this->assertSame(null, $orderItem->getId());
-//    }
 }
