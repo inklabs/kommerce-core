@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Service\Pricing;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class CartItem
 {
@@ -11,11 +12,16 @@ class CartItem
     protected $product;
     protected $quantity;
 
+    /* @var Product[] */
+    protected $optionProducts;
+
     public function __construct(Product $product, $quantity)
     {
         $this->setCreated();
-        $this->product = $product;
-        $this->quantity = (int) $quantity;
+        $this->optionProducts = new ArrayCollection();
+
+        $this->setProduct($product);
+        $this->setQuantity($quantity);
     }
 
     public function setId($id)
@@ -48,17 +54,44 @@ class CartItem
         $this->quantity = (int) $quantity;
     }
 
+    public function getOptionProducts()
+    {
+        return $this->optionProducts;
+    }
+
+    public function addOptionProduct(Product $optionProduct)
+    {
+        $this->optionProducts[] = $optionProduct;
+    }
+
     public function getPrice(Pricing $pricing)
     {
-        return $pricing->getPrice(
-            $this->product,
-            $this->quantity
+        $price = $pricing->getPrice(
+            $this->getProduct(),
+            $this->getQuantity()
         );
+
+        foreach ($this->getOptionProducts() as $optionProduct) {
+            $optionPrice = $pricing->getPrice(
+                $optionProduct,
+                $this->getQuantity()
+            );
+
+            $price = Price::add($price, $optionPrice);
+        }
+
+        return $price;
     }
 
     public function getShippingWeight()
     {
-        return ($this->product->getShippingWeight() * $this->quantity);
+        $shippingWeight = ($this->product->getShippingWeight() * $this->getQuantity());
+
+        foreach ($this->getOptionProducts() as $optionProduct) {
+            $shippingWeight += ($optionProduct->getShippingWeight() * $this->getQuantity());
+        }
+
+        return $shippingWeight;
     }
 
     public function getOrderItem(Pricing $pricing)
