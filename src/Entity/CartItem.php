@@ -9,8 +9,10 @@ class CartItem
     use Accessor\Created;
 
     protected $id;
-    protected $product;
     protected $quantity;
+
+    /* @var Product */
+    protected $product;
 
     /* @var Product[] */
     protected $optionProducts;
@@ -85,7 +87,7 @@ class CartItem
 
     public function getShippingWeight()
     {
-        $shippingWeight = ($this->product->getShippingWeight() * $this->getQuantity());
+        $shippingWeight = ($this->getProduct()->getShippingWeight() * $this->getQuantity());
 
         foreach ($this->getOptionProducts() as $optionProduct) {
             $shippingWeight += ($optionProduct->getShippingWeight() * $this->getQuantity());
