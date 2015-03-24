@@ -14,6 +14,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon->setValue($value);
         $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
         $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+
         return $coupon;
     }
 
@@ -26,16 +27,14 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     public function testAddItem()
     {
-        $product1 = new Product;
-        $product2 = new Product;
-
         $cart = new Cart;
-        $itemId1 = $cart->addItem($product1, 2);
-        $itemId2 = $cart->addItem($product2, 2);
+        $itemId1 = $cart->addItem(new Product, 2);
+        $itemId2 = $cart->addItem(new Product, 2, [new Product]);
 
         $this->assertSame(0, $itemId1);
         $this->assertSame(1, $itemId2);
         $this->assertTrue($cart->getItem(0) instanceof CartItem);
+        $this->assertTrue($cart->getItem(1)->getOptionProducts()[0] instanceof Product);
         $this->assertSame(2, count($cart->getItems()));
     }
 

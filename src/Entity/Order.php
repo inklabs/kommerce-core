@@ -78,10 +78,17 @@ class Order
         $orderItem->setOrder($this);
         $this->items[] = $orderItem;
 
-        end($this->items);
-        $itemId = key($this->items);
-
+        $itemId = $this->getLastItemId();
         return $itemId;
+    }
+
+    /**
+     * @return int
+     */
+    private function getLastItemId()
+    {
+        end($this->items);
+        return key($this->items);
     }
 
     public function totalItems()

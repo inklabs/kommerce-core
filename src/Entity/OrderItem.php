@@ -18,6 +18,9 @@ class OrderItem
     /* @var Product */
     protected $product;
 
+    /* @var Product[] */
+    protected $optionProducts;
+
     /* @var Order */
     protected $order;
 
@@ -40,6 +43,7 @@ class OrderItem
         $this->setCreated();
         $this->catalogPromotions = new ArrayCollection;
         $this->productQuantityDiscounts = new ArrayCollection;
+        $this->optionProducts = new ArrayCollection();
 
         $this->setProduct($product);
         $this->setQuantity($quantity);
@@ -81,6 +85,16 @@ class OrderItem
     public function getProduct()
     {
         return $this->product;
+    }
+
+    public function getOptionProducts()
+    {
+        return $this->optionProducts;
+    }
+
+    public function addOptionProduct(Product $optionProduct)
+    {
+        $this->optionProducts[] = $optionProduct;
     }
 
     /**

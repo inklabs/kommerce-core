@@ -98,7 +98,13 @@ class CartItem
 
     public function getOrderItem(Pricing $pricing)
     {
-        return new OrderItem($this->getProduct(), $this->getQuantity(), $this->getPrice($pricing));
+        $orderItem = new OrderItem($this->getProduct(), $this->getQuantity(), $this->getPrice($pricing));
+
+        foreach ($this->getOptionProducts() as $optionProduct) {
+            $orderItem->addOptionProduct($optionProduct);
+        }
+
+        return $orderItem;
     }
 
     public function getView()
