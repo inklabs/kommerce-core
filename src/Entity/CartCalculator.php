@@ -45,7 +45,7 @@ class CartCalculator
             $this->cartTotal->origSubtotal += $price->origQuantityPrice;
             $this->cartTotal->subtotal += $price->quantityPrice;
 
-            if ($item->getProduct()->getIsTaxable()) {
+            if ($item->getProduct()->isTaxable()) {
                 $this->cartTotal->taxSubtotal += $price->quantityPrice;
             }
         }
@@ -61,7 +61,7 @@ class CartCalculator
 
                     $this->cartTotal->discount += $discountValue;
 
-                    if ($cartPriceRule->getReducesTaxSubtotal() and $discount->getProduct()->getIsTaxable()) {
+                    if ($cartPriceRule->getReducesTaxSubtotal() and $discount->getProduct()->isTaxable()) {
                         $this->cartTotal->taxSubtotal -= $discountValue;
                     }
 

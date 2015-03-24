@@ -39,8 +39,8 @@ class Tag
         $this->description    = $tag->getDescription();
         $this->defaultImage   = $tag->getDefaultImage();
         $this->sortOrder      = $tag->getSortOrder();
-        $this->isVisible      = $tag->getIsVisible();
-        $this->isActive       = $tag->getIsActive();
+        $this->isVisible      = $tag->isVisible();
+        $this->isActive       = $tag->isActive();
         $this->created        = $tag->getCreated();
         $this->updated        = $tag->getUpdated();
     }

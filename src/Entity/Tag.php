@@ -14,7 +14,11 @@ class Tag
     protected $description;
     protected $defaultImage;
     protected $sortOrder;
+
+    /* @var bool */
     protected $isActive;
+
+    /* @var bool */
     protected $isVisible;
 
     /* @var Product[] */
@@ -154,7 +158,7 @@ class Tag
         $this->isActive = (bool) $isActive;
     }
 
-    public function getIsActive()
+    public function isActive()
     {
         return $this->isActive;
     }
@@ -164,7 +168,7 @@ class Tag
         $this->isVisible = (bool) $isVisible;
     }
 
-    public function getIsVisible()
+    public function isVisible()
     {
         return $this->isVisible;
     }

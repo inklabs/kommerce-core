@@ -33,8 +33,8 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Test Description', $tag->getDescription());
         $this->assertSame('http://lorempixel.com/400/200/', $tag->getDefaultImage());
         $this->assertSame(0, $tag->getSortOrder());
-        $this->assertTrue($tag->getIsVisible());
-        $this->assertTrue($tag->getIsActive());
+        $this->assertTrue($tag->isVisible());
+        $this->assertTrue($tag->isActive());
         $this->assertTrue($tag->getProducts()[0] instanceof Product);
         $this->assertTrue($tag->getImages()[0] instanceof Image);
         $this->assertTrue($tag->getOptions()[0] instanceof Option);
