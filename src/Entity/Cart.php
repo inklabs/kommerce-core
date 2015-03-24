@@ -20,16 +20,19 @@ class Cart
     }
 
     /**
+     * @param Product $product
      * @param int $quantity
      * @param Product[] $optionProducts
      * @return int
      */
-    public function addItem(Product $product, $quantity, array $optionProducts = [])
+    public function addItem(Product $product, $quantity, $optionProducts = null)
     {
         $cartItem = new CartItem($product, $quantity);
 
-        foreach ($optionProducts as $optionProduct) {
-            $cartItem->addOptionProduct($optionProduct);
+        if ($optionProducts !== null) {
+            foreach ($optionProducts as $optionProduct) {
+                $cartItem->addOptionProduct($optionProduct);
+            }
         }
 
         $this->items[] = $cartItem;

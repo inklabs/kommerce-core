@@ -8,13 +8,16 @@ use inklabs\kommerce\Service\Pricing;
 class CartItem
 {
     public $id;
-
+    public $fullSku;
     public $quantity;
     public $shippingWeight;
     public $created;
 
     /* @var Product */
     public $product;
+
+    /* @var Product[] */
+    public $optionProducts;
 
     /* @var Price */
     public $price;
@@ -24,6 +27,7 @@ class CartItem
         $this->cartItem = $cartItem;
 
         $this->id             = $cartItem->getId();
+        $this->fullSku        = $cartItem->getFullSku();
         $this->quantity       = $cartItem->getQuantity();
         $this->shippingWeight = $cartItem->getShippingWeight();
         $this->created        = $cartItem->getCreated();
@@ -54,10 +58,23 @@ class CartItem
         return $this;
     }
 
+    public function withOptionProducts(Pricing $pricing)
+    {
+        foreach ($this->cartItem->getOptionProducts() as $optionProduct) {
+            $this->optionProducts[] = $optionProduct->getView()
+                ->withTags()
+                ->withProductQuantityDiscounts($pricing)
+                ->export();
+        }
+
+        return $this;
+    }
+
     public function withAllData(Pricing $pricing)
     {
         return $this
             ->withProduct($pricing)
-            ->withPrice($pricing);
+            ->withPrice($pricing)
+            ->withOptionProducts($pricing);
     }
 }

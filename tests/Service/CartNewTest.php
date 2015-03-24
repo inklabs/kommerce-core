@@ -57,6 +57,7 @@ class CartNewTest extends Helper\DoctrineTestCase
     public function testAddItem()
     {
         $product = new Entity\Product;
+        $product2 = new Entity\Product;
 
         $cart = $this->getCartServiceFullyMocked();
 
@@ -64,6 +65,9 @@ class CartNewTest extends Helper\DoctrineTestCase
         $mockProductRepository
             ->shouldReceive('find')
             ->andReturn($product);
+        $mockProductRepository
+            ->shouldReceive('getAllProductsByIds')
+            ->andReturn([$product2]);
 
         $this->mockEntityManager
             ->shouldReceive('getRepository')
@@ -73,8 +77,7 @@ class CartNewTest extends Helper\DoctrineTestCase
             ->shouldReceive('addItem')
             ->andReturn(1);
 
-        $viewProduct = $product->getView()->export();
-        $itemId = $cart->addItem($viewProduct, 1);
+        $itemId = $cart->addItem('1', 1, ['2']);
 
         $this->assertSame(1, $itemId);
     }
@@ -97,8 +100,31 @@ class CartNewTest extends Helper\DoctrineTestCase
             ->shouldReceive('getRepository')
             ->andReturn($mockProductRepository);
 
-        $viewProduct = $product->getView()->export();
-        $itemId = $cart->addItem($viewProduct, 1);
+        $itemId = $cart->addItem('1', 1);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testAddItemWithMissingProductOption()
+    {
+        $product = new Entity\Product;
+
+        $cart = $this->getCartServiceFullyMocked();
+
+        $mockProductRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Product');
+        $mockProductRepository
+            ->shouldReceive('find')
+            ->andReturn($product);
+        $mockProductRepository
+            ->shouldReceive('getAllProductsByIds')
+            ->andReturn(null);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($mockProductRepository);
+
+        $itemId = $cart->addItem('1', 1, ['2']);
     }
 
     public function testAddCouponByCode()

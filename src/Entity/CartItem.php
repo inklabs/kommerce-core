@@ -85,6 +85,18 @@ class CartItem
         return $price;
     }
 
+    public function getFullSku()
+    {
+        $fullSku = [];
+        $fullSku[] = $this->getProduct()->getSku();
+
+        foreach ($this->getOptionProducts() as $optionProduct) {
+            $fullSku[] = $optionProduct->getSku();
+        }
+
+        return implode('-', $fullSku);
+    }
+
     public function getShippingWeight()
     {
         $shippingWeight = ($this->getProduct()->getShippingWeight() * $this->getQuantity());
