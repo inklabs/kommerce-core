@@ -12,7 +12,8 @@ class Pagination
     {
         $this->maxResults = $maxResults;
         $this->page = $page;
-        $this->isTotalIncluded = true;
+
+        $this->setIsTotalIncluded(true);
     }
 
     public function getMaxResults()
@@ -37,10 +38,10 @@ class Pagination
 
     public function setIsTotalIncluded($isTotalIncluded)
     {
-        $this->isTotalIncluded = $isTotalIncluded;
+        $this->isTotalIncluded = (bool) $isTotalIncluded;
     }
 
-    public function getIsTotalIncluded()
+    public function isTotalIncluded()
     {
         return $this->isTotalIncluded;
     }

@@ -36,7 +36,7 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
             return $this;
         }
 
-        if ($pagination->getIsTotalIncluded()) {
+        if ($pagination->isTotalIncluded()) {
             $paginator = new Paginator($this);
             $pagination->setTotal(count($paginator));
         }

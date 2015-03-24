@@ -16,6 +16,6 @@ class Pagination
         $this->maxResults      = $pagination->getMaxResults();
         $this->page            = $pagination->getPage();
         $this->total           = $pagination->getTotal();
-        $this->isTotalIncluded = $pagination->getIsTotalIncluded();
+        $this->isTotalIncluded = $pagination->isTotalIncluded();
     }
 }

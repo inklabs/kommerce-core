@@ -16,12 +16,25 @@ class Product
     protected $name;
     protected $unitPrice;
     protected $quantity;
+
+    /* @var bool */
     protected $isInventoryRequired;
+
+    /* @var bool */
     protected $isPriceVisible;
+
+    /* @var bool */
     protected $isActive;
+
+    /* @var bool */
     protected $isVisible;
+
+    /* @var bool */
     protected $isTaxable;
+
+    /* @var bool */
     protected $isShippable;
+
     protected $shippingWeight;
     protected $description;
     protected $rating;
@@ -169,7 +182,7 @@ class Product
         $this->isInventoryRequired = (bool) $isInventoryRequired;
     }
 
-    public function getIsInventoryRequired()
+    public function isInventoryRequired()
     {
         return $this->isInventoryRequired;
     }
@@ -179,7 +192,7 @@ class Product
         $this->isPriceVisible = (bool) $isPriceVisible;
     }
 
-    public function getIsPriceVisible()
+    public function isPriceVisible()
     {
         return $this->isPriceVisible;
     }
@@ -189,7 +202,7 @@ class Product
         $this->isActive = (bool) $isActive;
     }
 
-    public function getIsActive()
+    public function isActive()
     {
         return $this->isActive;
     }
@@ -199,7 +212,7 @@ class Product
         $this->isVisible = (bool) $isVisible;
     }
 
-    public function getIsVisible()
+    public function isVisible()
     {
         return $this->isVisible;
     }
@@ -209,7 +222,7 @@ class Product
         $this->isShippable = (bool) $isShippable;
     }
 
-    public function getIsShippable()
+    public function isShippable()
     {
         return $this->isShippable;
     }
@@ -249,7 +262,7 @@ class Product
         $this->isTaxable = (bool) $isTaxable;
     }
 
-    public function getIsTaxable()
+    public function isTaxable()
     {
         return $this->isTaxable;
     }

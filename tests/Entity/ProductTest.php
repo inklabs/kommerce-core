@@ -45,12 +45,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Test Product', $product->getName());
         $this->assertSame(500, $product->getUnitPrice());
         $this->assertSame(10, $product->getQuantity());
-        $this->assertSame(true, $product->getIsInventoryRequired());
-        $this->assertSame(true, $product->getIsPriceVisible());
-        $this->assertSame(true, $product->getIsActive());
-        $this->assertSame(true, $product->getIsVisible());
-        $this->assertSame(true, $product->getIsTaxable());
-        $this->assertSame(true, $product->getIsShippable());
+        $this->assertSame(true, $product->isInventoryRequired());
+        $this->assertSame(true, $product->isPriceVisible());
+        $this->assertSame(true, $product->isActive());
+        $this->assertSame(true, $product->isVisible());
+        $this->assertSame(true, $product->isTaxable());
+        $this->assertSame(true, $product->isShippable());
         $this->assertSame(16, $product->getShippingWeight());
         $this->assertSame('Test description', $product->getDescription());
         $this->assertSame(5.0, $product->getRating());
