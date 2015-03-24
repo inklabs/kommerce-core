@@ -19,16 +19,35 @@ class Cart
         $this->setCreated();
     }
 
-    public function addItem(Product $product, $quantity)
+    /**
+     * @param int $quantity
+     * @param Product[] $optionProducts
+     * @return int
+     */
+    public function addItem(Product $product, $quantity, array $optionProducts = [])
     {
-        $this->items[] = new CartItem($product, $quantity);
+        $cartItem = new CartItem($product, $quantity);
 
-        end($this->items);
-        $cartItemId = key($this->items);
+        foreach ($optionProducts as $optionProduct) {
+            $cartItem->addOptionProduct($optionProduct);
+        }
+
+        $this->items[] = $cartItem;
+
+        $cartItemId = $this->getLastItemId();
 
         $this->items[$cartItemId]->setId($cartItemId);
 
         return $cartItemId;
+    }
+
+    /**
+     * @return int
+     */
+    private function getLastItemId()
+    {
+        end($this->items);
+        return key($this->items);
     }
 
     /**

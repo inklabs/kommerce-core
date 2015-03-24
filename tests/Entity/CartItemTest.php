@@ -39,4 +39,12 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($cartItem->getProduct() instanceof Product);
         $this->assertSame(3, $cartItem->getQuantity());
     }
+
+    public function testGetOrderItem()
+    {
+        $cartItem = new CartItem(new Product, 1);
+        $cartItem->addOptionProduct(new Product);
+
+        $this->assertTrue($cartItem->getOrderItem(new Service\Pricing) instanceof OrderItem);
+    }
 }
