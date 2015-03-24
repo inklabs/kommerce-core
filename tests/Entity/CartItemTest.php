@@ -8,10 +8,12 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
     public function testCreateCartItem()
     {
         $product = new Product;
+        $product->setSku('PRD1');
         $product->setUnitPrice(100);
         $product->setShippingWeight(10);
 
         $optionProduct = new Product;
+        $optionProduct->setSku('OPT2');
         $optionProduct->setUnitPrice(20);
         $optionProduct->setShippingWeight(2);
 
@@ -23,6 +25,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(1, $cartItem->getId());
         $this->assertSame(2, $cartItem->getQuantity());
+        $this->assertSame('PRD1-OPT2', $cartItem->getFullSku());
         $this->assertTrue($cartItem->getProduct() instanceof Product);
         $this->assertTrue($cartItem->getOptionProducts()[0] instanceof Product);
         $this->assertTrue($cartItem->getPrice($pricing) instanceof Price);

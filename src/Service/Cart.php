@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
+use inklabs\kommerce\EntityRepository as EntityRepository;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Payment\Payment;
 use inklabs\kommerce\Entity as Entity;
@@ -90,21 +91,39 @@ class Cart extends Lib\ServiceManager
     }
 
     /**
+     * @param string $productEncodedId
      * @param int $quantity
+     * @param array $optionProductEncodedIds
      * @return int
      * @throws Exception
      */
-    public function addItem(Entity\View\Product $viewProduct, $quantity)
+    public function addItem($productEncodedId, $quantity, $optionProductEncodedIds = null)
     {
-        $product = $this->entityManager
-            ->getRepository('kommerce:Product')
-            ->find($viewProduct->id);
+        /* @var EntityRepository\Product $productRepository */
+        $productRepository = $this->entityManager->getRepository('kommerce:Product');
+
+        $product = $productRepository->find(Lib\BaseConvert::decode($productEncodedId));
 
         if ($product === null) {
             throw new Exception('Product not found');
         }
 
-        $itemId = $this->cart->addItem($product, $quantity);
+        $optionProducts = null;
+        if ($optionProductEncodedIds !== null) {
+
+            $optionProductIds = [];
+            foreach ($optionProductEncodedIds as $optionProductEncodedId) {
+                $optionProductIds[] = Lib\BaseConvert::decode($optionProductEncodedId);
+            }
+
+            $optionProducts = $productRepository->getAllProductsByIds($optionProductIds);
+
+            if (count($optionProducts) !== count($optionProductEncodedIds)) {
+                throw new Exception('Product Option not found');
+            }
+        }
+
+        $itemId = $this->cart->addItem($product, $quantity, $optionProducts);
         $this->save();
 
         return $itemId;

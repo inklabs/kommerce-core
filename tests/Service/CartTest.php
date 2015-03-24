@@ -27,8 +27,8 @@ class CartTest extends Helper\DoctrineTestCase
 
         $cart->addCouponByCode($this->coupon->getCode());
 
-        $itemId1 = $cart->addItem($viewProduct, 1);
-        $itemId2 = $cart->addItem($viewProduct, 1);
+        $itemId1 = $cart->addItem($viewProduct->encodedId, 1);
+        $itemId2 = $cart->addItem($viewProduct->encodedId, 1);
 
         $cart->updateQuantity($itemId1, 2);
         $cart->deleteItem($itemId2);
@@ -105,7 +105,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->assertSame(0, $cart->totalItems());
 
         $viewProduct = $this->getViewProduct();
-        $itemId1 = $cart->addItem($viewProduct, 1);
+        $itemId1 = $cart->addItem($viewProduct->encodedId, 1);
         $this->assertSame(1, $cart->totalItems());
 
         $this->entityManager->clear();
@@ -120,7 +120,7 @@ class CartTest extends Helper\DoctrineTestCase
         $viewProduct = $this->getViewProduct();
 
         $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
-        $itemId = $cart->addItem($viewProduct, 2);
+        $itemId = $cart->addItem($viewProduct->encodedId, 2);
         $this->assertSame(500, $cart->getItem($itemId)->product->unitPrice);
 
         $this->product->setUnitPrice(501);
@@ -154,11 +154,8 @@ class CartTest extends Helper\DoctrineTestCase
      */
     public function testAddItemMissing()
     {
-        $viewProduct = $this->getViewProduct();
-        $viewProduct->id = 999;
-
         $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-        $cart->addItem($viewProduct, 1);
+        $cart->addItem('xxx', 1);
     }
 
     /**
@@ -223,7 +220,7 @@ class CartTest extends Helper\DoctrineTestCase
         $user = $this->getUser();
 
         $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-        $itemId1 = $cart->addItem($viewProduct, 4);
+        $itemId1 = $cart->addItem($viewProduct->encodedId, 4);
         $cart->addCouponByCode($this->coupon->getCode());
         $cart->setUser($user);
 
