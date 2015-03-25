@@ -5,6 +5,11 @@ class BaseConvert
 {
     private static $encodeBase = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
+    /**
+     * @param string $num
+     * @param null $base
+     * @return int|null
+     */
     public static function decode($num, $base = null)
     {
         if ($num === null) {
@@ -26,6 +31,11 @@ class BaseConvert
         return (int) $res;
     }
 
+    /**
+     * @param int $origNum
+     * @param null $base
+     * @return null|string
+     */
     public static function encode($origNum, $base = null)
     {
         if ($origNum === null) {
