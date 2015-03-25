@@ -14,7 +14,7 @@ class Price
     public $catalogPromotions = [];
 
     /* @var ProductQuantityDiscount */
-    public $productQuantityDiscount;
+    public $productQuantityDiscounts = [];
 
     public function __construct(Entity\Price $price)
     {
