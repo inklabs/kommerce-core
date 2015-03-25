@@ -22,7 +22,7 @@ class Cart
     /**
      * @param Product $product
      * @param int $quantity
-     * @param Product[] $optionProducts
+     * @param CartItemOptionProduct[] $optionProducts
      * @return int
      */
     public function addItem(Product $product, $quantity, $optionProducts = null)

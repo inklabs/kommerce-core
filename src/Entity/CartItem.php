@@ -14,7 +14,7 @@ class CartItem
     /* @var Product */
     protected $product;
 
-    /* @var Product[] */
+    /* @var CartItemOptionProduct[] */
     protected $optionProducts;
 
     public function __construct(Product $product, $quantity)
@@ -61,7 +61,7 @@ class CartItem
         return $this->optionProducts;
     }
 
-    public function addOptionProduct(Product $optionProduct)
+    public function addOptionProduct(CartItemOptionProduct $optionProduct)
     {
         $this->optionProducts[] = $optionProduct;
     }
@@ -75,7 +75,7 @@ class CartItem
 
         foreach ($this->getOptionProducts() as $optionProduct) {
             $optionPrice = $pricing->getPrice(
-                $optionProduct,
+                $optionProduct->getProduct(),
                 $this->getQuantity()
             );
 
@@ -91,7 +91,7 @@ class CartItem
         $fullSku[] = $this->getProduct()->getSku();
 
         foreach ($this->getOptionProducts() as $optionProduct) {
-            $fullSku[] = $optionProduct->getSku();
+            $fullSku[] = $optionProduct->getProduct()->getSku();
         }
 
         return implode('-', $fullSku);
@@ -102,7 +102,7 @@ class CartItem
         $shippingWeight = ($this->getProduct()->getShippingWeight() * $this->getQuantity());
 
         foreach ($this->getOptionProducts() as $optionProduct) {
-            $shippingWeight += ($optionProduct->getShippingWeight() * $this->getQuantity());
+            $shippingWeight += ($optionProduct->getProduct()->getShippingWeight() * $this->getQuantity());
         }
 
         return $shippingWeight;
@@ -113,7 +113,11 @@ class CartItem
         $orderItem = new OrderItem($this->getProduct(), $this->getQuantity(), $this->getPrice($pricing));
 
         foreach ($this->getOptionProducts() as $optionProduct) {
-            $orderItem->addOptionProduct($optionProduct);
+            $orderItemOptionProduct = new OrderItemOptionProduct(
+                $optionProduct->getOption(),
+                $optionProduct->getProduct()
+            );
+            $orderItem->addOptionProduct($orderItemOptionProduct);
         }
 
         return $orderItem;

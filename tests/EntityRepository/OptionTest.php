@@ -42,4 +42,14 @@ class OptionTest extends Helper\DoctrineTestCase
         $this->assertTrue($option instanceof Entity\Option);
         $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
     }
+
+    public function testGetAllOptionsByIds()
+    {
+        $this->setupOption();
+
+        $options = $this->getRepository()
+            ->getAllOptionsByIds([1]);
+
+        $this->assertSame(1, $options[0]->getId());
+    }
 }

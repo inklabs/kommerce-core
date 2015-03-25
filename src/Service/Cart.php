@@ -108,25 +108,54 @@ class Cart extends Lib\ServiceManager
             throw new Exception('Product not found');
         }
 
-        $optionProducts = null;
-        if ($optionProductEncodedIds !== null) {
-
-            $optionProductIds = [];
-            foreach ($optionProductEncodedIds as $optionProductEncodedId) {
-                $optionProductIds[] = Lib\BaseConvert::decode($optionProductEncodedId);
-            }
-
-            $optionProducts = $productRepository->getAllProductsByIds($optionProductIds);
-
-            if (count($optionProducts) !== count($optionProductEncodedIds)) {
-                throw new Exception('Product Option not found');
-            }
-        }
+        $optionProducts = $this->getCartOptionProductArray($optionProductEncodedIds);
 
         $itemId = $this->cart->addItem($product, $quantity, $optionProducts);
         $this->save();
 
         return $itemId;
+    }
+
+    /**
+     * @param $optionProductEncodedIds
+     * @return Entity\CartItemOptionProduct[]|null
+     * @throws Exception
+     */
+    private function getCartOptionProductArray($optionProductEncodedIds)
+    {
+        /* @var EntityRepository\Option $optionRepository */
+        $optionRepository = $this->entityManager->getRepository('kommerce:Option');
+
+        /* @var EntityRepository\Product $productRepository */
+        $productRepository = $this->entityManager->getRepository('kommerce:Product');
+
+        $optionProducts = null;
+        if ($optionProductEncodedIds !== null) {
+
+            $optionIds = [];
+            $optionProductIds = [];
+            foreach ($optionProductEncodedIds as $optionEncodedId => $optionProductEncodedId) {
+                $optionIds = Lib\BaseConvert::decode($optionEncodedId);
+                $optionProductIds[] = Lib\BaseConvert::decode($optionProductEncodedId);
+            }
+
+            $options = $optionRepository->getAllOptionsByIds($optionIds);
+            $products = $productRepository->getAllProductsByIds($optionProductIds);
+
+            if (count($options) !== count($optionProductEncodedIds)) {
+                throw new Exception('Options not found');
+            }
+
+            if (count($products) !== count($optionProductEncodedIds)) {
+                throw new Exception('Products not found');
+            }
+
+            for ($i = 0, $total = count($options); $i < $total; $i++) {
+                $optionProducts[] = new Entity\CartItemOptionProduct($options[$i], $products[$i]);
+            }
+        }
+
+        return $optionProducts;
     }
 
     public function addCouponByCode($couponCode)
