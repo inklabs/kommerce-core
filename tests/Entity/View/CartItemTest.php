@@ -9,7 +9,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $entityCartItem = new Entity\CartItem(new Entity\Product, 1);
-        $entityCartItem->addOptionProduct(new Entity\Product);
+        $entityCartItem->addOptionProduct(new Entity\CartItemOptionProduct(new Entity\Option, new Entity\Product));
 
         $cartItem = $entityCartItem->getView()
             ->withAllData(new Service\Pricing)
@@ -17,6 +17,6 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($cartItem->price instanceof Price);
         $this->assertTrue($cartItem->product instanceof Product);
-        $this->assertTrue($cartItem->optionProducts[0] instanceof Product);
+        $this->assertTrue($cartItem->optionProducts[0] instanceof CartItemOptionProduct);
     }
 }

@@ -17,7 +17,7 @@ class CartItem
     public $product;
 
     /* @var Product[] */
-    public $optionProducts;
+    public $optionProducts = [];
 
     /* @var Price */
     public $price;
@@ -62,8 +62,7 @@ class CartItem
     {
         foreach ($this->cartItem->getOptionProducts() as $optionProduct) {
             $this->optionProducts[] = $optionProduct->getView()
-                ->withTags()
-                ->withProductQuantityDiscounts($pricing)
+                ->withAllData($pricing)
                 ->export();
         }
 

@@ -18,7 +18,7 @@ class OrderItem
     /* @var Product */
     protected $product;
 
-    /* @var Product[] */
+    /* @var OrderItemOptionProduct[] */
     protected $optionProducts;
 
     /* @var Order */
@@ -92,8 +92,9 @@ class OrderItem
         return $this->optionProducts;
     }
 
-    public function addOptionProduct(Product $optionProduct)
+    public function addOptionProduct(OrderItemOptionProduct $optionProduct)
     {
+        $optionProduct->setOrderItem($this);
         $this->optionProducts[] = $optionProduct;
     }
 

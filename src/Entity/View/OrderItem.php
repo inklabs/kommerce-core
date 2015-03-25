@@ -19,6 +19,9 @@ class OrderItem
     public $productName;
     public $discountNames;
 
+    /* @var OrderItemOptionProduct[] */
+    public $optionProducts = [];
+
     /* @var CatalogPromotion[] */
     public $catalogPromotions;
 
@@ -69,10 +72,20 @@ class OrderItem
         return $this;
     }
 
+    public function withOptionProducts()
+    {
+        foreach ($this->orderItem->getOptionProducts() as $optionProduct) {
+            $this->optionProducts[] = $optionProduct->getView();
+        }
+
+        return $this;
+    }
+
     public function withAllData()
     {
         return $this
             ->withCatalogPromotions()
-            ->withProductQuantityDiscounts();
+            ->withProductQuantityDiscounts()
+            ->withOptionProducts();
     }
 }
