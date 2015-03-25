@@ -136,7 +136,7 @@ class Cart extends Lib\ServiceManager
             $optionProductIds = [];
             foreach ($optionProductEncodedIds as $optionEncodedId => $optionProductEncodedId) {
                 $optionIds[] = Lib\BaseConvert::decode((string) $optionEncodedId);
-                $optionProductIds[] = Lib\BaseConvert::decode($optionProductEncodedId);
+                $optionProductIds[] = Lib\BaseConvert::decode((string) $optionProductEncodedId);
             }
 
             $options = $optionRepository->getAllOptionsByIds($optionIds);
