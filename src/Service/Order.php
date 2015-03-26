@@ -8,7 +8,7 @@ use inklabs\kommerce\Lib as Lib;
 
 class Order extends Lib\ServiceManager
 {
-    /* @var EntityRepository\Order */
+    /** @var EntityRepository\Order */
     private $orderRepository;
 
     public function __construct(EntityManager $entityManager)
@@ -22,7 +22,7 @@ class Order extends Lib\ServiceManager
      */
     public function find($id)
     {
-        /* @var Entity\Order $entityOrder */
+        /** @var Entity\Order $entityOrder */
         $entityOrder = $this->orderRepository->find($id);
 
         if ($entityOrder === null) {

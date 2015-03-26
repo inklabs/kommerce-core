@@ -8,45 +8,57 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Product
 {
-    use Accessor\Time;
-    use OptionSelector;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $sku;
+
+    /** @var string */
     protected $name;
+
+    /** @var int */
     protected $unitPrice;
+
+    /** @var int */
     protected $quantity;
 
-    /* @var bool */
+    /** @var bool */
     protected $isInventoryRequired;
 
-    /* @var bool */
+    /** @var bool */
     protected $isPriceVisible;
 
-    /* @var bool */
+    /** @var bool */
     protected $isActive;
 
-    /* @var bool */
+    /** @var bool */
     protected $isVisible;
 
-    /* @var bool */
+    /** @var bool */
     protected $isTaxable;
 
-    /* @var bool */
+    /** @var bool */
     protected $isShippable;
 
+    /** @var int */
     protected $shippingWeight;
+
+    /** @var string */
     protected $description;
+
+    /** @var float */
     protected $rating;
+
+    /** @var string */
     protected $defaultImage;
 
-    /* @var Tag[] */
+    /** @var Tag[] */
     protected $tags;
 
-    /* @var Image[] */
+    /** @var Image[] */
     protected $images;
 
-    /* @var ProductQuantityDiscount */
+    /** @var ProductQuantityDiscount */
     protected $productQuantityDiscounts;
 
     public function __construct()
@@ -125,16 +137,6 @@ class Product
             $this,
             $quantity
         );
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setSku($sku)
@@ -267,9 +269,12 @@ class Product
         return $this->isTaxable;
     }
 
+    /**
+     * @param float $rating
+     */
     public function setRating($rating)
     {
-        return $this->rating = (float) $rating;
+        $this->rating = (float) $rating;
     }
 
     public function getRating()

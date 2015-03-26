@@ -7,16 +7,16 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class CatalogPromotionTest extends Helper\DoctrineTestCase
 {
-    /* @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\CatalogPromotion */
+    /** @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\CatalogPromotion */
     protected $mockCatalogPromotionRepository;
 
-    /* @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
+    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
     protected $mockEntityManager;
 
-    /* @var CatalogPromotion */
+    /** @var CatalogPromotion */
     protected $catalogPromotionService;
 
-    /* @var Entity\CatalogPromotion */
+    /** @var Entity\CatalogPromotion */
     protected $catalogPromotion;
 
     public function setUp()

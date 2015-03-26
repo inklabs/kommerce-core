@@ -15,7 +15,7 @@ class UserToken
     public $created;
     public $updated;
 
-    /* @var User */
+    /** @var User */
     public $user;
 
     public function __construct(Entity\UserToken $userToken)

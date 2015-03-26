@@ -10,16 +10,16 @@ use Doctrine as Doctrine;
  */
 class Distance extends FunctionNode
 {
-    /* @var Doctrine\ORM\Query\AST\Literal */
+    /** @var Doctrine\ORM\Query\AST\Literal */
     protected $fromLatitude;
 
-    /* @var Doctrine\ORM\Query\AST\Literal */
+    /** @var Doctrine\ORM\Query\AST\Literal */
     protected $fromLongitude;
 
-    /* @var Doctrine\ORM\Query\AST\Literal */
+    /** @var Doctrine\ORM\Query\AST\Literal */
     protected $toLatitude;
 
-    /* @var Doctrine\ORM\Query\AST\Literal */
+    /** @var Doctrine\ORM\Query\AST\Literal */
     protected $toLongitude;
 
     public function parse(Doctrine\ORM\Query\Parser $parser)

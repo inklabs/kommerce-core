@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Credit extends Payment
 {
-    /* @var ChargeResponse */
+    /** @var ChargeResponse */
     protected $chargeResponse;
 
     public function __construct(ChargeRequest $chargeRequest, Gateway $gateway)

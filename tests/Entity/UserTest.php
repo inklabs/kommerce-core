@@ -9,7 +9,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $user = new User;
-        $user->setid(1);
         $user->setStatus(User::STATUS_ACTIVE);
         $user->setEmail('test@example.com');
         $user->setUsername('test');
@@ -31,7 +30,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($user));
-        $this->assertSame(1, $user->getId());
         $this->assertSame(User::STATUS_ACTIVE, $user->getStatus());
         $this->assertSame('Active', $user->getStatusText());
         $this->assertTrue($user->isActive());

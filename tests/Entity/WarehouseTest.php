@@ -16,7 +16,6 @@ class WarehouseTest extends \PHPUnit_Framework_TestCase
         $address->setPoint(new Point);
 
         $warehouse = new Warehouse;
-        $warehouse->setId(1);
         $warehouse->setName('Store Headquarters');
         $warehouse->setAddress($address);
 
@@ -25,7 +24,6 @@ class WarehouseTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($warehouse));
-        $this->assertSame(1, $warehouse->getId());
         $this->assertSame('Store Headquarters', $warehouse->getName());
         $this->assertTrue($warehouse->getAddress() instanceof Address);
         $this->assertTrue($warehouse->getView() instanceof View\Warehouse);

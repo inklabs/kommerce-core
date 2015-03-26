@@ -17,11 +17,12 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $product2->setUnitPrice(20);
         $product2->setShippingWeight(2);
 
-        $optionProduct = new CartItemOptionProduct(new Option, $product2);
+        $optionValue = new OptionValue;
+        $optionValue->setProduct($product2);
 
         $cartItem = new CartItem($product, 2);
         $cartItem->setId(1);
-        $cartItem->addOptionProduct($optionProduct);
+        $cartItem->addOptionValue($optionValue);
 
         $pricing = new Service\Pricing;
 
@@ -29,7 +30,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(2, $cartItem->getQuantity());
         $this->assertSame('PRD1-OPT2', $cartItem->getFullSku());
         $this->assertTrue($cartItem->getProduct() instanceof Product);
-        $this->assertTrue($cartItem->getOptionProducts()[0] instanceof CartItemOptionProduct);
+        $this->assertTrue($cartItem->getOptionValues()[0] instanceof OptionValue);
         $this->assertTrue($cartItem->getPrice($pricing) instanceof Price);
         $this->assertSame(240, $cartItem->getPrice($pricing)->quantityPrice);
         $this->assertSame(24, $cartItem->getShippingWeight());
@@ -47,8 +48,12 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOrderItem()
     {
+        $optionValue = new OptionValue;
+        $optionValue->setOption(new Option);
+        $optionValue->setProduct(new Product);
+
         $cartItem = new CartItem(new Product, 1);
-        $cartItem->addOptionProduct(new CartItemOptionProduct(new Option, new Product));
+        $cartItem->addOptionValue($optionValue);
 
         $this->assertTrue($cartItem->getOrderItem(new Service\Pricing) instanceof OrderItem);
     }

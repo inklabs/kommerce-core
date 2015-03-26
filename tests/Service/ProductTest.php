@@ -7,10 +7,10 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class ProductTest extends Helper\DoctrineTestCase
 {
-    /* @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\Product */
+    /** @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\Product */
     protected $mockProductRepository;
 
-    /* @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
+    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
     protected $mockEntityManager;
 
     public function setUp()

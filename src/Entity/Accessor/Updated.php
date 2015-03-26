@@ -5,8 +5,12 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 trait Updated
 {
+    /** @var int */
     protected $updated;
 
+    /**
+     * @param \DateTime $updated
+     */
     public function setUpdated(\DateTime $updated = null)
     {
         if ($updated === null) {

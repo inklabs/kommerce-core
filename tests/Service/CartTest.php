@@ -8,10 +8,10 @@ use inklabs\kommerce\Entity\Payment as Payment;
 
 class CartTest extends Helper\DoctrineTestCase
 {
-    /* @var Entity\Product */
+    /** @var Entity\Product */
     protected $product;
 
-    /* @var Entity\Coupon */
+    /** @var Entity\Coupon */
     protected $coupon;
 
     public function testCreate()
@@ -229,7 +229,7 @@ class CartTest extends Helper\DoctrineTestCase
 
         $this->entityManager->clear();
 
-        /* @var Entity\Order $order */
+        /** @var Entity\Order $order */
         $order = $this->entityManager->getRepository('kommerce:Order')->find(1);
         $this->assertSame(1, $order->getId());
         $this->assertSame(1600, $order->getTotal()->total);

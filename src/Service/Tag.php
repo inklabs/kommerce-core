@@ -9,10 +9,10 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 
 class Tag extends Lib\ServiceManager
 {
-    /* @var Pricing */
+    /** @var Pricing */
     private $pricing;
 
-    /* @var EntityRepository\Tag */
+    /** @var EntityRepository\Tag */
     private $tagRepository;
 
     public function __construct(EntityManager $entityManager, Pricing $pricing)
@@ -27,7 +27,7 @@ class Tag extends Lib\ServiceManager
      */
     public function find($id)
     {
-        /* @var Entity\Tag $entityTag */
+        /** @var Entity\Tag $entityTag */
         $entityTag = $this->tagRepository->find($id);
 
         if ($entityTag === null) {
@@ -45,7 +45,7 @@ class Tag extends Lib\ServiceManager
      */
     public function findSimple($encodedId)
     {
-        /* @var Entity\Tag $entityTag */
+        /** @var Entity\Tag $entityTag */
         $entityTag = $this->tagRepository->find(Lib\BaseConvert::decode($encodedId));
 
         if ($entityTag === null) {
@@ -62,7 +62,7 @@ class Tag extends Lib\ServiceManager
      */
     public function edit($id, Entity\View\Tag $viewTag)
     {
-        /* @var Entity\Tag $tag */
+        /** @var Entity\Tag $tag */
         $tag = $this->tagRepository->find($id);
 
         if ($tag === null) {
@@ -84,7 +84,7 @@ class Tag extends Lib\ServiceManager
      */
     public function create(Entity\View\Tag $viewTag)
     {
-        /* @var Entity\Tag $tag */
+        /** @var Entity\Tag $tag */
         $tag = new Entity\Tag;
 
         $tag->loadFromView($viewTag);

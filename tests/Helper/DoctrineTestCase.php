@@ -7,13 +7,13 @@ use Doctrine as Doctrine;
 
 abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 {
-    /* @var \Doctrine\ORM\EntityManager */
+    /** @var \Doctrine\ORM\EntityManager */
     protected $entityManager;
 
-    /* @var Kommerce */
+    /** @var Kommerce */
     protected $kommerce;
 
-    /* @var CountSQLLogger */
+    /** @var CountSQLLogger */
     protected $countSQLLogger;
 
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -271,5 +271,24 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $warehouse->setAddress($address);
 
         return $warehouse;
+    }
+
+    protected function getDummyOption()
+    {
+        $option = new Entity\Option;
+        $option->setName('Size');
+        $option->setType(Entity\Option::TYPE_RADIO);
+        $option->setDescription('Shirt Size');
+        $option->setSortOrder(0);
+
+        return $option;
+    }
+
+    protected function getDummyOptionValue()
+    {
+        $option = new Entity\OptionValue;
+        $option->setSortOrder(0);
+
+        return $option;
     }
 }

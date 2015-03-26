@@ -29,19 +29,19 @@ class Product
     public $updated;
     public $isInStock;
 
-    /* @var Tag[] */
+    /** @var Tag[] */
     public $tags = [];
 
-    /* @var Image[] */
+    /** @var Image[] */
     public $images = [];
 
-    /* @var Image[] */
+    /** @var Image[] */
     public $tagImages = [];
 
-    /* @var ProductQuantityDiscount[] */
+    /** @var ProductQuantityDiscount[] */
     public $productQuantityDiscounts = [];
 
-    /* @var Price */
+    /** @var Price */
     public $price;
 
     public function __construct(Entity\Product $product)

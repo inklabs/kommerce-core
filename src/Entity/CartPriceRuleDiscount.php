@@ -6,15 +6,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CartPriceRuleDiscount
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var int */
     protected $quantity;
 
-    /* @var Product */
+    /** @var Product */
     protected $product;
 
-    /* @var CartPriceRule */
+    /** @var CartPriceRule */
     protected $cartPriceRule;
 
     public function __construct(Product $product, $quantity = 1)
@@ -31,16 +31,6 @@ class CartPriceRuleDiscount
             'min' => 0,
             'max' => 65535,
         ]));
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setQuantity($quantity)

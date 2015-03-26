@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\View as View;
 
 class Tag extends Item
 {
-    /* @var View\Tag */
+    /** @var View\Tag */
     public $tag;
 
     public function __construct(Entity\CartPriceRuleItem\Item $item)

@@ -15,13 +15,13 @@ class CartTotal
     public $total;
     public $savings;
 
-    /* @var Coupon[] */
+    /** @var Coupon[] */
     public $coupons = [];
 
-    /* @var CartPriceRule[] */
+    /** @var CartPriceRule[] */
     public $cartPriceRules = [];
 
-    /* @var TaxRate */
+    /** @var TaxRate */
     public $taxRate;
 
     public function __construct(Entity\CartTotal $cartTotal)

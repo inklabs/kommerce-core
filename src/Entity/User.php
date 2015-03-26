@@ -7,32 +7,46 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class User
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $email;
+
+    /** @var string */
     protected $username;
+
+    /** @var string */
     protected $passwordHash;
+
+    /** @var string */
     protected $firstName;
+
+    /** @var string */
     protected $lastName;
+
+    /** @var int */
     protected $totalLogins;
+
+    /** @var int */
     protected $lastLogin;
 
+
+    /** @var int */
     protected $status;
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_LOCKED = 2;
 
-    /* @var ArrayCollection|UserRole[] */
+    /** @var ArrayCollection|UserRole[] */
     protected $roles;
 
-    /* @var ArrayCollection|UserToken[] */
+    /** @var ArrayCollection|UserToken[] */
     protected $tokens;
 
-    /* @var ArrayCollection|Order[] */
+    /** @var ArrayCollection|Order[] */
     protected $orders;
 
-    /* @var ArrayCollection|UserLogin[] */
+    /** @var ArrayCollection|UserLogin[] */
     protected $logins;
 
     public function __construct()
@@ -82,16 +96,6 @@ class User
             'message' => 'The status is not a valid choice',
         ]));
 
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function isActive()

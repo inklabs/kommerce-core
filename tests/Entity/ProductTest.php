@@ -16,7 +16,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(null, $product->getSku());
         $this->assertSame(null, $product->getDescription());
 
-        $product->setId(1);
         $product->setSku('TST101');
         $product->setName('Test Product');
         $product->setUnitPrice(500);
@@ -40,7 +39,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($product));
-        $this->assertSame(1, $product->getId());
         $this->assertSame('TST101', $product->getSku());
         $this->assertSame('Test Product', $product->getName());
         $this->assertSame(500, $product->getUnitPrice());

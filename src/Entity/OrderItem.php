@@ -7,43 +7,45 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class OrderItem
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var int */
     protected $quantity;
 
-    /* @var Price */
+    /** @var Price */
     protected $price;
 
-    /* @var Product */
+    /** @var Product */
     protected $product;
 
-    /* @var OrderItemOptionProduct[] */
-    protected $optionProducts;
+    /** @var OrderItemOptionValue[] */
+    protected $orderItemOptionValues;
 
-    /* @var Order */
+    /** @var Order */
     protected $order;
 
-    /* @var CatalogPromotion[] */
+    /** @var CatalogPromotion[] */
     protected $catalogPromotions;
 
-    /* @var ProductQuantityDiscount[] */
+    /** @var ProductQuantityDiscount[] */
     protected $productQuantityDiscounts;
 
-    /* Flattened Columns */
+    /** Flattened Columns */
     protected $productSku;
     protected $productName;
     protected $discountNames;
 
     /**
+     * @param Product $product
      * @param int $quantity
+     * @param Price $price
      */
     public function __construct(Product $product, $quantity, Price $price)
     {
         $this->setCreated();
         $this->catalogPromotions = new ArrayCollection;
         $this->productQuantityDiscounts = new ArrayCollection;
-        $this->optionProducts = new ArrayCollection();
+        $this->orderItemOptionValues = new ArrayCollection();
 
         $this->setProduct($product);
         $this->setQuantity($quantity);
@@ -87,15 +89,15 @@ class OrderItem
         return $this->product;
     }
 
-    public function getOptionProducts()
+    public function getOrderItemOptionValues()
     {
-        return $this->optionProducts;
+        return $this->orderItemOptionValues;
     }
 
-    public function addOptionProduct(OrderItemOptionProduct $optionProduct)
+    public function addOrderItemOptionValue(OrderItemOptionValue $orderItemOptionValue)
     {
-        $optionProduct->setOrderItem($this);
-        $this->optionProducts[] = $optionProduct;
+        $orderItemOptionValue->setOrderItem($this);
+        $this->orderItemOptionValues[] = $orderItemOptionValue;
     }
 
     /**
