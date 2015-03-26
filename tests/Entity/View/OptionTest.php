@@ -8,10 +8,12 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $entityOptionValue = new Entity\OptionValue;
-        $entityOptionValue->setProduct(new Entity\Product);
 
         $entityOption = new Entity\Option;
+
+        $entityOptionValue = new Entity\OptionValue($entityOption);
+        $entityOptionValue->setProduct(new Entity\Product);
+
         $entityOption->addOptionValue($entityOptionValue);
         $entityOption->addTag(new Entity\Tag);
 

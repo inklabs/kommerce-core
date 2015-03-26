@@ -12,10 +12,10 @@ class Price
     public $quantityPrice;
 
     /** @var CatalogPromotion[] */
-    private $catalogPromotions = [];
+    protected $catalogPromotions = [];
 
     /** @var ProductQuantityDiscount[] */
-    private $productQuantityDiscounts = [];
+    protected $productQuantityDiscounts = [];
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {

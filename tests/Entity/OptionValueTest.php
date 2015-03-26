@@ -10,7 +10,7 @@ class OptionValueTest extends \PHPUnit_Framework_TestCase
         $product->setname('Test Product');
         $product->setShippingWeight(16);
 
-        $optionValue = new OptionValue;
+        $optionValue = new OptionValue(new Option);
 
         $this->assertSame(null, $optionValue->getSku());
         $this->assertSame(null, $optionValue->getName());

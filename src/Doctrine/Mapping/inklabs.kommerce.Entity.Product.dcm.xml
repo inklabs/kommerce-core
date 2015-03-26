@@ -81,6 +81,11 @@
             </order-by>
         </one-to-many>
 
+        <one-to-many field="optionValues"
+                     target-entity="OptionValue"
+                     mapped-by="product"
+                     fetch="EXTRA_LAZY"/>
+
         <many-to-many field="tags"
                       target-entity="Tag"
                       inversed-by="products"

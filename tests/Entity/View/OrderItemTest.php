@@ -12,8 +12,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $price->addCatalogPromotion(new Entity\CatalogPromotion);
         $price->addProductQuantityDiscount(new Entity\ProductQuantityDiscount);
 
-        $optionValue = new Entity\OptionValue;
-        $optionValue->setOption(new Entity\Option);
+        $optionValue = new Entity\OptionValue(new Entity\Option);
         $optionValue->setProduct(new Entity\Product);
 
         $orderItem = new Entity\OrderItem(new Entity\Product, 1, $price);

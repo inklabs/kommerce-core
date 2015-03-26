@@ -60,8 +60,8 @@ class CartItem
 
     public function withOptionValues(Pricing $pricing)
     {
-        foreach ($this->cartItem->getOptionValues() as $optionProduct) {
-            $this->optionValues[] = $optionProduct->getView()
+        foreach ($this->cartItem->getOptionValues() as $optionValue) {
+            $this->optionValues[] = $optionValue->getView()
                 ->withAllData($pricing)
                 ->export();
         }

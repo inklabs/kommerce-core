@@ -5,7 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\OrderItemOptionValue"
-            table="order_item_option_product"
+            table="order_item_option_value"
             repository-class="inklabs\kommerce\EntityRepository\OrderItemOptionValue">
 
         <id name="id" type="integer" column="id">

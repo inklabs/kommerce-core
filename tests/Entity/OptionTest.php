@@ -10,7 +10,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $option->setType(Option::TYPE_RADIO);
         $option->setDescription('Shirt Size');
         $option->setSortOrder(0);
-        $option->addOptionValue(new OptionValue);
+        $option->addOptionValue(new OptionValue(new Option));
         $option->addTag(new Tag);
 
         $this->assertSame('Size', $option->getname());

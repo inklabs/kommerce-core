@@ -286,7 +286,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyOptionValue()
     {
-        $option = new Entity\OptionValue;
+        $option = new Entity\OptionValue(new Entity\Option);
         $option->setSortOrder(0);
 
         return $option;

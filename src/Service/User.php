@@ -49,9 +49,10 @@ class User extends Lib\ServiceManager
      */
     public function login($username, $password, $remoteIp)
     {
-        /** @var Entity\User $entityUser */
-        $entityUser = $this->entityManager->getRepository('kommerce:User')
-            ->findOneByUsernameOrEmail($username);
+        /** @var EntityRepository\User $userRepository */
+        $userRepository = $this->entityManager->getRepository('kommerce:User');
+
+        $entityUser = $userRepository->findOneByUsernameOrEmail($username);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
             $this->recordLogin($username, $remoteIp, Entity\UserLogin::RESULT_FAIL);

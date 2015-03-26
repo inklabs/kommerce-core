@@ -37,7 +37,7 @@
             </options>
         </field>
 
-        <many-to-one field="product" target-entity="Product" fetch="EAGER">
+        <many-to-one field="product" target-entity="Product" inversed-by="optionValues" fetch="EAGER">
             <join-column name="product_id" referenced-column-name="id" nullable="true"/>
         </many-to-one>
 

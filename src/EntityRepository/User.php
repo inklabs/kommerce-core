@@ -61,6 +61,10 @@ class User extends EntityRepository
         $user = $qb
             ->select('user')
             ->from('kommerce:User', 'user')
+
+            ->addSelect('userRole')
+            ->leftJoin('user.roles', 'userRole')
+
             ->where('user.username = :username')->setParameter('username', $username)
             ->orWhere('user.email = :email')->setParameter('email', $username)
             ->getQuery()

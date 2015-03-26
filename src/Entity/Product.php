@@ -61,6 +61,9 @@ class Product
     /** @var ProductQuantityDiscount */
     protected $productQuantityDiscounts;
 
+    /** @var OptionValue[] */
+    protected $optionValues;
+
     public function __construct()
     {
         $this->setCreated();
@@ -323,6 +326,16 @@ class Product
     public function getProductQuantityDiscounts()
     {
         return $this->productQuantityDiscounts;
+    }
+
+    public function getOptionValues()
+    {
+        return $this->optionValues;
+    }
+
+    public function addOptionValue(OptionValue $optionValue)
+    {
+        $this->optionValues[] = $optionValue;
     }
 
     public function getView()
