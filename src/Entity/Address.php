@@ -6,16 +6,31 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Address
 {
+    /** @var string */
     protected $attention;
+
+    /** @var string */
     protected $company;
+
+    /** @var string */
     protected $address1;
+
+    /** @var string */
     protected $address2;
+
+    /** @var string */
     protected $city;
+
+    /** @var string */
     protected $state;
+
+    /** @var string */
     protected $zip5;
+
+    /** @var string */
     protected $zip4;
 
-    /* @var Point */
+    /** @var Point */
     protected $point;
 
     public function __construct()

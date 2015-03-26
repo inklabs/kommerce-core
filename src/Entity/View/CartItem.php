@@ -13,13 +13,13 @@ class CartItem
     public $shippingWeight;
     public $created;
 
-    /* @var Product */
+    /** @var Product */
     public $product;
 
-    /* @var Product[] */
-    public $optionProducts = [];
+    /** @var Product[] */
+    public $optionValues = [];
 
-    /* @var Price */
+    /** @var Price */
     public $price;
 
     public function __construct(Entity\CartItem $cartItem)
@@ -58,10 +58,10 @@ class CartItem
         return $this;
     }
 
-    public function withOptionProducts(Pricing $pricing)
+    public function withOptionValues(Pricing $pricing)
     {
-        foreach ($this->cartItem->getOptionProducts() as $optionProduct) {
-            $this->optionProducts[] = $optionProduct->getView()
+        foreach ($this->cartItem->getOptionValues() as $optionProduct) {
+            $this->optionValues[] = $optionProduct->getView()
                 ->withAllData($pricing)
                 ->export();
         }
@@ -74,6 +74,6 @@ class CartItem
         return $this
             ->withProduct($pricing)
             ->withPrice($pricing)
-            ->withOptionProducts($pricing);
+            ->withOptionValues($pricing);
     }
 }

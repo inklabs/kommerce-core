@@ -5,13 +5,13 @@ use inklabs\kommerce\Service as Service;
 
 class CartCalculator
 {
-    /* @var Cart */
+    /** @var Cart */
     protected $cart;
 
-    /* @var Service\Pricing */
+    /** @var Service\Pricing */
     protected $pricing;
 
-    /* @var CartTotal */
+    /** @var CartTotal */
     protected $cartTotal;
 
     public function __construct(Cart $cart)

@@ -16,10 +16,10 @@ class Option
     public $created;
     public $updated;
 
-    /* @var Product[] */
-    public $products = [];
+    /** @var OptionValue[] */
+    public $optionValues = [];
 
-    /* @var Tag[] */
+    /** @var Tag[] */
     public $tags = [];
 
     public function __construct(Entity\Option $option)
@@ -42,10 +42,10 @@ class Option
         return $this;
     }
 
-    public function withProducts(Pricing $pricing)
+    public function withOptionValues(Pricing $pricing)
     {
-        foreach ($this->option->getProducts() as $product) {
-            $this->products[] = $product->getView()
+        foreach ($this->option->getOptionValues() as $optionValue) {
+            $this->optionValues[] = $optionValue->getView()
                 ->withAllData($pricing)
                 ->export();
         }
@@ -63,7 +63,7 @@ class Option
     public function withAllData(Pricing $pricing)
     {
         return $this
-            ->withProducts($pricing)
+            ->withOptionValues($pricing)
             ->withTags();
     }
 }

@@ -10,7 +10,7 @@ class Price
     public $origQuantityPrice;
     public $quantityPrice;
 
-    /* @var CatalogPromotion[] */
+    /** @var CatalogPromotion[] */
     public $catalogPromotions = [];
 
     /* @var ProductQuantityDiscount */

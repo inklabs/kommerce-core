@@ -13,13 +13,13 @@ class Cart
     public $shippingWeight;
     public $created;
 
-    /* @var CartTotal */
+    /** @var CartTotal */
     public $cartTotal;
 
-    /* @var CartItem[] */
+    /** @var CartItem[] */
     public $items = [];
 
-    /* @var Coupon[] */
+    /** @var Coupon[] */
     public $coupons = [];
 
     public function __construct(Entity\Cart $cart)

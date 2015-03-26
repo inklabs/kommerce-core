@@ -7,27 +7,33 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Tag
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $name;
+
+    /** @var string */
     protected $description;
+
+    /** @var string */
     protected $defaultImage;
+
+    /** @var int */
     protected $sortOrder;
 
-    /* @var bool */
+    /** @var bool */
     protected $isActive;
 
-    /* @var bool */
+    /** @var bool */
     protected $isVisible;
 
-    /* @var Product[] */
+    /** @var Product[] */
     protected $products;
 
-    /* @var Image[] */
+    /** @var Image[] */
     protected $images;
 
-    /* @var Option[] */
+    /** @var Option[] */
     protected $options;
 
     public function __construct()
@@ -101,16 +107,6 @@ class Tag
     public function getOptions()
     {
         return $this->options;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setName($name)

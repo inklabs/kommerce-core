@@ -1,19 +1,35 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
+use inklabs\kommerce\Entity\Accessor;
 use inklabs\kommerce\Entity\View as View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ChargeResponse
 {
+    /** @var string */
     protected $id;
+
+    /** @var int */
     protected $created;
+
+    /** @var int */
     protected $amount;
+
+    /** @var int */
     protected $last4;
+
+    /** @var string */
     protected $brand; // Visa, American Express, MasterCard, Discover, JCB, Diners Club, or Unknown.
+
+    /** @var string */
     protected $currency;
+
+    /** @var int */
     protected $fee;
+
+    /** @var string */
     protected $description;
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -62,6 +78,16 @@ class ChargeResponse
         $metadata->addPropertyConstraint('description', new Assert\Length([
             'max' => 255,
         ]));
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id= (string) $id;
     }
 
     public function getAmount()
@@ -122,16 +148,6 @@ class ChargeResponse
     public function setFee($fee)
     {
         $this->fee = (int) $fee;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = (string) $id;
     }
 
     public function getDescription()

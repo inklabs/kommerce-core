@@ -8,16 +8,16 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class OrderTest extends Helper\DoctrineTestCase
 {
-    /* @var Order */
+    /** @var Order */
     protected $orderService;
 
-    /* @var Entity\Order */
+    /** @var Entity\Order */
     protected $order;
 
-    /* @var Entity\Product */
+    /** @var Entity\Product */
     protected $productShirt;
 
-    /* @var Entity\User */
+    /** @var Entity\User */
     protected $user;
 
     public function setUp()

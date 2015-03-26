@@ -5,7 +5,7 @@ use Symfony\Component\Validator\Validation;
 
 class PromotionTest extends \PHPUnit_Framework_TestCase
 {
-    /* @var Promotion */
+    /** @var Promotion */
     protected $promotion;
 
     public function setUp()
@@ -15,7 +15,6 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $this->promotion->setid(1);
         $this->promotion->setName('20% Off in 2014');
         $this->promotion->setType(Promotion::TYPE_PERCENT);
         $this->promotion->setValue(20);
@@ -30,7 +29,6 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($this->promotion));
-        $this->assertSame(1, $this->promotion->getId());
         $this->assertSame('20% Off in 2014', $this->promotion->getName());
         $this->assertSame(Promotion::TYPE_PERCENT, $this->promotion->getType());
         $this->assertSame('Percent', $this->promotion->getTypeText());

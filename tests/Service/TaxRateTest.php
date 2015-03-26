@@ -6,10 +6,10 @@ use inklabs\kommerce\Entity as Entity;
 
 class TaxRateTest extends Helper\DoctrineTestCase
 {
-    /* @var TaxRate */
+    /** @var TaxRate */
     private $taxRateService;
 
-    /* @var Entity\TaxRate[] */
+    /** @var Entity\TaxRate[] */
     private $taxRates;
 
     public function setUp()

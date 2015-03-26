@@ -29,12 +29,12 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $cart = new Cart;
         $itemId1 = $cart->addItem(new Product, 2);
-        $itemId2 = $cart->addItem(new Product, 2, [new CartItemOptionProduct(new Option, new Product)]);
+        $itemId2 = $cart->addItem(new Product, 2, [new OptionValue]);
 
         $this->assertSame(0, $itemId1);
         $this->assertSame(1, $itemId2);
         $this->assertTrue($cart->getItem(0) instanceof CartItem);
-        $this->assertTrue($cart->getItem(1)->getOptionProducts()[0] instanceof CartItemOptionProduct);
+        $this->assertTrue($cart->getItem(1)->getOptionValues()[0] instanceof OptionValue);
         $this->assertSame(2, count($cart->getItems()));
     }
 

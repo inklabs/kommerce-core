@@ -7,10 +7,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CartPriceRule extends Promotion
 {
-    /* @var CartPriceRuleItem\Item[] */
+    /** @var CartPriceRuleItem\Item[] */
     protected $cartPriceRuleItems;
 
-    /* @var CartPriceRuleDiscount[] */
+    /** @var CartPriceRuleDiscount[] */
     protected $cartPriceRuleDiscounts;
 
     public function __construct()

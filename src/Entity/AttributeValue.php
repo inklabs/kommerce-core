@@ -3,27 +3,23 @@ namespace inklabs\kommerce\Entity;
 
 class AttributeValue
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $sku;
+
+    /** @var string */
     protected $name;
+
+    /** @var string */
     protected $description;
+
+    /** @var int */
     protected $sortOrder;
 
     public function __construct()
     {
         $this->setCreated();
-    }
-
-    public function setid($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setSku($sku)

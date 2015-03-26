@@ -8,16 +8,16 @@ use inklabs\kommerce\Entity\Payment as Payment;
 
 class CartNewTest extends Helper\DoctrineTestCase
 {
-    /* @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
+    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
     protected $mockEntityManager;
 
-    /* @var \Mockery\MockInterface|Entity\Cart */
+    /** @var \Mockery\MockInterface|Entity\Cart */
     protected $mockEntityCart;
 
-    /* @var \Mockery\MockInterface|Lib\SessionManager */
+    /** @var \Mockery\MockInterface|Lib\SessionManager */
     protected $mockSessionManager;
 
-    /* @var \Mockery\MockInterface|Pricing */
+    /** @var \Mockery\MockInterface|Pricing */
     protected $mockPricing;
 
     public function setUp()

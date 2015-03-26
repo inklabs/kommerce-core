@@ -8,12 +8,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class Payment
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var int */
     protected $amount;
 
-    /* @var Entity\Order */
+    /** @var Entity\Order */
     protected $order;
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -23,16 +23,6 @@ abstract class Payment
             'min' => 0,
             'max' => 4294967295,
         ]));
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setAmount($amount)

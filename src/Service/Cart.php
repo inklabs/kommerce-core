@@ -11,23 +11,23 @@ use Exception;
 
 class Cart extends Lib\ServiceManager
 {
-    /* @var Lib\SessionManager */
+    /** @var Lib\SessionManager */
     protected $sessionManager;
     protected $cartSessionKey = 'newcart';
 
-    /* @var Entity\Cart */
+    /** @var Entity\Cart */
     protected $cart;
 
-    /* @var Entity\Shipping\Rate */
+    /** @var Entity\Shipping\Rate */
     protected $shippingRate;
 
-    /* @var Entity\TaxRate */
+    /** @var Entity\TaxRate */
     protected $taxRate;
 
-    /* @var Pricing */
+    /** @var Pricing */
     protected $pricing;
 
-    /* @var Entity\User */
+    /** @var Entity\User */
     protected $user;
 
     public function __construct(EntityManager $entityManager, Pricing $pricing, Lib\SessionManager $sessionManager)
@@ -99,7 +99,7 @@ class Cart extends Lib\ServiceManager
      */
     public function addItem($productEncodedId, $quantity, $optionProductEncodedIds = null)
     {
-        /* @var EntityRepository\Product $productRepository */
+        /** @var EntityRepository\Product $productRepository */
         $productRepository = $this->entityManager->getRepository('kommerce:Product');
 
         $product = $productRepository->find(Lib\BaseConvert::decode($productEncodedId));
@@ -108,9 +108,9 @@ class Cart extends Lib\ServiceManager
             throw new Exception('Product not found');
         }
 
-        $optionProducts = $this->getCartOptionProductArray($optionProductEncodedIds);
+        $optionValues = $this->getOptionValueArray($optionProductEncodedIds);
 
-        $itemId = $this->cart->addItem($product, $quantity, $optionProducts);
+        $itemId = $this->cart->addItem($product, $quantity, $optionValues);
         $this->save();
 
         return $itemId;
@@ -118,18 +118,18 @@ class Cart extends Lib\ServiceManager
 
     /**
      * @param $optionProductEncodedIds
-     * @return Entity\CartItemOptionProduct[]|null
+     * @return Entity\OptionValue[]|null
      * @throws Exception
      */
-    private function getCartOptionProductArray($optionProductEncodedIds)
+    private function getOptionValueArray($optionProductEncodedIds)
     {
-        /* @var EntityRepository\Option $optionRepository */
+        /** @var EntityRepository\Option $optionRepository */
         $optionRepository = $this->entityManager->getRepository('kommerce:Option');
 
-        /* @var EntityRepository\Product $productRepository */
+        /** @var EntityRepository\Product $productRepository */
         $productRepository = $this->entityManager->getRepository('kommerce:Product');
 
-        $optionProducts = null;
+        $optionValues = null;
         if ($optionProductEncodedIds !== null) {
 
             $optionIds = [];
@@ -151,11 +151,14 @@ class Cart extends Lib\ServiceManager
             }
 
             for ($i = 0, $total = count($options); $i < $total; $i++) {
-                $optionProducts[] = new Entity\CartItemOptionProduct($options[$i], $products[$i]);
+                $optionValue = new Entity\OptionValue;
+                $optionValue->setProduct($products[$i]);
+                $optionValue->setOption($options[$i]);
+                $optionValues[] = $optionValue;
             }
         }
 
-        return $optionProducts;
+        return $optionValues;
     }
 
     public function addCouponByCode($couponCode)

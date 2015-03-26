@@ -8,7 +8,6 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $image = new Image;
-        $image->setId(1);
         $image->setPath('http://lorempixel.com/400/200/');
         $image->setWidth(400);
         $image->setHeight(200);
@@ -21,7 +20,6 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($image));
-        $this->assertSame(1, $image->getId());
         $this->assertSame('http://lorempixel.com/400/200/', $image->getPath());
         $this->assertSame(400, $image->getWidth());
         $this->assertSame(200, $image->getHeight());

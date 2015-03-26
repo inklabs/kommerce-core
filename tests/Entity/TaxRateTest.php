@@ -8,7 +8,6 @@ class TaxRateTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $taxRate = new TaxRate;
-        $taxRate->setId(1);
         $taxRate->setState(null);
         $taxRate->setZip5('92606');
         $taxRate->setZip5From(null);
@@ -21,7 +20,6 @@ class TaxRateTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($taxRate));
-        $this->assertSame(1, $taxRate->getId());
         $this->assertSame(null, $taxRate->getState());
         $this->assertSame('92606', $taxRate->getZip5());
         $this->assertSame(null, $taxRate->getZip5From());

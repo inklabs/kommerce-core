@@ -6,23 +6,30 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Image
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $path;
-    protected $width;
-    protected $height;
-    protected $sortOrder = 0;
 
-    /* @var Product */
+    /** @var int */
+    protected $width;
+
+    /** @var int */
+    protected $height;
+
+    /** @var int */
+    protected $sortOrder;
+
+    /** @var Product */
     protected $product;
 
-    /* @var Tag */
+    /** @var Tag */
     protected $tag;
 
     public function __construct()
     {
         $this->setCreated();
+        $this->setSortOrder(0);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -57,16 +64,6 @@ class Image
         $this->setWidth($viewImage->width);
         $this->setHeight($viewImage->height);
         $this->setSortOrder($viewImage->sortOrder);
-    }
-
-    public function setid($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setPath($path)

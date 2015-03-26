@@ -9,7 +9,7 @@ use Doctrine as Doctrine;
 class TaxRate extends Lib\ServiceManager
 {
 
-    /* @var EntityRepository\TaxRate */
+    /** @var EntityRepository\TaxRate */
     private $taxRateRepository;
 
     public function __construct(Doctrine\ORM\EntityManager $entityManager)

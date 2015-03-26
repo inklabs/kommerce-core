@@ -7,10 +7,10 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class TagTest extends Helper\DoctrineTestCase
 {
-    /* @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\Tag */
+    /** @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\Tag */
     protected $mockTagRepository;
 
-    /* @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
+    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
     protected $mockEntityManager;
 
     public function setUp()

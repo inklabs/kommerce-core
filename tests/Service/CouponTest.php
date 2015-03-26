@@ -7,16 +7,16 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class CouponTest extends Helper\DoctrineTestCase
 {
-    /* @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\Coupon */
+    /** @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\Coupon */
     protected $mockCouponRepository;
 
-    /* @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
+    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
     protected $mockEntityManager;
 
-    /* @var Coupon */
+    /** @var Coupon */
     protected $couponService;
 
-    /* @var Entity\Coupon */
+    /** @var Entity\Coupon */
     protected $coupon;
 
     public function setUp()

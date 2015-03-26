@@ -6,20 +6,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class UserToken
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $userAgent;
+
+    /** @var string */
     protected $token;
+
+    /** @var int */
     protected $expires;
 
+    /** @var int */
     protected $type;
     const TYPE_GOOGLE   = 0;
     const TYPE_FACEBOOK = 1;
     const TYPE_TWITTER  = 2;
     const TYPE_YAHOO    = 3;
 
-    /* @var User */
+    /** @var User */
     protected $user;
 
     public function __construct()
@@ -47,11 +52,6 @@ class UserToken
             'choices' => array_keys(static::getTypeMapping()),
             'message' => 'The type is not a valid choice',
         ]));
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setUserAgent($userAgent)

@@ -6,12 +6,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Warehouse
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $name;
 
-    /* @var Address */
+    /** @var Address */
     protected $address;
 
     public function __construct()
@@ -27,16 +27,6 @@ class Warehouse
         ]));
 
         $metadata->addPropertyConstraint('address', new Assert\Valid);
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
     }
 
     public function getName()
