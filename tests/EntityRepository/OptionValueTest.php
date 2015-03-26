@@ -45,4 +45,17 @@ class OptionValueTest extends Helper\DoctrineTestCase
         $this->assertTrue($option instanceof Entity\OptionValue);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
+
+    public function testGetAllOptionValuesByIds()
+    {
+        $this->setupOptionValue();
+
+        $this->setCountLogger();
+
+        $optionValues = $this->getRepository()
+            ->getAllOptionValuesByIds([1]);
+
+        $this->assertTrue($optionValues[0] instanceof Entity\OptionValue);
+        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+    }
 }

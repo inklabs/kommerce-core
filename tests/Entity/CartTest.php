@@ -29,7 +29,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $cart = new Cart;
         $itemId1 = $cart->addItem(new Product, 2);
-        $itemId2 = $cart->addItem(new Product, 2, [new OptionValue]);
+        $itemId2 = $cart->addItem(new Product, 2, [new OptionValue(new Option)]);
 
         $this->assertSame(0, $itemId1);
         $this->assertSame(1, $itemId2);

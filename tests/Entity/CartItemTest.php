@@ -17,7 +17,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $product2->setUnitPrice(20);
         $product2->setShippingWeight(2);
 
-        $optionValue = new OptionValue;
+        $optionValue = new OptionValue(new Option);
         $optionValue->setProduct($product2);
 
         $cartItem = new CartItem($product, 2);
@@ -48,8 +48,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOrderItem()
     {
-        $optionValue = new OptionValue;
-        $optionValue->setOption(new Option);
+        $optionValue = new OptionValue(new Option);
         $optionValue->setProduct(new Product);
 
         $cartItem = new CartItem(new Product, 1);

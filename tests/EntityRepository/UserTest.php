@@ -65,10 +65,15 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
+        $this->setCountLogger();
+
         $user = $this->getRepository()
             ->findOneByUsernameOrEmail('testusername');
 
+        $user->getRoles()->toArray();
+
         $this->assertTrue($user instanceof Entity\User);
+        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testFindByUsernameOrEmailUsingEmail()

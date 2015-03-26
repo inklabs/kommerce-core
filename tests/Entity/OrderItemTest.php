@@ -37,8 +37,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $option = new Option;
         $option->setName('Test Option');
 
-        $optionValue = new OptionValue;
-        $optionValue->setOption($option);
+        $optionValue = new OptionValue($option);
         $optionValue->setProduct($product2);
 
         $optionProduct = new OrderItemOptionValue($optionValue);

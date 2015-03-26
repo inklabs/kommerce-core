@@ -9,4 +9,28 @@ use inklabs\kommerce\Entity as Entity;
  */
 class OptionValue extends EntityRepository
 {
+    /**
+     * @return Entity\OptionValue[]
+     */
+    public function getAllOptionValuesByIds($optionValueIds, Entity\Pagination & $pagination = null)
+    {
+        $qb = $this->getQueryBuilder();
+
+        $optionValues = $qb->select('optionValue')
+            ->from('kommerce:OptionValue', 'optionValue')
+
+            ->addSelect('option')
+            ->innerJoin('optionValue.option', 'option')
+
+            ->addSelect('product')
+            ->leftJoin('optionValue.product', 'product')
+
+            ->where('optionValue.id IN (:optionValueIds)')
+            ->setParameter('optionValueIds', $optionValueIds)
+            ->paginate($pagination)
+            ->getQuery()
+            ->getResult();
+
+        return $optionValues;
+    }
 }

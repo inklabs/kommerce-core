@@ -7,17 +7,35 @@ use inklabs\kommerce\Service\Pricing;
 
 class OptionValue
 {
+    /** @var int */
     public $id;
+
+    /** @var int */
+    public $encodedId;
+
+    /** @var int */
     public $sortOrder;
+
+    /** @var int */
     public $created;
+
+    /** @var int */
     public $updated;
 
+    /** @var string */
     public $name;
+
+    /** @var string */
     public $sku;
+
+    /** @var int */
     public $shippingWeight;
 
     /** @var Product */
     public $product;
+
+    /** @var Option */
+    public $option;
 
     public function __construct(Entity\OptionValue $optionValue)
     {
@@ -32,7 +50,15 @@ class OptionValue
 
     public function export()
     {
-        unset($this->option);
+        unset($this->optionValue);
+        return $this;
+    }
+
+    public function withOption()
+    {
+        $this->option = $this->optionValue->getOption()->getView()
+            ->export();
+
         return $this;
     }
 
@@ -52,6 +78,7 @@ class OptionValue
     public function withAllData(Pricing $pricing)
     {
         return $this
+            ->withOption()
             ->withProduct($pricing);
     }
 }

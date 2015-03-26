@@ -14,10 +14,12 @@ class OptionValue
     /** @var Option */
     protected $option;
 
-    public function __construct()
+    public function __construct(Option $option)
     {
         $this->setCreated();
         $this->sortOrder = 0;
+
+        $this->setOption($option);
     }
 
     public function getName()
@@ -59,6 +61,7 @@ class OptionValue
 
     public function setProduct(Product $product)
     {
+        $product->addOptionValue($this);
         $this->product = $product;
     }
 

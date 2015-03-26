@@ -58,11 +58,6 @@ class CartNewTest extends Helper\DoctrineTestCase
     {
         $cart = $this->getCartServiceFullyMocked();
 
-        $mockOptionRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Option');
-        $mockOptionRepository
-            ->shouldReceive('getAllOptionsByIds')
-            ->andReturn([new Entity\Option]);
-
         $mockProductRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Product');
         $mockProductRepository
             ->shouldReceive('find')
@@ -71,6 +66,11 @@ class CartNewTest extends Helper\DoctrineTestCase
             ->shouldReceive('getAllProductsByIds')
             ->andReturn([new Entity\Product]);
 
+        $mockOptionValueRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\OptionValue');
+        $mockOptionValueRepository
+            ->shouldReceive('getAllOptionValuesByIds')
+            ->andReturn([new Entity\OptionValue(new Entity\Option)]);
+
         $this->mockEntityManager
             ->shouldReceive('getRepository')
             ->once()
@@ -78,11 +78,7 @@ class CartNewTest extends Helper\DoctrineTestCase
         $this->mockEntityManager
             ->shouldReceive('getRepository')
             ->once()
-            ->andReturn($mockOptionRepository);
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->once()
-            ->andReturn($mockProductRepository);
+            ->andReturn($mockOptionValueRepository);
 
         $this->mockEntityCart
             ->shouldReceive('addItem')
@@ -117,16 +113,11 @@ class CartNewTest extends Helper\DoctrineTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Options not found
+     * @expectedExceptionMessage Option not found
      */
     public function testAddItemWithMissingOptions()
     {
         $cart = $this->getCartServiceFullyMocked();
-
-        $mockOptionRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Option');
-        $mockOptionRepository
-            ->shouldReceive('getAllOptionsByIds')
-            ->andReturn([]);
 
         $mockProductRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Product');
         $mockProductRepository
@@ -136,59 +127,20 @@ class CartNewTest extends Helper\DoctrineTestCase
             ->shouldReceive('getAllProductsByIds')
             ->andReturn([new Entity\Product]);
 
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->once()
-            ->andReturn($mockProductRepository);
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->once()
-            ->andReturn($mockOptionRepository);
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->once()
-            ->andReturn($mockProductRepository);
-
-        $this->mockEntityCart
-            ->shouldReceive('addItem')
-            ->andReturn(1);
-
-        $itemId = $cart->addItem('1', 1, ['1' => '2']);
-    }
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Products not found
-     */
-    public function testAddItemWithMissingProducts()
-    {
-        $cart = $this->getCartServiceFullyMocked();
-
-        $mockOptionRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Option');
-        $mockOptionRepository
-            ->shouldReceive('getAllOptionsByIds')
-            ->andReturn([new Entity\Option]);
-
-        $mockProductRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Product');
-        $mockProductRepository
-            ->shouldReceive('find')
-            ->andReturn(new Entity\Product);
-        $mockProductRepository
-            ->shouldReceive('getAllProductsByIds')
+        $mockOptionValueRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\OptionValue');
+        $mockOptionValueRepository
+            ->shouldReceive('getAllOptionValuesByIds')
             ->andReturn([]);
 
         $this->mockEntityManager
             ->shouldReceive('getRepository')
             ->once()
             ->andReturn($mockProductRepository);
+
         $this->mockEntityManager
             ->shouldReceive('getRepository')
             ->once()
-            ->andReturn($mockOptionRepository);
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->once()
-            ->andReturn($mockProductRepository);
+            ->andReturn($mockOptionValueRepository);
 
         $this->mockEntityCart
             ->shouldReceive('addItem')
