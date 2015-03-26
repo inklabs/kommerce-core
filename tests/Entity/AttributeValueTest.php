@@ -6,13 +6,11 @@ class AttributeValueTest extends \PHPUnit_Framework_TestCase
     public function testCreateAttributeValue()
     {
         $attributeValue = new AttributeValue;
-        $attributeValue->setId(1);
         $attributeValue->setSku('TA');
         $attributeValue->setName('Test Attribute');
         $attributeValue->setDescription('Test attribute description');
         $attributeValue->setSortOrder(0);
 
-        $this->assertSame(1, $attributeValue->getId());
         $this->assertSame('TA', $attributeValue->getSku());
         $this->assertSame('Test Attribute', $attributeValue->getName());
         $this->assertSame('Test attribute description', $attributeValue->getDescription());

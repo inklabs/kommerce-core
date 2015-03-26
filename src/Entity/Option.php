@@ -5,14 +5,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class Option
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $name;
+
+    /** @var string */
     protected $description;
+
+    /** @var int */
     protected $sortOrder;
 
-    /* @var int */
+    /** @var int */
     protected $type;
     const TYPE_SELECT   = 0;
     const TYPE_RADIO    = 1;
@@ -24,17 +28,17 @@ class Option
     const TYPE_TIME     = 7;
     const TYPE_DATETIME = 8;
 
-    /* @var Product[] */
-    protected $products;
+    /** @var OptionValue[] */
+    protected $optionValues;
 
-    /* @var Tag[] */
+    /** @var ArrayCollection|Tag */
     protected $tags;
 
     public function __construct()
     {
         $this->setCreated();
-        $this->products = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->optionValues = new ArrayCollection;
+        $this->tags = new ArrayCollection;
 
         $this->sortOrder = 0;
     }
@@ -57,16 +61,6 @@ class Option
     public function getTypeText()
     {
         return $this->getTypeMapping()[$this->type];
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setName($name)
@@ -112,14 +106,15 @@ class Option
         return $this->sortOrder;
     }
 
-    public function addProduct(Product $product)
+    public function addOptionValue(OptionValue $optionValue)
     {
-        $this->products[] = $product;
+        $optionValue->setOption($this);
+        $this->optionValues[] = $optionValue;
     }
 
-    public function getProducts()
+    public function getOptionValues()
     {
-        return $this->products;
+        return $this->optionValues;
     }
 
     public function addTag(Tag $tag)

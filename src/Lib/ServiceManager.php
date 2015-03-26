@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 
 class ServiceManager
 {
-    /* @var \Doctrine\ORM\EntityManager */
+    /** @var \Doctrine\ORM\EntityManager */
     protected $entityManager;
 
     public function setEntityManager(\Doctrine\ORM\EntityManager $entityManager)

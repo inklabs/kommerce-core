@@ -5,10 +5,10 @@ use inklabs\kommerce\Entity as Entity;
 
 class PricingCalculatorTest extends \PHPUnit_Framework_TestCase
 {
-    /* @var PricingCalculator */
+    /** @var PricingCalculator */
     protected $pricingCalculator;
 
-    /* @var Pricing */
+    /** @var Pricing */
     protected $pricing;
 
     public function setUp()
@@ -63,47 +63,6 @@ class PricingCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedPrice->quantityPrice = 1200;
         $expectedPrice->origQuantityPrice = 1500;
         $this->assertEquals($expectedPrice, $this->pricingCalculator->getPrice($product, 1));
-    }
-
-    public function testGetPriceWithProductOptions()
-    {
-        $option = new Entity\Option;
-        $option->setName('Size');
-        $option->setType('radio');
-        $option->setDescription('Navy T-shirt size');
-
-        $productSmall = new Entity\Product;
-        $productSmall->setSku('TS-NAVY-SM');
-        $productSmall->setName('Navy T-shirt (small)');
-        $productSmall->setUnitPrice(900);
-
-        $option->addProduct($productSmall);
-
-        $product = new Entity\Product;
-        $product->setUnitPrice(1500);
-        $product->addOption($option);
-        $product->addProduct($productSmall);
-
-        $expectedPrice = new Entity\Price;
-        $expectedPrice->unitPrice = 2400;
-        $expectedPrice->origUnitPrice = 2400;
-        $expectedPrice->quantityPrice = 2400;
-        $expectedPrice->origQuantityPrice = 2400;
-        $this->assertEquals($expectedPrice, $this->pricingCalculator->getPrice($product, 1));
-
-        $expectedPrice = new Entity\Price;
-        $expectedPrice->unitPrice = 2400;
-        $expectedPrice->origUnitPrice = 2400;
-        $expectedPrice->quantityPrice = 4800;
-        $expectedPrice->origQuantityPrice = 4800;
-        $this->assertEquals($expectedPrice, $this->pricingCalculator->getPrice($product, 2));
-
-        $expectedPrice = new Entity\Price;
-        $expectedPrice->unitPrice = 2400;
-        $expectedPrice->origUnitPrice = 2400;
-        $expectedPrice->quantityPrice = 24000;
-        $expectedPrice->origQuantityPrice = 24000;
-        $this->assertEquals($expectedPrice, $this->pricingCalculator->getPrice($product, 10));
     }
 
     public function testGetPriceWithProductQuantityDiscountPercent()

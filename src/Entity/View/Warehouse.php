@@ -11,7 +11,7 @@ class Warehouse
     public $created;
     public $updated;
 
-    /* @var Address */
+    /** @var Address */
     public $address;
 
     public function __construct(Entity\Warehouse $warehouse)

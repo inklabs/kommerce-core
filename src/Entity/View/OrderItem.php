@@ -5,27 +5,40 @@ use inklabs\kommerce\Entity as Entity;
 
 class OrderItem
 {
+    /** @var int */
     public $id;
+
+    /** @var int */
     public $quantity;
+
+    /** @var int */
     public $created;
+
+    /** @var int */
     public $updated;
 
-    /* @var Price */
+    /** @var Price */
     public $price;
 
-    /* @var Product */
+    /** @var Product */
     public $product;
+
+    /** @var string */
     public $productSku;
+
+    /** @var string */
     public $productName;
+
+    /** @var string */
     public $discountNames;
 
-    /* @var OrderItemOptionProduct[] */
-    public $optionProducts = [];
+    /** @var OrderItemOptionValue[] */
+    public $orderItemOptionValues = [];
 
-    /* @var CatalogPromotion[] */
+    /** @var CatalogPromotion[] */
     public $catalogPromotions;
 
-    /* @var ProductQuantityDiscount[] */
+    /** @var ProductQuantityDiscount[] */
     public $productQuantityDiscounts;
 
     public function __construct(Entity\OrderItem $orderItem)
@@ -72,10 +85,10 @@ class OrderItem
         return $this;
     }
 
-    public function withOptionProducts()
+    public function withOrderItemOptionValues()
     {
-        foreach ($this->orderItem->getOptionProducts() as $optionProduct) {
-            $this->optionProducts[] = $optionProduct->getView();
+        foreach ($this->orderItem->getOrderItemOptionValues() as $optionProduct) {
+            $this->orderItemOptionValues[] = $optionProduct->getView();
         }
 
         return $this;
@@ -86,6 +99,6 @@ class OrderItem
         return $this
             ->withCatalogPromotions()
             ->withProductQuantityDiscounts()
-            ->withOptionProducts();
+            ->withOrderItemOptionValues();
     }
 }

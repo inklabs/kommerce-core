@@ -12,7 +12,6 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $tag->setDescription(null);
         $this->assertSame(null, $tag->getDescription());
 
-        $tag->setId(1);
         $tag->setName('Test Tag');
         $tag->setDescription('Test Description');
         $tag->setDefaultImage('http://lorempixel.com/400/200/');
@@ -28,7 +27,6 @@ class TagTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($tag));
-        $this->assertSame(1, $tag->getId());
         $this->assertSame('Test Tag', $tag->getName());
         $this->assertSame('Test Description', $tag->getDescription());
         $this->assertSame('http://lorempixel.com/400/200/', $tag->getDefaultImage());

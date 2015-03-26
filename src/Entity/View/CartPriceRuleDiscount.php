@@ -10,7 +10,7 @@ class CartPriceRuleDiscount
     public $created;
     public $updated;
 
-    /* @var Product */
+    /** @var Product */
     public $product;
 
     public function __construct(Entity\CartPriceRuleDiscount $cartPriceRuleDiscount)

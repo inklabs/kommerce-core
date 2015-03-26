@@ -5,30 +5,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class Attribute
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $name;
+
+    /** @var string */
     protected $description;
+
+    /** @var int */
     protected $sortOrder;
 
-    /* @var AttributeValue[] */
+    /** @var AttributeValue[] */
     protected $attributeValues;
 
     public function __construct()
     {
         $this->setCreated();
         $this->attributeValues = new ArrayCollection();
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setName($name)

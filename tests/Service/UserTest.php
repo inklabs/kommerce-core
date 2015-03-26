@@ -8,13 +8,13 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class UserTest extends Helper\DoctrineTestCase
 {
-    /* @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\User */
+    /** @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\User */
     protected $mockUserRepository;
 
-    /* @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
+    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
     protected $mockEntityManager;
 
-    /* @var User */
+    /** @var User */
     protected $userService;
     protected $sessionManager;
 

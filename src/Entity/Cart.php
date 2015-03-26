@@ -8,10 +8,10 @@ class Cart
 {
     use Accessor\Created;
 
-    /* @var CartItem[] */
+    /** @var CartItem[] */
     protected $items = [];
 
-    /* @var Coupon[] */
+    /** @var Coupon[] */
     protected $coupons = [];
 
     public function __construct()
@@ -22,16 +22,16 @@ class Cart
     /**
      * @param Product $product
      * @param int $quantity
-     * @param CartItemOptionProduct[] $optionProducts
+     * @param OptionValue[] $optionValues
      * @return int
      */
-    public function addItem(Product $product, $quantity, $optionProducts = null)
+    public function addItem(Product $product, $quantity, $optionValues = null)
     {
         $cartItem = new CartItem($product, $quantity);
 
-        if ($optionProducts !== null) {
-            foreach ($optionProducts as $optionProduct) {
-                $cartItem->addOptionProduct($optionProduct);
+        if ($optionValues !== null) {
+            foreach ($optionValues as $optionValue) {
+                $cartItem->addOptionValue($optionValue);
             }
         }
 

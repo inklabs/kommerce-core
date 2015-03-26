@@ -8,7 +8,7 @@ class CatalogPromotion extends Promotion
 {
     protected $code;
 
-    /* @var Tag */
+    /** @var Tag */
     protected $tag;
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

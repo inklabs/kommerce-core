@@ -9,7 +9,7 @@ use inklabs\kommerce\Lib as Lib;
 
 class Image extends Lib\ServiceManager
 {
-    /* @var EntityRepository\Image */
+    /** @var EntityRepository\Image */
     private $ImageRepository;
 
     public function __construct(EntityManager $entityManager)
@@ -23,7 +23,7 @@ class Image extends Lib\ServiceManager
      */
     public function find($id)
     {
-        /* @var Entity\Image $entityImage */
+        /** @var Entity\Image $entityImage */
         $entityImage = $this->imageRepository->find($id);
 
         if ($entityImage === null) {
@@ -41,7 +41,7 @@ class Image extends Lib\ServiceManager
      */
     public function edit($id, Entity\View\Image $viewImage)
     {
-        /* @var Entity\Image $image */
+        /** @var Entity\Image $image */
         $image = $this->imageRepository->find($id);
 
         if ($image === null) {
@@ -77,7 +77,7 @@ class Image extends Lib\ServiceManager
      */
     public function createWithProduct(Entity\Image $image, $productId)
     {
-        /* @var Entity\Product $product */
+        /** @var Entity\Product $product */
         $product = $this->entityManager->getRepository('kommerce:Product')->find($productId);
 
         if ($product === null) {

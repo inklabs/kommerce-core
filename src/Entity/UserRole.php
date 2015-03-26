@@ -6,10 +6,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class UserRole
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $name;
+
+    /** @var string */
     protected $description;
 
     public function __construct()
@@ -28,16 +30,6 @@ class UserRole
         $metadata->addPropertyConstraint('description', new Assert\Length([
             'max' => 255,
         ]));
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setName($name)

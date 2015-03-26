@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 
 class Coupon extends Lib\ServiceManager
 {
-    /* @var EntityRepository\Coupon */
+    /** @var EntityRepository\Coupon */
     private $couponRepository;
 
     public function __construct(EntityManager $entityManager)
@@ -20,7 +20,7 @@ class Coupon extends Lib\ServiceManager
     /* @return Entity\View\Coupon */
     public function find($id)
     {
-        /* @var Entity\Coupon $entityCoupon */
+        /** @var Entity\Coupon $entityCoupon */
         $entityCoupon = $this->entityManager->getRepository('kommerce:Coupon')->find($id);
 
         if ($entityCoupon === null) {

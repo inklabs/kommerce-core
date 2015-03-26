@@ -7,10 +7,10 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class ImageTest extends Helper\DoctrineTestCase
 {
-    /* @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\Image */
+    /** @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\Image */
     protected $mockImageRepository;
 
-    /* @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
+    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
     protected $mockEntityManager;
 
     public function setUp()

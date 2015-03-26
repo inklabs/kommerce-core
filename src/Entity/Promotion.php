@@ -6,21 +6,33 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class Promotion
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $name;
 
+    /** @var int */
     protected $type;
     const TYPE_FIXED   = 0;
     const TYPE_PERCENT = 1;
     const TYPE_EXACT   = 2;
 
+    /** @var int */
     protected $value;
+
+    /** @var int */
     protected $redemptions;
+
+    /** @var int */
     protected $maxRedemptions;
+
+    /** @var bool */
     protected $reducesTaxSubtotal;
+
+    /** @var \DateTime|null */
     protected $start;
+
+    /** @var \DateTime|null */
     protected $end;
 
     public function __construct()
@@ -60,16 +72,6 @@ abstract class Promotion
 
         $metadata->addPropertyConstraint('start', new Assert\Date());
         $metadata->addPropertyConstraint('end', new Assert\Date());
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setName($name)
@@ -136,6 +138,9 @@ abstract class Promotion
         return $this->maxRedemptions;
     }
 
+    /**
+     * @param bool $reducesTaxSubtotal
+     */
     public function setReducesTaxSubtotal($reducesTaxSubtotal)
     {
         $this->reducesTaxSubtotal = (bool) $reducesTaxSubtotal;

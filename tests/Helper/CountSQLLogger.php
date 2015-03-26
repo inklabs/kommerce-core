@@ -8,7 +8,7 @@ use Doctrine\DBAL\Logging\SQLLogger;
  */
 class CountSQLLogger implements SQLLogger
 {
-    /* @var int */
+    /** @var int */
     protected $totalQueries;
 
     public function getTotalQueries()

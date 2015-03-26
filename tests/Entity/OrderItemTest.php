@@ -33,9 +33,15 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $product2->setUnitPrice(400);
         $product2->addProductQuantityDiscount($optionProductQuantityDiscount);
 
+
         $option = new Option;
         $option->setName('Test Option');
-        $optionProduct = new OrderItemOptionProduct($option, $product2);
+
+        $optionValue = new OptionValue;
+        $optionValue->setOption($option);
+        $optionValue->setProduct($product2);
+
+        $optionProduct = new OrderItemOptionValue($optionValue);
 
         $price = new Price;
         $price->origUnitPrice = 1;
@@ -47,7 +53,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $price->addProductQuantityDiscount($optionProductQuantityDiscount);
 
         $orderItem = new OrderItem($product, 2, $price);
-        $orderItem->addOptionProduct($optionProduct);
+        $orderItem->addOrderItemOptionValue($optionProduct);
 
         $order = new Order([$orderItem], new CartTotal);
 
@@ -67,7 +73,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($orderItem->getOrder() instanceof Order);
         $this->assertTrue($orderItem->getPrice() instanceof Price);
         $this->assertTrue($orderItem->getProduct() instanceof Product);
-        $this->assertTrue($orderItem->getOptionProducts()[0] instanceof OrderItemOptionProduct);
+        $this->assertTrue($orderItem->getOrderItemOptionValues()[0] instanceof OrderItemOptionValue);
         $this->assertTrue($orderItem->getCatalogPromotions()[0] instanceof CatalogPromotion);
         $this->assertTrue($orderItem->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
         $this->assertTrue($orderItem->getView() instanceof View\Orderitem);

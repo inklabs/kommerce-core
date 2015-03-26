@@ -6,16 +6,16 @@ use Doctrine as Doctrine;
 
 class Pricing
 {
-    /* @var \DateTime */
+    /** @var \DateTime */
     protected $date;
 
-    /* @var Entity\CatalogPromotion[] */
+    /** @var Entity\CatalogPromotion[] */
     protected $catalogPromotions = [];
 
-    /* @var Entity\ProductQuantityDiscount[] */
+    /** @var Entity\ProductQuantityDiscount[] */
     protected $productQuantityDiscounts = [];
 
-    /* @var Entity\CartPriceRule[] */
+    /** @var Entity\CartPriceRule[] */
     protected $cartPriceRules = [];
 
     public function __construct(\DateTime $date = null)

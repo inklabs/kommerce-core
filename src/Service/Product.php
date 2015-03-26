@@ -9,10 +9,10 @@ use inklabs\kommerce\Lib as Lib;
 
 class Product extends Lib\ServiceManager
 {
-    /* @var Pricing */
+    /** @var Pricing */
     private $pricing;
 
-    /* @var EntityRepository\Product */
+    /** @var EntityRepository\Product */
     private $productRepository;
 
     public function __construct(EntityManager $entityManager, Pricing $pricing)
@@ -27,7 +27,7 @@ class Product extends Lib\ServiceManager
      */
     public function find($id)
     {
-        /* @var Entity\Product $entityProduct */
+        /** @var Entity\Product $entityProduct */
         $entityProduct = $this->productRepository->find($id);
 
         if ($entityProduct === null) {
@@ -45,7 +45,7 @@ class Product extends Lib\ServiceManager
      */
     public function edit($id, Entity\View\Product $viewProduct)
     {
-        /* @var Entity\Product $product */
+        /** @var Entity\Product $product */
         $product = $this->productRepository->find($id);
 
         if ($product === null) {
@@ -67,7 +67,7 @@ class Product extends Lib\ServiceManager
      */
     public function create(Entity\View\Product $viewProduct)
     {
-        /* @var Entity\Product $product */
+        /** @var Entity\Product $product */
         $product = new Entity\Product;
 
         $product->loadFromView($viewProduct);

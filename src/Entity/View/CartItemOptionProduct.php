@@ -9,10 +9,10 @@ class CartItemOptionProduct
 {
     public $id;
 
-    /* @var Option */
+    /** @var Option */
     public $option;
 
-    /* @var Product */
+    /** @var Product */
     public $product;
 
     public function __construct(Entity\CartItemOptionProduct $cartOptionProduct)

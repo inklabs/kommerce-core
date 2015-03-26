@@ -10,10 +10,10 @@ class Price
     public $origQuantityPrice;
     public $quantityPrice;
 
-    /* @var CatalogPromotion[] */
+    /** @var CatalogPromotion[] */
     public $catalogPromotions = [];
 
-    /* @var ProductQuantityDiscount */
+    /** @var ProductQuantityDiscount */
     public $productQuantityDiscount;
 
     public function __construct(Entity\Price $price)

@@ -9,7 +9,6 @@ class TagTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $entityCartPriceRuleItem = new Entity\CartPriceRuleItem\Tag(new Entity\Tag, 1);
-        $entityCartPriceRuleItem->setId(1);
 
         $cartPriceRuleItem = new Tag($entityCartPriceRuleItem);
         $cartPriceRuleItem

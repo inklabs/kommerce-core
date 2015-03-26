@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 
 class CatalogPromotion extends Lib\ServiceManager
 {
-    /* @var EntityRepository\CatalogPromotion */
+    /** @var EntityRepository\CatalogPromotion */
     private $catalogPromotionRepository;
 
     public function __construct(EntityManager $entityManager)
@@ -20,7 +20,7 @@ class CatalogPromotion extends Lib\ServiceManager
     /* @return Entity\View\CatalogPromotion */
     public function find($id)
     {
-        /* @var Entity\CatalogPromotion $entityCatalogPromotion */
+        /** @var Entity\CatalogPromotion $entityCatalogPromotion */
         $entityCatalogPromotion = $this->entityManager->getRepository('kommerce:CatalogPromotion')->find($id);
 
         if ($entityCatalogPromotion === null) {

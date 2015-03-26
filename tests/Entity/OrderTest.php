@@ -35,7 +35,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $cart->addItem($product, 2);
 
         $order = $cart->getOrder(new Pricing);
-        $order->setId(1);
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
         $order->setUser(new User);
@@ -47,7 +46,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($order));
-        $this->assertSame(1, $order->getId());
         $this->assertSame(Order::STATUS_PENDING, $order->getStatus());
         $this->assertSame('Pending', $order->getStatusText());
         $this->assertSame(1, $order->totalItems());

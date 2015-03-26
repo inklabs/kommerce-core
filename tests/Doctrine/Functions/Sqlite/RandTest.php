@@ -6,13 +6,13 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class RandTest extends Helper\DoctrineTestCase
 {
-    /* @var Entity\Product */
+    /** @var Entity\Product */
     private $product1;
 
-    /* @var Entity\Product */
+    /** @var Entity\Product */
     private $product2;
 
-    /* @var Entity\Product */
+    /** @var Entity\Product */
     private $product3;
 
     public function setUp()

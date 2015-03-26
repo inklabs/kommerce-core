@@ -7,7 +7,7 @@ class CatalogPromotion extends Promotion
 {
     public $code;
 
-    /* @var Tag */
+    /** @var Tag */
     public $tag;
 
     public function __construct(Entity\CatalogPromotion $catalogPromotion)
