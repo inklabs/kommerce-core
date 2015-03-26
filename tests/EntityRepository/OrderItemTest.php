@@ -56,7 +56,7 @@ class OrderItemTest extends Helper\DoctrineTestCase
         $orderItem->getOrder();
         $orderItem->getCatalogPromotions()->toArray();
         $orderItem->getProductQuantityDiscounts()->toArray();
-        $orderItem->getOptionProducts()->toArray();
+        $orderItem->getOrderItemOptionValues()->toArray();
 
         $this->assertTrue($orderItem instanceof Entity\OrderItem);
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());

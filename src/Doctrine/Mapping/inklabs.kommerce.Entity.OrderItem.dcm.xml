@@ -27,7 +27,7 @@
 
         <embedded name="price" class="Price"/>
 
-        <one-to-many field="optionProducts" target-entity="OrderItemOptionProduct" mapped-by="orderItem" fetch="EXTRA_LAZY">
+        <one-to-many field="orderItemOptionValues" target-entity="OrderItemOptionValue" mapped-by="orderItem" fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>

@@ -14,7 +14,7 @@ class Address
     public $zip5;
     public $zip4;
 
-    /* @var Point */
+    /** @var Point */
     public $point;
 
     public function __construct(Entity\Address $address)

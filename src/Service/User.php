@@ -11,10 +11,10 @@ class User extends Lib\ServiceManager
     protected $sessionManager;
     protected $userSessionKey = 'newuser';
 
-    /* @var EntityRepository\User */
+    /** @var EntityRepository\User */
     private $userRepository;
 
-    /* @var Entity\User */
+    /** @var Entity\User */
     protected $user;
 
     public function __construct(EntityManager $entityManager, Lib\SessionManager $sessionManager)
@@ -49,7 +49,7 @@ class User extends Lib\ServiceManager
      */
     public function login($username, $password, $remoteIp)
     {
-        /* @var Entity\User $entityUser */
+        /** @var Entity\User $entityUser */
         $entityUser = $this->entityManager->getRepository('kommerce:User')
             ->findOneByUsernameOrEmail($username);
 

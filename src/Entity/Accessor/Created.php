@@ -3,8 +3,12 @@ namespace inklabs\kommerce\Entity\Accessor;
 
 trait Created
 {
+    /** @var int */
     protected $created;
 
+    /**
+     * @param \DateTime $created
+     */
     public function setCreated(\DateTime $created = null)
     {
         if ($created === null) {
@@ -14,6 +18,9 @@ trait Created
         $this->created = $created->gettimestamp();
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getCreated()
     {
         $created = new \DateTime();

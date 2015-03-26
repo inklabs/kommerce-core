@@ -19,13 +19,13 @@ class Tag
     public $created;
     public $updated;
 
-    /* @var Product[] */
+    /** @var Product[] */
     public $products = [];
 
-    /* @var Image[] */
+    /** @var Image[] */
     public $images = [];
 
-    /* @var Option[] */
+    /** @var Option[] */
     public $options = [];
 
     public function __construct(Entity\Tag $tag)
@@ -74,7 +74,7 @@ class Tag
     {
         foreach ($this->tag->getOptions() as $option) {
             $this->options[] = $option->getView()
-                ->withProducts($pricing)
+                ->withOptionValues($pricing)
                 ->export();
         }
         return $this;

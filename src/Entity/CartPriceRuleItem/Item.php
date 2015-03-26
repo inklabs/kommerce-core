@@ -8,12 +8,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class Item
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var int */
     protected $quantity;
 
-    /* @var Entity\CartPriceRule */
+    /** @var Entity\CartPriceRule */
     protected $cartPriceRule;
 
     abstract public function matches(Entity\CartItem $cartItem);
@@ -25,16 +25,6 @@ abstract class Item
             'min' => 0,
             'max' => 65535,
         ]));
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setQuantity($quantity)

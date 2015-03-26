@@ -8,20 +8,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Order
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
-
-    /* @var CartTotal */
+    /** @var CartTotal */
     protected $total;
 
-    /* @var OrderAddress */
+    /** @var OrderAddress */
     protected $shippingAddress;
 
-    /* @var OrderAddress */
+    /** @var OrderAddress */
     protected $billingAddress;
 
-    /* @var int */
+    /** @var int */
     protected $status;
     const STATUS_PENDING    = 0;
     const STATUS_PROCESSING = 1;
@@ -29,16 +27,16 @@ class Order
     const STATUS_COMPLETE   = 3;
     const STATUS_CANCELED   = 4;
 
-    /* @var User */
+    /** @var User */
     protected $user;
 
-    /* @var OrderItem[] */
+    /** @var OrderItem[] */
     protected $items;
 
-    /* @var Payment\Payment[] */
+    /** @var Payment\Payment[] */
     protected $payments;
 
-    /* @var Coupon[] */
+    /** @var Coupon[] */
     protected $coupons;
 
     public function __construct(array $orderItems, CartTotal $total)
@@ -105,16 +103,6 @@ class Order
         }
 
         return $total;
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setStatus($status)

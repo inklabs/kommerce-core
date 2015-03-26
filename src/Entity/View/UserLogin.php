@@ -13,7 +13,7 @@ class UserLogin
     public $resultText;
     public $created;
 
-    /* @var User */
+    /** @var User */
     public $user;
 
     public function __construct(Entity\UserLogin $userLogin)

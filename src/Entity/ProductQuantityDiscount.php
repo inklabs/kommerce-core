@@ -11,7 +11,7 @@ class ProductQuantityDiscount extends Promotion
     protected $flagApplyCatalogPromotions;
     protected $quantity;
 
-    /* @var Product */
+    /** @var Product */
     protected $product;
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

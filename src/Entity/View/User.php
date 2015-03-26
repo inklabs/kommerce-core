@@ -18,13 +18,13 @@ class User
     public $created;
     public $updated;
 
-    /* @var UserRole[] */
+    /** @var UserRole[] */
     public $roles = [];
 
-    /* @var UserToken[] */
+    /** @var UserToken[] */
     public $tokens = [];
 
-    /* @var UserLogin[] */
+    /** @var UserLogin[] */
     public $logins = [];
 
     public function __construct(Entity\User $user)

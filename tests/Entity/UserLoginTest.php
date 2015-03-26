@@ -8,7 +8,6 @@ class UserLoginTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $userLogin = new UserLogin;
-        $userLogin->setId(1);
         $userLogin->setUsername('test');
         $userLogin->setIp4('8.8.8.8');
         $userLogin->setResult(UserLogin::RESULT_SUCCESS);
@@ -19,7 +18,6 @@ class UserLoginTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($userLogin));
-        $this->assertSame(1, $userLogin->getId());
         $this->assertSame('test', $userLogin->getUsername());
         $this->assertSame('8.8.8.8', $userLogin->getIp4());
         $this->assertSame(UserLogin::RESULT_SUCCESS, $userLogin->getResult());

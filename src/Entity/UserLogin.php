@@ -6,17 +6,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class UserLogin
 {
-    use Accessor\Created;
+    use Accessor\Created, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $username;
+
+    /** @var int */
     protected $ip4;
 
     protected $result;
     const RESULT_FAIL      = 0;
     const RESULT_SUCCESS   = 1;
 
-    /* @var User */
+    /** @var User */
     protected $user;
 
     public function __construct()
@@ -43,16 +45,6 @@ class UserLogin
         ]));
     }
 
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
     public function setUsername($username)
     {
         $this->username = $username;
@@ -74,11 +66,11 @@ class UserLogin
     }
 
     /**
-     * @param $ip4 string
+     * @param string $ip4String
      */
-    public function setIp4($ip4)
+    public function setIp4($ip4String)
     {
-        $this->ip4 = (int) ip2long($ip4);
+        $this->ip4 = (int) ip2long($ip4String);
     }
 
     public function getIp4()

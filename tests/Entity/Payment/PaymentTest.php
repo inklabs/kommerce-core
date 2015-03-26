@@ -12,9 +12,8 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $orderItem = new Entity\OrderItem(new Entity\Product, 1, new Entity\Price);
         $order = new Entity\Order([$orderItem], new Entity\CartTotal);
 
-        /* @var $mock Payment */
+        /** @var $mock Payment */
         $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Payment\Payment');
-        $mock->setId(1);
         $mock->setAmount(100);
         $mock->addOrder($order);
 
@@ -23,7 +22,6 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($mock));
-        $this->assertSame(1, $mock->getId());
         $this->assertSame(100, $mock->getAmount());
         $this->assertTrue($mock->getOrder() instanceof Entity\Order);
     }

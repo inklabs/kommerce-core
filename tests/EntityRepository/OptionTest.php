@@ -16,11 +16,8 @@ class OptionTest extends Helper\DoctrineTestCase
 
     private function setupOption()
     {
-        $option = new Entity\Option;
-        $option->setName('Size');
-        $option->setType(Entity\Option::TYPE_RADIO);
-        $option->setDescription('Shirt Size');
-        $option->setSortOrder(0);
+
+        $option = $this->getDummyOption();
 
         $this->entityManager->persist($option);
         $this->entityManager->flush();
@@ -36,7 +33,7 @@ class OptionTest extends Helper\DoctrineTestCase
         $option = $this->getRepository()
             ->find(1);
 
-        $option->getProducts()->toArray();
+        $option->getOptionValues()->toArray();
         $option->getTags()->toArray();
 
         $this->assertTrue($option instanceof Entity\Option);

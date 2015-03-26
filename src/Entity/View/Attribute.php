@@ -11,7 +11,7 @@ class Attribute
     public $description;
     public $sortOrder;
 
-    /* @var AttributeValue[] */
+    /** @var AttributeValue[] */
     public $attributeValues;
 
     public function __construct(Entity\Attribute $attribute)

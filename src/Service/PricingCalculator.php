@@ -5,13 +5,13 @@ use inklabs\kommerce\Entity as Entity;
 
 class PricingCalculator
 {
-    /* @var Pricing */
+    /** @var Pricing */
     protected $pricing;
 
-    /* @var Entity\Product */
+    /** @var Entity\Product */
     protected $product;
 
-    /* @var Entity\Price */
+    /** @var Entity\Price */
     protected $price;
 
     protected $quantity;
@@ -34,7 +34,6 @@ class PricingCalculator
         $this->calculateProductQuantityDiscounts();
         $this->calculateCatalogPromotions();
         $this->calculateQuantityPrice();
-        $this->calculateProductOptionPrices();
 
         return $this->price;
     }
@@ -69,15 +68,5 @@ class PricingCalculator
     private function calculateQuantityPrice()
     {
         $this->price->quantityPrice = ($this->price->unitPrice * $this->quantity);
-    }
-
-    private function calculateProductOptionPrices()
-    {
-        foreach ($this->product->getProducts() as $optionProduct) {
-            $subPricing = new Pricing($this->pricing->getDate());
-            $optionProductPrice = $optionProduct->getPrice($subPricing, $this->quantity);
-
-            $this->price = Entity\Price::add($this->price, $optionProductPrice);
-        }
     }
 }

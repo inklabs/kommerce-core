@@ -8,7 +8,6 @@ class CartPriceRuleDiscountTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $entityCartPriceRuleDiscount = new Entity\CartPriceRuleDiscount(new Entity\Product, 2);
-        $entityCartPriceRuleDiscount->setId(1);
 
         $cartPriceRuleDiscount = new CartPriceRuleDiscount($entityCartPriceRuleDiscount);
         $cartPriceRuleDiscount

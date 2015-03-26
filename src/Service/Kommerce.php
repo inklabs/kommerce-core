@@ -11,16 +11,16 @@ class Kommerce
     protected $sessionManager;
     protected $pricing;
 
-    /* @var Doctrine\ORM\EntityManager */
+    /** @var Doctrine\ORM\EntityManager */
     protected $entityManager;
 
-    /* @var Doctrine\DBAL\Configuration */
+    /** @var Doctrine\DBAL\Configuration */
     protected $entityManagerConfiguration;
 
-    /* @var Doctrine\Common\Cache\CacheProvider */
+    /** @var Doctrine\Common\Cache\CacheProvider */
     protected $cacheDriver;
 
-    /* @var Doctrine\DBAL\Configuration */
+    /** @var Doctrine\DBAL\Configuration */
     protected $config;
 
     public function __construct(Doctrine\Common\Cache\CacheProvider $cacheDriver = null)

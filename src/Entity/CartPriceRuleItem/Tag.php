@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class Tag extends Item
 {
-    /* @var Entity\Tag */
+    /** @var Entity\Tag */
     protected $tag;
 
     public function __construct(Entity\Tag $tag, $quantity)

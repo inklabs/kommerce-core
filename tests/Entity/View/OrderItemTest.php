@@ -12,8 +12,12 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $price->addCatalogPromotion(new Entity\CatalogPromotion);
         $price->addProductQuantityDiscount(new Entity\ProductQuantityDiscount);
 
+        $optionValue = new Entity\OptionValue;
+        $optionValue->setOption(new Entity\Option);
+        $optionValue->setProduct(new Entity\Product);
+
         $orderItem = new Entity\OrderItem(new Entity\Product, 1, $price);
-        $orderItem->addOptionProduct(new Entity\OrderItemOptionProduct(new Entity\Option, new Entity\Product));
+        $orderItem->addOrderItemOptionValue(new Entity\OrderItemOptionValue($optionValue));
 
         $orderItemView = $orderItem->getView()
             ->withAllData()
@@ -24,6 +28,6 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($orderItemView->product instanceof Product);
         $this->assertTrue($orderItemView->catalogPromotions[0] instanceof CatalogPromotion);
         $this->assertTrue($orderItemView->productQuantityDiscounts[0] instanceof ProductQuantityDiscount);
-        $this->assertTrue($orderItemView->optionProducts[0] instanceof OrderItemOptionProduct);
+        $this->assertTrue($orderItemView->orderItemOptionValues[0] instanceof OrderItemOptionValue);
     }
 }

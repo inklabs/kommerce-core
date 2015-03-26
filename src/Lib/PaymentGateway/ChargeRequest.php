@@ -11,7 +11,7 @@ class ChargeRequest
     protected $currency;
     protected $description;
 
-    /* @var CreditCard */
+    /** @var CreditCard */
     protected $creditCard;
 
     public function __construct(CreditCard $creditCard, $amount, $currency, $description)

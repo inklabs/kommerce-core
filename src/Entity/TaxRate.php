@@ -6,14 +6,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class TaxRate
 {
-    use Accessor\Time;
+    use Accessor\Time, Accessor\Id;
 
-    protected $id;
+    /** @var string */
     protected $state;
+
+    /** @var string */
     protected $zip5;
+
+    /** @var string */
     protected $zip5From;
+
+    /** @var string */
     protected $zip5To;
+
+    /** @var double */
     protected $rate;
+
+    /** @var bool */
     protected $applyToShipping;
 
     public function __construct()
@@ -45,16 +55,6 @@ class TaxRate
             'min' => 0,
             'max' => 100,
         ]));
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setState($state)

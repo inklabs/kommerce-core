@@ -17,19 +17,19 @@ class Order
     public $created;
     public $updated;
 
-    /* @var CartTotal */
+    /** @var CartTotal */
     public $total;
 
-    /* @var User */
+    /** @var User */
     public $user;
 
-    /* @var OrderItem[] */
+    /** @var OrderItem[] */
     public $items = [];
 
-    /* @var Payment\Payment[] */
+    /** @var Payment\Payment[] */
     public $payments = [];
 
-    /* @var Coupon[] */
+    /** @var Coupon[] */
     public $coupons = [];
 
     public function __construct(Entity\Order $order)

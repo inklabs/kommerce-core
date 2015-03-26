@@ -6,34 +6,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class CartItem
 {
-    use Accessor\Created;
+    use Accessor\Created, Accessor\Id;
 
-    protected $id;
+    /** @var int */
     protected $quantity;
 
-    /* @var Product */
+    /** @var Product */
     protected $product;
 
-    /* @var CartItemOptionProduct[] */
-    protected $optionProducts;
+    /** @var OptionValue[] */
+    protected $optionValues;
 
     public function __construct(Product $product, $quantity)
     {
         $this->setCreated();
-        $this->optionProducts = new ArrayCollection();
+        $this->optionValues = new ArrayCollection();
 
         $this->setProduct($product);
         $this->setQuantity($quantity);
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getProduct()
@@ -56,14 +46,14 @@ class CartItem
         $this->quantity = (int) $quantity;
     }
 
-    public function getOptionProducts()
+    public function getOptionValues()
     {
-        return $this->optionProducts;
+        return $this->optionValues;
     }
 
-    public function addOptionProduct(CartItemOptionProduct $optionProduct)
+    public function addOptionValue(OptionValue $optionValue)
     {
-        $this->optionProducts[] = $optionProduct;
+        $this->optionValues[] = $optionValue;
     }
 
     public function getPrice(Pricing $pricing)
@@ -73,9 +63,9 @@ class CartItem
             $this->getQuantity()
         );
 
-        foreach ($this->getOptionProducts() as $optionProduct) {
+        foreach ($this->getOptionValues() as $optionValue) {
             $optionPrice = $pricing->getPrice(
-                $optionProduct->getProduct(),
+                $optionValue->getProduct(),
                 $this->getQuantity()
             );
 
@@ -90,8 +80,8 @@ class CartItem
         $fullSku = [];
         $fullSku[] = $this->getProduct()->getSku();
 
-        foreach ($this->getOptionProducts() as $optionProduct) {
-            $fullSku[] = $optionProduct->getProduct()->getSku();
+        foreach ($this->getOptionValues() as $optionValue) {
+            $fullSku[] = $optionValue->getSku();
         }
 
         return implode('-', $fullSku);
@@ -101,8 +91,8 @@ class CartItem
     {
         $shippingWeight = ($this->getProduct()->getShippingWeight() * $this->getQuantity());
 
-        foreach ($this->getOptionProducts() as $optionProduct) {
-            $shippingWeight += ($optionProduct->getProduct()->getShippingWeight() * $this->getQuantity());
+        foreach ($this->getOptionValues() as $optionValue) {
+            $shippingWeight += ($optionValue->getShippingWeight() * $this->getQuantity());
         }
 
         return $shippingWeight;
@@ -112,12 +102,9 @@ class CartItem
     {
         $orderItem = new OrderItem($this->getProduct(), $this->getQuantity(), $this->getPrice($pricing));
 
-        foreach ($this->getOptionProducts() as $optionProduct) {
-            $orderItemOptionProduct = new OrderItemOptionProduct(
-                $optionProduct->getOption(),
-                $optionProduct->getProduct()
-            );
-            $orderItem->addOptionProduct($orderItemOptionProduct);
+        foreach ($this->getOptionValues() as $optionValue) {
+            $orderItemOptionValue = new OrderItemOptionValue($optionValue);
+            $orderItem->addOrderItemOptionValue($orderItemOptionValue);
         }
 
         return $orderItem;

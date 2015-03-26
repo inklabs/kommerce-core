@@ -5,10 +5,10 @@ use inklabs\kommerce\Entity as Entity;
 
 class CartPriceRule extends Promotion
 {
-    /* @var CartPriceRuleItem[] */
+    /** @var CartPriceRuleItem[] */
     public $cartPriceRuleItems;
 
-    /* @var CartPriceRuleDiscount[] */
+    /** @var CartPriceRuleDiscount[] */
     public $cartPriceRuleDiscounts;
 
     public function __construct(Entity\CartPriceRule $cartPriceRule)
