@@ -1,0 +1,56 @@
+<?php
+namespace inklabs\kommerce\Entity;
+
+class ProductAttribute
+{
+    use Accessor\Time, Accessor\Id;
+
+    /** @var Product */
+    protected $product;
+
+    /** @var Attribute */
+    protected $attribute;
+
+    /** @var AttributeValue */
+    protected $attributeValue;
+
+    public function __construct()
+    {
+        $this->setCreated();
+    }
+
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    public function setProduct(Product $product)
+    {
+        $this->product = $product;
+    }
+
+    public function getAttribute()
+    {
+        return $this->attribute;
+    }
+
+    public function setAttribute(Attribute $attribute)
+    {
+        $this->attribute = $attribute;
+    }
+
+    public function getAttributeValue()
+    {
+        return $this->attributeValue;
+    }
+
+    public function setAttributeValue(AttributeValue $attributeValue)
+    {
+        $this->attributeValue = $attributeValue;
+    }
+
+    public function getView()
+    {
+        return new View\ProductAttribute($this);
+    }
+}

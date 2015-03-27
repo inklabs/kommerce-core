@@ -12,7 +12,10 @@ class Attribute
     public $sortOrder;
 
     /** @var AttributeValue[] */
-    public $attributeValues;
+    public $attributeValues = [];
+
+    /** @var ProductAttribute[] */
+    public $productAttributes = [];
 
     public function __construct(Entity\Attribute $attribute)
     {
@@ -35,12 +38,23 @@ class Attribute
         foreach ($this->attribute->getAttributeValues() as $attributeValue) {
             $this->attributeValues[] = $attributeValue->getView();
         }
+
+        return $this;
+    }
+
+    public function withProductAttributes()
+    {
+        foreach ($this->attribute->getProductAttributes() as $productAttribute) {
+            $this->productAttributes[] = $productAttribute->getView();
+        }
+
         return $this;
     }
 
     public function withAllData()
     {
         return $this
-            ->withAttributeValues();
+            ->withAttributeValues()
+            ->withProductAttributes();
     }
 }

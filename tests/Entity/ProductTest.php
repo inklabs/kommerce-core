@@ -34,6 +34,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->addImage(new Image);
         $product->addProductQuantityDiscount(new ProductQuantityDiscount);
         $product->addOptionValue(new OptionValue(new Option));
+        $product->addProductAttribute(new ProductAttribute);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -58,6 +59,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($product->getImages()[0] instanceof Image);
         $this->assertTrue($product->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
         $this->assertTrue($product->getOptionValues()[0] instanceof OptionValue);
+        $this->assertTrue($product->getProductAttributes()[0] instanceof ProductAttribute);
         $this->assertTrue($product->getView() instanceof View\Product);
     }
 

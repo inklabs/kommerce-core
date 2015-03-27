@@ -64,12 +64,16 @@ class Product
     /** @var OptionValue[] */
     protected $optionValues;
 
+    /** @var ProductAttribute[] */
+    protected $productAttributes;
+
     public function __construct()
     {
         $this->setCreated();
-        $this->tags = new ArrayCollection();
-        $this->images = new ArrayCollection();
-        $this->productQuantityDiscounts = new ArrayCollection();
+        $this->tags = new ArrayCollection;
+        $this->images = new ArrayCollection;
+        $this->productQuantityDiscounts = new ArrayCollection;
+        $this->productAttributes = new ArrayCollection;
 
         $this->isInventoryRequired = false;
         $this->isPriceVisible = false;
@@ -336,6 +340,16 @@ class Product
     public function addOptionValue(OptionValue $optionValue)
     {
         $this->optionValues[] = $optionValue;
+    }
+
+    public function getProductAttributes()
+    {
+        return $this->productAttributes;
+    }
+
+    public function addProductAttribute(ProductAttribute $productAttribute)
+    {
+        $this->productAttributes[] = $productAttribute;
     }
 
     public function getView()

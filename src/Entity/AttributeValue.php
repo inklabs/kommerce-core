@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class AttributeValue
 {
     use Accessor\Time, Accessor\Id;
@@ -14,12 +16,19 @@ class AttributeValue
     /** @var string */
     protected $description;
 
+    /** @var Attribute */
+    protected $attribute;
+
     /** @var int */
     protected $sortOrder;
+
+    /** @var ProductAttribute[] */
+    protected $productAttributes;
 
     public function __construct()
     {
         $this->setCreated();
+        $this->productAttributes = new ArrayCollection;
     }
 
     public function setSku($sku)
@@ -60,6 +69,26 @@ class AttributeValue
     public function getSortOrder()
     {
         return $this->sortOrder;
+    }
+
+    public function getAttribute()
+    {
+        return $this->attribute;
+    }
+
+    public function setAttribute(Attribute $attribute)
+    {
+        $this->attribute = $attribute;
+    }
+
+    public function getProductAttributes()
+    {
+        return $this->productAttributes;
+    }
+
+    public function addProductAttribute(ProductAttribute $productAttribute)
+    {
+        $this->productAttributes[] = $productAttribute;
     }
 
     public function getView()

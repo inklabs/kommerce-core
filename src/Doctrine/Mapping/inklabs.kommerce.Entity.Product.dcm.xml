@@ -86,6 +86,11 @@
                      mapped-by="product"
                      fetch="EXTRA_LAZY"/>
 
+        <one-to-many field="productAttributes"
+                     target-entity="ProductAttribute"
+                     mapped-by="product"
+                     fetch="EXTRA_LAZY"/>
+
         <many-to-many field="tags"
                       target-entity="Tag"
                       inversed-by="products"
