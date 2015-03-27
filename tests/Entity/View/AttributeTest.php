@@ -9,6 +9,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     {
         $entityAttribute = new Entity\Attribute;
         $entityAttribute->addAttributeValue(new Entity\AttributeValue);
+        $entityAttribute->addProductAttribute(new Entity\ProductAttribute);
 
         $attribute = $entityAttribute->getView()
             ->withAllData()

@@ -19,10 +19,14 @@ class Attribute
     /** @var AttributeValue[] */
     protected $attributeValues;
 
+    /** @var ProductAttribute[] */
+    protected $productAttributes;
+
     public function __construct()
     {
         $this->setCreated();
-        $this->attributeValues = new ArrayCollection();
+        $this->attributeValues = new ArrayCollection;
+        $this->productAttributes = new ArrayCollection;
     }
 
     public function setName($name)
@@ -57,12 +61,23 @@ class Attribute
 
     public function addAttributeValue(AttributeValue $attributeValue)
     {
+        $attributeValue->setAttribute($this);
         $this->attributeValues[] = $attributeValue;
     }
 
     public function getAttributeValues()
     {
         return $this->attributeValues;
+    }
+
+    public function getProductAttributes()
+    {
+        return $this->productAttributes;
+    }
+
+    public function addProductAttribute(ProductAttribute $productAttribute)
+    {
+        $this->productAttributes[] = $productAttribute;
     }
 
     public function getView()

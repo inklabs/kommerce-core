@@ -35,9 +35,10 @@ class ProductTest extends Helper\DoctrineTestCase
         $product->getImages()->toArray();
         $product->getProductQuantityDiscounts()->toArray();
         $product->getTags()->toArray();
+        $product->getProductAttributes()->toArray();
 
         $this->assertTrue($product instanceof Entity\Product);
-        $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testGetRelatedProducts()

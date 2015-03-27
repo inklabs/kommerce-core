@@ -291,4 +291,32 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
         return $option;
     }
+
+    protected function getDummyAttribute()
+    {
+        $attribute = new Entity\Attribute;
+        $attribute->setName('Test Attribute');
+        $attribute->setDescription('Test Attribute Description');
+        $attribute->setSortOrder(0);
+
+        return $attribute;
+    }
+
+    protected function getDummyAttributeValue()
+    {
+        $attribute = new Entity\AttributeValue;
+        $attribute->setSku('TAV');
+        $attribute->setName('Test Attribute Value');
+        $attribute->setDescription('Test Attribute Value Description');
+        $attribute->setSortOrder(0);
+
+        return $attribute;
+    }
+
+    protected function getDummyProductAttribute()
+    {
+        $productAttribute = new Entity\ProductAttribute;
+
+        return $productAttribute;
+    }
 }
