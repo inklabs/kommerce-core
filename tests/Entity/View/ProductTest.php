@@ -11,9 +11,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $tag = new Entity\Tag;
         $tag->addImage(new Entity\Image);
 
+        $productAttribute = new Entity\ProductAttribute;
+        $productAttribute->setAttribute(new Entity\Attribute);
+        $productAttribute->setAttributeValue(new Entity\AttributeValue);
+
         $entityProduct = new Entity\Product;
         $entityProduct->addTag($tag);
         $entityProduct->addImage(new Entity\Image);
+        $entityProduct->addProductAttribute($productAttribute);
 
         $productQuantityDiscount = new Entity\ProductQuantityDiscount;
         $productQuantityDiscount->setType(Entity\Promotion::TYPE_EXACT);
@@ -29,6 +34,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($product->tags[0] instanceof Tag);
         $this->assertTrue($product->images[0] instanceof Image);
         $this->assertTrue($product->productQuantityDiscounts[0] instanceof ProductQuantityDiscount);
+        $this->assertTrue($product->productAttributes[0] instanceof ProductAttribute);
         $this->assertTrue($product->price instanceof Price);
     }
 

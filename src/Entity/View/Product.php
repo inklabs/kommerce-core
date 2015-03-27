@@ -41,6 +41,9 @@ class Product
     /** @var ProductQuantityDiscount[] */
     public $productQuantityDiscounts = [];
 
+    /** @var ProductAttribute[] */
+    public $productAttributes = [];
+
     /** @var Price */
     public $price;
 
@@ -139,12 +142,25 @@ class Product
         return $this;
     }
 
+    public function withProductAttributes()
+    {
+        foreach ($this->product->getProductAttributes() as $productAttribute) {
+            $this->productAttributes[] = $productAttribute->getView()
+                ->withAttribute()
+                ->withAttributeValue()
+                ->export();
+        }
+
+        return $this;
+    }
+
     public function withAllData(Pricing $pricing)
     {
         return $this
             ->withTagsAndOptions($pricing)
             ->withProductQuantityDiscounts($pricing)
             ->withPrice($pricing)
-            ->withImages();
+            ->withImages()
+            ->withProductAttributes();
     }
 }
