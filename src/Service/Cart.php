@@ -128,7 +128,6 @@ class Cart extends Lib\ServiceManager
 
         $optionValues = null;
         if ($optionProductEncodedIds !== null) {
-
             $optionValueIds = [];
             foreach ($optionProductEncodedIds as $optionEncodedId => $optionValueEncodedId) {
                 $optionValueIds[] = Lib\BaseConvert::decode((string) $optionValueEncodedId);

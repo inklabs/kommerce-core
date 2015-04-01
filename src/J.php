@@ -208,7 +208,6 @@ class J
                 '<div class="jdebug-container" style="display: none;">';
 
             foreach ($accessMethods as $method) {
-
                 $params = [];
                 foreach ($method->getParameters() as $param) {
                     $params[] = '<span class="jdebug-method-param">$' . $param->getName() . '</span>';

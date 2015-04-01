@@ -29,8 +29,7 @@ class TablePrefix implements \Doctrine\Common\EventSubscriber
             $classMetadata->setPrimaryTable(['name' => $this->prefix . $classMetadata->getTableName()]);
 
             foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
-                if (
-                    $mapping['type'] == \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY
+                if ($mapping['type'] == \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY
                     && isset($classMetadata->associationMappings[$fieldName]['joinTable']['name'])
                 ) {
                     $mappedTableName = $classMetadata->associationMappings[$fieldName]['joinTable']['name'];

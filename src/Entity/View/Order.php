@@ -38,14 +38,20 @@ class Order
 
         $this->id              = $order->getId();
         $this->encodedId       = Lib\BaseConvert::encode($order->getId());
-        $this->shippingAddress = $order->getShippingAddress()->getView();
-        $this->billingAddress  = $order->getBillingAddress()->getView();
         $this->status          = $order->getStatus();
         $this->statusText      = $order->getStatusText();
         $this->totalItems      = $order->totalItems();
         $this->totalQuantity   = $order->totalQuantity();
         $this->created         = $order->getCreated();
         $this->updated         = $order->getUpdated();
+
+        if ($order->getShippingAddress() !== null) {
+            $this->shippingAddress = $order->getShippingAddress()->getView();
+        }
+
+        if ($order->getBillingAddress() !== null) {
+            $this->billingAddress = $order->getBillingAddress()->getView();
+        }
 
         $this->total = $order->getTotal()->getView()
             ->withAllData()
