@@ -74,12 +74,18 @@ class OrderTest extends Helper\DoctrineTestCase
         $order->setUser($this->user);
         $order->addPayment(new Entity\Payment\Cash(100));
 
-        $chargeRequest = new Lib\PaymentGateway\ChargeRequest(
-            new Entity\CreditCard('4242424242424242', '01', '2014'),
-            100,
-            'usd',
-            'test@example.com'
-        );
+        $creditCard = new Entity\CreditCard;
+        $creditCard->setName('John Doe');
+        $creditCard->setNumber('4242424242424242');
+        $creditCard->setCvc('123');
+        $creditCard->setExpirationMonth('1');
+        $creditCard->setExpirationYear('2020');
+
+        $chargeRequest = new Lib\PaymentGateway\ChargeRequest;
+        $chargeRequest->setCreditCard($creditCard);
+        $chargeRequest->setAmount(100);
+        $chargeRequest->setCurrency('usd');
+        $chargeRequest->setDescription('test@example.com');
 
         $order->addPayment(new Entity\Payment\Credit($chargeRequest, new Lib\PaymentGateway\StripeFake));
 

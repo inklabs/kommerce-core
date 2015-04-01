@@ -7,20 +7,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ChargeRequest
 {
+    /** @var int */
     protected $amount;
+
+    /** @var string */
     protected $currency;
+
+    /** @var string */
     protected $description;
 
     /** @var CreditCard */
     protected $creditCard;
-
-    public function __construct(CreditCard $creditCard, $amount, $currency, $description)
-    {
-        $this->creditCard = $creditCard;
-        $this->amount = (int) $amount;
-        $this->currency = $currency;
-        $this->description = $description;
-    }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
@@ -41,6 +38,35 @@ class ChargeRequest
         ]));
 
         $metadata->addPropertyConstraint('creditCard', new Assert\Valid);
+    }
+
+    /**
+     * @param int $amount
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = (int) $amount;
+    }
+
+    /**
+     * @param string $currency
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = (string) $currency;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = (string) $description;
+    }
+
+    public function setCreditCard(CreditCard $creditCard)
+    {
+        $this->creditCard = $creditCard;
     }
 
     public function getAmount()
