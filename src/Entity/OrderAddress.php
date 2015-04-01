@@ -65,6 +65,7 @@ class OrderAddress
             'max' => 20,
         ]));
 
+        $metadata->addPropertyConstraint('email', new Assert\NotBlank);
         $metadata->addPropertyConstraint('email', new Assert\Length([
             'max' => 128,
         ]));

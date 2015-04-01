@@ -8,12 +8,19 @@ class CreditTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $chargeRequest = new Lib\PaymentGateway\ChargeRequest(
-            new Entity\CreditCard('4242424242424242', '01', '2014'),
-            2000,
-            'usd',
-            'john@example.com'
-        );
+        $creditCard = new Entity\CreditCard;
+        $creditCard->setName('John Doe');
+        $creditCard->setNumber('4242424242424242');
+        $creditCard->setCvc('123');
+        $creditCard->setExpirationMonth('1');
+        $creditCard->setExpirationYear('2020');
+
+        $chargeRequest = new Lib\PaymentGateway\ChargeRequest;
+        $chargeRequest->setCreditCard($creditCard);
+        $chargeRequest->setAmount(2000);
+        $chargeRequest->setCurrency('usd');
+        $chargeRequest->setDescription('test@example.com');
+
         $entityCredit = new Entity\Payment\Credit($chargeRequest, new Lib\PaymentGateway\StripeFake);
 
         $credit = $entityCredit->getView()->export();
