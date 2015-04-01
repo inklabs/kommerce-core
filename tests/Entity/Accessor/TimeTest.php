@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity\Accessor;
 
-
 class TimeTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()

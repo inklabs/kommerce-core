@@ -24,8 +24,7 @@ class Tag extends Item
     public function matches(Entity\CartItem $cartItem)
     {
         foreach ($cartItem->getProduct()->getTags() as $tag) {
-            if (
-                ($tag->getId() === $this->tag->getId())
+            if (($tag->getId() === $this->tag->getId())
                 and ($cartItem->getQuantity() >= $this->quantity)
             ) {
                 return true;

@@ -23,8 +23,7 @@ class Product extends Item
 
     public function matches(Entity\CartItem $cartItem)
     {
-        if (
-            $cartItem->getProduct()->getId() == $this->product->getId()
+        if ($cartItem->getProduct()->getId() == $this->product->getId()
             and $cartItem->getQuantity() >= $this->quantity
         ) {
             return true;
