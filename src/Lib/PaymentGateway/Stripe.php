@@ -33,7 +33,10 @@ class Stripe implements Gateway
             'amount' => $chargeRequest->getAmount(),
             'currency' => $chargeRequest->getCurrency(),
             'card' => [
+                'name' => $card->getName(),
+                'address_zip' => $card->getZip5(),
                 'number' => $card->getNumber(),
+                'cvc' => $card->getCvc(),
                 'exp_month' => $card->getExpirationMonth(),
                 'exp_year' => $card->getExpirationYear(),
             ],

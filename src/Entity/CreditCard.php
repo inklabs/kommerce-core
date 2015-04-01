@@ -10,6 +10,9 @@ class CreditCard
     protected $name;
 
     /** @var string */
+    protected $zip5;
+
+    /** @var string */
     protected $number;
 
     /** @var string */
@@ -26,6 +29,13 @@ class CreditCard
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([
             'max' => 128,
+        ]));
+
+        $metadata->addPropertyConstraint('zip5', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('zip5', new Assert\Regex([
+            'pattern' => '/[0-9]{5}/',
+            'match'   => true,
+            'message' => 'Must be a valid 5 digit postal code',
         ]));
 
         $metadata->addPropertyConstraint('number', new Assert\NotBlank);
@@ -62,6 +72,19 @@ class CreditCard
     public function setName($name)
     {
         $this->name = (string) $name;
+    }
+
+    public function getZip5()
+    {
+        return $this->zip5;
+    }
+
+    /**
+     * @param string $zip5
+     */
+    public function setZip5($zip5)
+    {
+        $this->zip5 = (string) $zip5;
     }
 
     /**
