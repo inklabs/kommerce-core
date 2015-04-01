@@ -9,6 +9,7 @@ class StripeFakeTest extends \PHPUnit_Framework_TestCase
     {
         $creditCard = new Entity\CreditCard;
         $creditCard->setName('John Doe');
+        $creditCard->setZip5('90210');
         $creditCard->setNumber('4242424242424242');
         $creditCard->setCvc('123');
         $creditCard->setExpirationMonth('1');
