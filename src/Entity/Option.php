@@ -108,7 +108,6 @@ class Option
 
     public function addOptionValue(OptionValue $optionValue)
     {
-        $optionValue->setOption($this);
         $this->optionValues[] = $optionValue;
     }
 

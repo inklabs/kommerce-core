@@ -77,6 +77,7 @@ class OptionValue
 
     public function setOption(Option $option)
     {
+        $option->addOptionValue($this);
         $this->option = $option;
     }
 

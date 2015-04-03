@@ -18,11 +18,9 @@ class OptionValueTest extends Helper\DoctrineTestCase
     {
         $product = $this->getDummyProduct();
 
-        $optionValue = $this->getDummyOptionValue();
-        $optionValue->setProduct($product);
-
         $option = $this->getDummyOption();
-        $option->addOptionValue($optionValue);
+        $optionValue = $this->getDummyOptionValue($option);
+        $optionValue->setProduct($product);
 
         $this->entityManager->persist($option);
         $this->entityManager->persist($product);

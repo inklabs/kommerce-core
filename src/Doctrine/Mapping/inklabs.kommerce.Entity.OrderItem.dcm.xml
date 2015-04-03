@@ -25,6 +25,18 @@
         <field name="productName" column="product_name" type="string" length="255"/>
         <field name="discountNames" column="discount_names" type="string" length="255" nullable="true"/>
 
+        <field name="created" column="created" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="updated" column="updated" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <embedded name="price" class="Price"/>
 
         <one-to-many field="orderItemOptionValues" target-entity="OrderItemOptionValue" mapped-by="orderItem" fetch="EXTRA_LAZY">
