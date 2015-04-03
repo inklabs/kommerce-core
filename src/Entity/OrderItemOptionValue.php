@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 class OrderItemOptionValue
 {
-    use Accessor\Created, Accessor\Id;
+    use Accessor\Time, Accessor\Id;
 
     /** @var string */
     protected $optionName;

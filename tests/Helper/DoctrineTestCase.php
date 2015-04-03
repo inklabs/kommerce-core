@@ -39,8 +39,8 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $this->kommerce = new Kommerce(new Doctrine\Common\Cache\ArrayCache());
         $this->kommerce->addSqliteFunctions();
         $this->kommerce->setup([
-            'driver'   => 'pdo_sqlite',
-            'memory'   => true,
+            'driver' => 'pdo_sqlite',
+            'memory' => true,
         ]);
 
         $this->entityManager = $this->kommerce->getEntityManager();
@@ -119,6 +119,12 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         $orderItem = new Entity\OrderItem($product, 1, $price);
         return $orderItem;
+    }
+
+    protected function getDummyOrderItemOptionValue(Entity\OptionValue $optionValue)
+    {
+        $orderItemOptionValue = new Entity\OrderItemOptionValue($optionValue);
+        return $orderItemOptionValue;
     }
 
     /**
@@ -284,12 +290,12 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $option;
     }
 
-    protected function getDummyOptionValue()
+    protected function getDummyOptionValue(Entity\Option $option)
     {
-        $option = new Entity\OptionValue(new Entity\Option);
-        $option->setSortOrder(0);
+        $optionValue = new Entity\OptionValue($option);
+        $optionValue->setSortOrder(0);
 
-        return $option;
+        return $optionValue;
     }
 
     protected function getDummyAttribute()
