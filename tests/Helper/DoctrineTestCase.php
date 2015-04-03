@@ -117,7 +117,11 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyOrderItem(Entity\Product $product, Entity\Price $price)
     {
-        $orderItem = new Entity\OrderItem($product, 1, $price);
+        $orderItem = new Entity\OrderItem;
+        $orderItem->setProduct($product);
+        $orderItem->setQuantity(1);
+        $orderItem->setPrice($price);
+
         return $orderItem;
     }
 
@@ -134,9 +138,14 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         $orderAddress = $this->getDummyOrderAddress();
 
-        $order = new Entity\Order($orderItems, $total);
+        $order = new Entity\Order;
+        $order->setTotal($total);
         $order->setShippingAddress($orderAddress);
         $order->setBillingAddress($orderAddress);
+
+        foreach ($orderItems as $orderItem) {
+            $order->addItem($orderItem);
+        }
 
         return $order;
     }

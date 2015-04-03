@@ -188,12 +188,14 @@ class Cart
 
     public function getOrder(Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
     {
-        $orderItems = [];
+        $order = new Order;
+        $order->setTotal($this->getTotal($pricing, $shippingRate, $taxRate));
+
         foreach ($this->getItems() as $item) {
-            $orderItems[] = $item->getOrderItem($pricing);
+            $order->addItem($item->getOrderItem($pricing));
         }
 
-        return new Order($orderItems, $this->getTotal($pricing, $shippingRate, $taxRate));
+        return $order;
     }
 
     public function getView()

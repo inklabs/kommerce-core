@@ -9,8 +9,14 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $orderItem = new Entity\OrderItem(new Entity\Product, 1, new Entity\Price);
-        $order = new Entity\Order([$orderItem], new Entity\CartTotal);
+        $orderItem = new Entity\OrderItem;
+        $orderItem->setProduct(new Entity\Product);
+        $orderItem->setQuantity(1);
+        $orderItem->setPrice(new Entity\Price);
+
+        $order = new Entity\Order;
+        $order->addItem($orderItem);
+        $order->setTotal(new Entity\CartTotal);
 
         /** @var $mock Payment */
         $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Payment\Payment');
