@@ -35,21 +35,12 @@ class OrderItem
     protected $productName;
     protected $discountNames;
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @param Price $price
-     */
-    public function __construct(Product $product, $quantity, Price $price)
+    public function __construct()
     {
         $this->setCreated();
         $this->catalogPromotions = new ArrayCollection;
         $this->productQuantityDiscounts = new ArrayCollection;
         $this->orderItemOptionValues = new ArrayCollection();
-
-        $this->setProduct($product);
-        $this->setQuantity($quantity);
-        $this->setPrice($price);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -76,7 +67,7 @@ class OrderItem
         $metadata->addPropertyConstraint('price', new Assert\Valid);
     }
 
-    private function setProduct(Product $product)
+    public function setProduct(Product $product)
     {
         $this->product = $product;
 
@@ -123,7 +114,7 @@ class OrderItem
         return $this->productName;
     }
 
-    private function setPrice(Price $price)
+    public function setPrice(Price $price)
     {
         $this->price = $price;
 

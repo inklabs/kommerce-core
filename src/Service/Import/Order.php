@@ -25,25 +25,30 @@ class Order extends Lib\ServiceManager
     {
         $importedCount = 0;
         foreach ($iterator as $key => $row) {
-            if ($key < 2 && $row[0] === 'id') {
+            if ($key < 2 && $row[0] === 'order_ref') {
                 continue;
             }
 
-            $id = $row[0];
-            $orderRef = $row[1];
-            $date = $row[2];
-            $userId = $row[3];
-            $subtotal = round($row[4] * 100);
-            $tax = round($row[5] * 100);
-            $total = round($row[6] * 100);
+            $orderRef = $row[0];
+            $date = $row[1];
+            $userId = $row[2];
+            $subtotal = $this->convertDollarToCents($row[3]);
+            $tax = $this->convertDollarToCents($row[4]);
+            $total = $this->convertDollarToCents($row[5]);
+
+            // TODO: Get User via ??
+            $user = new Entity\User;
 
             $cartTotal = new Entity\CartTotal;
             $cartTotal->subtotal = $subtotal;
             $cartTotal->tax = $tax;
             $cartTotal->total = $total;
 
-            $order = new Entity\Order([], $cartTotal);
+            // TODO: Add order ref
+            $order = new Entity\Order;
+            $order->setTotal($cartTotal);
             $order->setCreated(new \DateTime($date));
+            $order->setUser($user);
 
             $this->entityManager->persist($order);
             $importedCount++;
@@ -52,5 +57,14 @@ class Order extends Lib\ServiceManager
         $this->entityManager->flush();
 
         return $importedCount;
+    }
+
+    /**
+     * @param float $dollarValue
+     * @return int
+     */
+    private function convertDollarToCents($dollarValue)
+    {
+        return (int) round($dollarValue * 100);
     }
 }

@@ -11,8 +11,14 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $cart = new Entity\Cart;
         $cart->addItem(new Entity\Product, 1);
 
-        $orderItem = new Entity\OrderItem(new Entity\Product, 1, new Entity\Price);
-        $order = new Entity\Order([$orderItem], new Entity\CartTotal);
+        $orderItem = new Entity\OrderItem;
+        $orderItem->setProduct(new Entity\Product);
+        $orderItem->setQuantity(1);
+        $orderItem->setPrice(new Entity\Price);
+
+        $order = new Entity\Order;
+        $order->addItem($orderItem);
+        $order->setTotal(new Entity\CartTotal);
         $order->setShippingAddress(new Entity\OrderAddress);
         $order->setBillingAddress(new Entity\OrderAddress);
         $order->setUser(new Entity\User);
