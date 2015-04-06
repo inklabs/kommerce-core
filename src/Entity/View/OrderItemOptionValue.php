@@ -20,18 +20,18 @@ class OrderItemOptionValue
     public $sku;
 
     /** @var string */
-    public $name;
+    public $optionValueName;
 
-    public function __construct(Entity\OrderItemOptionValue $orderOptionProduct)
+    public function __construct(Entity\OrderItemOptionValue $orderItemOptionValue)
     {
-        $this->id             = $orderOptionProduct->getId();
-        $this->optionName     = $orderOptionProduct->getOptionName();
-        $this->created        = $orderOptionProduct->getCreated();
+        $this->id             = $orderItemOptionValue->getId();
+        $this->optionName     = $orderItemOptionValue->getOptionName();
+        $this->created        = $orderItemOptionValue->getCreated();
 
-        $this->optionValue    = $orderOptionProduct->getOptionValue()->getView()
+        $this->optionValue    = $orderItemOptionValue->getOptionValue()->getView()
             ->export();
 
-        $this->name = $orderOptionProduct->getName();
-        $this->sku = $orderOptionProduct->getSku();
+        $this->optionValueName = $orderItemOptionValue->getOptionValueName();
+        $this->sku = $orderItemOptionValue->getSku();
     }
 }

@@ -56,6 +56,12 @@ class Cart extends Lib\ServiceManager
         $this->sessionManager->set($this->cartSessionKey, $this->cart);
     }
 
+    public function clear()
+    {
+        $this->sessionManager->delete($this->cartSessionKey);
+        $this->cart = new Entity\Cart;
+    }
+
     private function reloadProductsFromEntityManager()
     {
         $numberProductsUpdated = 0;

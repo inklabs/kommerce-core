@@ -25,7 +25,7 @@ class OrderItemOptionValueTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('Test Option', $orderItemOptionValue->getOptionName());
         $this->assertSame('TST', $orderItemOptionValue->getSku());
-        $this->assertSame('Test Product', $orderItemOptionValue->getName());
+        $this->assertSame('Test Product', $orderItemOptionValue->getOptionValueName());
         $this->assertTrue($orderItemOptionValue->getOptionValue() instanceof OptionValue);
         $this->assertTrue($orderItemOptionValue->getOrderItem() instanceof OrderItem);
         $this->assertTrue($orderItemOptionValue->getView() instanceof View\OrderItemOptionValue);
