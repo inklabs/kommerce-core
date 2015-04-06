@@ -32,9 +32,11 @@ class OrderItemTest extends Helper\DoctrineTestCase
 
     public function testImport()
     {
+        $numberRows = 37;
+
         $this->mockEntityManager
             ->shouldReceive('persist')
-            ->times(3)
+            ->times($numberRows)
             ->andReturnUndefined();
 
         $this->mockEntityManager
@@ -45,6 +47,6 @@ class OrderItemTest extends Helper\DoctrineTestCase
         $iterator = new Lib\CSVIterator(__DIR__ . '/OrderItemTest.csv');
         $importedCount = $this->orderItemService->import($iterator);
 
-        $this->assertSame(37, $importedCount);
+        $this->assertSame($numberRows, $importedCount);
     }
 }
