@@ -114,6 +114,18 @@ class OrderItem
         return $this->productName;
     }
 
+    public function getFullSku()
+    {
+        $fullSku = [];
+        $fullSku[] = $this->getProduct()->getSku();
+
+        foreach ($this->getOrderItemOptionValues() as $optionValue) {
+            $fullSku[] = $optionValue->getSku();
+        }
+
+        return implode('-', $fullSku);
+    }
+
     public function setPrice(Price $price)
     {
         $this->price = $price;

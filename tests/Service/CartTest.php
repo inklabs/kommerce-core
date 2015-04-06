@@ -20,15 +20,13 @@ class CartNewTest extends Helper\DoctrineTestCase
     /** @var \Mockery\MockInterface|Pricing */
     protected $mockPricing;
 
-    public function setUp()
+    /**
+     * @return Cart
+     */
+    protected function getCartServiceFullyMocked()
     {
         $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
         $this->mockPricing = \Mockery::mock('inklabs\kommerce\Service\Pricing');
-
-        $this->mockSessionManager = \Mockery::mock('inklabs\kommerce\Lib\ArraySessionManager');
-        $this->mockSessionManager
-            ->shouldReceive('set')
-            ->andReturn(null);
 
         $this->mockEntityCart = \Mockery::mock('inklabs\kommerce\Entity\Cart');
 
@@ -36,17 +34,17 @@ class CartNewTest extends Helper\DoctrineTestCase
             ->shouldReceive('getItems')
             ->once()
             ->andReturnUndefined();
+
         $this->mockEntityCart
             ->shouldReceive('getCoupons')
             ->once()
             ->andReturnUndefined();
-    }
 
-    /**
-     * @return Cart
-     */
-    protected function getCartServiceFullyMocked()
-    {
+        $this->mockSessionManager = \Mockery::mock('inklabs\kommerce\Lib\ArraySessionManager');
+        $this->mockSessionManager
+            ->shouldReceive('set')
+            ->andReturn(null);
+
         $this->mockSessionManager
             ->shouldReceive('get')
             ->andReturn($this->mockEntityCart);
@@ -248,11 +246,11 @@ class CartNewTest extends Helper\DoctrineTestCase
 
     public function testGetCoupons()
     {
+        $cart = $this->getCartServiceFullyMocked();
+
         $this->mockEntityCart
             ->shouldReceive('getCoupons')
             ->andReturn([new Entity\Coupon]);
-
-        $cart = $this->getCartServiceFullyMocked();
 
         $coupons = $cart->getCoupons();
         $this->assertTrue($coupons[0] instanceof Entity\Coupon);
@@ -529,5 +527,23 @@ class CartNewTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($order instanceof Entity\Order);
         $this->assertSame(1, $order->getId());
+    }
+
+    public function testClearCart()
+    {
+        $product = $this->getDummyProduct();
+
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
+
+        $viewProduct = $product->getView()->export();
+
+        $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
+        $itemId1 = $cart->addItem($viewProduct->encodedId, 4);
+        $this->assertSame(1, $cart->totalItems());
+
+        $cart->clear();
+
+        $this->assertSame(0, $cart->totalItems());
     }
 }

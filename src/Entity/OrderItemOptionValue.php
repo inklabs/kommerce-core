@@ -6,13 +6,13 @@ class OrderItemOptionValue
     use Accessor\Time, Accessor\Id;
 
     /** @var string */
-    protected $optionName;
-
-    /** @var string */
     protected $sku;
 
     /** @var string */
-    protected $name;
+    protected $optionName;
+
+    /** @var string */
+    protected $optionValueName;
 
     /** @var OrderItem */
     protected $orderItem;
@@ -37,7 +37,7 @@ class OrderItemOptionValue
         $this->optionValue = $optionValue;
         $this->optionName = $optionValue->getOption()->getName();
         $this->sku = $optionValue->getSku();
-        $this->name = $optionValue->getName();
+        $this->optionValueName = $optionValue->getName();
     }
 
     public function getOptionName()
@@ -50,9 +50,9 @@ class OrderItemOptionValue
         return $this->sku;
     }
 
-    public function getName()
+    public function getOptionValueName()
     {
-        return $this->name;
+        return $this->optionValueName;
     }
 
     public function getOrderItem()

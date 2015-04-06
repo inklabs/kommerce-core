@@ -17,7 +17,7 @@
 
         <field name="optionName" column="option_name" type="string" length="255"/>
         <field name="sku" column="sku" type="string" length="64" nullable="true"/>
-        <field name="name" column="name" type="string" length="255" nullable="true"/>
+        <field name="optionValueName" column="option_value_name" type="string" length="255" nullable="true"/>
 
         <field name="created" column="created" type="integer">
             <options>

@@ -23,13 +23,14 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $optionProductQuantityDiscount->setValue(100);
 
         $product = new Product;
-        $product->setSku('sku');
+        $product->setSku('sku1');
         $product->setname('test name');
         $product->setUnitPrice(500);
         $product->setQuantity(10);
         $product->addProductQuantityDiscount($productQuantityDiscount);
 
         $product2 = new Product;
+        $product2->setSku('sku2');
         $product2->setUnitPrice(400);
         $product2->addProductQuantityDiscount($optionProductQuantityDiscount);
 
@@ -67,7 +68,8 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($orderItem));
         $this->assertSame(2, $orderItem->getQuantity());
-        $this->assertSame('sku', $orderItem->getProductSku());
+        $this->assertSame('sku1', $orderItem->getProductSku());
+        $this->assertSame('sku1-sku2', $orderItem->getFullSku());
         $this->assertSame('test name', $orderItem->getProductName());
         $this->assertSame(
             '20% OFF Everything, Buy 2 or more for $1.00 each, Buy 2 or more for $1.00 off',
