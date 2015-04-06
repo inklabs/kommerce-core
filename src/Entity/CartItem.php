@@ -20,7 +20,7 @@ class CartItem
     public function __construct(Product $product, $quantity)
     {
         $this->setCreated();
-        $this->optionValues = new ArrayCollection();
+        $this->optionValues = new ArrayCollection;
 
         $this->setProduct($product);
         $this->setQuantity($quantity);
@@ -54,6 +54,18 @@ class CartItem
     public function addOptionValue(OptionValue $optionValue)
     {
         $this->optionValues[] = $optionValue;
+    }
+
+    /**
+     * @param OptionValue[] $optionValues
+     */
+    public function setOptionValues($optionValues)
+    {
+        $this->optionValues = new ArrayCollection;
+
+        foreach ($optionValues as $optionValue) {
+            $this->addOptionValue($optionValue);
+        }
     }
 
     public function getPrice(Pricing $pricing)
