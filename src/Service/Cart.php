@@ -60,11 +60,22 @@ class Cart extends Lib\ServiceManager
     {
         $numberProductsUpdated = 0;
         foreach ($this->cart->getItems() as $cartItem) {
-            $product = $this->entityManager
-                ->getRepository('kommerce:Product')
-                ->find($cartItem->getProduct()->getId());
-
+            $product = $this->entityManager->merge($cartItem->getProduct());
+            $this->entityManager->refresh($product);
             $cartItem->setProduct($product);
+
+            $newOptionValues = [];
+            foreach ($cartItem->getOptionValues() as $optionValue) {
+                $optionValue = $this->entityManager->merge($optionValue);
+                $this->entityManager->refresh($optionValue);
+
+                $newOptionValues[] = $optionValue;
+            }
+
+            if (! empty($newOptionValues)) {
+                $cartItem->setOptionValues($newOptionValues);
+            }
+
             $numberProductsUpdated++;
         }
 
@@ -93,11 +104,11 @@ class Cart extends Lib\ServiceManager
     /**
      * @param string $productEncodedId
      * @param int $quantity
-     * @param array $optionProductEncodedIds
+     * @param array $optionValueEncodedIds
      * @return int
      * @throws Exception
      */
-    public function addItem($productEncodedId, $quantity, $optionProductEncodedIds = null)
+    public function addItem($productEncodedId, $quantity, $optionValueEncodedIds = null)
     {
         /** @var EntityRepository\Product $productRepository */
         $productRepository = $this->entityManager->getRepository('kommerce:Product');
@@ -108,7 +119,7 @@ class Cart extends Lib\ServiceManager
             throw new Exception('Product not found');
         }
 
-        $optionValues = $this->getOptionValues($optionProductEncodedIds);
+        $optionValues = $this->getOptionValues($optionValueEncodedIds);
 
         $itemId = $this->cart->addItem($product, $quantity, $optionValues);
         $this->save();
@@ -117,25 +128,25 @@ class Cart extends Lib\ServiceManager
     }
 
     /**
-     * @param $optionProductEncodedIds
+     * @param $optionValueEncodedIds
      * @return Entity\OptionValue[]|null
      * @throws Exception
      */
-    private function getOptionValues($optionProductEncodedIds)
+    private function getOptionValues($optionValueEncodedIds)
     {
         /** @var EntityRepository\OptionValue $optionValueRepository */
         $optionValueRepository = $this->entityManager->getRepository('kommerce:OptionValue');
 
         $optionValues = null;
-        if ($optionProductEncodedIds !== null) {
+        if ($optionValueEncodedIds !== null) {
             $optionValueIds = [];
-            foreach ($optionProductEncodedIds as $optionEncodedId => $optionValueEncodedId) {
+            foreach ($optionValueEncodedIds as $optionEncodedId => $optionValueEncodedId) {
                 $optionValueIds[] = Lib\BaseConvert::decode((string) $optionValueEncodedId);
             }
 
             $optionValues = $optionValueRepository->getAllOptionValuesByIds($optionValueIds);
 
-            if (count($optionValues) !== count($optionProductEncodedIds)) {
+            if (count($optionValues) !== count($optionValueEncodedIds)) {
                 throw new Exception('Option not found');
             }
         }

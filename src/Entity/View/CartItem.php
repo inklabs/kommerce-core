@@ -16,7 +16,7 @@ class CartItem
     /** @var Product */
     public $product;
 
-    /** @var Product[] */
+    /** @var OptionValue[] */
     public $optionValues = [];
 
     /** @var Price */
