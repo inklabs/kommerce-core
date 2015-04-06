@@ -51,10 +51,15 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $price->addProductQuantityDiscount($productQuantityDiscount);
         $price->addProductQuantityDiscount($optionProductQuantityDiscount);
 
-        $orderItem = new OrderItem($product, 2, $price);
+        $orderItem = new OrderItem;
+        $orderItem->setProduct($product);
+        $orderItem->setQuantity(2);
+        $orderItem->setPrice($price);
         $orderItem->addOrderItemOptionValue($optionProduct);
 
-        $order = new Order([$orderItem], new CartTotal);
+        $order = new Order;
+        $order->addItem($orderItem);
+        $order->setTotal(new CartTotal);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')

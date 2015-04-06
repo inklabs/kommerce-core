@@ -15,8 +15,13 @@ class OrderItemOptionValueTest extends \PHPUnit_Framework_TestCase
         $optionValue = new OptionValue($option);
         $optionValue->setProduct($product);
 
+        $orderItem = new OrderItem;
+        $orderItem->setProduct(new Product);
+        $orderItem->setQuantity(1);
+        $orderItem->setPrice(new Price);
+
         $orderItemOptionValue = new OrderItemOptionValue($optionValue);
-        $orderItemOptionValue->setOrderItem(new OrderItem(new Product, 1, new Price));
+        $orderItemOptionValue->setOrderItem($orderItem);
 
         $this->assertSame('Test Option', $orderItemOptionValue->getOptionName());
         $this->assertSame('TST', $orderItemOptionValue->getSku());

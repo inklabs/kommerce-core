@@ -20,8 +20,14 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->addToken(new UserToken);
         $user->addLogin(new UserLogin);
 
-        $orderItem = new OrderItem(new Product, 1, new Price);
-        $order = new Order([$orderItem], new CartTotal);
+        $orderItem = new OrderItem;
+        $orderItem->setProduct(new Product);
+        $orderItem->setQuantity(1);
+        $orderItem->setPrice(new Price);
+
+        $order = new Order;
+        $order->addItem($orderItem);
+        $order->setTotal(new CartTotal);
 
         $user->addOrder($order);
 

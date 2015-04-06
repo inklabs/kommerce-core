@@ -112,7 +112,10 @@ class CartItem
 
     public function getOrderItem(Pricing $pricing)
     {
-        $orderItem = new OrderItem($this->getProduct(), $this->getQuantity(), $this->getPrice($pricing));
+        $orderItem = new OrderItem;
+        $orderItem->setProduct($this->getProduct());
+        $orderItem->setQuantity($this->getQuantity());
+        $orderItem->setPrice($this->getPrice($pricing));
 
         foreach ($this->getOptionValues() as $optionValue) {
             $orderItemOptionValue = new OrderItemOptionValue($optionValue);

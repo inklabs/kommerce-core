@@ -25,23 +25,22 @@ class OrderItem extends Lib\ServiceManager
     {
         $importedCount = 0;
         foreach ($iterator as $key => $row) {
-            if ($key < 2 && $row[0] === 'order_id') {
+            if ($key < 2 && $row[0] === 'order_ref') {
                 continue;
             }
 
-            $orderId = $row[0];
+            $orderRef = $row[0];
             $sku = $row[1];
             $note = $row[2];
             $quantity = $row[3];
-            $unitPrice = round($row[4] * 100);
-            $quantityPrice = round($row[5] * 100);
+            $unitPrice = $this->convertDollarToCents($row[4]);
+            $quantityPrice = $this->convertDollarToCents($row[5]);
 
             // TODO: Get product via $sku
             $product = new Entity\Product;
 
-            // TODO: Refactor Order to not require order items or cartTotal
-            // TODO: Get Order via $orderId
-            $order = new Entity\Order([], new Entity\CartTotal);
+            // TODO: Get Order via $orderRef
+            $order = new Entity\Order;
 
             $price = new Entity\Price;
             $price->origUnitPrice = $unitPrice;
@@ -49,11 +48,12 @@ class OrderItem extends Lib\ServiceManager
             $price->origQuantityPrice = $quantityPrice;
             $price->quantityPrice = $quantityPrice;
 
-            $orderItem = new Entity\OrderItem($product, $quantity, $price);
-            $orderItem->setOrder($order);
-
-            // TODO: Refactor OrderItem to not require a product
             // TODO: Add orderItem description
+            $orderItem = new Entity\OrderItem;
+            $orderItem->setProduct($product);
+            $orderItem->setQuantity($quantity);
+            $orderItem->setPrice($price);
+            $orderItem->setOrder($order);
 
             $this->entityManager->persist($orderItem);
             $importedCount++;
@@ -62,5 +62,14 @@ class OrderItem extends Lib\ServiceManager
         $this->entityManager->flush();
 
         return $importedCount;
+    }
+
+    /**
+     * @param float $dollarValue
+     * @return int
+     */
+    private function convertDollarToCents($dollarValue)
+    {
+        return (int) round($dollarValue * 100);
     }
 }

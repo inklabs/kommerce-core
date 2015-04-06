@@ -39,7 +39,7 @@ class Order
     /** @var Coupon[] */
     protected $coupons;
 
-    public function __construct(array $orderItems, CartTotal $total)
+    public function __construct()
     {
         $this->setCreated();
         $this->items = new ArrayCollection();
@@ -47,11 +47,6 @@ class Order
         $this->coupons = new ArrayCollection();
 
         $this->setStatus(self::STATUS_PENDING);
-        $this->setTotal($total);
-
-        foreach ($orderItems as $orderItem) {
-            $this->addItem($orderItem);
-        }
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -71,7 +66,7 @@ class Order
     /**
      * @return int
      */
-    private function addItem(OrderItem $orderItem)
+    public function addItem(OrderItem $orderItem)
     {
         $orderItem->setOrder($this);
         $this->items[] = $orderItem;
@@ -131,7 +126,7 @@ class Order
         return $this->getStatusMapping()[$this->status];
     }
 
-    private function setTotal(CartTotal $total)
+    public function setTotal(CartTotal $total)
     {
         $this->total = $total;
     }

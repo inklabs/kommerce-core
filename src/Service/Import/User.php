@@ -39,17 +39,14 @@ class User extends Lib\ServiceManager
             $url = $row[7];
             $email = $row[8];
 
+            $firstName = $this->parseFirstName($name);
+            $lastName = $this->parseLastName($name);
+
             $user = new Entity\User;
+            $user->setFirstName($firstName);
+            $user->setLastName($lastName);
 
-            $namePieces = explode(' ', $name);
-            if (isset($namePieces[0])) {
-                $user->setFirstName($namePieces[0]);
-            }
-            if (isset($namePieces[1])) {
-                $user->setLastName($namePieces[1]);
-            }
-
-            if (!empty($email)) {
+            if (! empty($email)) {
                 $user->setEmail($email);
             }
 
@@ -60,5 +57,38 @@ class User extends Lib\ServiceManager
         $this->entityManager->flush();
 
         return $importedCount;
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    private function parseFirstName($name)
+    {
+        $firstName = '';
+
+        $namePieces = explode(' ', $name);
+        if (! empty($namePieces)) {
+            $firstName = $namePieces[0];
+        }
+
+        return $firstName;
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    private function parseLastName($name)
+    {
+        $lastName = '';
+
+        $namePieces = explode(' ', $name);
+        if (count($namePieces) > 1) {
+            array_shift($namePieces);
+            $lastName = implode(' ', $namePieces);
+        }
+
+        return $lastName;
     }
 }
