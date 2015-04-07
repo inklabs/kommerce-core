@@ -8,45 +8,16 @@ use inklabs\kommerce\tests\Helper as Helper;
 
 class UserTest extends Helper\DoctrineTestCase
 {
-    /** @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\User */
-    protected $mockUserRepository;
-
-    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
-    protected $mockEntityManager;
-
-    /** @var User */
-    protected $userService;
-
-    public function setUp()
-    {
-        $this->mockUserRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\User');
-
-        $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->once()
-            ->andReturn($this->mockUserRepository);
-
-        $this->userService = new User($this->mockEntityManager);
-    }
-
     public function testImport()
     {
-        $numberRows = 3;
+        $this->setCountLogger();
 
-        $this->mockEntityManager
-            ->shouldReceive('persist')
-            ->times($numberRows)
-            ->andReturnUndefined();
-
-        $this->mockEntityManager
-            ->shouldReceive('flush')
-            ->once()
-            ->andReturnUndefined();
+        $userService = new User($this->entityManager);
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/UserTest.csv');
-        $importedCount = $this->userService->import($iterator);
+        $importedCount = $userService->import($iterator);
 
-        $this->assertSame($numberRows, $importedCount);
+        $this->assertSame(3, $importedCount);
+        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 }

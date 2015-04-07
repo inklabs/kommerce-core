@@ -54,7 +54,7 @@ class User extends EntityRepository
     /**
      * @return Entity\User
      */
-    public function findOneByUsernameOrEmail($username)
+    public function findOneByEmail($email)
     {
         $qb = $this->getQueryBuilder();
 
@@ -65,8 +65,7 @@ class User extends EntityRepository
             ->addSelect('userRole')
             ->leftJoin('user.roles', 'userRole')
 
-            ->where('user.username = :username')->setParameter('username', $username)
-            ->orWhere('user.email = :email')->setParameter('email', $username)
+            ->where('user.email = :email')->setParameter('email', $email)
             ->getQuery()
             ->getOneOrNullResult();
 

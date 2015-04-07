@@ -12,7 +12,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->setExternalId('5');
         $user->setStatus(User::STATUS_ACTIVE);
         $user->setEmail('test@example.com');
-        $user->setUsername('test');
         $user->setPassword('xxxx');
         $user->setFirstName('John');
         $user->setLastName('Doe');
@@ -42,7 +41,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('5', $user->getExternalId());
         $this->assertTrue($user->isActive());
         $this->assertSame('test@example.com', $user->getEmail());
-        $this->assertSame('test', $user->getUsername());
         $this->assertSame('John', $user->getFirstName());
         $this->assertSame('Doe', $user->getLastName());
         $this->assertSame(0, $user->getTotalLogins());

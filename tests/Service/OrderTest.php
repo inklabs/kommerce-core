@@ -37,7 +37,6 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->user = new Entity\User;
         $this->user->setStatus(Entity\User::STATUS_ACTIVE);
         $this->user->setEmail('test@example.com');
-        $this->user->setUsername('test');
         $this->user->setPassword('xxxx');
         $this->user->setFirstName('John');
         $this->user->setLastName('Doe');

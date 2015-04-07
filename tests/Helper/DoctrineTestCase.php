@@ -209,7 +209,6 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $user->setExternalId($num);
         $user->setStatus(Entity\User::STATUS_ACTIVE);
         $user->setEmail('test@example.com');
-        $user->setUsername('testusername');
         $user->setPassword('xxxx');
         $user->setFirstName('John');
         $user->setLastName('Doe');
@@ -220,7 +219,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     protected function getDummyUserLogin()
     {
         $userLogin = new Entity\UserLogin;
-        $userLogin->setUsername('johndoe');
+        $userLogin->setEmail('john@example.com');
         $userLogin->setIp4('8.8.8.8');
         $userLogin->setResult(Entity\UserLogin::RESULT_SUCCESS);
 

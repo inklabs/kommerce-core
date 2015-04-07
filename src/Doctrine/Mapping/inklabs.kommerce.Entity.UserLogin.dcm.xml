@@ -15,7 +15,7 @@
             </options>
         </id>
 
-        <field name="username" column="username" type="string" length="32"/>
+        <field name="email" column="email" type="string" length="255"/>
         <field name="ip4" column="ip4" type="integer">
             <options>
                 <option name="unsigned">true</option>

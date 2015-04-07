@@ -16,9 +16,6 @@ class User
     protected $email;
 
     /** @var string */
-    protected $username;
-
-    /** @var string */
     protected $passwordHash;
 
     /** @var string */
@@ -151,16 +148,6 @@ class User
     public function getEmail()
     {
         return $this->email;
-    }
-
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
-
-    public function getUsername()
-    {
-        return $this->username;
     }
 
     public function setPassword($password)

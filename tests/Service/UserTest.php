@@ -29,7 +29,6 @@ class UserTest extends Helper\DoctrineTestCase
         $user->setFirstName('John');
         $user->setLastName('Doe');
         $user->setEmail('test@example.com');
-        $user->setUsername('test');
         $user->setPassword('qwerty');
 
         $this->entityManager->persist($user);
@@ -49,9 +48,9 @@ class UserTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $user->id);
     }
 
-    public function testUserLoginWithUsername()
+    public function testUserLogin()
     {
-        $this->assertTrue($this->userService->login('test', 'qwerty', '127.0.0.1'));
+        $this->assertTrue($this->userService->login('test@example.com', 'qwerty', '127.0.0.1'));
 
         $this->entityManager->clear();
 
@@ -64,7 +63,7 @@ class UserTest extends Helper\DoctrineTestCase
 
     public function testUserLoginWithWrongPassword()
     {
-        $this->assertFalse($this->userService->login('test', 'xxxxx', '127.0.0.1'));
+        $this->assertFalse($this->userService->login('test@example.com', 'xxxxx', '127.0.0.1'));
 
         $this->entityManager->clear();
 
@@ -75,9 +74,9 @@ class UserTest extends Helper\DoctrineTestCase
         $this->assertSame(Entity\UserLogin::RESULT_FAIL, $user->getLogins()[0]->getResult());
     }
 
-    public function testUserLoginWithWrongUsername()
+    public function testUserLoginWithWrongEmail()
     {
-        $this->assertFalse($this->userService->login('xxxxx', 'xxxxx', '127.0.0.1'));
+        $this->assertFalse($this->userService->login('xxxxx@example.com', 'xxxxx', '127.0.0.1'));
     }
 
     public function testLogout()
@@ -91,7 +90,7 @@ class UserTest extends Helper\DoctrineTestCase
 
     public function testUserPersistence()
     {
-        $this->assertTrue($this->userService->login('test', 'qwerty', '127.0.0.1'));
+        $this->assertTrue($this->userService->login('test@example.com', 'qwerty', '127.0.0.1'));
 
         $this->entityManager->clear();
 
