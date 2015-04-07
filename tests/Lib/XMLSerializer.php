@@ -34,7 +34,7 @@ class XMLSerializerTest extends \PHPUnit_Framework_TestCase
         $xmlSerializer = new XMLSerializer;
         $xml = $xmlSerializer->getXml($object);
 
-        $expectedResponse = '<?xml encoding="UTF-8" ?>' .
+        $expectedResponse = '<?xml version="1.0" encoding="utf-8"?>' .
             '<XMLSerializerTestObject>' .
                 '<id>1</id>' .
                 '<name>Test Object 1</name>' .
