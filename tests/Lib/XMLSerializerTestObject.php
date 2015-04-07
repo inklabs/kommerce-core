@@ -4,34 +4,14 @@ namespace inklabs\kommerce\tests\Lib;
 class XMLSerializerTestObject
 {
     /** @var int */
-    protected $id;
+    public $id;
 
     /** @var string */
-    protected $name;
+    public $name;
 
-    public function getId()
-    {
-        return $this->id;
-    }
+    /** @var XMLSerializerTestSingleObject */
+    public $singleObject;
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = (string) $name;
-    }
+    /** @var XMLSerializerTestSingleObject[] */
+    public $multipleObject = [];
 }
