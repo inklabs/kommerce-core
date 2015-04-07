@@ -7,6 +7,8 @@ use inklabs\kommerce\Lib as Lib;
 class User
 {
     public $id;
+    public $encodedId;
+    public $externalId;
     public $email;
     public $username;
     public $firstName;
@@ -32,6 +34,8 @@ class User
         $this->user = $user;
 
         $this->id          = $user->getId();
+        $this->encodedId   = Lib\BaseConvert::encode($user->getId());
+        $this->externalId  = $user->getExternalId();
         $this->email       = $user->getEmail();
         $this->username    = $user->getUsername();
         $this->firstName   = $user->getFirstName();

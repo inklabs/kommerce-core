@@ -37,7 +37,7 @@ class OrderItemOptionValueTest extends Helper\DoctrineTestCase
         $cartTotal = $this->getDummyCartTotal();
 
         $user = $this->getDummyUser();
-        $order = $this->getDummyOrder([$orderItem], $cartTotal);
+        $order = $this->getDummyOrder($cartTotal, [$orderItem]);
         $order->setUser($user);
 
         $this->entityManager->persist($catalogPromotion);

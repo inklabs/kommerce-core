@@ -24,7 +24,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $orderItem = $this->getDummyOrderItem($product, $price);
         $cartTotal = $this->getDummyCartTotal();
 
-        $order = $this->getDummyOrder([$orderItem], $cartTotal);
+        $order = $this->getDummyOrder($cartTotal, [$orderItem]);
         $order->setUser($user);
 
         $this->entityManager->persist($product);

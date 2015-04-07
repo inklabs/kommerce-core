@@ -10,6 +10,9 @@ class User
     use Accessor\Time, Accessor\Id;
 
     /** @var string */
+    protected $externalId;
+
+    /** @var string */
     protected $email;
 
     /** @var string */
@@ -101,6 +104,19 @@ class User
     public function isActive()
     {
         return $this->status === self::STATUS_ACTIVE;
+    }
+
+    public function getExternalId()
+    {
+        return $this->externalId;
+    }
+
+    /**
+     * @param string $externalId
+     */
+    public function setExternalId($externalId)
+    {
+        $this->externalId = (string) $externalId;
     }
 
     public function setStatus($status)

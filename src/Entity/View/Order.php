@@ -7,6 +7,7 @@ use inklabs\kommerce\Lib as Lib;
 class Order
 {
     public $id;
+    public $externalId;
     public $encodedId;
     public $shippingAddress;
     public $billingAddress;
@@ -38,6 +39,7 @@ class Order
 
         $this->id              = $order->getId();
         $this->encodedId       = Lib\BaseConvert::encode($order->getId());
+        $this->externalId      = $order->getExternalId();
         $this->status          = $order->getStatus();
         $this->statusText      = $order->getStatusText();
         $this->totalItems      = $order->totalItems();

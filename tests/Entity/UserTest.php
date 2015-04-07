@@ -9,6 +9,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $user = new User;
+        $user->setExternalId('5');
         $user->setStatus(User::STATUS_ACTIVE);
         $user->setEmail('test@example.com');
         $user->setUsername('test');
@@ -38,6 +39,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($validator->validate($user));
         $this->assertSame(User::STATUS_ACTIVE, $user->getStatus());
         $this->assertSame('Active', $user->getStatusText());
+        $this->assertSame('5', $user->getExternalId());
         $this->assertTrue($user->isActive());
         $this->assertSame('test@example.com', $user->getEmail());
         $this->assertSame('test', $user->getUsername());

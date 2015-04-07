@@ -11,10 +11,14 @@ class Order extends Lib\ServiceManager
     /** @var EntityRepository\Order */
     private $orderRepository;
 
+    /** @var EntityRepository\User */
+    private $userRepository;
+
     public function __construct(EntityManager $entityManager)
     {
         $this->setEntityManager($entityManager);
         $this->orderRepository = $entityManager->getRepository('kommerce:Order');
+        $this->userRepository = $entityManager->getRepository('kommerce:User');
     }
 
     /**
@@ -29,26 +33,27 @@ class Order extends Lib\ServiceManager
                 continue;
             }
 
-            $orderRef = $row[0];
+            $externalId = $row[0];
             $date = $row[1];
-            $userId = $row[2];
+            $userExternalId = $row[2];
             $subtotal = $this->convertDollarToCents($row[3]);
             $tax = $this->convertDollarToCents($row[4]);
             $total = $this->convertDollarToCents($row[5]);
-
-            // TODO: Get User via ??
-            $user = new Entity\User;
 
             $cartTotal = new Entity\CartTotal;
             $cartTotal->subtotal = $subtotal;
             $cartTotal->tax = $tax;
             $cartTotal->total = $total;
 
-            // TODO: Add order ref
             $order = new Entity\Order;
+            $order->setExternalId($externalId);
             $order->setTotal($cartTotal);
             $order->setCreated(new \DateTime($date));
-            $order->setUser($user);
+
+            if ($userExternalId !== null) {
+                $user = $this->userRepository->findOneBy(['externalId' => $userExternalId]);
+                $order->setUser($user);
+            }
 
             $this->entityManager->persist($order);
             $importedCount++;

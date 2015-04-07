@@ -71,8 +71,8 @@ class OrderItem
     {
         $this->product = $product;
 
-        $this->productSku = $product->getSku();
-        $this->productName = $product->getName();
+        $this->setProductSku($product->getSku());
+        $this->setProductName($product->getName());
     }
 
     public function getProduct()
@@ -104,9 +104,19 @@ class OrderItem
         return $this->quantity;
     }
 
+    public function setProductSku($productSku)
+    {
+        $this->productSku = (string) $productSku;
+    }
+
     public function getProductSku()
     {
         return $this->productSku;
+    }
+
+    public function setProductName($productName)
+    {
+        $this->productName = (string) $productName;
     }
 
     public function getProductName()

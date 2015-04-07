@@ -58,19 +58,20 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyProduct($num = 1)
     {
-        $productShirt = new Entity\Product;
-        $productShirt->setName('Test Product #' . $num);
-        $productShirt->setIsInventoryRequired(true);
-        $productShirt->setIsPriceVisible(true);
-        $productShirt->setIsActive(true);
-        $productShirt->setIsVisible(true);
-        $productShirt->setIsTaxable(true);
-        $productShirt->setIsShippable(true);
-        $productShirt->setShippingWeight(16);
-        $productShirt->setQuantity(10);
-        $productShirt->setUnitPrice(1200);
+        $product = new Entity\Product;
+        $product->setSku($num);
+        $product->setName('Test Product #' . $num);
+        $product->setIsInventoryRequired(true);
+        $product->setIsPriceVisible(true);
+        $product->setIsActive(true);
+        $product->setIsVisible(true);
+        $product->setIsTaxable(true);
+        $product->setIsShippable(true);
+        $product->setShippingWeight(16);
+        $product->setQuantity(10);
+        $product->setUnitPrice(1200);
 
-        return $productShirt;
+        return $product;
     }
 
     protected function getDummyTag($num = 1)
@@ -132,9 +133,11 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Entity\OrderItem[] $orderItems
+     * @param Entity\CartTotal $total
+     * @param array $orderItems
+     * @return Entity\Order
      */
-    protected function getDummyOrder(array $orderItems, Entity\CartTotal $total)
+    protected function getDummyOrder(Entity\CartTotal $total = null, array $orderItems = null)
     {
         $orderAddress = $this->getDummyOrderAddress();
 
@@ -143,8 +146,10 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $order->setShippingAddress($orderAddress);
         $order->setBillingAddress($orderAddress);
 
-        foreach ($orderItems as $orderItem) {
-            $order->addItem($orderItem);
+        if ($orderItems !== null) {
+            foreach ($orderItems as $orderItem) {
+                $order->addItem($orderItem);
+            }
         }
 
         return $order;
@@ -198,9 +203,10 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $catalogPromotion;
     }
 
-    protected function getDummyUser()
+    protected function getDummyUser($num = 1)
     {
         $user = new Entity\User;
+        $user->setExternalId($num);
         $user->setStatus(Entity\User::STATUS_ACTIVE);
         $user->setEmail('test@example.com');
         $user->setUsername('testusername');

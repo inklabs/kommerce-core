@@ -19,6 +19,8 @@
             </options>
         </id>
 
+        <field name="externalId" column="external_id" type="string" length="255" nullable="true" unique="true"/>
+
         <field name="status" column="status" type="smallint">
             <options>
                 <option name="unsigned">true</option>
