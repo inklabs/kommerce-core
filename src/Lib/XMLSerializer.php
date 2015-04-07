@@ -24,6 +24,8 @@ class XMLSerializer
         $xml = '';
         if (is_object($object)) {
             $xml .= $this->getXmlFromObject($object);
+        } elseif (is_array($object)) {
+            $xml .= $this->getXmlFromArray($object);
         } else {
             $xml .= $object;
         }
@@ -42,7 +44,7 @@ class XMLSerializer
         $entity = new \ReflectionClass($object);
         $entityName = $entity->getShortName();
         $xml .= '<' . $entityName . '>';
-        $xml .= $this->getXmlFromObjectVarsByProperties($object);
+        $xml .= $this->getXmlFromObjectVarsByPublicProperties($object);
         $xml .= '</' . $entityName . '>';
 
         return $xml;
@@ -52,18 +54,28 @@ class XMLSerializer
      * @param mixed $object
      * @return string
      */
-    private function getXmlFromObjectVarsByProperties($object)
+    public function getXmlFromArray($object)
     {
-        $entity = new \ReflectionClass($object);
-        $properties = $entity->getProperties();
+        $xml = '';
+
+        foreach ($object as $item) {
+            $xml .= $this->getXmlFromMixed($item);
+        }
+
+        return $xml;
+    }
+
+
+    /**
+     * @param mixed $object
+     * @return string
+     */
+    private function getXmlFromObjectVarsByPublicProperties($object)
+    {
+        $properties = get_object_vars($object);
 
         $xml = '';
-        foreach ($properties as $property) {
-            $name = $property->getName();
-
-            $getter = 'get' . ucfirst($name);
-            $value = $object->$getter();
-
+        foreach ($properties as $name => $value) {
             $xml .= '<' . $name . '>';
             $xml .= $this->getXmlFromMixed($value);
             $xml .= '</' . $name . '>';
@@ -71,29 +83,4 @@ class XMLSerializer
 
         return $xml;
     }
-//    /**
-//     * @param mixed $object
-//     * @return string
-//     */
-//    private function getXmlFromObjectVarsByMethods($object)
-//    {
-//        $entity = new \ReflectionClass($object);
-//        $methods = $entity->getMethods(\ReflectionMethod::IS_PUBLIC);
-//
-//        $xml = '';
-//        foreach ($methods as $method) {
-//            if (strpos($method->name, 'get') === false) {
-//                continue;
-//            }
-//
-//            $name = $method->name;
-//            $value = $method->invoke($object);
-//
-//            $xml .= '<' . $name . '>';
-//            $xml .= $this->getXmlFromMixed($value);
-//            $xml .= '</' . $name . '>';
-//        }
-//
-//        return $xml;
-//    }
 }
