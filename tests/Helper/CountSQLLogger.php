@@ -26,8 +26,18 @@ class CountSQLLogger implements SQLLogger
      */
     public function startQuery($sql, array $params = null, array $types = null)
     {
-        //echo $sql . PHP_EOL;
+        //$this->displaySql($sql, $params);
         $this->totalQueries++;
+    }
+
+    private function displaySql($sql, $params = null)
+    {
+        $values = '';
+        if (is_array($params)) {
+            $values = json_encode(array_values($params));
+        }
+
+        echo $sql . ' ' . $values . PHP_EOL;
     }
 
     /**

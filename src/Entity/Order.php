@@ -10,6 +10,9 @@ class Order
 {
     use Accessor\Time, Accessor\Id;
 
+    /** @var string */
+    protected $externalId;
+
     /** @var CartTotal */
     protected $total;
 
@@ -82,6 +85,19 @@ class Order
     {
         end($this->items);
         return key($this->items);
+    }
+
+    public function getExternalId()
+    {
+        return $this->externalId;
+    }
+
+    /**
+     * @param string $externalId
+     */
+    public function setExternalId($externalId)
+    {
+        $this->externalId = (string) $externalId;
     }
 
     public function totalItems()

@@ -29,7 +29,7 @@ class User extends Lib\ServiceManager
                 continue;
             }
 
-            $id = $row[0];
+            $externalId = $row[0];
             $name = $row[1];
             $address = $row[2];
             $zip5 = $row[3];
@@ -43,6 +43,7 @@ class User extends Lib\ServiceManager
             $lastName = $this->parseLastName($name);
 
             $user = new Entity\User;
+            $user->setExternalId($externalId);
             $user->setFirstName($firstName);
             $user->setLastName($lastName);
 

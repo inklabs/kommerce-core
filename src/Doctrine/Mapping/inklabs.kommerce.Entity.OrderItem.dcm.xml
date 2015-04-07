@@ -46,7 +46,7 @@
         </one-to-many>
 
         <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product" fetch="EAGER">
-            <join-column name="product_id" referenced-column-name="id" nullable="false"/>
+            <join-column name="product_id" referenced-column-name="id" nullable="true"/>
         </many-to-one>
 
         <many-to-one field="order" target-entity="Order" inversed-by="items" fetch="EAGER">
