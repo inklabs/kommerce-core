@@ -9,7 +9,7 @@ class XMLSerializer
      */
     public function getXml($object)
     {
-        $xml = '<?xml encoding="UTF-8" ?>';
+        $xml = '<?xml version="1.0" encoding="utf-8"?>';
         $xml .= $this->getXmlFromMixed($object);
 
         return $xml;
