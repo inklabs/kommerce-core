@@ -9,7 +9,7 @@ class UserLogin
     use Accessor\Created, Accessor\Id;
 
     /** @var string */
-    protected $username;
+    protected $email;
 
     /** @var int */
     protected $ip4;
@@ -29,9 +29,9 @@ class UserLogin
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('username', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('username', new Assert\Length([
-            'max' => 32,
+        $metadata->addPropertyConstraint('email', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('email', new Assert\Length([
+            'max' => 255,
         ]));
 
         $metadata->addPropertyConstraint('ip4', new Assert\NotBlank);
@@ -45,14 +45,14 @@ class UserLogin
         ]));
     }
 
-    public function setUsername($username)
+    public function setEmail($email)
     {
-        $this->username = $username;
+        $this->email = (string) $email;
     }
 
-    public function getUsername()
+    public function getEmail()
     {
-        return $this->username;
+        return $this->email;
     }
 
     public function setUser(User $user)

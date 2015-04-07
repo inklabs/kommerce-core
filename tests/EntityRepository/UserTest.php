@@ -61,27 +61,12 @@ class UserTest extends Helper\DoctrineTestCase
         $this->assertTrue($users[0] instanceof Entity\User);
     }
 
-    public function testFindByUsernameOrEmailUsingUsername()
-    {
-        $this->setupUser();
-
-        $this->setCountLogger();
-
-        $user = $this->getRepository()
-            ->findOneByUsernameOrEmail('testusername');
-
-        $user->getRoles()->toArray();
-
-        $this->assertTrue($user instanceof Entity\User);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
-    }
-
-    public function testFindByUsernameOrEmailUsingEmail()
+    public function testFindByEmailUsingEmail()
     {
         $this->setupUser();
 
         $user = $this->getRepository()
-            ->findOneByUsernameOrEmail('test@example.com');
+            ->findOneByEmail('test@example.com');
 
         $this->assertTrue($user instanceof Entity\User);
     }

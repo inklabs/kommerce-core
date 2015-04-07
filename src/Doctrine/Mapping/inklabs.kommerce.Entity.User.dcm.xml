@@ -22,10 +22,9 @@
         <field name="externalId" column="external_id" type="string" length="255" nullable="true" unique="true"/>
         <field name="firstName" column="first_name" type="string" length="50"/>
         <field name="lastName" column="last_name" type="string" length="50"/>
-        <field name="email" column="email" type="string" length="255"/>
-        <field name="username" column="username" type="string" length="32"/>
+        <field name="email" column="email" type="string" length="255" nullable="true"/>
 
-        <field name="passwordHash" column="password_hash" type="string" length="60">
+        <field name="passwordHash" column="password_hash" type="string" length="60" nullable="true">
             <options>
                 <option name="fixed">true</option>
             </options>

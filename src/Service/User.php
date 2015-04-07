@@ -45,27 +45,30 @@ class User extends Lib\ServiceManager
     }
 
     /**
+     * @param $email
+     * @param $password
+     * @param $remoteIp
      * @return bool
      */
-    public function login($username, $password, $remoteIp)
+    public function login($email, $password, $remoteIp)
     {
         /** @var EntityRepository\User $userRepository */
         $userRepository = $this->entityManager->getRepository('kommerce:User');
 
-        $entityUser = $userRepository->findOneByUsernameOrEmail($username);
+        $entityUser = $userRepository->findOneByEmail($email);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
-            $this->recordLogin($username, $remoteIp, Entity\UserLogin::RESULT_FAIL);
+            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL);
             return false;
         }
 
         if ($entityUser->verifyPassword($password)) {
             $this->user = $entityUser;
             $this->save();
-            $this->recordLogin($username, $remoteIp, Entity\UserLogin::RESULT_SUCCESS, $this->user);
+            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_SUCCESS, $this->user);
             return true;
         } else {
-            $this->recordLogin($username, $remoteIp, Entity\UserLogin::RESULT_FAIL, $entityUser);
+            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL, $entityUser);
             return false;
         }
     }
@@ -76,10 +79,10 @@ class User extends Lib\ServiceManager
         $this->sessionManager->delete($this->userSessionKey);
     }
 
-    protected function recordLogin($username, $remoteIp, $status, Entity\User $user = null)
+    protected function recordLogin($email, $remoteIp, $status, Entity\User $user = null)
     {
         $userLogin = new Entity\UserLogin;
-        $userLogin->setUsername($username);
+        $userLogin->setEmail($email);
         $userLogin->setIp4($remoteIp);
         $userLogin->setResult($status);
 

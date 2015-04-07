@@ -8,7 +8,7 @@ class UserLoginTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $userLogin = new UserLogin;
-        $userLogin->setUsername('test');
+        $userLogin->setEmail('test@example.com');
         $userLogin->setIp4('8.8.8.8');
         $userLogin->setResult(UserLogin::RESULT_SUCCESS);
         $userLogin->setUser(new User);
@@ -18,7 +18,7 @@ class UserLoginTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($userLogin));
-        $this->assertSame('test', $userLogin->getUsername());
+        $this->assertSame('test@example.com', $userLogin->getEmail());
         $this->assertSame('8.8.8.8', $userLogin->getIp4());
         $this->assertSame(UserLogin::RESULT_SUCCESS, $userLogin->getResult());
         $this->assertSame('Success', $userLogin->getResultText());

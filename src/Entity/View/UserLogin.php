@@ -7,7 +7,7 @@ use inklabs\kommerce\Lib as Lib;
 class UserLogin
 {
     public $id;
-    public $username;
+    public $email;
     public $ip4;
     public $result;
     public $resultText;
@@ -21,7 +21,7 @@ class UserLogin
         $this->userLogin = $userLogin;
 
         $this->id         = $userLogin->getId();
-        $this->username   = $userLogin->getUsername();
+        $this->email      = $userLogin->getEmail();
         $this->ip4        = $userLogin->getIp4();
         $this->result     = $userLogin->getResult();
         $this->resultText = $userLogin->getResultText();
