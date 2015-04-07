@@ -51,10 +51,10 @@ class XMLSerializer
     }
 
     /**
-     * @param mixed $object
+     * @param array $object
      * @return string
      */
-    public function getXmlFromArray($object)
+    public function getXmlFromArray(array $object)
     {
         $xml = '';
 
