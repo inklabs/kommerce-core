@@ -58,7 +58,7 @@ class OrderItem extends Lib\ServiceManager
             $orderItem->setOrder($order);
 
             if ($sku === 'NULL') {
-                $orderItem->setProductName($note);
+                $orderItem->setName($note);
             } else {
                 $product = $this->productRepository->findOneBy(['sku' => $sku]);
                 $orderItem->setProduct($product);

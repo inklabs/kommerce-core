@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="inklabs\kommerce" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="inklabs\kommerce" />
       <excludeFolder url="file://$MODULE_DIR$/coverage_report" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/annotations" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/cache" />
