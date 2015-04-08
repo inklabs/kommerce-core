@@ -32,7 +32,9 @@ class ProductAttribute
 
     public function withProduct()
     {
-        $this->product = $this->productAttribute->getProduct()->getView();
+        if ($this->productAttribute->getProduct() !== null) {
+            $this->product = $this->productAttribute->getProduct()->getView();
+        }
         return $this;
     }
 

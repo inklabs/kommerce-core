@@ -7,6 +7,7 @@ use inklabs\kommerce\Lib as Lib;
 class Attribute
 {
     public $id;
+    public $encodedId;
     public $name;
     public $description;
     public $sortOrder;
@@ -22,6 +23,7 @@ class Attribute
         $this->attribute = $attribute;
 
         $this->id          = $attribute->getId();
+        $this->encodedId   = Lib\BaseConvert::encode($attribute->getId());
         $this->name        = $attribute->getName();
         $this->description = $attribute->getDescription();
         $this->sortOrder   = $attribute->getSortOrder();
