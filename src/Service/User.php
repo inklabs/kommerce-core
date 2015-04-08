@@ -45,9 +45,9 @@ class User extends Lib\ServiceManager
     }
 
     /**
-     * @param $email
-     * @param $password
-     * @param $remoteIp
+     * @param string $email
+     * @param string $password
+     * @param string $remoteIp
      * @return bool
      */
     public function login($email, $password, $remoteIp)
@@ -79,6 +79,12 @@ class User extends Lib\ServiceManager
         $this->sessionManager->delete($this->userSessionKey);
     }
 
+    /**
+     * @param string $email
+     * @param string $remoteIp
+     * @param int $status
+     * @param Entity\User $user
+     */
     protected function recordLogin($email, $remoteIp, $status, Entity\User $user = null)
     {
         $userLogin = new Entity\UserLogin;
