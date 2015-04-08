@@ -48,6 +48,22 @@ class AttributeValueTest extends Helper\DoctrineTestCase
         $this->assertTrue($attributeValue instanceof View\AttributeValue);
     }
 
+    public function testFindMissing()
+    {
+        $this->mockAttributeValueRepository
+            ->shouldReceive('find')
+            ->andReturn(null);
+
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockAttributeValueRepository);
+
+        $attributeValueService = new AttributeValue($this->mockEntityManager);
+
+        $attributeValue = $attributeValueService->find(1);
+        $this->assertSame(null, $attributeValue);
+    }
+
     public function testGetAttributeValuesByIds()
     {
         $this->mockAttributeValueRepository

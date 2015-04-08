@@ -24,13 +24,10 @@ class OrderItem
     public $product;
 
     /** @var string */
-    public $productSku;
+    public $sku;
 
     /** @var string */
-    public $productName;
-
-    /** @var string */
-    public $fullSku;
+    public $name;
 
     /** @var string */
     public $discountNames;
@@ -50,9 +47,8 @@ class OrderItem
 
         $this->id            = $orderItem->getId();
         $this->quantity      = $orderItem->getQuantity();
-        $this->productSku    = $orderItem->getProductSku();
-        $this->productName   = $orderItem->getProductName();
-        $this->fullSku       = $orderItem->getFullSku();
+        $this->sku           = $orderItem->getSku();
+        $this->name          = $orderItem->getName();
         $this->discountNames = $orderItem->getDiscountNames();
         $this->created       = $orderItem->getCreated();
         $this->updated       = $orderItem->getUpdated();

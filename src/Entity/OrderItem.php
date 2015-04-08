@@ -30,9 +30,13 @@ class OrderItem
     /** @var ProductQuantityDiscount[] */
     protected $productQuantityDiscounts;
 
-    /** Flattened Columns */
-    protected $productSku;
-    protected $productName;
+    /** @var string */
+    protected $sku;
+
+    /** @var string */
+    protected $name;
+
+    /** @var string */
     protected $discountNames;
 
     public function __construct()
@@ -51,12 +55,12 @@ class OrderItem
             'max' => 65535,
         ]));
 
-        $metadata->addPropertyConstraint('productSku', new Assert\Length([
+        $metadata->addPropertyConstraint('sku', new Assert\Length([
             'max' => 64,
         ]));
 
-        $metadata->addPropertyConstraint('productName', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('productName', new Assert\Length([
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('name', new Assert\Length([
             'max' => 255,
         ]));
 
@@ -71,8 +75,7 @@ class OrderItem
     {
         $this->product = $product;
 
-        $this->setProductSku($product->getSku());
-        $this->setProductName($product->getName());
+        $this->setName($product->getName());
     }
 
     public function getProduct()
@@ -104,36 +107,39 @@ class OrderItem
         return $this->quantity;
     }
 
-    public function setProductSku($productSku)
+    public function setSku($sku)
     {
-        $this->productSku = (string) $productSku;
+        $this->sku = (string) $sku;
     }
 
-    public function getProductSku()
-    {
-        return $this->productSku;
-    }
-
-    public function setProductName($productName)
-    {
-        $this->productName = (string) $productName;
-    }
-
-    public function getProductName()
-    {
-        return $this->productName;
-    }
-
-    public function getFullSku()
+    public function getSku()
     {
         $fullSku = [];
-        $fullSku[] = $this->getProduct()->getSku();
+
+        if ($this->sku !== null) {
+            $fullSku[] = $this->sku;
+        }
+
+        $product = $this->getProduct();
+        if ($product !== null) {
+            $fullSku[] = $product->getSku();
+        }
 
         foreach ($this->getOrderItemOptionValues() as $optionValue) {
             $fullSku[] = $optionValue->getSku();
         }
 
         return implode('-', $fullSku);
+    }
+
+    public function setName($name)
+    {
+        $this->name = (string) $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function setPrice(Price $price)
