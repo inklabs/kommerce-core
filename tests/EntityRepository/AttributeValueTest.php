@@ -41,4 +41,15 @@ class AttributeValueTest extends Helper\DoctrineTestCase
         $this->assertTrue($attributeValue instanceof Entity\AttributeValue);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
+
+    public function testGetAttributeValuesByIds()
+    {
+        $this->setupAttributeValue();
+
+        $attributeValues = $this->getRepository()
+            ->getAttributeValuesByIds([1]);
+
+        $this->assertSame(1, count($attributeValues));
+        $this->assertSame(1, $attributeValues[0]->getId());
+    }
 }
