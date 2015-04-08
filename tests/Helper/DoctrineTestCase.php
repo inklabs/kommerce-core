@@ -126,9 +126,9 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $orderItem;
     }
 
-    protected function getDummyOrderItemOptionValue(Entity\OptionValue $optionValue)
+    protected function getDummyOrderItemOptionValue(Entity\Option $option)
     {
-        $orderItemOptionValue = new Entity\OrderItemOptionValue($optionValue);
+        $orderItemOptionValue = new Entity\OrderItemOptionValue($option);
         return $orderItemOptionValue;
     }
 

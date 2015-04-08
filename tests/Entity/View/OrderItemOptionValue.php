@@ -15,11 +15,14 @@ class OrderItemOptionValueTest extends \PHPUnit_Framework_TestCase
         $optionValue = new Entity\OptionValue(new Entity\Option);
         $optionValue->setProduct(new Entity\Product);
 
+        $orderItemOptionValue = new Entity\OrderItemOptionValue(new Entity\Option);
+        $orderItemOptionValue->setOptionValue($optionValue);
+
         $orderItem = new Entity\OrderItem;
         $orderItem->setProduct(new Entity\Product);
         $orderItem->setQuantity(1);
         $orderItem->setPrice($price);
-        $orderItem->addOrderItemOptionValue(new Entity\OrderItemOptionValue($optionValue));
+        $orderItem->addOrderItemOptionValue($orderItemOptionValue);
 
         $orderItemView = $orderItem->getView()
             ->withAllData()
