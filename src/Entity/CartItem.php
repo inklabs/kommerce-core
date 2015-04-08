@@ -118,7 +118,7 @@ class CartItem
         $orderItem->setPrice($this->getPrice($pricing));
 
         foreach ($this->getOptionValues() as $optionValue) {
-            $orderItemOptionValue = new OrderItemOptionValue($optionValue);
+            $orderItemOptionValue = new OrderItemOptionValue($optionValue->getOption());
             $orderItem->addOrderItemOptionValue($orderItemOptionValue);
         }
 

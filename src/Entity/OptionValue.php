@@ -33,20 +33,22 @@ class OptionValue
 
     public function getSku()
     {
-        if ($this->getProduct() === null) {
+        $product = $this->getProduct();
+        if ($product === null) {
             return null;
         }
 
-        return $this->getProduct()->getSku();
+        return $product->getSku();
     }
 
     public function getShippingWeight()
     {
-        if ($this->getProduct() === null) {
+        $product = $this->getProduct();
+        if ($product === null) {
             return null;
         }
 
-        return $this->getProduct()->getShippingWeight();
+        return $product->getShippingWeight();
     }
 
     public function setSortOrder($sortOrder)

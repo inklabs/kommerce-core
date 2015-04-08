@@ -9,22 +9,36 @@ class OrderItemOptionValue
     protected $sku;
 
     /** @var string */
-    protected $optionName;
+    protected $name;
 
     /** @var string */
-    protected $optionValueName;
+    protected $value;
 
     /** @var OrderItem */
     protected $orderItem;
 
+    /** @var Option */
+    protected $option;
+
     /** @var OptionValue */
     protected $optionValue;
 
-    public function __construct(OptionValue $optionValue)
+    public function __construct(Option $option)
     {
         $this->setCreated();
 
-        $this->setOptionValue($optionValue);
+        $this->setOption($option);
+    }
+
+    public function getOption()
+    {
+        return $this->option;
+    }
+
+    private function setOption(Option $option)
+    {
+        $this->option = $option;
+        $this->name = $option->getName();
     }
 
     public function getOptionValue()
@@ -34,15 +48,46 @@ class OrderItemOptionValue
 
     public function setOptionValue(OptionValue $optionValue)
     {
+        $this->setOption($optionValue->getOption());
+        $this->setSku($optionValue->getSku());
+        $this->setValue($optionValue->getName());
+
         $this->optionValue = $optionValue;
-        $this->optionName = $optionValue->getOption()->getName();
-        $this->sku = $optionValue->getSku();
-        $this->optionValueName = $optionValue->getName();
     }
 
-    public function getOptionName()
+    /**
+     * @param string $sku
+     */
+    public function setSku($sku)
     {
-        return $this->optionName;
+        $this->throwExceptionIfExistingOptionValue();
+
+        $this->sku = (string) $sku;
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setValue($value)
+    {
+        $this->throwExceptionIfExistingOptionValue();
+
+        $this->value = (string) $value;
+    }
+
+    /**
+     * @throws \LogicException
+    */
+    private function throwExceptionIfExistingOptionValue()
+    {
+        if ($this->optionValue !== null) {
+            throw new \LogicException('OptionValue already exists');
+        }
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function getSku()
@@ -50,9 +95,9 @@ class OrderItemOptionValue
         return $this->sku;
     }
 
-    public function getOptionValueName()
+    public function getValue()
     {
-        return $this->optionValueName;
+        return $this->value;
     }
 
     public function getOrderItem()

@@ -41,7 +41,8 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $optionValue = new OptionValue($option);
         $optionValue->setProduct($product2);
 
-        $optionProduct = new OrderItemOptionValue($optionValue);
+        $orderItemOptionValue = new OrderItemOptionValue($option);
+        $orderItemOptionValue->setOptionValue($optionValue);
 
         $price = new Price;
         $price->origUnitPrice = 1;
@@ -56,7 +57,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $orderItem->setProduct($product);
         $orderItem->setQuantity(2);
         $orderItem->setPrice($price);
-        $orderItem->addOrderItemOptionValue($optionProduct);
+        $orderItem->addOrderItemOptionValue($orderItemOptionValue);
 
         $order = new Order;
         $order->addItem($orderItem);

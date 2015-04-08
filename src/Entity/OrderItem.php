@@ -125,8 +125,12 @@ class OrderItem
             $fullSku[] = $product->getSku();
         }
 
-        foreach ($this->getOrderItemOptionValues() as $optionValue) {
-            $fullSku[] = $optionValue->getSku();
+        foreach ($this->getOrderItemOptionValues() as $orderItemOptionValue) {
+            $optionValue = $orderItemOptionValue->getOptionValue();
+
+            if ($optionValue !== null) {
+                $fullSku[] = $optionValue->getSku();
+            }
         }
 
         return implode('-', $fullSku);

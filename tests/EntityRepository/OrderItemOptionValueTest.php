@@ -29,7 +29,8 @@ class OrderItemOptionValueTest extends Helper\DoctrineTestCase
 
         $option = $this->getDummyOption();
         $optionValue = $this->getDummyOptionValue($option);
-        $orderItemOptionValue = $this->getDummyOrderItemOptionValue($optionValue);
+        $orderItemOptionValue = $this->getDummyOrderItemOptionValue($option);
+        $orderItemOptionValue->setOptionValue($optionValue);
 
         $orderItem = $this->getDummyOrderItem($product, $price);
         $orderItem->addOrderItemOptionValue($orderItemOptionValue);
@@ -61,9 +62,10 @@ class OrderItemOptionValueTest extends Helper\DoctrineTestCase
             ->find(1);
 
         $orderItemOptionValue->getOrderItem()->getCreated();
+        $orderItemOptionValue->getOption()->getCreated();
         $orderItemOptionValue->getOptionValue()->getCreated();
 
         $this->assertTrue($orderItemOptionValue instanceof Entity\OrderItemOptionValue);
-        $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
     }
 }

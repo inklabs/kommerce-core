@@ -15,9 +15,9 @@
             </options>
         </id>
 
-        <field name="optionName" column="option_name" type="string" length="255"/>
         <field name="sku" column="sku" type="string" length="64" nullable="true"/>
-        <field name="optionValueName" column="option_value_name" type="string" length="255" nullable="true"/>
+        <field name="name" column="name" type="string" length="255"/>
+        <field name="value" column="value" type="string" length="255" nullable="true"/>
 
         <field name="created" column="created" type="integer">
             <options>
@@ -35,8 +35,12 @@
             <join-column name="order_item_id" referenced-column-name="id" nullable="false"/>
         </many-to-one>
 
+        <many-to-one field="option" target-entity="Option" fetch="EAGER">
+            <join-column name="option_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+
         <many-to-one field="optionValue" target-entity="OptionValue" fetch="EAGER">
-            <join-column name="option_value_id" referenced-column-name="id" nullable="false"/>
+            <join-column name="option_value_id" referenced-column-name="id" nullable="true"/>
         </many-to-one>
 
     </entity>

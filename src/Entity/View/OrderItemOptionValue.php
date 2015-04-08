@@ -10,6 +10,9 @@ class OrderItemOptionValue
     /** @var int */
     public $id;
 
+    /** @var Option */
+    public $option;
+
     /** @var OptionValue */
     public $optionValue;
 
@@ -20,18 +23,28 @@ class OrderItemOptionValue
     public $sku;
 
     /** @var string */
-    public $optionValueName;
+    public $name;
+
+    /** @var string */
+    public $value;
 
     public function __construct(Entity\OrderItemOptionValue $orderItemOptionValue)
     {
         $this->id             = $orderItemOptionValue->getId();
-        $this->optionName     = $orderItemOptionValue->getOptionName();
+        $this->optionName     = $orderItemOptionValue->getName();
         $this->created        = $orderItemOptionValue->getCreated();
 
-        $this->optionValue    = $orderItemOptionValue->getOptionValue()->getView()
+        $this->option = $orderItemOptionValue->getOption()->getView()
             ->export();
 
-        $this->optionValueName = $orderItemOptionValue->getOptionValueName();
+        $optionValue = $orderItemOptionValue->getOptionValue();
+        if ($optionValue !== null) {
+            $this->optionValue = $optionValue->getView()
+                ->export();
+        }
+
         $this->sku = $orderItemOptionValue->getSku();
+        $this->name = $orderItemOptionValue->getName();
+        $this->value = $orderItemOptionValue->getValue();
     }
 }
