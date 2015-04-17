@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class OrderItemTest extends \PHPUnit_Framework_TestCase
@@ -35,14 +36,13 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $product2->addProductQuantityDiscount($optionProductQuantityDiscount);
 
 
-        $option = new Option;
-        $option->setName('Test Option');
+        $optionType = new OptionType\Regular;
+        $optionType->setName('Test Option');
 
-        $optionValue = new OptionValue($option);
-        $optionValue->setProduct($product2);
+        $optionValue = new OptionValue\Product($product2);
+        $optionValue->setOptionType($optionType);
 
-        $orderItemOptionValue = new OrderItemOptionValue($option);
-        $orderItemOptionValue->setOptionValue($optionValue);
+        $orderItemOptionValue = new OrderItemOptionValue($optionValue);
 
         $price = new Price;
         $price->origUnitPrice = 1;

@@ -1,12 +1,12 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-use inklabs\kommerce\Entity\Accessor;
-use inklabs\kommerce\Entity\View as View;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ChargeResponse
+class ChargeResponse implements Entity\EntityInterface
 {
     /** @var string */
     protected $id;

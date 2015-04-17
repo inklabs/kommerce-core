@@ -1,7 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\Service;
+use inklabs\kommerce\View;
 
 class CartItemTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,29 +13,43 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $product->setUnitPrice(100);
         $product->setShippingWeight(10);
 
-        $product2 = new Product;
-        $product2->setSku('OPT2');
-        $product2->setUnitPrice(20);
-        $product2->setShippingWeight(2);
-
-        $optionValue = new OptionValue(new Option);
-        $optionValue->setProduct($product2);
+        $optionValue = $this->getMockedOptionValue();
 
         $cartItem = new CartItem($product, 2);
         $cartItem->setId(1);
-        $cartItem->addOptionValue($optionValue);
+        $cartItem->setOptionValues([$optionValue]);
 
         $pricing = new Service\Pricing;
 
         $this->assertSame(1, $cartItem->getId());
         $this->assertSame(2, $cartItem->getQuantity());
         $this->assertSame('PRD1-OPT2', $cartItem->getFullSku());
-        $this->assertTrue($cartItem->getProduct() instanceof Product);
-        $this->assertTrue($cartItem->getOptionValues()[0] instanceof OptionValue);
+        $this->assertTrue($cartItem->getOptionValues()[0] instanceof OptionValue\OptionValueInterface);
         $this->assertTrue($cartItem->getPrice($pricing) instanceof Price);
         $this->assertSame(240, $cartItem->getPrice($pricing)->quantityPrice);
         $this->assertSame(24, $cartItem->getShippingWeight());
         $this->assertTrue($cartItem->getView() instanceof View\CartItem);
+    }
+
+    /**
+     * @return OptionValue\OptionValueInterface
+     */
+    private function getMockedOptionValue()
+    {
+        $price = new Price;
+        $price->unitPrice = 20;
+        $price->quantityPrice = 40;
+
+        $optionType = \Mockery::mock('inklabs\kommerce\Entity\OptionType\OptionTypeInterface');
+        $optionType->shouldReceive('getName')->andReturn('Test Option Type Name');
+
+        $optionValue = \Mockery::mock('inklabs\kommerce\Entity\OptionValue\OptionValueInterface');
+        $optionValue->shouldReceive('getSku')->andReturn('OPT2');
+        $optionValue->shouldReceive('getName')->andReturn('Test Option Value Name');
+        $optionValue->shouldReceive('getPrice')->andReturn($price);
+        $optionValue->shouldReceive('getShippingWeight')->andReturn(2);
+        $optionValue->shouldReceive('getOptionType')->andReturn($optionType);
+        return $optionValue;
     }
 
     public function testSetProductAndQuantity()
@@ -48,8 +63,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOrderItem()
     {
-        $optionValue = new OptionValue(new Option);
-        $optionValue->setProduct(new Product);
+        $optionValue = $this->getMockedOptionValue();
 
         $cartItem = new CartItem(new Product, 1);
         $cartItem->addOptionValue($optionValue);

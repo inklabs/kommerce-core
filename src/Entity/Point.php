@@ -3,8 +3,9 @@ namespace inklabs\kommerce\Entity;
 
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
+use inklabs\kommerce\View;
 
-class Point
+class Point implements EntityInterface
 {
     protected $latitude;
     protected $longitude;

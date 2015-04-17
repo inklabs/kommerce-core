@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Doctrine\ORM;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class QueryBuilderTest extends Helper\DoctrineTestCase
 {

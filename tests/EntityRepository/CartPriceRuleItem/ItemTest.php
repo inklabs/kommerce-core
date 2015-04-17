@@ -1,11 +1,18 @@
 <?php
 namespace inklabs\kommerce\EntityRepository\CartPriceRuleItem;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class ItemTest extends Helper\DoctrineTestCase
 {
+    protected $metaDataClassNames = [
+        'kommerce:CartPriceRule',
+        'kommerce:CartPriceRuleDiscount',
+        'kommerce:CartPriceRuleItem\Item',
+        'kommerce:Product',
+    ];
+
     /**
      * @return Item
      */

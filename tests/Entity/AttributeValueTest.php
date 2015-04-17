@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
+
 class AttributeValueTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateAttributeValue()

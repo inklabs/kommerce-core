@@ -1,7 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity\CartPriceRuleItem;
 
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class Tag extends Item
@@ -41,6 +42,6 @@ class Tag extends Item
 
     public function getView()
     {
-        return new Entity\View\CartPriceRuleItem\Tag($this);
+        return new View\CartPriceRuleItem\Tag($this);
     }
 }

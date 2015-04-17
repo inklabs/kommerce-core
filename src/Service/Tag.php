@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
-use inklabs\kommerce\EntityRepository as EntityRepository;
-use Doctrine\ORM\EntityManager;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\EntityRepository;
 use Symfony\Component\Validator\Exception\ValidatorException;
 
 class Tag extends Lib\ServiceManager
@@ -13,22 +13,20 @@ class Tag extends Lib\ServiceManager
     private $pricing;
 
     /** @var EntityRepository\Tag */
-    private $tagRepository;
+    private $repository;
 
-    public function __construct(EntityManager $entityManager, Pricing $pricing)
+    public function __construct(EntityRepository\TagInterface $repository, Pricing $pricing)
     {
-        $this->setEntityManager($entityManager);
         $this->pricing = $pricing;
-        $this->tagRepository = $entityManager->getRepository('kommerce:Tag');
+        $this->repository = $repository;
     }
 
     /**
-     * @return Entity\View\Tag|null
+     * @return View\Tag|null
      */
     public function find($id)
     {
-        /** @var Entity\Tag $entityTag */
-        $entityTag = $this->tagRepository->find($id);
+        $entityTag = $this->repository->find($id);
 
         if ($entityTag === null) {
             return null;
@@ -41,12 +39,11 @@ class Tag extends Lib\ServiceManager
 
     /**
      * @param string $encodedId
-     * @return Entity\View\Tag|null
+     * @return View\Tag|null
      */
     public function findSimple($encodedId)
     {
-        /** @var Entity\Tag $entityTag */
-        $entityTag = $this->tagRepository->find(Lib\BaseConvert::decode($encodedId));
+        $entityTag = $this->repository->find(Lib\BaseConvert::decode($encodedId));
 
         if ($entityTag === null) {
             return null;
@@ -60,10 +57,9 @@ class Tag extends Lib\ServiceManager
      * @return Entity\Tag
      * @throws ValidatorException
      */
-    public function edit($id, Entity\View\Tag $viewTag)
+    public function edit($id, View\Tag $viewTag)
     {
-        /** @var Entity\Tag $tag */
-        $tag = $this->tagRepository->find($id);
+        $tag = $this->repository->find($id);
 
         if ($tag === null) {
             throw new \LogicException('Missing Tag');
@@ -73,7 +69,7 @@ class Tag extends Lib\ServiceManager
 
         $this->throwValidationErrors($tag);
 
-        $this->entityManager->flush();
+        $this->repository->save($tag);
 
         return $tag;
     }
@@ -82,24 +78,21 @@ class Tag extends Lib\ServiceManager
      * @return Entity\Tag
      * @throws ValidatorException
      */
-    public function create(Entity\View\Tag $viewTag)
+    public function create(View\Tag $viewTag)
     {
-        /** @var Entity\Tag $tag */
         $tag = new Entity\Tag;
-
         $tag->loadFromView($viewTag);
 
         $this->throwValidationErrors($tag);
 
-        $this->entityManager->persist($tag);
-        $this->entityManager->flush();
+        $this->repository->save($tag);
 
         return $tag;
     }
 
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $tags = $this->tagRepository
+        $tags = $this->repository
             ->getAllTags($queryString, $pagination);
 
         return $this->getViewTags($tags);
@@ -107,7 +100,7 @@ class Tag extends Lib\ServiceManager
 
     public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
-        $tags = $this->tagRepository
+        $tags = $this->repository
             ->getTagsByIds($tagIds);
 
         return $this->getViewTags($tags);
@@ -115,7 +108,7 @@ class Tag extends Lib\ServiceManager
 
     public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
-        $tags = $this->tagRepository
+        $tags = $this->repository
             ->getAllTagsByIds($tagIds);
 
         return $this->getViewTags($tags);
@@ -123,7 +116,7 @@ class Tag extends Lib\ServiceManager
 
     /**
      * @param Entity\Tag[] $tags
-     * @return Entity\View\Tag[]
+     * @return View\Tag[]
      */
     private function getViewTags($tags)
     {

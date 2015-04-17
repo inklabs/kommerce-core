@@ -1,12 +1,13 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\Entity\Payment as Payment;
+use inklabs\kommerce\Entity\Payment;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Order
+class Order implements EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 

@@ -1,7 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Service;
 
 class CartTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,8 +13,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon->setName($value . '% Off');
         $coupon->setType(Promotion::TYPE_PERCENT);
         $coupon->setValue($value);
-        $coupon->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $coupon->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
 
         return $coupon;
     }
@@ -29,13 +28,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $cart = new Cart;
         $itemId1 = $cart->addItem(new Product, 2);
-        $itemId2 = $cart->addItem(new Product, 2, [new OptionValue(new Option)]);
 
         $this->assertSame(0, $itemId1);
-        $this->assertSame(1, $itemId2);
         $this->assertTrue($cart->getItem(0) instanceof CartItem);
-        $this->assertTrue($cart->getItem(1)->getOptionValues()[0] instanceof OptionValue);
-        $this->assertSame(2, count($cart->getItems()));
+        $this->assertSame(1, count($cart->getItems()));
     }
 
     public function testAddItemWithDuplicate()
@@ -54,6 +50,32 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $cart = new Cart;
         $this->assertSame(null, $cart->getItem(1));
+    }
+
+    public function testAddItemWithOptionValues()
+    {
+        $optionValues = [
+            $this->getOptionValueProduct(),
+            $this->getOptionValueProduct(),
+        ];
+
+        $cart = new Cart;
+        $itemId1 = $cart->addItem(new Product, 2, $optionValues);
+
+        $this->assertSame(0, $itemId1);
+        $this->assertTrue($cart->getItem(0) instanceof CartItem);
+        $this->assertSame(1, count($cart->getItems()));
+    }
+
+    private function getOptionValueProduct()
+    {
+        $product = new Product;
+
+        $optionValueProduct = new OptionValue\Product($product);
+        $optionValueProduct->setProduct($product);
+        $optionValueProduct->setOptionType(new OptionType\Regular);
+
+        return $optionValueProduct;
     }
 
     public function testDeleteItem()
@@ -194,6 +216,16 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $cart = new Cart;
         $cart->addItem($product, 2);
-        $this->assertTrue($cart->getTotal(new Pricing) instanceof CartTotal);
+        $this->assertTrue($cart->getTotal(new Service\Pricing) instanceof CartTotal);
+    }
+
+    public function testGetOrder()
+    {
+        $cart = new Cart;
+        $itemId1 = $cart->addItem(new Product, 2);
+
+        $order = $cart->getOrder(new Service\Pricing);
+
+        $this->assertTrue($order instanceof Order);
     }
 }

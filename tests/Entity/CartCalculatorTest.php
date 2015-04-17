@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\Service;
 
 class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 {

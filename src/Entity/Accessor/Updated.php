@@ -20,7 +20,7 @@ trait Updated
         $this->updated = $updated->getTimestamp();
     }
 
-    public function preUpdate(PreUpdateEventArgs $event)
+    public function preUpdate(PreUpdateEventArgs $event = null)
     {
         $this->setUpdated();
     }

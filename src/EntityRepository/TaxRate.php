@@ -1,14 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 /**
  * @method Entity\TaxRate find($id)
  * @method Entity\TaxRate[] findAll()
  */
-class TaxRate extends EntityRepository
+class TaxRate extends AbstractEntityRepository
 {
     /**
      * @return Entity\TaxRate[]

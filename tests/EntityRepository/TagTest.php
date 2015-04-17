@@ -1,12 +1,19 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib\BaseConvert;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\tests\Helper;
 
 class TagTest extends Helper\DoctrineTestCase
 {
+    protected $metaDataClassNames = [
+        'kommerce:Image',
+        'kommerce:Tag',
+        'kommerce:Product',
+        'kommerce:OptionType\AbstractOptionType',
+    ];
+
     /**
      * @return Tag
      */
@@ -35,7 +42,7 @@ class TagTest extends Helper\DoctrineTestCase
 
         $tag->getImages()->toArray();
         $tag->getProducts()->toArray();
-        $tag->getOptions()->toArray();
+        $tag->getOptionTypes()->toArray();
 
         $this->assertTrue($tag instanceof Entity\Tag);
         $this->assertSame(4, $this->countSQLLogger->getTotalQueries());

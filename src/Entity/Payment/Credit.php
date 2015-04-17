@@ -1,7 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity\Payment;
 
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 use inklabs\kommerce\Lib\PaymentGateway\Gateway;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
@@ -39,6 +40,6 @@ class Credit extends Payment
 
     public function getView()
     {
-        return new Entity\View\Payment\Credit($this);
+        return new View\Payment\Credit($this);
     }
 }

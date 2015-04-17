@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Service as Service;
-use inklabs\kommerce\Lib as Lib;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\tests\Helper;
 
 class OrderTest extends Helper\DoctrineTestCase
 {
@@ -19,6 +19,19 @@ class OrderTest extends Helper\DoctrineTestCase
 
     /** @var Entity\User */
     protected $user;
+
+    protected $metaDataClassNames = [
+        'kommerce:Coupon',
+        'kommerce:CatalogPromotion',
+        'kommerce:Order',
+        'kommerce:OrderItem',
+        'kommerce:OrderItemOptionValue',
+        'kommerce:Payment\Payment',
+        'kommerce:Product',
+        'kommerce:ProductQuantityDiscount',
+        'kommerce:Tag',
+        'kommerce:User',
+    ];
 
     public function setUp()
     {

@@ -1,11 +1,11 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Exception\ValidatorException;
-use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Lib;
 
 class Product extends Lib\ServiceManager
 {
@@ -13,28 +13,26 @@ class Product extends Lib\ServiceManager
     private $pricing;
 
     /** @var EntityRepository\Product */
-    private $productRepository;
+    private $repository;
 
-    public function __construct(EntityManager $entityManager, Pricing $pricing)
+    public function __construct(EntityRepository\ProductInterface $repository, Pricing $pricing)
     {
-        $this->setEntityManager($entityManager);
         $this->pricing = $pricing;
-        $this->productRepository = $entityManager->getRepository('kommerce:Product');
+        $this->repository = $repository;
     }
 
     /**
-     * @return Entity\View\Product|null
+     * @return View\Product|null
      */
     public function find($id)
     {
-        /** @var Entity\Product $entityProduct */
-        $entityProduct = $this->productRepository->find($id);
+        $product = $this->repository->find($id);
 
-        if ($entityProduct === null) {
+        if ($product === null) {
             return null;
         }
 
-        return $entityProduct->getView()
+        return $product->getView()
             ->withAllData($this->pricing)
             ->export();
     }
@@ -43,10 +41,9 @@ class Product extends Lib\ServiceManager
      * @return Entity\Product
      * @throws ValidatorException
      */
-    public function edit($id, Entity\View\Product $viewProduct)
+    public function edit($id, View\Product $viewProduct)
     {
-        /** @var Entity\Product $product */
-        $product = $this->productRepository->find($id);
+        $product = $this->repository->find($id);
 
         if ($product === null) {
             throw new \LogicException('Missing Product');
@@ -56,7 +53,7 @@ class Product extends Lib\ServiceManager
 
         $this->throwValidationErrors($product);
 
-        $this->entityManager->flush();
+        $this->repository->save($product);
 
         return $product;
     }
@@ -65,24 +62,21 @@ class Product extends Lib\ServiceManager
      * @return Entity\Product
      * @throws ValidatorException
      */
-    public function create(Entity\View\Product $viewProduct)
+    public function create(View\Product $viewProduct)
     {
-        /** @var Entity\Product $product */
         $product = new Entity\Product;
-
         $product->loadFromView($viewProduct);
 
         $this->throwValidationErrors($product);
 
-        $this->entityManager->persist($product);
-        $this->entityManager->flush();
+        $this->repository->save($product);
 
         return $product;
     }
 
     public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository
+        $products = $this->repository
             ->getAllProducts($queryString, $pagination);
 
         return $this->getViewProducts($products);
@@ -103,15 +97,15 @@ class Product extends Lib\ServiceManager
             }
         }
 
-        $products = $this->productRepository
+        $products = $this->repository
             ->getRelatedProductsByIds($productIds, $tagIds, $limit);
 
         return $this->getViewProductsWithPrice($products);
     }
 
-    public function getProductsByTag(Entity\View\Tag $tag, Entity\Pagination & $pagination = null)
+    public function getProductsByTag(View\Tag $tag, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository
+        $products = $this->repository
             ->getProductsByTagId($tag->id);
 
         return $this->getViewProductsWithPrice($products);
@@ -119,7 +113,7 @@ class Product extends Lib\ServiceManager
 
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository
+        $products = $this->repository
             ->getProductsByIds($productIds);
 
         return $this->getViewProductsWithPrice($products);
@@ -127,7 +121,7 @@ class Product extends Lib\ServiceManager
 
     public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository
+        $products = $this->repository
             ->getAllProductsByIds($productIds);
 
         return $this->getViewProductsWithPrice($products);
@@ -135,7 +129,7 @@ class Product extends Lib\ServiceManager
 
     public function getRandomProducts($limit)
     {
-        $products = $this->productRepository
+        $products = $this->repository
             ->getRandomProducts($limit);
 
         return $this->getViewProductsWithPrice($products);
@@ -143,7 +137,7 @@ class Product extends Lib\ServiceManager
 
     /**
      * @param Entity\Product[] $products
-     * @return Entity\View\Product[]
+     * @return View\Product[]
      */
     private function getViewProductsWithPrice($products)
     {
@@ -159,7 +153,7 @@ class Product extends Lib\ServiceManager
 
     /**
      * @param Entity\Product[] $products
-     * @return Entity\View\Product[]
+     * @return View\Product[]
      */
     private function getViewProducts($products)
     {

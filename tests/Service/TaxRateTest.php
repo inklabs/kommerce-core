@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\tests\Helper as Helper;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\Entity;
 
 class TaxRateTest extends Helper\DoctrineTestCase
 {
@@ -11,6 +11,10 @@ class TaxRateTest extends Helper\DoctrineTestCase
 
     /** @var Entity\TaxRate[] */
     private $taxRates;
+
+    protected $metaDataClassNames = [
+        'kommerce:TaxRate',
+    ];
 
     public function setUp()
     {

@@ -1,13 +1,12 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 /**
  * @method Entity\CatalogPromotion find($id)
  */
-class CatalogPromotion extends EntityRepository
+class CatalogPromotion extends AbstractEntityRepository
 {
     /**
      * @return Entity\CatalogPromotion[]

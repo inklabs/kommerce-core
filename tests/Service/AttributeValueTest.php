@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Entity\View as View;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\tests\Helper;
 
 class AttributeValueTest extends Helper\DoctrineTestCase
 {
@@ -17,17 +17,6 @@ class AttributeValueTest extends Helper\DoctrineTestCase
     {
         $this->mockAttributeValueRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\AttributeValue');
         $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
-    }
-
-    private function setupAttributeValue()
-    {
-        $attributeValue = $this->getDummyAttributeValue();
-
-        $this->entityManager->persist($attributeValue);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        return $attributeValue;
     }
 
     public function testFind()

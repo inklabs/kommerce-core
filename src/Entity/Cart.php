@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use inklabs\kommerce\Service\Pricing;
 use Exception;
 
@@ -22,7 +23,7 @@ class Cart
     /**
      * @param Product $product
      * @param int $quantity
-     * @param OptionValue[] $optionValues
+     * @param Product[] $optionValues
      * @return int
      */
     public function addItem(Product $product, $quantity, $optionValues = null)

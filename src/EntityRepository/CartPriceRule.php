@@ -1,12 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 /**
  * @method Entity\CartPriceRule find($id)
  */
-class CartPriceRule extends EntityRepository
+class CartPriceRule extends AbstractEntityRepository implements CartPriceRuleInterface
 {
 }

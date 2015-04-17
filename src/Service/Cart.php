@@ -5,8 +5,9 @@ use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\EntityRepository as EntityRepository;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Payment\Payment;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
 use Exception;
 
 class Cart extends Lib\ServiceManager
@@ -135,13 +136,13 @@ class Cart extends Lib\ServiceManager
 
     /**
      * @param $optionValueEncodedIds
-     * @return Entity\OptionValue[]|null
+     * @return Entity\Product[]|null
      * @throws Exception
      */
     private function getOptionValues($optionValueEncodedIds)
     {
         /** @var EntityRepository\OptionValue $optionValueRepository */
-        $optionValueRepository = $this->entityManager->getRepository('kommerce:OptionValue');
+        $optionValueRepository = $this->entityManager->getRepository('kommerce:OptionValue\AbstractOptionValue');
 
         $optionValues = null;
         if ($optionValueEncodedIds !== null) {
@@ -220,7 +221,7 @@ class Cart extends Lib\ServiceManager
     }
 
     /**
-     * @return Entity\View\CartItem[]
+     * @return View\CartItem[]
      */
     public function getItems()
     {
@@ -235,7 +236,7 @@ class Cart extends Lib\ServiceManager
     }
 
     /**
-     * @return Entity\View\Product[]
+     * @return View\Product[]
      */
     public function getProducts()
     {
@@ -247,7 +248,7 @@ class Cart extends Lib\ServiceManager
     }
 
     /**
-     * @return Entity\View\CartItem|null
+     * @return View\CartItem|null
      */
     public function getItem($id)
     {

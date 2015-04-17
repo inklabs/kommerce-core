@@ -1,13 +1,12 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 /**
  * @method Entity\Warehouse find($id)
  */
-class Warehouse extends EntityRepository
+class Warehouse extends AbstractEntityRepository
 {
     /**
      * @return array

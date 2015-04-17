@@ -1,7 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Service;
 use Symfony\Component\Validator\Validation;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
@@ -33,7 +34,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->addTag(new Tag);
         $product->addImage(new Image);
         $product->addProductQuantityDiscount(new ProductQuantityDiscount);
-        $product->addOptionValue(new OptionValue(new Option));
+        $product->addOptionValue(new OptionValue\Product(new Product));
         $product->addProductAttribute(new ProductAttribute);
 
         $validator = Validation::createValidatorBuilder()
@@ -58,7 +59,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($product->getTags()[0] instanceof Tag);
         $this->assertTrue($product->getImages()[0] instanceof Image);
         $this->assertTrue($product->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
-        $this->assertTrue($product->getOptionValues()[0] instanceof OptionValue);
+        $this->assertTrue($product->getOptionValues()[0] instanceof OptionValue\Product);
         $this->assertTrue($product->getProductAttributes()[0] instanceof ProductAttribute);
         $this->assertTrue($product->getView() instanceof View\Product);
     }

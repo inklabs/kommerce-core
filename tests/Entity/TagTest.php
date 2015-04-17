@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class TagTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +21,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $tag->setIsActive(true);
         $tag->addProduct(new Product);
         $tag->addImage(new Image);
-        $tag->addOption(new Option);
+        $tag->addOptionType(new OptionType\Regular);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -35,7 +36,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($tag->isActive());
         $this->assertTrue($tag->getProducts()[0] instanceof Product);
         $this->assertTrue($tag->getImages()[0] instanceof Image);
-        $this->assertTrue($tag->getOptions()[0] instanceof Option);
+        $this->assertTrue($tag->getOptionTypes()[0] instanceof OptionType\AbstractOptionType);
         $this->assertTrue($tag->getView() instanceof View\Tag);
     }
 

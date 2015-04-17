@@ -1,15 +1,13 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use Doctrine as Doctrine;
+use Doctrine;
 use inklabs\kommerce\Doctrine\Extensions\TablePrefix;
 
 class Kommerce
 {
     protected $tablePrefix = 'zk_';
     protected $eventManager;
-    protected $sessionManager;
-    protected $pricing;
 
     /** @var Doctrine\ORM\EntityManager */
     protected $entityManager;
@@ -43,34 +41,6 @@ class Kommerce
         $tablePrefix = new TablePrefix($this->tablePrefix);
         $this->eventManager = new Doctrine\Common\EventManager;
         $this->eventManager->addEventListener(Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
-    }
-
-    public function service($serviceClassName)
-    {
-        $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
-        $serviceClass = new $serviceClassName($this->entityManager);
-        return $serviceClass;
-    }
-
-    public function pricingService($serviceClassName)
-    {
-        $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
-        $serviceClass = new $serviceClassName($this->entityManager, $this->pricing);
-        return $serviceClass;
-    }
-
-    public function pricingSessionService($serviceClassName)
-    {
-        $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
-        $serviceClass = new $serviceClassName($this->entityManager, $this->pricing, $this->sessionManager);
-        return $serviceClass;
-    }
-
-    public function sessionService($serviceClassName)
-    {
-        $serviceClassName = 'inklabs\kommerce\Service\\' . $serviceClassName;
-        $serviceClass = new $serviceClassName($this->entityManager, $this->sessionManager);
-        return $serviceClass;
     }
 
     public function clearCache()
@@ -109,17 +79,5 @@ class Kommerce
     {
         $this->entityManager = Doctrine\ORM\EntityManager::create($dbParams, $this->config, $this->eventManager);
         $this->entityManagerConfiguration = $this->entityManager->getConnection()->getConfiguration();
-    }
-
-    public function setSessionManager($sessionManager)
-    {
-        $this->sessionManager = $sessionManager;
-    }
-
-    public function setupPricing()
-    {
-        $this->pricing = new Pricing;
-        $this->pricing->loadCatalogPromotions($this->entityManager);
-        $this->pricing->loadCartPriceRules($this->entityManager);
     }
 }

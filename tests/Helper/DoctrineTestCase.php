@@ -2,8 +2,8 @@
 namespace inklabs\kommerce\tests\Helper;
 
 use inklabs\kommerce\Service\Kommerce;
-use inklabs\kommerce\Entity as Entity;
-use Doctrine as Doctrine;
+use inklabs\kommerce\Entity;
+use Doctrine;
 
 abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -16,22 +16,22 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     /** @var CountSQLLogger */
     protected $countSQLLogger;
 
-    public function __construct($name = null, array $data = [], $dataName = '')
+    /** @var string[] */
+    protected $metaDataClassNames;
+
+    public function __construct($name = null, array $data = array(), $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
+
+        if ($this->metaDataClassNames !== null) {
+            $this->setupEntityManager();
+        }
+    }
+
+    private function setupEntityManager()
+    {
         $this->getConnection();
         $this->setupTestSchema();
-    }
-
-    public function setEchoLogger()
-    {
-        $this->kommerce->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
-    }
-
-    public function setCountLogger()
-    {
-        $this->countSQLLogger = new CountSQLLogger;
-        $this->kommerce->setSqlLogger($this->countSQLLogger);
     }
 
     private function getConnection()
@@ -50,10 +50,29 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->entityManager->clear();
 
+        if (empty($this->metaDataClassNames)) {
+            $classes = $this->entityManager->getMetaDataFactory()->getAllMetaData();
+        } else {
+            $classes = [];
+            foreach ($this->metaDataClassNames as $className) {
+                $classes[] = $this->entityManager->getMetaDataFactory()->getMetadataFor($className);
+            }
+        }
+
         $tool = new Doctrine\ORM\Tools\SchemaTool($this->entityManager);
-        $classes = $this->entityManager->getMetaDataFactory()->getAllMetaData();
         // $tool->dropSchema($classes);
         $tool->createSchema($classes);
+    }
+
+    public function setEchoLogger()
+    {
+        $this->kommerce->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
+    }
+
+    public function setCountLogger()
+    {
+        $this->countSQLLogger = new CountSQLLogger;
+        $this->kommerce->setSqlLogger($this->countSQLLogger);
     }
 
     protected function getDummyProduct($num = 1)
@@ -126,9 +145,9 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $orderItem;
     }
 
-    protected function getDummyOrderItemOptionValue(Entity\Option $option)
+    protected function getDummyOrderItemOptionValue(Entity\OptionValue\OptionValueInterface $optionValue)
     {
-        $orderItemOptionValue = new Entity\OrderItemOptionValue($option);
+        $orderItemOptionValue = new Entity\OrderItemOptionValue($optionValue);
         return $orderItemOptionValue;
     }
 
@@ -293,21 +312,22 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $warehouse;
     }
 
-    protected function getDummyOption()
+    protected function getDummyOptionTypeProduct()
     {
-        $option = new Entity\Option;
+        $option = new Entity\OptionType\Regular;
         $option->setName('Size');
-        $option->setType(Entity\Option::TYPE_RADIO);
+        $option->setType(Entity\OptionType\Regular::TYPE_RADIO);
         $option->setDescription('Shirt Size');
         $option->setSortOrder(0);
 
         return $option;
     }
 
-    protected function getDummyOptionValue(Entity\Option $option)
+    protected function getDummyOptionValueProduct(Entity\OptionType\Regular $optionTypeProduct, Entity\Product $product)
     {
-        $optionValue = new Entity\OptionValue($option);
+        $optionValue = new Entity\OptionValue\Product($product);
         $optionValue->setSortOrder(0);
+        $optionValue->setOptionType($optionTypeProduct);
 
         return $optionValue;
     }

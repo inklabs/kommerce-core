@@ -1,8 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use inklabs\kommerce\Service\Pricing;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Lib\PaymentGateway;
 use Symfony\Component\Validator\Validation;
 

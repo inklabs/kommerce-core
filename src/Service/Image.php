@@ -3,14 +3,15 @@ namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Exception\ValidatorException;
-use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Lib;
 
 class Image extends Lib\ServiceManager
 {
     /** @var EntityRepository\Image */
-    private $ImageRepository;
+    private $imageRepository;
 
     public function __construct(EntityManager $entityManager)
     {
@@ -19,7 +20,7 @@ class Image extends Lib\ServiceManager
     }
 
     /**
-     * @return Entity\View\Image|null
+     * @return View\Image|null
      */
     public function find($id)
     {
@@ -39,7 +40,7 @@ class Image extends Lib\ServiceManager
      * @return Entity\Image
      * @throws ValidatorException
      */
-    public function edit($id, Entity\View\Image $viewImage)
+    public function edit($id, View\Image $viewImage)
     {
         /** @var Entity\Image $image */
         $image = $this->imageRepository->find($id);

@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Entity\View as View;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\tests\Helper;
 
 class ImageTest extends Helper\DoctrineTestCase
 {
@@ -17,17 +17,10 @@ class ImageTest extends Helper\DoctrineTestCase
     {
         $this->mockImageRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Image');
         $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
-    }
 
-    private function setupImage()
-    {
-        $image = $this->getDummyImage();
-
-        $this->entityManager->persist($image);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        return $image;
+        $this->mockEntityManager
+            ->shouldReceive('getRepository')
+            ->andReturn($this->mockImageRepository);
     }
 
     public function testFind()
@@ -36,11 +29,8 @@ class ImageTest extends Helper\DoctrineTestCase
 
         $this->mockImageRepository
             ->shouldReceive('find')
+            ->once()
             ->andReturn($image);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockImageRepository);
 
         $imageService = new Image($this->mockEntityManager);
 
@@ -52,11 +42,8 @@ class ImageTest extends Helper\DoctrineTestCase
     {
         $this->mockImageRepository
             ->shouldReceive('find')
+            ->once()
             ->andReturn(null);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockImageRepository);
 
         $imageService = new Image($this->mockEntityManager);
 
@@ -66,70 +53,96 @@ class ImageTest extends Helper\DoctrineTestCase
 
     public function testEdit()
     {
-        $imageValues = $this->setupImage()->getView()->export();
-        $imageValues->width = 500;
+        $image = $this->getDummyImage();
+        $viewImage = $image->getView()->export();
+        $viewImage->width = 500;
 
-        $imageService = new Image($this->entityManager);
-        $image = $imageService->edit($imageValues->id, $imageValues);
+        $this->mockImageRepository
+            ->shouldReceive('find')
+            ->once()
+            ->andReturn($image);
+
+        $this->mockEntityManager
+            ->shouldReceive('flush')
+            ->once()
+            ->andReturnUndefined();
+
+        $imageService = new Image($this->mockEntityManager);
+        $image = $imageService->edit($viewImage->id, $viewImage);
         $this->assertTrue($image instanceof Entity\Image);
 
-        $this->entityManager->clear();
-
-        $image = $this->entityManager->find('kommerce:Image', 1);
         $this->assertSame(500, $image->getWidth());
-        $this->assertNotSame($imageValues->updated, $image->getUpdated());
     }
 
     /**
      * @expectedException \LogicException
+     * @expectedExceptionMessage Missing Image
      */
     public function testEditWithMissingImage()
     {
-        $imageService = new Image($this->entityManager, new Pricing);
+        $this->mockImageRepository
+            ->shouldReceive('find')
+            ->once()
+            ->andReturn(null);
+
+        $imageService = new Image($this->mockEntityManager, new Pricing);
         $image = $imageService->edit(1, new View\Image(new Entity\Image));
     }
 
     public function testCreate()
     {
-        $image = $this->setupImage();
+        $image = $this->getDummyImage();
 
-        $imageService = new Image($this->entityManager);
+        $this->mockEntityManager
+            ->shouldReceive('persist')
+            ->once()
+            ->andReturnUndefined();
+
+        $this->mockEntityManager
+            ->shouldReceive('flush')
+            ->once()
+            ->andReturnUndefined();
+
+        $imageService = new Image($this->mockEntityManager);
         $newImage = $imageService->create($image);
         $this->assertTrue($newImage instanceof Entity\Image);
-
-        $this->entityManager->clear();
-
-        $image = $this->entityManager->find('kommerce:Image', 1);
-        $this->assertTrue($image instanceof Entity\Image);
     }
 
     public function testCreateWithProduct()
     {
-        $image = $this->setupImage();
+        $image = $this->getDummyImage();
+        $product = $this->getDummyProduct();
 
-        $product = new Entity\Product;
-        $product->setName('test');
-        $this->entityManager->persist($product);
-        $this->entityManager->flush();
+        $this->mockImageRepository
+            ->shouldReceive('find')
+            ->andReturn($product);
 
-        $imageService = new Image($this->entityManager);
+        $this->mockEntityManager
+            ->shouldReceive('persist')
+            ->andReturnUndefined();
+
+        $this->mockEntityManager
+            ->shouldReceive('flush')
+            ->andReturnUndefined();
+
+        $imageService = new Image($this->mockEntityManager);
         $newImage = $imageService->createWithProduct($image, 1);
         $this->assertTrue($newImage instanceof Entity\Image);
-
-        $this->entityManager->clear();
-
-        $image = $this->entityManager->find('kommerce:Image', 1);
-        $this->assertTrue($image instanceof Entity\Image);
     }
 
     /**
      * @expectedException \LogicException
+     * @expectedExceptionMessage Missing Product
      */
     public function testCreateWithProductWithMissingProduct()
     {
-        $image = $this->setupImage();
+        $image = $this->getDummyImage();
 
-        $imageService = new Image($this->entityManager);
+        $this->mockImageRepository
+            ->shouldReceive('find')
+            ->andReturn(null);
+
+        $imageService = new Image($this->mockEntityManager);
         $newImage = $imageService->createWithProduct($image, 1);
     }
 }

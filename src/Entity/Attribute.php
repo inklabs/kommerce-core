@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\View;
 
 class Attribute
 {

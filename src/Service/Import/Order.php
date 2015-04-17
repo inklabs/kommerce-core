@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Service\Import;
 
 use Doctrine\ORM\EntityManager;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Lib;
 
 class Order extends Lib\ServiceManager
 {

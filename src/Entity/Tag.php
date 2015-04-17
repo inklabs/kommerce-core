@@ -1,11 +1,13 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Entity\OptionType\OptionTypeInterface;
+use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Tag
+class Tag implements EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 
@@ -33,15 +35,15 @@ class Tag
     /** @var Image[] */
     protected $images;
 
-    /** @var Option[] */
-    protected $options;
+    /** @var OptionTypeInterface[] */
+    protected $optionTypes;
 
     public function __construct()
     {
         $this->setCreated();
         $this->products = new ArrayCollection();
         $this->images = new ArrayCollection();
-        $this->options = new ArrayCollection();
+        $this->optionTypes = new ArrayCollection();
 
         $this->sortOrder = 0;
         $this->isActive = false;
@@ -98,15 +100,15 @@ class Tag
         return $this->images;
     }
 
-    public function addOption(Option $option)
+    public function addOptionType(OptionTypeInterface $optionType)
     {
-        $option->addTag($this);
-        $this->options[] = $option;
+        $optionType->addTag($this);
+        $this->optionTypes[] = $optionType;
     }
 
-    public function getOptions()
+    public function getOptionTypes()
     {
-        return $this->options;
+        return $this->optionTypes;
     }
 
     public function setName($name)

@@ -67,14 +67,14 @@ main modules in this project:
       $cart->addItem($viewProduct, 1);
       ```
 
-* Views (src/Entity/View)
-    - Sometimes you want to use your entities as plain value objects in your main application, typically in your view
+* Views (src/View)
+    - Often you want to use your entities as plain value objects in your main application, typically in your view
       templates. These classes act as a decorator. They format the entities as simple objects with class member
       variables or "properties" with public access. The complete network relationships of entities are also available
       if you request them.
 
       ```php
-      namespace inklabs\kommerce\Entity\View;
+      namespace inklabs\kommerce\View;
       $viewProduct = Product::factory(new Entity\Product)
         ->withAllData(new Service\Pricing)
         ->export();
