@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Entity\OptionValue\OptionValueInterface;
+use inklabs\kommerce\View;
+
 class OrderItemOptionValue
 {
     use Accessor\Time, Accessor\Id;
@@ -9,36 +12,21 @@ class OrderItemOptionValue
     protected $sku;
 
     /** @var string */
-    protected $name;
+    protected $optionTypeName;
 
     /** @var string */
-    protected $value;
+    protected $optionValueName;
+
+    /** @var OptionValueInterface */
+    protected $optionValue;
 
     /** @var OrderItem */
     protected $orderItem;
 
-    /** @var Option */
-    protected $option;
-
-    /** @var OptionValue */
-    protected $optionValue;
-
-    public function __construct(Option $option)
+    public function __construct(OptionValue\OptionValueInterface $optionValue)
     {
         $this->setCreated();
-
-        $this->setOption($option);
-    }
-
-    public function getOption()
-    {
-        return $this->option;
-    }
-
-    private function setOption(Option $option)
-    {
-        $this->option = $option;
-        $this->name = $option->getName();
+        $this->setOptionValue($optionValue);
     }
 
     public function getOptionValue()
@@ -46,48 +34,12 @@ class OrderItemOptionValue
         return $this->optionValue;
     }
 
-    public function setOptionValue(OptionValue $optionValue)
+    public function setOptionValue(OptionValue\OptionValueInterface $optionValue)
     {
-        $this->setOption($optionValue->getOption());
-        $this->setSku($optionValue->getSku());
-        $this->setValue($optionValue->getName());
-
         $this->optionValue = $optionValue;
-    }
-
-    /**
-     * @param string $sku
-     */
-    public function setSku($sku)
-    {
-        $this->throwExceptionIfExistingOptionValue();
-
-        $this->sku = (string) $sku;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setValue($value)
-    {
-        $this->throwExceptionIfExistingOptionValue();
-
-        $this->value = (string) $value;
-    }
-
-    /**
-     * @throws \LogicException
-    */
-    private function throwExceptionIfExistingOptionValue()
-    {
-        if ($this->optionValue !== null) {
-            throw new \LogicException('OptionValue already exists');
-        }
-    }
-
-    public function getName()
-    {
-        return $this->name;
+        $this->sku = $optionValue->getSku();
+        $this->optionTypeName = $optionValue->getOptionType()->getName();
+        $this->optionValueName = $optionValue->getName();
     }
 
     public function getSku()
@@ -95,9 +47,14 @@ class OrderItemOptionValue
         return $this->sku;
     }
 
-    public function getValue()
+    public function getOptionTypeName()
     {
-        return $this->value;
+        return $this->optionTypeName;
+    }
+
+    public function getOptionValueName()
+    {
+        return $this->optionValueName;
     }
 
     public function getOrderItem()

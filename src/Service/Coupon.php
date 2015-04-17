@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Lib;
 use inklabs\kommerce\EntityRepository as EntityRepository;
 use Doctrine\ORM\EntityManager;
 
@@ -17,7 +17,7 @@ class Coupon extends Lib\ServiceManager
         $this->couponRepository = $entityManager->getRepository('kommerce:Coupon');
     }
 
-    /* @return Entity\View\Coupon */
+    /* @return View\Coupon */
     public function find($id)
     {
         /** @var Entity\Coupon $entityCoupon */
@@ -49,7 +49,7 @@ class Coupon extends Lib\ServiceManager
 
     /**
      * @param Entity\Coupon[] $coupons
-     * @return Entity\View\Coupon[]
+     * @return View\Coupon[]
      */
     private function getViewCoupons($coupons)
     {

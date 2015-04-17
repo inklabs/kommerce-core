@@ -1,11 +1,16 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class PricingTest extends Helper\DoctrineTestCase
 {
+    protected $metaDataClassNames = [
+        'kommerce:CatalogPromotion',
+        'kommerce:Tag',
+    ];
+
     public function testCreate()
     {
         $pricing = new Pricing(new \DateTime('2014-02-01', new \DateTimeZone('UTC')));

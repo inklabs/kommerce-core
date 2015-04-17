@@ -1,12 +1,23 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Service as Service;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Service;
+use inklabs\kommerce\tests\Helper;
 
 class OrderItemTest extends Helper\DoctrineTestCase
 {
+    protected $metaDataClassNames = [
+        'kommerce:Order',
+        'kommerce:OrderItem',
+        'kommerce:OrderItemOptionValue',
+        'kommerce:Product',
+        'kommerce:ProductQuantityDiscount',
+        'kommerce:CatalogPromotion',
+        'kommerce:Tag',
+        'kommerce:User',
+    ];
+
     /**
      * @return OrderItem
      */

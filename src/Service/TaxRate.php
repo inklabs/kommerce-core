@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
-use Doctrine as Doctrine;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Lib;
+use Doctrine;
 
 class TaxRate extends Lib\ServiceManager
 {

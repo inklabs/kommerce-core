@@ -1,12 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 /**
  * @method Entity\Image find($id)
  */
-class Image extends EntityRepository
+class Image extends AbstractEntityRepository
 {
 }

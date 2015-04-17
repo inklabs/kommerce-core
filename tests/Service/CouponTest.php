@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Entity\View as View;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\tests\Helper;
 
 class CouponTest extends Helper\DoctrineTestCase
 {
@@ -18,6 +18,10 @@ class CouponTest extends Helper\DoctrineTestCase
 
     /** @var Entity\Coupon */
     protected $coupon;
+
+    protected $metaDataClassNames = [
+        'kommerce:Coupon',
+    ];
 
     public function setUp()
     {

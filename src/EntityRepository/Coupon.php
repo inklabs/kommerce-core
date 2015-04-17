@@ -1,13 +1,12 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 /**
  * @method Entity\Coupon find($id)
  */
-class Coupon extends EntityRepository
+class Coupon extends AbstractEntityRepository
 {
     /**
      * @return Entity\Coupon[]

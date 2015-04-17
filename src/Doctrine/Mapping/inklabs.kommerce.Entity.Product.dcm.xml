@@ -82,7 +82,7 @@
         </one-to-many>
 
         <one-to-many field="optionValues"
-                     target-entity="OptionValue"
+                     target-entity="inklabs\kommerce\Entity\OptionValue\Product"
                      mapped-by="product"
                      fetch="EXTRA_LAZY"/>
 
@@ -94,16 +94,7 @@
         <many-to-many field="tags"
                       target-entity="Tag"
                       inversed-by="products"
-                      fetch="EXTRA_LAZY">
-            <join-table name="product_tag">
-                <join-columns>
-                    <join-column name="product_id" referenced-column-name="id"/>
-                </join-columns>
-                <inverse-join-columns>
-                    <join-column name="tag_id" referenced-column-name="id"/>
-                </inverse-join-columns>
-            </join-table>
-        </many-to-many>
+                      fetch="EXTRA_LAZY"/>
 
     </entity>
 

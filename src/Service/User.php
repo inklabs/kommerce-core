@@ -2,9 +2,10 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
 
 class User extends Lib\ServiceManager
 {
@@ -52,10 +53,7 @@ class User extends Lib\ServiceManager
      */
     public function login($email, $password, $remoteIp)
     {
-        /** @var EntityRepository\User $userRepository */
-        $userRepository = $this->entityManager->getRepository('kommerce:User');
-
-        $entityUser = $userRepository->findOneByEmail($email);
+        $entityUser = $this->userRepository->findOneByEmail($email);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
             $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL);
@@ -71,12 +69,6 @@ class User extends Lib\ServiceManager
             $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL, $entityUser);
             return false;
         }
-    }
-
-    public function logout()
-    {
-        $this->user = null;
-        $this->sessionManager->delete($this->userSessionKey);
     }
 
     /**
@@ -104,13 +96,19 @@ class User extends Lib\ServiceManager
         $this->entityManager->flush();
     }
 
+    public function logout()
+    {
+        $this->user = null;
+        $this->sessionManager->delete($this->userSessionKey);
+    }
+
     public function getUser()
     {
         return $this->user;
     }
 
     /**
-     * @return Entity\View\User|null
+     * @return View\User|null
      */
     public function find($id)
     {
@@ -143,7 +141,7 @@ class User extends Lib\ServiceManager
 
     /**
      * @param Entity\User[] $users
-     * @return Entity\View\User[]
+     * @return View\User[]
      */
     private function getViewUsers($users)
     {

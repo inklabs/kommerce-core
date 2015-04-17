@@ -1,10 +1,11 @@
 <?php
 namespace inklabs\kommerce\Entity\CartPriceRuleItem;
 
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
-class TagTestTest extends \PHPUnit_Framework_TestCase
+class TagTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
@@ -16,6 +17,7 @@ class TagTestTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($priceRule));
         $this->assertTrue($priceRule->getTag() instanceof Entity\Tag);
+        $this->assertTrue($priceRule->getView() instanceof View\CartPriceRuleItem\Tag);
     }
 
     private function getTag($id)

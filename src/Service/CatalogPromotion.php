@@ -1,8 +1,9 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
 use inklabs\kommerce\EntityRepository as EntityRepository;
 use Doctrine\ORM\EntityManager;
 
@@ -17,7 +18,7 @@ class CatalogPromotion extends Lib\ServiceManager
         $this->catalogPromotionRepository = $entityManager->getRepository('kommerce:CatalogPromotion');
     }
 
-    /* @return Entity\View\CatalogPromotion */
+    /* @return View\CatalogPromotion */
     public function find($id)
     {
         /** @var Entity\CatalogPromotion $entityCatalogPromotion */
@@ -55,7 +56,7 @@ class CatalogPromotion extends Lib\ServiceManager
 
     /**
      * @param Entity\CatalogPromotion[] $catalogPromotions
-     * @return Entity\View\CatalogPromotion[]
+     * @return View\CatalogPromotion[]
      */
     private function getViewCatalogPromotions($catalogPromotions)
     {

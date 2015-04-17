@@ -1,23 +1,20 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 
 /**
  * @method Entity\Product find($id)
  */
-class Product extends EntityRepository
+class Product extends AbstractEntityRepository implements ProductInterface
 {
     /**
+     * @param Entity\Product[] $products
      * @return Entity\Product[]
      */
-    public function getRelatedProducts($products, $limit = 12)
+    public function getRelatedProducts(array $products, $limit = 12)
     {
-        if (! is_array($products)) {
-            $products = [$products];
-        }
-
         $productIds = [];
         $tagIds = [];
         foreach ($products as $product) {
@@ -159,7 +156,7 @@ class Product extends EntityRepository
     }
 
     /**
-     * @return Entity\View\Product[]
+     * @return View\Product[]
      */
     public function getRandomProducts($limit)
     {

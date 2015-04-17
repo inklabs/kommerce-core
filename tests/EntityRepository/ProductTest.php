@@ -1,11 +1,21 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class ProductTest extends Helper\DoctrineTestCase
 {
+    protected $metaDataClassNames = [
+        'kommerce:Attribute',
+        'kommerce:AttributeValue',
+        'kommerce:Product',
+        'kommerce:ProductQuantityDiscount',
+        'kommerce:ProductAttribute',
+        'kommerce:Image',
+        'kommerce:Tag',
+    ];
+
     /**
      * @return Product
      */
@@ -62,7 +72,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
 
         $products = $this->getRepository()
-            ->getRelatedProducts($product1);
+            ->getRelatedProducts([$product1]);
 
         $this->assertSame(1, count($products));
         $this->assertSame(2, $products[0]->getId());

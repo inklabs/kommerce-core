@@ -1,12 +1,12 @@
 <?php
 namespace inklabs\kommerce\EntityRepository\CartPriceRuleItem;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository\AbstractEntityRepository;
 
 /**
  * @method Entity\CartPriceRuleItem\Product|Entity\CartPriceRuleItem\Tag find($id)
  */
-class Item extends EntityRepository
+class Item extends AbstractEntityRepository
 {
 }

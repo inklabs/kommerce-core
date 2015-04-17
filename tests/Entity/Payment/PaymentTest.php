@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity\Payment;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Service;
 use Symfony\Component\Validator\Validation;
 
 class PaymentTest extends \PHPUnit_Framework_TestCase

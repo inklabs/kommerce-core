@@ -2,10 +2,10 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Validator\Exception\ValidatorException;
 use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
 
 class AttributeValue extends Lib\ServiceManager
 {
@@ -19,7 +19,7 @@ class AttributeValue extends Lib\ServiceManager
     }
 
     /**
-     * @return Entity\View\AttributeValue|null
+     * @return View\AttributeValue|null
      */
     public function find($id)
     {
@@ -45,7 +45,7 @@ class AttributeValue extends Lib\ServiceManager
 
     /**
      * @param Entity\AttributeValue[] $attributeValues
-     * @return Entity\View\AttributeValue[]
+     * @return View\AttributeValue[]
      */
     private function getViewAttributeValues($attributeValues)
     {

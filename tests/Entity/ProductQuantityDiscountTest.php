@@ -1,7 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Service;
 use Symfony\Component\Validator\Validation;
 
 class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase

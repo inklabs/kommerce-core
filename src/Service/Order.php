@@ -3,8 +3,8 @@ namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Lib;
 
 class Order extends Lib\ServiceManager
 {
@@ -18,7 +18,7 @@ class Order extends Lib\ServiceManager
     }
 
     /**
-     * @return Entity\View\Order|null
+     * @return View\Order|null
      */
     public function find($id)
     {
@@ -44,7 +44,7 @@ class Order extends Lib\ServiceManager
 
     /**
      * @param Entity\Order[] $orders
-     * @return Entity\View\Order[]
+     * @return View\Order[]
      */
     private function getViewOrders($orders)
     {

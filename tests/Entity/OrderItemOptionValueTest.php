@@ -1,87 +1,58 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
+
 class OrderItemOptionValueTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateOrderItemOptionValue()
     {
-        $option = new Option;
-        $option->setName('Test Option');
-
         $product = new Product;
         $product->setSku('TST');
         $product->setname('Test Product');
 
-        $optionValue = new OptionValue($option);
-        $optionValue->setProduct($product);
+        $optionValue = $this->getMockedOptionValue();
 
         $orderItem = new OrderItem;
         $orderItem->setProduct(new Product);
         $orderItem->setQuantity(1);
         $orderItem->setPrice(new Price);
 
-        $orderItemOptionValue = new OrderItemOptionValue($option);
+        $orderItemOptionValue = new OrderItemOptionValue($optionValue);
         $orderItemOptionValue->setOptionValue($optionValue);
         $orderItemOptionValue->setOrderItem($orderItem);
 
-        $this->assertSame('Test Option', $orderItemOptionValue->getName());
-        $this->assertSame('TST', $orderItemOptionValue->getSku());
-        $this->assertSame('Test Product', $orderItemOptionValue->getValue());
-        $this->assertTrue($orderItemOptionValue->getOptionValue() instanceof OptionValue);
-        $this->assertTrue($orderItemOptionValue->getOrderItem() instanceof OrderItem);
-        $this->assertTrue($orderItemOptionValue->getView() instanceof View\OrderItemOptionValue);
-    }
-
-    public function testCreateOrderItemOptionValueWithCustomValue()
-    {
-        $product = new Product;
-        $product->setSku('TST');
-        $product->setname('Test Product');
-
-        $orderItem = new OrderItem;
-        $orderItem->setProduct(new Product);
-        $orderItem->setQuantity(1);
-        $orderItem->setPrice(new Price);
-
-        $option = new Option;
-        $option->setName('Custom Engraving');
-
-        $orderItemOptionValue = new OrderItemOptionValue($option);
-        $orderItemOptionValue->setSku('HPB');
-        $orderItemOptionValue->setValue('Happy Birthday');
-        $orderItemOptionValue->setOrderItem($orderItem);
-
-        $this->assertSame('Custom Engraving', $orderItemOptionValue->getName());
-        $this->assertSame('HPB', $orderItemOptionValue->getSku());
-        $this->assertSame('Happy Birthday', $orderItemOptionValue->getValue());
-        $this->assertSame(null, $orderItemOptionValue->getOptionValue());
+        $this->assertSame('OPT2', $orderItemOptionValue->getSku());
+        $this->assertSame('Test Option Type Name', $orderItemOptionValue->getOptionTypeName());
+        $this->assertSame('Test Option Value Name', $orderItemOptionValue->getOptionValueName());
+        $this->assertTrue($orderItemOptionValue->getOptionValue() instanceof OptionValue\OptionValueInterface);
         $this->assertTrue($orderItemOptionValue->getOrderItem() instanceof OrderItem);
         $this->assertTrue($orderItemOptionValue->getView() instanceof View\OrderItemOptionValue);
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage OptionValue already exists
+     * @return OptionValue\OptionValueInterface
      */
-    public function testCreateOrderItemOptionValueThrowsExceptionWithCustom()
+    private function getMockedOptionValue()
     {
-        $option = new Option;
-        $option->setName('Test Option');
+        $price = new Price;
+        $price->unitPrice = 20;
+        $price->quantityPrice = 40;
 
-        $product = new Product;
-        $product->setSku('TST');
-        $product->setname('Test Product');
+        $optionType = \Mockery::mock('inklabs\kommerce\Entity\OptionType\OptionTypeInterface');
+        $optionType->shouldReceive('getName')->andReturn('Test Option Type Name');
 
-        $optionValue = new OptionValue($option);
-        $optionValue->setProduct($product);
+        $viewOptionValue = \Mockery::mock('inklabs\kommerce\View\OptionValue\OptionValueInterface');
+        $viewOptionValue->shouldReceive('export')->andReturn($viewOptionValue);
 
-        $orderItem = new OrderItem;
-        $orderItem->setProduct(new Product);
-        $orderItem->setQuantity(1);
-        $orderItem->setPrice(new Price);
+        $optionValue = \Mockery::mock('inklabs\kommerce\Entity\OptionValue\OptionValueInterface');
+        $optionValue->shouldReceive('getSku')->andReturn('OPT2');
+        $optionValue->shouldReceive('getName')->andReturn('Test Option Value Name');
+        $optionValue->shouldReceive('getPrice')->andReturn($price);
+        $optionValue->shouldReceive('getShippingWeight')->andReturn(2);
+        $optionValue->shouldReceive('getOptionType')->andReturn($optionType);
+        $optionValue->shouldReceive('getView')->andReturn($viewOptionValue);
 
-        $orderItemOptionValue = new OrderItemOptionValue($option);
-        $orderItemOptionValue->setOptionValue($optionValue);
-        $orderItemOptionValue->setValue('Happy Birthday');
+        return $optionValue;
     }
 }

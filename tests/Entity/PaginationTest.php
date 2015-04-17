@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
+
 class PaginationTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()

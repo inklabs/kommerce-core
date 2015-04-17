@@ -1,15 +1,15 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 /**
  * @method Entity\Tag find($id)
  */
-class Tag extends EntityRepository
+class Tag extends AbstractEntityRepository implements TagInterface
 {
     /**
+     * @param string $queryString
      * @return Entity\Tag[]
      */
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
@@ -34,6 +34,7 @@ class Tag extends EntityRepository
     }
 
     /**
+     * @param int[]
      * @return Entity\Tag[]
      */
     public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null)

@@ -1,13 +1,17 @@
 <?php
 namespace inklabs\kommerce\Service\Import;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Entity\View as View;
-use inklabs\kommerce\Lib as Lib;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\tests\Helper;
 
 class UserTest extends Helper\DoctrineTestCase
 {
+    protected $metaDataClassNames = [
+        'kommerce:User',
+    ];
+
     public function testImport()
     {
         $this->setCountLogger();

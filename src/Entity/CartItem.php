@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Entity\OptionValue\OptionValueInterface;
 use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class CartItem
@@ -14,7 +16,7 @@ class CartItem
     /** @var Product */
     protected $product;
 
-    /** @var OptionValue[] */
+    /** @var OptionValueInterface[] */
     protected $optionValues;
 
     public function __construct(Product $product, $quantity)
@@ -51,13 +53,13 @@ class CartItem
         return $this->optionValues;
     }
 
-    public function addOptionValue(OptionValue $optionValue)
+    public function addOptionValue(OptionValue\OptionValueInterface $optionValueProduct)
     {
-        $this->optionValues[] = $optionValue;
+        $this->optionValues[] = $optionValueProduct;
     }
 
     /**
-     * @param OptionValue[] $optionValues
+     * @param OptionValue\OptionValueInterface[] $optionValues
      */
     public function setOptionValues($optionValues)
     {
@@ -70,14 +72,14 @@ class CartItem
 
     public function getPrice(Pricing $pricing)
     {
-        $price = $pricing->getPrice(
-            $this->getProduct(),
+        $price = $this->getProduct()->getPrice(
+            $pricing,
             $this->getQuantity()
         );
 
         foreach ($this->getOptionValues() as $optionValue) {
-            $optionPrice = $pricing->getPrice(
-                $optionValue->getProduct(),
+            $optionPrice = $optionValue->getPrice(
+                $pricing,
                 $this->getQuantity()
             );
 
@@ -101,13 +103,15 @@ class CartItem
 
     public function getShippingWeight()
     {
-        $shippingWeight = ($this->getProduct()->getShippingWeight() * $this->getQuantity());
+        $shippingWeight = $this->getProduct()->getShippingWeight();
 
         foreach ($this->getOptionValues() as $optionValue) {
-            $shippingWeight += ($optionValue->getShippingWeight() * $this->getQuantity());
+            $shippingWeight += $optionValue->getShippingWeight();
         }
 
-        return $shippingWeight;
+        $quantityShippingWeight = $shippingWeight * $this->getQuantity();
+
+        return $quantityShippingWeight;
     }
 
     public function getOrderItem(Pricing $pricing)
@@ -118,8 +122,7 @@ class CartItem
         $orderItem->setPrice($this->getPrice($pricing));
 
         foreach ($this->getOptionValues() as $optionValue) {
-            $orderItemOptionValue = new OrderItemOptionValue($optionValue->getOption());
-            $orderItem->addOrderItemOptionValue($orderItemOptionValue);
+            $orderItem->addOrderItemOptionValue(new OrderItemOptionValue($optionValue));
         }
 
         return $orderItem;

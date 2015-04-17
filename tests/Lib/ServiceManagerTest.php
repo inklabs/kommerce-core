@@ -1,12 +1,16 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\Service;
 
 class ServiceManagerTest extends Helper\DoctrineTestCase
 {
+    protected $metaDataClassNames = [
+        'kommerce:Tag',
+    ];
+
     public function testSetEntityManager()
     {
         $serviceManager = new ServiceManager;

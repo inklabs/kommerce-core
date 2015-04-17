@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use Doctrine as Doctrine;
+use inklabs\kommerce\Entity;
+use Doctrine;
 
 class Pricing
 {

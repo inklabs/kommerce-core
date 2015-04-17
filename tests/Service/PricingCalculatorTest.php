@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 class PricingCalculatorTest extends \PHPUnit_Framework_TestCase
 {

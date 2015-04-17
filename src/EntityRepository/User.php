@@ -1,13 +1,12 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 /**
  * @method Entity\User find($id)
  */
-class User extends EntityRepository
+class User extends AbstractEntityRepository
 {
     /**
      * @return Entity\User[]

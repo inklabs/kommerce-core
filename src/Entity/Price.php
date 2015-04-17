@@ -1,10 +1,11 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Price
+class Price implements EntityInterface
 {
     public $origUnitPrice;
     public $unitPrice;

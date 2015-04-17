@@ -1,13 +1,12 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 /**
  * @method Entity\Order find($id)
  */
-class Order extends EntityRepository
+class Order extends AbstractEntityRepository
 {
     /**
      * @return Entity\Order[]
