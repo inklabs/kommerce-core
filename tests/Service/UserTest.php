@@ -5,68 +5,49 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\EntityRepository\FakeUser;
 
 class UserTest extends Helper\DoctrineTestCase
 {
-    /** @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\User */
-    protected $mockUserRepository;
-
-    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
-    protected $mockEntityManager;
+    /** @var FakeUser */
+    protected $repository;
 
     /** @var User */
-    protected $userService;
+    protected $service;
+
+    /** @var Lib\ArraySessionManager */
     protected $sessionManager;
 
     public function setUp()
     {
-        $this->mockUserRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\User');
-        $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockUserRepository);
+        $this->repository = new FakeUser;
 
         $this->sessionManager = new Lib\ArraySessionManager;
-        $this->userService = new User($this->mockEntityManager, $this->sessionManager);
+        $this->service = new User($this->repository, $this->sessionManager);
     }
 
     public function testFind()
     {
-        $user = $this->getDummyUser();
-
-        $this->mockUserRepository
-            ->shouldReceive('find')
-            ->andReturn($user);
-
-        $viewUser = $this->userService->find(1);
+        $viewUser = $this->service->find(1);
         $this->assertTrue($viewUser instanceof View\User);
     }
 
     public function testFindNotFound()
     {
-        $this->mockUserRepository
-            ->shouldReceive('find')
-            ->andReturn(null);
+        $this->repository->setReturnValue(null);
 
-        $viewUser = $this->userService->find(0);
+        $viewUser = $this->service->find(0);
         $this->assertSame(null, $viewUser);
     }
 
     public function testUserLogin()
     {
         $user = $this->getDummyUser();
-
-        $this->mockUserRepository
-            ->shouldReceive('findOneByEmail')
-            ->andReturn($user);
-
-        $this->userServiceCallsSave($user);
-        $this->userServiceCallsRecordLogin();
+        $this->repository->setReturnValue($user);
 
         $this->assertSame(0, $user->getTotalLogins());
 
-        $loginResult = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
+        $loginResult = $this->service->login('test@example.com', 'xxxx', '127.0.0.1');
 
         $this->assertSame(1, $user->getTotalLogins());
         $this->assertTrue($loginResult);
@@ -75,17 +56,11 @@ class UserTest extends Helper\DoctrineTestCase
     public function testUserLoginWithWrongPassword()
     {
         $user = $this->getDummyUser();
-
-        $this->mockUserRepository
-            ->shouldReceive('findOneByEmail')
-            ->andReturn($user);
-
-        $this->userServiceCallsSave($user);
-        $this->userServiceCallsRecordLogin();
+        $this->repository->setReturnValue($user);
 
         $this->assertSame(0, $user->getTotalLogins());
 
-        $loginResult = $this->userService->login('test@example.com', 'zzz', '127.0.0.1');
+        $loginResult = $this->service->login('test@example.com', 'zzz', '127.0.0.1');
 
         $this->assertSame(0, $user->getTotalLogins());
         $this->assertFalse($loginResult);
@@ -93,16 +68,9 @@ class UserTest extends Helper\DoctrineTestCase
 
     public function testUserLoginWithWrongEmail()
     {
-        $user = null;
+        $this->repository->setReturnValue(null);
 
-        $this->mockUserRepository
-            ->shouldReceive('findOneByEmail')
-            ->andReturn($user);
-
-        $this->userServiceCallsSave(null);
-        $this->userServiceCallsRecordLogin();
-
-        $loginResult = $this->userService->login('zzz@example.com', 'xxxx', '127.0.0.1');
+        $loginResult = $this->service->login('zzz@example.com', 'xxxx', '127.0.0.1');
 
         $this->assertFalse($loginResult);
     }
@@ -110,85 +78,27 @@ class UserTest extends Helper\DoctrineTestCase
     public function testLogout()
     {
         $user = $this->getDummyUser();
+        $this->repository->setReturnValue($user);
 
-        $this->mockUserRepository
-            ->shouldReceive('findOneByEmail')
-            ->andReturn($user);
-
-        $this->userServiceCallsSave($user);
-        $this->userServiceCallsRecordLogin();
-
-        $loginResult = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
+        $loginResult = $this->service->login('test@example.com', 'xxxx', '127.0.0.1');
 
         $this->assertTrue($loginResult);
-        $this->assertTrue($this->userService->getUser() instanceof Entity\User);
+        $this->assertTrue($this->service->getUser() instanceof Entity\User);
 
-        $this->userService->logout();
+        $this->service->logout();
 
-        $this->assertSame(null, $this->userService->getUser());
+        $this->assertSame(null, $this->service->getUser());
     }
 
-    public function xtestUserPersistence()
+    public function testGetAllUsers()
     {
-        $this->assertTrue($this->userService->login('test@example.com', 'qwerty', '127.0.0.1'));
-
-        $this->entityManager->clear();
-
-        $newUserService = new User($this->entityManager, $this->sessionManager);
-        $this->assertSame(1, $newUserService->getUser()->getId());
-    }
-
-    public function xtestGetAllUsers()
-    {
-        $this->mockUserRepository
-            ->shouldReceive('getAllUsers')
-            ->andReturn([new Entity\User]);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockUserRepository);
-
-        $userService = new User($this->mockEntityManager, $this->sessionManager);
-
-        $users = $userService->getAllUsers();
+        $users = $this->service->getAllUsers();
         $this->assertTrue($users[0] instanceof View\User);
     }
 
-    public function xtestAllGetUsersByIds()
+    public function testAllGetUsersByIds()
     {
-        $this->mockUserRepository
-            ->shouldReceive('getAllUsersByIds')
-            ->andReturn([new Entity\User]);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockUserRepository);
-
-        $userService = new User($this->mockEntityManager, $this->sessionManager);
-
-        $users = $userService->getAllUsersByIds([1]);
+        $users = $this->service->getAllUsersByIds([1]);
         $this->assertTrue($users[0] instanceof View\User);
-    }
-
-    private function userServiceCallsSave(Entity\User $user = null)
-    {
-        $this->mockEntityManager
-            ->shouldReceive('detach')
-            ->andReturnUndefined();
-
-        $this->mockEntityManager
-            ->shouldReceive('merge')
-            ->andReturn($user);
-    }
-
-    private function userServiceCallsRecordLogin()
-    {
-        $this->mockEntityManager
-            ->shouldReceive('persist')
-            ->andReturnUndefined();
-
-        $this->mockEntityManager
-            ->shouldReceive('flush')
-            ->andReturnUndefined();
     }
 }

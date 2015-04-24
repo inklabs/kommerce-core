@@ -14,12 +14,12 @@ class UserTest extends Helper\DoctrineTestCase
         'kommerce:Order',
     ];
 
-    /**
-     * @return User
-     */
-    private function getRepository()
+    /** @var User */
+    protected $repository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:User');
+        $this->repository = $this->entityManager->getRepository('kommerce:User');
     }
 
     private function setupUser()
@@ -29,6 +29,8 @@ class UserTest extends Helper\DoctrineTestCase
         $this->entityManager->persist($user);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $user;
     }
 
     public function testFind()
@@ -37,7 +39,7 @@ class UserTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $user = $this->getRepository()
+        $user = $this->repository
             ->find(1);
 
         $user->getOrders()->toArray();
@@ -53,8 +55,7 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
-        $users = $this->getRepository()
-            ->getAllUsers('John');
+        $users = $this->repository->getAllUsers('John');
 
         $this->assertTrue($users[0] instanceof Entity\User);
     }
@@ -63,8 +64,7 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
-        $users = $this->getRepository()
-            ->getAllUsersByIds([1]);
+        $users = $this->repository->getAllUsersByIds([1]);
 
         $this->assertTrue($users[0] instanceof Entity\User);
     }
@@ -73,9 +73,20 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
-        $user = $this->getRepository()
-            ->findOneByEmail('test@example.com');
+        $user = $this->repository->findOneByEmail('test@example.com');
 
         $this->assertTrue($user instanceof Entity\User);
+    }
+
+    public function testCreateUserLogin()
+    {
+        $userLogin = $this->getDummyUserLogin();
+
+        $user = $this->setupUser();
+        $user->addLogin($userLogin);
+
+        $this->repository->save($user);
+
+        $this->assertSame(1, $user->getTotalLogins());
     }
 }

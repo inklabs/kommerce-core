@@ -243,6 +243,10 @@ class User implements EntityInterface
     {
         $login->setUser($this);
         $this->logins[] = $login;
+
+        if ($login->getResult() == UserLogin::RESULT_SUCCESS) {
+            $this->incrementTotalLogins();
+        }
     }
 
     public function getLogins()

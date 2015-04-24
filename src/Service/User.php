@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\View;
@@ -10,19 +9,18 @@ use inklabs\kommerce\Lib;
 class User extends Lib\ServiceManager
 {
     protected $sessionManager;
-    protected $userSessionKey = 'newuser';
+    protected $userSessionKey = 'user';
 
-    /** @var EntityRepository\User */
-    private $userRepository;
+    /** @var EntityRepository\UserInterface */
+    private $repository;
 
     /** @var Entity\User */
     protected $user;
 
-    public function __construct(EntityManager $entityManager, Lib\SessionManager $sessionManager)
+    public function __construct(EntityRepository\UserInterface $repository, Lib\SessionManager $sessionManager)
     {
-        $this->setEntityManager($entityManager);
         $this->sessionManager = $sessionManager;
-        $this->userRepository = $entityManager->getRepository('kommerce:User');
+        $this->repository = $repository;
 
         $this->load();
     }
@@ -30,18 +28,12 @@ class User extends Lib\ServiceManager
     private function load()
     {
         $this->user = $this->sessionManager->get($this->userSessionKey);
-
-        if ($this->user !== null) {
-            $this->user = $this->entityManager->merge($this->user);
-        }
     }
 
     private function save()
     {
         if ($this->user !== null) {
-            $this->entityManager->detach($this->user);
             $this->sessionManager->set($this->userSessionKey, $this->user);
-            $this->user = $this->entityManager->merge($this->user);
         }
     }
 
@@ -53,7 +45,7 @@ class User extends Lib\ServiceManager
      */
     public function login($email, $password, $remoteIp)
     {
-        $entityUser = $this->userRepository->findOneByEmail($email);
+        $entityUser = $this->repository->findOneByEmail($email);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
             $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL);
@@ -86,14 +78,9 @@ class User extends Lib\ServiceManager
 
         if ($user !== null) {
             $user->addLogin($userLogin);
-
-            if ($status == Entity\UserLogin::RESULT_SUCCESS) {
-                $user->incrementTotalLogins();
-            }
         }
 
-        $this->entityManager->persist($userLogin);
-        $this->entityManager->flush();
+        $this->repository->save($userLogin);
     }
 
     public function logout()
@@ -112,7 +99,7 @@ class User extends Lib\ServiceManager
      */
     public function find($id)
     {
-        $entityUser = $this->userRepository->find($id);
+        $entityUser = $this->repository->find($id);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
             return null;
@@ -125,7 +112,7 @@ class User extends Lib\ServiceManager
 
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $users = $this->userRepository
+        $users = $this->repository
             ->getAllUsers($queryString, $pagination);
 
         return $this->getViewUsers($users);
@@ -133,7 +120,7 @@ class User extends Lib\ServiceManager
 
     public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null)
     {
-        $users = $this->userRepository
+        $users = $this->repository
             ->getAllUsersByIds($userIds);
 
         return $this->getViewUsers($users);

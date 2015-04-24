@@ -12,7 +12,7 @@ class Product extends Lib\ServiceManager
     /** @var Pricing */
     private $pricing;
 
-    /** @var EntityRepository\Product */
+    /** @var EntityRepository\ProductInterface */
     private $repository;
 
     public function __construct(EntityRepository\ProductInterface $repository, Pricing $pricing)

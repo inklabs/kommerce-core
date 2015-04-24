@@ -30,4 +30,12 @@ class AbstractFake
     {
         $this->returnValue = $returnValue;
     }
+
+    public function save(Entity\EntityInterface & $entity)
+    {
+    }
+
+    public function create(Entity\EntityInterface & $entity)
+    {
+    }
 }
