@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-class Point
+class Point implements ViewInterface
 {
     public $latitude;
     public $longitude;
@@ -13,5 +13,10 @@ class Point
     {
         $this->latitude = $point->getLatitude();
         $this->longitude = $point->getLongitude();
+    }
+
+    public function export()
+    {
+        return $this;
     }
 }

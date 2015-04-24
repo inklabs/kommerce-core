@@ -3,7 +3,7 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 
-class CartPriceRuleDiscount
+class CartPriceRuleDiscount implements ViewInterface
 {
     public $id;
     public $quantity;

@@ -5,7 +5,7 @@ use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\Entity;
 
-abstract class AbstractOptionType implements OptionTypeInterface
+abstract class AbstractOptionType implements OptionTypeInterface, View\ViewInterface
 {
     /** @var int */
     public $id;

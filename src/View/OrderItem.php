@@ -3,7 +3,7 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 
-class OrderItem
+class OrderItem implements ViewInterface
 {
     /** @var int */
     public $id;

@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-class UserToken
+class UserToken implements ViewInterface
 {
     public $id;
     public $userAgent;

@@ -3,7 +3,7 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 
-class OrderAddress
+class OrderAddress implements ViewInterface
 {
     public $firstName;
     public $lastName;
@@ -30,5 +30,10 @@ class OrderAddress
         $this->zip4      = $orderAddress->zip4;
         $this->phone     = $orderAddress->phone;
         $this->email     = $orderAddress->email;
+    }
+
+    public function export()
+    {
+        return $this;
     }
 }

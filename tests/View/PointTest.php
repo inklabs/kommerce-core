@@ -9,7 +9,8 @@ class PointTest extends \PHPUnit_Framework_TestCase
     {
         $entityPoint = new Entity\Point(37, -118);
 
-        $point = $entityPoint->getView();
+        $point = $entityPoint->getView()
+            ->export();
 
         $this->assertTrue($point instanceof Point);
     }

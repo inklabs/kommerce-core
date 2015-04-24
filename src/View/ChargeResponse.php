@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-class ChargeResponse
+class ChargeResponse implements ViewInterface
 {
     public $id;
     public $created;
@@ -25,5 +25,10 @@ class ChargeResponse
         $this->currency    = $chargeResponse->getCurrency();
         $this->fee         = $chargeResponse->getFee();
         $this->description = $chargeResponse->getDescription();
+    }
+
+    public function export()
+    {
+        return $this;
     }
 }

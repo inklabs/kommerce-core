@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\View\Payment;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\View\ViewInterface;
 
-abstract class Payment
+abstract class Payment implements ViewInterface
 {
     public $id;
     public $amount;

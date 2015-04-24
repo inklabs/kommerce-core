@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-class CreditCard
+class CreditCard implements ViewInterface
 {
     public $number;
     public $expirationMonth;
@@ -15,5 +15,10 @@ class CreditCard
         $this->number          = $creditCard->getNumber();
         $this->expirationMonth = $creditCard->getExpirationMonth();
         $this->expirationYear  = $creditCard->getExpirationYear();
+    }
+
+    public function export()
+    {
+        return $this;
     }
 }

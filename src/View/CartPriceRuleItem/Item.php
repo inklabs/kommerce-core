@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\View\CartPriceRuleItem;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 
-abstract class Item
+abstract class Item implements View\ViewInterface
 {
     public $id;
     public $quantity;

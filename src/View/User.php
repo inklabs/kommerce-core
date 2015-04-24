@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-class User
+class User implements ViewInterface
 {
     public $id;
     public $encodedId;

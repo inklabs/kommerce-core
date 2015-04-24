@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\Service\Pricing;
 
-class Product
+class Product implements ViewInterface
 {
     public $id;
     public $encodedId;

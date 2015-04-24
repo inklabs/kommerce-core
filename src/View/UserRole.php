@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-class UserRole
+class UserRole implements ViewInterface
 {
     public $id;
     public $name;
@@ -19,5 +19,10 @@ class UserRole
         $this->description = $userRole->getDescription();
         $this->created     = $userRole->getCreated();
         $this->updated     = $userRole->getUpdated();
+    }
+
+    public function export()
+    {
+        return $this;
     }
 }

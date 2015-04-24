@@ -3,7 +3,7 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 
-class Price
+class Price implements ViewInterface
 {
     public $origUnitPrice;
     public $unitPrice;
