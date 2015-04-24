@@ -6,6 +6,6 @@ use inklabs\kommerce\Entity;
 /**
  * @method Entity\Attribute find($id)
  */
-class Attribute extends AbstractEntityRepository
+class Attribute extends AbstractEntityRepository implements AttributeInterface
 {
 }

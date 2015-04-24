@@ -9,42 +9,42 @@ use inklabs\kommerce\tests\Helper;
 class TagTest extends Helper\DoctrineTestCase
 {
     /** @var FakeTag */
-    protected $tagRepository;
+    protected $repository;
 
     /** @var Tag */
-    protected $tagService;
+    protected $service;
 
     public function setUp()
     {
-        $this->tagRepository = new FakeTag;
-        $this->tagService = new Tag($this->tagRepository, new Pricing);
+        $this->repository = new FakeTag;
+        $this->service = new Tag($this->repository, new Pricing);
     }
 
     public function testFind()
     {
-        $tag = $this->tagService->find(1);
+        $tag = $this->service->find(1);
         $this->assertTrue($tag instanceof View\Tag);
     }
 
     public function testFindReturnsNull()
     {
-        $this->tagRepository->setReturnValue(null);
+        $this->repository->setReturnValue(null);
 
-        $tag = $this->tagService->find(1);
+        $tag = $this->service->find(1);
         $this->assertSame(null, $tag);
     }
 
     public function testFindSimple()
     {
-        $tag = $this->tagService->findSimple(1);
+        $tag = $this->service->findSimple(1);
         $this->assertTrue($tag instanceof View\Tag);
     }
 
     public function testFindSimpleReturnsNull()
     {
-        $this->tagRepository->setReturnValue(null);
+        $this->repository->setReturnValue(null);
 
-        $tag = $this->tagService->findSimple(1);
+        $tag = $this->service->findSimple(1);
         $this->assertSame(null, $tag);
     }
 
@@ -54,7 +54,7 @@ class TagTest extends Helper\DoctrineTestCase
         $viewTag = $tag->getView()->export();
         $viewTag->name = 'Test Tag 2';
 
-        $tag = $this->tagService->edit($viewTag->id, $viewTag);
+        $tag = $this->service->edit($viewTag->id, $viewTag);
         $this->assertTrue($tag instanceof Entity\Tag);
 
         $this->assertSame('Test Tag 2', $tag->getName());
@@ -66,8 +66,8 @@ class TagTest extends Helper\DoctrineTestCase
      */
     public function testEditWithMissingTag()
     {
-        $this->tagRepository->setReturnValue(null);
-        $tag = $this->tagService->edit(1, new View\Tag(new Entity\Tag));
+        $this->repository->setReturnValue(null);
+        $tag = $this->service->edit(1, new View\Tag(new Entity\Tag));
     }
 
     public function testCreate()
@@ -75,25 +75,25 @@ class TagTest extends Helper\DoctrineTestCase
         $tag = $this->getDummyTag();
         $viewTag = $tag->getView()->export();
 
-        $newTag = $this->tagService->create($viewTag);
+        $newTag = $this->service->create($viewTag);
         $this->assertTrue($newTag instanceof Entity\Tag);
     }
 
     public function testGetAllTags()
     {
-        $tags = $this->tagService->getAllTags();
+        $tags = $this->service->getAllTags();
         $this->assertTrue($tags[0] instanceof View\Tag);
     }
 
     public function testGetTagsByIds()
     {
-        $tags = $this->tagService->getTagsByIds([1]);
+        $tags = $this->service->getTagsByIds([1]);
         $this->assertTrue($tags[0] instanceof View\Tag);
     }
 
     public function testAllGetTagsByIds()
     {
-        $tags = $this->tagService->getAllTagsByIds([1]);
+        $tags = $this->service->getAllTagsByIds([1]);
         $this->assertTrue($tags[0] instanceof View\Tag);
     }
 }
