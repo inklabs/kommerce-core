@@ -56,4 +56,14 @@ interface ProductInterface
      * @return View\Product[]
      */
     public function getRandomProducts($limit);
+
+    /**
+     * @param Entity\EntityInterface $entity
+     */
+    public function create(Entity\EntityInterface & $entity);
+
+    /**
+     * @param Entity\EntityInterface $entity
+     */
+    public function save(Entity\EntityInterface & $entity);
 }

@@ -6,11 +6,8 @@ use inklabs\kommerce\Entity;
 /**
  * @method Entity\User find($id)
  */
-class User extends AbstractEntityRepository
+class User extends AbstractEntityRepository implements UserInterface
 {
-    /**
-     * @return Entity\User[]
-     */
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -32,9 +29,6 @@ class User extends AbstractEntityRepository
         return $users;
     }
 
-    /**
-     * @return Entity\User[]
-     */
     public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -50,9 +44,6 @@ class User extends AbstractEntityRepository
         return $users;
     }
 
-    /**
-     * @return Entity\User
-     */
     public function findOneByEmail($email)
     {
         $qb = $this->getQueryBuilder();

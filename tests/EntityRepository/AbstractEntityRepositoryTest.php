@@ -47,4 +47,17 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($user->getUpdated() !== null);
     }
+
+    public function testCreate()
+    {
+        $user = $this->getDummyUser();
+
+        $this->assertSame(null, $user->getId());
+
+        $repository = $this->getRepository();
+        $repository->create($user);
+
+        $this->assertSame(1, $user->getId());
+        $this->assertSame(null, $user->getUpdated());
+    }
 }
