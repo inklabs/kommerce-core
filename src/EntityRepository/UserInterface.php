@@ -9,7 +9,7 @@ interface UserInterface
      * @param int $id
      * @return Entity\User
      */
-    function find($id);
+    public function find($id);
 
     /**
      * @param string $queryString

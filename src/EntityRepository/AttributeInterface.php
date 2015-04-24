@@ -9,5 +9,5 @@ interface AttributeInterface
      * @param int $id
      * @return Entity\Attribute
      */
-    function find($id);
+    public function find($id);
 }
