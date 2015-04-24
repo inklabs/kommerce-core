@@ -14,7 +14,8 @@ class FakeProduct extends Helper\AbstractFake implements ProductInterface
     }
 
     /**
-     * @method Entity\Product find($id)
+     * @param int $id
+     * @return Entity\Product
      */
     public function find($id)
     {

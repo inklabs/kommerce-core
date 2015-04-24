@@ -4,68 +4,39 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\EntityRepository\FakeAttributeValue;
 
 class AttributeValueTest extends Helper\DoctrineTestCase
 {
-    /** @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\AttributeValue */
-    protected $mockAttributeValueRepository;
+    /** @var FakeAttributeValue */
+    protected $attributeValueRepository;
 
-    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
-    protected $mockEntityManager;
+    /** @var AttributeValue */
+    protected $attributeValueService;
 
     public function setUp()
     {
-        $this->mockAttributeValueRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\AttributeValue');
-        $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
+        $this->attributeValueRepository = new FakeAttributeValue;
+        $this->attributeValueService = new AttributeValue($this->attributeValueRepository);
     }
 
     public function testFind()
     {
-        $attributeValue = $this->getDummyAttributeValue();
-
-        $this->mockAttributeValueRepository
-            ->shouldReceive('find')
-            ->andReturn($attributeValue);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockAttributeValueRepository);
-
-        $attributeValueService = new AttributeValue($this->mockEntityManager);
-
-        $attributeValue = $attributeValueService->find(1);
+        $attributeValue = $this->attributeValueService->find(1);
         $this->assertTrue($attributeValue instanceof View\AttributeValue);
     }
 
     public function testFindMissing()
     {
-        $this->mockAttributeValueRepository
-            ->shouldReceive('find')
-            ->andReturn(null);
+        $this->attributeValueRepository->setReturnValue(null);
 
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockAttributeValueRepository);
-
-        $attributeValueService = new AttributeValue($this->mockEntityManager);
-
-        $attributeValue = $attributeValueService->find(1);
+        $attributeValue = $this->attributeValueService->find(1);
         $this->assertSame(null, $attributeValue);
     }
 
     public function testGetAttributeValuesByIds()
     {
-        $this->mockAttributeValueRepository
-            ->shouldReceive('getAttributeValuesByIds')
-            ->andReturn([new Entity\AttributeValue]);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockAttributeValueRepository);
-
-        $attributeValueService = new AttributeValue($this->mockEntityManager);
-
-        $attributeValues = $attributeValueService->getAttributeValuesByIds([1]);
+        $attributeValues = $this->attributeValueService->getAttributeValuesByIds([1]);
         $this->assertTrue($attributeValues[0] instanceof View\AttributeValue);
     }
 }

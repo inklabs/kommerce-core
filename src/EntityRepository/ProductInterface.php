@@ -7,7 +7,8 @@ use inklabs\kommerce\View;
 interface ProductInterface
 {
     /**
-     * @method Entity\Product find($id)
+     * @param int $id
+     * @return Entity\Product
      */
     public function find($id);
 

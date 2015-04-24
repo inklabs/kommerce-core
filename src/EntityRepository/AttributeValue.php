@@ -6,12 +6,13 @@ use inklabs\kommerce\Entity;
 /**
  * @method Entity\AttributeValue find($id)
  */
-class AttributeValue extends AbstractEntityRepository
+class AttributeValue extends AbstractEntityRepository implements AttributeValueInterface
 {
     /**
+     * @param int[] $attributeValueIds
      * @return Entity\AttributeValue[]
      */
-    public function getAttributeValuesByIds($attributeValueIds, Entity\Pagination & $pagination = null)
+    public function getAttributeValuesByIds(array $attributeValueIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
