@@ -9,7 +9,9 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $entityChargeResponse = new Lib\PaymentGateway\ChargeResponse;
-        $chargeResponse = $entityChargeResponse->getView();
+        $chargeResponse = $entityChargeResponse->getView()
+            ->export();
+
         $this->assertTrue($chargeResponse instanceof ChargeResponse);
     }
 }

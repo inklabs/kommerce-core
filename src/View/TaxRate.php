@@ -3,7 +3,7 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 
-class TaxRate
+class TaxRate implements ViewInterface
 {
     public $id;
     public $state;
@@ -26,5 +26,10 @@ class TaxRate
         $this->applyToShipping = $taxRate->getApplyToShipping();
         $this->created         = $taxRate->getCreated();
         $this->updated         = $taxRate->getUpdated();
+    }
+
+    public function export()
+    {
+        return $this;
     }
 }

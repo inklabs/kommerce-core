@@ -3,7 +3,7 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 
-class CartTotal
+class CartTotal implements ViewInterface
 {
     public $origSubtotal;
     public $subtotal;

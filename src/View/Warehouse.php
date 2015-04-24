@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-class Warehouse
+class Warehouse implements ViewInterface
 {
     public $id;
     public $name;
@@ -21,5 +21,10 @@ class Warehouse
         $this->address = $warehouse->getAddress()->getView();
         $this->created = $warehouse->getCreated();
         $this->updated = $warehouse->getUpdated();
+    }
+
+    public function export()
+    {
+        return $this;
     }
 }

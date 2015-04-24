@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-abstract class Promotion
+abstract class Promotion implements ViewInterface
 {
     public $id;
     public $name;

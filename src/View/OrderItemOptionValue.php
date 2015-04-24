@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\Service\Pricing;
 
-class OrderItemOptionValue
+class OrderItemOptionValue implements ViewInterface
 {
     /** @var int */
     public $id;

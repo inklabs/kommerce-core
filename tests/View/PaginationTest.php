@@ -9,7 +9,8 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
     {
         $entityPagination = new Entity\Pagination;
 
-        $pagination = $entityPagination->getView();
+        $pagination = $entityPagination->getView()
+            ->export();
 
         $this->assertTrue($pagination instanceof Pagination);
     }

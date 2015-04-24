@@ -14,7 +14,9 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
         $entityCreditCard->setExpirationMonth('1');
         $entityCreditCard->setExpirationYear('2020');
 
-        $creditCard = $entityCreditCard->getView();
+        $creditCard = $entityCreditCard->getView()
+            ->export();
+
         $this->assertTrue($creditCard instanceof CreditCard);
     }
 }

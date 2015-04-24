@@ -10,7 +10,8 @@ class WarehouseTest extends \PHPUnit_Framework_TestCase
         $entityWarehouse = new Entity\Warehouse;
         $entityWarehouse->setAddress(new Entity\Address);
 
-        $warehouse = $entityWarehouse->getView();
+        $warehouse = $entityWarehouse->getView()
+            ->export();
 
         $this->assertTrue($warehouse instanceof Warehouse);
         $this->assertTrue($warehouse->address instanceof Address);

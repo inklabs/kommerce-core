@@ -10,7 +10,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $entityAddress = new Entity\Address;
 
-        $address = $entityAddress->getView();
+        $address = $entityAddress->getView()
+            ->export();
 
         $this->assertTrue($address instanceof Address);
     }

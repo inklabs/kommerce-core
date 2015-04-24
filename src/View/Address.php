@@ -3,7 +3,7 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 
-class Address
+class Address implements ViewInterface
 {
     public $attention;
     public $company;
@@ -28,5 +28,10 @@ class Address
         $this->zip5      = $address->getzip5();
         $this->zip4      = $address->getzip4();
         $this->point     = $address->getPoint()->getView();
+    }
+
+    public function export()
+    {
+        return $this;
     }
 }

@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Shipping as Shipping;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\Service\Pricing;
 
-class Cart
+class Cart implements ViewInterface
 {
     public $totalItems;
     public $totalQuantity;
