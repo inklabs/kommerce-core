@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
+use Symfony\Component\Validator\Validation;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,6 +15,11 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $attribute->addAttributeValue(new AttributeValue);
         $attribute->addProductAttribute(new ProductAttribute);
 
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($attribute));
         $this->assertSame('Test Attribute', $attribute->getName());
         $this->assertSame('Test attribute description', $attribute->getDescription());
         $this->assertSame(0, $attribute->getSortOrder());
