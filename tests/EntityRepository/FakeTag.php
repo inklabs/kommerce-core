@@ -14,7 +14,8 @@ class FakeTag extends Helper\AbstractFake implements TagInterface
     }
 
     /**
-     * @method Entity\Product find($id)
+     * @param int $id
+     * @return Entity\Tag
      */
     public function find($id)
     {

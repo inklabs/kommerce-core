@@ -10,12 +10,11 @@ use inklabs\kommerce\Lib;
 class AttributeValue extends Lib\ServiceManager
 {
     /** @var EntityRepository\AttributeValue */
-    private $attributeValueRepository;
+    private $repository;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityRepository\AttributeValueInterface $repository)
     {
-        $this->setEntityManager($entityManager);
-        $this->attributeValueRepository = $entityManager->getRepository('kommerce:AttributeValue');
+        $this->repository = $repository;
     }
 
     /**
@@ -24,7 +23,7 @@ class AttributeValue extends Lib\ServiceManager
     public function find($id)
     {
         /** @var Entity\AttributeValue $entityAttributeValue */
-        $entityAttributeValue = $this->attributeValueRepository->find($id);
+        $entityAttributeValue = $this->repository->find($id);
 
         if ($entityAttributeValue === null) {
             return null;
@@ -37,7 +36,7 @@ class AttributeValue extends Lib\ServiceManager
 
     public function getAttributeValuesByIds($attributeValueIds, Entity\Pagination & $pagination = null)
     {
-        $attributeValues = $this->attributeValueRepository
+        $attributeValues = $this->repository
             ->getAttributeValuesByIds($attributeValueIds);
 
         return $this->getViewAttributeValues($attributeValues);

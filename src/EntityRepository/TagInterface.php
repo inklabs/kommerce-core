@@ -6,8 +6,8 @@ use inklabs\kommerce\Entity;
 interface TagInterface
 {
     /**
-     * @param string $queryString
-     * @method Entity\Tag find($id)
+     * @param int $id
+     * @return Entity\Tag
      */
     public function find($id);
 
