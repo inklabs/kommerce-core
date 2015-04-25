@@ -3,12 +3,15 @@ namespace inklabs\kommerce\Entity\OptionType;
 
 use inklabs\kommerce\Entity\OptionValue\OptionValueInterface;
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 
 interface OptionTypeInterface
 {
     public function getTypeMapping();
 
-    /** @return string */
+    /**
+     * @return string
+     */
     public function getName();
 
     public function addOptionValue(OptionValueInterface $optionValue);
@@ -20,5 +23,8 @@ interface OptionTypeInterface
 
     public function addTag(Entity\Tag $tag);
 
+    /**
+     * @return View\ViewInterface
+     */
     public function getView();
 }
