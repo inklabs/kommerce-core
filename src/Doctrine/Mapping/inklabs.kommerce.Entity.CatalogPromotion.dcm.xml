@@ -8,11 +8,9 @@
             table="catalog_promotion"
             repository-class="inklabs\kommerce\EntityRepository\CatalogPromotion">
 
-        <field name="code" column="code" type="string" length="16"/>
+        <field name="code" type="string" length="16"/>
 
-        <many-to-one field="tag" target-entity="Tag" fetch="EAGER">
-            <join-column name="tag_id" referenced-column-name="id" nullable="true"/>
-        </many-to-one>
+        <many-to-one field="tag" target-entity="Tag" fetch="EAGER"/>
 
     </entity>
 

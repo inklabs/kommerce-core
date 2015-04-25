@@ -6,33 +6,33 @@
 
     <embeddable name="inklabs\kommerce\Lib\PaymentGateway\ChargeResponse">
 
-        <field name="id" column="id" type="string" length="255"/>
+        <field name="id" type="string" length="255"/>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="last4" column="last4" type="string" length="4">
+        <field name="last4" type="string" length="4">
             <options>
                 <option name="fixed">true</option>
             </options>
         </field>
 
-        <field name="brand" column="brand" type="string" length="16"/>
+        <field name="brand" type="string" length="16"/>
 
-        <field name="amount" column="amount" type="integer"/>
+        <field name="amount" type="integer"/>
 
-        <field name="currency" column="currency" type="string" length="3">
+        <field name="currency" type="string" length="3">
             <options>
                 <option name="fixed">true</option>
             </options>
         </field>
 
-        <field name="fee" column="fee" type="integer"/>
+        <field name="fee" type="integer"/>
 
-        <field name="description" column="description" type="string" length="255"/>
+        <field name="description" type="string" length="255"/>
 
     </embeddable>
 

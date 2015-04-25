@@ -12,47 +12,47 @@
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="state" column="state" type="string" length="2" nullable="true">
+        <field name="state" type="string" length="2" nullable="true">
             <options>
                 <option name="fixed">true</option>
             </options>
         </field>
 
-        <field name="zip5" column="zip5" type="string" length="5" nullable="true">
+        <field name="zip5" type="string" length="5" nullable="true">
             <options>
                 <option name="fixed">true</option>
             </options>
         </field>
 
-        <field name="zip5From" column="zip5_from" type="string" length="5" nullable="true">
+        <field name="zip5From" type="string" length="5" nullable="true">
             <options>
                 <option name="fixed">true</option>
             </options>
         </field>
 
-        <field name="zip5To" column="zip5_to" type="string" length="5" nullable="true">
+        <field name="zip5To" type="string" length="5" nullable="true">
             <options>
                 <option name="fixed">true</option>
             </options>
         </field>
 
-        <field name="rate" column="rate" type="decimal" precision="4" scale="2"/>
-        <field name="applyToShipping" column="apply_to_shipping" type="boolean"/>
+        <field name="rate" type="decimal" precision="4" scale="2"/>
+        <field name="applyToShipping" type="boolean"/>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>

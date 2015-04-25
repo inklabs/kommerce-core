@@ -12,32 +12,32 @@
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="name" column="name" type="string" length="255"/>
-        <field name="description" column="description" type="text" length="65535" nullable="true"/>
-        <field name="defaultImage" column="default_image" type="string" length="255" nullable="true"/>
-        <field name="isActive" column="is_active" type="boolean"/>
-        <field name="isVisible" column="is_visible" type="boolean"/>
+        <field name="name" type="string" length="255"/>
+        <field name="description" type="text" length="65535" nullable="true"/>
+        <field name="defaultImage" type="string" length="255" nullable="true"/>
+        <field name="isActive" type="boolean"/>
+        <field name="isVisible" type="boolean"/>
 
-        <field name="sortOrder" column="sort_order" type="smallint">
+        <field name="sortOrder" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>

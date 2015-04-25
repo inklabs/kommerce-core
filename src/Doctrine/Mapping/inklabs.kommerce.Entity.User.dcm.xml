@@ -12,49 +12,49 @@
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="externalId" column="external_id" type="string" length="255" nullable="true" unique="true"/>
-        <field name="firstName" column="first_name" type="string" length="50"/>
-        <field name="lastName" column="last_name" type="string" length="50"/>
-        <field name="email" column="email" type="string" length="255" nullable="true"/>
+        <field name="externalId" type="string" length="255" nullable="true" unique="true"/>
+        <field name="firstName" type="string" length="50"/>
+        <field name="lastName" type="string" length="50"/>
+        <field name="email" type="string" length="255" nullable="true"/>
 
-        <field name="passwordHash" column="password_hash" type="string" length="60" nullable="true">
+        <field name="passwordHash" type="string" length="60" nullable="true">
             <options>
                 <option name="fixed">true</option>
             </options>
         </field>
 
-        <field name="totalLogins" column="total_logins" type="integer">
+        <field name="totalLogins" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="lastLogin" column="last_login" type="integer" nullable="true">
+        <field name="lastLogin" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="status" column="status" type="smallint">
+        <field name="status" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
@@ -81,14 +81,6 @@
             <cascade>
                 <cascade-persist/>
             </cascade>
-            <join-table name="user_user_role">
-                <join-columns>
-                    <join-column name="user_id" referenced-column-name="id"/>
-                </join-columns>
-                <inverse-join-columns>
-                    <join-column name="user_role_id" referenced-column-name="id"/>
-                </inverse-join-columns>
-            </join-table>
         </many-to-many>
 
     </entity>

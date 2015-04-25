@@ -6,55 +6,55 @@
 
     <embeddable name="inklabs\kommerce\Entity\CartTotal">
 
-        <field name="origSubtotal" column="orig_subtotal" type="integer">
+        <field name="origSubtotal" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="subtotal" column="subtotal" type="integer">
+        <field name="subtotal" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="taxSubtotal" column="tax_subtotal" type="integer">
+        <field name="taxSubtotal" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="discount" column="discount" type="integer">
+        <field name="discount" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="shipping" column="shipping" type="integer">
+        <field name="shipping" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="shippingDiscount" column="shipping_discount" type="integer">
+        <field name="shippingDiscount" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="tax" column="tax" type="integer">
+        <field name="tax" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="total" column="total" type="integer">
+        <field name="total" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="savings" column="savings" type="integer">
+        <field name="savings" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>

@@ -12,35 +12,33 @@
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <many-to-one field="product" target-entity="Product" inversed-by="productAttributes" fetch="EAGER">
-            <join-column name="product_id" referenced-column-name="id" nullable="true"/>
-        </many-to-one>
+        <many-to-one field="product" target-entity="Product" inversed-by="productAttributes" fetch="EAGER"/>
 
         <many-to-one field="attribute" target-entity="Attribute" inversed-by="productAttributes" fetch="EAGER">
-            <join-column name="attribute_id" referenced-column-name="id" nullable="false"/>
+            <join-column nullable="false"/>
         </many-to-one>
 
         <many-to-one field="attributeValue" target-entity="AttributeValue" inversed-by="productAttributes" fetch="EAGER">
-            <join-column name="attribute_value_id" referenced-column-name="id" nullable="false"/>
+            <join-column nullable="false"/>
         </many-to-one>
 
     </entity>

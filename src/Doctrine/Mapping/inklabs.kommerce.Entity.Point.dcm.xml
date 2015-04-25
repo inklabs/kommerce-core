@@ -6,8 +6,8 @@
 
     <embeddable name="inklabs\kommerce\Entity\Point">
 
-        <field name="latitude"  column="latitude"  type="decimal" precision="10" scale="6" nullable="true"/>
-        <field name="longitude" column="longitude" type="decimal" precision="10" scale="6" nullable="true"/>
+        <field name="latitude"  type="decimal" precision="10" scale="6" nullable="true"/>
+        <field name="longitude" type="decimal" precision="10" scale="6" nullable="true"/>
 
     </embeddable>
 
