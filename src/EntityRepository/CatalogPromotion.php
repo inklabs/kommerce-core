@@ -3,14 +3,8 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\CatalogPromotion find($id)
- */
-class CatalogPromotion extends AbstractEntityRepository
+class CatalogPromotion extends AbstractEntityRepository implements CatalogPromotionInterface
 {
-    /**
-     * @return Entity\CatalogPromotion[]
-     */
     public function getAllCatalogPromotions($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -32,9 +26,6 @@ class CatalogPromotion extends AbstractEntityRepository
         return $catalogPromotions;
     }
 
-    /**
-     * @return Entity\CatalogPromotion[]
-     */
     public function getAllCatalogPromotionsByIds($catalogPromotionIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();

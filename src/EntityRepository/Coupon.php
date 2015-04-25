@@ -3,14 +3,8 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\Coupon find($id)
- */
-class Coupon extends AbstractEntityRepository
+class Coupon extends AbstractEntityRepository implements CouponInterface
 {
-    /**
-     * @return Entity\Coupon[]
-     */
     public function getAllCoupons($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -32,9 +26,6 @@ class Coupon extends AbstractEntityRepository
         return $coupons;
     }
 
-    /**
-     * @return Entity\Coupon[]
-     */
     public function getAllCouponsByIds($couponIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();

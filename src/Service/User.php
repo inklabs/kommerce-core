@@ -12,7 +12,7 @@ class User extends Lib\ServiceManager
     protected $userSessionKey = 'user';
 
     /** @var EntityRepository\UserInterface */
-    private $repository;
+    private $userRepository;
 
     /** @var Entity\User */
     protected $user;
@@ -20,7 +20,7 @@ class User extends Lib\ServiceManager
     public function __construct(EntityRepository\UserInterface $repository, Lib\SessionManager $sessionManager)
     {
         $this->sessionManager = $sessionManager;
-        $this->repository = $repository;
+        $this->userRepository = $repository;
 
         $this->load();
     }
@@ -45,7 +45,7 @@ class User extends Lib\ServiceManager
      */
     public function login($email, $password, $remoteIp)
     {
-        $entityUser = $this->repository->findOneByEmail($email);
+        $entityUser = $this->userRepository->findOneByEmail($email);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
             $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL);
@@ -80,7 +80,7 @@ class User extends Lib\ServiceManager
             $user->addLogin($userLogin);
         }
 
-        $this->repository->save($userLogin);
+        $this->userRepository->save($userLogin);
     }
 
     public function logout()
@@ -99,7 +99,7 @@ class User extends Lib\ServiceManager
      */
     public function find($id)
     {
-        $entityUser = $this->repository->find($id);
+        $entityUser = $this->userRepository->find($id);
 
         if ($entityUser === null || ! $entityUser->isActive()) {
             return null;
@@ -112,7 +112,7 @@ class User extends Lib\ServiceManager
 
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $users = $this->repository
+        $users = $this->userRepository
             ->getAllUsers($queryString, $pagination);
 
         return $this->getViewUsers($users);
@@ -120,7 +120,7 @@ class User extends Lib\ServiceManager
 
     public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null)
     {
-        $users = $this->repository
+        $users = $this->userRepository
             ->getAllUsersByIds($userIds);
 
         return $this->getViewUsers($users);

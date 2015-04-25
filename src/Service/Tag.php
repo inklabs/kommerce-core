@@ -13,12 +13,12 @@ class Tag extends Lib\ServiceManager
     private $pricing;
 
     /** @var EntityRepository\Tag */
-    private $repository;
+    private $tagRepository;
 
-    public function __construct(EntityRepository\TagInterface $repository, Pricing $pricing)
+    public function __construct(EntityRepository\TagInterface $tagRepository, Pricing $pricing)
     {
         $this->pricing = $pricing;
-        $this->repository = $repository;
+        $this->tagRepository = $tagRepository;
     }
 
     /**
@@ -26,7 +26,7 @@ class Tag extends Lib\ServiceManager
      */
     public function find($id)
     {
-        $entityTag = $this->repository->find($id);
+        $entityTag = $this->tagRepository->find($id);
 
         if ($entityTag === null) {
             return null;
@@ -43,7 +43,7 @@ class Tag extends Lib\ServiceManager
      */
     public function findSimple($encodedId)
     {
-        $entityTag = $this->repository->find(Lib\BaseConvert::decode($encodedId));
+        $entityTag = $this->tagRepository->find(Lib\BaseConvert::decode($encodedId));
 
         if ($entityTag === null) {
             return null;
@@ -54,12 +54,14 @@ class Tag extends Lib\ServiceManager
     }
 
     /**
+     * @param int $id
+     * @param View\Tag $viewTag
      * @return Entity\Tag
      * @throws ValidatorException
      */
     public function edit($id, View\Tag $viewTag)
     {
-        $tag = $this->repository->find($id);
+        $tag = $this->tagRepository->find($id);
 
         if ($tag === null) {
             throw new \LogicException('Missing Tag');
@@ -69,7 +71,7 @@ class Tag extends Lib\ServiceManager
 
         $this->throwValidationErrors($tag);
 
-        $this->repository->save($tag);
+        $this->tagRepository->save($tag);
 
         return $tag;
     }
@@ -85,32 +87,26 @@ class Tag extends Lib\ServiceManager
 
         $this->throwValidationErrors($tag);
 
-        $this->repository->save($tag);
+        $this->tagRepository->save($tag);
 
         return $tag;
     }
 
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $tags = $this->repository
-            ->getAllTags($queryString, $pagination);
-
+        $tags = $this->tagRepository->getAllTags($queryString, $pagination);
         return $this->getViewTags($tags);
     }
 
     public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
-        $tags = $this->repository
-            ->getTagsByIds($tagIds);
-
+        $tags = $this->tagRepository->getTagsByIds($tagIds);
         return $this->getViewTags($tags);
     }
 
     public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
-        $tags = $this->repository
-            ->getAllTagsByIds($tagIds);
-
+        $tags = $this->tagRepository->getAllTagsByIds($tagIds);
         return $this->getViewTags($tags);
     }
 

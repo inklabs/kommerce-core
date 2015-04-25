@@ -9,11 +9,11 @@ use Doctrine;
 class CartPriceRule extends Lib\ServiceManager
 {
     /** @var EntityRepository\CartPriceRule */
-    private $repository;
+    private $cartPriceRuleRepository;
 
-    public function __construct(EntityRepository\CartPriceRuleInterface $repository)
+    public function __construct(EntityRepository\CartPriceRuleInterface $cartPriceRuleRepository)
     {
-        $this->repository = $repository;
+        $this->cartPriceRuleRepository = $cartPriceRuleRepository;
     }
 
     /**
@@ -21,6 +21,6 @@ class CartPriceRule extends Lib\ServiceManager
      */
     public function findAll()
     {
-        return $this->repository->findAll();
+        return $this->cartPriceRuleRepository->findAll();
     }
 }

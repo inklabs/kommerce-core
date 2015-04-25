@@ -9,35 +9,44 @@ use Doctrine\ORM\EntityManager;
 
 class CatalogPromotion extends Lib\ServiceManager
 {
-    /** @var EntityRepository\CatalogPromotion */
+    /** @var EntityRepository\CatalogPromotionInterface */
     private $catalogPromotionRepository;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityRepository\CatalogPromotionInterface $catalogPromotionRepository)
     {
-        $this->setEntityManager($entityManager);
-        $this->catalogPromotionRepository = $entityManager->getRepository('kommerce:CatalogPromotion');
+        $this->catalogPromotionRepository = $catalogPromotionRepository;
     }
 
-    /* @return View\CatalogPromotion */
+    /**
+     * @param $id
+     * @return View\CatalogPromotion|null
+     */
     public function find($id)
     {
-        /** @var Entity\CatalogPromotion $entityCatalogPromotion */
-        $entityCatalogPromotion = $this->entityManager->getRepository('kommerce:CatalogPromotion')->find($id);
+        $catalogPromotion = $this->catalogPromotionRepository->find($id);
 
-        if ($entityCatalogPromotion === null) {
+        if ($catalogPromotion === null) {
             return null;
         }
 
-        return $entityCatalogPromotion->getView()
+        return $catalogPromotion->getView()
             ->export();
     }
 
-    /* @return Entity\CatalogPromotion[] */
+    /**
+     * @return View\CatalogPromotion[]
+     */
     public function findAll()
     {
-        return $this->entityManager->getRepository('kommerce:CatalogPromotion')->findAll();
+        $catalogPromotions = $this->catalogPromotionRepository->findAll();
+        return $this->getViewCatalogPromotions($catalogPromotions);
     }
 
+    /**
+     * @param string $queryString
+     * @param Entity\Pagination $pagination
+     * @return View\CatalogPromotion[]
+     */
     public function getAllCatalogPromotions($queryString = null, Entity\Pagination & $pagination = null)
     {
         $catalogPromotions = $this->catalogPromotionRepository
@@ -46,6 +55,11 @@ class CatalogPromotion extends Lib\ServiceManager
         return $this->getViewCatalogPromotions($catalogPromotions);
     }
 
+    /**
+     * @param int[] $catalogPromotionIds
+     * @param Entity\Pagination $pagination
+     * @return View\CatalogPromotion[]
+     */
     public function getAllCatalogPromotionsByIds($catalogPromotionIds, Entity\Pagination & $pagination = null)
     {
         $catalogPromotions = $this->catalogPromotionRepository
