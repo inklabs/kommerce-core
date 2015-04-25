@@ -3,16 +3,8 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\TaxRate find($id)
- * @method Entity\TaxRate[] findAll()
- */
-class TaxRate extends AbstractEntityRepository
+class TaxRate extends AbstractEntityRepository implements TaxRateInterface
 {
-    /**
-     * @return Entity\TaxRate[]
-     * @throws \LogicException
-     */
     public function findByZip5AndState($zip5 = null, $state = null)
     {
         if ($zip5 === null and $state === null) {

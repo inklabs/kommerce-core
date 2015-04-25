@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository;
 use Doctrine;
 
 class Pricing
@@ -32,10 +33,9 @@ class Pricing
         return $this->date;
     }
 
-    public function loadCatalogPromotions(Doctrine\ORM\EntityManager $entityManager)
+    public function loadCatalogPromotions(EntityRepository\CatalogPromotionInterface $catalogPromotionRepository)
     {
-        $catalogPromotionService = new CatalogPromotion($entityManager);
-        $this->setCatalogPromotions($catalogPromotionService->findAll());
+        $this->setCatalogPromotions($catalogPromotionRepository->findAll());
     }
 
     public function setCatalogPromotions(array $catalogPromotions)
@@ -56,10 +56,9 @@ class Pricing
         return $this->catalogPromotions;
     }
 
-    public function loadCartPriceRules(Doctrine\ORM\EntityManager $entityManager)
+    public function loadCartPriceRules(EntityRepository\CartPriceRuleInterface $cartPriceRuleRepository)
     {
-        $cartPriceRuleService = new CartPriceRule($entityManager);
-        $this->setCartPriceRules($cartPriceRuleService->findAll());
+        $this->setCartPriceRules($cartPriceRuleRepository->findAll());
     }
 
     public function setCartPriceRules(array $cartPriceRules)
@@ -107,6 +106,11 @@ class Pricing
         return $this->productQuantityDiscounts;
     }
 
+    /**
+     * @param Entity\Product $product
+     * @param int $quantity
+     * @return Entity\Price
+     */
     public function getPrice(Entity\Product $product, $quantity)
     {
         $pricingCalculator = new PricingCalculator($this);

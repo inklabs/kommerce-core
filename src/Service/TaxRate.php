@@ -1,21 +1,19 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\EntityRepository as EntityRepository;
+use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 use Doctrine;
 
 class TaxRate extends Lib\ServiceManager
 {
-
-    /** @var EntityRepository\TaxRate */
+    /** @var EntityRepository\TaxRateInterface */
     private $taxRateRepository;
 
-    public function __construct(Doctrine\ORM\EntityManager $entityManager)
+    public function __construct(EntityRepository\TaxRateInterface $taxRateRepository)
     {
-        $this->setEntityManager($entityManager);
-        $this->taxRateRepository = $entityManager->getRepository('kommerce:TaxRate');
+        $this->taxRateRepository = $taxRateRepository;
     }
 
     public function findAll()

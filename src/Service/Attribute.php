@@ -9,11 +9,11 @@ use inklabs\kommerce\Lib;
 class Attribute extends Lib\ServiceManager
 {
     /** @var EntityRepository\Attribute */
-    private $repository;
+    private $attributeRepository;
 
-    public function __construct(EntityRepository\AttributeInterface $repository)
+    public function __construct(EntityRepository\AttributeInterface $attributeRepository)
     {
-        $this->repository = $repository;
+        $this->attributeRepository = $attributeRepository;
     }
 
     /**
@@ -22,7 +22,7 @@ class Attribute extends Lib\ServiceManager
     public function find($id)
     {
         /** @var Entity\Attribute $attribute */
-        $attribute = $this->repository->find($id);
+        $attribute = $this->attributeRepository->find($id);
 
         if ($attribute === null) {
             return null;
