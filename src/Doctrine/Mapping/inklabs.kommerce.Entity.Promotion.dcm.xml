@@ -10,51 +10,51 @@
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="name" column="name" type="string" length="255" nullable="true"/>
+        <field name="name" type="string" length="255" nullable="true"/>
 
-        <field name="type" column="type" type="smallint">
+        <field name="type" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="value" column="value" type="integer" nullable="true">
+        <field name="value" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="redemptions" column="redemptions" type="smallint">
+        <field name="redemptions" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="maxRedemptions" column="max_redemptions" type="smallint" nullable="true">
+        <field name="maxRedemptions" type="smallint" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="reducesTaxSubtotal" column="reduces_tax_subtotal" type="boolean"/>
+        <field name="reducesTaxSubtotal" type="boolean"/>
 
-        <field name="start" column="start" type="date" nullable="true"/>
-        <field name="end" column="end" type="date" nullable="true"/>
+        <field name="start" type="date" nullable="true"/>
+        <field name="end" type="date" nullable="true"/>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>

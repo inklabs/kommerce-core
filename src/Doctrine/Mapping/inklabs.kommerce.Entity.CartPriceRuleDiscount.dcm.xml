@@ -12,37 +12,37 @@
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="quantity" column="quantity" type="smallint">
+        <field name="quantity" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
         <many-to-one field="product" target-entity="Product" fetch="EAGER">
-            <join-column name="product_id" referenced-column-name="id" nullable="false"/>
+            <join-column nullable="false"/>
         </many-to-one>
 
         <many-to-one field="cartPriceRule" target-entity="CartPriceRule" fetch="EAGER">
-            <join-column name="cart_price_rule_id" referenced-column-name="id" nullable="false"/>
+            <join-column nullable="false"/>
         </many-to-one>
 
     </entity>

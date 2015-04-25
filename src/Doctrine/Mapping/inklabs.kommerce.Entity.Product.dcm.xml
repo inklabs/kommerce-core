@@ -12,56 +12,56 @@
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="name" column="name" type="string" length="255"/>
-        <field name="sku" column="sku" type="string" length="64" nullable="true"/>
-        <field name="description" column="description" type="text" length="65535" nullable="true"/>
-        <field name="defaultImage" column="default_image" type="string" length="255" nullable="true"/>
+        <field name="name" type="string" length="255"/>
+        <field name="sku" type="string" length="64" nullable="true"/>
+        <field name="description" type="text" length="65535" nullable="true"/>
+        <field name="defaultImage" type="string" length="255" nullable="true"/>
 
-        <field name="isInventoryRequired" column="is_inventory_required" type="boolean"/>
-        <field name="isPriceVisible" column="is_price_visible" type="boolean"/>
-        <field name="isActive" column="is_active" type="boolean"/>
-        <field name="isVisible" column="is_visible" type="boolean"/>
-        <field name="isTaxable" column="is_taxable" type="boolean"/>
-        <field name="isShippable" column="is_shippable" type="boolean"/>
+        <field name="isInventoryRequired" type="boolean"/>
+        <field name="isPriceVisible" type="boolean"/>
+        <field name="isActive" type="boolean"/>
+        <field name="isVisible" type="boolean"/>
+        <field name="isTaxable" type="boolean"/>
+        <field name="isShippable" type="boolean"/>
 
-        <field name="unitPrice" column="unit_price" type="integer">
+        <field name="unitPrice" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="quantity" column="quantity" type="smallint">
+        <field name="quantity" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="shippingWeight" column="shipping_weight" type="smallint">
+        <field name="shippingWeight" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="rating" column="rating" type="integer" nullable="true">
+        <field name="rating" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>

@@ -6,25 +6,25 @@
 
     <embeddable name="inklabs\kommerce\Entity\Price">
 
-        <field name="origUnitPrice" column="orig_unit_price" type="integer">
+        <field name="origUnitPrice" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="unitPrice" column="unit_price" type="integer">
+        <field name="unitPrice" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="origQuantityPrice" column="orig_quantity_price" type="integer">
+        <field name="origQuantityPrice" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="quantityPrice" column="quantity_price" type="integer">
+        <field name="quantityPrice" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
