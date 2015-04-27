@@ -15,11 +15,11 @@ class UserTest extends Helper\DoctrineTestCase
     ];
 
     /** @var User */
-    protected $repository;
+    protected $userRepository;
 
     public function setUp()
     {
-        $this->repository = $this->entityManager->getRepository('kommerce:User');
+        $this->userRepository = $this->entityManager->getRepository('kommerce:User');
     }
 
     private function setupUser()
@@ -39,7 +39,7 @@ class UserTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $user = $this->repository
+        $user = $this->userRepository
             ->find(1);
 
         $user->getOrders()->toArray();
@@ -55,7 +55,7 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
-        $users = $this->repository->getAllUsers('John');
+        $users = $this->userRepository->getAllUsers('John');
 
         $this->assertTrue($users[0] instanceof Entity\User);
     }
@@ -64,7 +64,7 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
-        $users = $this->repository->getAllUsersByIds([1]);
+        $users = $this->userRepository->getAllUsersByIds([1]);
 
         $this->assertTrue($users[0] instanceof Entity\User);
     }
@@ -73,7 +73,7 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
-        $user = $this->repository->findOneByEmail('test@example.com');
+        $user = $this->userRepository->findOneByEmail('test@example.com');
 
         $this->assertTrue($user instanceof Entity\User);
     }
@@ -85,7 +85,7 @@ class UserTest extends Helper\DoctrineTestCase
         $user = $this->setupUser();
         $user->addLogin($userLogin);
 
-        $this->repository->save($user);
+        $this->userRepository->save($user);
 
         $this->assertSame(1, $user->getTotalLogins());
     }

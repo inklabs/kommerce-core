@@ -8,20 +8,20 @@ use inklabs\kommerce\tests\EntityRepository\FakeCartPriceRule;
 class CartPriceRuleTest extends Helper\DoctrineTestCase
 {
     /** @var FakeCartPriceRule */
-    protected $repository;
+    protected $cartPriceRuleRepository;
 
     /** @var CartPriceRule */
-    protected $service;
+    protected $cartPriceRuleService;
 
     public function setUp()
     {
-        $this->repository = new FakeCartPriceRule;
-        $this->service = new CartPriceRule($this->repository);
+        $this->cartPriceRuleRepository = new FakeCartPriceRule;
+        $this->cartPriceRuleService = new CartPriceRule($this->cartPriceRuleRepository);
     }
 
     public function testFindAll()
     {
-        $cartPriceRules = $this->service->findAll();
+        $cartPriceRules = $this->cartPriceRuleService->findAll();
 
         $this->assertTrue($cartPriceRules[0] instanceof Entity\CartPriceRule);
     }

@@ -9,28 +9,28 @@ use inklabs\kommerce\tests\EntityRepository\FakeAttribute;
 class AttributeTest extends Helper\DoctrineTestCase
 {
     /** @var FakeAttribute */
-    protected $repository;
+    protected $attributeRepository;
 
     /** @var Attribute */
-    protected $service;
+    protected $attributeService;
 
     public function setUp()
     {
-        $this->repository = new FakeAttribute;
-        $this->service = new Attribute($this->repository);
+        $this->attributeRepository = new FakeAttribute;
+        $this->attributeService = new Attribute($this->attributeRepository);
     }
 
     public function testFind()
     {
-        $attributeValue = $this->service->find(1);
+        $attributeValue = $this->attributeService->find(1);
         $this->assertTrue($attributeValue instanceof View\Attribute);
     }
 
     public function testFindMissing()
     {
-        $this->repository->setReturnValue(null);
+        $this->attributeRepository->setReturnValue(null);
 
-        $attributeValue = $this->service->find(1);
+        $attributeValue = $this->attributeService->find(1);
         $this->assertSame(null, $attributeValue);
     }
 }
