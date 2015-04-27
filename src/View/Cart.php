@@ -12,12 +12,13 @@ class Cart implements ViewInterface
     public $totalQuantity;
     public $shippingWeight;
     public $created;
+    public $updated;
 
     /** @var CartTotal */
     public $cartTotal;
 
     /** @var CartItem[] */
-    public $items = [];
+    public $cartItems = [];
 
     /** @var Coupon[] */
     public $coupons = [];
@@ -30,6 +31,7 @@ class Cart implements ViewInterface
         $this->totalQuantity  = $cart->totalQuantity();
         $this->shippingWeight = $cart->getShippingWeight();
         $this->created        = $cart->getCreated();
+        $this->updated        = $cart->getUpdated();
     }
 
     public function export()
@@ -49,8 +51,8 @@ class Cart implements ViewInterface
 
     public function withCartItems(Pricing $pricing)
     {
-        foreach ($this->cart->getCartItems() as $cartItem) {
-            $this->items[$cartItem->getId()] = $cartItem->getView()
+        foreach ($this->cart->getCartItems() as $key => $cartItem) {
+            $this->cartItems[$key] = $cartItem->getView()
                 ->withAllData($pricing)
                 ->export();
         }

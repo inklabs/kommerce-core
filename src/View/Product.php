@@ -95,7 +95,7 @@ class Product implements ViewInterface
         foreach ($this->product->getTags() as $tag) {
             $this->tags[] = $tag->getView()
                 ->withImages()
-                ->withOptionTypes($pricing)
+                ->withOptions($pricing)
                 ->export();
         }
         return $this;

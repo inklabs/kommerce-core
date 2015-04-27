@@ -8,20 +8,24 @@ class CartTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $entityCart = new Entity\Cart;
-        $entityCart->addCartItem(new Entity\Product, 1);
-
         $coupon = new Entity\Coupon;
+        $coupon->setId(1);
         $coupon->setType(Entity\Promotion::TYPE_PERCENT);
 
-        $entityCart->addCoupon($coupon);
+        $cartItem= new Entity\CartItem;
+        $cartItem->setProduct(new Entity\Product);
+        $cartItem->setQuantity(1);
 
-        $cart = $entityCart->getView()
+        $cart = new Entity\Cart;
+        $cart->addCartItem($cartItem);
+        $cart->addCoupon($coupon);
+
+        $viewCart = $cart->getView()
             ->withAllData(new Service\Pricing)
             ->export();
 
-        $this->assertTrue($cart->cartTotal instanceof CartTotal);
-        $this->assertTrue($cart->items[0] instanceof CartItem);
-        $this->assertTrue($cart->coupons[0] instanceof Coupon);
+        $this->assertTrue($viewCart->cartTotal instanceof CartTotal);
+        $this->assertTrue($viewCart->cartItems[0] instanceof CartItem);
+        $this->assertTrue($viewCart->coupons[0] instanceof Coupon);
     }
 }
