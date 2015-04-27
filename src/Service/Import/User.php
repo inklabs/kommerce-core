@@ -4,9 +4,8 @@ namespace inklabs\kommerce\Service\Import;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository;
-use inklabs\kommerce\Lib;
 
-class User extends Lib\ServiceManager
+class User
 {
     /** @var EntityRepository\User */
     private $userRepository;

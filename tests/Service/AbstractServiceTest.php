@@ -1,41 +1,36 @@
 <?php
-namespace inklabs\kommerce\Lib;
+namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\Service;
 
-class ServiceManagerTest extends Helper\DoctrineTestCase
+class AbstractServiceTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
         'kommerce:Tag',
     ];
 
-    public function testSetEntityManager()
-    {
-        $serviceManager = new ServiceManager;
-        $serviceManager->setEntityManager($this->entityManager);
-    }
-
     public function testFindByEncodedId()
     {
-        $mockServiceManager = \Mockery::mock('inklabs\kommerce\Lib\ServiceManager')
+        /** @var AbstractService|\Mockery\MockInterface $mockAbstractService */
+        $mockAbstractService = \Mockery::mock('inklabs\kommerce\Service\AbstractService')
             ->makePartial();
 
-        $mockServiceManager
+        $mockAbstractService
             ->shouldReceive('find')
             ->andReturn(new Entity\Product);
 
-        $product = $mockServiceManager->findByEncodedId(1);
+        $product = $mockAbstractService->findByEncodedId(1);
         $this->assertTrue($product instanceof Entity\Product);
     }
 
     public function testThrowValidationErrors()
     {
-        $mockServiceManager = \Mockery::mock('inklabs\kommerce\Lib\ServiceManager')
+        /** @var AbstractService|\Mockery\MockInterface $mockAbstractService */
+        $mockAbstractService = \Mockery::mock('inklabs\kommerce\Service\AbstractService')
             ->makePartial();
 
-        $mockServiceManager
+        $mockAbstractService
             ->shouldReceive('find')
             ->andReturn(new Entity\Product);
 
@@ -47,7 +42,7 @@ class ServiceManagerTest extends Helper\DoctrineTestCase
         $tag->setIsVisible(true);
         $tag->setIsActive(true);
 
-        $mockServiceManager->throwValidationErrors($tag);
+        $mockAbstractService->throwValidationErrors($tag);
     }
 
     /**
@@ -55,10 +50,11 @@ class ServiceManagerTest extends Helper\DoctrineTestCase
      */
     public function testThrowValidationErrorsThrowsError()
     {
-        $mockServiceManager = \Mockery::mock('inklabs\kommerce\Lib\ServiceManager')
+        /** @var AbstractService|\Mockery\MockInterface $mockAbstractService */
+        $mockAbstractService = \Mockery::mock('inklabs\kommerce\Service\AbstractService')
             ->makePartial();
 
-        $mockServiceManager
+        $mockAbstractService
             ->shouldReceive('find')
             ->andReturn(new Entity\Product);
 
@@ -70,6 +66,6 @@ class ServiceManagerTest extends Helper\DoctrineTestCase
         $tag->setIsVisible(true);
         $tag->setIsActive(true);
 
-        $mockServiceManager->throwValidationErrors($tag);
+        $mockAbstractService->throwValidationErrors($tag);
     }
 }

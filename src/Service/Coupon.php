@@ -3,10 +3,9 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
 use inklabs\kommerce\EntityRepository;
 
-class Coupon extends Lib\ServiceManager
+class Coupon extends AbstractService
 {
     /** @var EntityRepository\CouponInterface */
     private $couponRepository;

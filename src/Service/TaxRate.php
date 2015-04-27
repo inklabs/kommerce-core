@@ -3,10 +3,9 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Lib;
 use Doctrine;
 
-class TaxRate extends Lib\ServiceManager
+class TaxRate extends AbstractService
 {
     /** @var EntityRepository\TaxRateInterface */
     private $taxRateRepository;

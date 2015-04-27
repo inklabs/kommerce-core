@@ -10,7 +10,7 @@ use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 use Exception;
 
-class Cart extends Lib\ServiceManager
+class Cart extends AbstractService
 {
     /** @var Lib\SessionManager */
     protected $sessionManager;
