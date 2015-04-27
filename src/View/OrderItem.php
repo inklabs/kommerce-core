@@ -32,14 +32,20 @@ class OrderItem implements ViewInterface
     /** @var string */
     public $discountNames;
 
+    /** @var OrderItemOptionProduct[] */
+    public $orderItemOptionProducts = [];
+
     /** @var OrderItemOptionValue[] */
     public $orderItemOptionValues = [];
 
+    /** @var OrderItemTextOptionValue[] */
+    public $orderItemTextOptionValues = [];
+
     /** @var CatalogPromotion[] */
-    public $catalogPromotions;
+    public $catalogPromotions = [];
 
     /** @var ProductQuantityDiscount[] */
-    public $productQuantityDiscounts;
+    public $productQuantityDiscounts = [];
 
     public function __construct(Entity\OrderItem $orderItem)
     {
@@ -85,10 +91,28 @@ class OrderItem implements ViewInterface
         return $this;
     }
 
+    public function withOrderItemOptionProducts()
+    {
+        foreach ($this->orderItem->getOrderItemOptionProducts() as $optionProduct) {
+            $this->orderItemOptionProducts[] = $optionProduct->getView();
+        }
+
+        return $this;
+    }
+
     public function withOrderItemOptionValues()
     {
-        foreach ($this->orderItem->getOrderItemOptionValues() as $optionProduct) {
-            $this->orderItemOptionValues[] = $optionProduct->getView();
+        foreach ($this->orderItem->getOrderItemOptionValues() as $optionValue) {
+            $this->orderItemOptionValues[] = $optionValue->getView();
+        }
+
+        return $this;
+    }
+
+    public function withOrderItemTextOptionValues()
+    {
+        foreach ($this->orderItem->getOrderItemTextOptionValues() as $textOptionValue) {
+            $this->orderItemTextOptionValues[] = $textOptionValue->getView();
         }
 
         return $this;
@@ -99,6 +123,8 @@ class OrderItem implements ViewInterface
         return $this
             ->withCatalogPromotions()
             ->withProductQuantityDiscounts()
-            ->withOrderItemOptionValues();
+            ->withOrderItemOptionProducts()
+            ->withOrderItemOptionValues()
+            ->withOrderItemTextOptionValues();
     }
 }

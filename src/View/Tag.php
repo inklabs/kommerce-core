@@ -25,8 +25,11 @@ class Tag implements ViewInterface
     /** @var Image[] */
     public $images = [];
 
-    /** @var OptionType\OptionTypeInterface[] */
-    public $optionTypes = [];
+    /** @var Option[] */
+    public $options = [];
+
+    /** @var TextOption[] */
+    public $textOptions = [];
 
     public function __construct(Entity\Tag $tag)
     {
@@ -70,11 +73,21 @@ class Tag implements ViewInterface
         return $this;
     }
 
-    public function withOptionTypes(Pricing $pricing)
+    public function withOptions()
     {
-        foreach ($this->tag->getOptionTypes() as $optionType) {
-            $this->optionTypes[] = $optionType->getView()
-                ->withOptionValues($pricing)
+        foreach ($this->tag->getOptions() as $option) {
+            $this->options[] = $option->getView()
+                ->withOptionProducts()
+                ->withOptionValues()
+                ->export();
+        }
+        return $this;
+    }
+
+    public function withTextOptions()
+    {
+        foreach ($this->tag->getTextOptions() as $textOption) {
+            $this->textOptions[] = $textOption->getView()
                 ->export();
         }
         return $this;
@@ -85,6 +98,7 @@ class Tag implements ViewInterface
         return $this
             ->withImages()
             ->withProducts($pricing)
-            ->withOptionTypes($pricing);
+            ->withOptions()
+            ->withTextOptions();
     }
 }

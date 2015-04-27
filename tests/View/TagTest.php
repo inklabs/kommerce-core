@@ -11,7 +11,8 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $entityTag = new Entity\Tag;
         $entityTag->addImage(new Entity\Image);
         $entityTag->addProduct(new Entity\Product);
-        $entityTag->addOptionType(new Entity\OptionType\Option);
+        $entityTag->addOption(new Entity\Option);
+        $entityTag->addTextOption(new Entity\TextOption);
 
         $tag = $entityTag->getView()
             ->withAllData(new Service\Pricing)
@@ -19,6 +20,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($tag->images[0] instanceof Image);
         $this->assertTrue($tag->products[0] instanceof Product);
-        $this->assertTrue($tag->optionTypes[0] instanceof OptionType\OptionTypeInterface);
+        $this->assertTrue($tag->options[0] instanceof Option);
+        $this->assertTrue($tag->textOptions[0] instanceof TextOption);
     }
 }

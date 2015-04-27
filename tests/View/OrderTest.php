@@ -9,7 +9,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $cart = new Entity\Cart;
-        $cart->addCartItem(new Entity\Product, 1);
+        $cart->addCartItem(new Entity\CartItem);
 
         $orderItem = new Entity\OrderItem;
         $orderItem->setProduct(new Entity\Product);
