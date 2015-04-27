@@ -4,9 +4,8 @@ namespace inklabs\kommerce\Service\Import;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository;
-use inklabs\kommerce\Lib;
 
-class Order extends Lib\ServiceManager
+class Order
 {
     /** @var EntityRepository\Order */
     private $orderRepository;

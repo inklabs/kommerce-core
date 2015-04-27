@@ -3,11 +3,9 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
 use inklabs\kommerce\EntityRepository;
-use Doctrine\ORM\EntityManager;
 
-class CatalogPromotion extends Lib\ServiceManager
+class CatalogPromotion extends AbstractService
 {
     /** @var EntityRepository\CatalogPromotionInterface */
     private $catalogPromotionRepository;

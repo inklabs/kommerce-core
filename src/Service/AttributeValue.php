@@ -4,9 +4,8 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
 
-class AttributeValue extends Lib\ServiceManager
+class AttributeValue extends AbstractService
 {
     /** @var EntityRepository\AttributeValue */
     private $attributeValueRepository;

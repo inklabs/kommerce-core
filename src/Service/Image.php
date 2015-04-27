@@ -5,9 +5,8 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Lib;
 
-class Image extends Lib\ServiceManager
+class Image extends AbstractService
 {
     /** @var EntityRepository\Image */
     private $imageRepository;

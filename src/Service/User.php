@@ -6,7 +6,7 @@ use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 
-class User extends Lib\ServiceManager
+class User extends AbstractService
 {
     protected $sessionManager;
     protected $userSessionKey = 'user';
@@ -95,6 +95,7 @@ class User extends Lib\ServiceManager
     }
 
     /**
+     * @param int $id
      * @return View\User|null
      */
     public function find($id)

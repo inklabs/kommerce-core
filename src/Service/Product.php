@@ -5,9 +5,8 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Lib;
 
-class Product extends Lib\ServiceManager
+class Product extends AbstractService
 {
     /** @var Pricing */
     private $pricing;
