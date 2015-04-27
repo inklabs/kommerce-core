@@ -16,8 +16,14 @@ class CartItem implements ViewInterface
     /** @var Product */
     public $product;
 
-    /** @var OptionValue[] */
-    public $optionValues = [];
+    /** @var CartItemOptionProduct[] */
+    public $cartItemOptionProducts;
+
+    /** @var CartItemOptionValue[] */
+    public $cartItemOptionValues;
+
+    /** @var CartItemTextOptionValue[] */
+    public $cartItemTextOptionValues;
 
     /** @var Price */
     public $price;
@@ -58,11 +64,30 @@ class CartItem implements ViewInterface
         return $this;
     }
 
-    public function withOptionValues(Pricing $pricing)
+    public function withCartItemOptionProducts(Pricing $pricing)
     {
-        foreach ($this->cartItem->getOptionValues() as $optionValue) {
-            $this->optionValues[] = $optionValue->getView()
-                ->withAllData($pricing)
+        foreach ($this->cartItem->getCartItemOptionProducts() as $cartItemOptionProduct) {
+            $this->cartItemOptionProducts[] = $cartItemOptionProduct->getView()
+                ->export();
+        }
+
+        return $this;
+    }
+
+    public function withCartItemOptionValues()
+    {
+        foreach ($this->cartItem->getCartItemOptionValues() as $cartItemOptionValue) {
+            $this->cartItemOptionValues[] = $cartItemOptionValue->getView()
+                ->export();
+        }
+
+        return $this;
+    }
+
+    public function withCartItemTextOptionValues()
+    {
+        foreach ($this->cartItem->getCartItemTextOptionValues() as $cartItemTextOptionValue) {
+            $this->cartItemTextOptionValues[] = $cartItemTextOptionValue->getView()
                 ->export();
         }
 
@@ -74,6 +99,8 @@ class CartItem implements ViewInterface
         return $this
             ->withProduct($pricing)
             ->withPrice($pricing)
-            ->withOptionValues($pricing);
+            ->withCartItemOptionProducts($pricing)
+            ->withCartItemOptionValues()
+            ->withCartItemTextOptionValues();
     }
 }

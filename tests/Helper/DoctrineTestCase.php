@@ -306,6 +306,57 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $cartPriceRule;
     }
 
+    protected function getDummyCartItem()
+    {
+        $product = new Entity\Product;
+        $product->setSku('P1');
+        $product->setUnitPrice(100);
+        $product->setShippingWeight(10);
+
+        $product2 = new Entity\Product;
+        $product2->setSku('OP1');
+        $product2->setUnitPrice(100);
+        $product2->setShippingWeight(10);
+
+        $option1 = new Entity\Option;
+        $option1->setname('Option 1');
+
+        $optionProduct = new Entity\OptionProduct;
+        $optionProduct->setOption($option1);
+        $optionProduct->setProduct($product2);
+
+        $option2 = new Entity\Option;
+        $option2->setname('Option 2');
+
+        $optionValue = new Entity\OptionValue;
+        $optionValue->setOption($option2);
+        $optionValue->setSku('OV1');
+        $optionValue->setUnitPrice(100);
+        $optionValue->setShippingWeight(10);
+
+        $textOption = new Entity\TextOption;
+
+        $cartItemOptionProduct = new Entity\CartItemOptionProduct;
+        $cartItemOptionProduct->setOptionProduct($optionProduct);
+
+        $cartItemOptionValue = new Entity\CartItemOptionValue;
+        $cartItemOptionValue->setOptionValue($optionValue);
+
+        $cartItemTextOptionValue = new Entity\CartItemTextOptionValue;
+        $cartItemTextOptionValue->setTextOption($textOption);
+        $cartItemTextOptionValue->setTextOptionValue('Happy Birthday');
+
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+        $cartItem->setCart(new Entity\Cart);
+        $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
+        $cartItem->addCartItemOptionValue($cartItemOptionValue);
+        $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
+
+        return $cartItem;
+    }
+
     protected function getDummyAddress()
     {
         $address = new Entity\Address;

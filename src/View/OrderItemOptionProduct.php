@@ -10,8 +10,11 @@ class OrderItemOptionProduct implements ViewInterface
     /** @var int */
     public $id;
 
-    /** @var OptionProduct */
-    public $optionProduct;
+    /** @var int */
+    public $created;
+
+    /** @var int */
+    public $updated;
 
     /** @var string */
     public $sku;
@@ -22,12 +25,16 @@ class OrderItemOptionProduct implements ViewInterface
     /** @var string */
     public $optionValueName;
 
+    /** @var OptionProduct */
+    public $optionProduct;
+
     public function __construct(Entity\OrderItemOptionProduct $orderItemOptionProduct)
     {
-        $this->id              = $orderItemOptionProduct->getId();
-        $this->created         = $orderItemOptionProduct->getCreated();
-        $this->sku             = $orderItemOptionProduct->getSku();
-        $this->optionName      = $orderItemOptionProduct->getOptionName();
+        $this->id                = $orderItemOptionProduct->getId();
+        $this->created           = $orderItemOptionProduct->getCreated();
+        $this->updated           = $orderItemOptionProduct->getUpdated();
+        $this->sku               = $orderItemOptionProduct->getSku();
+        $this->optionName        = $orderItemOptionProduct->getOptionName();
         $this->optionProductName = $orderItemOptionProduct->getOptionProductName();
 
         $this->optionProduct = $orderItemOptionProduct->getOptionProduct()->getView()

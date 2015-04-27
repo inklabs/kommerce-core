@@ -7,42 +7,29 @@ use inklabs\kommerce\Service\Pricing;
 
 class CartItemOptionProduct implements ViewInterface
 {
+    /** @var int */
     public $id;
 
-    /** @var Option */
-    public $option;
+    /** @var int */
+    public $created;
 
-    /** @var Product */
-    public $product;
+    /** @var int */
+    public $updated;
 
-    public function __construct(Entity\CartItemOptionProduct $cartOptionProduct)
+    /** @var OptionProduct */
+    public $optionProduct;
+
+    public function __construct(Entity\CartItemOptionProduct $cartItemOptionProduct)
     {
-        $this->cartOptionProduct = $cartOptionProduct;
+        $this->id      = $cartItemOptionProduct->getId();
+        $this->created = $cartItemOptionProduct->getCreated();
+        $this->updated = $cartItemOptionProduct->getUpdated();
 
-        $this->id             = $cartOptionProduct->getId();
-        $this->option         = $cartOptionProduct->getOption()->getView()->export();
-        $this->created        = $cartOptionProduct->getCreated();
+        $this->optionProduct = $cartItemOptionProduct->getOptionProduct()->getView()->export();
     }
 
     public function export()
     {
-        unset($this->cartOptionProduct);
         return $this;
-    }
-
-    public function withProduct(Pricing $pricing)
-    {
-        $this->product = $this->cartOptionProduct->getProduct()->getView()
-            ->withTags()
-            ->withProductQuantityDiscounts($pricing)
-            ->export();
-
-        return $this;
-    }
-
-    public function withAllData(Pricing $pricing)
-    {
-        return $this
-            ->withProduct($pricing);
     }
 }
