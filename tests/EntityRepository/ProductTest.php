@@ -14,6 +14,8 @@ class ProductTest extends Helper\DoctrineTestCase
         'kommerce:ProductAttribute',
         'kommerce:Image',
         'kommerce:Tag',
+        'kommerce:Option',
+        'kommerce:OptionProduct',
     ];
 
     /**
@@ -46,9 +48,10 @@ class ProductTest extends Helper\DoctrineTestCase
         $product->getProductQuantityDiscounts()->toArray();
         $product->getTags()->toArray();
         $product->getProductAttributes()->toArray();
+        $product->getOptionProducts()->toArray();
 
         $this->assertTrue($product instanceof Entity\Product);
-        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(6, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testGetRelatedProducts()

@@ -1,12 +1,13 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Entity\OptionValue\OptionValueInterface;
 use inklabs\kommerce\Service\Pricing;
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class CartItem
+class CartItem implements EntityInterface
 {
     use Accessor\Created, Accessor\Id;
 
@@ -16,16 +17,43 @@ class CartItem
     /** @var Product */
     protected $product;
 
-    /** @var OptionValueInterface[] */
-    protected $optionValues;
+    /** @var CartItemOptionProduct[] */
+    protected $cartItemOptionProducts;
 
-    public function __construct(Product $product, $quantity)
+    /** @var CartItemOptionValue[] */
+    protected $cartItemOptionValues;
+
+    /** @var CartItemTextOptionValue[] */
+    protected $cartItemTextOptionValues;
+
+    /** @var Cart */
+    protected $cart;
+
+    public function __construct()
     {
         $this->setCreated();
-        $this->optionValues = new ArrayCollection;
+        $this->cartItemOptionProducts = new ArrayCollection;
+        $this->cartItemOptionValues = new ArrayCollection;
+        $this->cartItemTextOptionValues = new ArrayCollection;
+    }
 
-        $this->setProduct($product);
-        $this->setQuantity($quantity);
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
+        $metadata->addPropertyConstraint('quantity', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+    }
+
+    public function getCart()
+    {
+        return $this->cart;
+    }
+
+    public function setCart(Cart $cart)
+    {
+        $this->cart = $cart;
     }
 
     public function getProduct()
@@ -48,26 +76,37 @@ class CartItem
         $this->quantity = (int) $quantity;
     }
 
-    public function getOptionValues()
+    public function getCartItemOptionProducts()
     {
-        return $this->optionValues;
+        return $this->cartItemOptionProducts;
     }
 
-    public function addOptionValue(OptionValue\OptionValueInterface $optionValueProduct)
+    public function addCartItemOptionProduct(CartItemOptionProduct $cartItemOptionProduct)
     {
-        $this->optionValues[] = $optionValueProduct;
+        $cartItemOptionProduct->setCartItem($this);
+        $this->cartItemOptionProducts[] = $cartItemOptionProduct;
     }
 
-    /**
-     * @param OptionValue\OptionValueInterface[] $optionValues
-     */
-    public function setOptionValues($optionValues)
+    public function getCartItemOptionValues()
     {
-        $this->optionValues = new ArrayCollection;
+        return $this->cartItemOptionValues;
+    }
 
-        foreach ($optionValues as $optionValue) {
-            $this->addOptionValue($optionValue);
-        }
+    public function addCartItemOptionValue(CartItemOptionValue $cartItemOptionValue)
+    {
+        $cartItemOptionValue->setCartItem($this);
+        $this->cartItemOptionValues[] = $cartItemOptionValue;
+    }
+
+    public function getCartItemTextOptionValues()
+    {
+        return $this->cartItemTextOptionValues;
+    }
+
+    public function addCartItemTextOptionValue(CartItemTextOptionValue $cartItemTextOptionValue)
+    {
+        $cartItemTextOptionValue->setCartItem($this);
+        $this->cartItemTextOptionValues[] = $cartItemTextOptionValue;
     }
 
     public function getPrice(Pricing $pricing)
@@ -77,14 +116,22 @@ class CartItem
             $this->getQuantity()
         );
 
-        foreach ($this->getOptionValues() as $optionValue) {
-            $optionPrice = $optionValue->getPrice(
+        foreach ($this->getCartItemOptionProducts() as $cartItemOptionProduct) {
+            $optionPrice = $cartItemOptionProduct->getPrice(
                 $pricing,
                 $this->getQuantity()
             );
 
             $price = Price::add($price, $optionPrice);
         }
+
+        foreach ($this->getCartItemOptionValues() as $cartItemOptionValue) {
+            $optionPrice = $cartItemOptionValue->getPrice($this->getQuantity());
+
+            $price = Price::add($price, $optionPrice);
+        }
+
+        // No price for cartItemTextOptionValues
 
         return $price;
     }
@@ -94,9 +141,15 @@ class CartItem
         $fullSku = [];
         $fullSku[] = $this->getProduct()->getSku();
 
-        foreach ($this->getOptionValues() as $optionValue) {
-            $fullSku[] = $optionValue->getSku();
+        foreach ($this->getCartItemOptionProducts() as $cartItemOptionProduct) {
+            $fullSku[] = $cartItemOptionProduct->getSku();
         }
+
+        foreach ($this->getCartItemOptionValues() as $cartItemOptionValue) {
+            $fullSku[] = $cartItemOptionValue->getSku();
+        }
+
+        // No sku for cartItemTextOptionValues
 
         return implode('-', $fullSku);
     }
@@ -105,9 +158,15 @@ class CartItem
     {
         $shippingWeight = $this->getProduct()->getShippingWeight();
 
-        foreach ($this->getOptionValues() as $optionValue) {
-            $shippingWeight += $optionValue->getShippingWeight();
+        foreach ($this->getCartItemOptionProducts() as $cartItemOptionProduct) {
+            $shippingWeight += $cartItemOptionProduct->getShippingWeight();
         }
+
+        foreach ($this->getCartItemOptionValues() as $cartItemOptionValue) {
+            $shippingWeight += $cartItemOptionValue->getShippingWeight();
+        }
+
+        // No shippingWeight for cartItemTextOptionValues
 
         $quantityShippingWeight = $shippingWeight * $this->getQuantity();
 
@@ -121,8 +180,23 @@ class CartItem
         $orderItem->setQuantity($this->getQuantity());
         $orderItem->setPrice($this->getPrice($pricing));
 
-        foreach ($this->getOptionValues() as $optionValue) {
-            $orderItem->addOrderItemOptionValue(new OrderItemOptionValue($optionValue));
+        foreach ($this->getCartItemOptionProducts() as $cartItemOptionProduct) {
+            $orderItemOptionProduct = new OrderItemOptionProduct;
+            $orderItemOptionProduct->setOptionProduct($cartItemOptionProduct->getOptionProduct());
+            $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
+        }
+
+        foreach ($this->getCartItemOptionValues() as $cartItemTextOptionValue) {
+            $orderItemOptionValue = new OrderItemOptionValue;
+            $orderItemOptionValue->setOptionValue($cartItemTextOptionValue->getOptionValue());
+            $orderItem->addOrderItemOptionValue($orderItemOptionValue);
+        }
+
+        foreach ($this->getCartItemTextOptionValues() as $cartItemTextOptionValue) {
+            $orderItemTextOptionValue = new OrderItemTextOptionValue;
+            $orderItemTextOptionValue->setTextOption($cartItemTextOptionValue->getTextOption());
+            $orderItemTextOptionValue->setTextOptionValue($cartItemTextOptionValue->getTextOptionValue());
+            $orderItem->addOrderItemTextOptionValue($orderItemTextOptionValue);
         }
 
         return $orderItem;

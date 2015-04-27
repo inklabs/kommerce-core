@@ -8,9 +8,14 @@ use inklabs\kommerce\tests\Helper;
 class OrderItemTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
+        'kommerce:OptionProduct',
+        'kommerce:OptionValue',
+        'kommerce:TextOption',
         'kommerce:Order',
         'kommerce:OrderItem',
+        'kommerce:OrderItemOptionProduct',
         'kommerce:OrderItemOptionValue',
+        'kommerce:OrderItemTextOptionValue',
         'kommerce:Product',
         'kommerce:ProductQuantityDiscount',
         'kommerce:CatalogPromotion',
@@ -46,8 +51,8 @@ class OrderItemTest extends Helper\DoctrineTestCase
         $order->setUser($user);
 
         $this->entityManager->persist($catalogPromotion);
-        $this->entityManager->persist($product);
         $this->entityManager->persist($productQuantityDiscount);
+        $this->entityManager->persist($product);
         $this->entityManager->persist($user);
         $this->entityManager->persist($order);
         $this->entityManager->flush();
@@ -64,12 +69,14 @@ class OrderItemTest extends Helper\DoctrineTestCase
             ->find(1);
 
         $orderItem->getProduct()->getCreated();
-        $orderItem->getOrder();
+        $orderItem->getOrder()->getCreated();
         $orderItem->getCatalogPromotions()->toArray();
         $orderItem->getProductQuantityDiscounts()->toArray();
+        $orderItem->getOrderItemOptionProducts()->toArray();
         $orderItem->getOrderItemOptionValues()->toArray();
+        $orderItem->getOrderItemTextOptionValues()->toArray();
 
         $this->assertTrue($orderItem instanceof Entity\OrderItem);
-        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(7, $this->countSQLLogger->getTotalQueries());
     }
 }

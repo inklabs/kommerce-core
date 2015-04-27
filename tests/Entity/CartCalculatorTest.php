@@ -9,13 +9,19 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
     {
         $product1 = new Product;
         $product1->setUnitPrice(500);
+        $cartItem1 = new CartItem;
+        $cartItem1->setProduct($product1);
+        $cartItem1->setQuantity(2);
 
         $product2 = new Product;
         $product2->setUnitPrice(300);
+        $cartItem2 = new CartItem;
+        $cartItem2->setProduct($product2);
+        $cartItem2->setQuantity(1);
 
         $cart = new Cart;
-        $cart->addItem($product1, 2);
-        $cart->addItem($product2, 1);
+        $cart->addCartItem($cartItem1);
+        $cart->addCartItem($cartItem2);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1300;
@@ -49,9 +55,17 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $pricing = new Service\Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
+        $cartItem1 = new CartItem;
+        $cartItem1->setProduct($productShirt);
+        $cartItem1->setQuantity(1);
+
+        $cartItem2 = new CartItem;
+        $cartItem2->setProduct($productPoster);
+        $cartItem2->setQuantity(1);
+
         $cart = new Cart;
-        $cart->addItem($productShirt, 1);
-        $cart->addItem($productPoster, 1);
+        $cart->addCartItem($cartItem1);
+        $cart->addCartItem($cartItem2);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1700;
@@ -90,9 +104,17 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $pricing = new Service\Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
+        $cartItem1 = new CartItem;
+        $cartItem1->setProduct($productShirt);
+        $cartItem1->setQuantity(1);
+
+        $cartItem2 = new CartItem;
+        $cartItem2->setProduct($productJacket);
+        $cartItem2->setQuantity(1);
+
         $cart = new Cart;
-        $cart->addItem($productShirt, 1);
-        $cart->addItem($productJacket, 1);
+        $cart->addCartItem($cartItem1);
+        $cart->addCartItem($cartItem2);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 3700;
@@ -132,9 +154,17 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $pricing = new Service\Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
+        $cartItem1 = new CartItem;
+        $cartItem1->setProduct($productShirt);
+        $cartItem1->setQuantity(1);
+
+        $cartItem2 = new CartItem;
+        $cartItem2->setProduct($productPoster);
+        $cartItem2->setQuantity(1);
+
         $cart = new Cart;
-        $cart->addItem($productShirt, 1);
-        $cart->addItem($productPoster, 1);
+        $cart->addCartItem($cartItem1);
+        $cart->addCartItem($cartItem2);
 
         $taxRate = new TaxRate;
         $taxRate->setZip5(92606);
@@ -170,9 +200,13 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $coupon->setType(Promotion::TYPE_PERCENT);
         $coupon->setValue(20);
 
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(5);
+
         $cart = new Cart;
         $cart->addCoupon($coupon);
-        $cart->addItem($product, 5);
+        $cart->addCartItem($cartItem);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 2500;
@@ -200,9 +234,13 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $product = new Product;
         $product->setUnitPrice(500);
 
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+
         $cart = new Cart;
         $cart->addCoupon($coupon);
-        $cart->addItem($product, 2);
+        $cart->addCartItem($cartItem);
 
         $shippingRate = new Shipping\Rate;
         $shippingRate->code = '4';
@@ -234,8 +272,12 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $shippingRate->name = 'Parcel Post';
         $shippingRate->cost = 1000;
 
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(3);
+
         $cart = new Cart;
-        $cart->addItem($product, 3);
+        $cart->addCartItem($cartItem);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1500;
@@ -261,8 +303,12 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+
         $cart = new Cart;
-        $cart->addItem($product, 2);
+        $cart->addCartItem($cartItem);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1000;
@@ -297,8 +343,12 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $shippingRate->name = 'Parcel Post';
         $shippingRate->cost = 1000;
 
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+
         $cart = new Cart;
-        $cart->addItem($product, 2);
+        $cart->addCartItem($cartItem);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1000;
@@ -314,7 +364,6 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cartCalculator = new CartCalculator($cart);
         $cartTotal = $cartCalculator->getTotal(new Service\Pricing, $shippingRate, $taxRate);
         $this->assertEquals($expectedCartTotal, $cartTotal);
-
     }
 
     public function testGetTotalWithZip5TaxAndProductNotTaxable()
@@ -328,8 +377,12 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+
         $cart = new Cart;
-        $cart->addItem($product, 2);
+        $cart->addCartItem($cartItem);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1000;
@@ -363,9 +416,13 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $coupon->setMaxOrderValue(10000);
         $coupon->setReducesTaxSubtotal(false);
 
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(1);
+
         $cart = new Cart;
         $cart->addCoupon($coupon);
-        $cart->addItem($product, 1);
+        $cart->addCartItem($cartItem);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 2000;

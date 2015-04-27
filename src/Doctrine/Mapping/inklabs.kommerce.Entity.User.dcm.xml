@@ -5,7 +5,6 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\User"
-            table="user"
             repository-class="inklabs\kommerce\EntityRepository\User">
 
         <lifecycle-callbacks>

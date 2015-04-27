@@ -35,7 +35,7 @@ class Order implements EntityInterface
     protected $user;
 
     /** @var OrderItem[] */
-    protected $items;
+    protected $orderItems;
 
     /** @var Payment\Payment[] */
     protected $payments;
@@ -46,9 +46,9 @@ class Order implements EntityInterface
     public function __construct()
     {
         $this->setCreated();
-        $this->items = new ArrayCollection();
-        $this->payments = new ArrayCollection();
-        $this->coupons = new ArrayCollection();
+        $this->orderItems = new ArrayCollection;
+        $this->payments = new ArrayCollection;
+        $this->coupons = new ArrayCollection;
 
         $this->setStatus(self::STATUS_PENDING);
     }
@@ -63,29 +63,30 @@ class Order implements EntityInterface
         $metadata->addPropertyConstraint('total', new Assert\Valid);
         $metadata->addPropertyConstraint('shippingAddress', new Assert\Valid);
         $metadata->addPropertyConstraint('billingAddress', new Assert\Valid);
-        $metadata->addPropertyConstraint('items', new Assert\Valid);
+        $metadata->addPropertyConstraint('orderItems', new Assert\Valid);
         $metadata->addPropertyConstraint('payments', new Assert\Valid);
     }
 
     /**
+     * @param OrderItem $orderItem
      * @return int
      */
-    public function addItem(OrderItem $orderItem)
+    public function addOrderItem(OrderItem $orderItem)
     {
         $orderItem->setOrder($this);
-        $this->items[] = $orderItem;
+        $this->orderItems[] = $orderItem;
 
-        $itemId = $this->getLastItemId();
-        return $itemId;
+        $orderItemIndex = $this->getLastOrderItemIndex();
+        return $orderItemIndex;
     }
 
     /**
      * @return int
      */
-    private function getLastItemId()
+    private function getLastOrderItemIndex()
     {
-        end($this->items);
-        return key($this->items);
+        end($this->orderItems);
+        return key($this->orderItems);
     }
 
     public function getExternalId()
@@ -103,14 +104,14 @@ class Order implements EntityInterface
 
     public function totalItems()
     {
-        return count($this->items);
+        return count($this->orderItems);
     }
 
     public function totalQuantity()
     {
         $total = 0;
 
-        foreach ($this->items as $item) {
+        foreach ($this->orderItems as $item) {
             $total += $item->getQuantity();
         }
 
@@ -173,14 +174,14 @@ class Order implements EntityInterface
         return $this->billingAddress;
     }
 
-    public function getItems()
+    public function getOrderItems()
     {
-        return $this->items;
+        return $this->orderItems;
     }
 
-    public function getItem($itemId)
+    public function getOrderItem($orderItemIndex)
     {
-        return $this->items[$itemId];
+        return $this->orderItems[$orderItemIndex];
     }
 
     public function addPayment(Payment\Payment $payment)

@@ -9,7 +9,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $cart = new Entity\Cart;
-        $cart->addItem(new Entity\Product, 1);
+        $cart->addCartItem(new Entity\Product, 1);
 
         $orderItem = new Entity\OrderItem;
         $orderItem->setProduct(new Entity\Product);
@@ -17,7 +17,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $orderItem->setPrice(new Entity\Price);
 
         $order = new Entity\Order;
-        $order->addItem($orderItem);
+        $order->addOrderItem($orderItem);
         $order->setTotal(new Entity\CartTotal);
         $order->setShippingAddress(new Entity\OrderAddress);
         $order->setBillingAddress(new Entity\OrderAddress);

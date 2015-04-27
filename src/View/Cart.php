@@ -49,7 +49,7 @@ class Cart implements ViewInterface
 
     public function withCartItems(Pricing $pricing)
     {
-        foreach ($this->cart->getItems() as $cartItem) {
+        foreach ($this->cart->getCartItems() as $cartItem) {
             $this->items[$cartItem->getId()] = $cartItem->getView()
                 ->withAllData($pricing)
                 ->export();

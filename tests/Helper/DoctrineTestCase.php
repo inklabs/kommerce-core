@@ -145,10 +145,29 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $orderItem;
     }
 
-    protected function getDummyOrderItemOptionValue(Entity\OptionValue\OptionValueInterface $optionValue)
+    protected function getDummyOrderItemOptionProduct(Entity\OptionProduct $optionProduct)
+    {
+        $orderItemOptionProduct = new Entity\OrderItemOptionProduct($optionProduct);
+        return $orderItemOptionProduct;
+    }
+
+    protected function getDummyOrderItemOptionValue(Entity\OptionValue $optionValue)
     {
         $orderItemOptionValue = new Entity\OrderItemOptionValue($optionValue);
         return $orderItemOptionValue;
+    }
+
+    /**
+     * @param Entity\TextOption $textOption
+     * @param string $textOptionValue
+     * @return Entity\OrderItemTextOptionValue
+     */
+    protected function getDummyOrderItemTextOptionValue(Entity\TextOption $textOption, $textOptionValue)
+    {
+        $orderItemTextOptionValue = new Entity\OrderItemTextOptionValue;
+        $orderItemTextOptionValue->setTextOption($textOption);
+        $orderItemTextOptionValue->setTextOptionValue($textOptionValue);
+        return $orderItemTextOptionValue;
     }
 
     /**
@@ -167,7 +186,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
         if ($orderItems !== null) {
             foreach ($orderItems as $orderItem) {
-                $order->addItem($orderItem);
+                $order->addOrderItem($orderItem);
             }
         }
 
@@ -312,22 +331,45 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $warehouse;
     }
 
-    protected function getDummyOptionTypeProduct()
+    protected function getDummyOption()
     {
-        $option = new Entity\OptionType\Regular;
+        $option = new Entity\Option;
         $option->setName('Size');
-        $option->setType(Entity\OptionType\Regular::TYPE_RADIO);
+        $option->setType(Entity\Option::TYPE_RADIO);
         $option->setDescription('Shirt Size');
         $option->setSortOrder(0);
 
         return $option;
     }
 
-    protected function getDummyOptionValueProduct(Entity\OptionType\Regular $optionTypeProduct, Entity\Product $product)
+    protected function getDummyTextOption()
     {
-        $optionValue = new Entity\OptionValue\Product($product);
+        $textOption = new Entity\TextOption;
+        $textOption->setName('Size');
+        $textOption->setType(Entity\TextOption::TYPE_TEXTAREA);
+        $textOption->setDescription('Shirt Size');
+        $textOption->setSortOrder(0);
+
+        return $textOption;
+    }
+
+    protected function getDummyOptionProduct(Entity\Option $option, Entity\Product $product)
+    {
+        $optionProduct = new Entity\OptionProduct($product);
+        $optionProduct->setSortOrder(0);
+        $optionProduct->setOption($option);
+
+        return $optionProduct;
+    }
+
+    protected function getDummyOptionValue(Entity\Option $option)
+    {
+        $optionValue = new Entity\OptionValue();
+        $optionValue->setName('Option Value Name');
+        $optionValue->setSku('OV-SKU');
+        $optionValue->setShippingWeight(16);
         $optionValue->setSortOrder(0);
-        $optionValue->setOptionType($optionTypeProduct);
+        $optionValue->setOption($option);
 
         return $optionValue;
     }

@@ -8,7 +8,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $entityOptionValue = new Entity\OptionValue\Product(new Entity\Product);
+        $entityOptionValue = new Entity\OptionProduct(new Entity\Product);
         $entityOptionValue->setProduct(new Entity\Product);
 
         $entityCartItem = new Entity\CartItem(new Entity\Product, 1);

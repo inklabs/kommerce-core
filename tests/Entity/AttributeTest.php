@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Validation;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreateAttribute()
+    public function testCreate()
     {
         $attribute = new Attribute;
         $attribute->setName('Test Attribute');

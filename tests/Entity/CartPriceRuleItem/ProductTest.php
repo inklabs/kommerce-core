@@ -31,7 +31,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->getProduct(1);
 
-        $cartItem = new Entity\CartItem($product, 1);
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(1);
+
         $priceRule = new Product($product, 1);
 
         $this->assertTrue($priceRule->matches($cartItem));
@@ -41,7 +44,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->getProduct(1);
 
-        $cartItem = new Entity\CartItem($product, 2);
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+
         $priceRule = new Product($product, 1);
 
         $this->assertTrue($priceRule->matches($cartItem));
@@ -52,7 +58,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product1 = $this->getProduct(1);
         $product2 = $this->getProduct(2);
 
-        $cartItem = new Entity\CartItem($product1, 1);
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product1);
+        $cartItem->setQuantity(1);
+
         $priceRule = new Product($product2, 1);
 
         $this->assertFalse($priceRule->matches($cartItem));
@@ -62,7 +71,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $product1 = $this->getProduct(1);
 
-        $cartItem = new Entity\CartItem($product1, 1);
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product1);
+        $cartItem->setQuantity(1);
+
         $priceRule = new Product($product1, 2);
 
         $this->assertFalse($priceRule->matches($cartItem));

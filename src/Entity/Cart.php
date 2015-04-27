@@ -2,100 +2,95 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
+use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Service\Pricing;
-use Exception;
+use InvalidArgumentException;
+use LogicException;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class Cart
+class Cart implements EntityInterface
 {
-    use Accessor\Created;
+    use Accessor\Time, Accessor\Id;
 
-    /** @var CartItem[] */
-    protected $items = [];
+    /** @var CartItem[]|ArrayCollection */
+    protected $cartItems;
 
-    /** @var Coupon[] */
-    protected $coupons = [];
+    /** @var Coupon[]|ArrayCollection */
+    protected $coupons;
 
     public function __construct()
     {
         $this->setCreated();
+
+        $this->cartItems = new ArrayCollection;
+        $this->coupons = new ArrayCollection;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('cartItems', new Assert\Valid);
     }
 
     /**
-     * @param Product $product
-     * @param int $quantity
-     * @param Product[] $optionValues
+     * @param CartItem $cartItem
      * @return int
      */
-    public function addItem(Product $product, $quantity, $optionValues = null)
+    public function addCartItem(CartItem $cartItem)
     {
-        $cartItem = new CartItem($product, $quantity);
+        $cartItem->setCart($this);
+        $this->cartItems->add($cartItem);
 
-        if ($optionValues !== null) {
-            foreach ($optionValues as $optionValue) {
-                $cartItem->addOptionValue($optionValue);
-            }
-        }
-
-        $this->items[] = $cartItem;
-
-        $cartItemId = $this->getLastItemId();
-
-        $this->items[$cartItemId]->setId($cartItemId);
-
-        return $cartItemId;
-    }
-
-    /**
-     * @return int
-     */
-    private function getLastItemId()
-    {
-        end($this->items);
-        return key($this->items);
+        $cartItemIndex = $this->cartItems->key();
+        return $cartItemIndex;
     }
 
     /**
      * @return CartItem|null
      */
-    public function getItem($id)
+    public function getCartItem($id)
     {
-        if (isset($this->items[$id])) {
-            return $this->items[$id];
+        if (isset($this->cartItems[$id])) {
+            return $this->cartItems[$id];
         } else {
             return null;
         }
     }
 
-    public function getItems()
+    public function getCartItems()
     {
-        return $this->items;
+        return $this->cartItems;
     }
 
-    public function deleteItem($id)
+    public function deleteCartItem($cartItemIndex)
     {
-        if (isset($this->items[$id])) {
-            unset($this->items[$id]);
-        } else {
-            throw new \Exception('Item missing');
+        if (! $this->cartItems->offsetExists($cartItemIndex)) {
+            throw new InvalidArgumentException('Item missing');
         }
+
+        $this->cartItems->remove($cartItemIndex);
     }
 
+    /**
+     * @param Coupon $coupon
+     * @return int
+     * @throws LogicException
+     */
     public function addCoupon(Coupon $coupon)
     {
         if (! $this->canAddCoupon($coupon)) {
-            throw new Exception('Unable to add coupon');
+            throw new LogicException('Unable to add coupon');
         }
 
-        $this->coupons[] = $coupon;
+        $this->coupons->add($coupon);
 
-        end($this->coupons);
-        $couponId = key($this->coupons);
-        return $couponId;
+        $couponIndex = $this->coupons->key();
+        return $couponIndex;
     }
 
-    public function updateCoupon($id, Coupon $coupon)
+    public function updateCoupon($couponIndex, Coupon $coupon)
     {
-        $this->coupons[$id] = $coupon;
+        $this->coupons->set($couponIndex, $coupon);
     }
 
     public function getCoupons()
@@ -143,12 +138,12 @@ class Cart
 
     /**
      * @param int $key
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function removeCoupon($key)
     {
         if (! isset($this->coupons[$key])) {
-            throw new Exception('Coupon missing');
+            throw new InvalidArgumentException('Coupon missing');
         }
 
         unset($this->coupons[$key]);
@@ -156,14 +151,14 @@ class Cart
 
     public function totalItems()
     {
-        return count($this->items);
+        return count($this->cartItems);
     }
 
     public function totalQuantity()
     {
         $total = 0;
 
-        foreach ($this->getItems() as $item) {
+        foreach ($this->getCartItems() as $item) {
             $total += $item->getQuantity();
         }
 
@@ -174,7 +169,7 @@ class Cart
     {
         $shippingWeight = 0;
 
-        foreach ($this->getItems() as $item) {
+        foreach ($this->getCartItems() as $item) {
             $shippingWeight += $item->getShippingWeight();
         }
 
@@ -192,8 +187,8 @@ class Cart
         $order = new Order;
         $order->setTotal($this->getTotal($pricing, $shippingRate, $taxRate));
 
-        foreach ($this->getItems() as $item) {
-            $order->addItem($item->getOrderItem($pricing));
+        foreach ($this->getCartItems() as $item) {
+            $order->addOrderItem($item->getOrderItem($pricing));
         }
 
         return $order;

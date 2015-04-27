@@ -18,31 +18,23 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscount->setQuantity(2);
         $productQuantityDiscount->setValue(100);
 
-        $optionProductQuantityDiscount = new ProductQuantityDiscount;
-        $optionProductQuantityDiscount->setType(Promotion::TYPE_FIXED);
-        $optionProductQuantityDiscount->setQuantity(2);
-        $optionProductQuantityDiscount->setValue(100);
-
         $product = new Product;
         $product->setSku('sku1');
-        $product->setname('test name');
+        $product->setName('test name');
         $product->setUnitPrice(500);
         $product->setQuantity(10);
         $product->addProductQuantityDiscount($productQuantityDiscount);
 
-        $product2 = new Product;
-        $product2->setSku('sku2');
-        $product2->setUnitPrice(400);
-        $product2->addProductQuantityDiscount($optionProductQuantityDiscount);
+        $logoProductQuantityDiscount = new ProductQuantityDiscount;
+        $logoProductQuantityDiscount->setType(Promotion::TYPE_FIXED);
+        $logoProductQuantityDiscount->setQuantity(2);
+        $logoProductQuantityDiscount->setValue(100);
 
-
-        $optionType = new OptionType\Regular;
-        $optionType->setName('Test Option');
-
-        $optionValue = new OptionValue\Product($product2);
-        $optionValue->setOptionType($optionType);
-
-        $orderItemOptionValue = new OrderItemOptionValue($optionValue);
+        $logoProduct = new Product;
+        $logoProduct->setSku('LAA');
+        $logoProduct->setName('LA Angels');
+        $logoProduct->setShippingWeight(6);
+        $logoProduct->addProductQuantityDiscount($logoProductQuantityDiscount);
 
         $price = new Price;
         $price->origUnitPrice = 1;
@@ -51,16 +43,28 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $price->quantityPrice = 1;
         $price->addCatalogPromotion($catalogPromotion);
         $price->addProductQuantityDiscount($productQuantityDiscount);
-        $price->addProductQuantityDiscount($optionProductQuantityDiscount);
+        $price->addProductQuantityDiscount($logoProductQuantityDiscount);
+
+        $orderItemOptionProduct = new OrderItemOptionProduct;
+        $orderItemOptionProduct->setOptionProduct($this->getOptionProduct($logoProduct));
+
+        $orderItemOptionValue = new OrderItemOptionValue;
+        $orderItemOptionValue->setOptionValue($this->getOptionValue());
+
+        $orderItemTextOptionValue = new OrderItemTextOptionValue;
+        $orderItemTextOptionValue->setTextOption($this->getTextOption());
+        $orderItemTextOptionValue->setTextOptionValue('Happy Birthday');
 
         $orderItem = new OrderItem;
         $orderItem->setProduct($product);
         $orderItem->setQuantity(2);
         $orderItem->setPrice($price);
+        $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
         $orderItem->addOrderItemOptionValue($orderItemOptionValue);
+        $orderItem->addOrderItemTextOptionValue($orderItemTextOptionValue);
 
         $order = new Order;
-        $order->addItem($orderItem);
+        $order->addOrderItem($orderItem);
         $order->setTotal(new CartTotal);
 
         $validator = Validation::createValidatorBuilder()
@@ -69,7 +73,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($orderItem));
         $this->assertSame(2, $orderItem->getQuantity());
-        $this->assertSame('sku1-sku2', $orderItem->getSku());
+        $this->assertSame('sku1-LAA-MD', $orderItem->getSku());
         $this->assertSame('test name', $orderItem->getName());
         $this->assertSame(
             '20% OFF Everything, Buy 2 or more for $1.00 each, Buy 2 or more for $1.00 off',
@@ -79,7 +83,9 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($orderItem->getOrder() instanceof Order);
         $this->assertTrue($orderItem->getPrice() instanceof Price);
         $this->assertTrue($orderItem->getProduct() instanceof Product);
+        $this->assertTrue($orderItem->getOrderItemOptionProducts()[0] instanceof OrderItemOptionProduct);
         $this->assertTrue($orderItem->getOrderItemOptionValues()[0] instanceof OrderItemOptionValue);
+        $this->assertTrue($orderItem->getOrderItemTextOptionValues()[0] instanceof OrderItemTextOptionValue);
         $this->assertTrue($orderItem->getCatalogPromotions()[0] instanceof CatalogPromotion);
         $this->assertTrue($orderItem->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
         $this->assertTrue($orderItem->getView() instanceof View\Orderitem);
@@ -100,7 +106,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $orderItem->setPrice($price);
 
         $order = new Order;
-        $order->addItem($orderItem);
+        $order->addOrderItem($orderItem);
         $order->setTotal(new CartTotal);
 
         $validator = Validation::createValidatorBuilder()
@@ -114,5 +120,48 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('', $orderItem->getDiscountNames());
         $this->assertSame(null, $orderItem->getId());
         $this->assertTrue($orderItem instanceof OrderItem);
+    }
+
+    private function getOptionProduct(Product $product)
+    {
+        $option = new Option;
+        $option->setType(Option::TYPE_SELECT);
+        $option->setName('Team Logo');
+        $option->setDescription('Embroidered Team Logo');
+
+        $optionProduct = new OptionProduct;
+        $optionProduct->setProduct($product);
+        $optionProduct->setSortOrder(0);
+        $optionProduct->setOption($option);
+
+        return $optionProduct;
+    }
+
+    private function getOptionValue()
+    {
+        $option = new Option;
+        $option->setType(Option::TYPE_SELECT);
+        $option->setName('Shirt Size');
+        $option->setDescription('Shirt Size Description');
+
+        $optionValue = new OptionValue;
+        $optionValue->setSortOrder(0);
+        $optionValue->setSku('MD');
+        $optionValue->setName('Medium Shirt');
+        $optionValue->setShippingWeight(0);
+        $optionValue->setUnitPrice(500);
+        $optionValue->setOption($option);
+
+        return $optionValue;
+    }
+
+    private function getTextOption()
+    {
+        $textOption = new TextOption;
+        $textOption->setType(TextOption::TYPE_TEXTAREA);
+        $textOption->setName('Custom Message');
+        $textOption->setDescription('Custom engraved message');
+
+        return $textOption;
     }
 }

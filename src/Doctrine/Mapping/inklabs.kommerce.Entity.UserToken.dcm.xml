@@ -5,7 +5,6 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\UserToken"
-            table="user_token"
             repository-class="inklabs\kommerce\EntityRepository\UserToken">
 
         <lifecycle-callbacks>

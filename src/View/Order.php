@@ -78,7 +78,7 @@ class Order implements ViewInterface
 
     public function withItems()
     {
-        foreach ($this->order->getItems() as $orderItem) {
+        foreach ($this->order->getOrderItems() as $orderItem) {
             $this->items[] = $orderItem->getView()
                 ->withAllData()
                 ->export();

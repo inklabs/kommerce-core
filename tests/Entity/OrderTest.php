@@ -28,12 +28,16 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
         $product = new Product;
         $product->setSku('sku');
-        $product->setname('test name');
+        $product->setName('test name');
         $product->setUnitPrice(500);
         $product->setQuantity(10);
 
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+
         $cart = new Cart;
-        $cart->addItem($product, 2);
+        $cart->addCartItem($cartItem);
 
         $order = $cart->getOrder(new Pricing);
         $order->setExternalId('CO1102-0016');
@@ -58,8 +62,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($order->getBillingAddress() instanceof OrderAddress);
         $this->assertTrue($order->getUser() instanceof User);
         $this->assertTrue($order->getCoupons()[0] instanceof Coupon);
-        $this->assertTrue($order->getItem(0) instanceof OrderItem);
-        $this->assertTrue($order->getItems()[0] instanceof OrderItem);
+        $this->assertTrue($order->getOrderItem(0) instanceof OrderItem);
+        $this->assertTrue($order->getOrderItems()[0] instanceof OrderItem);
         $this->assertTrue($order->getPayments()[0] instanceof Payment\Payment);
         $this->assertTrue($order->getView() instanceof View\Order);
     }

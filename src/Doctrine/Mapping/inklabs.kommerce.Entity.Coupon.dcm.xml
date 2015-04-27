@@ -5,7 +5,6 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\Coupon"
-            table="coupon"
             repository-class="inklabs\kommerce\EntityRepository\Coupon">
 
         <field name="code" type="string" length="16"/>

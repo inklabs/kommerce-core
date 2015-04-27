@@ -6,20 +6,17 @@ use inklabs\kommerce\Entity;
 class OptionValue extends AbstractEntityRepository
 {
     /**
-     * @return Entity\OptionValue\AbstractOptionValue
+     * @return Entity\OptionValue
      */
     public function find($id, $lockMode = null, $lockVersion = null)
     {
         $qb = $this->getQueryBuilder();
 
         $optionValues = $qb->select('OptionValue')
-            ->from('kommerce:OptionValue\AbstractOptionValue', 'OptionValue')
+            ->from('kommerce:OptionValue', 'OptionValue')
 
-            ->addSelect('OptionType')
-            ->innerJoin('OptionValue.optionType', 'OptionType')
-
-//            ->addSelect('Product')
-//            ->leftJoin('OptionValue.product', 'Product')
+            ->addSelect('Option')
+            ->innerJoin('OptionValue.option', 'Option')
 
             ->where('OptionValue.id = :id')
             ->setParameter('id', $id)
@@ -30,20 +27,17 @@ class OptionValue extends AbstractEntityRepository
     }
 
     /**
-     * @return Entity\OptionValue\AbstractOptionValue[]
+     * @return Entity\OptionValue[]
      */
     public function getAllOptionValuesByIds($optionValueIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
         $optionValues = $qb->select('OptionValue')
-            ->from('kommerce:OptionValue\AbstractOptionValue', 'OptionValue')
+            ->from('kommerce:OptionValue', 'OptionValue')
 
-            ->addSelect('OptionType')
-            ->innerJoin('OptionValue.optionType', 'OptionType')
-
-//            ->addSelect('Product')
-//            ->leftJoin('OptionValue.product', 'Product')
+            ->addSelect('Option')
+            ->innerJoin('OptionValue.option', 'Option')
 
             ->where('OptionValue.id IN (:optionValueIds)')
             ->setParameter('optionValueIds', $optionValueIds)

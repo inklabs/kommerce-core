@@ -19,8 +19,14 @@ class OrderItem implements EntityInterface
     /** @var Product */
     protected $product;
 
+    /** @var OrderItemOptionProduct[] */
+    protected $orderItemOptionProducts;
+
     /** @var OrderItemOptionValue[] */
     protected $orderItemOptionValues;
+
+    /** @var OrderItemTextOptionValue[] */
+    protected $orderItemTextOptionValues;
 
     /** @var Order */
     protected $order;
@@ -45,7 +51,9 @@ class OrderItem implements EntityInterface
         $this->setCreated();
         $this->catalogPromotions = new ArrayCollection;
         $this->productQuantityDiscounts = new ArrayCollection;
-        $this->orderItemOptionValues = new ArrayCollection();
+        $this->orderItemOptionProducts = new ArrayCollection;
+        $this->orderItemOptionValues = new ArrayCollection;
+        $this->orderItemTextOptionValues = new ArrayCollection;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -84,6 +92,17 @@ class OrderItem implements EntityInterface
         return $this->product;
     }
 
+    public function getOrderItemOptionProducts()
+    {
+        return $this->orderItemOptionProducts;
+    }
+
+    public function addOrderItemOptionProduct(OrderItemOptionProduct $orderItemOptionProduct)
+    {
+        $orderItemOptionProduct->setOrderItem($this);
+        $this->orderItemOptionProducts[] = $orderItemOptionProduct;
+    }
+
     public function getOrderItemOptionValues()
     {
         return $this->orderItemOptionValues;
@@ -93,6 +112,17 @@ class OrderItem implements EntityInterface
     {
         $orderItemOptionValue->setOrderItem($this);
         $this->orderItemOptionValues[] = $orderItemOptionValue;
+    }
+
+    public function getOrderItemTextOptionValues()
+    {
+        return $this->orderItemTextOptionValues;
+    }
+
+    public function addOrderItemTextOptionValue(OrderItemTextOptionValue $orderItemTextOptionValue)
+    {
+        $orderItemTextOptionValue->setOrderItem($this);
+        $this->orderItemTextOptionValues[] = $orderItemTextOptionValue;
     }
 
     /**
@@ -123,14 +153,26 @@ class OrderItem implements EntityInterface
 
         $product = $this->getProduct();
         if ($product !== null) {
-            $fullSku[] = $product->getSku();
+            $sku = $product->getSku();
+
+            if ($sku !== null) {
+                $fullSku[] = $product->getSku();
+            }
+        }
+
+        foreach ($this->getOrderItemOptionProducts() as $orderItemOptionProduct) {
+            $sku = $orderItemOptionProduct->getSku();
+
+            if ($sku !== null) {
+                $fullSku[] = $sku;
+            }
         }
 
         foreach ($this->getOrderItemOptionValues() as $orderItemOptionValue) {
-            $optionValue = $orderItemOptionValue->getOptionValue();
+            $sku = $orderItemOptionValue->getSku();
 
-            if ($optionValue !== null) {
-                $fullSku[] = $optionValue->getSku();
+            if ($sku !== null) {
+                $fullSku[] = $sku;
             }
         }
 
