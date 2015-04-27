@@ -3,23 +3,22 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Service;
+use inklabs\kommerce\tests\Helper;
 
-class CartItemTest extends \PHPUnit_Framework_TestCase
+class CartItemTest extends Helper\DoctrineTestCase
 {
     public function testCreate()
     {
-        $entityOptionValue = new Entity\OptionProduct(new Entity\Product);
-        $entityOptionValue->setProduct(new Entity\Product);
+        $cartItem = $this->getDummyCartItem();
 
-        $entityCartItem = new Entity\CartItem(new Entity\Product, 1);
-        $entityCartItem->addOptionValue($entityOptionValue);
-
-        $cartItem = $entityCartItem->getView()
+        $viewCartItem = $cartItem->getView()
             ->withAllData(new Service\Pricing)
             ->export();
 
-        $this->assertTrue($cartItem->price instanceof Price);
-        $this->assertTrue($cartItem->product instanceof Product);
-        $this->assertTrue($cartItem->optionValues[0] instanceof OptionValue\OptionValueInterface);
+        $this->assertTrue($viewCartItem->price instanceof Price);
+        $this->assertTrue($viewCartItem->product instanceof Product);
+        $this->assertTrue($viewCartItem->cartItemOptionProducts[0] instanceof CartItemOptionProduct);
+        $this->assertTrue($viewCartItem->cartItemOptionValues[0] instanceof CartItemOptionValue);
+        $this->assertTrue($viewCartItem->cartItemTextOptionValues[0] instanceof CartItemTextOptionValue);
     }
 }

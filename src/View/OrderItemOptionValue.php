@@ -10,6 +10,12 @@ class OrderItemOptionValue implements ViewInterface
     /** @var int */
     public $id;
 
+    /** @var int */
+    public $created;
+
+    /** @var int */
+    public $updated;
+
     /** @var OptionValue */
     public $optionValue;
 
@@ -26,6 +32,7 @@ class OrderItemOptionValue implements ViewInterface
     {
         $this->id              = $orderItemOptionValue->getId();
         $this->created         = $orderItemOptionValue->getCreated();
+        $this->updated         = $orderItemOptionValue->getUpdated();
         $this->sku             = $orderItemOptionValue->getSku();
         $this->optionName      = $orderItemOptionValue->getOptionName();
         $this->optionValueName = $orderItemOptionValue->getOptionValueName();

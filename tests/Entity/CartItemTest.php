@@ -4,12 +4,13 @@ namespace inklabs\kommerce\Entity;
 use inklabs\kommerce\Service;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper;
 
-class CartItemTest extends \PHPUnit_Framework_TestCase
+class CartItemTest extends Helper\DoctrineTestCase
 {
     public function testCreate()
     {
-        $cartItem = $this->getCartItem();
+        $cartItem = $this->getDummyCartItem();
 
         $pricing = new Service\Pricing;
 
@@ -33,7 +34,7 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOrderItem()
     {
-        $cartItem = $this->getCartItem();
+        $cartItem = $this->getDummyCartItem();
         $orderItem = $cartItem->getOrderItem(new Service\Pricing);
 
         $this->assertTrue($orderItem instanceof OrderItem);
@@ -43,56 +44,5 @@ class CartItemTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($orderItem->getOrderItemOptionProducts()[0] instanceof OrderItemOptionProduct);
         $this->assertTrue($orderItem->getOrderItemOptionValues()[0] instanceof OrderItemOptionValue);
         $this->assertTrue($orderItem->getOrderItemTextOptionValues()[0] instanceof OrderItemTextOptionValue);
-    }
-
-    private function getCartItem()
-    {
-        $product = new Product;
-        $product->setSku('P1');
-        $product->setUnitPrice(100);
-        $product->setShippingWeight(10);
-
-        $product2 = new Product;
-        $product2->setSku('OP1');
-        $product2->setUnitPrice(100);
-        $product2->setShippingWeight(10);
-
-        $option1 = new Option;
-        $option1->setname('Option 1');
-
-        $optionProduct = new OptionProduct;
-        $optionProduct->setOption($option1);
-        $optionProduct->setProduct($product2);
-
-        $option2 = new Option;
-        $option2->setname('Option 2');
-
-        $optionValue = new OptionValue;
-        $optionValue->setOption($option2);
-        $optionValue->setSku('OV1');
-        $optionValue->setUnitPrice(100);
-        $optionValue->setShippingWeight(10);
-
-        $textOption = new TextOption;
-
-        $cartItemOptionProduct = new CartItemOptionProduct;
-        $cartItemOptionProduct->setOptionProduct($optionProduct);
-
-        $cartItemOptionValue = new CartItemOptionValue;
-        $cartItemOptionValue->setOptionValue($optionValue);
-
-        $cartItemTextOptionValue = new CartItemTextOptionValue;
-        $cartItemTextOptionValue->setTextOption($textOption);
-        $cartItemTextOptionValue->setTextOptionValue('Happy Birthday');
-
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product);
-        $cartItem->setQuantity(2);
-        $cartItem->setCart(new Cart);
-        $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
-        $cartItem->addCartItemOptionValue($cartItemOptionValue);
-        $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
-
-        return $cartItem;
     }
 }

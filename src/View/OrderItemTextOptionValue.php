@@ -24,9 +24,6 @@ class OrderItemTextOptionValue implements ViewInterface
     /** @var TextOption */
     public $textOption;
 
-    /** @var OrderItem */
-    public $orderItem;
-
     public function __construct(Entity\OrderItemTextOptionValue $orderItemTextOptionValue)
     {
         $this->orderItemTextOptionValue = $orderItemTextOptionValue;
