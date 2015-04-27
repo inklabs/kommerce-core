@@ -147,13 +147,15 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyOrderItemOptionProduct(Entity\OptionProduct $optionProduct)
     {
-        $orderItemOptionProduct = new Entity\OrderItemOptionProduct($optionProduct);
+        $orderItemOptionProduct = new Entity\OrderItemOptionProduct;
+        $orderItemOptionProduct->setOptionProduct($optionProduct);
         return $orderItemOptionProduct;
     }
 
     protected function getDummyOrderItemOptionValue(Entity\OptionValue $optionValue)
     {
-        $orderItemOptionValue = new Entity\OrderItemOptionValue($optionValue);
+        $orderItemOptionValue = new Entity\OrderItemOptionValue;
+        $orderItemOptionValue->setOptionValue($optionValue);
         return $orderItemOptionValue;
     }
 
@@ -355,7 +357,8 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyOptionProduct(Entity\Option $option, Entity\Product $product)
     {
-        $optionProduct = new Entity\OptionProduct($product);
+        $optionProduct = new Entity\OptionProduct;
+        $optionProduct->setProduct($product);
         $optionProduct->setSortOrder(0);
         $optionProduct->setOption($option);
 
@@ -364,7 +367,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyOptionValue(Entity\Option $option)
     {
-        $optionValue = new Entity\OptionValue();
+        $optionValue = new Entity\OptionValue;
         $optionValue->setName('Option Value Name');
         $optionValue->setSku('OV-SKU');
         $optionValue->setShippingWeight(16);

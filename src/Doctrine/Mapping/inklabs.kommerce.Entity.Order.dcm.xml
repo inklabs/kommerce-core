@@ -42,7 +42,7 @@
         <embedded name="shippingAddress" class="OrderAddress" column-prefix="shipping_"/>
         <embedded name="billingAddress" class="OrderAddress" column-prefix="billing_"/>
 
-        <one-to-many field="items" target-entity="OrderItem" mapped-by="order" fetch="EXTRA_LAZY">
+        <one-to-many field="orderItems" target-entity="OrderItem" mapped-by="order" fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>
