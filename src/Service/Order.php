@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
-use inklabs\kommerce\EntityRepository as EntityRepository;
+use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 
 class Order extends Lib\ServiceManager

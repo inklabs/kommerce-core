@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine\ORM\EntityManager;
-use inklabs\kommerce\EntityRepository as EntityRepository;
+use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Payment\Payment;
 use inklabs\kommerce\Entity;
