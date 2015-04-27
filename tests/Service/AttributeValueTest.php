@@ -9,34 +9,34 @@ use inklabs\kommerce\tests\EntityRepository\FakeAttributeValue;
 class AttributeValueTest extends Helper\DoctrineTestCase
 {
     /** @var FakeAttributeValue */
-    protected $repository;
+    protected $attributeValueRepository;
 
     /** @var AttributeValue */
-    protected $service;
+    protected $attributeValueService;
 
     public function setUp()
     {
-        $this->repository = new FakeAttributeValue;
-        $this->service = new AttributeValue($this->repository);
+        $this->attributeValueRepository = new FakeAttributeValue;
+        $this->attributeValueService = new AttributeValue($this->attributeValueRepository);
     }
 
     public function testFind()
     {
-        $attributeValue = $this->service->find(1);
+        $attributeValue = $this->attributeValueService->find(1);
         $this->assertTrue($attributeValue instanceof View\AttributeValue);
     }
 
     public function testFindMissing()
     {
-        $this->repository->setReturnValue(null);
+        $this->attributeValueRepository->setReturnValue(null);
 
-        $attributeValue = $this->service->find(1);
+        $attributeValue = $this->attributeValueService->find(1);
         $this->assertSame(null, $attributeValue);
     }
 
     public function testGetAttributeValuesByIds()
     {
-        $attributeValues = $this->service->getAttributeValuesByIds([1]);
+        $attributeValues = $this->attributeValueService->getAttributeValuesByIds([1]);
         $this->assertTrue($attributeValues[0] instanceof View\AttributeValue);
     }
 }

@@ -10,28 +10,28 @@ use inklabs\kommerce\tests\EntityRepository\FakeProduct;
 class ProductTest extends Helper\DoctrineTestCase
 {
     /** @var FakeProduct */
-    protected $repository;
+    protected $productRepository;
 
     /** @var Product */
-    protected $service;
+    protected $productService;
 
     public function setUp()
     {
-        $this->repository = new FakeProduct;
-        $this->service = new Product($this->repository, new Pricing);
+        $this->productRepository = new FakeProduct;
+        $this->productService = new Product($this->productRepository, new Pricing);
     }
 
     public function testFind()
     {
-        $product = $this->service->find(1);
+        $product = $this->productService->find(1);
         $this->assertTrue($product instanceof View\Product);
     }
 
     public function testFindMissing()
     {
-        $this->repository->setReturnValue(null);
+        $this->productRepository->setReturnValue(null);
 
-        $product = $this->service->find(1);
+        $product = $this->productService->find(1);
         $this->assertSame(null, $product);
     }
 
@@ -41,7 +41,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $viewProduct = $product->getView()->export();
         $viewProduct->unitPrice = 500;
 
-        $product = $this->service->edit($viewProduct->id, $viewProduct);
+        $product = $this->productService->edit($viewProduct->id, $viewProduct);
         $this->assertTrue($product instanceof Entity\Product);
 
         $this->assertSame(500, $product->getUnitPrice());
@@ -53,8 +53,8 @@ class ProductTest extends Helper\DoctrineTestCase
      */
     public function testEditWithMissingProduct()
     {
-        $this->repository->setReturnValue(null);
-        $product = $this->service->edit(1, new View\Product(new Entity\Product));
+        $this->productRepository->setReturnValue(null);
+        $product = $this->productService->edit(1, new View\Product(new Entity\Product));
     }
 
     public function testCreate()
@@ -63,13 +63,13 @@ class ProductTest extends Helper\DoctrineTestCase
         $viewProduct = $product->getView()->export();
         $viewProduct->unitPrice = 500;
 
-        $newProduct = $this->service->create($viewProduct);
+        $newProduct = $this->productService->create($viewProduct);
         $this->assertTrue($newProduct instanceof Entity\Product);
     }
 
     public function testGetAllProducts()
     {
-        $products = $this->service->getAllProducts();
+        $products = $this->productService->getAllProducts();
         $this->assertTrue($products[0] instanceof View\Product);
     }
 
@@ -82,31 +82,31 @@ class ProductTest extends Helper\DoctrineTestCase
             ->withTags()
             ->export();
 
-        $products = $this->service->getRelatedProducts($productView);
+        $products = $this->productService->getRelatedProducts($productView);
         $this->assertTrue($products[0] instanceof View\Product);
     }
 
     public function testGetProductsByTag()
     {
-        $products = $this->service->getProductsByTag(new View\Tag(new Entity\Tag));
+        $products = $this->productService->getProductsByTag(new View\Tag(new Entity\Tag));
         $this->assertTrue($products[0] instanceof View\Product);
     }
 
     public function testGetProductsByIds()
     {
-        $products = $this->service->getProductsByIds([1]);
+        $products = $this->productService->getProductsByIds([1]);
         $this->assertTrue($products[0] instanceof View\Product);
     }
 
     public function testGetAllProductsByIds()
     {
-        $products = $this->service->getAllProductsByIds([1]);
+        $products = $this->productService->getAllProductsByIds([1]);
         $this->assertTrue($products[0] instanceof View\Product);
     }
 
     public function testGetRandomProducts()
     {
-        $products = $this->service->getRandomProducts(1);
+        $products = $this->productService->getRandomProducts(1);
         $this->assertTrue($products[0] instanceof View\Product);
     }
 }

@@ -42,8 +42,7 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
 
         $user->setFirstName('NewName');
 
-        $repository = $this->getRepository();
-        $repository->save($user);
+        $this->getRepository()->save($user);
 
         $this->assertTrue($user->getUpdated() !== null);
     }
@@ -54,8 +53,7 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
 
         $this->assertSame(null, $user->getId());
 
-        $repository = $this->getRepository();
-        $repository->create($user);
+        $this->getRepository()->create($user);
 
         $this->assertSame(1, $user->getId());
         $this->assertSame(null, $user->getUpdated());
