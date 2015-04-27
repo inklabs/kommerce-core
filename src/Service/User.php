@@ -17,10 +17,10 @@ class User extends Lib\ServiceManager
     /** @var Entity\User */
     protected $user;
 
-    public function __construct(EntityRepository\UserInterface $repository, Lib\SessionManager $sessionManager)
+    public function __construct(EntityRepository\UserInterface $userRepository, Lib\SessionManager $sessionManager)
     {
         $this->sessionManager = $sessionManager;
-        $this->userRepository = $repository;
+        $this->userRepository = $userRepository;
 
         $this->load();
     }

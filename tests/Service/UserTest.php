@@ -10,44 +10,44 @@ use inklabs\kommerce\tests\EntityRepository\FakeUser;
 class UserTest extends Helper\DoctrineTestCase
 {
     /** @var FakeUser */
-    protected $repository;
+    protected $userRepository;
 
     /** @var User */
-    protected $service;
+    protected $userService;
 
     /** @var Lib\ArraySessionManager */
     protected $sessionManager;
 
     public function setUp()
     {
-        $this->repository = new FakeUser;
+        $this->userRepository = new FakeUser;
 
         $this->sessionManager = new Lib\ArraySessionManager;
-        $this->service = new User($this->repository, $this->sessionManager);
+        $this->userService = new User($this->userRepository, $this->sessionManager);
     }
 
     public function testFind()
     {
-        $viewUser = $this->service->find(1);
+        $viewUser = $this->userService->find(1);
         $this->assertTrue($viewUser instanceof View\User);
     }
 
     public function testFindNotFound()
     {
-        $this->repository->setReturnValue(null);
+        $this->userRepository->setReturnValue(null);
 
-        $viewUser = $this->service->find(0);
+        $viewUser = $this->userService->find(0);
         $this->assertSame(null, $viewUser);
     }
 
     public function testUserLogin()
     {
         $user = $this->getDummyUser();
-        $this->repository->setReturnValue($user);
+        $this->userRepository->setReturnValue($user);
 
         $this->assertSame(0, $user->getTotalLogins());
 
-        $loginResult = $this->service->login('test@example.com', 'xxxx', '127.0.0.1');
+        $loginResult = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
 
         $this->assertSame(1, $user->getTotalLogins());
         $this->assertTrue($loginResult);
@@ -56,11 +56,11 @@ class UserTest extends Helper\DoctrineTestCase
     public function testUserLoginWithWrongPassword()
     {
         $user = $this->getDummyUser();
-        $this->repository->setReturnValue($user);
+        $this->userRepository->setReturnValue($user);
 
         $this->assertSame(0, $user->getTotalLogins());
 
-        $loginResult = $this->service->login('test@example.com', 'zzz', '127.0.0.1');
+        $loginResult = $this->userService->login('test@example.com', 'zzz', '127.0.0.1');
 
         $this->assertSame(0, $user->getTotalLogins());
         $this->assertFalse($loginResult);
@@ -68,9 +68,9 @@ class UserTest extends Helper\DoctrineTestCase
 
     public function testUserLoginWithWrongEmail()
     {
-        $this->repository->setReturnValue(null);
+        $this->userRepository->setReturnValue(null);
 
-        $loginResult = $this->service->login('zzz@example.com', 'xxxx', '127.0.0.1');
+        $loginResult = $this->userService->login('zzz@example.com', 'xxxx', '127.0.0.1');
 
         $this->assertFalse($loginResult);
     }
@@ -78,27 +78,27 @@ class UserTest extends Helper\DoctrineTestCase
     public function testLogout()
     {
         $user = $this->getDummyUser();
-        $this->repository->setReturnValue($user);
+        $this->userRepository->setReturnValue($user);
 
-        $loginResult = $this->service->login('test@example.com', 'xxxx', '127.0.0.1');
+        $loginResult = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
 
         $this->assertTrue($loginResult);
-        $this->assertTrue($this->service->getUser() instanceof Entity\User);
+        $this->assertTrue($this->userService->getUser() instanceof Entity\User);
 
-        $this->service->logout();
+        $this->userService->logout();
 
-        $this->assertSame(null, $this->service->getUser());
+        $this->assertSame(null, $this->userService->getUser());
     }
 
     public function testGetAllUsers()
     {
-        $users = $this->service->getAllUsers();
+        $users = $this->userService->getAllUsers();
         $this->assertTrue($users[0] instanceof View\User);
     }
 
     public function testAllGetUsersByIds()
     {
-        $users = $this->service->getAllUsersByIds([1]);
+        $users = $this->userService->getAllUsersByIds([1]);
         $this->assertTrue($users[0] instanceof View\User);
     }
 }
