@@ -27,7 +27,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $orderItem->setPrice(new Price);
 
         $order = new Order;
-        $order->addItem($orderItem);
+        $order->addOrderItem($orderItem);
         $order->setTotal(new CartTotal);
 
         $user->addOrder($order);
@@ -72,7 +72,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testHasRoles()
     {
         $adminRole = new UserRole;
-        $adminRole->setname('admin');
+        $adminRole->setName('admin');
 
         $user = new User;
         $user->addRole($adminRole);

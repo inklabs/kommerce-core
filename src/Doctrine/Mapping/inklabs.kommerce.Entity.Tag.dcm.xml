@@ -5,7 +5,6 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\Tag"
-            table="tag"
             repository-class="inklabs\kommerce\EntityRepository\Tag">
 
         <lifecycle-callbacks>
@@ -46,9 +45,7 @@
         <one-to-many field="images" target-entity="Image" mapped-by="tag"/>
 
         <many-to-many field="products" target-entity="Product" mapped-by="tags"/>
-
-        <many-to-many field="optionTypes"
-                      target-entity="inklabs\kommerce\Entity\OptionType\AbstractOptionType"
-                      inversed-by="tags"/>
+        <many-to-many field="options" target-entity="Option" inversed-by="tags"/>
+        <many-to-many field="textOptions" target-entity="TextOption" inversed-by="tags"/>
     </entity>
 </doctrine-mapping>

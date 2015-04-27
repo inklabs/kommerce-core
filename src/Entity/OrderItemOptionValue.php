@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Entity\OptionValue\OptionValueInterface;
 use inklabs\kommerce\View;
 
 class OrderItemOptionValue
@@ -12,21 +11,20 @@ class OrderItemOptionValue
     protected $sku;
 
     /** @var string */
-    protected $optionTypeName;
+    protected $optionName;
 
     /** @var string */
     protected $optionValueName;
 
-    /** @var OptionValueInterface */
+    /** @var OptionValue */
     protected $optionValue;
 
     /** @var OrderItem */
     protected $orderItem;
 
-    public function __construct(OptionValue\OptionValueInterface $optionValue)
+    public function __construct()
     {
         $this->setCreated();
-        $this->setOptionValue($optionValue);
     }
 
     public function getOptionValue()
@@ -34,11 +32,11 @@ class OrderItemOptionValue
         return $this->optionValue;
     }
 
-    public function setOptionValue(OptionValue\OptionValueInterface $optionValue)
+    public function setOptionValue(OptionValue $optionValue)
     {
         $this->optionValue = $optionValue;
         $this->sku = $optionValue->getSku();
-        $this->optionTypeName = $optionValue->getOptionType()->getName();
+        $this->optionName = $optionValue->getOption()->getName();
         $this->optionValueName = $optionValue->getName();
     }
 
@@ -47,9 +45,9 @@ class OrderItemOptionValue
         return $this->sku;
     }
 
-    public function getOptionTypeName()
+    public function getOptionName()
     {
-        return $this->optionTypeName;
+        return $this->optionName;
     }
 
     public function getOptionValueName()

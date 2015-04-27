@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Validation;
 
 class AttributeValueTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreateAttributeValue()
+    public function testCreate()
     {
         $attributeValue = new AttributeValue;
         $attributeValue->setSku('TA');

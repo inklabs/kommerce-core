@@ -9,7 +9,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $entityCart = new Entity\Cart;
-        $entityCart->addItem(new Entity\Product, 1);
+        $entityCart->addCartItem(new Entity\Product, 1);
 
         $coupon = new Entity\Coupon;
         $coupon->setType(Entity\Promotion::TYPE_PERCENT);

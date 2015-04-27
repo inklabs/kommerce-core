@@ -39,7 +39,7 @@ class CartCalculator
 
     private function calculateItemPrices()
     {
-        foreach ($this->cart->getItems() as $item) {
+        foreach ($this->cart->getCartItems() as $item) {
             $price = $item->getPrice($this->pricing);
 
             $this->cartTotal->origSubtotal += $price->origQuantityPrice;
@@ -54,7 +54,7 @@ class CartCalculator
     private function calculateCartPriceRules()
     {
         foreach ($this->pricing->getCartPriceRules() as $cartPriceRule) {
-            if ($cartPriceRule->isValid($this->pricing->getDate(), $this->cart->getItems())) {
+            if ($cartPriceRule->isValid($this->pricing->getDate(), $this->cart->getCartItems())) {
                 foreach ($cartPriceRule->getCartPriceRuleDiscounts() as $discount) {
                     $price = $this->pricing->getPrice($discount->getProduct(), $discount->getQuantity());
                     $discountValue = $price->quantityPrice;

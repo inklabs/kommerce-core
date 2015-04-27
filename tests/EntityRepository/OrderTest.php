@@ -52,7 +52,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $order = $this->getRepository()
             ->find(1);
 
-        $order->getItems()->toArray();
+        $order->getOrderItems()->toArray();
         $order->getpayments()->toArray();
         $order->getUser()->getEmail();
         $order->getCoupons()->toArray();

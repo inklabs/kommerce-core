@@ -5,7 +5,6 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\OrderItem"
-            table="order_item"
             repository-class="inklabs\kommerce\EntityRepository\OrderItem">
 
         <id name="id" type="integer">
@@ -39,13 +38,36 @@
 
         <embedded name="price" class="Price"/>
 
-        <one-to-many field="orderItemOptionValues" target-entity="OrderItemOptionValue" mapped-by="orderItem" fetch="EXTRA_LAZY">
+        <one-to-many field="orderItemOptionProducts"
+                     target-entity="OrderItemOptionProduct"
+                     mapped-by="orderItem"
+                     fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>
         </one-to-many>
 
-        <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product" fetch="EAGER"/>
+        <one-to-many field="orderItemOptionValues"
+                     target-entity="OrderItemOptionValue"
+                     mapped-by="orderItem"
+                     fetch="EXTRA_LAZY">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+
+        <one-to-many field="orderItemTextOptionValues"
+                     target-entity="OrderItemTextOptionValue"
+                     mapped-by="orderItem"
+                     fetch="EXTRA_LAZY">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+
+        <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product" fetch="EAGER">
+            <join-column nullable="false"/>
+        </many-to-one>
 
         <many-to-one field="order" target-entity="Order" inversed-by="items" fetch="EAGER">
             <join-column nullable="false"/>

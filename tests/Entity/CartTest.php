@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
 use inklabs\kommerce\Service;
+use Symfony\Component\Validator\Validation;
 
 class CartTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,91 +18,74 @@ class CartTest extends \PHPUnit_Framework_TestCase
         return $coupon;
     }
 
-    public function testCreateCart()
+    public function testCreate()
     {
+        $cartItem = new CartItem;
+        $cartItem->setProduct(new Product);
+        $cartItem->setQuantity(1);
+
         $cart = new Cart;
+        $cart->addCartItem($cartItem);
+        $cart->addCoupon(new Coupon);
+
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($cart));
         $this->assertTrue($cart instanceof Cart);
+        $this->assertTrue($cart->getCartitems()[0] instanceof CartItem);
+        $this->assertTrue($cart->getCartitem(0) instanceof CartItem);
+        $this->assertTrue($cart->getCoupons()[0] instanceof Coupon);
         $this->assertTrue($cart->getView() instanceof View\Cart);
     }
 
-    public function testAddItem()
+    public function testAddCartItemWithDuplicate()
     {
-        $cart = new Cart;
-        $itemId1 = $cart->addItem(new Product, 2);
+        $cartItem1 = new CartItem;
+        $cartItem1->setProduct(new Product);
+        $cartItem1->setQuantity(5);
 
-        $this->assertSame(0, $itemId1);
-        $this->assertTrue($cart->getItem(0) instanceof CartItem);
-        $this->assertSame(1, count($cart->getItems()));
-    }
-
-    public function testAddItemWithDuplicate()
-    {
-        $product = new Product;
+        $cartItem2 = new CartItem;
+        $cartItem2->setProduct(new Product);
+        $cartItem2->setQuantity(2);
 
         $cart = new Cart;
-        $cart->addItem($product, 5);
-        $cart->addItem($product, 2);
+        $cart->addCartItem($cartItem1);
+        $cart->addCartItem($cartItem2);
 
         $this->assertSame(2, $cart->totalItems());
         $this->assertSame(7, $cart->totalQuantity());
     }
 
-    public function testGetItemMissing()
+    public function testGetCartItemMissing()
     {
         $cart = new Cart;
-        $this->assertSame(null, $cart->getItem(1));
+        $this->assertSame(null, $cart->getCartItem(1));
     }
 
-    public function testAddItemWithOptionValues()
+    public function testDeleteCartItem()
     {
-        $optionValues = [
-            $this->getOptionValueProduct(),
-            $this->getOptionValueProduct(),
-        ];
+        $cartItem = new CartItem;
+        $cartItem->setProduct(new Product);
+        $cartItem->setQuantity(1);
 
         $cart = new Cart;
-        $itemId1 = $cart->addItem(new Product, 2, $optionValues);
-
-        $this->assertSame(0, $itemId1);
-        $this->assertTrue($cart->getItem(0) instanceof CartItem);
-        $this->assertSame(1, count($cart->getItems()));
-    }
-
-    private function getOptionValueProduct()
-    {
-        $product = new Product;
-
-        $optionValueProduct = new OptionValue\Product($product);
-        $optionValueProduct->setProduct($product);
-        $optionValueProduct->setOptionType(new OptionType\Regular);
-
-        return $optionValueProduct;
-    }
-
-    public function testDeleteItem()
-    {
-        $cart = new Cart;
-        $itemId = $cart->addItem(new Product, 2);
-
+        $cartItemIndex1 = $cart->addCartItem($cartItem);
         $this->assertSame(1, $cart->totalItems());
-        $cart->deleteItem($itemId);
+
+        $cart->deleteCartItem($cartItemIndex1);
         $this->assertSame(0, $cart->totalItems());
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Item missing
      */
-    public function testDeleteItemAndItemNotFound()
+    public function testDeleteCartItemMissing()
     {
         $cart = new Cart;
-        $cart->deleteItem(1);
-    }
-
-    public function testAddCoupon()
-    {
-        $cart = new Cart;
-        $cart->addCoupon(new Coupon);
-        $this->assertSame(1, count($cart->getCoupons()));
+        $cart->deleteCartItem(1);
     }
 
     public function testUpdateCoupon()
@@ -121,7 +105,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Unable to add coupon
      */
     public function testAddCouponWithNonStackableCoupon()
     {
@@ -137,7 +122,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Unable to add coupon
      */
     public function testAddCouponWithDuplicateCoupon()
     {
@@ -186,7 +172,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Coupon missing
      */
     public function testRemoveCouponMissing()
     {
@@ -202,9 +189,17 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product2 = new Product;
         $product2->setShippingWeight(16);
 
+        $cartItem1 = new CartItem;
+        $cartItem1->setProduct($product1);
+        $cartItem1->setQuantity(1);
+
+        $cartItem2 = new CartItem;
+        $cartItem2->setProduct($product2);
+        $cartItem2->setQuantity(3);
+
         $cart = new Cart;
-        $cart->addItem($product1, 2);
-        $cart->addItem($product2, 2);
+        $cart->addCartItem($cartItem1);
+        $cart->addCartItem($cartItem2);
 
         $this->assertSame(64, $cart->getShippingWeight());
     }
@@ -214,15 +209,25 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $product = new Product;
         $product->setUnitPrice(500);
 
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+
         $cart = new Cart;
-        $cart->addItem($product, 2);
+        $cart->addCartItem($cartItem);
         $this->assertTrue($cart->getTotal(new Service\Pricing) instanceof CartTotal);
     }
 
     public function testGetOrder()
     {
+        $product = new Product;
+        $product->setUnitPrice(500);
+
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+
         $cart = new Cart;
-        $itemId1 = $cart->addItem(new Product, 2);
+        $cart->addCartItem($cartItem);
 
         $order = $cart->getOrder(new Service\Pricing);
 

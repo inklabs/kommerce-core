@@ -65,7 +65,7 @@ class OrderTest extends Helper\DoctrineTestCase
     public function addOrder()
     {
         $cart = new Entity\Cart;
-        $cart->addItem($this->productShirt, 1);
+        $cart->addCartItem($this->productShirt, 1);
 
         $orderAddress = new Entity\OrderAddress;
         $orderAddress->firstName = 'John';

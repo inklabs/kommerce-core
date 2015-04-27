@@ -17,22 +17,21 @@ class OrderItemOptionValue implements ViewInterface
     public $sku;
 
     /** @var string */
-    public $optionTypeName;
+    public $optionName;
 
     /** @var string */
     public $optionValueName;
 
     public function __construct(Entity\OrderItemOptionValue $orderItemOptionValue)
     {
-        $this->id             = $orderItemOptionValue->getId();
-        $this->created        = $orderItemOptionValue->getCreated();
+        $this->id              = $orderItemOptionValue->getId();
+        $this->created         = $orderItemOptionValue->getCreated();
+        $this->sku             = $orderItemOptionValue->getSku();
+        $this->optionName      = $orderItemOptionValue->getOptionName();
+        $this->optionValueName = $orderItemOptionValue->getOptionValueName();
 
         $this->optionValue = $orderItemOptionValue->getOptionValue()->getView()
             ->export();
-
-        $this->sku = $orderItemOptionValue->getSku();
-        $this->optionTypeName = $orderItemOptionValue->getOptionTypeName();
-        $this->optionValueName = $orderItemOptionValue->getOptionValueName();
     }
 
     public function export()

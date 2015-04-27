@@ -64,7 +64,7 @@ main modules in this project:
       $cart->loadCartPriceRules();
       $cart->setTaxRate(new Entity\TaxRate);
       $cart->setUser(new Entity\User);
-      $cart->addItem($viewProduct, 1);
+      $cart->addOrderItem($viewProduct, 1);
       ```
 
 * Views (src/View)

@@ -62,8 +62,8 @@ class Product implements EntityInterface
     /** @var ProductQuantityDiscount */
     protected $productQuantityDiscounts;
 
-    /** @var OptionValue\Product[] */
-    protected $optionValues;
+    /** @var OptionProduct[] */
+    protected $optionProducts;
 
     /** @var ProductAttribute[] */
     protected $productAttributes;
@@ -75,7 +75,7 @@ class Product implements EntityInterface
         $this->images = new ArrayCollection;
         $this->productQuantityDiscounts = new ArrayCollection;
         $this->productAttributes = new ArrayCollection;
-        $this->optionValues = new ArrayCollection;
+        $this->optionProducts = new ArrayCollection;
 
         $this->isInventoryRequired = false;
         $this->isPriceVisible = false;
@@ -334,14 +334,14 @@ class Product implements EntityInterface
         return $this->productQuantityDiscounts;
     }
 
-    public function getOptionValues()
+    public function getOptionProducts()
     {
-        return $this->optionValues;
+        return $this->optionProducts;
     }
 
-    public function addOptionValue(OptionValue\Product $optionValueProduct)
+    public function addOptionProduct(OptionProduct $optionProduct)
     {
-        $this->optionValues[] = $optionValueProduct;
+        $this->optionProducts[] = $optionProduct;
     }
 
     public function getProductAttributes()

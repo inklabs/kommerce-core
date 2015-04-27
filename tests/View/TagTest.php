@@ -11,7 +11,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $entityTag = new Entity\Tag;
         $entityTag->addImage(new Entity\Image);
         $entityTag->addProduct(new Entity\Product);
-        $entityTag->addOptionType(new Entity\OptionType\Regular);
+        $entityTag->addOptionType(new Entity\OptionType\Option);
 
         $tag = $entityTag->getView()
             ->withAllData(new Service\Pricing)

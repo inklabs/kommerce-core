@@ -66,7 +66,7 @@ class Cart extends Lib\ServiceManager
     private function reloadProductsFromEntityManager()
     {
         $numberProductsUpdated = 0;
-        foreach ($this->cart->getItems() as $cartItem) {
+        foreach ($this->cart->getCartItems() as $cartItem) {
             $product = $this->entityManager->merge($cartItem->getProduct());
             $this->entityManager->refresh($product);
             $cartItem->setProduct($product);
@@ -128,7 +128,7 @@ class Cart extends Lib\ServiceManager
 
         $optionValues = $this->getOptionValues($optionValueEncodedIds);
 
-        $itemId = $this->cart->addItem($product, $quantity, $optionValues);
+        $itemId = $this->cart->addCartItem($product, $quantity, $optionValues);
         $this->save();
 
         return $itemId;
@@ -201,7 +201,7 @@ class Cart extends Lib\ServiceManager
      */
     public function updateQuantity($cartItemId, $quantity)
     {
-        $item = $this->cart->getItem($cartItemId);
+        $item = $this->cart->getCartItem($cartItemId);
         if ($item === null) {
             throw new Exception('Item not found');
         }
@@ -216,7 +216,7 @@ class Cart extends Lib\ServiceManager
      */
     public function deleteItem($cartItemId)
     {
-        $this->cart->deleteItem($cartItemId);
+        $this->cart->deleteCartItem($cartItemId);
         $this->save();
     }
 
@@ -226,7 +226,7 @@ class Cart extends Lib\ServiceManager
     public function getItems()
     {
         $viewCartItems = [];
-        foreach ($this->cart->getItems() as $cartItem) {
+        foreach ($this->cart->getCartItems() as $cartItem) {
             $viewCartItems[] = $cartItem->getView()
                 ->withAllData($this->pricing)
                 ->export();
@@ -252,7 +252,7 @@ class Cart extends Lib\ServiceManager
      */
     public function getItem($id)
     {
-        $cartItem = $this->cart->getItem($id);
+        $cartItem = $this->cart->getCartItem($id);
 
         if ($cartItem === null) {
             return null;

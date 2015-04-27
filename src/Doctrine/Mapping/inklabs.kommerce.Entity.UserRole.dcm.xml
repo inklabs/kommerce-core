@@ -5,7 +5,6 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\UserRole"
-            table="user_role"
             repository-class="inklabs\kommerce\EntityRepository\UserRole">
 
         <lifecycle-callbacks>

@@ -121,7 +121,7 @@ class CartNewTest extends Helper\DoctrineTestCase
             ->andReturn($mockOptionValueRepository);
 
         $this->mockEntityCart
-            ->shouldReceive('addItem')
+            ->shouldReceive('addOrderItem')
             ->andReturn(1);
 
         $itemId = $cart->addItem('1', 1, ['1' => '2']);
@@ -183,7 +183,7 @@ class CartNewTest extends Helper\DoctrineTestCase
             ->andReturn($mockOptionValueRepository);
 
         $this->mockEntityCart
-            ->shouldReceive('addItem')
+            ->shouldReceive('addOrderItem')
             ->andReturn(1);
 
         $itemId = $cart->addItem('1', 1, ['1' => '2']);
@@ -276,7 +276,7 @@ class CartNewTest extends Helper\DoctrineTestCase
             ->andReturnUndefined();
 
         $this->mockEntityCart
-            ->shouldReceive('getItem')
+            ->shouldReceive('getOrderItem')
             ->andReturn($mockCartItem);
 
         $cart->updateQuantity(1, 2);
@@ -290,7 +290,7 @@ class CartNewTest extends Helper\DoctrineTestCase
         $cart = $this->getCartServiceFullyMocked();
 
         $this->mockEntityCart
-            ->shouldReceive('getItem')
+            ->shouldReceive('getOrderItem')
             ->andReturn(null);
 
         $cart->updateQuantity(1, 2);
@@ -301,7 +301,7 @@ class CartNewTest extends Helper\DoctrineTestCase
         $cart = $this->getCartServiceFullyMocked();
 
         $this->mockEntityCart
-            ->shouldReceive('deleteItem')
+            ->shouldReceive('deleteCartItem')
             ->andReturnUndefined();
 
         $cart->deleteItem(1);
@@ -315,7 +315,7 @@ class CartNewTest extends Helper\DoctrineTestCase
         $cart = $this->getCartServiceFullyMocked();
 
         $this->mockEntityCart
-            ->shouldReceive('deleteItem')
+            ->shouldReceive('deleteCartItem')
             ->andThrow(new \Exception);
 
         $cart->deleteItem(1);
@@ -393,7 +393,7 @@ class CartNewTest extends Helper\DoctrineTestCase
             ->andReturn($mockCartItemView);
 
         $this->mockEntityCart
-            ->shouldReceive('getItem')
+            ->shouldReceive('getOrderItem')
             ->andReturn($mockCartItem);
 
         $item = $cart->getItem(1);
@@ -405,7 +405,7 @@ class CartNewTest extends Helper\DoctrineTestCase
         $cart = $this->getCartServiceFullyMocked();
 
         $this->mockEntityCart
-            ->shouldReceive('getItem')
+            ->shouldReceive('getOrderItem')
             ->andReturn(null);
 
         $item = $cart->getItem(1);
@@ -419,8 +419,8 @@ class CartNewTest extends Helper\DoctrineTestCase
         $coupon = $this->getDummyCoupon();
         $product = $this->getDummyProduct();
         $product2 = $this->getDummyProduct();
-        $optionTypeProduct = $this->getDummyOptionTypeProduct();
-        $optionValueProduct = $this->getDummyOptionValueProduct($optionTypeProduct, $product2);
+        $optionTypeProduct = $this->getDummyOption();
+        $optionValueProduct = $this->getDummyOptionProduct($optionTypeProduct, $product2);
 
         $this->entityManager->persist($coupon);
         $this->entityManager->persist($product);

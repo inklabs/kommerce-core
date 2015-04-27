@@ -15,7 +15,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $orderItem->setPrice(new Entity\Price);
 
         $order = new Entity\Order;
-        $order->addItem($orderItem);
+        $order->addOrderItem($orderItem);
         $order->setTotal(new Entity\CartTotal);
 
         /** @var $mock Payment */

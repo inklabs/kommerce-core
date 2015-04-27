@@ -7,9 +7,8 @@ use inklabs\kommerce\tests\Helper;
 class OptionValueTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:OptionType\AbstractOptionType',
-        'kommerce:OptionValue\AbstractOptionValue',
-        'kommerce:Product',
+        'kommerce:Option',
+        'kommerce:OptionValue',
     ];
 
     /**
@@ -17,18 +16,16 @@ class OptionValueTest extends Helper\DoctrineTestCase
      */
     private function getRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OptionValue\AbstractOptionValue');
+        return $this->entityManager->getRepository('kommerce:OptionValue');
     }
 
     private function setupOptionValue()
     {
-        $product = $this->getDummyProduct();
-        $optionTypeProduct = $this->getDummyOptionTypeProduct();
-        $optionValueProduct = $this->getDummyOptionValueProduct($optionTypeProduct, $product);
+        $option = $this->getDummyOption();
+        $optionValueProduct = $this->getDummyOptionValue($option);
 
-        $this->entityManager->persist($optionTypeProduct);
+        $this->entityManager->persist($option);
         $this->entityManager->persist($optionValueProduct);
-        $this->entityManager->persist($product);
         $this->entityManager->flush();
         $this->entityManager->clear();
     }
@@ -42,11 +39,10 @@ class OptionValueTest extends Helper\DoctrineTestCase
         $optionValue = $this->getRepository()
             ->find(1);
 
-        $optionValue->getProduct()->getCreated();
-        $optionValue->getOptionType()->getCreated();
+        $optionValue->getOption()->getCreated();
 
-        $this->assertTrue($optionValue instanceof Entity\OptionValue\AbstractOptionValue);
-        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+        $this->assertTrue($optionValue instanceof Entity\OptionValue);
+        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testGetAllOptionValuesByIds()
@@ -58,6 +54,9 @@ class OptionValueTest extends Helper\DoctrineTestCase
         $optionValues = $this->getRepository()
             ->getAllOptionValuesByIds([1]);
 
-        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+        $optionValues[0]->getOption()->getCreated();
+
+        $this->assertTrue($optionValues[0] instanceof Entity\OptionValue);
+        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 }
