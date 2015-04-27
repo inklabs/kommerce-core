@@ -81,7 +81,7 @@
         </one-to-many>
 
         <one-to-many field="optionProducts"
-                     target-entity="inklabs\kommerce\Entity\OptionProduct"
+                     target-entity="OptionProduct"
                      mapped-by="product"
                      fetch="EXTRA_LAZY"/>
 

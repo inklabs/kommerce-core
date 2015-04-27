@@ -69,7 +69,7 @@
             <join-column nullable="false"/>
         </many-to-one>
 
-        <many-to-one field="order" target-entity="Order" inversed-by="items" fetch="EAGER">
+        <many-to-one field="order" target-entity="Order" inversed-by="orderItems" fetch="EAGER">
             <join-column nullable="false"/>
         </many-to-one>
 
