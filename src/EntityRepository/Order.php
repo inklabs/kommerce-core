@@ -3,14 +3,8 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\Order find($id)
- */
-class Order extends AbstractEntityRepository
+class Order extends AbstractEntityRepository implements OrderInterface
 {
-    /**
-     * @return Entity\Order[]
-     */
     public function getLatestOrders(Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();

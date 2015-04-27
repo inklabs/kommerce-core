@@ -55,9 +55,11 @@ class Order implements ViewInterface
             $this->billingAddress = $order->getBillingAddress()->getView();
         }
 
-        $this->total = $order->getTotal()->getView()
-            ->withAllData()
-            ->export();
+        if ($order->getTotal() !== null) {
+            $this->total = $order->getTotal()->getView()
+                ->withAllData()
+                ->export();
+        }
     }
 
     public function export()

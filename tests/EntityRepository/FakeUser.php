@@ -3,7 +3,6 @@ namespace inklabs\kommerce\tests\EntityRepository;
 
 use inklabs\kommerce\EntityRepository\UserInterface;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
 
 class FakeUser extends Helper\AbstractFake implements UserInterface

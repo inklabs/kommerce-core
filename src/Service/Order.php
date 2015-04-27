@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
@@ -9,16 +8,16 @@ use inklabs\kommerce\Lib;
 
 class Order extends Lib\ServiceManager
 {
-    /** @var EntityRepository\Order */
+    /** @var EntityRepository\OrderInterface */
     private $orderRepository;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityRepository\OrderInterface $orderRepository)
     {
-        $this->setEntityManager($entityManager);
-        $this->orderRepository = $entityManager->getRepository('kommerce:Order');
+        $this->orderRepository = $orderRepository;
     }
 
     /**
+     * @param int $id
      * @return View\Order|null
      */
     public function find($id)
