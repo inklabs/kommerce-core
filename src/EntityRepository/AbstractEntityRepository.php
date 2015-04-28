@@ -18,19 +18,12 @@ abstract class AbstractEntityRepository extends \Doctrine\ORM\EntityRepository
         $entityManager->flush();
     }
 
-    public function createEntity(EntityInterface & $entity)
-    {
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($entity);
-        $entityManager->flush();
-    }
-
     public function persistEntity(EntityInterface & $entity)
     {
         $this->getEntityManager()->persist($entity);
     }
 
-    public function flushEntity()
+    public function flush()
     {
         $this->getEntityManager()->flush();
     }

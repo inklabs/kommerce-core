@@ -60,11 +60,13 @@ class FakeProduct extends Helper\AbstractFake implements ProductInterface
 
     public function create(Entity\Product & $entity)
     {
-        parent::create($product);
     }
 
     public function save(Entity\Product & $product)
     {
-        parent::save($product);
+    }
+
+    public function persist(Entity\Product & $product)
+    {
     }
 }

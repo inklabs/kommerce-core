@@ -17,12 +17,12 @@ class OrderTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /**
-     * @return Order
-     */
-    private function getRepository()
+    /** @var Order */
+    protected $orderRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Order');
+        $this->orderRepository = $this->entityManager->getRepository('kommerce:Order');
     }
 
     public function setupOrder()
@@ -39,9 +39,13 @@ class OrderTest extends Helper\DoctrineTestCase
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);
-        $this->entityManager->persist($order);
+
+        $this->orderRepository->create($order);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $order;
     }
 
     public function testFind()
@@ -50,8 +54,7 @@ class OrderTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $order = $this->getRepository()
-            ->find(1);
+        $order = $this->orderRepository->find(1);
 
         $order->getOrderItems()->toArray();
         $order->getPayments()->toArray();
@@ -66,32 +69,18 @@ class OrderTest extends Helper\DoctrineTestCase
     {
         $this->setupOrder();
 
-        $orders = $this->getRepository()
-            ->getLatestOrders();
+        $orders = $this->orderRepository->getLatestOrders();
 
         $this->assertTrue($orders[0] instanceof Entity\Order);
     }
 
-    public function testPersistAndFlush()
+    public function testSave()
     {
-        $product = $this->getDummyProduct();
-        $price = $this->getDummyPrice();
-        $user = $this->getDummyUser();
-        $orderItem = $this->getDummyOrderItem($product, $price);
-        $cartTotal = $this->getDummyCartTotal();
+        $order = $this->setupOrder();
 
-        $order = $this->getDummyOrder($cartTotal, [$orderItem]);
-        $order->setUser($user);
-
-        $this->entityManager->persist($product);
-        $this->entityManager->persist($user);
-
-        $this->assertSame(null, $order->getId());
-
-        $orderRepository = $this->getRepository();
-        $orderRepository->persist($order);
-        $orderRepository->flush();
-
-        $this->assertSame(1, $order->getId());
+        $order->setExternalId('newExternalId');
+        $this->assertSame(null, $order->getUpdated());
+        $this->orderRepository->save($order);
+        $this->assertTrue($order->getUpdated() instanceof \DateTime);
     }
 }

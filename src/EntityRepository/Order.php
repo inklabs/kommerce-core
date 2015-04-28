@@ -5,16 +5,6 @@ use inklabs\kommerce\Entity;
 
 class Order extends AbstractEntityRepository implements OrderInterface
 {
-    public function persist(Entity\Order & $order)
-    {
-        $this->persistEntity($order);
-    }
-
-    public function flush()
-    {
-        $this->flushEntity();
-    }
-
     public function getLatestOrders(Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -27,5 +17,21 @@ class Order extends AbstractEntityRepository implements OrderInterface
             ->getResult();
 
         return $orders;
+    }
+
+    public function save(Entity\Order & $order)
+    {
+        $this->saveEntity($order);
+    }
+
+    public function create(Entity\Order & $order)
+    {
+        $this->persist($order);
+        $this->flush();
+    }
+
+    public function persist(Entity\Order & $order)
+    {
+        $this->persistEntity($order);
     }
 }
