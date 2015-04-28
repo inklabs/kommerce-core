@@ -12,12 +12,12 @@ class UserTokenTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /**
-     * @return UserToken
-     */
-    private function getRepository()
+    /** @var UserTokenInterface */
+    protected $userTokenRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:UserToken');
+        $this->userTokenRepository = $this->entityManager->getRepository('kommerce:UserToken');
     }
 
     public function setupUserWithToken()
@@ -39,8 +39,7 @@ class UserTokenTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $userToken = $this->getRepository()
-            ->find(1);
+        $userToken = $this->userTokenRepository->find(1);
 
         $userToken->getUser()->getEmail();
 

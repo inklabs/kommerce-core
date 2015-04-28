@@ -11,12 +11,13 @@ class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
         'kommerce:Product',
     ];
 
-    /**
-     * @return ProductQuantityDiscount
-     */
-    private function getRepository()
+    /** @var ProductQuantityDiscountInterface */
+    protected $productQuantityDiscountRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:ProductQuantityDiscount');
+        $this->productQuantityDiscountRepository =
+            $this->entityManager->getRepository('kommerce:ProductQuantityDiscount');
     }
 
     private function setupProductWithProductQuantityDiscount()
@@ -38,8 +39,7 @@ class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $productQuantityDiscount = $this->getRepository()
-            ->find(1);
+        $productQuantityDiscount = $this->productQuantityDiscountRepository->find(1);
 
         $productQuantityDiscount->getProduct()->getName();
 

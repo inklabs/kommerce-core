@@ -11,12 +11,12 @@ class TextOptionTest extends Helper\DoctrineTestCase
         'kommerce:Tag',
     ];
 
-    /**
-     * @return TextOption
-     */
-    private function getRepository()
+    /** @var TextOptionInterface */
+    protected $textOptionRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:TextOption');
+        $this->textOptionRepository = $this->entityManager->getRepository('kommerce:TextOption');
     }
 
     private function setupOption()
@@ -34,8 +34,7 @@ class TextOptionTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $textOption = $this->getRepository()
-            ->find(1);
+        $textOption = $this->textOptionRepository->find(1);
 
         $textOption->getTags()->toArray();
 
@@ -47,8 +46,7 @@ class TextOptionTest extends Helper\DoctrineTestCase
     {
         $this->setupOption();
 
-        $textOptions = $this->getRepository()
-            ->getAllOptionsByIds([1]);
+        $textOptions = $this->textOptionRepository->getAllOptionsByIds([1]);
 
         $this->assertTrue($textOptions[0] instanceof Entity\TextOption);
     }

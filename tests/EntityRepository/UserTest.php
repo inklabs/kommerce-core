@@ -15,7 +15,7 @@ class UserTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /** @var User */
+    /** @var UserInterface */
     protected $userRepository;
 
     public function setUp()

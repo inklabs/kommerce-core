@@ -12,7 +12,7 @@ class UserLoginTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /** @var UserLogin */
+    /** @var UserLoginInterface */
     protected $userLoginRepository;
 
     public function setUp()

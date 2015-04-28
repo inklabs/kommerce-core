@@ -18,12 +18,13 @@ class OrderItemOptionProductTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /**
-     * @return OrderItemOptionProduct
-     */
-    private function getRepository()
+    /** @var OrderItemOptionProductInterface */
+    protected $orderItemOptionProductRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItemOptionProduct');
+        $this->orderItemOptionProductRepository =
+            $this->entityManager->getRepository('kommerce:OrderItemOptionProduct');
     }
 
     public function setupOrder()
@@ -61,8 +62,7 @@ class OrderItemOptionProductTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $orderItemOptionProduct = $this->getRepository()
-            ->find(1);
+        $orderItemOptionProduct = $this->orderItemOptionProductRepository->find(1);
 
         $orderItemOptionProduct->getOrderItem()->getCreated();
         $orderItemOptionProduct->getOptionProduct()->getCreated();

@@ -12,12 +12,12 @@ class OptionProductTest extends Helper\DoctrineTestCase
         'kommerce:Product',
     ];
 
-    /**
-     * @return OptionProduct
-     */
-    private function getRepository()
+    /** @var OptionProductInterface */
+    protected $optionProduct;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:OptionProduct');
+        $this->optionProduct = $this->entityManager->getRepository('kommerce:OptionProduct');
     }
 
     private function setupOptionProduct()
@@ -39,8 +39,7 @@ class OptionProductTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $optionProduct = $this->getRepository()
-            ->find(1);
+        $optionProduct = $this->optionProduct->find(1);
 
         $optionProduct->getProduct()->getCreated();
         $optionProduct->getOption()->getCreated();
@@ -55,8 +54,7 @@ class OptionProductTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $optionProducts = $this->getRepository()
-            ->getAllOptionProductsByIds([1]);
+        $optionProducts = $this->optionProduct->getAllOptionProductsByIds([1]);
 
         $optionProducts[0]->getProduct()->getCreated();
         $optionProducts[0]->getOption()->getCreated();

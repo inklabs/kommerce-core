@@ -18,7 +18,7 @@ class ProductTest extends Helper\DoctrineTestCase
         'kommerce:OptionProduct',
     ];
 
-    /** @var Product */
+    /** @var ProductInterface */
     protected $productRepository;
 
     public function setUp()

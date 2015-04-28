@@ -13,12 +13,12 @@ class CartPriceRuleTest extends Helper\DoctrineTestCase
         'kommerce:Product',
     ];
 
-    /**
-     * @return CartPriceRule
-     */
-    private function getRepository()
+    /** @var CartPriceRuleInterface */
+    protected $cartPriceRuleRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:CartPriceRule');
+        $this->cartPriceRuleRepository = $this->entityManager->getRepository('kommerce:CartPriceRule');
     }
 
     public function setupCartPriceRuleDiscount()
@@ -44,8 +44,7 @@ class CartPriceRuleTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $cartPriceRule = $this->getRepository()
-            ->find(1);
+        $cartPriceRule = $this->cartPriceRuleRepository->find(1);
 
         $cartPriceRule->getCartPriceRuleItems()->toArray();
         $cartPriceRule->getCartPriceRuleDiscounts()->toArray();

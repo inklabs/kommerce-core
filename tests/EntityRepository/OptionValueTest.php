@@ -11,12 +11,12 @@ class OptionValueTest extends Helper\DoctrineTestCase
         'kommerce:OptionValue',
     ];
 
-    /**
-     * @return OptionValue
-     */
-    private function getRepository()
+    /** @var OptionValueInterface */
+    protected $optionValueRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:OptionValue');
+        $this->optionValueRepository = $this->entityManager->getRepository('kommerce:OptionValue');
     }
 
     private function setupOptionValue()
@@ -36,8 +36,7 @@ class OptionValueTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $optionValue = $this->getRepository()
-            ->find(1);
+        $optionValue = $this->optionValueRepository->find(1);
 
         $optionValue->getOption()->getCreated();
 
@@ -51,8 +50,7 @@ class OptionValueTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $optionValues = $this->getRepository()
-            ->getAllOptionValuesByIds([1]);
+        $optionValues = $this->optionValueRepository->getAllOptionValuesByIds([1]);
 
         $optionValues[0]->getOption()->getCreated();
 

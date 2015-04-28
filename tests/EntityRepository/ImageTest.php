@@ -12,12 +12,12 @@ class ImageTest extends Helper\DoctrineTestCase
         'kommerce:Product',
     ];
 
-    /**
-     * @return Image
-     */
-    private function getRepository()
+    /** @var ImageInterface */
+    protected $imageRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Image');
+        $this->imageRepository = $this->entityManager->getRepository('kommerce:Image');
     }
 
     public function setupImageWithProductAndTag()
@@ -42,8 +42,7 @@ class ImageTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $image = $this->getRepository()
-            ->find(1);
+        $image = $this->imageRepository->find(1);
 
         $image->getProduct()->getName();
         $image->getTag()->getName();
