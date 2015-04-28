@@ -209,4 +209,20 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->assertSame(3, $products[0]->getId());
         $this->assertSame(3, $pagination->getTotal());
     }
+
+    public function testCrud()
+    {
+        $product = $this->getDummyProduct(1);
+
+        $productRepository = $this->getRepository();
+
+        $this->assertSame(null, $product->getId());
+        $productRepository->create($product);
+        $this->assertSame(1, $product->getId());
+
+        $product->setName('new name');
+        $this->assertSame(null, $product->getUpdated());
+        $productRepository->save($product);
+        $this->assertTrue($product->getUpdated() instanceof \DateTime);
+    }
 }

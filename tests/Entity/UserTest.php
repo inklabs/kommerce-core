@@ -34,6 +34,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $order->setTotal(new CartTotal);
 
         $user->addOrder($order);
+        $user->setCart(new Cart);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -53,6 +54,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($user->getTokens()[0] instanceof UserToken);
         $this->assertTrue($user->getLogins()[0] instanceof UserLogin);
         $this->assertTrue($user->getOrders()[0] instanceof Order);
+        $this->assertTrue($user->getCart() instanceof Cart);
         $this->assertTrue($user->getView() instanceof View\User);
     }
 

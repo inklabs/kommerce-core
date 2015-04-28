@@ -45,6 +45,6 @@ class UserLoginTest extends Helper\DoctrineTestCase
         $userLogin->getUser()->getEmail();
 
         $this->assertTrue($userLogin instanceof Entity\UserLogin);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 }

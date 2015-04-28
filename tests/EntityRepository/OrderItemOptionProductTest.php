@@ -68,6 +68,6 @@ class OrderItemOptionProductTest extends Helper\DoctrineTestCase
         $orderItemOptionProduct->getOptionProduct()->getCreated();
 
         $this->assertTrue($orderItemOptionProduct instanceof Entity\OrderItemOptionProduct);
-        $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 }
