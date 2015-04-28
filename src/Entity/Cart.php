@@ -19,6 +19,9 @@ class Cart implements EntityInterface
     /** @var Coupon[]|ArrayCollection */
     protected $coupons;
 
+    /** @var User */
+    protected $user;
+
     public function __construct()
     {
         $this->setCreated();
@@ -30,6 +33,17 @@ class Cart implements EntityInterface
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('cartItems', new Assert\Valid);
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user)
+    {
+        $user->setCart($this);
+        $this->user = $user;
     }
 
     /**

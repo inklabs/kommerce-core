@@ -15,6 +15,7 @@ class OrderItemOptionProductTest extends Helper\DoctrineTestCase
         'kommerce:OrderItemOptionProduct',
         'kommerce:Product',
         'kommerce:User',
+        'kommerce:Cart',
     ];
 
     /**

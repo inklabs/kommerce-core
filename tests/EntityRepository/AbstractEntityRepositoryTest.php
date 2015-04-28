@@ -6,7 +6,8 @@ use inklabs\kommerce\tests\Helper;
 class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:User'
+        'kommerce:User',
+        'kommerce:Cart',
     ];
 
     /**

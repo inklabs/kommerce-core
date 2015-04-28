@@ -13,6 +13,7 @@ class OrderItemTest extends Helper\DoctrineTestCase
         'kommerce:OrderItem',
         'kommerce:Product',
         'kommerce:User',
+        'kommerce:Cart',
     ];
 
     public function testImport()
