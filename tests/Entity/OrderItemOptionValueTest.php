@@ -23,17 +23,7 @@ class OrderItemOptionValueTest extends \PHPUnit_Framework_TestCase
 
         $orderItemOptionValue = new OrderItemOptionValue;
         $orderItemOptionValue->setOptionValue($optionValue);
-
-        $product = new Product;
-        $product->setSku('BS');
-        $product->setName('Base Shirt');
-        $product->setShippingWeight(16);
-
-        $orderItem = new OrderItem;
-        $orderItem->setProduct($product);
-        $orderItem->setQuantity(1);
-        $orderItem->setPrice($product->getPrice(new Service\Pricing));
-        $orderItem->addOrderItemOptionValue($orderItemOptionValue);
+        $orderItemOptionValue->setOrderItem(new OrderItem);
 
         $this->assertSame('MD', $orderItemOptionValue->getSku());
         $this->assertSame('Shirt Size', $orderItemOptionValue->getOptionName());
