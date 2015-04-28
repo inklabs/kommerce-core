@@ -9,6 +9,9 @@ class UserTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
+        $userLogin = new UserLogin;
+        $userLogin->setResult(UserLogin::RESULT_SUCCESS);
+
         $user = new User;
         $user->setExternalId('5');
         $user->setStatus(User::STATUS_ACTIVE);
@@ -19,7 +22,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->setLastLogin(new \DateTime);
         $user->addRole(new UserRole);
         $user->addToken(new UserToken);
-        $user->addLogin(new UserLogin);
+        $user->addLogin($userLogin);
 
         $orderItem = new OrderItem;
         $orderItem->setProduct(new Product);
@@ -44,7 +47,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('test@example.com', $user->getEmail());
         $this->assertSame('John', $user->getFirstName());
         $this->assertSame('Doe', $user->getLastName());
-        $this->assertSame(0, $user->getTotalLogins());
+        $this->assertSame(1, $user->getTotalLogins());
         $this->assertTrue($user->getLastLogin() > 0);
         $this->assertTrue($user->getRoles()[0] instanceof UserRole);
         $this->assertTrue($user->getTokens()[0] instanceof UserToken);

@@ -25,17 +25,7 @@ class OrderItemOptionProductTest extends \PHPUnit_Framework_TestCase
 
         $orderItemOptionProduct = new OrderItemOptionProduct;
         $orderItemOptionProduct->setOptionProduct($optionProduct);
-
-        $product = new Product;
-        $product->setSku('MS');
-        $product->setName('Medium Polo Shirt');
-        $product->setShippingWeight(16);
-
-        $orderItem = new OrderItem;
-        $orderItem->setProduct($product);
-        $orderItem->setQuantity(1);
-        $orderItem->setPrice($product->getPrice(new Service\Pricing));
-        $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
+        $orderItemOptionProduct->setOrderItem(new OrderItem);
 
         $this->assertSame('LAA', $orderItemOptionProduct->getSku());
         $this->assertSame('Team Logo', $orderItemOptionProduct->getOptionName());
