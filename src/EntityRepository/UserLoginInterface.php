@@ -6,6 +6,12 @@ use inklabs\kommerce\Entity;
 interface UserLoginInterface
 {
     /**
+     * @param int $id
+     * @return Entity\UserLogin
+     */
+    public function find($id);
+
+    /**
      * @param Entity\UserLogin $userLogin
      */
     public function create(Entity\UserLogin & $userLogin);

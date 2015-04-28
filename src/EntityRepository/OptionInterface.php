@@ -6,6 +6,12 @@ use inklabs\kommerce\Entity;
 interface OptionInterface
 {
     /**
+     * @param int $id
+     * @return Entity\Option
+     */
+    public function find($id);
+
+    /**
      * @param int[] $optionIds
      * @param Entity\Pagination $pagination
      * @return Option[]

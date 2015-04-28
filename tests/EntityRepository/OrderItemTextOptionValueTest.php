@@ -17,12 +17,13 @@ class OrderItemTextOptionValueTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /**
-     * @return OrderItemTextOptionValue
-     */
-    private function getRepository()
+    /** @var OrderItemOptionValueInterface */
+    protected $orderItemOptionValueRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItemTextOptionValue');
+        $this->orderItemOptionValueRepository =
+            $this->entityManager->getRepository('kommerce:OrderItemTextOptionValue');
     }
 
     public function setupOrder()
@@ -56,8 +57,7 @@ class OrderItemTextOptionValueTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $orderItemTextOptionValue = $this->getRepository()
-            ->find(1);
+        $orderItemTextOptionValue = $this->orderItemOptionValueRepository->find(1);
 
         $orderItemTextOptionValue->getOrderItem()->getCreated();
         $orderItemTextOptionValue->getTextOption()->getCreated();

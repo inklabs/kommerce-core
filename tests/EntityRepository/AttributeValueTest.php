@@ -13,12 +13,12 @@ class AttributeValueTest extends Helper\DoctrineTestCase
         'kommerce:Product',
     ];
 
-    /**
-     * @return AttributeValue
-     */
-    private function getRepository()
+    /** @var AttributeValueInterface */
+    protected $attributeValueRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:AttributeValue');
+        $this->attributeValueRepository = $this->entityManager->getRepository('kommerce:AttributeValue');
     }
 
     private function setupAttributeValue()
@@ -39,8 +39,7 @@ class AttributeValueTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $attributeValue = $this->getRepository()
-            ->find(1);
+        $attributeValue = $this->attributeValueRepository->find(1);
 
         $attributeValue->getAttribute()->getCreated();
         $attributeValue->getProductAttributes()->toArray();
@@ -53,8 +52,7 @@ class AttributeValueTest extends Helper\DoctrineTestCase
     {
         $this->setupAttributeValue();
 
-        $attributeValues = $this->getRepository()
-            ->getAttributeValuesByIds([1]);
+        $attributeValues = $this->attributeValueRepository->getAttributeValuesByIds([1]);
 
         $this->assertSame(1, count($attributeValues));
         $this->assertSame(1, $attributeValues[0]->getId());

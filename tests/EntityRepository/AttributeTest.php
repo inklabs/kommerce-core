@@ -13,12 +13,12 @@ class AttributeTest extends Helper\DoctrineTestCase
         'kommerce:Product',
     ];
 
-    /**
-     * @return Attribute
-     */
-    private function getRepository()
+    /** @var AttributeInterface */
+    protected $attributeRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Attribute');
+        $this->attributeRepository = $this->entityManager->getRepository('kommerce:Attribute');
     }
 
     private function setupAttribute()
@@ -36,8 +36,7 @@ class AttributeTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $attribute = $this->getRepository()
-            ->find(1);
+        $attribute = $this->attributeRepository->find(1);
 
         $attribute->getAttributeValues()->toArray();
         $attribute->getProductAttributes()->toArray();

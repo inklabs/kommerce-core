@@ -24,15 +24,15 @@ class OrderItemTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /**
-     * @return OrderItem
-     */
-    private function getRepository()
+    /** @var OrderItemInterface */
+    protected $orderItemRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItem');
+        $this->orderItemRepository = $this->entityManager->getRepository('kommerce:OrderItem');
     }
 
-    public function setupOrder()
+    public function setupOrderItem()
     {
         $catalogPromotion = $this->getDummyCatalogPromotion();
 
@@ -56,18 +56,22 @@ class OrderItemTest extends Helper\DoctrineTestCase
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);
         $this->entityManager->persist($order);
+
+        $this->orderItemRepository->create($orderItem);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $orderItem;
     }
 
     public function testFind()
     {
-        $this->setupOrder();
+        $this->setupOrderItem();
 
         $this->setCountLogger();
 
-        $orderItem = $this->getRepository()
-            ->find(1);
+        $orderItem = $this->orderItemRepository->find(1);
 
         $orderItem->getProduct()->getCreated();
         $orderItem->getOrder()->getCreated();
@@ -79,5 +83,15 @@ class OrderItemTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($orderItem instanceof Entity\OrderItem);
         $this->assertSame(7, $this->countSQLLogger->getTotalQueries());
+    }
+
+    public function testSave()
+    {
+        $orderItem = $this->setupOrderItem();
+
+        $orderItem->setQuantity(5);
+        $this->assertSame(null, $orderItem->getUpdated());
+        $this->orderItemRepository->save($orderItem);
+        $this->assertTrue($orderItem->getUpdated() instanceof \DateTime);
     }
 }

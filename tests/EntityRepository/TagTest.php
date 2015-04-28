@@ -15,12 +15,12 @@ class TagTest extends Helper\DoctrineTestCase
         'kommerce:TextOption',
     ];
 
-    /**
-     * @return Tag
-     */
-    private function getRepository()
+    /** @var TagInterface */
+    protected $tagRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Tag');
+        $this->tagRepository = $this->entityManager->getRepository('kommerce:Tag');
     }
 
     private function setupTag()
@@ -38,8 +38,7 @@ class TagTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $tag = $this->getRepository()
-            ->find(1);
+        $tag = $this->tagRepository->find(1);
 
         $tag->getImages()->toArray();
         $tag->getProducts()->toArray();
@@ -56,8 +55,7 @@ class TagTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $tags = $this->getRepository()
-            ->getAllTags('Test');
+        $tags = $this->tagRepository->getAllTags('Test');
 
         $tags[0]->getImages()->toArray();
         $tags[0]->getProducts()->toArray();
@@ -72,8 +70,7 @@ class TagTest extends Helper\DoctrineTestCase
     {
         $this->setupTag();
 
-        $tags = $this->getRepository()
-            ->getTagsByIds([1]);
+        $tags = $this->tagRepository->getTagsByIds([1]);
 
         $this->assertSame(1, count($tags));
         $this->assertTrue($tags[0] instanceof Entity\Tag);
@@ -83,8 +80,7 @@ class TagTest extends Helper\DoctrineTestCase
     {
         $this->setupTag();
 
-        $tags = $this->getRepository()
-            ->getAllTagsByIds([1]);
+        $tags = $this->tagRepository->getAllTagsByIds([1]);
 
         $this->assertSame(1, count($tags));
         $this->assertTrue($tags[0] instanceof Entity\Tag);

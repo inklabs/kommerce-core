@@ -12,12 +12,12 @@ class UserRoleTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /**
-     * @return UserRole
-     */
-    private function getRepository()
+    /** @var UserRoleInterface */
+    protected $userRoleRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:UserRole');
+        $this->userRoleRepository = $this->entityManager->getRepository('kommerce:UserRole');
     }
 
     public function setupUserWithRole()
@@ -39,8 +39,7 @@ class UserRoleTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $userRole = $this->getRepository()
-            ->find(1);
+        $userRole = $this->userRoleRepository->find(1);
 
         $this->assertTrue($userRole instanceof Entity\UserRole);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());

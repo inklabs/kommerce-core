@@ -17,7 +17,7 @@ class OrderTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /** @var Order */
+    /** @var OrderInterface */
     protected $orderRepository;
 
     public function setUp()

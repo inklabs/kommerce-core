@@ -7,14 +7,14 @@ interface OptionProductInterface
 {
     /**
      * @param int $id
-     * @return OptionProduct
+     * @return Entity\OptionProduct
      */
     public function find($id);
 
     /**
      * @param int[] $optionValueIds
      * @param Entity\Pagination $pagination
-     * @return OptionProduct[]
+     * @return Entity\OptionProduct[]
      */
     public function getAllOptionProductsByIds($optionValueIds, Entity\Pagination &$pagination = null);
 }

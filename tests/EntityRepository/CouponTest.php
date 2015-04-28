@@ -10,7 +10,7 @@ class CouponTest extends Helper\DoctrineTestCase
         'kommerce:Coupon',
     ];
 
-    /** @var Coupon */
+    /** @var CouponInterface */
     protected $couponRepository;
 
     public function setUp()

@@ -14,12 +14,12 @@ class OptionTest extends Helper\DoctrineTestCase
         'kommerce:Tag',
     ];
 
-    /**
-     * @return Option
-     */
-    private function getRepository()
+    /** @var OptionInterface */
+    protected $optionRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Option');
+        $this->optionRepository = $this->entityManager->getRepository('kommerce:Option');
     }
 
     private function setupOption()
@@ -37,8 +37,7 @@ class OptionTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $option = $this->getRepository()
-            ->find(1);
+        $option = $this->optionRepository->find(1);
 
         $option->getOptionProducts()->toArray();
         $option->getOptionValues()->toArray();
@@ -52,8 +51,7 @@ class OptionTest extends Helper\DoctrineTestCase
     {
         $this->setupOption();
 
-        $options = $this->getRepository()
-            ->getAllOptionsByIds([1]);
+        $options = $this->optionRepository->getAllOptionsByIds([1]);
 
         $this->assertTrue($options[0] instanceof Entity\Option);
     }
