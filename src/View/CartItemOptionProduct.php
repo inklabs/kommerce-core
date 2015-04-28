@@ -48,4 +48,5 @@ class CartItemOptionProduct implements ViewInterface
     {
         return $this
             ->withOptionProduct();
-    }}
+    }
+}
