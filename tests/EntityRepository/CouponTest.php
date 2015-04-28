@@ -37,6 +37,16 @@ class CouponTest extends Helper\DoctrineTestCase
         $this->assertTrue($coupon instanceof Entity\Coupon);
     }
 
+    public function testFindOneByCode()
+    {
+        $this->setupCoupon();
+
+        $coupon = $this->getRepository()
+            ->findOneByCode('20PCT1');
+
+        $this->assertTrue($coupon instanceof Entity\Coupon);
+    }
+
     public function testGetAllCoupons()
     {
         $this->setupCoupon();
@@ -55,5 +65,27 @@ class CouponTest extends Helper\DoctrineTestCase
             ->getAllCouponsByIds([1]);
 
         $this->assertTrue($coupons[0] instanceof Entity\Coupon);
+    }
+
+    public function testCreate()
+    {
+        $coupon = $this->getDummyCoupon(1);
+
+        $this->assertSame(null, $coupon->getId());
+        $this->getRepository()->create($coupon);
+        $this->assertSame(1, $coupon->getId());
+    }
+
+    public function testSave()
+    {
+        $coupon = $this->getDummyCoupon(1);
+
+        $couponRepository = $this->getRepository();
+        $couponRepository->create($coupon);
+
+        $coupon->setName('new name');
+        $this->assertSame(null, $coupon->getUpdated());
+        $couponRepository->save($coupon);
+        $this->assertTrue($coupon->getUpdated() instanceof \DateTime);
     }
 }
