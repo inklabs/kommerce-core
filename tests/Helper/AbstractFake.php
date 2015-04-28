@@ -31,4 +31,8 @@ class AbstractFake
     {
         $this->returnValue = $returnValue;
     }
+
+    public function flush()
+    {
+    }
 }

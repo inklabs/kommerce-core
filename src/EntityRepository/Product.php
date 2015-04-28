@@ -147,13 +147,19 @@ class Product extends AbstractEntityRepository implements ProductInterface
         return $products;
     }
 
-    public function create(Entity\Product & $product)
-    {
-        $this->createEntity($product);
-    }
-
     public function save(Entity\Product & $product)
     {
         $this->saveEntity($product);
+    }
+
+    public function create(Entity\Product & $product)
+    {
+        $this->persist($product);
+        $this->flush();
+    }
+
+    public function persist(Entity\Product & $product)
+    {
+        $this->persistEntity($product);
     }
 }

@@ -46,13 +46,19 @@ class Coupon extends AbstractEntityRepository implements CouponInterface
         return $coupons;
     }
 
-    public function create(Entity\Coupon & $coupon)
-    {
-        $this->createEntity($coupon);
-    }
-
     public function save(Entity\Coupon & $coupon)
     {
         $this->saveEntity($coupon);
+    }
+
+    public function create(Entity\Coupon & $coupon)
+    {
+        $this->persist($coupon);
+        $this->flush();
+    }
+
+    public function persist(Entity\Coupon & $coupon)
+    {
+        $this->persistEntity($coupon);
     }
 }

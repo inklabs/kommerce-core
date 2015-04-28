@@ -28,11 +28,13 @@ class ProductTest extends Helper\DoctrineTestCase
 
     private function setupProduct()
     {
-        $product1 = $this->getDummyProduct(1);
+        $product = $this->getDummyProduct(1);
 
-        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $product;
     }
 
     public function testFind()
@@ -175,7 +177,6 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $this->entityManager->persist($tag);
 
-
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
         $this->entityManager->persist($product3);
@@ -207,9 +208,7 @@ class ProductTest extends Helper\DoctrineTestCase
 
     public function testSave()
     {
-        $product = $this->getDummyProduct(1);
-
-        $this->productRepository->create($product);
+        $product = $this->setupProduct();
 
         $product->setName('new name');
         $this->assertSame(null, $product->getUpdated());

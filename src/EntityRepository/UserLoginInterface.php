@@ -8,11 +8,6 @@ interface UserLoginInterface
     /**
      * @param Entity\UserLogin $userLogin
      */
-    public function save(Entity\UserLogin & $userLogin);
-
-    /**
-     * @param Entity\UserLogin $userLogin
-     */
     public function create(Entity\UserLogin & $userLogin);
 
     /**

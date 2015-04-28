@@ -66,4 +66,11 @@ interface ProductInterface
      * @param Entity\Product $product
      */
     public function save(Entity\Product & $product);
+
+    /**
+     * @param Entity\Product $product
+     */
+    public function persist(Entity\Product & $product);
+
+    public function flush();
 }

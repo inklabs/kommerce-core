@@ -10,12 +10,12 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /**
-     * @return User
-     */
-    private function getRepository()
+    /** @var User */
+    protected $userRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:User');
+        $this->userRepository = $this->entityManager->getRepository('kommerce:User');
     }
 
     private function getUser()
@@ -31,7 +31,7 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
 
     public function testGetQueryBuilder()
     {
-        $queryBuilder = $this->getRepository()->getQueryBuilder();
+        $queryBuilder = $this->userRepository->getQueryBuilder();
         $this->assertTrue($queryBuilder instanceof \inklabs\kommerce\Doctrine\ORM\QueryBuilder);
     }
 
@@ -43,7 +43,7 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
 
         $user->setFirstName('NewName');
 
-        $this->getRepository()->save($user);
+        $this->userRepository->save($user);
 
         $this->assertTrue($user->getUpdated() !== null);
     }
@@ -54,7 +54,7 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
 
         $this->assertSame(null, $user->getId());
 
-        $this->getRepository()->create($user);
+        $this->userRepository->create($user);
 
         $this->assertSame(1, $user->getId());
         $this->assertSame(null, $user->getUpdated());

@@ -12,35 +12,38 @@ class UserLoginTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /**
-     * @return UserLogin
-     */
-    private function getRepository()
+    /** @var UserLogin */
+    protected $userLoginRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:UserLogin');
+        $this->userLoginRepository = $this->entityManager->getRepository('kommerce:UserLogin');
     }
 
-    private function setupUserWithLogin()
+    private function setupUserLogin()
     {
         $userLogin = $this->getDummyUserLogin();
 
         $user = $this->getDummyUser();
         $user->addLogin($userLogin);
 
-        $this->entityManager->persist($userLogin);
         $this->entityManager->persist($user);
+
+        $this->userLoginRepository->create($userLogin);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $userLogin;
     }
 
     public function testFind()
     {
-        $this->setupUserWithLogin();
+        $this->setupUserLogin();
 
         $this->setCountLogger();
 
-        $userLogin = $this->getRepository()
-            ->find(1);
+        $userLogin = $this->userLoginRepository->find(1);
 
         $userLogin->getUser()->getEmail();
 

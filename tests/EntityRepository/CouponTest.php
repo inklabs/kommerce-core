@@ -10,12 +10,12 @@ class CouponTest extends Helper\DoctrineTestCase
         'kommerce:Coupon',
     ];
 
-    /**
-     * @return Coupon
-     */
-    private function getRepository()
+    /** @var Coupon */
+    protected $couponRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Coupon');
+        $this->couponRepository = $this->entityManager->getRepository('kommerce:Coupon');
     }
 
     private function setupCoupon()
@@ -31,8 +31,7 @@ class CouponTest extends Helper\DoctrineTestCase
     {
         $this->setupCoupon();
 
-        $coupon = $this->getRepository()
-            ->find(1);
+        $coupon = $this->couponRepository->find(1);
 
         $this->assertTrue($coupon instanceof Entity\Coupon);
     }
@@ -41,8 +40,7 @@ class CouponTest extends Helper\DoctrineTestCase
     {
         $this->setupCoupon();
 
-        $coupon = $this->getRepository()
-            ->findOneByCode('20PCT1');
+        $coupon = $this->couponRepository->findOneByCode('20PCT1');
 
         $this->assertTrue($coupon instanceof Entity\Coupon);
     }
@@ -51,8 +49,7 @@ class CouponTest extends Helper\DoctrineTestCase
     {
         $this->setupCoupon();
 
-        $coupons = $this->getRepository()
-            ->getAllCoupons('Test');
+        $coupons = $this->couponRepository->getAllCoupons('Test');
 
         $this->assertTrue($coupons[0] instanceof Entity\Coupon);
     }
@@ -61,8 +58,7 @@ class CouponTest extends Helper\DoctrineTestCase
     {
         $this->setupCoupon();
 
-        $coupons = $this->getRepository()
-            ->getAllCouponsByIds([1]);
+        $coupons = $this->couponRepository->getAllCouponsByIds([1]);
 
         $this->assertTrue($coupons[0] instanceof Entity\Coupon);
     }
@@ -72,7 +68,7 @@ class CouponTest extends Helper\DoctrineTestCase
         $coupon = $this->getDummyCoupon(1);
 
         $this->assertSame(null, $coupon->getId());
-        $this->getRepository()->create($coupon);
+        $this->couponRepository->create($coupon);
         $this->assertSame(1, $coupon->getId());
     }
 
@@ -80,7 +76,7 @@ class CouponTest extends Helper\DoctrineTestCase
     {
         $coupon = $this->getDummyCoupon(1);
 
-        $couponRepository = $this->getRepository();
+        $couponRepository = $this->couponRepository;
         $couponRepository->create($coupon);
 
         $coupon->setName('new name');

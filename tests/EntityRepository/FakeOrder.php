@@ -22,11 +22,15 @@ class FakeOrder extends Helper\AbstractFake implements OrderInterface
         return $this->getReturnValueAsArray();
     }
 
-    public function persist(Entity\Order & $order)
+    public function create(Entity\Order & $order)
     {
     }
 
-    public function flush()
+    public function save(Entity\Order & $order)
+    {
+    }
+
+    public function persist(Entity\Order & $order)
     {
     }
 }

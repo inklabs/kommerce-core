@@ -12,13 +12,6 @@ interface UserInterface
     public function find($id);
 
     /**
-     * @param Entity\User $user
-     */
-    public function persist(Entity\User & $user);
-
-    public function flush();
-
-    /**
      * @param string $queryString
      * @return Entity\User[]
      */
@@ -42,7 +35,14 @@ interface UserInterface
     public function create(Entity\User & $user);
 
     /**
-     * @param Entity\User $user
+     * @param Entity\User $product
      */
-    public function save(Entity\User & $user);
+    public function save(Entity\User & $product);
+
+    /**
+     * @param Entity\User $product
+     */
+    public function persist(Entity\User & $product);
+
+    public function flush();
 }
