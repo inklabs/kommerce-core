@@ -6,12 +6,13 @@ use inklabs\kommerce\Entity;
 interface CartPriceRuleInterface
 {
     /**
-     * @return Entity\Product
+     * @param int $id
+     * @return Entity\CartPriceRule
      */
     public function find($id);
 
     /**
-     * @return Entity\Product[]
+     * @return Entity\CartPriceRule[]
      */
     public function findAll();
 }

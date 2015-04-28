@@ -3,9 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\OrderItemOptionProduct find($id)
- */
-class OrderItemOptionProduct extends AbstractEntityRepository
+class OrderItemOptionProduct extends AbstractEntityRepository implements OrderItemOptionProductInterface
 {
 }

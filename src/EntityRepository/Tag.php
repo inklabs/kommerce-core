@@ -3,15 +3,8 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\Tag find($id)
- */
 class Tag extends AbstractEntityRepository implements TagInterface
 {
-    /**
-     * @param string $queryString
-     * @return Entity\Tag[]
-     */
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -33,10 +26,6 @@ class Tag extends AbstractEntityRepository implements TagInterface
         return $tags;
     }
 
-    /**
-     * @param int[]
-     * @return Entity\Tag[]
-     */
     public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -53,9 +42,6 @@ class Tag extends AbstractEntityRepository implements TagInterface
         return $tags;
     }
 
-    /**
-     * @return Entity\Tag[]
-     */
     public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();

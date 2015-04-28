@@ -3,9 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\User find($id)
- */
 class User extends AbstractEntityRepository implements UserInterface
 {
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)

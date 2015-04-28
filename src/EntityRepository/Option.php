@@ -3,16 +3,8 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\Option find($id)
- */
-class Option extends AbstractEntityRepository
+class Option extends AbstractEntityRepository implements OptionInterface
 {
-    /**
-     * @param int[] $optionIds
-     * @param Entity\Pagination $pagination
-     * @return Entity\Option[]
-     */
     public function getAllOptionsByIds($optionIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
