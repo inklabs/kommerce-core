@@ -10,7 +10,7 @@ class CartItemTest extends Helper\DoctrineTestCase
 {
     public function testCreate()
     {
-        $cartItem = $this->getDummyCartItem();
+        $cartItem = $this->getDummyFullCartItem();
 
         $pricing = new Service\Pricing;
 
@@ -34,7 +34,7 @@ class CartItemTest extends Helper\DoctrineTestCase
 
     public function testGetOrderItem()
     {
-        $cartItem = $this->getDummyCartItem();
+        $cartItem = $this->getDummyFullCartItem();
         $orderItem = $cartItem->getOrderItem(new Service\Pricing);
 
         $this->assertTrue($orderItem instanceof OrderItem);

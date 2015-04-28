@@ -14,6 +14,7 @@ class OrderItemTextOptionValueTest extends Helper\DoctrineTestCase
         'kommerce:OrderItemTextOptionValue',
         'kommerce:Product',
         'kommerce:User',
+        'kommerce:Cart',
     ];
 
     /**

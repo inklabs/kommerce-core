@@ -9,6 +9,7 @@ class UserTokenTest extends Helper\DoctrineTestCase
     protected $metaDataClassNames = [
         'kommerce:User',
         'kommerce:UserToken',
+        'kommerce:Cart',
     ];
 
     /**

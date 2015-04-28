@@ -306,7 +306,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $cartPriceRule;
     }
 
-    protected function getDummyCartItem()
+    protected function getDummyFullCartItem()
     {
         $product = new Entity\Product;
         $product->setSku('P1');
@@ -355,6 +355,30 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
 
         return $cartItem;
+    }
+
+    protected function getDummyCartItem($product)
+    {
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+
+        return $cartItem;
+    }
+
+    /**
+     * @param Entity\CartItem[] $cartItems
+     * @return Entity\Cart
+     */
+    protected function getDummyCart(array $cartItems = [])
+    {
+        $cart = new Entity\Cart;
+
+        foreach ($cartItems as $cartItem) {
+            $cart->addCartItem($cartItem);
+        }
+
+        return $cart;
     }
 
     protected function getDummyAddress()

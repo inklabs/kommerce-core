@@ -21,6 +21,7 @@ class OrderItemTest extends Helper\DoctrineTestCase
         'kommerce:CatalogPromotion',
         'kommerce:Tag',
         'kommerce:User',
+        'kommerce:Cart',
     ];
 
     /**

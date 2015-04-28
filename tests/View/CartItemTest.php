@@ -9,7 +9,7 @@ class CartItemTest extends Helper\DoctrineTestCase
 {
     public function testCreate()
     {
-        $cartItem = $this->getDummyCartItem();
+        $cartItem = $this->getDummyFullCartItem();
 
         $viewCartItem = $cartItem->getView()
             ->withAllData(new Service\Pricing)

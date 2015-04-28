@@ -14,6 +14,7 @@ class OrderTest extends Helper\DoctrineTestCase
         'kommerce:Payment\Payment',
         'kommerce:Product',
         'kommerce:User',
+        'kommerce:Cart',
     ];
 
     /**
@@ -53,7 +54,7 @@ class OrderTest extends Helper\DoctrineTestCase
             ->find(1);
 
         $order->getOrderItems()->toArray();
-        $order->getpayments()->toArray();
+        $order->getPayments()->toArray();
         $order->getUser()->getEmail();
         $order->getCoupons()->toArray();
 

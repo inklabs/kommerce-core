@@ -9,6 +9,7 @@ class UserRoleTest extends Helper\DoctrineTestCase
     protected $metaDataClassNames = [
         'kommerce:UserRole',
         'kommerce:User',
+        'kommerce:Cart',
     ];
 
     /**

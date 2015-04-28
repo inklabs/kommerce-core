@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CartItem implements EntityInterface
 {
-    use Accessor\Created, Accessor\Id;
+    use Accessor\Time, Accessor\Id;
 
     /** @var int */
     protected $quantity;

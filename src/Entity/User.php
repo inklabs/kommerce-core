@@ -31,7 +31,6 @@ class User implements EntityInterface
     /** @var int */
     protected $lastLogin;
 
-
     /** @var int */
     protected $status;
     const STATUS_INACTIVE = 0;
@@ -49,6 +48,9 @@ class User implements EntityInterface
 
     /** @var ArrayCollection|UserLogin[] */
     protected $logins;
+
+    /** @var Cart */
+    protected $cart;
 
     public function __construct()
     {
@@ -97,6 +99,16 @@ class User implements EntityInterface
             'message' => 'The status is not a valid choice',
         ]));
 
+    }
+
+    public function getCart()
+    {
+        return $this->cart;
+    }
+
+    public function setCart(Cart $cart)
+    {
+        $this->cart = $cart;
     }
 
     public function isActive()

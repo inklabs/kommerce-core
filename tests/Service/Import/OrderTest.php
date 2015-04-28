@@ -11,6 +11,7 @@ class OrderTest extends Helper\DoctrineTestCase
     protected $metaDataClassNames = [
         'kommerce:Order',
         'kommerce:User',
+        'kommerce:Cart',
     ];
 
     public function testImport()

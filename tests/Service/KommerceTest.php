@@ -9,6 +9,7 @@ class KommerceTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
         'kommerce:User',
+        'kommerce:Cart',
         'kommerce:CatalogPromotion',
         'kommerce:CartPriceRule',
         'kommerce:Tag',

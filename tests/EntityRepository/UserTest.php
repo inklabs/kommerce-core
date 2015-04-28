@@ -12,6 +12,7 @@ class UserTest extends Helper\DoctrineTestCase
         'kommerce:UserToken',
         'kommerce:UserRole',
         'kommerce:Order',
+        'kommerce:Cart',
     ];
 
     /** @var User */
