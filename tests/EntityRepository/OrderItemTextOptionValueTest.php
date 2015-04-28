@@ -63,6 +63,6 @@ class OrderItemTextOptionValueTest extends Helper\DoctrineTestCase
         $orderItemTextOptionValue->getTextOption()->getCreated();
 
         $this->assertTrue($orderItemTextOptionValue instanceof Entity\OrderItemTextOptionValue);
-        $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
     }
 }

@@ -59,7 +59,7 @@
             </options>
         </field>
 
-        <one-to-one field="cart" target-entity="Cart" fetch="EAGER"/>
+        <one-to-one field="cart" target-entity="Cart" mapped-by="user" fetch="EXTRA_LAZY"/>
 
         <one-to-many field="orders" target-entity="Order" mapped-by="user" fetch="EXTRA_LAZY"/>
 

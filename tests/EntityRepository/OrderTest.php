@@ -55,10 +55,10 @@ class OrderTest extends Helper\DoctrineTestCase
 
         $order->getOrderItems()->toArray();
         $order->getPayments()->toArray();
-        $order->getUser()->getEmail();
+        $order->getUser()->getCreated();
         $order->getCoupons()->toArray();
 
         $this->assertTrue($order instanceof Entity\Order);
-        $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 }
