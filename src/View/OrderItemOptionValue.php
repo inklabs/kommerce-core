@@ -30,21 +30,33 @@ class OrderItemOptionValue implements ViewInterface
 
     public function __construct(Entity\OrderItemOptionValue $orderItemOptionValue)
     {
+        $this->orderItemOptionValue = $orderItemOptionValue;
+
         $this->id              = $orderItemOptionValue->getId();
         $this->created         = $orderItemOptionValue->getCreated();
         $this->updated         = $orderItemOptionValue->getUpdated();
         $this->sku             = $orderItemOptionValue->getSku();
         $this->optionName      = $orderItemOptionValue->getOptionName();
         $this->optionValueName = $orderItemOptionValue->getOptionValueName();
-
-        if ($orderItemOptionValue->getOptionValue() !== null) {
-            $this->optionValue = $orderItemOptionValue->getOptionValue()->getView()
-                ->export();
-        }
     }
 
     public function export()
     {
+        unset($this->orderItemOptionValue);
         return $this;
+    }
+
+    public function withOptionValue()
+    {
+        $this->optionValue = $this->orderItemOptionValue->getOptionValue()->getView()
+            ->export();
+
+        return $this;
+    }
+
+    public function withAllData()
+    {
+        return $this
+            ->withOptionValue();
     }
 }

@@ -21,6 +21,8 @@ class CartItemOptionProduct implements ViewInterface
 
     public function __construct(Entity\CartItemOptionProduct $cartItemOptionProduct)
     {
+        $this->cartItemOptionProduct = $cartItemOptionProduct;
+
         $this->id      = $cartItemOptionProduct->getId();
         $this->created = $cartItemOptionProduct->getCreated();
         $this->updated = $cartItemOptionProduct->getUpdated();
@@ -30,6 +32,20 @@ class CartItemOptionProduct implements ViewInterface
 
     public function export()
     {
+        unset($this->cartItemOptionProduct);
         return $this;
     }
-}
+
+    public function withOptionProduct()
+    {
+        $this->optionProduct = $this->cartItemOptionProduct->getOptionProduct()->getView()
+            ->export();
+
+        return $this;
+    }
+
+    public function withAllData()
+    {
+        return $this
+            ->withOptionProduct();
+    }}
