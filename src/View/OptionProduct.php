@@ -35,7 +35,7 @@ class OptionProduct implements ViewInterface
 
     public function __construct(Entity\OptionProduct $optionProduct)
     {
-        $this->optionValue = $optionProduct;
+        $this->optionProduct = $optionProduct;
 
         $this->id             = $optionProduct->getId();
         $this->encodedId      = Lib\BaseConvert::encode($optionProduct->getId());
@@ -45,19 +45,25 @@ class OptionProduct implements ViewInterface
         $this->sortOrder      = $optionProduct->getSortOrder();
         $this->created        = $optionProduct->getCreated();
         $this->updated        = $optionProduct->getUpdated();
-
-        $this->product = $optionProduct->getProduct()->getView()->export();
     }
 
     public function export()
     {
-        unset($this->optionValue);
+        unset($this->optionProduct);
+        return $this;
+    }
+
+    public function withProduct()
+    {
+        $this->product = $this->optionProduct->getProduct()->getView()
+            ->export();
+
         return $this;
     }
 
     public function withOption()
     {
-        $option = $this->optionValue->getOption();
+        $option = $this->optionProduct->getOption();
         if ($option !== null) {
             $this->option = $option->getView()
                 ->export();
@@ -69,6 +75,7 @@ class OptionProduct implements ViewInterface
     public function withAllData()
     {
         return $this
-            ->withOption();
+            ->withOption()
+            ->withProduct();
     }
 }

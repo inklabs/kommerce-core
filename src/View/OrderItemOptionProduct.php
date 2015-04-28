@@ -30,19 +30,33 @@ class OrderItemOptionProduct implements ViewInterface
 
     public function __construct(Entity\OrderItemOptionProduct $orderItemOptionProduct)
     {
+        $this->orderItemOptionProduct = $orderItemOptionProduct;
+
         $this->id                = $orderItemOptionProduct->getId();
         $this->created           = $orderItemOptionProduct->getCreated();
         $this->updated           = $orderItemOptionProduct->getUpdated();
         $this->sku               = $orderItemOptionProduct->getSku();
         $this->optionName        = $orderItemOptionProduct->getOptionName();
         $this->optionProductName = $orderItemOptionProduct->getOptionProductName();
-
-        $this->optionProduct = $orderItemOptionProduct->getOptionProduct()->getView()
-            ->export();
     }
 
     public function export()
     {
+        unset($this->orderItemOptionProduct);
         return $this;
+    }
+
+    public function withOptionProduct()
+    {
+        $this->optionProduct = $this->orderItemOptionProduct->getOptionProduct()->getView()
+            ->export();
+
+        return $this;
+    }
+
+    public function withAllData()
+    {
+        return $this
+            ->withOptionProduct();
     }
 }
