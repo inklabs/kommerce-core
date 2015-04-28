@@ -7,7 +7,7 @@ class Coupon extends AbstractEntityRepository implements CouponInterface
 {
     public function findOneByCode($couponCode)
     {
-        $this->findOneByCode($couponCode);
+        return parent::findOneByCode($couponCode);
     }
 
     public function getAllCoupons($queryString = null, Entity\Pagination & $pagination = null)
@@ -46,13 +46,13 @@ class Coupon extends AbstractEntityRepository implements CouponInterface
         return $coupons;
     }
 
-    public function save(Entity\Coupon & $coupon)
-    {
-        $this->saveEntity($coupon);
-    }
-
     public function create(Entity\Coupon & $coupon)
     {
         $this->createEntity($coupon);
+    }
+
+    public function save(Entity\Coupon & $coupon)
+    {
+        $this->saveEntity($coupon);
     }
 }
