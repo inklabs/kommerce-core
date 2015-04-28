@@ -7,9 +7,16 @@ interface OrderInterface
 {
     /**
      * @param int $id
-     * @method Entity\Order
+     * @return Entity\Order
      */
     public function find($id);
+
+    /**
+     * @param Entity\Order $order
+     */
+    public function persist(Entity\Order & $order);
+
+    public function flush();
 
     /**
      * @param Entity\Pagination $pagination

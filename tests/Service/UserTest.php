@@ -6,11 +6,15 @@ use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\EntityRepository\FakeUser;
+use inklabs\kommerce\tests\EntityRepository\FakeUserLogin;
 
 class UserTest extends Helper\DoctrineTestCase
 {
     /** @var FakeUser */
     protected $userRepository;
+
+    /** @var FakeUserLogin */
+    protected $userLoginRepository;
 
     /** @var User */
     protected $userService;
@@ -21,9 +25,14 @@ class UserTest extends Helper\DoctrineTestCase
     public function setUp()
     {
         $this->userRepository = new FakeUser;
+        $this->userLoginRepository = new FakeUserLogin;
 
         $this->sessionManager = new Lib\ArraySessionManager;
-        $this->userService = new User($this->userRepository, $this->sessionManager);
+        $this->userService = new User(
+            $this->userRepository,
+            $this->userLoginRepository,
+            $this->sessionManager
+        );
     }
 
     public function testFind()

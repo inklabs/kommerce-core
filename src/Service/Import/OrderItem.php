@@ -7,21 +7,23 @@ use inklabs\kommerce\EntityRepository;
 
 class OrderItem
 {
-    /** @var EntityRepository\OrderItem */
+    /** @var EntityRepository\OrderItemInterface */
     private $orderItemRepository;
 
-    /** @var EntityRepository\Product */
+    /** @var EntityRepository\ProductInterface */
     private $productRepository;
 
-    /** @var EntityRepository\Order */
+    /** @var EntityRepository\OrderInterface */
     private $orderRepository;
 
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->setEntityManager($entityManager);
-        $this->orderItemRepository = $entityManager->getRepository('kommerce:OrderItem');
-        $this->productRepository = $entityManager->getRepository('kommerce:Product');
-        $this->orderRepository = $entityManager->getRepository('kommerce:Order');
+    public function __construct(
+        EntityRepository\OrderInterface $orderRepository,
+        EntityRepository\OrderItemInterface $orderItemRepository,
+        EntityRepository\ProductInterface $productRepository
+    ) {
+        $this->orderRepository = $orderRepository;
+        $this->orderItemRepository = $orderItemRepository;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -63,11 +65,11 @@ class OrderItem
                 $orderItem->setProduct($product);
             }
 
-            $this->entityManager->persist($orderItem);
+            $this->orderItemRepository->persist($orderItem);
             $importedCount++;
         }
 
-        $this->entityManager->flush();
+        $this->orderItemRepository->flush();
 
         return $importedCount;
     }

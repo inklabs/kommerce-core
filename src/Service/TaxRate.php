@@ -15,6 +15,11 @@ class TaxRate extends AbstractService
         $this->taxRateRepository = $taxRateRepository;
     }
 
+    public function find($id)
+    {
+        return $this->taxRateRepository->find($id);
+    }
+
     public function findAll()
     {
         return $this->taxRateRepository->findAll();

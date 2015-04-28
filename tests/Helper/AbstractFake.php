@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\Helper;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\EntityInterface;
 
 class AbstractFake
 {
@@ -29,13 +30,5 @@ class AbstractFake
     public function setReturnValue(Entity\EntityInterface $returnValue = null)
     {
         $this->returnValue = $returnValue;
-    }
-
-    public function save(Entity\EntityInterface & $entity)
-    {
-    }
-
-    public function create(Entity\EntityInterface & $entity)
-    {
     }
 }

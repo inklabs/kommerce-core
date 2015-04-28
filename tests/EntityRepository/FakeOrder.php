@@ -21,4 +21,12 @@ class FakeOrder extends Helper\AbstractFake implements OrderInterface
     {
         return $this->getReturnValueAsArray();
     }
+
+    public function persist(Entity\Order & $order)
+    {
+    }
+
+    public function flush()
+    {
+    }
 }

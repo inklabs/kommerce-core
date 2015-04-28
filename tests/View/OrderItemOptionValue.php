@@ -14,7 +14,7 @@ class OrderItemOptionValueTest extends \PHPUnit_Framework_TestCase
 
         $optionValueProduct = new Entity\OptionProduct(new Entity\Product);
         $optionValueProduct->setProduct(new Entity\Product);
-        $optionValueProduct->setOptionType(new Entity\OptionType\Option);
+        $optionValueProduct->setOption(new Entity\Option);
 
         $orderItemOptionValue = new Entity\OrderItemOptionValue($optionValueProduct);
 

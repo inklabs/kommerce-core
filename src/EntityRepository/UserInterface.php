@@ -12,6 +12,13 @@ interface UserInterface
     public function find($id);
 
     /**
+     * @param Entity\User $user
+     */
+    public function persist(Entity\User & $user);
+
+    public function flush();
+
+    /**
      * @param string $queryString
      * @return Entity\User[]
      */
@@ -30,12 +37,12 @@ interface UserInterface
     public function findOneByEmail($email);
 
     /**
-     * @param Entity\EntityInterface $entity
+     * @param Entity\User $user
      */
-    public function create(Entity\EntityInterface & $entity);
+    public function create(Entity\User & $user);
 
     /**
-     * @param Entity\EntityInterface $entity
+     * @param Entity\User $user
      */
-    public function save(Entity\EntityInterface & $entity);
+    public function save(Entity\User & $user);
 }

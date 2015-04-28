@@ -5,6 +5,16 @@ use inklabs\kommerce\Entity;
 
 class User extends AbstractEntityRepository implements UserInterface
 {
+    public function persist(Entity\User & $user)
+    {
+        $this->persistEntity($user);
+    }
+
+    public function flush()
+    {
+        $this->flushEntity();
+    }
+
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -57,5 +67,15 @@ class User extends AbstractEntityRepository implements UserInterface
             ->getOneOrNullResult();
 
         return $user;
+    }
+
+    public function save(Entity\User & $user)
+    {
+        parent::saveEntity($user);
+    }
+
+    public function create(Entity\User & $user)
+    {
+        parent::createEntity($user);
     }
 }

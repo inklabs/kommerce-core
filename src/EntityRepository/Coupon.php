@@ -5,6 +5,11 @@ use inklabs\kommerce\Entity;
 
 class Coupon extends AbstractEntityRepository implements CouponInterface
 {
+    public function findOneByCode($couponCode)
+    {
+        $this->findOneByCode($couponCode);
+    }
+
     public function getAllCoupons($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -39,5 +44,15 @@ class Coupon extends AbstractEntityRepository implements CouponInterface
             ->getResult();
 
         return $coupons;
+    }
+
+    public function save(Entity\Coupon & $coupon)
+    {
+        $this->saveEntity($coupon);
+    }
+
+    public function create(Entity\Coupon & $coupon)
+    {
+        $this->createEntity($coupon);
     }
 }

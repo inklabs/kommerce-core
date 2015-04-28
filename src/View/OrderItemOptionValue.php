@@ -37,8 +37,10 @@ class OrderItemOptionValue implements ViewInterface
         $this->optionName      = $orderItemOptionValue->getOptionName();
         $this->optionValueName = $orderItemOptionValue->getOptionValueName();
 
-        $this->optionValue = $orderItemOptionValue->getOptionValue()->getView()
-            ->export();
+        if ($orderItemOptionValue->getOptionValue() !== null) {
+            $this->optionValue = $orderItemOptionValue->getOptionValue()->getView()
+                ->export();
+        }
     }
 
     public function export()

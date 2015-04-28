@@ -8,13 +8,14 @@ use inklabs\kommerce\Entity\Payment\Payment;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
-use Exception;
 
 class Cart extends AbstractService
 {
-    /** @var Lib\SessionManager */
-    protected $sessionManager;
-    protected $cartSessionKey = 'newcart';
+    /** @var EntityRepository\CouponInterface */
+    protected $couponRepository;
+
+    /** @var EntityRepository\CartInterface */
+    protected $cartRepository;
 
     /** @var Entity\Cart */
     protected $cart;
@@ -31,81 +32,27 @@ class Cart extends AbstractService
     /** @var Entity\User */
     protected $user;
 
-    public function __construct(EntityManager $entityManager, Pricing $pricing, Lib\SessionManager $sessionManager)
-    {
-        $this->setEntityManager($entityManager);
+    public function __construct(
+        EntityRepository\CartInterface $cartRepository,
+        EntityRepository\CouponInterface $couponRepository,
+        Pricing $pricing
+    ) {
+        $this->cartRepository = $cartRepository;
+        $this->couponRepository = $couponRepository;
         $this->pricing = $pricing;
-        $this->sessionManager = $sessionManager;
-
-        $this->load();
     }
 
-    private function load()
+    public function find($id)
     {
-        $this->cart = $this->sessionManager->get($this->cartSessionKey);
+        $cart = $this->cartRepository->find($id);
 
-        if (! ($this->cart instanceof Entity\Cart)) {
-            $this->cart = new Entity\Cart;
+        if ($cart === null) {
+            return null;
         }
 
-        $this->reloadProductsFromEntityManager();
-        $this->reloadCouponsFromEntityManager();
-    }
-
-    private function save()
-    {
-        $this->sessionManager->set($this->cartSessionKey, $this->cart);
-    }
-
-    public function clear()
-    {
-        $this->sessionManager->delete($this->cartSessionKey);
-        $this->cart = new Entity\Cart;
-    }
-
-    private function reloadProductsFromEntityManager()
-    {
-        $numberProductsUpdated = 0;
-        foreach ($this->cart->getCartItems() as $cartItem) {
-            $product = $this->entityManager->merge($cartItem->getProduct());
-            $this->entityManager->refresh($product);
-            $cartItem->setProduct($product);
-
-            $newOptionValues = [];
-            foreach ($cartItem->getOptionValues() as $optionValue) {
-                $optionValue = $this->entityManager->merge($optionValue);
-                $this->entityManager->refresh($optionValue);
-
-                $newOptionValues[] = $optionValue;
-            }
-
-            if (! empty($newOptionValues)) {
-                $cartItem->setOptionValues($newOptionValues);
-            }
-
-            $numberProductsUpdated++;
-        }
-
-        if ($numberProductsUpdated > 0) {
-            $this->save();
-        }
-    }
-
-    private function reloadCouponsFromEntityManager()
-    {
-        $numberCouponsUpdated = 0;
-        foreach ($this->cart->getCoupons() as $key => $coupon) {
-            $newCoupon = $this->entityManager
-                ->getRepository('kommerce:Coupon')
-                ->find($coupon->getId());
-
-            $this->cart->updateCoupon($key, $newCoupon);
-            $numberCouponsUpdated++;
-        }
-
-        if ($numberCouponsUpdated > 0) {
-            $this->save();
-        }
+        return $cart->getView()
+            ->withAllData($this->pricing)
+            ->export();
     }
 
     /**
@@ -113,7 +60,7 @@ class Cart extends AbstractService
      * @param int $quantity
      * @param array $optionValueEncodedIds
      * @return int
-     * @throws Exception
+     * @throws \Exception
      */
     public function addItem($productEncodedId, $quantity, $optionValueEncodedIds = null)
     {
@@ -123,7 +70,7 @@ class Cart extends AbstractService
         $product = $productRepository->find(Lib\BaseConvert::decode($productEncodedId));
 
         if ($product === null) {
-            throw new Exception('Product not found');
+            throw new \Exception('Product not found');
         }
 
         $optionValues = $this->getOptionValues($optionValueEncodedIds);
@@ -137,7 +84,7 @@ class Cart extends AbstractService
     /**
      * @param $optionValueEncodedIds
      * @return Entity\Product[]|null
-     * @throws Exception
+     * @throws \Exception
      */
     private function getOptionValues($optionValueEncodedIds)
     {
@@ -154,56 +101,69 @@ class Cart extends AbstractService
             $optionValues = $optionValueRepository->getAllOptionValuesByIds($optionValueIds);
 
             if (count($optionValues) !== count($optionValueEncodedIds)) {
-                throw new Exception('Option not found');
+                throw new \Exception('Option not found');
             }
         }
 
         return $optionValues;
     }
 
-    public function addCouponByCode($couponCode)
+    /**
+     * @param int $cartId
+     * @param string $couponCode
+     * @return int
+     */
+    public function addCouponByCode($cartId, $couponCode)
     {
-        $coupon = $this->entityManager
-            ->getRepository('kommerce:Coupon')
-            ->findOneByCode($couponCode);
+        $cart = $this->getCartAndThrowExceptionIfNotFound($cartId);
+        $coupon = $this->couponRepository->findOneByCode($couponCode);
 
         if ($coupon === null) {
-            throw new Exception('Coupon not found');
+            throw new \LogicException('Coupon not found');
         }
 
-        $couponId = $this->cart->addCoupon($coupon);
-        $this->save();
+        $couponIndex = $cart->addCoupon($coupon);
 
-        return $couponId;
+        $this->cartRepository->save($cart);
+
+        return $couponIndex;
     }
 
     /**
-     * @param int $key
-     * @throws Exception
+     * @param int $cartId
+     * @param int $couponIndex
+     * @throws \InvalidArgumentException
+     * @throws \LogicException
      */
-    public function removeCoupon($key)
+    public function removeCoupon($cartId, $couponIndex)
     {
-        $this->cart->removeCoupon($key);
+        $cart = $this->getCartAndThrowExceptionIfNotFound($cartId);
+
+        $cart->removeCoupon($couponIndex);
+
+        $this->cartRepository->save($cart);
     }
 
     /**
+     * @param int $cartId
      * @return Entity\Coupon[]
      */
-    public function getCoupons()
+    public function getCoupons($cartId)
     {
-        return $this->cart->getCoupons();
+        $cart = $this->getCartAndThrowExceptionIfNotFound($cartId);
+        return $cart->getCoupons();
     }
 
     /**
      * @param int $cartItemId
      * @param int $quantity
-     * @throws Exception
+     * @throws \Exception
      */
     public function updateQuantity($cartItemId, $quantity)
     {
         $item = $this->cart->getCartItem($cartItemId);
         if ($item === null) {
-            throw new Exception('Item not found');
+            throw new \Exception('Item not found');
         }
 
         $item->setQuantity($quantity);
@@ -212,7 +172,7 @@ class Cart extends AbstractService
 
     /**
      * @param int $cartItemId
-     * @throws Exception
+     * @throws \Exception
      */
     public function deleteItem($cartItemId)
     {
@@ -335,5 +295,20 @@ class Cart extends AbstractService
     public function setUser(Entity\User $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @param string $cartId
+     * @return Entity\Cart
+     */
+    protected function getCartAndThrowExceptionIfNotFound($cartId)
+    {
+        $cart = $this->cartRepository->find($cartId);
+
+        if ($cart === null) {
+            throw new \LogicException('Cart not found');
+        }
+
+        return $cart;
     }
 }
