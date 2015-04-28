@@ -61,4 +61,37 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->assertTrue($order instanceof Entity\Order);
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
+
+    public function testGetLatestOrders()
+    {
+        $this->setupOrder();
+
+        $orders = $this->getRepository()
+            ->getLatestOrders();
+
+        $this->assertTrue($orders[0] instanceof Entity\Order);
+    }
+
+    public function testPersistAndFlush()
+    {
+        $product = $this->getDummyProduct();
+        $price = $this->getDummyPrice();
+        $user = $this->getDummyUser();
+        $orderItem = $this->getDummyOrderItem($product, $price);
+        $cartTotal = $this->getDummyCartTotal();
+
+        $order = $this->getDummyOrder($cartTotal, [$orderItem]);
+        $order->setUser($user);
+
+        $this->entityManager->persist($product);
+        $this->entityManager->persist($user);
+
+        $this->assertSame(null, $order->getId());
+
+        $orderRepository = $this->getRepository();
+        $orderRepository->persist($order);
+        $orderRepository->flush();
+
+        $this->assertSame(1, $order->getId());
+    }
 }
