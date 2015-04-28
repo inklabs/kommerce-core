@@ -146,4 +146,14 @@ class Product extends AbstractEntityRepository implements ProductInterface
 
         return $products;
     }
+
+    public function create(Entity\Product & $entity)
+    {
+        parent::create($product);
+    }
+
+    public function save(Entity\Product & $product)
+    {
+        parent::save($product);
+    }
 }

@@ -21,14 +21,13 @@ class Order extends AbstractService
      */
     public function find($id)
     {
-        /** @var Entity\Order $entityOrder */
-        $entityOrder = $this->orderRepository->find($id);
+        $order = $this->orderRepository->find($id);
 
-        if ($entityOrder === null) {
+        if ($order === null) {
             return null;
         }
 
-        return $entityOrder->getView()
+        return $order->getView()
             ->withAllData()
             ->export();
     }

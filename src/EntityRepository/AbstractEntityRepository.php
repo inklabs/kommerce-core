@@ -11,17 +11,27 @@ abstract class AbstractEntityRepository extends \Doctrine\ORM\EntityRepository
         return new QueryBuilder($this->getEntityManager());
     }
 
-    public function save(EntityInterface & $entity)
+    public function saveEntity(EntityInterface & $entity)
     {
         $entityManager = $this->getEntityManager();
         $entity = $entityManager->merge($entity);
         $entityManager->flush();
     }
 
-    public function create(EntityInterface & $entity)
+    public function createEntity(EntityInterface & $entity)
     {
         $entityManager = $this->getEntityManager();
         $entityManager->persist($entity);
         $entityManager->flush();
+    }
+
+    public function persistEntity(EntityInterface & $entity)
+    {
+        $this->getEntityManager()->persist($entity);
+    }
+
+    public function flushEntity()
+    {
+        $this->getEntityManager()->flush();
     }
 }

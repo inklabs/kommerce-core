@@ -16,7 +16,7 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setCountLogger();
 
-        $userService = new User($this->entityManager);
+        $userService = new User($this->entityManager->getRepository('kommerce:User'));
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/UserTest.csv');
         $importedCount = $userService->import($iterator);

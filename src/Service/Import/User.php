@@ -7,13 +7,12 @@ use inklabs\kommerce\EntityRepository;
 
 class User
 {
-    /** @var EntityRepository\User */
+    /** @var EntityRepository\UserInterface */
     private $userRepository;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityRepository\UserInterface $userRepository)
     {
-        $this->setEntityManager($entityManager);
-        $this->userRepository = $entityManager->getRepository('kommerce:User');
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -50,11 +49,11 @@ class User
                 $user->setEmail($email);
             }
 
-            $this->entityManager->persist($user);
+            $this->userRepository->persist($user);
             $importedCount++;
         }
 
-        $this->entityManager->flush();
+        $this->userRepository->flush();
 
         return $importedCount;
     }

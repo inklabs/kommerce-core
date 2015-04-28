@@ -14,15 +14,23 @@ class User extends AbstractService
     /** @var EntityRepository\UserInterface */
     private $userRepository;
 
+    /** @var EntityRepository\UserLoginInterface */
+    private $userLoginRepository;
+
     /** @var Entity\User */
     protected $user;
 
-    public function __construct(EntityRepository\UserInterface $userRepository, Lib\SessionManager $sessionManager)
-    {
+    public function __construct(
+        EntityRepository\UserInterface $userRepository,
+        EntityRepository\UserLoginInterface $userLoginRepository,
+        Lib\SessionManager $sessionManager
+    ) {
         $this->sessionManager = $sessionManager;
         $this->userRepository = $userRepository;
+        $this->userLoginRepository = $userLoginRepository;
 
         $this->load();
+        $this->userLoginRepository = $userLoginRepository;
     }
 
     private function load()
@@ -80,7 +88,7 @@ class User extends AbstractService
             $user->addLogin($userLogin);
         }
 
-        $this->userRepository->save($userLogin);
+        $this->userLoginRepository->save($userLogin);
     }
 
     public function logout()

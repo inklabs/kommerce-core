@@ -7,17 +7,18 @@ use inklabs\kommerce\EntityRepository;
 
 class Order
 {
-    /** @var EntityRepository\Order */
-    private $orderRepository;
-
-    /** @var EntityRepository\User */
+    /** @var EntityRepository\UserInterface */
     private $userRepository;
 
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->setEntityManager($entityManager);
-        $this->orderRepository = $entityManager->getRepository('kommerce:Order');
-        $this->userRepository = $entityManager->getRepository('kommerce:User');
+    /** @var EntityRepository\OrderInterface */
+    private $orderRepository;
+
+    public function __construct(
+        EntityRepository\OrderInterface $orderRepository,
+        EntityRepository\UserInterface $userRepository
+    ) {
+        $this->orderRepository = $orderRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -54,11 +55,11 @@ class Order
                 $order->setUser($user);
             }
 
-            $this->entityManager->persist($order);
+            $this->orderRepository->persist($order);
             $importedCount++;
         }
 
-        $this->entityManager->flush();
+        $this->orderRepository->flush();
 
         return $importedCount;
     }

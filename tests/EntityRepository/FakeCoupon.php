@@ -18,6 +18,11 @@ class FakeCoupon extends Helper\AbstractFake implements CouponInterface
         return $this->getReturnValue();
     }
 
+    public function findOneByCode($couponCode)
+    {
+        return $this->getReturnValue();
+    }
+
     public function getAllCoupons($queryString = null, Entity\Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
@@ -26,5 +31,13 @@ class FakeCoupon extends Helper\AbstractFake implements CouponInterface
     public function getAllCouponsByIds($couponIds, Entity\Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
+    }
+
+    public function save(Entity\Coupon & $coupon)
+    {
+    }
+
+    public function create(Entity\Coupon & $coupon)
+    {
     }
 }
