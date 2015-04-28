@@ -4,15 +4,8 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 
-/**
- * @method Entity\Product find($id)
- */
 class Product extends AbstractEntityRepository implements ProductInterface
 {
-    /**
-     * @param Entity\Product[] $products
-     * @return Entity\Product[]
-     */
     public function getRelatedProducts(array $products, $limit = 12)
     {
         $productIds = [];
@@ -27,9 +20,6 @@ class Product extends AbstractEntityRepository implements ProductInterface
         return $this->getRelatedProductsByIds($productIds, $tagIds, $limit);
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getRelatedProductsByIds($productIds, $tagIds = null, $limit = 12)
     {
         $qb = $this->getQueryBuilder();
@@ -59,17 +49,11 @@ class Product extends AbstractEntityRepository implements ProductInterface
         return $products;
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getProductsByTag(Entity\Tag $tag, Entity\Pagination & $pagination = null)
     {
         return $this->getProductsByTagId($tag->getId(), $pagination);
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getProductsByTagId($tagId, Entity\Pagination & $pagination = null)
     {
         $products = $this->getQueryBuilder()
@@ -92,9 +76,6 @@ class Product extends AbstractEntityRepository implements ProductInterface
         return $products;
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -112,9 +93,6 @@ class Product extends AbstractEntityRepository implements ProductInterface
         return $products;
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -137,9 +115,6 @@ class Product extends AbstractEntityRepository implements ProductInterface
         return $products;
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -155,9 +130,6 @@ class Product extends AbstractEntityRepository implements ProductInterface
         return $products;
     }
 
-    /**
-     * @return View\Product[]
-     */
     public function getRandomProducts($limit)
     {
         $qb = $this->getQueryBuilder();

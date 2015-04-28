@@ -3,12 +3,9 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 
-class OptionValue extends AbstractEntityRepository
+class OptionValue extends AbstractEntityRepository implements OptionValueInterface
 {
-    /**
-     * @return Entity\OptionValue
-     */
-    public function find($id, $lockMode = null, $lockVersion = null)
+    public function find($id)
     {
         $qb = $this->getQueryBuilder();
 
@@ -26,9 +23,6 @@ class OptionValue extends AbstractEntityRepository
         return $optionValues[0];
     }
 
-    /**
-     * @return Entity\OptionValue[]
-     */
     public function getAllOptionValuesByIds($optionValueIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();

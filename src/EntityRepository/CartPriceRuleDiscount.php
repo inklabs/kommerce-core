@@ -3,9 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\CartPriceRuleDiscount find($id)
- */
-class CartPriceRuleDiscount extends AbstractEntityRepository
+class CartPriceRuleDiscount extends AbstractEntityRepository implements CartPriceRuleDiscountInterface
 {
 }
