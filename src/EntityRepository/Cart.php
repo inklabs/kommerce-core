@@ -5,13 +5,13 @@ use inklabs\kommerce\Entity;
 
 class Cart extends AbstractEntityRepository implements CartInterface
 {
-    public function save(Entity\Cart & $order)
+    public function save(Entity\Cart & $cart)
     {
-        $this->saveEntity($order);
+        $this->saveEntity($cart);
     }
 
-    public function create(Entity\Cart & $order)
+    public function create(Entity\Cart & $cart)
     {
-        $this->createEntity($order);
+        $this->createEntity($cart);
     }
 }

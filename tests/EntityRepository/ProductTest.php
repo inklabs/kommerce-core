@@ -18,12 +18,12 @@ class ProductTest extends Helper\DoctrineTestCase
         'kommerce:OptionProduct',
     ];
 
-    /**
-     * @return Product
-     */
-    private function getRepository()
+    /** @var Product */
+    protected $productRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Product');
+        $this->productRepository = $this->entityManager->getRepository('kommerce:Product');
     }
 
     private function setupProduct()
@@ -41,8 +41,7 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $product = $this->getRepository()
-            ->find(1);
+        $product = $this->productRepository->find(1);
 
         $product->getImages()->toArray();
         $product->getProductQuantityDiscounts()->toArray();
@@ -68,14 +67,15 @@ class ProductTest extends Helper\DoctrineTestCase
         $product2->addTag($tag);
 
         $this->entityManager->persist($tag);
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->persist($product3);
+
+        $this->productRepository->create($product1);
+        $this->productRepository->create($product2);
+        $this->productRepository->create($product3);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $products = $this->getRepository()
-            ->getRelatedProducts([$product1]);
+        $products = $this->productRepository->getRelatedProducts([$product1]);
 
         $this->assertSame(1, count($products));
         $this->assertSame(2, $products[0]->getId());
@@ -104,8 +104,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $products = $this->getRepository()
-            ->getProductsByTag($tag);
+        $products = $this->productRepository->getProductsByTag($tag);
 
         $this->assertSame(2, count($products));
         $this->assertSame(1, $products[0]->getId());
@@ -116,8 +115,7 @@ class ProductTest extends Helper\DoctrineTestCase
     {
         $this->setupProduct();
 
-        $products = $this->getRepository()
-            ->getProductsByIds([1]);
+        $products = $this->productRepository->getProductsByIds([1]);
 
         $this->assertSame(1, count($products));
         $this->assertSame(1, $products[0]->getId());
@@ -127,8 +125,7 @@ class ProductTest extends Helper\DoctrineTestCase
     {
         $this->setupProduct();
 
-        $products = $this->getRepository()
-            ->getAllProducts('#1');
+        $products = $this->productRepository->getAllProducts('#1');
 
         $this->assertSame(1, $products[0]->getId());
     }
@@ -137,8 +134,7 @@ class ProductTest extends Helper\DoctrineTestCase
     {
         $this->setupProduct();
 
-        $products = $this->getRepository()
-            ->getAllProductsByIds([1]);
+        $products = $this->productRepository->getAllProductsByIds([1]);
 
         $this->assertSame(1, $products[0]->getId());
     }
@@ -155,8 +151,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $products = $this->getRepository()
-            ->getRandomProducts(2);
+        $products = $this->productRepository->getRandomProducts(2);
 
         $this->assertSame(2, count($products));
     }
@@ -179,6 +174,8 @@ class ProductTest extends Helper\DoctrineTestCase
         $product3->addTag($tag);
 
         $this->entityManager->persist($tag);
+
+
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
         $this->entityManager->persist($product3);
@@ -189,8 +186,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $page = 1;
         $pagination = new Entity\Pagination($maxResults, $page);
 
-        $products = $this->getRepository()
-            ->getProductsByTag($tag, $pagination);
+        $products = $this->productRepository->getProductsByTag($tag, $pagination);
 
         $this->assertSame(2, count($products));
         $this->assertSame(1, $products[0]->getId());
@@ -202,33 +198,22 @@ class ProductTest extends Helper\DoctrineTestCase
         $page = 2;
         $pagination = new Entity\Pagination($maxResults, $page);
 
-        $products = $this->getRepository()
-            ->getProductsByTag($tag, $pagination);
+        $products = $this->productRepository->getProductsByTag($tag, $pagination);
 
         $this->assertSame(1, count($products));
         $this->assertSame(3, $products[0]->getId());
         $this->assertSame(3, $pagination->getTotal());
     }
 
-    public function testCreate()
-    {
-        $product = $this->getDummyProduct(1);
-
-        $this->assertSame(null, $product->getId());
-        $this->getRepository()->create($product);
-        $this->assertSame(1, $product->getId());
-    }
-
     public function testSave()
     {
         $product = $this->getDummyProduct(1);
 
-        $productRepository = $this->getRepository();
-        $productRepository->create($product);
+        $this->productRepository->create($product);
 
         $product->setName('new name');
         $this->assertSame(null, $product->getUpdated());
-        $productRepository->save($product);
+        $this->productRepository->save($product);
         $this->assertTrue($product->getUpdated() instanceof \DateTime);
     }
 }

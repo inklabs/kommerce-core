@@ -15,12 +15,12 @@ class CartTest extends Helper\DoctrineTestCase
         'kommerce:User',
     ];
 
-    /**
-     * @return Cart
-     */
-    private function getRepository()
+    /** @var Cart */
+    protected $cartRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Cart');
+        $this->cartRepository = $this->entityManager->getRepository('kommerce:Cart');
     }
 
     public function setupCart()
@@ -36,7 +36,9 @@ class CartTest extends Helper\DoctrineTestCase
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);
-        $this->entityManager->persist($cart);
+
+        $this->cartRepository->create($cart);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
     }
@@ -47,8 +49,7 @@ class CartTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $cart = $this->getRepository()
-            ->find(1);
+        $cart = $this->cartRepository->find(1);
 
         $cart->getCartItems()->toArray();
         $cart->getUser()->getCreated();
@@ -56,5 +57,23 @@ class CartTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($cart instanceof Entity\Cart);
         $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
+    }
+
+    public function testSave()
+    {
+        $user1 = $this->getDummyUser(1);
+        $user2 = $this->getDummyUser(2);
+        $cart = $this->getDummyCart();
+        $cart->setUser($user1);
+
+        $this->entityManager->persist($user1);
+        $this->entityManager->persist($user2);
+
+        $this->cartRepository->create($cart);
+
+        $cart->setUser($user2);
+        $this->assertSame(null, $cart->getUpdated());
+        $this->cartRepository->save($cart);
+        $this->assertTrue($cart->getUpdated() instanceof \DateTime);
     }
 }
