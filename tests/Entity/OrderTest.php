@@ -41,18 +41,22 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $cart->addCartItem($cartItem);
 
         $order = $cart->getOrder(new Pricing);
+        $order->setId(1);
         $order->setExternalId('CO1102-0016');
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
         $order->setUser(new User);
         $order->addCoupon(new Coupon);
         $order->addPayment(new Payment\Cash(100));
+        $order->setReferenceNumber('xxx-xxxxxxx-xxxxxxx');
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
             ->getValidator();
 
         $this->assertEmpty($validator->validate($order));
+        $this->assertSame(1, $order->getReferenceId());
+        $this->assertSame('xxx-xxxxxxx-xxxxxxx', $order->getReferenceNumber());
         $this->assertSame(Order::STATUS_PENDING, $order->getStatus());
         $this->assertSame('Pending', $order->getStatusText());
         $this->assertSame('CO1102-0016', $order->getExternalId());
