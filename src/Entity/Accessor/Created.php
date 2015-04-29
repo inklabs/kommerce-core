@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity\Accessor;
 
+use Doctrine\ORM\Event\LifecycleEventArgs;
+
 trait Created
 {
     /** @var int */

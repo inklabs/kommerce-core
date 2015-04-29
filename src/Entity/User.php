@@ -124,9 +124,9 @@ class User implements EntityInterface
     /**
      * @param string $externalId
      */
-    public function setExternalId($externalId)
+    public function setExternalId($externalId = null)
     {
-        $this->externalId = (string) $externalId;
+        $this->externalId = $externalId;
     }
 
     public function setStatus($status)

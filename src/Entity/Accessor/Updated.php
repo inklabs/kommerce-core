@@ -20,11 +20,6 @@ trait Updated
         $this->updated = $updated->getTimestamp();
     }
 
-    public function preUpdate(PreUpdateEventArgs $event = null)
-    {
-        $this->setUpdated();
-    }
-
     /**
      * @return \DateTime|null
      */
@@ -37,5 +32,10 @@ trait Updated
         $updated = new \DateTime();
         $updated->setTimestamp($this->updated);
         return $updated;
+    }
+
+    public function preUpdate(PreUpdateEventArgs $event = null)
+    {
+        $this->setUpdated();
     }
 }
