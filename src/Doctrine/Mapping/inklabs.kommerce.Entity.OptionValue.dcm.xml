@@ -14,6 +14,21 @@
             </options>
         </id>
 
+        <field name="name" type="string" length="255"/>
+        <field name="sku" type="string" length="64" nullable="true"/>
+
+        <field name="unitPrice" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="shippingWeight" type="smallint">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <field name="sortOrder" type="smallint">
             <options>
                 <option name="unsigned">true</option>

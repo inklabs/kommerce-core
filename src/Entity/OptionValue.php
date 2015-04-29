@@ -35,6 +35,26 @@ class OptionValue implements EntityInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('name', new Assert\Length([
+            'max' => 255,
+        ]));
+
+        $metadata->addPropertyConstraint('sku', new Assert\Length([
+            'max' => 64,
+        ]));
+
+        $metadata->addPropertyConstraint('unitPrice', new Assert\NotNull);
+        $metadata->addPropertyConstraint('unitPrice', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+
+        $metadata->addPropertyConstraint('shippingWeight', new Assert\NotNull);
+        $metadata->addPropertyConstraint('shippingWeight', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
     }
 
     public function getName()
