@@ -17,7 +17,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $textOption->addOptionValue(new Entity\OptionValue);
 
         $viewOption = $textOption->getView()
-            ->withAllData()
+            ->withAllData(new Service\Pricing)
             ->export();
 
         $this->assertTrue($viewOption instanceof Option);

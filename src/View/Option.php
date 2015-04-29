@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\Service;
 use inklabs\kommerce\Lib;
 
 class Option
@@ -25,13 +26,13 @@ class Option
     public $type;
 
     /** @var Tag[] */
-    public $tags;
+    public $tags = [];
 
     /** @var OptionProduct[] */
-    public $optionProducts;
+    public $optionProducts = [];
 
     /** @var OptionValue[] */
-    public $optionValues;
+    public $optionValues = [];
 
     public $created;
     public $updated;
@@ -56,10 +57,11 @@ class Option
         return $this;
     }
 
-    public function withOptionProducts()
+    public function withOptionProducts(Service\Pricing $pricing)
     {
         foreach ($this->option->getOptionProducts() as $optionProduct) {
             $this->optionProducts[] = $optionProduct->getView()
+                ->withProduct($pricing)
                 ->export();
         }
 
@@ -86,11 +88,11 @@ class Option
         return $this;
     }
 
-    public function withAllData()
+    public function withAllData(Service\Pricing $pricing)
     {
         return $this
             ->withTags()
-            ->withOptionProducts()
+            ->withOptionProducts($pricing)
             ->withOptionValues();
     }
 }
