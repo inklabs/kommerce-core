@@ -49,15 +49,10 @@ class Order extends AbstractEntityRepository implements OrderInterface
 
     public function create(Entity\Order & $order)
     {
-        $this->persist($order);
+        $this->persistEntity($order);
         $this->flush();
 
         $this->setReferenceNumber($order);
-    }
-
-    public function persist(Entity\Order & $order)
-    {
-        $this->persistEntity($order);
     }
 
     private function setReferenceNumber(Entity\Order & $order)

@@ -29,7 +29,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $importedCount = $orderService->import($iterator);
 
         $this->assertSame(3, $importedCount);
-        $this->assertSame(8, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(12, $this->countSQLLogger->getTotalQueries());
     }
 
     private function setupUsersForImport()
