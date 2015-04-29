@@ -37,4 +37,16 @@ class FakeTag extends Helper\AbstractFake implements TagInterface
     {
         return $this->getReturnValueAsArray();
     }
+
+    public function create(Entity\Tag & $tag)
+    {
+    }
+
+    public function save(Entity\Tag & $tag)
+    {
+    }
+
+    public function persist(Entity\Tag & $tag)
+    {
+    }
 }

@@ -19,6 +19,11 @@ interface UserLoginInterface
     /**
      * @param Entity\UserLogin $userLogin
      */
+    public function save(Entity\UserLogin & $userLogin);
+
+    /**
+     * @param Entity\UserLogin $userLogin
+     */
     public function persist(Entity\UserLogin & $userLogin);
 
     public function flush();

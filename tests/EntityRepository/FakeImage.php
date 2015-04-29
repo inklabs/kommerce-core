@@ -17,4 +17,16 @@ class FakeImage extends Helper\AbstractFake implements ImageInterface
     {
         return $this->getReturnValue();
     }
+
+    public function save(Entity\Image & $image)
+    {
+    }
+
+    public function create(Entity\Image & $image)
+    {
+    }
+
+    public function persist(Entity\Image & $image)
+    {
+    }
 }
