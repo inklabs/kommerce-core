@@ -55,6 +55,7 @@ class Cart implements EntityInterface
         $cartItem->setCart($this);
         $this->cartItems->add($cartItem);
 
+        $this->cartItems->last();
         $cartItemIndex = $this->cartItems->key();
         return $cartItemIndex;
     }

@@ -125,7 +125,7 @@ class Cart extends AbstractService
     /**
      * @param string $productId
      * @param int $quantity
-     * @return int
+     * @return int $cartItemIndex
      * @throws \LogicException
      */
     public function addItem($productId, $quantity = 1)
@@ -234,6 +234,7 @@ class Cart extends AbstractService
     public function deleteItem($cartItemIndex)
     {
         $this->cart->deleteCartItem($cartItemIndex);
+
         $this->save();
     }
 

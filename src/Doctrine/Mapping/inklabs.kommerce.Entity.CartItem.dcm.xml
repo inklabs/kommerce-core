@@ -35,27 +35,30 @@
         <one-to-many field="cartItemOptionProducts"
                      target-entity="CartItemOptionProduct"
                      mapped-by="cartItem"
-                     fetch="EXTRA_LAZY">
+                     fetch="EXTRA_LAZY"
+                     orphan-removal="true">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
         <one-to-many field="cartItemOptionValues"
                      target-entity="CartItemOptionValue"
                      mapped-by="cartItem"
-                     fetch="EXTRA_LAZY">
+                     fetch="EXTRA_LAZY"
+                     orphan-removal="true">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
         <one-to-many field="cartItemTextOptionValues"
                      target-entity="CartItemTextOptionValue"
                      mapped-by="cartItem"
-                     fetch="EXTRA_LAZY">
+                     fetch="EXTRA_LAZY"
+                     orphan-removal="true">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 

@@ -3,7 +3,7 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
-use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\Service;
 
 class CartItemOptionProduct implements ViewInterface
 {
@@ -36,17 +36,19 @@ class CartItemOptionProduct implements ViewInterface
         return $this;
     }
 
-    public function withOptionProduct()
+    public function withOptionProduct(Service\Pricing $pricing)
     {
         $this->optionProduct = $this->cartItemOptionProduct->getOptionProduct()->getView()
+            ->withOption()
+            ->withProduct($pricing)
             ->export();
 
         return $this;
     }
 
-    public function withAllData()
+    public function withAllData(Service\Pricing $pricing)
     {
         return $this
-            ->withOptionProduct();
+            ->withOptionProduct($pricing);
     }
 }
