@@ -47,4 +47,20 @@ class OptionProduct extends AbstractEntityRepository implements OptionProductInt
 
         return $optionValues;
     }
+
+    public function save(Entity\OptionProduct & $optionProduct)
+    {
+        $this->saveEntity($optionProduct);
+    }
+
+    public function create(Entity\OptionProduct & $optionProduct)
+    {
+        $this->persist($optionProduct);
+        $this->flush();
+    }
+
+    public function persist(Entity\OptionProduct & $optionProduct)
+    {
+        $this->persistEntity($optionProduct);
+    }
 }

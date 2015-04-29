@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity;
 
 class TextOption extends AbstractEntityRepository implements TextOptionInterface
 {
-    public function getAllOptionsByIds($optionIds, Entity\Pagination & $pagination = null)
+    public function getAllTextOptionsByIds($optionIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 

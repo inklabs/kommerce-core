@@ -8,12 +8,6 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 
 abstract class AbstractService
 {
-    /**
-     * @param int $id
-     * @return mixed
-     */
-    abstract public function find($id);
-
     public function findByEncodedId($encodedId)
     {
         return $this->find(Lib\BaseConvert::decode($encodedId));

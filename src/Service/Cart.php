@@ -14,11 +14,20 @@ class Cart extends AbstractService
     /** @var EntityRepository\CouponInterface */
     protected $couponRepository;
 
+    /** @var EntityRepository\ProductInterface */
+    protected $productRepository;
+
+    /** @var EntityRepository\OptionProductInterface */
+    protected $optionProductRepository;
+
+    /** @var EntityRepository\OptionValueInterface */
+    protected $optionValueRepository;
+
+    /** @var EntityRepository\TextOptionInterface */
+    protected $textOptionRepository;
+
     /** @var EntityRepository\CartInterface */
     protected $cartRepository;
-
-    /** @var Entity\Cart */
-    protected $cart;
 
     /** @var Entity\Shipping\Rate */
     protected $shippingRate;
@@ -32,151 +41,197 @@ class Cart extends AbstractService
     /** @var Entity\User */
     protected $user;
 
+    /** @var Entity\Cart */
+    protected $cart;
+
+    /**
+     * @param EntityRepository\CartInterface $cartRepository
+     * @param EntityRepository\ProductInterface $productRepository
+     * @param EntityRepository\OptionProductInterface $optionProductRepository
+     * @param EntityRepository\OptionValueInterface $optionValueRepository
+     * @param EntityRepository\TextOptionInterface $textOptionRepository
+     * @param EntityRepository\CouponInterface $couponRepository
+     * @param Pricing $pricing
+     * @param int $cartId
+     */
     public function __construct(
         EntityRepository\CartInterface $cartRepository,
+        EntityRepository\ProductInterface $productRepository,
+        EntityRepository\OptionProductInterface $optionProductRepository,
+        EntityRepository\OptionValueInterface $optionValueRepository,
+        EntityRepository\TextOptionInterface $textOptionRepository,
         EntityRepository\CouponInterface $couponRepository,
-        Pricing $pricing
+        Pricing $pricing,
+        $cartId
     ) {
         $this->cartRepository = $cartRepository;
+        $this->productRepository = $productRepository;
+        $this->optionProductRepository = $optionProductRepository;
+        $this->optionValueRepository = $optionValueRepository;
+        $this->textOptionRepository = $textOptionRepository;
         $this->couponRepository = $couponRepository;
         $this->pricing = $pricing;
+
+        $this->loadCartAndThrowExceptionIfCartNotFound($cartId);
     }
 
-    public function find($id)
+    protected function save()
     {
-        $cart = $this->cartRepository->find($id);
-
-        if ($cart === null) {
-            return null;
-        }
-
-        return $cart->getView()
-            ->withAllData($this->pricing)
-            ->export();
+        $this->cartRepository->save($this->cart);
     }
 
     /**
-     * @param string $productEncodedId
-     * @param int $quantity
-     * @param array $optionValueEncodedIds
-     * @return int
-     * @throws \Exception
-     */
-    public function addItem($productEncodedId, $quantity, $optionValueEncodedIds = null)
-    {
-        /** @var EntityRepository\Product $productRepository */
-        $productRepository = $this->entityManager->getRepository('kommerce:Product');
-
-        $product = $productRepository->find(Lib\BaseConvert::decode($productEncodedId));
-
-        if ($product === null) {
-            throw new \Exception('Product not found');
-        }
-
-        $optionValues = $this->getOptionValues($optionValueEncodedIds);
-
-        $itemId = $this->cart->addCartItem($product, $quantity, $optionValues);
-        $this->save();
-
-        return $itemId;
-    }
-
-    /**
-     * @param $optionValueEncodedIds
-     * @return Entity\Product[]|null
-     * @throws \Exception
-     */
-    private function getOptionValues($optionValueEncodedIds)
-    {
-        /** @var EntityRepository\OptionValue $optionValueRepository */
-        $optionValueRepository = $this->entityManager->getRepository('kommerce:OptionValue\AbstractOptionValue');
-
-        $optionValues = null;
-        if ($optionValueEncodedIds !== null) {
-            $optionValueIds = [];
-            foreach ($optionValueEncodedIds as $optionEncodedId => $optionValueEncodedId) {
-                $optionValueIds[] = Lib\BaseConvert::decode((string) $optionValueEncodedId);
-            }
-
-            $optionValues = $optionValueRepository->getAllOptionValuesByIds($optionValueIds);
-
-            if (count($optionValues) !== count($optionValueEncodedIds)) {
-                throw new \Exception('Option not found');
-            }
-        }
-
-        return $optionValues;
-    }
-
-    /**
-     * @param int $cartId
      * @param string $couponCode
      * @return int
      */
-    public function addCouponByCode($cartId, $couponCode)
+    public function addCouponByCode($couponCode)
     {
-        $cart = $this->getCartAndThrowExceptionIfNotFound($cartId);
         $coupon = $this->couponRepository->findOneByCode($couponCode);
 
         if ($coupon === null) {
             throw new \LogicException('Coupon not found');
         }
 
-        $couponIndex = $cart->addCoupon($coupon);
+        $couponIndex = $this->cart->addCoupon($coupon);
 
-        $this->cartRepository->save($cart);
+        $this->save();
 
         return $couponIndex;
     }
 
+    public function getCoupons()
+    {
+        return $this->cart->getCoupons();
+    }
+
     /**
-     * @param int $cartId
      * @param int $couponIndex
      * @throws \InvalidArgumentException
      * @throws \LogicException
      */
-    public function removeCoupon($cartId, $couponIndex)
+    public function removeCoupon($couponIndex)
     {
-        $cart = $this->getCartAndThrowExceptionIfNotFound($cartId);
+        $this->cart->removeCoupon($couponIndex);
 
-        $cart->removeCoupon($couponIndex);
-
-        $this->cartRepository->save($cart);
-    }
-
-    /**
-     * @param int $cartId
-     * @return Entity\Coupon[]
-     */
-    public function getCoupons($cartId)
-    {
-        $cart = $this->getCartAndThrowExceptionIfNotFound($cartId);
-        return $cart->getCoupons();
-    }
-
-    /**
-     * @param int $cartItemId
-     * @param int $quantity
-     * @throws \Exception
-     */
-    public function updateQuantity($cartItemId, $quantity)
-    {
-        $item = $this->cart->getCartItem($cartItemId);
-        if ($item === null) {
-            throw new \Exception('Item not found');
-        }
-
-        $item->setQuantity($quantity);
         $this->save();
     }
 
     /**
-     * @param int $cartItemId
+     * @param string $productEncodedId
+     * @param int $quantity
+     * @return int
+     * @throws \LogicException
+     */
+    public function addItem($productEncodedId, $quantity = 1)
+    {
+        $product = $this->productRepository->find(Lib\BaseConvert::decode($productEncodedId));
+
+        if ($product === null) {
+            throw new \LogicException('Product not found');
+        }
+
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity($quantity);
+
+        $cartItemIndex = $this->cart->addCartItem($cartItem);
+
+        $this->save();
+
+        return $cartItemIndex;
+    }
+
+    /**
+     * @param int $cartItemIndex
+     * @param string[] $optionProductEncodedIds
+     * @throws \LogicException
+     */
+    public function addItemOptionProducts($cartItemIndex, array $optionProductEncodedIds)
+    {
+        $optionProductIds = Lib\BaseConvert::decodeAll($optionProductEncodedIds);
+        $optionProducts = $this->optionProductRepository->getAllOptionProductsByIds($optionProductIds);
+
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cartItemIndex);
+
+        foreach ($optionProducts as $optionProduct) {
+            $cartItemOptionProduct = new Entity\CartItemOptionProduct;
+            $cartItemOptionProduct->setOptionProduct($optionProduct);
+
+            $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
+        }
+
+        $this->save();
+    }
+
+    /**
+     * @param int $cartItemIndex
+     * @param string[] $optionValueEncodedIds
+     * @throws \LogicException
+     */
+    public function addItemOptionValues($cartItemIndex, array $optionValueEncodedIds)
+    {
+        $optionValueIds = Lib\BaseConvert::decodeAll($optionValueEncodedIds);
+        $optionValues = $this->optionValueRepository->getAllOptionValuesByIds($optionValueIds);
+
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cartItemIndex);
+
+        foreach ($optionValues as $optionValue) {
+            $cartItemOptionValue = new Entity\CartItemOptionValue;
+            $cartItemOptionValue->setOptionValue($optionValue);
+
+            $cartItem->addCartItemOptionValue($cartItemOptionValue);
+        }
+
+        $this->save();
+    }
+
+    /**
+     * @param int $cartItemIndex
+     * @param array $textOptionValues
+     * @throws \LogicException
+     */
+    public function addItemTextOptionValues($cartItemIndex, array $textOptionValues)
+    {
+        $textOptionEncodedIds = array_keys($textOptionValues);
+        $textOptionIds = Lib\BaseConvert::decodeAll($textOptionEncodedIds);
+        $textOptions = $this->textOptionRepository->getAllTextOptionsByIds($textOptionIds);
+
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cartItemIndex);
+
+        foreach ($textOptions as $textOption) {
+            $textOptionEncodedId = Lib\BaseConvert::encode($textOption->getId());
+            $textOptionValue = $textOptionValues[$textOptionEncodedId];
+
+            $cartItemTextOptionValue = new Entity\CartItemTextOptionValue;
+            $cartItemTextOptionValue->setTextOption($textOption);
+            $cartItemTextOptionValue->setTextOptionValue($textOptionValue);
+
+            $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
+        }
+
+        $this->save();
+    }
+
+    /**
+     * @param int $cartItemIndex
+     * @param int $quantity
      * @throws \Exception
      */
-    public function deleteItem($cartItemId)
+    public function updateQuantity($cartItemIndex, $quantity)
     {
-        $this->cart->deleteCartItem($cartItemId);
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cartItemIndex);
+        $cartItem->setQuantity($quantity);
+
+        $this->save();
+    }
+
+    /**
+     * @param int $cartItemIndex
+     * @throws \Exception
+     */
+    public function deleteItem($cartItemIndex)
+    {
+        $this->cart->deleteCartItem($cartItemIndex);
         $this->save();
     }
 
@@ -210,9 +265,9 @@ class Cart extends AbstractService
     /**
      * @return View\CartItem|null
      */
-    public function getItem($id)
+    public function getItem($cartItemIndex)
     {
-        $cartItem = $this->cart->getCartItem($id);
+        $cartItem = $this->cart->getCartItem($cartItemIndex);
 
         if ($cartItem === null) {
             return null;
@@ -298,17 +353,30 @@ class Cart extends AbstractService
     }
 
     /**
-     * @param string $cartId
-     * @return Entity\Cart
+     * @param int $cartId
      */
-    protected function getCartAndThrowExceptionIfNotFound($cartId)
+    protected function loadCartAndThrowExceptionIfCartNotFound($cartId)
     {
-        $cart = $this->cartRepository->find($cartId);
+        $this->cart = $this->cartRepository->find($cartId);
 
-        if ($cart === null) {
+        if ($this->cart === null) {
             throw new \LogicException('Cart not found');
         }
+    }
 
-        return $cart;
+    /**
+     * @param int $cartItemIndex
+     * @return Entity\CartItem
+     * @throws \LogicException
+     */
+    protected function getCartItemAndThrowExceptionIfNotFound($cartItemIndex)
+    {
+        $cartItem = $this->cart->getCartItem($cartItemIndex);
+
+        if ($cartItem === null) {
+            throw new \LogicException('Cart Item not found');
+        }
+
+        return $cartItem;
     }
 }

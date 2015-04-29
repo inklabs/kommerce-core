@@ -32,6 +32,20 @@ class BaseConvert
     }
 
     /**
+     * @param string[] $encodedList
+     * @param null $base
+     * @return int[]
+     */
+    public static function decodeAll(array $encodedList, $base = null)
+    {
+        $decodedList = [];
+        foreach ($encodedList as $encoded) {
+            $decodedList[] = static::decode($encoded, $base);
+        }
+        return $decodedList;
+    }
+
+    /**
      * @param int $origNum
      * @param null $base
      * @return null|string

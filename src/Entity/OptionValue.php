@@ -3,8 +3,10 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Service;
 use inklabs\kommerce\View;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class OptionValue
+class OptionValue implements EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 
@@ -29,6 +31,10 @@ class OptionValue
     public function __construct()
     {
         $this->setCreated();
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
     }
 
     public function getName()

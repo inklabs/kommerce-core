@@ -46,7 +46,7 @@ class TextOptionTest extends Helper\DoctrineTestCase
     {
         $this->setupOption();
 
-        $textOptions = $this->textOptionRepository->getAllOptionsByIds([1]);
+        $textOptions = $this->textOptionRepository->getAllTextOptionsByIds([1]);
 
         $this->assertTrue($textOptions[0] instanceof Entity\TextOption);
     }

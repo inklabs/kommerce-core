@@ -14,7 +14,7 @@ interface TextOptionInterface
     /**
      * @param int[] $optionIds
      * @param Entity\Pagination $pagination
-     * @return TextOption[]
+     * @return Entity\TextOption[]
      */
-    public function getAllOptionsByIds($optionIds, Entity\Pagination & $pagination = null);
+    public function getAllTextOptionsByIds($optionIds, Entity\Pagination & $pagination = null);
 }

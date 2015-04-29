@@ -14,7 +14,7 @@ interface OptionInterface
     /**
      * @param int[] $optionIds
      * @param Entity\Pagination $pagination
-     * @return Option[]
+     * @return Entity\Option[]
      */
     public function getAllOptionsByIds($optionIds, Entity\Pagination &$pagination = null);
 }
