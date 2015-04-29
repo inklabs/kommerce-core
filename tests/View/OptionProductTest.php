@@ -13,7 +13,7 @@ class OptionProductTest extends \PHPUnit_Framework_TestCase
         $optionProduct->setProduct(new Entity\Product);
 
         $viewOptionProduct = $optionProduct->getView()
-            ->withAllData()
+            ->withAllData(new Service\Pricing)
             ->export();
 
         $this->assertTrue($viewOptionProduct instanceof OptionProduct);
