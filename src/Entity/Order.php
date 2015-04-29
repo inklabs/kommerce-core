@@ -2,17 +2,21 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
+use inklabs\kommerce\Lib\ReferenceNumber;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Entity\Payment;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Order implements EntityInterface
+class Order implements EntityInterface, ReferenceNumber\EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 
     /** @var string */
     protected $externalId;
+
+    /** @var string */
+    protected $referenceNumber;
 
     /** @var CartTotal */
     protected $total;
@@ -65,6 +69,21 @@ class Order implements EntityInterface
         $metadata->addPropertyConstraint('billingAddress', new Assert\Valid);
         $metadata->addPropertyConstraint('orderItems', new Assert\Valid);
         $metadata->addPropertyConstraint('payments', new Assert\Valid);
+    }
+
+    public function getReferenceId()
+    {
+        return $this->getId();
+    }
+
+    public function getReferenceNumber()
+    {
+        return $this->referenceNumber;
+    }
+
+    public function setReferenceNumber($referenceNumber)
+    {
+        $this->referenceNumber = (string) $referenceNumber;
     }
 
     /**
