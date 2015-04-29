@@ -7,11 +7,6 @@ use inklabs\kommerce\Entity\EntityInterface;
 
 abstract class AbstractEntityRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findByEncodedId($encodedId)
-    {
-        return $this->find(Lib\BaseConvert::decode($encodedId));
-    }
-
     public function getQueryBuilder()
     {
         return new QueryBuilder($this->getEntityManager());

@@ -8,11 +8,6 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 
 abstract class AbstractService
 {
-    public function findByEncodedId($encodedId)
-    {
-        return $this->find(Lib\BaseConvert::decode($encodedId));
-    }
-
     public function throwValidationErrors(Entity\EntityInterface $entity)
     {
         $validator = Validation::createValidatorBuilder()

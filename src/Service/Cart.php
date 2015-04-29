@@ -123,14 +123,14 @@ class Cart extends AbstractService
     }
 
     /**
-     * @param string $productEncodedId
+     * @param string $productId
      * @param int $quantity
      * @return int
      * @throws \LogicException
      */
-    public function addItem($productEncodedId, $quantity = 1)
+    public function addItem($productId, $quantity = 1)
     {
-        $product = $this->productRepository->find(Lib\BaseConvert::decode($productEncodedId));
+        $product = $this->productRepository->find($productId);
 
         if ($product === null) {
             throw new \LogicException('Product not found');
@@ -149,12 +149,11 @@ class Cart extends AbstractService
 
     /**
      * @param int $cartItemIndex
-     * @param string[] $optionProductEncodedIds
+     * @param string[] $optionProductIds
      * @throws \LogicException
      */
-    public function addItemOptionProducts($cartItemIndex, array $optionProductEncodedIds)
+    public function addItemOptionProducts($cartItemIndex, array $optionProductIds)
     {
-        $optionProductIds = Lib\BaseConvert::decodeAll($optionProductEncodedIds);
         $optionProducts = $this->optionProductRepository->getAllOptionProductsByIds($optionProductIds);
 
         $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cartItemIndex);
@@ -171,12 +170,11 @@ class Cart extends AbstractService
 
     /**
      * @param int $cartItemIndex
-     * @param string[] $optionValueEncodedIds
+     * @param string[] $optionValueIds
      * @throws \LogicException
      */
-    public function addItemOptionValues($cartItemIndex, array $optionValueEncodedIds)
+    public function addItemOptionValues($cartItemIndex, array $optionValueIds)
     {
-        $optionValueIds = Lib\BaseConvert::decodeAll($optionValueEncodedIds);
         $optionValues = $this->optionValueRepository->getAllOptionValuesByIds($optionValueIds);
 
         $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cartItemIndex);
@@ -198,15 +196,13 @@ class Cart extends AbstractService
      */
     public function addItemTextOptionValues($cartItemIndex, array $textOptionValues)
     {
-        $textOptionEncodedIds = array_keys($textOptionValues);
-        $textOptionIds = Lib\BaseConvert::decodeAll($textOptionEncodedIds);
+        $textOptionIds = array_keys($textOptionValues);
         $textOptions = $this->textOptionRepository->getAllTextOptionsByIds($textOptionIds);
 
         $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cartItemIndex);
 
         foreach ($textOptions as $textOption) {
-            $textOptionEncodedId = Lib\BaseConvert::encode($textOption->getId());
-            $textOptionValue = $textOptionValues[$textOptionEncodedId];
+            $textOptionValue = $textOptionValues[$textOption->getId()];
 
             $cartItemTextOptionValue = new Entity\CartItemTextOptionValue;
             $cartItemTextOptionValue->setTextOption($textOption);

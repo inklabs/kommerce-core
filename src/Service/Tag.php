@@ -38,12 +38,12 @@ class Tag extends AbstractService
     }
 
     /**
-     * @param string $encodedId
+     * @param int $id
      * @return View\Tag|null
      */
-    public function findSimple($encodedId)
+    public function findSimple($id)
     {
-        $entityTag = $this->tagRepository->find(Lib\BaseConvert::decode($encodedId));
+        $entityTag = $this->tagRepository->find($id);
 
         if ($entityTag === null) {
             return null;

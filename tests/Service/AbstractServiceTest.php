@@ -10,20 +10,6 @@ class AbstractServiceTest extends Helper\DoctrineTestCase
         'kommerce:Tag',
     ];
 
-    public function testFindByEncodedId()
-    {
-        /** @var AbstractService|\Mockery\MockInterface $mockAbstractService */
-        $mockAbstractService = \Mockery::mock('inklabs\kommerce\Service\AbstractService')
-            ->makePartial();
-
-        $mockAbstractService
-            ->shouldReceive('find')
-            ->andReturn(new Entity\Product);
-
-        $product = $mockAbstractService->findByEncodedId(1);
-        $this->assertTrue($product instanceof Entity\Product);
-    }
-
     public function testThrowValidationErrors()
     {
         /** @var AbstractService|\Mockery\MockInterface $mockAbstractService */

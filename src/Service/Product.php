@@ -81,13 +81,13 @@ class Product extends AbstractService
 
     /**
      * @param int $productId
-     * @param string $tagEncodedId
+     * @param string $tagId
      * @throws \LogicException
      */
-    public function addTag($productId, $tagEncodedId)
+    public function addTag($productId, $tagId)
     {
         $product = $this->getProductAndThrowExceptionIfMissing($productId);
-        $tag = $this->getTagAndThrowExceptionIfMissing($tagEncodedId);
+        $tag = $this->getTagAndThrowExceptionIfMissing($tagId);
 
         $product->addTag($tag);
 
@@ -202,12 +202,12 @@ class Product extends AbstractService
     }
 
     /**
-     * @param string $tagEncodedId
+     * @param string $tagId
      * @return Entity\Tag
      */
-    private function getTagAndThrowExceptionIfMissing($tagEncodedId)
+    private function getTagAndThrowExceptionIfMissing($tagId)
     {
-        $tag = $this->tagRepository->findByEncodedId($tagEncodedId);
+        $tag = $this->tagRepository->find($tagId);
 
         if ($tag === null) {
             throw new \LogicException('Missing Tag');
