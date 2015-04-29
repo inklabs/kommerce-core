@@ -13,11 +13,11 @@ class OptionProductTest extends Helper\DoctrineTestCase
     ];
 
     /** @var OptionProductInterface */
-    protected $optionProduct;
+    protected $optionProductRepository;
 
     public function setUp()
     {
-        $this->optionProduct = $this->entityManager->getRepository('kommerce:OptionProduct');
+        $this->optionProductRepository = $this->entityManager->getRepository('kommerce:OptionProduct');
     }
 
     private function setupOptionProduct()
@@ -27,10 +27,14 @@ class OptionProductTest extends Helper\DoctrineTestCase
         $optionProduct = $this->getDummyOptionProduct($option, $product);
 
         $this->entityManager->persist($option);
-        $this->entityManager->persist($optionProduct);
         $this->entityManager->persist($product);
+
+        $this->optionProductRepository->create($optionProduct);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $optionProduct;
     }
 
     public function testFind()
@@ -39,7 +43,7 @@ class OptionProductTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $optionProduct = $this->optionProduct->find(1);
+        $optionProduct = $this->optionProductRepository->find(1);
 
         $optionProduct->getProduct()->getCreated();
         $optionProduct->getOption()->getCreated();
@@ -54,12 +58,22 @@ class OptionProductTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $optionProducts = $this->optionProduct->getAllOptionProductsByIds([1]);
+        $optionProducts = $this->optionProductRepository->getAllOptionProductsByIds([1]);
 
         $optionProducts[0]->getProduct()->getCreated();
         $optionProducts[0]->getOption()->getCreated();
 
         $this->assertTrue($optionProducts[0] instanceof Entity\OptionProduct);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+    }
+
+    public function testSave()
+    {
+        $optionProduct = $this->setupOptionProduct();
+        $optionProduct->setSortOrder(5);
+
+        $this->assertSame(null, $optionProduct->getUpdated());
+        $this->optionProductRepository->save($optionProduct);
+        $this->assertTrue($optionProduct->getUpdated() instanceof \DateTime);
     }
 }

@@ -29,6 +29,9 @@ class Cart extends AbstractService
     /** @var EntityRepository\CartInterface */
     protected $cartRepository;
 
+    /** @var EntityRepository\OrderInterface */
+    protected $orderRepository;
+
     /** @var Entity\Shipping\Rate */
     protected $shippingRate;
 
@@ -51,6 +54,7 @@ class Cart extends AbstractService
      * @param EntityRepository\OptionValueInterface $optionValueRepository
      * @param EntityRepository\TextOptionInterface $textOptionRepository
      * @param EntityRepository\CouponInterface $couponRepository
+     * @param EntityRepository\OrderInterface $orderRepository
      * @param Pricing $pricing
      * @param int $cartId
      */
@@ -61,6 +65,7 @@ class Cart extends AbstractService
         EntityRepository\OptionValueInterface $optionValueRepository,
         EntityRepository\TextOptionInterface $textOptionRepository,
         EntityRepository\CouponInterface $couponRepository,
+        EntityRepository\OrderInterface $orderRepository,
         Pricing $pricing,
         $cartId
     ) {
@@ -70,6 +75,7 @@ class Cart extends AbstractService
         $this->optionValueRepository = $optionValueRepository;
         $this->textOptionRepository = $textOptionRepository;
         $this->couponRepository = $couponRepository;
+        $this->orderRepository = $orderRepository;
         $this->pricing = $pricing;
 
         $this->loadCartAndThrowExceptionIfCartNotFound($cartId);
@@ -326,16 +332,7 @@ class Cart extends AbstractService
         $order->setBillingAddress($billingAddress);
         $order->addPayment($payment);
 
-        foreach ($this->cart->getCoupons() as $coupon) {
-            $order->addCoupon($coupon);
-        }
-
-        if ($this->user !== null) {
-            $order->setUser($this->user);
-        }
-
-        $this->entityManager->persist($order);
-        $this->entityManager->flush();
+        $this->orderRepository->create($order);
 
         return $order;
     }

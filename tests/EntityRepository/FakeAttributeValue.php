@@ -13,19 +13,11 @@ class FakeAttributeValue extends Helper\AbstractFake implements AttributeValueIn
         $this->setReturnValue(new Entity\AttributeValue);
     }
 
-    /**
-     * @param int $id
-     * @return Entity\AttributeValue
-     */
     public function find($id)
     {
         return $this->getReturnValue();
     }
 
-    /**
-     * @param int[] $attributeValueIds
-     * @return Entity\AttributeValue[]
-     */
     public function getAttributeValuesByIds(array $attributeValueIds, Entity\Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();

@@ -209,8 +209,8 @@ class ProductTest extends Helper\DoctrineTestCase
     public function testSave()
     {
         $product = $this->setupProduct();
-
         $product->setName('new name');
+
         $this->assertSame(null, $product->getUpdated());
         $this->productRepository->save($product);
         $this->assertTrue($product->getUpdated() instanceof \DateTime);

@@ -14,10 +14,17 @@ class Product extends AbstractService
     /** @var EntityRepository\ProductInterface */
     private $productRepository;
 
-    public function __construct(EntityRepository\ProductInterface $productRepository, Pricing $pricing)
+    /** @var EntityRepository\TagInterface */
+    private $tagRepository;
+
+    public function __construct(
+        EntityRepository\ProductInterface $productRepository,
+        EntityRepository\TagInterface $tagRepository,
+        Pricing $pricing)
     {
         $this->pricing = $pricing;
         $this->productRepository = $productRepository;
+        $this->tagRepository = $tagRepository;
     }
 
     /**
@@ -37,16 +44,14 @@ class Product extends AbstractService
     }
 
     /**
+     * @param int $productId
+     * @param View\Product $viewProduct
      * @return Entity\Product
      * @throws ValidatorException
      */
-    public function edit($id, View\Product $viewProduct)
+    public function edit($productId, View\Product $viewProduct)
     {
-        $product = $this->productRepository->find($id);
-
-        if ($product === null) {
-            throw new \LogicException('Missing Product');
-        }
+        $product = $this->getProductAndThrowExceptionIfMissing($productId);
 
         $product->loadFromView($viewProduct);
 
@@ -58,6 +63,7 @@ class Product extends AbstractService
     }
 
     /**
+     * @param View\Product $viewProduct
      * @return Entity\Product
      * @throws ValidatorException
      */
@@ -71,6 +77,21 @@ class Product extends AbstractService
         $this->productRepository->save($product);
 
         return $product;
+    }
+
+    /**
+     * @param int $productId
+     * @param string $tagEncodedId
+     * @throws \LogicException
+     */
+    public function addTag($productId, $tagEncodedId)
+    {
+        $product = $this->getProductAndThrowExceptionIfMissing($productId);
+        $tag = $this->getTagAndThrowExceptionIfMissing($tagEncodedId);
+
+        $product->addTag($tag);
+
+        $this->productRepository->save($product);
     }
 
     public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
@@ -163,5 +184,35 @@ class Product extends AbstractService
         }
 
         return $viewProducts;
+    }
+
+    /**
+     * @param $productId
+     * @throws \LogicException
+     */
+    private function getProductAndThrowExceptionIfMissing($productId)
+    {
+        $product = $this->productRepository->find($productId);
+
+        if ($product === null) {
+            throw new \LogicException('Missing Product');
+        }
+
+        return $product;
+    }
+
+    /**
+     * @param string $tagEncodedId
+     * @return Entity\Tag
+     */
+    private function getTagAndThrowExceptionIfMissing($tagEncodedId)
+    {
+        $tag = $this->tagRepository->findByEncodedId($tagEncodedId);
+
+        if ($tag === null) {
+            throw new \LogicException('Missing Tag');
+        }
+
+        return $tag;
     }
 }

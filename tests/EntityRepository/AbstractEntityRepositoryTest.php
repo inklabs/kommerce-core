@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\Entity;
 
 class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
 {
@@ -33,6 +34,15 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
     {
         $queryBuilder = $this->userRepository->getQueryBuilder();
         $this->assertTrue($queryBuilder instanceof \inklabs\kommerce\Doctrine\ORM\QueryBuilder);
+    }
+
+    public function testFindByEncodedId()
+    {
+        $user = $this->getUser();
+
+        $newUser = $this->userRepository->findByEncodedId('1');
+
+        $this->assertTrue($newUser instanceof Entity\User);
     }
 
     public function testSave()

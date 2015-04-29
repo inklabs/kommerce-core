@@ -6,11 +6,15 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\EntityRepository\FakeProduct;
+use inklabs\kommerce\tests\EntityRepository\FakeTag;
 
 class ProductTest extends Helper\DoctrineTestCase
 {
     /** @var FakeProduct */
     protected $productRepository;
+
+    /** @var FakeTag */
+    protected $tagRepository;
 
     /** @var Product */
     protected $productService;
@@ -18,7 +22,13 @@ class ProductTest extends Helper\DoctrineTestCase
     public function setUp()
     {
         $this->productRepository = new FakeProduct;
-        $this->productService = new Product($this->productRepository, new Pricing);
+        $this->tagRepository = new FakeTag;
+
+        $this->productService = new Product(
+            $this->productRepository,
+            $this->tagRepository,
+            new Pricing
+        );
     }
 
     public function testFind()
@@ -65,6 +75,31 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $newProduct = $this->productService->create($viewProduct);
         $this->assertTrue($newProduct instanceof Entity\Product);
+    }
+
+    public function testAddTag()
+    {
+        $product = new Entity\Product;
+        $this->productRepository->setReturnValue($product);
+
+        $productId = 1;
+        $tagEncodedId = '1';
+        $this->productService->addTag($productId, $tagEncodedId);
+
+        $this->assertTrue($product->getTags()[0] instanceof Entity\Tag);
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Missing Tag
+     */
+    public function testAddTagWithMissingTag()
+    {
+        $this->tagRepository->setReturnValue(null);
+
+        $productId = 1;
+        $tagEncodedId = '1';
+        $this->productService->addTag($productId, $tagEncodedId);
     }
 
     public function testGetAllProducts()

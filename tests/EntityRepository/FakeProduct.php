@@ -18,6 +18,11 @@ class FakeProduct extends Helper\AbstractFake implements ProductInterface
         return $this->getReturnValue();
     }
 
+    public function findByEncodedId($encodedId)
+    {
+        return $this->getReturnValue();
+    }
+
     public function getRelatedProducts(array $products, $limit = 12)
     {
         return $this->getReturnValueAsArray();

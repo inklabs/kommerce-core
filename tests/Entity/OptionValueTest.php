@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
 use inklabs\kommerce\Service;
+use Symfony\Component\Validator\Validation;
 
 class OptionValueTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,6 +22,11 @@ class OptionValueTest extends \PHPUnit_Framework_TestCase
         $optionValue->setUnitPrice(500);
         $optionValue->setOption($option);
 
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($optionValue));
         $this->assertSame(0, $optionValue->getSortOrder());
         $this->assertSame('MD', $optionValue->getSku());
         $this->assertSame('Medium Shirt', $optionValue->getName());

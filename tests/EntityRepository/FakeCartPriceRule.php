@@ -13,17 +13,11 @@ class FakeCartPriceRule extends Helper\AbstractFake implements CartPriceRuleInte
         $this->setReturnValue(new Entity\CartPriceRule);
     }
 
-    /**
-     * @return Entity\Product
-     */
     public function find($id)
     {
         return $this->getReturnValue();
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function findAll()
     {
         return $this->getReturnValueAsArray();

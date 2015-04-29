@@ -37,6 +37,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $cartItem->setQuantity(2);
 
         $cart = new Cart;
+        $cart->setUser(new User);
         $cart->addCartItem($cartItem);
 
         $order = $cart->getOrder(new Pricing);
