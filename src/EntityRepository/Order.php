@@ -2,9 +2,32 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\Lib\ReferenceNumber;
+use Symfony\Component\Yaml\Exception\RuntimeException;
 
 class Order extends AbstractEntityRepository implements OrderInterface
 {
+    /** @var ReferenceNumber\GeneratorInterface */
+    protected $referenceNumberGenerator;
+
+    public function setReferenceNumberGenerator(ReferenceNumber\GeneratorInterface $referenceNumberGenerator)
+    {
+        $this->referenceNumberGenerator = $referenceNumberGenerator;
+    }
+
+    public function referenceNumberExists($referenceNumber)
+    {
+        $result = $this->findOneBy([
+            'referenceNumber' => $referenceNumber
+        ]);
+
+        if ($result === null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function getLatestOrders(Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -28,10 +51,28 @@ class Order extends AbstractEntityRepository implements OrderInterface
     {
         $this->persist($order);
         $this->flush();
+
+        $this->setReferenceNumber($order);
     }
 
     public function persist(Entity\Order & $order)
     {
         $this->persistEntity($order);
+    }
+
+    private function setReferenceNumber(Entity\Order & $order)
+    {
+        if ($this->referenceNumberGenerator !== null) {
+            $this->tryToGenerateReferenceNumber($order);
+        }
+    }
+
+    private function tryToGenerateReferenceNumber(Entity\Order & $order)
+    {
+        try {
+            $this->referenceNumberGenerator->generate($order);
+            $this->save($order);
+        } catch (RuntimeException $e) {
+        }
     }
 }

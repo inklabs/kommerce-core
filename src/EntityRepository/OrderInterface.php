@@ -2,8 +2,10 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\ReferenceNumber;
 
-interface OrderInterface
+interface OrderInterface extends ReferenceNumber\RepositoryInterface
 {
     /**
      * @param int $id
@@ -33,4 +35,6 @@ interface OrderInterface
     public function persist(Entity\Order & $order);
 
     public function flush();
+
+    public function setReferenceNumberGenerator(Lib\ReferenceNumber\GeneratorInterface $referenceNumberGenerator);
 }

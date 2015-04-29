@@ -3,6 +3,8 @@ namespace inklabs\kommerce\tests\EntityRepository;
 
 use inklabs\kommerce\EntityRepository\OrderInterface;
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\ReferenceNumber;
 use inklabs\kommerce\tests\Helper;
 
 class FakeOrder extends Helper\AbstractFake implements OrderInterface
@@ -31,6 +33,14 @@ class FakeOrder extends Helper\AbstractFake implements OrderInterface
     }
 
     public function persist(Entity\Order & $order)
+    {
+    }
+
+    public function setReferenceNumberGenerator(ReferenceNumber\GeneratorInterface $referenceNumberGenerator)
+    {
+    }
+
+    public function referenceNumberExists($referenceNumber)
     {
     }
 }

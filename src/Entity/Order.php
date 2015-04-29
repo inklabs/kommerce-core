@@ -81,9 +81,9 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
         return $this->referenceNumber;
     }
 
-    public function setReferenceNumber($referenceNumber)
+    public function setReferenceNumber($referenceNumber = null)
     {
-        $this->referenceNumber = (string) $referenceNumber;
+        $this->referenceNumber = $referenceNumber;
     }
 
     /**
