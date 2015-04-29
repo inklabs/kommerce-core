@@ -447,6 +447,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $optionValue->setSku('OV-SKU');
         $optionValue->setShippingWeight(16);
         $optionValue->setSortOrder(0);
+        $optionValue->setUnitPrice(100);
         $optionValue->setOption($option);
 
         return $optionValue;
