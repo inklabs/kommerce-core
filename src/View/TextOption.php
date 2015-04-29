@@ -25,7 +25,7 @@ class TextOption
     public $type;
 
     /** @var Tag[] */
-    public $tags;
+    public $tags = [];
 
     public $created;
     public $updated;

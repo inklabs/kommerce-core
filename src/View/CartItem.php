@@ -8,6 +8,7 @@ use inklabs\kommerce\Service\Pricing;
 class CartItem implements ViewInterface
 {
     public $id;
+    public $encodedId;
     public $fullSku;
     public $quantity;
     public $shippingWeight;
@@ -17,13 +18,13 @@ class CartItem implements ViewInterface
     public $product;
 
     /** @var CartItemOptionProduct[] */
-    public $cartItemOptionProducts;
+    public $cartItemOptionProducts = [];
 
     /** @var CartItemOptionValue[] */
-    public $cartItemOptionValues;
+    public $cartItemOptionValues = [];
 
     /** @var CartItemTextOptionValue[] */
-    public $cartItemTextOptionValues;
+    public $cartItemTextOptionValues = [];
 
     /** @var Price */
     public $price;
@@ -33,6 +34,7 @@ class CartItem implements ViewInterface
         $this->cartItem = $cartItem;
 
         $this->id             = $cartItem->getId();
+        $this->encodedId      = Lib\BaseConvert::encode($cartItem->getId());
         $this->fullSku        = $cartItem->getFullSku();
         $this->quantity       = $cartItem->getQuantity();
         $this->shippingWeight = $cartItem->getShippingWeight();
@@ -68,6 +70,7 @@ class CartItem implements ViewInterface
     {
         foreach ($this->cartItem->getCartItemOptionProducts() as $cartItemOptionProduct) {
             $this->cartItemOptionProducts[] = $cartItemOptionProduct->getView()
+                ->withOptionProduct($pricing)
                 ->export();
         }
 

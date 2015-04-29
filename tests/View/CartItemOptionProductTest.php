@@ -17,7 +17,7 @@ class CartItemOptionProductTest extends \PHPUnit_Framework_TestCase
         $orderItemOptionProduct->setCartItem(new Entity\CartItem);
 
         $viewCartItemOptionProduct = $orderItemOptionProduct->getView()
-            ->withAllData()
+            ->withAllData(new Service\Pricing)
             ->export();
 
         $this->assertTrue($viewCartItemOptionProduct instanceof CartItemOptionProduct);

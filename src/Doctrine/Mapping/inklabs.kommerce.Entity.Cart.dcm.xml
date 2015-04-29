@@ -32,9 +32,13 @@
 
         <one-to-one field="user" target-entity="User" inversed-by="cart" fetch="EAGER"/>
 
-        <one-to-many field="cartItems" target-entity="CartItem" mapped-by="cart" fetch="EXTRA_LAZY">
+        <one-to-many field="cartItems"
+                     target-entity="CartItem"
+                     mapped-by="cart"
+                     fetch="EXTRA_LAZY"
+                     orphan-removal="true">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
