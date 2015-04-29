@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\Service;
 use inklabs\kommerce\Lib;
 
 class OptionValue
@@ -33,6 +34,9 @@ class OptionValue
     /** @var Option */
     public $option;
 
+    /** @var Price */
+    public $price;
+
     public function __construct(Entity\OptionValue $optionValue)
     {
         $this->optionValue = $optionValue;
@@ -61,9 +65,19 @@ class OptionValue
         return $this;
     }
 
+    public function withPrice()
+    {
+        $this->price = $this->optionValue->getPrice()->getView()
+            ->withAllData()
+            ->export();
+
+        return $this;
+    }
+
     public function withAllData()
     {
         return $this
-            ->withOption();
+            ->withOption()
+            ->withPrice();
     }
 }
