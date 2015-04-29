@@ -48,13 +48,13 @@ class CartPriceRule extends Promotion
         return $this->cartPriceRuleDiscounts;
     }
 
-    public function isValid(\DateTime $date, ArrayCollection $cartItems)
+    public function isValid(\DateTime $date, $cartItems)
     {
         return $this->isValidPromotion($date)
             and $this->isCartItemsValid($cartItems);
     }
 
-    public function isCartItemsValid(ArrayCollection $cartItems)
+    public function isCartItemsValid($cartItems)
     {
         $matchedItemsCount = 0;
         foreach ($this->cartPriceRuleItems as $item) {
