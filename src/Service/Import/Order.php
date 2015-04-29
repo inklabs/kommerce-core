@@ -55,11 +55,9 @@ class Order
                 $order->setUser($user);
             }
 
-            $this->orderRepository->persist($order);
+            $this->orderRepository->create($order);
             $importedCount++;
         }
-
-        $this->orderRepository->flush();
 
         return $importedCount;
     }

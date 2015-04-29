@@ -29,11 +29,6 @@ interface OrderInterface extends ReferenceNumber\RepositoryInterface
      */
     public function create(Entity\Order & $order);
 
-    /**
-     * @param Entity\Order $order
-     */
-    public function persist(Entity\Order & $order);
-
     public function flush();
 
     public function setReferenceNumberGenerator(Lib\ReferenceNumber\GeneratorInterface $referenceNumberGenerator);
