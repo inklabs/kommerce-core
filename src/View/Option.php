@@ -72,6 +72,7 @@ class Option
     {
         foreach ($this->option->getOptionValues() as $optionValue) {
             $this->optionValues[] = $optionValue->getView()
+                ->withPrice()
                 ->export();
         }
 
