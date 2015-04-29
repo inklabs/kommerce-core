@@ -29,11 +29,15 @@ class ImageTest extends Helper\DoctrineTestCase
         $image->setProduct($product);
         $image->setTag($tag);
 
-        $this->entityManager->persist($image);
         $this->entityManager->persist($product);
         $this->entityManager->persist($tag);
+
+        $this->imageRepository->create($image);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $image;
     }
 
     public function testFind()
@@ -49,5 +53,15 @@ class ImageTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($image instanceof Entity\Image);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+    }
+
+    public function testSave()
+    {
+        $image = $this->setupImageWithProductAndTag();
+        $image->setSortOrder(2);
+
+        $this->assertSame(null, $image->getUpdated());
+        $this->imageRepository->save($image);
+        $this->assertTrue($image->getUpdated() instanceof \DateTime);
     }
 }

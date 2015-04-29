@@ -20,8 +20,8 @@ class Product extends AbstractService
     public function __construct(
         EntityRepository\ProductInterface $productRepository,
         EntityRepository\TagInterface $tagRepository,
-        Pricing $pricing)
-    {
+        Pricing $pricing
+    ) {
         $this->pricing = $pricing;
         $this->productRepository = $productRepository;
         $this->tagRepository = $tagRepository;

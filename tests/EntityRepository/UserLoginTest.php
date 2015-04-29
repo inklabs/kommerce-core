@@ -50,4 +50,15 @@ class UserLoginTest extends Helper\DoctrineTestCase
         $this->assertTrue($userLogin instanceof Entity\UserLogin);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
+
+    public function testSave()
+    {
+        $userLogin = $this->setupUserLogin();
+
+        $this->assertSame(1, $userLogin->getResult());
+        $userLogin->setResult(2);
+
+        $this->userLoginRepository->save($userLogin);
+        $this->assertSame(2, $userLogin->getResult());
+    }
 }

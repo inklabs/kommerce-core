@@ -27,9 +27,12 @@ class TagTest extends Helper\DoctrineTestCase
     {
         $tag = $this->getDummyTag();
 
-        $this->entityManager->persist($tag);
+        $this->tagRepository->create($tag);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $tag;
     }
 
     public function testFind()
@@ -84,5 +87,15 @@ class TagTest extends Helper\DoctrineTestCase
 
         $this->assertSame(1, count($tags));
         $this->assertTrue($tags[0] instanceof Entity\Tag);
+    }
+
+    public function testSave()
+    {
+        $tag = $this->setupTag();
+        $tag->setName('new name');
+
+        $this->assertSame(null, $tag->getUpdated());
+        $this->tagRepository->save($tag);
+        $this->assertTrue($tag->getUpdated() instanceof \DateTime);
     }
 }

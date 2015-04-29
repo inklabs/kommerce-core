@@ -10,4 +10,21 @@ interface ImageInterface
      * @return Entity\Image
      */
     public function find($id);
+
+    /**
+     * @param Entity\Product $product
+     */
+    public function create(Entity\Image & $image);
+
+    /**
+     * @param Entity\Image $image
+     */
+    public function save(Entity\Image & $image);
+
+    /**
+     * @param Entity\Image $image
+     */
+    public function persist(Entity\Image & $image);
+
+    public function flush();
 }

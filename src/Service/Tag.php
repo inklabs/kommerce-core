@@ -12,7 +12,7 @@ class Tag extends AbstractService
     /** @var Pricing */
     private $pricing;
 
-    /** @var EntityRepository\Tag */
+    /** @var EntityRepository\TagInterface */
     private $tagRepository;
 
     public function __construct(EntityRepository\TagInterface $tagRepository, Pricing $pricing)

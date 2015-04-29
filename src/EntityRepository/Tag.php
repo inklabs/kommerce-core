@@ -56,4 +56,20 @@ class Tag extends AbstractEntityRepository implements TagInterface
 
         return $tags;
     }
+
+    public function save(Entity\Tag & $tag)
+    {
+        $this->saveEntity($tag);
+    }
+
+    public function create(Entity\Tag & $tag)
+    {
+        $this->persist($tag);
+        $this->flush();
+    }
+
+    public function persist(Entity\Tag & $tag)
+    {
+        $this->persistEntity($tag);
+    }
 }

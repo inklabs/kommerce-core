@@ -34,4 +34,21 @@ interface TagInterface
      * @return Entity\Tag[]
      */
     public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null);
+
+    /**
+     * @param Entity\Tag $tag
+     */
+    public function create(Entity\Tag & $tag);
+
+    /**
+     * @param Entity\Tag $tag
+     */
+    public function save(Entity\Tag & $tag);
+
+    /**
+     * @param Entity\Tag $tag
+     */
+    public function persist(Entity\Tag & $tag);
+
+    public function flush();
 }

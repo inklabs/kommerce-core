@@ -8,7 +8,7 @@ use inklabs\kommerce\Entity;
 
 class Image extends AbstractService
 {
-    /** @var EntityRepository\Image */
+    /** @var EntityRepository\ImageInterface */
     private $imageRepository;
 
     /** @var EntityRepository\ProductInterface */

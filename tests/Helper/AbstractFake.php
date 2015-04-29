@@ -9,10 +9,6 @@ class AbstractFake
     /** @var Entity\EntityInterface */
     public $returnValue;
 
-    public function __call($a, $b)
-    {
-    }
-
     protected function getReturnValue()
     {
         return $this->returnValue;
