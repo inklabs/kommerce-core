@@ -12,12 +12,6 @@ interface TagInterface
     public function find($id);
 
     /**
-     * @param string $encodedId
-     * @return Entity\Tag
-     */
-    public function findByEncodedId($encodedId);
-
-    /**
      * @param string $queryString
      * @return Entity\Tag[]
      */

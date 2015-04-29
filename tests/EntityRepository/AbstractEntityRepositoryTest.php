@@ -36,15 +36,6 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
         $this->assertTrue($queryBuilder instanceof \inklabs\kommerce\Doctrine\ORM\QueryBuilder);
     }
 
-    public function testFindByEncodedId()
-    {
-        $user = $this->getUser();
-
-        $newUser = $this->userRepository->findByEncodedId('1');
-
-        $this->assertTrue($newUser instanceof Entity\User);
-    }
-
     public function testSave()
     {
         $user = $this->getUser();

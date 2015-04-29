@@ -120,10 +120,10 @@ class CartTest extends Helper\DoctrineTestCase
 
     public function testAddItem()
     {
-        $productEncodedId = 'P1';
+        $productId = 2001;
         $quantity = 1;
 
-        $cartItemIndex = $this->cartService->addItem($productEncodedId, $quantity);
+        $cartItemIndex = $this->cartService->addItem($productId, $quantity);
 
         $cartItem = $this->cartService->getItem($cartItemIndex);
 
@@ -138,19 +138,19 @@ class CartTest extends Helper\DoctrineTestCase
     public function testAddItemWithMissingProduct()
     {
         $this->productRepository->setReturnValue(null);
-        $productEncodedId = 'P1';
+        $productId = 2001;
 
-        $cartItemIndex = $this->cartService->addItem($productEncodedId);
+        $cartItemIndex = $this->cartService->addItem($productId);
     }
 
     public function testAddItemOptionProducts()
     {
-        $productEncodedId = 'P1';
-        $cartItemIndex = $this->cartService->addItem($productEncodedId);
+        $productId = 2001;
+        $cartItemIndex = $this->cartService->addItem($productId);
 
-        $optionProductEncodedIds = ['OP1'];
+        $optionProductIds = [101];
 
-        $this->cartService->addItemOptionProducts($cartItemIndex, $optionProductEncodedIds);
+        $this->cartService->addItemOptionProducts($cartItemIndex, $optionProductIds);
     }
 
     /**
@@ -160,40 +160,39 @@ class CartTest extends Helper\DoctrineTestCase
     public function testAddItemOptionProductsThrowsException()
     {
         $cartItemIndex = 1;
-        $optionProductEncodedIds = ['OP1'];
+        $optionProductIds = [101];
 
-        $this->cartService->addItemOptionProducts($cartItemIndex, $optionProductEncodedIds);
+        $this->cartService->addItemOptionProducts($cartItemIndex, $optionProductIds);
     }
 
     public function testAddItemOptionValues()
     {
-        $productEncodedId = 'P1';
-        $cartItemIndex = $this->cartService->addItem($productEncodedId);
+        $productId = 2001;
+        $cartItemIndex = $this->cartService->addItem($productId);
 
-        $optionValueEncodedIds = ['OV1'];
+        $optionValueIds = [201];
 
-        $this->cartService->addItemOptionValues($cartItemIndex, $optionValueEncodedIds);
+        $this->cartService->addItemOptionValues($cartItemIndex, $optionValueIds);
     }
 
     public function testAddItemTextOptionValues()
     {
         $textOption = new Entity\TextOption;
-        $textOption->setId(1);
+        $textOption->setId(301);
         $this->textOptionRepository->setReturnValue($textOption);
 
-        $productEncodedId = 'P1';
-        $cartItemIndex = $this->cartService->addItem($productEncodedId);
+        $productId = 2001;
+        $cartItemIndex = $this->cartService->addItem($productId);
 
-        $textOptionEncodedId = '1';
-        $textOptionValues = [$textOptionEncodedId => 'Happy Birthday'];
+        $textOptionValues = [$textOption->getId() => 'Happy Birthday'];
 
         $this->cartService->addItemTextOptionValues($cartItemIndex, $textOptionValues);
     }
 
     public function testUpdateQuantity()
     {
-        $productEncodedId = 'P1';
-        $cartItemIndex = $this->cartService->addItem($productEncodedId);
+        $productId = 2001;
+        $cartItemIndex = $this->cartService->addItem($productId);
 
         $quantity = 2;
         $this->cartService->updateQuantity($cartItemIndex, $quantity);
@@ -205,8 +204,8 @@ class CartTest extends Helper\DoctrineTestCase
 
     public function testDeleteItem()
     {
-        $productEncodedId = 'P1';
-        $cartItemIndex = $this->cartService->addItem($productEncodedId);
+        $productId = 2001;
+        $cartItemIndex = $this->cartService->addItem($productId);
 
         $this->cartService->deleteItem($cartItemIndex);
 
@@ -217,8 +216,8 @@ class CartTest extends Helper\DoctrineTestCase
 
     public function testGetItems()
     {
-        $productEncodedId = 'P1';
-        $cartItemIndex = $this->cartService->addItem($productEncodedId);
+        $productId = 2001;
+        $cartItemIndex = $this->cartService->addItem($productId);
 
         $cartItems = $this->cartService->getItems();
 
@@ -227,8 +226,8 @@ class CartTest extends Helper\DoctrineTestCase
 
     public function testGetProducts()
     {
-        $productEncodedId = 'P1';
-        $cartItemIndex = $this->cartService->addItem($productEncodedId);
+        $productId = 2001;
+        $cartItemIndex = $this->cartService->addItem($productId);
 
         $cartProducts = $this->cartService->getProducts();
 
@@ -241,8 +240,8 @@ class CartTest extends Helper\DoctrineTestCase
         $product->setShippingWeight(16);
         $this->productRepository->setReturnValue($product);
 
-        $productEncodedId = 'P1';
-        $cartItemIndex = $this->cartService->addItem($productEncodedId, 2);
+        $productId = 2001;
+        $cartItemIndex = $this->cartService->addItem($productId, 2);
 
         $this->assertSame(32, $this->cartService->getShippingWeight());
         $this->assertSame(2, $this->cartService->getShippingWeightInPounds());

@@ -31,4 +31,16 @@ class BaseConvertTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame($expected, BaseConvert::decode($input));
     }
+
+    public function testDecodeAll()
+    {
+        $input = ['1', 'A', '10'];
+
+        $expectedResult = [
+            1,
+            10,
+            36
+        ];
+        $this->assertSame($expectedResult, BaseConvert::decodeAll($input));
+    }
 }
