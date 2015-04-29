@@ -3,8 +3,10 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
 use inklabs\kommerce\Service;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class OptionProduct
+class OptionProduct implements EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 
@@ -20,6 +22,10 @@ class OptionProduct
     public function __construct()
     {
         $this->setCreated();
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
     }
 
     public function setSortOrder($sortOrder)

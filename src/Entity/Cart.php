@@ -62,10 +62,10 @@ class Cart implements EntityInterface
     /**
      * @return CartItem|null
      */
-    public function getCartItem($id)
+    public function getCartItem($cartItemIndex)
     {
-        if (isset($this->cartItems[$id])) {
-            return $this->cartItems[$id];
+        if (isset($this->cartItems[$cartItemIndex])) {
+            return $this->cartItems[$cartItemIndex];
         } else {
             return null;
         }
