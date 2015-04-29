@@ -205,6 +205,12 @@ class Cart implements EntityInterface
             $order->addOrderItem($item->getOrderItem($pricing));
         }
 
+        foreach ($this->getCoupons() as $coupon) {
+            $order->addCoupon($coupon);
+        }
+
+        $order->setUser($this->getUser());
+
         return $order;
     }
 

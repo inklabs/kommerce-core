@@ -12,6 +12,7 @@ use inklabs\kommerce\tests\EntityRepository\FakeOptionProduct;
 use inklabs\kommerce\tests\EntityRepository\FakeOptionValue;
 use inklabs\kommerce\tests\EntityRepository\FakeTextOption;
 use inklabs\kommerce\tests\EntityRepository\FakeCoupon;
+use inklabs\kommerce\tests\EntityRepository\FakeOrder;
 use LogicException;
 
 class CartTest extends Helper\DoctrineTestCase
@@ -34,6 +35,9 @@ class CartTest extends Helper\DoctrineTestCase
     /** @var FakeCoupon */
     protected $couponRepository;
 
+    /** @var FakeOrder */
+    protected $orderRepository;
+
     /** @var Cart */
     protected $cartService;
 
@@ -45,7 +49,13 @@ class CartTest extends Helper\DoctrineTestCase
         $this->optionValueRepository = new FakeOptionValue;
         $this->textOptionRepository = new FakeTextOption;
         $this->couponRepository = new FakeCoupon;
+        $this->orderRepository = new FakeOrder;
 
+        $this->setupCartService();
+    }
+
+    private function setupCartService()
+    {
         $cartId = 1;
         $this->cartService = new Cart(
             $this->cartRepository,
@@ -54,6 +64,7 @@ class CartTest extends Helper\DoctrineTestCase
             $this->optionValueRepository,
             $this->textOptionRepository,
             $this->couponRepository,
+            $this->orderRepository,
             new Service\Pricing,
             $cartId
         );
@@ -65,26 +76,9 @@ class CartTest extends Helper\DoctrineTestCase
      */
     public function testCreateThrowsException()
     {
-        $this->cartRepository = new FakeCart;
-        $this->productRepository = new FakeProduct;
-        $this->optionProductRepository = new FakeOptionProduct;
-        $this->optionValueRepository = new FakeOptionValue;
-        $this->textOptionRepository = new FakeTextOption;
-        $this->couponRepository = new FakeCoupon;
-
         $this->cartRepository->setReturnValue(null);
 
-        $cartId = 1;
-        $this->cartService = new Cart(
-            $this->cartRepository,
-            $this->productRepository,
-            $this->optionProductRepository,
-            $this->optionValueRepository,
-            $this->textOptionRepository,
-            $this->couponRepository,
-            new Service\Pricing,
-            $cartId
-        );
+        $this->setupCartService();
     }
 
     public function testAddCouponByCode()
@@ -263,5 +257,21 @@ class CartTest extends Helper\DoctrineTestCase
         $this->cartService->setShippingRate(new Entity\Shipping\Rate);
         $this->cartService->setTaxRate(new Entity\TaxRate);
         $this->cartService->setUser(new Entity\User);
+    }
+
+    public function testAddOrder()
+    {
+        $cart = new Entity\Cart;
+        $cart->setUser(new Entity\User);
+        $cart->addCoupon(new Entity\Coupon);
+        $this->cartRepository->setReturnValue($cart);
+        $this->setupCartService();
+
+        $payment = new Entity\Payment\Cash(100);
+        $orderAddress = new Entity\OrderAddress;
+
+        $order = $this->cartService->createOrder($payment, $orderAddress);
+
+        $this->assertTrue($order instanceof Entity\Order);
     }
 }

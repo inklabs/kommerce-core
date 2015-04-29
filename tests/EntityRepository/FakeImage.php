@@ -13,10 +13,6 @@ class FakeImage extends Helper\AbstractFake implements ImageInterface
         $this->setReturnValue(new Entity\Image);
     }
 
-    /**
-     * @param int $id
-     * @return Entity\Image
-     */
     public function find($id)
     {
         return $this->getReturnValue();

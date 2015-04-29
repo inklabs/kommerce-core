@@ -13,10 +13,6 @@ class FakeAttribute extends Helper\AbstractFake implements AttributeInterface
         $this->setReturnValue(new Entity\Attribute);
     }
 
-    /**
-     * @param int $id
-     * @return Entity\Attribute
-     */
     public function find($id)
     {
         return $this->getReturnValue();

@@ -227,7 +227,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartItem->setProduct($product);
 
         $cart = new Cart;
+        $cart->setUser(new User);
         $cart->addCartItem($cartItem);
+        $cart->addCoupon(new Coupon);
 
         $order = $cart->getOrder(new Service\Pricing);
 

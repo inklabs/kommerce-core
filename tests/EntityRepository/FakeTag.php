@@ -13,37 +13,26 @@ class FakeTag extends Helper\AbstractFake implements TagInterface
         $this->setReturnValue(new Entity\Tag);
     }
 
-    /**
-     * @param int $id
-     * @return Entity\Tag
-     */
     public function find($id)
     {
         return $this->getReturnValue();
     }
 
-    /**
-     * @param string $queryString
-     * @return Entity\Tag[]
-     */
+    public function findByEncodedId($id)
+    {
+        return $this->getReturnValue();
+    }
+
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
 
-    /**
-     * @param int[]
-     * @return Entity\Tag[]
-     */
     public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
 
-    /**
-     * @param int[]
-     * @return Entity\Tag[]
-     */
     public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
