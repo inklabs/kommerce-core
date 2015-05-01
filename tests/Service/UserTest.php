@@ -51,32 +51,49 @@ class UserTest extends Helper\DoctrineTestCase
 
         $this->assertSame(0, $user->getTotalLogins());
 
-        $loginResult = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
+        $loginUser = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
 
         $this->assertSame(1, $user->getTotalLogins());
-        $this->assertTrue($loginResult);
+        $this->assertTrue($loginUser instanceof View\User);
     }
 
+    /**
+     * @expectedException \inklabs\kommerce\Service\UserLoginException
+     * @expectedExceptionCode 0
+     * @expectedExceptionMessage User not found
+     */
+    public function testUserLoginWithWrongEmail()
+    {
+        $this->userRepository->setReturnValue(null);
+
+        $loginUser = $this->userService->login('zzz@example.com', 'xxxx', '127.0.0.1');
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\Service\UserLoginException
+     * @expectedExceptionCode 1
+     * @expectedExceptionMessage User not active
+     */
+    public function testUserLoginWithInactiveUser()
+    {
+        $user = $this->getDummyUser();
+        $user->setStatus(Entity\User::STATUS_INACTIVE);
+        $this->userRepository->setReturnValue($user);
+
+        $loginUser = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\Service\UserLoginException
+     * @expectedExceptionCode 2
+     * @expectedExceptionMessage User password not valid
+     */
     public function testUserLoginWithWrongPassword()
     {
         $user = $this->getDummyUser();
         $this->userRepository->setReturnValue($user);
 
-        $this->assertSame(0, $user->getTotalLogins());
-
-        $loginResult = $this->userService->login('test@example.com', 'zzz', '127.0.0.1');
-
-        $this->assertSame(0, $user->getTotalLogins());
-        $this->assertFalse($loginResult);
-    }
-
-    public function testUserLoginWithWrongEmail()
-    {
-        $this->userRepository->setReturnValue(null);
-
-        $loginResult = $this->userService->login('zzz@example.com', 'xxxx', '127.0.0.1');
-
-        $this->assertFalse($loginResult);
+        $loginUser = $this->userService->login('test@example.com', 'zzz', '127.0.0.1');
     }
 
     public function testGetAllUsers()
