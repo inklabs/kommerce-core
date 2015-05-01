@@ -91,6 +91,7 @@ class CartItem implements ViewInterface
     {
         foreach ($this->cartItem->getCartItemTextOptionValues() as $cartItemTextOptionValue) {
             $this->cartItemTextOptionValues[] = $cartItemTextOptionValue->getView()
+                ->withTextOption()
                 ->export();
         }
 

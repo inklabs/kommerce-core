@@ -25,6 +25,7 @@ class CartItemOptionValue implements ViewInterface
         $this->updated = $cartItemOptionValue->getUpdated();
 
         $this->optionValue = $cartItemOptionValue->getOptionValue()->getView()
+            ->withAllData()
             ->export();
     }
 
