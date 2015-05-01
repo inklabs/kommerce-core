@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\Lib;
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -109,7 +109,7 @@ class CartItem implements EntityInterface
         $this->cartItemTextOptionValues[] = $cartItemTextOptionValue;
     }
 
-    public function getPrice(Pricing $pricing)
+    public function getPrice(Lib\Pricing $pricing)
     {
         $price = $this->getProduct()->getPrice(
             $pricing,
@@ -173,7 +173,7 @@ class CartItem implements EntityInterface
         return $quantityShippingWeight;
     }
 
-    public function getOrderItem(Pricing $pricing)
+    public function getOrderItem(Lib\Pricing $pricing)
     {
         $orderItem = new OrderItem;
         $orderItem->setProduct($this->getProduct());

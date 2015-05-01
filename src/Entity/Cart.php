@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\Lib;
 use InvalidArgumentException;
 use LogicException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -191,13 +191,13 @@ class Cart implements EntityInterface
         return $shippingWeight;
     }
 
-    public function getTotal(Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
+    public function getTotal(Lib\Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
     {
         $cartCalculator = new CartCalculator($this);
         return $cartCalculator->getTotal($pricing, $shippingRate, $taxRate);
     }
 
-    public function getOrder(Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
+    public function getOrder(Lib\Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
     {
         $order = new Order;
         $order->setTotal($this->getTotal($pricing, $shippingRate, $taxRate));

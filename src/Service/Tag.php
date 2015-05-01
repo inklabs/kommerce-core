@@ -9,13 +9,13 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 
 class Tag extends AbstractService
 {
-    /** @var Pricing */
+    /** @var Lib\Pricing */
     private $pricing;
 
     /** @var EntityRepository\TagInterface */
     private $tagRepository;
 
-    public function __construct(EntityRepository\TagInterface $tagRepository, Pricing $pricing)
+    public function __construct(EntityRepository\TagInterface $tagRepository, Lib\Pricing $pricing)
     {
         $this->pricing = $pricing;
         $this->tagRepository = $tagRepository;

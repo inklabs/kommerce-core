@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\EntityRepository\FakeTag;
 use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
@@ -17,7 +18,7 @@ class TagTest extends Helper\DoctrineTestCase
     public function setUp()
     {
         $this->tagRepository = new FakeTag;
-        $this->tagService = new Tag($this->tagRepository, new Pricing);
+        $this->tagService = new Tag($this->tagRepository, new Lib\Pricing);
     }
 
     public function testFind()

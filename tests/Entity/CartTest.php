@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Validation;
 
 class CartTest extends \PHPUnit_Framework_TestCase
@@ -215,7 +215,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $cart = new Cart;
         $cart->addCartItem($cartItem);
-        $this->assertTrue($cart->getTotal(new Service\Pricing) instanceof CartTotal);
+        $this->assertTrue($cart->getTotal(new Lib\Pricing) instanceof CartTotal);
     }
 
     public function testGetOrder()
@@ -231,7 +231,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addCartItem($cartItem);
         $cart->addCoupon(new Coupon);
 
-        $order = $cart->getOrder(new Service\Pricing);
+        $order = $cart->getOrder(new Lib\Pricing);
 
         $this->assertTrue($order instanceof Order);
     }

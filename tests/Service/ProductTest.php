@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\Lib;
 use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\EntityRepository\FakeProduct;
@@ -27,7 +28,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->productService = new Product(
             $this->productRepository,
             $this->tagRepository,
-            new Pricing
+            new Lib\Pricing
         );
     }
 

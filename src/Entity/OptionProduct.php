@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -64,11 +64,11 @@ class OptionProduct implements EntityInterface
     }
 
     /**
-     * @param Service\Pricing $pricing
+     * @param Lib\Pricing $pricing
      * @param int $quantity
      * @return Price
      */
-    public function getPrice(Service\Pricing $pricing, $quantity = 1)
+    public function getPrice(Lib\Pricing $pricing, $quantity = 1)
     {
         return $this->getProduct()->getPrice($pricing, $quantity);
     }

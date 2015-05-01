@@ -4,7 +4,6 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Entity\Shipping as Shipping;
 use inklabs\kommerce\Lib;
-use inklabs\kommerce\Service\Pricing;
 
 class Cart implements ViewInterface
 {
@@ -40,8 +39,11 @@ class Cart implements ViewInterface
         return $this;
     }
 
-    public function withCartTotal(Pricing $pricing, Shipping\Rate $shippingRate = null, Entity\TaxRate $taxRate = null)
-    {
+    public function withCartTotal(
+        Lib\Pricing $pricing,
+        Shipping\Rate $shippingRate = null,
+        Entity\TaxRate $taxRate = null
+    ) {
         $this->cartTotal = $this->cart->getTotal($pricing, $shippingRate, $taxRate)->getView()
             ->withAllData()
             ->export();
@@ -49,7 +51,7 @@ class Cart implements ViewInterface
         return $this;
     }
 
-    public function withCartItems(Pricing $pricing)
+    public function withCartItems(Lib\Pricing $pricing)
     {
         foreach ($this->cart->getCartItems() as $key => $cartItem) {
             $this->cartItems[$key] = $cartItem->getView()
@@ -70,8 +72,11 @@ class Cart implements ViewInterface
         return $this;
     }
 
-    public function withAllData(Pricing $pricing, Shipping\Rate $shippingRate = null, Entity\TaxRate $taxRate = null)
-    {
+    public function withAllData(
+        Lib\Pricing $pricing,
+        Shipping\Rate $shippingRate = null,
+        Entity\TaxRate $taxRate = null
+    ) {
         return $this
             ->withCartTotal($pricing, $shippingRate, $taxRate)
             ->withCartItems($pricing)

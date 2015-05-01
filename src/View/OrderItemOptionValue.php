@@ -3,7 +3,6 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
-use inklabs\kommerce\Service\Pricing;
 
 class OrderItemOptionValue implements ViewInterface
 {

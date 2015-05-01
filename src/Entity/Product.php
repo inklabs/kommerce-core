@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -140,7 +140,7 @@ class Product implements EntityInterface
         $this->setDescription($viewProduct->description);
     }
 
-    public function getPrice(Pricing $pricing, $quantity = 1)
+    public function getPrice(Lib\Pricing $pricing, $quantity = 1)
     {
         return $pricing->getPrice(
             $this,

@@ -63,7 +63,7 @@ class Tag implements ViewInterface
         return $this;
     }
 
-    public function withProducts(Service\Pricing $pricing)
+    public function withProducts(Lib\Pricing $pricing)
     {
         foreach ($this->tag->getProducts() as $product) {
             $this->products[] = $product->getView()
@@ -73,7 +73,7 @@ class Tag implements ViewInterface
         return $this;
     }
 
-    public function withOptions(Service\Pricing $pricing)
+    public function withOptions(Lib\Pricing $pricing)
     {
         foreach ($this->tag->getOptions() as $option) {
             $this->options[] = $option->getView()
@@ -93,7 +93,7 @@ class Tag implements ViewInterface
         return $this;
     }
 
-    public function withAllData(Service\Pricing $pricing)
+    public function withAllData(Lib\Pricing $pricing)
     {
         return $this
             ->withImages()

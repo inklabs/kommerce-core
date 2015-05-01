@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 
 class CartItemOptionProductTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class CartItemOptionProductTest extends \PHPUnit_Framework_TestCase
         $orderItemOptionProduct->setCartItem(new Entity\CartItem);
 
         $viewCartItemOptionProduct = $orderItemOptionProduct->getView()
-            ->withAllData(new Service\Pricing)
+            ->withAllData(new Lib\Pricing)
             ->export();
 
         $this->assertTrue($viewCartItemOptionProduct instanceof CartItemOptionProduct);
