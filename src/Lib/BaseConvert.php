@@ -16,6 +16,8 @@ class BaseConvert
             return null;
         }
 
+        $num = (string) $num;
+
         if ($base === null) {
             $base = static::$encodeBase;
         }
@@ -56,19 +58,20 @@ class BaseConvert
             return null;
         }
 
+        $origNum = (int) $origNum;
+
         if ($base === null) {
             $base = static::$encodeBase;
         }
 
         $b = strlen($base);
         $res = '';
-        $num = $origNum;
 
         do {
-            $r = $num % $b;
-            $num = floor($num / $b);
+            $r = $origNum % $b;
+            $origNum = floor($origNum / $b);
             $res = $base[$r] . $res;
-        } while ($num);
+        } while ($origNum);
 
         return $res;
     }

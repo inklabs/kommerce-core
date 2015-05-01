@@ -96,6 +96,7 @@ class Product implements ViewInterface
             $this->tags[] = $tag->getView()
                 ->withImages()
                 ->withOptions($pricing)
+                ->withTextOptions()
                 ->export();
         }
         return $this;
