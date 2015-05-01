@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity;
 
 class PricingCalculator
 {
-    /** @var Pricing */
+    /** @var PricingInterface */
     protected $pricing;
 
     /** @var Entity\Product */

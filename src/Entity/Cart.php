@@ -191,13 +191,13 @@ class Cart implements EntityInterface
         return $shippingWeight;
     }
 
-    public function getTotal(Lib\Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
+    public function getTotal(Lib\PricingInterface $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
     {
         $cartCalculator = new CartCalculator($this);
         return $cartCalculator->getTotal($pricing, $shippingRate, $taxRate);
     }
 
-    public function getOrder(Lib\Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
+    public function getOrder(Lib\PricingInterface $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
     {
         $order = new Order;
         $order->setTotal($this->getTotal($pricing, $shippingRate, $taxRate));

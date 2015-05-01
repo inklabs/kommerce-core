@@ -3,12 +3,12 @@ namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Entity;
 
-class PricingCalculatorTest extends \PHPUnit_Framework_TestCase
+class PricingInterfaceCalculatorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var PricingCalculator */
     protected $pricingCalculator;
 
-    /** @var Pricing */
+    /** @var PricingInterface */
     protected $pricing;
 
     public function setUp()

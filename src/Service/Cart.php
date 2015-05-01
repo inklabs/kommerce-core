@@ -38,7 +38,7 @@ class Cart extends AbstractService
     /** @var Entity\TaxRate */
     protected $taxRate;
 
-    /** @var Lib\Pricing */
+    /** @var Lib\PricingInterface */
     protected $pricing;
 
     /** @var Entity\User */
@@ -55,7 +55,7 @@ class Cart extends AbstractService
      * @param EntityRepository\TextOptionInterface $textOptionRepository
      * @param EntityRepository\CouponInterface $couponRepository
      * @param EntityRepository\OrderInterface $orderRepository
-     * @param Lib\Pricing $pricing
+     * @param Lib\PricingInterface $pricing
      * @param int $cartId
      */
     public function __construct(
@@ -66,7 +66,7 @@ class Cart extends AbstractService
         EntityRepository\TextOptionInterface $textOptionRepository,
         EntityRepository\CouponInterface $couponRepository,
         EntityRepository\OrderInterface $orderRepository,
-        Lib\Pricing $pricing,
+        Lib\PricingInterface $pricing,
         $cartId
     ) {
         $this->cartRepository = $cartRepository;

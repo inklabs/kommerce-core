@@ -25,7 +25,7 @@ class ProductQuantityDiscount extends Promotion
         $this->flagApplyCatalogPromotions = $productQuantityDiscount->getFlagApplyCatalogPromotions();
     }
 
-    public function withPrice(Lib\Pricing $pricing)
+    public function withPrice(Lib\PricingInterface $pricing)
     {
         $this->price = $this->promotion->getPrice($pricing)->getView()
             ->withAllData()
@@ -34,7 +34,7 @@ class ProductQuantityDiscount extends Promotion
         return $this;
     }
 
-    public function withProduct(Lib\Pricing $pricing)
+    public function withProduct(Lib\PricingInterface $pricing)
     {
         $product = $this->promotion->getProduct();
         if ($product !== null) {
@@ -45,7 +45,7 @@ class ProductQuantityDiscount extends Promotion
         return $this;
     }
 
-    public function withAllData(Lib\Pricing $pricing)
+    public function withAllData(Lib\PricingInterface $pricing)
     {
         return $this
             ->withPrice($pricing)

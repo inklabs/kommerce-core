@@ -40,7 +40,7 @@ class Cart implements ViewInterface
     }
 
     public function withCartTotal(
-        Lib\Pricing $pricing,
+        Lib\PricingInterface $pricing,
         Shipping\Rate $shippingRate = null,
         Entity\TaxRate $taxRate = null
     ) {
@@ -51,7 +51,7 @@ class Cart implements ViewInterface
         return $this;
     }
 
-    public function withCartItems(Lib\Pricing $pricing)
+    public function withCartItems(Lib\PricingInterface $pricing)
     {
         foreach ($this->cart->getCartItems() as $key => $cartItem) {
             $this->cartItems[$key] = $cartItem->getView()
@@ -73,7 +73,7 @@ class Cart implements ViewInterface
     }
 
     public function withAllData(
-        Lib\Pricing $pricing,
+        Lib\PricingInterface $pricing,
         Shipping\Rate $shippingRate = null,
         Entity\TaxRate $taxRate = null
     ) {

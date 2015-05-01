@@ -36,7 +36,7 @@ class CartItemOptionProduct implements ViewInterface
         return $this;
     }
 
-    public function withOptionProduct(Lib\Pricing $pricing)
+    public function withOptionProduct(Lib\PricingInterface $pricing)
     {
         $this->optionProduct = $this->cartItemOptionProduct->getOptionProduct()->getView()
             ->withOption()
@@ -46,7 +46,7 @@ class CartItemOptionProduct implements ViewInterface
         return $this;
     }
 
-    public function withAllData(Lib\Pricing $pricing)
+    public function withAllData(Lib\PricingInterface $pricing)
     {
         return $this
             ->withOptionProduct($pricing);

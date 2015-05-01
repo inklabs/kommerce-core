@@ -15,7 +15,7 @@ are using the PSR-4 standard.
 
 ## Description
 
-This project is over 24,000 lines of code. Unit tests account for 30-40% of that total. There are four
+This project is over 25,000 lines of code. Unit tests account for 30-40% of that total. There are four
 main modules in this project:
 
 * Entities (src/Entity)
@@ -55,29 +55,40 @@ main modules in this project:
 
 * Services (src/Service)
     - These are the interactors that manage the choreography between entities and the database via
-      the Doctrine EntityManager. There is heavy dependency injection into the constructors in this layer.
-      Sometimes a SessionManager is used for some types of persistence, such as a cart.
+      an EntityRepository. There is heavy dependency injection into the constructors in this layer.
+      Services know about Entities and always return a View object.
 
       ```php
-      namespace inklabs\kommerce\Service;
-      $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-      $cart->loadCartPriceRules();
-      $cart->setTaxRate(new Entity\TaxRate);
-      $cart->setUser(new Entity\User);
-      $cart->addOrderItem($viewProduct, 1);
+      $productService = new Service\Product(
+          $this->productRepository,
+          $this->tagRepository
+      );
+
+      $productId = 1;
+      $viewProduct = $productService->find($productId);
+      $viewProduct->sku = 'NEW-SKU';
+
+      $productService->edit($productId, $viewProduct);
       ```
 
 * Views (src/View)
     - Often you want to use your entities as plain value objects in your main application, typically in your view
-      templates. These classes act as a decorator. They format the entities as simple objects with class member
-      variables or "properties" with public access. The complete network relationships of entities are also available
-      if you request them.
+      templates. These classes act as a decorator to Entities. They format the entities as simple objects with public
+      class member variables. The complete network relationship graph are also available if you request them
+      (e.g., withAllData()).
 
       ```php
       namespace inklabs\kommerce\View;
-      $viewProduct = Product::factory(new Entity\Product)
-        ->withAllData(new Service\Pricing)
+      $product = new Entity\Product;
+      $product->addTag(new Entity\Tag);
+
+      $viewProduct = Product::factory($product)
+        ->withAllData(new Lib\Pricing)
         ->export();
+
+      echo $viewProduct->sku;
+      echo $viewProduct->price->unitPrice;
+      echo $viewProduct->tags[0]->name;
       ```
 
 ## Installation

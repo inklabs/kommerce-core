@@ -51,7 +51,7 @@ class ProductQuantityDiscount extends Promotion
         return '$' . number_format(($priceInCents / 100), 2);
     }
 
-    public function getPrice(Lib\Pricing $pricing)
+    public function getPrice(Lib\PricingInterface $pricing)
     {
         return $pricing->getPrice(
             $this->product,

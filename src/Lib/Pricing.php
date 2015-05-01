@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository;
 use Doctrine;
 
-class Pricing
+class Pricing implements PricingInterface
 {
     /** @var \DateTime */
     protected $date;
