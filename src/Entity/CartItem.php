@@ -109,7 +109,7 @@ class CartItem implements EntityInterface
         $this->cartItemTextOptionValues[] = $cartItemTextOptionValue;
     }
 
-    public function getPrice(Lib\Pricing $pricing)
+    public function getPrice(Lib\PricingInterface $pricing)
     {
         $price = $this->getProduct()->getPrice(
             $pricing,
@@ -173,7 +173,7 @@ class CartItem implements EntityInterface
         return $quantityShippingWeight;
     }
 
-    public function getOrderItem(Lib\Pricing $pricing)
+    public function getOrderItem(Lib\PricingInterface $pricing)
     {
         $orderItem = new OrderItem;
         $orderItem->setProduct($this->getProduct());

@@ -89,7 +89,7 @@ class Product implements ViewInterface
         return $this;
     }
 
-    public function withTagsAndOptions(Lib\Pricing $pricing)
+    public function withTagsAndOptions(Lib\PricingInterface $pricing)
     {
         foreach ($this->product->getTags() as $tag) {
             $this->tags[] = $tag->getView()
@@ -118,7 +118,7 @@ class Product implements ViewInterface
         return $this;
     }
 
-    public function withPrice(Lib\Pricing $pricing)
+    public function withPrice(Lib\PricingInterface $pricing)
     {
         $this->price = $this->product->getPrice($pricing)->getView()
             ->withAllData()
@@ -127,7 +127,7 @@ class Product implements ViewInterface
         return $this;
     }
 
-    public function withProductQuantityDiscounts(Lib\Pricing $pricing)
+    public function withProductQuantityDiscounts(Lib\PricingInterface $pricing)
     {
         $productQuantityDiscounts = $this->product->getProductQuantityDiscounts();
         $pricing->setProductQuantityDiscounts($productQuantityDiscounts);
@@ -154,7 +154,7 @@ class Product implements ViewInterface
         return $this;
     }
 
-    public function withAllData(Lib\Pricing $pricing)
+    public function withAllData(Lib\PricingInterface $pricing)
     {
         return $this
             ->withTagsAndOptions($pricing)

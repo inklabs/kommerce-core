@@ -64,11 +64,11 @@ class OptionProduct implements EntityInterface
     }
 
     /**
-     * @param Lib\Pricing $pricing
+     * @param Lib\PricingInterface $pricing
      * @param int $quantity
      * @return Price
      */
-    public function getPrice(Lib\Pricing $pricing, $quantity = 1)
+    public function getPrice(Lib\PricingInterface $pricing, $quantity = 1)
     {
         return $this->getProduct()->getPrice($pricing, $quantity);
     }

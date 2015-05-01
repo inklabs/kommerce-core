@@ -46,7 +46,7 @@ class CartItem implements ViewInterface
         return $this;
     }
 
-    public function withPrice(Lib\Pricing $pricing)
+    public function withPrice(Lib\PricingInterface $pricing)
     {
         $this->price = $this->cartItem->getPrice($pricing)->getView()
             ->withAllData()
@@ -55,7 +55,7 @@ class CartItem implements ViewInterface
         return $this;
     }
 
-    public function withProduct(Lib\Pricing $pricing)
+    public function withProduct(Lib\PricingInterface $pricing)
     {
         $this->product = $this->cartItem->getProduct()->getView()
             ->withTags()
@@ -65,7 +65,7 @@ class CartItem implements ViewInterface
         return $this;
     }
 
-    public function withCartItemOptionProducts(Lib\Pricing $pricing)
+    public function withCartItemOptionProducts(Lib\PricingInterface $pricing)
     {
         foreach ($this->cartItem->getCartItemOptionProducts() as $cartItemOptionProduct) {
             $this->cartItemOptionProducts[] = $cartItemOptionProduct->getView()
@@ -97,7 +97,7 @@ class CartItem implements ViewInterface
         return $this;
     }
 
-    public function withAllData(Lib\Pricing $pricing)
+    public function withAllData(Lib\PricingInterface $pricing)
     {
         return $this
             ->withProduct($pricing)

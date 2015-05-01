@@ -57,7 +57,7 @@ class Option
         return $this;
     }
 
-    public function withOptionProducts(Lib\Pricing $pricing)
+    public function withOptionProducts(Lib\PricingInterface $pricing)
     {
         foreach ($this->option->getOptionProducts() as $optionProduct) {
             $this->optionProducts[] = $optionProduct->getView()
@@ -89,7 +89,7 @@ class Option
         return $this;
     }
 
-    public function withAllData(Lib\Pricing $pricing)
+    public function withAllData(Lib\PricingInterface $pricing)
     {
         return $this
             ->withTags()

@@ -9,7 +9,7 @@ use inklabs\kommerce\Lib;
 
 class Product extends AbstractService
 {
-    /** @var Lib\Pricing */
+    /** @var Lib\PricingInterface */
     private $pricing;
 
     /** @var EntityRepository\ProductInterface */
@@ -21,7 +21,7 @@ class Product extends AbstractService
     public function __construct(
         EntityRepository\ProductInterface $productRepository,
         EntityRepository\TagInterface $tagRepository,
-        Lib\Pricing $pricing
+        Lib\PricingInterface $pricing
     ) {
         $this->pricing = $pricing;
         $this->productRepository = $productRepository;

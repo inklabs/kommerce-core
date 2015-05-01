@@ -34,7 +34,7 @@ class CartItemOptionProduct
         return $this->optionProduct->getSku();
     }
 
-    public function getPrice(Lib\Pricing $pricing, $quantity = 1)
+    public function getPrice(Lib\PricingInterface $pricing, $quantity = 1)
     {
         return $this->optionProduct->getPrice($pricing, $quantity);
     }
