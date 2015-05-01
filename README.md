@@ -23,8 +23,7 @@ main modules in this project:
       object relationships are constructed.
 
       ```php
-      namespace inklabs\kommerce\Entity;
-      $product = new Product;
+      $product = new Entity\Product;
       $product->setName('Test Product');
       $product->setUnitPrice(500);
       $product->addTag(new Tag);
@@ -34,7 +33,6 @@ main modules in this project:
     - This is where you will find a variety of utility code including the Payment Gateway (src/Lib/PaymentGateway).
 
       ```php
-      namespace inklabs\kommerce\Lib\PaymentGateway;
       $creditCard = new Entity\CreditCard;
       $creditCard->setName('John Doe');
       $creditCard->setZip5('90210');
@@ -43,13 +41,13 @@ main modules in this project:
       $creditCard->setExpirationMonth('1');
       $creditCard->setExpirationYear('2020');
 
-      $chargeRequest = new ChargeRequest;
+      $chargeRequest = new Lib\PaymentGateway\ChargeRequest;
       $chargeRequest->setCreditCard($creditCard);
       $chargeRequest->setAmount(2000);
       $chargeRequest->setCurrency('usd');
       $chargeRequest->setDescription('test@example.com');
 
-      $stripe = new StripeFake;
+      $stripe = new Lib\PaymentGateway\StripeFake;
       $charge = $stripe->getCharge($chargeRequest);
       ```
 
@@ -78,11 +76,10 @@ main modules in this project:
       (e.g., withAllData()).
 
       ```php
-      namespace inklabs\kommerce\View;
       $product = new Entity\Product;
       $product->addTag(new Entity\Tag);
 
-      $viewProduct = Product::factory($product)
+      $viewProduct = new View\Product($product)
         ->withAllData(new Lib\Pricing)
         ->export();
 
