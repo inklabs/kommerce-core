@@ -15,7 +15,7 @@ class CouponTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->couponRepository = $this->entityManager->getRepository('kommerce:Coupon');
+        $this->couponRepository = $this->getCouponRepository();
     }
 
     private function setupCoupon()

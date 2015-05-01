@@ -15,7 +15,7 @@ class WarehouseTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->warehouseRepository = $this->entityManager->getRepository('kommerce:Warehouse');
+        $this->warehouseRepository = $this->getWarehouseRepository();
     }
 
     private function setupWarehouse()

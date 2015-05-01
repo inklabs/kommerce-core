@@ -18,7 +18,7 @@ class AttributeValueTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->attributeValueRepository = $this->entityManager->getRepository('kommerce:AttributeValue');
+        $this->attributeValueRepository = $this->getAttributeValueRepository();
     }
 
     private function setupAttributeValue()

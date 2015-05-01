@@ -21,8 +21,8 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->setCountLogger();
 
         $orderService = new Order(
-            $this->entityManager->getRepository('kommerce:Order'),
-            $this->entityManager->getRepository('kommerce:User')
+            $this->getOrderRepository(),
+            $this->getUserRepository()
         );
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/OrderTest.csv');

@@ -17,7 +17,7 @@ class UserLoginTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->userLoginRepository = $this->entityManager->getRepository('kommerce:UserLogin');
+        $this->userLoginRepository = $this->getUserLoginRepository();
     }
 
     private function setupUserLogin()

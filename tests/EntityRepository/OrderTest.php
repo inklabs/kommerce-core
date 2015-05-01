@@ -25,7 +25,7 @@ class OrderTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->orderRepository = $this->entityManager->getRepository('kommerce:Order');
+        $this->orderRepository = $this->getOrderRepository();
     }
 
     public function setupOrder($referenceNumber = null)
