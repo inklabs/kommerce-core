@@ -49,6 +49,7 @@ class OrderItemOptionProduct implements ViewInterface
     public function withOptionProduct()
     {
         $this->optionProduct = $this->orderItemOptionProduct->getOptionProduct()->getView()
+            ->withOption()
             ->export();
 
         return $this;
