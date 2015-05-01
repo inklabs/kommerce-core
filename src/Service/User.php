@@ -8,7 +8,6 @@ use inklabs\kommerce\Lib;
 
 class User extends AbstractService
 {
-    protected $sessionManager;
     protected $userSessionKey = 'user';
 
     /** @var EntityRepository\UserInterface */
@@ -17,35 +16,16 @@ class User extends AbstractService
     /** @var EntityRepository\UserLoginInterface */
     private $userLoginRepository;
 
-    /** @var Entity\User */
-    protected $user;
-
     public function __construct(
         EntityRepository\UserInterface $userRepository,
-        EntityRepository\UserLoginInterface $userLoginRepository,
-        Lib\SessionManager $sessionManager
+        EntityRepository\UserLoginInterface $userLoginRepository
     ) {
-        $this->sessionManager = $sessionManager;
         $this->userRepository = $userRepository;
         $this->userLoginRepository = $userLoginRepository;
-
-        $this->load();
-        $this->userLoginRepository = $userLoginRepository;
-    }
-
-    private function load()
-    {
-        $this->user = $this->sessionManager->get($this->userSessionKey);
-    }
-
-    private function save()
-    {
-        if ($this->user !== null) {
-            $this->sessionManager->set($this->userSessionKey, $this->user);
-        }
     }
 
     /**
+     * @param int $userId
      * @param string $email
      * @param string $password
      * @param string $remoteIp
@@ -53,20 +33,18 @@ class User extends AbstractService
      */
     public function login($email, $password, $remoteIp)
     {
-        $entityUser = $this->userRepository->findOneByEmail($email);
+        $user = $this->userRepository->findOneByEmail($email);
 
-        if ($entityUser === null || ! $entityUser->isActive()) {
+        if ($user === null || ! $user->isActive()) {
             $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL);
             return false;
         }
 
-        if ($entityUser->verifyPassword($password)) {
-            $this->user = $entityUser;
-            $this->save();
-            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_SUCCESS, $this->user);
+        if ($user->verifyPassword($password)) {
+            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_SUCCESS, $user);
             return true;
         } else {
-            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL, $entityUser);
+            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL, $user);
             return false;
         }
     }
@@ -89,17 +67,6 @@ class User extends AbstractService
         }
 
         $this->userLoginRepository->save($userLogin);
-    }
-
-    public function logout()
-    {
-        $this->user = null;
-        $this->sessionManager->delete($this->userSessionKey);
-    }
-
-    public function getUser()
-    {
-        return $this->user;
     }
 
     /**
