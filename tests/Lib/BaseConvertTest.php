@@ -13,6 +13,7 @@ class BaseConvertTest extends \PHPUnit_Framework_TestCase
             ['1A', 46],
             ['111', 1333],
             ['ZZZ', 46655],
+            ['335', 4001],
         ];
     }
 
@@ -42,5 +43,15 @@ class BaseConvertTest extends \PHPUnit_Framework_TestCase
             36
         ];
         $this->assertSame($expectedResult, BaseConvert::decodeAll($input));
+    }
+
+    public function testDecodeInteger()
+    {
+        $this->assertSame(4001, BaseConvert::decode(335));
+    }
+
+    public function testEncodeString()
+    {
+        $this->assertSame('335', BaseConvert::encode('4001'));
     }
 }
