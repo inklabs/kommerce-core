@@ -39,4 +39,10 @@ class OrderTest extends Helper\DoctrineTestCase
         $orders = $this->orderService->getLatestOrders();
         $this->assertTrue($orders[0] instanceof View\Order);
     }
+
+    public function testGetOrderByUserId()
+    {
+        $orders = $this->orderService->getOrdersByUserId(1);
+        $this->assertTrue($orders[0] instanceof View\Order);
+    }
 }

@@ -130,4 +130,14 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->assertSame(4, $order->getId());
         $this->assertSame(null, $order->getReferenceNumber());
     }
+
+    public function testGetOrdersByUserId()
+    {
+        $this->setupOrder();
+
+        $orders = $this->orderRepository->getOrdersByUserId(1);
+
+        $this->assertTrue($orders[0] instanceof Entity\Order);
+        $this->assertSame(1, $orders[0]->getUser()->getId());
+    }
 }
