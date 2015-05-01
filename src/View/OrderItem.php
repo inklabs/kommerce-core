@@ -93,8 +93,10 @@ class OrderItem implements ViewInterface
 
     public function withOrderItemOptionProducts()
     {
-        foreach ($this->orderItem->getOrderItemOptionProducts() as $optionProduct) {
-            $this->orderItemOptionProducts[] = $optionProduct->getView();
+        foreach ($this->orderItem->getOrderItemOptionProducts() as $orderItemOptionProduct) {
+            $this->orderItemOptionProducts[] = $orderItemOptionProduct->getView()
+                ->withAllData()
+                ->export();
         }
 
         return $this;
@@ -102,8 +104,10 @@ class OrderItem implements ViewInterface
 
     public function withOrderItemOptionValues()
     {
-        foreach ($this->orderItem->getOrderItemOptionValues() as $optionValue) {
-            $this->orderItemOptionValues[] = $optionValue->getView();
+        foreach ($this->orderItem->getOrderItemOptionValues() as $orderItemOptionValue) {
+            $this->orderItemOptionValues[] = $orderItemOptionValue->getView()
+                ->withAllData()
+                ->export();
         }
 
         return $this;
@@ -111,8 +115,10 @@ class OrderItem implements ViewInterface
 
     public function withOrderItemTextOptionValues()
     {
-        foreach ($this->orderItem->getOrderItemTextOptionValues() as $textOptionValue) {
-            $this->orderItemTextOptionValues[] = $textOptionValue->getView();
+        foreach ($this->orderItem->getOrderItemTextOptionValues() as $orderItemTextOptionValue) {
+            $this->orderItemTextOptionValues[] = $orderItemTextOptionValue->getView()
+                ->withAllData()
+                ->export();
         }
 
         return $this;

@@ -26,7 +26,7 @@ class Order implements ViewInterface
     public $user;
 
     /** @var OrderItem[] */
-    public $items = [];
+    public $orderItems = [];
 
     /** @var Payment\Payment[] */
     public $payments = [];
@@ -83,7 +83,7 @@ class Order implements ViewInterface
     public function withItems()
     {
         foreach ($this->order->getOrderItems() as $orderItem) {
-            $this->items[] = $orderItem->getView()
+            $this->orderItems[] = $orderItem->getView()
                 ->withAllData()
                 ->export();
         }

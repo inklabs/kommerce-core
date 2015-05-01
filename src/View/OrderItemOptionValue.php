@@ -49,6 +49,7 @@ class OrderItemOptionValue implements ViewInterface
     public function withOptionValue()
     {
         $this->optionValue = $this->orderItemOptionValue->getOptionValue()->getView()
+            ->withOption()
             ->export();
 
         return $this;
