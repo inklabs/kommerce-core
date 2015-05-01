@@ -8,6 +8,7 @@ class Order implements ViewInterface
 {
     public $id;
     public $externalId;
+    public $referenceNumber;
     public $encodedId;
     public $shippingAddress;
     public $billingAddress;
@@ -39,6 +40,7 @@ class Order implements ViewInterface
 
         $this->id              = $order->getId();
         $this->encodedId       = Lib\BaseConvert::encode($order->getId());
+        $this->referenceNumber = $order->getReferenceNumber();
         $this->externalId      = $order->getExternalId();
         $this->status          = $order->getStatus();
         $this->statusText      = $order->getStatusText();
