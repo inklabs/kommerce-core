@@ -20,7 +20,7 @@ class UserTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->userRepository = $this->entityManager->getRepository('kommerce:User');
+        $this->userRepository = $this->getUserRepository();
     }
 
     private function setupUser()

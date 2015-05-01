@@ -16,8 +16,7 @@ class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->productQuantityDiscountRepository =
-            $this->entityManager->getRepository('kommerce:ProductQuantityDiscount');
+        $this->productQuantityDiscountRepository = $this->getProductQuantityDiscountRepository();
     }
 
     private function setupProductWithProductQuantityDiscount()

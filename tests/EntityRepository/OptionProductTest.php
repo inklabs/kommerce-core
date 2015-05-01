@@ -17,7 +17,7 @@ class OptionProductTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->optionProductRepository = $this->entityManager->getRepository('kommerce:OptionProduct');
+        $this->optionProductRepository = $this->getOptionProductRepository();
     }
 
     private function setupOptionProduct()

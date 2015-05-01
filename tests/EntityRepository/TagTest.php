@@ -20,7 +20,7 @@ class TagTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->tagRepository = $this->entityManager->getRepository('kommerce:Tag');
+        $this->tagRepository = $this->getTagRepository();
     }
 
     private function setupTag()

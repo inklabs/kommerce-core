@@ -19,7 +19,7 @@ class OptionTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->optionRepository = $this->entityManager->getRepository('kommerce:Option');
+        $this->optionRepository = $this->getOptionRepository();
     }
 
     private function setupOption()

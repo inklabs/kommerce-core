@@ -23,7 +23,7 @@ class ProductTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->productRepository = $this->entityManager->getRepository('kommerce:Product');
+        $this->productRepository = $this->getProductRepository();
     }
 
     private function setupProduct()
