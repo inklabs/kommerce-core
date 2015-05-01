@@ -19,9 +19,6 @@ class UserTest extends Helper\DoctrineTestCase
     /** @var User */
     protected $userService;
 
-    /** @var Lib\ArraySessionManager */
-    protected $sessionManager;
-
     public function setUp()
     {
         $this->userRepository = new FakeUser;
