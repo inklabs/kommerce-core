@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 
 class CartTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +21,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addCoupon($coupon);
 
         $viewCart = $cart->getView()
-            ->withAllData(new Service\Pricing)
+            ->withAllData(new Lib\Pricing)
             ->export();
 
         $this->assertTrue($viewCart->cartTotal instanceof CartTotal);

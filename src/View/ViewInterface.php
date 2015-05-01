@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\View;
 
-use inklabs\kommerce\Service\Pricing;
-
 interface ViewInterface
 {
     /**

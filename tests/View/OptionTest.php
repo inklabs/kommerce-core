@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $textOption->addOptionValue(new Entity\OptionValue);
 
         $viewOption = $textOption->getView()
-            ->withAllData(new Service\Pricing)
+            ->withAllData(new Lib\Pricing)
             ->export();
 
         $this->assertTrue($viewOption instanceof Option);

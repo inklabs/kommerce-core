@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 
 class CartItemOptionProductTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class CartItemOptionProductTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('LAA', $cartItemOptionProduct->getSku());
         $this->assertSame(6, $cartItemOptionProduct->getShippingWeight());
-        $this->assertTrue($cartItemOptionProduct->getPrice(new Service\Pricing) instanceof Price);
+        $this->assertTrue($cartItemOptionProduct->getPrice(new Lib\Pricing) instanceof Price);
         $this->assertTrue($cartItemOptionProduct->getOptionProduct() instanceof OptionProduct);
         $this->assertTrue($cartItemOptionProduct->getCartItem() instanceof CartItem);
         $this->assertTrue($cartItemOptionProduct->getView() instanceof View\CartItemOptionProduct);

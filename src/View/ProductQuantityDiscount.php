@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\Lib;
 
 class ProductQuantityDiscount extends Promotion
 {
@@ -25,7 +25,7 @@ class ProductQuantityDiscount extends Promotion
         $this->flagApplyCatalogPromotions = $productQuantityDiscount->getFlagApplyCatalogPromotions();
     }
 
-    public function withPrice(Pricing $pricing)
+    public function withPrice(Lib\Pricing $pricing)
     {
         $this->price = $this->promotion->getPrice($pricing)->getView()
             ->withAllData()
@@ -34,7 +34,7 @@ class ProductQuantityDiscount extends Promotion
         return $this;
     }
 
-    public function withProduct(Pricing $pricing)
+    public function withProduct(Lib\Pricing $pricing)
     {
         $product = $this->promotion->getProduct();
         if ($product !== null) {
@@ -45,7 +45,7 @@ class ProductQuantityDiscount extends Promotion
         return $this;
     }
 
-    public function withAllData(Pricing $pricing)
+    public function withAllData(Lib\Pricing $pricing)
     {
         return $this
             ->withPrice($pricing)

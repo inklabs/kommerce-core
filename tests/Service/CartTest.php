@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Entity\Payment;
 use inklabs\kommerce\tests\EntityRepository\FakeCart;
@@ -65,7 +65,7 @@ class CartTest extends Helper\DoctrineTestCase
             $this->textOptionRepository,
             $this->couponRepository,
             $this->orderRepository,
-            new Service\Pricing,
+            new Lib\Pricing,
             $cartId
         );
     }

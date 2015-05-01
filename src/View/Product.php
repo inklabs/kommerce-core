@@ -3,7 +3,6 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
-use inklabs\kommerce\Service\Pricing;
 
 class Product implements ViewInterface
 {
@@ -90,7 +89,7 @@ class Product implements ViewInterface
         return $this;
     }
 
-    public function withTagsAndOptions(Pricing $pricing)
+    public function withTagsAndOptions(Lib\Pricing $pricing)
     {
         foreach ($this->product->getTags() as $tag) {
             $this->tags[] = $tag->getView()
@@ -119,7 +118,7 @@ class Product implements ViewInterface
         return $this;
     }
 
-    public function withPrice(Pricing $pricing)
+    public function withPrice(Lib\Pricing $pricing)
     {
         $this->price = $this->product->getPrice($pricing)->getView()
             ->withAllData()
@@ -128,7 +127,7 @@ class Product implements ViewInterface
         return $this;
     }
 
-    public function withProductQuantityDiscounts(Pricing $pricing)
+    public function withProductQuantityDiscounts(Lib\Pricing $pricing)
     {
         $productQuantityDiscounts = $this->product->getProductQuantityDiscounts();
         $pricing->setProductQuantityDiscounts($productQuantityDiscounts);
@@ -155,7 +154,7 @@ class Product implements ViewInterface
         return $this;
     }
 
-    public function withAllData(Pricing $pricing)
+    public function withAllData(Lib\Pricing $pricing)
     {
         return $this
             ->withTagsAndOptions($pricing)

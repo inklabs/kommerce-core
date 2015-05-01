@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 use inklabs\kommerce\tests\Helper;
@@ -12,7 +12,7 @@ class CartItemTest extends Helper\DoctrineTestCase
     {
         $cartItem = $this->getDummyFullCartItem();
 
-        $pricing = new Service\Pricing;
+        $pricing = new Lib\Pricing;
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -35,7 +35,7 @@ class CartItemTest extends Helper\DoctrineTestCase
     public function testGetOrderItem()
     {
         $cartItem = $this->getDummyFullCartItem();
-        $orderItem = $cartItem->getOrderItem(new Service\Pricing);
+        $orderItem = $cartItem->getOrderItem(new Lib\Pricing);
 
         $this->assertTrue($orderItem instanceof OrderItem);
         $this->assertTrue($orderItem->getProduct() instanceof Product);

@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
-use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -51,7 +51,7 @@ class ProductQuantityDiscount extends Promotion
         return '$' . number_format(($priceInCents / 100), 2);
     }
 
-    public function getPrice(Pricing $pricing)
+    public function getPrice(Lib\Pricing $pricing)
     {
         return $pricing->getPrice(
             $this->product,

@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper;
 
 class CartItemTest extends Helper\DoctrineTestCase
@@ -12,7 +12,7 @@ class CartItemTest extends Helper\DoctrineTestCase
         $cartItem = $this->getDummyFullCartItem();
 
         $viewCartItem = $cartItem->getView()
-            ->withAllData(new Service\Pricing)
+            ->withAllData(new Lib\Pricing)
             ->export();
 
         $this->assertTrue($viewCartItem->price instanceof Price);

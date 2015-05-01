@@ -54,7 +54,7 @@ class OptionProduct implements ViewInterface
         return $this;
     }
 
-    public function withProduct(Service\Pricing $pricing)
+    public function withProduct(Lib\Pricing $pricing)
     {
         $this->product = $this->optionProduct->getProduct()->getView()
             ->withPrice($pricing)
@@ -74,7 +74,7 @@ class OptionProduct implements ViewInterface
         return $this;
     }
 
-    public function withAllData(Service\Pricing $pricing)
+    public function withAllData(Lib\Pricing $pricing)
     {
         return $this
             ->withOption()

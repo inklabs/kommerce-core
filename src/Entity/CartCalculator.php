@@ -1,14 +1,14 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 
 class CartCalculator
 {
     /** @var Cart */
     protected $cart;
 
-    /** @var Service\Pricing */
+    /** @var Lib\Pricing */
     protected $pricing;
 
     /** @var CartTotal */
@@ -19,7 +19,7 @@ class CartCalculator
         $this->cart = $cart;
     }
 
-    public function getTotal(Service\Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
+    public function getTotal(Lib\Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
     {
         $this->pricing = $pricing;
 

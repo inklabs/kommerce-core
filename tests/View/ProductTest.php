@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,7 +28,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $entityProduct->addProductQuantityDiscount($productQuantityDiscount);
 
         $product = $entityProduct->getView()
-            ->withAllData(new Service\Pricing)
+            ->withAllData(new Lib\Pricing)
             ->export();
 
         $this->assertTrue($product->tags[0] instanceof Tag);

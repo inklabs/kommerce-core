@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 
 class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->savings = 0;
 
         $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Service\Pricing));
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Lib\Pricing));
     }
 
     public function testGetTotalWithCartPriceRules()
@@ -52,7 +52,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->addItem(new CartPriceRuleItem\Product($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster));
 
-        $pricing = new Service\Pricing;
+        $pricing = new Lib\Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
         $cartItem1 = new CartItem;
@@ -101,7 +101,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->addItem(new CartPriceRuleItem\Product($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
 
-        $pricing = new Service\Pricing;
+        $pricing = new Lib\Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
         $cartItem1 = new CartItem;
@@ -151,7 +151,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
         $cartPriceRule->setReducesTaxSubtotal(true);
 
-        $pricing = new Service\Pricing;
+        $pricing = new Lib\Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
         $cartItem1 = new CartItem;
@@ -219,7 +219,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->coupons = [$coupon];
 
         $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Service\Pricing));
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Lib\Pricing));
     }
 
     public function testGetTotalWithCouponWithFreeShipping()
@@ -259,7 +259,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->coupons = [$coupon];
 
         $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Service\Pricing, $shippingRate));
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Lib\Pricing, $shippingRate));
     }
 
     public function testGetTotalWithShipping()
@@ -289,7 +289,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->savings = 0;
 
         $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Service\Pricing, $shippingRate));
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Lib\Pricing, $shippingRate));
     }
 
     public function testGetTotalWithZip5TaxNotAppliedToShipping()
@@ -323,7 +323,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $shippingRate = null;
         $cartCalculator = new CartCalculator($cart);
-        $cartTotal = $cartCalculator->getTotal(new Service\Pricing, $shippingRate, $taxRate);
+        $cartTotal = $cartCalculator->getTotal(new Lib\Pricing, $shippingRate, $taxRate);
         $this->assertEquals($expectedCartTotal, $cartTotal);
     }
 
@@ -362,7 +362,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->taxRate = $taxRate;
 
         $cartCalculator = new CartCalculator($cart);
-        $cartTotal = $cartCalculator->getTotal(new Service\Pricing, $shippingRate, $taxRate);
+        $cartTotal = $cartCalculator->getTotal(new Lib\Pricing, $shippingRate, $taxRate);
         $this->assertEquals($expectedCartTotal, $cartTotal);
     }
 
@@ -394,7 +394,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->savings = 0;
 
         $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Service\Pricing));
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Lib\Pricing));
     }
 
     public function testGetTotalWithZip5TaxAndCouponNoReduceSubtotal()
@@ -438,7 +438,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $shippingRate = null;
         $cartCalculator = new CartCalculator($cart);
-        $cartTotal = $cartCalculator->getTotal(new Service\Pricing, $shippingRate, $taxRate);
+        $cartTotal = $cartCalculator->getTotal(new Lib\Pricing, $shippingRate, $taxRate);
         $this->assertEquals($expectedCartTotal, $cartTotal);
     }
 }

@@ -3,12 +3,13 @@ namespace inklabs\kommerce\Service;
 
 use Symfony\Component\Validator\Exception\ValidatorException;
 use inklabs\kommerce\EntityRepository;
-use inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
 
 class Product extends AbstractService
 {
-    /** @var Pricing */
+    /** @var Lib\Pricing */
     private $pricing;
 
     /** @var EntityRepository\ProductInterface */
@@ -20,7 +21,7 @@ class Product extends AbstractService
     public function __construct(
         EntityRepository\ProductInterface $productRepository,
         EntityRepository\TagInterface $tagRepository,
-        Pricing $pricing
+        Lib\Pricing $pricing
     ) {
         $this->pricing = $pricing;
         $this->productRepository = $productRepository;

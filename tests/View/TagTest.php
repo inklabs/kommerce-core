@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 
 class TagTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $entityTag->addTextOption(new Entity\TextOption);
 
         $tag = $entityTag->getView()
-            ->withAllData(new Service\Pricing)
+            ->withAllData(new Lib\Pricing)
             ->export();
 
         $this->assertTrue($tag->images[0] instanceof Image);

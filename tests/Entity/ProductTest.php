@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
+use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Validation;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
@@ -98,6 +98,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $product = new Product;
         $product->setQuantity(1);
-        $this->assertTrue($product->getPrice(new Service\Pricing) instanceof Price);
+        $this->assertTrue($product->getPrice(new Lib\Pricing) instanceof Price);
     }
 }

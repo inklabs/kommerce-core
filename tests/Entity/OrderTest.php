@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
-use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Lib\PaymentGateway;
 use Symfony\Component\Validator\Validation;
@@ -40,7 +40,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $cart->setUser(new User);
         $cart->addCartItem($cartItem);
 
-        $order = $cart->getOrder(new Pricing);
+        $order = $cart->getOrder(new Lib\Pricing);
         $order->setId(1);
         $order->setExternalId('CO1102-0016');
         $order->setShippingAddress($shippingAddress);
