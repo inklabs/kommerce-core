@@ -23,7 +23,7 @@ class OrderItemOptionProduct implements ViewInterface
     public $optionName;
 
     /** @var string */
-    public $optionValueName;
+    public $optionProductName;
 
     /** @var OptionProduct */
     public $optionProduct;

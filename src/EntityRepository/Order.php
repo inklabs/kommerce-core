@@ -70,4 +70,9 @@ class Order extends AbstractEntityRepository implements OrderInterface
         } catch (RuntimeException $e) {
         }
     }
+
+    public function getOrdersByUserId($userId)
+    {
+        return $this->findBy(['user' => $userId]);
+    }
 }

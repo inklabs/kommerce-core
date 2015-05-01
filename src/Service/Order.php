@@ -34,8 +34,7 @@ class Order extends AbstractService
 
     public function getLatestOrders(Entity\Pagination & $pagination = null)
     {
-        $orders = $this->orderRepository
-            ->getLatestOrders($pagination);
+        $orders = $this->orderRepository->getLatestOrders($pagination);
 
         return $this->getViewOrders($orders);
     }
@@ -54,5 +53,16 @@ class Order extends AbstractService
         }
 
         return $viewOrders;
+    }
+
+    /**
+     * @param int $userId
+     * @return View\Order[]
+     */
+    public function getOrdersByUserId($userId)
+    {
+        $orders = $this->orderRepository->getOrdersByUserId($userId);
+
+        return $this->getViewOrders($orders);
     }
 }

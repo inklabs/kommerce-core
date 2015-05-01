@@ -24,6 +24,11 @@ class FakeOrder extends Helper\AbstractFake implements OrderInterface
         return $this->getReturnValueAsArray();
     }
 
+    public function getOrdersByUserId($userId)
+    {
+        return $this->getReturnValueAsArray();
+    }
+
     public function create(Entity\Order & $order)
     {
     }
