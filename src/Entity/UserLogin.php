@@ -58,6 +58,7 @@ class UserLogin implements EntityInterface
 
     public function setUser(User $user)
     {
+        $user->addLogin($this);
         $this->user = $user;
     }
 

@@ -253,7 +253,6 @@ class User implements EntityInterface
 
     public function addLogin(UserLogin $login)
     {
-        $login->setUser($this);
         $this->logins[] = $login;
 
         if ($login->getResult() == UserLogin::RESULT_SUCCESS) {

@@ -22,10 +22,9 @@ class UserLoginTest extends Helper\DoctrineTestCase
 
     private function setupUserLogin()
     {
-        $userLogin = $this->getDummyUserLogin();
-
         $user = $this->getDummyUser();
-        $user->addLogin($userLogin);
+        $userLogin = $this->getDummyUserLogin();
+        $userLogin->setUser($user);
 
         $this->entityManager->persist($user);
 
@@ -45,7 +44,7 @@ class UserLoginTest extends Helper\DoctrineTestCase
 
         $userLogin = $this->userLoginRepository->find(1);
 
-        $userLogin->getUser()->getEmail();
+        $userLogin->getUser()->getCreated();
 
         $this->assertTrue($userLogin instanceof Entity\UserLogin);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());

@@ -33,20 +33,30 @@ class User extends AbstractService
      */
     public function login($email, $password, $remoteIp)
     {
+        /** @var Entity\User $user */
         $user = $this->userRepository->findOneByEmail($email);
 
-        if ($user === null || ! $user->isActive()) {
+        if ($user === null) {
             $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL);
-            return false;
+            throw new UserLoginException('User not found', UserLoginException::USER_NOT_FOUND);
         }
 
-        if ($user->verifyPassword($password)) {
-            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_SUCCESS, $user);
-            return true;
-        } else {
-            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL, $user);
-            return false;
+        if (! $user->isActive()) {
+            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL);
+            throw new UserLoginException('User not active', UserLoginException::USER_NOT_ACTIVE);
         }
+
+        if (! $user->verifyPassword($password)) {
+            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL, $user);
+            throw new UserLoginException('User password not valid', UserLoginException::INVALID_PASSWORD);
+        }
+
+        $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_SUCCESS, $user);
+
+        return $user->getView()
+            ->withRoles()
+            ->withTokens()
+            ->export();
     }
 
     /**
@@ -63,10 +73,10 @@ class User extends AbstractService
         $userLogin->setResult($status);
 
         if ($user !== null) {
-            $user->addLogin($userLogin);
+            $userLogin->setUser($user);
         }
 
-        $this->userLoginRepository->save($userLogin);
+        $this->userLoginRepository->create($userLogin);
     }
 
     /**
@@ -88,17 +98,13 @@ class User extends AbstractService
 
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $users = $this->userRepository
-            ->getAllUsers($queryString, $pagination);
-
+        $users = $this->userRepository->getAllUsers($queryString, $pagination);
         return $this->getViewUsers($users);
     }
 
     public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null)
     {
-        $users = $this->userRepository
-            ->getAllUsersByIds($userIds);
-
+        $users = $this->userRepository->getAllUsersByIds($userIds);
         return $this->getViewUsers($users);
     }
 
