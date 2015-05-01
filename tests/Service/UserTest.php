@@ -27,11 +27,9 @@ class UserTest extends Helper\DoctrineTestCase
         $this->userRepository = new FakeUser;
         $this->userLoginRepository = new FakeUserLogin;
 
-        $this->sessionManager = new Lib\ArraySessionManager;
         $this->userService = new User(
             $this->userRepository,
-            $this->userLoginRepository,
-            $this->sessionManager
+            $this->userLoginRepository
         );
     }
 
@@ -82,21 +80,6 @@ class UserTest extends Helper\DoctrineTestCase
         $loginResult = $this->userService->login('zzz@example.com', 'xxxx', '127.0.0.1');
 
         $this->assertFalse($loginResult);
-    }
-
-    public function testLogout()
-    {
-        $user = $this->getDummyUser();
-        $this->userRepository->setReturnValue($user);
-
-        $loginResult = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
-
-        $this->assertTrue($loginResult);
-        $this->assertTrue($this->userService->getUser() instanceof Entity\User);
-
-        $this->userService->logout();
-
-        $this->assertSame(null, $this->userService->getUser());
     }
 
     public function testGetAllUsers()
