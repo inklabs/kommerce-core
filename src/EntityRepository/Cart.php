@@ -21,31 +21,13 @@ class Cart extends AbstractEntityRepository implements CartInterface
         $this->persistEntity($cart);
     }
 
-    public function findByUserOrSession($userId, $sessionId)
+    public function findByUser($userId)
     {
-        $userId = (int) $userId;
-        $sessionId = (string) $sessionId;
+        return $this->findOneBy(['user' => $userId]);
+    }
 
-        if (empty($userId) && empty($sessionId)) {
-            return null;
-        }
-
-        $qb = $this->getQueryBuilder();
-
-        $carts = $qb->select('cart')
-            ->from('kommerce:Cart', 'cart')
-
-            ->addSelect('user')
-            ->leftJoin('kommerce:User', 'user')
-
-            ->where('user.id = :userId')
-            ->orWhere('cart.sessionId = :sessionId')
-            ->setParameter('userId', $userId)
-            ->setParameter('sessionId', $sessionId)
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getResult();
-
-        return $carts[0];
+    public function findBySession($sessionId)
+    {
+        return $this->findOneBy(['sessionId' => $sessionId]);
     }
 }

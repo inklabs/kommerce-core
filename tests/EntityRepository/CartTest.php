@@ -78,42 +78,26 @@ class CartTest extends Helper\DoctrineTestCase
         $this->assertTrue($cart->getUpdated() instanceof \DateTime);
     }
 
-    public function testFindByUserOrSessionWithUser()
+    public function testFindByUser()
     {
         $this->setupCart();
 
         $this->setCountLogger();
 
-        $userId = 1;
-        $sessionId = null;
-        $cart = $this->cartRepository->findByUserOrSession($userId, $sessionId);
+        $cart = $this->cartRepository->findByUser(1);
 
         $this->assertTrue($cart instanceof Entity\Cart);
     }
 
-    public function testFindByUserOrSessionWithSession()
+    public function testFindBySession()
     {
-        $this->setupCart();
+        $sessionId = '6is7ujb3crb5ja85gf91g9en62';
+        $this->setupCart($sessionId);
 
         $this->setCountLogger();
 
-        $userId = null;
-        $sessionId = 'XXX';
-        $cart = $this->cartRepository->findByUserOrSession($userId, $sessionId);
+        $cart = $this->cartRepository->findBySession($sessionId);
 
         $this->assertTrue($cart instanceof Entity\Cart);
-    }
-
-    public function testFindByUserOrSessionWithEmpty()
-    {
-        $this->setupCart();
-
-        $this->setCountLogger();
-
-        $userId = null;
-        $sessionId = null;
-        $cart = $this->cartRepository->findByUserOrSession($userId, $sessionId);
-
-        $this->assertSame(null, $cart);
     }
 }

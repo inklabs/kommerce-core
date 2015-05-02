@@ -23,9 +23,13 @@ interface CartInterface
 
     /**
      * @param int $userId
+     * @return Entity\Cart
+     */
+    public function findByUser($userId);
+
+    /**
      * @param string $sessionId
      * @return Entity\Cart
-     * @throws \LogicException
      */
-    public function findByUserOrSession($userId, $sessionId);
+    public function findBySession($sessionId);
 }

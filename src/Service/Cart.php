@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\OrderAddress;
@@ -46,6 +47,7 @@ class Cart extends AbstractService
      * @param EntityRepository\TextOptionInterface $textOptionRepository
      * @param EntityRepository\CouponInterface $couponRepository
      * @param EntityRepository\OrderInterface $orderRepository
+     * @param EntityRepository\UserInterface $userRepository
      * @param Lib\PricingInterface $pricing
      */
     public function __construct(
@@ -56,6 +58,7 @@ class Cart extends AbstractService
         EntityRepository\TextOptionInterface $textOptionRepository,
         EntityRepository\CouponInterface $couponRepository,
         EntityRepository\OrderInterface $orderRepository,
+        EntityRepository\UserInterface $userRepository,
         Lib\PricingInterface $pricing
     ) {
         $this->cartRepository = $cartRepository;
@@ -65,6 +68,7 @@ class Cart extends AbstractService
         $this->textOptionRepository = $textOptionRepository;
         $this->couponRepository = $couponRepository;
         $this->orderRepository = $orderRepository;
+        $this->userRepository = $userRepository;
         $this->pricing = $pricing;
     }
 
@@ -76,7 +80,11 @@ class Cart extends AbstractService
      */
     public function findByUserOrSession($userId, $sessionId)
     {
-        $cart = $this->cartRepository->findByUserOrSession($userId, $sessionId);
+        if (! empty($userId)) {
+            $cart = $this->cartRepository->findByUser($userId);
+        } else {
+            $cart = $this->cartRepository->findBySession($sessionId);
+        }
 
         if ($cart === null) {
             throw new \LogicException('Cart not found');
@@ -124,6 +132,42 @@ class Cart extends AbstractService
         $cart->removeCoupon($couponIndex);
 
         $this->cartRepository->save($cart);
+    }
+
+    /**
+     * @param int $userId
+     * @param string $sessionId
+     * @return View\Cart
+     */
+    public function create($userId, $sessionId)
+    {
+        if (empty($userId) && empty($sessionId)) {
+            throw new InvalidArgumentException('User or session id required.');
+        }
+
+        $cart = new Entity\Cart;
+        $cart->setSessionId($sessionId);
+
+        $this->addUserToCartIfExists($userId, $cart);
+
+        $this->cartRepository->create($cart);
+
+        return $cart->getView()->export();
+    }
+
+    /**
+     * @param int $userId
+     * @param Entity\Cart $cart
+     */
+    private function addUserToCartIfExists($userId, Entity\Cart & $cart)
+    {
+        if (! empty($userId)) {
+            $user = $this->userRepository->find($userId);
+
+            if ($user !== null) {
+                $cart->setUser($user);
+            }
+        }
     }
 
     /**
