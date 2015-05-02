@@ -27,6 +27,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart = new Cart;
         $cart->addCartItem($cartItem);
         $cart->addCoupon(new Coupon);
+        $cart->setShippingRate(new ShippingRate);
+        $cart->setTaxRate(new TaxRate);
+        $cart->setSessionId('6is7ujb3crb5ja85gf91g9en62');
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -34,9 +37,12 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($cart));
         $this->assertTrue($cart instanceof Cart);
+        $this->assertSame('6is7ujb3crb5ja85gf91g9en62', $cart->getSessionId());
         $this->assertTrue($cart->getCartitems()[0] instanceof CartItem);
         $this->assertTrue($cart->getCartitem(0) instanceof CartItem);
         $this->assertTrue($cart->getCoupons()[0] instanceof Coupon);
+        $this->assertTrue($cart->getShippingRate() instanceof ShippingRate);
+        $this->assertTrue($cart->getTaxRate() instanceof TaxRate);
         $this->assertTrue($cart->getView() instanceof View\Cart);
     }
 

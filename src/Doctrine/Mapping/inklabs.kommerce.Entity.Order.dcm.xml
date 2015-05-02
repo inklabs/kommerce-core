@@ -41,8 +41,8 @@
         </field>
 
         <embedded name="total" class="CartTotal"/>
-        <embedded name="shippingAddress" class="OrderAddress" column-prefix="shipping_"/>
-        <embedded name="billingAddress" class="OrderAddress" column-prefix="billing_"/>
+        <embedded name="shippingAddress" class="OrderAddress"/>
+        <embedded name="billingAddress" class="OrderAddress"/>
 
         <one-to-many field="orderItems" target-entity="OrderItem" mapped-by="order" fetch="EXTRA_LAZY">
             <cascade>

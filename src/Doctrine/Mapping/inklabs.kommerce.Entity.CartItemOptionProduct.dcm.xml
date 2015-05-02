@@ -7,6 +7,10 @@
     <entity name="inklabs\kommerce\Entity\CartItemOptionProduct"
             repository-class="inklabs\kommerce\EntityRepository\CartItemOptionProduct">
 
+        <lifecycle-callbacks>
+            <lifecycle-callback type="preUpdate" method="preUpdate"/>
+        </lifecycle-callbacks>
+
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>

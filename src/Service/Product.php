@@ -103,6 +103,11 @@ class Product extends AbstractService
         return $this->getViewProducts($products);
     }
 
+    /**
+     * @param View\Product|View\Product[] $products
+     * @param int $limit
+     * @return View\Product[]
+     */
     public function getRelatedProducts($products, $limit = 12)
     {
         if (! is_array($products)) {
@@ -189,6 +194,7 @@ class Product extends AbstractService
 
     /**
      * @param $productId
+     * @return Entity\Product
      * @throws \LogicException
      */
     private function getProductAndThrowExceptionIfMissing($productId)

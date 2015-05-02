@@ -2,14 +2,15 @@
 namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Entity\Shipping as Shipping;
 use inklabs\kommerce\Lib;
 
 class Cart implements ViewInterface
 {
+    public $id;
     public $totalItems;
     public $totalQuantity;
     public $shippingWeight;
+    public $shippingWeightInPounds;
     public $created;
     public $updated;
 
@@ -26,9 +27,11 @@ class Cart implements ViewInterface
     {
         $this->cart = $cart;
 
+        $this->id             = $cart->getId();
         $this->totalItems     = $cart->totalItems();
         $this->totalQuantity  = $cart->totalQuantity();
         $this->shippingWeight = $cart->getShippingWeight();
+        $this->shippingWeightInPounds = $cart->getShippingWeightInPounds();
         $this->created        = $cart->getCreated();
         $this->updated        = $cart->getUpdated();
     }
@@ -41,7 +44,7 @@ class Cart implements ViewInterface
 
     public function withCartTotal(
         Lib\PricingInterface $pricing,
-        Shipping\Rate $shippingRate = null,
+        Entity\ShippingRate $shippingRate = null,
         Entity\TaxRate $taxRate = null
     ) {
         $this->cartTotal = $this->cart->getTotal($pricing, $shippingRate, $taxRate)->getView()
@@ -53,8 +56,8 @@ class Cart implements ViewInterface
 
     public function withCartItems(Lib\PricingInterface $pricing)
     {
-        foreach ($this->cart->getCartItems() as $key => $cartItem) {
-            $this->cartItems[$key] = $cartItem->getView()
+        foreach ($this->cart->getCartItems() as $cartItemIndex => $cartItem) {
+            $this->cartItems[$cartItemIndex] = $cartItem->getView()
                 ->withAllData($pricing)
                 ->export();
         }
@@ -74,7 +77,7 @@ class Cart implements ViewInterface
 
     public function withAllData(
         Lib\PricingInterface $pricing,
-        Shipping\Rate $shippingRate = null,
+        Entity\ShippingRate $shippingRate = null,
         Entity\TaxRate $taxRate = null
     ) {
         return $this

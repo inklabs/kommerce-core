@@ -13,16 +13,21 @@ class FakeCart extends Helper\AbstractFake implements CartInterface
         $this->setReturnValue(new Entity\Cart);
     }
 
-    public function find($id)
-    {
-        return $this->getReturnValue();
-    }
-
     public function save(Entity\Cart & $cart)
     {
     }
 
     public function create(Entity\Cart & $cart)
     {
+    }
+
+    public function find($id)
+    {
+        return $this->getReturnValue();
+    }
+
+    public function findByUserOrSession($userId, $sessionId)
+    {
+        return $this->getReturnValue();
     }
 }

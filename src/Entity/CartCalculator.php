@@ -19,7 +19,7 @@ class CartCalculator
         $this->cart = $cart;
     }
 
-    public function getTotal(Lib\PricingInterface $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
+    public function getTotal(Lib\PricingInterface $pricing, ShippingRate $shippingRate = null, TaxRate $taxRate = null)
     {
         $this->pricing = $pricing;
 
@@ -98,7 +98,7 @@ class CartCalculator
         $this->cartTotal->taxSubtotal = max(0, $this->cartTotal->taxSubtotal);
     }
 
-    private function calculateShippingPrice(Shipping\Rate $shippingRate = null)
+    private function calculateShippingPrice(\inklabs\kommerce\Entity\ShippingRate $shippingRate = null)
     {
         if ($shippingRate !== null) {
             $this->cartTotal->shipping = $shippingRate->cost;

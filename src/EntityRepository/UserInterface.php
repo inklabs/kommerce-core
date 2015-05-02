@@ -25,7 +25,7 @@ interface UserInterface
 
     /**
      * @param string $email
-     * @return Entity\User
+     * @return Entity\User|null
      */
     public function findOneByEmail($email);
 
