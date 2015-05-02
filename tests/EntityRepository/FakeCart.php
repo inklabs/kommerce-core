@@ -26,7 +26,12 @@ class FakeCart extends Helper\AbstractFake implements CartInterface
         return $this->getReturnValue();
     }
 
-    public function findByUserOrSession($userId, $sessionId)
+    public function findByUser($userId)
+    {
+        return $this->getReturnValue();
+    }
+
+    public function findBySession($sessionId)
     {
         return $this->getReturnValue();
     }

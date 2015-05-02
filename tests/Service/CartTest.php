@@ -13,6 +13,7 @@ use inklabs\kommerce\tests\EntityRepository\FakeOptionValue;
 use inklabs\kommerce\tests\EntityRepository\FakeTextOption;
 use inklabs\kommerce\tests\EntityRepository\FakeCoupon;
 use inklabs\kommerce\tests\EntityRepository\FakeOrder;
+use inklabs\kommerce\tests\EntityRepository\FakeUser;
 use LogicException;
 
 class CartTest extends Helper\DoctrineTestCase
@@ -38,6 +39,9 @@ class CartTest extends Helper\DoctrineTestCase
     /** @var FakeOrder */
     protected $orderRepository;
 
+    /** @var FakeUser */
+    protected $userRepository;
+
     /** @var Cart */
     protected $cartService;
 
@@ -50,6 +54,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->textOptionRepository = new FakeTextOption;
         $this->couponRepository = new FakeCoupon;
         $this->orderRepository = new FakeOrder;
+        $this->userRepository = new FakeUser;
 
         $this->setupCartService();
     }
@@ -64,6 +69,7 @@ class CartTest extends Helper\DoctrineTestCase
             $this->textOptionRepository,
             $this->couponRepository,
             $this->orderRepository,
+            $this->userRepository,
             new Lib\Pricing
         );
     }
@@ -80,10 +86,18 @@ class CartTest extends Helper\DoctrineTestCase
         $this->cartService->getCartFull(1);
     }
 
-    public function testFindByUserOrSession()
+    public function testFindByUserOrSessionWithUser()
     {
         $this->setupCartService();
-        $cart = $this->cartService->findByUserOrSession(1, 'xx');
+        $cart = $this->cartService->findByUserOrSession(1, null);
+
+        $this->assertTrue($cart instanceof View\Cart);
+    }
+
+    public function testFindByUserOrSessionWithSession()
+    {
+        $this->setupCartService();
+        $cart = $this->cartService->findByUserOrSession(null, '6is7ujb3crb5ja85gf91g9en62');
 
         $this->assertTrue($cart instanceof View\Cart);
     }
@@ -97,7 +111,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->cartRepository->setReturnValue(null);
 
         $this->setupCartService();
-        $this->cartService->findByUserOrSession(1, 'xx');
+        $this->cartService->findByUserOrSession(1, '6is7ujb3crb5ja85gf91g9en62');
     }
 
     public function testAddCouponByCode()
@@ -135,6 +149,28 @@ class CartTest extends Helper\DoctrineTestCase
 
         $coupons = $this->cartService->getCoupons(1);
         $this->assertSame(0, count($coupons));
+    }
+
+    public function testCreateWithSession()
+    {
+        $cart = $this->cartService->create(null, '6is7ujb3crb5ja85gf91g9en62');
+        $this->assertTrue($cart instanceof View\Cart);
+    }
+
+    public function testCreateWithUser()
+    {
+        $cart = $this->cartService->create(1, null);
+        $this->assertTrue($cart instanceof View\Cart);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage User or session id required
+     */
+    public function testCreateWithNone()
+    {
+        $cart = $this->cartService->create(null, null);
+        $this->assertTrue($cart instanceof View\Cart);
     }
 
     public function testAddItem()
