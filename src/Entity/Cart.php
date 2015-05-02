@@ -19,6 +19,15 @@ class Cart implements EntityInterface
     /** @var Coupon[]|ArrayCollection */
     protected $coupons;
 
+    /** @var ShippingRate */
+    protected $shippingRate;
+
+    /** @var TaxRate */
+    protected $taxRate;
+
+    /** @var string */
+    protected $sessionId;
+
     /** @var User */
     protected $user;
 
@@ -44,6 +53,19 @@ class Cart implements EntityInterface
     {
         $user->setCart($this);
         $this->user = $user;
+    }
+
+    public function getSessionId()
+    {
+        return $this->sessionId;
+    }
+
+    /**
+     * @param string $sessionId
+     */
+    public function setSessionId($sessionId)
+    {
+        $this->sessionId = (string) $sessionId;
     }
 
     /**
@@ -191,16 +213,21 @@ class Cart implements EntityInterface
         return $shippingWeight;
     }
 
-    public function getTotal(Lib\PricingInterface $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
+    public function getShippingWeightInPounds()
+    {
+        return (int) ceil($this->getShippingWeight() / 16);
+    }
+
+    public function getTotal(Lib\PricingInterface $pricing, ShippingRate $shippingRate = null, TaxRate $taxRate = null)
     {
         $cartCalculator = new CartCalculator($this);
         return $cartCalculator->getTotal($pricing, $shippingRate, $taxRate);
     }
 
-    public function getOrder(Lib\PricingInterface $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
+    public function getOrder(Lib\PricingInterface $pricing)
     {
         $order = new Order;
-        $order->setTotal($this->getTotal($pricing, $shippingRate, $taxRate));
+        $order->setTotal($this->getTotal($pricing, $this->shippingRate, $this->taxRate));
 
         foreach ($this->getCartItems() as $item) {
             $order->addOrderItem($item->getOrderItem($pricing));
@@ -218,5 +245,25 @@ class Cart implements EntityInterface
     public function getView()
     {
         return new View\Cart($this);
+    }
+
+    public function getShippingRate()
+    {
+        return $this->shippingRate;
+    }
+
+    public function setShippingRate(ShippingRate $shippingRate)
+    {
+        $this->shippingRate = $shippingRate;
+    }
+
+    public function getTaxRate()
+    {
+        return $this->taxRate;
+    }
+
+    public function setTaxRate(TaxRate $taxRate)
+    {
+        $this->taxRate = $taxRate;
     }
 }

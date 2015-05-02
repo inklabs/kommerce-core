@@ -23,7 +23,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->cartRepository = $this->getCartRepository();
     }
 
-    public function setupCart()
+    public function setupCart($sessionId = '')
     {
         $product = $this->getDummyProduct();
 
@@ -31,6 +31,7 @@ class CartTest extends Helper\DoctrineTestCase
         $cartItem = $this->getDummyCartItem($product);
 
         $cart = $this->getDummyCart();
+        $cart->setSessionId($sessionId);
         $cart->addCartItem($cartItem);
         $cart->setUser($user);
 
@@ -75,5 +76,44 @@ class CartTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $cart->getUpdated());
         $this->cartRepository->save($cart);
         $this->assertTrue($cart->getUpdated() instanceof \DateTime);
+    }
+
+    public function testFindByUserOrSessionWithUser()
+    {
+        $this->setupCart();
+
+        $this->setCountLogger();
+
+        $userId = 1;
+        $sessionId = null;
+        $cart = $this->cartRepository->findByUserOrSession($userId, $sessionId);
+
+        $this->assertTrue($cart instanceof Entity\Cart);
+    }
+
+    public function testFindByUserOrSessionWithSession()
+    {
+        $this->setupCart();
+
+        $this->setCountLogger();
+
+        $userId = null;
+        $sessionId = 'XXX';
+        $cart = $this->cartRepository->findByUserOrSession($userId, $sessionId);
+
+        $this->assertTrue($cart instanceof Entity\Cart);
+    }
+
+    public function testFindByUserOrSessionWithEmpty()
+    {
+        $this->setupCart();
+
+        $this->setCountLogger();
+
+        $userId = null;
+        $sessionId = null;
+        $cart = $this->cartRepository->findByUserOrSession($userId, $sessionId);
+
+        $this->assertSame(null, $cart);
     }
 }

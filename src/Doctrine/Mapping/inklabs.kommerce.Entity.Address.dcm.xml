@@ -30,7 +30,7 @@
             </options>
         </field>
 
-        <embedded name="point" class="Point" column-prefix="point_"/>
+        <embedded name="point" class="Point"/>
 
     </embeddable>
 

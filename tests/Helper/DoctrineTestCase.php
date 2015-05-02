@@ -643,4 +643,14 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         return $this->entityManager->getRepository('kommerce:Warehouse');
     }
+
+    protected function beginTransaction()
+    {
+        $this->entityManager->getConnection()->beginTransaction();
+    }
+
+    protected function rollback()
+    {
+        $this->entityManager->getConnection()->rollback();
+    }
 }

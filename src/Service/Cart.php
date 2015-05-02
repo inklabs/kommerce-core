@@ -32,20 +32,11 @@ class Cart extends AbstractService
     /** @var EntityRepository\OrderInterface */
     protected $orderRepository;
 
-    /** @var Entity\Shipping\Rate */
-    protected $shippingRate;
-
     /** @var Entity\TaxRate */
     protected $taxRate;
 
     /** @var Lib\PricingInterface */
     protected $pricing;
-
-    /** @var Entity\User */
-    protected $user;
-
-    /** @var Entity\Cart */
-    protected $cart;
 
     /**
      * @param EntityRepository\CartInterface $cartRepository
@@ -56,7 +47,6 @@ class Cart extends AbstractService
      * @param EntityRepository\CouponInterface $couponRepository
      * @param EntityRepository\OrderInterface $orderRepository
      * @param Lib\PricingInterface $pricing
-     * @param int $cartId
      */
     public function __construct(
         EntityRepository\CartInterface $cartRepository,
@@ -66,8 +56,7 @@ class Cart extends AbstractService
         EntityRepository\TextOptionInterface $textOptionRepository,
         EntityRepository\CouponInterface $couponRepository,
         EntityRepository\OrderInterface $orderRepository,
-        Lib\PricingInterface $pricing,
-        $cartId
+        Lib\PricingInterface $pricing
     ) {
         $this->cartRepository = $cartRepository;
         $this->productRepository = $productRepository;
@@ -77,20 +66,32 @@ class Cart extends AbstractService
         $this->couponRepository = $couponRepository;
         $this->orderRepository = $orderRepository;
         $this->pricing = $pricing;
-
-        $this->loadCartAndThrowExceptionIfCartNotFound($cartId);
-    }
-
-    protected function save()
-    {
-        $this->cartRepository->save($this->cart);
     }
 
     /**
+     * @param int $userId
+     * @param string $sessionId
+     * @return View\Cart
+     * @throws \LogicException
+     */
+    public function findByUserOrSession($userId, $sessionId)
+    {
+        $cart = $this->cartRepository->findByUserOrSession($userId, $sessionId);
+
+        if ($cart === null) {
+            throw new \LogicException('Cart not found');
+        }
+
+        return $cart->getView()->export();
+    }
+
+    /**
+     * @param int $cartId
      * @param string $couponCode
      * @return int
+     * @throws \LogicException
      */
-    public function addCouponByCode($couponCode)
+    public function addCouponByCode($cartId, $couponCode)
     {
         $coupon = $this->couponRepository->findOneByCode($couponCode);
 
@@ -98,16 +99,18 @@ class Cart extends AbstractService
             throw new \LogicException('Coupon not found');
         }
 
-        $couponIndex = $this->cart->addCoupon($coupon);
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $couponIndex = $cart->addCoupon($coupon);
 
-        $this->save();
+        $this->cartRepository->save($cart);
 
         return $couponIndex;
     }
 
-    public function getCoupons()
+    public function getCoupons($cartId)
     {
-        return $this->cart->getCoupons();
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        return $cart->getCoupons();
     }
 
     /**
@@ -115,20 +118,22 @@ class Cart extends AbstractService
      * @throws \InvalidArgumentException
      * @throws \LogicException
      */
-    public function removeCoupon($couponIndex)
+    public function removeCoupon($cartId, $couponIndex)
     {
-        $this->cart->removeCoupon($couponIndex);
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart->removeCoupon($couponIndex);
 
-        $this->save();
+        $this->cartRepository->save($cart);
     }
 
     /**
+     * @param int $cartId
      * @param string $productId
      * @param int $quantity
      * @return int $cartItemIndex
      * @throws \LogicException
      */
-    public function addItem($productId, $quantity = 1)
+    public function addItem($cartId, $productId, $quantity = 1)
     {
         $product = $this->productRepository->find($productId);
 
@@ -136,27 +141,31 @@ class Cart extends AbstractService
             throw new \LogicException('Product not found');
         }
 
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+
         $cartItem = new Entity\CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity($quantity);
 
-        $cartItemIndex = $this->cart->addCartItem($cartItem);
+        $cartItemIndex = $cart->addCartItem($cartItem);
 
-        $this->save();
+        $this->cartRepository->save($cart);
 
         return $cartItemIndex;
     }
 
     /**
+     * @param $cartId
      * @param int $cartItemIndex
      * @param string[] $optionProductIds
      * @throws \LogicException
      */
-    public function addItemOptionProducts($cartItemIndex, array $optionProductIds)
+    public function addItemOptionProducts($cartId, $cartItemIndex, array $optionProductIds)
     {
         $optionProducts = $this->optionProductRepository->getAllOptionProductsByIds($optionProductIds);
 
-        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cartItemIndex);
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
 
         foreach ($optionProducts as $optionProduct) {
             $cartItemOptionProduct = new Entity\CartItemOptionProduct;
@@ -165,19 +174,21 @@ class Cart extends AbstractService
             $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
         }
 
-        $this->save();
+        $this->cartRepository->save($cart);
     }
 
     /**
+     * @param $cartId
      * @param int $cartItemIndex
      * @param string[] $optionValueIds
      * @throws \LogicException
      */
-    public function addItemOptionValues($cartItemIndex, array $optionValueIds)
+    public function addItemOptionValues($cartId, $cartItemIndex, array $optionValueIds)
     {
         $optionValues = $this->optionValueRepository->getAllOptionValuesByIds($optionValueIds);
 
-        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cartItemIndex);
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
 
         foreach ($optionValues as $optionValue) {
             $cartItemOptionValue = new Entity\CartItemOptionValue;
@@ -186,20 +197,22 @@ class Cart extends AbstractService
             $cartItem->addCartItemOptionValue($cartItemOptionValue);
         }
 
-        $this->save();
+        $this->cartRepository->save($cart);
     }
 
     /**
+     * @param int $cartId
      * @param int $cartItemIndex
      * @param array $textOptionValues
      * @throws \LogicException
      */
-    public function addItemTextOptionValues($cartItemIndex, array $textOptionValues)
+    public function addItemTextOptionValues($cartId, $cartItemIndex, array $textOptionValues)
     {
         $textOptionIds = array_keys($textOptionValues);
         $textOptions = $this->textOptionRepository->getAllTextOptionsByIds($textOptionIds);
 
-        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cartItemIndex);
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
 
         foreach ($textOptions as $textOption) {
             $textOptionValue = $textOptionValues[$textOption->getId()];
@@ -211,120 +224,84 @@ class Cart extends AbstractService
             $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
         }
 
-        $this->save();
+        $this->cartRepository->save($cart);
     }
 
     /**
+     * @param int $cartId
      * @param int $cartItemIndex
      * @param int $quantity
-     * @throws \Exception
+     * @throws \LogicException
      */
-    public function updateQuantity($cartItemIndex, $quantity)
+    public function updateQuantity($cartId, $cartItemIndex, $quantity)
     {
-        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cartItemIndex);
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
         $cartItem->setQuantity($quantity);
 
-        $this->save();
+        $this->cartRepository->save($cart);
     }
 
     /**
+     * @param int $cartId
      * @param int $cartItemIndex
-     * @throws \Exception
+     * @throws \LogicException
      */
-    public function deleteItem($cartItemIndex)
+    public function deleteItem($cartId, $cartItemIndex)
     {
-        $this->cart->deleteCartItem($cartItemIndex);
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart->deleteCartItem($cartItemIndex);
 
-        $this->save();
+        $this->cartRepository->save($cart);
     }
 
     /**
-     * @return View\CartItem[]
+     * @param int $cartId
+     * @return View\Cart
+     * @throws \LogicException
      */
-    public function getItems()
+    public function getCartFull($cartId)
     {
-        $viewCartItems = [];
-        foreach ($this->cart->getCartItems() as $cartItem) {
-            $viewCartItems[] = $cartItem->getView()
-                ->withAllData($this->pricing)
-                ->export();
-        }
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
 
-        return $viewCartItems;
-    }
-
-    /**
-     * @return View\Product[]
-     */
-    public function getProducts()
-    {
-        $products = [];
-        foreach ($this->getItems() as $item) {
-            $products[] = $item->product;
-        }
-        return $products;
-    }
-
-    /**
-     * @return View\CartItem|null
-     */
-    public function getItem($cartItemIndex)
-    {
-        $cartItem = $this->cart->getCartItem($cartItemIndex);
-
-        if ($cartItem === null) {
-            return null;
-        }
-
-        return $cartItem->getView()
+        return $cart->getView()
             ->withAllData($this->pricing)
             ->export();
     }
 
-    public function getShippingWeight()
+    /**
+     * @param int $cartId
+     * @param \inklabs\kommerce\Entity\ShippingRate $shippingRate
+     */
+    public function setShippingRate($cartId, Entity\ShippingRate $shippingRate)
     {
-        return $this->cart->getShippingWeight();
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart->setShippingRate($shippingRate);
+
+        $this->cartRepository->save($cart);
     }
 
-    public function getShippingWeightInPounds()
+    public function setTaxRate($cartId, Entity\TaxRate $taxRate)
     {
-        return (int) ceil($this->cart->getShippingWeight() / 16);
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart->setTaxRate($taxRate);
+
+        $this->cartRepository->save($cart);
     }
 
-    public function totalItems()
-    {
-        return $this->cart->totalItems();
-    }
+    public function createOrder(
+        $cartId,
+        Payment $payment,
+        OrderAddress $shippingAddress,
+        OrderAddress $billingAddress = null
+    ) {
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
 
-    public function totalQuantity()
-    {
-        return $this->cart->totalQuantity();
-    }
-
-    public function getTotal()
-    {
-        return $this->cart->getTotal($this->pricing, $this->shippingRate, $this->taxRate);
-    }
-
-    public function setShippingRate(Entity\Shipping\Rate $shippingRate)
-    {
-        $this->shippingRate = $shippingRate;
-        $this->save();
-    }
-
-    public function setTaxRate(Entity\TaxRate $taxRate)
-    {
-        $this->taxRate = $taxRate;
-        $this->save();
-    }
-
-    public function createOrder(Payment $payment, OrderAddress $shippingAddress, OrderAddress $billingAddress = null)
-    {
         if ($billingAddress === null) {
             $billingAddress = clone $shippingAddress;
         }
 
-        $order = $this->cart->getOrder($this->pricing, $this->shippingRate, $this->taxRate);
+        $order = $cart->getOrder($this->pricing);
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
         $order->addPayment($payment);
@@ -334,13 +311,6 @@ class Cart extends AbstractService
         return $order;
     }
 
-    public function getView()
-    {
-        return $this->cart->getView()
-            ->withAllData($this->pricing, $this->shippingRate, $this->taxRate)
-            ->export();
-    }
-
     public function setUser(Entity\User $user)
     {
         $this->user = $user;
@@ -348,24 +318,29 @@ class Cart extends AbstractService
 
     /**
      * @param int $cartId
+     * @return Entity\Cart
+     * @throws \LogicException
      */
-    protected function loadCartAndThrowExceptionIfCartNotFound($cartId)
+    protected function getCartAndThrowExceptionIfCartNotFound($cartId)
     {
-        $this->cart = $this->cartRepository->find($cartId);
+        $cart = $this->cartRepository->find($cartId);
 
-        if ($this->cart === null) {
+        if ($cart === null) {
             throw new \LogicException('Cart not found');
         }
+
+        return $cart;
     }
 
     /**
+     * @param Entity\Cart $cart
      * @param int $cartItemIndex
      * @return Entity\CartItem
      * @throws \LogicException
      */
-    protected function getCartItemAndThrowExceptionIfNotFound($cartItemIndex)
+    protected function getCartItemAndThrowExceptionIfNotFound(Entity\Cart $cart, $cartItemIndex)
     {
-        $cartItem = $this->cart->getCartItem($cartItemIndex);
+        $cartItem = $cart->getCartItem($cartItemIndex);
 
         if ($cartItem === null) {
             throw new \LogicException('Cart Item not found');

@@ -242,7 +242,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cart->addCoupon($coupon);
         $cart->addCartItem($cartItem);
 
-        $shippingRate = new Shipping\Rate;
+        $shippingRate = new \inklabs\kommerce\Entity\ShippingRate;
         $shippingRate->code = '4';
         $shippingRate->name = 'Parcel Post';
         $shippingRate->cost = 1000;
@@ -267,7 +267,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $product = new Product;
         $product->setUnitPrice(500);
 
-        $shippingRate = new Shipping\Rate;
+        $shippingRate = new \inklabs\kommerce\Entity\ShippingRate;
         $shippingRate->code = '4';
         $shippingRate->name = 'Parcel Post';
         $shippingRate->cost = 1000;
@@ -338,7 +338,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(true);
 
-        $shippingRate = new Shipping\Rate;
+        $shippingRate = new \inklabs\kommerce\Entity\ShippingRate;
         $shippingRate->code = '4';
         $shippingRate->name = 'Parcel Post';
         $shippingRate->cost = 1000;
