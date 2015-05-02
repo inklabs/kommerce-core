@@ -1,25 +1,32 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
+use Symfony\Component\Validator\Validation;
+
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
         $option = new Option;
-        $option->setName('Size');
         $option->setType(Option::TYPE_RADIO);
+        $option->setName('Size');
         $option->setDescription('Shirt Size');
         $option->setSortOrder(0);
-        $option->addOptionValue(new OptionValue(new Option));
         $option->addTag(new Tag);
+        $option->addOptionProduct(new OptionProduct(new Product));
+        $option->addOptionValue(new OptionValue);
 
-        $this->assertSame('Size', $option->getname());
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($option));
         $this->assertSame(Option::TYPE_RADIO, $option->getType());
         $this->assertSame('Radio', $option->getTypeText());
-        $this->assertSame('Shirt Size', $option->getDescription());
-        $this->assertSame(0, $option->getSortOrder());
-        $this->assertTrue($option->getOptionValues()[0] instanceof OptionValue);
         $this->assertTrue($option->getTags()[0] instanceof Tag);
+        $this->assertTrue($option->getOptionProducts()[0] instanceof OptionProduct);
+        $this->assertTrue($option->getOptionValues()[0] instanceof OptionValue);
         $this->assertTrue($option->getView() instanceof View\Option);
     }
 }

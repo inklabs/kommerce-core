@@ -1,11 +1,12 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class User
+class User implements EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 
@@ -30,7 +31,6 @@ class User
     /** @var int */
     protected $lastLogin;
 
-
     /** @var int */
     protected $status;
     const STATUS_INACTIVE = 0;
@@ -48,6 +48,9 @@ class User
 
     /** @var ArrayCollection|UserLogin[] */
     protected $logins;
+
+    /** @var Cart */
+    protected $cart;
 
     public function __construct()
     {
@@ -98,6 +101,16 @@ class User
 
     }
 
+    public function getCart()
+    {
+        return $this->cart;
+    }
+
+    public function setCart(Cart $cart)
+    {
+        $this->cart = $cart;
+    }
+
     public function isActive()
     {
         return $this->status === self::STATUS_ACTIVE;
@@ -111,9 +124,9 @@ class User
     /**
      * @param string $externalId
      */
-    public function setExternalId($externalId)
+    public function setExternalId($externalId = null)
     {
-        $this->externalId = (string) $externalId;
+        $this->externalId = $externalId;
     }
 
     public function setStatus($status)
@@ -240,8 +253,11 @@ class User
 
     public function addLogin(UserLogin $login)
     {
-        $login->setUser($this);
         $this->logins[] = $login;
+
+        if ($login->getResult() == UserLogin::RESULT_SUCCESS) {
+            $this->incrementTotalLogins();
+        }
     }
 
     public function getLogins()

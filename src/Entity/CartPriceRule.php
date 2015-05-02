@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -47,13 +48,13 @@ class CartPriceRule extends Promotion
         return $this->cartPriceRuleDiscounts;
     }
 
-    public function isValid(\DateTime $date, array $cartItems)
+    public function isValid(\DateTime $date, $cartItems)
     {
         return $this->isValidPromotion($date)
             and $this->isCartItemsValid($cartItems);
     }
 
-    public function isCartItemsValid(array $cartItems)
+    public function isCartItemsValid($cartItems)
     {
         $matchedItemsCount = 0;
         foreach ($this->cartPriceRuleItems as $item) {

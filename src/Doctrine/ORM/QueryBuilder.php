@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Doctrine\ORM;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 /**
  * @method QueryBuilder|\Doctrine\ORM\QueryBuilder setParameter($key, $value, $type)

@@ -2,8 +2,11 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\View;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class Attribute
+class Attribute implements EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 
@@ -27,6 +30,20 @@ class Attribute
         $this->setCreated();
         $this->attributeValues = new ArrayCollection;
         $this->productAttributes = new ArrayCollection;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('name', new Assert\Length([
+            'max' => 255,
+        ]));
+
+        $metadata->addPropertyConstraint('sortOrder', new Assert\NotNull);
+        $metadata->addPropertyConstraint('sortOrder', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
     }
 
     public function setName($name)

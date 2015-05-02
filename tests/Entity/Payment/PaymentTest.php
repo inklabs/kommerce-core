@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity\Payment;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Service;
 use Symfony\Component\Validator\Validation;
 
 class PaymentTest extends \PHPUnit_Framework_TestCase
@@ -15,7 +15,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $orderItem->setPrice(new Entity\Price);
 
         $order = new Entity\Order;
-        $order->addItem($orderItem);
+        $order->addOrderItem($orderItem);
         $order->setTotal(new Entity\CartTotal);
 
         /** @var $mock Payment */

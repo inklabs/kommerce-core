@@ -1,17 +1,33 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Lib\ReferenceNumber;
+use Symfony\Component\Yaml\Exception\RuntimeException;
 
-/**
- * @method Entity\Order find($id)
- */
-class Order extends EntityRepository
+class Order extends AbstractEntityRepository implements OrderInterface
 {
-    /**
-     * @return Entity\Order[]
-     */
+    /** @var ReferenceNumber\GeneratorInterface */
+    protected $referenceNumberGenerator;
+
+    public function setReferenceNumberGenerator(ReferenceNumber\GeneratorInterface $referenceNumberGenerator)
+    {
+        $this->referenceNumberGenerator = $referenceNumberGenerator;
+    }
+
+    public function referenceNumberExists($referenceNumber)
+    {
+        $result = $this->findOneBy([
+            'referenceNumber' => $referenceNumber
+        ]);
+
+        if ($result === null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function getLatestOrders(Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -24,5 +40,39 @@ class Order extends EntityRepository
             ->getResult();
 
         return $orders;
+    }
+
+    public function save(Entity\Order & $order)
+    {
+        $this->saveEntity($order);
+    }
+
+    public function create(Entity\Order & $order)
+    {
+        $this->persistEntity($order);
+        $this->flush();
+
+        $this->setReferenceNumber($order);
+    }
+
+    private function setReferenceNumber(Entity\Order & $order)
+    {
+        if ($this->referenceNumberGenerator !== null) {
+            $this->tryToGenerateReferenceNumber($order);
+        }
+    }
+
+    private function tryToGenerateReferenceNumber(Entity\Order & $order)
+    {
+        try {
+            $this->referenceNumberGenerator->generate($order);
+            $this->save($order);
+        } catch (RuntimeException $e) {
+        }
+    }
+
+    public function getOrdersByUserId($userId)
+    {
+        return $this->findBy(['user' => $userId]);
     }
 }

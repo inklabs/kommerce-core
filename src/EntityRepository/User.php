@@ -1,17 +1,10 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\User find($id)
- */
-class User extends EntityRepository
+class User extends AbstractEntityRepository implements UserInterface
 {
-    /**
-     * @return Entity\User[]
-     */
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -33,9 +26,6 @@ class User extends EntityRepository
         return $users;
     }
 
-    /**
-     * @return Entity\User[]
-     */
     public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -51,9 +41,6 @@ class User extends EntityRepository
         return $users;
     }
 
-    /**
-     * @return Entity\User
-     */
     public function findOneByEmail($email)
     {
         $qb = $this->getQueryBuilder();
@@ -70,5 +57,21 @@ class User extends EntityRepository
             ->getOneOrNullResult();
 
         return $user;
+    }
+
+    public function save(Entity\User & $user)
+    {
+        $this->saveEntity($user);
+    }
+
+    public function create(Entity\User & $user)
+    {
+        $this->persist($user);
+        $this->flush();
+    }
+
+    public function persist(Entity\User & $user)
+    {
+        $this->persistEntity($user);
     }
 }

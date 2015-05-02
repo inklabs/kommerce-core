@@ -1,59 +1,48 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\View;
+use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper;
 
-class CartItemTest extends \PHPUnit_Framework_TestCase
+class CartItemTest extends Helper\DoctrineTestCase
 {
-    public function testCreateCartItem()
+    public function testCreate()
     {
-        $product = new Product;
-        $product->setSku('PRD1');
-        $product->setUnitPrice(100);
-        $product->setShippingWeight(10);
+        $cartItem = $this->getDummyFullCartItem();
 
-        $product2 = new Product;
-        $product2->setSku('OPT2');
-        $product2->setUnitPrice(20);
-        $product2->setShippingWeight(2);
+        $pricing = new Lib\Pricing;
 
-        $optionValue = new OptionValue(new Option);
-        $optionValue->setProduct($product2);
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
 
-        $cartItem = new CartItem($product, 2);
-        $cartItem->setId(1);
-        $cartItem->addOptionValue($optionValue);
-
-        $pricing = new Service\Pricing;
-
-        $this->assertSame(1, $cartItem->getId());
+        $this->assertEmpty($validator->validate($cartItem));
+        $this->assertTrue($cartItem instanceof CartItem);
         $this->assertSame(2, $cartItem->getQuantity());
-        $this->assertSame('PRD1-OPT2', $cartItem->getFullSku());
-        $this->assertTrue($cartItem->getProduct() instanceof Product);
-        $this->assertTrue($cartItem->getOptionValues()[0] instanceof OptionValue);
+        $this->assertSame('P1-OP1-OV1', $cartItem->getFullSku());
+        $this->assertSame(600, $cartItem->getPrice($pricing)->quantityPrice);
+        $this->assertSame(60, $cartItem->getShippingWeight());
+        $this->assertTrue($cartItem->getCartItemOptionProducts()[0] instanceof CartItemOptionProduct);
+        $this->assertTrue($cartItem->getCartItemOptionValues()[0] instanceof CartItemOptionValue);
+        $this->assertTrue($cartItem->getCartItemTextOptionValues()[0] instanceof CartItemTextOptionValue);
         $this->assertTrue($cartItem->getPrice($pricing) instanceof Price);
-        $this->assertSame(240, $cartItem->getPrice($pricing)->quantityPrice);
-        $this->assertSame(24, $cartItem->getShippingWeight());
+        $this->assertTrue($cartItem->getCart() instanceof Cart);
         $this->assertTrue($cartItem->getView() instanceof View\CartItem);
-    }
-
-    public function testSetProductAndQuantity()
-    {
-        $cartItem = new CartItem(new Product, 2);
-        $cartItem->setProduct(new Product);
-        $cartItem->setQuantity(3);
-        $this->assertTrue($cartItem->getProduct() instanceof Product);
-        $this->assertSame(3, $cartItem->getQuantity());
     }
 
     public function testGetOrderItem()
     {
-        $optionValue = new OptionValue(new Option);
-        $optionValue->setProduct(new Product);
+        $cartItem = $this->getDummyFullCartItem();
+        $orderItem = $cartItem->getOrderItem(new Lib\Pricing);
 
-        $cartItem = new CartItem(new Product, 1);
-        $cartItem->addOptionValue($optionValue);
-
-        $this->assertTrue($cartItem->getOrderItem(new Service\Pricing) instanceof OrderItem);
+        $this->assertTrue($orderItem instanceof OrderItem);
+        $this->assertTrue($orderItem->getProduct() instanceof Product);
+        $this->assertSame(2, $orderItem->getQuantity());
+        $this->assertTrue($orderItem->getPrice() instanceof Price);
+        $this->assertTrue($orderItem->getOrderItemOptionProducts()[0] instanceof OrderItemOptionProduct);
+        $this->assertTrue($orderItem->getOrderItemOptionValues()[0] instanceof OrderItemOptionValue);
+        $this->assertTrue($orderItem->getOrderItemTextOptionValues()[0] instanceof OrderItemTextOptionValue);
     }
 }

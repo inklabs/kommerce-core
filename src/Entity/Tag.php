@@ -1,11 +1,12 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Tag
+class Tag implements EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 
@@ -36,12 +37,16 @@ class Tag
     /** @var Option[] */
     protected $options;
 
+    /** @var TextOption[] */
+    protected $textOptions;
+
     public function __construct()
     {
         $this->setCreated();
         $this->products = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->options = new ArrayCollection();
+        $this->textOptions = new ArrayCollection();
 
         $this->sortOrder = 0;
         $this->isActive = false;
@@ -107,6 +112,17 @@ class Tag
     public function getOptions()
     {
         return $this->options;
+    }
+
+    public function addTextOption(TextOption $textOption)
+    {
+        $textOption->addTag($this);
+        $this->textOptions[] = $textOption;
+    }
+
+    public function getTextOptions()
+    {
+        return $this->textOptions;
     }
 
     public function setName($name)

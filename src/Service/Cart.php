@@ -1,338 +1,395 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use Doctrine\ORM\EntityManager;
-use inklabs\kommerce\EntityRepository as EntityRepository;
+use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Payment\Payment;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
-use Exception;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
 
-class Cart extends Lib\ServiceManager
+class Cart extends AbstractService
 {
-    /** @var Lib\SessionManager */
-    protected $sessionManager;
-    protected $cartSessionKey = 'newcart';
+    /** @var EntityRepository\CouponInterface */
+    protected $couponRepository;
 
-    /** @var Entity\Cart */
-    protected $cart;
+    /** @var EntityRepository\ProductInterface */
+    protected $productRepository;
 
-    /** @var Entity\Shipping\Rate */
-    protected $shippingRate;
+    /** @var EntityRepository\OptionProductInterface */
+    protected $optionProductRepository;
+
+    /** @var EntityRepository\OptionValueInterface */
+    protected $optionValueRepository;
+
+    /** @var EntityRepository\TextOptionInterface */
+    protected $textOptionRepository;
+
+    /** @var EntityRepository\CartInterface */
+    protected $cartRepository;
+
+    /** @var EntityRepository\OrderInterface */
+    protected $orderRepository;
 
     /** @var Entity\TaxRate */
     protected $taxRate;
 
-    /** @var Pricing */
+    /** @var Lib\PricingInterface */
     protected $pricing;
 
-    /** @var Entity\User */
-    protected $user;
-
-    public function __construct(EntityManager $entityManager, Pricing $pricing, Lib\SessionManager $sessionManager)
-    {
-        $this->setEntityManager($entityManager);
+    /**
+     * @param EntityRepository\CartInterface $cartRepository
+     * @param EntityRepository\ProductInterface $productRepository
+     * @param EntityRepository\OptionProductInterface $optionProductRepository
+     * @param EntityRepository\OptionValueInterface $optionValueRepository
+     * @param EntityRepository\TextOptionInterface $textOptionRepository
+     * @param EntityRepository\CouponInterface $couponRepository
+     * @param EntityRepository\OrderInterface $orderRepository
+     * @param EntityRepository\UserInterface $userRepository
+     * @param Lib\PricingInterface $pricing
+     */
+    public function __construct(
+        EntityRepository\CartInterface $cartRepository,
+        EntityRepository\ProductInterface $productRepository,
+        EntityRepository\OptionProductInterface $optionProductRepository,
+        EntityRepository\OptionValueInterface $optionValueRepository,
+        EntityRepository\TextOptionInterface $textOptionRepository,
+        EntityRepository\CouponInterface $couponRepository,
+        EntityRepository\OrderInterface $orderRepository,
+        EntityRepository\UserInterface $userRepository,
+        Lib\PricingInterface $pricing
+    ) {
+        $this->cartRepository = $cartRepository;
+        $this->productRepository = $productRepository;
+        $this->optionProductRepository = $optionProductRepository;
+        $this->optionValueRepository = $optionValueRepository;
+        $this->textOptionRepository = $textOptionRepository;
+        $this->couponRepository = $couponRepository;
+        $this->orderRepository = $orderRepository;
+        $this->userRepository = $userRepository;
         $this->pricing = $pricing;
-        $this->sessionManager = $sessionManager;
-
-        $this->load();
-    }
-
-    private function load()
-    {
-        $this->cart = $this->sessionManager->get($this->cartSessionKey);
-
-        if (! ($this->cart instanceof Entity\Cart)) {
-            $this->cart = new Entity\Cart;
-        }
-
-        $this->reloadProductsFromEntityManager();
-        $this->reloadCouponsFromEntityManager();
-    }
-
-    private function save()
-    {
-        $this->sessionManager->set($this->cartSessionKey, $this->cart);
-    }
-
-    public function clear()
-    {
-        $this->sessionManager->delete($this->cartSessionKey);
-        $this->cart = new Entity\Cart;
-    }
-
-    private function reloadProductsFromEntityManager()
-    {
-        $numberProductsUpdated = 0;
-        foreach ($this->cart->getItems() as $cartItem) {
-            $product = $this->entityManager->merge($cartItem->getProduct());
-            $this->entityManager->refresh($product);
-            $cartItem->setProduct($product);
-
-            $newOptionValues = [];
-            foreach ($cartItem->getOptionValues() as $optionValue) {
-                $optionValue = $this->entityManager->merge($optionValue);
-                $this->entityManager->refresh($optionValue);
-
-                $newOptionValues[] = $optionValue;
-            }
-
-            if (! empty($newOptionValues)) {
-                $cartItem->setOptionValues($newOptionValues);
-            }
-
-            $numberProductsUpdated++;
-        }
-
-        if ($numberProductsUpdated > 0) {
-            $this->save();
-        }
-    }
-
-    private function reloadCouponsFromEntityManager()
-    {
-        $numberCouponsUpdated = 0;
-        foreach ($this->cart->getCoupons() as $key => $coupon) {
-            $newCoupon = $this->entityManager
-                ->getRepository('kommerce:Coupon')
-                ->find($coupon->getId());
-
-            $this->cart->updateCoupon($key, $newCoupon);
-            $numberCouponsUpdated++;
-        }
-
-        if ($numberCouponsUpdated > 0) {
-            $this->save();
-        }
     }
 
     /**
-     * @param string $productEncodedId
-     * @param int $quantity
-     * @param array $optionValueEncodedIds
+     * @param int $userId
+     * @param string $sessionId
+     * @return View\Cart
+     * @throws \LogicException
+     */
+    public function findByUserOrSession($userId, $sessionId)
+    {
+        if (! empty($userId)) {
+            $cart = $this->cartRepository->findByUser($userId);
+        } else {
+            $cart = $this->cartRepository->findBySession($sessionId);
+        }
+
+        if ($cart === null) {
+            throw new \LogicException('Cart not found');
+        }
+
+        return $cart->getView()->export();
+    }
+
+    /**
+     * @param int $cartId
+     * @param string $couponCode
      * @return int
-     * @throws Exception
+     * @throws \LogicException
      */
-    public function addItem($productEncodedId, $quantity, $optionValueEncodedIds = null)
+    public function addCouponByCode($cartId, $couponCode)
     {
-        /** @var EntityRepository\Product $productRepository */
-        $productRepository = $this->entityManager->getRepository('kommerce:Product');
-
-        $product = $productRepository->find(Lib\BaseConvert::decode($productEncodedId));
-
-        if ($product === null) {
-            throw new Exception('Product not found');
-        }
-
-        $optionValues = $this->getOptionValues($optionValueEncodedIds);
-
-        $itemId = $this->cart->addItem($product, $quantity, $optionValues);
-        $this->save();
-
-        return $itemId;
-    }
-
-    /**
-     * @param $optionValueEncodedIds
-     * @return Entity\OptionValue[]|null
-     * @throws Exception
-     */
-    private function getOptionValues($optionValueEncodedIds)
-    {
-        /** @var EntityRepository\OptionValue $optionValueRepository */
-        $optionValueRepository = $this->entityManager->getRepository('kommerce:OptionValue');
-
-        $optionValues = null;
-        if ($optionValueEncodedIds !== null) {
-            $optionValueIds = [];
-            foreach ($optionValueEncodedIds as $optionEncodedId => $optionValueEncodedId) {
-                $optionValueIds[] = Lib\BaseConvert::decode((string) $optionValueEncodedId);
-            }
-
-            $optionValues = $optionValueRepository->getAllOptionValuesByIds($optionValueIds);
-
-            if (count($optionValues) !== count($optionValueEncodedIds)) {
-                throw new Exception('Option not found');
-            }
-        }
-
-        return $optionValues;
-    }
-
-    public function addCouponByCode($couponCode)
-    {
-        $coupon = $this->entityManager
-            ->getRepository('kommerce:Coupon')
-            ->findOneByCode($couponCode);
+        $coupon = $this->couponRepository->findOneByCode($couponCode);
 
         if ($coupon === null) {
-            throw new Exception('Coupon not found');
+            throw new \LogicException('Coupon not found');
         }
 
-        $couponId = $this->cart->addCoupon($coupon);
-        $this->save();
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $couponIndex = $cart->addCoupon($coupon);
 
-        return $couponId;
+        $this->cartRepository->save($cart);
+
+        return $couponIndex;
     }
 
-    /**
-     * @param int $key
-     * @throws Exception
-     */
-    public function removeCoupon($key)
+    public function getCoupons($cartId)
     {
-        $this->cart->removeCoupon($key);
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        return $cart->getCoupons();
     }
 
     /**
-     * @return Entity\Coupon[]
+     * @param int $couponIndex
+     * @throws \InvalidArgumentException
+     * @throws \LogicException
      */
-    public function getCoupons()
+    public function removeCoupon($cartId, $couponIndex)
     {
-        return $this->cart->getCoupons();
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart->removeCoupon($couponIndex);
+
+        $this->cartRepository->save($cart);
     }
 
     /**
-     * @param int $cartItemId
+     * @param int $userId
+     * @param string $sessionId
+     * @return View\Cart
+     */
+    public function create($userId, $sessionId)
+    {
+        if (empty($userId) && empty($sessionId)) {
+            throw new InvalidArgumentException('User or session id required.');
+        }
+
+        $cart = new Entity\Cart;
+        $cart->setSessionId($sessionId);
+
+        $this->addUserToCartIfExists($userId, $cart);
+
+        $this->cartRepository->create($cart);
+
+        return $cart->getView()->export();
+    }
+
+    /**
+     * @param int $userId
+     * @param Entity\Cart $cart
+     */
+    private function addUserToCartIfExists($userId, Entity\Cart & $cart)
+    {
+        if (! empty($userId)) {
+            $user = $this->userRepository->find($userId);
+
+            if ($user !== null) {
+                $cart->setUser($user);
+            }
+        }
+    }
+
+    /**
+     * @param int $cartId
+     * @param string $productId
      * @param int $quantity
-     * @throws Exception
+     * @return int $cartItemIndex
+     * @throws \LogicException
      */
-    public function updateQuantity($cartItemId, $quantity)
+    public function addItem($cartId, $productId, $quantity = 1)
     {
-        $item = $this->cart->getItem($cartItemId);
-        if ($item === null) {
-            throw new Exception('Item not found');
+        $product = $this->productRepository->find($productId);
+
+        if ($product === null) {
+            throw new \LogicException('Product not found');
         }
 
-        $item->setQuantity($quantity);
-        $this->save();
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity($quantity);
+
+        $cartItemIndex = $cart->addCartItem($cartItem);
+
+        $this->cartRepository->save($cart);
+
+        return $cartItemIndex;
     }
 
     /**
-     * @param int $cartItemId
-     * @throws Exception
+     * @param $cartId
+     * @param int $cartItemIndex
+     * @param string[] $optionProductIds
+     * @throws \LogicException
      */
-    public function deleteItem($cartItemId)
+    public function addItemOptionProducts($cartId, $cartItemIndex, array $optionProductIds)
     {
-        $this->cart->deleteItem($cartItemId);
-        $this->save();
+        $optionProducts = $this->optionProductRepository->getAllOptionProductsByIds($optionProductIds);
+
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
+
+        foreach ($optionProducts as $optionProduct) {
+            $cartItemOptionProduct = new Entity\CartItemOptionProduct;
+            $cartItemOptionProduct->setOptionProduct($optionProduct);
+
+            $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
+        }
+
+        $this->cartRepository->save($cart);
     }
 
     /**
-     * @return Entity\View\CartItem[]
+     * @param $cartId
+     * @param int $cartItemIndex
+     * @param string[] $optionValueIds
+     * @throws \LogicException
      */
-    public function getItems()
+    public function addItemOptionValues($cartId, $cartItemIndex, array $optionValueIds)
     {
-        $viewCartItems = [];
-        foreach ($this->cart->getItems() as $cartItem) {
-            $viewCartItems[] = $cartItem->getView()
-                ->withAllData($this->pricing)
-                ->export();
+        $optionValues = $this->optionValueRepository->getAllOptionValuesByIds($optionValueIds);
+
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
+
+        foreach ($optionValues as $optionValue) {
+            $cartItemOptionValue = new Entity\CartItemOptionValue;
+            $cartItemOptionValue->setOptionValue($optionValue);
+
+            $cartItem->addCartItemOptionValue($cartItemOptionValue);
         }
 
-        return $viewCartItems;
+        $this->cartRepository->save($cart);
     }
 
     /**
-     * @return Entity\View\Product[]
+     * @param int $cartId
+     * @param int $cartItemIndex
+     * @param array $textOptionValues
+     * @throws \LogicException
      */
-    public function getProducts()
+    public function addItemTextOptionValues($cartId, $cartItemIndex, array $textOptionValues)
     {
-        $products = [];
-        foreach ($this->getItems() as $item) {
-            $products[] = $item->product;
+        $textOptionIds = array_keys($textOptionValues);
+        $textOptions = $this->textOptionRepository->getAllTextOptionsByIds($textOptionIds);
+
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
+
+        foreach ($textOptions as $textOption) {
+            $textOptionValue = $textOptionValues[$textOption->getId()];
+
+            $cartItemTextOptionValue = new Entity\CartItemTextOptionValue;
+            $cartItemTextOptionValue->setTextOption($textOption);
+            $cartItemTextOptionValue->setTextOptionValue($textOptionValue);
+
+            $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
         }
-        return $products;
+
+        $this->cartRepository->save($cart);
     }
 
     /**
-     * @return Entity\View\CartItem|null
+     * @param int $cartId
+     * @param int $cartItemIndex
+     * @param int $quantity
+     * @throws \LogicException
      */
-    public function getItem($id)
+    public function updateQuantity($cartId, $cartItemIndex, $quantity)
     {
-        $cartItem = $this->cart->getItem($id);
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
+        $cartItem->setQuantity($quantity);
 
-        if ($cartItem === null) {
-            return null;
-        }
+        $this->cartRepository->save($cart);
+    }
 
-        return $cartItem->getView()
+    /**
+     * @param int $cartId
+     * @param int $cartItemIndex
+     * @throws \LogicException
+     */
+    public function deleteItem($cartId, $cartItemIndex)
+    {
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart->deleteCartItem($cartItemIndex);
+
+        $this->cartRepository->save($cart);
+    }
+
+    /**
+     * @param int $cartId
+     * @return View\Cart
+     * @throws \LogicException
+     */
+    public function getCartFull($cartId)
+    {
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+
+        return $cart->getView()
             ->withAllData($this->pricing)
             ->export();
     }
 
-    public function getShippingWeight()
+    /**
+     * @param int $cartId
+     * @param \inklabs\kommerce\Entity\ShippingRate $shippingRate
+     */
+    public function setShippingRate($cartId, Entity\ShippingRate $shippingRate)
     {
-        return $this->cart->getShippingWeight();
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart->setShippingRate($shippingRate);
+
+        $this->cartRepository->save($cart);
     }
 
-    public function getShippingWeightInPounds()
+    public function setTaxRate($cartId, Entity\TaxRate $taxRate)
     {
-        return (int) ceil($this->cart->getShippingWeight() / 16);
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart->setTaxRate($taxRate);
+
+        $this->cartRepository->save($cart);
     }
 
-    public function totalItems()
-    {
-        return $this->cart->totalItems();
-    }
+    public function createOrder(
+        $cartId,
+        Payment $payment,
+        OrderAddress $shippingAddress,
+        OrderAddress $billingAddress = null
+    ) {
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
 
-    public function totalQuantity()
-    {
-        return $this->cart->totalQuantity();
-    }
-
-    public function getTotal()
-    {
-        return $this->cart->getTotal($this->pricing, $this->shippingRate, $this->taxRate);
-    }
-
-    public function setShippingRate(Entity\Shipping\Rate $shippingRate)
-    {
-        $this->shippingRate = $shippingRate;
-        $this->save();
-    }
-
-    public function setTaxRate(Entity\TaxRate $taxRate)
-    {
-        $this->taxRate = $taxRate;
-        $this->save();
-    }
-
-    public function createOrder(Payment $payment, OrderAddress $shippingAddress, OrderAddress $billingAddress = null)
-    {
         if ($billingAddress === null) {
             $billingAddress = clone $shippingAddress;
         }
 
-        $order = $this->cart->getOrder($this->pricing, $this->shippingRate, $this->taxRate);
+        $order = $cart->getOrder($this->pricing);
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
         $order->addPayment($payment);
 
-        foreach ($this->cart->getCoupons() as $coupon) {
-            $order->addCoupon($coupon);
-        }
-
-        if ($this->user !== null) {
-            $order->setUser($this->user);
-        }
-
-        $this->entityManager->persist($order);
-        $this->entityManager->flush();
+        $this->orderRepository->create($order);
 
         return $order;
-    }
-
-    public function getView()
-    {
-        return $this->cart->getView()
-            ->withAllData($this->pricing, $this->shippingRate, $this->taxRate)
-            ->export();
     }
 
     public function setUser(Entity\User $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @param int $cartId
+     * @return Entity\Cart
+     * @throws \LogicException
+     */
+    protected function getCartAndThrowExceptionIfCartNotFound($cartId)
+    {
+        $cart = $this->cartRepository->find($cartId);
+
+        if ($cart === null) {
+            throw new \LogicException('Cart not found');
+        }
+
+        return $cart;
+    }
+
+    /**
+     * @param Entity\Cart $cart
+     * @param int $cartItemIndex
+     * @return Entity\CartItem
+     * @throws \LogicException
+     */
+    protected function getCartItemAndThrowExceptionIfNotFound(Entity\Cart $cart, $cartItemIndex)
+    {
+        $cartItem = $cart->getCartItem($cartItemIndex);
+
+        if ($cartItem === null) {
+            throw new \LogicException('Cart Item not found');
+        }
+
+        return $cartItem;
     }
 }

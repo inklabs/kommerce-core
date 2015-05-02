@@ -1,17 +1,26 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class UserTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return User
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:User',
+        'kommerce:UserLogin',
+        'kommerce:UserToken',
+        'kommerce:UserRole',
+        'kommerce:Order',
+        'kommerce:Cart',
+    ];
+
+    /** @var UserInterface */
+    protected $userRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:User');
+        $this->userRepository = $this->getUserRepository();
     }
 
     private function setupUser()
@@ -21,6 +30,8 @@ class UserTest extends Helper\DoctrineTestCase
         $this->entityManager->persist($user);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $user;
     }
 
     public function testFind()
@@ -29,7 +40,7 @@ class UserTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $user = $this->getRepository()
+        $user = $this->userRepository
             ->find(1);
 
         $user->getOrders()->toArray();
@@ -45,8 +56,7 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
-        $users = $this->getRepository()
-            ->getAllUsers('John');
+        $users = $this->userRepository->getAllUsers('John');
 
         $this->assertTrue($users[0] instanceof Entity\User);
     }
@@ -55,8 +65,7 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
-        $users = $this->getRepository()
-            ->getAllUsersByIds([1]);
+        $users = $this->userRepository->getAllUsersByIds([1]);
 
         $this->assertTrue($users[0] instanceof Entity\User);
     }
@@ -65,9 +74,20 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
-        $user = $this->getRepository()
-            ->findOneByEmail('test@example.com');
+        $user = $this->userRepository->findOneByEmail('test@example.com');
 
         $this->assertTrue($user instanceof Entity\User);
+    }
+
+    public function testCreateUserLogin()
+    {
+        $userLogin = $this->getDummyUserLogin();
+
+        $user = $this->setupUser();
+        $user->addLogin($userLogin);
+
+        $this->userRepository->save($user);
+
+        $this->assertSame(1, $user->getTotalLogins());
     }
 }

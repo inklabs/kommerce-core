@@ -1,13 +1,17 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Service;
 use Symfony\Component\Validator\Validation;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
+        $userLogin = new UserLogin;
+        $userLogin->setResult(UserLogin::RESULT_SUCCESS);
+
         $user = new User;
         $user->setExternalId('5');
         $user->setStatus(User::STATUS_ACTIVE);
@@ -18,7 +22,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->setLastLogin(new \DateTime);
         $user->addRole(new UserRole);
         $user->addToken(new UserToken);
-        $user->addLogin(new UserLogin);
+        $user->addLogin($userLogin);
 
         $orderItem = new OrderItem;
         $orderItem->setProduct(new Product);
@@ -26,10 +30,11 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $orderItem->setPrice(new Price);
 
         $order = new Order;
-        $order->addItem($orderItem);
+        $order->addOrderItem($orderItem);
         $order->setTotal(new CartTotal);
 
         $user->addOrder($order);
+        $user->setCart(new Cart);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -43,12 +48,13 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('test@example.com', $user->getEmail());
         $this->assertSame('John', $user->getFirstName());
         $this->assertSame('Doe', $user->getLastName());
-        $this->assertSame(0, $user->getTotalLogins());
+        $this->assertSame(1, $user->getTotalLogins());
         $this->assertTrue($user->getLastLogin() > 0);
         $this->assertTrue($user->getRoles()[0] instanceof UserRole);
         $this->assertTrue($user->getTokens()[0] instanceof UserToken);
         $this->assertTrue($user->getLogins()[0] instanceof UserLogin);
         $this->assertTrue($user->getOrders()[0] instanceof Order);
+        $this->assertTrue($user->getCart() instanceof Cart);
         $this->assertTrue($user->getView() instanceof View\User);
     }
 
@@ -71,7 +77,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testHasRoles()
     {
         $adminRole = new UserRole;
-        $adminRole->setname('admin');
+        $adminRole->setName('admin');
 
         $user = new User;
         $user->addRole($adminRole);

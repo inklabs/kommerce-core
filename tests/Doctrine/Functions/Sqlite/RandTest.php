@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Doctrine\Functions\Sqlite;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class RandTest extends Helper\DoctrineTestCase
 {
@@ -14,6 +14,10 @@ class RandTest extends Helper\DoctrineTestCase
 
     /** @var Entity\Product */
     private $product3;
+
+    protected $metaDataClassNames = [
+        'kommerce:Product',
+    ];
 
     public function setUp()
     {

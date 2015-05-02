@@ -1,18 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\AttributeValue find($id)
- */
-class AttributeValue extends EntityRepository
+class AttributeValue extends AbstractEntityRepository implements AttributeValueInterface
 {
-    /**
-     * @return Entity\AttributeValue[]
-     */
-    public function getAttributeValuesByIds($attributeValueIds, Entity\Pagination & $pagination = null)
+    public function getAttributeValuesByIds(array $attributeValueIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 

@@ -1,18 +1,33 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Lib as Lib;
-use Doctrine as Doctrine;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository;
+use Doctrine;
 
-class CartPriceRule extends Lib\ServiceManager
+class CartPriceRule extends AbstractService
 {
-    public function __construct(Doctrine\ORM\EntityManager $entityManager)
+    /** @var EntityRepository\CartPriceRule */
+    private $cartPriceRuleRepository;
+
+    public function __construct(EntityRepository\CartPriceRuleInterface $cartPriceRuleRepository)
     {
-        $this->setEntityManager($entityManager);
+        $this->cartPriceRuleRepository = $cartPriceRuleRepository;
     }
 
+    /**
+     * @return Entity\CartPriceRule
+     */
+    public function find($id)
+    {
+        return $this->cartPriceRuleRepository->find($id);
+    }
+
+    /**
+     * @return Entity\CartPriceRule[]
+     */
     public function findAll()
     {
-        return $this->entityManager->getRepository('kommerce:CartPriceRule')->findAll();
+        return $this->cartPriceRuleRepository->findAll();
     }
 }

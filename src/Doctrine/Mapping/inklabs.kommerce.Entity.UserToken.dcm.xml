@@ -5,51 +5,48 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\UserToken"
-            table="user_token"
             repository-class="inklabs\kommerce\EntityRepository\UserToken">
 
         <lifecycle-callbacks>
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="userAgent" column="user_agent" type="string" length="40"/>
+        <field name="userAgent" type="string" length="40"/>
 
-        <field name="token" column="token" type="string" length="40"/>
+        <field name="token" type="string" length="40"/>
 
-        <field name="expires" column="expires" type="integer" nullable="true">
+        <field name="expires" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="type" column="type" type="smallint">
+        <field name="type" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <many-to-one field="user" target-entity="User" inversed-by="tokens" fetch="EAGER">
-            <join-column name="user_id" referenced-column-name="id" nullable="true"/>
-        </many-to-one>
+        <many-to-one field="user" target-entity="User" inversed-by="tokens" fetch="EAGER"/>
 
     </entity>
 

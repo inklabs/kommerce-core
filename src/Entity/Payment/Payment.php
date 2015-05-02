@@ -1,12 +1,12 @@
 <?php
 namespace inklabs\kommerce\Entity\Payment;
 
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 use inklabs\kommerce\Entity\Accessor;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class Payment
+abstract class Payment implements Entity\EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 
@@ -46,7 +46,7 @@ abstract class Payment
     }
 
     /**
-     * @return Entity\View\Payment\Payment
+     * @return View\Payment\Payment
      */
     abstract public function getView();
 }

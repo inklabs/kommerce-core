@@ -5,20 +5,19 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\Coupon"
-            table="coupon"
             repository-class="inklabs\kommerce\EntityRepository\Coupon">
 
-        <field name="code" column="code" type="string" length="16"/>
-        <field name="canCombineWithOtherCoupons" column="can_combine" type="boolean"/>
-        <field name="flagFreeShipping" column="flag_free_shipping" type="boolean"/>
+        <field name="code" type="string" length="16"/>
+        <field name="canCombineWithOtherCoupons" type="boolean"/>
+        <field name="flagFreeShipping" type="boolean"/>
 
-        <field name="minOrderValue" column="min_order_value" type="integer" nullable="true">
+        <field name="minOrderValue" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="maxOrderValue" column="max_order_value" type="integer" nullable="true">
+        <field name="maxOrderValue" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>

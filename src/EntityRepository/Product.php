@@ -1,23 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 
-/**
- * @method Entity\Product find($id)
- */
-class Product extends EntityRepository
+class Product extends AbstractEntityRepository implements ProductInterface
 {
-    /**
-     * @return Entity\Product[]
-     */
-    public function getRelatedProducts($products, $limit = 12)
+    public function getRelatedProducts(array $products, $limit = 12)
     {
-        if (! is_array($products)) {
-            $products = [$products];
-        }
-
         $productIds = [];
         $tagIds = [];
         foreach ($products as $product) {
@@ -30,9 +20,6 @@ class Product extends EntityRepository
         return $this->getRelatedProductsByIds($productIds, $tagIds, $limit);
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getRelatedProductsByIds($productIds, $tagIds = null, $limit = 12)
     {
         $qb = $this->getQueryBuilder();
@@ -62,17 +49,11 @@ class Product extends EntityRepository
         return $products;
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getProductsByTag(Entity\Tag $tag, Entity\Pagination & $pagination = null)
     {
         return $this->getProductsByTagId($tag->getId(), $pagination);
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getProductsByTagId($tagId, Entity\Pagination & $pagination = null)
     {
         $products = $this->getQueryBuilder()
@@ -95,9 +76,6 @@ class Product extends EntityRepository
         return $products;
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -115,9 +93,6 @@ class Product extends EntityRepository
         return $products;
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -140,9 +115,6 @@ class Product extends EntityRepository
         return $products;
     }
 
-    /**
-     * @return Entity\Product[]
-     */
     public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -158,9 +130,6 @@ class Product extends EntityRepository
         return $products;
     }
 
-    /**
-     * @return Entity\View\Product[]
-     */
     public function getRandomProducts($limit)
     {
         $qb = $this->getQueryBuilder();
@@ -176,5 +145,21 @@ class Product extends EntityRepository
             ->getResult();
 
         return $products;
+    }
+
+    public function save(Entity\Product & $product)
+    {
+        $this->saveEntity($product);
+    }
+
+    public function create(Entity\Product & $product)
+    {
+        $this->persist($product);
+        $this->flush();
+    }
+
+    public function persist(Entity\Product & $product)
+    {
+        $this->persistEntity($product);
     }
 }

@@ -1,17 +1,21 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class WarehouseTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return Warehouse
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:Warehouse',
+    ];
+
+    /** @var WarehouseInterface */
+    protected $warehouseRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Warehouse');
+        $this->warehouseRepository = $this->getWarehouseRepository();
     }
 
     private function setupWarehouse()
@@ -29,8 +33,7 @@ class WarehouseTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $warehouse = $this->getRepository()
-            ->find(1);
+        $warehouse = $this->warehouseRepository->find(1);
 
         $this->assertTrue($warehouse instanceof Entity\Warehouse);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
@@ -42,8 +45,7 @@ class WarehouseTest extends Helper\DoctrineTestCase
 
         $losAngeles = new Entity\Point(34.052234, -118.243685);
 
-        $warehouse = $this->getRepository()
-            ->findByPoint($losAngeles, 1);
+        $warehouse = $this->warehouseRepository->findByPoint($losAngeles, 1);
 
         $this->assertSame(0, count($warehouse));
     }
@@ -54,8 +56,7 @@ class WarehouseTest extends Helper\DoctrineTestCase
 
         $losAngeles = new Entity\Point(34.052234, -118.243685);
 
-        $warehouses = $this->getRepository()
-            ->findByPoint($losAngeles, 50);
+        $warehouses = $this->warehouseRepository->findByPoint($losAngeles, 50);
 
         $warehouse = $warehouses[0][0];
         $distance = $warehouses[0]['distance'];

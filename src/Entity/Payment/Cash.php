@@ -1,7 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity\Payment;
 
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,6 +21,6 @@ class Cash extends Payment
 
     public function getView()
     {
-        return new Entity\View\Payment\Cash($this);
+        return new View\Payment\Cash($this);
     }
 }

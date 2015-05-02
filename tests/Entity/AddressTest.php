@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\View;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {

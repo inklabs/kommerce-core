@@ -1,14 +1,14 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service as Service;
+use inklabs\kommerce\Lib;
 
 class CartCalculator
 {
     /** @var Cart */
     protected $cart;
 
-    /** @var Service\Pricing */
+    /** @var Lib\Pricing */
     protected $pricing;
 
     /** @var CartTotal */
@@ -19,7 +19,7 @@ class CartCalculator
         $this->cart = $cart;
     }
 
-    public function getTotal(Service\Pricing $pricing, Shipping\Rate $shippingRate = null, TaxRate $taxRate = null)
+    public function getTotal(Lib\PricingInterface $pricing, ShippingRate $shippingRate = null, TaxRate $taxRate = null)
     {
         $this->pricing = $pricing;
 
@@ -39,7 +39,7 @@ class CartCalculator
 
     private function calculateItemPrices()
     {
-        foreach ($this->cart->getItems() as $item) {
+        foreach ($this->cart->getCartItems() as $item) {
             $price = $item->getPrice($this->pricing);
 
             $this->cartTotal->origSubtotal += $price->origQuantityPrice;
@@ -54,7 +54,7 @@ class CartCalculator
     private function calculateCartPriceRules()
     {
         foreach ($this->pricing->getCartPriceRules() as $cartPriceRule) {
-            if ($cartPriceRule->isValid($this->pricing->getDate(), $this->cart->getItems())) {
+            if ($cartPriceRule->isValid($this->pricing->getDate(), $this->cart->getCartItems())) {
                 foreach ($cartPriceRule->getCartPriceRuleDiscounts() as $discount) {
                     $price = $this->pricing->getPrice($discount->getProduct(), $discount->getQuantity());
                     $discountValue = $price->quantityPrice;
@@ -98,7 +98,7 @@ class CartCalculator
         $this->cartTotal->taxSubtotal = max(0, $this->cartTotal->taxSubtotal);
     }
 
-    private function calculateShippingPrice(Shipping\Rate $shippingRate = null)
+    private function calculateShippingPrice(\inklabs\kommerce\Entity\ShippingRate $shippingRate = null)
     {
         if ($shippingRate !== null) {
             $this->cartTotal->shipping = $shippingRate->cost;

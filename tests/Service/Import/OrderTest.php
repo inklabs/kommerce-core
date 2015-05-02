@@ -1,26 +1,35 @@
 <?php
 namespace inklabs\kommerce\Service\Import;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Entity\View as View;
-use inklabs\kommerce\Lib as Lib;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\tests\Helper;
 
 class OrderTest extends Helper\DoctrineTestCase
 {
+    protected $metaDataClassNames = [
+        'kommerce:Order',
+        'kommerce:User',
+        'kommerce:Cart',
+    ];
+
     public function testImport()
     {
         $this->setupUsersForImport();
 
         $this->setCountLogger();
 
-        $orderService = new Order($this->entityManager);
+        $orderService = new Order(
+            $this->getOrderRepository(),
+            $this->getUserRepository()
+        );
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/OrderTest.csv');
         $importedCount = $orderService->import($iterator);
 
         $this->assertSame(3, $importedCount);
-        $this->assertSame(8, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(12, $this->countSQLLogger->getTotalQueries());
     }
 
     private function setupUsersForImport()

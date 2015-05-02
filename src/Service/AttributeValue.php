@@ -1,25 +1,22 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\Validator\Exception\ValidatorException;
-use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 
-class AttributeValue extends Lib\ServiceManager
+class AttributeValue extends AbstractService
 {
     /** @var EntityRepository\AttributeValue */
     private $attributeValueRepository;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityRepository\AttributeValueInterface $attributeValueRepository)
     {
-        $this->setEntityManager($entityManager);
-        $this->attributeValueRepository = $entityManager->getRepository('kommerce:AttributeValue');
+        $this->attributeValueRepository = $attributeValueRepository;
     }
 
     /**
-     * @return Entity\View\AttributeValue|null
+     * @return View\AttributeValue|null
      */
     public function find($id)
     {
@@ -37,15 +34,13 @@ class AttributeValue extends Lib\ServiceManager
 
     public function getAttributeValuesByIds($attributeValueIds, Entity\Pagination & $pagination = null)
     {
-        $attributeValues = $this->attributeValueRepository
-            ->getAttributeValuesByIds($attributeValueIds);
-
+        $attributeValues = $this->attributeValueRepository->getAttributeValuesByIds($attributeValueIds);
         return $this->getViewAttributeValues($attributeValues);
     }
 
     /**
      * @param Entity\AttributeValue[] $attributeValues
-     * @return Entity\View\AttributeValue[]
+     * @return View\AttributeValue[]
      */
     private function getViewAttributeValues($attributeValues)
     {

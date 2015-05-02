@@ -1,24 +1,17 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\Option find($id)
- */
-class Option extends EntityRepository
+class Option extends AbstractEntityRepository implements OptionInterface
 {
-    /**
-     * @return Entity\Option[]
-     */
     public function getAllOptionsByIds($optionIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
-        $options = $qb->select('option')
-            ->from('kommerce:Option', 'option')
-            ->where('option.id IN (:optionIds)')
+        $options = $qb->select('Option')
+            ->from('kommerce:Option', 'Option')
+            ->where('Option.id IN (:optionIds)')
             ->setParameter('optionIds', $optionIds)
             ->paginate($pagination)
             ->getQuery()

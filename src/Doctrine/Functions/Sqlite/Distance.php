@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Doctrine\Functions\Sqlite;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\Lexer;
-use Doctrine as Doctrine;
+use Doctrine;
 
 /**
  * "DISTANCE" "(" fromLatitude, fromLongitude, toLatitude, toLongitude ")"

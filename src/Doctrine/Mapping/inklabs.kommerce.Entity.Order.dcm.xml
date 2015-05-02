@@ -5,45 +5,46 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\Order"
-            table="order"
             repository-class="inklabs\kommerce\EntityRepository\Order">
 
         <lifecycle-callbacks>
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="externalId" column="external_id" type="string" length="255" nullable="true" unique="true"/>
+        <field name="externalId" type="string" length="255" nullable="true" unique="true"/>
 
-        <field name="status" column="status" type="smallint">
+        <field name="referenceNumber" type="string" length="255" nullable="true" unique="true"/>
+
+        <field name="status" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
         <embedded name="total" class="CartTotal"/>
-        <embedded name="shippingAddress" class="OrderAddress" column-prefix="shipping_"/>
-        <embedded name="billingAddress" class="OrderAddress" column-prefix="billing_"/>
+        <embedded name="shippingAddress" class="OrderAddress"/>
+        <embedded name="billingAddress" class="OrderAddress"/>
 
-        <one-to-many field="items" target-entity="OrderItem" mapped-by="order" fetch="EXTRA_LAZY">
+        <one-to-many field="orderItems" target-entity="OrderItem" mapped-by="order" fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>
@@ -58,20 +59,8 @@
             </cascade>
         </one-to-many>
 
-        <many-to-one field="user" target-entity="User" inversed-by="orders" fetch="EAGER">
-            <join-column name="user_id" referenced-column-name="id" nullable="true"/>
-        </many-to-one>
-
-        <many-to-many field="coupons" target-entity="Coupon" fetch="EXTRA_LAZY">
-            <join-table name="order_coupon">
-                <join-columns>
-                    <join-column name="order_id" referenced-column-name="id"/>
-                </join-columns>
-                <inverse-join-columns>
-                    <join-column name="coupon_id" referenced-column-name="id"/>
-                </inverse-join-columns>
-            </join-table>
-        </many-to-many>
+        <many-to-one field="user" target-entity="User" inversed-by="orders" fetch="EAGER"/>
+        <many-to-many field="coupons" target-entity="Coupon" fetch="EXTRA_LAZY"/>
 
     </entity>
 

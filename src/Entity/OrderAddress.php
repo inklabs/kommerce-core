@@ -1,10 +1,11 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OrderAddress
+class OrderAddress implements EntityInterface
 {
     public $firstName;
     public $lastName;

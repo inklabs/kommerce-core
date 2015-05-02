@@ -1,9 +1,12 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
+use Symfony\Component\Validator\Validation;
+
 class AttributeValueTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreateAttributeValue()
+    public function testCreate()
     {
         $attributeValue = new AttributeValue;
         $attributeValue->setSku('TA');
@@ -13,6 +16,11 @@ class AttributeValueTest extends \PHPUnit_Framework_TestCase
         $attributeValue->setAttribute(new Attribute);
         $attributeValue->addProductAttribute(new ProductAttribute);
 
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
+        $this->assertEmpty($validator->validate($attributeValue));
         $this->assertSame('TA', $attributeValue->getSku());
         $this->assertSame('Test Attribute', $attributeValue->getName());
         $this->assertSame('Test attribute description', $attributeValue->getDescription());

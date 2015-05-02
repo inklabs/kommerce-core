@@ -5,33 +5,36 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\OrderItem"
-            table="order_item"
             repository-class="inklabs\kommerce\EntityRepository\OrderItem">
 
-        <id name="id" type="integer" column="id">
+        <lifecycle-callbacks>
+            <lifecycle-callback type="preUpdate" method="preUpdate"/>
+        </lifecycle-callbacks>
+
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="quantity" column="quantity" type="smallint">
+        <field name="quantity" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="sku" column="sku" type="string" length="255" nullable="true"/>
-        <field name="name" column="name" type="string" length="255"/>
-        <field name="discountNames" column="discount_names" type="string" length="255" nullable="true"/>
+        <field name="sku" type="string" length="255" nullable="true"/>
+        <field name="name" type="string" length="255"/>
+        <field name="discountNames" type="string" length="255" nullable="true"/>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
@@ -39,41 +42,41 @@
 
         <embedded name="price" class="Price"/>
 
-        <one-to-many field="orderItemOptionValues" target-entity="OrderItemOptionValue" mapped-by="orderItem" fetch="EXTRA_LAZY">
+        <one-to-many field="orderItemOptionProducts"
+                     target-entity="OrderItemOptionProduct"
+                     mapped-by="orderItem"
+                     fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>
         </one-to-many>
 
-        <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product" fetch="EAGER">
-            <join-column name="product_id" referenced-column-name="id" nullable="true"/>
+        <one-to-many field="orderItemOptionValues"
+                     target-entity="OrderItemOptionValue"
+                     mapped-by="orderItem"
+                     fetch="EXTRA_LAZY">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+
+        <one-to-many field="orderItemTextOptionValues"
+                     target-entity="OrderItemTextOptionValue"
+                     mapped-by="orderItem"
+                     fetch="EXTRA_LAZY">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+
+        <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product" fetch="EAGER"/>
+
+        <many-to-one field="order" target-entity="Order" inversed-by="orderItems" fetch="EAGER">
+            <join-column nullable="false"/>
         </many-to-one>
 
-        <many-to-one field="order" target-entity="Order" inversed-by="items" fetch="EAGER">
-            <join-column name="order_id" referenced-column-name="id" nullable="false"/>
-        </many-to-one>
-
-        <many-to-many field="catalogPromotions" target-entity="CatalogPromotion" fetch="EXTRA_LAZY">
-            <join-table name="order_item_catalog_promotion">
-                <join-columns>
-                    <join-column name="order_item_id" referenced-column-name="id"/>
-                </join-columns>
-                <inverse-join-columns>
-                    <join-column name="catalog_promotion_id" referenced-column-name="id"/>
-                </inverse-join-columns>
-            </join-table>
-        </many-to-many>
-
-        <many-to-many field="productQuantityDiscounts" target-entity="ProductQuantityDiscount" fetch="EXTRA_LAZY">
-            <join-table name="order_item_product_quantity_discount">
-                <join-columns>
-                    <join-column name="order_item_id" referenced-column-name="id"/>
-                </join-columns>
-                <inverse-join-columns>
-                    <join-column name="product_quantity_discount_id" referenced-column-name="id"/>
-                </inverse-join-columns>
-            </join-table>
-        </many-to-many>
+        <many-to-many field="catalogPromotions" target-entity="CatalogPromotion" fetch="EXTRA_LAZY"/>
+        <many-to-many field="productQuantityDiscounts" target-entity="ProductQuantityDiscount" fetch="EXTRA_LAZY"/>
 
     </entity>
 

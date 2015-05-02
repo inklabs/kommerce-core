@@ -2,19 +2,17 @@
 namespace inklabs\kommerce\Service\Import;
 
 use Doctrine\ORM\EntityManager;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository;
 
-class User extends Lib\ServiceManager
+class User
 {
-    /** @var EntityRepository\User */
+    /** @var EntityRepository\UserInterface */
     private $userRepository;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityRepository\UserInterface $userRepository)
     {
-        $this->setEntityManager($entityManager);
-        $this->userRepository = $entityManager->getRepository('kommerce:User');
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -51,11 +49,11 @@ class User extends Lib\ServiceManager
                 $user->setEmail($email);
             }
 
-            $this->entityManager->persist($user);
+            $this->userRepository->persist($user);
             $importedCount++;
         }
 
-        $this->entityManager->flush();
+        $this->userRepository->flush();
 
         return $importedCount;
     }

@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\tests\Helper;
 
 use inklabs\kommerce\Service\Kommerce;
-use inklabs\kommerce\Entity as Entity;
-use Doctrine as Doctrine;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository;
+use Doctrine;
 
 abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -16,22 +17,22 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     /** @var CountSQLLogger */
     protected $countSQLLogger;
 
-    public function __construct($name = null, array $data = [], $dataName = '')
+    /** @var string[] */
+    protected $metaDataClassNames;
+
+    public function __construct($name = null, array $data = array(), $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
+
+        if ($this->metaDataClassNames !== null) {
+            $this->setupEntityManager();
+        }
+    }
+
+    private function setupEntityManager()
+    {
         $this->getConnection();
         $this->setupTestSchema();
-    }
-
-    public function setEchoLogger()
-    {
-        $this->kommerce->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
-    }
-
-    public function setCountLogger()
-    {
-        $this->countSQLLogger = new CountSQLLogger;
-        $this->kommerce->setSqlLogger($this->countSQLLogger);
     }
 
     private function getConnection()
@@ -50,10 +51,29 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->entityManager->clear();
 
+        if (empty($this->metaDataClassNames)) {
+            $classes = $this->entityManager->getMetaDataFactory()->getAllMetaData();
+        } else {
+            $classes = [];
+            foreach ($this->metaDataClassNames as $className) {
+                $classes[] = $this->entityManager->getMetaDataFactory()->getMetadataFor($className);
+            }
+        }
+
         $tool = new Doctrine\ORM\Tools\SchemaTool($this->entityManager);
-        $classes = $this->entityManager->getMetaDataFactory()->getAllMetaData();
         // $tool->dropSchema($classes);
         $tool->createSchema($classes);
+    }
+
+    public function setEchoLogger()
+    {
+        $this->kommerce->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
+    }
+
+    public function setCountLogger()
+    {
+        $this->countSQLLogger = new CountSQLLogger;
+        $this->kommerce->setSqlLogger($this->countSQLLogger);
     }
 
     protected function getDummyProduct($num = 1)
@@ -126,10 +146,31 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $orderItem;
     }
 
-    protected function getDummyOrderItemOptionValue(Entity\Option $option)
+    protected function getDummyOrderItemOptionProduct(Entity\OptionProduct $optionProduct)
     {
-        $orderItemOptionValue = new Entity\OrderItemOptionValue($option);
+        $orderItemOptionProduct = new Entity\OrderItemOptionProduct;
+        $orderItemOptionProduct->setOptionProduct($optionProduct);
+        return $orderItemOptionProduct;
+    }
+
+    protected function getDummyOrderItemOptionValue(Entity\OptionValue $optionValue)
+    {
+        $orderItemOptionValue = new Entity\OrderItemOptionValue;
+        $orderItemOptionValue->setOptionValue($optionValue);
         return $orderItemOptionValue;
+    }
+
+    /**
+     * @param Entity\TextOption $textOption
+     * @param string $textOptionValue
+     * @return Entity\OrderItemTextOptionValue
+     */
+    protected function getDummyOrderItemTextOptionValue(Entity\TextOption $textOption, $textOptionValue)
+    {
+        $orderItemTextOptionValue = new Entity\OrderItemTextOptionValue;
+        $orderItemTextOptionValue->setTextOption($textOption);
+        $orderItemTextOptionValue->setTextOptionValue($textOptionValue);
+        return $orderItemTextOptionValue;
     }
 
     /**
@@ -148,7 +189,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
         if ($orderItems !== null) {
             foreach ($orderItems as $orderItem) {
-                $order->addItem($orderItem);
+                $order->addOrderItem($orderItem);
             }
         }
 
@@ -266,6 +307,81 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $cartPriceRule;
     }
 
+    protected function getDummyFullCartItem()
+    {
+        $product = new Entity\Product;
+        $product->setSku('P1');
+        $product->setUnitPrice(100);
+        $product->setShippingWeight(10);
+
+        $product2 = new Entity\Product;
+        $product2->setSku('OP1');
+        $product2->setUnitPrice(100);
+        $product2->setShippingWeight(10);
+
+        $option1 = new Entity\Option;
+        $option1->setname('Option 1');
+
+        $optionProduct = new Entity\OptionProduct;
+        $optionProduct->setOption($option1);
+        $optionProduct->setProduct($product2);
+
+        $option2 = new Entity\Option;
+        $option2->setname('Option 2');
+
+        $optionValue = new Entity\OptionValue;
+        $optionValue->setOption($option2);
+        $optionValue->setSku('OV1');
+        $optionValue->setUnitPrice(100);
+        $optionValue->setShippingWeight(10);
+
+        $textOption = new Entity\TextOption;
+
+        $cartItemOptionProduct = new Entity\CartItemOptionProduct;
+        $cartItemOptionProduct->setOptionProduct($optionProduct);
+
+        $cartItemOptionValue = new Entity\CartItemOptionValue;
+        $cartItemOptionValue->setOptionValue($optionValue);
+
+        $cartItemTextOptionValue = new Entity\CartItemTextOptionValue;
+        $cartItemTextOptionValue->setTextOption($textOption);
+        $cartItemTextOptionValue->setTextOptionValue('Happy Birthday');
+
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+        $cartItem->setCart(new Entity\Cart);
+        $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
+        $cartItem->addCartItemOptionValue($cartItemOptionValue);
+        $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
+
+        return $cartItem;
+    }
+
+    protected function getDummyCartItem($product)
+    {
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+
+        return $cartItem;
+    }
+
+    /**
+     * @param Entity\CartItem[] $cartItems
+     * @return Entity\Cart
+     */
+    protected function getDummyCart(array $cartItems = [])
+    {
+        $cart = new Entity\Cart;
+
+        foreach ($cartItems as $cartItem) {
+            $cart->addCartItem($cartItem);
+        }
+
+        return $cart;
+    }
+
     protected function getDummyAddress()
     {
         $address = new Entity\Address;
@@ -304,10 +420,36 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $option;
     }
 
+    protected function getDummyTextOption()
+    {
+        $textOption = new Entity\TextOption;
+        $textOption->setName('Size');
+        $textOption->setType(Entity\TextOption::TYPE_TEXTAREA);
+        $textOption->setDescription('Shirt Size');
+        $textOption->setSortOrder(0);
+
+        return $textOption;
+    }
+
+    protected function getDummyOptionProduct(Entity\Option $option, Entity\Product $product)
+    {
+        $optionProduct = new Entity\OptionProduct;
+        $optionProduct->setProduct($product);
+        $optionProduct->setSortOrder(0);
+        $optionProduct->setOption($option);
+
+        return $optionProduct;
+    }
+
     protected function getDummyOptionValue(Entity\Option $option)
     {
-        $optionValue = new Entity\OptionValue($option);
+        $optionValue = new Entity\OptionValue;
+        $optionValue->setName('Option Value Name');
+        $optionValue->setSku('OV-SKU');
+        $optionValue->setShippingWeight(16);
         $optionValue->setSortOrder(0);
+        $optionValue->setUnitPrice(100);
+        $optionValue->setOption($option);
 
         return $optionValue;
     }
@@ -338,5 +480,177 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $productAttribute = new Entity\ProductAttribute;
 
         return $productAttribute;
+    }
+
+    /** @return EntityRepository\AttributeInterface */
+    protected function getAttributeRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:Attribute');
+    }
+
+    /** @return EntityRepository\AttributeValueInterface */
+    protected function getAttributeValueRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:AttributeValue');
+    }
+
+    /** @return EntityRepository\CartInterface */
+    protected function getCartRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:Cart');
+    }
+
+    /** @return EntityRepository\CartPriceRuleInterface */
+    protected function getCartPriceRuleRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:CartPriceRule');
+    }
+
+    /** @return EntityRepository\CartPriceRuleDiscountInterface */
+    protected function getCartPriceRuleDiscountRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:CartPriceRuleDiscount');
+    }
+
+    /** @return EntityRepository\CatalogPromotionInterface */
+    protected function getCatalogPromotionRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:CatalogPromotion');
+    }
+
+    /** @return EntityRepository\CouponInterface */
+    protected function getCouponRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:Coupon');
+    }
+
+    /** @return EntityRepository\ImageInterface */
+    protected function getImageRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:Image');
+    }
+
+    /** @return EntityRepository\OptionInterface */
+    protected function getOptionRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:Option');
+    }
+
+    /** @return EntityRepository\OptionProductInterface */
+    protected function getOptionProductRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:OptionProduct');
+    }
+
+    /** @return EntityRepository\OptionValueInterface */
+    protected function getOptionValueRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:OptionValue');
+    }
+
+    /** @return EntityRepository\OrderInterface */
+    protected function getOrderRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:Order');
+    }
+
+    /** @return EntityRepository\OrderItemInterface */
+    protected function getOrderItemRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:OrderItem');
+    }
+
+    /** @return EntityRepository\OrderItemOptionProductInterface */
+    protected function getOrderItemOptionProductRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:OrderItemOptionProduct');
+    }
+
+    /** @return EntityRepository\OrderItemOptionValueInterface */
+    protected function getOrderItemOptionValueRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:OrderItemOptionValue');
+    }
+
+    /** @return EntityRepository\OrderItemTextOptionValueInterface */
+    protected function getOrderItemTextOptionValueRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:OrderItemTextOptionValue');
+    }
+
+    /** @return EntityRepository\ProductInterface */
+    protected function getProductRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:Product');
+    }
+
+    /** @return EntityRepository\ProductAttributeInterface */
+    protected function getProductAttributeRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:ProductAttribute');
+    }
+
+    /** @return EntityRepository\ProductQuantityDiscountInterface */
+    protected function getProductQuantityDiscountRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:ProductQuantityDiscount');
+    }
+
+    /** @return EntityRepository\TagInterface */
+    protected function getTagRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:Tag');
+    }
+
+    /** @return EntityRepository\TaxRateInterface */
+    protected function getTaxRateRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:TaxRate');
+    }
+
+    /** @return EntityRepository\TextOptionInterface */
+    protected function getTextOptionRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:TextOption');
+    }
+
+    /** @return EntityRepository\UserInterface */
+    protected function getUserRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:User');
+    }
+
+    /** @return EntityRepository\UserLoginInterface */
+    protected function getUserLoginRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:UserLogin');
+    }
+
+    /** @return EntityRepository\UserRoleInterface */
+    protected function getUserRoleRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:UserRole');
+    }
+
+    /** @return EntityRepository\UserTokenInterface */
+    protected function getUserTokenRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:UserToken');
+    }
+
+    /** @return EntityRepository\WarehouseInterface */
+    protected function getWarehouseRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:Warehouse');
+    }
+
+    protected function beginTransaction()
+    {
+        $this->entityManager->getConnection()->beginTransaction();
+    }
+
+    protected function rollback()
+    {
+        $this->entityManager->getConnection()->rollback();
     }
 }

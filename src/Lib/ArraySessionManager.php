@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-class ArraySessionManager extends SessionManager
+class ArraySessionManager implements SessionManager
 {
     protected $session = [];
 

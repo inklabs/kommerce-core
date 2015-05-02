@@ -1,132 +1,110 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Entity\View as View;
-use inklabs\kommerce\Lib as Lib;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\EntityRepository\FakeUser;
+use inklabs\kommerce\tests\EntityRepository\FakeUserLogin;
 
 class UserTest extends Helper\DoctrineTestCase
 {
-    /** @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\User */
-    protected $mockUserRepository;
+    /** @var FakeUser */
+    protected $userRepository;
 
-    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
-    protected $mockEntityManager;
+    /** @var FakeUserLogin */
+    protected $userLoginRepository;
 
     /** @var User */
     protected $userService;
-    protected $sessionManager;
 
     public function setUp()
     {
-        $this->mockUserRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\User');
-        $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
-        $this->sessionManager = new Lib\ArraySessionManager;
-        $this->userService = new User($this->entityManager, $this->sessionManager);
+        $this->userRepository = new FakeUser;
+        $this->userLoginRepository = new FakeUserLogin;
 
-        $user = new Entity\User;
-        $user->setFirstName('John');
-        $user->setLastName('Doe');
-        $user->setEmail('test@example.com');
-        $user->setPassword('qwerty');
-
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->userService = new User(
+            $this->userRepository,
+            $this->userLoginRepository
+        );
     }
 
-    public function testUserDoesNotExist()
+    public function testFind()
     {
-        $user = $this->userService->find(0);
-        $this->assertSame(null, $user);
+        $viewUser = $this->userService->find(1);
+        $this->assertTrue($viewUser instanceof View\User);
     }
 
-    public function testUserExists()
+    public function testFindNotFound()
     {
-        $user = $this->userService->find(1);
-        $this->assertSame(1, $user->id);
+        $this->userRepository->setReturnValue(null);
+
+        $viewUser = $this->userService->find(0);
+        $this->assertSame(null, $viewUser);
     }
 
     public function testUserLogin()
     {
-        $this->assertTrue($this->userService->login('test@example.com', 'qwerty', '127.0.0.1'));
-
-        $this->entityManager->clear();
-
-        $user = $this->entityManager->getRepository('kommerce:User')
-            ->find(1);
-
-        $this->assertSame(1, $user->getTotalLogins());
-        $this->assertSame(Entity\UserLogin::RESULT_SUCCESS, $user->getLogins()[0]->getResult());
-    }
-
-    public function testUserLoginWithWrongPassword()
-    {
-        $this->assertFalse($this->userService->login('test@example.com', 'xxxxx', '127.0.0.1'));
-
-        $this->entityManager->clear();
-
-        $user = $this->entityManager->getRepository('kommerce:User')
-            ->find(1);
+        $user = $this->getDummyUser();
+        $this->userRepository->setReturnValue($user);
 
         $this->assertSame(0, $user->getTotalLogins());
-        $this->assertSame(Entity\UserLogin::RESULT_FAIL, $user->getLogins()[0]->getResult());
+
+        $loginUser = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
+
+        $this->assertSame(1, $user->getTotalLogins());
+        $this->assertTrue($loginUser instanceof View\User);
     }
 
+    /**
+     * @expectedException \inklabs\kommerce\Service\UserLoginException
+     * @expectedExceptionCode 0
+     * @expectedExceptionMessage User not found
+     */
     public function testUserLoginWithWrongEmail()
     {
-        $this->assertFalse($this->userService->login('xxxxx@example.com', 'xxxxx', '127.0.0.1'));
+        $this->userRepository->setReturnValue(null);
+
+        $loginUser = $this->userService->login('zzz@example.com', 'xxxx', '127.0.0.1');
     }
 
-    public function testLogout()
+    /**
+     * @expectedException \inklabs\kommerce\Service\UserLoginException
+     * @expectedExceptionCode 1
+     * @expectedExceptionMessage User not active
+     */
+    public function testUserLoginWithInactiveUser()
     {
-        $this->userService->login('test', 'qwerty', '127.0.0.1');
+        $user = $this->getDummyUser();
+        $user->setStatus(Entity\User::STATUS_INACTIVE);
+        $this->userRepository->setReturnValue($user);
 
-        $this->userService->logout();
-
-        $this->assertSame(null, $this->userService->getUser());
+        $loginUser = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
     }
 
-    public function testUserPersistence()
+    /**
+     * @expectedException \inklabs\kommerce\Service\UserLoginException
+     * @expectedExceptionCode 2
+     * @expectedExceptionMessage User password not valid
+     */
+    public function testUserLoginWithWrongPassword()
     {
-        $this->assertTrue($this->userService->login('test@example.com', 'qwerty', '127.0.0.1'));
+        $user = $this->getDummyUser();
+        $this->userRepository->setReturnValue($user);
 
-        $this->entityManager->clear();
-
-        $newUserService = new User($this->entityManager, $this->sessionManager);
-        $this->assertSame(1, $newUserService->getUser()->getId());
+        $loginUser = $this->userService->login('test@example.com', 'zzz', '127.0.0.1');
     }
 
     public function testGetAllUsers()
     {
-        $this->mockUserRepository
-            ->shouldReceive('getAllUsers')
-            ->andReturn([new Entity\User]);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockUserRepository);
-
-        $userService = new User($this->mockEntityManager, $this->sessionManager);
-
-        $users = $userService->getAllUsers();
+        $users = $this->userService->getAllUsers();
         $this->assertTrue($users[0] instanceof View\User);
     }
 
     public function testAllGetUsersByIds()
     {
-        $this->mockUserRepository
-            ->shouldReceive('getAllUsersByIds')
-            ->andReturn([new Entity\User]);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockUserRepository);
-
-        $userService = new User($this->mockEntityManager, $this->sessionManager);
-
-        $users = $userService->getAllUsersByIds([1]);
+        $users = $this->userService->getAllUsersByIds([1]);
         $this->assertTrue($users[0] instanceof View\User);
     }
 }

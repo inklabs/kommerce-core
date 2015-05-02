@@ -1,17 +1,15 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\Coupon find($id)
- */
-class Coupon extends EntityRepository
+class Coupon extends AbstractEntityRepository implements CouponInterface
 {
-    /**
-     * @return Entity\Coupon[]
-     */
+    public function findOneByCode($couponCode)
+    {
+        return parent::findOneByCode($couponCode);
+    }
+
     public function getAllCoupons($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -33,9 +31,6 @@ class Coupon extends EntityRepository
         return $coupons;
     }
 
-    /**
-     * @return Entity\Coupon[]
-     */
     public function getAllCouponsByIds($couponIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -49,5 +44,21 @@ class Coupon extends EntityRepository
             ->getResult();
 
         return $coupons;
+    }
+
+    public function save(Entity\Coupon & $coupon)
+    {
+        $this->saveEntity($coupon);
+    }
+
+    public function create(Entity\Coupon & $coupon)
+    {
+        $this->persist($coupon);
+        $this->flush();
+    }
+
+    public function persist(Entity\Coupon & $coupon)
+    {
+        $this->persistEntity($coupon);
     }
 }

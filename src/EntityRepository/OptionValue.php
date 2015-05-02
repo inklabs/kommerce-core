@@ -1,31 +1,39 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\OptionValue find($id)
- */
-class OptionValue extends EntityRepository
+class OptionValue extends AbstractEntityRepository implements OptionValueInterface
 {
-    /**
-     * @return Entity\OptionValue[]
-     */
+    public function find($id)
+    {
+        $qb = $this->getQueryBuilder();
+
+        $optionValues = $qb->select('OptionValue')
+            ->from('kommerce:OptionValue', 'OptionValue')
+
+            ->addSelect('Option')
+            ->innerJoin('OptionValue.option', 'Option')
+
+            ->where('OptionValue.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+
+        return $optionValues[0];
+    }
+
     public function getAllOptionValuesByIds($optionValueIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
-        $optionValues = $qb->select('optionValue')
-            ->from('kommerce:OptionValue', 'optionValue')
+        $optionValues = $qb->select('OptionValue')
+            ->from('kommerce:OptionValue', 'OptionValue')
 
-            ->addSelect('option')
-            ->innerJoin('optionValue.option', 'option')
+            ->addSelect('Option')
+            ->innerJoin('OptionValue.option', 'Option')
 
-            ->addSelect('product')
-            ->leftJoin('optionValue.product', 'product')
-
-            ->where('optionValue.id IN (:optionValueIds)')
+            ->where('OptionValue.id IN (:optionValueIds)')
             ->setParameter('optionValueIds', $optionValueIds)
             ->paginate($pagination)
             ->getQuery()

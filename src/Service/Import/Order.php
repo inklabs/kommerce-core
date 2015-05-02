@@ -2,23 +2,23 @@
 namespace inklabs\kommerce\Service\Import;
 
 use Doctrine\ORM\EntityManager;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository;
 
-class Order extends Lib\ServiceManager
+class Order
 {
-    /** @var EntityRepository\Order */
-    private $orderRepository;
-
-    /** @var EntityRepository\User */
+    /** @var EntityRepository\UserInterface */
     private $userRepository;
 
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->setEntityManager($entityManager);
-        $this->orderRepository = $entityManager->getRepository('kommerce:Order');
-        $this->userRepository = $entityManager->getRepository('kommerce:User');
+    /** @var EntityRepository\OrderInterface */
+    private $orderRepository;
+
+    public function __construct(
+        EntityRepository\OrderInterface $orderRepository,
+        EntityRepository\UserInterface $userRepository
+    ) {
+        $this->orderRepository = $orderRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -55,11 +55,9 @@ class Order extends Lib\ServiceManager
                 $order->setUser($user);
             }
 
-            $this->entityManager->persist($order);
+            $this->orderRepository->create($order);
             $importedCount++;
         }
-
-        $this->entityManager->flush();
 
         return $importedCount;
     }

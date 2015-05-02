@@ -5,46 +5,49 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\OptionValue"
-            table="option_value"
             repository-class="inklabs\kommerce\EntityRepository\OptionValue">
 
-        <lifecycle-callbacks>
-            <lifecycle-callback type="preUpdate" method="preUpdate"/>
-        </lifecycle-callbacks>
-
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="sortOrder" column="sort_order" type="smallint">
+        <field name="name" type="string" length="255"/>
+        <field name="sku" type="string" length="64" nullable="true"/>
+
+        <field name="unitPrice" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer">
+        <field name="shippingWeight" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="sortOrder" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <many-to-one field="product" target-entity="Product" inversed-by="optionValues" fetch="EAGER">
-            <join-column name="product_id" referenced-column-name="id" nullable="true"/>
-        </many-to-one>
+        <field name="created" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
 
-        <many-to-one field="option" target-entity="Option" inversed-by="optionValues" fetch="EAGER">
-            <join-column name="option_id" referenced-column-name="id" nullable="false"/>
-        </many-to-one>
+        <field name="updated" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <many-to-one field="option" target-entity="Option" inversed-by="optionValues" fetch="EAGER" />
 
     </entity>
-
 </doctrine-mapping>

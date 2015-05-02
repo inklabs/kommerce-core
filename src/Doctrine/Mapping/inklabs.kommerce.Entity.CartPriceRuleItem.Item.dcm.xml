@@ -5,7 +5,6 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\CartPriceRuleItem\Item"
-            table="cart_price_rule_item"
             inheritance-type="SINGLE_TABLE"
             repository-class="inklabs\kommerce\EntityRepository\CartPriceRuleItem\Item">
 
@@ -15,26 +14,26 @@
             <discriminator-mapping value="tag" class="Tag"/>
         </discriminator-map>
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="quantity" column="quantity" type="smallint">
+        <field name="quantity" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
@@ -43,7 +42,7 @@
         <many-to-one field="cartPriceRule"
                      target-entity="inklabs\kommerce\Entity\CartPriceRule"
                      fetch="EAGER">
-            <join-column name="cart_price_rule_id" referenced-column-name="id" nullable="false"/>
+            <join-column nullable="false"/>
         </many-to-one>
 
     </entity>

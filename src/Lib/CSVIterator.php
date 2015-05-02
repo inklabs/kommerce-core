@@ -1,51 +1,31 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-/**
- * CSV File Iterator
- *
- * @author Jon LaBelle
- */
 class CSVIterator implements \Iterator
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $rowLength = 2048;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $currentElement;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $key;
 
-    /**
-     * @var resource
-     */
+    /** @var resource */
     private $fileHandle;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $delimiter = ',';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $enclosure = '"';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $escape = '\\';
 
     /**
      * @param string $file
-     * @param string $delimiter
      * @throws \InvalidArgumentException
      */
     public function __construct($file)
@@ -60,9 +40,6 @@ class CSVIterator implements \Iterator
         $this->fileHandle = fopen($file, 'r');
     }
 
-    /**
-     * @return void
-     */
     public function rewind()
     {
         if ($this->key > 0) {
@@ -83,9 +60,6 @@ class CSVIterator implements \Iterator
         return $this->key;
     }
 
-    /**
-     * @return bool
-     */
     public function next()
     {
         $this->currentElement = fgetcsv(
@@ -99,9 +73,6 @@ class CSVIterator implements \Iterator
         $this->key++;
     }
 
-    /**
-     * @return bool
-     */
     public function valid()
     {
         return ! feof($this->fileHandle);

@@ -1,45 +1,50 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Exception\ValidatorException;
-use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Entity;
 
-class Image extends Lib\ServiceManager
+class Image extends AbstractService
 {
-    /** @var EntityRepository\Image */
-    private $ImageRepository;
+    /** @var EntityRepository\ImageInterface */
+    private $imageRepository;
 
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->setEntityManager($entityManager);
-        $this->imageRepository = $entityManager->getRepository('kommerce:Image');
+    /** @var EntityRepository\ProductInterface */
+    private $productRepository;
+
+    public function __construct(
+        EntityRepository\ImageInterface $imageRepository,
+        EntityRepository\ProductInterface $productRepository
+    ) {
+        $this->imageRepository = $imageRepository;
+        $this->productRepository = $productRepository;
     }
 
     /**
-     * @return Entity\View\Image|null
+     * @return View\Image|null
      */
     public function find($id)
     {
-        /** @var Entity\Image $entityImage */
-        $entityImage = $this->imageRepository->find($id);
+        $image = $this->imageRepository->find($id);
 
-        if ($entityImage === null) {
+        if ($image === null) {
             return null;
         }
 
-        return $entityImage->getView()
+        return $image->getView()
             ->withAllData()
             ->export();
     }
 
     /**
+     * @param int $id
+     * @param View\Image $viewImage
      * @return Entity\Image
      * @throws ValidatorException
      */
-    public function edit($id, Entity\View\Image $viewImage)
+    public function edit($id, View\Image $viewImage)
     {
         /** @var Entity\Image $image */
         $image = $this->imageRepository->find($id);
@@ -52,44 +57,50 @@ class Image extends Lib\ServiceManager
 
         $this->throwValidationErrors($image);
 
-        $this->entityManager->flush();
+        $this->imageRepository->save($image);
 
         return $image;
     }
 
     /**
+     * @param Entity\Image $viewImage
      * @return Entity\Image
      * @throws ValidatorException
      */
-    public function create(Entity\Image $image)
+    public function create(View\Image $viewImage)
     {
+        $image = new Entity\Image;
+        $image->loadFromView($viewImage);
+
         $this->throwValidationErrors($image);
 
-        $this->entityManager->persist($image);
-        $this->entityManager->flush();
+        $this->imageRepository->save($image);
 
         return $image;
     }
 
     /**
+     * @param View\Image $viewImage
      * @return Entity\Image
      * @throws ValidatorException
      */
-    public function createWithProduct(Entity\Image $image, $productId)
+    public function createWithProduct(View\Image $viewImage, $productId)
     {
-        /** @var Entity\Product $product */
-        $product = $this->entityManager->getRepository('kommerce:Product')->find($productId);
+        $product = $this->productRepository->find($productId);
 
         if ($product === null) {
             throw new \LogicException('Missing Product');
         }
 
+        $image = $this->create($viewImage);
         $image->setProduct($product);
 
         if ($product->getDefaultImage() === null) {
             $product->setDefaultImage($image->getPath());
         }
 
-        return $this->create($image);
+        $this->imageRepository->save($image);
+
+        return $image;
     }
 }

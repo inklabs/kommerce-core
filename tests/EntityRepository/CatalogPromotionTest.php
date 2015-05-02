@@ -1,17 +1,22 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class CatalogPromotionTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return CatalogPromotion
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:CatalogPromotion',
+        'kommerce:Tag',
+    ];
+
+    /** @var CatalogPromotionInterface */
+    protected $catalogPromotionRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:CatalogPromotion');
+        $this->catalogPromotionRepository = $this->getCatalogPromotionRepository();
     }
 
     private function setupCatalogPromotion()
@@ -32,8 +37,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $catalogPromotion = $this->getRepository()
-            ->find(1);
+        $catalogPromotion = $this->catalogPromotionRepository->find(1);
 
         $catalogPromotion->getTag()->getName();
 
@@ -45,8 +49,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
     {
         $this->setupCatalogPromotion();
 
-        $catalogPromotions = $this->getRepository()
-            ->findAll();
+        $catalogPromotions = $this->catalogPromotionRepository->findAll();
 
         $this->assertTrue($catalogPromotions[0] instanceof Entity\CatalogPromotion);
     }
@@ -55,8 +58,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
     {
         $this->setupCatalogPromotion();
 
-        $catalogPromotions = $this->getRepository()
-            ->getAllCatalogPromotions('Test');
+        $catalogPromotions = $this->catalogPromotionRepository->getAllCatalogPromotions('Test');
 
         $this->assertTrue($catalogPromotions[0] instanceof Entity\CatalogPromotion);
     }
@@ -65,8 +67,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
     {
         $this->setupCatalogPromotion();
 
-        $catalogPromotions = $this->getRepository()
-            ->getAllCatalogPromotionsByIds([1]);
+        $catalogPromotions = $this->catalogPromotionRepository->getAllCatalogPromotionsByIds([1]);
 
         $this->assertTrue($catalogPromotions[0] instanceof Entity\CatalogPromotion);
     }

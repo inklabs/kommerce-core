@@ -1,17 +1,24 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class AttributeValueTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return AttributeValue
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:Attribute',
+        'kommerce:AttributeValue',
+        'kommerce:ProductAttribute',
+        'kommerce:Product',
+    ];
+
+    /** @var AttributeValueInterface */
+    protected $attributeValueRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:AttributeValue');
+        $this->attributeValueRepository = $this->getAttributeValueRepository();
     }
 
     private function setupAttributeValue()
@@ -32,8 +39,7 @@ class AttributeValueTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $attributeValue = $this->getRepository()
-            ->find(1);
+        $attributeValue = $this->attributeValueRepository->find(1);
 
         $attributeValue->getAttribute()->getCreated();
         $attributeValue->getProductAttributes()->toArray();
@@ -46,8 +52,7 @@ class AttributeValueTest extends Helper\DoctrineTestCase
     {
         $this->setupAttributeValue();
 
-        $attributeValues = $this->getRepository()
-            ->getAttributeValuesByIds([1]);
+        $attributeValues = $this->attributeValueRepository->getAttributeValuesByIds([1]);
 
         $this->assertSame(1, count($attributeValues));
         $this->assertSame(1, $attributeValues[0]->getId());

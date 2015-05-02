@@ -1,50 +1,31 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use Doctrine\ORM\EntityManager;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
 
-class User extends Lib\ServiceManager
+class User extends AbstractService
 {
-    protected $sessionManager;
-    protected $userSessionKey = 'newuser';
+    protected $userSessionKey = 'user';
 
-    /** @var EntityRepository\User */
+    /** @var EntityRepository\UserInterface */
     private $userRepository;
 
-    /** @var Entity\User */
-    protected $user;
+    /** @var EntityRepository\UserLoginInterface */
+    private $userLoginRepository;
 
-    public function __construct(EntityManager $entityManager, Lib\SessionManager $sessionManager)
-    {
-        $this->setEntityManager($entityManager);
-        $this->sessionManager = $sessionManager;
-        $this->userRepository = $entityManager->getRepository('kommerce:User');
-
-        $this->load();
-    }
-
-    private function load()
-    {
-        $this->user = $this->sessionManager->get($this->userSessionKey);
-
-        if ($this->user !== null) {
-            $this->user = $this->entityManager->merge($this->user);
-        }
-    }
-
-    private function save()
-    {
-        if ($this->user !== null) {
-            $this->entityManager->detach($this->user);
-            $this->sessionManager->set($this->userSessionKey, $this->user);
-            $this->user = $this->entityManager->merge($this->user);
-        }
+    public function __construct(
+        EntityRepository\UserInterface $userRepository,
+        EntityRepository\UserLoginInterface $userLoginRepository
+    ) {
+        $this->userRepository = $userRepository;
+        $this->userLoginRepository = $userLoginRepository;
     }
 
     /**
+     * @param int $userId
      * @param string $email
      * @param string $password
      * @param string $remoteIp
@@ -52,31 +33,30 @@ class User extends Lib\ServiceManager
      */
     public function login($email, $password, $remoteIp)
     {
-        /** @var EntityRepository\User $userRepository */
-        $userRepository = $this->entityManager->getRepository('kommerce:User');
+        /** @var Entity\User $user */
+        $user = $this->userRepository->findOneByEmail($email);
 
-        $entityUser = $userRepository->findOneByEmail($email);
-
-        if ($entityUser === null || ! $entityUser->isActive()) {
+        if ($user === null) {
             $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL);
-            return false;
+            throw new UserLoginException('User not found', UserLoginException::USER_NOT_FOUND);
         }
 
-        if ($entityUser->verifyPassword($password)) {
-            $this->user = $entityUser;
-            $this->save();
-            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_SUCCESS, $this->user);
-            return true;
-        } else {
-            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL, $entityUser);
-            return false;
+        if (! $user->isActive()) {
+            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL);
+            throw new UserLoginException('User not active', UserLoginException::USER_NOT_ACTIVE);
         }
-    }
 
-    public function logout()
-    {
-        $this->user = null;
-        $this->sessionManager->delete($this->userSessionKey);
+        if (! $user->verifyPassword($password)) {
+            $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_FAIL, $user);
+            throw new UserLoginException('User password not valid', UserLoginException::INVALID_PASSWORD);
+        }
+
+        $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_SUCCESS, $user);
+
+        return $user->getView()
+            ->withRoles()
+            ->withTokens()
+            ->export();
     }
 
     /**
@@ -93,24 +73,15 @@ class User extends Lib\ServiceManager
         $userLogin->setResult($status);
 
         if ($user !== null) {
-            $user->addLogin($userLogin);
-
-            if ($status == Entity\UserLogin::RESULT_SUCCESS) {
-                $user->incrementTotalLogins();
-            }
+            $userLogin->setUser($user);
         }
 
-        $this->entityManager->persist($userLogin);
-        $this->entityManager->flush();
-    }
-
-    public function getUser()
-    {
-        return $this->user;
+        $this->userLoginRepository->create($userLogin);
     }
 
     /**
-     * @return Entity\View\User|null
+     * @param int $id
+     * @return View\User|null
      */
     public function find($id)
     {
@@ -127,23 +98,19 @@ class User extends Lib\ServiceManager
 
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $users = $this->userRepository
-            ->getAllUsers($queryString, $pagination);
-
+        $users = $this->userRepository->getAllUsers($queryString, $pagination);
         return $this->getViewUsers($users);
     }
 
     public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null)
     {
-        $users = $this->userRepository
-            ->getAllUsersByIds($userIds);
-
+        $users = $this->userRepository->getAllUsersByIds($userIds);
         return $this->getViewUsers($users);
     }
 
     /**
      * @param Entity\User[] $users
-     * @return Entity\View\User[]
+     * @return View\User[]
      */
     private function getViewUsers($users)
     {

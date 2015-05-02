@@ -1,17 +1,23 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class ImageTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return Image
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:Image',
+        'kommerce:Tag',
+        'kommerce:Product',
+    ];
+
+    /** @var ImageInterface */
+    protected $imageRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Image');
+        $this->imageRepository = $this->getImageRepository();
     }
 
     public function setupImageWithProductAndTag()
@@ -23,11 +29,15 @@ class ImageTest extends Helper\DoctrineTestCase
         $image->setProduct($product);
         $image->setTag($tag);
 
-        $this->entityManager->persist($image);
         $this->entityManager->persist($product);
         $this->entityManager->persist($tag);
+
+        $this->imageRepository->create($image);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $image;
     }
 
     public function testFind()
@@ -36,13 +46,22 @@ class ImageTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $image = $this->getRepository()
-            ->find(1);
+        $image = $this->imageRepository->find(1);
 
         $image->getProduct()->getName();
         $image->getTag()->getName();
 
         $this->assertTrue($image instanceof Entity\Image);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+    }
+
+    public function testSave()
+    {
+        $image = $this->setupImageWithProductAndTag();
+        $image->setSortOrder(2);
+
+        $this->assertSame(null, $image->getUpdated());
+        $this->imageRepository->save($image);
+        $this->assertTrue($image->getUpdated() instanceof \DateTime);
     }
 }

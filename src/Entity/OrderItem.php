@@ -1,11 +1,12 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OrderItem
+class OrderItem implements EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 
@@ -18,8 +19,14 @@ class OrderItem
     /** @var Product */
     protected $product;
 
+    /** @var OrderItemOptionProduct[] */
+    protected $orderItemOptionProducts;
+
     /** @var OrderItemOptionValue[] */
     protected $orderItemOptionValues;
+
+    /** @var OrderItemTextOptionValue[] */
+    protected $orderItemTextOptionValues;
 
     /** @var Order */
     protected $order;
@@ -44,7 +51,9 @@ class OrderItem
         $this->setCreated();
         $this->catalogPromotions = new ArrayCollection;
         $this->productQuantityDiscounts = new ArrayCollection;
-        $this->orderItemOptionValues = new ArrayCollection();
+        $this->orderItemOptionProducts = new ArrayCollection;
+        $this->orderItemOptionValues = new ArrayCollection;
+        $this->orderItemTextOptionValues = new ArrayCollection;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -83,6 +92,17 @@ class OrderItem
         return $this->product;
     }
 
+    public function getOrderItemOptionProducts()
+    {
+        return $this->orderItemOptionProducts;
+    }
+
+    public function addOrderItemOptionProduct(OrderItemOptionProduct $orderItemOptionProduct)
+    {
+        $orderItemOptionProduct->setOrderItem($this);
+        $this->orderItemOptionProducts[] = $orderItemOptionProduct;
+    }
+
     public function getOrderItemOptionValues()
     {
         return $this->orderItemOptionValues;
@@ -92,6 +112,17 @@ class OrderItem
     {
         $orderItemOptionValue->setOrderItem($this);
         $this->orderItemOptionValues[] = $orderItemOptionValue;
+    }
+
+    public function getOrderItemTextOptionValues()
+    {
+        return $this->orderItemTextOptionValues;
+    }
+
+    public function addOrderItemTextOptionValue(OrderItemTextOptionValue $orderItemTextOptionValue)
+    {
+        $orderItemTextOptionValue->setOrderItem($this);
+        $this->orderItemTextOptionValues[] = $orderItemTextOptionValue;
     }
 
     /**
@@ -122,14 +153,26 @@ class OrderItem
 
         $product = $this->getProduct();
         if ($product !== null) {
-            $fullSku[] = $product->getSku();
+            $sku = $product->getSku();
+
+            if ($sku !== null) {
+                $fullSku[] = $product->getSku();
+            }
+        }
+
+        foreach ($this->getOrderItemOptionProducts() as $orderItemOptionProduct) {
+            $sku = $orderItemOptionProduct->getSku();
+
+            if ($sku !== null) {
+                $fullSku[] = $sku;
+            }
         }
 
         foreach ($this->getOrderItemOptionValues() as $orderItemOptionValue) {
-            $optionValue = $orderItemOptionValue->getOptionValue();
+            $sku = $orderItemOptionValue->getSku();
 
-            if ($optionValue !== null) {
-                $fullSku[] = $optionValue->getSku();
+            if ($sku !== null) {
+                $fullSku[] = $sku;
             }
         }
 

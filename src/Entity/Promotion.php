@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class Promotion
+abstract class Promotion implements EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 

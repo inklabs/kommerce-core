@@ -1,33 +1,42 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\EntityRepository\FakeCartPriceRule;
 
 class CartPriceRuleTest extends Helper\DoctrineTestCase
 {
-    public function testFindAll()
+    /** @var FakeCartPriceRule */
+    protected $cartPriceRuleRepository;
+
+    /** @var CartPriceRule */
+    protected $cartPriceRuleService;
+
+    public function setUp()
     {
-        $this->entityManager->persist($this->getCartPriceRule(1));
-        $this->entityManager->persist($this->getCartPriceRule(2));
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $catalogPromotionService = new CartPriceRule($this->entityManager);
-        $catalogPromotions = $catalogPromotionService->findAll();
-
-        $this->assertSame(2, count($catalogPromotions));
+        $this->cartPriceRuleRepository = new FakeCartPriceRule;
+        $this->cartPriceRuleService = new CartPriceRule($this->cartPriceRuleRepository);
     }
 
-    private function getCartPriceRule($num)
+    public function testFind()
     {
-        $catalogPromotion = new Entity\CartPriceRule;
-        $catalogPromotion->setName('test' . $num);
-        $catalogPromotion->setType(Entity\Promotion::TYPE_PERCENT);
-        $catalogPromotion->setValue(10);
-        $catalogPromotion->setRedemptions(0);
-        $catalogPromotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $catalogPromotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
-        return $catalogPromotion;
+        $product = $this->cartPriceRuleService->find(1);
+        $this->assertTrue($product instanceof Entity\CartPriceRule);
+    }
+
+    public function testFindMissing()
+    {
+        $this->cartPriceRuleRepository->setReturnValue(null);
+
+        $product = $this->cartPriceRuleService->find(1);
+        $this->assertSame(null, $product);
+    }
+
+    public function testFindAll()
+    {
+        $cartPriceRules = $this->cartPriceRuleService->findAll();
+
+        $this->assertTrue($cartPriceRules[0] instanceof Entity\CartPriceRule);
     }
 }

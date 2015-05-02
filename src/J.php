@@ -174,7 +174,7 @@ class J
         $local_file = str_replace('/vagrant', self::$localPath, $reflector->getFileName());
         $this->output .= '<tbody style="display: none;"><tr><td>' .
             'Location: ' . $reflector->getFileName() . ':' . $reflector->getStartLine().
-            ' (<a href="txmt://open/?url=file://' . $local_file . '&line=' . $reflector->getStartLine() . '">txmt</a>)';
+            ' (<a href="phpstorm://open/?file=' . $local_file . '&line=' . $reflector->getStartLine() . '">pstorm</a>)';
 
         $methods = [
             'public' => [],

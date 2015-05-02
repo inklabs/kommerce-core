@@ -1,17 +1,24 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class ProductAttributeTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return ProductAttribute
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:Attribute',
+        'kommerce:AttributeValue',
+        'kommerce:ProductAttribute',
+        'kommerce:Product',
+    ];
+
+    /** @var ProductAttributeInterface */
+    protected $productAttributeRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:ProductAttribute');
+        $this->productAttributeRepository = $this->getProductAttributeRepository();
     }
 
     private function setupProductAttribute()
@@ -37,7 +44,7 @@ class ProductAttributeTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $productAttribute = $this->getRepository()
+        $productAttribute = $this->productAttributeRepository
             ->find(1);
 
         $productAttribute->getAttribute()->getCreated();

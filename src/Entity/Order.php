@@ -1,17 +1,22 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib\ReferenceNumber;
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\Entity\Payment as Payment;
+use inklabs\kommerce\Entity\Payment;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Order
+class Order implements EntityInterface, ReferenceNumber\EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 
     /** @var string */
     protected $externalId;
+
+    /** @var string */
+    protected $referenceNumber;
 
     /** @var CartTotal */
     protected $total;
@@ -34,7 +39,7 @@ class Order
     protected $user;
 
     /** @var OrderItem[] */
-    protected $items;
+    protected $orderItems;
 
     /** @var Payment\Payment[] */
     protected $payments;
@@ -45,9 +50,9 @@ class Order
     public function __construct()
     {
         $this->setCreated();
-        $this->items = new ArrayCollection();
-        $this->payments = new ArrayCollection();
-        $this->coupons = new ArrayCollection();
+        $this->orderItems = new ArrayCollection;
+        $this->payments = new ArrayCollection;
+        $this->coupons = new ArrayCollection;
 
         $this->setStatus(self::STATUS_PENDING);
     }
@@ -62,29 +67,45 @@ class Order
         $metadata->addPropertyConstraint('total', new Assert\Valid);
         $metadata->addPropertyConstraint('shippingAddress', new Assert\Valid);
         $metadata->addPropertyConstraint('billingAddress', new Assert\Valid);
-        $metadata->addPropertyConstraint('items', new Assert\Valid);
+        $metadata->addPropertyConstraint('orderItems', new Assert\Valid);
         $metadata->addPropertyConstraint('payments', new Assert\Valid);
     }
 
+    public function getReferenceId()
+    {
+        return $this->getId();
+    }
+
+    public function getReferenceNumber()
+    {
+        return $this->referenceNumber;
+    }
+
+    public function setReferenceNumber($referenceNumber = null)
+    {
+        $this->referenceNumber = $referenceNumber;
+    }
+
     /**
+     * @param OrderItem $orderItem
      * @return int
      */
-    public function addItem(OrderItem $orderItem)
+    public function addOrderItem(OrderItem $orderItem)
     {
         $orderItem->setOrder($this);
-        $this->items[] = $orderItem;
+        $this->orderItems[] = $orderItem;
 
-        $itemId = $this->getLastItemId();
-        return $itemId;
+        $orderItemIndex = $this->getLastOrderItemIndex();
+        return $orderItemIndex;
     }
 
     /**
      * @return int
      */
-    private function getLastItemId()
+    private function getLastOrderItemIndex()
     {
-        end($this->items);
-        return key($this->items);
+        end($this->orderItems);
+        return key($this->orderItems);
     }
 
     public function getExternalId()
@@ -102,14 +123,14 @@ class Order
 
     public function totalItems()
     {
-        return count($this->items);
+        return count($this->orderItems);
     }
 
     public function totalQuantity()
     {
         $total = 0;
 
-        foreach ($this->items as $item) {
+        foreach ($this->orderItems as $item) {
             $total += $item->getQuantity();
         }
 
@@ -172,14 +193,14 @@ class Order
         return $this->billingAddress;
     }
 
-    public function getItems()
+    public function getOrderItems()
     {
-        return $this->items;
+        return $this->orderItems;
     }
 
-    public function getItem($itemId)
+    public function getOrderItem($orderItemIndex)
     {
-        return $this->items[$itemId];
+        return $this->orderItems[$orderItemIndex];
     }
 
     public function addPayment(Payment\Payment $payment)

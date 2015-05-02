@@ -1,26 +1,40 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class ProductTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return Product
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:Attribute',
+        'kommerce:AttributeValue',
+        'kommerce:Product',
+        'kommerce:ProductQuantityDiscount',
+        'kommerce:ProductAttribute',
+        'kommerce:Image',
+        'kommerce:Tag',
+        'kommerce:Option',
+        'kommerce:OptionProduct',
+    ];
+
+    /** @var ProductInterface */
+    protected $productRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Product');
+        $this->productRepository = $this->getProductRepository();
     }
 
     private function setupProduct()
     {
-        $product1 = $this->getDummyProduct(1);
+        $product = $this->getDummyProduct(1);
 
-        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $product;
     }
 
     public function testFind()
@@ -29,16 +43,16 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $product = $this->getRepository()
-            ->find(1);
+        $product = $this->productRepository->find(1);
 
         $product->getImages()->toArray();
         $product->getProductQuantityDiscounts()->toArray();
         $product->getTags()->toArray();
         $product->getProductAttributes()->toArray();
+        $product->getOptionProducts()->toArray();
 
         $this->assertTrue($product instanceof Entity\Product);
-        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(6, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testGetRelatedProducts()
@@ -55,14 +69,15 @@ class ProductTest extends Helper\DoctrineTestCase
         $product2->addTag($tag);
 
         $this->entityManager->persist($tag);
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->persist($product3);
+
+        $this->productRepository->create($product1);
+        $this->productRepository->create($product2);
+        $this->productRepository->create($product3);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $products = $this->getRepository()
-            ->getRelatedProducts($product1);
+        $products = $this->productRepository->getRelatedProducts([$product1]);
 
         $this->assertSame(1, count($products));
         $this->assertSame(2, $products[0]->getId());
@@ -91,8 +106,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $products = $this->getRepository()
-            ->getProductsByTag($tag);
+        $products = $this->productRepository->getProductsByTag($tag);
 
         $this->assertSame(2, count($products));
         $this->assertSame(1, $products[0]->getId());
@@ -103,8 +117,7 @@ class ProductTest extends Helper\DoctrineTestCase
     {
         $this->setupProduct();
 
-        $products = $this->getRepository()
-            ->getProductsByIds([1]);
+        $products = $this->productRepository->getProductsByIds([1]);
 
         $this->assertSame(1, count($products));
         $this->assertSame(1, $products[0]->getId());
@@ -114,8 +127,7 @@ class ProductTest extends Helper\DoctrineTestCase
     {
         $this->setupProduct();
 
-        $products = $this->getRepository()
-            ->getAllProducts('#1');
+        $products = $this->productRepository->getAllProducts('#1');
 
         $this->assertSame(1, $products[0]->getId());
     }
@@ -124,8 +136,7 @@ class ProductTest extends Helper\DoctrineTestCase
     {
         $this->setupProduct();
 
-        $products = $this->getRepository()
-            ->getAllProductsByIds([1]);
+        $products = $this->productRepository->getAllProductsByIds([1]);
 
         $this->assertSame(1, $products[0]->getId());
     }
@@ -142,8 +153,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $products = $this->getRepository()
-            ->getRandomProducts(2);
+        $products = $this->productRepository->getRandomProducts(2);
 
         $this->assertSame(2, count($products));
     }
@@ -166,6 +176,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $product3->addTag($tag);
 
         $this->entityManager->persist($tag);
+
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
         $this->entityManager->persist($product3);
@@ -176,8 +187,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $page = 1;
         $pagination = new Entity\Pagination($maxResults, $page);
 
-        $products = $this->getRepository()
-            ->getProductsByTag($tag, $pagination);
+        $products = $this->productRepository->getProductsByTag($tag, $pagination);
 
         $this->assertSame(2, count($products));
         $this->assertSame(1, $products[0]->getId());
@@ -189,11 +199,20 @@ class ProductTest extends Helper\DoctrineTestCase
         $page = 2;
         $pagination = new Entity\Pagination($maxResults, $page);
 
-        $products = $this->getRepository()
-            ->getProductsByTag($tag, $pagination);
+        $products = $this->productRepository->getProductsByTag($tag, $pagination);
 
         $this->assertSame(1, count($products));
         $this->assertSame(3, $products[0]->getId());
         $this->assertSame(3, $pagination->getTotal());
+    }
+
+    public function testSave()
+    {
+        $product = $this->setupProduct();
+        $product->setName('new name');
+
+        $this->assertSame(null, $product->getUpdated());
+        $this->productRepository->save($product);
+        $this->assertTrue($product->getUpdated() instanceof \DateTime);
     }
 }

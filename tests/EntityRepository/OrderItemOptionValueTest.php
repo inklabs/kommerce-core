@@ -1,36 +1,39 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Service as Service;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Service;
+use inklabs\kommerce\tests\Helper;
 
 class OrderItemOptionValueTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return OrderItemOptionValue
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:Option',
+        'kommerce:OptionValue',
+        'kommerce:Order',
+        'kommerce:OrderItem',
+        'kommerce:OrderItemOptionValue',
+        'kommerce:Product',
+        'kommerce:User',
+        'kommerce:Cart',
+    ];
+
+    /** @var OrderItemOptionValueInterface */
+    protected $orderItemOptionValue;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItemOptionValue');
+        $this->orderItemOptionValue = $this->getOrderItemOptionValueRepository();
     }
 
     public function setupOrder()
     {
-        $catalogPromotion = $this->getDummyCatalogPromotion();
-
-        $product = $this->getDummyProduct();
-        $productQuantityDiscount = $this->getDummyProductQuantityDiscount();
-        $productQuantityDiscount->setProduct($product);
-
-        $price = $this->getDummyPrice();
-        $price->addCatalogPromotion($catalogPromotion);
-        $price->addProductQuantityDiscount($productQuantityDiscount);
-
         $option = $this->getDummyOption();
         $optionValue = $this->getDummyOptionValue($option);
-        $orderItemOptionValue = $this->getDummyOrderItemOptionValue($option);
-        $orderItemOptionValue->setOptionValue($optionValue);
+        $orderItemOptionValue = $this->getDummyOrderItemOptionValue($optionValue);
+
+        $product = $this->getDummyProduct(1);
+        $price = $this->getDummyPrice();
 
         $orderItem = $this->getDummyOrderItem($product, $price);
         $orderItem->addOrderItemOptionValue($orderItemOptionValue);
@@ -41,9 +44,7 @@ class OrderItemOptionValueTest extends Helper\DoctrineTestCase
         $order = $this->getDummyOrder($cartTotal, [$orderItem]);
         $order->setUser($user);
 
-        $this->entityManager->persist($catalogPromotion);
         $this->entityManager->persist($product);
-        $this->entityManager->persist($productQuantityDiscount);
         $this->entityManager->persist($user);
         $this->entityManager->persist($option);
         $this->entityManager->persist($optionValue);
@@ -58,14 +59,12 @@ class OrderItemOptionValueTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $orderItemOptionValue = $this->getRepository()
-            ->find(1);
+        $orderItemOptionValue = $this->orderItemOptionValue->find(1);
 
         $orderItemOptionValue->getOrderItem()->getCreated();
-        $orderItemOptionValue->getOption()->getCreated();
         $orderItemOptionValue->getOptionValue()->getCreated();
 
         $this->assertTrue($orderItemOptionValue instanceof Entity\OrderItemOptionValue);
-        $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 }

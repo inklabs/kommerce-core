@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
 class StripeFakeTest extends \PHPUnit_Framework_TestCase
 {

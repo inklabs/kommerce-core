@@ -5,38 +5,35 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\UserLogin"
-            table="user_login"
             repository-class="inklabs\kommerce\EntityRepository\UserLogin">
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="email" column="email" type="string" length="255"/>
-        <field name="ip4" column="ip4" type="integer">
+        <field name="email" type="string" length="255"/>
+        <field name="ip4" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="result" column="result" type="smallint">
+        <field name="result" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <many-to-one field="user" target-entity="User" inversed-by="logins" fetch="EAGER">
-            <join-column name="user_id" referenced-column-name="id" nullable="true"/>
-        </many-to-one>
+        <many-to-one field="user" target-entity="User" inversed-by="logins" fetch="EAGER"/>
 
     </entity>
 

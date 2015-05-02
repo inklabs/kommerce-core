@@ -1,54 +1,118 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-class OptionValue
+use inklabs\kommerce\Service;
+use inklabs\kommerce\View;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
+class OptionValue implements EntityInterface
 {
     use Accessor\Time, Accessor\Id;
+
+    /** @var string */
+    protected $sku;
+
+    /** @var string */
+    protected $name;
+
+    /** @var int */
+    protected $unitPrice;
+
+    /** @var int */
+    protected $shippingWeight;
 
     /** @var int */
     protected $sortOrder;
 
-    /** @var Product */
-    protected $product;
-
     /** @var Option */
     protected $option;
 
-    public function __construct(Option $option)
+    public function __construct()
     {
         $this->setCreated();
-        $this->sortOrder = 0;
+    }
 
-        $this->setOption($option);
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('name', new Assert\Length([
+            'max' => 255,
+        ]));
+
+        $metadata->addPropertyConstraint('sku', new Assert\Length([
+            'max' => 64,
+        ]));
+
+        $metadata->addPropertyConstraint('unitPrice', new Assert\NotNull);
+        $metadata->addPropertyConstraint('unitPrice', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+
+        $metadata->addPropertyConstraint('shippingWeight', new Assert\NotNull);
+        $metadata->addPropertyConstraint('shippingWeight', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
     }
 
     public function getName()
     {
-        if ($this->getProduct() === null) {
-            return null;
-        }
+        return $this->name;
+    }
 
-        return $this->getProduct()->getName();
+    public function setName($name)
+    {
+        $this->name = (string) $name;
+    }
+
+    /**
+     * @param int $unitPrice
+     */
+    public function setUnitPrice($unitPrice)
+    {
+        $this->unitPrice = (int) $unitPrice;
+    }
+
+    /**
+     * @param int $quantity
+     * @return Price
+     */
+    public function getPrice($quantity = 1)
+    {
+        $price = new Price;
+        $price->origUnitPrice = $this->getUnitPrice();
+        $price->origQuantityPrice = ($price->origUnitPrice * $quantity);
+        $price->unitPrice = $price->origUnitPrice;
+        $price->quantityPrice = $price->origQuantityPrice;
+
+        return $price;
+    }
+
+    public function getUnitPrice()
+    {
+        return $this->unitPrice;
     }
 
     public function getSku()
     {
-        $product = $this->getProduct();
-        if ($product === null) {
-            return null;
-        }
+        return $this->sku;
+    }
 
-        return $product->getSku();
+    public function setSku($sku)
+    {
+        $this->sku = (string) $sku;
     }
 
     public function getShippingWeight()
     {
-        $product = $this->getProduct();
-        if ($product === null) {
-            return null;
-        }
+        return $this->shippingWeight;
+    }
 
-        return $product->getShippingWeight();
+    public function setShippingWeight($shippingWeight)
+    {
+        $this->shippingWeight = (int) $shippingWeight;
     }
 
     public function setSortOrder($sortOrder)
@@ -61,26 +125,14 @@ class OptionValue
         return $this->sortOrder;
     }
 
-    public function setProduct(Product $product)
+    public function setOption(Option $option)
     {
-        $product->addOptionValue($this);
-        $this->product = $product;
-    }
-
-    public function getProduct()
-    {
-        return $this->product;
+        $this->option = $option;
     }
 
     public function getOption()
     {
         return $this->option;
-    }
-
-    public function setOption(Option $option)
-    {
-        $option->addOptionValue($this);
-        $this->option = $option;
     }
 
     public function getView()

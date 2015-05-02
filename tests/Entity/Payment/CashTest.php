@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity\Payment;
 
+use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class CashTest extends \PHPUnit_Framework_TestCase
@@ -15,5 +16,6 @@ class CashTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($payment));
         $this->assertSame(100, $payment->getAmount());
+        $this->assertTrue($payment->getView() instanceof View\Payment\Cash);
     }
 }

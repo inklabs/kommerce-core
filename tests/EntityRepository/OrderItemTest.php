@@ -1,21 +1,38 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Service as Service;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\Service;
+use inklabs\kommerce\tests\Helper;
 
 class OrderItemTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return OrderItem
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:OptionProduct',
+        'kommerce:OptionValue',
+        'kommerce:TextOption',
+        'kommerce:Order',
+        'kommerce:OrderItem',
+        'kommerce:OrderItemOptionProduct',
+        'kommerce:OrderItemOptionValue',
+        'kommerce:OrderItemTextOptionValue',
+        'kommerce:Product',
+        'kommerce:ProductQuantityDiscount',
+        'kommerce:CatalogPromotion',
+        'kommerce:Tag',
+        'kommerce:User',
+        'kommerce:Cart',
+    ];
+
+    /** @var OrderItemInterface */
+    protected $orderItemRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItem');
+        $this->orderItemRepository = $this->getOrderItemRepository();
     }
 
-    public function setupOrder()
+    public function setupOrderItem()
     {
         $catalogPromotion = $this->getDummyCatalogPromotion();
 
@@ -35,30 +52,46 @@ class OrderItemTest extends Helper\DoctrineTestCase
         $order->setUser($user);
 
         $this->entityManager->persist($catalogPromotion);
-        $this->entityManager->persist($product);
         $this->entityManager->persist($productQuantityDiscount);
+        $this->entityManager->persist($product);
         $this->entityManager->persist($user);
         $this->entityManager->persist($order);
+
+        $this->orderItemRepository->create($orderItem);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $orderItem;
     }
 
     public function testFind()
     {
-        $this->setupOrder();
+        $this->setupOrderItem();
 
         $this->setCountLogger();
 
-        $orderItem = $this->getRepository()
-            ->find(1);
+        $orderItem = $this->orderItemRepository->find(1);
 
         $orderItem->getProduct()->getCreated();
-        $orderItem->getOrder();
+        $orderItem->getOrder()->getCreated();
         $orderItem->getCatalogPromotions()->toArray();
         $orderItem->getProductQuantityDiscounts()->toArray();
+        $orderItem->getOrderItemOptionProducts()->toArray();
         $orderItem->getOrderItemOptionValues()->toArray();
+        $orderItem->getOrderItemTextOptionValues()->toArray();
 
         $this->assertTrue($orderItem instanceof Entity\OrderItem);
-        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(7, $this->countSQLLogger->getTotalQueries());
+    }
+
+    public function testSave()
+    {
+        $orderItem = $this->setupOrderItem();
+
+        $orderItem->setQuantity(5);
+        $this->assertSame(null, $orderItem->getUpdated());
+        $this->orderItemRepository->save($orderItem);
+        $this->assertTrue($orderItem->getUpdated() instanceof \DateTime);
     }
 }

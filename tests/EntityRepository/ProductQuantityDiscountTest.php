@@ -1,17 +1,22 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return ProductQuantityDiscount
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:ProductQuantityDiscount',
+        'kommerce:Product',
+    ];
+
+    /** @var ProductQuantityDiscountInterface */
+    protected $productQuantityDiscountRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:ProductQuantityDiscount');
+        $this->productQuantityDiscountRepository = $this->getProductQuantityDiscountRepository();
     }
 
     private function setupProductWithProductQuantityDiscount()
@@ -33,8 +38,7 @@ class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $productQuantityDiscount = $this->getRepository()
-            ->find(1);
+        $productQuantityDiscount = $this->productQuantityDiscountRepository->find(1);
 
         $productQuantityDiscount->getProduct()->getName();
 

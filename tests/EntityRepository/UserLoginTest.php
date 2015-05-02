@@ -1,44 +1,63 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class UserLoginTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return UserLogin
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:UserLogin',
+        'kommerce:User',
+        'kommerce:Cart',
+    ];
+
+    /** @var UserLoginInterface */
+    protected $userLoginRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:UserLogin');
+        $this->userLoginRepository = $this->getUserLoginRepository();
     }
 
-    private function setupUserWithLogin()
+    private function setupUserLogin()
     {
-        $userLogin = $this->getDummyUserLogin();
-
         $user = $this->getDummyUser();
-        $user->addLogin($userLogin);
+        $userLogin = $this->getDummyUserLogin();
+        $userLogin->setUser($user);
 
-        $this->entityManager->persist($userLogin);
         $this->entityManager->persist($user);
+
+        $this->userLoginRepository->create($userLogin);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $userLogin;
     }
 
     public function testFind()
     {
-        $this->setupUserWithLogin();
+        $this->setupUserLogin();
 
         $this->setCountLogger();
 
-        $userLogin = $this->getRepository()
-            ->find(1);
+        $userLogin = $this->userLoginRepository->find(1);
 
-        $userLogin->getUser()->getEmail();
+        $userLogin->getUser()->getCreated();
 
         $this->assertTrue($userLogin instanceof Entity\UserLogin);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+    }
+
+    public function testSave()
+    {
+        $userLogin = $this->setupUserLogin();
+
+        $this->assertSame(1, $userLogin->getResult());
+        $userLogin->setResult(2);
+
+        $this->userLoginRepository->save($userLogin);
+        $this->assertSame(2, $userLogin->getResult());
     }
 }

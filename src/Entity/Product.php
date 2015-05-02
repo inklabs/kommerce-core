@@ -1,12 +1,13 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Product
+class Product implements EntityInterface
 {
     use Accessor\Time, Accessor\Id;
 
@@ -61,8 +62,8 @@ class Product
     /** @var ProductQuantityDiscount */
     protected $productQuantityDiscounts;
 
-    /** @var OptionValue[] */
-    protected $optionValues;
+    /** @var OptionProduct[] */
+    protected $optionProducts;
 
     /** @var ProductAttribute[] */
     protected $productAttributes;
@@ -74,6 +75,7 @@ class Product
         $this->images = new ArrayCollection;
         $this->productQuantityDiscounts = new ArrayCollection;
         $this->productAttributes = new ArrayCollection;
+        $this->optionProducts = new ArrayCollection;
 
         $this->isInventoryRequired = false;
         $this->isPriceVisible = false;
@@ -138,7 +140,7 @@ class Product
         $this->setDescription($viewProduct->description);
     }
 
-    public function getPrice(Pricing $pricing, $quantity = 1)
+    public function getPrice(Lib\PricingInterface $pricing, $quantity = 1)
     {
         return $pricing->getPrice(
             $this,
@@ -332,14 +334,14 @@ class Product
         return $this->productQuantityDiscounts;
     }
 
-    public function getOptionValues()
+    public function getOptionProducts()
     {
-        return $this->optionValues;
+        return $this->optionProducts;
     }
 
-    public function addOptionValue(OptionValue $optionValue)
+    public function addOptionProduct(OptionProduct $optionProduct)
     {
-        $this->optionValues[] = $optionValue;
+        $this->optionProducts[] = $optionProduct;
     }
 
     public function getProductAttributes()

@@ -1,12 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\ProductQuantityDiscount find($id)
- */
-class ProductQuantityDiscount extends EntityRepository
+class ProductQuantityDiscount extends AbstractEntityRepository implements ProductQuantityDiscountInterface
 {
 }

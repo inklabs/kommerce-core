@@ -1,17 +1,10 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\Warehouse find($id)
- */
-class Warehouse extends EntityRepository
+class Warehouse extends AbstractEntityRepository implements WarehouseInterface
 {
-    /**
-     * @return array
-     */
     public function findByPoint(Entity\Point $point, $rangeInMiles = 50, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();

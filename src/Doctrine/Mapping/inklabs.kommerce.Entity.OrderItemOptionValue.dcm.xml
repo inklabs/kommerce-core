@@ -5,43 +5,36 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\OrderItemOptionValue"
-            table="order_item_option_value"
             repository-class="inklabs\kommerce\EntityRepository\OrderItemOptionValue">
 
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer">
             <generator strategy="AUTO"/>
             <options>
                 <option name="unsigned">true</option>
             </options>
         </id>
 
-        <field name="sku" column="sku" type="string" length="64" nullable="true"/>
-        <field name="name" column="name" type="string" length="255"/>
-        <field name="value" column="value" type="string" length="255" nullable="true"/>
+        <field name="sku" type="string" length="64" nullable="true"/>
+        <field name="optionName" type="string" length="255"/>
+        <field name="optionValueName" type="string" length="255"/>
 
-        <field name="created" column="created" type="integer">
+        <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="updated" column="updated" type="integer" nullable="true">
+        <field name="updated" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <many-to-one field="orderItem" target-entity="OrderItem" inversed-by="orderItemOptionValues" fetch="EAGER">
-            <join-column name="order_item_id" referenced-column-name="id" nullable="false"/>
-        </many-to-one>
+        <many-to-one field="orderItem" target-entity="OrderItem" inversed-by="orderItemOptionValues" fetch="EAGER"/>
 
-        <many-to-one field="option" target-entity="Option" fetch="EAGER">
-            <join-column name="option_id" referenced-column-name="id" nullable="false"/>
-        </many-to-one>
-
-        <many-to-one field="optionValue" target-entity="OptionValue" fetch="EAGER">
-            <join-column name="option_value_id" referenced-column-name="id" nullable="true"/>
-        </many-to-one>
+        <many-to-one field="optionValue"
+                     target-entity="inklabs\kommerce\Entity\OptionValue"
+                     fetch="EAGER" />
 
     </entity>
 

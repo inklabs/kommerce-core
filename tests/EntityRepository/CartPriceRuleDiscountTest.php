@@ -1,17 +1,24 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class CartPriceRuleDiscountTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return CartPriceRuleDiscount
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:CartPriceRule',
+        'kommerce:CartPriceRuleDiscount',
+        'kommerce:CartPriceRuleItem\Item',
+        'kommerce:Product',
+    ];
+
+    /** @var CartPriceRuleDiscountInterface */
+    protected $cartPriceRuleDiscountRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:CartPriceRuleDiscount');
+        $this->cartPriceRuleDiscountRepository = $this->getCartpriceRuleDiscountRepository();
     }
 
     public function setupCartPriceRuleDiscount()
@@ -37,8 +44,7 @@ class CartPriceRuleDiscountTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $cartPriceRuleDiscount = $this->getRepository()
-            ->find(1);
+        $cartPriceRuleDiscount = $this->cartPriceRuleDiscountRepository->find(1);
 
         $cartPriceRuleDiscount->getProduct()->getName();
         $cartPriceRuleDiscount->getCartPriceRule()->getName();

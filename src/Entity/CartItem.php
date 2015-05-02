@@ -1,12 +1,15 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service\Pricing;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class CartItem
+class CartItem implements EntityInterface
 {
-    use Accessor\Created, Accessor\Id;
+    use Accessor\Time, Accessor\Id;
 
     /** @var int */
     protected $quantity;
@@ -14,16 +17,43 @@ class CartItem
     /** @var Product */
     protected $product;
 
-    /** @var OptionValue[] */
-    protected $optionValues;
+    /** @var CartItemOptionProduct[] */
+    protected $cartItemOptionProducts;
 
-    public function __construct(Product $product, $quantity)
+    /** @var CartItemOptionValue[] */
+    protected $cartItemOptionValues;
+
+    /** @var CartItemTextOptionValue[] */
+    protected $cartItemTextOptionValues;
+
+    /** @var Cart */
+    protected $cart;
+
+    public function __construct()
     {
         $this->setCreated();
-        $this->optionValues = new ArrayCollection;
+        $this->cartItemOptionProducts = new ArrayCollection;
+        $this->cartItemOptionValues = new ArrayCollection;
+        $this->cartItemTextOptionValues = new ArrayCollection;
+    }
 
-        $this->setProduct($product);
-        $this->setQuantity($quantity);
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
+        $metadata->addPropertyConstraint('quantity', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+    }
+
+    public function getCart()
+    {
+        return $this->cart;
+    }
+
+    public function setCart(Cart $cart)
+    {
+        $this->cart = $cart;
     }
 
     public function getProduct()
@@ -46,43 +76,62 @@ class CartItem
         $this->quantity = (int) $quantity;
     }
 
-    public function getOptionValues()
+    public function getCartItemOptionProducts()
     {
-        return $this->optionValues;
+        return $this->cartItemOptionProducts;
     }
 
-    public function addOptionValue(OptionValue $optionValue)
+    public function addCartItemOptionProduct(CartItemOptionProduct $cartItemOptionProduct)
     {
-        $this->optionValues[] = $optionValue;
+        $cartItemOptionProduct->setCartItem($this);
+        $this->cartItemOptionProducts[] = $cartItemOptionProduct;
     }
 
-    /**
-     * @param OptionValue[] $optionValues
-     */
-    public function setOptionValues($optionValues)
+    public function getCartItemOptionValues()
     {
-        $this->optionValues = new ArrayCollection;
-
-        foreach ($optionValues as $optionValue) {
-            $this->addOptionValue($optionValue);
-        }
+        return $this->cartItemOptionValues;
     }
 
-    public function getPrice(Pricing $pricing)
+    public function addCartItemOptionValue(CartItemOptionValue $cartItemOptionValue)
     {
-        $price = $pricing->getPrice(
-            $this->getProduct(),
+        $cartItemOptionValue->setCartItem($this);
+        $this->cartItemOptionValues[] = $cartItemOptionValue;
+    }
+
+    public function getCartItemTextOptionValues()
+    {
+        return $this->cartItemTextOptionValues;
+    }
+
+    public function addCartItemTextOptionValue(CartItemTextOptionValue $cartItemTextOptionValue)
+    {
+        $cartItemTextOptionValue->setCartItem($this);
+        $this->cartItemTextOptionValues[] = $cartItemTextOptionValue;
+    }
+
+    public function getPrice(Lib\PricingInterface $pricing)
+    {
+        $price = $this->getProduct()->getPrice(
+            $pricing,
             $this->getQuantity()
         );
 
-        foreach ($this->getOptionValues() as $optionValue) {
-            $optionPrice = $pricing->getPrice(
-                $optionValue->getProduct(),
+        foreach ($this->getCartItemOptionProducts() as $cartItemOptionProduct) {
+            $optionPrice = $cartItemOptionProduct->getPrice(
+                $pricing,
                 $this->getQuantity()
             );
 
             $price = Price::add($price, $optionPrice);
         }
+
+        foreach ($this->getCartItemOptionValues() as $cartItemOptionValue) {
+            $optionPrice = $cartItemOptionValue->getPrice($this->getQuantity());
+
+            $price = Price::add($price, $optionPrice);
+        }
+
+        // No price for cartItemTextOptionValues
 
         return $price;
     }
@@ -92,34 +141,62 @@ class CartItem
         $fullSku = [];
         $fullSku[] = $this->getProduct()->getSku();
 
-        foreach ($this->getOptionValues() as $optionValue) {
-            $fullSku[] = $optionValue->getSku();
+        foreach ($this->getCartItemOptionProducts() as $cartItemOptionProduct) {
+            $fullSku[] = $cartItemOptionProduct->getSku();
         }
+
+        foreach ($this->getCartItemOptionValues() as $cartItemOptionValue) {
+            $fullSku[] = $cartItemOptionValue->getSku();
+        }
+
+        // No sku for cartItemTextOptionValues
 
         return implode('-', $fullSku);
     }
 
     public function getShippingWeight()
     {
-        $shippingWeight = ($this->getProduct()->getShippingWeight() * $this->getQuantity());
+        $shippingWeight = $this->getProduct()->getShippingWeight();
 
-        foreach ($this->getOptionValues() as $optionValue) {
-            $shippingWeight += ($optionValue->getShippingWeight() * $this->getQuantity());
+        foreach ($this->getCartItemOptionProducts() as $cartItemOptionProduct) {
+            $shippingWeight += $cartItemOptionProduct->getShippingWeight();
         }
 
-        return $shippingWeight;
+        foreach ($this->getCartItemOptionValues() as $cartItemOptionValue) {
+            $shippingWeight += $cartItemOptionValue->getShippingWeight();
+        }
+
+        // No shippingWeight for cartItemTextOptionValues
+
+        $quantityShippingWeight = $shippingWeight * $this->getQuantity();
+
+        return $quantityShippingWeight;
     }
 
-    public function getOrderItem(Pricing $pricing)
+    public function getOrderItem(Lib\PricingInterface $pricing)
     {
         $orderItem = new OrderItem;
         $orderItem->setProduct($this->getProduct());
         $orderItem->setQuantity($this->getQuantity());
         $orderItem->setPrice($this->getPrice($pricing));
 
-        foreach ($this->getOptionValues() as $optionValue) {
-            $orderItemOptionValue = new OrderItemOptionValue($optionValue->getOption());
+        foreach ($this->getCartItemOptionProducts() as $cartItemOptionProduct) {
+            $orderItemOptionProduct = new OrderItemOptionProduct;
+            $orderItemOptionProduct->setOptionProduct($cartItemOptionProduct->getOptionProduct());
+            $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
+        }
+
+        foreach ($this->getCartItemOptionValues() as $cartItemTextOptionValue) {
+            $orderItemOptionValue = new OrderItemOptionValue;
+            $orderItemOptionValue->setOptionValue($cartItemTextOptionValue->getOptionValue());
             $orderItem->addOrderItemOptionValue($orderItemOptionValue);
+        }
+
+        foreach ($this->getCartItemTextOptionValues() as $cartItemTextOptionValue) {
+            $orderItemTextOptionValue = new OrderItemTextOptionValue;
+            $orderItemTextOptionValue->setTextOption($cartItemTextOptionValue->getTextOption());
+            $orderItemTextOptionValue->setTextOptionValue($cartItemTextOptionValue->getTextOptionValue());
+            $orderItem->addOrderItemTextOptionValue($orderItemTextOptionValue);
         }
 
         return $orderItem;

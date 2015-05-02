@@ -1,17 +1,23 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class UserRoleTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return UserRole
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:UserRole',
+        'kommerce:User',
+        'kommerce:Cart',
+    ];
+
+    /** @var UserRoleInterface */
+    protected $userRoleRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:UserRole');
+        $this->userRoleRepository = $this->getUserRoleRepository();
     }
 
     public function setupUserWithRole()
@@ -33,8 +39,7 @@ class UserRoleTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $userRole = $this->getRepository()
-            ->find(1);
+        $userRole = $this->userRoleRepository->find(1);
 
         $this->assertTrue($userRole instanceof Entity\UserRole);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());

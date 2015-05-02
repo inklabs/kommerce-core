@@ -1,50 +1,47 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use Doctrine\ORM\EntityManager;
-use inklabs\kommerce\EntityRepository as EntityRepository;
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
+use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 
-class Order extends Lib\ServiceManager
+class Order extends AbstractService
 {
-    /** @var EntityRepository\Order */
+    /** @var EntityRepository\OrderInterface */
     private $orderRepository;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityRepository\OrderInterface $orderRepository)
     {
-        $this->setEntityManager($entityManager);
-        $this->orderRepository = $entityManager->getRepository('kommerce:Order');
+        $this->orderRepository = $orderRepository;
     }
 
     /**
-     * @return Entity\View\Order|null
+     * @param int $id
+     * @return View\Order|null
      */
     public function find($id)
     {
-        /** @var Entity\Order $entityOrder */
-        $entityOrder = $this->orderRepository->find($id);
+        $order = $this->orderRepository->find($id);
 
-        if ($entityOrder === null) {
+        if ($order === null) {
             return null;
         }
 
-        return $entityOrder->getView()
+        return $order->getView()
             ->withAllData()
             ->export();
     }
 
     public function getLatestOrders(Entity\Pagination & $pagination = null)
     {
-        $orders = $this->orderRepository
-            ->getLatestOrders($pagination);
+        $orders = $this->orderRepository->getLatestOrders($pagination);
 
         return $this->getViewOrders($orders);
     }
 
     /**
      * @param Entity\Order[] $orders
-     * @return Entity\View\Order[]
+     * @return View\Order[]
      */
     private function getViewOrders($orders)
     {
@@ -56,5 +53,16 @@ class Order extends Lib\ServiceManager
         }
 
         return $viewOrders;
+    }
+
+    /**
+     * @param int $userId
+     * @return View\Order[]
+     */
+    public function getOrdersByUserId($userId)
+    {
+        $orders = $this->orderRepository->getOrdersByUserId($userId);
+
+        return $this->getViewOrders($orders);
     }
 }

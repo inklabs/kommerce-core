@@ -1,12 +1,20 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Lib as Lib;
-use inklabs\kommerce\tests\Helper as Helper;
-use Doctrine as Doctrine;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\tests\Helper;
+use Doctrine;
 
 class KommerceTest extends Helper\DoctrineTestCase
 {
+    protected $metaDataClassNames = [
+        'kommerce:User',
+        'kommerce:Cart',
+        'kommerce:CatalogPromotion',
+        'kommerce:CartPriceRule',
+        'kommerce:Tag',
+    ];
+
     public function testClearCache()
     {
         $kommerce = new Kommerce(new Doctrine\Common\Cache\ArrayCache());
@@ -35,34 +43,6 @@ class KommerceTest extends Helper\DoctrineTestCase
     public function testSetupSqlLogger()
     {
         $this->kommerce->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
-    }
-
-    public function testService()
-    {
-        $image = $this->kommerce->service('Image');
-        $this->assertTrue($image instanceof Image);
-    }
-
-    public function testPricingService()
-    {
-        $this->kommerce->setupPricing();
-        $product = $this->kommerce->pricingService('Product');
-        $this->assertTrue($product instanceof Product);
-    }
-
-    public function testPricingSessionService()
-    {
-        $this->kommerce->setSessionManager(new Lib\ArraySessionManager);
-        $this->kommerce->setupPricing();
-        $cart = $this->kommerce->pricingSessionService('Cart');
-        $this->assertTrue($cart instanceof Cart);
-    }
-
-    public function testSessionService()
-    {
-        $this->kommerce->setSessionManager(new Lib\ArraySessionManager);
-        $user = $this->kommerce->sessionService('User');
-        $this->assertTrue($user instanceof User);
     }
 
     public function testAddSqliteFunctions()

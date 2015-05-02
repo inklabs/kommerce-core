@@ -1,87 +1,48 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Entity\View as View;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\EntityRepository\FakeCoupon;
 
 class CouponTest extends Helper\DoctrineTestCase
 {
-    /** @var \Mockery\MockInterface|\inklabs\kommerce\EntityRepository\Coupon */
-    protected $mockCouponRepository;
-
-    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
-    protected $mockEntityManager;
+    /** @var FakeCoupon */
+    protected $couponRepository;
 
     /** @var Coupon */
     protected $couponService;
 
-    /** @var Entity\Coupon */
-    protected $coupon;
-
     public function setUp()
     {
-        $this->mockCouponRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Coupon');
-        $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
-        $this->couponService = new Coupon($this->entityManager);
-    }
-
-    private function setupCoupon()
-    {
-        $this->coupon = new Entity\Coupon;
-        $this->coupon->setName('20% OFF Test');
-        $this->coupon->setCode('20PCT');
-        $this->coupon->setType(Entity\Promotion::TYPE_PERCENT);
-        $this->coupon->setValue(20);
-
-        $this->entityManager->persist($this->coupon);
-        $this->entityManager->flush();
-    }
-
-    public function testFindMissing()
-    {
-        $coupon = $this->couponService->find(0);
-        $this->assertSame(null, $coupon);
+        $this->couponRepository = new FakeCoupon;
+        $this->couponService = new Coupon($this->couponRepository);
     }
 
     public function testFind()
     {
-        $this->setupCoupon();
-        $this->entityManager->clear();
+        $coupon = $this->couponService->find(1);
+        $this->assertTrue($coupon instanceof View\Coupon);
+    }
+
+    public function testFindMissing()
+    {
+        $this->couponRepository->setReturnValue(null);
 
         $coupon = $this->couponService->find(1);
-        $this->assertSame(1, $coupon->id);
+        $this->assertSame(null, $coupon);
     }
 
     public function testGetAllCoupons()
     {
-        $this->mockCouponRepository
-            ->shouldReceive('getAllCoupons')
-            ->andReturn([new Entity\Coupon]);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockCouponRepository);
-
-        $couponService = new Coupon($this->mockEntityManager);
-
-        $coupons = $couponService->getAllCoupons();
+        $coupons = $this->couponService->getAllCoupons();
         $this->assertTrue($coupons[0] instanceof View\Coupon);
     }
 
     public function testAllGetCouponsByIds()
     {
-        $this->mockCouponRepository
-            ->shouldReceive('getAllCouponsByIds')
-            ->andReturn([new Entity\Coupon]);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($this->mockCouponRepository);
-
-        $couponService = new Coupon($this->mockEntityManager);
-
-        $coupons = $couponService->getAllCouponsByIds([1]);
+        $coupons = $this->couponService->getAllCouponsByIds([1]);
         $this->assertTrue($coupons[0] instanceof View\Coupon);
     }
 }

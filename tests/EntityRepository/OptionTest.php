@@ -1,22 +1,29 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class OptionTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return Option
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:Option',
+        'kommerce:OptionProduct',
+        'kommerce:OptionValue',
+        'kommerce:Product',
+        'kommerce:Tag',
+    ];
+
+    /** @var OptionInterface */
+    protected $optionRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:Option');
+        $this->optionRepository = $this->getOptionRepository();
     }
 
     private function setupOption()
     {
-
         $option = $this->getDummyOption();
 
         $this->entityManager->persist($option);
@@ -30,23 +37,22 @@ class OptionTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $option = $this->getRepository()
-            ->find(1);
+        $option = $this->optionRepository->find(1);
 
+        $option->getOptionProducts()->toArray();
         $option->getOptionValues()->toArray();
         $option->getTags()->toArray();
 
         $this->assertTrue($option instanceof Entity\Option);
-        $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testGetAllOptionsByIds()
     {
         $this->setupOption();
 
-        $options = $this->getRepository()
-            ->getAllOptionsByIds([1]);
+        $options = $this->optionRepository->getAllOptionsByIds([1]);
 
-        $this->assertSame(1, $options[0]->getId());
+        $this->assertTrue($options[0] instanceof Entity\Option);
     }
 }

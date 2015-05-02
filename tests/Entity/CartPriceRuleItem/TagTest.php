@@ -1,10 +1,11 @@
 <?php
 namespace inklabs\kommerce\Entity\CartPriceRuleItem;
 
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
-class TagTestTest extends \PHPUnit_Framework_TestCase
+class TagTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
@@ -16,6 +17,7 @@ class TagTestTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($priceRule));
         $this->assertTrue($priceRule->getTag() instanceof Entity\Tag);
+        $this->assertTrue($priceRule->getView() instanceof View\CartPriceRuleItem\Tag);
     }
 
     private function getTag($id)
@@ -38,7 +40,10 @@ class TagTestTest extends \PHPUnit_Framework_TestCase
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
 
-        $cartItem = new Entity\CartItem($product1, 1);
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product1);
+        $cartItem->setQuantity(1);
+
         $priceRule = new Tag($tag1, 1);
 
         $this->assertTrue($priceRule->matches($cartItem));
@@ -50,7 +55,10 @@ class TagTestTest extends \PHPUnit_Framework_TestCase
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
 
-        $cartItem = new Entity\CartItem($product1, 2);
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product1);
+        $cartItem->setQuantity(2);
+
         $priceRule = new Tag($tag1, 1);
 
         $this->assertTrue($priceRule->matches($cartItem));
@@ -64,7 +72,10 @@ class TagTestTest extends \PHPUnit_Framework_TestCase
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
 
-        $cartItem = new Entity\CartItem($product1, 1);
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product1);
+        $cartItem->setQuantity(1);
+
         $priceRule = new Tag($tag2, 1);
 
         $this->assertFalse($priceRule->matches($cartItem));
@@ -77,7 +88,10 @@ class TagTestTest extends \PHPUnit_Framework_TestCase
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
 
-        $cartItem = new Entity\CartItem($product1, 1);
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product1);
+        $cartItem->setQuantity(1);
+
         $priceRule = new Tag($tag1, 2);
 
         $this->assertFalse($priceRule->matches($cartItem));

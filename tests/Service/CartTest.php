@@ -1,549 +1,313 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
-use inklabs\kommerce\tests\Helper as Helper;
-use inklabs\kommerce\Entity\Payment as Payment;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\Entity\Payment;
+use inklabs\kommerce\tests\EntityRepository\FakeCart;
+use inklabs\kommerce\tests\EntityRepository\FakeProduct;
+use inklabs\kommerce\tests\EntityRepository\FakeOptionProduct;
+use inklabs\kommerce\tests\EntityRepository\FakeOptionValue;
+use inklabs\kommerce\tests\EntityRepository\FakeTextOption;
+use inklabs\kommerce\tests\EntityRepository\FakeCoupon;
+use inklabs\kommerce\tests\EntityRepository\FakeOrder;
+use inklabs\kommerce\tests\EntityRepository\FakeUser;
+use LogicException;
 
-class CartNewTest extends Helper\DoctrineTestCase
+class CartTest extends Helper\DoctrineTestCase
 {
-    /** @var \Mockery\MockInterface|\Doctrine\ORM\EntityManager */
-    protected $mockEntityManager;
+    /** @var FakeCart */
+    protected $cartRepository;
 
-    /** @var \Mockery\MockInterface|Entity\Cart */
-    protected $mockEntityCart;
+    /** @var FakeProduct */
+    protected $productRepository;
 
-    /** @var \Mockery\MockInterface|Lib\SessionManager */
-    protected $mockSessionManager;
+    /** @var FakeOptionProduct */
+    protected $optionProductRepository;
 
-    /** @var \Mockery\MockInterface|Pricing */
-    protected $mockPricing;
+    /** @var FakeOptionValue */
+    protected $optionValueRepository;
 
-    /**
-     * @return Cart
-     */
-    protected function getCartServiceFullyMocked()
+    /** @var FakeTextOption */
+    protected $textOptionRepository;
+
+    /** @var FakeCoupon */
+    protected $couponRepository;
+
+    /** @var FakeOrder */
+    protected $orderRepository;
+
+    /** @var FakeUser */
+    protected $userRepository;
+
+    /** @var Cart */
+    protected $cartService;
+
+    public function setUp()
     {
-        $this->mockEntityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
-        $this->mockPricing = \Mockery::mock('inklabs\kommerce\Service\Pricing');
+        $this->cartRepository = new FakeCart;
+        $this->productRepository = new FakeProduct;
+        $this->optionProductRepository = new FakeOptionProduct;
+        $this->optionValueRepository = new FakeOptionValue;
+        $this->textOptionRepository = new FakeTextOption;
+        $this->couponRepository = new FakeCoupon;
+        $this->orderRepository = new FakeOrder;
+        $this->userRepository = new FakeUser;
 
-        $this->mockEntityCart = \Mockery::mock('inklabs\kommerce\Entity\Cart');
-
-        $this->mockEntityCart
-            ->shouldReceive('getItems')
-            ->once()
-            ->andReturnUndefined();
-
-        $this->mockEntityCart
-            ->shouldReceive('getCoupons')
-            ->once()
-            ->andReturnUndefined();
-
-        $this->mockSessionManager = \Mockery::mock('inklabs\kommerce\Lib\ArraySessionManager');
-        $this->mockSessionManager
-            ->shouldReceive('set')
-            ->andReturn(null);
-
-        $this->mockSessionManager
-            ->shouldReceive('get')
-            ->andReturn($this->mockEntityCart);
-
-        return new Cart($this->mockEntityManager, $this->mockPricing, $this->mockSessionManager);
+        $this->setupCartService();
     }
 
-    public function testCreate()
+    private function setupCartService()
     {
-        $product = $this->getDummyProduct();
-        $coupon = $this->getDummyCoupon();
-
-        $this->entityManager->persist($product);
-        $this->entityManager->persist($coupon);
-        $this->entityManager->flush();
-
-        $viewProduct = $product->getView()->export();
-
-        $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-        $cart->setShippingRate(new Entity\Shipping\FedexRate);
-        $cart->setTaxRate(new Entity\TaxRate);
-        $cart->setUser(new Entity\User);
-        $cart->addCouponByCode($coupon->getCode());
-        $itemId1 = $cart->addItem($viewProduct->encodedId, 1);
-        $itemId2 = $cart->addItem($viewProduct->encodedId, 1);
-        $cart->updateQuantity($itemId1, 2);
-        $cart->deleteItem($itemId2);
-        $this->assertSame(1, $cart->totalItems());
-        $this->assertSame(2, $cart->totalQuantity());
-        $this->assertSame(32, $cart->getShippingWeight());
-        $this->assertSame(2, $cart->getShippingWeightInPounds());
-        $this->assertTrue($cart->getTotal() instanceof Entity\CartTotal);
-        $this->assertTrue($cart->getCoupons()[0] instanceof Entity\Coupon);
-        $this->assertTrue($cart->getItems()[0] instanceof Entity\View\CartItem);
-        $this->assertTrue($cart->getItem(0) instanceof Entity\View\CartItem);
-        $this->assertTrue($cart->getProducts()[0] instanceof Entity\View\Product);
-        $this->assertTrue($cart->getView() instanceof Entity\View\Cart);
-    }
-
-    public function testAddItem()
-    {
-        $cart = $this->getCartServiceFullyMocked();
-
-        $mockProductRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Product');
-        $mockProductRepository
-            ->shouldReceive('find')
-            ->andReturn(new Entity\Product);
-        $mockProductRepository
-            ->shouldReceive('getAllProductsByIds')
-            ->andReturn([new Entity\Product]);
-
-        $mockOptionValueRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\OptionValue');
-        $mockOptionValueRepository
-            ->shouldReceive('getAllOptionValuesByIds')
-            ->andReturn([new Entity\OptionValue(new Entity\Option)]);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->once()
-            ->andReturn($mockProductRepository);
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->once()
-            ->andReturn($mockOptionValueRepository);
-
-        $this->mockEntityCart
-            ->shouldReceive('addItem')
-            ->andReturn(1);
-
-        $itemId = $cart->addItem('1', 1, ['1' => '2']);
-
-        $this->assertSame(1, $itemId);
+        $this->cartService = new Cart(
+            $this->cartRepository,
+            $this->productRepository,
+            $this->optionProductRepository,
+            $this->optionValueRepository,
+            $this->textOptionRepository,
+            $this->couponRepository,
+            $this->orderRepository,
+            $this->userRepository,
+            new Lib\Pricing
+        );
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Product not found
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Cart not found
      */
-    public function testAddItemWithMissingProduct()
+    public function testGetCartAndThrowExceptionIfCartNotFoundThrowsException()
     {
-        $product = new Entity\Product;
+        $this->cartRepository->setReturnValue(null);
 
-        $cart = $this->getCartServiceFullyMocked();
+        $this->setupCartService();
+        $this->cartService->getCartFull(1);
+    }
 
-        $mockProductRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Product');
-        $mockProductRepository
-            ->shouldReceive('find')
-            ->andReturn(null);
+    public function testFindByUserOrSessionWithUser()
+    {
+        $this->setupCartService();
+        $cart = $this->cartService->findByUserOrSession(1, null);
 
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($mockProductRepository);
+        $this->assertTrue($cart instanceof View\Cart);
+    }
 
-        $itemId = $cart->addItem('1', 1);
+    public function testFindByUserOrSessionWithSession()
+    {
+        $this->setupCartService();
+        $cart = $this->cartService->findByUserOrSession(null, '6is7ujb3crb5ja85gf91g9en62');
+
+        $this->assertTrue($cart instanceof View\Cart);
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Option not found
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Cart not found
      */
-    public function testAddItemWithMissingOptions()
+    public function testFindByUserOrSessionNotFound()
     {
-        $cart = $this->getCartServiceFullyMocked();
+        $this->cartRepository->setReturnValue(null);
 
-        $mockProductRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Product');
-        $mockProductRepository
-            ->shouldReceive('find')
-            ->andReturn(new Entity\Product);
-        $mockProductRepository
-            ->shouldReceive('getAllProductsByIds')
-            ->andReturn([new Entity\Product]);
-
-        $mockOptionValueRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\OptionValue');
-        $mockOptionValueRepository
-            ->shouldReceive('getAllOptionValuesByIds')
-            ->andReturn([]);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->once()
-            ->andReturn($mockProductRepository);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->once()
-            ->andReturn($mockOptionValueRepository);
-
-        $this->mockEntityCart
-            ->shouldReceive('addItem')
-            ->andReturn(1);
-
-        $itemId = $cart->addItem('1', 1, ['1' => '2']);
+        $this->setupCartService();
+        $this->cartService->findByUserOrSession(1, '6is7ujb3crb5ja85gf91g9en62');
     }
 
     public function testAddCouponByCode()
     {
-        $cart = $this->getCartServiceFullyMocked();
-
-        $mockCouponRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Coupon');
-        $mockCouponRepository
-            ->shouldReceive('findOneByCode')
-            ->andReturn(new Entity\Coupon);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($mockCouponRepository);
-
-        $this->mockEntityCart
-            ->shouldReceive('addCoupon')
-            ->andReturn(1);
-
-        $couponId = $cart->addCouponByCode('coupon-code');
-        $this->assertSame(1, $couponId);
+        $couponIndex = $this->cartService->addCouponByCode(1, 'code');
+        $this->assertSame(0, $couponIndex);
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException LogicException
+     * @expectedExceptionMessage Coupon not found
      */
-    public function testAddCouponByCodeWithMissingCoupon()
+    public function testAddCouponByCodeMissing()
     {
-        $cart = $this->getCartServiceFullyMocked();
-
-        $mockCouponRepository = \Mockery::mock('inklabs\kommerce\EntityRepository\Coupon');
-        $mockCouponRepository
-            ->shouldReceive('findOneByCode')
-            ->andReturn(null);
-
-        $this->mockEntityManager
-            ->shouldReceive('getRepository')
-            ->andReturn($mockCouponRepository);
-
-        $couponId = $cart->addCouponByCode('coupon-code');
-    }
-
-    public function testRemoveCoupon()
-    {
-        $cart = $this->getCartServiceFullyMocked();
-
-        $this->mockEntityCart
-            ->shouldReceive('removeCoupon')
-            ->andReturn(null);
-
-        $cart->removeCoupon(1);
-    }
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testRemoveCouponThrowsException()
-    {
-        $cart = $this->getCartServiceFullyMocked();
-
-        $this->mockEntityCart
-            ->shouldReceive('removeCoupon')
-            ->andThrow(new \Exception);
-
-        $cart->removeCoupon(1);
+        $this->couponRepository->setReturnValue(null);
+        $couponIndex = $this->cartService->addCouponByCode(1, 'code');
     }
 
     public function testGetCoupons()
     {
-        $cart = $this->getCartServiceFullyMocked();
+        $couponIndex = $this->cartService->addCouponByCode(1, 'code');
 
-        $this->mockEntityCart
-            ->shouldReceive('getCoupons')
-            ->andReturn([new Entity\Coupon]);
-
-        $coupons = $cart->getCoupons();
+        $coupons = $this->cartService->getCoupons(1);
         $this->assertTrue($coupons[0] instanceof Entity\Coupon);
+    }
+
+    public function testRemoveCoupon()
+    {
+        $couponIndex = $this->cartService->addCouponByCode(1, 'code');
+
+        $coupons = $this->cartService->getCoupons(1);
+        $this->assertSame(1, count($coupons));
+
+        $this->cartService->removeCoupon(1, $couponIndex);
+
+        $coupons = $this->cartService->getCoupons(1);
+        $this->assertSame(0, count($coupons));
+    }
+
+    public function testCreateWithSession()
+    {
+        $cart = $this->cartService->create(null, '6is7ujb3crb5ja85gf91g9en62');
+        $this->assertTrue($cart instanceof View\Cart);
+    }
+
+    public function testCreateWithUser()
+    {
+        $cart = $this->cartService->create(1, null);
+        $this->assertTrue($cart instanceof View\Cart);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage User or session id required
+     */
+    public function testCreateWithNone()
+    {
+        $cart = $this->cartService->create(null, null);
+        $this->assertTrue($cart instanceof View\Cart);
+    }
+
+    public function testAddItem()
+    {
+        $productId = 2001;
+        $quantity = 1;
+
+        $cartItemIndex = $this->cartService->addItem($productId, $quantity);
+
+        $cart = $this->cartService->getCartFull(1);
+
+        $this->assertSame(0, $cartItemIndex);
+        $this->assertTrue($cart->cartItems[0] instanceof View\CartItem);
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Product not found
+     */
+    public function testAddItemWithMissingProduct()
+    {
+        $this->productRepository->setReturnValue(null);
+
+        $cartId = 1;
+        $productId = 2001;
+        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
+    }
+
+    public function testAddItemOptionProducts()
+    {
+        $cartId = 1;
+        $productId = 2001;
+        $optionProductIds = [101];
+
+        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
+        $this->cartService->addItemOptionProducts($cartId, $cartItemIndex, $optionProductIds);
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Cart Item not found
+     */
+    public function testAddItemOptionProductsThrowsException()
+    {
+        $cartId = 1;
+        $cartItemIndex = 1;
+        $optionProductIds = [101];
+
+        $this->cartService->addItemOptionProducts($cartId, $cartItemIndex, $optionProductIds);
+    }
+
+    public function testAddItemOptionValues()
+    {
+        $cartId = 1;
+        $productId = 2001;
+        $optionValueIds = [201];
+
+        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
+        $this->cartService->addItemOptionValues($cartId, $cartItemIndex, $optionValueIds);
+    }
+
+    public function testAddItemTextOptionValues()
+    {
+        $textOption = new Entity\TextOption;
+        $textOption->setId(301);
+        $this->textOptionRepository->setReturnValue($textOption);
+
+        $cartId = 1;
+        $productId = 2001;
+        $textOptionValues = [$textOption->getId() => 'Happy Birthday'];
+
+        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
+        $this->cartService->addItemTextOptionValues($cartId, $cartItemIndex, $textOptionValues);
     }
 
     public function testUpdateQuantity()
     {
-        $cart = $this->getCartServiceFullyMocked();
+        $cartId = 1;
+        $productId = 2001;
+        $quantity = 2;
 
-        $mockCartItem = \Mockery::mock('inklabs\kommerce\Entity\CartItem');
-        $mockCartItem
-            ->shouldReceive('setQuantity')
-            ->andReturnUndefined();
+        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
 
-        $this->mockEntityCart
-            ->shouldReceive('getItem')
-            ->andReturn($mockCartItem);
+        $this->cartService->updateQuantity($cartId, $cartItemIndex, $quantity);
 
-        $cart->updateQuantity(1, 2);
-    }
+        $cart = $this->cartService->getCartFull($cartId);
 
-    /**
-     * @expectedException \Exception
-     */
-    public function testUpdateQuantityWithMissingItem()
-    {
-        $cart = $this->getCartServiceFullyMocked();
-
-        $this->mockEntityCart
-            ->shouldReceive('getItem')
-            ->andReturn(null);
-
-        $cart->updateQuantity(1, 2);
+        $this->assertSame(2, $cart->cartItems[0]->quantity);
     }
 
     public function testDeleteItem()
     {
-        $cart = $this->getCartServiceFullyMocked();
+        $cartId = 1;
+        $productId = 2001;
+        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
 
-        $this->mockEntityCart
-            ->shouldReceive('deleteItem')
-            ->andReturnUndefined();
+        $this->cartService->deleteItem($cartId, $cartItemIndex);
 
-        $cart->deleteItem(1);
-    }
+        $cart = $this->cartService->getCartFull($cartId);
 
-    /**
-     * @expectedException \Exception
-     */
-    public function testDeleteItemWithMissingItem()
-    {
-        $cart = $this->getCartServiceFullyMocked();
-
-        $this->mockEntityCart
-            ->shouldReceive('deleteItem')
-            ->andThrow(new \Exception);
-
-        $cart->deleteItem(1);
+        $this->assertSame([], $cart->cartItems);
     }
 
     public function testGetItems()
     {
-        $cart = $this->getCartServiceFullyMocked();
+        $cartId = 1;
+        $productId = 2001;
+        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
 
-        $mockCartItemView = \Mockery::mock('inklabs\kommerce\Entity\View\CartItem');
-        $mockCartItemView
-            ->shouldReceive('withAllData')
-            ->andReturnSelf();
-        $mockCartItemView
-            ->shouldReceive('export')
-            ->andReturnSelf();
+        $cart = $this->cartService->getCartFull($cartId);
 
-        $mockCartItem = \Mockery::mock('inklabs\kommerce\Entity\CartItem');
-        $mockCartItem
-            ->shouldReceive('getView')
-            ->andReturn($mockCartItemView);
-
-        $this->mockEntityCart
-            ->shouldReceive('getItems')
-            ->andReturn([$mockCartItem]);
-
-        $items = $cart->getItems();
-        $this->assertTrue($items[0] instanceof Entity\View\CartItem);
+        $this->assertTrue($cart->cartItems[0] instanceof View\CartItem);
     }
 
-    public function testGetProducts()
+    public function testSetters()
     {
-        $cart = $this->getCartServiceFullyMocked();
+        $cartId = 1;
 
-        $mockViewProduct = \Mockery::mock('inklabs\kommerce\Entity\View\Product');
-
-        $mockCartItemView = \Mockery::mock('inklabs\kommerce\Entity\View\CartItem');
-        $mockCartItemView
-            ->shouldReceive('withAllData')
-            ->andReturnSelf();
-        $mockCartItemView
-            ->shouldReceive('export')
-            ->andReturnSelf();
-        $mockCartItemView
-            ->product = $mockViewProduct;
-
-        $mockCartItem = \Mockery::mock('inklabs\kommerce\Entity\CartItem');
-        $mockCartItem
-            ->shouldReceive('getView')
-            ->andReturn($mockCartItemView);
-
-        $this->mockEntityCart
-            ->shouldReceive('getItems')
-            ->andReturn([$mockCartItem]);
-
-        $products = $cart->getProducts();
-        $this->assertTrue($products[0] instanceof Entity\View\Product);
+        $this->cartService->setShippingRate($cartId, new Entity\ShippingRate);
+        $this->cartService->setTaxRate($cartId, new Entity\TaxRate);
+        $this->cartService->setUser(new Entity\User);
     }
 
-    public function testGetItem()
+    public function testAddOrder()
     {
-        $cart = $this->getCartServiceFullyMocked();
+        $cart = new Entity\Cart;
+        $cart->setUser(new Entity\User);
+        $cart->addCoupon(new Entity\Coupon);
+        $this->cartRepository->setReturnValue($cart);
+        $this->setupCartService();
 
-        $mockCartItemView = \Mockery::mock('inklabs\kommerce\Entity\View\CartItem');
-        $mockCartItemView
-            ->shouldReceive('withAllData')
-            ->andReturnSelf();
-        $mockCartItemView
-            ->shouldReceive('export')
-            ->andReturnSelf();
+        $cartId = 1;
+        $payment = new Entity\Payment\Cash(100);
+        $orderAddress = new Entity\OrderAddress;
 
-        $mockCartItem = \Mockery::mock('inklabs\kommerce\Entity\CartItem');
-        $mockCartItem
-            ->shouldReceive('getView')
-            ->andReturn($mockCartItemView);
-
-        $this->mockEntityCart
-            ->shouldReceive('getItem')
-            ->andReturn($mockCartItem);
-
-        $item = $cart->getItem(1);
-        $this->assertTrue($item instanceof Entity\View\CartItem);
-    }
-
-    public function testGetItemReturnsNull()
-    {
-        $cart = $this->getCartServiceFullyMocked();
-
-        $this->mockEntityCart
-            ->shouldReceive('getItem')
-            ->andReturn(null);
-
-        $item = $cart->getItem(1);
-        $this->assertSame(null, $item);
-    }
-
-    public function testCartPersistence()
-    {
-        $sessionManager = new Lib\ArraySessionManager;
-
-        $coupon = $this->getDummyCoupon();
-        $product = $this->getDummyProduct();
-        $product2 = $this->getDummyProduct();
-
-        $option = $this->getDummyOption();
-        $optionValue = $this->getDummyOptionValue($option);
-        $optionValue->setProduct($product2);
-
-        $this->entityManager->persist($coupon);
-        $this->entityManager->persist($product);
-        $this->entityManager->persist($product2);
-        $this->entityManager->persist($option);
-        $this->entityManager->persist($optionValue);
-        $this->entityManager->flush();
-
-        $viewProduct = $product->getView()->export();
-        $viewOptionValue = $optionValue->getView()->withOption()->export();
-
-        $optionValueEncodedIds = [
-            $viewOptionValue->option->encodedId => $viewOptionValue->encodedId
-        ];
-
-        $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
-        $cart->addCouponByCode($coupon->getCode());
-        $this->assertSame(0, $cart->totalItems());
-
-        $itemId1 = $cart->addItem($viewProduct->encodedId, 1, $optionValueEncodedIds);
-        $this->assertSame(1, $cart->totalItems());
-        $this->assertSame(20, $cart->getCoupons()[0]->getValue());
-        $this->assertSame(1200, $cart->getItem($itemId1)->product->unitPrice);
-        $this->assertSame(1200, $cart->getItem($itemId1)->optionValues[0]->product->unitPrice);
-
-        // Make changes to test persistence
-        $coupon->setValue(10);
-        $product->setUnitPrice(501);
-        $product2->setUnitPrice(501);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $cart = new Cart($this->entityManager, new Pricing, $sessionManager);
-        $this->assertSame(1, $cart->totalItems());
-        $this->assertSame(10, $cart->getCoupons()[0]->getValue());
-        $this->assertSame(501, $cart->getItem($itemId1)->product->unitPrice);
-        $this->assertSame(501, $cart->getItem($itemId1)->optionValues[0]->product->unitPrice);
-    }
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testAddItemMissing()
-    {
-        $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-        $cart->addItem('xxx', 1);
-    }
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testUpdateQuantityAndItemNotFound()
-    {
-        $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-        $cart->updateQuantity(1, 2);
-    }
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testDeleteItemAndItemNotFound()
-    {
-        $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-        $cart->deleteItem(1);
-    }
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testAddCouponMissing()
-    {
-        $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-        $cart->addCouponByCode('xxx');
-    }
-
-    public function testDeleteCoupon()
-    {
-        $coupon = $this->getDummyCoupon();
-
-        $this->entityManager->persist($coupon);
-        $this->entityManager->flush();
-
-        $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-        $couponId = $cart->addCouponByCode($coupon->getCode());
-        $this->assertSame(1, count($cart->getCoupons()));
-
-        $cart->removeCoupon($couponId);
-
-        $this->assertSame(0, count($cart->getCoupons()));
-    }
-
-    public function testCreateOrder()
-    {
-        $product = $this->getDummyProduct();
-        $coupon = $this->getDummyCoupon();
-        $user = $this->getDummyUser();
-
-        $this->entityManager->persist($coupon);
-        $this->entityManager->persist($product);
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
-        $viewProduct = $product->getView()->export();
-
-        $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-        $itemId1 = $cart->addItem($viewProduct->encodedId, 4);
-        $cart->addCouponByCode($coupon->getCode());
-        $cart->setUser($user);
-
-        $shippingAddress = $this->getDummyOrderAddress();
-        $order = $cart->createOrder(new Payment\Cash(1600), $shippingAddress);
+        $order = $this->cartService->createOrder($cartId, $payment, $orderAddress);
 
         $this->assertTrue($order instanceof Entity\Order);
-        $this->assertSame(1, $order->getId());
-    }
-
-    public function testClearCart()
-    {
-        $product = $this->getDummyProduct();
-
-        $this->entityManager->persist($product);
-        $this->entityManager->flush();
-
-        $viewProduct = $product->getView()->export();
-
-        $cart = new Cart($this->entityManager, new Pricing, new Lib\ArraySessionManager);
-        $itemId1 = $cart->addItem($viewProduct->encodedId, 4);
-        $this->assertSame(1, $cart->totalItems());
-
-        $cart->clear();
-
-        $this->assertSame(0, $cart->totalItems());
     }
 }

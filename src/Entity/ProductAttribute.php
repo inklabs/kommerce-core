@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
+
 class ProductAttribute
 {
     use Accessor\Time, Accessor\Id;

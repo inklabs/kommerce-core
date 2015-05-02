@@ -1,9 +1,11 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
+
 class ProductAttributeTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreateAttribute()
+    public function testCreate()
     {
         $productAttribute = new ProductAttribute;
         $productAttribute->setProduct(new Product);

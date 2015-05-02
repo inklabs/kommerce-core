@@ -1,17 +1,10 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\EntityRepository;
-use inklabs\kommerce\Entity as Entity;
+use inklabs\kommerce\Entity;
 
-/**
- * @method Entity\Tag find($id)
- */
-class Tag extends EntityRepository
+class Tag extends AbstractEntityRepository implements TagInterface
 {
-    /**
-     * @return Entity\Tag[]
-     */
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -33,9 +26,6 @@ class Tag extends EntityRepository
         return $tags;
     }
 
-    /**
-     * @return Entity\Tag[]
-     */
     public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -52,9 +42,6 @@ class Tag extends EntityRepository
         return $tags;
     }
 
-    /**
-     * @return Entity\Tag[]
-     */
     public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -68,5 +55,21 @@ class Tag extends EntityRepository
             ->getResult();
 
         return $tags;
+    }
+
+    public function save(Entity\Tag & $tag)
+    {
+        $this->saveEntity($tag);
+    }
+
+    public function create(Entity\Tag & $tag)
+    {
+        $this->persist($tag);
+        $this->flush();
+    }
+
+    public function persist(Entity\Tag & $tag)
+    {
+        $this->persistEntity($tag);
     }
 }

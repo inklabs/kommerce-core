@@ -1,17 +1,23 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\tests\Helper as Helper;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\tests\Helper;
 
 class UserTokenTest extends Helper\DoctrineTestCase
 {
-    /**
-     * @return UserToken
-     */
-    private function getRepository()
+    protected $metaDataClassNames = [
+        'kommerce:User',
+        'kommerce:UserToken',
+        'kommerce:Cart',
+    ];
+
+    /** @var UserTokenInterface */
+    protected $userTokenRepository;
+
+    public function setUp()
     {
-        return $this->entityManager->getRepository('kommerce:UserToken');
+        $this->userTokenRepository = $this->getUserTokenRepository();
     }
 
     public function setupUserWithToken()
@@ -33,12 +39,11 @@ class UserTokenTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $userToken = $this->getRepository()
-            ->find(1);
+        $userToken = $this->userTokenRepository->find(1);
 
         $userToken->getUser()->getEmail();
 
         $this->assertTrue($userToken instanceof Entity\UserToken);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 }

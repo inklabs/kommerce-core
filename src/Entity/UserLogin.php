@@ -1,10 +1,11 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserLogin
+class UserLogin implements EntityInterface
 {
     use Accessor\Created, Accessor\Id;
 
@@ -57,6 +58,7 @@ class UserLogin
 
     public function setUser(User $user)
     {
+        $user->addLogin($this);
         $this->user = $user;
     }
 

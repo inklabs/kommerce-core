@@ -5,19 +5,18 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\ProductQuantityDiscount"
-            table="product_quantity_discount"
             repository-class="inklabs\kommerce\EntityRepository\ProductQuantityDiscount">
 
-        <field name="flagApplyCatalogPromotions" column="apply_catalog_promotions" type="boolean"/>
+        <field name="flagApplyCatalogPromotions" type="boolean"/>
 
-        <field name="quantity" column="quantity" type="smallint">
+        <field name="quantity" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
         <many-to-one field="product" target-entity="Product" inversed-by="productQuantityDiscounts" fetch="EAGER">
-            <join-column name="product_id" referenced-column-name="id" nullable="false"/>
+            <join-column nullable="false"/>
         </many-to-one>
 
     </entity>

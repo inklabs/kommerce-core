@@ -1,27 +1,25 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity as Entity;
-use inklabs\kommerce\Lib as Lib;
-use inklabs\kommerce\EntityRepository as EntityRepository;
-use Doctrine\ORM\EntityManager;
+use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
+use inklabs\kommerce\EntityRepository;
 
-class Coupon extends Lib\ServiceManager
+class Coupon extends AbstractService
 {
-    /** @var EntityRepository\Coupon */
+    /** @var EntityRepository\CouponInterface */
     private $couponRepository;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityRepository\CouponInterface $couponRepository)
     {
-        $this->setEntityManager($entityManager);
-        $this->couponRepository = $entityManager->getRepository('kommerce:Coupon');
+        $this->couponRepository = $couponRepository;
     }
 
-    /* @return Entity\View\Coupon */
+    /* @return View\Coupon */
     public function find($id)
     {
         /** @var Entity\Coupon $entityCoupon */
-        $entityCoupon = $this->entityManager->getRepository('kommerce:Coupon')->find($id);
+        $entityCoupon = $this->couponRepository->find($id);
 
         if ($entityCoupon === null) {
             return null;
@@ -33,23 +31,19 @@ class Coupon extends Lib\ServiceManager
 
     public function getAllCoupons($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $coupons = $this->couponRepository
-            ->getAllCoupons($queryString, $pagination);
-
+        $coupons = $this->couponRepository->getAllCoupons($queryString, $pagination);
         return $this->getViewCoupons($coupons);
     }
 
     public function getAllCouponsByIds($couponIds, Entity\Pagination & $pagination = null)
     {
-        $coupons = $this->couponRepository
-            ->getAllCouponsByIds($couponIds);
-
+        $coupons = $this->couponRepository->getAllCouponsByIds($couponIds, $pagination);
         return $this->getViewCoupons($coupons);
     }
 
     /**
      * @param Entity\Coupon[] $coupons
-     * @return Entity\View\Coupon[]
+     * @return View\Coupon[]
      */
     private function getViewCoupons($coupons)
     {
