@@ -11,10 +11,18 @@ class Cart implements ViewInterface
     public $totalQuantity;
     public $shippingWeight;
     public $shippingWeightInPounds;
+
+    /** @var ShippingRate */
     public $shippingRate;
+
+    /** @var TaxRate */
     public $taxRate;
-    public $sessionId;
+
+    /** @var User */
     public $user;
+
+    public $sessionId;
+
     public $created;
     public $updated;
 
