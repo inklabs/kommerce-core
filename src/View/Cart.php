@@ -11,6 +11,10 @@ class Cart implements ViewInterface
     public $totalQuantity;
     public $shippingWeight;
     public $shippingWeightInPounds;
+    public $shippingRate;
+    public $taxRate;
+    public $sessionId;
+    public $user;
     public $created;
     public $updated;
 
@@ -34,6 +38,18 @@ class Cart implements ViewInterface
         $this->shippingWeightInPounds = $cart->getShippingWeightInPounds();
         $this->created        = $cart->getCreated();
         $this->updated        = $cart->getUpdated();
+
+        if ($cart->getShippingRate() !== null) {
+            $this->shippingRate = $cart->getShippingRate()->getView()->export();
+        }
+
+        if ($cart->getTaxRate() !== null) {
+            $this->taxRate = $cart->getTaxRate()->getView()->export();
+        }
+
+        if ($cart->getUser() !== null) {
+            $this->user = $cart->getUser()->getView()->export();
+        }
     }
 
     public function export()

@@ -19,6 +19,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart = new Entity\Cart;
         $cart->addCartItem($cartItem);
         $cart->addCoupon($coupon);
+        $cart->setShippingRate(new Entity\ShippingRate);
+        $cart->setTaxRate(new Entity\TaxRate);
+        $cart->setuser(new Entity\User);
 
         $viewCart = $cart->getView()
             ->withAllData(new Lib\Pricing)
@@ -27,5 +30,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($viewCart->cartTotal instanceof CartTotal);
         $this->assertTrue($viewCart->cartItems[0] instanceof CartItem);
         $this->assertTrue($viewCart->coupons[0] instanceof Coupon);
+        $this->assertTrue($viewCart->shippingRate instanceof ShippingRate);
+        $this->assertTrue($viewCart->taxRate instanceof TaxRate);
+        $this->assertTrue($viewCart->user instanceof User);
     }
 }

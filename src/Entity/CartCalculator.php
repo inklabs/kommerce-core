@@ -98,10 +98,10 @@ class CartCalculator
         $this->cartTotal->taxSubtotal = max(0, $this->cartTotal->taxSubtotal);
     }
 
-    private function calculateShippingPrice(\inklabs\kommerce\Entity\ShippingRate $shippingRate = null)
+    private function calculateShippingPrice(ShippingRate $shippingRate = null)
     {
         if ($shippingRate !== null) {
-            $this->cartTotal->shipping = $shippingRate->cost;
+            $this->cartTotal->shipping = $shippingRate->getCost();
         }
     }
 

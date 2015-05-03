@@ -1,35 +1,172 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\View;
+
 class ShippingRate
 {
     /** @var string */
-    public $code;
+    protected $code;
 
     /** @var string */
-    public $name;
+    protected $name;
 
     /** @var int */
-    public $cost;
+    protected $cost;
 
     /** @var int */
-    public $deliveryTs;
+    protected $deliveryTs;
 
     /** @var string */
-    public $transitTime;
+    protected $transitTime;
 
     /** @var int */
-    public $weightInPounds;
+    protected $weightInPounds;
 
     /** @var string */
-    public $shipMethod;
+    protected $shipMethod;
 
     /** @var string */
-    public $zip5;
+    protected $zip5;
 
     /** @var string */
-    public $state;
+    protected $state;
 
     /** @var bool */
-    public $isResidential;
+    protected $isResidential;
+
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string $code
+     */
+    public function setCode($code)
+    {
+        $this->code = (string) $code;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = (string) $name;
+    }
+
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param int $cost
+     */
+    public function setCost($cost)
+    {
+        $this->cost = (int) $cost;
+    }
+
+    public function getDeliveryTs()
+    {
+        return $this->deliveryTs;
+    }
+
+    /**
+     * @param int $deliveryTs
+     */
+    public function setDeliveryTs($deliveryTs)
+    {
+        $this->deliveryTs = (int) $deliveryTs;
+    }
+
+    public function getTransitTime()
+    {
+        return $this->transitTime;
+    }
+
+    /**
+     * @param string $transitTime
+     */
+    public function setTransitTime($transitTime)
+    {
+        $this->transitTime = (string) $transitTime;
+    }
+
+    public function getWeightInPounds()
+    {
+        return $this->weightInPounds;
+    }
+
+    /**
+     * @param int $weightInPounds
+     */
+    public function setWeightInPounds($weightInPounds)
+    {
+        $this->weightInPounds = (int) $weightInPounds;
+    }
+
+    public function getShipMethod()
+    {
+        return $this->shipMethod;
+    }
+
+    /**
+     * @param string $shipMethod
+     */
+    public function setShipMethod($shipMethod)
+    {
+        $this->shipMethod = (string) $shipMethod;
+    }
+
+    public function getZip5()
+    {
+        return $this->zip5;
+    }
+
+    /**
+     * @param string $zip5
+     */
+    public function setZip5($zip5)
+    {
+        $this->zip5 = (string) $zip5;
+    }
+
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $state
+     */
+    public function setState($state)
+    {
+        $this->state = (string) $state;
+    }
+
+    public function isResidential()
+    {
+        return $this->isResidential;
+    }
+
+    /**
+     * @param boolean $isResidential
+     */
+    public function setIsResidential($isResidential)
+    {
+        $this->isResidential = (bool) $isResidential;
+    }
+
+    public function getView()
+    {
+        return new View\ShippingRate($this);
+    }
 }

@@ -188,6 +188,9 @@ class Product implements EntityInterface
         return $this->quantity;
     }
 
+    /**
+     * @param boolean $isInventoryRequired
+     */
     public function setIsInventoryRequired($isInventoryRequired)
     {
         $this->isInventoryRequired = (bool) $isInventoryRequired;
@@ -198,6 +201,9 @@ class Product implements EntityInterface
         return $this->isInventoryRequired;
     }
 
+    /**
+     * @param boolean $isPriceVisible
+     */
     public function setIsPriceVisible($isPriceVisible)
     {
         $this->isPriceVisible = (bool) $isPriceVisible;
@@ -208,6 +214,9 @@ class Product implements EntityInterface
         return $this->isPriceVisible;
     }
 
+    /**
+     * @param boolean $isActive
+     */
     public function setIsActive($isActive)
     {
         $this->isActive = (bool) $isActive;
@@ -218,6 +227,9 @@ class Product implements EntityInterface
         return $this->isActive;
     }
 
+    /**
+     * @param boolean $isVisible
+     */
     public function setIsVisible($isVisible)
     {
         $this->isVisible = (bool) $isVisible;
@@ -228,6 +240,9 @@ class Product implements EntityInterface
         return $this->isVisible;
     }
 
+    /**
+     * @param boolean $isShippable
+     */
     public function setIsShippable($isShippable)
     {
         $this->isShippable = (bool) $isShippable;
