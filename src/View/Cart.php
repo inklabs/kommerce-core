@@ -71,7 +71,7 @@ class Cart implements ViewInterface
         Entity\ShippingRate $shippingRate = null,
         Entity\TaxRate $taxRate = null
     ) {
-        $this->cartTotal = $this->cart->getTotal($pricing, $shippingRate, $taxRate)->getView()
+        $this->cartTotal = $this->cart->getTotal($pricing)->getView()
             ->withAllData()
             ->export();
 

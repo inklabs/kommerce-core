@@ -218,16 +218,16 @@ class Cart implements EntityInterface
         return (int) ceil($this->getShippingWeight() / 16);
     }
 
-    public function getTotal(Lib\PricingInterface $pricing, ShippingRate $shippingRate = null, TaxRate $taxRate = null)
+    public function getTotal(Lib\PricingInterface $pricing)
     {
         $cartCalculator = new CartCalculator($this);
-        return $cartCalculator->getTotal($pricing, $shippingRate, $taxRate);
+        return $cartCalculator->getTotal($pricing, $this->shippingRate, $this->taxRate);
     }
 
     public function getOrder(Lib\PricingInterface $pricing)
     {
         $order = new Order;
-        $order->setTotal($this->getTotal($pricing, $this->shippingRate, $this->taxRate));
+        $order->setTotal($this->getTotal($pricing));
 
         foreach ($this->getCartItems() as $item) {
             $order->addOrderItem($item->getOrderItem($pricing));
