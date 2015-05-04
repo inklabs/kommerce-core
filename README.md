@@ -15,21 +15,73 @@ are using the PSR-4 standard.
 
 ## Description
 
-This project is over 26,000 lines of code. Unit tests account for 30-40% of that total. There are four
-main modules in this project:
+This project is over 26,000 lines of code. Unit tests account for 30-40% of that total. Below are the
+modules in this project:
 
-* Entities (src/Entity)
+* Entity
     - These are plain old PHP objects. You will not find any ORM code or external dependencies here. This is where
       object relationships are constructed.
 
       ```php
+      $tag = new Entity\Tag
+      $tag->setName('Test Tag');
+
       $product = new Entity\Product;
       $product->setName('Test Product');
       $product->setUnitPrice(500);
-      $product->addTag(new Entity\Tag);
+      $product->addTag($tag);
       ```
 
-* Libraries (src/Lib)
+* EntityRepository
+    - This module is responsible for storing and retrieving entities. Each repository conforms to an interface
+      allowing you to quickly change the backend storage or use a decorator for persistence operations. 
+
+      ```php
+      $productRepository = $this->entityManager->getRepository('kommerce:Product');
+
+      $productId = 1;
+      $product = $productRepository->find($productId);
+      $product->setUnitPrice(600);
+      $productRepository->save($product);
+      ```
+
+* View
+    - Often you want to use your entities as plain value objects in your main application, typically in your HTML
+      templates. These classes format the entities as simple objects with public class member variables. The
+      complete network relationship graph are also available if you request them (e.g., withAllData()).
+
+      ```php
+      $product = new Entity\Product;
+      $product->addTag(new Entity\Tag);
+
+      $viewProduct = new View\Product($product)
+        ->withAllData(new Lib\Pricing)
+        ->export();
+
+      echo $viewProduct->sku;
+      echo $viewProduct->price->unitPrice;
+      echo $viewProduct->tags[0]->name;
+      ```
+
+* Service
+    - These are the interactors that manage the choreography between entities and the database via
+      an EntityRepository. There is heavy dependency injection into the constructors in this layer.
+      Services know about Entities and always return a View object.
+
+      ```php
+      $productService = new Service\Product(
+          $this->productRepository,
+          $this->tagRepository
+      );
+
+      $productId = 1;
+      $viewProduct = $productService->find($productId);
+      $viewProduct->sku = 'NEW-SKU';
+
+      $productService->edit($productId, $viewProduct);
+      ```
+
+* Lib
     - This is where you will find a variety of utility code including the Payment Gateway (src/Lib/PaymentGateway).
 
       ```php
@@ -49,43 +101,6 @@ main modules in this project:
 
       $stripe = new Lib\PaymentGateway\StripeFake;
       $charge = $stripe->getCharge($chargeRequest);
-      ```
-
-* Services (src/Service)
-    - These are the interactors that manage the choreography between entities and the database via
-      an EntityRepository. There is heavy dependency injection into the constructors in this layer.
-      Services know about Entities and always return a View object.
-
-      ```php
-      $productService = new Service\Product(
-          $this->productRepository,
-          $this->tagRepository
-      );
-
-      $productId = 1;
-      $viewProduct = $productService->find($productId);
-      $viewProduct->sku = 'NEW-SKU';
-
-      $productService->edit($productId, $viewProduct);
-      ```
-
-* Views (src/View)
-    - Often you want to use your entities as plain value objects in your main application, typically in your view
-      templates. These classes act as a decorator to Entities. They format the entities as simple objects with public
-      class member variables. The complete network relationship graph are also available if you request them
-      (e.g., withAllData()).
-
-      ```php
-      $product = new Entity\Product;
-      $product->addTag(new Entity\Tag);
-
-      $viewProduct = new View\Product($product)
-        ->withAllData(new Lib\Pricing)
-        ->export();
-
-      echo $viewProduct->sku;
-      echo $viewProduct->price->unitPrice;
-      echo $viewProduct->tags[0]->name;
       ```
 
 ## Installation
