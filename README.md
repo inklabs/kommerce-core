@@ -48,7 +48,7 @@ modules in this project:
 * View
     - Often you want to use your entities as plain value objects in your main application, typically in your HTML
       templates. These classes format the entities as simple objects with public class member variables. The
-      complete network relationship graph are also available if you request them (e.g., withAllData()).
+      complete network graph relationships are also available if you request them (e.g., withAllData()).
 
       ```php
       $product = new Entity\Product;
