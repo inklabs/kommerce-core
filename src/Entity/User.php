@@ -62,7 +62,7 @@ class User implements EntityInterface
 
         $this->totalLogins = 0;
         $this->lastLogin = null;
-        $this->status = self::STATUS_ACTIVE;
+        $this->status = static::STATUS_ACTIVE;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -98,7 +98,16 @@ class User implements EntityInterface
             'choices' => array_keys(static::getStatusMapping()),
             'message' => 'The status is not a valid choice',
         ]));
+    }
 
+    public function loadFromView(View\User $viewUser)
+    {
+        $this->setFirstName($viewUser->firstName);
+        $this->setLastName($viewUser->lastName);
+        $this->setEmail($viewUser->email);
+        $this->setPasswordHash($viewUser->passwordHash);
+        $this->setExternalId($viewUser->externalId);
+        $this->setStatus($viewUser->status);
     }
 
     public function getCart()
@@ -163,14 +172,34 @@ class User implements EntityInterface
         return $this->email;
     }
 
-    public function setPassword($password)
+    /**
+     * @param string $password
+     */
+    public function setPassword($password = null)
     {
-        $this->passwordHash = password_hash($password, PASSWORD_BCRYPT);
+        if (empty($password)) {
+            $password = uniqid();
+        }
+
+        $this->passwordHash = password_hash((string) $password, PASSWORD_BCRYPT);
     }
 
     public function verifyPassword($password)
     {
         return password_verify($password, $this->passwordHash);
+    }
+
+    public function getPasswordHash()
+    {
+        return $this->passwordHash;
+    }
+
+    /**
+     * @param string $passwordHash
+     */
+    public function setPasswordHash($passwordHash)
+    {
+        $this->passwordHash = $passwordHash;
     }
 
     public function setFirstName($firstName)

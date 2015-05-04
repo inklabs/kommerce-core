@@ -355,9 +355,24 @@ class Cart extends AbstractService
         return $order;
     }
 
-    public function setUser(Entity\User $user)
+    /**
+     * @param int $cartId
+     * @param int $userId
+     * @throws \LogicException
+     */
+    public function setUserById($cartId, $userId)
     {
-        $this->user = $user;
+        $user = $this->userRepository->find($userId);
+
+        if ($user === null) {
+            throw new \LogicException('User not found');
+        }
+
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+
+        $cart->setUser($user);
+
+        $this->cartRepository->save($cart);
     }
 
     /**

@@ -58,6 +58,24 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($user->getView() instanceof View\User);
     }
 
+    public function testSetPasswordEmpty()
+    {
+        $user = new User;
+
+        $this->assertSame(null, $user->getPasswordHash());
+
+        $user->setPassword();
+
+        $this->assertTrue(is_string($user->getPasswordHash()));
+    }
+
+    public function testLoadFromView()
+    {
+        $user = new User;
+        $user->loadFromView(new View\User(new User));
+        $this->assertTrue($user instanceof User);
+    }
+
     public function testVerifyPassword()
     {
         $user = new User;

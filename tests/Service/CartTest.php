@@ -291,7 +291,30 @@ class CartTest extends Helper\DoctrineTestCase
 
         $this->cartService->setShippingRate($cartId, new Entity\ShippingRate);
         $this->cartService->setTaxRate($cartId, new Entity\TaxRate);
-        $this->cartService->setUser(new Entity\User);
+    }
+
+    public function testSetUser()
+    {
+        $cartId = 1;
+        $userId = 1;
+        $this->cartService->setUserById($cartId, $userId);
+
+        $cart = $this->cartService->getCartFull($cartId);
+
+        $this->assertTrue($cart->user instanceof View\User);
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage User not found
+     */
+    public function testSetUserWithMissingUser()
+    {
+        $this->userRepository->setReturnValue(null);
+
+        $cartId = 1;
+        $userId = 1;
+        $this->cartService->setUserById($cartId, $userId);
     }
 
     public function testAddOrder()

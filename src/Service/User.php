@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
+use Symfony\Component\Validator\Exception\ValidatorException;
 
 class User extends AbstractService
 {
@@ -25,11 +26,11 @@ class User extends AbstractService
     }
 
     /**
-     * @param int $userId
      * @param string $email
      * @param string $password
      * @param string $remoteIp
      * @return bool
+     * @throws UserLoginException
      */
     public function login($email, $password, $remoteIp)
     {
@@ -96,6 +97,42 @@ class User extends AbstractService
             ->export();
     }
 
+    /**
+     * @param int $userId
+     * @param View\User $viewUser
+     * @return Entity\User
+     * @throws ValidatorException
+     */
+    public function edit($userId, View\User $viewUser)
+    {
+        $user = $this->getUserAndThrowExceptionIfMissing($userId);
+
+        $user->loadFromView($viewUser);
+
+        $this->throwValidationErrors($user);
+
+        $this->userRepository->save($user);
+
+        return $user;
+    }
+
+    /**
+     * @param View\User $viewUser
+     * @return Entity\User
+     * @throws ValidatorException
+     */
+    public function create(View\User $viewUser)
+    {
+        $user = new Entity\User;
+        $user->loadFromView($viewUser);
+
+        $this->throwValidationErrors($user);
+
+        $this->userRepository->save($user);
+
+        return $user;
+    }
+
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
         $users = $this->userRepository->getAllUsers($queryString, $pagination);
@@ -121,5 +158,21 @@ class User extends AbstractService
         }
 
         return $viewUsers;
+    }
+
+    /**
+     * @param $userId
+     * @return Entity\User
+     * @throws \LogicException
+     */
+    private function getUserAndThrowExceptionIfMissing($userId)
+    {
+        $user = $this->userRepository->find($userId);
+
+        if ($user === null) {
+            throw new \LogicException('Missing User');
+        }
+
+        return $user;
     }
 }

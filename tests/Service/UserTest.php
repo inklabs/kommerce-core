@@ -44,6 +44,38 @@ class UserTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $viewUser);
     }
 
+    public function testCreate()
+    {
+        $user = $this->getDummyUser();
+        $viewUser = $user->getView()->export();
+        $viewUser->firstName = 'Jane';
+
+        $newUser = $this->userService->create($viewUser);
+        $this->assertTrue($newUser instanceof Entity\User);
+    }
+
+    public function testEdit()
+    {
+        $user = $this->getDummyUser();
+        $viewUser = $user->getView()->export();
+        $viewUser->firstName = 'Jane';
+
+        $user = $this->userService->edit($viewUser->id, $viewUser);
+        $this->assertTrue($user instanceof Entity\User);
+
+        $this->assertSame('Jane', $user->getFirstName());
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Missing User
+     */
+    public function testEditWithMissingUser()
+    {
+        $this->userRepository->setReturnValue(null);
+        $user = $this->userService->edit(1, new View\User(new Entity\User));
+    }
+
     public function testUserLogin()
     {
         $user = $this->getDummyUser();
