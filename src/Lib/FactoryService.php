@@ -23,7 +23,7 @@ class FactoryService
     /**
      * @param FactoryRepository $factoryRepository
      * @param Lib\Pricing $pricing
-     * @return static
+     * @return self
      */
     public static function getInstance(
         FactoryRepository $factoryRepository,

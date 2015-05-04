@@ -17,7 +17,7 @@ class FactoryRepository
 
     /**
      * @param EntityManager $entityManager
-     * @return FactoryRepository
+     * @return self
      */
     public static function getInstance(EntityManager $entityManager)
     {
