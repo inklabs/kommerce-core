@@ -140,7 +140,7 @@ class FactoryRepository
     /**
      * @return EntityRepository\OrderInterface
      */
-    public function getOrderWithHashSequentialGenerator()
+    public function getOrderWithSequentialGenerator()
     {
         /** @var EntityRepository\OrderInterface $orderRepository */
         $orderRepository = $this->entityManager->getRepository('kommerce:Order');

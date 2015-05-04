@@ -90,7 +90,7 @@ class OrderTest extends Helper\DoctrineTestCase
 
     public function testCreateWithSequentialReferenceNumber()
     {
-        $this->orderRepository = $this->repository()->getOrderWithHashSequentialGenerator();
+        $this->orderRepository = $this->repository()->getOrderWithSequentialGenerator();
 
         $order = $this->setupOrder();
 
