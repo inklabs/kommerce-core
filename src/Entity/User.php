@@ -105,7 +105,6 @@ class User implements EntityInterface
         $this->setFirstName($viewUser->firstName);
         $this->setLastName($viewUser->lastName);
         $this->setEmail($viewUser->email);
-        $this->setPasswordHash($viewUser->passwordHash);
         $this->setExternalId($viewUser->externalId);
         $this->setStatus($viewUser->status);
     }
@@ -187,19 +186,6 @@ class User implements EntityInterface
     public function verifyPassword($password)
     {
         return password_verify($password, $this->passwordHash);
-    }
-
-    public function getPasswordHash()
-    {
-        return $this->passwordHash;
-    }
-
-    /**
-     * @param string $passwordHash
-     */
-    public function setPasswordHash($passwordHash)
-    {
-        $this->passwordHash = $passwordHash;
     }
 
     public function setFirstName($firstName)

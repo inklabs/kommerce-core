@@ -10,7 +10,6 @@ class User implements ViewInterface
     public $encodedId;
     public $externalId;
     public $email;
-    public $passwordHash;
     public $firstName;
     public $lastName;
     public $totalLogins;
@@ -37,7 +36,6 @@ class User implements ViewInterface
         $this->encodedId   = Lib\BaseConvert::encode($user->getId());
         $this->externalId  = $user->getExternalId();
         $this->email       = $user->getEmail();
-        $this->passwordHash = $user->getPasswordHash();
         $this->firstName   = $user->getFirstName();
         $this->lastName    = $user->getLastName();
         $this->totalLogins = $user->getTotalLogins();

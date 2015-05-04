@@ -333,6 +333,13 @@ class Cart extends AbstractService
         $this->cartRepository->save($cart);
     }
 
+    /**
+     * @param int $cartId
+     * @param Payment $payment
+     * @param OrderAddress $shippingAddress
+     * @param OrderAddress $billingAddress
+     * @return Entity\Order
+     */
     public function createOrder(
         $cartId,
         Payment $payment,

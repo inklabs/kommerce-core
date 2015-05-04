@@ -98,38 +98,26 @@ class User extends AbstractService
     }
 
     /**
-     * @param int $userId
-     * @param View\User $viewUser
+     * @param Entity\User $user
      * @return Entity\User
      * @throws ValidatorException
      */
-    public function edit($userId, View\User $viewUser)
+    public function edit(Entity\User $user)
     {
-        $user = $this->getUserAndThrowExceptionIfMissing($userId);
-
-        $user->loadFromView($viewUser);
-
         $this->throwValidationErrors($user);
-
         $this->userRepository->save($user);
-
         return $user;
     }
 
     /**
-     * @param View\User $viewUser
+     * @param Entity\User $user
      * @return Entity\User
      * @throws ValidatorException
      */
-    public function create(View\User $viewUser)
+    public function create(Entity\User $user)
     {
-        $user = new Entity\User;
-        $user->loadFromView($viewUser);
-
         $this->throwValidationErrors($user);
-
         $this->userRepository->save($user);
-
         return $user;
     }
 
@@ -158,21 +146,5 @@ class User extends AbstractService
         }
 
         return $viewUsers;
-    }
-
-    /**
-     * @param $userId
-     * @return Entity\User
-     * @throws \LogicException
-     */
-    private function getUserAndThrowExceptionIfMissing($userId)
-    {
-        $user = $this->userRepository->find($userId);
-
-        if ($user === null) {
-            throw new \LogicException('Missing User');
-        }
-
-        return $user;
     }
 }
