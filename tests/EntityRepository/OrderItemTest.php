@@ -29,7 +29,7 @@ class OrderItemTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->orderItemRepository = $this->getOrderItemRepository();
+        $this->orderItemRepository = $this->repository()->getOrderItem();
     }
 
     public function setupOrderItem()

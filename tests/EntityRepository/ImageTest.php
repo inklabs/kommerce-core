@@ -17,7 +17,7 @@ class ImageTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->imageRepository = $this->getImageRepository();
+        $this->imageRepository = $this->repository()->getImage();
     }
 
     public function setupImageWithProductAndTag()

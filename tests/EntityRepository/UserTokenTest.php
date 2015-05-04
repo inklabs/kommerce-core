@@ -17,7 +17,7 @@ class UserTokenTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->userTokenRepository = $this->getUserTokenRepository();
+        $this->userTokenRepository = $this->repository()->getUserToken();
     }
 
     public function setupUserWithToken()

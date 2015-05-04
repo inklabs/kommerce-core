@@ -18,7 +18,7 @@ class ProductAttributeTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->productAttributeRepository = $this->getProductAttributeRepository();
+        $this->productAttributeRepository = $this->repository()->getProductAttribute();
     }
 
     private function setupProductAttribute()

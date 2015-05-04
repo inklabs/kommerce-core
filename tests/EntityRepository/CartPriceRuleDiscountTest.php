@@ -18,7 +18,7 @@ class CartPriceRuleDiscountTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->cartPriceRuleDiscountRepository = $this->getCartpriceRuleDiscountRepository();
+        $this->cartPriceRuleDiscountRepository = $this->repository()->getCartpriceRuleDiscount();
     }
 
     public function setupCartPriceRuleDiscount()

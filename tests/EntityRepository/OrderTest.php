@@ -25,7 +25,7 @@ class OrderTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->orderRepository = $this->getOrderRepository();
+        $this->orderRepository = $this->repository()->getOrder();
     }
 
     public function setupOrder($referenceNumber = null)
@@ -90,7 +90,7 @@ class OrderTest extends Helper\DoctrineTestCase
 
     public function testCreateWithSequentialReferenceNumber()
     {
-        $this->orderRepository->setReferenceNumberGenerator(new SequentialGenerator);
+        $this->orderRepository = $this->repository()->getOrderWithHashSequentialGenerator();
 
         $order = $this->setupOrder();
 
@@ -102,9 +102,7 @@ class OrderTest extends Helper\DoctrineTestCase
     {
         mt_srand(0);
 
-        $this->orderRepository->setReferenceNumberGenerator(
-            new HashSegmentGenerator($this->orderRepository)
-        );
+        $this->orderRepository = $this->repository()->getOrderWithHashSegmentGenerator();
 
         $order = $this->setupOrder();
 

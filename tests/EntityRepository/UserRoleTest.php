@@ -17,7 +17,7 @@ class UserRoleTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->userRoleRepository = $this->getUserRoleRepository();
+        $this->userRoleRepository = $this->repository()->getUserRole();
     }
 
     public function setupUserWithRole()

@@ -23,10 +23,11 @@ class OrderItemTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
+        $repositoryFactory = $this->repository();
         $orderItemService = new OrderItem(
-            $this->getOrderRepository(),
-            $this->getOrderItemRepository(),
-            $this->getProductRepository()
+            $repositoryFactory->getOrder(),
+            $repositoryFactory->getOrderItem(),
+            $repositoryFactory->getProduct()
         );
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/OrderItemTest.csv');

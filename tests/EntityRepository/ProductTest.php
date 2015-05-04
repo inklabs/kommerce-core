@@ -23,7 +23,7 @@ class ProductTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->productRepository = $this->getProductRepository();
+        $this->productRepository = $this->repository()->getProduct();
     }
 
     private function setupProduct()
