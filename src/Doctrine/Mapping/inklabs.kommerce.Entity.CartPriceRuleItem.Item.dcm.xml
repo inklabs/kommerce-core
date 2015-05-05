@@ -5,6 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\CartPriceRuleItem\Item"
+            table="CartPriceRuleItem"
             inheritance-type="SINGLE_TABLE"
             repository-class="inklabs\kommerce\EntityRepository\CartPriceRuleItem\Item">
 
