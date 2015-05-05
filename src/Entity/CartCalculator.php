@@ -19,7 +19,7 @@ class CartCalculator
         $this->cart = $cart;
     }
 
-    public function getTotal(Lib\PricingInterface $pricing, ShippingRate $shippingRate = null, TaxRate $taxRate = null)
+    public function getTotal(Lib\Pricing $pricing, ShippingRate $shippingRate = null, TaxRate $taxRate = null)
     {
         $this->pricing = $pricing;
 

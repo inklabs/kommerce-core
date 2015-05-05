@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib;
 
 class FactoryService
 {
-    /** @var Lib\Pricing */
+    /** @var Lib\PricingInterface */
     private $pricing;
 
     /** @var FactoryRepository */
@@ -14,7 +14,7 @@ class FactoryService
 
     public function __construct(
         FactoryRepository $factoryRepository,
-        Lib\Pricing $pricing = null
+        Lib\PricingInterface $pricing = null
     ) {
         $this->pricing = $pricing;
         $this->factoryRepository = $factoryRepository;
@@ -22,12 +22,12 @@ class FactoryService
 
     /**
      * @param FactoryRepository $factoryRepository
-     * @param Lib\Pricing $pricing
+     * @param Lib\PricingInterface $pricing
      * @return self
      */
     public static function getInstance(
         FactoryRepository $factoryRepository,
-        Lib\Pricing $pricing = null
+        Lib\PricingInterface $pricing = null
     ) {
         static $factoryService = null;
 
