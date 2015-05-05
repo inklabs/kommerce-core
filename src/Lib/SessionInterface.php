@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-interface SessionManager
+interface SessionInterface
 {
     /**
      * @param string $key
