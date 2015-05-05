@@ -20,9 +20,13 @@ class FactoryServiceTest extends Helper\DoctrineTestCase
     public function testGetServices()
     {
         $factoryService = $this->service(new Pricing);
+        $this->assertTrue($factoryService->getAttribute() instanceof Service\Attribute);
+        $this->assertTrue($factoryService->getAttributeValue() instanceof Service\AttributeValue);
         $this->assertTrue($factoryService->getCart() instanceof Service\Cart);
+        $this->assertTrue($factoryService->getCartPriceRule() instanceof Service\CartPriceRule);
         $this->assertTrue($factoryService->getCatalogPromotion() instanceof Service\CatalogPromotion);
         $this->assertTrue($factoryService->getCoupon() instanceof Service\Coupon);
+        $this->assertTrue($factoryService->getImage() instanceof Service\Image);
         $this->assertTrue($factoryService->getOrder() instanceof Service\Order);
         $this->assertTrue($factoryService->getProduct() instanceof Service\Product);
         $this->assertTrue($factoryService->getTag() instanceof Service\Tag);
