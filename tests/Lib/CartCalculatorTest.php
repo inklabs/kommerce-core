@@ -1,29 +1,30 @@
 <?php
-namespace inklabs\kommerce\Entity;
+namespace inklabs\kommerce\Lib;
 
+use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
 class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetTotal()
     {
-        $product1 = new Product;
+        $product1 = new Entity\Product;
         $product1->setUnitPrice(500);
-        $cartItem1 = new CartItem;
+        $cartItem1 = new Entity\CartItem;
         $cartItem1->setProduct($product1);
         $cartItem1->setQuantity(2);
 
-        $product2 = new Product;
+        $product2 = new Entity\Product;
         $product2->setUnitPrice(300);
-        $cartItem2 = new CartItem;
+        $cartItem2 = new Entity\CartItem;
         $cartItem2->setProduct($product2);
         $cartItem2->setQuantity(1);
 
-        $cart = new Cart;
+        $cart = new Entity\Cart;
         $cart->addCartItem($cartItem1);
         $cart->addCartItem($cartItem2);
 
-        $expectedCartTotal = new CartTotal;
+        $expectedCartTotal = new Entity\CartTotal;
         $expectedCartTotal->origSubtotal = 1300;
         $expectedCartTotal->subtotal = 1300;
         $expectedCartTotal->shipping = 0;
@@ -32,42 +33,42 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->total = 1300;
         $expectedCartTotal->savings = 0;
 
-        $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Lib\Pricing));
+        $cartCalculator = new CartCalculator(new Lib\Pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 
     public function testGetTotalWithCartPriceRules()
     {
-        $productShirt = new Product;
+        $productShirt = new Entity\Product;
         $productShirt->setId(1);
         $productShirt->setUnitPrice(1200);
 
-        $productPoster = new Product;
+        $productPoster = new Entity\Product;
         $productPoster->setId(2);
         $productPoster->setUnitPrice(500);
 
-        $cartPriceRule = new CartPriceRule;
+        $cartPriceRule = new Entity\CartPriceRule;
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product($productShirt, 1));
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product($productPoster, 1));
-        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productShirt, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productPoster, 1));
+        $cartPriceRule->addDiscount(new Entity\CartPriceRuleDiscount($productPoster));
 
         $pricing = new Lib\Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
-        $cartItem1 = new CartItem;
+        $cartItem1 = new Entity\CartItem;
         $cartItem1->setProduct($productShirt);
         $cartItem1->setQuantity(1);
 
-        $cartItem2 = new CartItem;
+        $cartItem2 = new Entity\CartItem;
         $cartItem2->setProduct($productPoster);
         $cartItem2->setQuantity(1);
 
-        $cart = new Cart;
+        $cart = new Entity\Cart;
         $cart->addCartItem($cartItem1);
         $cart->addCartItem($cartItem2);
 
-        $expectedCartTotal = new CartTotal;
+        $expectedCartTotal = new Entity\CartTotal;
         $expectedCartTotal->origSubtotal = 1700;
         $expectedCartTotal->subtotal = 1700;
         $expectedCartTotal->shipping = 0;
@@ -77,46 +78,46 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->savings = 500;
         $expectedCartTotal->cartPriceRules = [$cartPriceRule];
 
-        $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($pricing));
+        $cartCalculator = new CartCalculator($pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 
     public function testGetTotalCartPriceRuleInvalidCartItems()
     {
-        $productShirt = new Product;
+        $productShirt = new Entity\Product;
         $productShirt->setId(1);
         $productShirt->setUnitPrice(1200);
 
-        $productPoster = new Product;
+        $productPoster = new Entity\Product;
         $productPoster->setId(2);
         $productPoster->setUnitPrice(500);
 
-        $productJacket = new Product;
+        $productJacket = new Entity\Product;
         $productJacket->setId(3);
         $productJacket->setUnitPrice(2500);
 
-        $cartPriceRule = new CartPriceRule;
+        $cartPriceRule = new Entity\CartPriceRule;
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product($productShirt, 1));
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product($productPoster, 1));
-        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productShirt, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productPoster, 1));
+        $cartPriceRule->addDiscount(new Entity\CartPriceRuleDiscount($productPoster, 1));
 
         $pricing = new Lib\Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
-        $cartItem1 = new CartItem;
+        $cartItem1 = new Entity\CartItem;
         $cartItem1->setProduct($productShirt);
         $cartItem1->setQuantity(1);
 
-        $cartItem2 = new CartItem;
+        $cartItem2 = new Entity\CartItem;
         $cartItem2->setProduct($productJacket);
         $cartItem2->setQuantity(1);
 
-        $cart = new Cart;
+        $cart = new Entity\Cart;
         $cart->addCartItem($cartItem1);
         $cart->addCartItem($cartItem2);
 
-        $expectedCartTotal = new CartTotal;
+        $expectedCartTotal = new Entity\CartTotal;
         $expectedCartTotal->origSubtotal = 3700;
         $expectedCartTotal->subtotal = 3700;
         $expectedCartTotal->shipping = 0;
@@ -126,52 +127,53 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->savings = 0;
         $expectedCartTotal->cartPriceRules = [];
 
-        $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($pricing));
+        $cartCalculator = new CartCalculator($pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 
     public function testGetTotalWithCartPriceRulesAndReducesTaxSubtotal()
     {
-        $productShirt = new Product;
+        $productShirt = new Entity\Product;
         $productShirt->setSku('TS-NAVY-LG');
         $productShirt->setName('Navy T-shirt (large)');
         $productShirt->setUnitPrice(1200);
         $productShirt->setIsTaxable(true);
 
-        $productPoster = new Product;
+        $productPoster = new Entity\Product;
         $productPoster->setSku('PST-CKN');
         $productPoster->setName('Citizen Kane (1941) Poster');
         $productPoster->setUnitPrice(500);
         $productPoster->setIsTaxable(true);
 
-        $cartPriceRule = new CartPriceRule;
+        $cartPriceRule = new Entity\CartPriceRule;
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product($productShirt, 1));
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product($productPoster, 1));
-        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productShirt, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productPoster, 1));
+        $cartPriceRule->addDiscount(new Entity\CartPriceRuleDiscount($productPoster, 1));
         $cartPriceRule->setReducesTaxSubtotal(true);
 
         $pricing = new Lib\Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
-        $cartItem1 = new CartItem;
+        $cartItem1 = new Entity\CartItem;
         $cartItem1->setProduct($productShirt);
         $cartItem1->setQuantity(1);
 
-        $cartItem2 = new CartItem;
+        $cartItem2 = new Entity\CartItem;
         $cartItem2->setProduct($productPoster);
         $cartItem2->setQuantity(1);
 
-        $cart = new Cart;
-        $cart->addCartItem($cartItem1);
-        $cart->addCartItem($cartItem2);
-
-        $taxRate = new TaxRate;
+        $taxRate = new Entity\TaxRate;
         $taxRate->setZip5(92606);
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $expectedCartTotal = new CartTotal;
+        $cart = new Entity\Cart;
+        $cart->addCartItem($cartItem1);
+        $cart->addCartItem($cartItem2);
+        $cart->setTaxRate($taxRate);
+
+        $expectedCartTotal = new Entity\CartTotal;
         $expectedCartTotal->origSubtotal = 1700;
         $expectedCartTotal->subtotal = 1700;
         $expectedCartTotal->taxSubtotal = 1200;
@@ -183,32 +185,30 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->cartPriceRules = [$cartPriceRule];
         $expectedCartTotal->taxRate = $taxRate;
 
-        $shippingRate = null;
-        $cartCalculator = new CartCalculator($cart);
-        $cartTotal = $cartCalculator->getTotal($pricing, $shippingRate, $taxRate);
-        $this->assertEquals($expectedCartTotal, $cartTotal);
+        $cartCalculator = new CartCalculator($pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 
     public function testGetTotalWithCoupon()
     {
-        $product = new Product;
+        $product = new Entity\Product;
         $product->setUnitPrice(500);
 
-        $coupon = new Coupon;
+        $coupon = new Entity\Coupon;
         $coupon->setid(1);
         $coupon->setName('20% Off');
-        $coupon->setType(Promotion::TYPE_PERCENT);
+        $coupon->setType(Entity\Promotion::TYPE_PERCENT);
         $coupon->setValue(20);
 
-        $cartItem = new CartItem;
+        $cartItem = new Entity\CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(5);
 
-        $cart = new Cart;
+        $cart = new Entity\Cart;
         $cart->addCoupon($coupon);
         $cart->addCartItem($cartItem);
 
-        $expectedCartTotal = new CartTotal;
+        $expectedCartTotal = new Entity\CartTotal;
         $expectedCartTotal->origSubtotal = 2500;
         $expectedCartTotal->subtotal = 2500;
         $expectedCartTotal->shipping = 0;
@@ -218,36 +218,37 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->savings = 500;
         $expectedCartTotal->coupons = [$coupon];
 
-        $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Lib\Pricing));
+        $cartCalculator = new CartCalculator(new Lib\Pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 
     public function testGetTotalWithCouponWithFreeShipping()
     {
-        $coupon = new Coupon;
+        $coupon = new Entity\Coupon;
         $coupon->setid(1);
         $coupon->setName('20% Off');
-        $coupon->setType(Promotion::TYPE_PERCENT);
+        $coupon->setType(Entity\Promotion::TYPE_PERCENT);
         $coupon->setValue(20);
         $coupon->setFlagFreeShipping(true);
 
-        $product = new Product;
+        $product = new Entity\Product;
         $product->setUnitPrice(500);
 
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product);
-        $cartItem->setQuantity(2);
-
-        $cart = new Cart;
-        $cart->addCoupon($coupon);
-        $cart->addCartItem($cartItem);
-
-        $shippingRate = new \inklabs\kommerce\Entity\ShippingRate;
+        $shippingRate = new Entity\ShippingRate;
         $shippingRate->setCode('4');
         $shippingRate->setName('Parcel Post');
         $shippingRate->setCost(1000);
 
-        $expectedCartTotal = new CartTotal;
+        $cartItem = new Entity\CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+
+        $cart = new Entity\Cart;
+        $cart->addCoupon($coupon);
+        $cart->addCartItem($cartItem);
+        $cart->setShippingRate($shippingRate);
+
+        $expectedCartTotal = new Entity\CartTotal;
         $expectedCartTotal->origSubtotal = 1000;
         $expectedCartTotal->subtotal = 1000;
         $expectedCartTotal->shipping = 1000;
@@ -258,28 +259,29 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->savings = 1200;
         $expectedCartTotal->coupons = [$coupon];
 
-        $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Lib\Pricing, $shippingRate));
+        $cartCalculator = new CartCalculator(new Lib\Pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 
     public function testGetTotalWithShipping()
     {
-        $product = new Product;
+        $product = new Entity\Product;
         $product->setUnitPrice(500);
 
-        $shippingRate = new \inklabs\kommerce\Entity\ShippingRate;
+        $shippingRate = new Entity\ShippingRate;
         $shippingRate->setCode('4');
         $shippingRate->setName('Parcel Post');
         $shippingRate->setCost(1000);
 
-        $cartItem = new CartItem;
+        $cartItem = new Entity\CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(3);
 
-        $cart = new Cart;
+        $cart = new Entity\Cart;
         $cart->addCartItem($cartItem);
+        $cart->setShippingRate($shippingRate);
 
-        $expectedCartTotal = new CartTotal;
+        $expectedCartTotal = new Entity\CartTotal;
         $expectedCartTotal->origSubtotal = 1500;
         $expectedCartTotal->subtotal = 1500;
         $expectedCartTotal->shipping = 1000;
@@ -288,29 +290,30 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->total = 2500;
         $expectedCartTotal->savings = 0;
 
-        $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Lib\Pricing, $shippingRate));
+        $cartCalculator = new CartCalculator(new Lib\Pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 
     public function testGetTotalWithZip5TaxNotAppliedToShipping()
     {
-        $product = new Product;
+        $product = new Entity\Product;
         $product->setUnitPrice(500);
         $product->setIsTaxable(true);
 
-        $taxRate = new TaxRate;
+        $taxRate = new Entity\TaxRate;
         $taxRate->setZip5(92606);
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $cartItem = new CartItem;
+        $cartItem = new Entity\CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
 
-        $cart = new Cart;
+        $cart = new Entity\Cart;
         $cart->addCartItem($cartItem);
+        $cart->setTaxRate($taxRate);
 
-        $expectedCartTotal = new CartTotal;
+        $expectedCartTotal = new Entity\CartTotal;
         $expectedCartTotal->origSubtotal = 1000;
         $expectedCartTotal->subtotal = 1000;
         $expectedCartTotal->taxSubtotal = 1000;
@@ -321,36 +324,36 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->savings = 0;
         $expectedCartTotal->taxRate = $taxRate;
 
-        $shippingRate = null;
-        $cartCalculator = new CartCalculator($cart);
-        $cartTotal = $cartCalculator->getTotal(new Lib\Pricing, $shippingRate, $taxRate);
-        $this->assertEquals($expectedCartTotal, $cartTotal);
+        $cartCalculator = new CartCalculator(new Lib\Pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 
     public function testGetTotalWithZip5TaxAppliedToShipping()
     {
-        $product = new Product;
+        $product = new Entity\Product;
         $product->setUnitPrice(500);
         $product->setIsTaxable(true);
 
-        $taxRate = new TaxRate;
+        $taxRate = new Entity\TaxRate;
         $taxRate->setZip5(92606);
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(true);
 
-        $shippingRate = new \inklabs\kommerce\Entity\ShippingRate;
+        $shippingRate = new Entity\ShippingRate;
         $shippingRate->setCode('4');
         $shippingRate->setName('Parcel Post');
         $shippingRate->setCost(1000);
 
-        $cartItem = new CartItem;
+        $cartItem = new Entity\CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
 
-        $cart = new Cart;
+        $cart = new Entity\Cart;
         $cart->addCartItem($cartItem);
+        $cart->setShippingRate($shippingRate);
+        $cart->setTaxRate($taxRate);
 
-        $expectedCartTotal = new CartTotal;
+        $expectedCartTotal = new Entity\CartTotal;
         $expectedCartTotal->origSubtotal = 1000;
         $expectedCartTotal->subtotal = 1000;
         $expectedCartTotal->taxSubtotal = 1000;
@@ -361,30 +364,30 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->savings = 0;
         $expectedCartTotal->taxRate = $taxRate;
 
-        $cartCalculator = new CartCalculator($cart);
-        $cartTotal = $cartCalculator->getTotal(new Lib\Pricing, $shippingRate, $taxRate);
-        $this->assertEquals($expectedCartTotal, $cartTotal);
+        $cartCalculator = new CartCalculator(new Lib\Pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 
     public function testGetTotalWithZip5TaxAndProductNotTaxable()
     {
-        $product = new Product;
+        $product = new Entity\Product;
         $product->setUnitPrice(500);
         $product->setIsTaxable(false);
 
-        $taxRate = new TaxRate;
+        $taxRate = new Entity\TaxRate;
         $taxRate->setZip5(92606);
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $cartItem = new CartItem;
+        $cartItem = new Entity\CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
 
-        $cart = new Cart;
+        $cart = new Entity\Cart;
         $cart->addCartItem($cartItem);
+        $cart->setTaxRate($taxRate);
 
-        $expectedCartTotal = new CartTotal;
+        $expectedCartTotal = new Entity\CartTotal;
         $expectedCartTotal->origSubtotal = 1000;
         $expectedCartTotal->subtotal = 1000;
         $expectedCartTotal->shipping = 0;
@@ -393,38 +396,39 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->total = 1000;
         $expectedCartTotal->savings = 0;
 
-        $cartCalculator = new CartCalculator($cart);
-        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal(new Lib\Pricing));
+        $cartCalculator = new CartCalculator(new Lib\Pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 
     public function testGetTotalWithZip5TaxAndCouponNoReduceSubtotal()
     {
-        $product = new Product;
+        $product = new Entity\Product;
         $product->setUnitPrice(2000);
         $product->setIsTaxable(true);
 
-        $taxRate = new TaxRate;
+        $taxRate = new Entity\TaxRate;
         $taxRate->setZip5(92606);
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $coupon = new Coupon;
+        $coupon = new Entity\Coupon;
         $coupon->setName('20% Off orders under $100');
-        $coupon->setType(Promotion::TYPE_PERCENT);
+        $coupon->setType(Entity\Promotion::TYPE_PERCENT);
         $coupon->setValue(20);
         $coupon->setMinOrderValue(1000);
         $coupon->setMaxOrderValue(10000);
         $coupon->setReducesTaxSubtotal(false);
 
-        $cartItem = new CartItem;
+        $cartItem = new Entity\CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(1);
 
-        $cart = new Cart;
+        $cart = new Entity\Cart;
         $cart->addCoupon($coupon);
         $cart->addCartItem($cartItem);
+        $cart->setTaxRate($taxRate);
 
-        $expectedCartTotal = new CartTotal;
+        $expectedCartTotal = new Entity\CartTotal;
         $expectedCartTotal->origSubtotal = 2000;
         $expectedCartTotal->subtotal = 2000;
         $expectedCartTotal->taxSubtotal = 2000;
@@ -436,9 +440,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $expectedCartTotal->coupons = [$coupon];
         $expectedCartTotal->taxRate = $taxRate;
 
-        $shippingRate = null;
-        $cartCalculator = new CartCalculator($cart);
-        $cartTotal = $cartCalculator->getTotal(new Lib\Pricing, $shippingRate, $taxRate);
-        $this->assertEquals($expectedCartTotal, $cartTotal);
+        $cartCalculator = new CartCalculator(new Lib\Pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 }

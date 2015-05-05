@@ -488,9 +488,9 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return new Lib\FactoryRepository($this->entityManager);
     }
 
-    protected function service(Lib\Pricing $pricing)
+    protected function service(Lib\CartCalculatorInterface $cartCalculator)
     {
-        return new Lib\FactoryService($this->repository(), $pricing);
+        return new Lib\FactoryService($this->repository(), $cartCalculator);
     }
 
     protected function beginTransaction()

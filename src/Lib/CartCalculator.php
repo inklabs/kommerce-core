@@ -1,35 +1,41 @@
 <?php
-namespace inklabs\kommerce\Entity;
+namespace inklabs\kommerce\Lib;
 
+use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-class CartCalculator
+class CartCalculator implements CartCalculatorInterface
 {
-    /** @var Cart */
+    /** @var Entity\Cart */
     protected $cart;
 
     /** @var Lib\Pricing */
     protected $pricing;
 
-    /** @var CartTotal */
+    /** @var Entity\CartTotal */
     protected $cartTotal;
 
-    public function __construct(Cart $cart)
-    {
-        $this->cart = $cart;
-    }
-
-    public function getTotal(Lib\Pricing $pricing, ShippingRate $shippingRate = null, TaxRate $taxRate = null)
+    public function __construct(Lib\Pricing $pricing)
     {
         $this->pricing = $pricing;
+    }
 
-        $this->cartTotal = new CartTotal;
+    public function getPricing()
+    {
+        return $this->pricing;
+    }
+
+    public function getTotal(Entity\Cart $cart)
+    {
+        $this->cart = $cart;
+
+        $this->cartTotal = new Entity\CartTotal;
 
         $this->calculateItemPrices();
         $this->calculateCartPriceRules();
-        $this->calculateShippingPrice($shippingRate);
+        $this->calculateShippingPrice();
         $this->calculateCouponDiscounts();
-        $this->calculateTaxes($taxRate);
+        $this->calculateTaxes();
 
         $this->calculateTotal();
         $this->calculateSavings();
@@ -98,15 +104,17 @@ class CartCalculator
         $this->cartTotal->taxSubtotal = max(0, $this->cartTotal->taxSubtotal);
     }
 
-    private function calculateShippingPrice(ShippingRate $shippingRate = null)
+    private function calculateShippingPrice()
     {
+        $shippingRate = $this->cart->getShippingRate();
         if ($shippingRate !== null) {
             $this->cartTotal->shipping = $shippingRate->getCost();
         }
     }
 
-    private function calculateTaxes(TaxRate $taxRate = null)
+    private function calculateTaxes()
     {
+        $taxRate = $this->cart->getTaxRate();
         if ($taxRate !== null) {
             $this->cartTotal->tax = $taxRate->getTax(
                 $this->cartTotal->taxSubtotal,

@@ -70,7 +70,7 @@ class CartTest extends Helper\DoctrineTestCase
             $this->couponRepository,
             $this->orderRepository,
             $this->userRepository,
-            new Lib\Pricing
+            new Lib\CartCalculator(new Lib\Pricing)
         );
     }
 
@@ -127,14 +127,14 @@ class CartTest extends Helper\DoctrineTestCase
     public function testAddCouponByCodeMissing()
     {
         $this->couponRepository->setReturnValue(null);
-        $couponIndex = $this->cartService->addCouponByCode(1, 'code');
+        $this->cartService->addCouponByCode(1, 'code');
     }
 
     public function testGetCoupons()
     {
         $couponIndex = $this->cartService->addCouponByCode(1, 'code');
 
-        $coupons = $this->cartService->getCoupons(1);
+        $coupons = $this->cartService->getCoupons($couponIndex);
         $this->assertTrue($coupons[0] instanceof Entity\Coupon);
     }
 
@@ -196,7 +196,7 @@ class CartTest extends Helper\DoctrineTestCase
 
         $cartId = 1;
         $productId = 2001;
-        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
+        $this->cartService->addItem($cartId, $productId);
     }
 
     public function testAddItemOptionProducts()
@@ -278,7 +278,7 @@ class CartTest extends Helper\DoctrineTestCase
     {
         $cartId = 1;
         $productId = 2001;
-        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
+        $this->cartService->addItem($cartId, $productId);
 
         $cart = $this->cartService->getCartFull($cartId);
 

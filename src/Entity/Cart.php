@@ -2,10 +2,10 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
-use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Lib;
 use InvalidArgumentException;
 use LogicException;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -145,7 +145,7 @@ class Cart implements EntityInterface
             return true;
         }
 
-        if ($this->existingCouponsCannotCombineWithOtherCoupons($addedCoupon)) {
+        if ($this->existingCouponsCannotCombineWithOtherCoupons()) {
             return false;
         }
 
@@ -163,7 +163,7 @@ class Cart implements EntityInterface
         return false;
     }
 
-    private function existingCouponsCannotCombineWithOtherCoupons(Coupon $addedCoupon)
+    private function existingCouponsCannotCombineWithOtherCoupons()
     {
         foreach ($this->coupons as $coupon) {
             if (! $coupon->getCanCombineWithOtherCoupons()) {
@@ -218,19 +218,18 @@ class Cart implements EntityInterface
         return (int) ceil($this->getShippingWeight() / 16);
     }
 
-    public function getTotal(Lib\PricingInterface $pricing)
+    public function getTotal(Lib\CartCalculatorInterface $cartCalculator)
     {
-        $cartCalculator = new CartCalculator($this);
-        return $cartCalculator->getTotal($pricing, $this->shippingRate, $this->taxRate);
+        return $cartCalculator->getTotal($this);
     }
 
-    public function getOrder(Lib\PricingInterface $pricing)
+    public function getOrder(Lib\CartCalculatorInterface $cartCalculator)
     {
         $order = new Order;
-        $order->setTotal($this->getTotal($pricing));
+        $order->setTotal($this->getTotal($cartCalculator));
 
         foreach ($this->getCartItems() as $item) {
-            $order->addOrderItem($item->getOrderItem($pricing));
+            $order->addOrderItem($item->getOrderItem($cartCalculator->getPricing()));
         }
 
         foreach ($this->getCoupons() as $coupon) {

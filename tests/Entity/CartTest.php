@@ -221,7 +221,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $cart = new Cart;
         $cart->addCartItem($cartItem);
-        $this->assertTrue($cart->getTotal(new Lib\Pricing) instanceof CartTotal);
+
+        $cartCalculator = new Lib\CartCalculator(new Lib\Pricing);
+        $this->assertTrue($cart->getTotal($cartCalculator) instanceof CartTotal);
     }
 
     public function testGetOrder()
@@ -237,7 +239,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addCartItem($cartItem);
         $cart->addCoupon(new Coupon);
 
-        $order = $cart->getOrder(new Lib\Pricing);
+        $order = $cart->getOrder(new Lib\CartCalculator(new Lib\Pricing));
 
         $this->assertTrue($order instanceof Order);
     }

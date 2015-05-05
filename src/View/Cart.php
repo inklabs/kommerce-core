@@ -66,23 +66,20 @@ class Cart implements ViewInterface
         return $this;
     }
 
-    public function withCartTotal(
-        Lib\PricingInterface $pricing,
-        Entity\ShippingRate $shippingRate = null,
-        Entity\TaxRate $taxRate = null
-    ) {
-        $this->cartTotal = $this->cart->getTotal($pricing)->getView()
+    public function withCartTotal(Lib\CartCalculatorInterface $cartCalculator)
+    {
+        $this->cartTotal = $this->cart->getTotal($cartCalculator)->getView()
             ->withAllData()
             ->export();
 
         return $this;
     }
 
-    public function withCartItems(Lib\PricingInterface $pricing)
+    public function withCartItems(Lib\CartCalculatorInterface $cartCalculator)
     {
         foreach ($this->cart->getCartItems() as $cartItemIndex => $cartItem) {
             $this->cartItems[$cartItemIndex] = $cartItem->getView()
-                ->withAllData($pricing)
+                ->withAllData($cartCalculator->getPricing())
                 ->export();
         }
 
@@ -99,14 +96,11 @@ class Cart implements ViewInterface
         return $this;
     }
 
-    public function withAllData(
-        Lib\PricingInterface $pricing,
-        Entity\ShippingRate $shippingRate = null,
-        Entity\TaxRate $taxRate = null
-    ) {
+    public function withAllData(Lib\CartCalculatorInterface $cartCalculator)
+    {
         return $this
-            ->withCartTotal($pricing, $shippingRate, $taxRate)
-            ->withCartItems($pricing)
+            ->withCartTotal($cartCalculator)
+            ->withCartItems($cartCalculator)
             ->withCoupons();
     }
 }

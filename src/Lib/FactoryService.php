@@ -6,6 +6,9 @@ use inklabs\kommerce\Lib;
 
 class FactoryService
 {
+    /** @var Lib\CartCalculatorInterface */
+    private $cartCalculator;
+
     /** @var Lib\PricingInterface */
     private $pricing;
 
@@ -14,25 +17,26 @@ class FactoryService
 
     public function __construct(
         FactoryRepository $factoryRepository,
-        Lib\PricingInterface $pricing = null
+        Lib\CartCalculatorInterface $cartCalculator
     ) {
-        $this->pricing = $pricing;
+        $this->cartCalculator = $cartCalculator;
+        $this->pricing = $cartCalculator->getPricing();
         $this->factoryRepository = $factoryRepository;
     }
 
     /**
      * @param FactoryRepository $factoryRepository
-     * @param Lib\PricingInterface $pricing
-     * @return self
+     * @param CartCalculatorInterface $cartCalculator
+     * @return FactoryService
      */
     public static function getInstance(
         FactoryRepository $factoryRepository,
-        Lib\PricingInterface $pricing = null
+        Lib\CartCalculatorInterface $cartCalculator
     ) {
         static $factoryService = null;
 
         if ($factoryService === null) {
-            $factoryService = new static($factoryRepository, $pricing);
+            $factoryService = new static($factoryRepository, $cartCalculator);
         }
 
         return $factoryService;
@@ -68,7 +72,7 @@ class FactoryService
             $this->factoryRepository->getCoupon(),
             $this->factoryRepository->getOrder(),
             $this->factoryRepository->getUser(),
-            $this->pricing
+            $this->cartCalculator
         );
     }
 

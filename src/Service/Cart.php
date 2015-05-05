@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
-use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Payment\Payment;
@@ -48,7 +47,7 @@ class Cart extends AbstractService
      * @param EntityRepository\CouponInterface $couponRepository
      * @param EntityRepository\OrderInterface $orderRepository
      * @param EntityRepository\UserInterface $userRepository
-     * @param Lib\PricingInterface $pricing
+     * @param Lib\CartCalculatorInterface $cartCalculator
      */
     public function __construct(
         EntityRepository\CartInterface $cartRepository,
@@ -59,7 +58,7 @@ class Cart extends AbstractService
         EntityRepository\CouponInterface $couponRepository,
         EntityRepository\OrderInterface $orderRepository,
         EntityRepository\UserInterface $userRepository,
-        Lib\PricingInterface $pricing
+        Lib\CartCalculatorInterface $cartCalculator
     ) {
         $this->cartRepository = $cartRepository;
         $this->productRepository = $productRepository;
@@ -69,7 +68,7 @@ class Cart extends AbstractService
         $this->couponRepository = $couponRepository;
         $this->orderRepository = $orderRepository;
         $this->userRepository = $userRepository;
-        $this->pricing = $pricing;
+        $this->pricing = $cartCalculator;
     }
 
     /**
@@ -122,9 +121,8 @@ class Cart extends AbstractService
     }
 
     /**
+     * @param $cartId
      * @param int $couponIndex
-     * @throws \InvalidArgumentException
-     * @throws \LogicException
      */
     public function removeCoupon($cartId, $couponIndex)
     {

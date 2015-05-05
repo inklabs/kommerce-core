@@ -40,7 +40,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $cart->setUser(new User);
         $cart->addCartItem($cartItem);
 
-        $order = $cart->getOrder(new Lib\Pricing);
+        $order = $cart->getOrder(new Lib\CartCalculator(new Lib\Pricing));
         $order->setId(1);
         $order->setExternalId('CO1102-0016');
         $order->setShippingAddress($shippingAddress);

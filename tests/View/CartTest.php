@@ -24,7 +24,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->setuser(new Entity\User);
 
         $viewCart = $cart->getView()
-            ->withAllData(new Lib\Pricing)
+            ->withAllData(new Lib\CartCalculator(new Lib\Pricing))
             ->export();
 
         $this->assertTrue($viewCart->cartTotal instanceof CartTotal);
