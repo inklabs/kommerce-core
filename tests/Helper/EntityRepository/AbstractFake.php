@@ -1,8 +1,7 @@
 <?php
-namespace inklabs\kommerce\tests\Helper;
+namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Entity\EntityInterface;
 
 class AbstractFake
 {

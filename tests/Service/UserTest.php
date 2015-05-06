@@ -5,8 +5,8 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\EntityRepository\FakeUser;
-use inklabs\kommerce\tests\EntityRepository\FakeUserLogin;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeUser;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserLogin;
 
 class UserTest extends Helper\DoctrineTestCase
 {

@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\EntityRepository\FakeCatalogPromotion;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeCatalogPromotion;
 
 class CatalogPromotionTest extends Helper\DoctrineTestCase
 {

@@ -1,12 +1,10 @@
 <?php
-namespace inklabs\kommerce\tests\EntityRepository;
+namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\EntityRepository\CouponInterface;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
-use inklabs\kommerce\tests\Helper;
 
-class FakeCoupon extends Helper\AbstractFake implements CouponInterface
+class FakeCoupon extends AbstractFake implements CouponInterface
 {
     public function __construct()
     {

@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
 use inklabs\kommerce\tests\Entity\FakeEntity;
-use inklabs\kommerce\tests\EntityRepository\FakeRepository;
+use inklabs\kommerce\tests\Helper\FakeRepository;
 
 class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
 {

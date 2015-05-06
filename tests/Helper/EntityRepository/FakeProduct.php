@@ -1,12 +1,10 @@
 <?php
-namespace inklabs\kommerce\tests\EntityRepository;
+namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\EntityRepository\ProductInterface;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
-use inklabs\kommerce\tests\Helper;
 
-class FakeProduct extends Helper\AbstractFake implements ProductInterface
+class FakeProduct extends AbstractFake implements ProductInterface
 {
     public function __construct()
     {

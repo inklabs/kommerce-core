@@ -1,12 +1,10 @@
 <?php
-namespace inklabs\kommerce\tests\EntityRepository;
+namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\EntityRepository\CartInterface;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
-use inklabs\kommerce\tests\Helper;
 
-class FakeCart extends Helper\AbstractFake implements CartInterface
+class FakeCart extends AbstractFake implements CartInterface
 {
     public function __construct()
     {

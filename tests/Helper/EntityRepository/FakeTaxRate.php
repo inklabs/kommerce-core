@@ -1,11 +1,10 @@
 <?php
-namespace inklabs\kommerce\tests\EntityRepository;
+namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\EntityRepository\TaxRateInterface;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\tests\Helper;
 
-class FakeTaxRate extends Helper\AbstractFake implements TaxRateInterface
+class FakeTaxRate extends AbstractFake implements TaxRateInterface
 {
     public function __construct()
     {

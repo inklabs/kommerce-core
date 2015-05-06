@@ -1,12 +1,10 @@
 <?php
-namespace inklabs\kommerce\tests\EntityRepository;
+namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\EntityRepository\AttributeValueInterface;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
-use inklabs\kommerce\tests\Helper;
 
-class FakeAttributeValue extends Helper\AbstractFake implements AttributeValueInterface
+class FakeAttributeValue extends AbstractFake implements AttributeValueInterface
 {
     public function __construct()
     {

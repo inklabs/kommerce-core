@@ -1,12 +1,10 @@
 <?php
-namespace inklabs\kommerce\tests\EntityRepository;
+namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\EntityRepository\TextOptionInterface;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
-use inklabs\kommerce\tests\Helper;
 
-class FakeTextOption extends Helper\AbstractFake implements TextOptionInterface
+class FakeTextOption extends AbstractFake implements TextOptionInterface
 {
     public function __construct()
     {

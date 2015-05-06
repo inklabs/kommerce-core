@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
-use inklabs\kommerce\tests\EntityRepository\FakeTag;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeTag;
 use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
 

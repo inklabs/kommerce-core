@@ -6,8 +6,8 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\EntityRepository\FakeProduct;
-use inklabs\kommerce\tests\EntityRepository\FakeTag;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeProduct;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeTag;
 
 class ProductTest extends Helper\DoctrineTestCase
 {

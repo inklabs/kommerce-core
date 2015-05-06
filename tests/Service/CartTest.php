@@ -6,14 +6,14 @@ use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Entity\Payment;
-use inklabs\kommerce\tests\EntityRepository\FakeCart;
-use inklabs\kommerce\tests\EntityRepository\FakeProduct;
-use inklabs\kommerce\tests\EntityRepository\FakeOptionProduct;
-use inklabs\kommerce\tests\EntityRepository\FakeOptionValue;
-use inklabs\kommerce\tests\EntityRepository\FakeTextOption;
-use inklabs\kommerce\tests\EntityRepository\FakeCoupon;
-use inklabs\kommerce\tests\EntityRepository\FakeOrder;
-use inklabs\kommerce\tests\EntityRepository\FakeUser;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeCart;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeProduct;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionProduct;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionValue;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeTextOption;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeCoupon;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrder;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeUser;
 use LogicException;
 
 class CartTest extends Helper\DoctrineTestCase

@@ -1,11 +1,10 @@
 <?php
-namespace inklabs\kommerce\tests\EntityRepository;
+namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\EntityRepository\CatalogPromotionInterface;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\tests\Helper;
 
-class FakeCatalogPromotion extends Helper\AbstractFake implements CatalogPromotionInterface
+class FakeCatalogPromotion extends AbstractFake implements CatalogPromotionInterface
 {
     public function __construct()
     {

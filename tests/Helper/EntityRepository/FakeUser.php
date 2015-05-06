@@ -1,15 +1,14 @@
 <?php
-namespace inklabs\kommerce\tests\EntityRepository;
+namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
-use inklabs\kommerce\EntityRepository\UserLoginInterface;
+use inklabs\kommerce\EntityRepository\UserInterface;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\tests\Helper;
 
-class FakeUserLogin extends Helper\AbstractFake implements UserLoginInterface
+class FakeUser extends AbstractFake implements UserInterface
 {
     public function __construct()
     {
-        $this->setReturnValue(new Entity\UserLogin);
+        $this->setReturnValue(new Entity\User);
     }
 
     public function find($id)
@@ -36,15 +35,15 @@ class FakeUserLogin extends Helper\AbstractFake implements UserLoginInterface
     {
     }
 
-    public function save(Entity\UserLogin & $userLogin)
+    public function save(Entity\User & $user)
     {
     }
 
-    public function create(Entity\UserLogin & $userLogin)
+    public function create(Entity\User & $user)
     {
     }
 
-    public function persist(Entity\UserLogin & $userLogin)
+    public function persist(Entity\User & $user)
     {
     }
 

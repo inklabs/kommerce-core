@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\tests\EntityRepository;
+namespace inklabs\kommerce\tests\Helper;
 
 use inklabs\kommerce\Lib\ReferenceNumber\RepositoryInterface;
 

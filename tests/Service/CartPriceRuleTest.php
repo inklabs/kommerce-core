@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\EntityRepository\FakeCartPriceRule;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRule;
 
 class CartPriceRuleTest extends Helper\DoctrineTestCase
 {

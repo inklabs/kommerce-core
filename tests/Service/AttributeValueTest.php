@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\EntityRepository\FakeAttributeValue;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeAttributeValue;
 
 class AttributeValueTest extends Helper\DoctrineTestCase
 {
