@@ -10,6 +10,7 @@ class UserTokenTest extends Helper\DoctrineTestCase
         'kommerce:User',
         'kommerce:UserToken',
         'kommerce:Cart',
+        'kommerce:TaxRate',
     ];
 
     /** @var UserTokenInterface */

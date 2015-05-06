@@ -48,6 +48,8 @@
             </cascade>
         </one-to-many>
 
+        <many-to-one field="taxRate" target-entity="TaxRate" fetch="EAGER"/>
+
         <many-to-many field="coupons" target-entity="Coupon" fetch="EXTRA_LAZY"/>
 
     </entity>

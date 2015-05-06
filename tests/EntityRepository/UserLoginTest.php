@@ -10,6 +10,7 @@ class UserLoginTest extends Helper\DoctrineTestCase
         'kommerce:UserLogin',
         'kommerce:User',
         'kommerce:Cart',
+        'kommerce:TaxRate',
     ];
 
     /** @var UserLoginInterface */

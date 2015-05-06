@@ -15,6 +15,7 @@ class OrderItemTextOptionValueTest extends Helper\DoctrineTestCase
         'kommerce:Product',
         'kommerce:User',
         'kommerce:Cart',
+        'kommerce:TaxRate',
     ];
 
     /** @var OrderItemOptionValueInterface */

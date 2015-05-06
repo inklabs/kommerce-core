@@ -13,6 +13,7 @@ class CartTest extends Helper\DoctrineTestCase
         'kommerce:CartItem',
         'kommerce:Product',
         'kommerce:User',
+        'kommerce:TaxRate',
     ];
 
     /** @var CartInterface */
@@ -30,13 +31,17 @@ class CartTest extends Helper\DoctrineTestCase
         $user = $this->getDummyUser();
         $cartItem = $this->getDummyCartItem($product);
 
+        $taxRate = $this->getDummyTaxRate();
+
         $cart = $this->getDummyCart();
         $cart->setSessionId($sessionId);
         $cart->addCartItem($cartItem);
         $cart->setUser($user);
+        $cart->setTaxRate($taxRate);
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);
+        $this->entityManager->persist($taxRate);
 
         $this->cartRepository->create($cart);
 
@@ -55,6 +60,7 @@ class CartTest extends Helper\DoctrineTestCase
         $cart->getCartItems()->toArray();
         $cart->getUser()->getCreated();
         $cart->getCoupons()->toArray();
+        $cart->getTaxRate()->getCreated();
 
         $this->assertTrue($cart instanceof Entity\Cart);
         $this->assertSame(3, $this->countSQLLogger->getTotalQueries());

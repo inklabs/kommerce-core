@@ -368,6 +368,17 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $cartItem;
     }
 
+    protected function getDummyTaxRate()
+    {
+        $taxRate = new Entity\TaxRate;
+        $taxRate->setState('CA');
+        $taxRate->setZip5(90403);
+        $taxRate->setRate(7.5);
+        $taxRate->setApplyToShipping(true);
+
+        return $taxRate;
+    }
+
     /**
      * @param Entity\CartItem[] $cartItems
      * @return Entity\Cart
