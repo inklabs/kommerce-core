@@ -21,6 +21,10 @@ class FakeCart extends Helper\AbstractFake implements CartInterface
     {
     }
 
+    public function remove(Entity\Cart & $cart)
+    {
+    }
+
     public function find($id)
     {
         return $this->getReturnValue();

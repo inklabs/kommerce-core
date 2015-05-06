@@ -16,6 +16,11 @@ interface CartInterface
     public function create(Entity\Cart & $cart);
 
     /**
+     * @param Entity\Cart $cart
+     */
+    public function remove(Entity\Cart & $cart);
+
+    /**
      * @param int $id
      * @return Entity\Cart
      */

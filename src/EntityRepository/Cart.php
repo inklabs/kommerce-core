@@ -16,6 +16,12 @@ class Cart extends AbstractEntityRepository implements CartInterface
         $this->flush();
     }
 
+    public function remove(Entity\Cart & $cart)
+    {
+        $this->removeEntity($cart);
+        $this->flush();
+    }
+
     public function persist(Entity\Cart & $cart)
     {
         $this->persistEntity($cart);

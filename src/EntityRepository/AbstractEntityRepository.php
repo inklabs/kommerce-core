@@ -24,6 +24,11 @@ abstract class AbstractEntityRepository extends \Doctrine\ORM\EntityRepository
         $this->getEntityManager()->persist($entity);
     }
 
+    public function removeEntity(EntityInterface & $entity)
+    {
+        $this->getEntityManager()->remove($entity);
+    }
+
     public function flush()
     {
         $this->getEntityManager()->flush();

@@ -37,6 +37,43 @@ class CartItem implements EntityInterface
         $this->cartItemTextOptionValues = new ArrayCollection;
     }
 
+    public function __clone()
+    {
+        $this->cloneCartItemOptionProducts();
+        $this->cloneCartItemOptionValues();
+        $this->cloneCartItemTextOptionValues();
+    }
+
+    private function cloneCartItemOptionProducts()
+    {
+        $cartItemOptionProducts = $this->getCartItemOptionProducts();
+
+        $this->cartItemOptionProducts = new ArrayCollection;
+        foreach ($cartItemOptionProducts as $cartitemOptionProduct) {
+            $this->addCartItemOptionProduct(clone $cartitemOptionProduct);
+        }
+    }
+
+    private function cloneCartItemOptionValues()
+    {
+        $cartItemOptionValues = $this->getCartItemOptionValues();
+
+        $this->cartItemOptionValues = new ArrayCollection;
+        foreach ($cartItemOptionValues as $cartitemOptionValue) {
+            $this->addCartItemOptionValue(clone $cartitemOptionValue);
+        }
+    }
+
+    private function cloneCartItemTextOptionValues()
+    {
+        $cartItemTextOptionValues = $this->getCartItemTextOptionValues();
+
+        $this->cartItemTextOptionValues = new ArrayCollection;
+        foreach ($cartItemTextOptionValues as $cartitemTextOptionValue) {
+            $this->addCartItemTextOptionValue(clone $cartitemTextOptionValue);
+        }
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('quantity', new Assert\NotNull);

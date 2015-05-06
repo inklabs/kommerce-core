@@ -72,18 +72,29 @@ class Cart extends AbstractService
     }
 
     /**
-     * @param int $userId
      * @param string $sessionId
      * @return View\Cart
      * @throws \LogicException
      */
-    public function findByUserOrSession($userId, $sessionId)
+    public function findBySession($sessionId)
     {
-        if (! empty($userId)) {
-            $cart = $this->cartRepository->findByUser($userId);
-        } else {
-            $cart = $this->cartRepository->findBySession($sessionId);
+        $cart = $this->cartRepository->findBySession($sessionId);
+
+        if ($cart === null) {
+            throw new \LogicException('Cart not found');
         }
+
+        return $cart->getView()->export();
+    }
+
+    /**
+     * @param string $userId
+     * @return View\Cart
+     * @throws \LogicException
+     */
+    public function findByUser($userId)
+    {
+        $cart = $this->cartRepository->findByUser($userId);
 
         if ($cart === null) {
             throw new \LogicException('Cart not found');
@@ -118,6 +129,15 @@ class Cart extends AbstractService
     {
         $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
         return $cart->getCoupons();
+    }
+
+    /**
+     * @param int $cartId
+     */
+    public function removeCart($cartId)
+    {
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $this->cartRepository->remove($cart);
     }
 
     /**
@@ -270,6 +290,22 @@ class Cart extends AbstractService
     }
 
     /**
+     * @param int $fromCartId
+     * @param int $toCartId
+     */
+    public function copyCartItems($fromCartId, $toCartId)
+    {
+        $fromCart = $this->getCartAndThrowExceptionIfCartNotFound($fromCartId);
+        $toCart = $this->getCartAndThrowExceptionIfCartNotFound($toCartId);
+
+        foreach ($fromCart->getCartItems() as $cartItem) {
+            $toCart->addCartItem(clone $cartItem);
+        }
+
+        $this->cartRepository->save($toCart);
+    }
+
+    /**
      * @param int $cartId
      * @param int $cartItemIndex
      * @param int $quantity
@@ -376,6 +412,20 @@ class Cart extends AbstractService
         $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
 
         $cart->setUser($user);
+
+        $this->cartRepository->save($cart);
+    }
+
+    /**
+     * @param int $cartId
+     * @param int $sessionId
+     * @throws \LogicException
+     */
+    public function setSessionId($cartId, $sessionId)
+    {
+        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+
+        $cart->setSessionId($sessionId);
 
         $this->cartRepository->save($cart);
     }

@@ -84,6 +84,17 @@ class CartTest extends Helper\DoctrineTestCase
         $this->assertTrue($cart->getUpdated() instanceof \DateTime);
     }
 
+    public function testRemove()
+    {
+        $cart = $this->getDummyCart();
+
+        $this->cartRepository->create($cart);
+
+        $this->assertSame(1, $cart->getId());
+        $this->cartRepository->remove($cart);
+        $this->assertSame(null, $cart->getId());
+    }
+
     public function testFindByUser()
     {
         $this->setupCart();

@@ -81,24 +81,14 @@ class CartTest extends Helper\DoctrineTestCase
     public function testGetCartAndThrowExceptionIfCartNotFoundThrowsException()
     {
         $this->cartRepository->setReturnValue(null);
-
         $this->setupCartService();
         $this->cartService->getCartFull(1);
     }
 
-    public function testFindByUserOrSessionWithUser()
+    public function testFindByUser()
     {
         $this->setupCartService();
-        $cart = $this->cartService->findByUserOrSession(1, null);
-
-        $this->assertTrue($cart instanceof View\Cart);
-    }
-
-    public function testFindByUserOrSessionWithSession()
-    {
-        $this->setupCartService();
-        $cart = $this->cartService->findByUserOrSession(null, '6is7ujb3crb5ja85gf91g9en62');
-
+        $cart = $this->cartService->findByUser(1);
         $this->assertTrue($cart instanceof View\Cart);
     }
 
@@ -106,12 +96,31 @@ class CartTest extends Helper\DoctrineTestCase
      * @expectedException \LogicException
      * @expectedExceptionMessage Cart not found
      */
-    public function testFindByUserOrSessionNotFound()
+    public function testFindByUserNotFound()
     {
         $this->cartRepository->setReturnValue(null);
 
         $this->setupCartService();
-        $this->cartService->findByUserOrSession(1, '6is7ujb3crb5ja85gf91g9en62');
+        $this->cartService->findByUser(1);
+    }
+
+    public function testFindBySession()
+    {
+        $this->setupCartService();
+        $cart = $this->cartService->findBySession('6is7ujb3crb5ja85gf91g9en62');
+        $this->assertTrue($cart instanceof View\Cart);
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Cart not found
+     */
+    public function testFindBySessionNotFound()
+    {
+        $this->cartRepository->setReturnValue(null);
+
+        $this->setupCartService();
+        $this->cartService->findBySession('6is7ujb3crb5ja85gf91g9en62');
     }
 
     public function testAddCouponByCode()
@@ -136,6 +145,11 @@ class CartTest extends Helper\DoctrineTestCase
 
         $coupons = $this->cartService->getCoupons($couponIndex);
         $this->assertTrue($coupons[0] instanceof Entity\Coupon);
+    }
+
+    public function testRemoveCart()
+    {
+        $this->cartService->removeCart(1);
     }
 
     public function testRemoveCoupon()
@@ -246,6 +260,18 @@ class CartTest extends Helper\DoctrineTestCase
         $this->cartService->addItemTextOptionValues($cartId, $cartItemIndex, $textOptionValues);
     }
 
+    public function testCopyCartItems()
+    {
+        $fromCart = $this->getDummyCart([$this->getDummyFullCartItem()]);
+        $this->cartRepository->save($fromCart);
+
+        $toCart = $this->getDummyCart();
+        $this->cartRepository->save($toCart);
+
+        $this->cartRepository->setReturnValue($fromCart);
+        $this->cartService->copyCartItems($fromCart->getId(), $toCart->getId());
+    }
+
     public function testUpdateQuantity()
     {
         $cartId = 1;
@@ -293,7 +319,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->cartService->setTaxRate($cartId, new Entity\TaxRate);
     }
 
-    public function testSetUser()
+    public function testSetUserById()
     {
         $cartId = 1;
         $userId = 1;
@@ -302,6 +328,15 @@ class CartTest extends Helper\DoctrineTestCase
         $cart = $this->cartService->getCartFull($cartId);
 
         $this->assertTrue($cart->user instanceof View\User);
+    }
+
+    public function testSetSessionId()
+    {
+        $cartId = 1;
+        $sessionId = '6is7ujb3crb5ja85gf91g9en62';
+        $this->cartService->setSessionId($cartId, $sessionId);
+
+        $this->cartService->getCartFull($cartId);
     }
 
     /**
