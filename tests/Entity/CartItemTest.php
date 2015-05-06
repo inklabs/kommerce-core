@@ -38,9 +38,21 @@ class CartItemTest extends Helper\DoctrineTestCase
         $newCartItem = clone $cartItem;
 
         $this->assertNotSame($cartItem, $newCartItem);
-        $this->assertNotSame($cartItem->getCartItemOptionProducts()[0], $newCartItem->getCartItemOptionProducts()[0]);
-        $this->assertNotSame($cartItem->getCartItemOptionValues()[0], $newCartItem->getCartItemOptionValues()[0]);
-        $this->assertNotSame($cartItem->getCartItemTextOptionValues()[0], $newCartItem->getCartItemTextOptionValues()[0]);
+
+        $this->assertNotSame(
+            $cartItem->getCartItemOptionProducts()[0],
+            $newCartItem->getCartItemOptionProducts()[0]
+        );
+
+        $this->assertNotSame(
+            $cartItem->getCartItemOptionValues()[0],
+            $newCartItem->getCartItemOptionValues()[0]
+        );
+
+        $this->assertNotSame(
+            $cartItem->getCartItemTextOptionValues()[0],
+            $newCartItem->getCartItemTextOptionValues()[0]
+        );
     }
 
     public function testGetOrderItem()
