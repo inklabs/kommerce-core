@@ -147,6 +147,7 @@ Add the following lines to your ``composer.json`` file.
 
 <pre>
     vendor/bin/doctrine orm:schema-tool:create --dump-sql
+    vendor/bin/doctrine orm:schema-tool:update --dump-sql
 </pre>
 
 
