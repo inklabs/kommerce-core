@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-interface Gateway
+interface GatewayInterface
 {
     /* @return ChargeResponse */
     public function getCharge(ChargeRequest $chargeRequest);

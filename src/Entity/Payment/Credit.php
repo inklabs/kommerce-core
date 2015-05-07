@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Entity\Payment;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
-use inklabs\kommerce\Lib\PaymentGateway\Gateway;
+use inklabs\kommerce\Lib\PaymentGateway\GatewayInterface;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -14,7 +14,7 @@ class Credit extends Payment
     /** @var ChargeResponse */
     protected $chargeResponse;
 
-    public function __construct(ChargeRequest $chargeRequest, Gateway $gateway)
+    public function __construct(ChargeRequest $chargeRequest, GatewayInterface $gateway)
     {
         $this->setCreated();
         $this->amount = $chargeRequest->getAmount();

@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-class Stripe implements Gateway
+class Stripe implements GatewayInterface
 {
     public function __construct($apiKey)
     {

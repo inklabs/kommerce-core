@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-class StripeFake implements Gateway
+class StripeFake implements GatewayInterface
 {
     public function getCharge(ChargeRequest $chargeRequest)
     {
