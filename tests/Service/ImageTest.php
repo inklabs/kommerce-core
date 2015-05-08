@@ -42,42 +42,26 @@ class ImageTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $image = $this->getDummyImage();
-        $viewImage = $image->getView()->export();
-        $viewImage->width = 500;
-
         $this->assertNotSame(500, $image->getWidth());
 
-        $image = $this->imageService->edit($viewImage->id, $viewImage);
-        $this->assertTrue($image instanceof Entity\Image);
-
-        $this->assertSame(500, $image->getWidth());
-    }
-
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Missing Image
-     */
-    public function testEditWithMissingImage()
-    {
-        $this->imageRepository->setReturnValue(null);
-        $image = $this->imageService->edit(1, new View\Image(new Entity\Image));
+        $image->setWidth(500);
+        $newImage = $this->imageService->edit($image);
+        $this->assertSame(500, $newImage->getWidth());
     }
 
     public function testCreate()
     {
         $image = $this->getDummyImage();
-        $viewImage = $image->getView()->export();
 
-        $newImage = $this->imageService->create($viewImage);
+        $newImage = $this->imageService->create($image);
         $this->assertTrue($newImage instanceof Entity\Image);
     }
 
     public function testCreateWithProduct()
     {
         $image = $this->getDummyImage();
-        $viewImage = $image->getView()->export();
 
-        $newImage = $this->imageService->createWithProduct($viewImage, 1);
+        $newImage = $this->imageService->createWithProduct($image, 1);
         $this->assertTrue($newImage instanceof Entity\Image);
     }
 
@@ -90,8 +74,6 @@ class ImageTest extends Helper\DoctrineTestCase
         $this->productRepository->setReturnValue(null);
 
         $image = $this->getDummyImage();
-        $viewImage = $image->getView()->export();
-
-        $newImage = $this->imageService->createWithProduct($viewImage, 1);
+        $this->imageService->createWithProduct($image, 1);
     }
 }

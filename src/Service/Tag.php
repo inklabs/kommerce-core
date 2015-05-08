@@ -5,7 +5,6 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\EntityRepository;
-use Symfony\Component\Validator\Exception\ValidatorException;
 
 class Tag extends AbstractService
 {
@@ -54,41 +53,24 @@ class Tag extends AbstractService
     }
 
     /**
-     * @param int $id
-     * @param View\Tag $viewTag
+     * @param Entity\Tag $tag
      * @return Entity\Tag
-     * @throws ValidatorException
      */
-    public function edit($id, View\Tag $viewTag)
+    public function edit(Entity\Tag $tag)
     {
-        $tag = $this->tagRepository->find($id);
-
-        if ($tag === null) {
-            throw new \LogicException('Missing Tag');
-        }
-
-        $tag->loadFromView($viewTag);
-
         $this->throwValidationErrors($tag);
-
         $this->tagRepository->save($tag);
-
         return $tag;
     }
 
     /**
+     * @param Entity\Tag $tag
      * @return Entity\Tag
-     * @throws ValidatorException
      */
-    public function create(View\Tag $viewTag)
+    public function create(Entity\Tag $tag)
     {
-        $tag = new Entity\Tag;
-        $tag->loadFromView($viewTag);
-
         $this->throwValidationErrors($tag);
-
-        $this->tagRepository->save($tag);
-
+        $this->tagRepository->create($tag);
         return $tag;
     }
 
@@ -100,13 +82,13 @@ class Tag extends AbstractService
 
     public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
-        $tags = $this->tagRepository->getTagsByIds($tagIds);
+        $tags = $this->tagRepository->getTagsByIds($tagIds, $pagination);
         return $this->getViewTags($tags);
     }
 
     public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
-        $tags = $this->tagRepository->getAllTagsByIds($tagIds);
+        $tags = $this->tagRepository->getAllTagsByIds($tagIds, $pagination);
         return $this->getViewTags($tags);
     }
 

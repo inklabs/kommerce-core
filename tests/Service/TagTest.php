@@ -52,33 +52,18 @@ class TagTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $tag = $this->getDummyTag();
-        $viewTag = $tag->getView()->export();
-        $viewTag->name = 'Test Tag 2';
-
         $this->assertNotSame('Test Tag 2', $tag->getName());
 
-        $tag = $this->tagService->edit($viewTag->id, $viewTag);
-        $this->assertTrue($tag instanceof Entity\Tag);
-
-        $this->assertSame('Test Tag 2', $tag->getName());
-    }
-
-    /**
-     * @expectedException \LogicException
-     * @exceptionMessage Missing Tag
-     */
-    public function testEditWithMissingTag()
-    {
-        $this->tagRepository->setReturnValue(null);
-        $tag = $this->tagService->edit(1, new View\Tag(new Entity\Tag));
+        $tag->setName('Test Tag 2');
+        $newTag = $this->tagService->edit($tag);
+        $this->assertTrue($newTag instanceof Entity\Tag);
+        $this->assertSame('Test Tag 2', $newTag->getName());
     }
 
     public function testCreate()
     {
         $tag = $this->getDummyTag();
-        $viewTag = $tag->getView()->export();
-
-        $newTag = $this->tagService->create($viewTag);
+        $newTag = $this->tagService->create($tag);
         $this->assertTrue($newTag instanceof Entity\Tag);
     }
 

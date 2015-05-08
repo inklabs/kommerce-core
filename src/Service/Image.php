@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use Symfony\Component\Validator\Exception\ValidatorException;
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
@@ -39,52 +38,33 @@ class Image extends AbstractService
     }
 
     /**
-     * @param int $id
-     * @param View\Image $viewImage
+     * @param Entity\Image $image
      * @return Entity\Image
-     * @throws ValidatorException
      */
-    public function edit($id, View\Image $viewImage)
+    public function edit(Entity\Image $image)
     {
-        /** @var Entity\Image $image */
-        $image = $this->imageRepository->find($id);
-
-        if ($image === null) {
-            throw new \LogicException('Missing Image');
-        }
-
-        $image->loadFromView($viewImage);
-
         $this->throwValidationErrors($image);
-
         $this->imageRepository->save($image);
-
         return $image;
     }
 
     /**
-     * @param Entity\Image $viewImage
+     * @param Entity\Image $image
      * @return Entity\Image
-     * @throws ValidatorException
      */
-    public function create(View\Image $viewImage)
+    public function create(Entity\Image $image)
     {
-        $image = new Entity\Image;
-        $image->loadFromView($viewImage);
-
         $this->throwValidationErrors($image);
-
-        $this->imageRepository->save($image);
-
+        $this->imageRepository->create($image);
         return $image;
     }
 
     /**
-     * @param View\Image $viewImage
+     * @param Entity\Image $image
+     * @param $productId
      * @return Entity\Image
-     * @throws ValidatorException
      */
-    public function createWithProduct(View\Image $viewImage, $productId)
+    public function createWithProduct(Entity\Image $image, $productId)
     {
         $product = $this->productRepository->find($productId);
 
@@ -92,14 +72,12 @@ class Image extends AbstractService
             throw new \LogicException('Missing Product');
         }
 
-        $image = $this->create($viewImage);
-        $image->setProduct($product);
-
-        if ($product->getDefaultImage() === null) {
+        if (empty($product->getDefaultImage())) {
             $product->setDefaultImage($image->getPath());
         }
 
-        $this->imageRepository->save($image);
+        $image->setProduct($product);
+        $this->imageRepository->create($image);
 
         return $image;
     }

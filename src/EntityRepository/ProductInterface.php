@@ -53,7 +53,7 @@ interface ProductInterface
     public function getAllProductsByIds($productIds, Entity\Pagination &$pagination = null);
 
     /**
-     * @return View\Product[]
+     * @return Entity\Product[]
      */
     public function getRandomProducts($limit);
 

@@ -5,7 +5,6 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
-use Symfony\Component\Validator\Exception\ValidatorException;
 
 class User extends AbstractService
 {
@@ -100,7 +99,6 @@ class User extends AbstractService
     /**
      * @param Entity\User $user
      * @return Entity\User
-     * @throws ValidatorException
      */
     public function edit(Entity\User $user)
     {
@@ -112,12 +110,11 @@ class User extends AbstractService
     /**
      * @param Entity\User $user
      * @return Entity\User
-     * @throws ValidatorException
      */
     public function create(Entity\User $user)
     {
         $this->throwValidationErrors($user);
-        $this->userRepository->save($user);
+        $this->userRepository->create($user);
         return $user;
     }
 
@@ -129,7 +126,7 @@ class User extends AbstractService
 
     public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null)
     {
-        $users = $this->userRepository->getAllUsersByIds($userIds);
+        $users = $this->userRepository->getAllUsersByIds($userIds, $pagination);
         return $this->getViewUsers($users);
     }
 

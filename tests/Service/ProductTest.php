@@ -49,32 +49,21 @@ class ProductTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $product = $this->getDummyProduct();
-        $viewProduct = $product->getView()->export();
-        $viewProduct->unitPrice = 500;
+        $this->assertNotSame(500, $product->getUnitPrice());
 
-        $product = $this->productService->edit($viewProduct->id, $viewProduct);
-        $this->assertTrue($product instanceof Entity\Product);
+        $product->setUnitPrice(500);
 
-        $this->assertSame(500, $product->getUnitPrice());
-    }
+        $newProduct = $this->productService->edit($product);
+        $this->assertTrue($newProduct instanceof Entity\Product);
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Missing Product
-     */
-    public function testEditWithMissingProduct()
-    {
-        $this->productRepository->setReturnValue(null);
-        $product = $this->productService->edit(1, new View\Product(new Entity\Product));
+        $this->assertSame(500, $newProduct->getUnitPrice());
     }
 
     public function testCreate()
     {
         $product = $this->getDummyProduct();
-        $viewProduct = $product->getView()->export();
-        $viewProduct->unitPrice = 500;
 
-        $newProduct = $this->productService->create($viewProduct);
+        $newProduct = $this->productService->create($product);
         $this->assertTrue($newProduct instanceof Entity\Product);
     }
 
@@ -88,6 +77,19 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->productService->addTag($productId, $tagEncodedId);
 
         $this->assertTrue($product->getTags()[0] instanceof Entity\Tag);
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Missing Product
+     */
+    public function testAddTagWithMissingProduct()
+    {
+        $this->productRepository->setReturnValue(null);
+
+        $productId = 1;
+        $tagEncodedId = '1';
+        $this->productService->addTag($productId, $tagEncodedId);
     }
 
     /**

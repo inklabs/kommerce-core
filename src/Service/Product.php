@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use Symfony\Component\Validator\Exception\ValidatorException;
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
@@ -45,38 +44,24 @@ class Product extends AbstractService
     }
 
     /**
-     * @param int $productId
-     * @param View\Product $viewProduct
+     * @param Entity\Product $product
      * @return Entity\Product
-     * @throws ValidatorException
      */
-    public function edit($productId, View\Product $viewProduct)
+    public function edit(Entity\Product $product)
     {
-        $product = $this->getProductAndThrowExceptionIfMissing($productId);
-
-        $product->loadFromView($viewProduct);
-
         $this->throwValidationErrors($product);
-
         $this->productRepository->save($product);
-
         return $product;
     }
 
     /**
-     * @param View\Product $viewProduct
+     * @param Entity\Product $product
      * @return Entity\Product
-     * @throws ValidatorException
      */
-    public function create(View\Product $viewProduct)
+    public function create(Entity\Product $product)
     {
-        $product = new Entity\Product;
-        $product->loadFromView($viewProduct);
-
         $this->throwValidationErrors($product);
-
-        $this->productRepository->save($product);
-
+        $this->productRepository->create($product);
         return $product;
     }
 
@@ -123,41 +108,33 @@ class Product extends AbstractService
             }
         }
 
-        $products = $this->productRepository
-            ->getRelatedProductsByIds($productIds, $tagIds, $limit);
+        $products = $this->productRepository->getRelatedProductsByIds($productIds, $tagIds, $limit);
 
         return $this->getViewProductsWithPrice($products);
     }
 
     public function getProductsByTag(View\Tag $tag, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository
-            ->getProductsByTagId($tag->id);
-
+        $products = $this->productRepository->getProductsByTagId($tag->id, $pagination);
         return $this->getViewProductsWithPrice($products);
     }
 
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository
-            ->getProductsByIds($productIds);
+        $products = $this->productRepository->getProductsByIds($productIds, $pagination);
 
         return $this->getViewProductsWithPrice($products);
     }
 
     public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository
-            ->getAllProductsByIds($productIds);
-
+        $products = $this->productRepository->getAllProductsByIds($productIds, $pagination);
         return $this->getViewProductsWithPrice($products);
     }
 
     public function getRandomProducts($limit)
     {
-        $products = $this->productRepository
-            ->getRandomProducts($limit);
-
+        $products = $this->productRepository->getRandomProducts($limit);
         return $this->getViewProductsWithPrice($products);
     }
 
