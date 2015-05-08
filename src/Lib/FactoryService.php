@@ -127,6 +127,7 @@ class FactoryService
         return new Service\Product(
             $this->factoryRepository->getProduct(),
             $this->factoryRepository->getTag(),
+            $this->factoryRepository->getImage(),
             $this->pricing
         );
     }

@@ -72,7 +72,7 @@ class Image extends AbstractService
             throw new \LogicException('Missing Product');
         }
 
-        if (empty($product->getDefaultImage())) {
+        if ($product->getDefaultImage() === null) {
             $product->setDefaultImage($image->getPath());
         }
 

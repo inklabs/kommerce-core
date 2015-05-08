@@ -30,9 +30,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->setShippingWeight(16);
         $product->setDescription('Test description');
         $product->setRating(500);
-        $product->setDefaultImage('http://lorempixel.com/400/200/');
         $product->addTag(new Tag);
         $product->addImage(new Image);
+        $product->setDefaultImage('http://lorempixel.com/400/200/');
         $product->addProductQuantityDiscount(new ProductQuantityDiscount);
         $product->addOptionProduct(new OptionProduct(new Product));
         $product->addProductAttribute(new ProductAttribute);
@@ -62,6 +62,19 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($product->getOptionProducts()[0] instanceof OptionProduct);
         $this->assertTrue($product->getProductAttributes()[0] instanceof ProductAttribute);
         $this->assertTrue($product->getView() instanceof View\Product);
+    }
+
+    public function testRemoveImage()
+    {
+        $product = new Product;
+        $image = new Image;
+
+        $product->addImage($image);
+        $product->addImage(new Image);
+        $this->assertSame(2, count($product->getImages()));
+
+        $product->removeImage($image);
+        $this->assertSame(1, count($product->getImages()));
     }
 
     public function testLoadFromView()

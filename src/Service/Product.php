@@ -17,14 +17,19 @@ class Product extends AbstractService
     /** @var EntityRepository\TagInterface */
     private $tagRepository;
 
+    /** @var EntityRepository\ImageInterface */
+    private $imageRepository;
+
     public function __construct(
         EntityRepository\ProductInterface $productRepository,
         EntityRepository\TagInterface $tagRepository,
+        EntityRepository\ImageInterface $imageRepository,
         Lib\PricingInterface $pricing
     ) {
         $this->pricing = $pricing;
         $this->productRepository = $productRepository;
         $this->tagRepository = $tagRepository;
+        $this->imageRepository = $imageRepository;
     }
 
     /**
@@ -45,24 +50,20 @@ class Product extends AbstractService
 
     /**
      * @param Entity\Product $product
-     * @return Entity\Product
      */
-    public function edit(Entity\Product $product)
+    public function edit(Entity\Product & $product)
     {
         $this->throwValidationErrors($product);
         $this->productRepository->save($product);
-        return $product;
     }
 
     /**
      * @param Entity\Product $product
-     * @return Entity\Product
      */
-    public function create(Entity\Product $product)
+    public function create(Entity\Product & $product)
     {
         $this->throwValidationErrors($product);
         $this->productRepository->create($product);
-        return $product;
     }
 
     /**
@@ -78,6 +79,25 @@ class Product extends AbstractService
         $product->addTag($tag);
 
         $this->productRepository->save($product);
+    }
+
+    /**
+     * @param int $productId
+     * @param int $imageId
+     * @throws \LogicException
+     */
+    public function removeImage($productId, $imageId)
+    {
+        $product = $this->getProductAndThrowExceptionIfMissing($productId);
+        $image = $this->getImageAndThrowExceptionIfMissing($imageId);
+
+        $product->removeImage($image);
+
+        $this->productRepository->save($product);
+
+        if ($image->getTag() === null) {
+            $this->imageRepository->remove($image);
+        }
     }
 
     public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
@@ -174,7 +194,7 @@ class Product extends AbstractService
      * @return Entity\Product
      * @throws \LogicException
      */
-    private function getProductAndThrowExceptionIfMissing($productId)
+    public function getProductAndThrowExceptionIfMissing($productId)
     {
         $product = $this->productRepository->find($productId);
 
@@ -188,6 +208,7 @@ class Product extends AbstractService
     /**
      * @param string $tagId
      * @return Entity\Tag
+     * @throws \LogicException
      */
     private function getTagAndThrowExceptionIfMissing($tagId)
     {
@@ -198,5 +219,21 @@ class Product extends AbstractService
         }
 
         return $tag;
+    }
+
+    /**
+     * @param string $imageId
+     * @return Entity\Image
+     * @throws \LogicException
+     */
+    private function getImageAndThrowExceptionIfMissing($imageId)
+    {
+        $image = $this->imageRepository->find($imageId);
+
+        if ($image === null) {
+            throw new \LogicException('Missing Image');
+        }
+
+        return $image;
     }
 }

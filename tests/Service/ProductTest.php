@@ -8,6 +8,7 @@ use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProduct;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTag;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeImage;
 
 class ProductTest extends Helper\DoctrineTestCase
 {
@@ -17,6 +18,9 @@ class ProductTest extends Helper\DoctrineTestCase
     /** @var FakeTag */
     protected $tagRepository;
 
+    /** @var FakeImage */
+    protected $imageRepository;
+
     /** @var Product */
     protected $productService;
 
@@ -24,10 +28,12 @@ class ProductTest extends Helper\DoctrineTestCase
     {
         $this->productRepository = new FakeProduct;
         $this->tagRepository = new FakeTag;
+        $this->imageRepository = new FakeImage;
 
         $this->productService = new Product(
             $this->productRepository,
             $this->tagRepository,
+            $this->imageRepository,
             new Lib\Pricing
         );
     }
@@ -53,18 +59,14 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $product->setUnitPrice(500);
 
-        $newProduct = $this->productService->edit($product);
-        $this->assertTrue($newProduct instanceof Entity\Product);
-
-        $this->assertSame(500, $newProduct->getUnitPrice());
+        $this->productService->edit($product);
+        $this->assertSame(500, $product->getUnitPrice());
     }
 
     public function testCreate()
     {
         $product = $this->getDummyProduct();
-
-        $newProduct = $this->productService->create($product);
-        $this->assertTrue($newProduct instanceof Entity\Product);
+        $this->productService->create($product);
     }
 
     public function testAddTag()
@@ -103,6 +105,31 @@ class ProductTest extends Helper\DoctrineTestCase
         $productId = 1;
         $tagEncodedId = '1';
         $this->productService->addTag($productId, $tagEncodedId);
+    }
+
+    public function testRemoveImage()
+    {
+        $image = $this->getDummyImage();
+        $image->setId(1);
+
+        $product = $this->getDummyProduct();
+        $product->setId(1);
+        $product->addImage($image);
+
+        $this->productRepository->setReturnValue($product);
+        $this->imageRepository->setReturnValue($image);
+
+        $this->productService->removeImage($product->getId(), $image->getId());
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Missing Image
+     */
+    public function testRemoveImageWithMissingImage()
+    {
+        $this->imageRepository->setReturnValue(null);
+        $this->productService->removeImage(1, 1);
     }
 
     public function testGetAllProducts()

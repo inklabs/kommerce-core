@@ -64,4 +64,11 @@ class ImageTest extends Helper\DoctrineTestCase
         $this->imageRepository->save($image);
         $this->assertTrue($image->getUpdated() instanceof \DateTime);
     }
+
+    public function testRemove()
+    {
+        $image = $this->setupImageWithProductAndTag();
+        $this->imageRepository->save($image);
+        $this->imageRepository->remove($image);
+    }
 }

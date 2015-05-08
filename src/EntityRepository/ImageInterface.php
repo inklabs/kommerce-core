@@ -12,7 +12,7 @@ interface ImageInterface
     public function find($id);
 
     /**
-     * @param Entity\Product $product
+     * @param Entity\Image $image
      */
     public function create(Entity\Image & $image);
 
@@ -20,6 +20,11 @@ interface ImageInterface
      * @param Entity\Image $image
      */
     public function save(Entity\Image & $image);
+
+    /**
+     * @param Entity\Image $image
+     */
+    public function remove(Entity\Image $image);
 
     /**
      * @param Entity\Image $image

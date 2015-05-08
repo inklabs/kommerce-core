@@ -150,7 +150,11 @@ class Product implements EntityInterface
 
     public function setSku($sku)
     {
-        $this->sku = $sku;
+        if (trim($sku) === '') {
+            $sku = null;
+        } else {
+            $this->sku = (string) $sku;
+        }
     }
 
     public function getSku()
@@ -265,7 +269,11 @@ class Product implements EntityInterface
 
     public function setDescription($description)
     {
-        $this->description = $description;
+        if (trim($description) === '') {
+            $description = null;
+        } else {
+            $this->description = (string) $description;
+        }
     }
 
     public function getDescription()
@@ -275,7 +283,11 @@ class Product implements EntityInterface
 
     public function setDefaultImage($defaultImage)
     {
-        $this->defaultImage = (string) $defaultImage;
+        if (trim($defaultImage) === '') {
+            $this->defaultImage = null;
+        } else {
+            $this->defaultImage = (string) $defaultImage;
+        }
     }
 
     public function getDefaultImage()
@@ -331,7 +343,26 @@ class Product implements EntityInterface
 
     public function addImage(Image $image)
     {
-        $this->images[] = $image;
+        if ($this->images->isEmpty()) {
+            $this->setDefaultImage($image->getPath());
+        }
+
+        $this->images->add($image);
+    }
+
+    public function removeImage(Image $image)
+    {
+        $result = $this->images->removeElement($image);
+
+        if ($this->getDefaultImage() === $image->getPath()) {
+            if (! $this->images->isEmpty()) {
+                $this->setDefaultImage($this->images->first()->getPath());
+            } else {
+                $this->setDefaultImage(null);
+            }
+        }
+
+        return $result;
     }
 
     public function getImages()

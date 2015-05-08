@@ -24,6 +24,10 @@ class FakeImage extends AbstractFake implements ImageInterface
     {
     }
 
+    public function remove(Entity\Image $image)
+    {
+    }
+
     public function persist(Entity\Image & $image)
     {
     }
