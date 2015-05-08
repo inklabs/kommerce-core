@@ -38,12 +38,16 @@ class OrderTest extends Helper\DoctrineTestCase
         $orderItem = $this->getDummyOrderItem($product, $price);
         $cartTotal = $this->getDummyCartTotal();
 
+        $taxRate = $this->getDummyTaxRate();
+
         $order = $this->getDummyOrder($cartTotal, [$orderItem]);
         $order->setUser($user);
         $order->setReferenceNumber($referenceNumber);
+        $order->setTaxRate($taxRate);
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);
+        $this->entityManager->persist($taxRate);
 
         $this->orderRepository->create($order);
 
@@ -65,6 +69,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $order->getPayments()->toArray();
         $order->getUser()->getCreated();
         $order->getCoupons()->toArray();
+        $order->getTaxRate()->getCreated();
 
         $this->assertTrue($order instanceof Entity\Order);
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());

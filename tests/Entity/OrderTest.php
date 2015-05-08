@@ -32,15 +32,11 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $product->setUnitPrice(500);
         $product->setQuantity(10);
 
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product);
-        $cartItem->setQuantity(2);
+        $orderItem = new OrderItem;
+        $orderItem->setProduct($product);
+        $orderItem->setQuantity(2);
 
-        $cart = new Cart;
-        $cart->setUser(new User);
-        $cart->addCartItem($cartItem);
-
-        $order = $cart->getOrder(new Lib\CartCalculator(new Lib\Pricing));
+        $order = new Order;
         $order->setId(1);
         $order->setExternalId('CO1102-0016');
         $order->setShippingAddress($shippingAddress);
@@ -49,6 +45,10 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->addCoupon(new Coupon);
         $order->addPayment(new Payment\Cash(100));
         $order->setReferenceNumber('xxx-xxxxxxx-xxxxxxx');
+        $order->setShippingRate(new ShippingRate);
+        $order->setTaxRate(new TaxRate);
+        $order->addOrderItem($orderItem);
+        $order->setTotal(new CartTotal);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -70,6 +70,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($order->getOrderItem(0) instanceof OrderItem);
         $this->assertTrue($order->getOrderItems()[0] instanceof OrderItem);
         $this->assertTrue($order->getPayments()[0] instanceof Payment\Payment);
+        $this->assertTrue($order->getShippingRate() instanceof ShippingRate);
+        $this->assertTrue($order->getTaxRate() instanceof TaxRate);
         $this->assertTrue($order->getView() instanceof View\Order);
     }
 }

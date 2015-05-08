@@ -237,6 +237,8 @@ class Cart implements EntityInterface
         }
 
         $order->setUser($this->getUser());
+        $order->setShippingRate($this->getShippingRate());
+        $order->setTaxRate($this->getTaxRate());
 
         return $order;
     }

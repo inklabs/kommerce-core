@@ -47,6 +47,12 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
     /** @var Coupon[] */
     protected $coupons;
 
+    /** @var ShippingRate */
+    protected $shippingRate;
+
+    /** @var TaxRate */
+    protected $taxRate;
+
     public function __construct()
     {
         $this->setCreated();
@@ -224,6 +230,7 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
         return $this->coupons;
     }
 
+
     public function setUser(User $user)
     {
         $this->user = $user;
@@ -232,6 +239,26 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function getShippingRate()
+    {
+        return $this->shippingRate;
+    }
+
+    public function setShippingRate(ShippingRate $shippingRate = null)
+    {
+        $this->shippingRate = $shippingRate;
+    }
+
+    public function getTaxRate()
+    {
+        return $this->taxRate;
+    }
+
+    public function setTaxRate(TaxRate $taxRate = null)
+    {
+        $this->taxRate = $taxRate;
     }
 
     public function getView()

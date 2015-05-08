@@ -238,6 +238,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->setUser(new User);
         $cart->addCartItem($cartItem);
         $cart->addCoupon(new Coupon);
+        $cart->setShippingRate(new ShippingRate);
 
         $order = $cart->getOrder(new Lib\CartCalculator(new Lib\Pricing));
 
