@@ -261,7 +261,7 @@ class Cart implements EntityInterface
         return $this->taxRate;
     }
 
-    public function setTaxRate(TaxRate $taxRate)
+    public function setTaxRate(TaxRate $taxRate = null)
     {
         $this->taxRate = $taxRate;
     }

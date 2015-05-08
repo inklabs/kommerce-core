@@ -359,7 +359,7 @@ class Cart extends AbstractService
         $this->cartRepository->save($cart);
     }
 
-    public function setTaxRate($cartId, Entity\TaxRate $taxRate)
+    public function setTaxRate($cartId, Entity\TaxRate $taxRate = null)
     {
         $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
         $cart->setTaxRate($taxRate);
