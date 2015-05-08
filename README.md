@@ -154,7 +154,7 @@ Add the following lines to your ``composer.json`` file.
 ## License
 
 ```
-Copyright 2015 Jamie Isaacs pdt256@gmail.com
+Copyright 2014 Jamie Isaacs pdt256@gmail.com
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
