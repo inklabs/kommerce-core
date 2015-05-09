@@ -118,6 +118,11 @@ class User extends AbstractService
         return $user;
     }
 
+    /**
+     * @param string $queryString
+     * @param Entity\Pagination $pagination
+     * @return View\User[]
+     */
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
         $users = $this->userRepository->getAllUsers($queryString, $pagination);

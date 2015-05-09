@@ -15,6 +15,8 @@ class User extends AbstractEntityRepository implements UserInterface
         if ($queryString !== null) {
             $users = $users
                 ->where('user.firstName LIKE :query')
+                ->orWhere('user.lastName LIKE :query')
+                ->orWhere('user.email LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 

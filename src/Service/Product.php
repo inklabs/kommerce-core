@@ -102,9 +102,7 @@ class Product extends AbstractService
 
     public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository
-            ->getAllProducts($queryString, $pagination);
-
+        $products = $this->productRepository->getAllProducts($queryString, $pagination);
         return $this->getViewProducts($products);
     }
 
