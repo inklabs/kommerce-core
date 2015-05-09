@@ -16,6 +16,11 @@ class FakeProduct extends AbstractFake implements ProductInterface
         return $this->getReturnValue();
     }
 
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        return $this->getReturnValue();
+    }
+
     public function getRelatedProducts(array $products, $limit = 12)
     {
         return $this->getReturnValueAsArray();

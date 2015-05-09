@@ -14,6 +14,13 @@ interface OrderInterface extends ReferenceNumber\RepositoryInterface
     public function find($id);
 
     /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @return Entity\Order
+     */
+    public function findOneBy(array $criteria, array $orderBy = null);
+
+    /**
      * @param Entity\Pagination $pagination
      * @return Entity\Order[]
      */

@@ -13,6 +13,13 @@ interface ProductInterface
     public function find($id);
 
     /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @return Entity\Product
+     */
+    public function findOneBy(array $criteria, array $orderBy = null);
+
+    /**
      * @param Entity\Product[] $products
      * @param int $limit
      * @return Entity\Product[]

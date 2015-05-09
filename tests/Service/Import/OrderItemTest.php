@@ -32,10 +32,29 @@ class OrderItemTest extends Helper\DoctrineTestCase
         );
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/OrderItemTest.csv');
-        $importedCount = $orderItemService->import($iterator);
+        $importResult = $orderItemService->import($iterator);
 
-        $this->assertSame(37, $importedCount);
-        $this->assertSame(111, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(37, $importResult->getSuccessCount());
+        $this->assertSame(0, $importResult->getFailedCount());
+        $this->assertSame([], $importResult->getFailedRows());
+        $this->assertSame(183, $this->countSQLLogger->getTotalQueries());
+    }
+
+    public function testImportFail()
+    {
+        $orderItemRepository = new Helper\EntityRepository\FakeOrderItem;
+        $orderItemRepository->setCrudException(new \Exception);
+        $orderItemService = new OrderItem(
+            new Helper\EntityRepository\FakeOrder,
+            $orderItemRepository,
+            new Helper\EntityRepository\FakeProduct
+        );
+
+        $iterator = new Lib\CSVIterator(__DIR__ . '/OrderItemTest.csv');
+        $importResult = $orderItemService->import($iterator);
+
+        $this->assertSame(0, $importResult->getSuccessCount());
+        $this->assertSame(37, $importResult->getFailedCount());
     }
 
     private function setupOrdersForImport()

@@ -28,11 +28,11 @@ class OrderItem
 
     /**
      * @param \Iterator $iterator
-     * @return int
+     * @return ImportResult
      */
     public function import(\Iterator $iterator)
     {
-        $importedCount = 0;
+        $importResult = new ImportResult;
         foreach ($iterator as $key => $row) {
             if ($key < 2 && $row[0] === 'order_ref') {
                 continue;
@@ -65,13 +65,15 @@ class OrderItem
                 $orderItem->setProduct($product);
             }
 
-            $this->orderItemRepository->persist($orderItem);
-            $importedCount++;
+            try {
+                $this->orderItemRepository->create($orderItem);
+                $importResult->incrementSuccess();
+            } catch (\Exception $e) {
+                $importResult->addFailedRow($row);
+            }
         }
 
-        $this->orderItemRepository->flush();
-
-        return $importedCount;
+        return $importResult;
     }
 
     /**

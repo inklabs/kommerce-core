@@ -17,6 +17,11 @@ class FakeOrder extends AbstractFake implements OrderInterface
         return $this->getReturnValue();
     }
 
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        return $this->getReturnValue();
+    }
+
     public function getLatestOrders(Entity\Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
