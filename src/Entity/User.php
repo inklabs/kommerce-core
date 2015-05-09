@@ -83,7 +83,9 @@ class User implements EntityInterface
         ]));
         $metadata->addPropertyConstraint('email', new Assert\Email);
 
-        $metadata->addPropertyConstraint('passwordHash', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('passwordHash', new Assert\Length([
+            'max' => 60,
+        ]));
 
         $metadata->addPropertyConstraint('totalLogins', new Assert\NotBlank);
         $metadata->addPropertyConstraint('totalLogins', new Assert\GreaterThanOrEqual([

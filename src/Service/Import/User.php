@@ -1,9 +1,10 @@
 <?php
 namespace inklabs\kommerce\Service\Import;
 
-use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository;
+use Symfony\Component\Validator\Exception\ValidatorException;
+use Symfony\Component\Validator\Validation;
 
 class User
 {
@@ -21,6 +22,10 @@ class User
      */
     public function import(\Iterator $iterator)
     {
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
         $importResult = new ImportResult;
         foreach ($iterator as $key => $row) {
             if ($key < 2 && $row[0] === 'id') {
@@ -50,10 +55,16 @@ class User
             }
 
             try {
+                $errors = $validator->validate($user);
+                if ($errors->count() > 0) {
+                    throw new ValidatorException('Invalid Order Item' . $errors);
+                }
+
                 $this->userRepository->create($user);
                 $importResult->incrementSuccess();
             } catch (\Exception $e) {
                 $importResult->addFailedRow($row);
+                $importResult->addErrorMessage($e->getMessage());
             }
         }
 

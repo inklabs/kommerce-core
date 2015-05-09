@@ -24,7 +24,6 @@ class UserTest extends Helper\DoctrineTestCase
         $this->assertTrue($importResult instanceof ImportResult);
         $this->assertSame(3, $importResult->getSuccessCount());
         $this->assertSame(1, $importResult->getFailedCount());
-        $this->assertSame(1, count($importResult->getFailedRows()));
-        $this->assertSame(12, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(9, $this->countSQLLogger->getTotalQueries());
     }
 }

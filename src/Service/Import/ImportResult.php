@@ -6,8 +6,11 @@ class ImportResult
     /** @var int */
     private $successCount = 0;
 
-    /** @var array */
+    /** @var array[] */
     private $failedRows = [];
+
+    /** @var string[] */
+    private $errorMessages = [];
 
     public function getSuccessCount()
     {
@@ -32,5 +35,15 @@ class ImportResult
     public function addFailedRow(array $failedRow)
     {
         $this->failedRows[] = $failedRow;
+    }
+
+    public function addErrorMessage($errorMessage)
+    {
+        $this->errorMessages[] = $errorMessage;
+    }
+
+    public function getErrorMessages()
+    {
+        return $this->errorMessages;
     }
 }

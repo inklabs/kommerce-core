@@ -1,9 +1,10 @@
 <?php
 namespace inklabs\kommerce\Service\Import;
 
-use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository;
+use Symfony\Component\Validator\Exception\ValidatorException;
+use Symfony\Component\Validator\Validation;
 
 class OrderItem
 {
@@ -32,6 +33,10 @@ class OrderItem
      */
     public function import(\Iterator $iterator)
     {
+        $validator = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
+
         $importResult = new ImportResult;
         foreach ($iterator as $key => $row) {
             if ($key < 2 && $row[0] === 'order_ref') {
@@ -62,16 +67,26 @@ class OrderItem
                 $orderItem->setName($note);
             } else {
                 $product = $this->productRepository->findOneBy(['sku' => $sku]);
-                $orderItem->setProduct($product);
+                if ($product !== null) {
+                    $orderItem->setProduct($product);
+                }
             }
 
             try {
-                $this->orderItemRepository->create($orderItem);
+                $errors = $validator->validate($orderItem);
+                if ($errors->count() > 0) {
+                    throw new ValidatorException('Invalid Order Item' . $errors);
+                }
+
+                $this->orderItemRepository->persist($orderItem);
                 $importResult->incrementSuccess();
             } catch (\Exception $e) {
                 $importResult->addFailedRow($row);
+                $importResult->addErrorMessage($e->getMessage());
             }
         }
+
+        $this->orderItemRepository->flush();
 
         return $importResult;
     }

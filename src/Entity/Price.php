@@ -22,23 +22,23 @@ class Price implements EntityInterface
     {
         $metadata->addPropertyConstraint('origUnitPrice', new Assert\NotNull);
         $metadata->addPropertyConstraint('origUnitPrice', new Assert\Range([
-            'min' => 0,
-            'max' => 4294967295,
+            'min' => -2147483648,
+            'max' => 2147483647,
         ]));
         $metadata->addPropertyConstraint('unitPrice', new Assert\NotNull);
         $metadata->addPropertyConstraint('unitPrice', new Assert\Range([
-            'min' => 0,
-            'max' => 4294967295,
+            'min' => -2147483648,
+            'max' => 2147483647,
         ]));
         $metadata->addPropertyConstraint('origQuantityPrice', new Assert\NotNull);
         $metadata->addPropertyConstraint('origQuantityPrice', new Assert\Range([
-            'min' => 0,
-            'max' => 4294967295,
+            'min' => -2147483648,
+            'max' => 2147483647,
         ]));
         $metadata->addPropertyConstraint('quantityPrice', new Assert\NotNull);
         $metadata->addPropertyConstraint('quantityPrice', new Assert\Range([
-            'min' => 0,
-            'max' => 4294967295,
+            'min' => -2147483648,
+            'max' => 2147483647,
         ]));
     }
 

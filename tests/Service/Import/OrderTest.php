@@ -31,8 +31,7 @@ class OrderTest extends Helper\DoctrineTestCase
 
         $this->assertSame(3, $importResult->getSuccessCount());
         $this->assertSame(1, $importResult->getFailedCount());
-        $this->assertSame(1, count($importResult->getFailedRows()));
-        $this->assertSame(16, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(13, $this->countSQLLogger->getTotalQueries());
     }
 
     private function setupUsersForImport()

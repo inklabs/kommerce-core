@@ -65,6 +65,10 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
+        $metadata->addPropertyConstraint('externalId', new Assert\Length([
+            'max' => 255,
+        ]));
+
         $metadata->addPropertyConstraint('status', new Assert\Choice([
             'choices' => array_keys(static::getStatusMapping()),
             'message' => 'The status is not a valid choice',

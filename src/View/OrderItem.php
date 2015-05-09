@@ -63,8 +63,10 @@ class OrderItem implements ViewInterface
             ->withAllData()
             ->export();
 
-        $this->product = $this->orderItem->getProduct()->getView()
-            ->export();
+        if ($this->orderItem->getProduct() !== null) {
+            $this->product = $this->orderItem->getProduct()->getView()
+                ->export();
+        }
     }
 
     public function export()
