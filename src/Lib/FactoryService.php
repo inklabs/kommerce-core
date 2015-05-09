@@ -112,6 +112,14 @@ class FactoryService
     }
 
     /**
+     * @return Service\Import\User
+     */
+    public function getImportUser()
+    {
+        return new Service\Import\User($this->factoryRepository->getUser());
+    }
+
+    /**
      * @return Service\Order
      */
     public function getOrder()

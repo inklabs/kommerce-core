@@ -27,6 +27,7 @@ class FactoryServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($factoryService->getCatalogPromotion() instanceof Service\CatalogPromotion);
         $this->assertTrue($factoryService->getCoupon() instanceof Service\Coupon);
         $this->assertTrue($factoryService->getImage() instanceof Service\Image);
+        $this->assertTrue($factoryService->getImportUser() instanceof Service\Import\User);
         $this->assertTrue($factoryService->getOrder() instanceof Service\Order);
         $this->assertTrue($factoryService->getProduct() instanceof Service\Product);
         $this->assertTrue($factoryService->getTag() instanceof Service\Tag);

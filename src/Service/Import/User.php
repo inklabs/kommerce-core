@@ -17,11 +17,11 @@ class User
 
     /**
      * @param \Iterator $iterator
-     * @return int
+     * @return ImportResult
      */
     public function import(\Iterator $iterator)
     {
-        $importedCount = 0;
+        $importResult = new ImportResult;
         foreach ($iterator as $key => $row) {
             if ($key < 2 && $row[0] === 'id') {
                 continue;
@@ -49,13 +49,16 @@ class User
                 $user->setEmail($email);
             }
 
-            $this->userRepository->persist($user);
-            $importedCount++;
+            try {
+                $this->userRepository->persist($user);
+                $this->userRepository->flush();
+                $importResult->incrementSuccess();
+            } catch (\Exception $e) {
+                $importResult->addFailedRow($row);
+            }
         }
 
-        $this->userRepository->flush();
-
-        return $importedCount;
+        return $importResult;
     }
 
     /**

@@ -19,9 +19,12 @@ class UserTest extends Helper\DoctrineTestCase
         $userService = new User($this->repository()->getUser());
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/UserTest.csv');
-        $importedCount = $userService->import($iterator);
+        $importResult = $userService->import($iterator);
 
-        $this->assertSame(3, $importedCount);
-        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+        $this->assertTrue($importResult instanceof ImportResult);
+        $this->assertSame(3, $importResult->getSuccessCount());
+        $this->assertSame(1, $importResult->getFailedCount());
+        $this->assertSame(1, count($importResult->getFailedRows()));
+        $this->assertSame(12, $this->countSQLLogger->getTotalQueries());
     }
 }
