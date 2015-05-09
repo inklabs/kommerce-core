@@ -23,11 +23,11 @@ class Order
 
     /**
      * @param \Iterator $iterator
-     * @return int
+     * @return ImportResult
      */
     public function import(\Iterator $iterator)
     {
-        $importedCount = 0;
+        $importResult = new ImportResult;
         foreach ($iterator as $key => $row) {
             if ($key < 2 && $row[0] === 'order_ref') {
                 continue;
@@ -52,14 +52,20 @@ class Order
 
             if ($userExternalId !== null) {
                 $user = $this->userRepository->findOneBy(['externalId' => $userExternalId]);
-                $order->setUser($user);
+                if ($user !== null) {
+                    $order->setUser($user);
+                }
             }
 
-            $this->orderRepository->create($order);
-            $importedCount++;
+            try {
+                $this->orderRepository->create($order);
+                $importResult->incrementSuccess();
+            } catch (\Exception $e) {
+                $importResult->addFailedRow($row);
+            }
         }
 
-        return $importedCount;
+        return $importResult;
     }
 
     /**

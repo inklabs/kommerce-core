@@ -112,6 +112,29 @@ class FactoryService
     }
 
     /**
+     * @return Service\Import\Order
+     */
+    public function getImportOrder()
+    {
+        return new Service\Import\Order(
+            $this->factoryRepository->getOrder(),
+            $this->factoryRepository->getUser()
+        );
+    }
+
+    /**
+     * @return Service\Import\OrderItem
+     */
+    public function getImportOrderItem()
+    {
+        return new Service\Import\OrderItem(
+            $this->factoryRepository->getOrder(),
+            $this->factoryRepository->getOrderItem(),
+            $this->factoryRepository->getProduct()
+        );
+    }
+
+    /**
      * @return Service\Import\User
      */
     public function getImportUser()

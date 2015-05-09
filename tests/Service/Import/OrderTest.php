@@ -27,10 +27,12 @@ class OrderTest extends Helper\DoctrineTestCase
         );
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/OrderTest.csv');
-        $importedCount = $orderService->import($iterator);
+        $importResult = $orderService->import($iterator);
 
-        $this->assertSame(3, $importedCount);
-        $this->assertSame(12, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(3, $importResult->getSuccessCount());
+        $this->assertSame(1, $importResult->getFailedCount());
+        $this->assertSame(1, count($importResult->getFailedRows()));
+        $this->assertSame(16, $this->countSQLLogger->getTotalQueries());
     }
 
     private function setupUsersForImport()

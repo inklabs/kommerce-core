@@ -50,8 +50,7 @@ class User
             }
 
             try {
-                $this->userRepository->persist($user);
-                $this->userRepository->flush();
+                $this->userRepository->create($user);
                 $importResult->incrementSuccess();
             } catch (\Exception $e) {
                 $importResult->addFailedRow($row);
