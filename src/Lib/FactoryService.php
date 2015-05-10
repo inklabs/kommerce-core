@@ -135,6 +135,17 @@ class FactoryService
     }
 
     /**
+     * @return Service\Import\Payment
+     */
+    public function getImportPayment()
+    {
+        return new Service\Import\Payment(
+            $this->factoryRepository->getOrder(),
+            $this->factoryRepository->getPayment()
+        );
+    }
+
+    /**
      * @return Service\Import\User
      */
     public function getImportUser()
