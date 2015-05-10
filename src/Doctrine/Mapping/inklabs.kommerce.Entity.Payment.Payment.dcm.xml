@@ -5,7 +5,12 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\Payment\Payment"
-            inheritance-type="SINGLE_TABLE">
+            inheritance-type="SINGLE_TABLE"
+            repository-class="inklabs\kommerce\EntityRepository\Payment\Payment">
+
+        <lifecycle-callbacks>
+            <lifecycle-callback type="preUpdate" method="preUpdate"/>
+        </lifecycle-callbacks>
 
         <discriminator-column name="payment_type" type="string" length="6"/>
         <discriminator-map>

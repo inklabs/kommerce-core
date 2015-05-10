@@ -181,6 +181,14 @@ class FactoryRepository
     }
 
     /**
+     * @return EntityRepository\Payment\PaymentInterface
+     */
+    public function getPayment()
+    {
+        return $this->entityManager->getRepository('kommerce:Payment\Payment');
+    }
+
+    /**
      * @return EntityRepository\ProductInterface
      */
     public function getProduct()

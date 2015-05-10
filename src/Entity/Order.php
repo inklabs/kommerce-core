@@ -215,7 +215,7 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
 
     public function addPayment(Payment\Payment $payment)
     {
-        $payment->addOrder($this);
+        $payment->setOrder($this);
         $this->payments[] = $payment;
     }
 

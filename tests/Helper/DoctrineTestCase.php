@@ -179,7 +179,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
      * @param array $orderItems
      * @return Entity\Order
      */
-    protected function getDummyOrder(Entity\CartTotal $total = null, array $orderItems = null)
+    protected function getDummyOrder(Entity\CartTotal $total, array $orderItems = null)
     {
         $orderAddress = $this->getDummyOrderAddress();
 
@@ -195,6 +195,12 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         }
 
         return $order;
+    }
+
+    protected function getDummyCashPayment($amount = 100)
+    {
+        $payment = new Entity\Payment\Cash($amount);
+        return $payment;
     }
 
     protected function getDummyPrice()

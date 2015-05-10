@@ -21,7 +21,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         /** @var $mock Payment */
         $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Payment\Payment');
         $mock->setAmount(100);
-        $mock->addOrder($order);
+        $mock->setOrder($order);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')

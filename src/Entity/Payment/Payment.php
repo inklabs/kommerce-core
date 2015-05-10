@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity\Payment;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\View;
 use inklabs\kommerce\Entity\Accessor;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -35,7 +36,7 @@ abstract class Payment implements Entity\EntityInterface
         return $this->amount;
     }
 
-    public function addOrder(Entity\Order $order)
+    public function setOrder(Entity\Order $order)
     {
         $this->order = $order;
     }
