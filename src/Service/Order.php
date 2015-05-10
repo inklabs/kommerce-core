@@ -47,6 +47,7 @@ class Order extends AbstractService
         $viewOrders = [];
         foreach ($orders as $order) {
             $viewOrders[] = $order->getView()
+                ->withUser()
                 ->export();
         }
 
