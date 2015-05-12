@@ -130,7 +130,7 @@ class Product implements ViewInterface
         return $this;
     }
 
-    public function withProductQuantityDiscounts(Lib\PricingInterface $pricing)
+    public function withProductQuantityDiscounts(Lib\Pricing $pricing)
     {
         $productQuantityDiscounts = $this->product->getProductQuantityDiscounts();
         $pricing->setProductQuantityDiscounts($productQuantityDiscounts);
@@ -168,7 +168,7 @@ class Product implements ViewInterface
         return $this;
     }
 
-    public function withAllData(Lib\PricingInterface $pricing)
+    public function withAllData(Lib\Pricing $pricing)
     {
         return $this
             ->withTagsAndOptions($pricing)
