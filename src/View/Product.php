@@ -40,6 +40,9 @@ class Product implements ViewInterface
     /** @var ProductQuantityDiscount[] */
     public $productQuantityDiscounts = [];
 
+    /** @var OptionProduct[] */
+    public $optionProducts = [];
+
     /** @var ProductAttribute[] */
     public $productAttributes = [];
 
@@ -142,6 +145,17 @@ class Product implements ViewInterface
         return $this;
     }
 
+    public function withOptionProducts()
+    {
+        foreach ($this->product->getOptionProducts() as $optionProduct) {
+            $this->optionProducts[] = $optionProduct->getView()
+                ->withOption()
+                ->export();
+        }
+
+        return $this;
+    }
+
     public function withProductAttributes()
     {
         foreach ($this->product->getProductAttributes() as $productAttribute) {
@@ -161,6 +175,7 @@ class Product implements ViewInterface
             ->withProductQuantityDiscounts($pricing)
             ->withPrice($pricing)
             ->withImages()
-            ->withProductAttributes();
+            ->withProductAttributes()
+            ->withOptionProducts();
     }
 }

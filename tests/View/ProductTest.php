@@ -27,6 +27,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $entityProduct->addProductQuantityDiscount($productQuantityDiscount);
 
+        $optionProduct = new Entity\OptionProduct;
+        $optionProduct->setProduct(new Entity\Product);
+        $entityProduct->addOptionProduct($optionProduct);
+
         $product = $entityProduct->getView()
             ->withAllData(new Lib\Pricing)
             ->export();
@@ -35,6 +39,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($product->images[0] instanceof Image);
         $this->assertTrue($product->productQuantityDiscounts[0] instanceof ProductQuantityDiscount);
         $this->assertTrue($product->productAttributes[0] instanceof ProductAttribute);
+        $this->assertTrue($product->optionProducts[0] instanceof OptionProduct);
         $this->assertTrue($product->price instanceof Price);
     }
 

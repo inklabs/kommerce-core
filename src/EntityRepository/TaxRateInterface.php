@@ -12,7 +12,7 @@ interface TaxRateInterface
     public function find($id);
 
     /**
-     * @return Entity\TaxRate
+     * @return Entity\TaxRate[]
      */
     public function findAll();
 
