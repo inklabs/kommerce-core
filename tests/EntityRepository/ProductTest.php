@@ -106,21 +106,35 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->entityManager->flush();
         $this->entityManager->clear();
 
+        $this->setCountLogger();
+
         $products = $this->productRepository->getProductsByTag($tag);
+
+        foreach ($products as $product) {
+            $product->getTags()->toArray();
+        }
 
         $this->assertSame(2, count($products));
         $this->assertSame(1, $products[0]->getId());
         $this->assertSame(2, $products[1]->getid());
+        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testGetProductsByIds()
     {
         $this->setupProduct();
+        $this->setupProduct();
 
-        $products = $this->productRepository->getProductsByIds([1]);
+        $this->setCountLogger();
 
-        $this->assertSame(1, count($products));
-        $this->assertSame(1, $products[0]->getId());
+        $products = $this->productRepository->getProductsByIds([1, 2]);
+
+        foreach ($products as $product) {
+            $product->getTags()->toArray();
+        }
+
+        $this->assertSame(2, count($products));
+        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testGetAllProducts()

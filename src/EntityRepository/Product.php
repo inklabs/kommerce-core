@@ -61,11 +61,6 @@ class Product extends AbstractEntityRepository implements ProductInterface
             ->from('kommerce:Product', 'product')
             ->innerJoin('product.tags', 'tag')
             ->where('tag.id = :tagId')
-
-            // Doesn't cause query in loop for pricing
-            ->addSelect('tag2')
-            ->leftJoin('product.tags', 'tag2')
-
             ->productActiveAndVisible()
             ->productAvailable()
             ->setParameter('tagId', $tagId)
@@ -73,7 +68,32 @@ class Product extends AbstractEntityRepository implements ProductInterface
             ->getQuery()
             ->getResult();
 
+        $this->loadProductTags($products);
+
         return $products;
+    }
+
+    /**
+     * Load product tags to avoid query in loop for pricing
+     *
+     * @param Entity\Product[] $products
+     */
+    private function loadProductTags(array $products)
+    {
+        $productIds = [];
+        foreach ($products as $product) {
+            $productIds[] = $product->getId();
+        }
+
+        $this->getQueryBuilder()
+            ->select('product')
+            ->from('kommerce:Product', 'product')
+            ->where('product.id IN (:productIds)')
+            ->addSelect('tag2')
+            ->leftJoin('product.tags', 'tag2')
+            ->setParameter('productIds', $productIds)
+            ->getQuery()
+            ->getResult();
     }
 
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
@@ -89,6 +109,8 @@ class Product extends AbstractEntityRepository implements ProductInterface
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
+
+        $this->loadProductTags($products);
 
         return $products;
     }
