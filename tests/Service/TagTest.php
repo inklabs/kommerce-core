@@ -35,6 +35,23 @@ class TagTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $tag);
     }
 
+    public function testGetTagAndThrowExceptionIfMissing()
+    {
+        $tag = $this->tagService->getTagAndThrowExceptionIfMissing(1);
+        $this->assertTrue($tag instanceof Entity\Tag);
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Missing Tag
+     */
+    public function testGetTagAndThrowExceptionIfMissingThrows()
+    {
+        $this->tagRepository->setReturnValue(null);
+
+        $this->tagService->getTagAndThrowExceptionIfMissing(1);
+    }
+
     public function testFindSimple()
     {
         $tag = $this->tagService->findSimple(1);

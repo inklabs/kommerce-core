@@ -53,6 +53,22 @@ class Tag extends AbstractService
     }
 
     /**
+     * @param $tagId
+     * @return Entity\Tag
+     * @throws \LogicException
+     */
+    public function getTagAndThrowExceptionIfMissing($tagId)
+    {
+        $tag = $this->tagRepository->find($tagId);
+
+        if ($tag === null) {
+            throw new \LogicException('Missing Tag');
+        }
+
+        return $tag;
+    }
+
+    /**
      * @param Entity\Tag $tag
      * @return Entity\Tag
      */

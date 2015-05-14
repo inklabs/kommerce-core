@@ -137,7 +137,11 @@ class Tag implements EntityInterface
 
     public function setDescription($description)
     {
-        $this->description = $description;
+        if (trim($description) === '') {
+            $this->description = null;
+        } else {
+            $this->description = (string) $description;
+        }
     }
 
     public function getDescription()

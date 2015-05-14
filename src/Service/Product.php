@@ -69,7 +69,6 @@ class Product extends AbstractService
     /**
      * @param int $productId
      * @param string $tagId
-     * @throws \LogicException
      */
     public function addTag($productId, $tagId)
     {
@@ -84,7 +83,6 @@ class Product extends AbstractService
     /**
      * @param int $productId
      * @param int $imageId
-     * @throws \LogicException
      */
     public function removeImage($productId, $imageId)
     {

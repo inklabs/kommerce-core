@@ -151,7 +151,7 @@ class Product implements EntityInterface
     public function setSku($sku)
     {
         if (trim($sku) === '') {
-            $sku = null;
+            $this->sku = null;
         } else {
             $this->sku = (string) $sku;
         }
@@ -270,7 +270,7 @@ class Product implements EntityInterface
     public function setDescription($description)
     {
         if (trim($description) === '') {
-            $description = null;
+            $this->description = null;
         } else {
             $this->description = (string) $description;
         }
