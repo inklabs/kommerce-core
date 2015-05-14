@@ -20,7 +20,7 @@
 
         <field name="externalId" type="string" length="255" nullable="true" unique="true"/>
         <field name="firstName" type="string" length="50"/>
-        <field name="lastName" type="string" length="50"/>
+        <field name="lastName" type="string" length="50" nullable="true"/>
         <field name="email" type="string" length="255" nullable="true"/>
 
         <field name="passwordHash" type="string" length="60" nullable="true">

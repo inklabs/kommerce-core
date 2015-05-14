@@ -72,12 +72,10 @@ class User implements EntityInterface
             'max' => 50,
         ]));
 
-        $metadata->addPropertyConstraint('lastName', new Assert\NotBlank);
         $metadata->addPropertyConstraint('lastName', new Assert\Length([
             'max' => 50,
         ]));
 
-        $metadata->addPropertyConstraint('email', new Assert\NotBlank);
         $metadata->addPropertyConstraint('email', new Assert\Length([
             'max' => 255,
         ]));

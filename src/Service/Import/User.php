@@ -32,15 +32,15 @@ class User
                 continue;
             }
 
-            $externalId = $row[0];
-            $name = $row[1];
-            $address = $row[2];
-            $zip5 = $row[3];
-            $city = $row[4];
-            $phone = $row[5];
-            $fax = $row[6];
-            $url = $row[7];
-            $email = $row[8];
+            $externalId = $this->extractNull($row[0]);
+            $name = $this->extractNull($row[1]);
+            $address = $this->extractNull($row[2]);
+            $zip5 = $this->extractNull($row[3]);
+            $city = $this->extractNull($row[4]);
+            $phone = $this->extractNull($row[5]);
+            $fax = $this->extractNull($row[6]);
+            $url = $this->extractNull($row[7]);
+            $email = $this->extractNull($row[8]);
 
             $firstName = $this->parseFirstName($name);
             $lastName = $this->parseLastName($name);
@@ -57,7 +57,7 @@ class User
             try {
                 $errors = $validator->validate($user);
                 if ($errors->count() > 0) {
-                    throw new ValidatorException('Invalid Order Item' . $errors);
+                    throw new ValidatorException('Invalid User' . $errors);
                 }
 
                 $this->userRepository->create($user);
@@ -69,6 +69,18 @@ class User
         }
 
         return $importResult;
+    }
+
+    /**
+     * @param string $variable
+     * @return string
+     */
+    private function extractNull($variable)
+    {
+        if ($variable === 'NULL') {
+            $variable = null;
+        }
+        return $variable;
     }
 
     /**
