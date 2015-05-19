@@ -28,7 +28,7 @@ class ProductDecorator implements ProductInterface
         return $this->productRepository->getRelatedProducts($products, $limit);
     }
 
-    public function getRelatedProductsByIds($productIds, $tagIds = null, $limit = 12)
+    public function getRelatedProductsByIds(array $productIds, $tagIds = null, $limit = 12)
     {
         return $this->productRepository->getRelatedProductsByIds($productIds, $tagIds, $limit);
     }
@@ -43,7 +43,7 @@ class ProductDecorator implements ProductInterface
         return $this->productRepository->getProductsByTagId($tagId, $pagination);
     }
 
-    public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
+    public function getProductsByIds(array $productIds, Entity\Pagination & $pagination = null)
     {
         return $this->productRepository->getProductsByIds($productIds, $pagination);
     }
@@ -53,7 +53,7 @@ class ProductDecorator implements ProductInterface
         return $this->productRepository->getAllProducts($queryString, $pagination);
     }
 
-    public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
+    public function getAllProductsByIds(array $productIds, Entity\Pagination & $pagination = null)
     {
         return $this->productRepository->getAllProductsByIds($productIds, $pagination);
     }

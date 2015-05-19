@@ -20,7 +20,7 @@ class Product extends AbstractEntityRepository implements ProductInterface
         return $this->getRelatedProductsByIds($productIds, $tagIds, $limit);
     }
 
-    public function getRelatedProductsByIds($productIds, $tagIds = null, $limit = 12)
+    public function getRelatedProductsByIds(array $productIds, $tagIds = null, $limit = 12)
     {
         $qb = $this->getQueryBuilder();
 
@@ -96,7 +96,7 @@ class Product extends AbstractEntityRepository implements ProductInterface
             ->getResult();
     }
 
-    public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
+    public function getProductsByIds(array $productIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -137,7 +137,7 @@ class Product extends AbstractEntityRepository implements ProductInterface
         return $products;
     }
 
-    public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
+    public function getAllProductsByIds(array $productIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
