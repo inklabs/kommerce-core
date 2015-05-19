@@ -7,13 +7,13 @@ use inklabs\kommerce\Lib;
 class FactoryService
 {
     /** @var Lib\CartCalculatorInterface */
-    private $cartCalculator;
+    protected $cartCalculator;
 
     /** @var Lib\PricingInterface */
-    private $pricing;
+    protected $pricing;
 
     /** @var FactoryRepository */
-    private $factoryRepository;
+    protected $factoryRepository;
 
     public function __construct(
         FactoryRepository $factoryRepository,

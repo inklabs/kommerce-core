@@ -8,7 +8,7 @@ use inklabs\kommerce\Lib\ReferenceNumber;
 class FactoryRepository
 {
     /** @var EntityManager */
-    private $entityManager;
+    protected $entityManager;
 
     public function __construct(EntityManager $entityManager)
     {
