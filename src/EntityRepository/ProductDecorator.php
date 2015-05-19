@@ -82,4 +82,9 @@ class ProductDecorator implements ProductInterface
     {
         return $this->productRepository->flush();
     }
+
+    public function loadProductTags(array & $products)
+    {
+        return $this->productRepository->loadProductTags($products);
+    }
 }

@@ -35,6 +35,13 @@ interface ProductInterface
     public function getRelatedProductsByIds($productIds, $tagIds = null, $limit = 12);
 
     /**
+     * Load product tags to avoid query in loop for pricing
+     *
+     * @param Entity\Product[] $products
+     */
+    public function loadProductTags(array & $products);
+
+    /**
      * @return Entity\Product[]
      */
     public function getProductsByTag(Entity\Tag $tag, Entity\Pagination &$pagination = null);

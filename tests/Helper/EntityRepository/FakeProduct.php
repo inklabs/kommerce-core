@@ -72,4 +72,8 @@ class FakeProduct extends AbstractFake implements ProductInterface
     public function persist(Entity\Product & $product)
     {
     }
+
+    public function loadProductTags(array & $products)
+    {
+    }
 }

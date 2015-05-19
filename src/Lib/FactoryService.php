@@ -158,7 +158,10 @@ class FactoryService
      */
     public function getOrder()
     {
-        return new Service\Order($this->factoryRepository->getOrder());
+        return new Service\Order(
+            $this->factoryRepository->getOrder(),
+            $this->factoryRepository->getProduct()
+        );
     }
 
     /**

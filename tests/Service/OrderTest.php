@@ -5,11 +5,15 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrder;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeProduct;
 
 class OrderTest extends Helper\DoctrineTestCase
 {
     /** @var FakeOrder */
     protected $orderRepository;
+
+    /** @var FakeProduct */
+    protected $productRepository;
 
     /** @var Order */
     protected $orderService;
@@ -17,7 +21,12 @@ class OrderTest extends Helper\DoctrineTestCase
     public function setUp()
     {
         $this->orderRepository = new FakeOrder;
-        $this->orderService = new Order($this->orderRepository);
+        $this->productRepository = new FakeProduct;
+
+        $this->orderService = new Order(
+            $this->orderRepository,
+            $this->productRepository
+        );
     }
 
     public function testFind()

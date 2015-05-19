@@ -65,6 +65,7 @@ class OrderItem implements ViewInterface
 
         if ($this->orderItem->getProduct() !== null) {
             $this->product = $this->orderItem->getProduct()->getView()
+                ->withTags()
                 ->export();
         }
     }

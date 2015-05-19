@@ -78,7 +78,7 @@ class Product extends AbstractEntityRepository implements ProductInterface
      *
      * @param Entity\Product[] $products
      */
-    private function loadProductTags(array $products)
+    public function loadProductTags(array & $products)
     {
         $productIds = [];
         foreach ($products as $product) {

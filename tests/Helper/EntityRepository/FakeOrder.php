@@ -9,7 +9,14 @@ class FakeOrder extends AbstractFake implements OrderInterface
 {
     public function __construct()
     {
-        $this->setReturnValue(new Entity\Order);
+        $orderItem = new Entity\OrderItem;
+        $orderItem->setProduct(new Entity\Product);
+        $orderItem->setPrice(new Entity\Price);
+
+        $order = new Entity\Order;
+        $order->addOrderItem($orderItem);
+
+        $this->setReturnValue($order);
     }
 
     public function find($id)

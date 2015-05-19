@@ -10,9 +10,15 @@ class Order extends AbstractService
     /** @var EntityRepository\OrderInterface */
     private $orderRepository;
 
-    public function __construct(EntityRepository\OrderInterface $orderRepository)
-    {
+    /** @var EntityRepository\ProductInterface */
+    private $productRepository;
+
+    public function __construct(
+        EntityRepository\OrderInterface $orderRepository,
+        EntityRepository\ProductInterface $productRepository
+    ) {
         $this->orderRepository = $orderRepository;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -27,9 +33,20 @@ class Order extends AbstractService
             return null;
         }
 
+        $this->loadProductTags($order);
+
         return $order->getView()
             ->withAllData()
             ->export();
+    }
+
+    private function loadProductTags(Entity\Order $order)
+    {
+        $products = [];
+        foreach ($order->getOrderItems() as $orderItem) {
+            $products[] = $orderItem->getProduct();
+        }
+        $this->productRepository->loadProductTags($products);
     }
 
     public function getLatestOrders(Entity\Pagination & $pagination = null)
