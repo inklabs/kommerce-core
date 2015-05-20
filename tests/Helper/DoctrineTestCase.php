@@ -99,6 +99,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         $tag = new Entity\Tag;
         $tag->setName('Test Tag #' . $num);
+        $tag->setCode('TT' . $num);
         $tag->setDescription('Test Description');
         $tag->setDefaultImage('http://lorempixel.com/400/200/');
         $tag->setSortOrder(0);
@@ -256,7 +257,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $user = new Entity\User;
         $user->setExternalId($num);
         $user->setStatus(Entity\User::STATUS_ACTIVE);
-        $user->setEmail('test@example.com');
+        $user->setEmail('test' . $num . '@example.com');
         $user->setPassword('xxxx');
         $user->setFirstName('John');
         $user->setLastName('Doe');

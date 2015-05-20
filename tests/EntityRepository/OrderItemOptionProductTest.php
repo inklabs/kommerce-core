@@ -29,7 +29,7 @@ class OrderItemOptionProductTest extends Helper\DoctrineTestCase
 
     public function setupOrder()
     {
-        $product2 = $this->getDummyProduct();
+        $product2 = $this->getDummyProduct(2);
         $option = $this->getDummyOption();
         $optionProduct = $this->getDummyOptionProduct($option, $product2);
         $orderItemOptionProduct = $this->getDummyOrderItemOptionProduct($optionProduct);

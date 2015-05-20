@@ -19,7 +19,7 @@
         </id>
 
         <field name="name" type="string" length="255"/>
-        <field name="sku" type="string" length="64" nullable="true"/>
+        <field name="sku" type="string" length="64" nullable="true" unique="true"/>
         <field name="description" type="text" length="65535" nullable="true"/>
         <field name="defaultImage" type="string" length="255" nullable="true"/>
 

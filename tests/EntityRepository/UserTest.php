@@ -75,7 +75,7 @@ class UserTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
-        $user = $this->userRepository->findOneByEmail('test@example.com');
+        $user = $this->userRepository->findOneByEmail('test1@example.com');
 
         $this->assertTrue($user instanceof Entity\User);
     }

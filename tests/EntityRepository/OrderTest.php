@@ -31,10 +31,12 @@ class OrderTest extends Helper\DoctrineTestCase
 
     public function setupOrder($referenceNumber = null)
     {
-        $product = $this->getDummyProduct();
+        $uniqueId = crc32($referenceNumber);
+
+        $product = $this->getDummyProduct($uniqueId);
         $price = $this->getDummyPrice();
 
-        $user = $this->getDummyUser(null);
+        $user = $this->getDummyUser($uniqueId);
         $orderItem = $this->getDummyOrderItem($product, $price);
         $cartTotal = $this->getDummyCartTotal();
 

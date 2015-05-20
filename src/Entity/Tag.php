@@ -14,6 +14,9 @@ class Tag implements EntityInterface
     protected $name;
 
     /** @var string */
+    protected $code;
+
+    /** @var string */
     protected $description;
 
     /** @var string */
@@ -58,6 +61,10 @@ class Tag implements EntityInterface
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([
             'max' => 255,
+        ]));
+
+        $metadata->addPropertyConstraint('code', new Assert\Length([
+            'max' => 64,
         ]));
 
         $metadata->addPropertyConstraint('description', new Assert\Length([
@@ -127,12 +134,26 @@ class Tag implements EntityInterface
 
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
     }
 
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setCode($code)
+    {
+        if (trim($code) === '') {
+            $this->code = null;
+        } else {
+            $this->code = (string) $code;
+        }
+    }
+
+    public function getCode()
+    {
+        return $this->code;
     }
 
     public function setDescription($description)

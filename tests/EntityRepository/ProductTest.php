@@ -26,9 +26,9 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->productRepository = $this->repository()->getProduct();
     }
 
-    private function setupProduct()
+    private function setupProduct($num = 1)
     {
-        $product = $this->getDummyProduct(1);
+        $product = $this->getDummyProduct($num);
 
         $this->entityManager->persist($product);
         $this->entityManager->flush();
@@ -122,8 +122,8 @@ class ProductTest extends Helper\DoctrineTestCase
 
     public function testGetProductsByIds()
     {
-        $this->setupProduct();
-        $this->setupProduct();
+        $this->setupProduct(1);
+        $this->setupProduct(2);
 
         $this->setCountLogger();
 
