@@ -11,6 +11,7 @@ class Tag implements ViewInterface
     public $encodedId;
     public $slug;
     public $name;
+    public $code;
     public $description;
     public $defaultImage;
     public $sortOrder;
@@ -39,6 +40,7 @@ class Tag implements ViewInterface
         $this->encodedId      = Lib\BaseConvert::encode($tag->getId());
         $this->slug           = Lib\Slug::get($tag->getName());
         $this->name           = $tag->getName();
+        $this->code           = $tag->getCode();
         $this->description    = $tag->getDescription();
         $this->defaultImage   = $tag->getDefaultImage();
         $this->sortOrder      = $tag->getSortOrder();
