@@ -35,6 +35,20 @@ class TagTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $tag);
     }
 
+    public function testFindOneByCode()
+    {
+        $tag = $this->tagService->findOneByCode('TT1');
+        $this->assertTrue($tag instanceof View\Tag);
+    }
+
+    public function testFindOneByCodeReturnsNull()
+    {
+        $this->tagRepository->setReturnValue(null);
+
+        $tag = $this->tagService->findOneByCode('TT');
+        $this->assertSame(null, $tag);
+    }
+
     public function testGetTagAndThrowExceptionIfMissing()
     {
         $tag = $this->tagService->getTagAndThrowExceptionIfMissing(1);

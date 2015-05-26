@@ -12,6 +12,13 @@ interface TagInterface
     public function find($id);
 
     /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @return Entity\Order
+     */
+    public function findOneBy(array $criteria, array $orderBy = null);
+
+    /**
      * @param string $queryString
      * @return Entity\Tag[]
      */

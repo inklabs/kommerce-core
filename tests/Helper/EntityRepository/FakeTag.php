@@ -16,6 +16,11 @@ class FakeTag extends AbstractFake implements TagInterface
         return $this->getReturnValue();
     }
 
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        return $this->getReturnValue();
+    }
+
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();

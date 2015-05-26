@@ -37,6 +37,25 @@ class Tag extends AbstractService
     }
 
     /**
+     * @param string $code
+     * @return View\Tag|null
+     */
+    public function findOneByCode($code)
+    {
+        $entityTag = $this->tagRepository->findOneBy([
+            'code' => $code
+        ]);
+
+        if ($entityTag === null) {
+            return null;
+        }
+
+        return $entityTag->getView()
+            ->withAllData($this->pricing)
+            ->export();
+    }
+
+    /**
      * @param int $id
      * @return View\Tag|null
      */

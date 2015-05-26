@@ -52,6 +52,17 @@ class TagTest extends Helper\DoctrineTestCase
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 
+    public function testFindOneBy()
+    {
+        $this->setupTag();
+
+        $tag = $this->tagRepository->findOneBy([
+            'code' => 'TT1',
+        ]);
+
+        $this->assertTrue($tag instanceof Entity\Tag);
+    }
+
     public function testGetAllTags()
     {
         $this->setupTag();
