@@ -26,9 +26,12 @@ class OptionTest extends Helper\DoctrineTestCase
     {
         $option = $this->getDummyOption();
 
-        $this->entityManager->persist($option);
+        $this->optionRepository->create($option);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $option;
     }
 
     public function testFind()
@@ -54,5 +57,24 @@ class OptionTest extends Helper\DoctrineTestCase
         $options = $this->optionRepository->getAllOptionsByIds([1]);
 
         $this->assertTrue($options[0] instanceof Entity\Option);
+    }
+
+    public function testGetAllOptions()
+    {
+        $this->setupOption();
+
+        $options = $this->optionRepository->getAllOptions('ze');
+
+        $this->assertSame(1, $options[0]->getId());
+    }
+
+    public function testSave()
+    {
+        $option = $this->setupOption();
+        $option->setName('new name');
+
+        $this->assertSame(null, $option->getUpdated());
+        $this->optionRepository->save($option);
+        $this->assertTrue($option->getUpdated() instanceof \DateTime);
     }
 }

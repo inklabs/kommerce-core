@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity;
 
 class Option extends AbstractEntityRepository implements OptionInterface
 {
-    public function getAllOptionsByIds($optionIds, Entity\Pagination & $pagination = null)
+    public function getAllOptionsByIds(array $optionIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -18,5 +18,43 @@ class Option extends AbstractEntityRepository implements OptionInterface
             ->getResult();
 
         return $options;
+    }
+
+    public function getAllOptions($queryString, Entity\Pagination & $pagination = null)
+    {
+        $qb = $this->getQueryBuilder();
+
+        $options = $qb->select('option')
+            ->from('kommerce:Option', 'option');
+
+        if ($queryString !== null) {
+            $options = $options
+                ->where('option.name LIKE :query')
+                ->orWhere('option.description LIKE :query')
+                ->setParameter('query', '%' . $queryString . '%');
+        }
+
+        $options = $options
+            ->paginate($pagination)
+            ->getQuery()
+            ->getResult();
+
+        return $options;
+    }
+
+    public function save(Entity\Option & $option)
+    {
+        $this->saveEntity($option);
+    }
+
+    public function create(Entity\Option & $option)
+    {
+        $this->persist($option);
+        $this->flush();
+    }
+
+    public function persist(Entity\Option & $option)
+    {
+        $this->persistEntity($option);
     }
 }

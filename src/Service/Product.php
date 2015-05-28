@@ -33,6 +33,7 @@ class Product extends AbstractService
     }
 
     /**
+     * @param int $id
      * @return View\Product|null
      */
     public function find($id)

@@ -154,6 +154,14 @@ class FactoryService
     }
 
     /**
+     * @return Service\Option
+     */
+    public function getOption()
+    {
+        return new Service\Option($this->factoryRepository->getOption());
+    }
+
+    /**
      * @return Service\Order
      */
     public function getOrder()

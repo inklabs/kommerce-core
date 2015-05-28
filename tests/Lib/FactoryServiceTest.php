@@ -31,6 +31,7 @@ class FactoryServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($factoryService->getImportOrderItem() instanceof Service\Import\OrderItem);
         $this->assertTrue($factoryService->getImportPayment() instanceof Service\Import\Payment);
         $this->assertTrue($factoryService->getImportUser() instanceof Service\Import\User);
+        $this->assertTrue($factoryService->getOption() instanceof Service\Option);
         $this->assertTrue($factoryService->getOrder() instanceof Service\Order);
         $this->assertTrue($factoryService->getProduct() instanceof Service\Product);
         $this->assertTrue($factoryService->getTag() instanceof Service\Tag);
