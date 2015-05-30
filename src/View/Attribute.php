@@ -38,7 +38,7 @@ class Attribute implements ViewInterface
     public function withAttributeValues()
     {
         foreach ($this->attribute->getAttributeValues() as $attributeValue) {
-            $this->attributeValues[] = $attributeValue->getView();
+            $this->attributeValues[] = $attributeValue->getView()->export();
         }
 
         return $this;
@@ -47,7 +47,7 @@ class Attribute implements ViewInterface
     public function withProductAttributes()
     {
         foreach ($this->attribute->getProductAttributes() as $productAttribute) {
-            $this->productAttributes[] = $productAttribute->getView();
+            $this->productAttributes[] = $productAttribute->getView()->export();
         }
 
         return $this;

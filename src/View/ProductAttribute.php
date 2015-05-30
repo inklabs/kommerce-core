@@ -33,20 +33,20 @@ class ProductAttribute implements ViewInterface
     public function withProduct()
     {
         if ($this->productAttribute->getProduct() !== null) {
-            $this->product = $this->productAttribute->getProduct()->getView();
+            $this->product = $this->productAttribute->getProduct()->getView()->export();
         }
         return $this;
     }
 
     public function withAttribute()
     {
-        $this->attribute = $this->productAttribute->getAttribute()->getView();
+        $this->attribute = $this->productAttribute->getAttribute()->getView()->export();
         return $this;
     }
 
     public function withAttributeValue()
     {
-        $this->attributeValue = $this->productAttribute->getAttributeValue()->getView();
+        $this->attributeValue = $this->productAttribute->getAttributeValue()->getView()->export();
         return $this;
     }
 
