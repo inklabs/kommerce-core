@@ -5,6 +5,10 @@ use inklabs\kommerce\Entity;
 
 interface CatalogPromotionInterface
 {
+    public function save(Entity\CatalogPromotion & $catalogPromotion);
+    public function create(Entity\CatalogPromotion & $catalogPromotion);
+    public function remove(Entity\CatalogPromotion & $catalogPromotion);
+
     /**
      * @param int $id
      * @return Entity\CatalogPromotion

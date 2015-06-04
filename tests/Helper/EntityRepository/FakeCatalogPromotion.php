@@ -11,6 +11,18 @@ class FakeCatalogPromotion extends AbstractFake implements CatalogPromotionInter
         $this->setReturnValue(new Entity\CatalogPromotion);
     }
 
+    public function save(Entity\CatalogPromotion & $catalogPromotion)
+    {
+    }
+
+    public function create(Entity\CatalogPromotion & $catalogPromotion)
+    {
+    }
+
+    public function remove(Entity\CatalogPromotion & $catalogPromotion)
+    {
+    }
+
     public function find($id)
     {
         return $this->getReturnValue();

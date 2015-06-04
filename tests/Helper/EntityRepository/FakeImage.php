@@ -11,11 +11,6 @@ class FakeImage extends AbstractFake implements ImageInterface
         $this->setReturnValue(new Entity\Image);
     }
 
-    public function find($id)
-    {
-        return $this->getReturnValue();
-    }
-
     public function save(Entity\Image & $image)
     {
     }
@@ -26,5 +21,10 @@ class FakeImage extends AbstractFake implements ImageInterface
 
     public function remove(Entity\Image & $image)
     {
+    }
+
+    public function find($id)
+    {
+        return $this->getReturnValue();
     }
 }

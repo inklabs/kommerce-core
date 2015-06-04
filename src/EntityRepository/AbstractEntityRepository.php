@@ -14,9 +14,8 @@ abstract class AbstractEntityRepository extends \Doctrine\ORM\EntityRepository
 
     public function saveEntity(EntityInterface & $entity)
     {
-        $entityManager = $this->getEntityManager();
-        $entity = $entityManager->merge($entity);
-        $entityManager->flush();
+        $this->mergeEntity($entity);
+        $this->flush();
     }
 
     public function createEntity(EntityInterface & $entity)
@@ -29,13 +28,19 @@ abstract class AbstractEntityRepository extends \Doctrine\ORM\EntityRepository
     {
         $entityManager = $this->getEntityManager();
         $entityManager->remove($entity);
-        $entityManager->flush();
+        $this->flush();
     }
 
     public function persistEntity(EntityInterface & $entity)
     {
         $entityManager = $this->getEntityManager();
         $entityManager->persist($entity);
+    }
+
+    public function mergeEntity(EntityInterface & $entity)
+    {
+        $entityManager = $this->getEntityManager();
+        $entity = $entityManager->merge($entity);
     }
 
     public function flush()

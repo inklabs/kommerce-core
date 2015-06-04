@@ -40,6 +40,23 @@ class ImageTest extends Helper\DoctrineTestCase
         return $image;
     }
 
+    public function testCRUD()
+    {
+        $image = $this->getDummyImage();
+
+        $this->imageRepository->create($image);
+        $this->assertSame(1, $image->getId());
+
+        $image->setPath('New/Path');
+        $this->assertSame(null, $image->getUpdated());
+
+        $this->imageRepository->save($image);
+        $this->assertTrue($image->getUpdated() instanceof \DateTime);
+
+        $this->imageRepository->remove($image);
+        $this->assertSame(null, $image->getId());
+    }
+
     public function testFind()
     {
         $this->setupImageWithProductAndTag();
@@ -53,22 +70,5 @@ class ImageTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($image instanceof Entity\Image);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
-    }
-
-    public function testSave()
-    {
-        $image = $this->setupImageWithProductAndTag();
-        $image->setSortOrder(2);
-
-        $this->assertSame(null, $image->getUpdated());
-        $this->imageRepository->save($image);
-        $this->assertTrue($image->getUpdated() instanceof \DateTime);
-    }
-
-    public function testRemove()
-    {
-        $image = $this->setupImageWithProductAndTag();
-        $this->imageRepository->save($image);
-        $this->imageRepository->remove($image);
     }
 }

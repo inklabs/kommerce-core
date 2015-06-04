@@ -11,6 +11,18 @@ class FakeCartPriceRule extends AbstractFake implements CartPriceRuleInterface
         $this->setReturnValue(new Entity\CartPriceRule);
     }
 
+    public function save(Entity\CartPriceRule & $cartPriceRule)
+    {
+    }
+
+    public function create(Entity\CartPriceRule & $cartPriceRule)
+    {
+    }
+
+    public function remove(Entity\CartPriceRule & $cartPriceRule)
+    {
+    }
+
     public function find($id)
     {
         return $this->getReturnValue();

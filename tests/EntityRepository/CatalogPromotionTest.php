@@ -31,6 +31,23 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
+    public function testCRUD()
+    {
+        $catalogPromotion = $this->getDummyCatalogPromotion();
+
+        $this->catalogPromotionRepository->create($catalogPromotion);
+        $this->assertSame(1, $catalogPromotion->getId());
+
+        $catalogPromotion->setName('New Name');
+        $this->assertSame(null, $catalogPromotion->getUpdated());
+
+        $this->catalogPromotionRepository->save($catalogPromotion);
+        $this->assertTrue($catalogPromotion->getUpdated() instanceof \DateTime);
+
+        $this->catalogPromotionRepository->remove($catalogPromotion);
+        $this->assertSame(null, $catalogPromotion->getId());
+    }
+
     public function testFind()
     {
         $this->setupCatalogPromotion();

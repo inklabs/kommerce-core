@@ -5,6 +5,10 @@ use inklabs\kommerce\Entity;
 
 interface CartPriceRuleInterface
 {
+    public function save(Entity\CartPriceRule & $cartPriceRule);
+    public function create(Entity\CartPriceRule & $cartPriceRule);
+    public function remove(Entity\CartPriceRule & $cartPriceRule);
+
     /**
      * @param int $id
      * @return Entity\CartPriceRule

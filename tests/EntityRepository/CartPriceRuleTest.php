@@ -38,6 +38,23 @@ class CartPriceRuleTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
+    public function testCRUD()
+    {
+        $cartPriceRule = $this->getDummyCartPriceRule();
+
+        $this->cartPriceRuleRepository->create($cartPriceRule);
+        $this->assertSame(1, $cartPriceRule->getId());
+
+        $cartPriceRule->setName('New Name');
+        $this->assertSame(null, $cartPriceRule->getUpdated());
+
+        $this->cartPriceRuleRepository->save($cartPriceRule);
+        $this->assertTrue($cartPriceRule->getUpdated() instanceof \DateTime);
+
+        $this->cartPriceRuleRepository->remove($cartPriceRule);
+        $this->assertSame(null, $cartPriceRule->getId());
+    }
+
     public function testFind()
     {
         $this->setupCartPriceRuleDiscount();

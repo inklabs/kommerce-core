@@ -11,6 +11,18 @@ class FakeAttribute extends AbstractFake implements AttributeInterface
         $this->setReturnValue(new Entity\Attribute);
     }
 
+    public function save(Entity\Attribute & $attribute)
+    {
+    }
+
+    public function create(Entity\Attribute & $attribute)
+    {
+    }
+
+    public function remove(Entity\Attribute & $attribute)
+    {
+    }
+
     public function find($id)
     {
         return $this->getReturnValue();

@@ -30,6 +30,23 @@ class AttributeTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
+    public function testCRUD()
+    {
+        $attribute = $this->getDummyAttribute();
+
+        $this->attributeRepository->create($attribute);
+        $this->assertSame(1, $attribute->getId());
+
+        $attribute->setName('New Name');
+        $this->assertSame(null, $attribute->getUpdated());
+
+        $this->attributeRepository->save($attribute);
+        $this->assertTrue($attribute->getUpdated() instanceof \DateTime);
+
+        $this->attributeRepository->remove($attribute);
+        $this->assertSame(null, $attribute->getId());
+    }
+
     public function testFind()
     {
         $this->setupAttribute();
