@@ -34,6 +34,19 @@ class OptionTest extends Helper\DoctrineTestCase
         return $option;
     }
 
+    public function testCRUD()
+    {
+        $option = $this->setupOption();
+        $option->setName('new name');
+
+        $this->assertSame(null, $option->getUpdated());
+        $this->optionRepository->save($option);
+        $this->assertTrue($option->getUpdated() instanceof \DateTime);
+
+        $this->optionRepository->remove($option);
+        $this->assertSame(null, $option->getId());
+    }
+
     public function testFind()
     {
         $this->setupOption();
@@ -66,15 +79,5 @@ class OptionTest extends Helper\DoctrineTestCase
         $options = $this->optionRepository->getAllOptions('ze');
 
         $this->assertSame(1, $options[0]->getId());
-    }
-
-    public function testSave()
-    {
-        $option = $this->setupOption();
-        $option->setName('new name');
-
-        $this->assertSame(null, $option->getUpdated());
-        $this->optionRepository->save($option);
-        $this->assertTrue($option->getUpdated() instanceof \DateTime);
     }
 }

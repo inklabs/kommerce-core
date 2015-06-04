@@ -5,6 +5,10 @@ use inklabs\kommerce\Entity;
 
 interface CouponInterface
 {
+    public function save(Entity\Coupon & $coupon);
+    public function create(Entity\Coupon & $coupon);
+    public function remove(Entity\Coupon & $coupon);
+
     /**
      * @param int $id
      * @return Entity\Coupon
@@ -30,14 +34,4 @@ interface CouponInterface
      * @return Entity\Coupon[]
      */
     public function getAllCouponsByIds($couponIds, Entity\Pagination & $pagination = null);
-
-    /**
-     * @param Entity\Coupon $coupon
-     */
-    public function save(Entity\Coupon & $coupon);
-
-    /**
-     * @param Entity\Coupon $coupon
-     */
-    public function create(Entity\Coupon & $coupon);
 }

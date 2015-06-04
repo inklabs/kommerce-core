@@ -29,7 +29,7 @@ class FakeOptionValue extends AbstractFake implements OptionValueInterface
     {
     }
 
-    public function persist(Entity\OptionValue & $optionValue)
+    public function remove(Entity\OptionValue & $optionValue)
     {
     }
 }

@@ -49,6 +49,23 @@ class TaxRateTest extends Helper\DoctrineTestCase
         return $taxRate;
     }
 
+    public function testCRUD()
+    {
+        $taxRate = $this->getTaxRate('CA', null, null, null, 7.5, true);
+
+        $this->taxRateRepository->create($taxRate);
+        $this->assertSame(1, $taxRate->getId());
+
+        $taxRate->setState('XX');
+        $this->assertSame(null, $taxRate->getUpdated());
+
+        $this->taxRateRepository->save($taxRate);
+        $this->assertTrue($taxRate->getUpdated() instanceof \DateTime);
+
+        $this->taxRateRepository->remove($taxRate);
+        $this->assertSame(null, $taxRate->getId());
+    }
+
     public function testFindAll()
     {
         $this->setupTaxRates();

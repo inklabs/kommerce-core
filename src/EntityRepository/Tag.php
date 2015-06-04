@@ -5,6 +5,21 @@ use inklabs\kommerce\Entity;
 
 class Tag extends AbstractEntityRepository implements TagInterface
 {
+    public function save(Entity\Tag & $tag)
+    {
+        $this->saveEntity($tag);
+    }
+
+    public function create(Entity\Tag & $tag)
+    {
+        $this->createEntity($tag);
+    }
+
+    public function remove(Entity\Tag & $tag)
+    {
+        $this->removeEntity($tag);
+    }
+
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -55,21 +70,5 @@ class Tag extends AbstractEntityRepository implements TagInterface
             ->getResult();
 
         return $tags;
-    }
-
-    public function save(Entity\Tag & $tag)
-    {
-        $this->saveEntity($tag);
-    }
-
-    public function create(Entity\Tag & $tag)
-    {
-        $this->persist($tag);
-        $this->flush();
-    }
-
-    public function persist(Entity\Tag & $tag)
-    {
-        $this->persistEntity($tag);
     }
 }

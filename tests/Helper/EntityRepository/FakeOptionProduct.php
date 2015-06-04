@@ -29,7 +29,7 @@ class FakeOptionProduct extends AbstractFake implements OptionProductInterface
     {
     }
 
-    public function persist(Entity\OptionProduct & $optionProduct)
+    public function remove(Entity\OptionProduct & $optionProduct)
     {
     }
 }

@@ -7,6 +7,24 @@ use Symfony\Component\Yaml\Exception\RuntimeException;
 
 class Order extends AbstractEntityRepository implements OrderInterface
 {
+    public function save(Entity\Order & $order)
+    {
+        $this->saveEntity($order);
+    }
+
+    public function create(Entity\Order & $order)
+    {
+        $this->createEntity($order);
+
+        $this->setReferenceNumber($order);
+        $this->flush();
+    }
+
+    public function remove(Entity\Order & $order)
+    {
+        $this->removeEntity($order);
+    }
+
     /** @var ReferenceNumber\GeneratorInterface */
     protected $referenceNumberGenerator;
 
@@ -40,25 +58,6 @@ class Order extends AbstractEntityRepository implements OrderInterface
             ->getResult();
 
         return $orders;
-    }
-
-    public function save(Entity\Order & $order)
-    {
-        $this->saveEntity($order);
-    }
-
-    public function create(Entity\Order & $order)
-    {
-        $this->persist($order);
-        $this->flush();
-
-        $this->setReferenceNumber($order);
-        $this->flush();
-    }
-
-    public function persist(Entity\Order & $order)
-    {
-        $this->persistEntity($order);
     }
 
     private function setReferenceNumber(Entity\Order & $order)

@@ -59,6 +59,19 @@ class OrderTest extends Helper\DoctrineTestCase
         return $order;
     }
 
+    public function testCRUD()
+    {
+        $order = $this->setupOrder();
+
+        $order->setExternalId('newExternalId');
+        $this->assertSame(null, $order->getUpdated());
+        $this->orderRepository->save($order);
+        $this->assertTrue($order->getUpdated() instanceof \DateTime);
+
+        $this->orderRepository->remove($order);
+        $this->assertSame(null, $order->getId());
+    }
+
     public function testFind()
     {
         $this->setupOrder();
@@ -84,16 +97,6 @@ class OrderTest extends Helper\DoctrineTestCase
         $orders = $this->orderRepository->getLatestOrders();
 
         $this->assertTrue($orders[0] instanceof Entity\Order);
-    }
-
-    public function testSave()
-    {
-        $order = $this->setupOrder();
-
-        $order->setExternalId('newExternalId');
-        $this->assertSame(null, $order->getUpdated());
-        $this->orderRepository->save($order);
-        $this->assertTrue($order->getUpdated() instanceof \DateTime);
     }
 
     public function testCreateWithSequentialReferenceNumber()

@@ -5,6 +5,10 @@ use inklabs\kommerce\Entity;
 
 interface OptionInterface
 {
+    public function save(Entity\Option & $option);
+    public function create(Entity\Option & $option);
+    public function remove(Entity\Option & $option);
+
     /**
      * @param int $id
      * @return Entity\Option
@@ -24,21 +28,4 @@ interface OptionInterface
      * @return Entity\Option[]
      */
     public function getAllOptions($queryString, Entity\Pagination & $pagination = null);
-
-    /**
-     * @param Entity\Option $option
-     */
-    public function create(Entity\Option & $option);
-
-    /**
-     * @param Entity\Option $option
-     */
-    public function save(Entity\Option & $option);
-
-    /**
-     * @param Entity\Option $option
-     */
-    public function persist(Entity\Option & $option);
-
-    public function flush();
 }

@@ -5,6 +5,21 @@ use inklabs\kommerce\Entity;
 
 class User extends AbstractEntityRepository implements UserInterface
 {
+    public function save(Entity\User & $user)
+    {
+        $this->saveEntity($user);
+    }
+
+    public function create(Entity\User & $user)
+    {
+        $this->createEntity($user);
+    }
+
+    public function remove(Entity\User & $user)
+    {
+        $this->removeEntity($user);
+    }
+
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -59,21 +74,5 @@ class User extends AbstractEntityRepository implements UserInterface
             ->getOneOrNullResult();
 
         return $user;
-    }
-
-    public function save(Entity\User & $user)
-    {
-        $this->saveEntity($user);
-    }
-
-    public function create(Entity\User & $user)
-    {
-        $this->persist($user);
-        $this->flush();
-    }
-
-    public function persist(Entity\User & $user)
-    {
-        $this->persistEntity($user);
     }
 }

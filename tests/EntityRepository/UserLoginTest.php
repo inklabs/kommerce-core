@@ -28,13 +28,37 @@ class UserLoginTest extends Helper\DoctrineTestCase
         $userLogin->setUser($user);
 
         $this->entityManager->persist($user);
-
-        $this->userLoginRepository->create($userLogin);
-
+        $this->entityManager->persist($userLogin);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
         return $userLogin;
+    }
+
+    public function testSave()
+    {
+        $userLogin = $this->setupUserLogin();
+
+        $this->assertSame(1, $userLogin->getResult());
+        $userLogin->setResult(2);
+
+        $this->userLoginRepository->save($userLogin);
+        $this->assertSame(2, $userLogin->getResult());
+    }
+
+    public function testCRUD()
+    {
+        $userLogin = $this->getDummyUserLogin();
+
+        $this->userLoginRepository->create($userLogin);
+        $this->assertSame(1, $userLogin->getId());
+
+        $userLogin->setEmail('NewEmail@example.com');
+
+        $this->userLoginRepository->save($userLogin);
+
+        $this->userLoginRepository->remove($userLogin);
+        $this->assertSame(null, $userLogin->getId());
     }
 
     public function testFind()
@@ -49,16 +73,5 @@ class UserLoginTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($userLogin instanceof Entity\UserLogin);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
-    }
-
-    public function testSave()
-    {
-        $userLogin = $this->setupUserLogin();
-
-        $this->assertSame(1, $userLogin->getResult());
-        $userLogin->setResult(2);
-
-        $this->userLoginRepository->save($userLogin);
-        $this->assertSame(2, $userLogin->getResult());
     }
 }

@@ -6,6 +6,21 @@ use inklabs\kommerce\View;
 
 class Product extends AbstractEntityRepository implements ProductInterface
 {
+    public function save(Entity\Product & $product)
+    {
+        $this->saveEntity($product);
+    }
+
+    public function create(Entity\Product & $product)
+    {
+        $this->createEntity($product);
+    }
+
+    public function remove(Entity\Product & $product)
+    {
+        $this->removeEntity($product);
+    }
+
     public function getRelatedProducts(array $products, $limit = 12)
     {
         $productIds = [];
@@ -167,21 +182,5 @@ class Product extends AbstractEntityRepository implements ProductInterface
             ->getResult();
 
         return $products;
-    }
-
-    public function save(Entity\Product & $product)
-    {
-        $this->saveEntity($product);
-    }
-
-    public function create(Entity\Product & $product)
-    {
-        $this->persist($product);
-        $this->flush();
-    }
-
-    public function persist(Entity\Product & $product)
-    {
-        $this->persistEntity($product);
     }
 }

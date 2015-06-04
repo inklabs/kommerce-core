@@ -44,7 +44,7 @@ class FakeTag extends AbstractFake implements TagInterface
     {
     }
 
-    public function persist(Entity\Tag & $tag)
+    public function remove(Entity\Tag & $tag)
     {
     }
 }

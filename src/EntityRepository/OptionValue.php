@@ -5,6 +5,21 @@ use inklabs\kommerce\Entity;
 
 class OptionValue extends AbstractEntityRepository implements OptionValueInterface
 {
+    public function save(Entity\OptionValue & $optionValue)
+    {
+        $this->saveEntity($optionValue);
+    }
+
+    public function create(Entity\OptionValue & $optionValue)
+    {
+        $this->createEntity($optionValue);
+    }
+
+    public function remove(Entity\OptionValue & $optionValue)
+    {
+        $this->removeEntity($optionValue);
+    }
+
     public function find($id)
     {
         $qb = $this->getQueryBuilder();

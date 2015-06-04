@@ -5,6 +5,21 @@ use inklabs\kommerce\Entity;
 
 class Option extends AbstractEntityRepository implements OptionInterface
 {
+    public function save(Entity\Option & $option)
+    {
+        $this->saveEntity($option);
+    }
+
+    public function create(Entity\Option & $option)
+    {
+        $this->createEntity($option);
+    }
+
+    public function remove(Entity\Option & $option)
+    {
+        $this->removeEntity($option);
+    }
+
     public function getAllOptionsByIds(array $optionIds, Entity\Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
@@ -40,21 +55,5 @@ class Option extends AbstractEntityRepository implements OptionInterface
             ->getResult();
 
         return $options;
-    }
-
-    public function save(Entity\Option & $option)
-    {
-        $this->saveEntity($option);
-    }
-
-    public function create(Entity\Option & $option)
-    {
-        $this->persist($option);
-        $this->flush();
-    }
-
-    public function persist(Entity\Option & $option)
-    {
-        $this->persistEntity($option);
     }
 }

@@ -6,6 +6,10 @@ use inklabs\kommerce\View;
 
 interface ProductInterface
 {
+    public function save(Entity\Product & $product);
+    public function create(Entity\Product & $product);
+    public function remove(Entity\Product & $product);
+
     /**
      * @param int $id
      * @return Entity\Product
@@ -81,21 +85,4 @@ interface ProductInterface
      * @return Entity\Product[]
      */
     public function getRandomProducts($limit);
-
-    /**
-     * @param Entity\Product $product
-     */
-    public function create(Entity\Product & $product);
-
-    /**
-     * @param Entity\Product $product
-     */
-    public function save(Entity\Product & $product);
-
-    /**
-     * @param Entity\Product $product
-     */
-    public function persist(Entity\Product & $product);
-
-    public function flush();
 }

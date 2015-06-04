@@ -12,18 +12,11 @@ class Image extends AbstractEntityRepository implements ImageInterface
 
     public function create(Entity\Image & $image)
     {
-        $this->persist($image);
-        $this->flush();
+        $this->createEntity($image);
     }
 
-    public function remove(Entity\Image $image)
+    public function remove(Entity\Image & $image)
     {
         $this->removeEntity($image);
-        $this->flush();
-    }
-
-    public function persist(Entity\Image & $image)
-    {
-        $this->persistEntity($image);
     }
 }

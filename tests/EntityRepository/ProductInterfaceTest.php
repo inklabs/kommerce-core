@@ -86,13 +86,8 @@ class ProductInterfaceTest extends Helper\DoctrineTestCase
         $this->productRepository->save(new Entity\Product);
     }
 
-    public function testPersist()
+    public function testRemove()
     {
-        $this->productRepository->persist(new Entity\Product);
-    }
-
-    public function testFlush()
-    {
-        $this->productRepository->flush();
+        $this->productRepository->remove(new Entity\Product);
     }
 }

@@ -27,8 +27,17 @@ class FakeOrderItem extends AbstractFake implements OrderItemInterface
         $this->throwCrudExceptionIfSet();
     }
 
+    public function remove(Entity\OrderItem & $orderItem)
+    {
+        $this->throwCrudExceptionIfSet();
+    }
+
     public function persist(Entity\OrderItem & $orderItem)
     {
         $this->throwCrudExceptionIfSet();
+    }
+
+    public function flush()
+    {
     }
 }

@@ -12,12 +12,11 @@ class UserLogin extends AbstractEntityRepository implements UserLoginInterface
 
     public function create(Entity\UserLogin & $userLogin)
     {
-        $this->persist($userLogin);
-        $this->flush();
+        $this->createEntity($userLogin);
     }
 
-    public function persist(Entity\UserLogin & $userLogin)
+    public function remove(Entity\UserLogin & $userLogin)
     {
-        $this->persistEntity($userLogin);
+        $this->removeEntity($userLogin);
     }
 }

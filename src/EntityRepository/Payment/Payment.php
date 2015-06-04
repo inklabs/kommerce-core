@@ -13,8 +13,12 @@ class Payment extends AbstractEntityRepository implements PaymentInterface
 
     public function create(Entity\Payment\Payment & $payment)
     {
-        $this->persist($payment);
-        $this->flush();
+        $this->createEntity($payment);
+    }
+
+    public function remove(Entity\Payment\Payment & $payment)
+    {
+        $this->removeEntity($payment);
     }
 
     public function persist(Entity\Payment\Payment & $payment)

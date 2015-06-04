@@ -37,6 +37,19 @@ class ProductTest extends Helper\DoctrineTestCase
         return $product;
     }
 
+    public function testCRUD()
+    {
+        $product = $this->setupProduct();
+        $product->setName('new name');
+
+        $this->assertSame(null, $product->getUpdated());
+        $this->productRepository->save($product);
+        $this->assertTrue($product->getUpdated() instanceof \DateTime);
+
+        $this->productRepository->remove($product);
+        $this->assertSame(null, $product->getId());
+    }
+
     public function testFind()
     {
         $this->setupProduct();
@@ -218,15 +231,5 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->assertSame(1, count($products));
         $this->assertSame(3, $products[0]->getId());
         $this->assertSame(3, $pagination->getTotal());
-    }
-
-    public function testSave()
-    {
-        $product = $this->setupProduct();
-        $product->setName('new name');
-
-        $this->assertSame(null, $product->getUpdated());
-        $this->productRepository->save($product);
-        $this->assertTrue($product->getUpdated() instanceof \DateTime);
     }
 }

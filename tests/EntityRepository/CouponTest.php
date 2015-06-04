@@ -27,6 +27,22 @@ class CouponTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
+    public function testSave()
+    {
+        $coupon = $this->getDummyCoupon(1);
+
+        $couponRepository = $this->couponRepository;
+        $couponRepository->create($coupon);
+
+        $coupon->setName('new name');
+        $this->assertSame(null, $coupon->getUpdated());
+        $couponRepository->save($coupon);
+        $this->assertTrue($coupon->getUpdated() instanceof \DateTime);
+
+        $this->couponRepository->remove($coupon);
+        $this->assertSame(null, $coupon->getId());
+    }
+
     public function testFind()
     {
         $this->setupCoupon();
@@ -70,18 +86,5 @@ class CouponTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $coupon->getId());
         $this->couponRepository->create($coupon);
         $this->assertSame(1, $coupon->getId());
-    }
-
-    public function testSave()
-    {
-        $coupon = $this->getDummyCoupon(1);
-
-        $couponRepository = $this->couponRepository;
-        $couponRepository->create($coupon);
-
-        $coupon->setName('new name');
-        $this->assertSame(null, $coupon->getUpdated());
-        $couponRepository->save($coupon);
-        $this->assertTrue($coupon->getUpdated() instanceof \DateTime);
     }
 }

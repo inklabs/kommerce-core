@@ -5,6 +5,10 @@ use inklabs\kommerce\Entity;
 
 interface WarehouseInterface
 {
+    public function save(Entity\Warehouse & $warehouse);
+    public function create(Entity\Warehouse & $warehouse);
+    public function remove(Entity\Warehouse & $warehouse);
+
     /**
      * @param Entity\Point $point
      * @param int $rangeInMiles

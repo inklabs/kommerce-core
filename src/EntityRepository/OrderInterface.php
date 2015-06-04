@@ -7,6 +7,10 @@ use inklabs\kommerce\Lib\ReferenceNumber;
 
 interface OrderInterface extends ReferenceNumber\RepositoryInterface
 {
+    public function save(Entity\Order & $order);
+    public function create(Entity\Order & $order);
+    public function remove(Entity\Order & $order);
+
     /**
      * @param int $id
      * @return Entity\Order
@@ -31,23 +35,6 @@ interface OrderInterface extends ReferenceNumber\RepositoryInterface
      * @return Entity\Order[]
      */
     public function getOrdersByUserId($userId);
-
-    /**
-     * @param Entity\Order $order
-     */
-    public function save(Entity\Order & $order);
-
-    /**
-     * @param Entity\Order $order
-     */
-    public function create(Entity\Order & $order);
-
-    /**
-     * @param Entity\Order $order
-     */
-    public function persist(Entity\Order & $order);
-
-    public function flush();
 
     public function setReferenceNumberGenerator(Lib\ReferenceNumber\GeneratorInterface $referenceNumberGenerator);
 }

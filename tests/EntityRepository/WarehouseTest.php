@@ -22,9 +22,25 @@ class WarehouseTest extends Helper\DoctrineTestCase
     {
         $warehouse = $this->getDummyWarehouse();
 
-        $this->entityManager->persist($warehouse);
+        $this->warehouseRepository->create($warehouse);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $warehouse;
+    }
+
+    public function testCRUD()
+    {
+        $warehouse = $this->setupWarehouse();
+
+        $warehouse->setName('New Name');
+        $this->assertSame(null, $warehouse->getUpdated());
+        $this->warehouseRepository->save($warehouse);
+        $this->assertTrue($warehouse->getUpdated() instanceof \DateTime);
+
+        $this->warehouseRepository->remove($warehouse);
+        $this->assertSame(null, $warehouse->getId());
     }
 
     public function testFind()

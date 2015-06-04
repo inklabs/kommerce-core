@@ -11,6 +11,18 @@ class FakeProduct extends AbstractFake implements ProductInterface
         $this->setReturnValue(new Entity\Product);
     }
 
+    public function save(Entity\Product & $product)
+    {
+    }
+
+    public function create(Entity\Product & $entity)
+    {
+    }
+
+    public function remove(Entity\Product & $product)
+    {
+    }
+
     public function find($id)
     {
         return $this->getReturnValue();
@@ -59,18 +71,6 @@ class FakeProduct extends AbstractFake implements ProductInterface
     public function getRandomProducts($limit)
     {
         return $this->getReturnValueAsArray();
-    }
-
-    public function create(Entity\Product & $entity)
-    {
-    }
-
-    public function save(Entity\Product & $product)
-    {
-    }
-
-    public function persist(Entity\Product & $product)
-    {
     }
 
     public function loadProductTags(array & $products)

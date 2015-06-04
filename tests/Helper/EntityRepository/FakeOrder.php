@@ -47,7 +47,7 @@ class FakeOrder extends AbstractFake implements OrderInterface
     {
     }
 
-    public function persist(Entity\Order & $order)
+    public function remove(Entity\Order & $order)
     {
     }
 

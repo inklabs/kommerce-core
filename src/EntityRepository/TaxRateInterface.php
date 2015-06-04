@@ -5,6 +5,10 @@ use inklabs\kommerce\Entity;
 
 interface TaxRateInterface
 {
+    public function save(Entity\TaxRate & $taxRate);
+    public function create(Entity\TaxRate & $taxRate);
+    public function remove(Entity\TaxRate & $taxRate);
+
     /**
      * @param int $id
      * @return Entity\TaxRate

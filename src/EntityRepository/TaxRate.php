@@ -5,6 +5,21 @@ use inklabs\kommerce\Entity;
 
 class TaxRate extends AbstractEntityRepository implements TaxRateInterface
 {
+    public function save(Entity\TaxRate & $taxRate)
+    {
+        $this->saveEntity($taxRate);
+    }
+
+    public function create(Entity\TaxRate & $taxRate)
+    {
+        $this->createEntity($taxRate);
+    }
+
+    public function remove(Entity\TaxRate & $taxRate)
+    {
+        $this->removeEntity($taxRate);
+    }
+
     public function findByZip5AndState($zip5 = null, $state = null)
     {
         if ($zip5 === null and $state === null) {

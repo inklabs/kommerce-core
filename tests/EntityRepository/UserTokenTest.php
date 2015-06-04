@@ -34,6 +34,23 @@ class UserTokenTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
+    public function testCRUD()
+    {
+        $userToken = $this->getDummyUserToken();
+
+        $this->userTokenRepository->create($userToken);
+        $this->assertSame(1, $userToken->getId());
+
+        $userToken->setToken('New Token');
+        $this->assertSame(null, $userToken->getUpdated());
+
+        $this->userTokenRepository->save($userToken);
+        $this->assertTrue($userToken->getUpdated() instanceof \DateTime);
+
+        $this->userTokenRepository->remove($userToken);
+        $this->assertSame(null, $userToken->getId());
+    }
+
     public function testFind()
     {
         $this->setupUserWithToken();

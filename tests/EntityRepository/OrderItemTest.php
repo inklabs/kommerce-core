@@ -65,6 +65,22 @@ class OrderItemTest extends Helper\DoctrineTestCase
         return $orderItem;
     }
 
+    public function testCRUD()
+    {
+        $orderItem = $this->setupOrderItem();
+
+        $orderItem->setQuantity(5);
+        $this->assertSame(null, $orderItem->getUpdated());
+        $this->orderItemRepository->save($orderItem);
+        $this->assertTrue($orderItem->getUpdated() instanceof \DateTime);
+
+        $this->orderItemRepository->persist($orderItem);
+        $this->assertTrue($orderItem->getUpdated() instanceof \DateTime);
+
+        $this->orderItemRepository->remove($orderItem);
+        $this->assertSame(null, $orderItem->getId());
+    }
+
     public function testFind()
     {
         $this->setupOrderItem();
@@ -83,15 +99,5 @@ class OrderItemTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($orderItem instanceof Entity\OrderItem);
         $this->assertSame(7, $this->countSQLLogger->getTotalQueries());
-    }
-
-    public function testSave()
-    {
-        $orderItem = $this->setupOrderItem();
-
-        $orderItem->setQuantity(5);
-        $this->assertSame(null, $orderItem->getUpdated());
-        $this->orderItemRepository->save($orderItem);
-        $this->assertTrue($orderItem->getUpdated() instanceof \DateTime);
     }
 }

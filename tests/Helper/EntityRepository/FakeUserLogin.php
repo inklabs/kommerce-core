@@ -43,11 +43,7 @@ class FakeUserLogin extends AbstractFake implements UserLoginInterface
     {
     }
 
-    public function persist(Entity\UserLogin & $userLogin)
-    {
-    }
-
-    public function flush()
+    public function remove(Entity\UserLogin & $userLogin)
     {
     }
 }

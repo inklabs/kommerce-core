@@ -5,19 +5,8 @@ use inklabs\kommerce\Entity;
 
 interface CartInterface
 {
-    /**
-     * @param Entity\Cart $cart
-     */
     public function save(Entity\Cart & $cart);
-
-    /**
-     * @param Entity\Cart $cart
-     */
     public function create(Entity\Cart & $cart);
-
-    /**
-     * @param Entity\Cart $cart
-     */
     public function remove(Entity\Cart & $cart);
 
     /**

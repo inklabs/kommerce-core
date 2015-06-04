@@ -5,6 +5,21 @@ use inklabs\kommerce\Entity;
 
 class OptionProduct extends AbstractEntityRepository implements OptionProductInterface
 {
+    public function save(Entity\OptionProduct & $optionProduct)
+    {
+        $this->saveEntity($optionProduct);
+    }
+
+    public function create(Entity\OptionProduct & $optionProduct)
+    {
+        $this->createEntity($optionProduct);
+    }
+
+    public function remove(Entity\OptionProduct & $optionProduct)
+    {
+        $this->removeEntity($optionProduct);
+    }
+
     public function find($id)
     {
         $qb = $this->getQueryBuilder();
@@ -46,21 +61,5 @@ class OptionProduct extends AbstractEntityRepository implements OptionProductInt
             ->getResult();
 
         return $optionValues;
-    }
-
-    public function save(Entity\OptionProduct & $optionProduct)
-    {
-        $this->saveEntity($optionProduct);
-    }
-
-    public function create(Entity\OptionProduct & $optionProduct)
-    {
-        $this->persist($optionProduct);
-        $this->flush();
-    }
-
-    public function persist(Entity\OptionProduct & $optionProduct)
-    {
-        $this->persistEntity($optionProduct);
     }
 }

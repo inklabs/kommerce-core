@@ -12,8 +12,12 @@ class OrderItem extends AbstractEntityRepository implements OrderItemInterface
 
     public function create(Entity\OrderItem & $orderItem)
     {
-        $this->persist($orderItem);
-        $this->flush();
+        $this->createEntity($orderItem);
+    }
+
+    public function remove(Entity\OrderItem & $orderItem)
+    {
+        $this->removeEntity($orderItem);
     }
 
     public function persist(Entity\OrderItem & $orderItem)

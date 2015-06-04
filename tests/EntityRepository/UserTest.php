@@ -35,6 +35,35 @@ class UserTest extends Helper\DoctrineTestCase
         return $user;
     }
 
+    public function testCRUD()
+    {
+        $user = $this->getDummyUser();
+
+        $this->userRepository->create($user);
+        $this->assertSame(1, $user->getId());
+
+        $user->setFirstName('New First Name');
+        $this->assertSame(null, $user->getUpdated());
+
+        $this->userRepository->save($user);
+        $this->assertTrue($user->getUpdated() instanceof \DateTime);
+
+        $this->userRepository->remove($user);
+        $this->assertSame(null, $user->getId());
+    }
+
+    public function testCreateUserLogin()
+    {
+        $userLogin = $this->getDummyUserLogin();
+
+        $user = $this->setupUser();
+        $user->addLogin($userLogin);
+
+        $this->userRepository->save($user);
+
+        $this->assertSame(1, $user->getTotalLogins());
+    }
+
     public function testFind()
     {
         $this->setupUser();
@@ -78,17 +107,5 @@ class UserTest extends Helper\DoctrineTestCase
         $user = $this->userRepository->findOneByEmail('test1@example.com');
 
         $this->assertTrue($user instanceof Entity\User);
-    }
-
-    public function testCreateUserLogin()
-    {
-        $userLogin = $this->getDummyUserLogin();
-
-        $user = $this->setupUser();
-        $user->addLogin($userLogin);
-
-        $this->userRepository->save($user);
-
-        $this->assertSame(1, $user->getTotalLogins());
     }
 }

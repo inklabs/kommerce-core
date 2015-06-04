@@ -43,11 +43,7 @@ class FakeUser extends AbstractFake implements UserInterface
     {
     }
 
-    public function persist(Entity\User & $user)
-    {
-    }
-
-    public function flush()
+    public function remove(Entity\User & $user)
     {
     }
 }

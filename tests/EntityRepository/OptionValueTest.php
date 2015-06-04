@@ -22,12 +22,29 @@ class OptionValueTest extends Helper\DoctrineTestCase
     private function setupOptionValue()
     {
         $option = $this->getDummyOption();
-        $optionValueProduct = $this->getDummyOptionValue($option);
+        $optionValue = $this->getDummyOptionValue($option);
 
         $this->entityManager->persist($option);
-        $this->entityManager->persist($optionValueProduct);
+
+        $this->optionValueRepository->create($optionValue);
+
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $optionValue;
+    }
+
+    public function testCRUD()
+    {
+        $optionValue = $this->setupOptionValue();
+
+        $optionValue->setName('New Name');
+        $this->assertSame(null, $optionValue->getUpdated());
+        $this->optionValueRepository->save($optionValue);
+        $this->assertTrue($optionValue->getUpdated() instanceof \DateTime);
+
+        $this->optionValueRepository->remove($optionValue);
+        $this->assertSame(null, $optionValue->getId());
     }
 
     public function testFind()

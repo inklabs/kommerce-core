@@ -37,6 +37,19 @@ class OptionProductTest extends Helper\DoctrineTestCase
         return $optionProduct;
     }
 
+    public function testCRUD()
+    {
+        $optionProduct = $this->setupOptionProduct();
+        $optionProduct->setSortOrder(5);
+
+        $this->assertSame(null, $optionProduct->getUpdated());
+        $this->optionProductRepository->save($optionProduct);
+        $this->assertTrue($optionProduct->getUpdated() instanceof \DateTime);
+
+        $this->optionProductRepository->remove($optionProduct);
+        $this->assertSame(null, $optionProduct->getId());
+    }
+
     public function testFind()
     {
         $this->setupOptionProduct();
@@ -65,15 +78,5 @@ class OptionProductTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($optionProducts[0] instanceof Entity\OptionProduct);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
-    }
-
-    public function testSave()
-    {
-        $optionProduct = $this->setupOptionProduct();
-        $optionProduct->setSortOrder(5);
-
-        $this->assertSame(null, $optionProduct->getUpdated());
-        $this->optionProductRepository->save($optionProduct);
-        $this->assertTrue($optionProduct->getUpdated() instanceof \DateTime);
     }
 }

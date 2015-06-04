@@ -11,6 +11,18 @@ class FakeTaxRate extends AbstractFake implements TaxRateInterface
         $this->setReturnValue(new Entity\TaxRate);
     }
 
+    public function save(Entity\TaxRate & $taxRate)
+    {
+    }
+
+    public function create(Entity\TaxRate & $taxRate)
+    {
+    }
+
+    public function remove(Entity\TaxRate & $taxRate)
+    {
+    }
+
     public function find($id)
     {
         return $this->getReturnValue();

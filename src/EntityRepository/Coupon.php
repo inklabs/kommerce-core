@@ -5,6 +5,21 @@ use inklabs\kommerce\Entity;
 
 class Coupon extends AbstractEntityRepository implements CouponInterface
 {
+    public function save(Entity\Coupon & $coupon)
+    {
+        $this->saveEntity($coupon);
+    }
+
+    public function create(Entity\Coupon & $coupon)
+    {
+        $this->createEntity($coupon);
+    }
+
+    public function remove(Entity\Coupon & $coupon)
+    {
+        $this->removeEntity($coupon);
+    }
+
     public function findOneByCode($couponCode)
     {
         return parent::findOneByCode($couponCode);
@@ -44,21 +59,5 @@ class Coupon extends AbstractEntityRepository implements CouponInterface
             ->getResult();
 
         return $coupons;
-    }
-
-    public function save(Entity\Coupon & $coupon)
-    {
-        $this->saveEntity($coupon);
-    }
-
-    public function create(Entity\Coupon & $coupon)
-    {
-        $this->persist($coupon);
-        $this->flush();
-    }
-
-    public function persist(Entity\Coupon & $coupon)
-    {
-        $this->persistEntity($coupon);
     }
 }

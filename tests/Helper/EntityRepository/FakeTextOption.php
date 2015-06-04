@@ -21,15 +21,15 @@ class FakeTextOption extends AbstractFake implements TextOptionInterface
         return $this->getReturnValueAsArray();
     }
 
-    public function create(Entity\TextOption & $textOption)
-    {
-    }
-
     public function save(Entity\TextOption & $textOption)
     {
     }
 
-    public function persist(Entity\TextOption & $textOption)
+    public function create(Entity\TextOption & $textOption)
+    {
+    }
+
+    public function remove(Entity\TextOption & $textOption)
     {
     }
 }

@@ -5,6 +5,10 @@ use inklabs\kommerce\Entity;
 
 interface UserInterface
 {
+    public function save(Entity\User & $product);
+    public function create(Entity\User & $user);
+    public function remove(Entity\User & $user);
+
     /**
      * @param int $id
      * @return Entity\User
@@ -28,21 +32,4 @@ interface UserInterface
      * @return Entity\User|null
      */
     public function findOneByEmail($email);
-
-    /**
-     * @param Entity\User $user
-     */
-    public function create(Entity\User & $user);
-
-    /**
-     * @param Entity\User $product
-     */
-    public function save(Entity\User & $product);
-
-    /**
-     * @param Entity\User $product
-     */
-    public function persist(Entity\User & $product);
-
-    public function flush();
 }

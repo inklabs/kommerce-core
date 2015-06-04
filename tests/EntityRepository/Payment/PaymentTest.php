@@ -39,6 +39,22 @@ class PaymentTest extends Helper\DoctrineTestCase
         return $payment;
     }
 
+    public function testCRUD()
+    {
+        $payment = $this->setupPayment();
+
+        $payment->setAmount(200);
+        $this->assertSame(null, $payment->getUpdated());
+        $this->paymentRepository->save($payment);
+        $this->assertTrue($payment->getUpdated() instanceof \DateTime);
+
+        $this->paymentRepository->persist($payment);
+        $this->assertTrue($payment->getUpdated() instanceof \DateTime);
+
+        $this->paymentRepository->remove($payment);
+        $this->assertSame(null, $payment->getId());
+    }
+
     public function testFind()
     {
         $this->setupPayment();
@@ -51,15 +67,5 @@ class PaymentTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($payment instanceof Entity\Payment\Cash);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
-    }
-
-    public function testSave()
-    {
-        $payment = $this->setupPayment();
-
-        $payment->setAmount(200);
-        $this->assertSame(null, $payment->getUpdated());
-        $this->paymentRepository->save($payment);
-        $this->assertTrue($payment->getUpdated() instanceof \DateTime);
     }
 }

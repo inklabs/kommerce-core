@@ -5,6 +5,10 @@ use inklabs\kommerce\Entity;
 
 interface TextOptionInterface
 {
+    public function save(Entity\TextOption & $textOption);
+    public function create(Entity\TextOption & $textOption);
+    public function remove(Entity\TextOption & $textOption);
+
     /**
      * @param int $id
      * @return Entity\TextOption

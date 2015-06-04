@@ -13,6 +13,21 @@ class ProductDecorator implements ProductInterface
         $this->productRepository = $productRepository;
     }
 
+    public function save(Entity\Product & $product)
+    {
+        return $this->productRepository->save($product);
+    }
+
+    public function create(Entity\Product & $product)
+    {
+        return $this->productRepository->create($product);
+    }
+
+    public function remove(Entity\Product & $product)
+    {
+        return $this->productRepository->remove($product);
+    }
+
     public function find($id)
     {
         return $this->productRepository->find($id);
@@ -61,26 +76,6 @@ class ProductDecorator implements ProductInterface
     public function getRandomProducts($limit)
     {
         return $this->productRepository->getRandomProducts($limit);
-    }
-
-    public function create(Entity\Product & $product)
-    {
-        return $this->productRepository->create($product);
-    }
-
-    public function save(Entity\Product & $product)
-    {
-        return $this->productRepository->save($product);
-    }
-
-    public function persist(Entity\Product & $product)
-    {
-        return $this->productRepository->persist($product);
-    }
-
-    public function flush()
-    {
-        return $this->productRepository->flush();
     }
 
     public function loadProductTags(array & $products)

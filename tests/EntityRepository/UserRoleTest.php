@@ -33,6 +33,23 @@ class UserRoleTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
+    public function testCRUD()
+    {
+        $userRole = $this->getDummyUserRole();
+
+        $this->userRoleRepository->create($userRole);
+        $this->assertSame(1, $userRole->getId());
+
+        $userRole->setName('New Name');
+        $this->assertSame(null, $userRole->getUpdated());
+
+        $this->userRoleRepository->save($userRole);
+        $this->assertTrue($userRole->getUpdated() instanceof \DateTime);
+
+        $this->userRoleRepository->remove($userRole);
+        $this->assertSame(null, $userRole->getId());
+    }
+
     public function testFind()
     {
         $this->setupUserWithRole();

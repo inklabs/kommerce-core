@@ -28,6 +28,23 @@ class TextOptionTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
+    public function testCRUD()
+    {
+        $textOption = $this->getDummyTextOption();
+
+        $this->textOptionRepository->create($textOption);
+        $this->assertSame(1, $textOption->getId());
+
+        $textOption->setName('New Name');
+        $this->assertSame(null, $textOption->getUpdated());
+
+        $this->textOptionRepository->save($textOption);
+        $this->assertTrue($textOption->getUpdated() instanceof \DateTime);
+
+        $this->textOptionRepository->remove($textOption);
+        $this->assertSame(null, $textOption->getId());
+    }
+
     public function testFind()
     {
         $this->setupOption();
