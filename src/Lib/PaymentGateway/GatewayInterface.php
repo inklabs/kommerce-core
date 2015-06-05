@@ -3,6 +3,9 @@ namespace inklabs\kommerce\Lib\PaymentGateway;
 
 interface GatewayInterface
 {
-    /* @return ChargeResponse */
+    /**
+     * @param ChargeRequest $chargeRequest
+     * @return ChargeResponse
+     */
     public function getCharge(ChargeRequest $chargeRequest);
 }

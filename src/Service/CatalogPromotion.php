@@ -15,8 +15,20 @@ class CatalogPromotion extends AbstractService
         $this->catalogPromotionRepository = $catalogPromotionRepository;
     }
 
+    public function create(Entity\CatalogPromotion & $catalogPromotion)
+    {
+        $this->throwValidationErrors($catalogPromotion);
+        $this->catalogPromotionRepository->create($catalogPromotion);
+    }
+
+    public function edit(Entity\CatalogPromotion & $catalogPromotion)
+    {
+        $this->throwValidationErrors($catalogPromotion);
+        $this->catalogPromotionRepository->save($catalogPromotion);
+    }
+
     /**
-     * @param $id
+     * @param int $id
      * @return View\CatalogPromotion|null
      */
     public function find($id)
@@ -61,7 +73,7 @@ class CatalogPromotion extends AbstractService
     public function getAllCatalogPromotionsByIds($catalogPromotionIds, Entity\Pagination & $pagination = null)
     {
         $catalogPromotions = $this->catalogPromotionRepository
-            ->getAllCatalogPromotionsByIds($catalogPromotionIds);
+            ->getAllCatalogPromotionsByIds($catalogPromotionIds, $pagination);
 
         return $this->getViewCatalogPromotions($catalogPromotions);
     }

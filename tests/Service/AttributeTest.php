@@ -20,6 +20,24 @@ class AttributeTest extends Helper\DoctrineTestCase
         $this->attributeService = new Attribute($this->attributeRepository);
     }
 
+    public function testCreate()
+    {
+        $attribute = $this->getDummyAttribute();
+        $this->attributeService->create($attribute);
+        $this->assertTrue($attribute instanceof Entity\Attribute);
+    }
+
+    public function testEdit()
+    {
+        $newName = 'New Name';
+        $attribute = $this->getDummyAttribute();
+        $this->assertNotSame($newName, $attribute->getName());
+
+        $attribute->setName($newName);
+        $this->attributeService->edit($attribute);
+        $this->assertSame($newName, $attribute->getName());
+    }
+
     public function testFind()
     {
         $attributeValue = $this->attributeService->find(1);

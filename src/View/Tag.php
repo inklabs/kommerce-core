@@ -65,7 +65,7 @@ class Tag implements ViewInterface
         return $this;
     }
 
-    public function withProducts(Lib\PricingInterface $pricing)
+    public function withProducts(Lib\Pricing $pricing)
     {
         foreach ($this->tag->getProducts() as $product) {
             $this->products[] = $product->getView()

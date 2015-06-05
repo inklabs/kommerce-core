@@ -50,6 +50,7 @@ class Point implements EntityInterface
     }
 
     /**
+     * @param int $rangeInMiles
      * @return Point[]
      */
     public function getGeoBox($rangeInMiles)

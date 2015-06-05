@@ -141,7 +141,7 @@ class Cart extends AbstractService
     }
 
     /**
-     * @param $cartId
+     * @param int $cartId
      * @param int $couponIndex
      */
     public function removeCoupon($cartId, $couponIndex)
@@ -217,7 +217,7 @@ class Cart extends AbstractService
     }
 
     /**
-     * @param $cartId
+     * @param int $cartId
      * @param int $cartItemIndex
      * @param string[] $optionProductIds
      * @throws \LogicException
@@ -240,7 +240,7 @@ class Cart extends AbstractService
     }
 
     /**
-     * @param $cartId
+     * @param int $cartId
      * @param int $cartItemIndex
      * @param string[] $optionValueIds
      * @throws \LogicException

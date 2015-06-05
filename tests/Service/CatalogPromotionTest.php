@@ -20,6 +20,24 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
         $this->catalogPromotionService = new CatalogPromotion($this->catalogPromotionRepository);
     }
 
+    public function testCreate()
+    {
+        $catalogPromotion = $this->getDummyCatalogPromotion();
+        $this->catalogPromotionService->create($catalogPromotion);
+        $this->assertTrue($catalogPromotion instanceof Entity\CatalogPromotion);
+    }
+
+    public function testEdit()
+    {
+        $newName = 'New Name';
+        $catalogPromotion = $this->getDummyCatalogPromotion();
+        $this->assertNotSame($newName, $catalogPromotion->getName());
+
+        $catalogPromotion->setName($newName);
+        $this->catalogPromotionService->edit($catalogPromotion);
+        $this->assertSame($newName, $catalogPromotion->getName());
+    }
+
     public function testFind()
     {
         $catalogPromotion = $this->catalogPromotionService->find(1);

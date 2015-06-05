@@ -21,7 +21,40 @@ class Image extends AbstractService
         $this->productRepository = $productRepository;
     }
 
+    public function create(Entity\Image & $image)
+    {
+        $this->throwValidationErrors($image);
+        $this->imageRepository->create($image);
+    }
+
+    public function edit(Entity\Image & $image)
+    {
+        $this->throwValidationErrors($image);
+        $this->imageRepository->save($image);
+    }
+
     /**
+     * @param Entity\Image $image
+     * @param int $productId
+     * @throws \LogicException
+     */
+    public function createWithProduct(Entity\Image & $image, $productId)
+    {
+        $product = $this->productRepository->find($productId);
+        if ($product === null) {
+            throw new \LogicException('Missing Product');
+        }
+
+        if ($product->getDefaultImage() === null) {
+            $product->setDefaultImage($image->getPath());
+        }
+
+        $image->setProduct($product);
+        $this->create($image);
+    }
+
+    /**
+     * @param int $id
      * @return View\Image|null
      */
     public function find($id)
@@ -35,50 +68,5 @@ class Image extends AbstractService
         return $image->getView()
             ->withAllData()
             ->export();
-    }
-
-    /**
-     * @param Entity\Image $image
-     * @return Entity\Image
-     */
-    public function edit(Entity\Image $image)
-    {
-        $this->throwValidationErrors($image);
-        $this->imageRepository->save($image);
-        return $image;
-    }
-
-    /**
-     * @param Entity\Image $image
-     * @return Entity\Image
-     */
-    public function create(Entity\Image $image)
-    {
-        $this->throwValidationErrors($image);
-        $this->imageRepository->create($image);
-        return $image;
-    }
-
-    /**
-     * @param Entity\Image $image
-     * @param $productId
-     * @return Entity\Image
-     */
-    public function createWithProduct(Entity\Image $image, $productId)
-    {
-        $product = $this->productRepository->find($productId);
-
-        if ($product === null) {
-            throw new \LogicException('Missing Product');
-        }
-
-        if ($product->getDefaultImage() === null) {
-            $product->setDefaultImage($image->getPath());
-        }
-
-        $image->setProduct($product);
-        $this->imageRepository->create($image);
-
-        return $image;
     }
 }

@@ -16,7 +16,7 @@ interface CouponInterface
     public function find($id);
 
     /**
-     * @param $couponCode
+     * @param string $couponCode
      * @return Entity\Coupon
      */
     public function findOneByCode($couponCode);

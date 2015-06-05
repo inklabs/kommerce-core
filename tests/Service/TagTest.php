@@ -21,6 +21,24 @@ class TagTest extends Helper\DoctrineTestCase
         $this->tagService = new Tag($this->tagRepository, new Lib\Pricing);
     }
 
+    public function testCreate()
+    {
+        $tag = $this->getDummyTag();
+        $this->tagService->create($tag);
+        $this->assertTrue($tag instanceof Entity\Tag);
+    }
+
+    public function testEdit()
+    {
+        $newName = 'New Name';
+        $tag = $this->getDummyTag();
+        $this->assertNotSame($newName, $tag->getName());
+
+        $tag->setName($newName);
+        $this->tagService->edit($tag);
+        $this->assertSame($newName, $tag->getName());
+    }
+
     public function testFind()
     {
         $tag = $this->tagService->find(1);
@@ -78,24 +96,6 @@ class TagTest extends Helper\DoctrineTestCase
 
         $tag = $this->tagService->findSimple(1);
         $this->assertSame(null, $tag);
-    }
-
-    public function testEdit()
-    {
-        $tag = $this->getDummyTag();
-        $this->assertNotSame('Test Tag 2', $tag->getName());
-
-        $tag->setName('Test Tag 2');
-        $newTag = $this->tagService->edit($tag);
-        $this->assertTrue($newTag instanceof Entity\Tag);
-        $this->assertSame('Test Tag 2', $newTag->getName());
-    }
-
-    public function testCreate()
-    {
-        $tag = $this->getDummyTag();
-        $newTag = $this->tagService->create($tag);
-        $this->assertTrue($newTag instanceof Entity\Tag);
     }
 
     public function testGetAllTags()

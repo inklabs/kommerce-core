@@ -16,6 +16,7 @@ class AttributeValue extends AbstractService
     }
 
     /**
+     * @param int $id
      * @return View\AttributeValue|null
      */
     public function find($id)
@@ -34,7 +35,7 @@ class AttributeValue extends AbstractService
 
     public function getAttributeValuesByIds($attributeValueIds, Entity\Pagination & $pagination = null)
     {
-        $attributeValues = $this->attributeValueRepository->getAttributeValuesByIds($attributeValueIds);
+        $attributeValues = $this->attributeValueRepository->getAttributeValuesByIds($attributeValueIds, $pagination);
         return $this->getViewAttributeValues($attributeValues);
     }
 

@@ -14,6 +14,7 @@ interface AttributeValueInterface
 
     /**
      * @param int[] $attributeValueIds
+     * @param Entity\Pagination $pagination
      * @return Entity\AttributeValue[]
      */
     public function getAttributeValuesByIds(array $attributeValueIds, Entity\Pagination & $pagination = null);

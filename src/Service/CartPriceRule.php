@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository;
-use Doctrine;
 
 class CartPriceRule extends AbstractService
 {
@@ -15,7 +14,20 @@ class CartPriceRule extends AbstractService
         $this->cartPriceRuleRepository = $cartPriceRuleRepository;
     }
 
+    public function create(Entity\CartPriceRule & $cartPriceRule)
+    {
+        $this->throwValidationErrors($cartPriceRule);
+        $this->cartPriceRuleRepository->create($cartPriceRule);
+    }
+
+    public function edit(Entity\CartPriceRule & $cartPriceRule)
+    {
+        $this->throwValidationErrors($cartPriceRule);
+        $this->cartPriceRuleRepository->save($cartPriceRule);
+    }
+
     /**
+     * @param int $id
      * @return Entity\CartPriceRule
      */
     public function find($id)

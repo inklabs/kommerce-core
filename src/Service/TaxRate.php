@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
-use Doctrine;
 
 class TaxRate extends AbstractService
 {
@@ -13,6 +12,18 @@ class TaxRate extends AbstractService
     public function __construct(EntityRepository\TaxRateInterface $taxRateRepository)
     {
         $this->taxRateRepository = $taxRateRepository;
+    }
+
+    public function create(Entity\TaxRate & $taxRate)
+    {
+        $this->throwValidationErrors($taxRate);
+        $this->taxRateRepository->create($taxRate);
+    }
+
+    public function edit(Entity\TaxRate & $taxRate)
+    {
+        $this->throwValidationErrors($taxRate);
+        $this->taxRateRepository->save($taxRate);
     }
 
     public function find($id)
@@ -26,8 +37,9 @@ class TaxRate extends AbstractService
     }
 
     /**
+     * @param string $zip5
+     * @param string $state
      * @return Entity\TaxRate|null
-     * @throws \LogicException
      */
     public function findByZip5AndState($zip5 = null, $state = null)
     {

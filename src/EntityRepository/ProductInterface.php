@@ -32,11 +32,11 @@ interface ProductInterface
 
     /**
      * @param int[] $productIds
-     * @param int $tagIds
+     * @param int[] $tagIds
      * @param int $limit
      * @return Entity\Product[]
      */
-    public function getRelatedProductsByIds(array $productIds, $tagIds = null, $limit = 12);
+    public function getRelatedProductsByIds(array $productIds, $tagIds = [], $limit = 12);
 
     /**
      * Load product tags to avoid query in loop for pricing

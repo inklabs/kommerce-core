@@ -38,7 +38,7 @@ class FakeProduct extends AbstractFake implements ProductInterface
         return $this->getReturnValueAsArray();
     }
 
-    public function getRelatedProductsByIds(array $productIds, $tagIds = null, $limit = 12)
+    public function getRelatedProductsByIds(array $productIds, $tagIds = [], $limit = 12)
     {
         return $this->getReturnValueAsArray();
     }

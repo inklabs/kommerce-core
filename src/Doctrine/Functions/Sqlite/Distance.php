@@ -44,6 +44,9 @@ class Distance extends FunctionNode
     /**
      * Simple Manhattan Distance
      * 69.09 = approximate number of miles per degree of latitude.
+     *
+     * @param Doctrine\ORM\Query\SqlWalker $sqlWalker
+     * @return string
      */
     public function getSql(Doctrine\ORM\Query\SqlWalker $sqlWalker)
     {

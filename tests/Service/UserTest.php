@@ -30,6 +30,24 @@ class UserTest extends Helper\DoctrineTestCase
         );
     }
 
+    public function testCreate()
+    {
+        $user = $this->getDummyUser();
+        $this->userService->create($user);
+        $this->assertTrue($user instanceof Entity\User);
+    }
+
+    public function testEdit()
+    {
+        $newName = 'New Name';
+        $user = $this->getDummyUser();
+        $this->assertNotSame($newName, $user->getFirstName());
+
+        $user->setFirstName($newName);
+        $this->userService->edit($user);
+        $this->assertSame($newName, $user->getFirstName());
+    }
+
     public function testFind()
     {
         $viewUser = $this->userService->find(1);
@@ -42,24 +60,6 @@ class UserTest extends Helper\DoctrineTestCase
 
         $viewUser = $this->userService->find(0);
         $this->assertSame(null, $viewUser);
-    }
-
-    public function testCreate()
-    {
-        $user = $this->getDummyUser();
-        $newUser = $this->userService->create($user);
-        $this->assertTrue($newUser instanceof Entity\User);
-    }
-
-    public function testEdit()
-    {
-        $user = $this->getDummyUser();
-        $user->setFirstName('Jane');
-
-        $user = $this->userService->edit($user);
-
-        $this->assertTrue($user instanceof Entity\User);
-        $this->assertSame('Jane', $user->getFirstName());
     }
 
     public function testUserLogin()

@@ -31,7 +31,7 @@ interface OrderInterface extends ReferenceNumber\RepositoryInterface
     public function getLatestOrders(Entity\Pagination & $pagination = null);
 
     /**
-     * @param $userId
+     * @param int $userId
      * @return Entity\Order[]
      */
     public function getOrdersByUserId($userId);

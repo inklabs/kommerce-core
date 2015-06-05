@@ -15,7 +15,20 @@ class Attribute extends AbstractService
         $this->attributeRepository = $attributeRepository;
     }
 
+    public function create(Entity\Attribute & $attribute)
+    {
+        $this->throwValidationErrors($attribute);
+        $this->attributeRepository->create($attribute);
+    }
+
+    public function edit(Entity\Attribute & $attribute)
+    {
+        $this->throwValidationErrors($attribute);
+        $this->attributeRepository->save($attribute);
+    }
+
     /**
+     * @param int $id
      * @return View\Attribute|null
      */
     public function find($id)

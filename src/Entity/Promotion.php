@@ -207,6 +207,7 @@ abstract class Promotion implements EntityInterface
     }
 
     /**
+     * @param int $unitPrice
      * @return int
      * @throws \Exception
      */

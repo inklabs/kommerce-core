@@ -8,7 +8,7 @@ use inklabs\kommerce\Lib;
 
 class Product extends AbstractService
 {
-    /** @var Lib\PricingInterface */
+    /** @var Lib\Pricing */
     private $pricing;
 
     /** @var EntityRepository\ProductInterface */
@@ -24,12 +24,24 @@ class Product extends AbstractService
         EntityRepository\ProductInterface $productRepository,
         EntityRepository\TagInterface $tagRepository,
         EntityRepository\ImageInterface $imageRepository,
-        Lib\PricingInterface $pricing
+        Lib\Pricing $pricing
     ) {
         $this->pricing = $pricing;
         $this->productRepository = $productRepository;
         $this->tagRepository = $tagRepository;
         $this->imageRepository = $imageRepository;
+    }
+
+    public function create(Entity\Product & $product)
+    {
+        $this->throwValidationErrors($product);
+        $this->productRepository->create($product);
+    }
+
+    public function edit(Entity\Product & $product)
+    {
+        $this->throwValidationErrors($product);
+        $this->productRepository->save($product);
     }
 
     /**
@@ -50,26 +62,8 @@ class Product extends AbstractService
     }
 
     /**
-     * @param Entity\Product $product
-     */
-    public function edit(Entity\Product & $product)
-    {
-        $this->throwValidationErrors($product);
-        $this->productRepository->save($product);
-    }
-
-    /**
-     * @param Entity\Product $product
-     */
-    public function create(Entity\Product & $product)
-    {
-        $this->throwValidationErrors($product);
-        $this->productRepository->create($product);
-    }
-
-    /**
      * @param int $productId
-     * @param string $tagId
+     * @param int $tagId
      */
     public function addTag($productId, $tagId)
     {
@@ -187,7 +181,7 @@ class Product extends AbstractService
     }
 
     /**
-     * @param $productId
+     * @param int $productId
      * @return Entity\Product
      * @throws \LogicException
      */
@@ -203,7 +197,7 @@ class Product extends AbstractService
     }
 
     /**
-     * @param string $tagId
+     * @param int $tagId
      * @return Entity\Tag
      * @throws \LogicException
      */
@@ -219,7 +213,7 @@ class Product extends AbstractService
     }
 
     /**
-     * @param string $imageId
+     * @param int $imageId
      * @return Entity\Image
      * @throws \LogicException
      */

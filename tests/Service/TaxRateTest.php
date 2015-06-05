@@ -19,18 +19,36 @@ class TaxRateTest extends Helper\DoctrineTestCase
         $this->taxRateService = new TaxRate($this->taxRateRepository);
     }
 
+    public function testCreate()
+    {
+        $taxRate = $this->getDummyTaxRate();
+        $this->taxRateService->create($taxRate);
+        $this->assertTrue($taxRate instanceof Entity\TaxRate);
+    }
+
+    public function testEdit()
+    {
+        $newState = 'XX';
+        $taxRate = $this->getDummyTaxRate();
+        $this->assertNotSame($newState, $taxRate->getState());
+
+        $taxRate->setState($newState);
+        $this->taxRateService->edit($taxRate);
+        $this->assertSame($newState, $taxRate->getState());
+    }
+
     public function testFind()
     {
-        $product = $this->taxRateService->find(1);
-        $this->assertTrue($product instanceof Entity\TaxRate);
+        $taxRate = $this->taxRateService->find(1);
+        $this->assertTrue($taxRate instanceof Entity\TaxRate);
     }
 
     public function testFindMissing()
     {
         $this->taxRateRepository->setReturnValue(null);
 
-        $product = $this->taxRateService->find(1);
-        $this->assertSame(null, $product);
+        $taxRate = $this->taxRateService->find(1);
+        $this->assertSame(null, $taxRate);
     }
 
     public function testFindAll()

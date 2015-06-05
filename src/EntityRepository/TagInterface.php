@@ -24,18 +24,21 @@ interface TagInterface
 
     /**
      * @param string $queryString
+     * @param Entity\Pagination $pagination
      * @return Entity\Tag[]
      */
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null);
 
     /**
-     * @param int[]
+     * @param int []
+     * @param Entity\Pagination $pagination
      * @return Entity\Tag[]
      */
     public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null);
 
     /**
-     * @param int[]
+     * @param int []
+     * @param Entity\Pagination $pagination
      * @return Entity\Tag[]
      */
     public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null);

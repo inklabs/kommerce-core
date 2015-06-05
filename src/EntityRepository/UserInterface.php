@@ -17,15 +17,17 @@ interface UserInterface
 
     /**
      * @param string $queryString
+     * @param Entity\Pagination $pagination
      * @return Entity\User[]
      */
-    public function getAllUsers($queryString = null, Entity\Pagination &$pagination = null);
+    public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null);
 
     /**
      * @param int[] $userIds
+     * @param Entity\Pagination $pagination
      * @return Entity\User[]
      */
-    public function getAllUsersByIds($userIds, Entity\Pagination &$pagination = null);
+    public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null);
 
     /**
      * @param string $email

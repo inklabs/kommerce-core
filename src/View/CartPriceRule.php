@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity;
 
 class CartPriceRule extends Promotion
 {
-    /** @var CartPriceRuleItem[] */
+    /** @var CartPriceRuleItem\Item[] */
     public $cartPriceRuleItems = [];
 
     /** @var CartPriceRuleDiscount[] */

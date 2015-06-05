@@ -15,7 +15,22 @@ class Coupon extends AbstractService
         $this->couponRepository = $couponRepository;
     }
 
-    /* @return View\Coupon */
+    public function create(Entity\Coupon & $coupon)
+    {
+        $this->throwValidationErrors($coupon);
+        $this->couponRepository->create($coupon);
+    }
+
+    public function edit(Entity\Coupon & $coupon)
+    {
+        $this->throwValidationErrors($coupon);
+        $this->couponRepository->save($coupon);
+    }
+
+    /**
+     * @param int $id
+     * @return View\Coupon
+     */
     public function find($id)
     {
         /** @var Entity\Coupon $entityCoupon */

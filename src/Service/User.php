@@ -24,11 +24,23 @@ class User extends AbstractService
         $this->userLoginRepository = $userLoginRepository;
     }
 
+    public function create(Entity\User & $user)
+    {
+        $this->throwValidationErrors($user);
+        $this->userRepository->create($user);
+    }
+
+    public function edit(Entity\User & $user)
+    {
+        $this->throwValidationErrors($user);
+        $this->userRepository->save($user);
+    }
+
     /**
      * @param string $email
      * @param string $password
      * @param string $remoteIp
-     * @return bool
+     * @return View\User
      * @throws UserLoginException
      */
     public function login($email, $password, $remoteIp)
@@ -94,28 +106,6 @@ class User extends AbstractService
         return $entityUser->getView()
             ->withAllData()
             ->export();
-    }
-
-    /**
-     * @param Entity\User $user
-     * @return Entity\User
-     */
-    public function edit(Entity\User $user)
-    {
-        $this->throwValidationErrors($user);
-        $this->userRepository->save($user);
-        return $user;
-    }
-
-    /**
-     * @param Entity\User $user
-     * @return Entity\User
-     */
-    public function create(Entity\User $user)
-    {
-        $this->throwValidationErrors($user);
-        $this->userRepository->create($user);
-        return $user;
     }
 
     /**

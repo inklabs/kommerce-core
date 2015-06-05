@@ -44,6 +44,9 @@ class Distance extends FunctionNode
     /**
      * Haversine Formula
      * https://developers.google.com/maps/articles/phpsqlsearch_v3
+     *
+     * @param Doctrine\ORM\Query\SqlWalker $sqlWalker
+     * @return string
      */
     public function getSql(Doctrine\ORM\Query\SqlWalker $sqlWalker)
     {

@@ -16,6 +16,18 @@ class Option extends AbstractService
         $this->optionRepository = $optionRepository;
     }
 
+    public function create(Entity\Option & $option)
+    {
+        $this->throwValidationErrors($option);
+        $this->optionRepository->create($option);
+    }
+
+    public function edit(Entity\Option & $option)
+    {
+        $this->throwValidationErrors($option);
+        $this->optionRepository->save($option);
+    }
+
     /**
      * @param int $id
      * @return Entity\Option|null
@@ -24,24 +36,6 @@ class Option extends AbstractService
     {
         $option = $this->optionRepository->find($id);
         return $option;
-    }
-
-    /**
-     * @param Entity\Option $option
-     */
-    public function edit(Entity\Option & $option)
-    {
-        $this->throwValidationErrors($option);
-        $this->optionRepository->save($option);
-    }
-
-    /**
-     * @param Entity\Option $option
-     */
-    public function create(Entity\Option & $option)
-    {
-        $this->throwValidationErrors($option);
-        $this->optionRepository->create($option);
     }
 
     /**

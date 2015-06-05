@@ -38,6 +38,24 @@ class ProductTest extends Helper\DoctrineTestCase
         );
     }
 
+    public function testCreate()
+    {
+        $product = $this->getDummyProduct();
+        $this->productService->create($product);
+        $this->assertTrue($product instanceof Entity\Product);
+    }
+
+    public function testEdit()
+    {
+        $newName = 'New Name';
+        $product = $this->getDummyProduct();
+        $this->assertNotSame($newName, $product->getName());
+
+        $product->setName($newName);
+        $this->productService->edit($product);
+        $this->assertSame($newName, $product->getName());
+    }
+
     public function testFind()
     {
         $product = $this->productService->find(1);
@@ -50,23 +68,6 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $product = $this->productService->find(1);
         $this->assertSame(null, $product);
-    }
-
-    public function testEdit()
-    {
-        $product = $this->getDummyProduct();
-        $this->assertNotSame(500, $product->getUnitPrice());
-
-        $product->setUnitPrice(500);
-
-        $this->productService->edit($product);
-        $this->assertSame(500, $product->getUnitPrice());
-    }
-
-    public function testCreate()
-    {
-        $product = $this->getDummyProduct();
-        $this->productService->create($product);
     }
 
     public function testAddTag()

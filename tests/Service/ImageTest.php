@@ -25,44 +25,31 @@ class ImageTest extends Helper\DoctrineTestCase
         $this->imageService = new Image($this->imageRepository, $this->productRepository);
     }
 
-    public function testFind()
+    public function testCreate()
     {
-        $image = $this->imageService->find(1);
-        $this->assertTrue($image instanceof View\Image);
-    }
-
-    public function testFindMissing()
-    {
-        $this->imageRepository->setReturnValue(null);
-
-        $image = $this->imageService->find(1);
-        $this->assertSame(null, $image);
+        $image = $this->getDummyImage();
+        $this->imageService->create($image);
+        $this->assertTrue($image instanceof Entity\Image);
     }
 
     public function testEdit()
     {
+        $newWidth = 500;
         $image = $this->getDummyImage();
-        $this->assertNotSame(500, $image->getWidth());
+        $this->assertNotSame($newWidth, $image->getWidth());
 
-        $image->setWidth(500);
-        $newImage = $this->imageService->edit($image);
-        $this->assertSame(500, $newImage->getWidth());
-    }
-
-    public function testCreate()
-    {
-        $image = $this->getDummyImage();
-
-        $newImage = $this->imageService->create($image);
-        $this->assertTrue($newImage instanceof Entity\Image);
+        $image->setWidth($newWidth);
+        $this->imageService->edit($image);
+        $this->assertSame($newWidth, $image->getWidth());
     }
 
     public function testCreateWithProduct()
     {
         $image = $this->getDummyImage();
 
-        $newImage = $this->imageService->createWithProduct($image, 1);
-        $this->assertTrue($newImage instanceof Entity\Image);
+        $this->imageService->createWithProduct($image, 1);
+        $this->assertTrue($image instanceof Entity\Image);
+        $this->assertTrue($image->getProduct() instanceof Entity\Product);
     }
 
     /**
@@ -75,5 +62,19 @@ class ImageTest extends Helper\DoctrineTestCase
 
         $image = $this->getDummyImage();
         $this->imageService->createWithProduct($image, 1);
+    }
+
+    public function testFind()
+    {
+        $image = $this->imageService->find(1);
+        $this->assertTrue($image instanceof View\Image);
+    }
+
+    public function testFindMissing()
+    {
+        $this->imageRepository->setReturnValue(null);
+
+        $image = $this->imageService->find(1);
+        $this->assertSame(null, $image);
     }
 }

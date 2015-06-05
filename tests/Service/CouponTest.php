@@ -20,6 +20,24 @@ class CouponTest extends Helper\DoctrineTestCase
         $this->couponService = new Coupon($this->couponRepository);
     }
 
+    public function testCreate()
+    {
+        $coupon = $this->getDummyCoupon();
+        $this->couponService->create($coupon);
+        $this->assertTrue($coupon instanceof Entity\Coupon);
+    }
+
+    public function testEdit()
+    {
+        $newName = 'New Name';
+        $coupon = $this->getDummyCoupon();
+        $this->assertNotSame($newName, $coupon->getName());
+
+        $coupon->setName($newName);
+        $this->couponService->edit($coupon);
+        $this->assertSame($newName, $coupon->getName());
+    }
+
     public function testFind()
     {
         $coupon = $this->couponService->find(1);

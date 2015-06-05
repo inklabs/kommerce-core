@@ -20,7 +20,20 @@ class Tag extends AbstractService
         $this->tagRepository = $tagRepository;
     }
 
+    public function create(Entity\Tag & $tag)
+    {
+        $this->throwValidationErrors($tag);
+        $this->tagRepository->create($tag);
+    }
+
+    public function edit(Entity\Tag & $tag)
+    {
+        $this->throwValidationErrors($tag);
+        $this->tagRepository->save($tag);
+    }
+
     /**
+     * @param int $id
      * @return View\Tag|null
      */
     public function find($id)
@@ -72,7 +85,7 @@ class Tag extends AbstractService
     }
 
     /**
-     * @param $tagId
+     * @param int $tagId
      * @return Entity\Tag
      * @throws \LogicException
      */
@@ -84,28 +97,6 @@ class Tag extends AbstractService
             throw new \LogicException('Missing Tag');
         }
 
-        return $tag;
-    }
-
-    /**
-     * @param Entity\Tag $tag
-     * @return Entity\Tag
-     */
-    public function edit(Entity\Tag $tag)
-    {
-        $this->throwValidationErrors($tag);
-        $this->tagRepository->save($tag);
-        return $tag;
-    }
-
-    /**
-     * @param Entity\Tag $tag
-     * @return Entity\Tag
-     */
-    public function create(Entity\Tag $tag)
-    {
-        $this->throwValidationErrors($tag);
-        $this->tagRepository->create($tag);
         return $tag;
     }
 

@@ -21,28 +21,28 @@ class OptionTest extends Helper\DoctrineTestCase
         $this->optionService = new Option($this->optionRepository);
     }
 
-    public function testFind()
+    public function testCreate()
     {
-        $option = $this->optionService->find(1);
+        $option = $this->getDummyOption();
+        $this->optionService->create($option);
         $this->assertTrue($option instanceof Entity\Option);
     }
 
     public function testEdit()
     {
-        $newName = 'new name';
+        $newName = 'New Name';
         $option = $this->getDummyOption();
         $this->assertNotSame($newName, $option->getName());
 
         $option->setName($newName);
-
         $this->optionService->edit($option);
         $this->assertSame($newName, $option->getName());
     }
 
-    public function testCreate()
+    public function testFind()
     {
-        $option = $this->getDummyOption();
-        $this->optionService->create($option);
+        $option = $this->optionService->find(1);
+        $this->assertTrue($option instanceof Entity\Option);
     }
 
     public function testGetAllOptions()

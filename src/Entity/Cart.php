@@ -83,6 +83,7 @@ class Cart implements EntityInterface
     }
 
     /**
+     * @param int $cartItemIndex
      * @return CartItem|null
      */
     public function getCartItem($cartItemIndex)

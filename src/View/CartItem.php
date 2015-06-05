@@ -55,7 +55,7 @@ class CartItem implements ViewInterface
         return $this;
     }
 
-    public function withProduct(Lib\PricingInterface $pricing)
+    public function withProduct(Lib\Pricing $pricing)
     {
         $this->product = $this->cartItem->getProduct()->getView()
             ->withTags()

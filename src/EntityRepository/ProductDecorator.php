@@ -43,7 +43,7 @@ class ProductDecorator implements ProductInterface
         return $this->productRepository->getRelatedProducts($products, $limit);
     }
 
-    public function getRelatedProductsByIds(array $productIds, $tagIds = null, $limit = 12)
+    public function getRelatedProductsByIds(array $productIds, $tagIds = [], $limit = 12)
     {
         return $this->productRepository->getRelatedProductsByIds($productIds, $tagIds, $limit);
     }

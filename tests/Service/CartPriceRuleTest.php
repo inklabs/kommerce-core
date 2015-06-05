@@ -19,6 +19,24 @@ class CartPriceRuleTest extends Helper\DoctrineTestCase
         $this->cartPriceRuleService = new CartPriceRule($this->cartPriceRuleRepository);
     }
 
+    public function testCreate()
+    {
+        $cartPriceRule = $this->getDummyCartPriceRule();
+        $this->cartPriceRuleService->create($cartPriceRule);
+        $this->assertTrue($cartPriceRule instanceof Entity\CartPriceRule);
+    }
+
+    public function testEdit()
+    {
+        $newName = 'New Name';
+        $cartPriceRule = $this->getDummyCartPriceRule();
+        $this->assertNotSame($newName, $cartPriceRule->getName());
+
+        $cartPriceRule->setName($newName);
+        $this->cartPriceRuleService->edit($cartPriceRule);
+        $this->assertSame($newName, $cartPriceRule->getName());
+    }
+
     public function testFind()
     {
         $product = $this->cartPriceRuleService->find(1);

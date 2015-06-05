@@ -16,7 +16,7 @@ interface OptionValueInterface
     public function find($id);
 
     /**
-     * @param $optionValueIds
+     * @param int[] $optionValueIds
      * @param Entity\Pagination $pagination
      * @return Entity\OptionValue[]
      */
