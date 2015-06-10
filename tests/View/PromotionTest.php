@@ -8,10 +8,13 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $entityPromotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
+        $entityPromotion->setStart(new \DateTime);
+        $entityPromotion->setEnd(new \DateTime);
 
-        $mock = $this->getMockForAbstractClass('inklabs\kommerce\View\Promotion', [$entityPromotion])
+
+        $promotion = $this->getMockForAbstractClass('inklabs\kommerce\View\Promotion', [$entityPromotion])
             ->export();
 
-        $this->assertTrue($mock instanceof Promotion);
+        $this->assertTrue($promotion instanceof Promotion);
     }
 }

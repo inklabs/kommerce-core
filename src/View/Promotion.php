@@ -16,6 +16,8 @@ abstract class Promotion implements ViewInterface
     public $reducesTaxSubtotal;
     public $start;
     public $end;
+    public $startFormatted;
+    public $endFormatted;
     public $created;
     public $updated;
 
@@ -37,6 +39,14 @@ abstract class Promotion implements ViewInterface
         $this->end            = $promotion->getEnd();
         $this->created        = $promotion->getCreated();
         $this->updated        = $promotion->getUpdated();
+
+        if ($this->start !== null) {
+            $this->startFormatted = $this->start->format('Y-m-d');
+        }
+
+        if ($this->end !== null) {
+            $this->endFormatted = $this->end->format('Y-m-d');
+        }
 
         $this->isRedemptionCountValid = $promotion->isRedemptionCountValid();
     }
