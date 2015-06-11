@@ -59,7 +59,7 @@ class Product implements EntityInterface
     /** @var Image[] */
     protected $images;
 
-    /** @var ProductQuantityDiscount */
+    /** @var ProductQuantityDiscount[] */
     protected $productQuantityDiscounts;
 
     /** @var OptionProduct[] */
@@ -372,7 +372,12 @@ class Product implements EntityInterface
 
     public function addProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
     {
-        $this->productQuantityDiscounts[] = $productQuantityDiscount;
+        $this->productQuantityDiscounts->add($productQuantityDiscount);
+    }
+
+    public function removeProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
+    {
+        return $this->productQuantityDiscounts->removeElement($productQuantityDiscount);
     }
 
     public function getProductQuantityDiscounts()

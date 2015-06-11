@@ -77,6 +77,19 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1, count($product->getImages()));
     }
 
+    public function testRemoveProductQuantityDiscount()
+    {
+        $product = new Product;
+        $productQuantityDiscount = new ProductQuantityDiscount;
+
+        $product->addProductQuantityDiscount($productQuantityDiscount);
+        $product->addProductQuantityDiscount(new ProductQuantityDiscount);
+        $this->assertSame(2, count($product->getProductQuantityDiscounts()));
+
+        $product->removeProductQuantityDiscount($productQuantityDiscount);
+        $this->assertSame(1, count($product->getProductQuantityDiscounts()));
+    }
+
     public function testLoadFromView()
     {
         $product = new Product;

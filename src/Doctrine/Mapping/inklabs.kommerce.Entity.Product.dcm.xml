@@ -74,6 +74,7 @@
         <one-to-many field="productQuantityDiscounts"
                      target-entity="ProductQuantityDiscount"
                      mapped-by="product"
+                     index-by="id"
                      fetch="EXTRA_LAZY">
             <order-by>
                 <order-by-field name="quantity" direction="DESC"/>
