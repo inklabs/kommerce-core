@@ -75,7 +75,11 @@
                      target-entity="ProductQuantityDiscount"
                      mapped-by="product"
                      index-by="id"
+                     orphan-removal="true"
                      fetch="EXTRA_LAZY">
+            <cascade>
+                <cascade-all/>
+            </cascade>
             <order-by>
                 <order-by-field name="quantity" direction="DESC"/>
             </order-by>

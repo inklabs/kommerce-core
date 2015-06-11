@@ -373,6 +373,7 @@ class Product implements EntityInterface
     public function addProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
     {
         $this->productQuantityDiscounts->add($productQuantityDiscount);
+        $productQuantityDiscount->setProduct($this);
     }
 
     public function removeProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)

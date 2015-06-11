@@ -42,9 +42,18 @@ class ProductTest extends Helper\DoctrineTestCase
         $product = $this->setupProduct();
         $product->setName('new name');
 
+        $productQuantityDiscount = $this->getDummyProductQuantityDiscount();
+        $product->addProductQuantityDiscount($productQuantityDiscount);
+        echo $productQuantityDiscount->getId();
+
         $this->assertSame(null, $product->getUpdated());
         $this->productRepository->save($product);
         $this->assertTrue($product->getUpdated() instanceof \DateTime);
+        $this->assertTrue($product->getProductQuantityDiscounts()[0]->getCreated() instanceof \DateTime);
+
+        $product->removeProductQuantityDiscount($product->getProductQuantityDiscounts()[0]);
+        $this->productRepository->save($product);
+        $this->assertSame(null, $this->repository()->getProductQuantityDiscount()->find(1));
 
         $this->productRepository->remove($product);
         $this->assertSame(null, $product->getId());
