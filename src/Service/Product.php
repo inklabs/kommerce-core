@@ -64,6 +64,7 @@ class Product extends AbstractService
     /**
      * @param int $productId
      * @param int $tagId
+     * @return Entity\Tag
      */
     public function addTag($productId, $tagId)
     {
@@ -71,6 +72,22 @@ class Product extends AbstractService
         $tag = $this->getTagAndThrowExceptionIfMissing($tagId);
 
         $product->addTag($tag);
+
+        $this->productRepository->save($product);
+
+        return $tag;
+    }
+
+    /**
+     * @param int $productId
+     * @param int $tagId
+     */
+    public function removeTag($productId, $tagId)
+    {
+        $product = $this->getProductAndThrowExceptionIfMissing($productId);
+        $tag = $this->getTagAndThrowExceptionIfMissing($tagId);
+
+        $product->removeTag($tag);
 
         $this->productRepository->save($product);
     }

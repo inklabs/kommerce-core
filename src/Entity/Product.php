@@ -333,7 +333,12 @@ class Product implements EntityInterface
 
     public function addTag(Tag $tag)
     {
-        $this->tags[] = $tag;
+        $this->tags->add($tag);
+    }
+
+    public function removeTag(Tag $tag)
+    {
+        return $this->tags->removeElement($tag);
     }
 
     public function getTags()

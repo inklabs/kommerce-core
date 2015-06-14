@@ -77,8 +77,9 @@ class ProductTest extends Helper\DoctrineTestCase
 
         $productId = 1;
         $tagEncodedId = '1';
-        $this->productService->addTag($productId, $tagEncodedId);
+        $tag = $this->productService->addTag($productId, $tagEncodedId);
 
+        $this->assertTrue($tag instanceof Entity\Tag);
         $this->assertTrue($product->getTags()[0] instanceof Entity\Tag);
     }
 
@@ -106,6 +107,21 @@ class ProductTest extends Helper\DoctrineTestCase
         $productId = 1;
         $tagEncodedId = '1';
         $this->productService->addTag($productId, $tagEncodedId);
+    }
+
+    public function testRemoveTag()
+    {
+        $tag = $this->getDummyTag();
+        $tag->setId(1);
+
+        $product = $this->getDummyProduct();
+        $product->setId(1);
+        $product->addTag($tag);
+
+        $this->productRepository->setReturnValue($product);
+        $this->imageRepository->setReturnValue($tag);
+
+        $this->productService->removeTag($product->getId(), $tag->getId());
     }
 
     public function testRemoveImage()

@@ -64,6 +64,19 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($product->getView() instanceof View\Product);
     }
 
+    public function testRemoveTag()
+    {
+        $product = new Product;
+        $tag = new Tag;
+
+        $product->addTag($tag);
+        $product->addTag(new Tag);
+        $this->assertSame(2, count($product->getTags()));
+
+        $product->removeTag($tag);
+        $this->assertSame(1, count($product->getTags()));
+    }
+
     public function testRemoveImage()
     {
         $product = new Product;
