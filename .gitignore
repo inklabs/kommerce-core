@@ -1,5 +1,4 @@
 vendor
-composer.lock
 coverage_report
 .idea/*.iws
 .idea/workspace.xml

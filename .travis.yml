@@ -4,7 +4,7 @@ php:
 
 before_script:
   - composer self-update
-  - composer update --prefer-dist
+  - composer install --prefer-dist
 
 script:
   - vendor/bin/phpcs --standard=PSR2 src/ tests/
