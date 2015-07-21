@@ -124,21 +124,40 @@ class Product extends AbstractService
         return $this->productRepository->getRelatedProductsByIds($productIds, $tagIds, $limit);
     }
 
+    /**
+     * @param Entity\Tag $tag
+     * @param Entity\Pagination $pagination
+     * @return Entity\Product[]
+     */
     public function getProductsByTag(Entity\Tag $tag, Entity\Pagination & $pagination = null)
     {
         return $this->productRepository->getProductsByTagId($tag->getId(), $pagination);
     }
 
+    /**
+     * @param int[] $productIds
+     * @param Entity\Pagination $pagination
+     * @return Entity\Product[]
+     */
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
         return $this->productRepository->getProductsByIds($productIds, $pagination);
     }
 
+    /**
+     * @param int[] $productIds
+     * @param Entity\Pagination $pagination
+     * @return Entity\Product[]
+     */
     public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
         return $this->productRepository->getAllProductsByIds($productIds, $pagination);
     }
 
+    /**
+     * @param int $limit
+     * @return Entity\Product[]
+     */
     public function getRandomProducts($limit)
     {
         return $this->productRepository->getRandomProducts($limit);

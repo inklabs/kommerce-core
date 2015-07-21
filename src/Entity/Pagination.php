@@ -48,17 +48,15 @@ class Pagination
         return $this->isTotalIncluded;
     }
 
-    /**
-     * @return \stdClass
-     */
     public function getData()
     {
-        $obj = new \stdClass;
-        $obj->maxResults      = $this->maxResults;
-        $obj->page            = $this->page;
-        $obj->total           = $this->total;
-        $obj->isTotalIncluded = $this->isTotalIncluded;
-        return $obj;
+        $pagination = new \stdClass;
+        $pagination->maxResults      = $this->maxResults;
+        $pagination->page            = $this->page;
+        $pagination->total           = $this->total;
+        $pagination->isTotalIncluded = $this->isTotalIncluded;
+
+        return $pagination;
     }
 
     public function getView()

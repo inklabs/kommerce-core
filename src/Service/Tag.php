@@ -71,11 +71,21 @@ class Tag extends AbstractService
         return $tag;
     }
 
+    /**
+     * @param string $queryString
+     * @param Entity\Pagination $pagination
+     * @return Entity\Tag[]
+     */
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
     {
         return $this->tagRepository->getAllTags($queryString, $pagination);
     }
 
+    /**
+     * @param int[] $tagIds
+     * @param Entity\Pagination $pagination
+     * @return Entity\Tag[]
+     */
     public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
         return $this->tagRepository->getTagsByIds($tagIds, $pagination);

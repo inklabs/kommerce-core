@@ -17,13 +17,13 @@ interface CartInterface
 
     /**
      * @param int $userId
-     * @return Entity\Cart
+     * @return Entity\Cart|null
      */
     public function findByUser($userId);
 
     /**
      * @param string $sessionId
-     * @return Entity\Cart
+     * @return Entity\Cart|null
      */
     public function findBySession($sessionId);
 }

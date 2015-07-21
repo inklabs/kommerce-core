@@ -23,6 +23,11 @@ class AttributeValue extends AbstractService
         return $this->attributeValueRepository->find($id);
     }
 
+    /**
+     * @param int[] $attributeValueIds
+     * @param Entity\Pagination $pagination
+     * @return Entity\AttributeValue[]
+     */
     public function getAttributeValuesByIds($attributeValueIds, Entity\Pagination & $pagination = null)
     {
         return $this->attributeValueRepository->getAttributeValuesByIds($attributeValueIds, $pagination);
