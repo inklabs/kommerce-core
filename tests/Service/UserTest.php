@@ -2,8 +2,6 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUser;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserLogin;
@@ -51,15 +49,7 @@ class UserTest extends Helper\DoctrineTestCase
     public function testFind()
     {
         $viewUser = $this->userService->find(1);
-        $this->assertTrue($viewUser instanceof View\User);
-    }
-
-    public function testFindNotFound()
-    {
-        $this->userRepository->setReturnValue(null);
-
-        $viewUser = $this->userService->find(0);
-        $this->assertSame(null, $viewUser);
+        $this->assertTrue($viewUser instanceof Entity\User);
     }
 
     public function testUserLogin()
@@ -72,7 +62,7 @@ class UserTest extends Helper\DoctrineTestCase
         $loginUser = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
 
         $this->assertSame(1, $user->getTotalLogins());
-        $this->assertTrue($loginUser instanceof View\User);
+        $this->assertTrue($loginUser instanceof Entity\User);
     }
 
     /**
@@ -83,8 +73,7 @@ class UserTest extends Helper\DoctrineTestCase
     public function testUserLoginWithWrongEmail()
     {
         $this->userRepository->setReturnValue(null);
-
-        $loginUser = $this->userService->login('zzz@example.com', 'xxxx', '127.0.0.1');
+        $this->userService->login('zzz@example.com', 'xxxx', '127.0.0.1');
     }
 
     /**
@@ -98,7 +87,7 @@ class UserTest extends Helper\DoctrineTestCase
         $user->setStatus(Entity\User::STATUS_INACTIVE);
         $this->userRepository->setReturnValue($user);
 
-        $loginUser = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
+        $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
     }
 
     /**
@@ -111,18 +100,18 @@ class UserTest extends Helper\DoctrineTestCase
         $user = $this->getDummyUser();
         $this->userRepository->setReturnValue($user);
 
-        $loginUser = $this->userService->login('test@example.com', 'zzz', '127.0.0.1');
+        $this->userService->login('test@example.com', 'zzz', '127.0.0.1');
     }
 
     public function testGetAllUsers()
     {
         $users = $this->userService->getAllUsers();
-        $this->assertTrue($users[0] instanceof View\User);
+        $this->assertTrue($users[0] instanceof Entity\User);
     }
 
     public function testAllGetUsersByIds()
     {
         $users = $this->userService->getAllUsersByIds([1]);
-        $this->assertTrue($users[0] instanceof View\User);
+        $this->assertTrue($users[0] instanceof Entity\User);
     }
 }

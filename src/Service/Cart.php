@@ -6,7 +6,6 @@ use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Payment\Payment;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 
 class Cart extends AbstractService
@@ -73,34 +72,20 @@ class Cart extends AbstractService
 
     /**
      * @param string $sessionId
-     * @return View\Cart
-     * @throws \LogicException
+     * @return Entity\Cart
      */
     public function findBySession($sessionId)
     {
-        $cart = $this->cartRepository->findBySession($sessionId);
-
-        if ($cart === null) {
-            throw new \LogicException('Cart not found');
-        }
-
-        return $cart->getView()->export();
+        return $this->cartRepository->findBySession($sessionId);
     }
 
     /**
      * @param string $userId
-     * @return View\Cart
-     * @throws \LogicException
+     * @return Entity\Cart
      */
     public function findByUser($userId)
     {
-        $cart = $this->cartRepository->findByUser($userId);
-
-        if ($cart === null) {
-            throw new \LogicException('Cart not found');
-        }
-
-        return $cart->getView()->export();
+        return $this->cartRepository->findByUser($userId);
     }
 
     /**
@@ -155,7 +140,7 @@ class Cart extends AbstractService
     /**
      * @param int $userId
      * @param string $sessionId
-     * @return View\Cart
+     * @return Entity\Cart
      */
     public function create($userId, $sessionId)
     {
@@ -170,7 +155,7 @@ class Cart extends AbstractService
 
         $this->cartRepository->create($cart);
 
-        return $cart->getView()->export();
+        return $cart;
     }
 
     /**
@@ -323,7 +308,6 @@ class Cart extends AbstractService
     /**
      * @param int $cartId
      * @param int $cartItemIndex
-     * @throws \LogicException
      */
     public function deleteItem($cartId, $cartItemIndex)
     {
@@ -335,16 +319,11 @@ class Cart extends AbstractService
 
     /**
      * @param int $cartId
-     * @return View\Cart
-     * @throws \LogicException
+     * @return Entity\Cart
      */
     public function getCartFull($cartId)
     {
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
-
-        return $cart->getView()
-            ->withAllData($this->pricing)
-            ->export();
+        return $this->getCartAndThrowExceptionIfCartNotFound($cartId);
     }
 
     /**

@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
 
 class Order extends AbstractService
 {
@@ -23,21 +22,13 @@ class Order extends AbstractService
 
     /**
      * @param int $id
-     * @return View\Order|null
+     * @return Entity\Order|null
      */
     public function find($id)
     {
         $order = $this->orderRepository->find($id);
-
-        if ($order === null) {
-            return null;
-        }
-
         $this->loadProductTags($order);
-
-        return $order->getView()
-            ->withAllData()
-            ->export();
+        return $order;
     }
 
     private function loadProductTags(Entity\Order $order)
@@ -51,33 +42,15 @@ class Order extends AbstractService
 
     public function getLatestOrders(Entity\Pagination & $pagination = null)
     {
-        $orders = $this->orderRepository->getLatestOrders($pagination);
-        return $this->getViewOrders($orders);
-    }
-
-    /**
-     * @param Entity\Order[] $orders
-     * @return View\Order[]
-     */
-    private function getViewOrders($orders)
-    {
-        $viewOrders = [];
-        foreach ($orders as $order) {
-            $viewOrders[] = $order->getView()
-                ->withUser()
-                ->export();
-        }
-
-        return $viewOrders;
+        return $this->orderRepository->getLatestOrders($pagination);
     }
 
     /**
      * @param int $userId
-     * @return View\Order[]
+     * @return Entity\Order[]
      */
     public function getOrdersByUserId($userId)
     {
-        $orders = $this->orderRepository->getOrdersByUserId($userId);
-        return $this->getViewOrders($orders);
+        return $this->orderRepository->getOrdersByUserId($userId);
     }
 }

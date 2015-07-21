@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeAttributeValue;
 
@@ -23,7 +22,7 @@ class AttributeValueTest extends Helper\DoctrineTestCase
     public function testFind()
     {
         $attributeValue = $this->attributeValueService->find(1);
-        $this->assertTrue($attributeValue instanceof View\AttributeValue);
+        $this->assertTrue($attributeValue instanceof Entity\AttributeValue);
     }
 
     public function testFindMissing()
@@ -37,6 +36,6 @@ class AttributeValueTest extends Helper\DoctrineTestCase
     public function testGetAttributeValuesByIds()
     {
         $attributeValues = $this->attributeValueService->getAttributeValuesByIds([1]);
-        $this->assertTrue($attributeValues[0] instanceof View\AttributeValue);
+        $this->assertTrue($attributeValues[0] instanceof Entity\AttributeValue);
     }
 }

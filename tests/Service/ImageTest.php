@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeImage;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProduct;
@@ -67,7 +66,7 @@ class ImageTest extends Helper\DoctrineTestCase
     public function testFind()
     {
         $image = $this->imageService->find(1);
-        $this->assertTrue($image instanceof View\Image);
+        $this->assertTrue($image instanceof Entity\Image);
     }
 
     public function testFindMissing()

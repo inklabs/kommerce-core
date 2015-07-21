@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
 use inklabs\kommerce\EntityRepository;
 
 class CatalogPromotion extends AbstractService
@@ -29,67 +28,38 @@ class CatalogPromotion extends AbstractService
 
     /**
      * @param int $id
-     * @return View\CatalogPromotion|null
+     * @return Entity\CatalogPromotion|null
      */
     public function find($id)
     {
-        $catalogPromotion = $this->catalogPromotionRepository->find($id);
-
-        if ($catalogPromotion === null) {
-            return null;
-        }
-
-        return $catalogPromotion->getView()
-            ->export();
+        return $this->catalogPromotionRepository->find($id);
     }
 
     /**
-     * @return View\CatalogPromotion[]
+     * @return Entity\CatalogPromotion[]
      */
     public function findAll()
     {
-        $catalogPromotions = $this->catalogPromotionRepository->findAll();
-        return $this->getViewCatalogPromotions($catalogPromotions);
+        return $this->catalogPromotionRepository->findAll();
     }
 
     /**
      * @param string $queryString
      * @param Entity\Pagination $pagination
-     * @return View\CatalogPromotion[]
+     * @return Entity\CatalogPromotion[]
      */
     public function getAllCatalogPromotions($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $catalogPromotions = $this->catalogPromotionRepository
-            ->getAllCatalogPromotions($queryString, $pagination);
-
-        return $this->getViewCatalogPromotions($catalogPromotions);
+        return $this->catalogPromotionRepository->getAllCatalogPromotions($queryString, $pagination);
     }
 
     /**
      * @param int[] $catalogPromotionIds
      * @param Entity\Pagination $pagination
-     * @return View\CatalogPromotion[]
+     * @return Entity\CatalogPromotion[]
      */
     public function getAllCatalogPromotionsByIds($catalogPromotionIds, Entity\Pagination & $pagination = null)
     {
-        $catalogPromotions = $this->catalogPromotionRepository
-            ->getAllCatalogPromotionsByIds($catalogPromotionIds, $pagination);
-
-        return $this->getViewCatalogPromotions($catalogPromotions);
-    }
-
-    /**
-     * @param Entity\CatalogPromotion[] $catalogPromotions
-     * @return View\CatalogPromotion[]
-     */
-    private function getViewCatalogPromotions($catalogPromotions)
-    {
-        $viewCatalogPromotions = [];
-        foreach ($catalogPromotions as $catalogPromotion) {
-            $viewCatalogPromotions[] = $catalogPromotion->getView()
-                ->export();
-        }
-
-        return $viewCatalogPromotions;
+        return $this->catalogPromotionRepository->getAllCatalogPromotionsByIds($catalogPromotionIds, $pagination);
     }
 }

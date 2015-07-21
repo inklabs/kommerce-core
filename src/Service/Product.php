@@ -3,14 +3,9 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
 
 class Product extends AbstractService
 {
-    /** @var Lib\Pricing */
-    private $pricing;
-
     /** @var EntityRepository\ProductInterface */
     private $productRepository;
 
@@ -23,10 +18,8 @@ class Product extends AbstractService
     public function __construct(
         EntityRepository\ProductInterface $productRepository,
         EntityRepository\TagInterface $tagRepository,
-        EntityRepository\ImageInterface $imageRepository,
-        Lib\Pricing $pricing
+        EntityRepository\ImageInterface $imageRepository
     ) {
-        $this->pricing = $pricing;
         $this->productRepository = $productRepository;
         $this->tagRepository = $tagRepository;
         $this->imageRepository = $imageRepository;
@@ -46,19 +39,11 @@ class Product extends AbstractService
 
     /**
      * @param int $id
-     * @return View\Product|null
+     * @return Entity\Product|null
      */
     public function find($id)
     {
-        $product = $this->productRepository->find($id);
-
-        if ($product === null) {
-            return null;
-        }
-
-        return $product->getView()
-            ->withAllData($this->pricing)
-            ->export();
+        return $this->productRepository->find($id);
     }
 
     /**
@@ -112,89 +97,51 @@ class Product extends AbstractService
 
     public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository->getAllProducts($queryString, $pagination);
-        return $this->getViewProducts($products);
+        return $this->productRepository->getAllProducts($queryString, $pagination);
     }
 
     /**
-     * @param View\Product|View\Product[] $products
+     * @param Entity\Product|Entity\Product[] $products
      * @param int $limit
-     * @return View\Product[]
+     * @return Entity\Product[]
      */
     public function getRelatedProducts($products, $limit = 12)
     {
         if (! is_array($products)) {
             $products = [$products];
         }
+        /** @var Entity\Product[] $products */
 
         $productIds = [];
         $tagIds = [];
         foreach ($products as $product) {
-            $productIds[] = $product->id;
-            foreach ($product->tags as $tag) {
-                $tagIds[] = $tag->id;
+            $productIds[] = $product->getId();
+            foreach ($product->getTags() as $tag) {
+                $tagIds[] = $tag->getId();
             }
         }
 
-        $products = $this->productRepository->getRelatedProductsByIds($productIds, $tagIds, $limit);
-
-        return $this->getViewProductsWithPrice($products);
+        return $this->productRepository->getRelatedProductsByIds($productIds, $tagIds, $limit);
     }
 
-    public function getProductsByTag(View\Tag $tag, Entity\Pagination & $pagination = null)
+    public function getProductsByTag(Entity\Tag $tag, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository->getProductsByTagId($tag->id, $pagination);
-        return $this->getViewProductsWithPrice($products);
+        return $this->productRepository->getProductsByTagId($tag->getId(), $pagination);
     }
 
     public function getProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository->getProductsByIds($productIds, $pagination);
-
-        return $this->getViewProductsWithPrice($products);
+        return $this->productRepository->getProductsByIds($productIds, $pagination);
     }
 
     public function getAllProductsByIds($productIds, Entity\Pagination & $pagination = null)
     {
-        $products = $this->productRepository->getAllProductsByIds($productIds, $pagination);
-        return $this->getViewProductsWithPrice($products);
+        return $this->productRepository->getAllProductsByIds($productIds, $pagination);
     }
 
     public function getRandomProducts($limit)
     {
-        $products = $this->productRepository->getRandomProducts($limit);
-        return $this->getViewProductsWithPrice($products);
-    }
-
-    /**
-     * @param Entity\Product[] $products
-     * @return View\Product[]
-     */
-    private function getViewProductsWithPrice($products)
-    {
-        $viewProducts = [];
-        foreach ($products as $product) {
-            $viewProducts[] = $product->getView()
-                ->withPrice($this->pricing)
-                ->export();
-        }
-
-        return $viewProducts;
-    }
-
-    /**
-     * @param Entity\Product[] $products
-     * @return View\Product[]
-     */
-    private function getViewProducts($products)
-    {
-        $viewProducts = [];
-        foreach ($products as $product) {
-            $viewProducts[] = $product->getView()
-                ->export();
-        }
-
-        return $viewProducts;
+        return $this->productRepository->getRandomProducts($limit);
     }
 
     /**

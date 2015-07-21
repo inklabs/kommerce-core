@@ -66,7 +66,7 @@ modules in this project:
 * Service
     - These are the interactors that manage the choreography between entities and the database via
       an EntityRepository. There is heavy dependency injection into the constructors in this layer.
-      Services know about Entities and always return a View object.
+      Services always return Entity objects.
 
       ```php
       $productService = new Service\Product(
@@ -75,10 +75,10 @@ modules in this project:
       );
 
       $productId = 1;
-      $viewProduct = $productService->find($productId);
-      $viewProduct->sku = 'NEW-SKU';
+      $product = $productService->find($productId);
+      $product->setSku('NEW-SKU');
 
-      $productService->edit($productId, $viewProduct);
+      $productService->edit($product);
       ```
 
 * Lib

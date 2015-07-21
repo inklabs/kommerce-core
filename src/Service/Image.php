@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\EntityRepository;
-use inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 
 class Image extends AbstractService
@@ -55,18 +54,10 @@ class Image extends AbstractService
 
     /**
      * @param int $id
-     * @return View\Image|null
+     * @return Entity\Image|null
      */
     public function find($id)
     {
-        $image = $this->imageRepository->find($id);
-
-        if ($image === null) {
-            return null;
-        }
-
-        return $image->getView()
-            ->withAllData()
-            ->export();
+        return $this->imageRepository->find($id);
     }
 }

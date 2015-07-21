@@ -2,9 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTag;
-use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
 
 class TagTest extends Helper\DoctrineTestCase
@@ -18,7 +16,7 @@ class TagTest extends Helper\DoctrineTestCase
     public function setUp()
     {
         $this->tagRepository = new FakeTag;
-        $this->tagService = new Tag($this->tagRepository, new Lib\Pricing);
+        $this->tagService = new Tag($this->tagRepository);
     }
 
     public function testCreate()
@@ -42,29 +40,13 @@ class TagTest extends Helper\DoctrineTestCase
     public function testFind()
     {
         $tag = $this->tagService->find(1);
-        $this->assertTrue($tag instanceof View\Tag);
-    }
-
-    public function testFindReturnsNull()
-    {
-        $this->tagRepository->setReturnValue(null);
-
-        $tag = $this->tagService->find(1);
-        $this->assertSame(null, $tag);
+        $this->assertTrue($tag instanceof Entity\Tag);
     }
 
     public function testFindOneByCode()
     {
         $tag = $this->tagService->findOneByCode('TT1');
-        $this->assertTrue($tag instanceof View\Tag);
-    }
-
-    public function testFindOneByCodeReturnsNull()
-    {
-        $this->tagRepository->setReturnValue(null);
-
-        $tag = $this->tagService->findOneByCode('TT');
-        $this->assertSame(null, $tag);
+        $this->assertTrue($tag instanceof Entity\Tag);
     }
 
     public function testGetTagAndThrowExceptionIfMissing()
@@ -80,39 +62,30 @@ class TagTest extends Helper\DoctrineTestCase
     public function testGetTagAndThrowExceptionIfMissingThrows()
     {
         $this->tagRepository->setReturnValue(null);
-
         $this->tagService->getTagAndThrowExceptionIfMissing(1);
     }
 
     public function testFindSimple()
     {
         $tag = $this->tagService->findSimple(1);
-        $this->assertTrue($tag instanceof View\Tag);
-    }
-
-    public function testFindSimpleReturnsNull()
-    {
-        $this->tagRepository->setReturnValue(null);
-
-        $tag = $this->tagService->findSimple(1);
-        $this->assertSame(null, $tag);
+        $this->assertTrue($tag instanceof Entity\Tag);
     }
 
     public function testGetAllTags()
     {
         $tags = $this->tagService->getAllTags();
-        $this->assertTrue($tags[0] instanceof View\Tag);
+        $this->assertTrue($tags[0] instanceof Entity\Tag);
     }
 
     public function testGetTagsByIds()
     {
         $tags = $this->tagService->getTagsByIds([1]);
-        $this->assertTrue($tags[0] instanceof View\Tag);
+        $this->assertTrue($tags[0] instanceof Entity\Tag);
     }
 
     public function testAllGetTagsByIds()
     {
         $tags = $this->tagService->getAllTagsByIds([1]);
-        $this->assertTrue($tags[0] instanceof View\Tag);
+        $this->assertTrue($tags[0] instanceof Entity\Tag);
     }
 }

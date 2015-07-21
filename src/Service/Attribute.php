@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
 
 class Attribute extends AbstractService
 {
@@ -29,18 +28,10 @@ class Attribute extends AbstractService
 
     /**
      * @param int $id
-     * @return View\Attribute|null
+     * @return Entity\Attribute|null
      */
     public function find($id)
     {
-        /** @var Entity\Attribute $attribute */
-        $attribute = $this->attributeRepository->find($id);
-
-        if ($attribute === null) {
-            return null;
-        }
-
-        return $attribute->getView()
-            ->export();
+        return $this->attributeRepository->find($id);
     }
 }

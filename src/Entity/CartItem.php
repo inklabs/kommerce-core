@@ -49,8 +49,8 @@ class CartItem implements EntityInterface
         $cartItemOptionProducts = $this->getCartItemOptionProducts();
 
         $this->cartItemOptionProducts = new ArrayCollection;
-        foreach ($cartItemOptionProducts as $cartitemOptionProduct) {
-            $this->addCartItemOptionProduct(clone $cartitemOptionProduct);
+        foreach ($cartItemOptionProducts as $cartItemOptionProduct) {
+            $this->addCartItemOptionProduct(clone $cartItemOptionProduct);
         }
     }
 
@@ -59,8 +59,8 @@ class CartItem implements EntityInterface
         $cartItemOptionValues = $this->getCartItemOptionValues();
 
         $this->cartItemOptionValues = new ArrayCollection;
-        foreach ($cartItemOptionValues as $cartitemOptionValue) {
-            $this->addCartItemOptionValue(clone $cartitemOptionValue);
+        foreach ($cartItemOptionValues as $cartItemOptionValue) {
+            $this->addCartItemOptionValue(clone $cartItemOptionValue);
         }
     }
 
@@ -69,8 +69,8 @@ class CartItem implements EntityInterface
         $cartItemTextOptionValues = $this->getCartItemTextOptionValues();
 
         $this->cartItemTextOptionValues = new ArrayCollection;
-        foreach ($cartItemTextOptionValues as $cartitemTextOptionValue) {
-            $this->addCartItemTextOptionValue(clone $cartitemTextOptionValue);
+        foreach ($cartItemTextOptionValues as $cartItemTextOptionValue) {
+            $this->addCartItemTextOptionValue(clone $cartItemTextOptionValue);
         }
     }
 

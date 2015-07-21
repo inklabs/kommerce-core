@@ -97,7 +97,7 @@ class CartItem implements ViewInterface
         return $this;
     }
 
-    public function withAllData(Lib\PricingInterface $pricing)
+    public function withAllData(Lib\Pricing $pricing)
     {
         return $this
             ->withProduct($pricing)

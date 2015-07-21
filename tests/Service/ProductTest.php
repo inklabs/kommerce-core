@@ -3,8 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Lib;
-use inklabs\kommerce\View;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProduct;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTag;
@@ -33,8 +31,7 @@ class ProductTest extends Helper\DoctrineTestCase
         $this->productService = new Product(
             $this->productRepository,
             $this->tagRepository,
-            $this->imageRepository,
-            new Lib\Pricing
+            $this->imageRepository
         );
     }
 
@@ -59,15 +56,7 @@ class ProductTest extends Helper\DoctrineTestCase
     public function testFind()
     {
         $product = $this->productService->find(1);
-        $this->assertTrue($product instanceof View\Product);
-    }
-
-    public function testFindMissing()
-    {
-        $this->productRepository->setReturnValue(null);
-
-        $product = $this->productService->find(1);
-        $this->assertSame(null, $product);
+        $this->assertTrue($product instanceof Entity\Product);
     }
 
     public function testAddTag()
@@ -152,7 +141,7 @@ class ProductTest extends Helper\DoctrineTestCase
     public function testGetAllProducts()
     {
         $products = $this->productService->getAllProducts();
-        $this->assertTrue($products[0] instanceof View\Product);
+        $this->assertTrue($products[0] instanceof Entity\Product);
     }
 
     public function testGetRelatedProducts()
@@ -160,35 +149,31 @@ class ProductTest extends Helper\DoctrineTestCase
         $product = new Entity\Product;
         $product->addTag(new Entity\Tag);
 
-        $productView = $product->getView()
-            ->withTags()
-            ->export();
-
-        $products = $this->productService->getRelatedProducts($productView);
-        $this->assertTrue($products[0] instanceof View\Product);
+        $products = $this->productService->getRelatedProducts($product);
+        $this->assertTrue($products[0] instanceof Entity\Product);
     }
 
     public function testGetProductsByTag()
     {
-        $products = $this->productService->getProductsByTag(new View\Tag(new Entity\Tag));
-        $this->assertTrue($products[0] instanceof View\Product);
+        $products = $this->productService->getProductsByTag(new Entity\Tag);
+        $this->assertTrue($products[0] instanceof Entity\Product);
     }
 
     public function testGetProductsByIds()
     {
         $products = $this->productService->getProductsByIds([1]);
-        $this->assertTrue($products[0] instanceof View\Product);
+        $this->assertTrue($products[0] instanceof Entity\Product);
     }
 
     public function testGetAllProductsByIds()
     {
         $products = $this->productService->getAllProductsByIds([1]);
-        $this->assertTrue($products[0] instanceof View\Product);
+        $this->assertTrue($products[0] instanceof Entity\Product);
     }
 
     public function testGetRandomProducts()
     {
         $products = $this->productService->getRandomProducts(1);
-        $this->assertTrue($products[0] instanceof View\Product);
+        $this->assertTrue($products[0] instanceof Entity\Product);
     }
 }

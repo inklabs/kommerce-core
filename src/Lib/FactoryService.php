@@ -2,25 +2,20 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Service;
-use inklabs\kommerce\Lib;
 
 class FactoryService
 {
-    /** @var Lib\CartCalculatorInterface */
+    /** @var CartCalculatorInterface */
     protected $cartCalculator;
-
-    /** @var Lib\PricingInterface */
-    protected $pricing;
 
     /** @var FactoryRepository */
     protected $factoryRepository;
 
     public function __construct(
         FactoryRepository $factoryRepository,
-        Lib\CartCalculatorInterface $cartCalculator
+        CartCalculatorInterface $cartCalculator
     ) {
         $this->cartCalculator = $cartCalculator;
-        $this->pricing = $cartCalculator->getPricing();
         $this->factoryRepository = $factoryRepository;
     }
 
@@ -31,7 +26,7 @@ class FactoryService
      */
     public static function getInstance(
         FactoryRepository $factoryRepository,
-        Lib\CartCalculatorInterface $cartCalculator
+        CartCalculatorInterface $cartCalculator
     ) {
         static $factoryService = null;
 
@@ -180,8 +175,7 @@ class FactoryService
         return new Service\Product(
             $this->factoryRepository->getProduct(),
             $this->factoryRepository->getTag(),
-            $this->factoryRepository->getImage(),
-            $this->pricing
+            $this->factoryRepository->getImage()
         );
     }
 
@@ -190,10 +184,7 @@ class FactoryService
      */
     public function getTag()
     {
-        return new Service\Tag(
-            $this->factoryRepository->getTag(),
-            $this->pricing
-        );
+        return new Service\Tag($this->factoryRepository->getTag());
     }
 
     /**

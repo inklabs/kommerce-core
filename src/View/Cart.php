@@ -75,7 +75,7 @@ class Cart implements ViewInterface
         return $this;
     }
 
-    public function withCartItems(Lib\CartCalculatorInterface $cartCalculator)
+    public function withCartItems(Lib\CartCalculator $cartCalculator)
     {
         foreach ($this->cart->getCartItems() as $cartItemIndex => $cartItem) {
             $this->cartItems[$cartItemIndex] = $cartItem->getView()
@@ -96,7 +96,7 @@ class Cart implements ViewInterface
         return $this;
     }
 
-    public function withAllData(Lib\CartCalculatorInterface $cartCalculator)
+    public function withAllData(Lib\CartCalculator $cartCalculator)
     {
         return $this
             ->withCartTotal($cartCalculator)

@@ -2,21 +2,15 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
 use inklabs\kommerce\EntityRepository;
 
 class Tag extends AbstractService
 {
-    /** @var Lib\PricingInterface */
-    private $pricing;
-
     /** @var EntityRepository\TagInterface */
     private $tagRepository;
 
-    public function __construct(EntityRepository\TagInterface $tagRepository, Lib\PricingInterface $pricing)
+    public function __construct(EntityRepository\TagInterface $tagRepository)
     {
-        $this->pricing = $pricing;
         $this->tagRepository = $tagRepository;
     }
 
@@ -34,54 +28,31 @@ class Tag extends AbstractService
 
     /**
      * @param int $id
-     * @return View\Tag|null
+     * @return Entity\Tag|null
      */
     public function find($id)
     {
-        $entityTag = $this->tagRepository->find($id);
-
-        if ($entityTag === null) {
-            return null;
-        }
-
-        return $entityTag->getView()
-            ->withAllData($this->pricing)
-            ->export();
+        return $this->tagRepository->find($id);
     }
 
     /**
      * @param string $code
-     * @return View\Tag|null
+     * @return Entity\Tag|null
      */
     public function findOneByCode($code)
     {
-        $entityTag = $this->tagRepository->findOneBy([
+        return $this->tagRepository->findOneBy([
             'code' => $code
         ]);
-
-        if ($entityTag === null) {
-            return null;
-        }
-
-        return $entityTag->getView()
-            ->withAllData($this->pricing)
-            ->export();
     }
 
     /**
      * @param int $id
-     * @return View\Tag|null
+     * @return Entity\Tag|null
      */
     public function findSimple($id)
     {
-        $entityTag = $this->tagRepository->find($id);
-
-        if ($entityTag === null) {
-            return null;
-        }
-
-        return $entityTag->getView()
-            ->export();
+        return $this->tagRepository->find($id);
     }
 
     /**
@@ -102,34 +73,16 @@ class Tag extends AbstractService
 
     public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $tags = $this->tagRepository->getAllTags($queryString, $pagination);
-        return $this->getViewTags($tags);
+        return $this->tagRepository->getAllTags($queryString, $pagination);
     }
 
     public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
-        $tags = $this->tagRepository->getTagsByIds($tagIds, $pagination);
-        return $this->getViewTags($tags);
+        return $this->tagRepository->getTagsByIds($tagIds, $pagination);
     }
 
     public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null)
     {
-        $tags = $this->tagRepository->getAllTagsByIds($tagIds, $pagination);
-        return $this->getViewTags($tags);
-    }
-
-    /**
-     * @param Entity\Tag[] $tags
-     * @return View\Tag[]
-     */
-    private function getViewTags($tags)
-    {
-        $viewTags = [];
-        foreach ($tags as $tag) {
-            $viewTags[] = $tag->getView()
-                ->export();
-        }
-
-        return $viewTags;
+        return $this->tagRepository->getAllTagsByIds($tagIds, $pagination);
     }
 }

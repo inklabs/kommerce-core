@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository;
-use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 
 class User extends AbstractService
@@ -40,7 +39,7 @@ class User extends AbstractService
      * @param string $email
      * @param string $password
      * @param string $remoteIp
-     * @return View\User
+     * @return Entity\User
      * @throws UserLoginException
      */
     public function login($email, $password, $remoteIp)
@@ -65,10 +64,7 @@ class User extends AbstractService
 
         $this->recordLogin($email, $remoteIp, Entity\UserLogin::RESULT_SUCCESS, $user);
 
-        return $user->getView()
-            ->withRoles()
-            ->withTokens()
-            ->export();
+        return $user;
     }
 
     /**
@@ -93,50 +89,25 @@ class User extends AbstractService
 
     /**
      * @param int $id
-     * @return View\User|null
+     * @return Entity\User|null
      */
     public function find($id)
     {
-        $entityUser = $this->userRepository->find($id);
-
-        if ($entityUser === null || ! $entityUser->isActive()) {
-            return null;
-        }
-
-        return $entityUser->getView()
-            ->withAllData()
-            ->export();
+        return $this->userRepository->find($id);
     }
 
     /**
      * @param string $queryString
      * @param Entity\Pagination $pagination
-     * @return View\User[]
+     * @return Entity\User[]
      */
     public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
     {
-        $users = $this->userRepository->getAllUsers($queryString, $pagination);
-        return $this->getViewUsers($users);
+        return $this->userRepository->getAllUsers($queryString, $pagination);
     }
 
     public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null)
     {
-        $users = $this->userRepository->getAllUsersByIds($userIds, $pagination);
-        return $this->getViewUsers($users);
-    }
-
-    /**
-     * @param Entity\User[] $users
-     * @return View\User[]
-     */
-    private function getViewUsers($users)
-    {
-        $viewUsers = [];
-        foreach ($users as $user) {
-            $viewUsers[] = $user->getView()
-                ->export();
-        }
-
-        return $viewUsers;
+        return $this->userRepository->getAllUsersByIds($userIds, $pagination);
     }
 }

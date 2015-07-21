@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Entity\Payment;
@@ -89,38 +88,14 @@ class CartTest extends Helper\DoctrineTestCase
     {
         $this->setupCartService();
         $cart = $this->cartService->findByUser(1);
-        $this->assertTrue($cart instanceof View\Cart);
-    }
-
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Cart not found
-     */
-    public function testFindByUserNotFound()
-    {
-        $this->cartRepository->setReturnValue(null);
-
-        $this->setupCartService();
-        $this->cartService->findByUser(1);
+        $this->assertTrue($cart instanceof Entity\Cart);
     }
 
     public function testFindBySession()
     {
         $this->setupCartService();
         $cart = $this->cartService->findBySession('6is7ujb3crb5ja85gf91g9en62');
-        $this->assertTrue($cart instanceof View\Cart);
-    }
-
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Cart not found
-     */
-    public function testFindBySessionNotFound()
-    {
-        $this->cartRepository->setReturnValue(null);
-
-        $this->setupCartService();
-        $this->cartService->findBySession('6is7ujb3crb5ja85gf91g9en62');
+        $this->assertTrue($cart instanceof Entity\Cart);
     }
 
     public function testAddCouponByCode()
@@ -168,13 +143,13 @@ class CartTest extends Helper\DoctrineTestCase
     public function testCreateWithSession()
     {
         $cart = $this->cartService->create(null, '6is7ujb3crb5ja85gf91g9en62');
-        $this->assertTrue($cart instanceof View\Cart);
+        $this->assertTrue($cart instanceof Entity\Cart);
     }
 
     public function testCreateWithUser()
     {
         $cart = $this->cartService->create(1, null);
-        $this->assertTrue($cart instanceof View\Cart);
+        $this->assertTrue($cart instanceof Entity\Cart);
     }
 
     /**
@@ -184,7 +159,7 @@ class CartTest extends Helper\DoctrineTestCase
     public function testCreateWithNone()
     {
         $cart = $this->cartService->create(null, null);
-        $this->assertTrue($cart instanceof View\Cart);
+        $this->assertTrue($cart instanceof Entity\Cart);
     }
 
     public function testAddItem()
@@ -197,7 +172,7 @@ class CartTest extends Helper\DoctrineTestCase
         $cart = $this->cartService->getCartFull(1);
 
         $this->assertSame(0, $cartItemIndex);
-        $this->assertTrue($cart->cartItems[0] instanceof View\CartItem);
+        $this->assertTrue($cart->getCartItem(0) instanceof Entity\CartItem);
     }
 
     /**
@@ -284,7 +259,7 @@ class CartTest extends Helper\DoctrineTestCase
 
         $cart = $this->cartService->getCartFull($cartId);
 
-        $this->assertSame(2, $cart->cartItems[0]->quantity);
+        $this->assertSame(2, $cart->getCartItem(0)->getQuantity());
     }
 
     public function testDeleteItem()
@@ -297,7 +272,7 @@ class CartTest extends Helper\DoctrineTestCase
 
         $cart = $this->cartService->getCartFull($cartId);
 
-        $this->assertSame([], $cart->cartItems);
+        $this->assertSame(0, count($cart->getCartItems()));
     }
 
     public function testGetItems()
@@ -308,7 +283,7 @@ class CartTest extends Helper\DoctrineTestCase
 
         $cart = $this->cartService->getCartFull($cartId);
 
-        $this->assertTrue($cart->cartItems[0] instanceof View\CartItem);
+        $this->assertTrue($cart->getCartItem(0) instanceof Entity\CartItem);
     }
 
     public function testSetters()
@@ -327,7 +302,7 @@ class CartTest extends Helper\DoctrineTestCase
 
         $cart = $this->cartService->getCartFull($cartId);
 
-        $this->assertTrue($cart->user instanceof View\User);
+        $this->assertTrue($cart->getUser() instanceof Entity\User);
     }
 
     public function testSetSessionId()
