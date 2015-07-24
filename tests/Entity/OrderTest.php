@@ -72,6 +72,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($order->getPayments()[0] instanceof Payment\Payment);
         $this->assertTrue($order->getShippingRate() instanceof ShippingRate);
         $this->assertTrue($order->getTaxRate() instanceof TaxRate);
+        $this->assertTrue($order->getProducts()[0] instanceof Product);
         $this->assertTrue($order->getView() instanceof View\Order);
     }
 }

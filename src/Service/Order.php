@@ -33,10 +33,7 @@ class Order extends AbstractService
 
     private function loadProductTags(Entity\Order $order)
     {
-        $products = [];
-        foreach ($order->getOrderItems() as $orderItem) {
-            $products[] = $orderItem->getProduct();
-        }
+        $products = $order->getProducts();
         $this->productRepository->loadProductTags($products);
     }
 

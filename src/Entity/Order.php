@@ -265,6 +265,23 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
         $this->taxRate = $taxRate;
     }
 
+    /**
+     * @return Product[]
+     */
+    public function getProducts()
+    {
+        $products = [];
+        foreach ($this->getOrderItems() as $orderItem) {
+            $product = $orderItem->getProduct();
+
+            if ($product !== null) {
+                $products[] = $product;
+            }
+        }
+
+        return $products;
+    }
+
     public function getView()
     {
         return new View\Order($this);
