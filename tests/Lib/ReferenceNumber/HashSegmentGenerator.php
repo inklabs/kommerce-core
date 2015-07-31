@@ -25,8 +25,7 @@ class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
         $entity = new FakeEntity;
         $this->hashSegmentGenerator->generate($entity);
 
-        $expected = '963-1273124-1535857';
-        $this->assertSame($expected, $entity->getReferenceNumber());
+        $this->assertSame('963-1273124-1535857', $entity->getReferenceNumber());
     }
 
     public function testGenerateWithCustomSegments()
@@ -35,8 +34,7 @@ class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->hashSegmentGenerator->setSegments([1, 2, 3, 4, 5]);
         $this->hashSegmentGenerator->generate($entity);
 
-        $expected = '9-12-153-3247-12944';
-        $this->assertSame($expected, $entity->getReferenceNumber());
+        $this->assertSame('9-12-153-3247-12944', $entity->getReferenceNumber());
     }
 
     /**

@@ -43,8 +43,7 @@ class SequentialGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $sequentialGenerator->generate($entity);
 
-        $expected = '0000001001';
-        $this->assertSame($expected, $entity->getReferenceNumber());
+        $this->assertSame('0000001001', $entity->getReferenceNumber());
     }
 
     public function testGenerateWithZeroPadLength()
@@ -58,7 +57,6 @@ class SequentialGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $sequentialGenerator->generate($entity);
 
-        $expected = '1001';
-        $this->assertSame($expected, $entity->getReferenceNumber());
+        $this->assertSame('1001', $entity->getReferenceNumber());
     }
 }
