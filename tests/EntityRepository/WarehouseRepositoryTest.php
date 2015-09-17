@@ -61,9 +61,9 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
 
         $losAngeles = new Entity\Point(34.052234, -118.243685);
 
-        $warehouse = $this->warehouseRepository->findByPoint($losAngeles, 1);
+        $warehouses = $this->warehouseRepository->findByPoint($losAngeles, 1);
 
-        $this->assertSame(0, count($warehouse));
+        $this->assertSame(0, count($warehouses));
     }
 
     public function testFindByPoint()
