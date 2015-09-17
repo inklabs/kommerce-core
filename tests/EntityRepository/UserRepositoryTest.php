@@ -104,8 +104,13 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
     {
         $this->setupUser();
 
+        $this->setCountLogger();
+
         $user = $this->userRepository->findOneByEmail('test1@example.com');
+        $user->getRoles()->toArray();
 
         $this->assertTrue($user instanceof Entity\User);
+        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+        // TODO: Get total queries down to 1.
     }
 }
