@@ -2,14 +2,14 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 
 class CatalogPromotion extends AbstractService
 {
-    /** @var EntityRepository\CatalogPromotionInterface */
+    /** @var CatalogPromotionRepositoryInterface */
     private $catalogPromotionRepository;
 
-    public function __construct(EntityRepository\CatalogPromotionInterface $catalogPromotionRepository)
+    public function __construct(CatalogPromotionRepositoryInterface $catalogPromotionRepository)
     {
         $this->catalogPromotionRepository = $catalogPromotionRepository;
     }

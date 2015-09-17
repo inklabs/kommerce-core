@@ -1,15 +1,15 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
 
 class AttributeValue extends AbstractService
 {
-    /** @var EntityRepository\AttributeValue */
+    /** @var AttributeValueRepositoryInterface */
     private $attributeValueRepository;
 
-    public function __construct(EntityRepository\AttributeValueInterface $attributeValueRepository)
+    public function __construct(AttributeValueRepositoryInterface $attributeValueRepository)
     {
         $this->attributeValueRepository = $attributeValueRepository;
     }

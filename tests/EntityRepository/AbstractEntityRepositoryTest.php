@@ -11,12 +11,12 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
         'kommerce:Cart',
     ];
 
-    /** @var User */
+    /** @var UserRepositoryInterface */
     protected $userRepository;
 
     public function setUp()
     {
-        $this->userRepository = $this->repository()->getUser();
+        $this->userRepository = $this->repository()->getUserRepository();
     }
 
     private function getUser()

@@ -1,20 +1,21 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 
 class Order extends AbstractService
 {
-    /** @var EntityRepository\OrderInterface */
+    /** @var OrderRepositoryInterface */
     private $orderRepository;
 
-    /** @var EntityRepository\ProductInterface */
+    /** @var ProductRepositoryInterface */
     private $productRepository;
 
     public function __construct(
-        EntityRepository\OrderInterface $orderRepository,
-        EntityRepository\ProductInterface $productRepository
+        OrderRepositoryInterface $orderRepository,
+        ProductRepositoryInterface $productRepository
     ) {
         $this->orderRepository = $orderRepository;
         $this->productRepository = $productRepository;

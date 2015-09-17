@@ -2,25 +2,27 @@
 namespace inklabs\kommerce\Service\Import;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validation;
 
 class OrderItem
 {
-    /** @var EntityRepository\OrderItemInterface */
+    /** @var OrderItemRepositoryInterface */
     private $orderItemRepository;
 
-    /** @var EntityRepository\ProductInterface */
+    /** @var ProductRepositoryInterface */
     private $productRepository;
 
-    /** @var EntityRepository\OrderInterface */
+    /** @var OrderRepositoryInterface */
     private $orderRepository;
 
     public function __construct(
-        EntityRepository\OrderInterface $orderRepository,
-        EntityRepository\OrderItemInterface $orderItemRepository,
-        EntityRepository\ProductInterface $productRepository
+        OrderRepositoryInterface $orderRepository,
+        OrderItemRepositoryInterface $orderItemRepository,
+        ProductRepositoryInterface $productRepository
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderItemRepository = $orderItemRepository;

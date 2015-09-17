@@ -2,21 +2,22 @@
 namespace inklabs\kommerce\Service\Import;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
+use inklabs\kommerce\EntityRepository\Payment\PaymentRepositoryInterface;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validation;
 
 class Payment
 {
-    /** @var EntityRepository\Payment\PaymentInterface */
+    /** @var PaymentRepositoryInterface */
     private $paymentRepository;
 
-    /** @var EntityRepository\OrderInterface */
+    /** @var OrderRepositoryInterface */
     private $orderRepository;
 
     public function __construct(
-        EntityRepository\OrderInterface $orderRepository,
-        EntityRepository\Payment\PaymentInterface $paymentRepository
+        OrderRepositoryInterface $orderRepository,
+        PaymentRepositoryInterface $paymentRepository
     ) {
         $this->orderRepository = $orderRepository;
         $this->paymentRepository = $paymentRepository;

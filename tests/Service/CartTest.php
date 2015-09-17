@@ -5,40 +5,40 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Entity\Payment;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeCart;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeProduct;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionProduct;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionValue;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeTextOption;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeCoupon;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrder;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeUser;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryCart;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryProduct;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryOptionProduct;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryOptionValue;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryTextOption;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryCoupon;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryOrder;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryUserRepository;
 use LogicException;
 
 class CartTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeCart */
+    /** @var FakeRepositoryCart */
     protected $cartRepository;
 
-    /** @var FakeProduct */
+    /** @var FakeRepositoryProduct */
     protected $productRepository;
 
-    /** @var FakeOptionProduct */
+    /** @var FakeRepositoryOptionProduct */
     protected $optionProductRepository;
 
-    /** @var FakeOptionValue */
+    /** @var FakeRepositoryOptionValue */
     protected $optionValueRepository;
 
-    /** @var FakeTextOption */
+    /** @var FakeRepositoryTextOption */
     protected $textOptionRepository;
 
-    /** @var FakeCoupon */
+    /** @var FakeRepositoryCoupon */
     protected $couponRepository;
 
-    /** @var FakeOrder */
+    /** @var FakeRepositoryOrder */
     protected $orderRepository;
 
-    /** @var FakeUser */
+    /** @var FakeRepositoryUserRepository */
     protected $userRepository;
 
     /** @var Cart */
@@ -46,14 +46,14 @@ class CartTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->cartRepository = new FakeCart;
-        $this->productRepository = new FakeProduct;
-        $this->optionProductRepository = new FakeOptionProduct;
-        $this->optionValueRepository = new FakeOptionValue;
-        $this->textOptionRepository = new FakeTextOption;
-        $this->couponRepository = new FakeCoupon;
-        $this->orderRepository = new FakeOrder;
-        $this->userRepository = new FakeUser;
+        $this->cartRepository = new FakeRepositoryCart;
+        $this->productRepository = new FakeRepositoryProduct;
+        $this->optionProductRepository = new FakeRepositoryOptionProduct;
+        $this->optionValueRepository = new FakeRepositoryOptionValue;
+        $this->textOptionRepository = new FakeRepositoryTextOption;
+        $this->couponRepository = new FakeRepositoryCoupon;
+        $this->orderRepository = new FakeRepositoryOrder;
+        $this->userRepository = new FakeRepositoryUserRepository;
 
         $this->setupCartService();
     }

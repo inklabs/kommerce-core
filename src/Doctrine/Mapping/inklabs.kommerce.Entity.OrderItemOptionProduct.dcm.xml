@@ -5,7 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\OrderItemOptionProduct"
-            repository-class="inklabs\kommerce\EntityRepository\OrderItemOptionProduct">
+            repository-class="inklabs\kommerce\EntityRepository\OrderItemOptionProductRepository">
 
         <id name="id" type="integer">
             <generator strategy="AUTO"/>

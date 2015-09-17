@@ -3,15 +3,15 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrder;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeProduct;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryOrder;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryProduct;
 
 class OrderTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeOrder */
+    /** @var FakeRepositoryOrder */
     protected $orderRepository;
 
-    /** @var FakeProduct */
+    /** @var FakeRepositoryProduct */
     protected $productRepository;
 
     /** @var Order */
@@ -19,8 +19,8 @@ class OrderTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->orderRepository = new FakeOrder;
-        $this->productRepository = new FakeProduct;
+        $this->orderRepository = new FakeRepositoryOrder;
+        $this->productRepository = new FakeRepositoryProduct;
 
         $this->orderService = new Order(
             $this->orderRepository,

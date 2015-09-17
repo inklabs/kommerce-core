@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
-use inklabs\kommerce\EntityRepository\ImageInterface;
+use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeImage extends AbstractFake implements ImageInterface
+class FakeRepositoryImage extends AbstractFakeRepository implements ImageRepositoryInterface
 {
     public function __construct()
     {

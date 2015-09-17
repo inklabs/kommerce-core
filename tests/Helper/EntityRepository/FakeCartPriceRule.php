@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
-use inklabs\kommerce\EntityRepository\CartPriceRuleInterface;
+use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeCartPriceRule extends AbstractFake implements CartPriceRuleInterface
+class FakeRepositoryCartPriceRule extends AbstractFakeRepository implements CartPriceRuleRepositoryInterface
 {
     public function __construct()
     {

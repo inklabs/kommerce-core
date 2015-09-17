@@ -1,11 +1,11 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
-use inklabs\kommerce\EntityRepository\OrderInterface;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\Lib\ReferenceNumber;
 use inklabs\kommerce\Entity;
 
-class FakeOrder extends AbstractFake implements OrderInterface
+class FakeRepositoryOrder extends AbstractFakeRepository implements OrderRepositoryInterface
 {
     public function __construct()
     {

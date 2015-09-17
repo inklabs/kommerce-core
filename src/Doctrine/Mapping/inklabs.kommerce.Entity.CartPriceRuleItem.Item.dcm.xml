@@ -7,7 +7,7 @@
     <entity name="inklabs\kommerce\Entity\CartPriceRuleItem\Item"
             table="CartPriceRuleItem"
             inheritance-type="SINGLE_TABLE"
-            repository-class="inklabs\kommerce\EntityRepository\CartPriceRuleItem\Item">
+            repository-class="inklabs\kommerce\EntityRepository\CartPriceRuleItem\ItemRepository">
 
         <discriminator-column name="type" type="string" length="7"/>
         <discriminator-map>

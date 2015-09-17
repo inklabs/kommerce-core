@@ -1,15 +1,15 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 
 class TaxRate extends AbstractService
 {
-    /** @var EntityRepository\TaxRateInterface */
+    /** @var TaxRateRepositoryInterface */
     private $taxRateRepository;
 
-    public function __construct(EntityRepository\TaxRateInterface $taxRateRepository)
+    public function __construct(TaxRateRepositoryInterface $taxRateRepository)
     {
         $this->taxRateRepository = $taxRateRepository;
     }

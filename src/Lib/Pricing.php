@@ -2,7 +2,8 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 
 class Pricing implements PricingInterface
 {
@@ -32,7 +33,7 @@ class Pricing implements PricingInterface
         return $this->date;
     }
 
-    public function loadCatalogPromotions(EntityRepository\CatalogPromotionInterface $catalogPromotionRepository)
+    public function loadCatalogPromotions(CatalogPromotionRepositoryInterface $catalogPromotionRepository)
     {
         $this->setCatalogPromotions($catalogPromotionRepository->findAll());
     }
@@ -55,7 +56,7 @@ class Pricing implements PricingInterface
         return $this->catalogPromotions;
     }
 
-    public function loadCartPriceRules(EntityRepository\CartPriceRuleInterface $cartPriceRuleRepository)
+    public function loadCartPriceRules(CartPriceRuleRepositoryInterface $cartPriceRuleRepository)
     {
         $this->setCartPriceRules($cartPriceRuleRepository->findAll());
     }

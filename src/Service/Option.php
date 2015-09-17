@@ -1,16 +1,16 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 use inklabs\kommerce\Lib;
 
 class Option extends AbstractService
 {
-    /** @var EntityRepository\OptionInterface */
+    /** @var OptionRepositoryInterface */
     private $optionRepository;
 
-    public function __construct(EntityRepository\OptionInterface $optionRepository)
+    public function __construct(OptionRepositoryInterface $optionRepository)
     {
         $this->optionRepository = $optionRepository;
     }

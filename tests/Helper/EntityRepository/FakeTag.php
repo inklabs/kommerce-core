@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
-use inklabs\kommerce\EntityRepository\TagInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeTag extends AbstractFake implements TagInterface
+class FakeRepositoryTag extends AbstractFakeRepository implements TagRepositoryInterface
 {
     public function __construct()
     {

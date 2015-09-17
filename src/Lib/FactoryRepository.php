@@ -2,7 +2,34 @@
 namespace inklabs\kommerce\Lib;
 
 use Doctrine\ORM\EntityManager;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
+use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CartPriceRuleDiscountRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderItemOptionProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderItemOptionValueRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderItemTextOptionValueRepositoryInterface;
+use inklabs\kommerce\EntityRepository\Payment\PaymentRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductAttributeRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductQuantityDiscountRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserRoleRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
+use inklabs\kommerce\EntityRepository\WarehouseRepositoryInterface;
 use inklabs\kommerce\Lib\ReferenceNumber;
 
 class FactoryRepository
@@ -31,247 +58,247 @@ class FactoryRepository
     }
 
     /**
-     * @return EntityRepository\AttributeInterface
+     * @return AttributeRepositoryInterface
      */
-    public function getAttribute()
+    public function getAttributeRepository()
     {
         return $this->entityManager->getRepository('kommerce:Attribute');
     }
 
     /**
-     * @return EntityRepository\AttributeValueInterface
+     * @return AttributeValueRepositoryInterface
      */
-    public function getAttributeValue()
+    public function getAttributeValueRepository()
     {
         return $this->entityManager->getRepository('kommerce:AttributeValue');
     }
 
     /**
-     * @return EntityRepository\CartInterface
+     * @return CartRepositoryInterface
      */
-    public function getCart()
+    public function getCartRepository()
     {
         return $this->entityManager->getRepository('kommerce:Cart');
     }
 
     /**
-     * @return EntityRepository\CartPriceRuleInterface
+     * @return CartPriceRuleRepositoryInterface
      */
-    public function getCartPriceRule()
+    public function getCartPriceRuleRepository()
     {
         return $this->entityManager->getRepository('kommerce:CartPriceRule');
     }
 
     /**
-     * @return EntityRepository\CartPriceRuleDiscountInterface
+     * @return CartPriceRuleDiscountRepositoryInterface
      */
-    public function getCartPriceRuleDiscount()
+    public function getCartPriceRuleDiscountRepository()
     {
         return $this->entityManager->getRepository('kommerce:CartPriceRuleDiscount');
     }
 
     /**
-     * @return EntityRepository\CatalogPromotionInterface
+     * @return CatalogPromotionRepositoryInterface
      */
-    public function getCatalogPromotion()
+    public function getCatalogPromotionRepository()
     {
         return $this->entityManager->getRepository('kommerce:CatalogPromotion');
     }
 
     /**
-     * @return EntityRepository\CouponInterface
+     * @return CouponRepositoryInterface
      */
-    public function getCoupon()
+    public function getCouponRepository()
     {
         return $this->entityManager->getRepository('kommerce:Coupon');
     }
 
     /**
-     * @return EntityRepository\ImageInterface
+     * @return ImageRepositoryInterface
      */
-    public function getImage()
+    public function getImageRepository()
     {
         return $this->entityManager->getRepository('kommerce:Image');
     }
 
     /**
-     * @return EntityRepository\OptionInterface
+     * @return OptionRepositoryInterface
      */
-    public function getOption()
+    public function getOptionRepository()
     {
         return $this->entityManager->getRepository('kommerce:Option');
     }
 
     /**
-     * @return EntityRepository\OptionProductInterface
+     * @return OptionProductRepositoryInterface
      */
-    public function getOptionProduct()
+    public function getOptionProductRepository()
     {
         return $this->entityManager->getRepository('kommerce:OptionProduct');
     }
 
     /**
-     * @return EntityRepository\OptionValueInterface
+     * @return OptionValueRepositoryInterface
      */
-    public function getOptionValue()
+    public function getOptionValueRepository()
     {
         return $this->entityManager->getRepository('kommerce:OptionValue');
     }
 
     /**
-     * @return EntityRepository\OrderInterface
+     * @return OrderRepositoryInterface
      */
-    public function getOrder()
+    public function getOrderRepository()
     {
         return $this->entityManager->getRepository('kommerce:Order');
     }
 
     /**
-     * @return EntityRepository\OrderInterface
+     * @return OrderRepositoryInterface
      */
     public function getOrderWithHashSegmentGenerator()
     {
-        /** @var EntityRepository\OrderInterface $orderRepository */
+        /** @var OrderRepositoryInterface $orderRepository */
         $orderRepository = $this->entityManager->getRepository('kommerce:Order');
         $orderRepository->setReferenceNumberGenerator(new ReferenceNumber\HashSegmentGenerator($orderRepository));
         return $orderRepository;
     }
 
     /**
-     * @return EntityRepository\OrderInterface
+     * @return OrderRepositoryInterface
      */
     public function getOrderWithSequentialGenerator()
     {
-        /** @var EntityRepository\OrderInterface $orderRepository */
+        /** @var OrderRepositoryInterface $orderRepository */
         $orderRepository = $this->entityManager->getRepository('kommerce:Order');
         $orderRepository->setReferenceNumberGenerator(new ReferenceNumber\SequentialGenerator);
         return $orderRepository;
     }
 
     /**
-     * @return EntityRepository\OrderItemInterface
+     * @return OrderItemRepositoryInterface
      */
-    public function getOrderItem()
+    public function getOrderItemRepository()
     {
         return $this->entityManager->getRepository('kommerce:OrderItem');
     }
 
     /**
-     * @return EntityRepository\OrderItemOptionProductInterface
+     * @return OrderItemOptionProductRepositoryInterface
      */
-    public function getOrderItemOptionProduct()
+    public function getOrderItemOptionProductRepository()
     {
         return $this->entityManager->getRepository('kommerce:OrderItemOptionProduct');
     }
 
     /**
-     * @return EntityRepository\OrderItemOptionValueInterface
+     * @return OrderItemOptionValueRepositoryInterface
      */
-    public function getOrderItemOptionValue()
+    public function getOrderItemOptionValueRepository()
     {
         return $this->entityManager->getRepository('kommerce:OrderItemOptionValue');
     }
 
     /**
-     * @return EntityRepository\OrderItemTextOptionValueInterface
+     * @return OrderItemTextOptionValueRepositoryInterface
      */
-    public function getOrderItemTextOptionValue()
+    public function getOrderItemTextOptionValueRepository()
     {
         return $this->entityManager->getRepository('kommerce:OrderItemTextOptionValue');
     }
 
     /**
-     * @return EntityRepository\Payment\PaymentInterface
+     * @return PaymentRepositoryInterface
      */
-    public function getPayment()
+    public function getPaymentRepository()
     {
         return $this->entityManager->getRepository('kommerce:Payment\Payment');
     }
 
     /**
-     * @return EntityRepository\ProductInterface
+     * @return ProductRepositoryInterface
      */
-    public function getProduct()
+    public function getProductRepository()
     {
         return $this->entityManager->getRepository('kommerce:Product');
     }
 
     /**
-     * @return EntityRepository\ProductAttributeInterface
+     * @return ProductAttributeRepositoryInterface
      */
-    public function getProductAttribute()
+    public function getProductAttributeRepository()
     {
         return $this->entityManager->getRepository('kommerce:ProductAttribute');
     }
 
     /**
-     * @return EntityRepository\ProductQuantityDiscountInterface
+     * @return ProductQuantityDiscountRepositoryInterface
      */
-    public function getProductQuantityDiscount()
+    public function getProductQuantityDiscountRepository()
     {
         return $this->entityManager->getRepository('kommerce:ProductQuantityDiscount');
     }
 
     /**
-     * @return EntityRepository\TagInterface
+     * @return TagRepositoryInterface
      */
-    public function getTag()
+    public function getTagRepository()
     {
         return $this->entityManager->getRepository('kommerce:Tag');
     }
 
     /**
-     * @return EntityRepository\TaxRateInterface
+     * @return TaxRateRepositoryInterface
      */
-    public function getTaxRate()
+    public function getTaxRateRepository()
     {
         return $this->entityManager->getRepository('kommerce:TaxRate');
     }
 
     /**
-     * @return EntityRepository\TextOptionInterface
+     * @return TextOptionRepositoryInterface
      */
-    public function getTextOption()
+    public function getTextOptionRepository()
     {
         return $this->entityManager->getRepository('kommerce:TextOption');
     }
 
     /**
-     * @return EntityRepository\UserInterface
+     * @return UserRepositoryInterface
      */
-    public function getUser()
+    public function getUserRepository()
     {
         return $this->entityManager->getRepository('kommerce:User');
     }
 
     /**
-     * @return EntityRepository\UserLoginInterface
+     * @return UserLoginRepositoryInterface
      */
-    public function getUserLogin()
+    public function getUserLoginRepository()
     {
         return $this->entityManager->getRepository('kommerce:UserLogin');
     }
 
     /**
-     * @return EntityRepository\UserRoleInterface
+     * @return UserRoleRepositoryInterface
      */
-    public function getUserRole()
+    public function getUserRoleRepository()
     {
         return $this->entityManager->getRepository('kommerce:UserRole');
     }
 
     /**
-     * @return EntityRepository\UserTokenInterface
+     * @return UserTokenRepositoryInterface
      */
-    public function getUserToken()
+    public function getUserTokenRepository()
     {
         return $this->entityManager->getRepository('kommerce:UserToken');
     }
 
     /**
-     * @return EntityRepository\WarehouseInterface
+     * @return WarehouseRepositoryInterface
      */
-    public function getWarehouse()
+    public function getWarehouseRepository()
     {
         return $this->entityManager->getRepository('kommerce:Warehouse');
     }

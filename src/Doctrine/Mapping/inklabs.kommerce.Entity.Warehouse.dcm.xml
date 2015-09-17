@@ -5,7 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\Warehouse"
-            repository-class="inklabs\kommerce\EntityRepository\Warehouse">
+            repository-class="inklabs\kommerce\EntityRepository\WarehouseRepository">
 
         <lifecycle-callbacks>
             <lifecycle-callback type="preUpdate" method="preUpdate"/>

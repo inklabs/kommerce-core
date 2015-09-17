@@ -5,7 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\TaxRate"
-            repository-class="inklabs\kommerce\EntityRepository\TaxRate">
+            repository-class="inklabs\kommerce\EntityRepository\TaxRateRepository">
 
         <lifecycle-callbacks>
             <lifecycle-callback type="preUpdate" method="preUpdate"/>

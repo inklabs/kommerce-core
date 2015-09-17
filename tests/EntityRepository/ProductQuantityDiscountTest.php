@@ -11,12 +11,12 @@ class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
         'kommerce:Product',
     ];
 
-    /** @var ProductQuantityDiscountInterface */
+    /** @var ProductQuantityDiscountRepositoryInterface */
     protected $productQuantityDiscountRepository;
 
     public function setUp()
     {
-        $this->productQuantityDiscountRepository = $this->repository()->getProductQuantityDiscount();
+        $this->productQuantityDiscountRepository = $this->repository()->getProductQuantityDiscountRepository();
     }
 
     private function setupProductWithProductQuantityDiscount()

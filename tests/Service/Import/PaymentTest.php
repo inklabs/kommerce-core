@@ -23,8 +23,8 @@ class PaymentTest extends Helper\DoctrineTestCase
 
         $repositoryFactory = $this->repository();
         $paymentService = new Payment(
-            $repositoryFactory->getOrder(),
-            $repositoryFactory->getPayment()
+            $repositoryFactory->getOrderRepository(),
+            $repositoryFactory->getPaymentRepository()
         );
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/PaymentTest.csv');

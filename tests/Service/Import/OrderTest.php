@@ -22,8 +22,8 @@ class OrderTest extends Helper\DoctrineTestCase
 
         $factoryRepository = $this->repository();
         $orderService = new Order(
-            $factoryRepository->getOrder(),
-            $factoryRepository->getUser()
+            $factoryRepository->getOrderRepository(),
+            $factoryRepository->getUserRepository()
         );
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/OrderTest.csv');

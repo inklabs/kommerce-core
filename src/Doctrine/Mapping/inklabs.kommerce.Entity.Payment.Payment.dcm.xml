@@ -6,17 +6,18 @@
 
     <entity name="inklabs\kommerce\Entity\Payment\Payment"
             inheritance-type="SINGLE_TABLE"
-            repository-class="inklabs\kommerce\EntityRepository\Payment\Payment">
-
-        <lifecycle-callbacks>
-            <lifecycle-callback type="preUpdate" method="preUpdate"/>
-        </lifecycle-callbacks>
+            repository-class="inklabs\kommerce\EntityRepository\Payment\PaymentRepository">
 
         <discriminator-column name="payment_type" type="string" length="6"/>
         <discriminator-map>
             <discriminator-mapping value="cash" class="Cash"/>
             <discriminator-mapping value="credit" class="Credit"/>
         </discriminator-map>
+
+        <lifecycle-callbacks>
+            <lifecycle-callback type="preUpdate" method="preUpdate"/>
+        </lifecycle-callbacks>
+
 
         <id name="id" type="integer">
             <generator strategy="AUTO"/>

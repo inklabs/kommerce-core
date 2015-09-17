@@ -5,7 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\CatalogPromotion"
-            repository-class="inklabs\kommerce\EntityRepository\CatalogPromotion">
+            repository-class="inklabs\kommerce\EntityRepository\CatalogPromotionRepository">
 
         <field name="code" type="string" length="16"/>
 

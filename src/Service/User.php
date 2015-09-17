@@ -2,22 +2,23 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Lib;
 
 class User extends AbstractService
 {
     protected $userSessionKey = 'user';
 
-    /** @var EntityRepository\UserInterface */
+    /** @var UserRepositoryInterface */
     private $userRepository;
 
-    /** @var EntityRepository\UserLoginInterface */
+    /** @var UserLoginRepositoryInterface */
     private $userLoginRepository;
 
     public function __construct(
-        EntityRepository\UserInterface $userRepository,
-        EntityRepository\UserLoginInterface $userLoginRepository
+        UserRepositoryInterface $userRepository,
+        UserLoginRepositoryInterface $userLoginRepository
     ) {
         $this->userRepository = $userRepository;
         $this->userLoginRepository = $userLoginRepository;

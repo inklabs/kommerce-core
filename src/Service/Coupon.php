@@ -2,14 +2,14 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 
 class Coupon extends AbstractService
 {
-    /** @var EntityRepository\CouponInterface */
+    /** @var CouponRepositoryInterface */
     private $couponRepository;
 
-    public function __construct(EntityRepository\CouponInterface $couponRepository)
+    public function __construct(CouponRepositoryInterface $couponRepository)
     {
         $this->couponRepository = $couponRepository;
     }

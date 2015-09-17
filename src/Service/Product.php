@@ -1,24 +1,26 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 
 class Product extends AbstractService
 {
-    /** @var EntityRepository\ProductInterface */
+    /** @var ProductRepositoryInterface */
     private $productRepository;
 
-    /** @var EntityRepository\TagInterface */
+    /** @var TagRepositoryInterface */
     private $tagRepository;
 
-    /** @var EntityRepository\ImageInterface */
+    /** @var ImageRepositoryInterface */
     private $imageRepository;
 
     public function __construct(
-        EntityRepository\ProductInterface $productRepository,
-        EntityRepository\TagInterface $tagRepository,
-        EntityRepository\ImageInterface $imageRepository
+        ProductRepositoryInterface $productRepository,
+        TagRepositoryInterface $tagRepository,
+        ImageRepositoryInterface $imageRepository
     ) {
         $this->productRepository = $productRepository;
         $this->tagRepository = $tagRepository;

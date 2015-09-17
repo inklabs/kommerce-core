@@ -5,7 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\Tag"
-            repository-class="inklabs\kommerce\EntityRepository\Tag">
+            repository-class="inklabs\kommerce\EntityRepository\TagRepository">
 
         <lifecycle-callbacks>
             <lifecycle-callback type="preUpdate" method="preUpdate"/>

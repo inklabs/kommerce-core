@@ -2,14 +2,14 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 
 class CartPriceRule extends AbstractService
 {
-    /** @var EntityRepository\CartPriceRule */
+    /** @var CartPriceRuleRepositoryInterface */
     private $cartPriceRuleRepository;
 
-    public function __construct(EntityRepository\CartPriceRuleInterface $cartPriceRuleRepository)
+    public function __construct(CartPriceRuleRepositoryInterface $cartPriceRuleRepository)
     {
         $this->cartPriceRuleRepository = $cartPriceRuleRepository;
     }

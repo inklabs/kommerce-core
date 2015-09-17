@@ -3,8 +3,8 @@ namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeCatalogPromotion;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRule;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryCatalogPromotion;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryCartPriceRule;
 
 class PricingInterfaceTest extends Helper\DoctrineTestCase
 {
@@ -43,14 +43,14 @@ class PricingInterfaceTest extends Helper\DoctrineTestCase
 
     public function testLoadCatalogPromotions()
     {
-        $this->pricing->loadCatalogPromotions(new FakeCatalogPromotion);
+        $this->pricing->loadCatalogPromotions(new FakeRepositoryCatalogPromotion);
         $catalogPromotions = $this->pricing->getCatalogPromotions();
         $this->assertTrue($catalogPromotions[0] instanceof Entity\CatalogPromotion);
     }
 
     public function testLoadCartPriceRules()
     {
-        $this->pricing->loadCartPriceRules(new FakeCartPriceRule);
+        $this->pricing->loadCartPriceRules(new FakeRepositoryCartPriceRule);
         $cartPriceRules = $this->pricing->getCartPriceRules();
         $this->assertTrue($cartPriceRules[0] instanceof Entity\CartPriceRule);
     }

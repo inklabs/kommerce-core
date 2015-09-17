@@ -3,11 +3,11 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeTaxRate;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryTaxRate;
 
 class TaxRateTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeTaxRate */
+    /** @var FakeRepositoryTaxRate */
     protected $taxRateRepository;
 
     /** @var TaxRate */
@@ -15,7 +15,7 @@ class TaxRateTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->taxRateRepository = new FakeTaxRate;
+        $this->taxRateRepository = new FakeRepositoryTaxRate;
         $this->taxRateService = new TaxRate($this->taxRateRepository);
     }
 

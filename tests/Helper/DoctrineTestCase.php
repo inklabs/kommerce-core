@@ -3,7 +3,6 @@ namespace inklabs\kommerce\tests\Helper;
 
 use inklabs\kommerce\Service\Kommerce;
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Lib;
 use Doctrine;
 

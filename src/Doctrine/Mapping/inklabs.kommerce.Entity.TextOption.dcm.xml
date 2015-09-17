@@ -5,7 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\TextOption"
-            repository-class="inklabs\kommerce\EntityRepository\TextOption">
+            repository-class="inklabs\kommerce\EntityRepository\TextOptionRepository">
 
         <lifecycle-callbacks>
             <lifecycle-callback type="preUpdate" method="preUpdate"/>

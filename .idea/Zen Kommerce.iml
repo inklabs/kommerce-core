@@ -12,21 +12,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="PHP">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/hamcrest/hamcrest-php" />
-          <root url="file://$MODULE_DIR$/vendor/phpspec/prophecy" />
-          <root url="file://$MODULE_DIR$/vendor/sebastian/recursion-context" />
-          <root url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-docblock" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/hamcrest/hamcrest-php" />
-          <root url="file://$MODULE_DIR$/vendor/phpspec/prophecy" />
-          <root url="file://$MODULE_DIR$/vendor/sebastian/recursion-context" />
-          <root url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-docblock" />
-        </SOURCES>
-      </library>
-    </orderEntry>
   </component>
 </module>

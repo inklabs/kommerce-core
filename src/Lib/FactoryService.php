@@ -42,7 +42,7 @@ class FactoryService
      */
     public function getAttribute()
     {
-        return new Service\Attribute($this->factoryRepository->getAttribute());
+        return new Service\Attribute($this->factoryRepository->getAttributeRepository());
     }
 
     /**
@@ -50,7 +50,7 @@ class FactoryService
      */
     public function getAttributeValue()
     {
-        return new Service\AttributeValue($this->factoryRepository->getAttributeValue());
+        return new Service\AttributeValue($this->factoryRepository->getAttributeValueRepository());
     }
 
     /**
@@ -59,14 +59,14 @@ class FactoryService
     public function getCart()
     {
         return new Service\Cart(
-            $this->factoryRepository->getCart(),
-            $this->factoryRepository->getProduct(),
-            $this->factoryRepository->getOptionProduct(),
-            $this->factoryRepository->getOptionValue(),
-            $this->factoryRepository->getTextOption(),
-            $this->factoryRepository->getCoupon(),
-            $this->factoryRepository->getOrder(),
-            $this->factoryRepository->getUser(),
+            $this->factoryRepository->getCartRepository(),
+            $this->factoryRepository->getProductRepository(),
+            $this->factoryRepository->getOptionProductRepository(),
+            $this->factoryRepository->getOptionValueRepository(),
+            $this->factoryRepository->getTextOptionRepository(),
+            $this->factoryRepository->getCouponRepository(),
+            $this->factoryRepository->getOrderRepository(),
+            $this->factoryRepository->getUserRepository(),
             $this->cartCalculator
         );
     }
@@ -76,7 +76,7 @@ class FactoryService
      */
     public function getCartPriceRule()
     {
-        return new Service\CartPriceRule($this->factoryRepository->getCartPriceRule());
+        return new Service\CartPriceRule($this->factoryRepository->getCartPriceRuleRepository());
     }
 
     /**
@@ -84,7 +84,7 @@ class FactoryService
      */
     public function getCatalogPromotion()
     {
-        return new Service\CatalogPromotion($this->factoryRepository->getCatalogPromotion());
+        return new Service\CatalogPromotion($this->factoryRepository->getCatalogPromotionRepository());
     }
 
     /**
@@ -92,7 +92,7 @@ class FactoryService
      */
     public function getCoupon()
     {
-        return new Service\Coupon($this->factoryRepository->getCoupon());
+        return new Service\Coupon($this->factoryRepository->getCouponRepository());
     }
 
     /**
@@ -101,8 +101,8 @@ class FactoryService
     public function getImage()
     {
         return new Service\Image(
-            $this->factoryRepository->getImage(),
-            $this->factoryRepository->getProduct()
+            $this->factoryRepository->getImageRepository(),
+            $this->factoryRepository->getProductRepository()
         );
     }
 
@@ -112,8 +112,8 @@ class FactoryService
     public function getImportOrder()
     {
         return new Service\Import\Order(
-            $this->factoryRepository->getOrder(),
-            $this->factoryRepository->getUser()
+            $this->factoryRepository->getOrderRepository(),
+            $this->factoryRepository->getUserRepository()
         );
     }
 
@@ -123,9 +123,9 @@ class FactoryService
     public function getImportOrderItem()
     {
         return new Service\Import\OrderItem(
-            $this->factoryRepository->getOrder(),
-            $this->factoryRepository->getOrderItem(),
-            $this->factoryRepository->getProduct()
+            $this->factoryRepository->getOrderRepository(),
+            $this->factoryRepository->getOrderItemRepository(),
+            $this->factoryRepository->getProductRepository()
         );
     }
 
@@ -135,8 +135,8 @@ class FactoryService
     public function getImportPayment()
     {
         return new Service\Import\Payment(
-            $this->factoryRepository->getOrder(),
-            $this->factoryRepository->getPayment()
+            $this->factoryRepository->getOrderRepository(),
+            $this->factoryRepository->getPaymentRepository()
         );
     }
 
@@ -145,7 +145,7 @@ class FactoryService
      */
     public function getImportUser()
     {
-        return new Service\Import\User($this->factoryRepository->getUser());
+        return new Service\Import\User($this->factoryRepository->getUserRepository());
     }
 
     /**
@@ -153,7 +153,7 @@ class FactoryService
      */
     public function getOption()
     {
-        return new Service\Option($this->factoryRepository->getOption());
+        return new Service\Option($this->factoryRepository->getOptionRepository());
     }
 
     /**
@@ -162,8 +162,8 @@ class FactoryService
     public function getOrder()
     {
         return new Service\Order(
-            $this->factoryRepository->getOrder(),
-            $this->factoryRepository->getProduct()
+            $this->factoryRepository->getOrderRepository(),
+            $this->factoryRepository->getProductRepository()
         );
     }
 
@@ -173,9 +173,9 @@ class FactoryService
     public function getProduct()
     {
         return new Service\Product(
-            $this->factoryRepository->getProduct(),
-            $this->factoryRepository->getTag(),
-            $this->factoryRepository->getImage()
+            $this->factoryRepository->getProductRepository(),
+            $this->factoryRepository->getTagRepository(),
+            $this->factoryRepository->getImageRepository()
         );
     }
 
@@ -184,7 +184,7 @@ class FactoryService
      */
     public function getTag()
     {
-        return new Service\Tag($this->factoryRepository->getTag());
+        return new Service\Tag($this->factoryRepository->getTagRepository());
     }
 
     /**
@@ -192,7 +192,7 @@ class FactoryService
      */
     public function getTaxRate()
     {
-        return new Service\TaxRate($this->factoryRepository->getTaxRate());
+        return new Service\TaxRate($this->factoryRepository->getTaxRateRepository());
     }
 
     /**
@@ -200,6 +200,9 @@ class FactoryService
      */
     public function getUser()
     {
-        return new Service\User($this->factoryRepository->getUser(), $this->factoryRepository->getUserLogin());
+        return new Service\User(
+            $this->factoryRepository->getUserRepository(),
+            $this->factoryRepository->getUserLoginRepository()
+        );
     }
 }

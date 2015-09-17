@@ -26,9 +26,9 @@ class OrderItemTest extends Helper\DoctrineTestCase
 
         $repositoryFactory = $this->repository();
         $orderItemService = new OrderItem(
-            $repositoryFactory->getOrder(),
-            $repositoryFactory->getOrderItem(),
-            $repositoryFactory->getProduct()
+            $repositoryFactory->getOrderRepository(),
+            $repositoryFactory->getOrderItemRepository(),
+            $repositoryFactory->getProductRepository()
         );
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/OrderItemTest.csv');
@@ -41,12 +41,12 @@ class OrderItemTest extends Helper\DoctrineTestCase
 
     public function testImportFail()
     {
-        $orderItemRepository = new Helper\EntityRepository\FakeOrderItem;
+        $orderItemRepository = new Helper\EntityRepository\FakeRepositoryOrderItem;
         $orderItemRepository->setCrudException(new \Exception);
         $orderItemService = new OrderItem(
-            new Helper\EntityRepository\FakeOrder,
+            new Helper\EntityRepository\FakeRepositoryOrder,
             $orderItemRepository,
-            new Helper\EntityRepository\FakeProduct
+            new Helper\EntityRepository\FakeRepositoryProduct
         );
 
         $iterator = new Lib\CSVIterator(__DIR__ . '/OrderItemTest.csv');

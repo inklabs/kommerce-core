@@ -1,22 +1,21 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeProduct;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeTag;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeImage;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryProduct;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryTag;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryImage;
 
 class ProductTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeProduct */
+    /** @var FakeRepositoryProduct */
     protected $productRepository;
 
-    /** @var FakeTag */
+    /** @var FakeRepositoryTag */
     protected $tagRepository;
 
-    /** @var FakeImage */
+    /** @var FakeRepositoryImage */
     protected $imageRepository;
 
     /** @var Product */
@@ -24,9 +23,9 @@ class ProductTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->productRepository = new FakeProduct;
-        $this->tagRepository = new FakeTag;
-        $this->imageRepository = new FakeImage;
+        $this->productRepository = new FakeRepositoryProduct;
+        $this->tagRepository = new FakeRepositoryTag;
+        $this->imageRepository = new FakeRepositoryImage;
 
         $this->productService = new Product(
             $this->productRepository,

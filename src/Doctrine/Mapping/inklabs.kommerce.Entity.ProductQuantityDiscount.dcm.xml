@@ -5,7 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\ProductQuantityDiscount"
-            repository-class="inklabs\kommerce\EntityRepository\ProductQuantityDiscount">
+            repository-class="inklabs\kommerce\EntityRepository\ProductQuantityDiscountRepository">
 
         <field name="flagApplyCatalogPromotions" type="boolean"/>
 

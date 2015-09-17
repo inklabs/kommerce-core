@@ -5,7 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\UserLogin"
-            repository-class="inklabs\kommerce\EntityRepository\UserLogin">
+            repository-class="inklabs\kommerce\EntityRepository\UserLoginRepository">
 
         <id name="id" type="integer">
             <generator strategy="AUTO"/>

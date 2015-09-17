@@ -2,16 +2,16 @@
 namespace inklabs\kommerce\Service\Import;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validation;
 
 class User
 {
-    /** @var EntityRepository\UserInterface */
+    /** @var UserRepositoryInterface */
     private $userRepository;
 
-    public function __construct(EntityRepository\UserInterface $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }

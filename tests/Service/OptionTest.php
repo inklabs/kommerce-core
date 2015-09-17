@@ -1,14 +1,13 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOption;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryOption;
 
 class OptionTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeOption */
+    /** @var FakeRepositoryOption */
     protected $optionRepository;
 
     /** @var Option */
@@ -16,7 +15,7 @@ class OptionTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->optionRepository = new FakeOption;
+        $this->optionRepository = new FakeRepositoryOption;
         $this->optionService = new Option($this->optionRepository);
     }
 

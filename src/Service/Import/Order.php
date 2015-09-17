@@ -2,21 +2,22 @@
 namespace inklabs\kommerce\Service\Import;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validation;
 
 class Order
 {
-    /** @var EntityRepository\UserInterface */
+    /** @var UserRepositoryInterface */
     private $userRepository;
 
-    /** @var EntityRepository\OrderInterface */
+    /** @var OrderRepositoryInterface */
     private $orderRepository;
 
     public function __construct(
-        EntityRepository\OrderInterface $orderRepository,
-        EntityRepository\UserInterface $userRepository
+        OrderRepositoryInterface $orderRepository,
+        UserRepositoryInterface $userRepository
     ) {
         $this->orderRepository = $orderRepository;
         $this->userRepository = $userRepository;

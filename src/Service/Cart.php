@@ -2,61 +2,62 @@
 namespace inklabs\kommerce\Service;
 
 use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Payment\Payment;
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Lib;
+use LogicException;
 
 class Cart extends AbstractService
 {
-    /** @var EntityRepository\CouponInterface */
-    protected $couponRepository;
-
-    /** @var EntityRepository\ProductInterface */
-    protected $productRepository;
-
-    /** @var EntityRepository\OptionProductInterface */
-    protected $optionProductRepository;
-
-    /** @var EntityRepository\OptionValueInterface */
-    protected $optionValueRepository;
-
-    /** @var EntityRepository\TextOptionInterface */
-    protected $textOptionRepository;
-
-    /** @var EntityRepository\CartInterface */
+    /** @var CartRepositoryInterface */
     protected $cartRepository;
 
-    /** @var EntityRepository\OrderInterface */
+    /** @var CouponRepositoryInterface */
+    protected $couponRepository;
+
+    /** @var ProductRepositoryInterface */
+    protected $productRepository;
+
+    /** @var OptionProductRepositoryInterface */
+    protected $optionProductRepository;
+
+    /** @var OptionValueRepositoryInterface */
+    protected $optionValueRepository;
+
+    /** @var TextOptionRepositoryInterface */
+    protected $textOptionRepository;
+
+    /** @var OrderRepositoryInterface */
     protected $orderRepository;
 
-    /** @var Entity\TaxRate */
-    protected $taxRate;
+    /** @var UserRepositoryInterface */
+    protected $userRepository;
 
-    /** @var Lib\PricingInterface */
+    /** @var Lib\CartCalculatorInterface */
     protected $pricing;
 
-    /**
-     * @param EntityRepository\CartInterface $cartRepository
-     * @param EntityRepository\ProductInterface $productRepository
-     * @param EntityRepository\OptionProductInterface $optionProductRepository
-     * @param EntityRepository\OptionValueInterface $optionValueRepository
-     * @param EntityRepository\TextOptionInterface $textOptionRepository
-     * @param EntityRepository\CouponInterface $couponRepository
-     * @param EntityRepository\OrderInterface $orderRepository
-     * @param EntityRepository\UserInterface $userRepository
-     * @param Lib\CartCalculatorInterface $cartCalculator
-     */
+    /** @var TaxRate */
+    protected $taxRate;
+
     public function __construct(
-        EntityRepository\CartInterface $cartRepository,
-        EntityRepository\ProductInterface $productRepository,
-        EntityRepository\OptionProductInterface $optionProductRepository,
-        EntityRepository\OptionValueInterface $optionValueRepository,
-        EntityRepository\TextOptionInterface $textOptionRepository,
-        EntityRepository\CouponInterface $couponRepository,
-        EntityRepository\OrderInterface $orderRepository,
-        EntityRepository\UserInterface $userRepository,
+        CartRepositoryInterface $cartRepository,
+        ProductRepositoryInterface $productRepository,
+        OptionProductRepositoryInterface $optionProductRepository,
+        OptionValueRepositoryInterface $optionValueRepository,
+        TextOptionRepositoryInterface $textOptionRepository,
+        CouponRepositoryInterface $couponRepository,
+        OrderRepositoryInterface $orderRepository,
+        UserRepositoryInterface $userRepository,
         Lib\CartCalculatorInterface $cartCalculator
     ) {
         $this->cartRepository = $cartRepository;
@@ -92,14 +93,14 @@ class Cart extends AbstractService
      * @param int $cartId
      * @param string $couponCode
      * @return int
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function addCouponByCode($cartId, $couponCode)
     {
         $coupon = $this->couponRepository->findOneByCode($couponCode);
 
         if ($coupon === null) {
-            throw new \LogicException('Coupon not found');
+            throw new LogicException('Coupon not found');
         }
 
         $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
@@ -178,14 +179,14 @@ class Cart extends AbstractService
      * @param string $productId
      * @param int $quantity
      * @return int $cartItemIndex
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function addItem($cartId, $productId, $quantity = 1)
     {
         $product = $this->productRepository->find($productId);
 
         if ($product === null) {
-            throw new \LogicException('Product not found');
+            throw new LogicException('Product not found');
         }
 
         $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
@@ -205,7 +206,7 @@ class Cart extends AbstractService
      * @param int $cartId
      * @param int $cartItemIndex
      * @param string[] $optionProductIds
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function addItemOptionProducts($cartId, $cartItemIndex, array $optionProductIds)
     {
@@ -228,7 +229,7 @@ class Cart extends AbstractService
      * @param int $cartId
      * @param int $cartItemIndex
      * @param string[] $optionValueIds
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function addItemOptionValues($cartId, $cartItemIndex, array $optionValueIds)
     {
@@ -251,7 +252,7 @@ class Cart extends AbstractService
      * @param int $cartId
      * @param int $cartItemIndex
      * @param array $textOptionValues
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function addItemTextOptionValues($cartId, $cartItemIndex, array $textOptionValues)
     {
@@ -294,7 +295,7 @@ class Cart extends AbstractService
      * @param int $cartId
      * @param int $cartItemIndex
      * @param int $quantity
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function updateQuantity($cartId, $cartItemIndex, $quantity)
     {
@@ -338,7 +339,7 @@ class Cart extends AbstractService
         $this->cartRepository->save($cart);
     }
 
-    public function setTaxRate($cartId, Entity\TaxRate $taxRate = null)
+    public function setTaxRate($cartId, TaxRate $taxRate = null)
     {
         $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
         $cart->setTaxRate($taxRate);
@@ -378,14 +379,14 @@ class Cart extends AbstractService
     /**
      * @param int $cartId
      * @param int $userId
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function setUserById($cartId, $userId)
     {
         $user = $this->userRepository->find($userId);
 
         if ($user === null) {
-            throw new \LogicException('User not found');
+            throw new LogicException('User not found');
         }
 
         $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
@@ -398,7 +399,7 @@ class Cart extends AbstractService
     /**
      * @param int $cartId
      * @param int $sessionId
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function setSessionId($cartId, $sessionId)
     {
@@ -412,14 +413,14 @@ class Cart extends AbstractService
     /**
      * @param int $cartId
      * @return Entity\Cart
-     * @throws \LogicException
+     * @throws LogicException
      */
     protected function getCartAndThrowExceptionIfCartNotFound($cartId)
     {
         $cart = $this->cartRepository->find($cartId);
 
         if ($cart === null) {
-            throw new \LogicException('Cart not found');
+            throw new LogicException('Cart not found');
         }
 
         return $cart;
@@ -429,14 +430,14 @@ class Cart extends AbstractService
      * @param Entity\Cart $cart
      * @param int $cartItemIndex
      * @return Entity\CartItem
-     * @throws \LogicException
+     * @throws LogicException
      */
     protected function getCartItemAndThrowExceptionIfNotFound(Entity\Cart $cart, $cartItemIndex)
     {
         $cartItem = $cart->getCartItem($cartItemIndex);
 
         if ($cartItem === null) {
-            throw new \LogicException('Cart Item not found');
+            throw new LogicException('Cart Item not found');
         }
 
         return $cartItem;

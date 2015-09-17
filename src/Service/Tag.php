@@ -2,14 +2,14 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityRepository;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 
 class Tag extends AbstractService
 {
-    /** @var EntityRepository\TagInterface */
+    /** @var TagRepositoryInterface */
     private $tagRepository;
 
-    public function __construct(EntityRepository\TagInterface $tagRepository)
+    public function __construct(TagRepositoryInterface $tagRepository)
     {
         $this->tagRepository = $tagRepository;
     }

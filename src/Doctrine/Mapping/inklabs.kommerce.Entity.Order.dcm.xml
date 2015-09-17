@@ -5,7 +5,7 @@
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="inklabs\kommerce\Entity\Order"
-            repository-class="inklabs\kommerce\EntityRepository\Order">
+            repository-class="inklabs\kommerce\EntityRepository\OrderRepository">
 
         <lifecycle-callbacks>
             <lifecycle-callback type="preUpdate" method="preUpdate"/>

@@ -3,11 +3,11 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeCoupon;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryCoupon;
 
 class CouponTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeCoupon */
+    /** @var FakeRepositoryCoupon */
     protected $couponRepository;
 
     /** @var Coupon */
@@ -15,7 +15,7 @@ class CouponTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->couponRepository = new FakeCoupon;
+        $this->couponRepository = new FakeRepositoryCoupon;
         $this->couponService = new Coupon($this->couponRepository);
     }
 

@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
-use inklabs\kommerce\EntityRepository\UserLoginInterface;
+use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeUserLogin extends AbstractFake implements UserLoginInterface
+class FakeRepositoryUserLogin extends AbstractFakeRepository implements UserLoginRepositoryInterface
 {
     public function __construct()
     {
