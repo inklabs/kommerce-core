@@ -35,6 +35,21 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         return $user;
     }
 
+    private function setupUserWithCart()
+    {
+        $user = $this->getDummyUser();
+
+        $cart = $this->getDummyCart();
+        $cart->setUser($user);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($cart);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        return $user;
+    }
+
     public function testCRUD()
     {
         $user = $this->getDummyUser();
@@ -102,12 +117,13 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
 
     public function testFindByEmailUsingEmail()
     {
-        $this->setupUser();
+        $this->setupUserWithCart();
 
         $this->setCountLogger();
 
         $user = $this->userRepository->findOneByEmail('test1@example.com');
         $user->getRoles()->toArray();
+        $user->getCart()->getCreated();
 
         $this->assertTrue($user instanceof Entity\User);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
