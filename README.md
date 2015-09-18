@@ -32,6 +32,24 @@ modules in this project:
       $product->addTag($tag);
       ```
 
+* EntityDTO
+    - Often you want to use your entities as Data Transfer Objects (DTO) in your main application
+      These classes are simple objects containing public class member variables. The complete network graph
+      relationships are available if you request them using the EntityDTOBuilder (e.g., withAllData()).
+
+      ```php
+      $product = new Entity\Product;
+      $product->addTag(new Entity\Tag);
+
+      $productDTO = $product->getDTOBuilder()
+        ->withAllData(new Lib\Pricing)
+        ->build();
+
+      echo $productDTO->sku;
+      echo $productDTO->price->unitPrice;
+      echo $productDTO->tags[0]->name;
+      ```
+
 * EntityRepository
     - This module is responsible for storing and retrieving entities. Each repository conforms to an interface
       allowing you to quickly change the backend storage or use a decorator for persistence operations. 
@@ -45,7 +63,7 @@ modules in this project:
       $productRepository->save($product);
       ```
 
-* View
+* View (Deprecated)
     - Often you want to use your entities as plain value objects in your main application, typically in your HTML
       templates. These classes format the entities as simple objects with public class member variables. The
       complete network graph relationships are also available if you request them (e.g., withAllData()).
