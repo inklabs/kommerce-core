@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -294,5 +295,10 @@ class User implements EntityInterface
     public function getView()
     {
         return new View\User($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new UserDTOBuilder($this);
     }
 }

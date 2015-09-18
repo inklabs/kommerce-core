@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\UserLoginDTOBuilder;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -107,5 +108,10 @@ class UserLogin implements EntityInterface
     public function getView()
     {
         return new View\UserLogin($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new UserLoginDTOBuilder($this);
     }
 }
