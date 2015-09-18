@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeRepositoryTag extends AbstractFakeRepository implements TagRepositoryInterface
+class FakeTagRepository extends AbstractFakeRepository implements TagRepositoryInterface
 {
     public function __construct()
     {

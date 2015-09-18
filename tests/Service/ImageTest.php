@@ -3,15 +3,15 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryImage;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryProduct;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeImageRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 
 class ImageTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeRepositoryImage */
+    /** @var FakeImageRepository */
     protected $imageRepository;
 
-    /** @var FakeRepositoryProduct */
+    /** @var FakeProductRepository */
     private $productRepository;
 
     /** @var Image */
@@ -19,8 +19,8 @@ class ImageTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->imageRepository = new FakeRepositoryImage;
-        $this->productRepository = new FakeRepositoryProduct;
+        $this->imageRepository = new FakeImageRepository;
+        $this->productRepository = new FakeProductRepository;
         $this->imageService = new Image($this->imageRepository, $this->productRepository);
     }
 

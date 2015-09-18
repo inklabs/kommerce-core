@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeRepositoryUserLogin extends AbstractFakeRepository implements UserLoginRepositoryInterface
+class FakeUserLoginRepository extends AbstractFakeRepository implements UserLoginRepositoryInterface
 {
     public function __construct()
     {

@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeRepositoryTextOption extends AbstractFakeRepository implements TextOptionRepositoryInterface
+class FakeTextOptionRepository extends AbstractFakeRepository implements TextOptionRepositoryInterface
 {
     public function __construct()
     {

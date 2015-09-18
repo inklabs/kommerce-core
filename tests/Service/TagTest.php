@@ -2,12 +2,12 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryTag;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
 use inklabs\kommerce\tests\Helper;
 
 class TagTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeRepositoryTag */
+    /** @var FakeTagRepository */
     protected $tagRepository;
 
     /** @var Tag */
@@ -15,7 +15,7 @@ class TagTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->tagRepository = new FakeRepositoryTag;
+        $this->tagRepository = new FakeTagRepository;
         $this->tagService = new Tag($this->tagRepository);
     }
 

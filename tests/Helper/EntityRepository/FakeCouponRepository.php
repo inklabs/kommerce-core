@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeRepositoryCoupon extends AbstractFakeRepository implements CouponRepositoryInterface
+class FakeCouponRepository extends AbstractFakeRepository implements CouponRepositoryInterface
 {
     public function __construct()
     {

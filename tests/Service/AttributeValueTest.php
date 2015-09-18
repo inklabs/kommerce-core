@@ -3,11 +3,11 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryAttributeValue;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeAttributeValueRepository;
 
 class AttributeValueTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeRepositoryAttributeValue */
+    /** @var FakeAttributeValueRepository */
     protected $attributeValueRepository;
 
     /** @var AttributeValue */
@@ -15,7 +15,7 @@ class AttributeValueTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->attributeValueRepository = new FakeRepositoryAttributeValue;
+        $this->attributeValueRepository = new FakeAttributeValueRepository;
         $this->attributeValueService = new AttributeValue($this->attributeValueRepository);
     }
 

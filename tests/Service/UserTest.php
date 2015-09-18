@@ -3,15 +3,15 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryUserRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryUserLogin;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserLoginRepository;
 
 class UserTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeRepositoryUserRepository */
+    /** @var FakeUserRepository */
     protected $userRepository;
 
-    /** @var FakeRepositoryUserLogin */
+    /** @var FakeUserLoginRepository */
     protected $userLoginRepository;
 
     /** @var User */
@@ -19,8 +19,8 @@ class UserTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->userRepository = new FakeRepositoryUserRepository;
-        $this->userLoginRepository = new FakeRepositoryUserLogin;
+        $this->userRepository = new FakeUserRepository;
+        $this->userLoginRepository = new FakeUserLoginRepository;
 
         $this->userService = new User(
             $this->userRepository,

@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeRepositoryAttributeValue extends AbstractFakeRepository implements AttributeValueRepositoryInterface
+class FakeAttributeValueRepository extends AbstractFakeRepository implements AttributeValueRepositoryInterface
 {
     public function __construct()
     {

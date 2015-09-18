@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeRepositoryTaxRate extends AbstractFakeRepository implements TaxRateRepositoryInterface
+class FakeTaxRateRepository extends AbstractFakeRepository implements TaxRateRepositoryInterface
 {
     public function __construct()
     {

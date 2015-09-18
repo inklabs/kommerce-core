@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeRepositoryImage extends AbstractFakeRepository implements ImageRepositoryInterface
+class FakeImageRepository extends AbstractFakeRepository implements ImageRepositoryInterface
 {
     public function __construct()
     {

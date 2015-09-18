@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\EntityRepository;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryProduct;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 
 class ProductRepositoryInterfaceTest extends Helper\DoctrineTestCase
 {
@@ -13,7 +13,7 @@ class ProductRepositoryInterfaceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->productRepository = new FakeRepositoryProduct;
+        $this->productRepository = new FakeProductRepository;
     }
 
     public function testFind()

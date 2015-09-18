@@ -3,11 +3,11 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryCartPriceRule;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRuleRepository;
 
 class CartPriceRuleTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeRepositoryCartPriceRule */
+    /** @var FakeCartPriceRuleRepository */
     protected $cartPriceRuleRepository;
 
     /** @var CartPriceRule */
@@ -15,7 +15,7 @@ class CartPriceRuleTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->cartPriceRuleRepository = new FakeRepositoryCartPriceRule;
+        $this->cartPriceRuleRepository = new FakeCartPriceRuleRepository;
         $this->cartPriceRuleService = new CartPriceRule($this->cartPriceRuleRepository);
     }
 

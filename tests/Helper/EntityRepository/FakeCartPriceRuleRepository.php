@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeRepositoryCartPriceRule extends AbstractFakeRepository implements CartPriceRuleRepositoryInterface
+class FakeCartPriceRuleRepository extends AbstractFakeRepository implements CartPriceRuleRepositoryInterface
 {
     public function __construct()
     {

@@ -3,11 +3,11 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryCatalogPromotion;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeCatalogPromotionRepository;
 
 class CatalogPromotionTest extends Helper\DoctrineTestCase
 {
-    /** @var FakeRepositoryCatalogPromotion */
+    /** @var FakeCatalogPromotionRepository */
     protected $catalogPromotionRepository;
 
     /** @var CatalogPromotion */
@@ -15,7 +15,7 @@ class CatalogPromotionTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->catalogPromotionRepository = new FakeRepositoryCatalogPromotion;
+        $this->catalogPromotionRepository = new FakeCatalogPromotionRepository;
         $this->catalogPromotionService = new CatalogPromotion($this->catalogPromotionRepository);
     }
 

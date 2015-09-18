@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\Lib\ReferenceNumber;
 use inklabs\kommerce\Entity;
 
-class FakeRepositoryOrderItem extends AbstractFakeRepository implements OrderItemRepositoryInterface
+class FakeOrderItemRepository extends AbstractFakeRepository implements OrderItemRepositoryInterface
 {
     public function __construct()
     {

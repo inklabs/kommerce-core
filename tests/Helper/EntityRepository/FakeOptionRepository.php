@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeRepositoryOption extends AbstractFakeRepository implements OptionRepositoryInterface
+class FakeOptionRepository extends AbstractFakeRepository implements OptionRepositoryInterface
 {
     public function __construct()
     {

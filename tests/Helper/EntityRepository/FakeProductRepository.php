@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\Entity;
 
-class FakeRepositoryProduct extends AbstractFakeRepository implements ProductRepositoryInterface
+class FakeProductRepository extends AbstractFakeRepository implements ProductRepositoryInterface
 {
     public function __construct()
     {
