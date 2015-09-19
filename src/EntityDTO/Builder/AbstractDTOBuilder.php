@@ -14,11 +14,6 @@ abstract class AbstractDTOBuilder implements DTOBuilderInterface
     /** @var stdClass */
     protected $entityDTO;
 
-    public function withAllData()
-    {
-        return $this;
-    }
-
     public function build()
     {
         return $this->entityDTO;
@@ -33,11 +28,16 @@ abstract class AbstractDTOBuilder implements DTOBuilderInterface
     protected function setTimestamps()
     {
         $this->setCreated();
-        $this->entityDTO->updated = $this->entity->getUpdated();
+        $this->setUpdated();
     }
 
     protected function setCreated()
     {
         $this->entityDTO->created = $this->entity->getCreated();
+    }
+
+    protected function setUpdated()
+    {
+        $this->entityDTO->updated = $this->entity->getUpdated();
     }
 }

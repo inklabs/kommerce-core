@@ -10,7 +10,6 @@ class UserRoleDTOTest extends \PHPUnit_Framework_TestCase
         $userRole = new UserRole;
 
         $userRoleDTO = $userRole->getDTOBuilder()
-            ->withAllData()
             ->build();
 
         $this->assertTrue($userRoleDTO instanceof UserRoleDTO);
