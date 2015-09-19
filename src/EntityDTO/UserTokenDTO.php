@@ -4,6 +4,7 @@ namespace inklabs\kommerce\EntityDTO;
 class UserTokenDTO
 {
     public $id;
+    public $encodedId;
     public $userAgent;
     public $token;
     public $expires;

@@ -3,34 +3,36 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\EntityDTO\UserTokenDTO;
+use inklabs\kommerce\Lib\BaseConvert;
 
-class UserTokenDTOBuilder extends AbstractDTOBuilder
+class UserTokenDTOBuilder
 {
     /** @var UserToken */
-    protected $entity;
+    protected $userToken;
 
     /** @var UserTokenDTO */
-    protected $entityDTO;
+    protected $userTokenDTO;
 
     public function __construct(UserToken $userToken)
     {
-        $this->entity = $userToken;
+        $this->userToken = $userToken;
 
-        $this->entityDTO = new UserTokenDTO;
-        $this->entityDTO->userAgent = $this->entity->getUserAgent();
-        $this->entityDTO->token     = $this->entity->getToken();
-        $this->entityDTO->expires   = $this->entity->getExpires();
-        $this->entityDTO->type      = $this->entity->getType();
-
-        $this->setId();
-        $this->setTimestamps();
+        $this->userTokenDTO = new UserTokenDTO;
+        $this->userTokenDTO->id        = $this->userToken->getId();
+        $this->userTokenDTO->encodedId = BaseConvert::encode($this->userToken->getId());
+        $this->userTokenDTO->userAgent = $this->userToken->getUserAgent();
+        $this->userTokenDTO->token     = $this->userToken->getToken();
+        $this->userTokenDTO->expires   = $this->userToken->getExpires();
+        $this->userTokenDTO->type      = $this->userToken->getType();
+        $this->userTokenDTO->created   = $this->userToken->getCreated();
+        $this->userTokenDTO->updated   = $this->userToken->getUpdated();
     }
 
     public function withUser()
     {
-        $user = $this->entity->getUser();
+        $user = $this->userToken->getUser();
         if ($user !== null) {
-            $this->entityDTO->user = $user->getDTOBuilder()
+            $this->userTokenDTO->user = $user->getDTOBuilder()
                 ->build();
         }
         return $this;
@@ -40,5 +42,10 @@ class UserTokenDTOBuilder extends AbstractDTOBuilder
     {
         return $this
             ->withUser();
+    }
+
+    public function build()
+    {
+        return $this->userTokenDTO;
     }
 }

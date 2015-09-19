@@ -3,36 +3,38 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\UserDTO;
+use inklabs\kommerce\Lib\BaseConvert;
 
-class UserDTOBuilder extends AbstractDTOBuilder
+class UserDTOBuilder
 {
     /** @var User */
-    protected $entity;
+    protected $user;
 
     /** @var UserDTO */
-    protected $entityDTO;
+    protected $userDTO;
 
     public function __construct(User $user)
     {
-        $this->entity = $user;
+        $this->user = $user;
 
-        $this->entityDTO = new UserDTO;
-        $this->entityDTO->email       = $this->entity->getEmail();
-        $this->entityDTO->firstName   = $this->entity->getFirstName();
-        $this->entityDTO->lastName    = $this->entity->getLastName();
-        $this->entityDTO->totalLogins = $this->entity->getTotalLogins();
-        $this->entityDTO->lastLogin   = $this->entity->getLastLogin();
-        $this->entityDTO->status      = $this->entity->getStatus();
-        $this->entityDTO->statusText  = $this->entity->getStatusText();
-
-        $this->setId();
-        $this->setTimestamps();
+        $this->userDTO = new UserDTO;
+        $this->userDTO->id          = $this->user->getId();
+        $this->userDTO->encodedId   = BaseConvert::encode($this->user->getId());
+        $this->userDTO->email       = $this->user->getEmail();
+        $this->userDTO->firstName   = $this->user->getFirstName();
+        $this->userDTO->lastName    = $this->user->getLastName();
+        $this->userDTO->totalLogins = $this->user->getTotalLogins();
+        $this->userDTO->lastLogin   = $this->user->getLastLogin();
+        $this->userDTO->status      = $this->user->getStatus();
+        $this->userDTO->statusText  = $this->user->getStatusText();
+        $this->userDTO->created     = $this->user->getCreated();
+        $this->userDTO->updated     = $this->user->getUpdated();
     }
 
     public function withRoles()
     {
-        foreach ($this->entity->getRoles() as $role) {
-            $this->entityDTO->roles[] = $role->getDTOBuilder()
+        foreach ($this->user->getRoles() as $role) {
+            $this->userDTO->roles[] = $role->getDTOBuilder()
                 ->build();
         }
         return $this;
@@ -40,8 +42,8 @@ class UserDTOBuilder extends AbstractDTOBuilder
 
     public function withTokens()
     {
-        foreach ($this->entity->getTokens() as $token) {
-            $this->entityDTO->tokens[] = $token->getDTOBuilder()
+        foreach ($this->user->getTokens() as $token) {
+            $this->userDTO->tokens[] = $token->getDTOBuilder()
                 ->build();
         }
         return $this;
@@ -49,8 +51,8 @@ class UserDTOBuilder extends AbstractDTOBuilder
 
     public function withLogins()
     {
-        foreach ($this->entity->getLogins() as $login) {
-            $this->entityDTO->logins[] = $login->getDTOBuilder()
+        foreach ($this->user->getLogins() as $login) {
+            $this->userDTO->logins[] = $login->getDTOBuilder()
                 ->build();
         }
         return $this;
@@ -66,6 +68,6 @@ class UserDTOBuilder extends AbstractDTOBuilder
 
     public function build()
     {
-        return $this->entityDTO;
+        return $this->userDTO;
     }
 }

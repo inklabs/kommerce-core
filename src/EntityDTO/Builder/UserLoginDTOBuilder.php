@@ -3,34 +3,35 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\EntityDTO\UserLoginDTO;
+use inklabs\kommerce\Lib\BaseConvert;
 
-class UserLoginDTOBuilder extends AbstractDTOBuilder
+class UserLoginDTOBuilder
 {
     /** @var UserLogin */
-    protected $entity;
+    protected $userLogin;
 
     /** @var UserLoginDTO */
-    protected $entityDTO;
+    protected $userLoginDTO;
 
     public function __construct(UserLogin $userLogin)
     {
-        $this->entity = $userLogin;
+        $this->userLogin = $userLogin;
 
-        $this->entityDTO = new UserLoginDTO;
-        $this->entityDTO->email      = $userLogin->getEmail();
-        $this->entityDTO->ip4        = $userLogin->getIp4();
-        $this->entityDTO->result     = $userLogin->getResult();
-        $this->entityDTO->resultText = $userLogin->getResultText();
-
-        $this->setId();
-        $this->setCreated();
+        $this->userLoginDTO = new UserLoginDTO;
+        $this->userLoginDTO->id         = $this->userLogin->getId();
+        $this->userLoginDTO->encodedId  = BaseConvert::encode($this->userLogin->getId());
+        $this->userLoginDTO->email      = $userLogin->getEmail();
+        $this->userLoginDTO->ip4        = $userLogin->getIp4();
+        $this->userLoginDTO->result     = $userLogin->getResult();
+        $this->userLoginDTO->resultText = $userLogin->getResultText();
+        $this->userLoginDTO->created    = $this->userLogin->getCreated();
     }
 
     public function withUser()
     {
-        $user = $this->entity->getUser();
+        $user = $this->userLogin->getUser();
         if ($user !== null) {
-            $this->entityDTO->user = $user->getDTOBuilder()
+            $this->userLoginDTO->user = $user->getDTOBuilder()
                 ->build();
         }
         return $this;
@@ -40,5 +41,10 @@ class UserLoginDTOBuilder extends AbstractDTOBuilder
     {
         return $this
             ->withUser();
+    }
+
+    public function build()
+    {
+        return $this->userLoginDTO;
     }
 }
