@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityDTO;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserToken;
 
-class UserTokenDTOTest extends \PHPUnit_Framework_TestCase
+class UserTokenDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {

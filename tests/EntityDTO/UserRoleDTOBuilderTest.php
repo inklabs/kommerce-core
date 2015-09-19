@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 use inklabs\kommerce\Entity\UserRole;
 
-class UserRoleDTOTest extends \PHPUnit_Framework_TestCase
+class UserRoleDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
