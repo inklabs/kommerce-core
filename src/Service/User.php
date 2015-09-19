@@ -98,6 +98,15 @@ class User extends AbstractService
     }
 
     /**
+     * @param string $email
+     * @return Entity\User|null
+     */
+    public function findOneByEmail($email)
+    {
+        return $this->userRepository->findOneByemail($email);
+    }
+
+    /**
      * @param string $queryString
      * @param Entity\Pagination $pagination
      * @return Entity\User[]

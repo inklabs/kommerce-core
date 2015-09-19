@@ -30,7 +30,7 @@ class UserTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $user = $this->getDummyUser();
+        $user = $this->getDummyUser('test1@example.com');
         $this->userService->create($user);
         $this->assertTrue($user instanceof Entity\User);
     }
@@ -49,6 +49,12 @@ class UserTest extends Helper\DoctrineTestCase
     public function testFind()
     {
         $viewUser = $this->userService->find(1);
+        $this->assertTrue($viewUser instanceof Entity\User);
+    }
+
+    public function testFindOneByEmail()
+    {
+        $viewUser = $this->userService->findOneByEmail('test1@example.com');
         $this->assertTrue($viewUser instanceof Entity\User);
     }
 
