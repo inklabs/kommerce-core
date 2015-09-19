@@ -33,9 +33,9 @@ modules in this project:
       ```
 
 * EntityDTO
-    - Often you want to use your entities as Data Transfer Objects (DTO) in your main application
-      These classes are simple objects containing public class member variables. The complete network graph
-      relationships are available if you request them using the EntityDTOBuilder (e.g., withAllData()).
+    - Often you want to use your entities as Data Transfer Objects (DTO) in your main application.
+      These classes are simple anemic objects containing public class member variables. Using the EntityDTOBuilder,
+      the complete network graph relationships are available (e.g., withAllData()) prior to calling build();
 
       ```php
       $product = new Entity\Product;
