@@ -56,10 +56,10 @@ class User implements EntityInterface
     public function __construct()
     {
         $this->setCreated();
-        $this->roles = new ArrayCollection();
-        $this->tokens = new ArrayCollection();
-        $this->orders = new ArrayCollection();
-        $this->logins = new ArrayCollection();
+        $this->roles = new ArrayCollection;
+        $this->tokens = new ArrayCollection;
+        $this->orders = new ArrayCollection;
+        $this->logins = new ArrayCollection;
 
         $this->totalLogins = 0;
         $this->lastLogin = null;
@@ -300,5 +300,10 @@ class User implements EntityInterface
     public function getDTOBuilder()
     {
         return new UserDTOBuilder($this);
+    }
+
+    public function __toString()
+    {
+        return (string) print_r($this->getDTOBuilder()->build(), true);
     }
 }

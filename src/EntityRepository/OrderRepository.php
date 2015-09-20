@@ -78,6 +78,6 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
 
     public function getOrdersByUserId($userId)
     {
-        return $this->findBy(['user' => $userId]);
+        return $this->findBy(['user' => $userId], ['created' => 'DESC']);
     }
 }

@@ -20,6 +20,7 @@ class UserDTOBuilder
         $this->userDTO = new UserDTO;
         $this->userDTO->id          = $this->user->getId();
         $this->userDTO->encodedId   = BaseConvert::encode($this->user->getId());
+        $this->userDTO->externalId  = $this->user->getExternalId();
         $this->userDTO->email       = $this->user->getEmail();
         $this->userDTO->firstName   = $this->user->getFirstName();
         $this->userDTO->lastName    = $this->user->getLastName();

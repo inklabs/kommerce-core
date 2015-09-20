@@ -3,8 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentGenerator;
-use inklabs\kommerce\Lib\ReferenceNumber\SequentialGenerator;
-use inklabs\kommerce\Lib\ReferenceNumber\RepositoryInterface;
 use inklabs\kommerce\Service;
 use inklabs\kommerce\tests\Helper;
 

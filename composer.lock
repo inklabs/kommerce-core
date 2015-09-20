@@ -755,12 +755,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "93c0bce3f600502b59ba827ddf7d48499bc56f3f"
+                "reference": "51e2f9d81003e5c60097282bb2fbb3676fd88893"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/93c0bce3f600502b59ba827ddf7d48499bc56f3f",
-                "reference": "93c0bce3f600502b59ba827ddf7d48499bc56f3f",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/51e2f9d81003e5c60097282bb2fbb3676fd88893",
+                "reference": "51e2f9d81003e5c60097282bb2fbb3676fd88893",
                 "shasum": ""
             },
             "require": {
@@ -804,7 +804,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2015-09-14 14:15:17"
+            "time": "2015-09-19 20:42:44"
         },
         {
             "name": "symfony/translation",
@@ -812,12 +812,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation.git",
-                "reference": "606d2ea556516d9c63f8efe2eba4feda85a0dda1"
+                "reference": "80fa362cea6a3da2fcd68bb7e4f67de19fd61004"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Translation/zipball/606d2ea556516d9c63f8efe2eba4feda85a0dda1",
-                "reference": "606d2ea556516d9c63f8efe2eba4feda85a0dda1",
+                "url": "https://api.github.com/repos/symfony/Translation/zipball/80fa362cea6a3da2fcd68bb7e4f67de19fd61004",
+                "reference": "80fa362cea6a3da2fcd68bb7e4f67de19fd61004",
                 "shasum": ""
             },
             "require": {
@@ -865,7 +865,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2015-09-16 14:54:16"
+            "time": "2015-09-18 20:35:55"
         },
         {
             "name": "symfony/validator",
@@ -2115,12 +2115,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "142440d48e10fd4b4f2ffb2d72fa0aad6f03cacf"
+                "reference": "ac42eb0ea4a75087048e075f83e5f09823643454"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/142440d48e10fd4b4f2ffb2d72fa0aad6f03cacf",
-                "reference": "142440d48e10fd4b4f2ffb2d72fa0aad6f03cacf",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/ac42eb0ea4a75087048e075f83e5f09823643454",
+                "reference": "ac42eb0ea4a75087048e075f83e5f09823643454",
                 "shasum": ""
             },
             "require": {
@@ -2156,7 +2156,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2015-08-27 06:53:13"
+            "time": "2015-09-19 19:59:50"
         },
         {
             "name": "symfony/yaml",
