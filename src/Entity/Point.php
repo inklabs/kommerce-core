@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\PointDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 use inklabs\kommerce\View;
@@ -70,5 +71,10 @@ class Point implements EntityInterface
     public function getView()
     {
         return new View\Point($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new PointDTOBuilder($this);
     }
 }

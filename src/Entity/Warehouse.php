@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\WarehouseDTOBuilder;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -53,5 +54,10 @@ class Warehouse implements EntityInterface
     public function getView()
     {
         return new View\Warehouse($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new WarehouseDTOBuilder($this);
     }
 }

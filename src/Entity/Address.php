@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\AddressDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 use inklabs\kommerce\View;
@@ -179,5 +180,10 @@ class Address implements EntityInterface
     public function getView()
     {
         return new View\Address($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new AddressDTOBuilder($this);
     }
 }

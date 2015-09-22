@@ -301,9 +301,4 @@ class User implements EntityInterface
     {
         return new UserDTOBuilder($this);
     }
-
-    public function __toString()
-    {
-        return (string) print_r($this->getDTOBuilder()->build(), true);
-    }
 }
