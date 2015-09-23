@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\ShippingRateDTOBuilder;
 use inklabs\kommerce\View;
 
 class ShippingRate
@@ -168,5 +169,10 @@ class ShippingRate
     public function getView()
     {
         return new View\ShippingRate($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new ShippingRateDTOBuilder($this);
     }
 }

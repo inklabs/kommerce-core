@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\ProductDTOBuilder;
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Lib;
@@ -414,5 +415,10 @@ class Product implements EntityInterface
     public function getView()
     {
         return new View\Product($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new ProductDTOBuilder($this);
     }
 }

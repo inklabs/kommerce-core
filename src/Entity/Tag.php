@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\TagDTOBuilder;
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -213,5 +214,10 @@ class Tag implements EntityInterface
     public function getView()
     {
         return new View\Tag($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new TagDTOBuilder($this);
     }
 }
