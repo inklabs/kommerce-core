@@ -13,6 +13,10 @@ It is PSR compatible, dependency free, and contains 100% code coverage using TDD
 All code (including tests) conform to the PSR-2 coding standards. The namespace and autoloader
 are using the PSR-4 standard.
 
+## Architecture
+
+![Architecture](http://i.imgur.com/rJVaoF9.png)
+
 ## Description
 
 This project is over 28,000 lines of code. Unit tests account for 30-40% of that total. Below are the
