@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\View;
 
 class Pagination
@@ -62,5 +63,10 @@ class Pagination
     public function getView()
     {
         return new View\Pagination($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new PaginationDTOBuilder($this);
     }
 }

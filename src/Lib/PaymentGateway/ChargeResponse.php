@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityDTO\Builder\ChargeResponseDTOBuilder;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -163,5 +164,10 @@ class ChargeResponse implements Entity\EntityInterface
     public function getView()
     {
         return new View\ChargeResponse($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new ChargeResponseDTOBuilder($this);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\CatalogPromotionDTOBuilder;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -66,5 +67,10 @@ class CatalogPromotion extends Promotion
     public function getView()
     {
         return new View\CatalogPromotion($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new CatalogPromotionDTOBuilder($this);
     }
 }
