@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\UserToken;
 
 class UserTokenDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreate()
+    public function testBuild()
     {
         $entityUserToken = new UserToken;
         $entityUserToken->setUser(new User);

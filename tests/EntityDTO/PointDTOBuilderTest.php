@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Point;
 
 class PointDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreate()
+    public function testBuild()
     {
         $point = new Point;
 

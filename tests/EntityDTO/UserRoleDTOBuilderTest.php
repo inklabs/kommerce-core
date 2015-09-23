@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\UserRole;
 
 class UserRoleDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreate()
+    public function testBuild()
     {
         $userRole = new UserRole;
 

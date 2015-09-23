@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\TaxRate;
 
 class TaxRateDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreate()
+    public function testBuild()
     {
         $taxRate = new TaxRate;
 

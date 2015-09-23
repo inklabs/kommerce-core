@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\Tag;
 
 class ImageDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreate()
+    public function testBuild()
     {
         $image = new Image;
         $image->setProduct(new Product);

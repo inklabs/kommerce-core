@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\UserLogin;
 
 class UserLoginDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreate()
+    public function testBuild()
     {
         $entityUserLogin = new UserLogin;
         $entityUserLogin->setUser(new User);

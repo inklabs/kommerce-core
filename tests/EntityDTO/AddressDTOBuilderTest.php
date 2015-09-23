@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Point;
 
 class AddressDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreate()
+    public function testBuild()
     {
         $address = new Address;
         $address->setPoint(new Point);

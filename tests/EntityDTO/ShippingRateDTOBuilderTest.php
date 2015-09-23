@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\ShippingRate;
 
 class ShippingRateDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreate()
+    public function testBuild()
     {
         $shippingRate = new ShippingRate;
 
