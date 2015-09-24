@@ -46,7 +46,7 @@ abstract class AbstractPayment implements Entity\EntityInterface
     }
 
     /**
-     * @return \inklabs\kommerce\View\AbstractPayment
+     * @return View\AbstractPayment
      */
     abstract public function getView();
 }

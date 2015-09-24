@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-class UserLoginException extends \Exception
+use Exception;
+
+class UserLoginException extends Exception
 {
     const USER_NOT_FOUND = 0;
     const USER_NOT_ACTIVE = 1;

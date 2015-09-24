@@ -329,7 +329,7 @@ class Cart extends AbstractService
 
     /**
      * @param int $cartId
-     * @param \inklabs\kommerce\Entity\ShippingRate $shippingRate
+     * @param Entity\ShippingRate $shippingRate
      */
     public function setShippingRate($cartId, Entity\ShippingRate $shippingRate)
     {

@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Doctrine\ORM\QueryBuilder as KommerceQueryBuilder;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Entity;
 
@@ -33,7 +34,7 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
     public function testGetQueryBuilder()
     {
         $queryBuilder = $this->userRepository->getQueryBuilder();
-        $this->assertTrue($queryBuilder instanceof \inklabs\kommerce\Doctrine\ORM\QueryBuilder);
+        $this->assertTrue($queryBuilder instanceof KommerceQueryBuilder);
     }
 
     public function testSave()

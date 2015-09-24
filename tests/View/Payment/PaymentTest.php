@@ -16,6 +16,6 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         )
             ->export();
 
-        $this->assertTrue($payment instanceof \inklabs\kommerce\View\AbstractPayment);
+        $this->assertTrue($payment instanceof AbstractPayment);
     }
 }

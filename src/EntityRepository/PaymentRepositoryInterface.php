@@ -13,7 +13,7 @@ interface PaymentRepositoryInterface
 
     /**
      * @param int $id
-     * @return \inklabs\kommerce\Entity\AbstractPayment
+     * @return Entity\AbstractPayment
      */
     public function find($id);
 }
