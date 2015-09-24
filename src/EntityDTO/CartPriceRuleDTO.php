@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 class CartPriceRuleDTO
 {
-    /** @var CartPriceRuleAbstractItemDTO[] */
+    /** @var CartPriceRuleProductItemDTO|CartPriceRuleTagItemDTO[] */
     public $cartPriceRuleItems = [];
 
     /** @var CartPriceRuleDiscountDTO[] */

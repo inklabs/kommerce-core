@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce\View\CartPriceRuleItem;
+namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\View\CartPriceRuleTagItem;
 
-class TagTest extends \PHPUnit_Framework_TestCase
+class CartPriceruleTagItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
