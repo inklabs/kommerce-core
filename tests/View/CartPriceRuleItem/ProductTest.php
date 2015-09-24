@@ -3,19 +3,20 @@ namespace inklabs\kommerce\View\CartPriceRuleItem;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
+use inklabs\kommerce\View\CartPriceRuleProductItem;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $entityCartPriceRuleItem = new Entity\CartPriceRuleItem\Product(new Entity\Product, 1);
+        $entityCartPriceRuleItem = new Entity\CartPriceRuleProductItem(new Entity\Product, 1);
 
-        $cartPriceRuleItem = new Product($entityCartPriceRuleItem);
+        $cartPriceRuleItem = new CartPriceRuleProductItem($entityCartPriceRuleItem);
         $cartPriceRuleItem
             ->withAllData()
             ->export();
 
-        $this->assertTrue($cartPriceRuleItem instanceof Product);
+        $this->assertTrue($cartPriceRuleItem instanceof CartPriceRuleProductItem);
         $this->assertTrue($cartPriceRuleItem->product instanceof View\Product);
     }
 }

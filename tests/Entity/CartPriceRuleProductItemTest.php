@@ -1,15 +1,15 @@
 <?php
-namespace inklabs\kommerce\Entity\CartPriceRuleItem;
+namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
-class ProductTest extends \PHPUnit_Framework_TestCase
+class CartPriceRuleProductItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $priceRule = new Product(new Entity\Product, 1);
+        $priceRule = new CartPriceRuleProductItem(new Entity\Product, 1);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -17,7 +17,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($priceRule));
         $this->assertTrue($priceRule->getProduct() instanceof Entity\Product);
-        $this->assertTrue($priceRule->getView() instanceof View\CartPriceRuleItem\Product);
+        $this->assertTrue($priceRule->getView() instanceof View\CartPriceRuleProductItem);
     }
 
     private function getProduct($id)
@@ -35,7 +35,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $cartItem->setProduct($product);
         $cartItem->setQuantity(1);
 
-        $priceRule = new Product($product, 1);
+        $priceRule = new CartPriceRuleProductItem($product, 1);
 
         $this->assertTrue($priceRule->matches($cartItem));
     }
@@ -48,7 +48,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
 
-        $priceRule = new Product($product, 1);
+        $priceRule = new CartPriceRuleProductItem($product, 1);
 
         $this->assertTrue($priceRule->matches($cartItem));
     }
@@ -62,7 +62,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(1);
 
-        $priceRule = new Product($product2, 1);
+        $priceRule = new CartPriceRuleProductItem($product2, 1);
 
         $this->assertFalse($priceRule->matches($cartItem));
     }
@@ -75,7 +75,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(1);
 
-        $priceRule = new Product($product1, 2);
+        $priceRule = new CartPriceRuleProductItem($product1, 2);
 
         $this->assertFalse($priceRule->matches($cartItem));
     }

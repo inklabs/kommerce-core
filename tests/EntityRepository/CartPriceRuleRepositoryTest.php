@@ -9,7 +9,7 @@ class CartPriceRuleRepositoryTest extends Helper\DoctrineTestCase
     protected $metaDataClassNames = [
         'kommerce:CartPriceRule',
         'kommerce:CartPriceRuleDiscount',
-        'kommerce:CartPriceRuleItem\AbstractItem',
+        'kommerce:AbstractCartPriceRuleItem',
         'kommerce:Product',
     ];
 
@@ -27,8 +27,8 @@ class CartPriceRuleRepositoryTest extends Helper\DoctrineTestCase
         $productPoster = $this->getDummyProduct(2);
 
         $cartPriceRule = $this->getDummyCartPriceRule();
-        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productShirt, 1));
-        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productPoster, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productShirt, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productPoster, 1));
         $cartPriceRule->addDiscount(new Entity\CartPriceRuleDiscount($productPoster));
 
         $this->entityManager->persist($productShirt);

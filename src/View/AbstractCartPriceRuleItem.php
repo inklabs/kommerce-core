@@ -1,17 +1,17 @@
 <?php
-namespace inklabs\kommerce\View\CartPriceRuleItem;
+namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 
-abstract class AbstractItem implements View\ViewInterface
+abstract class AbstractCartPriceRuleItem implements View\ViewInterface
 {
     public $id;
     public $quantity;
     public $created;
     public $updated;
 
-    public function __construct(Entity\CartPriceRuleItem\AbstractItem $item)
+    public function __construct(Entity\AbstractCartPriceRuleItem $item)
     {
         $this->item = $item;
 

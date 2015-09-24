@@ -4,15 +4,15 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="inklabs\kommerce\Entity\CartPriceRuleItem\AbstractItem"
+    <entity name="inklabs\kommerce\Entity\AbstractCartPriceRuleItem"
             table="CartPriceRuleItem"
             inheritance-type="SINGLE_TABLE"
-            repository-class="inklabs\kommerce\EntityRepository\CartPriceRuleItem\ItemRepository">
+            repository-class="inklabs\kommerce\EntityRepository\CartPriceRuleItemRepository">
 
         <discriminator-column name="type" type="string" length="7"/>
         <discriminator-map>
-            <discriminator-mapping value="product" class="Product"/>
-            <discriminator-mapping value="tag" class="Tag"/>
+            <discriminator-mapping value="product" class="CartPriceRuleProductItem"/>
+            <discriminator-mapping value="tag" class="CartPriceRuleTagItem"/>
         </discriminator-map>
 
         <id name="id" type="integer">

@@ -1,10 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-class CatalogPromotionDTO extends AbstractPromotionDTO
+class CartPriceRuleTagItemDTO extends AbstractCartPriceRuleItemDTO
 {
-    public $code;
-
     /** @var TagDTO */
     public $tag;
 }

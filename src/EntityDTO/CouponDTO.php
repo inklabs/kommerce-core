@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-class CouponDTO extends PromotionDTO
+class CouponDTO extends AbstractPromotionDTO
 {
     public $code;
     public $flagFreeShipping;

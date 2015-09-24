@@ -6,10 +6,10 @@ use inklabs\kommerce\tests\Entity\TestablePromotion;
 
 class TestablePromotionDTOBuilder extends AbstractPromotionDTOBuilder
 {
-    public function __construct(TestablePromotion $testablePromotionInvalid)
+    public function __construct(TestablePromotion $testablePromotion)
     {
         $this->promotionDTO = new TestablePromotionDTO;
 
-        parent::__construct($testablePromotionInvalid);
+        parent::__construct($testablePromotion);
     }
 }

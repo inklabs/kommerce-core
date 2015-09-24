@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDTOBuilder;
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -8,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CartPriceRule extends AbstractPromotion
 {
-    /** @var CartPriceRuleItem\AbstractItem[] */
+    /** @var CartPriceRuleProductItem[]|CartPriceRuleTagItem[] */
     protected $cartPriceRuleItems;
 
     /** @var CartPriceRuleDiscount[] */
@@ -17,8 +18,8 @@ class CartPriceRule extends AbstractPromotion
     public function __construct()
     {
         parent::__construct();
-        $this->cartPriceRuleItems = new ArrayCollection();
-        $this->cartPriceRuleDiscounts = new ArrayCollection();
+        $this->cartPriceRuleItems = new ArrayCollection;
+        $this->cartPriceRuleDiscounts = new ArrayCollection;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -26,7 +27,7 @@ class CartPriceRule extends AbstractPromotion
         parent::loadValidatorMetadata($metadata);
     }
 
-    public function addItem(CartPriceRuleItem\AbstractItem $item)
+    public function addItem(AbstractCartPriceRuleItem $item)
     {
         $item->setCartPriceRule($this);
         $this->cartPriceRuleItems[] = $item;
@@ -76,5 +77,10 @@ class CartPriceRule extends AbstractPromotion
     public function getView()
     {
         return new View\CartPriceRule($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new CartPriceRuleDTOBuilder($this);
     }
 }

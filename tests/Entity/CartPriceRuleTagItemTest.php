@@ -1,15 +1,16 @@
 <?php
-namespace inklabs\kommerce\Entity\CartPriceRuleItem;
+namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\CartPriceRuleTagItem;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
-class TagTest extends \PHPUnit_Framework_TestCase
+class CartPriceRuleTagItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $priceRule = new Tag(new Entity\Tag, 1);
+        $priceRule = new CartPriceRuleTagItem(new Entity\Tag, 1);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -17,7 +18,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($priceRule));
         $this->assertTrue($priceRule->getTag() instanceof Entity\Tag);
-        $this->assertTrue($priceRule->getView() instanceof View\CartPriceRuleItem\Tag);
+        $this->assertTrue($priceRule->getView() instanceof View\CartPriceRuleTagItem);
     }
 
     private function getTag($id)
@@ -44,7 +45,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(1);
 
-        $priceRule = new Tag($tag1, 1);
+        $priceRule = new CartPriceRuleTagItem($tag1, 1);
 
         $this->assertTrue($priceRule->matches($cartItem));
     }
@@ -59,7 +60,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(2);
 
-        $priceRule = new Tag($tag1, 1);
+        $priceRule = new CartPriceRuleTagItem($tag1, 1);
 
         $this->assertTrue($priceRule->matches($cartItem));
     }
@@ -76,7 +77,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(1);
 
-        $priceRule = new Tag($tag2, 1);
+        $priceRule = new CartPriceRuleTagItem($tag2, 1);
 
         $this->assertFalse($priceRule->matches($cartItem));
     }
@@ -92,7 +93,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(1);
 
-        $priceRule = new Tag($tag1, 2);
+        $priceRule = new CartPriceRuleTagItem($tag1, 2);
 
         $this->assertFalse($priceRule->matches($cartItem));
     }
@@ -100,7 +101,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
     public function testGetTag()
     {
         $tag1 = $this->getTag(1);
-        $priceRule = new Tag($tag1, 1);
+        $priceRule = new CartPriceRuleTagItem($tag1, 1);
         $this->assertTrue($priceRule->getTag() instanceof Entity\Tag);
     }
 }

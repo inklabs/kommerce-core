@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity;
 
 class CartPriceRule extends AbstractPromotion
 {
-    /** @var CartPriceRuleItem\AbstractItem[] */
+    /** @var \inklabs\kommerce\View\AbstractCartPriceRuleItem[] */
     public $cartPriceRuleItems = [];
 
     /** @var CartPriceRuleDiscount[] */
@@ -35,7 +35,6 @@ class CartPriceRule extends AbstractPromotion
 
         return $this;
     }
-
 
     public function withAllData()
     {

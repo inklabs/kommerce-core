@@ -1,15 +1,15 @@
 <?php
-namespace inklabs\kommerce\View\CartPriceRuleItem;
+namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 
-class Tag extends AbstractItem
+class CartPriceRuleTagItem extends AbstractCartPriceRuleItem
 {
     /** @var View\Tag */
     public $tag;
 
-    public function __construct(Entity\CartPriceRuleItem\AbstractItem $item)
+    public function __construct(Entity\AbstractCartPriceRuleItem $item)
     {
         parent::__construct($item);
     }

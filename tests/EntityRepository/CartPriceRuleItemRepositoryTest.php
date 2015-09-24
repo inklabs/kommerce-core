@@ -1,24 +1,24 @@
 <?php
-namespace inklabs\kommerce\EntityRepository\CartPriceRuleItem;
+namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\tests\Helper;
 
-class ItemRepositoryTest extends Helper\DoctrineTestCase
+class CartPriceRuleItemRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
         'kommerce:CartPriceRule',
         'kommerce:CartPriceRuleDiscount',
-        'kommerce:CartPriceRuleItem\AbstractItem',
+        'kommerce:AbstractCartPriceRuleItem',
         'kommerce:Product',
     ];
 
     /**
-     * @return ItemRepository
+     * @return CartPriceRuleItemRepository
      */
     private function getRepository()
     {
-        return $this->entityManager->getRepository('kommerce:CartPriceRuleItem\AbstractItem');
+        return $this->entityManager->getRepository('kommerce:AbstractCartPriceRuleItem');
     }
 
     public function setupCartPriceRuleItem()
@@ -27,8 +27,8 @@ class ItemRepositoryTest extends Helper\DoctrineTestCase
         $productPoster = $this->getDummyProduct(2);
 
         $cartPriceRule = $this->getDummyCartPriceRule();
-        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productShirt, 1));
-        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productPoster, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productShirt, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productPoster, 1));
         $cartPriceRule->addDiscount(new Entity\CartPriceRuleDiscount($productPoster));
 
         $this->entityManager->persist($productShirt);
@@ -50,7 +50,7 @@ class ItemRepositoryTest extends Helper\DoctrineTestCase
         $cartPriceRuleItem->getProduct()->getName();
         $cartPriceRuleItem->getCartPriceRule()->getName();
 
-        $this->assertTrue($cartPriceRuleItem instanceof Entity\CartPriceRuleItem\AbstractItem);
+        $this->assertTrue($cartPriceRuleItem instanceof Entity\AbstractCartPriceRuleItem);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 }

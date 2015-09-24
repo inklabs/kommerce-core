@@ -24,7 +24,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
     public function testAdders()
     {
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product(new Product, 1));
+        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem(new Product, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount(new Product, 1));
         $this->assertSame(1, count($cartPriceRule->getCartPriceRuleItems()));
         $this->assertSame(1, count($cartPriceRule->getCartPriceRuleDiscounts()));
@@ -36,7 +36,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product->setid(1);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product($product, 1));
+        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem($product, 1));
 
         $cartItem = new CartItem;
         $cartItem->setProduct($product);
@@ -57,8 +57,8 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product2->setid(2);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product($product1, 1));
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product($product2, 1));
+        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem($product1, 1));
+        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem($product2, 1));
 
         $cartItem1 = new CartItem;
         $cartItem1->setProduct($product1);
@@ -84,7 +84,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product2->setid(2);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product($product1, 1));
+        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem($product1, 1));
 
         $cartItem = new CartItem;
         $cartItem->setProduct($product2);
@@ -102,7 +102,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product->setid(1);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRuleItem\Product($product, 1));
+        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem($product, 1));
 
         $cartItem = new CartItem;
         $cartItem->setProduct($product);

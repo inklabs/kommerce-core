@@ -8,7 +8,7 @@
             repository-class="inklabs\kommerce\EntityRepository\CartPriceRuleRepository">
 
         <one-to-many field="cartPriceRuleItems"
-                     target-entity="inklabs\kommerce\Entity\CartPriceRuleItem\AbstractItem"
+                     target-entity="inklabs\kommerce\Entity\AbstractCartPriceRuleItem"
                      mapped-by="cartPriceRule"
                      fetch="EXTRA_LAZY">
             <cascade>

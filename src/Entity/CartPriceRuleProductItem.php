@@ -1,11 +1,12 @@
 <?php
-namespace inklabs\kommerce\Entity\CartPriceRuleItem;
+namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleProductItemDTOBuilder;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
-class Product extends AbstractItem
+class CartPriceRuleProductItem extends AbstractCartPriceRuleItem
 {
     /** @var Entity\Product */
     protected $product;
@@ -40,6 +41,11 @@ class Product extends AbstractItem
 
     public function getView()
     {
-        return new View\CartPriceRuleItem\Product($this);
+        return new View\CartPriceRuleProductItem($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new CartPriceRuleProductItemDTOBuilder($this);
     }
 }

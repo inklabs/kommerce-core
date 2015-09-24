@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\tests\EntityDTO;
 
-use inklabs\kommerce\EntityDTO\PromotionDTO;
+use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
 
-class TestablePromotionDTO extends PromotionDTO
+class TestablePromotionDTO extends AbstractPromotionDTO
 {
 }

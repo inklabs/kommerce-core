@@ -1,13 +1,11 @@
 <?php
-namespace inklabs\kommerce\Entity\CartPriceRuleItem;
+namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Entity\IdTrait;
-use inklabs\kommerce\Entity\TimeTrait;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractItem implements Entity\EntityInterface
+abstract class AbstractCartPriceRuleItem implements Entity\EntityInterface
 {
     use TimeTrait, IdTrait;
 

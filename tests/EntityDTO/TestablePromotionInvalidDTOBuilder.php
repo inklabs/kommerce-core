@@ -6,8 +6,8 @@ use inklabs\kommerce\tests\Entity\TestablePromotionInvalid;
 
 class TestablePromotionInvalidDTOBuilder extends AbstractPromotionDTOBuilder
 {
-    public function __construct(TestablePromotionInvalid $testablePromotionInvalid)
+    public function __construct(TestablePromotionInvalid $testablePromotion)
     {
-        parent::__construct($testablePromotionInvalid);
+        parent::__construct($testablePromotion);
     }
 }

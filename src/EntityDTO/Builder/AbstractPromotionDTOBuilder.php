@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AbstractPromotion;
-use inklabs\kommerce\EntityDTO\PromotionDTO;
+use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
 use inklabs\kommerce\Lib\BaseConvert;
 use RuntimeException;
 
@@ -11,16 +11,16 @@ abstract class AbstractPromotionDTOBuilder
     /** @var AbstractPromotion */
     protected $promotion;
 
-    /** @var PromotionDTO */
+    /** @var AbstractPromotionDTO */
     protected $promotionDTO;
 
-    public function __construct(AbstractPromotion $promotionInvalid)
+    public function __construct(AbstractPromotion $promotion)
     {
         if ($this->promotionDTO === null) {
             throw new RuntimeException('promotionDTO has not been initialized');
         }
 
-        $this->promotion = $promotionInvalid;
+        $this->promotion = $promotion;
 
         $this->promotionDTO->id             = $this->promotion->getId();
         $this->promotionDTO->encodedId      = BaseConvert::encode($this->promotion->getId());

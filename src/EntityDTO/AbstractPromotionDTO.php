@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 use DateTime;
 
-class PromotionDTO
+class AbstractPromotionDTO
 {
     public $id;
     public $encodedId;

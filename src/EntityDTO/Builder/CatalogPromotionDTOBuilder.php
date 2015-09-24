@@ -15,11 +15,11 @@ class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
     /** @var CatalogPromotionDTO */
     protected $promotionDTO;
 
-    public function __construct(CatalogPromotion $catalogPromotionInvalid)
+    public function __construct(CatalogPromotion $catalogPromotion)
     {
         $this->promotionDTO = new CatalogPromotionDTO;
 
-        parent::__construct($catalogPromotionInvalid);
+        parent::__construct($catalogPromotion);
 
         $this->promotionDTO->code = $this->promotion->getCode();
     }

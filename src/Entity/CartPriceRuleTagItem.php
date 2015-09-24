@@ -1,11 +1,12 @@
 <?php
-namespace inklabs\kommerce\Entity\CartPriceRuleItem;
+namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleTagItemDTOBuilder;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
-class Tag extends AbstractItem
+class CartPriceRuleTagItem extends AbstractCartPriceRuleItem
 {
     /** @var Entity\Tag */
     protected $tag;
@@ -42,6 +43,11 @@ class Tag extends AbstractItem
 
     public function getView()
     {
-        return new View\CartPriceRuleItem\Tag($this);
+        return new View\CartPriceRuleTagItem($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new CartPriceRuleTagItemDTOBuilder($this);
     }
 }

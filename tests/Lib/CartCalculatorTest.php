@@ -49,8 +49,8 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $cartPriceRule = new Entity\CartPriceRule;
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
-        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productShirt, 1));
-        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productPoster, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productShirt, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productPoster, 1));
         $cartPriceRule->addDiscount(new Entity\CartPriceRuleDiscount($productPoster));
 
         $pricing = new Lib\Pricing;
@@ -98,8 +98,8 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $cartPriceRule = new Entity\CartPriceRule;
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
-        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productShirt, 1));
-        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productPoster, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productShirt, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productPoster, 1));
         $cartPriceRule->addDiscount(new Entity\CartPriceRuleDiscount($productPoster, 1));
 
         $pricing = new Lib\Pricing;
@@ -147,8 +147,8 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $cartPriceRule = new Entity\CartPriceRule;
         $cartPriceRule->setName('Buy a Shirt get a FREE poster');
-        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productShirt, 1));
-        $cartPriceRule->addItem(new Entity\CartPriceRuleItem\Product($productPoster, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productShirt, 1));
+        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productPoster, 1));
         $cartPriceRule->addDiscount(new Entity\CartPriceRuleDiscount($productPoster, 1));
         $cartPriceRule->setReducesTaxSubtotal(true);
 

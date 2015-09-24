@@ -6,7 +6,7 @@ use inklabs\kommerce\tests\Entity\TestablePromotion;
 use inklabs\kommerce\tests\Entity\TestablePromotionInvalid;
 use RuntimeException;
 
-class PromotionDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class AbstractPromotionDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
     public function testBuild()
     {
@@ -17,7 +17,7 @@ class PromotionDTOBuilderTest extends \PHPUnit_Framework_TestCase
         $promotionDTO = $promotion->getDTOBuilder()
             ->build();
 
-        $this->assertTrue($promotionDTO instanceof PromotionDTO);
+        $this->assertTrue($promotionDTO instanceof AbstractPromotionDTO);
         $this->assertSame($promotionDTO->startFormatted, '2015-01-29');
         $this->assertSame($promotionDTO->endFormatted, '2015-01-30');
     }
