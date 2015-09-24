@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class UserRole implements EntityInterface
 {
-    use Accessor\Time, Accessor\Id;
+    use TimeTrait, IdTrait;
 
     /** @var string */
     protected $name;

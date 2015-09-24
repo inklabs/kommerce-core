@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Order implements EntityInterface, ReferenceNumber\EntityInterface
 {
-    use Accessor\Time, Accessor\Id;
+    use TimeTrait, IdTrait;
 
     /** @var string */
     protected $externalId;

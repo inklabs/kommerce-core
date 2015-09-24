@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib;
 
 class CartItemOptionProduct
 {
-    use Accessor\Time, Accessor\Id;
+    use TimeTrait, IdTrait;
 
     /** @var OptionProduct */
     protected $optionProduct;

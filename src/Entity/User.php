@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class User implements EntityInterface
 {
-    use Accessor\Time, Accessor\Id;
+    use TimeTrait, IdTrait;
 
     /** @var string */
     protected $externalId;

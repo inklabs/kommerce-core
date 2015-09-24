@@ -5,7 +5,7 @@ use inklabs\kommerce\View;
 
 class OrderItemOptionValue
 {
-    use Accessor\Time, Accessor\Id;
+    use TimeTrait, IdTrait;
 
     /** @var string */
     protected $sku;

@@ -1,7 +1,7 @@
 <?php
-namespace inklabs\kommerce\Entity\Accessor;
+namespace inklabs\kommerce\Entity;
 
-trait Id
+trait IdTrait
 {
     /** @var int */
     protected $id;

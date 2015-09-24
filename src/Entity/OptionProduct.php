@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class OptionProduct implements EntityInterface
 {
-    use Accessor\Time, Accessor\Id;
+    use TimeTrait, IdTrait;
 
     /** @var int */
     protected $sortOrder;

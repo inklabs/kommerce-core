@@ -2,14 +2,15 @@
 namespace inklabs\kommerce\Entity\Payment;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\IdTrait;
+use inklabs\kommerce\Entity\TimeTrait;
 use inklabs\kommerce\View;
-use inklabs\kommerce\Entity\Accessor;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class Payment implements Entity\EntityInterface
 {
-    use Accessor\Time, Accessor\Id;
+    use TimeTrait, IdTrait;
 
     /** @var int */
     protected $amount;

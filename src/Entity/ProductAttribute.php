@@ -6,7 +6,7 @@ use inklabs\kommerce\View;
 
 class ProductAttribute
 {
-    use Accessor\Time, Accessor\Id;
+    use TimeTrait, IdTrait;
 
     /** @var Product */
     protected $product;

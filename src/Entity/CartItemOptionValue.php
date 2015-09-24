@@ -6,7 +6,7 @@ use inklabs\kommerce\Service;
 
 class CartItemOptionValue
 {
-    use Accessor\Time, Accessor\Id;
+    use TimeTrait, IdTrait;
 
     /** @var OptionValue */
     protected $optionValue;

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class UserLogin implements EntityInterface
 {
-    use Accessor\Created, Accessor\Id;
+    use CreatedTrait, IdTrait;
 
     /** @var string */
     protected $email;

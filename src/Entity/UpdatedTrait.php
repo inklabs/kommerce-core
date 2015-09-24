@@ -1,9 +1,9 @@
 <?php
-namespace inklabs\kommerce\Entity\Accessor;
+namespace inklabs\kommerce\Entity;
 
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 
-trait Updated
+trait UpdatedTrait
 {
     /** @var int */
     protected $updated;

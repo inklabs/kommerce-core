@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Cart implements EntityInterface
 {
-    use Accessor\Time, Accessor\Id;
+    use TimeTrait, IdTrait;
 
     /** @var CartItem[]|ArrayCollection */
     protected $cartItems;

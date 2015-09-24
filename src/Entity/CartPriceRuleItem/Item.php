@@ -2,13 +2,14 @@
 namespace inklabs\kommerce\Entity\CartPriceRuleItem;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Entity\Accessor;
+use inklabs\kommerce\Entity\IdTrait;
+use inklabs\kommerce\Entity\TimeTrait;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class Item implements Entity\EntityInterface
 {
-    use Accessor\Time, Accessor\Id;
+    use TimeTrait, IdTrait;
 
     /** @var int */
     protected $quantity;
