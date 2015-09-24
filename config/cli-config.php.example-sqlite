@@ -1,0 +1,19 @@
+<?php
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use inklabs\kommerce\Service\Kommerce;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$kommerce = new Kommerce(new Doctrine\Common\Cache\ArrayCache());
+$kommerce->setup([
+    'driver' => 'pdo_sqlite',
+    'memory' => true,
+]);
+
+$entityManager = $kommerce->getEntityManager();
+
+// Fix MySQL enum
+$platform = $entityManager->getConnection()->getDatabasePlatform();
+$platform->registerDoctrineTypeMapping('enum', 'string');
+
+return ConsoleRunner::createHelperSet($entityManager);
