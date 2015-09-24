@@ -1,8 +1,7 @@
 <?php
-namespace inklabs\kommerce\View\Payment;
+namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View\ViewInterface;
 
 abstract class AbstractPayment implements ViewInterface
 {
@@ -11,7 +10,7 @@ abstract class AbstractPayment implements ViewInterface
     public $created;
     public $updated;
 
-    public function __construct(Entity\Payment\AbstractPayment $payment)
+    public function __construct(Entity\AbstractPayment $payment)
     {
         $this->payment = $payment;
 

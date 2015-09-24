@@ -43,7 +43,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->setBillingAddress($billingAddress);
         $order->setUser(new User);
         $order->addCoupon(new Coupon);
-        $order->addPayment(new Payment\Cash(100));
+        $order->addPayment(new \inklabs\kommerce\Entity\CashPayment(100));
         $order->setReferenceNumber('xxx-xxxxxxx-xxxxxxx');
         $order->setShippingRate(new ShippingRate);
         $order->setTaxRate(new TaxRate);
@@ -69,7 +69,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($order->getCoupons()[0] instanceof Coupon);
         $this->assertTrue($order->getOrderItem(0) instanceof OrderItem);
         $this->assertTrue($order->getOrderItems()[0] instanceof OrderItem);
-        $this->assertTrue($order->getPayments()[0] instanceof Payment\AbstractPayment);
+        $this->assertTrue($order->getPayments()[0] instanceof \inklabs\kommerce\Entity\AbstractPayment);
         $this->assertTrue($order->getShippingRate() instanceof ShippingRate);
         $this->assertTrue($order->getTaxRate() instanceof TaxRate);
         $this->assertTrue($order->getProducts()[0] instanceof Product);

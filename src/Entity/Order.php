@@ -4,7 +4,6 @@ namespace inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib\ReferenceNumber;
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\Entity\Payment;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,7 +40,7 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
     /** @var OrderItem[] */
     protected $orderItems;
 
-    /** @var Payment\AbstractPayment[] */
+    /** @var AbstractPayment[] */
     protected $payments;
 
     /** @var Coupon[] */
@@ -213,7 +212,7 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
         return $this->orderItems[$orderItemIndex];
     }
 
-    public function addPayment(Payment\AbstractPayment $payment)
+    public function addPayment(AbstractPayment $payment)
     {
         $payment->setOrder($this);
         $this->payments[] = $payment;

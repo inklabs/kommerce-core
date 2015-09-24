@@ -199,7 +199,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyCashPayment($amount = 100)
     {
-        $payment = new Entity\Payment\Cash($amount);
+        $payment = new Entity\CashPayment($amount);
         return $payment;
     }
 

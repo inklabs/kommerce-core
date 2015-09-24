@@ -6,6 +6,7 @@ use DateTime;
 class PromotionDTO
 {
     public $id;
+    public $encodedId;
     public $name;
     public $type;
     public $typeText;

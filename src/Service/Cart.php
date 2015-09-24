@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Service;
 use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\OrderAddress;
-use inklabs\kommerce\Entity\Payment\AbstractPayment;
+use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;

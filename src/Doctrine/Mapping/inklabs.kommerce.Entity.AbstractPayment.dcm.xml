@@ -4,15 +4,15 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="inklabs\kommerce\Entity\Payment\AbstractPayment"
+    <entity name="inklabs\kommerce\Entity\AbstractPayment"
             table="Payment"
             inheritance-type="SINGLE_TABLE"
-            repository-class="inklabs\kommerce\EntityRepository\Payment\PaymentRepository">
+            repository-class="inklabs\kommerce\EntityRepository\PaymentRepository">
 
         <discriminator-column name="payment_type" type="string" length="6"/>
         <discriminator-map>
-            <discriminator-mapping value="cash" class="Cash"/>
-            <discriminator-mapping value="credit" class="Credit"/>
+            <discriminator-mapping value="cash" class="CashPayment"/>
+            <discriminator-mapping value="credit" class="CreditPayment"/>
         </discriminator-map>
 
         <lifecycle-callbacks>

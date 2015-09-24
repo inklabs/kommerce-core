@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-class CreditTest extends \PHPUnit_Framework_TestCase
+class CreditPaymentTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
@@ -21,11 +21,11 @@ class CreditTest extends \PHPUnit_Framework_TestCase
         $chargeRequest->setCurrency('usd');
         $chargeRequest->setDescription('test@example.com');
 
-        $entityCredit = new Entity\Payment\Credit($chargeRequest, new Lib\PaymentGateway\StripeFake);
+        $entityCredit = new Entity\CreditPayment($chargeRequest, new Lib\PaymentGateway\StripeFake);
 
         $credit = $entityCredit->getView()->export();
 
-        $this->assertTrue($credit instanceof Payment\Credit);
+        $this->assertTrue($credit instanceof CreditPayment);
         $this->assertTrue($credit->chargeResponse instanceof ChargeResponse);
     }
 }

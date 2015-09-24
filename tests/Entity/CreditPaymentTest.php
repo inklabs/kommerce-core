@@ -1,12 +1,12 @@
 <?php
-namespace inklabs\kommerce\Entity\Payment;
+namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Validation;
 
-class CreditTest extends \PHPUnit_Framework_TestCase
+class CreditPaymentTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
@@ -23,7 +23,7 @@ class CreditTest extends \PHPUnit_Framework_TestCase
         $chargeRequest->setCurrency('usd');
         $chargeRequest->setDescription('test@example.com');
 
-        $payment = new Credit($chargeRequest, new Lib\PaymentGateway\StripeFake);
+        $payment = new CreditPayment($chargeRequest, new Lib\PaymentGateway\StripeFake);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -32,6 +32,6 @@ class CreditTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($validator->validate($payment));
         $this->assertSame(100, $payment->getAmount());
         $this->assertTrue($payment->getChargeResponse() instanceof Lib\PaymentGateway\ChargeResponse);
-        $this->assertTrue($payment->getView() instanceof View\Payment\Credit);
+        $this->assertTrue($payment->getView() instanceof View\CreditPayment);
     }
 }

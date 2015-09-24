@@ -16,15 +16,15 @@ class TagDTO
     public $created;
     public $updated;
 
-    /** @var Product[] */
+    /** @var ProductDTO[] */
     public $products = [];
 
-    /** @var Image[] */
+    /** @var ImageDTO[] */
     public $images = [];
 
-    /** @var Option[] */
+    /** @var OptionDTO[] */
     public $options = [];
 
-    /** @var TextOption[] */
+    /** @var TextOptionDTO[] */
     public $textOptions = [];
 }

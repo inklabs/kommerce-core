@@ -25,24 +25,24 @@ class ProductDTO
     public $updated;
     public $isInStock;
 
-    /** @var Tag[] */
+    /** @var TagDTO[] */
     public $tags = [];
 
-    /** @var Image[] */
+    /** @var ImageDTO[] */
     public $images = [];
 
-    /** @var Image[] */
+    /** @var ImageDTO[] */
     public $tagImages = [];
 
-    /** @var ProductQuantityDiscount[] */
+    /** @var ProductQuantityDiscountDTO[] */
     public $productQuantityDiscounts = [];
 
-    /** @var OptionProduct[] */
+    /** @var OptionProductDTO[] */
     public $optionProducts = [];
 
-    /** @var ProductAttribute[] */
+    /** @var ProductAttributeDTO[] */
     public $productAttributes = [];
 
-    /** @var Price */
+    /** @var PriceDTO */
     public $price;
 }

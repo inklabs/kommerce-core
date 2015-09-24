@@ -1,15 +1,14 @@
 <?php
-namespace inklabs\kommerce\View\Payment;
+namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\View\ChargeResponse;
 
-class Credit extends AbstractPayment
+class CreditPayment extends AbstractPayment
 {
     /** @var ChargeResponse */
     public $chargeResponse;
 
-    public function __construct(Entity\Payment\Credit $credit)
+    public function __construct(Entity\CreditPayment $credit)
     {
         parent::__construct($credit);
 

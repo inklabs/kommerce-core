@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Service\Import;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
-use inklabs\kommerce\EntityRepository\Payment\PaymentRepositoryInterface;
+use inklabs\kommerce\EntityRepository\PaymentRepositoryInterface;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validation;
 
@@ -49,7 +49,7 @@ class Payment
 
             try {
                 // TODO: Handle checkNumber
-                $payment = new Entity\Payment\Cash($amount);
+                $payment = new Entity\CashPayment($amount);
                 $payment->setCreated(new \DateTime($date));
                 $payment->setOrder($order);
 

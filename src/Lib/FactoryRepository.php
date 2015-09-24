@@ -18,7 +18,7 @@ use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemOptionProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemOptionValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemTextOptionValueRepositoryInterface;
-use inklabs\kommerce\EntityRepository\Payment\PaymentRepositoryInterface;
+use inklabs\kommerce\EntityRepository\PaymentRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductAttributeRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductQuantityDiscountRepositoryInterface;
@@ -212,7 +212,7 @@ class FactoryRepository
      */
     public function getPaymentRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Payment\AbstractPayment');
+        return $this->entityManager->getRepository('kommerce:AbstractPayment');
     }
 
     /**

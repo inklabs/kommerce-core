@@ -23,7 +23,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->setBillingAddress(new Entity\OrderAddress);
         $order->setUser(new Entity\User);
         $order->addCoupon(new Entity\Coupon);
-        $order->addPayment(new Entity\Payment\Cash(100));
+        $order->addPayment(new Entity\CashPayment(100));
 
         $orderView = $order->getView()
             ->withAllData()
@@ -35,6 +35,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($orderView->user instanceof User);
         $this->assertTrue($orderView->orderItems[0] instanceof OrderItem);
         $this->assertTrue($orderView->coupons[0] instanceof Coupon);
-        $this->assertTrue($orderView->payments[0] instanceof Payment\AbstractPayment);
+        $this->assertTrue($orderView->payments[0] instanceof \inklabs\kommerce\View\AbstractPayment);
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Entity\Payment;
+namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Service;
@@ -19,7 +19,7 @@ class AbstractPaymentTest extends \PHPUnit_Framework_TestCase
         $order->setTotal(new Entity\CartTotal);
 
         /** @var $mock AbstractPayment */
-        $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Payment\AbstractPayment');
+        $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\AbstractPayment');
         $mock->setAmount(100);
         $mock->setOrder($order);
 

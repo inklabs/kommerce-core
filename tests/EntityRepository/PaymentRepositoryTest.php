@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\EntityRepository\Payment;
+namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity;
@@ -12,7 +12,7 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
         'kommerce:Order',
         'kommerce:User',
         'kommerce:TaxRate',
-        'kommerce:Payment\AbstractPayment',
+        'kommerce:AbstractPayment',
     ];
 
     /** @var PaymentRepositoryInterface */
@@ -66,7 +66,7 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
 
         $payment->getOrder()->getCreated();
 
-        $this->assertTrue($payment instanceof Entity\Payment\Cash);
+        $this->assertTrue($payment instanceof Entity\CashPayment);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 }

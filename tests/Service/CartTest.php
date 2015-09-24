@@ -336,7 +336,7 @@ class CartTest extends Helper\DoctrineTestCase
         $this->setupCartService();
 
         $cartId = 1;
-        $payment = new Entity\Payment\Cash(100);
+        $payment = new Entity\CashPayment(100);
         $orderAddress = new Entity\OrderAddress;
 
         $order = $this->cartService->createOrder($cartId, $payment, $orderAddress);

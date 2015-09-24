@@ -28,7 +28,7 @@ class Order implements ViewInterface
     /** @var OrderItem[] */
     public $orderItems = [];
 
-    /** @var Payment\Credit[]|Payment\Cash[] */
+    /** @var \inklabs\kommerce\View\CreditPayment[]|\inklabs\kommerce\View\CashPayment[] */
     public $payments = [];
 
     /** @var Coupon[] */

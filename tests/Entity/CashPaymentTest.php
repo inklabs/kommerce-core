@@ -1,14 +1,14 @@
 <?php
-namespace inklabs\kommerce\Entity\Payment;
+namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
-class CashTest extends \PHPUnit_Framework_TestCase
+class CashPaymentTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $payment = new Cash(100);
+        $payment = new CashPayment(100);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -16,6 +16,6 @@ class CashTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($payment));
         $this->assertSame(100, $payment->getAmount());
-        $this->assertTrue($payment->getView() instanceof View\Payment\Cash);
+        $this->assertTrue($payment->getView() instanceof View\CashPayment);
     }
 }

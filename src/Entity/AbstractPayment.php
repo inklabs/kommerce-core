@@ -1,9 +1,7 @@
 <?php
-namespace inklabs\kommerce\Entity\Payment;
+namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Entity;
-use inklabs\kommerce\Entity\IdTrait;
-use inklabs\kommerce\Entity\TimeTrait;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -48,7 +46,7 @@ abstract class AbstractPayment implements Entity\EntityInterface
     }
 
     /**
-     * @return View\Payment\AbstractPayment
+     * @return \inklabs\kommerce\View\AbstractPayment
      */
     abstract public function getView();
 }

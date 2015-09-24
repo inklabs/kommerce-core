@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Entity\Payment;
+namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
@@ -9,7 +9,7 @@ use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Credit extends AbstractPayment
+class CreditPayment extends AbstractPayment
 {
     /** @var ChargeResponse */
     protected $chargeResponse;
@@ -40,6 +40,6 @@ class Credit extends AbstractPayment
 
     public function getView()
     {
-        return new View\Payment\Credit($this);
+        return new View\CreditPayment($this);
     }
 }
