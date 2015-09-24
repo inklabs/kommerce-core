@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Service;
 use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\OrderAddress;
-use inklabs\kommerce\Entity\Payment\Payment;
+use inklabs\kommerce\Entity\Payment\AbstractPayment;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
@@ -349,14 +349,14 @@ class Cart extends AbstractService
 
     /**
      * @param int $cartId
-     * @param Payment $payment
+     * @param AbstractPayment $payment
      * @param OrderAddress $shippingAddress
      * @param OrderAddress $billingAddress
      * @return Entity\Order
      */
     public function createOrder(
         $cartId,
-        Payment $payment,
+        AbstractPayment $payment,
         OrderAddress $shippingAddress,
         OrderAddress $billingAddress = null
     ) {

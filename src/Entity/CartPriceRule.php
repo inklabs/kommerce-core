@@ -6,9 +6,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartPriceRule extends Promotion
+class CartPriceRule extends AbstractPromotion
 {
-    /** @var CartPriceRuleItem\Item[] */
+    /** @var CartPriceRuleItem\AbstractItem[] */
     protected $cartPriceRuleItems;
 
     /** @var CartPriceRuleDiscount[] */
@@ -26,7 +26,7 @@ class CartPriceRule extends Promotion
         parent::loadValidatorMetadata($metadata);
     }
 
-    public function addItem(CartPriceRuleItem\Item $item)
+    public function addItem(CartPriceRuleItem\AbstractItem $item)
     {
         $item->setCartPriceRule($this);
         $this->cartPriceRuleItems[] = $item;

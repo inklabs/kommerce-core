@@ -3,9 +3,9 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 
-class CartPriceRule extends Promotion
+class CartPriceRule extends AbstractPromotion
 {
-    /** @var CartPriceRuleItem\Item[] */
+    /** @var CartPriceRuleItem\AbstractItem[] */
     public $cartPriceRuleItems = [];
 
     /** @var CartPriceRuleDiscount[] */

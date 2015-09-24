@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ProductQuantityDiscount extends Promotion
+class ProductQuantityDiscount extends AbstractPromotion
 {
     protected $customerGroup;
     protected $flagApplyCatalogPromotions;
@@ -35,11 +35,11 @@ class ProductQuantityDiscount extends Promotion
     {
         $name = 'Buy ' . $this->getQuantity() . ' or more for ';
 
-        if ($this->getType() === Promotion::TYPE_EXACT) {
+        if ($this->getType() === AbstractPromotion::TYPE_EXACT) {
             $name .= $this->displayCents($this->getValue()) . ' each';
-        } elseif ($this->getType() === Promotion::TYPE_PERCENT) {
+        } elseif ($this->getType() === AbstractPromotion::TYPE_PERCENT) {
             $name .= $this->getValue() . '% off';
-        } elseif ($this->getType() === Promotion::TYPE_FIXED) {
+        } elseif ($this->getType() === AbstractPromotion::TYPE_FIXED) {
             $name .= $this->displayCents($this->getValue()) . ' off';
         }
 

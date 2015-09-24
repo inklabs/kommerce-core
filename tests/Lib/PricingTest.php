@@ -20,11 +20,11 @@ class PricingInterfaceTest extends Helper\DoctrineTestCase
     {
         $this->pricing = new Pricing(new \DateTime);
         $productQuantityDiscount = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount->setType(Entity\Promotion::TYPE_FIXED);
+        $productQuantityDiscount->setType(Entity\AbstractPromotion::TYPE_FIXED);
         $this->pricing->setProductQuantityDiscounts([$productQuantityDiscount]);
 
         $catalogPromotion = new Entity\CatalogPromotion;
-        $catalogPromotion->setType(Entity\Promotion::TYPE_FIXED);
+        $catalogPromotion->setType(Entity\AbstractPromotion::TYPE_FIXED);
         $this->pricing->setCatalogPromotions([$catalogPromotion]);
 
         $this->assertTrue($this->pricing->getPrice(new Entity\Product, 1) instanceof Entity\Price);

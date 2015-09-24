@@ -6,7 +6,7 @@ use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CatalogPromotion extends Promotion
+class CatalogPromotion extends AbstractPromotion
 {
     protected $code;
 

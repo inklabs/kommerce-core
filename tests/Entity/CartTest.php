@@ -12,7 +12,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $coupon = new Coupon;
         $coupon->setId($id);
         $coupon->setName($value . '% Off');
-        $coupon->setType(Promotion::TYPE_PERCENT);
+        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
         $coupon->setValue($value);
 
         return $coupon;

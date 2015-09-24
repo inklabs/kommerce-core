@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-class ProductQuantityDiscount extends Promotion
+class ProductQuantityDiscount extends AbstractPromotion
 {
     public $customerGroup;
     public $flagApplyCatalogPromotions;

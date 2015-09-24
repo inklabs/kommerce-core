@@ -5,7 +5,7 @@ use inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
-class Tag extends Item
+class Tag extends AbstractItem
 {
     /** @var Entity\Tag */
     protected $tag;

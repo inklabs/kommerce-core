@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityDTO\CouponDTO;
 /**
  * @method CouponDTO build()
  */
-class CouponDTOBuilder extends PromotionDTOBuilder
+class CouponDTOBuilder extends AbstractPromotionDTOBuilder
 {
     /** @var Coupon */
     protected $promotion;

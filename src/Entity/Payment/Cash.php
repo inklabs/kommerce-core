@@ -6,7 +6,7 @@ use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Cash extends Payment
+class Cash extends AbstractPayment
 {
     public function __construct($amount)
     {

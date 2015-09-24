@@ -3,20 +3,20 @@ namespace inklabs\kommerce\Entity;
 
 use Symfony\Component\Validator\Validation;
 
-class PromotionTest extends \PHPUnit_Framework_TestCase
+class AbstractPromotionTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Promotion */
+    /** @var AbstractPromotion */
     protected $promotion;
 
     public function setUp()
     {
-        $this->promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Promotion');
+        $this->promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\AbstractPromotion');
     }
 
     public function testCreate()
     {
         $this->promotion->setName('20% Off in 2014');
-        $this->promotion->setType(Promotion::TYPE_PERCENT);
+        $this->promotion->setType(AbstractPromotion::TYPE_PERCENT);
         $this->promotion->setValue(20);
         $this->promotion->setRedemptions(10);
         $this->promotion->setMaxRedemptions(100);
@@ -30,7 +30,7 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($this->promotion));
         $this->assertSame('20% Off in 2014', $this->promotion->getName());
-        $this->assertSame(Promotion::TYPE_PERCENT, $this->promotion->getType());
+        $this->assertSame(AbstractPromotion::TYPE_PERCENT, $this->promotion->getType());
         $this->assertSame('Percent', $this->promotion->getTypeText());
         $this->assertSame(20, $this->promotion->getValue());
         $this->assertSame(10, $this->promotion->getRedemptions());
@@ -111,21 +111,21 @@ class PromotionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUnitPriceWithPercent()
     {
-        $this->promotion->setType(Promotion::TYPE_PERCENT);
+        $this->promotion->setType(AbstractPromotion::TYPE_PERCENT);
         $this->promotion->setValue(20);
         $this->assertSame(800, $this->promotion->getUnitPrice(1000));
     }
 
     public function testGetUnitPriceWithFixed()
     {
-        $this->promotion->setType(Promotion::TYPE_FIXED);
+        $this->promotion->setType(AbstractPromotion::TYPE_FIXED);
         $this->promotion->setValue(20);
         $this->assertSame(980, $this->promotion->getUnitPrice(1000));
     }
 
     public function testGetUnitPriceWithExact()
     {
-        $this->promotion->setType(Promotion::TYPE_EXACT);
+        $this->promotion->setType(AbstractPromotion::TYPE_EXACT);
         $this->promotion->setValue(20);
         $this->assertSame(20, $this->promotion->getUnitPrice(1000));
     }

@@ -41,7 +41,7 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
     /** @var OrderItem[] */
     protected $orderItems;
 
-    /** @var Payment\Payment[] */
+    /** @var Payment\AbstractPayment[] */
     protected $payments;
 
     /** @var Coupon[] */
@@ -213,7 +213,7 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
         return $this->orderItems[$orderItemIndex];
     }
 
-    public function addPayment(Payment\Payment $payment)
+    public function addPayment(Payment\AbstractPayment $payment)
     {
         $payment->setOrder($this);
         $this->payments[] = $payment;

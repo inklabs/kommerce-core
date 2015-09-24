@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\tests\Entity;
 
-use inklabs\kommerce\Entity\Promotion;
+use inklabs\kommerce\Entity\AbstractPromotion;
 use inklabs\kommerce\tests\EntityDTO\TestablePromotionInvalidDTOBuilder;
 
-class TestablePromotionInvalid extends Promotion
+class TestablePromotionInvalid extends AbstractPromotion
 {
     public function getDTOBuilder()
     {

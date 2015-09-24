@@ -69,7 +69,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($order->getCoupons()[0] instanceof Coupon);
         $this->assertTrue($order->getOrderItem(0) instanceof OrderItem);
         $this->assertTrue($order->getOrderItems()[0] instanceof OrderItem);
-        $this->assertTrue($order->getPayments()[0] instanceof Payment\Payment);
+        $this->assertTrue($order->getPayments()[0] instanceof Payment\AbstractPayment);
         $this->assertTrue($order->getShippingRate() instanceof ShippingRate);
         $this->assertTrue($order->getTaxRate() instanceof TaxRate);
         $this->assertTrue($order->getProducts()[0] instanceof Product);

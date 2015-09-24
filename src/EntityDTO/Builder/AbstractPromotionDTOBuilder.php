@@ -1,20 +1,20 @@
 <?php
 namespace inklabs\kommerce\EntityDTO\Builder;
 
-use inklabs\kommerce\Entity\Promotion;
+use inklabs\kommerce\Entity\AbstractPromotion;
 use inklabs\kommerce\EntityDTO\PromotionDTO;
 use inklabs\kommerce\Lib\BaseConvert;
 use RuntimeException;
 
-abstract class PromotionDTOBuilder
+abstract class AbstractPromotionDTOBuilder
 {
-    /** @var Promotion */
+    /** @var AbstractPromotion */
     protected $promotion;
 
     /** @var PromotionDTO */
     protected $promotionDTO;
 
-    public function __construct(Promotion $promotionInvalid)
+    public function __construct(AbstractPromotion $promotionInvalid)
     {
         if ($this->promotionDTO === null) {
             throw new RuntimeException('promotionDTO has not been initialized');

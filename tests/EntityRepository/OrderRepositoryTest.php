@@ -12,7 +12,7 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
         'kommerce:Coupon',
         'kommerce:Order',
         'kommerce:OrderItem',
-        'kommerce:Payment\Payment',
+        'kommerce:Payment\AbstractPayment',
         'kommerce:Product',
         'kommerce:User',
         'kommerce:Cart',

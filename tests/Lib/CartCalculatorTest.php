@@ -197,7 +197,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $coupon = new Entity\Coupon;
         $coupon->setid(1);
         $coupon->setName('20% Off');
-        $coupon->setType(Entity\Promotion::TYPE_PERCENT);
+        $coupon->setType(Entity\AbstractPromotion::TYPE_PERCENT);
         $coupon->setValue(20);
 
         $cartItem = new Entity\CartItem;
@@ -227,7 +227,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $coupon = new Entity\Coupon;
         $coupon->setid(1);
         $coupon->setName('20% Off');
-        $coupon->setType(Entity\Promotion::TYPE_PERCENT);
+        $coupon->setType(Entity\AbstractPromotion::TYPE_PERCENT);
         $coupon->setValue(20);
         $coupon->setFlagFreeShipping(true);
 
@@ -413,7 +413,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $coupon = new Entity\Coupon;
         $coupon->setName('20% Off orders under $100');
-        $coupon->setType(Entity\Promotion::TYPE_PERCENT);
+        $coupon->setType(Entity\AbstractPromotion::TYPE_PERCENT);
         $coupon->setValue(20);
         $coupon->setMinOrderValue(1000);
         $coupon->setMaxOrderValue(10000);

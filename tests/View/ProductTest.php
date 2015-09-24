@@ -21,7 +21,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $entityProduct->addProductAttribute($productAttribute);
 
         $productQuantityDiscount = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount->setType(Entity\Promotion::TYPE_EXACT);
+        $productQuantityDiscount->setType(Entity\AbstractPromotion::TYPE_EXACT);
         $productQuantityDiscount->setQuantity(2);
         $productQuantityDiscount->setValue(400);
 

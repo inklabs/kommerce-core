@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 /**
  * @method CatalogPromotionDTO build()
  */
-class CatalogPromotionDTOBuilder extends PromotionDTOBuilder
+class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
 {
     /** @var CatalogPromotion */
     protected $promotion;

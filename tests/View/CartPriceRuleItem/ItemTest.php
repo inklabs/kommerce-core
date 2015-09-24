@@ -7,11 +7,11 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $mockEntity = $this->getMockForAbstractClass('inklabs\kommerce\Entity\CartPriceRuleItem\Item');
+        $mockEntity = $this->getMockForAbstractClass('inklabs\kommerce\Entity\CartPriceRuleItem\AbstractItem');
 
-        $mock = $this->getMockForAbstractClass('inklabs\kommerce\View\CartPriceRuleItem\Item', [$mockEntity])
+        $mock = $this->getMockForAbstractClass('inklabs\kommerce\View\CartPriceRuleItem\AbstractItem', [$mockEntity])
             ->export();
 
-        $this->assertTrue($mock instanceof Item);
+        $this->assertTrue($mock instanceof AbstractItem);
     }
 }

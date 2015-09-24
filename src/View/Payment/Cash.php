@@ -3,7 +3,7 @@ namespace inklabs\kommerce\View\Payment;
 
 use inklabs\kommerce\Entity;
 
-class Cash extends Payment
+class Cash extends AbstractPayment
 {
     public function __construct(Entity\Payment\Cash $cash)
     {

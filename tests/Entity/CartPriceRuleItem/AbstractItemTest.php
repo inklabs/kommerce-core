@@ -4,12 +4,12 @@ namespace inklabs\kommerce\Entity\CartPriceRuleItem;
 use inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Validation;
 
-class ItemTest extends \PHPUnit_Framework_TestCase
+class AbstractItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        /** @var Item|\PHPUnit_Framework_MockObject_MockObject $mock */
-        $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\CartPriceRuleItem\Item');
+        /** @var AbstractItem|\PHPUnit_Framework_MockObject_MockObject $mock */
+        $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\CartPriceRuleItem\AbstractItem');
         $mock->expects($this->any())
             ->method('matches')
             ->will($this->returnValue(true));

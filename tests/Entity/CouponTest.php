@@ -11,7 +11,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $coupon = new Coupon;
         $coupon->setName('20% Off orders over $100');
         $coupon->setCode('20PCT100');
-        $coupon->setType(Promotion::TYPE_PERCENT);
+        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
         $coupon->setValue(20);
         $coupon->setMinOrderValue(10000);
         $coupon->setMaxOrderValue(100000);
@@ -25,7 +25,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($validator->validate($coupon));
         $this->assertSame('20% Off orders over $100', $coupon->getName());
         $this->assertSame('20PCT100', $coupon->getCode());
-        $this->assertSame(Promotion::TYPE_PERCENT, $coupon->getType());
+        $this->assertSame(AbstractPromotion::TYPE_PERCENT, $coupon->getType());
         $this->assertSame('Percent', $coupon->getTypeText());
         $this->assertSame(20, $coupon->getValue());
         $this->assertSame(10000, $coupon->getMinOrderValue());

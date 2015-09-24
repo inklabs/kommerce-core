@@ -9,7 +9,7 @@ use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Credit extends Payment
+class Credit extends AbstractPayment
 {
     /** @var ChargeResponse */
     protected $chargeResponse;

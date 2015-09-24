@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View\Payment;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View\ChargeResponse;
 
-class Credit extends Payment
+class Credit extends AbstractPayment
 {
     /** @var ChargeResponse */
     public $chargeResponse;

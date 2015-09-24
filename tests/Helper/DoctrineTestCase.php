@@ -235,7 +235,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $coupon = new Entity\Coupon;
         $coupon->setName('20% OFF Test Coupon #' . $num);
         $coupon->setCode('20PCT' . $num);
-        $coupon->setType(Entity\Promotion::TYPE_PERCENT);
+        $coupon->setType(Entity\AbstractPromotion::TYPE_PERCENT);
         $coupon->setValue(20);
 
         return $coupon;
@@ -308,7 +308,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         $cartPriceRule = new Entity\CartPriceRule;
         $cartPriceRule->setName('Test Cart Price Rule');
-        $cartPriceRule->setType(Entity\Promotion::TYPE_FIXED);
+        $cartPriceRule->setType(Entity\AbstractPromotion::TYPE_FIXED);
         $cartPriceRule->setValue(0);
 
         return $cartPriceRule;

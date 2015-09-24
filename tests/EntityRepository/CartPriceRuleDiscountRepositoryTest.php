@@ -9,7 +9,7 @@ class CartPriceRuleDiscountRepositoryTest extends Helper\DoctrineTestCase
     protected $metaDataClassNames = [
         'kommerce:CartPriceRule',
         'kommerce:CartPriceRuleDiscount',
-        'kommerce:CartPriceRuleItem\Item',
+        'kommerce:CartPriceRuleItem\AbstractItem',
         'kommerce:Product',
     ];
 

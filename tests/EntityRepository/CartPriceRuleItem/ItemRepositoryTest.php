@@ -9,7 +9,7 @@ class ItemRepositoryTest extends Helper\DoctrineTestCase
     protected $metaDataClassNames = [
         'kommerce:CartPriceRule',
         'kommerce:CartPriceRuleDiscount',
-        'kommerce:CartPriceRuleItem\Item',
+        'kommerce:CartPriceRuleItem\AbstractItem',
         'kommerce:Product',
     ];
 
@@ -18,7 +18,7 @@ class ItemRepositoryTest extends Helper\DoctrineTestCase
      */
     private function getRepository()
     {
-        return $this->entityManager->getRepository('kommerce:CartPriceRuleItem\Item');
+        return $this->entityManager->getRepository('kommerce:CartPriceRuleItem\AbstractItem');
     }
 
     public function setupCartPriceRuleItem()
@@ -50,7 +50,7 @@ class ItemRepositoryTest extends Helper\DoctrineTestCase
         $cartPriceRuleItem->getProduct()->getName();
         $cartPriceRuleItem->getCartPriceRule()->getName();
 
-        $this->assertTrue($cartPriceRuleItem instanceof Entity\CartPriceRuleItem\Item);
+        $this->assertTrue($cartPriceRuleItem instanceof Entity\CartPriceRuleItem\AbstractItem);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 }

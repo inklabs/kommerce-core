@@ -8,7 +8,7 @@ use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class Payment implements Entity\EntityInterface
+abstract class AbstractPayment implements Entity\EntityInterface
 {
     use TimeTrait, IdTrait;
 
@@ -48,7 +48,7 @@ abstract class Payment implements Entity\EntityInterface
     }
 
     /**
-     * @return View\Payment\Payment
+     * @return View\Payment\AbstractPayment
      */
     abstract public function getView();
 }

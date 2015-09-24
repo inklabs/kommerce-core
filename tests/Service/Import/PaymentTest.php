@@ -10,7 +10,7 @@ class PaymentTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
         'kommerce:Order',
-        'kommerce:Payment\Payment',
+        'kommerce:Payment\AbstractPayment',
         'kommerce:User',
         'kommerce:TaxRate',
     ];

@@ -3,7 +3,7 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 
-class CatalogPromotion extends Promotion
+class CatalogPromotion extends AbstractPromotion
 {
     public $code;
 

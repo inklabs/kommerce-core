@@ -4,12 +4,12 @@ namespace inklabs\kommerce\View\CartPriceRuleItem;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 
-class Product extends Item
+class Product extends AbstractItem
 {
     /** @var View\Product */
     public $product;
 
-    public function __construct(Entity\CartPriceRuleItem\Item $item)
+    public function __construct(Entity\CartPriceRuleItem\AbstractItem $item)
     {
         parent::__construct($item);
     }

@@ -48,7 +48,7 @@ class PricingInterfaceCalculatorTest extends \PHPUnit_Framework_TestCase
     {
         $catalogPromotion = new Entity\CatalogPromotion;
         $catalogPromotion->setName('20% Off');
-        $catalogPromotion->setType(Entity\Promotion::TYPE_PERCENT);
+        $catalogPromotion->setType(Entity\AbstractPromotion::TYPE_PERCENT);
         $catalogPromotion->setValue(20);
 
         $this->pricing->setCatalogPromotions([$catalogPromotion]);
@@ -68,17 +68,17 @@ class PricingInterfaceCalculatorTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceWithProductQuantityDiscountPercent()
     {
         $productQuantityDiscount6 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount6->setType(Entity\Promotion::TYPE_PERCENT);
+        $productQuantityDiscount6->setType(Entity\AbstractPromotion::TYPE_PERCENT);
         $productQuantityDiscount6->setQuantity(6);
         $productQuantityDiscount6->setValue(5);
 
         $productQuantityDiscount12 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount12->setType(Entity\Promotion::TYPE_PERCENT);
+        $productQuantityDiscount12->setType(Entity\AbstractPromotion::TYPE_PERCENT);
         $productQuantityDiscount12->setQuantity(12);
         $productQuantityDiscount12->setValue(30);
 
         $productQuantityDiscount24 = new Entity\ProductQuantityDiscount;
-        $productQuantityDiscount24->setType(Entity\Promotion::TYPE_PERCENT);
+        $productQuantityDiscount24->setType(Entity\AbstractPromotion::TYPE_PERCENT);
         $productQuantityDiscount24->setQuantity(24);
         $productQuantityDiscount24->setValue(35);
 

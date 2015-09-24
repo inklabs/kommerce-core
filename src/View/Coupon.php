@@ -3,7 +3,7 @@ namespace inklabs\kommerce\View;
 
 use inklabs\kommerce\Entity;
 
-class Coupon extends Promotion
+class Coupon extends AbstractPromotion
 {
     public $code;
     public $flagFreeShipping;

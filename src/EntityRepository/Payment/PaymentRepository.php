@@ -6,22 +6,22 @@ use inklabs\kommerce\Entity;
 
 class PaymentRepository extends AbstractRepository implements PaymentRepositoryInterface
 {
-    public function save(Entity\Payment\Payment & $payment)
+    public function save(Entity\Payment\AbstractPayment & $payment)
     {
         $this->saveEntity($payment);
     }
 
-    public function create(Entity\Payment\Payment & $payment)
+    public function create(Entity\Payment\AbstractPayment & $payment)
     {
         $this->createEntity($payment);
     }
 
-    public function remove(Entity\Payment\Payment & $payment)
+    public function remove(Entity\Payment\AbstractPayment & $payment)
     {
         $this->removeEntity($payment);
     }
 
-    public function persist(Entity\Payment\Payment & $payment)
+    public function persist(Entity\Payment\AbstractPayment & $payment)
     {
         $this->persistEntity($payment);
     }

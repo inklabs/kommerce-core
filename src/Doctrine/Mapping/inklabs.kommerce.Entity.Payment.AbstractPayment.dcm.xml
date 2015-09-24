@@ -4,11 +4,21 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <mapped-superclass name="inklabs\kommerce\Entity\Promotion">
+    <entity name="inklabs\kommerce\Entity\Payment\AbstractPayment"
+            table="Payment"
+            inheritance-type="SINGLE_TABLE"
+            repository-class="inklabs\kommerce\EntityRepository\Payment\PaymentRepository">
+
+        <discriminator-column name="payment_type" type="string" length="6"/>
+        <discriminator-map>
+            <discriminator-mapping value="cash" class="Cash"/>
+            <discriminator-mapping value="credit" class="Credit"/>
+        </discriminator-map>
 
         <lifecycle-callbacks>
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
+
 
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
@@ -17,36 +27,11 @@
             </options>
         </id>
 
-        <field name="name" type="string" length="255" nullable="true"/>
-
-        <field name="type" type="smallint">
+        <field name="amount" type="integer">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
-
-        <field name="value" type="integer" nullable="true">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="redemptions" type="smallint">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="maxRedemptions" type="smallint" nullable="true">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
-        <field name="reducesTaxSubtotal" type="boolean"/>
-
-        <field name="start" type="date" nullable="true"/>
-        <field name="end" type="date" nullable="true"/>
 
         <field name="created" type="integer">
             <options>
@@ -60,6 +45,10 @@
             </options>
         </field>
 
-    </mapped-superclass>
+        <many-to-one field="order" target-entity="inklabs\kommerce\Entity\Order" inversed-by="payments">
+            <join-column nullable="false"/>
+        </many-to-one>
+
+    </entity>
 
 </doctrine-mapping>

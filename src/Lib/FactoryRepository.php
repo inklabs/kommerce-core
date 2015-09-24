@@ -212,7 +212,7 @@ class FactoryRepository
      */
     public function getPaymentRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Payment\Payment');
+        return $this->entityManager->getRepository('kommerce:Payment\AbstractPayment');
     }
 
     /**

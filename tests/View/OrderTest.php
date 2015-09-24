@@ -35,6 +35,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($orderView->user instanceof User);
         $this->assertTrue($orderView->orderItems[0] instanceof OrderItem);
         $this->assertTrue($orderView->coupons[0] instanceof Coupon);
-        $this->assertTrue($orderView->payments[0] instanceof Payment\Payment);
+        $this->assertTrue($orderView->payments[0] instanceof Payment\AbstractPayment);
     }
 }

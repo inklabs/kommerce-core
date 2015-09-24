@@ -52,7 +52,7 @@
         </one-to-many>
 
         <one-to-many field="payments"
-                     target-entity="inklabs\kommerce\Entity\Payment\Payment"
+                     target-entity="inklabs\kommerce\Entity\Payment\AbstractPayment"
                      mapped-by="order"
                      fetch="EXTRA_LAZY">
             <cascade>

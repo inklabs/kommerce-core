@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
-class Product extends Item
+class Product extends AbstractItem
 {
     /** @var Entity\Product */
     protected $product;

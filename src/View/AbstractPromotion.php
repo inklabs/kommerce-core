@@ -4,7 +4,7 @@ namespace inklabs\kommerce\View;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 
-abstract class Promotion implements ViewInterface
+abstract class AbstractPromotion implements ViewInterface
 {
     public $id;
     public $name;
@@ -23,7 +23,7 @@ abstract class Promotion implements ViewInterface
 
     public $isRedemptionCountValid;
 
-    public function __construct(Entity\Promotion $promotion)
+    public function __construct(Entity\AbstractPromotion $promotion)
     {
         $this->promotion = $promotion;
 

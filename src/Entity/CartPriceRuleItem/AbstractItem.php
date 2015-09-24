@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\TimeTrait;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class Item implements Entity\EntityInterface
+abstract class AbstractItem implements Entity\EntityInterface
 {
     use TimeTrait, IdTrait;
 

@@ -8,14 +8,14 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $entityPayment = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Payment\Payment');
+        $entityPayment = $this->getMockForAbstractClass('inklabs\kommerce\Entity\Payment\AbstractPayment');
 
         $payment = $this->getMockForAbstractClass(
-            'inklabs\kommerce\View\Payment\Payment',
+            'inklabs\kommerce\View\Payment\AbstractPayment',
             [$entityPayment]
         )
             ->export();
 
-        $this->assertTrue($payment instanceof Payment\Payment);
+        $this->assertTrue($payment instanceof Payment\AbstractPayment);
     }
 }

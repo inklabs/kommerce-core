@@ -12,7 +12,7 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
         'kommerce:Order',
         'kommerce:User',
         'kommerce:TaxRate',
-        'kommerce:Payment\Payment',
+        'kommerce:Payment\AbstractPayment',
     ];
 
     /** @var PaymentRepositoryInterface */
