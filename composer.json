@@ -16,8 +16,8 @@
     "require": {
         "composer/installers": "~1.0",
         "php": ">=5.5",
-        "doctrine/dbal": "2.5.*@dev",
-        "doctrine/orm": "2.5.*@dev",
+        "doctrine/dbal": "2.5.*",
+        "doctrine/orm": "2.5.*",
         "symfony/validator": "2.6.6",
         "stripe/stripe-php": "1.*"
     },
