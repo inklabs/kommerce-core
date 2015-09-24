@@ -1,10 +1,7 @@
 <?php
 namespace inklabs\kommerce\View;
 
-use inklabs\kommerce\Entity;
-use inklabs\kommerce\Lib;
-
-class PaymentTest extends \PHPUnit_Framework_TestCase
+class AbstractPaymentTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
@@ -13,8 +10,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $payment = $this->getMockForAbstractClass(
             'inklabs\kommerce\View\AbstractPayment',
             [$entityPayment]
-        )
-            ->export();
+        )->export();
 
         $this->assertTrue($payment instanceof AbstractPayment);
     }
