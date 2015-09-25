@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\CartItemDTOBuilder;
 use inklabs\kommerce\Lib;
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -242,5 +243,10 @@ class CartItem implements EntityInterface
     public function getView()
     {
         return new View\CartItem($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new CartItemDTOBuilder($this);
     }
 }

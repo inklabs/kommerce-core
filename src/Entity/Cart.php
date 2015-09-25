@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\CartDTOBuilder;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 use InvalidArgumentException;
@@ -244,11 +245,6 @@ class Cart implements EntityInterface
         return $order;
     }
 
-    public function getView()
-    {
-        return new View\Cart($this);
-    }
-
     public function getShippingRate()
     {
         return $this->shippingRate;
@@ -267,5 +263,15 @@ class Cart implements EntityInterface
     public function setTaxRate(TaxRate $taxRate = null)
     {
         $this->taxRate = $taxRate;
+    }
+
+    public function getView()
+    {
+        return new View\Cart($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new CartDTOBuilder($this);
     }
 }

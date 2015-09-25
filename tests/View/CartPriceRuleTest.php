@@ -17,10 +17,8 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
             ->export();
 
         $this->assertTrue($cartPriceRule instanceof CartPriceRule);
-        $this->assertTrue(
-            $cartPriceRule->cartPriceRuleItems[0] instanceof \inklabs\kommerce\View\CartPriceRuleProductItem
-        );
-        $this->assertTrue($cartPriceRule->cartPriceRuleItems[1] instanceof \inklabs\kommerce\View\CartPriceRuleTagItem);
+        $this->assertTrue($cartPriceRule->cartPriceRuleItems[0] instanceof CartPriceRuleProductItem);
+        $this->assertTrue($cartPriceRule->cartPriceRuleItems[1] instanceof CartPriceRuleTagItem);
         $this->assertTrue($cartPriceRule->cartPriceRuleDiscounts[0] instanceof CartPriceRuleDiscount);
     }
 }
