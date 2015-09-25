@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\OptionProductDTOBuilder;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -87,5 +88,10 @@ class OptionProduct implements EntityInterface
     public function getView()
     {
         return new View\OptionProduct($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new OptionProductDTOBuilder($this);
     }
 }

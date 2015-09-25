@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\OptionValueDTOBuilder;
 use inklabs\kommerce\Service;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -138,5 +139,10 @@ class OptionValue implements EntityInterface
     public function getView()
     {
         return new View\OptionValue($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new OptionValueDTOBuilder($this);
     }
 }

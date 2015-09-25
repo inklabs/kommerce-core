@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\TextOptionDTOBuilder;
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -141,5 +142,10 @@ class TextOption implements EntityInterface
     public function getView()
     {
         return new View\TextOption($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new TextOptionDTOBuilder($this);
     }
 }

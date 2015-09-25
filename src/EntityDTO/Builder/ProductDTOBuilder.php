@@ -4,6 +4,7 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\Lib\BaseConvert;
+use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\Lib\Slug;
 
 class ProductDTOBuilder
@@ -40,6 +41,15 @@ class ProductDTOBuilder
         $this->productDTO->updated             = $this->product->getUpdated();
 
         $this->productDTO->isInStock = $this->product->inStock();
+    }
+
+    public function withPrice(PricingInterface $pricing)
+    {
+        $this->price = $this->product->getPrice($pricing)->getDTOBuilder()
+            ->withAllData()
+            ->build();
+
+        return $this;
     }
 
     public function build()

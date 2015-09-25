@@ -20,10 +20,10 @@ class Price implements ViewInterface
     {
         $this->price = $price;
 
-        $this->origUnitPrice      = $price->origUnitPrice;
-        $this->unitPrice          = $price->unitPrice;
-        $this->origQuantityPrice  = $price->origQuantityPrice;
-        $this->quantityPrice      = $price->quantityPrice;
+        $this->origUnitPrice     = $price->origUnitPrice;
+        $this->unitPrice         = $price->unitPrice;
+        $this->origQuantityPrice = $price->origQuantityPrice;
+        $this->quantityPrice     = $price->quantityPrice;
     }
 
     public function export()

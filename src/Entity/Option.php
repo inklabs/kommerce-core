@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\OptionDTOBuilder;
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -165,5 +166,10 @@ class Option implements EntityInterface
     public function getView()
     {
         return new View\Option($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new OptionDTOBuilder($this);
     }
 }
