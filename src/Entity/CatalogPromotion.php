@@ -69,6 +69,9 @@ class CatalogPromotion extends AbstractPromotion
         return new View\CatalogPromotion($this);
     }
 
+    /**
+     * @return CatalogPromotionDTOBuilder
+     */
     public function getDTOBuilder()
     {
         return new CatalogPromotionDTOBuilder($this);

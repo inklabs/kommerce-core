@@ -1,6 +1,18 @@
 <?php
 namespace inklabs\kommerce\tests\Helper;
 
+use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
+use inklabs\kommerce\Entity\OptionValue;
+use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\OrderItemOptionProduct;
+use inklabs\kommerce\Entity\OrderItemOptionValue;
+use inklabs\kommerce\Entity\OrderItemTextOptionValue;
+use inklabs\kommerce\Entity\Price;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Service\Kommerce;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
@@ -518,5 +530,84 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     protected function rollback()
     {
         $this->entityManager->getConnection()->rollback();
+    }
+
+    protected function getOptionProduct(Product $product)
+    {
+        $option = new Option;
+        $option->setType(Option::TYPE_SELECT);
+        $option->setName('Team Logo');
+        $option->setDescription('Embroidered Team Logo');
+        $optionProduct = new OptionProduct;
+        $optionProduct->setProduct($product);
+        $optionProduct->setSortOrder(0);
+        $optionProduct->setOption($option);
+
+        return $optionProduct;
+    }
+
+    protected function getOptionValue()
+    {
+        $option = new Option;
+        $option->setType(Option::TYPE_SELECT);
+        $option->setName('Shirt Size');
+        $option->setDescription('Shirt Size Description');
+        $optionValue = new OptionValue;
+        $optionValue->setSortOrder(0);
+        $optionValue->setSku('MD');
+        $optionValue->setName('Medium Shirt');
+        $optionValue->setShippingWeight(0);
+        $optionValue->setUnitPrice(500);
+        $optionValue->setOption($option);
+
+        return $optionValue;
+    }
+
+    protected function getTextOption()
+    {
+        $textOption = new TextOption;
+        $textOption->setType(TextOption::TYPE_TEXTAREA);
+        $textOption->setName('Custom Message');
+        $textOption->setDescription('Custom engraved message');
+
+        return $textOption;
+    }
+
+    protected function getFullDummyOrderItem()
+    {
+        $price = new Price;
+        $price->addCatalogPromotion(new CatalogPromotion);
+        $price->addProductQuantityDiscount(new ProductQuantityDiscount);
+
+        $logoProductQuantityDiscount = new ProductQuantityDiscount;
+        $logoProductQuantityDiscount->setType(ProductQuantityDiscount::TYPE_FIXED);
+        $logoProductQuantityDiscount->setQuantity(2);
+        $logoProductQuantityDiscount->setValue(100);
+
+        $logoProduct = new Product;
+        $logoProduct->setSku('LAA');
+        $logoProduct->setName('LA Angels');
+        $logoProduct->setShippingWeight(6);
+        $logoProduct->addProductQuantityDiscount($logoProductQuantityDiscount);
+
+        $orderItemOptionProduct = new OrderItemOptionProduct;
+        $orderItemOptionProduct->setOptionProduct($this->getOptionProduct($logoProduct));
+
+        $orderItemOptionValue = new OrderItemOptionValue;
+        $orderItemOptionValue->setOptionValue($this->getOptionValue());
+
+        $orderItemTextOptionValue = new OrderItemTextOptionValue;
+        $orderItemTextOptionValue->setTextOption($this->getTextOption());
+        $orderItemTextOptionValue->setTextOptionValue('Happy Birthday');
+
+        $orderItem = new OrderItem;
+        $orderItem->setProduct(new Product);
+        $orderItem->setQuantity(1);
+        $orderItem->setPrice($price);
+        $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
+        $orderItem->addOrderItemOptionValue($orderItemOptionValue);
+        $orderItem->addOrderItemTextOptionValue($orderItemTextOptionValue);
+
+        return $orderItem;
     }
 }

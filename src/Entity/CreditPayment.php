@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityDTO\Builder\CreditPaymentDTOBuilder;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib\PaymentGateway\GatewayInterface;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
@@ -41,5 +42,10 @@ class CreditPayment extends AbstractPayment
     public function getView()
     {
         return new View\CreditPayment($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new CreditPaymentDTOBuilder($this);
     }
 }

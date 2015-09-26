@@ -23,6 +23,21 @@ class CartPriceRuleDiscountDTOBuilder
         $this->cartPriceRuleDiscountDTO->updated  = $this->cartPriceRuleDiscount->getUpdated();
     }
 
+    public function withProduct()
+    {
+        $this->cartPriceRuleDiscountDTO->product = $this->cartPriceRuleDiscount->getProduct()->getDTOBuilder()
+            ->withTags()
+            ->build();
+
+        return $this;
+    }
+
+    public function withAllData()
+    {
+        return $this
+            ->withProduct();
+    }
+
     public function build()
     {
         return $this->cartPriceRuleDiscountDTO;

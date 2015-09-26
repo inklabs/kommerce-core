@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib\ReferenceNumber;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -284,5 +285,10 @@ class Order implements EntityInterface, ReferenceNumber\EntityInterface
     public function getView()
     {
         return new View\Order($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new OrderDTOBuilder($this);
     }
 }

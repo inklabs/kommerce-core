@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\ProductQuantityDiscountDTOBuilder;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -117,5 +118,13 @@ class ProductQuantityDiscount extends AbstractPromotion
     public function getView()
     {
         return new View\ProductQuantityDiscount($this);
+    }
+
+    /**
+     * @return ProductQuantityDiscountDTOBuilder
+     */
+    public function getDTOBuilder()
+    {
+        return new ProductQuantityDiscountDTOBuilder($this);
     }
 }

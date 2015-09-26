@@ -10,14 +10,14 @@ class CartItemDTOBuilderTest extends Helper\DoctrineTestCase
     {
         $cartItem = $this->getDummyFullCartItem();
 
-        $viewCartItem = $cartItem->getDTOBuilder()
+        $cartItemDTO = $cartItem->getDTOBuilder()
             ->withAllData(new Pricing)
             ->build();
 
-        $this->assertTrue($viewCartItem->price instanceof PriceDTO);
-        $this->assertTrue($viewCartItem->product instanceof ProductDTO);
-        $this->assertTrue($viewCartItem->cartItemOptionProducts[0] instanceof CartItemOptionProductDTO);
-        $this->assertTrue($viewCartItem->cartItemOptionValues[0] instanceof CartItemOptionValueDTO);
-        $this->assertTrue($viewCartItem->cartItemTextOptionValues[0] instanceof CartItemTextOptionValueDTO);
+        $this->assertTrue($cartItemDTO->price instanceof PriceDTO);
+        $this->assertTrue($cartItemDTO->product instanceof ProductDTO);
+        $this->assertTrue($cartItemDTO->cartItemOptionProducts[0] instanceof CartItemOptionProductDTO);
+        $this->assertTrue($cartItemDTO->cartItemOptionValues[0] instanceof CartItemOptionValueDTO);
+        $this->assertTrue($cartItemDTO->cartItemTextOptionValues[0] instanceof CartItemTextOptionValueDTO);
     }
 }

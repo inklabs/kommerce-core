@@ -121,6 +121,9 @@ class Coupon extends AbstractPromotion
         return new View\Coupon($this);
     }
 
+    /**
+     * @return CouponDTOBuilder
+     */
     public function getDTOBuilder()
     {
         return new CouponDTOBuilder($this);

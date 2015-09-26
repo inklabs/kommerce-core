@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\AbstractPromotionDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -229,4 +230,9 @@ abstract class AbstractPromotion implements EntityInterface
 
         throw new \Exception('Invalid discount type');
     }
+
+    /**
+     * @return AbstractPromotionDTOBuilder
+     */
+    abstract public function getDTOBuilder();
 }

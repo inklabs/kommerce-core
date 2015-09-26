@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use inklabs\kommerce\View\CartPriceRuleTagItem;
 
-class CartPriceruleTagItemTest extends \PHPUnit_Framework_TestCase
+class CartPriceRuleTagItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {

@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\OrderItemOptionProductDTOBuilder;
 use inklabs\kommerce\View;
 
 class OrderItemOptionProduct
@@ -68,5 +69,10 @@ class OrderItemOptionProduct
     public function getView()
     {
         return new View\OrderItemOptionProduct($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new OrderItemOptionProductDTOBuilder($this);
     }
 }

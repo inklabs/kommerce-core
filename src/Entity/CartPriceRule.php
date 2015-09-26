@@ -79,6 +79,9 @@ class CartPriceRule extends AbstractPromotion
         return new View\CartPriceRule($this);
     }
 
+    /**
+     * @return CartPriceRuleDTOBuilder
+     */
     public function getDTOBuilder()
     {
         return new CartPriceRuleDTOBuilder($this);

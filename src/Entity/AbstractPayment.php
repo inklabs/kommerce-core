@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityDTO\Builder\AbstractPaymentDTOBuilder;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -49,4 +50,9 @@ abstract class AbstractPayment implements Entity\EntityInterface
      * @return View\AbstractPayment
      */
     abstract public function getView();
+
+    /**
+     * @return AbstractPaymentDTOBuilder
+     */
+    abstract public function getDTOBuilder();
 }

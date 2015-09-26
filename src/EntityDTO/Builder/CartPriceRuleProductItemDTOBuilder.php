@@ -4,6 +4,9 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\CartPriceRuleProductItem;
 use inklabs\kommerce\EntityDTO\CartPriceRuleProductItemDTO;
 
+/**
+ * @method CartPriceRuleProductItemDTO build()
+ */
 class CartPriceRuleProductItemDTOBuilder extends AbstractCartPriceRuleItemDTOBuilder
 {
     /** @var CartPriceRuleProductItem */
@@ -17,5 +20,21 @@ class CartPriceRuleProductItemDTOBuilder extends AbstractCartPriceRuleItemDTOBui
         $this->cartPriceRuleItemDTO = new CartPriceRuleProductItemDTO;
 
         parent::__construct($productCartPriceRuleItem);
+    }
+
+    public function withProduct()
+    {
+        $product = $this->cartPriceRuleItem->getProduct();
+        if (! empty($product)) {
+            $this->cartPriceRuleItemDTO->product = $product->getDTOBuilder()
+                ->build();
+        }
+        return $this;
+    }
+
+    public function withAllData()
+    {
+        return $this
+            ->withProduct();
     }
 }

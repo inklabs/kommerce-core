@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Entity;
+use inklabs\kommerce\EntityDTO\Builder\AbstractCartPriceRuleItemDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -45,4 +46,9 @@ abstract class AbstractCartPriceRuleItem implements Entity\EntityInterface
     {
         return $this->cartPriceRule;
     }
+
+    /**
+     * @return AbstractCartPriceRuleItemDTOBuilder
+     */
+    abstract public function getDTOBuilder();
 }

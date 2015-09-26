@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\OrderItemDTOBuilder;
 use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -255,5 +256,10 @@ class OrderItem implements EntityInterface
     public function getView()
     {
         return new View\OrderItem($this);
+    }
+
+    public function getDTOBuilder()
+    {
+        return new OrderItemDTOBuilder($this);
     }
 }
