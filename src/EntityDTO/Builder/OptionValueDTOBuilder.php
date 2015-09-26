@@ -7,7 +7,6 @@ use inklabs\kommerce\Lib\BaseConvert;
 
 class OptionValueDTOBuilder
 {
-
     /** @var OptionValue */
     protected $optionValue;
 

@@ -5,11 +5,11 @@ class OrderItemDTO
 {
     public $id;
     public $quantity;
-    public $created;
-    public $updated;
     public $sku;
     public $name;
     public $discountNames;
+    public $created;
+    public $updated;
 
     /** @var PriceDTO */
     public $price;

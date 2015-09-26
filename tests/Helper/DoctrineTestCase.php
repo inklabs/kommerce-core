@@ -13,6 +13,18 @@ use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\TextOption;
+use inklabs\kommerce\EntityDTO\AttributeDTO;
+use inklabs\kommerce\EntityDTO\AttributeValueDTO;
+use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
+use inklabs\kommerce\EntityDTO\ImageDTO;
+use inklabs\kommerce\EntityDTO\OptionDTO;
+use inklabs\kommerce\EntityDTO\OptionProductDTO;
+use inklabs\kommerce\EntityDTO\PriceDTO;
+use inklabs\kommerce\EntityDTO\ProductAttributeDTO;
+use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\EntityDTO\ProductQuantityDiscountDTO;
+use inklabs\kommerce\EntityDTO\TextOptionDTO;
+use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\Kommerce;
 use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
@@ -310,7 +322,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         $productQuantityDiscount = new Entity\ProductQuantityDiscount;
         $productQuantityDiscount->setCustomerGroup(null);
-        $productQuantityDiscount->setQuantity(6);
+        $productQuantityDiscount->setQuantity(1);
         $productQuantityDiscount->setFlagApplyCatalogPromotions(true);
 
         return $productQuantityDiscount;
@@ -328,10 +340,15 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyFullCartItem()
     {
+        $tag = new Entity\Tag;
+        $tag->addImage(new Entity\Image);
+
         $product = new Entity\Product;
         $product->setSku('P1');
         $product->setUnitPrice(100);
         $product->setShippingWeight(10);
+        $product->addTag($tag);
+        $product->addProductQuantityDiscount(new Entity\ProductQuantityDiscount);
 
         $product2 = new Entity\Product;
         $product2->setSku('OP1');
@@ -508,6 +525,8 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     protected function getDummyProductAttribute()
     {
         $productAttribute = new Entity\ProductAttribute;
+        $productAttribute->setAttribute(new Entity\Attribute);
+        $productAttribute->setAttributeValue(new Entity\AttributeValue);
 
         return $productAttribute;
     }
@@ -609,5 +628,55 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $orderItem->addOrderItemTextOptionValue($orderItemTextOptionValue);
 
         return $orderItem;
+    }
+
+    protected function getFullDummyProduct()
+    {
+        $product = $this->getDummyProduct(1);
+        $product->addOptionProduct($this->getDummyOptionProduct(
+            $this->getDummyOption(),
+            $this->getDummyProduct(2)
+        ));
+        $product->addProductQuantityDiscount($this->getDummyProductQuantityDiscount());
+        $product->addImage($this->getDummyImage());
+        $product->addProductAttribute($this->getDummyProductAttribute());
+
+        $tag = $this->getDummyTag();
+        $tag->addImage($this->getDummyImage());
+        $tag->addOption($this->getDummyOption());
+        $tag->addTextOption($this->getDummyTextOption());
+
+        $product->addTag($tag);
+
+        return $product;
+    }
+
+    protected function getFullDummyPricing()
+    {
+        $pricing = new Pricing;
+        $pricing->setCatalogPromotions([$this->getDummyCatalogPromotion()]);
+        $pricing->setProductQuantityDiscounts([$this->getDummyProductQuantityDiscount()]);
+
+        return $pricing;
+    }
+
+    protected function assertFullProductDTO(ProductDTO $productDTO)
+    {
+        $this->assertTrue($productDTO instanceof ProductDTO);
+        $this->assertTrue($productDTO->tags[0]->images[0] instanceof ImageDTO);
+        $this->assertTrue($productDTO->tags[0]->options[0] instanceof OptionDTO);
+        $this->assertTrue($productDTO->tags[0]->textOptions[0] instanceof TextOptionDTO);
+        $this->assertTrue($productDTO->productQuantityDiscounts[0] instanceof ProductQuantityDiscountDTO);
+        $this->assertTrue($productDTO->productQuantityDiscounts[0]->price instanceof PriceDTO);
+        $this->assertTrue($productDTO->price instanceof PriceDTO);
+        $this->assertTrue($productDTO->price->catalogPromotions[0] instanceof CatalogPromotionDTO);
+        $this->assertTrue($productDTO->price->productQuantityDiscounts[0] instanceof ProductQuantityDiscountDTO);
+        $this->assertTrue($productDTO->images[0] instanceof ImageDTO);
+        $this->assertTrue($productDTO->tagImages[0] instanceof ImageDTO);
+        $this->assertTrue($productDTO->productAttributes[0] instanceof ProductAttributeDTO);
+        $this->assertTrue($productDTO->productAttributes[0]->attribute instanceof AttributeDTO);
+        $this->assertTrue($productDTO->productAttributes[0]->attributeValue instanceof AttributeValueDTO);
+        $this->assertTrue($productDTO->optionProducts[0] instanceof OptionProductDTO);
+        $this->assertTrue($productDTO->optionProducts[0]->option instanceof OptionDTO);
     }
 }

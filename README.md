@@ -15,7 +15,7 @@ are using the PSR-4 standard.
 
 ## Description
 
-This project is over 28,000 lines of code. Unit tests account for 30-40% of that total. Below are the
+This project is over 30,000 lines of code. Unit tests account for 30-40% of that total. Below are the
 modules in this project:
 
 ## Architecture

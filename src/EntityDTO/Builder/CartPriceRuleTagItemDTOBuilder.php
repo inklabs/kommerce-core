@@ -25,7 +25,7 @@ class CartPriceRuleTagItemDTOBuilder extends AbstractCartPriceRuleItemDTOBuilder
     public function withTag()
     {
         $tag = $this->cartPriceRuleItem->getTag();
-        if (! empty($tag)) {
+        if ($tag !== null) {
             $this->cartPriceRuleItemDTO->tag = $tag->getDTOBuilder()
                 ->build();
         }

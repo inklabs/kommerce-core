@@ -14,17 +14,15 @@ class AbstractPromotionDTO
     public $redemptions;
     public $maxRedemptions;
     public $reducesTaxSubtotal;
+    public $startFormatted;
+    public $endFormatted;
+    public $isRedemptionCountValid;
+    public $created;
+    public $updated;
 
     /** @var DateTime */
     public $start;
 
     /** @var DateTime */
     public $end;
-
-    public $startFormatted;
-    public $endFormatted;
-    public $created;
-    public $updated;
-
-    public $isRedemptionCountValid;
 }

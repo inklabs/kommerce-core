@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
 use inklabs\kommerce\EntityDTO\CartItemTextOptionValueDTO;
 
-class CartitemTextOptionValueDTOBuilder
+class CartItemTextOptionValueDTOBuilder
 {
     /** @var CartItemTextOptionValue */
     protected $cartItemTextOptionValue;

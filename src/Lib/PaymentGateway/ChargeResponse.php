@@ -13,9 +13,6 @@ class ChargeResponse implements Entity\EntityInterface
     protected $id;
 
     /** @var int */
-    protected $created;
-
-    /** @var int */
     protected $amount;
 
     /** @var int */
@@ -32,6 +29,9 @@ class ChargeResponse implements Entity\EntityInterface
 
     /** @var string */
     protected $description;
+
+    /** @var int */
+    protected $created;
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {

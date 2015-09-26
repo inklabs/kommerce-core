@@ -21,9 +21,9 @@ class ProductDTO
     public $description;
     public $rating;
     public $defaultImage;
+    public $isInStock;
     public $created;
     public $updated;
-    public $isInStock;
 
     /** @var TagDTO[] */
     public $tags = [];

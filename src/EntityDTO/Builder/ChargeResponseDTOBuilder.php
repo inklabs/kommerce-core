@@ -18,13 +18,13 @@ class ChargeResponseDTOBuilder
 
         $this->chargeResponseDTO = new ChargeResponseDTO;
         $this->chargeResponseDTO->id          = $this->chargeResponse->getId();
-        $this->chargeResponseDTO->created     = $this->chargeResponse->getCreated();
         $this->chargeResponseDTO->amount      = $this->chargeResponse->getAmount();
         $this->chargeResponseDTO->last4       = $this->chargeResponse->getLast4();
         $this->chargeResponseDTO->brand       = $this->chargeResponse->getBrand();
         $this->chargeResponseDTO->currency    = $this->chargeResponse->getCurrency();
         $this->chargeResponseDTO->fee         = $this->chargeResponse->getFee();
         $this->chargeResponseDTO->description = $this->chargeResponse->getDescription();
+        $this->chargeResponseDTO->created     = $this->chargeResponse->getCreated();
     }
 
     public function build()

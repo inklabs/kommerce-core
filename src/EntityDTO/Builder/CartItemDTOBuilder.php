@@ -20,6 +20,7 @@ class CartItemDTOBuilder
         $this->cartItemDTO->quantity       = $this->cartItem->getQuantity();
         $this->cartItemDTO->shippingWeight = $this->cartItem->getShippingWeight();
         $this->cartItemDTO->created        = $this->cartItem->getCreated();
+        $this->cartItemDTO->updated        = $this->cartItem->getUpdated();
     }
 
     public function withPrice(PricingInterface $pricing)

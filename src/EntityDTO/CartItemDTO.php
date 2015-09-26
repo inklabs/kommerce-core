@@ -9,6 +9,7 @@ class CartItemDTO
     public $quantity;
     public $shippingWeight;
     public $created;
+    public $updated;
 
     /** @var ProductDTO */
     public $product;

@@ -10,6 +10,9 @@ class TextOptionDTOBuilder
     /** @var TextOption */
     protected $textOption;
 
+    /** @var TextOptionDTO */
+    protected $textOptionDTO;
+
     public function __construct(TextOption $textOption)
     {
         $this->textOption = $textOption;

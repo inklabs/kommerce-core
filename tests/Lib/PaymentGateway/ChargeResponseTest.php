@@ -12,10 +12,10 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
         $chargeResponse->setAmount(2000);
         $chargeResponse->setLast4('4242');
         $chargeResponse->setBrand('Visa');
-        $chargeResponse->setCreated(1420656887);
         $chargeResponse->setCurrency('usd');
         $chargeResponse->setFee(88);
         $chargeResponse->setDescription('test@example.com');
+        $chargeResponse->setCreated(1420656887);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -40,10 +40,10 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
         $chargeResponse->setAmount(2147483648);
         $chargeResponse->setLast4('xxxx');
         $chargeResponse->setBrand('12345678901234567');
-        $chargeResponse->setCreated(-1);
         $chargeResponse->setCurrency('xxxx');
         $chargeResponse->setFee(2147483648);
         $chargeResponse->setDescription(str_pad('x', 256, 'x'));
+        $chargeResponse->setCreated(-1);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')

@@ -51,6 +51,7 @@ class ProductDTOBuilder
                 ->withImages()
                 ->build();
         }
+
         return $this;
     }
 
@@ -63,6 +64,7 @@ class ProductDTOBuilder
                 ->withTextOptions()
                 ->build();
         }
+
         return $this;
     }
 

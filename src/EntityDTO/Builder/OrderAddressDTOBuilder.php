@@ -6,7 +6,10 @@ use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 
 class OrderAddressDTOBuilder
 {
+    /** @var OrderAddress */
     protected $orderAddress;
+
+    /** @var OrderAddressDTO */
     protected $orderAddressDTO;
 
     public function __construct(OrderAddress $orderAddress)

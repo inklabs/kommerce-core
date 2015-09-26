@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartitemTextOptionValueDTOBuilder;
+use inklabs\kommerce\EntityDTO\Builder\CartItemTextOptionValueDTOBuilder;
 use inklabs\kommerce\View;
 
 class CartItemTextOptionValue
@@ -62,6 +62,6 @@ class CartItemTextOptionValue
 
     public function getDTOBuilder()
     {
-        return new CartitemTextOptionValueDTOBuilder($this);
+        return new CartItemTextOptionValueDTOBuilder($this);
     }
 }

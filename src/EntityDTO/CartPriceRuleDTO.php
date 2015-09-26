@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-class CartPriceRuleDTO
+class CartPriceRuleDTO extends AbstractPromotionDTO
 {
     /** @var CartPriceRuleProductItemDTO|CartPriceRuleTagItemDTO[] */
     public $cartPriceRuleItems = [];

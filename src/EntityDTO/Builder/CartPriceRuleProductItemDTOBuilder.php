@@ -25,7 +25,7 @@ class CartPriceRuleProductItemDTOBuilder extends AbstractCartPriceRuleItemDTOBui
     public function withProduct()
     {
         $product = $this->cartPriceRuleItem->getProduct();
-        if (! empty($product)) {
+        if ($product !== null) {
             $this->cartPriceRuleItemDTO->product = $product->getDTOBuilder()
                 ->build();
         }

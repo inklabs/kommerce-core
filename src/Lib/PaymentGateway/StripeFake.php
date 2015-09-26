@@ -12,10 +12,10 @@ class StripeFake implements GatewayInterface
         $chargeResponse->setAmount($stripeCharge['amount']);
         $chargeResponse->setLast4($stripeCharge['card']['last4']);
         $chargeResponse->setBrand($stripeCharge['card']['brand']);
-        $chargeResponse->setCreated($stripeCharge['created']);
         $chargeResponse->setCurrency($stripeCharge['currency']);
         $chargeResponse->setFee($stripeCharge['fee']);
         $chargeResponse->setDescription($stripeCharge['description']);
+        $chargeResponse->setCreated($stripeCharge['created']);
 
         return $chargeResponse;
     }

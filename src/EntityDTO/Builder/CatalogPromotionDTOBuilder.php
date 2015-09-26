@@ -40,9 +40,4 @@ class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
         return $this
             ->withTag();
     }
-
-//    public function build()
-//    {
-//        return $this->promotionDTO;
-//    }
 }
