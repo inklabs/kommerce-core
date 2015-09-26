@@ -9,6 +9,12 @@ use inklabs\kommerce\EntityDTO\CashPaymentDTO;
  */
 class CashPaymentDTOBuilder extends AbstractPaymentDTOBuilder
 {
+    /** @var CashPayment */
+    protected $payment;
+
+    /** @var CashPaymentDTO */
+    protected $paymentDTO;
+
     public function __construct(CashPayment $payment)
     {
         $this->paymentDTO = new CashPaymentDTO;

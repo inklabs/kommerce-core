@@ -9,6 +9,12 @@ use inklabs\kommerce\EntityDTO\CreditPaymentDTO;
  */
 class CreditPaymentDTOBuilder extends AbstractPaymentDTOBuilder
 {
+    /** @var CreditPayment */
+    protected $payment;
+
+    /** @var CreditPaymentDTO */
+    protected $paymentDTO;
+
     public function __construct(CreditPayment $payment)
     {
         $this->paymentDTO = new CreditPaymentDTO;

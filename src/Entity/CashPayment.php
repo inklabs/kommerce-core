@@ -24,6 +24,9 @@ class CashPayment extends AbstractPayment
         return new View\CashPayment($this);
     }
 
+    /**
+     * @return CashPaymentDTOBuilder
+     */
     public function getDTOBuilder()
     {
         return new CashPaymentDTOBuilder($this);
