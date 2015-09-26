@@ -44,6 +44,9 @@ class CreditPayment extends AbstractPayment
         return new View\CreditPayment($this);
     }
 
+    /**
+     * @return CreditPaymentDTOBuilder
+     */
     public function getDTOBuilder()
     {
         return new CreditPaymentDTOBuilder($this);
