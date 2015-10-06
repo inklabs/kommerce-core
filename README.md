@@ -25,7 +25,8 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 
 * Entity
     - These are plain old PHP objects. You will not find any ORM code or external dependencies here. This is where
-      object relationships are constructed.
+      the relationships between objects are constructed. An Entitiy contains business logic and behavior with high cohesion to
+      its own properties.
 
       ```php
       $tag = new Entity\Tag
@@ -38,7 +39,8 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       ```
 
 * Action
-    - These are the use cases for the application. Actions are passed a CommandInterface object.
+    - These are the use cases for the application. Actions contain some business logic and are passed a
+      CommandInterface object.
 
       ```php
       $product->setSku('NEW-SKU');
@@ -60,8 +62,9 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       
 * EntityDTO
     - Often you want to use your entities as Data Transfer Objects (DTO) in your main application.
-      These classes are simple anemic objects containing public class member variables. Using the EntityDTOBuilder,
-      the complete network graph relationships are available (e.g., withAllData()) prior to calling build();
+      These classes are simple anemic objects with no business logic. Data is accessible via public class member variables. 
+      Using the EntityDTOBuilder, the complete network graph relationships are available (e.g., withAllData()) prior to
+      calling build().
 
       ```php
       $product = new Entity\Product;
@@ -74,6 +77,28 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       echo $productDTO->sku;
       echo $productDTO->price->unitPrice;
       echo $productDTO->tags[0]->name;
+      ```
+
+* Lib
+    - This is where you will find a variety of utility code including the Payment Gateway (src/Lib/PaymentGateway).
+
+      ```php
+      $creditCard = new Entity\CreditCard;
+      $creditCard->setName('John Doe');
+      $creditCard->setZip5('90210');
+      $creditCard->setNumber('4242424242424242');
+      $creditCard->setCvc('123');
+      $creditCard->setExpirationMonth('1');
+      $creditCard->setExpirationYear('2020');
+
+      $chargeRequest = new Lib\PaymentGateway\ChargeRequest;
+      $chargeRequest->setCreditCard($creditCard);
+      $chargeRequest->setAmount(2000);
+      $chargeRequest->setCurrency('usd');
+      $chargeRequest->setDescription('test@example.com');
+
+      $stripe = new Lib\PaymentGateway\StripeFake;
+      $charge = $stripe->getCharge($chargeRequest);
       ```
 
 * View (Deprecated)
@@ -110,28 +135,6 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       $product->setSku('NEW-SKU');
 
       $productService->edit($product);
-      ```
-
-* Lib
-    - This is where you will find a variety of utility code including the Payment Gateway (src/Lib/PaymentGateway).
-
-      ```php
-      $creditCard = new Entity\CreditCard;
-      $creditCard->setName('John Doe');
-      $creditCard->setZip5('90210');
-      $creditCard->setNumber('4242424242424242');
-      $creditCard->setCvc('123');
-      $creditCard->setExpirationMonth('1');
-      $creditCard->setExpirationYear('2020');
-
-      $chargeRequest = new Lib\PaymentGateway\ChargeRequest;
-      $chargeRequest->setCreditCard($creditCard);
-      $chargeRequest->setAmount(2000);
-      $chargeRequest->setCurrency('usd');
-      $chargeRequest->setDescription('test@example.com');
-
-      $stripe = new Lib\PaymentGateway\StripeFake;
-      $charge = $stripe->getCharge($chargeRequest);
       ```
 
 ## Installation
