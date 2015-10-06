@@ -6,6 +6,7 @@ use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeImageRepository;
+use LogicException;
 
 class ProductTest extends Helper\DoctrineTestCase
 {
@@ -72,7 +73,7 @@ class ProductTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException \LogicException
+     * @expectedException LogicException
      * @expectedExceptionMessage Missing Product
      */
     public function testAddTagWithMissingProduct()
@@ -85,7 +86,7 @@ class ProductTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException \LogicException
+     * @expectedException LogicException
      * @expectedExceptionMessage Missing Tag
      */
     public function testAddTagWithMissingTag()
@@ -128,7 +129,7 @@ class ProductTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException \LogicException
+     * @expectedException LogicException
      * @expectedExceptionMessage Missing Image
      */
     public function testRemoveImageWithMissingImage()

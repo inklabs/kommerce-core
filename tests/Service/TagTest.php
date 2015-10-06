@@ -19,24 +19,6 @@ class TagTest extends Helper\DoctrineTestCase
         $this->tagService = new Tag($this->tagRepository);
     }
 
-    public function testCreate()
-    {
-        $tag = $this->getDummyTag();
-        $this->tagService->create($tag);
-        $this->assertTrue($tag instanceof Entity\Tag);
-    }
-
-    public function testEdit()
-    {
-        $newName = 'New Name';
-        $tag = $this->getDummyTag();
-        $this->assertNotSame($newName, $tag->getName());
-
-        $tag->setName($newName);
-        $this->tagService->edit($tag);
-        $this->assertSame($newName, $tag->getName());
-    }
-
     public function testFind()
     {
         $tag = $this->tagService->find(1);

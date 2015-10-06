@@ -42,6 +42,7 @@ class FakeTagRepository extends AbstractFakeRepository implements TagRepositoryI
 
     public function save(Entity\Tag & $tag)
     {
+        $tag->setUpdated();
     }
 
     public function remove(Entity\Tag & $tag)

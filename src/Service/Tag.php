@@ -14,18 +14,6 @@ class Tag extends AbstractService
         $this->tagRepository = $tagRepository;
     }
 
-    public function create(Entity\Tag & $tag)
-    {
-        $this->throwValidationErrors($tag);
-        $this->tagRepository->create($tag);
-    }
-
-    public function edit(Entity\Tag & $tag)
-    {
-        $this->throwValidationErrors($tag);
-        $this->tagRepository->save($tag);
-    }
-
     /**
      * @param int $id
      * @return Entity\Tag|null

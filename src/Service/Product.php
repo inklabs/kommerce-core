@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use LogicException;
 
 class Product extends AbstractService
 {
@@ -173,14 +174,14 @@ class Product extends AbstractService
     /**
      * @param int $productId
      * @return Entity\Product
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function getProductAndThrowExceptionIfMissing($productId)
     {
         $product = $this->productRepository->find($productId);
 
         if ($product === null) {
-            throw new \LogicException('Missing Product');
+            throw new LogicException('Missing Product');
         }
 
         return $product;
@@ -189,14 +190,14 @@ class Product extends AbstractService
     /**
      * @param int $tagId
      * @return Entity\Tag
-     * @throws \LogicException
+     * @throws LogicException
      */
     private function getTagAndThrowExceptionIfMissing($tagId)
     {
         $tag = $this->tagRepository->find($tagId);
 
         if ($tag === null) {
-            throw new \LogicException('Missing Tag');
+            throw new LogicException('Missing Tag');
         }
 
         return $tag;
@@ -205,14 +206,14 @@ class Product extends AbstractService
     /**
      * @param int $imageId
      * @return Entity\Image
-     * @throws \LogicException
+     * @throws LogicException
      */
     private function getImageAndThrowExceptionIfMissing($imageId)
     {
         $image = $this->imageRepository->find($imageId);
 
         if ($image === null) {
-            throw new \LogicException('Missing Image');
+            throw new LogicException('Missing Image');
         }
 
         return $image;
