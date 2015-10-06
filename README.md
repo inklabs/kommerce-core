@@ -39,8 +39,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 
 * Action
     - These are the use cases that manage the interactions between Entities and EntityRepositories.
-      Actions are initiated via the execute() method and are passed a CommandInterface object.
-      The dependencies can be automatically injected when coupled through the ActionFactory.
+      Actions are called via the execute() method and are passed a CommandInterface object.
 
       ```php
       $product->setSku('NEW-SKU');
