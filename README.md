@@ -35,12 +35,18 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       $product = new Entity\Product;
       $product->setName('Test Product');
       $product->setUnitPrice(500);
+      $product->setQuantity(1);
+      $product->isInventoryRequired(true);
       $product->addTag($tag);
+      
+      if ($product->inStock()) {
+        // Show add to cart button
+      }
       ```
 
 * Action
     - These are the use cases for the application. Actions contain some business logic and are passed a
-      CommandInterface object.
+      Command object containing the required data payload.
 
       ```php
       $product->setSku('NEW-SKU');
@@ -48,8 +54,8 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       ```
 
 * EntityRepository
-    - This module is responsible for storing and retrieving entities. Each repository conforms to an interface
-      allowing you to quickly change the backend storage or use a decorator for persistence operations. 
+    - This module is responsible for storing and retrieving entities. Doctrine 2 is used in this layer to hydrate Entities
+      using the Data Mapper Pattern.
 
       ```php
       $productRepository = $this->entityManager->getRepository('kommerce:Product');
