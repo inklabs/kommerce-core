@@ -1,14 +1,14 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\ValidationInterface;
 use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Exception\ValidatorException;
 
 abstract class AbstractService
 {
-    public function throwValidationErrors(Entity\EntityInterface $entity)
+    public function throwValidationErrors(ValidationInterface $entity)
     {
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')

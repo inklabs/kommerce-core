@@ -1,12 +1,12 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-use inklabs\kommerce\Entity;
 use inklabs\kommerce\Entity\CreditCard;
+use inklabs\kommerce\Entity\ValidationInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ChargeRequest implements Entity\EntityInterface
+class ChargeRequest implements ValidationInterface
 {
     /** @var int */
     protected $amount;

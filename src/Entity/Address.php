@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 use inklabs\kommerce\View;
 
-class Address implements EntityInterface
+class Address implements ValidationInterface
 {
     /** @var string */
     protected $attention;

@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OrderItem implements EntityInterface
+class OrderItem implements ValidationInterface
 {
     use TimeTrait, IdTrait;
 

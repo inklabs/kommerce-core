@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 use inklabs\kommerce\View;
 
-class Point implements EntityInterface
+class Point implements ValidationInterface
 {
     protected $latitude;
     protected $longitude;

@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\AbstractPromotionDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractPromotion implements EntityInterface
+abstract class AbstractPromotion implements ValidationInterface
 {
     use TimeTrait, IdTrait;
 

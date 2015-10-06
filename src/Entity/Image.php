@@ -6,7 +6,7 @@ use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Image implements EntityInterface
+class Image implements ValidationInterface
 {
     use TimeTrait, IdTrait;
 

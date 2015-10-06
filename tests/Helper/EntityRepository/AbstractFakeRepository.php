@@ -1,12 +1,12 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
-use inklabs\kommerce\Entity;
 use Exception;
+use inklabs\kommerce\Entity\ValidationInterface;
 
 class AbstractFakeRepository
 {
-    /** @var Entity\EntityInterface */
+    /** @var ValidationInterface */
     public $returnValue;
 
     /** @var Exception|null */
@@ -26,7 +26,7 @@ class AbstractFakeRepository
         return [$this->returnValue];
     }
 
-    public function setReturnValue(Entity\EntityInterface $returnValue = null)
+    public function setReturnValue(ValidationInterface $returnValue = null)
     {
         $this->returnValue = $returnValue;
     }

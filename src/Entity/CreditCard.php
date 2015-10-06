@@ -6,7 +6,7 @@ use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CreditCard implements EntityInterface
+class CreditCard implements ValidationInterface
 {
     /** @var string */
     protected $name;

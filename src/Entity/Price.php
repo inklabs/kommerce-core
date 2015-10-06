@@ -6,7 +6,7 @@ use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Price implements EntityInterface
+class Price implements ValidationInterface
 {
     public $origUnitPrice;
     public $unitPrice;

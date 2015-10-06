@@ -1,22 +1,21 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityDTO\Builder\AbstractCartPriceRuleItemDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractCartPriceRuleItem implements Entity\EntityInterface
+abstract class AbstractCartPriceRuleItem implements ValidationInterface
 {
     use TimeTrait, IdTrait;
 
     /** @var int */
     protected $quantity;
 
-    /** @var Entity\CartPriceRule */
+    /** @var CartPriceRule */
     protected $cartPriceRule;
 
-    abstract public function matches(Entity\CartItem $cartItem);
+    abstract public function matches(CartItem $cartItem);
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
@@ -37,7 +36,7 @@ abstract class AbstractCartPriceRuleItem implements Entity\EntityInterface
         return $this->quantity;
     }
 
-    public function setCartPriceRule(Entity\CartPriceRule $cartPriceRule)
+    public function setCartPriceRule(CartPriceRule $cartPriceRule)
     {
         $this->cartPriceRule = $cartPriceRule;
     }

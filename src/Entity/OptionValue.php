@@ -7,7 +7,7 @@ use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OptionValue implements EntityInterface
+class OptionValue implements ValidationInterface
 {
     use TimeTrait, IdTrait;
 
