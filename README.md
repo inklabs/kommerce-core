@@ -62,7 +62,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       $product->setName('Test Product');
       $product->setUnitPrice(500);
       $product->setQuantity(1);
-      $product->isInventoryRequired(true);
+      $product->setIsInventoryRequired(true);
       $product->addTag($tag);
       
       if ($product->inStock()) {
