@@ -33,7 +33,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       ```
 
 * Service
-    - These are the domain services to manage storing domain state to the database through repositories. They contain
+    - These are the domain services to manage persisting domain state to the database through repositories. They contain
       behavior related to multiple Entities and any business logive that does not fit any specific Entity.
 
       ```php
