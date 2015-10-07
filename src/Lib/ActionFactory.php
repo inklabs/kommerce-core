@@ -8,33 +8,24 @@ use inklabs\kommerce\Action\Tag\EditTag;
 
 class ActionFactory
 {
-    /** @var CartCalculatorInterface */
-    protected $cartCalculator;
+    /** @var FactoryService */
+    private $factoryService;
 
-    /** @var FactoryRepository */
-    protected $factoryRepository;
-
-    public function __construct(
-        FactoryRepository $factoryRepository,
-        CartCalculatorInterface $cartCalculator
-    ) {
-        $this->cartCalculator = $cartCalculator;
-        $this->factoryRepository = $factoryRepository;
+    public function __construct(FactoryService $factoryService)
+    {
+        $this->factoryService = $factoryService;
     }
 
     /**
-     * @param FactoryRepository $factoryRepository
-     * @param CartCalculatorInterface $cartCalculator
+     * @param FactoryService $factoryService
      * @return ActionFactory
      */
-    public static function getInstance(
-        FactoryRepository $factoryRepository,
-        CartCalculatorInterface $cartCalculator
-    ) {
+    public static function getInstance(FactoryService $factoryService)
+    {
         static $actionFactory = null;
 
         if ($actionFactory === null) {
-            $actionFactory = new static($factoryRepository, $cartCalculator);
+            $actionFactory = new static($factoryService);
         }
 
         return $actionFactory;
@@ -61,7 +52,7 @@ class ActionFactory
      */
     public function getEditTag()
     {
-        return new EditTag($this->factoryRepository->getTagRepository());
+        return new EditTag($this->factoryService->getTagService());
     }
 
     /**
@@ -69,7 +60,7 @@ class ActionFactory
      */
     public function getCreateTag()
     {
-        return new CreateTag($this->factoryRepository->getTagRepository());
+        return new CreateTag($this->factoryService->getTagService());
     }
 
     /**
@@ -77,6 +68,6 @@ class ActionFactory
      */
     public function getDeleteTag()
     {
-        return new DeleteTag($this->factoryRepository->getTagRepository());
+        return new DeleteTag($this->factoryService->getTagService());
     }
 }

@@ -1,26 +1,21 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\Entity\EntityValidator;
-use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Service\TagServiceInterface;
 
 class EditTag
 {
-    /** @var TagRepositoryInterface */
-    private $tagRepository;
+    /** @var TagServiceInterface */
+    private $tagService;
 
-    public function __construct(TagRepositoryInterface $tagRepository)
+    public function __construct(TagServiceInterface $tagService)
     {
-        $this->tagRepository = $tagRepository;
+        $this->tagService = $tagService;
     }
 
     public function execute(EditTagCommand $command)
     {
         $tag = $command->getTag();
-
-        $validation = new EntityValidator;
-        $validation->throwValidationErrors($tag);
-
-        $this->tagRepository->save($tag);
+        $this->tagService->edit($tag);
     }
 }

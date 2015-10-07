@@ -1,10 +1,11 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 
-class Tag extends AbstractService
+class TagService extends AbstractService implements TagServiceInterface
 {
     /** @var TagRepositoryInterface */
     private $tagRepository;
@@ -14,19 +15,29 @@ class Tag extends AbstractService
         $this->tagRepository = $tagRepository;
     }
 
-    /**
-     * @param int $id
-     * @return Entity\Tag|null
-     */
+    public function create(Tag & $tag)
+    {
+        $this->throwValidationErrors($tag);
+        $this->tagRepository->create($tag);
+    }
+
+    public function edit(Tag & $tag)
+    {
+        $this->throwValidationErrors($tag);
+        $this->tagRepository->save($tag);
+    }
+
+    public function remove($tagId)
+    {
+        $tag = $this->tagRepository->find($tagId);
+        $this->tagRepository->remove($tag);
+    }
+
     public function find($id)
     {
         return $this->tagRepository->find($id);
     }
 
-    /**
-     * @param string $code
-     * @return Entity\Tag|null
-     */
     public function findOneByCode($code)
     {
         return $this->tagRepository->findOneBy([
@@ -34,20 +45,11 @@ class Tag extends AbstractService
         ]);
     }
 
-    /**
-     * @param int $id
-     * @return Entity\Tag|null
-     */
     public function findSimple($id)
     {
         return $this->tagRepository->find($id);
     }
 
-    /**
-     * @param int $tagId
-     * @return Entity\Tag
-     * @throws \LogicException
-     */
     public function getTagAndThrowExceptionIfMissing($tagId)
     {
         $tag = $this->tagRepository->find($tagId);
@@ -59,27 +61,17 @@ class Tag extends AbstractService
         return $tag;
     }
 
-    /**
-     * @param string $queryString
-     * @param Entity\Pagination $pagination
-     * @return Entity\Tag[]
-     */
-    public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
+    public function getAllTags($queryString = null, Pagination & $pagination = null)
     {
         return $this->tagRepository->getAllTags($queryString, $pagination);
     }
 
-    /**
-     * @param int[] $tagIds
-     * @param Entity\Pagination $pagination
-     * @return Entity\Tag[]
-     */
-    public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null)
+    public function getTagsByIds($tagIds, Pagination & $pagination = null)
     {
         return $this->tagRepository->getTagsByIds($tagIds, $pagination);
     }
 
-    public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null)
+    public function getAllTagsByIds($tagIds, Pagination & $pagination = null)
     {
         return $this->tagRepository->getAllTagsByIds($tagIds, $pagination);
     }

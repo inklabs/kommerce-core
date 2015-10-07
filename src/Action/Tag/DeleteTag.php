@@ -1,21 +1,20 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Service\TagServiceInterface;
 
 class DeleteTag
 {
-    /** @var TagRepositoryInterface */
-    private $tagRepository;
+    /** @var TagServiceInterface */
+    private $tagService;
 
-    public function __construct(TagRepositoryInterface $tagRepository)
+    public function __construct(TagServiceInterface $tagService)
     {
-        $this->tagRepository = $tagRepository;
+        $this->tagService = $tagService;
     }
 
     public function execute(DeleteTagCommand $command)
     {
-        $tag = $this->tagRepository->find($command->getTagId());
-        $this->tagRepository->remove($tag);
+        $this->tagService->remove($command->getTagId());
     }
 }

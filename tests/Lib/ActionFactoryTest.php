@@ -16,7 +16,7 @@ class ActionFactoryTest extends Helper\DoctrineTestCase
 
     public function testGetInstance()
     {
-        $actionFactory = ActionFactory::getInstance($this->repository(), new CartCalculator(new Pricing));
+        $actionFactory = ActionFactory::getInstance($this->service(new CartCalculator(new Pricing)));
         $this->assertTrue($actionFactory instanceof ActionFactory);
     }
 

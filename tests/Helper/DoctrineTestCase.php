@@ -543,7 +543,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function actionFactory(Lib\CartCalculatorInterface $cartCalculator)
     {
-        return new Lib\ActionFactory($this->repository(), $cartCalculator);
+        return new Lib\ActionFactory($this->service($cartCalculator));
     }
 
     protected function beginTransaction()

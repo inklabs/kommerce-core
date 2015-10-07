@@ -180,11 +180,11 @@ class FactoryService
     }
 
     /**
-     * @return Service\Tag
+     * @return Service\TagService
      */
-    public function getTag()
+    public function getTagService()
     {
-        return new Service\Tag($this->factoryRepository->getTagRepository());
+        return new Service\TagService($this->factoryRepository->getTagRepository());
     }
 
     /**

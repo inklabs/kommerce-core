@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
+use inklabs\kommerce\Service\TagService;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Service;
 
@@ -34,7 +35,7 @@ class FactoryServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($factoryService->getOption() instanceof Service\Option);
         $this->assertTrue($factoryService->getOrder() instanceof Service\Order);
         $this->assertTrue($factoryService->getProduct() instanceof Service\Product);
-        $this->assertTrue($factoryService->getTag() instanceof Service\Tag);
+        $this->assertTrue($factoryService->getTagService() instanceof TagService);
         $this->assertTrue($factoryService->getTaxRate() instanceof Service\TaxRate);
         $this->assertTrue($factoryService->getUser() instanceof Service\User);
     }
