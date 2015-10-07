@@ -84,10 +84,11 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       ```
       
 * EntityDTO
-    - Often you want to use your entities as Data Transfer Objects (DTO) in your main application.
-      These classes are simple anemic objects with no business logic. Data is accessible via public class member variables. 
+    - These classes are simple anemic objects with no business logic. Data is accessible via public class member variables. 
       Using the EntityDTOBuilder, the complete network graph relationships are available (e.g., withAllData()) prior to
-      calling build().
+      calling build(). The primary reason for using these Data Transfer Objects (DTO) is to flatten the object graph from
+      lazy loaded Doctrine proxy objects on the Entities for use in view templates. This avoids lazy loaded queries from
+      being executed outside the core application and somewhere they don't belong, such as in a view template.
 
       ```php
       $product = new Entity\Product;
