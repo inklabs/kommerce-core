@@ -20,8 +20,8 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 
 ## Architecture
 
-![Flow of Control](https://i.imgur.com/0lo6hlf.png)
-![Dependencies](https://i.imgur.com/W6uM5es.png)
+![Flow of Control](https://i.imgur.com/IJ5Trm7.png)
+![Dependencies](https://i.imgur.com/vDA6caZ.png)
 
 * Entity
     - These are plain old PHP objects. You will not find any ORM code or external dependencies here. This is where
