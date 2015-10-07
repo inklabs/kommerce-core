@@ -23,10 +23,36 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 ![Flow of Control](https://i.imgur.com/IJ5Trm7.png)
 ![Dependencies](https://i.imgur.com/vDA6caZ.png)
 
+* Action
+    - These are the use cases for the application. Actions are passed a Command object containing the required data payload.
+      This is the entry point into the application.
+
+      ```php
+      $product->setSku('NEW-SKU');
+      $this->executeCommand(new EditProductCommand($product));
+      ```
+
+* Service
+    - These are the domain services to manage storing domain state to the database through repositories. They contain
+      behavior related to multiple Entities and any business logive that does not fit any specific Entity.
+
+      ```php
+      $productService = new Service\Product(
+          $this->productRepository,
+          $this->tagRepository
+      );
+
+      $productId = 1;
+      $product = $productService->find($productId);
+      $product->setSku('NEW-SKU');
+
+      $productService->edit($product);
+      ```
+
 * Entity
     - These are plain old PHP objects. You will not find any ORM code or external dependencies here. This is where
       the relationships between objects are constructed. An Entitiy contains business logic and behavior with high cohesion to
-      its own properties.
+      its own properties. Business logic related to the data of a single instance of an Entity belongs here.
 
       ```php
       $tag = new Entity\Tag
@@ -42,15 +68,6 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       if ($product->inStock()) {
         // Show add to cart button
       }
-      ```
-
-* Action
-    - These are the use cases for the application. Actions contain some business logic and are passed a
-      Command object containing the required data payload.
-
-      ```php
-      $product->setSku('NEW-SKU');
-      $this->executeCommand(new EditProductCommand($product));
       ```
 
 * EntityRepository
@@ -123,24 +140,6 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       echo $viewProduct->sku;
       echo $viewProduct->price->unitPrice;
       echo $viewProduct->tags[0]->name;
-      ```
-
-* Service (Deprecated)
-    - These are the interactors that manage the choreography between entities and the database via
-      an EntityRepository. There is heavy dependency injection into the constructors in this layer.
-      Services always return Entity objects.
-
-      ```php
-      $productService = new Service\Product(
-          $this->productRepository,
-          $this->tagRepository
-      );
-
-      $productId = 1;
-      $product = $productService->find($productId);
-      $product->setSku('NEW-SKU');
-
-      $productService->edit($product);
       ```
 
 ## Installation
