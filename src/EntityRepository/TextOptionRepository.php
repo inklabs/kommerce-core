@@ -1,26 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
 
 class TextOptionRepository extends AbstractRepository implements TextOptionRepositoryInterface
 {
-    public function save(Entity\TextOption & $textOption)
-    {
-        $this->saveEntity($textOption);
-    }
-
-    public function create(Entity\TextOption & $textOption)
-    {
-        $this->createEntity($textOption);
-    }
-
-    public function remove(Entity\TextOption & $textOption)
-    {
-        $this->removeEntity($textOption);
-    }
-
-    public function getAllTextOptionsByIds($optionIds, Entity\Pagination & $pagination = null)
+    public function getAllTextOptionsByIds($optionIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 

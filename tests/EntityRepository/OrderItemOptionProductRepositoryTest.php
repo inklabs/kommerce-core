@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\OrderItemOptionProduct;
 use inklabs\kommerce\Service;
 use inklabs\kommerce\tests\Helper;
 
@@ -67,7 +67,7 @@ class OrderItemOptionProductRepositoryTest extends Helper\DoctrineTestCase
         $orderItemOptionProduct->getOrderItem()->getCreated();
         $orderItemOptionProduct->getOptionProduct()->getCreated();
 
-        $this->assertTrue($orderItemOptionProduct instanceof Entity\OrderItemOptionProduct);
+        $this->assertTrue($orderItemOptionProduct instanceof OrderItemOptionProduct);
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 }

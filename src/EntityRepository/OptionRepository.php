@@ -1,26 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
 
 class OptionRepository extends AbstractRepository implements OptionRepositoryInterface
 {
-    public function save(Entity\Option & $option)
-    {
-        $this->saveEntity($option);
-    }
-
-    public function create(Entity\Option & $option)
-    {
-        $this->createEntity($option);
-    }
-
-    public function remove(Entity\Option & $option)
-    {
-        $this->removeEntity($option);
-    }
-
-    public function getAllOptionsByIds(array $optionIds, Entity\Pagination & $pagination = null)
+    public function getAllOptionsByIds(array $optionIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -35,7 +20,7 @@ class OptionRepository extends AbstractRepository implements OptionRepositoryInt
         return $options;
     }
 
-    public function getAllOptions($queryString, Entity\Pagination & $pagination = null)
+    public function getAllOptions($queryString, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 

@@ -39,7 +39,7 @@ class TagTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $tag = $this->tagService->find(1);
+        $tag = $this->tagService->findById(1);
         $this->assertTrue($tag instanceof Entity\Tag);
     }
 

@@ -20,7 +20,7 @@ interface TagServiceInterface
      * @param int $id
      * @return Tag|null
      */
-    public function find($id);
+    public function findById($id);
 
     /**
      * @param string $code

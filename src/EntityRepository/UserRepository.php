@@ -1,26 +1,29 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
 
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
-    public function save(Entity\User & $user)
+    public function findOneByEmail($email)
     {
-        $this->saveEntity($user);
+        $qb = $this->getQueryBuilder();
+
+        $user = $qb
+            ->select('user')
+            ->from('kommerce:User', 'user')
+
+            ->addSelect('userRole')
+            ->leftJoin('user.roles', 'userRole')
+
+            ->where('user.email = :email')->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $user;
     }
 
-    public function create(Entity\User & $user)
-    {
-        $this->createEntity($user);
-    }
-
-    public function remove(Entity\User & $user)
-    {
-        $this->removeEntity($user);
-    }
-
-    public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null)
+    public function getAllUsers($queryString = null, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -43,7 +46,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
         return $users;
     }
 
-    public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null)
+    public function getAllUsersByIds($userIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -56,23 +59,5 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
             ->getResult();
 
         return $users;
-    }
-
-    public function findOneByEmail($email)
-    {
-        $qb = $this->getQueryBuilder();
-
-        $user = $qb
-            ->select('user')
-            ->from('kommerce:User', 'user')
-
-            ->addSelect('userRole')
-            ->leftJoin('user.roles', 'userRole')
-
-            ->where('user.email = :email')->setParameter('email', $email)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        return $user;
     }
 }

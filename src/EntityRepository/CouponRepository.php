@@ -1,31 +1,16 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
 
 class CouponRepository extends AbstractRepository implements CouponRepositoryInterface
 {
-    public function save(Entity\Coupon & $coupon)
-    {
-        $this->saveEntity($coupon);
-    }
-
-    public function create(Entity\Coupon & $coupon)
-    {
-        $this->createEntity($coupon);
-    }
-
-    public function remove(Entity\Coupon & $coupon)
-    {
-        $this->removeEntity($coupon);
-    }
-
     public function findOneByCode($couponCode)
     {
-        return parent::findOneByCode($couponCode);
+        return parent::findOneBy(['code' => $couponCode]);
     }
 
-    public function getAllCoupons($queryString = null, Entity\Pagination & $pagination = null)
+    public function getAllCoupons($queryString = null, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -46,7 +31,7 @@ class CouponRepository extends AbstractRepository implements CouponRepositoryInt
         return $coupons;
     }
 
-    public function getAllCouponsByIds($couponIds, Entity\Pagination & $pagination = null)
+    public function getAllCouponsByIds($couponIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 

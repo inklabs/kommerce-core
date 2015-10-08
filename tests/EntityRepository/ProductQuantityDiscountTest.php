@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\tests\Helper;
 
 class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
@@ -42,7 +42,7 @@ class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
 
         $productQuantityDiscount->getProduct()->getName();
 
-        $this->assertTrue($productQuantityDiscount instanceof Entity\ProductQuantityDiscount);
+        $this->assertTrue($productQuantityDiscount instanceof ProductQuantityDiscount);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 }

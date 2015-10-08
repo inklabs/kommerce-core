@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\tests\Helper;
 
 class TextOptionRepositoryTest extends Helper\DoctrineTestCase
@@ -55,7 +55,7 @@ class TextOptionRepositoryTest extends Helper\DoctrineTestCase
 
         $textOption->getTags()->toArray();
 
-        $this->assertTrue($textOption instanceof Entity\TextOption);
+        $this->assertTrue($textOption instanceof TextOption);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 
@@ -65,6 +65,6 @@ class TextOptionRepositoryTest extends Helper\DoctrineTestCase
 
         $textOptions = $this->textOptionRepository->getAllTextOptionsByIds([1]);
 
-        $this->assertTrue($textOptions[0] instanceof Entity\TextOption);
+        $this->assertTrue($textOptions[0] instanceof TextOption);
     }
 }

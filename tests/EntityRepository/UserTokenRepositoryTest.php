@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\tests\Helper;
 
 class UserTokenRepositoryTest extends Helper\DoctrineTestCase
@@ -61,7 +61,7 @@ class UserTokenRepositoryTest extends Helper\DoctrineTestCase
 
         $userToken->getUser()->getEmail();
 
-        $this->assertTrue($userToken instanceof Entity\UserToken);
+        $this->assertTrue($userToken instanceof UserToken);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 }

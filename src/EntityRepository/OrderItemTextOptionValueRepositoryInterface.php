@@ -1,6 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-interface OrderItemTextOptionValueRepositoryInterface
+use inklabs\kommerce\Entity\OrderItemTextOptionValue;
+
+/**
+ * @method OrderItemTextOptionValue find($id)
+ */
+interface OrderItemTextOptionValueRepositoryInterface extends AbstractRepositoryInterface
 {
 }

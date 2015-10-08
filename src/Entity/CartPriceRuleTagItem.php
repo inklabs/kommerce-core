@@ -3,15 +3,14 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleTagItemDTOBuilder;
 use inklabs\kommerce\View;
-use inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class CartPriceRuleTagItem extends AbstractCartPriceRuleItem
 {
-    /** @var Entity\Tag */
+    /** @var Tag */
     protected $tag;
 
-    public function __construct(Entity\Tag $tag, $quantity)
+    public function __construct(Tag $tag, $quantity)
     {
         $this->setCreated();
         $this->tag = $tag;
@@ -23,7 +22,7 @@ class CartPriceRuleTagItem extends AbstractCartPriceRuleItem
         parent::loadValidatorMetadata($metadata);
     }
 
-    public function matches(Entity\CartItem $cartItem)
+    public function matches(CartItem $cartItem)
     {
         foreach ($cartItem->getProduct()->getTags() as $tag) {
             if (($tag->getId() === $this->tag->getId())

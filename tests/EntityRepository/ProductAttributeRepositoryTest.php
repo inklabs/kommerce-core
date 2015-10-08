@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\tests\Helper;
 
 class ProductAttributeRepositoryTest extends Helper\DoctrineTestCase
@@ -50,7 +50,7 @@ class ProductAttributeRepositoryTest extends Helper\DoctrineTestCase
         $productAttribute->getAttribute()->getCreated();
         $productAttribute->getAttributeValue()->getCreated();
 
-        $this->assertTrue($productAttribute instanceof Entity\ProductAttribute);
+        $this->assertTrue($productAttribute instanceof ProductAttribute);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 }

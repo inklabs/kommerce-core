@@ -1,26 +1,16 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
 
 class TagRepository extends AbstractRepository implements TagRepositoryInterface
 {
-    public function save(Entity\Tag & $tag)
+    public function findOneByCode($code)
     {
-        $this->saveEntity($tag);
+        return parent::findOneBy(['code' => $code]);
     }
 
-    public function create(Entity\Tag & $tag)
-    {
-        $this->createEntity($tag);
-    }
-
-    public function remove(Entity\Tag & $tag)
-    {
-        $this->removeEntity($tag);
-    }
-
-    public function getAllTags($queryString = null, Entity\Pagination & $pagination = null)
+    public function getAllTags($queryString = null, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -41,7 +31,7 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
         return $tags;
     }
 
-    public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null)
+    public function getTagsByIds($tagIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -57,7 +47,7 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
         return $tags;
     }
 
-    public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null)
+    public function getAllTagsByIds($tagIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 

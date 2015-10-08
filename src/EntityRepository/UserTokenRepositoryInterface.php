@@ -1,17 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\UserToken;
 
-interface UserTokenRepositoryInterface
+/**
+ * @method UserToken find($id)
+ */
+interface UserTokenRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\UserToken & $userToken);
-    public function create(Entity\UserToken & $userToken);
-    public function remove(Entity\UserToken & $userToken);
-
-    /**
-     * @param int $id
-     * @return Entity\UserToken
-     */
-    public function find($id);
 }

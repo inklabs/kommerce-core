@@ -1,7 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Point;
+use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\tests\Helper;
 
 class WarehouseRepositoryTest extends Helper\DoctrineTestCase
@@ -51,7 +52,7 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
 
         $warehouse = $this->warehouseRepository->find(1);
 
-        $this->assertTrue($warehouse instanceof Entity\Warehouse);
+        $this->assertTrue($warehouse instanceof Warehouse);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 
@@ -59,7 +60,7 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
     {
         $this->setupWarehouse();
 
-        $losAngeles = new Entity\Point(34.052234, -118.243685);
+        $losAngeles = new Point(34.052234, -118.243685);
 
         $warehouses = $this->warehouseRepository->findByPoint($losAngeles, 1);
 
@@ -70,14 +71,14 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
     {
         $this->setupWarehouse();
 
-        $losAngeles = new Entity\Point(34.052234, -118.243685);
+        $losAngeles = new Point(34.052234, -118.243685);
 
         $warehouses = $this->warehouseRepository->findByPoint($losAngeles, 50);
 
         $warehouse = $warehouses[0][0];
         $distance = $warehouses[0]['distance'];
 
-        $this->assertTrue($warehouse instanceof Entity\Warehouse);
+        $this->assertTrue($warehouse instanceof Warehouse);
 
         // Correct distance is 14.421 miles.
         // Check scalar distance column is within 5 miles (for Sqlite).

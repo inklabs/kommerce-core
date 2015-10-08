@@ -1,14 +1,15 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
-use inklabs\kommerce\Entity;
 
 class FakeUserLoginRepository extends AbstractFakeRepository implements UserLoginRepositoryInterface
 {
     public function __construct()
     {
-        $this->setReturnValue(new Entity\UserLogin);
+        $this->setReturnValue(new UserLogin);
     }
 
     public function find($id)
@@ -16,12 +17,12 @@ class FakeUserLoginRepository extends AbstractFakeRepository implements UserLogi
         return $this->getReturnValue();
     }
 
-    public function getAllUsers($queryString = null, Entity\Pagination &$pagination = null)
+    public function getAllUsers($queryString = null, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
 
-    public function getAllUsersByIds($userIds, Entity\Pagination &$pagination = null)
+    public function getAllUsersByIds($userIds, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
@@ -31,19 +32,7 @@ class FakeUserLoginRepository extends AbstractFakeRepository implements UserLogi
         return $this->getReturnValue();
     }
 
-    public function createUserLogin(Entity\UserLogin $userLogin)
-    {
-    }
-
-    public function save(Entity\UserLogin & $userLogin)
-    {
-    }
-
-    public function create(Entity\UserLogin & $userLogin)
-    {
-    }
-
-    public function remove(Entity\UserLogin & $userLogin)
+    public function createUserLogin(UserLogin $userLogin)
     {
     }
 }

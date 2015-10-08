@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\tests\Helper;
 
 class OptionRepositoryTest extends Helper\DoctrineTestCase
@@ -59,7 +59,7 @@ class OptionRepositoryTest extends Helper\DoctrineTestCase
         $option->getOptionValues()->toArray();
         $option->getTags()->toArray();
 
-        $this->assertTrue($option instanceof Entity\Option);
+        $this->assertTrue($option instanceof Option);
         $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
     }
 
@@ -69,7 +69,7 @@ class OptionRepositoryTest extends Helper\DoctrineTestCase
 
         $options = $this->optionRepository->getAllOptionsByIds([1]);
 
-        $this->assertTrue($options[0] instanceof Entity\Option);
+        $this->assertTrue($options[0] instanceof Option);
     }
 
     public function testGetAllOptions()

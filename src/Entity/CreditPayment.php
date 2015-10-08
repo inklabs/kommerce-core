@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityDTO\Builder\CreditPaymentDTOBuilder;
 use inklabs\kommerce\View;
 use inklabs\kommerce\Lib\PaymentGateway\GatewayInterface;

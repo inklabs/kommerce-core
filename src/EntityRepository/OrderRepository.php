@@ -1,28 +1,20 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\EntityInterface;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Lib\ReferenceNumber;
 use Symfony\Component\Yaml\Exception\RuntimeException;
 
 class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {
-    public function save(Entity\Order & $order)
+    public function create(EntityInterface & $entity)
     {
-        $this->saveEntity($order);
-    }
+        parent::create($entity);
 
-    public function create(Entity\Order & $order)
-    {
-        $this->createEntity($order);
-
-        $this->setReferenceNumber($order);
+        $this->setReferenceNumber($entity);
         $this->flush();
-    }
-
-    public function remove(Entity\Order & $order)
-    {
-        $this->removeEntity($order);
     }
 
     /** @var ReferenceNumber\GeneratorInterface */
@@ -46,7 +38,7 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
         }
     }
 
-    public function getLatestOrders(Entity\Pagination & $pagination = null)
+    public function getLatestOrders(Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -60,14 +52,14 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
         return $orders;
     }
 
-    private function setReferenceNumber(Entity\Order & $order)
+    private function setReferenceNumber(Order & $order)
     {
         if ($this->referenceNumberGenerator !== null) {
             $this->tryToGenerateReferenceNumber($order);
         }
     }
 
-    private function tryToGenerateReferenceNumber(Entity\Order & $order)
+    private function tryToGenerateReferenceNumber(Order & $order)
     {
         try {
             $this->referenceNumberGenerator->generate($order);

@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Entity;
 use inklabs\kommerce\Service;
 use Symfony\Component\Validator\Validation;
 
@@ -9,14 +8,14 @@ class AbstractPaymentTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $orderItem = new Entity\OrderItem;
-        $orderItem->setProduct(new Entity\Product);
+        $orderItem = new OrderItem;
+        $orderItem->setProduct(new Product);
         $orderItem->setQuantity(1);
-        $orderItem->setPrice(new Entity\Price);
+        $orderItem->setPrice(new Price);
 
-        $order = new Entity\Order;
+        $order = new Order;
         $order->addOrderItem($orderItem);
-        $order->setTotal(new Entity\CartTotal);
+        $order->setTotal(new CartTotal);
 
         /** @var $mock AbstractPayment */
         $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\AbstractPayment');
@@ -29,6 +28,6 @@ class AbstractPaymentTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($mock));
         $this->assertSame(100, $mock->getAmount());
-        $this->assertTrue($mock->getOrder() instanceof Entity\Order);
+        $this->assertTrue($mock->getOrder() instanceof Order);
     }
 }

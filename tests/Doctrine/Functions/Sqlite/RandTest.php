@@ -1,18 +1,18 @@
 <?php
 namespace inklabs\kommerce\Doctrine\Functions\Sqlite;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\tests\Helper;
 
 class RandTest extends Helper\DoctrineTestCase
 {
-    /** @var Entity\Product */
+    /** @var Product */
     private $product1;
 
-    /** @var Entity\Product */
+    /** @var Product */
     private $product2;
 
-    /** @var Entity\Product */
+    /** @var Product */
     private $product3;
 
     protected $metaDataClassNames = [
@@ -36,7 +36,7 @@ class RandTest extends Helper\DoctrineTestCase
         $qb = $this->entityManager->createQueryBuilder();
 
         $randomProducts = $qb->select('product')
-            ->from('inklabs\kommerce\Entity\Product', 'product')
+            ->from('kommerce:Product', 'product')
             ->addSelect('RAND() as HIDDEN rand')
             ->orderBy('rand')
             ->getQuery()
@@ -53,7 +53,7 @@ class RandTest extends Helper\DoctrineTestCase
         $qb = $this->entityManager->createQueryBuilder();
 
         $randomProducts = $qb->select('product')
-            ->from('inklabs\kommerce\Entity\Product', 'product')
+            ->from('kommerce:Product', 'product')
             ->addSelect('RAND(:rand) as HIDDEN rand')
             ->orderBy('rand')
             ->setParameter('rand', $this->product1->getId())

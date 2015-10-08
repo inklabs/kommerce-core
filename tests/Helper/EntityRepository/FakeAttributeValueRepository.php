@@ -1,14 +1,15 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
-use inklabs\kommerce\Entity;
 
 class FakeAttributeValueRepository extends AbstractFakeRepository implements AttributeValueRepositoryInterface
 {
     public function __construct()
     {
-        $this->setReturnValue(new Entity\AttributeValue);
+        $this->setReturnValue(new AttributeValue);
     }
 
     public function find($id)
@@ -16,7 +17,7 @@ class FakeAttributeValueRepository extends AbstractFakeRepository implements Att
         return $this->getReturnValue();
     }
 
-    public function getAttributeValuesByIds(array $attributeValueIds, Entity\Pagination & $pagination = null)
+    public function getAttributeValuesByIds(array $attributeValueIds, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }

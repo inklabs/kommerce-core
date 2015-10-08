@@ -1,37 +1,31 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\User;
 
-interface UserRepositoryInterface
+/**
+ * @method User find($id)
+ */
+interface UserRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\User & $product);
-    public function create(Entity\User & $user);
-    public function remove(Entity\User & $user);
-
     /**
-     * @param int $id
-     * @return Entity\User
+     * @param string $email
+     * @return User|null
      */
-    public function find($id);
+    public function findOneByEmail($email);
 
     /**
      * @param string $queryString
-     * @param Entity\Pagination $pagination
-     * @return Entity\User[]
+     * @param Pagination $pagination
+     * @return User[]
      */
-    public function getAllUsers($queryString = null, Entity\Pagination & $pagination = null);
+    public function getAllUsers($queryString = null, Pagination & $pagination = null);
 
     /**
      * @param int[] $userIds
-     * @param Entity\Pagination $pagination
-     * @return Entity\User[]
+     * @param Pagination $pagination
+     * @return User[]
      */
-    public function getAllUsersByIds($userIds, Entity\Pagination & $pagination = null);
-
-    /**
-     * @param string $email
-     * @return Entity\User|null
-     */
-    public function findOneByEmail($email);
+    public function getAllUsersByIds($userIds, Pagination & $pagination = null);
 }

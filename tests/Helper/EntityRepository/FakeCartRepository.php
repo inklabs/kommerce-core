@@ -1,26 +1,14 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
-use inklabs\kommerce\Entity;
 
 class FakeCartRepository extends AbstractFakeRepository implements CartRepositoryInterface
 {
     public function __construct()
     {
-        $this->setReturnValue(new Entity\Cart);
-    }
-
-    public function save(Entity\Cart & $cart)
-    {
-    }
-
-    public function create(Entity\Cart & $cart)
-    {
-    }
-
-    public function remove(Entity\Cart & $cart)
-    {
+        $this->setReturnValue(new Cart);
     }
 
     public function find($id)
@@ -28,12 +16,12 @@ class FakeCartRepository extends AbstractFakeRepository implements CartRepositor
         return $this->getReturnValue();
     }
 
-    public function findByUser($userId)
+    public function findOneByUser($userId)
     {
         return $this->getReturnValue();
     }
 
-    public function findBySession($sessionId)
+    public function findOneBySession($sessionId)
     {
         return $this->getReturnValue();
     }

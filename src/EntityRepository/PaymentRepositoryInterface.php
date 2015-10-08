@@ -1,19 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\AbstractPayment;
 
-interface PaymentRepositoryInterface
+/**
+ * @method AbstractPayment find($id)
+ */
+interface PaymentRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\AbstractPayment & $payment);
-    public function create(Entity\AbstractPayment & $payment);
-    public function remove(Entity\AbstractPayment & $payment);
-    public function persist(Entity\AbstractPayment & $payment);
-    public function flush();
-
-    /**
-     * @param int $id
-     * @return Entity\AbstractPayment
-     */
-    public function find($id);
 }

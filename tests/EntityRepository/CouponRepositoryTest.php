@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\tests\Helper;
 
 class CouponRepositoryTest extends Helper\DoctrineTestCase
@@ -49,7 +49,7 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
 
         $coupon = $this->couponRepository->find(1);
 
-        $this->assertTrue($coupon instanceof Entity\Coupon);
+        $this->assertTrue($coupon instanceof Coupon);
     }
 
     public function testFindOneByCode()
@@ -58,7 +58,7 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
 
         $coupon = $this->couponRepository->findOneByCode('20PCT1');
 
-        $this->assertTrue($coupon instanceof Entity\Coupon);
+        $this->assertTrue($coupon instanceof Coupon);
     }
 
     public function testGetAllCoupons()
@@ -67,7 +67,7 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
 
         $coupons = $this->couponRepository->getAllCoupons('Test');
 
-        $this->assertTrue($coupons[0] instanceof Entity\Coupon);
+        $this->assertTrue($coupons[0] instanceof Coupon);
     }
 
     public function testGetAllCouponsByIds()
@@ -76,7 +76,7 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
 
         $coupons = $this->couponRepository->getAllCouponsByIds([1]);
 
-        $this->assertTrue($coupons[0] instanceof Entity\Coupon);
+        $this->assertTrue($coupons[0] instanceof Coupon);
     }
 
     public function testCreate()

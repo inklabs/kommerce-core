@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\tests\EntityDTO;
 
-use inklabs\kommerce\Entity;
 use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
+use inklabs\kommerce\Entity\CartItem;
 
 class TestableCartPriceRuleItemInvalid extends AbstractCartPriceRuleItem
 {
@@ -11,7 +11,7 @@ class TestableCartPriceRuleItemInvalid extends AbstractCartPriceRuleItem
         return new TestableCartPriceRuleItemInvalidDTOBuilder($this);
     }
 
-    public function matches(Entity\CartItem $cartItem)
+    public function matches(CartItem $cartItem)
     {
     }
 }

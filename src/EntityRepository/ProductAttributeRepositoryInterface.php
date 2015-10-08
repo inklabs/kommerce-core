@@ -1,13 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\ProductAttribute;
 
-interface ProductAttributeRepositoryInterface
+/**
+ * @method ProductAttribute find($id)
+ */
+interface ProductAttributeRepositoryInterface extends AbstractRepositoryInterface
 {
-    /**
-     * @param int $id
-     * @return Entity\ProductAttribute
-     */
-    public function find($id);
 }

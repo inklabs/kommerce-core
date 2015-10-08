@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\OrderItemTextOptionValue;
 use inklabs\kommerce\Service;
 use inklabs\kommerce\tests\Helper;
 
@@ -18,12 +18,12 @@ class OrderItemTextOptionValueRepositoryTest extends Helper\DoctrineTestCase
         'kommerce:TaxRate',
     ];
 
-    /** @var OrderItemOptionValueRepositoryInterface */
-    protected $orderItemOptionValueRepository;
+    /** @var OrderItemTextOptionValueRepositoryInterface */
+    protected $orderItemTextOptionValueRepository;
 
     public function setUp()
     {
-        $this->orderItemOptionValueRepository = $this->repository()->getOrderItemTextOptionValueRepository();
+        $this->orderItemTextOptionValueRepository = $this->repository()->getOrderItemTextOptionValueRepository();
     }
 
     public function setupOrder()
@@ -57,12 +57,12 @@ class OrderItemTextOptionValueRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $orderItemTextOptionValue = $this->orderItemOptionValueRepository->find(1);
+        $orderItemTextOptionValue = $this->orderItemTextOptionValueRepository->find(1);
 
         $orderItemTextOptionValue->getOrderItem()->getCreated();
         $orderItemTextOptionValue->getTextOption()->getCreated();
 
-        $this->assertTrue($orderItemTextOptionValue instanceof Entity\OrderItemTextOptionValue);
+        $this->assertTrue($orderItemTextOptionValue instanceof OrderItemTextOptionValue);
         $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
     }
 }

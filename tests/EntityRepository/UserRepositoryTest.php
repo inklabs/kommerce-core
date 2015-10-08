@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
 
 class UserRepositoryTest extends Helper\DoctrineTestCase
@@ -93,7 +93,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $user->getTokens()->toArray();
         $user->getRoles()->toArray();
 
-        $this->assertTrue($user instanceof Entity\User);
+        $this->assertTrue($user instanceof User);
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 
@@ -103,7 +103,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
 
         $users = $this->userRepository->getAllUsers('John');
 
-        $this->assertTrue($users[0] instanceof Entity\User);
+        $this->assertTrue($users[0] instanceof User);
     }
 
     public function testGetAllUsersByIds()
@@ -112,7 +112,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
 
         $users = $this->userRepository->getAllUsersByIds([1]);
 
-        $this->assertTrue($users[0] instanceof Entity\User);
+        $this->assertTrue($users[0] instanceof User);
     }
 
     public function testFindByEmailUsingEmail()
@@ -125,7 +125,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $user->getRoles()->toArray();
         $user->getCart()->getCreated();
 
-        $this->assertTrue($user instanceof Entity\User);
+        $this->assertTrue($user instanceof User);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 }

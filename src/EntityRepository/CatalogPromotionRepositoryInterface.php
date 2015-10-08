@@ -1,36 +1,30 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Pagination;
 
-interface CatalogPromotionRepositoryInterface
+/**
+ * @method CatalogPromotion find($id)
+ */
+interface CatalogPromotionRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\CatalogPromotion & $catalogPromotion);
-    public function create(Entity\CatalogPromotion & $catalogPromotion);
-    public function remove(Entity\CatalogPromotion & $catalogPromotion);
-
     /**
-     * @param int $id
-     * @return Entity\CatalogPromotion
-     */
-    public function find($id);
-
-    /**
-     * @return Entity\CatalogPromotion[]
+     * @return CatalogPromotion[]
      */
     public function findAll();
 
     /**
      * @param string $queryString
-     * @param Entity\Pagination $pagination
-     * @return Entity\CatalogPromotion[]
+     * @param Pagination $pagination
+     * @return CatalogPromotion[]
      */
-    public function getAllCatalogPromotions($queryString = null, Entity\Pagination & $pagination = null);
+    public function getAllCatalogPromotions($queryString = null, Pagination & $pagination = null);
 
     /**
      * @param int[] $catalogPromotionIds
-     * @param Entity\Pagination $pagination
-     * @return Entity\CatalogPromotion[]
+     * @param Pagination $pagination
+     * @return CatalogPromotion[]
      */
-    public function getAllCatalogPromotionsByIds($catalogPromotionIds, Entity\Pagination & $pagination = null);
+    public function getAllCatalogPromotionsByIds($catalogPromotionIds, Pagination & $pagination = null);
 }

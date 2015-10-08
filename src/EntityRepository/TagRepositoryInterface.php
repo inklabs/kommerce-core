@@ -1,45 +1,38 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Tag;
 
-interface TagRepositoryInterface
+/**
+ * @method Tag find($id)
+ */
+interface TagRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\Tag & $tag);
-    public function create(Entity\Tag & $tag);
-    public function remove(Entity\Tag & $tag);
-
     /**
-     * @param int $id
-     * @return Entity\Tag
+     * @param string $code
+     * @return Tag
      */
-    public function find($id);
-
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @return Entity\Order
-     */
-    public function findOneBy(array $criteria, array $orderBy = null);
+    public function findOneByCode($code);
 
     /**
      * @param string $queryString
-     * @param Entity\Pagination $pagination
-     * @return Entity\Tag[]
+     * @param Pagination $pagination
+     * @return Tag[]
      */
-    public function getAllTags($queryString = null, Entity\Pagination & $pagination = null);
+    public function getAllTags($queryString = null, Pagination & $pagination = null);
 
     /**
      * @param int []
-     * @param Entity\Pagination $pagination
-     * @return Entity\Tag[]
+     * @param Pagination $pagination
+     * @return Tag[]
      */
-    public function getTagsByIds($tagIds, Entity\Pagination & $pagination = null);
+    public function getTagsByIds($tagIds, Pagination & $pagination = null);
 
     /**
      * @param int []
-     * @param Entity\Pagination $pagination
-     * @return Entity\Tag[]
+     * @param Pagination $pagination
+     * @return Tag[]
      */
-    public function getAllTagsByIds($tagIds, Entity\Pagination & $pagination = null);
+    public function getAllTagsByIds($tagIds, Pagination & $pagination = null);
 }

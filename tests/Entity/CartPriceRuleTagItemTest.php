@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Entity;
-use inklabs\kommerce\Entity\CartPriceRuleTagItem;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
@@ -10,27 +8,27 @@ class CartPriceRuleTagItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $priceRule = new CartPriceRuleTagItem(new Entity\Tag, 1);
+        $priceRule = new CartPriceRuleTagItem(new Tag, 1);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
             ->getValidator();
 
         $this->assertEmpty($validator->validate($priceRule));
-        $this->assertTrue($priceRule->getTag() instanceof Entity\Tag);
+        $this->assertTrue($priceRule->getTag() instanceof Tag);
         $this->assertTrue($priceRule->getView() instanceof View\CartPriceRuleTagItem);
     }
 
     private function getTag($id)
     {
-        $tag = new Entity\Tag;
+        $tag = new Tag;
         $tag->setId($id);
         return $tag;
     }
 
     private function getProduct($id)
     {
-        $product = new Entity\Product();
+        $product = new Product();
         $product->setId($id);
         return $product;
     }
@@ -41,7 +39,7 @@ class CartPriceRuleTagItemTest extends \PHPUnit_Framework_TestCase
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
 
-        $cartItem = new Entity\CartItem;
+        $cartItem = new CartItem;
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(1);
 
@@ -56,7 +54,7 @@ class CartPriceRuleTagItemTest extends \PHPUnit_Framework_TestCase
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
 
-        $cartItem = new Entity\CartItem;
+        $cartItem = new CartItem;
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(2);
 
@@ -73,7 +71,7 @@ class CartPriceRuleTagItemTest extends \PHPUnit_Framework_TestCase
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
 
-        $cartItem = new Entity\CartItem;
+        $cartItem = new CartItem;
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(1);
 
@@ -89,7 +87,7 @@ class CartPriceRuleTagItemTest extends \PHPUnit_Framework_TestCase
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
 
-        $cartItem = new Entity\CartItem;
+        $cartItem = new CartItem;
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(1);
 
@@ -102,6 +100,6 @@ class CartPriceRuleTagItemTest extends \PHPUnit_Framework_TestCase
     {
         $tag1 = $this->getTag(1);
         $priceRule = new CartPriceRuleTagItem($tag1, 1);
-        $this->assertTrue($priceRule->getTag() instanceof Entity\Tag);
+        $this->assertTrue($priceRule->getTag() instanceof Tag);
     }
 }

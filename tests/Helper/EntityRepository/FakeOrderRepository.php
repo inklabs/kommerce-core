@@ -1,19 +1,23 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Price;
+use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\Lib\ReferenceNumber;
-use inklabs\kommerce\Entity;
 
 class FakeOrderRepository extends AbstractFakeRepository implements OrderRepositoryInterface
 {
     public function __construct()
     {
-        $orderItem = new Entity\OrderItem;
-        $orderItem->setProduct(new Entity\Product);
-        $orderItem->setPrice(new Entity\Price);
+        $orderItem = new OrderItem;
+        $orderItem->setProduct(new Product);
+        $orderItem->setPrice(new Price);
 
-        $order = new Entity\Order;
+        $order = new Order;
         $order->addOrderItem($orderItem);
 
         $this->setReturnValue($order);
@@ -29,7 +33,7 @@ class FakeOrderRepository extends AbstractFakeRepository implements OrderReposit
         return $this->getReturnValue();
     }
 
-    public function getLatestOrders(Entity\Pagination & $pagination = null)
+    public function getLatestOrders(Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
@@ -37,18 +41,6 @@ class FakeOrderRepository extends AbstractFakeRepository implements OrderReposit
     public function getOrdersByUserId($userId)
     {
         return $this->getReturnValueAsArray();
-    }
-
-    public function create(Entity\Order & $order)
-    {
-    }
-
-    public function save(Entity\Order & $order)
-    {
-    }
-
-    public function remove(Entity\Order & $order)
-    {
     }
 
     public function setReferenceNumberGenerator(ReferenceNumber\GeneratorInterface $referenceNumberGenerator)

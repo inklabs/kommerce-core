@@ -1,27 +1,18 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 
 class ProductRepository extends AbstractRepository implements ProductRepositoryInterface
 {
-    public function save(Entity\Product & $product)
+    public function findOneBySku($sku)
     {
-        $this->saveEntity($product);
+        return parent::findOneBy(['sku' => $sku]);
     }
 
-    public function create(Entity\Product & $product)
-    {
-        $this->createEntity($product);
-    }
-
-    public function remove(Entity\Product & $product)
-    {
-        $this->removeEntity($product);
-    }
-
-    public function getRelatedProducts(array $products, $limit = 12)
+    public function getRelatedProducts($products, $limit = 12)
     {
         $productIds = [];
         $tagIds = [];
@@ -64,12 +55,12 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
         return $products;
     }
 
-    public function getProductsByTag(Entity\Tag $tag, Entity\Pagination & $pagination = null)
+    public function getProductsByTag(Tag $tag, Pagination & $pagination = null)
     {
         return $this->getProductsByTagId($tag->getId(), $pagination);
     }
 
-    public function getProductsByTagId($tagId, Entity\Pagination & $pagination = null)
+    public function getProductsByTagId($tagId, Pagination & $pagination = null)
     {
         $products = $this->getQueryBuilder()
             ->select('product')
@@ -91,7 +82,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
     /**
      * Load product tags to avoid query in loop for pricing
      *
-     * @param Entity\Product[] $products
+     * @param Product[] $products
      */
     public function loadProductTags(array & $products)
     {
@@ -111,7 +102,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
             ->getResult();
     }
 
-    public function getProductsByIds(array $productIds, Entity\Pagination & $pagination = null)
+    public function getProductsByIds(array $productIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -130,7 +121,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
         return $products;
     }
 
-    public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
+    public function getAllProducts($queryString = null, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -152,7 +143,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
         return $products;
     }
 
-    public function getAllProductsByIds(array $productIds, Entity\Pagination & $pagination = null)
+    public function getAllProductsByIds(array $productIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 

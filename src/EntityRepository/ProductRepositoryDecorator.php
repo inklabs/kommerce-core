@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\EntityInterface;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Tag;
 
 class ProductRepositoryDecorator implements ProductRepositoryInterface
 {
@@ -13,32 +15,17 @@ class ProductRepositoryDecorator implements ProductRepositoryInterface
         $this->productRepository = $productRepository;
     }
 
-    public function save(Entity\Product & $product)
-    {
-        return $this->productRepository->save($product);
-    }
-
-    public function create(Entity\Product & $product)
-    {
-        return $this->productRepository->create($product);
-    }
-
-    public function remove(Entity\Product & $product)
-    {
-        return $this->productRepository->remove($product);
-    }
-
     public function find($id)
     {
         return $this->productRepository->find($id);
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null)
+    public function findOneBySku($sku)
     {
-        return $this->productRepository->findOneBy($criteria, $orderBy);
+        return $this->productRepository->findOneBySku($sku);
     }
 
-    public function getRelatedProducts(array $products, $limit = 12)
+    public function getRelatedProducts($products, $limit = 12)
     {
         return $this->productRepository->getRelatedProducts($products, $limit);
     }
@@ -48,27 +35,27 @@ class ProductRepositoryDecorator implements ProductRepositoryInterface
         return $this->productRepository->getRelatedProductsByIds($productIds, $tagIds, $limit);
     }
 
-    public function getProductsByTag(Entity\Tag $tag, Entity\Pagination & $pagination = null)
+    public function getProductsByTag(Tag $tag, Pagination & $pagination = null)
     {
         return $this->productRepository->getProductsByTag($tag, $pagination);
     }
 
-    public function getProductsByTagId($tagId, Entity\Pagination & $pagination = null)
+    public function getProductsByTagId($tagId, Pagination & $pagination = null)
     {
         return $this->productRepository->getProductsByTagId($tagId, $pagination);
     }
 
-    public function getProductsByIds(array $productIds, Entity\Pagination & $pagination = null)
+    public function getProductsByIds(array $productIds, Pagination & $pagination = null)
     {
         return $this->productRepository->getProductsByIds($productIds, $pagination);
     }
 
-    public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
+    public function getAllProducts($queryString = null, Pagination & $pagination = null)
     {
         return $this->productRepository->getAllProducts($queryString, $pagination);
     }
 
-    public function getAllProductsByIds(array $productIds, Entity\Pagination & $pagination = null)
+    public function getAllProductsByIds(array $productIds, Pagination & $pagination = null)
     {
         return $this->productRepository->getAllProductsByIds($productIds, $pagination);
     }
@@ -81,5 +68,40 @@ class ProductRepositoryDecorator implements ProductRepositoryInterface
     public function loadProductTags(array & $products)
     {
         return $this->productRepository->loadProductTags($products);
+    }
+
+    public function getQueryBuilder()
+    {
+        return $this->productRepository->getQueryBuilder();
+    }
+
+    public function save(EntityInterface & $entity)
+    {
+        return $this->productRepository->save($entity);
+    }
+
+    public function create(EntityInterface & $entity)
+    {
+        return $this->productRepository->create($entity);
+    }
+
+    public function remove(EntityInterface $entity)
+    {
+        return $this->productRepository->remove($entity);
+    }
+
+    public function persist(EntityInterface & $entity)
+    {
+        return $this->productRepository->persist($entity);
+    }
+
+    public function merge(EntityInterface & $entity)
+    {
+        return $this->productRepository->merge($entity);
+    }
+
+    public function flush()
+    {
+        return $this->productRepository->flush();
     }
 }

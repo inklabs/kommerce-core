@@ -33,16 +33,14 @@ class TagService extends AbstractService implements TagServiceInterface
         $this->tagRepository->remove($tag);
     }
 
-    public function find($id)
+    public function findById($id)
     {
         return $this->tagRepository->find($id);
     }
 
     public function findOneByCode($code)
     {
-        return $this->tagRepository->findOneBy([
-            'code' => $code
-        ]);
+        return $this->tagRepository->findOneByCode($code);
     }
 
     public function findSimple($id)

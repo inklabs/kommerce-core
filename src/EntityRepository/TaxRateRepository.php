@@ -1,25 +1,10 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\TaxRate;
 
 class TaxRateRepository extends AbstractRepository implements TaxRateRepositoryInterface
 {
-    public function save(Entity\TaxRate & $taxRate)
-    {
-        $this->saveEntity($taxRate);
-    }
-
-    public function create(Entity\TaxRate & $taxRate)
-    {
-        $this->createEntity($taxRate);
-    }
-
-    public function remove(Entity\TaxRate & $taxRate)
-    {
-        $this->removeEntity($taxRate);
-    }
-
     public function findByZip5AndState($zip5 = null, $state = null)
     {
         if ($zip5 === null and $state === null) {
@@ -53,10 +38,10 @@ class TaxRateRepository extends AbstractRepository implements TaxRateRepositoryI
     }
 
     /**
-     * @param Entity\TaxRate[] $taxRates
-     * @return Entity\TaxRate
+     * @param TaxRate[] $taxRates
+     * @return TaxRate
      */
-    protected function getZip5OrRateOrStateTaxRate(array $taxRates)
+    protected function getZip5OrRateOrStateTaxRate($taxRates)
     {
         $stateTaxRates = $zip5TaxRates = $RangeTaxRates = [];
 

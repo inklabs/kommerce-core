@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Validation;
 
 class AbstractCartPriceRuleItemTest extends \PHPUnit_Framework_TestCase
@@ -15,15 +14,15 @@ class AbstractCartPriceRuleItemTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $mock->setQuantity(2);
-        $mock->setCartPriceRule(new Entity\CartPriceRule);
+        $mock->setCartPriceRule(new CartPriceRule);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
             ->getValidator();
 
         $this->assertEmpty($validator->validate($mock));
-        $this->assertTrue($mock->matches(new Entity\CartItem(new Entity\Product, 1)));
+        $this->assertTrue($mock->matches(new CartItem(new Product, 1)));
         $this->assertSame(2, $mock->getQuantity());
-        $this->assertTrue($mock->getCartPriceRule() instanceof Entity\CartPriceRule);
+        $this->assertTrue($mock->getCartPriceRule() instanceof CartPriceRule);
     }
 }

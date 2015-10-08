@@ -1,26 +1,15 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
-use inklabs\kommerce\Entity;
 
 class FakeCatalogPromotionRepository extends AbstractFakeRepository implements CatalogPromotionRepositoryInterface
 {
     public function __construct()
     {
-        $this->setReturnValue(new Entity\CatalogPromotion);
-    }
-
-    public function save(Entity\CatalogPromotion & $catalogPromotion)
-    {
-    }
-
-    public function create(Entity\CatalogPromotion & $catalogPromotion)
-    {
-    }
-
-    public function remove(Entity\CatalogPromotion & $catalogPromotion)
-    {
+        $this->setReturnValue(new CatalogPromotion);
     }
 
     public function find($id)
@@ -33,12 +22,12 @@ class FakeCatalogPromotionRepository extends AbstractFakeRepository implements C
         return $this->getReturnValueAsArray();
     }
 
-    public function getAllCatalogPromotions($queryString = null, Entity\Pagination & $pagination = null)
+    public function getAllCatalogPromotions($queryString = null, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
 
-    public function getAllCatalogPromotionsByIds($catalogPromotionIds, Entity\Pagination & $pagination = null)
+    public function getAllCatalogPromotionsByIds($catalogPromotionIds, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }

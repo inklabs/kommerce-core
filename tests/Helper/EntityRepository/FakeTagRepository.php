@@ -17,6 +17,11 @@ class FakeTagRepository extends AbstractFakeRepository implements TagRepositoryI
         return $this->getReturnValue();
     }
 
+    public function findOneByCode($code)
+    {
+        return $this->getReturnValue();
+    }
+
     public function findOneBy(array $criteria, array $orderBy = null)
     {
         return $this->getReturnValue();
@@ -35,18 +40,5 @@ class FakeTagRepository extends AbstractFakeRepository implements TagRepositoryI
     public function getAllTagsByIds($tagIds, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
-    }
-
-    public function create(Tag & $tag)
-    {
-    }
-
-    public function save(Tag & $tag)
-    {
-        $tag->setUpdated();
-    }
-
-    public function remove(Tag & $tag)
-    {
     }
 }

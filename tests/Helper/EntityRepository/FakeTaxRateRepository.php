@@ -1,26 +1,14 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
-use inklabs\kommerce\Entity;
 
 class FakeTaxRateRepository extends AbstractFakeRepository implements TaxRateRepositoryInterface
 {
     public function __construct()
     {
-        $this->setReturnValue(new Entity\TaxRate);
-    }
-
-    public function save(Entity\TaxRate & $taxRate)
-    {
-    }
-
-    public function create(Entity\TaxRate & $taxRate)
-    {
-    }
-
-    public function remove(Entity\TaxRate & $taxRate)
-    {
+        $this->setReturnValue(new TaxRate);
     }
 
     public function find($id)

@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\tests\Helper;
 
 class UserRoleRepositoryTest extends Helper\DoctrineTestCase
@@ -58,7 +58,7 @@ class UserRoleRepositoryTest extends Helper\DoctrineTestCase
 
         $userRole = $this->userRoleRepository->find(1);
 
-        $this->assertTrue($userRole instanceof Entity\UserRole);
+        $this->assertTrue($userRole instanceof UserRole);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 }

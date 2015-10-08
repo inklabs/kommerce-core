@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentGenerator;
 use inklabs\kommerce\Service;
 use inklabs\kommerce\tests\Helper;
@@ -19,7 +19,7 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
         'kommerce:TaxRate',
     ];
 
-    /** @var OrderRepositoryInterface */
+    /** @var OrderRepository */
     protected $orderRepository;
 
     public function setUp()
@@ -84,7 +84,7 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
         $order->getCoupons()->toArray();
         $order->getTaxRate()->getCreated();
 
-        $this->assertTrue($order instanceof Entity\Order);
+        $this->assertTrue($order instanceof Order);
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 
@@ -94,7 +94,7 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
 
         $orders = $this->orderRepository->getLatestOrders();
 
-        $this->assertTrue($orders[0] instanceof Entity\Order);
+        $this->assertTrue($orders[0] instanceof Order);
     }
 
     public function testCreateWithSequentialReferenceNumber()
@@ -144,7 +144,7 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
 
         $orders = $this->orderRepository->getOrdersByUserId(1);
 
-        $this->assertTrue($orders[0] instanceof Entity\Order);
+        $this->assertTrue($orders[0] instanceof Order);
         $this->assertSame(1, $orders[0]->getUser()->getId());
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\tests\Helper;
 
 class UserLoginRepositoryTest extends Helper\DoctrineTestCase
@@ -71,7 +71,7 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
 
         $userLogin->getUser()->getCreated();
 
-        $this->assertTrue($userLogin instanceof Entity\UserLogin);
+        $this->assertTrue($userLogin instanceof UserLogin);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 }

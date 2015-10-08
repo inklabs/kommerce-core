@@ -1,44 +1,44 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Lib;
-use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
-use inklabs\kommerce\Entity\EntityInterface;
 use Doctrine\ORM\EntityRepository;
+use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
+use inklabs\kommerce\Lib;
+use inklabs\kommerce\Entity\EntityInterface;
 
-abstract class AbstractRepository extends EntityRepository
+abstract class AbstractRepository extends EntityRepository implements AbstractRepositoryInterface
 {
     public function getQueryBuilder()
     {
         return new QueryBuilder($this->getEntityManager());
     }
 
-    public function saveEntity(EntityInterface & $entity)
+    public function save(EntityInterface & $entity)
     {
-        $this->mergeEntity($entity);
+        $this->merge($entity);
         $this->flush();
     }
 
-    public function createEntity(EntityInterface & $entity)
+    public function create(EntityInterface & $entity)
     {
-        $this->persistEntity($entity);
+        $this->persist($entity);
         $this->flush();
     }
 
-    public function removeEntity(EntityInterface $entity)
+    public function remove(EntityInterface $entity)
     {
         $entityManager = $this->getEntityManager();
         $entityManager->remove($entity);
         $this->flush();
     }
 
-    public function persistEntity(EntityInterface & $entity)
+    public function persist(EntityInterface & $entity)
     {
         $entityManager = $this->getEntityManager();
         $entityManager->persist($entity);
     }
 
-    public function mergeEntity(EntityInterface & $entity)
+    public function merge(EntityInterface & $entity)
     {
         $entityManager = $this->getEntityManager();
         $entity = $entityManager->merge($entity);

@@ -29,7 +29,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 
       ```php
       $product->setSku('NEW-SKU');
-      $this->executeCommand(new EditProductCommand($product));
+      $this->dispatch(new EditProductCommand($product));
       ```
 
 * Service

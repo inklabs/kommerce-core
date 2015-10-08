@@ -1,17 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Attribute;
 
-interface AttributeRepositoryInterface
+/**
+ * @method Attribute find($id)
+ */
+interface AttributeRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\Attribute & $attribute);
-    public function create(Entity\Attribute & $attribute);
-    public function remove(Entity\Attribute & $attribute);
-
-    /**
-     * @param int $id
-     * @return Entity\Attribute
-     */
-    public function find($id);
 }

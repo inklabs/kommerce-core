@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\tests\Helper;
 
 class OptionValueRepositoryTest extends Helper\DoctrineTestCase
@@ -57,7 +57,7 @@ class OptionValueRepositoryTest extends Helper\DoctrineTestCase
 
         $optionValue->getOption()->getCreated();
 
-        $this->assertTrue($optionValue instanceof Entity\OptionValue);
+        $this->assertTrue($optionValue instanceof OptionValue);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 
@@ -71,7 +71,7 @@ class OptionValueRepositoryTest extends Helper\DoctrineTestCase
 
         $optionValues[0]->getOption()->getCreated();
 
-        $this->assertTrue($optionValues[0] instanceof Entity\OptionValue);
+        $this->assertTrue($optionValues[0] instanceof OptionValue);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 }

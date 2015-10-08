@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\Entity\CartPriceRuleDiscount;
+use inklabs\kommerce\Entity\CartPriceRuleProductItem;
 use inklabs\kommerce\tests\Helper;
 
 class CartPriceRuleRepositoryTest extends Helper\DoctrineTestCase
@@ -27,9 +29,9 @@ class CartPriceRuleRepositoryTest extends Helper\DoctrineTestCase
         $productPoster = $this->getDummyProduct(2);
 
         $cartPriceRule = $this->getDummyCartPriceRule();
-        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productShirt, 1));
-        $cartPriceRule->addItem(new Entity\CartPriceRuleProductItem($productPoster, 1));
-        $cartPriceRule->addDiscount(new Entity\CartPriceRuleDiscount($productPoster));
+        $cartPriceRule->addItem(new CartPriceRuleProductItem($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProductItem($productPoster, 1));
+        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster));
 
         $this->entityManager->persist($productShirt);
         $this->entityManager->persist($productPoster);
@@ -66,7 +68,7 @@ class CartPriceRuleRepositoryTest extends Helper\DoctrineTestCase
         $cartPriceRule->getCartPriceRuleItems()->toArray();
         $cartPriceRule->getCartPriceRuleDiscounts()->toArray();
 
-        $this->assertTrue($cartPriceRule instanceof Entity\CartPriceRule);
+        $this->assertTrue($cartPriceRule instanceof CartPriceRule);
         $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
     }
 }

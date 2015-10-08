@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\tests\Helper;
 
 class ImageRepositoryTest extends Helper\DoctrineTestCase
@@ -68,7 +68,7 @@ class ImageRepositoryTest extends Helper\DoctrineTestCase
         $image->getProduct()->getName();
         $image->getTag()->getName();
 
-        $this->assertTrue($image instanceof Entity\Image);
+        $this->assertTrue($image instanceof Image);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 }

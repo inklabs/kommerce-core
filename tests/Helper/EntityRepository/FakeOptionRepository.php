@@ -1,14 +1,15 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
-use inklabs\kommerce\Entity;
 
 class FakeOptionRepository extends AbstractFakeRepository implements OptionRepositoryInterface
 {
     public function __construct()
     {
-        $this->setReturnValue(new Entity\Option);
+        $this->setReturnValue(new Option);
     }
 
     public function find($id)
@@ -16,25 +17,13 @@ class FakeOptionRepository extends AbstractFakeRepository implements OptionRepos
         return $this->getReturnValue();
     }
 
-    public function getAllOptions($queryString = null, Entity\Pagination & $pagination = null)
+    public function getAllOptions($queryString = null, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
 
-    public function getAllOptionsByIds(array $optionIds, Entity\Pagination & $pagination = null)
+    public function getAllOptionsByIds(array $optionIds, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
-    }
-
-    public function create(Entity\Option & $entity)
-    {
-    }
-
-    public function save(Entity\Option & $option)
-    {
-    }
-
-    public function remove(Entity\Option & $option)
-    {
     }
 }

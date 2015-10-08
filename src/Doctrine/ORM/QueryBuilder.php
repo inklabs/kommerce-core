@@ -2,7 +2,8 @@
 namespace inklabs\kommerce\Doctrine\ORM;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Point;
 
 /**
  * @method QueryBuilder|\Doctrine\ORM\QueryBuilder setParameter($key, $value, $type)
@@ -30,7 +31,7 @@ use inklabs\kommerce\Entity;
  */
 class QueryBuilder extends \Doctrine\ORM\QueryBuilder
 {
-    public function paginate(Entity\Pagination & $pagination = null)
+    public function paginate(Pagination & $pagination = null)
     {
         if ($pagination === null) {
             return $this;
@@ -71,7 +72,7 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
             )');
     }
 
-    public function withinRange(Entity\Point $point, $rangeInMiles = 50, $prefix = '')
+    public function withinRange(Point $point, $rangeInMiles = 50, $prefix = '')
     {
         $points = $point->getGeoBox($rangeInMiles);
         $upperLeft = $points[0];
@@ -86,7 +87,7 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
             ->setParameter('bottomRightLongitude', $bottomRight->getLongitude());
     }
 
-    public function withDistance(Entity\Point $point)
+    public function withDistance(Point $point)
     {
         return $this
             ->addSelect(

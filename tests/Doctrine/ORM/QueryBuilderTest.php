@@ -1,10 +1,9 @@
 <?php
 namespace inklabs\kommerce\Doctrine\ORM;
 
-use inklabs\kommerce\Entity;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class QueryBuilderTest extends Helper\DoctrineTestCase
+class QueryBuilderTest extends DoctrineTestCase
 {
     public function testPaginate()
     {

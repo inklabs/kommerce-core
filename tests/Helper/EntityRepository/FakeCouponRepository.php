@@ -1,26 +1,15 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
-use inklabs\kommerce\Entity;
 
 class FakeCouponRepository extends AbstractFakeRepository implements CouponRepositoryInterface
 {
     public function __construct()
     {
-        $this->setReturnValue(new Entity\Coupon);
-    }
-
-    public function save(Entity\Coupon & $coupon)
-    {
-    }
-
-    public function create(Entity\Coupon & $coupon)
-    {
-    }
-
-    public function remove(Entity\Coupon & $coupon)
-    {
+        $this->setReturnValue(new Coupon);
     }
 
     public function find($id)
@@ -33,12 +22,12 @@ class FakeCouponRepository extends AbstractFakeRepository implements CouponRepos
         return $this->getReturnValue();
     }
 
-    public function getAllCoupons($queryString = null, Entity\Pagination & $pagination = null)
+    public function getAllCoupons($queryString = null, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
 
-    public function getAllCouponsByIds($couponIds, Entity\Pagination & $pagination = null)
+    public function getAllCouponsByIds($couponIds, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }

@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\tests\Helper;
 
 class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
@@ -58,7 +58,7 @@ class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
 
         $catalogPromotion->getTag()->getName();
 
-        $this->assertTrue($catalogPromotion instanceof Entity\CatalogPromotion);
+        $this->assertTrue($catalogPromotion instanceof CatalogPromotion);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
     }
 
@@ -68,7 +68,7 @@ class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
 
         $catalogPromotions = $this->catalogPromotionRepository->findAll();
 
-        $this->assertTrue($catalogPromotions[0] instanceof Entity\CatalogPromotion);
+        $this->assertTrue($catalogPromotions[0] instanceof CatalogPromotion);
     }
 
     public function testGetAllCatalogPromotions()
@@ -77,7 +77,7 @@ class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
 
         $catalogPromotions = $this->catalogPromotionRepository->getAllCatalogPromotions('Test');
 
-        $this->assertTrue($catalogPromotions[0] instanceof Entity\CatalogPromotion);
+        $this->assertTrue($catalogPromotions[0] instanceof CatalogPromotion);
     }
 
     public function testGetAllCatalogPromotionsByIds()
@@ -86,6 +86,6 @@ class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
 
         $catalogPromotions = $this->catalogPromotionRepository->getAllCatalogPromotionsByIds([1]);
 
-        $this->assertTrue($catalogPromotions[0] instanceof Entity\CatalogPromotion);
+        $this->assertTrue($catalogPromotions[0] instanceof CatalogPromotion);
     }
 }

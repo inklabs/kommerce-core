@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\tests\Helper;
 
 class TaxRateRepositoryTest extends Helper\DoctrineTestCase
@@ -38,7 +38,7 @@ class TaxRateRepositoryTest extends Helper\DoctrineTestCase
 
     private function getTaxRate($state, $zip5, $zip5From, $zip5To, $rate, $applyToShipping)
     {
-        $taxRate = new Entity\TaxRate;
+        $taxRate = new TaxRate;
         $taxRate->setState($state);
         $taxRate->setZip5($zip5);
         $taxRate->setZip5From($zip5From);

@@ -1,26 +1,16 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
-use inklabs\kommerce\Entity;
 
 class FakeProductRepository extends AbstractFakeRepository implements ProductRepositoryInterface
 {
     public function __construct()
     {
-        $this->setReturnValue(new Entity\Product);
-    }
-
-    public function save(Entity\Product & $product)
-    {
-    }
-
-    public function create(Entity\Product & $entity)
-    {
-    }
-
-    public function remove(Entity\Product & $product)
-    {
+        $this->setReturnValue(new Product);
     }
 
     public function find($id)
@@ -28,12 +18,12 @@ class FakeProductRepository extends AbstractFakeRepository implements ProductRep
         return $this->getReturnValue();
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null)
+    public function findOneBySku($sku)
     {
         return $this->getReturnValue();
     }
 
-    public function getRelatedProducts(array $products, $limit = 12)
+    public function getRelatedProducts($products, $limit = 12)
     {
         return $this->getReturnValueAsArray();
     }
@@ -43,27 +33,27 @@ class FakeProductRepository extends AbstractFakeRepository implements ProductRep
         return $this->getReturnValueAsArray();
     }
 
-    public function getProductsByTag(Entity\Tag $tag, Entity\Pagination & $pagination = null)
+    public function getProductsByTag(Tag $tag, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
 
-    public function getProductsByTagId($tagId, Entity\Pagination & $pagination = null)
+    public function getProductsByTagId($tagId, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
 
-    public function getProductsByIds(array $productIds, Entity\Pagination & $pagination = null)
+    public function getProductsByIds(array $productIds, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
 
-    public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null)
+    public function getAllProducts($queryString = null, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }
 
-    public function getAllProductsByIds(array $productIds, Entity\Pagination & $pagination = null)
+    public function getAllProductsByIds(array $productIds, Pagination & $pagination = null)
     {
         return $this->getReturnValueAsArray();
     }

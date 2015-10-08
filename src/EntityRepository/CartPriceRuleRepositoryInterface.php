@@ -1,22 +1,15 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\CartPriceRule;
 
-interface CartPriceRuleRepositoryInterface
+/**
+ * @method CartPriceRule find($id)
+ */
+interface CartPriceRuleRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\CartPriceRule & $cartPriceRule);
-    public function create(Entity\CartPriceRule & $cartPriceRule);
-    public function remove(Entity\CartPriceRule & $cartPriceRule);
-
     /**
-     * @param int $id
-     * @return Entity\CartPriceRule
-     */
-    public function find($id);
-
-    /**
-     * @return Entity\CartPriceRule[]
+     * @return CartPriceRule[]
      */
     public function findAll();
 }

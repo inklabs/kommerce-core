@@ -5,6 +5,7 @@ use inklabs\kommerce\Action\Tag\CreateTag;
 use inklabs\kommerce\Action\Tag\CreateTagCommand;
 use inklabs\kommerce\Action\Tag\DeleteTag;
 use inklabs\kommerce\Action\Tag\EditTag;
+use inklabs\kommerce\Action\Tag\GetTag;
 use inklabs\kommerce\tests\Helper;
 
 class ActionFactoryTest extends Helper\DoctrineTestCase
@@ -32,5 +33,6 @@ class ActionFactoryTest extends Helper\DoctrineTestCase
         $this->assertTrue($actionFactory->getEditTag() instanceof EditTag);
         $this->assertTrue($actionFactory->getCreateTag() instanceof CreateTag);
         $this->assertTrue($actionFactory->getDeleteTag() instanceof DeleteTag);
+        $this->assertTrue($actionFactory->getGetTag() instanceof GetTag);
     }
 }

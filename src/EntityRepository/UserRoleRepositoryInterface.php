@@ -1,17 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\UserRole;
 
-interface UserRoleRepositoryInterface
+/**
+ * @method UserRole find($id)
+ */
+interface UserRoleRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\UserRole & $userRole);
-    public function create(Entity\UserRole & $userRole);
-    public function remove(Entity\UserRole & $userRole);
-
-    /**
-     * @param int $id
-     * @return Entity\UserRole
-     */
-    public function find($id);
 }

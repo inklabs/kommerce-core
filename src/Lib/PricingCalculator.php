@@ -1,17 +1,18 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Price;
+use inklabs\kommerce\Entity\Product;
 
 class PricingCalculator
 {
     /** @var Pricing */
     protected $pricing;
 
-    /** @var Entity\Product */
+    /** @var Product */
     protected $product;
 
-    /** @var Entity\Price */
+    /** @var Price */
     protected $price;
 
     protected $quantity;
@@ -21,12 +22,12 @@ class PricingCalculator
         $this->pricing = $pricing;
     }
 
-    public function getPrice(Entity\Product $product, $quantity)
+    public function getPrice(Product $product, $quantity)
     {
         $this->product = $product;
         $this->quantity = $quantity;
 
-        $this->price = new Entity\Price;
+        $this->price = new Price;
         $this->price->origUnitPrice = $this->product->getUnitPrice();
         $this->price->origQuantityPrice = ($this->price->origUnitPrice * $this->quantity);
         $this->price->unitPrice = $this->price->origUnitPrice;

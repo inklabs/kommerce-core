@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\OrderItemOptionValue;
 
-interface OrderItemOptionValueRepositoryInterface
+interface OrderItemOptionValueRepositoryInterface extends AbstractRepositoryInterface
 {
     /**
      * @param int $id
-     * @return Entity\OrderItemOptionValue
+     * @return OrderItemOptionValue
      */
     public function find($id);
 }

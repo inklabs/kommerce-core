@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\tests\Helper;
 
 class AttributeRepositoryTest extends Helper\DoctrineTestCase
@@ -58,7 +58,7 @@ class AttributeRepositoryTest extends Helper\DoctrineTestCase
         $attribute->getAttributeValues()->toArray();
         $attribute->getProductAttributes()->toArray();
 
-        $this->assertTrue($attribute instanceof Entity\Attribute);
+        $this->assertTrue($attribute instanceof Attribute);
         $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
     }
 }

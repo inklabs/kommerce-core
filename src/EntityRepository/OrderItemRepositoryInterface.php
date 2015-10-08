@@ -1,19 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\OrderItem;
 
-interface OrderItemRepositoryInterface
+interface OrderItemRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\OrderItem & $orderItem);
-    public function create(Entity\OrderItem & $orderItem);
-    public function remove(Entity\OrderItem & $orderItem);
-    public function persist(Entity\OrderItem & $orderItem);
-    public function flush();
-
     /**
      * @param int $id
-     * @return Entity\OrderItem
+     * @return OrderItem
      */
     public function find($id);
 }

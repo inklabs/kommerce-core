@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\View;
-use inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib;
 use Symfony\Component\Validator\Validation;
 
@@ -10,7 +9,7 @@ class CreditPaymentTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $creditCard = new Entity\CreditCard;
+        $creditCard = new CreditCard;
         $creditCard->setName('John Doe');
         $creditCard->setNumber('4242424242424242');
         $creditCard->setCvc('123');

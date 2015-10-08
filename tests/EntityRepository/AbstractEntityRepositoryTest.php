@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Doctrine\ORM\QueryBuilder as KommerceQueryBuilder;
 use inklabs\kommerce\tests\Helper;
-use inklabs\kommerce\Entity;
 
 class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
 {

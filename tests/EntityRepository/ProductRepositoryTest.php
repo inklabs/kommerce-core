@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper;
 
 class ProductRepositoryTest extends Helper\DoctrineTestCase
@@ -73,7 +75,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $product->getProductAttributes()->toArray();
         $product->getOptionProducts()->toArray();
 
-        $this->assertTrue($product instanceof Entity\Product);
+        $this->assertTrue($product instanceof Product);
         $this->assertSame(6, $this->countSQLLogger->getTotalQueries());
     }
 
@@ -83,7 +85,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $product2 = $this->getDummyProduct(2);
         $product3 = $this->getDummyProduct(3);
 
-        $tag = new Entity\Tag;
+        $tag = new Tag;
         $tag->setName('Test Tag');
         $tag->setIsVisible(true);
 
@@ -107,7 +109,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
     public function testGetProductsByTag()
     {
-        $tag = new Entity\Tag;
+        $tag = new Tag;
         $tag->setName('Test Tag');
         $tag->setDescription('Test Description');
         $tag->setDefaultImage('http://lorempixel.com/400/200/');
@@ -196,7 +198,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
     public function testGetProductsByTagPaginated()
     {
-        $tag = new Entity\Tag;
+        $tag = new Tag;
         $tag->setName('Test Tag');
         $tag->setDescription('Test Description');
         $tag->setDefaultImage('http://lorempixel.com/400/200/');
@@ -221,7 +223,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
         $maxResults = 2;
         $page = 1;
-        $pagination = new Entity\Pagination($maxResults, $page);
+        $pagination = new Pagination($maxResults, $page);
 
         $products = $this->productRepository->getProductsByTag($tag, $pagination);
 
@@ -233,7 +235,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         // Page 2
         $maxResults = 2;
         $page = 2;
-        $pagination = new Entity\Pagination($maxResults, $page);
+        $pagination = new Pagination($maxResults, $page);
 
         $products = $this->productRepository->getProductsByTag($tag, $pagination);
 

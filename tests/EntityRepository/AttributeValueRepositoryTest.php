@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\tests\Helper;
 
 class AttributeValueRepositoryTest extends Helper\DoctrineTestCase
@@ -44,7 +44,7 @@ class AttributeValueRepositoryTest extends Helper\DoctrineTestCase
         $attributeValue->getAttribute()->getCreated();
         $attributeValue->getProductAttributes()->toArray();
 
-        $this->assertTrue($attributeValue instanceof Entity\AttributeValue);
+        $this->assertTrue($attributeValue instanceof AttributeValue);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 

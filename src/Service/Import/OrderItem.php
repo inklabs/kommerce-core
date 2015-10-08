@@ -68,7 +68,7 @@ class OrderItem
             if ($sku === 'NULL') {
                 $orderItem->setName($note);
             } else {
-                $product = $this->productRepository->findOneBy(['sku' => $sku]);
+                $product = $this->productRepository->findOneBySku($sku);
                 if ($product !== null) {
                     $orderItem->setProduct($product);
                 }

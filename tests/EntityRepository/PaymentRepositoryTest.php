@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Service;
 use inklabs\kommerce\tests\Helper;
 
@@ -66,7 +66,7 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
 
         $payment->getOrder()->getCreated();
 
-        $this->assertTrue($payment instanceof Entity\CashPayment);
+        $this->assertTrue($payment instanceof CashPayment);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
     }
 }

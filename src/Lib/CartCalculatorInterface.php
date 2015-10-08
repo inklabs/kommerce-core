@@ -1,16 +1,16 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use inklabs\kommerce\Entity;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartTotal;
 
 interface CartCalculatorInterface
 {
     /**
-     * @param Entity\Cart $cart
-     * @return Entity\CartTotal
+     * @param Cart $cart
+     * @return CartTotal
      */
-    public function getTotal(Entity\Cart $cart);
+    public function getTotal(Cart $cart);
 
     /**
      * @return PricingInterface

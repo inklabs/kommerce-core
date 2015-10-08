@@ -1,26 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
 
 class CatalogPromotionRepository extends AbstractRepository implements CatalogPromotionRepositoryInterface
 {
-    public function save(Entity\CatalogPromotion & $catalogPromotion)
-    {
-        $this->saveEntity($catalogPromotion);
-    }
-
-    public function create(Entity\CatalogPromotion & $catalogPromotion)
-    {
-        $this->createEntity($catalogPromotion);
-    }
-
-    public function remove(Entity\CatalogPromotion & $catalogPromotion)
-    {
-        $this->removeEntity($catalogPromotion);
-    }
-
-    public function getAllCatalogPromotions($queryString = null, Entity\Pagination & $pagination = null)
+    public function getAllCatalogPromotions($queryString = null, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
@@ -41,7 +26,7 @@ class CatalogPromotionRepository extends AbstractRepository implements CatalogPr
         return $catalogPromotions;
     }
 
-    public function getAllCatalogPromotionsByIds($catalogPromotionIds, Entity\Pagination & $pagination = null)
+    public function getAllCatalogPromotionsByIds($catalogPromotionIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 

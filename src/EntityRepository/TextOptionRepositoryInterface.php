@@ -1,24 +1,18 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\TextOption;
 
-interface TextOptionRepositoryInterface
+/**
+ * @package TextOption find($id)
+ */
+interface TextOptionRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\TextOption & $textOption);
-    public function create(Entity\TextOption & $textOption);
-    public function remove(Entity\TextOption & $textOption);
-
-    /**
-     * @param int $id
-     * @return Entity\TextOption
-     */
-    public function find($id);
-
     /**
      * @param int[] $optionIds
-     * @param Entity\Pagination $pagination
-     * @return Entity\TextOption[]
+     * @param Pagination $pagination
+     * @return TextOption[]
      */
-    public function getAllTextOptionsByIds($optionIds, Entity\Pagination & $pagination = null);
+    public function getAllTextOptionsByIds($optionIds, Pagination & $pagination = null);
 }

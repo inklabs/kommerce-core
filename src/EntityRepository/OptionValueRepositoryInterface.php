@@ -1,24 +1,18 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\OptionValue;
 
-interface OptionValueRepositoryInterface
+/**
+ * @method OptionValue find($id)
+ */
+interface OptionValueRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\OptionValue & $optionValue);
-    public function create(Entity\OptionValue & $optionValue);
-    public function remove(Entity\OptionValue & $optionValue);
-
-    /**
-     * @param int $id
-     * @return Entity\OptionValue
-     */
-    public function find($id);
-
     /**
      * @param int[] $optionValueIds
-     * @param Entity\Pagination $pagination
-     * @return Entity\OptionValue[]
+     * @param Pagination $pagination
+     * @return \inklabs\kommerce\Entity\OptionValue[]
      */
-    public function getAllOptionValuesByIds($optionValueIds, Entity\Pagination &$pagination = null);
+    public function getAllOptionValuesByIds(array $optionValueIds, Pagination & $pagination = null);
 }

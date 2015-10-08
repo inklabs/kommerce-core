@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Service;
 use inklabs\kommerce\tests\Helper;
 
@@ -62,7 +62,7 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
         $cart->getCoupons()->toArray();
         $cart->getTaxRate()->getCreated();
 
-        $this->assertTrue($cart instanceof Entity\Cart);
+        $this->assertTrue($cart instanceof Cart);
         $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
     }
 
@@ -101,9 +101,9 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $cart = $this->cartRepository->findByUser(1);
+        $cart = $this->cartRepository->findOneByUser(1);
 
-        $this->assertTrue($cart instanceof Entity\Cart);
+        $this->assertTrue($cart instanceof Cart);
     }
 
     public function testFindBySession()
@@ -113,8 +113,8 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $cart = $this->cartRepository->findBySession($sessionId);
+        $cart = $this->cartRepository->findOneBySession($sessionId);
 
-        $this->assertTrue($cart instanceof Entity\Cart);
+        $this->assertTrue($cart instanceof Cart);
     }
 }

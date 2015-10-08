@@ -1,37 +1,31 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Pagination;
 
-interface CouponRepositoryInterface
+/**
+ * @method Coupon find($id)
+ */
+interface CouponRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\Coupon & $coupon);
-    public function create(Entity\Coupon & $coupon);
-    public function remove(Entity\Coupon & $coupon);
-
-    /**
-     * @param int $id
-     * @return Entity\Coupon
-     */
-    public function find($id);
-
     /**
      * @param string $couponCode
-     * @return Entity\Coupon
+     * @return Coupon
      */
     public function findOneByCode($couponCode);
 
     /**
      * @param string $queryString
-     * @param Entity\Pagination $pagination
-     * @return Entity\Coupon[]
+     * @param Pagination $pagination
+     * @return Coupon[]
      */
-    public function getAllCoupons($queryString = null, Entity\Pagination & $pagination = null);
+    public function getAllCoupons($queryString = null, Pagination & $pagination = null);
 
     /**
      * @param int[] $couponIds
-     * @param Entity\Pagination $pagination
-     * @return Entity\Coupon[]
+     * @param Pagination $pagination
+     * @return Coupon[]
      */
-    public function getAllCouponsByIds($couponIds, Entity\Pagination & $pagination = null);
+    public function getAllCouponsByIds($couponIds, Pagination & $pagination = null);
 }

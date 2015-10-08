@@ -1,88 +1,81 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 
-interface ProductRepositoryInterface
+/**
+ * @method Product find($id)
+ */
+interface ProductRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\Product & $product);
-    public function create(Entity\Product & $product);
-    public function remove(Entity\Product & $product);
-
     /**
-     * @param int $id
-     * @return Entity\Product
+     * @param string $sku
+     * @return Product
      */
-    public function find($id);
+    public function findOneBySku($sku);
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @return Entity\Product
-     */
-    public function findOneBy(array $criteria, array $orderBy = null);
-
-    /**
-     * @param Entity\Product[] $products
+     * @param Product[] $products
      * @param int $limit
-     * @return Entity\Product[]
+     * @return Product[]
      */
-    public function getRelatedProducts(array $products, $limit = 12);
+    public function getRelatedProducts($products, $limit = 12);
 
     /**
      * @param int[] $productIds
      * @param int[] $tagIds
      * @param int $limit
-     * @return Entity\Product[]
+     * @return Product[]
      */
     public function getRelatedProductsByIds(array $productIds, $tagIds = [], $limit = 12);
 
     /**
      * Load product tags to avoid query in loop for pricing
      *
-     * @param Entity\Product[] $products
+     * @param Product[] $products
      */
     public function loadProductTags(array & $products);
 
     /**
-     * @param Entity\Tag $tag
-     * @param Entity\Pagination $pagination
-     * @return Entity\Product[]
+     * @param Tag $tag
+     * @param Pagination $pagination
+     * @return Product[]
      */
-    public function getProductsByTag(Entity\Tag $tag, Entity\Pagination & $pagination = null);
+    public function getProductsByTag(Tag $tag, Pagination & $pagination = null);
 
     /**
      * @param int $tagId
-     * @param Entity\Pagination $pagination
-     * @return Entity\Product[]
+     * @param Pagination $pagination
+     * @return Product[]
      */
-    public function getProductsByTagId($tagId, Entity\Pagination & $pagination = null);
+    public function getProductsByTagId($tagId, Pagination & $pagination = null);
 
     /**
      * @param int[] $productIds
-     * @param Entity\Pagination $pagination
-     * @return Entity\Product[]
+     * @param Pagination $pagination
+     * @return Product[]
      */
-    public function getProductsByIds(array $productIds, Entity\Pagination & $pagination = null);
+    public function getProductsByIds(array $productIds, Pagination & $pagination = null);
 
     /**
      * @param string $queryString
-     * @param Entity\Pagination $pagination
-     * @return Entity\Product[]
+     * @param Pagination $pagination
+     * @return Product[]
      */
-    public function getAllProducts($queryString = null, Entity\Pagination & $pagination = null);
+    public function getAllProducts($queryString = null, Pagination & $pagination = null);
 
     /**
      * @param int[] $productIds
-     * @param Entity\Pagination $pagination
-     * @return Entity\Product[]
+     * @param Pagination $pagination
+     * @return Product[]
      */
-    public function getAllProductsByIds(array $productIds, Entity\Pagination & $pagination = null);
+    public function getAllProductsByIds(array $productIds, Pagination & $pagination = null);
 
     /**
      * @param int $limit
-     * @return Entity\Product[]
+     * @return Product[]
      */
     public function getRandomProducts($limit);
 }

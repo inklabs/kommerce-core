@@ -1,21 +1,18 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
-use inklabs\kommerce\View;
+use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\Entity\Pagination;
 
-interface AttributeValueRepositoryInterface
+/**
+ * @method AttributeValue find($id)
+ */
+interface AttributeValueRepositoryInterface extends AbstractRepositoryInterface
 {
     /**
-     * @param int $id
-     * @return Entity\AttributeValue
-     */
-    public function find($id);
-
-    /**
      * @param int[] $attributeValueIds
-     * @param Entity\Pagination $pagination
-     * @return Entity\AttributeValue[]
+     * @param Pagination $pagination
+     * @return AttributeValue[]
      */
-    public function getAttributeValuesByIds(array $attributeValueIds, Entity\Pagination & $pagination = null);
+    public function getAttributeValuesByIds(array $attributeValueIds, Pagination & $pagination = null);
 }

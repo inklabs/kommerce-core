@@ -1,11 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
 
 class AttributeValueRepository extends AbstractRepository implements AttributeValueRepositoryInterface
 {
-    public function getAttributeValuesByIds(array $attributeValueIds, Entity\Pagination & $pagination = null)
+    public function getAttributeValuesByIds(array $attributeValueIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 

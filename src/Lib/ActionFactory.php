@@ -5,6 +5,7 @@ use inklabs\kommerce\Action\CommandInterface;
 use inklabs\kommerce\Action\Tag\CreateTag;
 use inklabs\kommerce\Action\Tag\DeleteTag;
 use inklabs\kommerce\Action\Tag\EditTag;
+use inklabs\kommerce\Action\Tag\GetTag;
 
 class ActionFactory
 {
@@ -33,26 +34,17 @@ class ActionFactory
 
     /**
      * @param CommandInterface $command
-     * @return void
      */
     public function execute(CommandInterface $command)
     {
         $actionName = 'get' . $this->getActionName($command);
-        $this->$actionName()->execute($command);
+        return $this->$actionName()->execute($command);
     }
 
     private function getActionName(CommandInterface $command)
     {
         $pieces = explode('\\', str_replace('Command', '', get_class($command)));
         return end($pieces);
-    }
-
-    /**
-     * @return EditTag
-     */
-    public function getEditTag()
-    {
-        return new EditTag($this->factoryService->getTagService());
     }
 
     /**
@@ -69,5 +61,21 @@ class ActionFactory
     public function getDeleteTag()
     {
         return new DeleteTag($this->factoryService->getTagService());
+    }
+
+    /**
+     * @return EditTag
+     */
+    public function getEditTag()
+    {
+        return new EditTag($this->factoryService->getTagService());
+    }
+
+    /**
+     * @return GetTag
+     */
+    public function getGetTag()
+    {
+        return new GetTag($this->factoryService->getTagService());
     }
 }

@@ -1,29 +1,22 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\TaxRate;
 
-interface TaxRateRepositoryInterface
+/**
+ * @method TaxRate find($id)
+ */
+interface TaxRateRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\TaxRate & $taxRate);
-    public function create(Entity\TaxRate & $taxRate);
-    public function remove(Entity\TaxRate & $taxRate);
-
     /**
-     * @param int $id
-     * @return Entity\TaxRate
-     */
-    public function find($id);
-
-    /**
-     * @return Entity\TaxRate[]
+     * @return TaxRate[]
      */
     public function findAll();
 
     /**
      * @param string $zip5
      * @param string $state
-     * @return Entity\TaxRate
+     * @return TaxRate
      * @throws \LogicException
      */
     public function findByZip5AndState($zip5 = null, $state = null);

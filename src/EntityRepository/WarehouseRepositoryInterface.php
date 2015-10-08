@@ -1,25 +1,20 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Point;
+use inklabs\kommerce\Entity\Warehouse;
 
-interface WarehouseRepositoryInterface
+/**
+ * @method Warehouse find($id)
+ */
+interface WarehouseRepositoryInterface extends AbstractRepositoryInterface
 {
-    public function save(Entity\Warehouse & $warehouse);
-    public function create(Entity\Warehouse & $warehouse);
-    public function remove(Entity\Warehouse & $warehouse);
-
     /**
-     * @param int $id
-     * @return Entity\Warehouse
-     */
-    public function find($id);
-
-    /**
-     * @param Entity\Point $point
+     * @param Point $point
      * @param int $rangeInMiles
-     * @param Entity\Pagination $pagination
-     * @return Entity\Warehouse[]
+     * @param Pagination $pagination
+     * @return Warehouse[]
      */
-    public function findByPoint(Entity\Point $point, $rangeInMiles = 50, Entity\Pagination & $pagination = null);
+    public function findByPoint(Point $point, $rangeInMiles = 50, Pagination & $pagination = null);
 }

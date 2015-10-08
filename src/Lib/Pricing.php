@@ -1,7 +1,11 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Price;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 
@@ -10,13 +14,13 @@ class Pricing implements PricingInterface
     /** @var \DateTime */
     protected $date;
 
-    /** @var Entity\CatalogPromotion[] */
+    /** @var CatalogPromotion[] */
     protected $catalogPromotions = [];
 
-    /** @var Entity\ProductQuantityDiscount[] */
+    /** @var ProductQuantityDiscount[] */
     protected $productQuantityDiscounts = [];
 
-    /** @var Entity\CartPriceRule[] */
+    /** @var CartPriceRule[] */
     protected $cartPriceRules = [];
 
     public function __construct(\DateTime $date = null)
@@ -46,7 +50,7 @@ class Pricing implements PricingInterface
         }
     }
 
-    private function addCatalogPromotion(Entity\CatalogPromotion $catalogPromotion)
+    private function addCatalogPromotion(CatalogPromotion $catalogPromotion)
     {
         $this->catalogPromotions[] = $catalogPromotion;
     }
@@ -69,7 +73,7 @@ class Pricing implements PricingInterface
         }
     }
 
-    private function addCartPriceRule(Entity\CartPriceRule $cartPriceRule)
+    private function addCartPriceRule(CartPriceRule $cartPriceRule)
     {
         $this->cartPriceRules[] = $cartPriceRule;
     }
@@ -88,7 +92,7 @@ class Pricing implements PricingInterface
         $this->sortProductQuantityDiscountsByQuantityDescending();
     }
 
-    private function addProductQuantityDiscount(Entity\ProductQuantityDiscount $productQuantityDiscount)
+    private function addProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
     {
         $this->productQuantityDiscounts[] = $productQuantityDiscount;
     }
@@ -107,11 +111,11 @@ class Pricing implements PricingInterface
     }
 
     /**
-     * @param Entity\Product $product
+     * @param Product $product
      * @param int $quantity
-     * @return Entity\Price
+     * @return Price
      */
-    public function getPrice(Entity\Product $product, $quantity)
+    public function getPrice(Product $product, $quantity)
     {
         $pricingCalculator = new PricingCalculator($this);
         return $pricingCalculator->getPrice($product, $quantity);

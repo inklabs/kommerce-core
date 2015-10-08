@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity;
-use inklabs\kommerce\Lib\BaseConvert;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper;
 
 class TagRepositoryTest extends Helper\DoctrineTestCase
@@ -64,7 +63,7 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $tag->getOptions()->toArray();
         $tag->getTextOptions()->toArray();
 
-        $this->assertTrue($tag instanceof Entity\Tag);
+        $this->assertTrue($tag instanceof Tag);
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 
@@ -72,11 +71,9 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
     {
         $this->setupTag();
 
-        $tag = $this->tagRepository->findOneBy([
-            'code' => 'TT1',
-        ]);
+        $tag = $this->tagRepository->findOneByCode('TT1');
 
-        $this->assertTrue($tag instanceof Entity\Tag);
+        $this->assertTrue($tag instanceof Tag);
     }
 
     public function testGetAllTags()
@@ -92,7 +89,7 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $tags[0]->getOptions()->toArray();
         $tags[0]->getTextOptions()->toArray();
 
-        $this->assertTrue($tags[0] instanceof Entity\Tag);
+        $this->assertTrue($tags[0] instanceof Tag);
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 
@@ -103,7 +100,7 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $tags = $this->tagRepository->getTagsByIds([1]);
 
         $this->assertSame(1, count($tags));
-        $this->assertTrue($tags[0] instanceof Entity\Tag);
+        $this->assertTrue($tags[0] instanceof Tag);
     }
 
     public function testGetAllTagsByIds()
@@ -113,6 +110,6 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $tags = $this->tagRepository->getAllTagsByIds([1]);
 
         $this->assertSame(1, count($tags));
-        $this->assertTrue($tags[0] instanceof Entity\Tag);
+        $this->assertTrue($tags[0] instanceof Tag);
     }
 }

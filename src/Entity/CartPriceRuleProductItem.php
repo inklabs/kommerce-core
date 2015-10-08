@@ -1,17 +1,16 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Entity;
-use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleProductItemDTOBuilder;
 use inklabs\kommerce\View;
+use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleProductItemDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class CartPriceRuleProductItem extends AbstractCartPriceRuleItem
 {
-    /** @var Entity\Product */
+    /** @var Product */
     protected $product;
 
-    public function __construct(Entity\Product $product, $quantity)
+    public function __construct(Product $product, $quantity)
     {
         $this->setCreated();
         $this->product = $product;
@@ -23,7 +22,7 @@ class CartPriceRuleProductItem extends AbstractCartPriceRuleItem
         parent::loadValidatorMetadata($metadata);
     }
 
-    public function matches(Entity\CartItem $cartItem)
+    public function matches(CartItem $cartItem)
     {
         if ($cartItem->getProduct()->getId() == $this->product->getId()
             and $cartItem->getQuantity() >= $this->quantity

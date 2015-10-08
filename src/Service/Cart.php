@@ -77,7 +77,7 @@ class Cart extends AbstractService
      */
     public function findBySession($sessionId)
     {
-        return $this->cartRepository->findBySession($sessionId);
+        return $this->cartRepository->findOneBySession($sessionId);
     }
 
     /**
@@ -86,7 +86,7 @@ class Cart extends AbstractService
      */
     public function findByUser($userId)
     {
-        return $this->cartRepository->findByUser($userId);
+        return $this->cartRepository->findOneByUser($userId);
     }
 
     /**

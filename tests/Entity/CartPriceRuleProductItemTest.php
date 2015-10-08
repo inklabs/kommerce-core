@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Entity;
 use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
@@ -9,20 +8,20 @@ class CartPriceRuleProductItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $priceRule = new CartPriceRuleProductItem(new Entity\Product, 1);
+        $priceRule = new CartPriceRuleProductItem(new Product, 1);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
             ->getValidator();
 
         $this->assertEmpty($validator->validate($priceRule));
-        $this->assertTrue($priceRule->getProduct() instanceof Entity\Product);
+        $this->assertTrue($priceRule->getProduct() instanceof Product);
         $this->assertTrue($priceRule->getView() instanceof View\CartPriceRuleProductItem);
     }
 
     private function getProduct($id)
     {
-        $product = new Entity\Product;
+        $product = new Product;
         $product->setid($id);
         return $product;
     }
@@ -31,7 +30,7 @@ class CartPriceRuleProductItemTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->getProduct(1);
 
-        $cartItem = new Entity\CartItem;
+        $cartItem = new CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(1);
 
@@ -44,7 +43,7 @@ class CartPriceRuleProductItemTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->getProduct(1);
 
-        $cartItem = new Entity\CartItem;
+        $cartItem = new CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
 
@@ -58,7 +57,7 @@ class CartPriceRuleProductItemTest extends \PHPUnit_Framework_TestCase
         $product1 = $this->getProduct(1);
         $product2 = $this->getProduct(2);
 
-        $cartItem = new Entity\CartItem;
+        $cartItem = new CartItem;
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(1);
 
@@ -71,7 +70,7 @@ class CartPriceRuleProductItemTest extends \PHPUnit_Framework_TestCase
     {
         $product1 = $this->getProduct(1);
 
-        $cartItem = new Entity\CartItem;
+        $cartItem = new CartItem;
         $cartItem->setProduct($product1);
         $cartItem->setQuantity(1);
 
