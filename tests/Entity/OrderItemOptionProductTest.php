@@ -1,9 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
-
 class OrderItemOptionProductTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -32,6 +29,5 @@ class OrderItemOptionProductTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('LA Angels', $orderItemOptionProduct->getOptionProductName());
         $this->assertTrue($orderItemOptionProduct->getOptionProduct() instanceof OptionProduct);
         $this->assertTrue($orderItemOptionProduct->getOrderItem() instanceof OrderItem);
-        $this->assertTrue($orderItemOptionProduct->getView() instanceof View\OrderItemOptionProduct);
     }
 }

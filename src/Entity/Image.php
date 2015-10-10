@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\ImageDTOBuilder;
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -58,14 +57,6 @@ class Image implements ValidationInterface
             'min' => 0,
             'max' => 65535,
         ]));
-    }
-
-    public function loadFromView(View\Image $viewImage)
-    {
-        $this->setPath($viewImage->path);
-        $this->setWidth($viewImage->width);
-        $this->setHeight($viewImage->height);
-        $this->setSortOrder($viewImage->sortOrder);
     }
 
     public function setPath($path)
@@ -126,11 +117,6 @@ class Image implements ValidationInterface
     public function getTag()
     {
         return $this->tag;
-    }
-
-    public function getView()
-    {
-        return new View\Image($this);
     }
 
     public function getDTOBuilder()

@@ -68,6 +68,10 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
     public function create(EntityInterface & $entity)
     {
         $this->throwCrudExceptionIfSet();
+
+        if (method_exists($entity, 'setId')) {
+            $entity->setId(1);
+        }
     }
 
     public function remove(EntityInterface $entity)

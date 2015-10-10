@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class UserTokenTest extends \PHPUnit_Framework_TestCase
@@ -27,7 +26,6 @@ class UserTokenTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Google', $userToken->getTypeText());
         $this->assertTrue($userToken->getExpires() instanceof \DateTime);
         $this->assertTrue($userToken->getUser() instanceof User);
-        $this->assertTrue($userToken->getView() instanceof View\UserToken);
     }
 
     public function testCreateWithNullExpires()

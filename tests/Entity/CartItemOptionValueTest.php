@@ -1,9 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
-
 class CartItemOptionValueTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -30,6 +27,5 @@ class CartItemOptionValueTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($cartItemOptionValue->getPrice() instanceof Price);
         $this->assertTrue($cartItemOptionValue->getOptionValue() instanceof OptionValue);
         $this->assertTrue($cartItemOptionValue->getCartItem() instanceof CartItem);
-        $this->assertTrue($cartItemOptionValue->getView() instanceof View\CartItemOptionValue);
     }
 }

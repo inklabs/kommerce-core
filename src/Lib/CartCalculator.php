@@ -3,20 +3,19 @@ namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartTotal;
-use inklabs\kommerce\Lib;
 
 class CartCalculator implements CartCalculatorInterface
 {
     /** @var Cart */
     protected $cart;
 
-    /** @var Lib\Pricing */
+    /** @var Pricing */
     protected $pricing;
 
     /** @var CartTotal */
     protected $cartTotal;
 
-    public function __construct(Lib\Pricing $pricing)
+    public function __construct(Pricing $pricing)
     {
         $this->pricing = $pricing;
     }

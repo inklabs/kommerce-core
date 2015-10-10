@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\Pricing;
 use Symfony\Component\Validator\Validation;
 
 class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
@@ -24,7 +23,6 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(6, $productQuantityDiscount->getQuantity());
         $this->assertSame(true, $productQuantityDiscount->getFlagApplyCatalogPromotions());
         $this->assertTrue($productQuantityDiscount->getProduct() instanceof Product);
-        $this->assertTrue($productQuantityDiscount->getView() instanceof View\ProductQuantityDiscount);
     }
 
     /**
@@ -89,6 +87,6 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscount = new ProductQuantityDiscount;
         $productQuantityDiscount->setProduct(new Product);
         $productQuantityDiscount->setQuantity(1);
-        $this->assertTrue($productQuantityDiscount->getPrice(new Lib\Pricing) instanceof Price);
+        $this->assertTrue($productQuantityDiscount->getPrice(new Pricing) instanceof Price);
     }
 }

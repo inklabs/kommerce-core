@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\TaxRateDTOBuilder;
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -127,11 +126,6 @@ class TaxRate implements ValidationInterface
         }
 
         return (int) round($newTaxSubtotal * ($this->rate / 100));
-    }
-
-    public function getView()
-    {
-        return new View\TaxRate($this);
     }
 
     public function getDTOBuilder()

@@ -13,7 +13,12 @@ class FakeUserRepository extends AbstractFakeRepository implements UserRepositor
         $this->setReturnValue(new User);
     }
 
-    public function find($id)
+    public function findOneByEmail($email)
+    {
+        return $this->getReturnValue();
+    }
+
+    public function findOneByExternalId($externalId)
     {
         return $this->getReturnValue();
     }
@@ -26,11 +31,6 @@ class FakeUserRepository extends AbstractFakeRepository implements UserRepositor
     public function getAllUsersByIds($userIds, Pagination &$pagination = null)
     {
         return $this->getReturnValueAsArray();
-    }
-
-    public function findOneByEmail($email)
-    {
-        return $this->getReturnValue();
     }
 
     public function createUserLogin(UserLogin $userLogin)

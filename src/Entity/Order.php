@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
-use inklabs\kommerce\View;
 use inklabs\kommerce\Lib\ReferenceNumber;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -280,11 +279,6 @@ class Order implements ValidationInterface, ReferenceNumber\EntityInterface
         }
 
         return $products;
-    }
-
-    public function getView()
-    {
-        return new View\Order($this);
     }
 
     public function getDTOBuilder()

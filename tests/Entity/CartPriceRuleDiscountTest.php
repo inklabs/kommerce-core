@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class CartPriceRuleDiscountTest extends \PHPUnit_Framework_TestCase
@@ -21,6 +20,5 @@ class CartPriceRuleDiscountTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(2, $cartPriceRuleDiscount->getQuantity());
         $this->assertTrue($cartPriceRuleDiscount->getProduct() instanceof Product);
         $this->assertTrue($cartPriceRuleDiscount->getCartPriceRule() instanceof CartPriceRule);
-        $this->assertTrue($cartPriceRuleDiscount->getView() instanceof View\CartPriceRuleDiscount);
     }
 }

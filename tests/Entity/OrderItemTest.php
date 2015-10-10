@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class OrderItemTest extends \PHPUnit_Framework_TestCase
@@ -88,7 +87,6 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($orderItem->getOrderItemTextOptionValues()[0] instanceof OrderItemTextOptionValue);
         $this->assertTrue($orderItem->getCatalogPromotions()[0] instanceof CatalogPromotion);
         $this->assertTrue($orderItem->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
-        $this->assertTrue($orderItem->getView() instanceof View\Orderitem);
     }
 
     public function testCreateWithCustomItem()

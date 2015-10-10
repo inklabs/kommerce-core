@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class PointTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +16,6 @@ class PointTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($validator->validate($point));
         $this->assertEquals(34.052234, $point->getLatitude(), '', FLOAT_DELTA);
         $this->assertEquals(-118.243685, $point->getLongitude(), '', FLOAT_DELTA);
-        $this->assertTrue($point->getView() instanceof View\Point);
     }
 
     public function testGetGeoBox()

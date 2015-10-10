@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class ImageTest extends \PHPUnit_Framework_TestCase
@@ -27,13 +26,5 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(0, $image->getSortOrder());
         $this->assertTrue($image->getProduct() instanceof Product);
         $this->assertTrue($image->getTag() instanceof Tag);
-        $this->assertTrue($image->getView() instanceof View\Image);
-    }
-
-    public function testLoadFromView()
-    {
-        $image = new Image;
-        $image->loadFromView(new View\Image(new Image));
-        $this->assertTrue($image instanceof Image);
     }
 }

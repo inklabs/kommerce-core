@@ -1,0 +1,65 @@
+<?php
+namespace inklabs\kommerce\Service;
+
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeTaxRateRepository;
+
+class TaxRateServiceTest extends Helper\DoctrineTestCase
+{
+    /** @var FakeTaxRateRepository */
+    protected $taxRateRepository;
+
+    /** @var TaxRateService */
+    private $taxRateService;
+
+    public function setUp()
+    {
+        $this->taxRateRepository = new FakeTaxRateRepository;
+        $this->taxRateService = new TaxRateService($this->taxRateRepository);
+    }
+
+    public function testCreate()
+    {
+        $taxRate = $this->getDummyTaxRate();
+        $this->taxRateService->create($taxRate);
+        $this->assertTrue($taxRate instanceof TaxRate);
+    }
+
+    public function testEdit()
+    {
+        $newState = 'XX';
+        $taxRate = $this->getDummyTaxRate();
+        $this->assertNotSame($newState, $taxRate->getState());
+
+        $taxRate->setState($newState);
+        $this->taxRateService->edit($taxRate);
+        $this->assertSame($newState, $taxRate->getState());
+    }
+
+    public function testFind()
+    {
+        $taxRate = $this->taxRateService->find(1);
+        $this->assertTrue($taxRate instanceof TaxRate);
+    }
+
+    public function testFindMissing()
+    {
+        $this->taxRateRepository->setReturnValue(null);
+
+        $taxRate = $this->taxRateService->find(1);
+        $this->assertSame(null, $taxRate);
+    }
+
+    public function testFindAll()
+    {
+        $taxRates = $this->taxRateService->findAll();
+        $this->assertTrue($taxRates[0] instanceof TaxRate);
+    }
+
+    public function testFindByZip5AndStateWithZip5()
+    {
+        $taxRate = $this->taxRateService->findByZip5AndState('92606');
+        $this->assertTrue($taxRate instanceof TaxRate);
+    }
+}

@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class OrderAddressTest extends \PHPUnit_Framework_TestCase
@@ -27,6 +26,5 @@ class OrderAddressTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($orderAddress));
         $this->assertTrue($orderAddress instanceof OrderAddress);
-        $this->assertTrue($orderAddress->getView() instanceof View\OrderAddress);
     }
 }

@@ -12,7 +12,7 @@ interface OptionValueRepositoryInterface extends AbstractRepositoryInterface
     /**
      * @param int[] $optionValueIds
      * @param Pagination $pagination
-     * @return \inklabs\kommerce\Entity\OptionValue[]
+     * @return OptionValue[]
      */
     public function getAllOptionValuesByIds(array $optionValueIds, Pagination & $pagination = null);
 }

@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDiscountDTOBuilder;
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -63,11 +62,6 @@ class CartPriceRuleDiscount implements ValidationInterface
     public function getCartPriceRule()
     {
         return $this->cartPriceRule;
-    }
-
-    public function getView()
-    {
-        return new View\CartPriceRuleDiscount($this);
     }
 
     public function getDTOBuilder()

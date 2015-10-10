@@ -1,18 +1,43 @@
 <?php
 namespace inklabs\kommerce\tests\Helper;
 
+use inklabs\kommerce\Entity\AbstractPromotion;
+use inklabs\kommerce\Entity\Address;
+use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartItem;
+use inklabs\kommerce\Entity\CartItemOptionProduct;
+use inklabs\kommerce\Entity\CartItemOptionValue;
+use inklabs\kommerce\Entity\CartItemTextOptionValue;
+use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\Entity\CartTotal;
+use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\OptionValue;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\OrderItemOptionProduct;
 use inklabs\kommerce\Entity\OrderItemOptionValue;
 use inklabs\kommerce\Entity\OrderItemTextOptionValue;
+use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
+use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Entity\UserLogin;
+use inklabs\kommerce\Entity\UserRole;
+use inklabs\kommerce\Entity\UserToken;
+use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
@@ -24,10 +49,16 @@ use inklabs\kommerce\EntityDTO\ProductAttributeDTO;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\ProductQuantityDiscountDTO;
 use inklabs\kommerce\EntityDTO\TextOptionDTO;
+use inklabs\kommerce\Action\ActionFactory;
+use inklabs\kommerce\Lib\CartCalculator;
+use inklabs\kommerce\Lib\CartCalculatorInterface;
+use inklabs\kommerce\EntityRepository\RepositoryFactory;
+use inklabs\kommerce\Lib\Command\CommandBus;
+use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Service\ServiceFactory;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryFactory;
 use inklabs\kommerce\Lib\Pricing;
-use inklabs\kommerce\Service\Kommerce;
-use inklabs\kommerce\Entity;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\DoctrineHelper;
 use Doctrine;
 
 abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
@@ -35,7 +66,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     /** @var \Doctrine\ORM\EntityManager */
     protected $entityManager;
 
-    /** @var Kommerce */
+    /** @var DoctrineHelper */
     protected $kommerce;
 
     /** @var CountSQLLogger */
@@ -61,7 +92,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     private function getConnection()
     {
-        $this->kommerce = new Kommerce(new Doctrine\Common\Cache\ArrayCache());
+        $this->kommerce = new DoctrineHelper(new Doctrine\Common\Cache\ArrayCache());
         $this->kommerce->addSqliteFunctions();
         $this->kommerce->setup([
             'driver' => 'pdo_sqlite',
@@ -102,7 +133,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyProduct($num = 1)
     {
-        $product = new Entity\Product;
+        $product = new Product;
         $product->setSku($num);
         $product->setName('Test Product #' . $num);
         $product->setIsInventoryRequired(true);
@@ -120,7 +151,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyTag($num = 1)
     {
-        $tag = new Entity\Tag;
+        $tag = new Tag;
         $tag->setName('Test Tag #' . $num);
         $tag->setCode('TT' . $num);
         $tag->setDescription('Test Description');
@@ -134,7 +165,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyImage()
     {
-        $image = new Entity\Image;
+        $image = new Image;
         $image->setPath('http://lorempixel.com/400/200/');
         $image->setWidth(400);
         $image->setHeight(200);
@@ -145,7 +176,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyOrderAddress()
     {
-        $orderAddress = new Entity\OrderAddress;
+        $orderAddress = new OrderAddress;
         $orderAddress->firstName = 'John';
         $orderAddress->lastName = 'Doe';
         $orderAddress->company = 'Acme Co.';
@@ -161,9 +192,9 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $orderAddress;
     }
 
-    protected function getDummyOrderItem(Entity\Product $product, Entity\Price $price)
+    protected function getDummyOrderItem(Product $product, Price $price)
     {
-        $orderItem = new Entity\OrderItem;
+        $orderItem = new OrderItem;
         $orderItem->setProduct($product);
         $orderItem->setQuantity(1);
         $orderItem->setPrice($price);
@@ -171,43 +202,43 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $orderItem;
     }
 
-    protected function getDummyOrderItemOptionProduct(Entity\OptionProduct $optionProduct)
+    protected function getDummyOrderItemOptionProduct(OptionProduct $optionProduct)
     {
-        $orderItemOptionProduct = new Entity\OrderItemOptionProduct;
+        $orderItemOptionProduct = new OrderItemOptionProduct;
         $orderItemOptionProduct->setOptionProduct($optionProduct);
         return $orderItemOptionProduct;
     }
 
-    protected function getDummyOrderItemOptionValue(Entity\OptionValue $optionValue)
+    protected function getDummyOrderItemOptionValue(OptionValue $optionValue)
     {
-        $orderItemOptionValue = new Entity\OrderItemOptionValue;
+        $orderItemOptionValue = new OrderItemOptionValue;
         $orderItemOptionValue->setOptionValue($optionValue);
         return $orderItemOptionValue;
     }
 
     /**
-     * @param Entity\TextOption $textOption
+     * @param TextOption $textOption
      * @param string $textOptionValue
-     * @return Entity\OrderItemTextOptionValue
+     * @return OrderItemTextOptionValue
      */
-    protected function getDummyOrderItemTextOptionValue(Entity\TextOption $textOption, $textOptionValue)
+    protected function getDummyOrderItemTextOptionValue(TextOption $textOption, $textOptionValue)
     {
-        $orderItemTextOptionValue = new Entity\OrderItemTextOptionValue;
+        $orderItemTextOptionValue = new OrderItemTextOptionValue;
         $orderItemTextOptionValue->setTextOption($textOption);
         $orderItemTextOptionValue->setTextOptionValue($textOptionValue);
         return $orderItemTextOptionValue;
     }
 
     /**
-     * @param Entity\CartTotal $total
+     * @param CartTotal $total
      * @param array $orderItems
-     * @return Entity\Order
+     * @return Order
      */
-    protected function getDummyOrder(Entity\CartTotal $total, array $orderItems = null)
+    protected function getDummyOrder(CartTotal $total, array $orderItems = null)
     {
         $orderAddress = $this->getDummyOrderAddress();
 
-        $order = new Entity\Order;
+        $order = new Order;
         $order->setTotal($total);
         $order->setShippingAddress($orderAddress);
         $order->setBillingAddress($orderAddress);
@@ -223,13 +254,13 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyCashPayment($amount = 100)
     {
-        $payment = new Entity\CashPayment($amount);
+        $payment = new CashPayment($amount);
         return $payment;
     }
 
     protected function getDummyPrice()
     {
-        $price = new Entity\Price;
+        $price = new Price;
         $price->origUnitPrice = 100;
         $price->unitPrice = 100;
         $price->origQuantityPrice = 100;
@@ -240,7 +271,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyCartTotal()
     {
-        $cartTotal = new Entity\CartTotal;
+        $cartTotal = new CartTotal;
         $cartTotal->origSubtotal = 1;
         $cartTotal->subtotal = 1;
         $cartTotal->taxSubtotal = 1;
@@ -256,10 +287,10 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyCoupon($num = 1)
     {
-        $coupon = new Entity\Coupon;
+        $coupon = new Coupon;
         $coupon->setName('20% OFF Test Coupon #' . $num);
         $coupon->setCode('20PCT' . $num);
-        $coupon->setType(Entity\AbstractPromotion::TYPE_PERCENT);
+        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
         $coupon->setValue(20);
 
         return $coupon;
@@ -267,7 +298,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyCatalogPromotion($num = 1)
     {
-        $catalogPromotion = new Entity\CatalogPromotion;
+        $catalogPromotion = new CatalogPromotion;
         $catalogPromotion->setName('Test Catalog Promotion #' . $num);
         $catalogPromotion->setCode('20PCTOFF');
         $catalogPromotion->setValue(20);
@@ -277,9 +308,9 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyUser($num = 1)
     {
-        $user = new Entity\User;
+        $user = new User;
         $user->setExternalId($num);
-        $user->setStatus(Entity\User::STATUS_ACTIVE);
+        $user->setStatus(User::STATUS_ACTIVE);
         $user->setEmail('test' . $num . '@example.com');
         $user->setPassword('xxxx');
         $user->setFirstName('John');
@@ -290,17 +321,17 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyUserLogin()
     {
-        $userLogin = new Entity\UserLogin;
+        $userLogin = new UserLogin;
         $userLogin->setEmail('john@example.com');
         $userLogin->setIp4('8.8.8.8');
-        $userLogin->setResult(Entity\UserLogin::RESULT_SUCCESS);
+        $userLogin->setResult(UserLogin::RESULT_SUCCESS);
 
         return $userLogin;
     }
 
     protected function getDummyUserRole()
     {
-        $userRole = new Entity\UserRole;
+        $userRole = new UserRole;
         $userRole->setName('Administrator');
         $userRole->setDescription('Admin account. Access to everything');
 
@@ -309,18 +340,18 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyUserToken()
     {
-        $userToken = new Entity\UserToken;
+        $userToken = new UserToken;
         $userToken->setUserAgent('SampleBot/1.1');
         $userToken->settoken('xxxx');
         $userToken->setexpires(new \DateTime);
-        $userToken->setType(Entity\UserToken::TYPE_FACEBOOK);
+        $userToken->setType(UserToken::TYPE_FACEBOOK);
 
         return $userToken;
     }
 
     protected function getDummyProductQuantityDiscount()
     {
-        $productQuantityDiscount = new Entity\ProductQuantityDiscount;
+        $productQuantityDiscount = new ProductQuantityDiscount;
         $productQuantityDiscount->setCustomerGroup(null);
         $productQuantityDiscount->setQuantity(1);
         $productQuantityDiscount->setFlagApplyCatalogPromotions(true);
@@ -330,9 +361,9 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyCartPriceRule()
     {
-        $cartPriceRule = new Entity\CartPriceRule;
+        $cartPriceRule = new CartPriceRule;
         $cartPriceRule->setName('Test Cart Price Rule');
-        $cartPriceRule->setType(Entity\AbstractPromotion::TYPE_FIXED);
+        $cartPriceRule->setType(AbstractPromotion::TYPE_FIXED);
         $cartPriceRule->setValue(0);
 
         return $cartPriceRule;
@@ -340,53 +371,53 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyFullCartItem()
     {
-        $tag = new Entity\Tag;
-        $tag->addImage(new Entity\Image);
+        $tag = new Tag;
+        $tag->addImage(new Image);
 
-        $product = new Entity\Product;
+        $product = new Product;
         $product->setSku('P1');
         $product->setUnitPrice(100);
         $product->setShippingWeight(10);
         $product->addTag($tag);
-        $product->addProductQuantityDiscount(new Entity\ProductQuantityDiscount);
+        $product->addProductQuantityDiscount(new ProductQuantityDiscount);
 
-        $product2 = new Entity\Product;
+        $product2 = new Product;
         $product2->setSku('OP1');
         $product2->setUnitPrice(100);
         $product2->setShippingWeight(10);
 
-        $option1 = new Entity\Option;
+        $option1 = new Option;
         $option1->setname('Option 1');
 
-        $optionProduct = new Entity\OptionProduct;
+        $optionProduct = new OptionProduct;
         $optionProduct->setOption($option1);
         $optionProduct->setProduct($product2);
 
-        $option2 = new Entity\Option;
+        $option2 = new Option;
         $option2->setname('Option 2');
 
-        $optionValue = new Entity\OptionValue;
+        $optionValue = new OptionValue;
         $optionValue->setOption($option2);
         $optionValue->setSku('OV1');
         $optionValue->setUnitPrice(100);
         $optionValue->setShippingWeight(10);
 
-        $textOption = new Entity\TextOption;
+        $textOption = new TextOption;
 
-        $cartItemOptionProduct = new Entity\CartItemOptionProduct;
+        $cartItemOptionProduct = new CartItemOptionProduct;
         $cartItemOptionProduct->setOptionProduct($optionProduct);
 
-        $cartItemOptionValue = new Entity\CartItemOptionValue;
+        $cartItemOptionValue = new CartItemOptionValue;
         $cartItemOptionValue->setOptionValue($optionValue);
 
-        $cartItemTextOptionValue = new Entity\CartItemTextOptionValue;
+        $cartItemTextOptionValue = new CartItemTextOptionValue;
         $cartItemTextOptionValue->setTextOption($textOption);
         $cartItemTextOptionValue->setTextOptionValue('Happy Birthday');
 
-        $cartItem = new Entity\CartItem;
+        $cartItem = new CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
-        $cartItem->setCart(new Entity\Cart);
+        $cartItem->setCart(new Cart);
         $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
         $cartItem->addCartItemOptionValue($cartItemOptionValue);
         $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
@@ -396,7 +427,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyCartItem($product)
     {
-        $cartItem = new Entity\CartItem;
+        $cartItem = new CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
 
@@ -405,7 +436,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyTaxRate()
     {
-        $taxRate = new Entity\TaxRate;
+        $taxRate = new TaxRate;
         $taxRate->setState('CA');
         $taxRate->setZip5(90403);
         $taxRate->setRate(7.5);
@@ -415,12 +446,12 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Entity\CartItem[] $cartItems
-     * @return Entity\Cart
+     * @param CartItem[] $cartItems
+     * @return Cart
      */
     protected function getDummyCart(array $cartItems = [])
     {
-        $cart = new Entity\Cart;
+        $cart = new Cart;
 
         foreach ($cartItems as $cartItem) {
             $cart->addCartItem($cartItem);
@@ -431,7 +462,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyAddress()
     {
-        $address = new Entity\Address;
+        $address = new Address;
         $address->setAttention('John Doe');
         $address->setCompany('Acme Co.');
         $address->setAddress1('123 Any St');
@@ -440,7 +471,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $address->setState('CA');
         $address->setZip5('90401');
         $address->setZip4('3274');
-        $address->setPoint(new Entity\Point(34.010947, -118.490541));
+        $address->setPoint(new Point(34.010947, -118.490541));
 
         return $address;
     }
@@ -449,7 +480,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         $address = $this->getDummyAddress();
 
-        $warehouse = new Entity\Warehouse;
+        $warehouse = new Warehouse;
         $warehouse->setName('Test Warehouse #' . $num);
         $warehouse->setAddress($address);
 
@@ -458,9 +489,9 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyOption()
     {
-        $option = new Entity\Option;
+        $option = new Option;
         $option->setName('Size');
-        $option->setType(Entity\Option::TYPE_RADIO);
+        $option->setType(Option::TYPE_RADIO);
         $option->setDescription('Shirt Size');
         $option->setSortOrder(0);
 
@@ -469,18 +500,18 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyTextOption()
     {
-        $textOption = new Entity\TextOption;
+        $textOption = new TextOption;
         $textOption->setName('Size');
-        $textOption->setType(Entity\TextOption::TYPE_TEXTAREA);
+        $textOption->setType(TextOption::TYPE_TEXTAREA);
         $textOption->setDescription('Shirt Size');
         $textOption->setSortOrder(0);
 
         return $textOption;
     }
 
-    protected function getDummyOptionProduct(Entity\Option $option, Entity\Product $product)
+    protected function getDummyOptionProduct(Option $option, Product $product)
     {
-        $optionProduct = new Entity\OptionProduct;
+        $optionProduct = new OptionProduct;
         $optionProduct->setProduct($product);
         $optionProduct->setSortOrder(0);
         $optionProduct->setOption($option);
@@ -488,9 +519,9 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $optionProduct;
     }
 
-    protected function getDummyOptionValue(Entity\Option $option)
+    protected function getDummyOptionValue(Option $option)
     {
-        $optionValue = new Entity\OptionValue;
+        $optionValue = new OptionValue;
         $optionValue->setName('Option Value Name');
         $optionValue->setSku('OV-SKU');
         $optionValue->setShippingWeight(16);
@@ -503,7 +534,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyAttribute()
     {
-        $attribute = new Entity\Attribute;
+        $attribute = new Attribute;
         $attribute->setName('Test Attribute');
         $attribute->setDescription('Test Attribute Description');
         $attribute->setSortOrder(0);
@@ -513,7 +544,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyAttributeValue()
     {
-        $attribute = new Entity\AttributeValue;
+        $attribute = new AttributeValue;
         $attribute->setSku('TAV');
         $attribute->setName('Test Attribute Value');
         $attribute->setDescription('Test Attribute Value Description');
@@ -524,26 +555,46 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyProductAttribute()
     {
-        $productAttribute = new Entity\ProductAttribute;
-        $productAttribute->setAttribute(new Entity\Attribute);
-        $productAttribute->setAttributeValue(new Entity\AttributeValue);
+        $productAttribute = new ProductAttribute;
+        $productAttribute->setAttribute(new Attribute);
+        $productAttribute->setAttributeValue(new AttributeValue);
 
         return $productAttribute;
     }
 
     protected function repository()
     {
-        return new Lib\FactoryRepository($this->entityManager);
+        return new RepositoryFactory($this->entityManager);
     }
 
-    protected function service(Lib\CartCalculatorInterface $cartCalculator)
+    protected function fakeRepositoryFactory()
     {
-        return new Lib\FactoryService($this->repository(), $cartCalculator);
+        return new FakeRepositoryFactory;
     }
 
-    protected function actionFactory(Lib\CartCalculatorInterface $cartCalculator)
+    protected function service(CartCalculatorInterface $cartCalculator)
     {
-        return new Lib\ActionFactory($this->service($cartCalculator));
+        return new ServiceFactory($this->repository(), $cartCalculator);
+    }
+
+    protected function dispatch(CommandInterface $command)
+    {
+        $commandBus = $this->getCommandBusWithFakeRepository();
+        $commandBus->execute($command);
+    }
+
+    protected function getCommandBusWithFakeRepository()
+    {
+        return new CommandBus($this->serviceFactoryWithFakeRepositoryFactory());
+    }
+
+    protected function serviceFactoryWithFakeRepositoryFactory(CartCalculatorInterface $cartCalculator = null)
+    {
+        if ($cartCalculator === null) {
+            $cartCalculator = new CartCalculator(new Pricing);
+        }
+
+        return new ServiceFactory($this->fakeRepositoryFactory(), $cartCalculator);
     }
 
     protected function beginTransaction()

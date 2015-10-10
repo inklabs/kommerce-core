@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Service;
 use Symfony\Component\Validator\Validation;
 
 class AbstractPaymentTest extends \PHPUnit_Framework_TestCase

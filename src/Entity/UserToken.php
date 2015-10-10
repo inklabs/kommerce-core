@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\UserTokenDTOBuilder;
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -133,11 +132,6 @@ class UserToken implements ValidationInterface
     public function getUser()
     {
         return $this->user;
-    }
-
-    public function getView()
-    {
-        return new View\UserToken($this);
     }
 
     public function getDTOBuilder()

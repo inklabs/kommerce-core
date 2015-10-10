@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CouponDTOBuilder;
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -114,11 +113,6 @@ class Coupon extends AbstractPromotion
         } else {
             return true;
         }
-    }
-
-    public function getView()
-    {
-        return new View\Coupon($this);
     }
 
     /**

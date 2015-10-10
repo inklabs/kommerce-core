@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\OrderItemTextOptionValue;
-use inklabs\kommerce\Service;
 use inklabs\kommerce\tests\Helper;
 
 class OrderItemTextOptionValueRepositoryTest extends Helper\DoctrineTestCase

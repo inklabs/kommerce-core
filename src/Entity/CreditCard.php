@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CreditCardDTOBuilder;
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -141,11 +140,6 @@ class CreditCard implements ValidationInterface
     public function getExpirationYear()
     {
         return $this->expirationYear;
-    }
-
-    public function getView()
-    {
-        return new View\CreditCard($this);
     }
 
     public function getDTOBuilder()

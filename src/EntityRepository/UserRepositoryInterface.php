@@ -28,4 +28,10 @@ interface UserRepositoryInterface extends AbstractRepositoryInterface
      * @return User[]
      */
     public function getAllUsersByIds($userIds, Pagination & $pagination = null);
+
+    /**
+     * @param string $externalId
+     * @return User|null
+     */
+    public function findOneByExternalId($externalId);
 }

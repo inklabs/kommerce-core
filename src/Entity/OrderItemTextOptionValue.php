@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderItemTextOptionValueDTOBuilder;
-use inklabs\kommerce\View;
 
 class OrderItemTextOptionValue
 {
@@ -62,11 +61,6 @@ class OrderItemTextOptionValue
     public function setOrderItem(OrderItem $orderItem)
     {
         $this->orderItem = $orderItem;
-    }
-
-    public function getView()
-    {
-        return new View\OrderItemTextOptionValue($this);
     }
 
     public function getDTOBuilder()

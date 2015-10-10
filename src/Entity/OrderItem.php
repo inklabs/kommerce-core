@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderItemDTOBuilder;
-use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -251,11 +250,6 @@ class OrderItem implements ValidationInterface
     public function getProductQuantityDiscounts()
     {
         return $this->productQuantityDiscounts;
-    }
-
-    public function getView()
-    {
-        return new View\OrderItem($this);
     }
 
     public function getDTOBuilder()

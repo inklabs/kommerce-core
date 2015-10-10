@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class UserLoginTest extends \PHPUnit_Framework_TestCase
@@ -24,6 +23,5 @@ class UserLoginTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(UserLogin::RESULT_SUCCESS, $userLogin->getResult());
         $this->assertSame('Success', $userLogin->getResultText());
         $this->assertTrue($userLogin->getUser() instanceof User);
-        $this->assertTrue($userLogin->getView() instanceof View\UserLogin);
     }
 }

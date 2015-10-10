@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Lib\PaymentGateway;
 use Symfony\Component\Validator\Validation;
@@ -73,6 +71,5 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($order->getShippingRate() instanceof ShippingRate);
         $this->assertTrue($order->getTaxRate() instanceof TaxRate);
         $this->assertTrue($order->getProducts()[0] instanceof Product);
-        $this->assertTrue($order->getView() instanceof View\Order);
     }
 }

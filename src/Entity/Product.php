@@ -2,9 +2,8 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\ProductDTOBuilder;
-use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -124,24 +123,7 @@ class Product implements ValidationInterface
         ]));
     }
 
-    public function loadFromView(View\Product $viewProduct)
-    {
-        $this->setName($viewProduct->name);
-        $this->setDefaultImage($viewProduct->defaultImage);
-        $this->setUnitPrice($viewProduct->unitPrice);
-        $this->setQuantity($viewProduct->quantity);
-        $this->setIsInventoryRequired($viewProduct->isInventoryRequired);
-        $this->setIsPriceVisible($viewProduct->isPriceVisible);
-        $this->setIsActive($viewProduct->isActive);
-        $this->setIsVisible($viewProduct->isVisible);
-        $this->setIsTaxable($viewProduct->isTaxable);
-        $this->setIsShippable($viewProduct->isShippable);
-        $this->setSku($viewProduct->sku);
-        $this->setShippingWeight($viewProduct->shippingWeight);
-        $this->setDescription($viewProduct->description);
-    }
-
-    public function getPrice(Lib\PricingInterface $pricing, $quantity = 1)
+    public function getPrice(PricingInterface $pricing, $quantity = 1)
     {
         return $pricing->getPrice(
             $this,
@@ -410,11 +392,6 @@ class Product implements ValidationInterface
     public function addProductAttribute(ProductAttribute $productAttribute)
     {
         $this->productAttributes[] = $productAttribute;
-    }
-
-    public function getView()
-    {
-        return new View\Product($this);
     }
 
     public function getDTOBuilder()

@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartItemOptionProductDTOBuilder;
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\PricingInterface;
 
 class CartItemOptionProduct
 {
@@ -35,7 +34,7 @@ class CartItemOptionProduct
         return $this->optionProduct->getSku();
     }
 
-    public function getPrice(Lib\PricingInterface $pricing, $quantity = 1)
+    public function getPrice(PricingInterface $pricing, $quantity = 1)
     {
         return $this->optionProduct->getPrice($pricing, $quantity);
     }
@@ -53,11 +52,6 @@ class CartItemOptionProduct
     public function setCartItem(CartItem $cartItem)
     {
         $this->cartItem = $cartItem;
-    }
-
-    public function getView()
-    {
-        return new View\CartItemOptionProduct($this);
     }
 
     public function getDTOBuilder()

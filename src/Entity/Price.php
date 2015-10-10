@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\PriceDTOBuilder;
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -72,11 +71,6 @@ class Price implements ValidationInterface
         $price->origQuantityPrice = $a->origQuantityPrice + $b->origQuantityPrice;
 
         return $price;
-    }
-
-    public function getView()
-    {
-        return new View\Price($this);
     }
 
     public function getDTOBuilder()

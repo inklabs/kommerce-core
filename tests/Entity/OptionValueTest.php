@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
 use Symfony\Component\Validator\Validation;
 
 class OptionValueTest extends \PHPUnit_Framework_TestCase
@@ -33,6 +31,5 @@ class OptionValueTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(16, $optionValue->getShippingWeight());
         $this->assertTrue($optionValue->getOption() instanceof Option);
         $this->assertTrue($optionValue->getPrice() instanceof Price);
-        $this->assertTrue($optionValue->getView() instanceof View\OptionValue);
     }
 }

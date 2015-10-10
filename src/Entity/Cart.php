@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartDTOBuilder;
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\CartCalculatorInterface;
 use InvalidArgumentException;
 use LogicException;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -220,12 +219,12 @@ class Cart implements ValidationInterface
         return (int) ceil($this->getShippingWeight() / 16);
     }
 
-    public function getTotal(Lib\CartCalculatorInterface $cartCalculator)
+    public function getTotal(CartCalculatorInterface $cartCalculator)
     {
         return $cartCalculator->getTotal($this);
     }
 
-    public function getOrder(Lib\CartCalculatorInterface $cartCalculator)
+    public function getOrder(CartCalculatorInterface $cartCalculator)
     {
         $order = new Order;
         $order->setTotal($this->getTotal($cartCalculator));
@@ -263,11 +262,6 @@ class Cart implements ValidationInterface
     public function setTaxRate(TaxRate $taxRate = null)
     {
         $this->taxRate = $taxRate;
-    }
-
-    public function getView()
-    {
-        return new View\Cart($this);
     }
 
     public function getDTOBuilder()

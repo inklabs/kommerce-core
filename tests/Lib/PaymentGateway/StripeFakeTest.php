@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\CreditCard;
 
 class StripeFakeTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetCharge()
     {
-        $creditCard = new Entity\CreditCard;
+        $creditCard = new CreditCard;
         $creditCard->setName('John Doe');
         $creditCard->setZip5('90210');
         $creditCard->setNumber('4242424242424242');

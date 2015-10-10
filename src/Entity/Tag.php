@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\TagDTOBuilder;
-use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -77,16 +76,6 @@ class Tag implements ValidationInterface
             'min' => 0,
             'max' => 65535,
         ]));
-    }
-
-    public function loadFromView(View\Tag $viewTag)
-    {
-        $this->setName($viewTag->name);
-        $this->setDescription($viewTag->description);
-        $this->setDefaultImage($viewTag->defaultImage);
-        $this->setSortOrder($viewTag->sortOrder);
-        $this->setIsVisible($viewTag->isVisible);
-        $this->setIsActive($viewTag->isActive);
     }
 
     public function addProduct(Product $product)
@@ -209,11 +198,6 @@ class Tag implements ValidationInterface
     public function isVisible()
     {
         return $this->isVisible;
-    }
-
-    public function getView()
-    {
-        return new View\Tag($this);
     }
 
     public function getDTOBuilder()

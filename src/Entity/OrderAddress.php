@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -71,11 +70,6 @@ class OrderAddress implements ValidationInterface
         $metadata->addPropertyConstraint('email', new Assert\Length([
             'max' => 128,
         ]));
-    }
-
-    public function getView()
-    {
-        return new View\OrderAddress($this);
     }
 
     public function getDTOBuilder()

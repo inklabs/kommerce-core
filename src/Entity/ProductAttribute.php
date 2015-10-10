@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\ProductAttributeDTOBuilder;
-use inklabs\kommerce\View;
 
 class ProductAttribute
 {
@@ -50,11 +49,6 @@ class ProductAttribute
     public function setAttributeValue(AttributeValue $attributeValue)
     {
         $this->attributeValue = $attributeValue;
-    }
-
-    public function getView()
-    {
-        return new View\ProductAttribute($this);
     }
 
     public function getDTOBuilder()

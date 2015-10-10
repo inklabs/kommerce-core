@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class CouponTest extends \PHPUnit_Framework_TestCase
@@ -32,7 +31,6 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(100000, $coupon->getMaxOrderValue());
         $this->assertTrue($coupon->getFlagFreeShipping());
         $this->assertTrue($coupon->getCanCombineWithOtherCoupons());
-        $this->assertTrue($coupon->getView() instanceof View\Coupon);
     }
 
     public function testIsMinOrderValueValid()

@@ -1,9 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
-
 class OrderItemOptionValueTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -30,6 +27,5 @@ class OrderItemOptionValueTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Medium Shirt', $orderItemOptionValue->getOptionValueName());
         $this->assertTrue($orderItemOptionValue->getOptionValue() instanceof OptionValue);
         $this->assertTrue($orderItemOptionValue->getOrderItem() instanceof OrderItem);
-        $this->assertTrue($orderItemOptionValue->getView() instanceof View\OrderItemOptionValue);
     }
 }

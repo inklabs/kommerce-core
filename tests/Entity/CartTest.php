@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\CartCalculator;
+use inklabs\kommerce\Lib\Pricing;
 use Symfony\Component\Validator\Validation;
 
 class CartTest extends \PHPUnit_Framework_TestCase
@@ -43,7 +43,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($cart->getCoupons()[0] instanceof Coupon);
         $this->assertTrue($cart->getShippingRate() instanceof ShippingRate);
         $this->assertTrue($cart->getTaxRate() instanceof TaxRate);
-        $this->assertTrue($cart->getView() instanceof View\Cart);
     }
 
     public function testAddCartItemWithDuplicate()
@@ -222,7 +221,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart = new Cart;
         $cart->addCartItem($cartItem);
 
-        $cartCalculator = new Lib\CartCalculator(new Lib\Pricing);
+        $cartCalculator = new CartCalculator(new Pricing);
         $this->assertTrue($cart->getTotal($cartCalculator) instanceof CartTotal);
     }
 
@@ -240,7 +239,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addCoupon(new Coupon);
         $cart->setShippingRate(new ShippingRate);
 
-        $order = $cart->getOrder(new Lib\CartCalculator(new Lib\Pricing));
+        $order = $cart->getOrder(new CartCalculator(new Pricing));
 
         $this->assertTrue($order instanceof Order);
     }

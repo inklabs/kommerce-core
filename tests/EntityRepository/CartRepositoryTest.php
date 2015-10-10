@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Cart;
-use inklabs\kommerce\Service;
 use inklabs\kommerce\tests\Helper;
 
 class CartRepositoryTest extends Helper\DoctrineTestCase

@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
@@ -25,6 +24,5 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(0, $attribute->getSortOrder());
         $this->assertTrue($attribute->getAttributeValues()[0] instanceof AttributeValue);
         $this->assertTrue($attribute->getProductAttributes()[0] instanceof ProductAttribute);
-        $this->assertTrue($attribute->getView() instanceof View\Attribute);
     }
 }

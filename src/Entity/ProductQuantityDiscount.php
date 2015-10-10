@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\ProductQuantityDiscountDTOBuilder;
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -52,7 +51,7 @@ class ProductQuantityDiscount extends AbstractPromotion
         return '$' . number_format(($priceInCents / 100), 2);
     }
 
-    public function getPrice(Lib\PricingInterface $pricing)
+    public function getPrice(PricingInterface $pricing)
     {
         return $pricing->getPrice(
             $this->product,
@@ -113,11 +112,6 @@ class ProductQuantityDiscount extends AbstractPromotion
         } else {
             return false;
         }
-    }
-
-    public function getView()
-    {
-        return new View\ProductQuantityDiscount($this);
     }
 
     /**

@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OptionProductDTOBuilder;
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -65,11 +64,11 @@ class OptionProduct implements ValidationInterface
     }
 
     /**
-     * @param Lib\PricingInterface $pricing
+     * @param PricingInterface $pricing
      * @param int $quantity
      * @return Price
      */
-    public function getPrice(Lib\PricingInterface $pricing, $quantity = 1)
+    public function getPrice(PricingInterface $pricing, $quantity = 1)
     {
         return $this->getProduct()->getPrice($pricing, $quantity);
     }
@@ -83,11 +82,6 @@ class OptionProduct implements ValidationInterface
     public function getProduct()
     {
         return $this->product;
-    }
-
-    public function getView()
-    {
-        return new View\OptionProduct($this);
     }
 
     public function getDTOBuilder()

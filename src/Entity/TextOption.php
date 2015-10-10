@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\TextOptionDTOBuilder;
-use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -137,11 +136,6 @@ class TextOption implements ValidationInterface
     public function getSortOrder()
     {
         return $this->sortOrder;
-    }
-
-    public function getView()
-    {
-        return new View\TextOption($this);
     }
 
     public function getDTOBuilder()

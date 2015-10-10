@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\DoctrineHelper;
 use inklabs\kommerce\tests\Helper;
 use Doctrine;
 
@@ -17,7 +17,7 @@ class KommerceTest extends Helper\DoctrineTestCase
 
     public function testClearCache()
     {
-        $kommerce = new Kommerce(new Doctrine\Common\Cache\ArrayCache());
+        $kommerce = new DoctrineHelper(new Doctrine\Common\Cache\ArrayCache());
         $kommerce->setup([
             'driver'   => 'pdo_sqlite',
             'memory'   => true,

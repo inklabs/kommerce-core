@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\Pricing;
 use Symfony\Component\Validator\Validation;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
@@ -61,7 +60,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($product->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
         $this->assertTrue($product->getOptionProducts()[0] instanceof OptionProduct);
         $this->assertTrue($product->getProductAttributes()[0] instanceof ProductAttribute);
-        $this->assertTrue($product->getView() instanceof View\Product);
     }
 
     public function testRemoveTag()
@@ -103,13 +101,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1, count($product->getProductQuantityDiscounts()));
     }
 
-    public function testLoadFromView()
-    {
-        $product = new Product;
-        $product->loadFromView(new View\Product(new Product));
-        $this->assertTrue($product instanceof Product);
-    }
-
     public function testInStock()
     {
         $product = new Product;
@@ -137,6 +128,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $product = new Product;
         $product->setQuantity(1);
-        $this->assertTrue($product->getPrice(new Lib\Pricing) instanceof Price);
+        $this->assertTrue($product->getPrice(new Pricing) instanceof Price);
     }
 }

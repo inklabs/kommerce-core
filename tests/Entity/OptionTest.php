@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
@@ -27,6 +26,5 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($option->getTags()[0] instanceof Tag);
         $this->assertTrue($option->getOptionProducts()[0] instanceof OptionProduct);
         $this->assertTrue($option->getOptionValues()[0] instanceof OptionValue);
-        $this->assertTrue($option->getView() instanceof View\Option);
     }
 }

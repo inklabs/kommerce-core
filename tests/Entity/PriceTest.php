@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class PriceTest extends \PHPUnit_Framework_TestCase
@@ -23,7 +22,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($validator->validate($price));
         $this->assertTrue($price->getCatalogPromotions()[0] instanceof CatalogPromotion);
         $this->assertTrue($price->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
-        $this->assertTrue($price->getView() instanceof View\Price);
     }
 
     public function testAdd()

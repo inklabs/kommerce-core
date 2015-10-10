@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\EntityDTO\Builder\AttributeDTOBuilder;
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -96,11 +95,6 @@ class Attribute implements ValidationInterface
     public function addProductAttribute(ProductAttribute $productAttribute)
     {
         $this->productAttributes[] = $productAttribute;
-    }
-
-    public function getView()
-    {
-        return new View\Attribute($this);
     }
 
     public function getDTOBuilder()

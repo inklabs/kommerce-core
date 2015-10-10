@@ -2,8 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OptionValueDTOBuilder;
-use inklabs\kommerce\Service;
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -134,11 +132,6 @@ class OptionValue implements ValidationInterface
     public function getOption()
     {
         return $this->option;
-    }
-
-    public function getView()
-    {
-        return new View\OptionValue($this);
     }
 
     public function getDTOBuilder()

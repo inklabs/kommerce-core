@@ -1,9 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
-
 class CartItemTextOptionValueTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -21,6 +18,5 @@ class CartItemTextOptionValueTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Happy Birthday', $cartItemTextOptionValue->getTextOptionValue());
         $this->assertTrue($cartItemTextOptionValue->getTextOption() instanceof TextOption);
         $this->assertTrue($cartItemTextOptionValue->getCartItem() instanceof CartItem);
-        $this->assertTrue($cartItemTextOptionValue->getView() instanceof View\CartItemTextOptionValue);
     }
 }

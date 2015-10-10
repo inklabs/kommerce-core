@@ -1,7 +1,8 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper;
 
 class AbstractServiceTest extends Helper\DoctrineTestCase
@@ -18,9 +19,9 @@ class AbstractServiceTest extends Helper\DoctrineTestCase
 
         $mockAbstractService
             ->shouldReceive('find')
-            ->andReturn(new Entity\Product);
+            ->andReturn(new Product);
 
-        $tag = new Entity\Tag;
+        $tag = new Tag;
         $tag->setName('Test Tag');
         $tag->setDescription('Test Description');
         $tag->setDefaultImage('http://lorempixel.com/400/200/');
@@ -42,9 +43,9 @@ class AbstractServiceTest extends Helper\DoctrineTestCase
 
         $mockAbstractService
             ->shouldReceive('find')
-            ->andReturn(new Entity\Product);
+            ->andReturn(new Product);
 
-        $tag = new Entity\Tag;
+        $tag = new Tag;
         $tag->setName('Test Tag');
         $tag->setDescription('Test Description');
         $tag->setDefaultImage('http://lorempixel.com/400/200/');

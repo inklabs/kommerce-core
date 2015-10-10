@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\Action\CommandInterface;
 use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Lib\Command\CommandInterface;
 
 class EditTagCommand implements CommandInterface
 {

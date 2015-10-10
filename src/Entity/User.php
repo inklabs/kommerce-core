@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
-use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -99,15 +98,6 @@ class User implements ValidationInterface
             'choices' => array_keys(static::getStatusMapping()),
             'message' => 'The status is not a valid choice',
         ]));
-    }
-
-    public function loadFromView(View\User $viewUser)
-    {
-        $this->setFirstName($viewUser->firstName);
-        $this->setLastName($viewUser->lastName);
-        $this->setEmail($viewUser->email);
-        $this->setExternalId($viewUser->externalId);
-        $this->setStatus($viewUser->status);
     }
 
     public function getCart()
@@ -290,11 +280,6 @@ class User implements ValidationInterface
     public function getOrders()
     {
         return $this->orders;
-    }
-
-    public function getView()
-    {
-        return new View\User($this);
     }
 
     public function getDTOBuilder()

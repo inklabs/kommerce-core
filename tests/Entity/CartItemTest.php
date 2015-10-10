@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Lib;
-use inklabs\kommerce\View;
+use inklabs\kommerce\Lib\Pricing;
 use Symfony\Component\Validator\Validation;
 use inklabs\kommerce\tests\Helper;
 
@@ -12,7 +11,7 @@ class CartItemTest extends Helper\DoctrineTestCase
     {
         $cartItem = $this->getDummyFullCartItem();
 
-        $pricing = new Lib\Pricing;
+        $pricing = new Pricing;
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -29,7 +28,6 @@ class CartItemTest extends Helper\DoctrineTestCase
         $this->assertTrue($cartItem->getCartItemTextOptionValues()[0] instanceof CartItemTextOptionValue);
         $this->assertTrue($cartItem->getPrice($pricing) instanceof Price);
         $this->assertTrue($cartItem->getCart() instanceof Cart);
-        $this->assertTrue($cartItem->getView() instanceof View\CartItem);
     }
 
     public function testClone()
@@ -58,7 +56,7 @@ class CartItemTest extends Helper\DoctrineTestCase
     public function testGetOrderItem()
     {
         $cartItem = $this->getDummyFullCartItem();
-        $orderItem = $cartItem->getOrderItem(new Lib\Pricing);
+        $orderItem = $cartItem->getOrderItem(new Pricing);
 
         $this->assertTrue($orderItem instanceof OrderItem);
         $this->assertTrue($orderItem->getProduct() instanceof Product);

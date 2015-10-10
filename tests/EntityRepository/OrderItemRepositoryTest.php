@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\OrderItem;
-use inklabs\kommerce\Service;
 use inklabs\kommerce\tests\Helper;
 
 class OrderItemRepositoryTest extends Helper\DoctrineTestCase

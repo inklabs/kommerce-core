@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-
 class ShippingRateTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -29,6 +27,5 @@ class ShippingRateTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('90403', $rate->getZip5());
         $this->assertSame('CA', $rate->getState());
         $this->assertSame(true, $rate->isResidential());
-        $this->assertTrue($rate->getView() instanceof View\ShippingRate);
     }
 }

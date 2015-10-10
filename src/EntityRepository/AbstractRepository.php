@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use Doctrine\ORM\EntityRepository;
 use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
-use inklabs\kommerce\Lib;
 use inklabs\kommerce\Entity\EntityInterface;
 
 abstract class AbstractRepository extends EntityRepository implements AbstractRepositoryInterface

@@ -1,11 +1,11 @@
 <?php
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
-use inklabs\kommerce\Service\Kommerce;
+use inklabs\kommerce\Lib\DoctrineHelper;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$kommerce = new Kommerce(new Doctrine\Common\Cache\ArrayCache());
-$kommerce->setup([
+$doctrineHelper = new DoctrineHelper(new Doctrine\Common\Cache\ArrayCache());
+$doctrineHelper->setup([
     'driver' => 'pdo_mysql',
     'dbname' => 'test',
     'user' => 'root',
@@ -14,7 +14,7 @@ $kommerce->setup([
     'port' => '4409',
 ]);
 
-$entityManager = $kommerce->getEntityManager();
+$entityManager = $doctrineHelper->getEntityManager();
 
 // Fix MySQL enum
 $platform = $entityManager->getConnection()->getDatabasePlatform();

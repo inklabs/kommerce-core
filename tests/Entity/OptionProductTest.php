@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\Pricing;
 use Symfony\Component\Validator\Validation;
 
 class OptionProductTest extends \PHPUnit_Framework_TestCase
@@ -33,9 +32,8 @@ class OptionProductTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('SM', $optionProduct->getSku());
         $this->assertSame('Small Shirt', $optionProduct->getName());
         $this->assertSame(16, $optionProduct->getShippingWeight());
-        $this->assertTrue($optionProduct->getPrice(new Lib\Pricing) instanceof Price);
+        $this->assertTrue($optionProduct->getPrice(new Pricing) instanceof Price);
         $this->assertTrue($optionProduct->getOption() instanceof Option);
         $this->assertTrue($optionProduct->getProduct() instanceof Product);
-        $this->assertTrue($optionProduct->getView() instanceof View\OptionProduct);
     }
 }

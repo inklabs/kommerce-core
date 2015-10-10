@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-class CSVIterator implements \Iterator
+use Iterator;
+
+class CSVIterator implements Iterator
 {
     /** @var int */
     private $rowLength = 2048;

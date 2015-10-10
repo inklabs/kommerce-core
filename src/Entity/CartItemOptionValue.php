@@ -2,8 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartItemOptionValueDTOBuilder;
-use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
 
 class CartItemOptionValue
 {
@@ -53,11 +51,6 @@ class CartItemOptionValue
     public function setCartItem(CartItem $cartItem)
     {
         $this->cartItem = $cartItem;
-    }
-
-    public function getView()
-    {
-        return new View\CartItemOptionValue($this);
     }
 
     public function getDTOBuilder()

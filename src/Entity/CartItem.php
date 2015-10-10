@@ -2,9 +2,8 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartItemDTOBuilder;
-use inklabs\kommerce\Lib;
-use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -147,7 +146,7 @@ class CartItem implements ValidationInterface
         $this->cartItemTextOptionValues[] = $cartItemTextOptionValue;
     }
 
-    public function getPrice(Lib\PricingInterface $pricing)
+    public function getPrice(PricingInterface $pricing)
     {
         $price = $this->getProduct()->getPrice(
             $pricing,
@@ -211,7 +210,7 @@ class CartItem implements ValidationInterface
         return $quantityShippingWeight;
     }
 
-    public function getOrderItem(Lib\PricingInterface $pricing)
+    public function getOrderItem(PricingInterface $pricing)
     {
         $orderItem = new OrderItem;
         $orderItem->setProduct($this->getProduct());
@@ -238,11 +237,6 @@ class CartItem implements ValidationInterface
         }
 
         return $orderItem;
-    }
-
-    public function getView()
-    {
-        return new View\CartItem($this);
     }
 
     public function getDTOBuilder()

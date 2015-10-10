@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class TextOptionTest extends \PHPUnit_Framework_TestCase
@@ -26,6 +25,5 @@ class TextOptionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Custom engraved message', $textOption->getDescription());
         $this->assertSame(0, $textOption->getSortOrder());
         $this->assertTrue($textOption->getTags()[0] instanceof Tag);
-        $this->assertTrue($textOption->getView() instanceof View\TextOption);
     }
 }

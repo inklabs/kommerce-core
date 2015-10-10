@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\EntityValidator;
 use inklabs\kommerce\Entity\ValidationInterface;
-use inklabs\kommerce\Lib;
 
 abstract class AbstractService
 {

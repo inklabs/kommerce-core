@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use inklabs\kommerce\EntityDTO\Builder\UserRoleDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -52,11 +51,6 @@ class UserRole implements ValidationInterface
     public function getDescription()
     {
         return $this->description;
-    }
-
-    public function getView()
-    {
-        return new View\UserRole($this);
     }
 
     public function getDTOBuilder()

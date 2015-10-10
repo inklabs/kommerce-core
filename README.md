@@ -125,24 +125,6 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       $charge = $stripe->getCharge($chargeRequest);
       ```
 
-* View (Deprecated)
-    - Often you want to use your entities as plain value objects in your main application, typically in your HTML
-      templates. These classes format the entities as simple objects with public class member variables. The
-      complete network graph relationships are also available if you request them (e.g., withAllData()).
-
-      ```php
-      $product = new Entity\Product;
-      $product->addTag(new Entity\Tag);
-
-      $viewProduct = new View\Product($product)
-        ->withAllData(new Lib\Pricing)
-        ->export();
-
-      echo $viewProduct->sku;
-      echo $viewProduct->price->unitPrice;
-      echo $viewProduct->tags[0]->name;
-      ```
-
 ## Installation
 
 Add the following lines to your ``composer.json`` file.
@@ -174,7 +156,7 @@ Add the following lines to your ``composer.json`` file.
 ## Run Coding Standards Test:
 
 <pre>
-    vendor/bin/phpcs --standard=PSR2 src/ tests/
+    vendor/bin/phpcs -p --standard=PSR2 src/ tests/
 </pre>
 
 ## Count Lines of Code:
@@ -189,7 +171,6 @@ Add the following lines to your ``composer.json`` file.
     vendor/bin/doctrine orm:schema-tool:create --dump-sql
     vendor/bin/doctrine orm:schema-tool:update --dump-sql
 </pre>
-
 
 ## License
 

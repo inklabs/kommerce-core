@@ -23,6 +23,11 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
         return $user;
     }
 
+    public function findOneByExternalId($externalId)
+    {
+        return parent::findOneBy(['externalId' => $externalId]);
+    }
+
     public function getAllUsers($queryString = null, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();

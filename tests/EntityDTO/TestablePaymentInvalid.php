@@ -5,10 +5,6 @@ use inklabs\kommerce\Entity\AbstractPayment;
 
 class TestablePaymentInvalid extends AbstractPayment
 {
-    public function getView()
-    {
-    }
-
     /**
      * @return TestablePaymentInvalidDTOBuilder
      */

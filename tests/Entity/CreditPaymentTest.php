@@ -1,8 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Lib;
+use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
+use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
+use inklabs\kommerce\Lib\PaymentGateway\StripeFake;
 use Symfony\Component\Validator\Validation;
 
 class CreditPaymentTest extends \PHPUnit_Framework_TestCase
@@ -16,13 +17,13 @@ class CreditPaymentTest extends \PHPUnit_Framework_TestCase
         $creditCard->setExpirationMonth('1');
         $creditCard->setExpirationYear('2020');
 
-        $chargeRequest = new Lib\PaymentGateway\ChargeRequest;
+        $chargeRequest = new ChargeRequest;
         $chargeRequest->setCreditCard($creditCard);
         $chargeRequest->setAmount(100);
         $chargeRequest->setCurrency('usd');
         $chargeRequest->setDescription('test@example.com');
 
-        $payment = new CreditPayment($chargeRequest, new Lib\PaymentGateway\StripeFake);
+        $payment = new CreditPayment($chargeRequest, new StripeFake);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -30,7 +31,6 @@ class CreditPaymentTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($validator->validate($payment));
         $this->assertSame(100, $payment->getAmount());
-        $this->assertTrue($payment->getChargeResponse() instanceof Lib\PaymentGateway\ChargeResponse);
-        $this->assertTrue($payment->getView() instanceof View\CreditPayment);
+        $this->assertTrue($payment->getChargeResponse() instanceof ChargeResponse);
     }
 }

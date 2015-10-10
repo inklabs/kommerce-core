@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-
 class ProductAttributeTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -15,6 +13,5 @@ class ProductAttributeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($productAttribute->getProduct() instanceof Product);
         $this->assertTrue($productAttribute->getAttribute() instanceof Attribute);
         $this->assertTrue($productAttribute->getAttributeValue() instanceof AttributeValue);
-        $this->assertTrue($productAttribute->getView() instanceof View\ProductAttribute);
     }
 }

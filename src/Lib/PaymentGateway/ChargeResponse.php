@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Lib\PaymentGateway;
 
 use inklabs\kommerce\Entity\ValidationInterface;
 use inklabs\kommerce\EntityDTO\Builder\ChargeResponseDTOBuilder;
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -159,11 +158,6 @@ class ChargeResponse implements ValidationInterface
     public function setDescription($description)
     {
         $this->description = (string) $description;
-    }
-
-    public function getView()
-    {
-        return new View\ChargeResponse($this);
     }
 
     public function getDTOBuilder()

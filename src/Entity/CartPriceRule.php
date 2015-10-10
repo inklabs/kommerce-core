@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDTOBuilder;
-use inklabs\kommerce\View;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -72,11 +71,6 @@ class CartPriceRule extends AbstractPromotion
         } else {
             return false;
         }
-    }
-
-    public function getView()
-    {
-        return new View\CartPriceRule($this);
     }
 
     /**

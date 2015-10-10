@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class UserRoleTest extends \PHPUnit_Framework_TestCase
@@ -19,6 +18,5 @@ class UserRoleTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($validator->validate($userRole));
         $this->assertSame('Administrator', $userRole->getName());
         $this->assertSame('Admin account with access to everything.', $userRole->getDescription());
-        $this->assertTrue($userRole->getView() instanceof View\UserRole);
     }
 }

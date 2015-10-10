@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartTotalDTOBuilder;
-use inklabs\kommerce\View;
 
 class CartTotal
 {
@@ -41,11 +40,6 @@ class CartTotal
 
     /** @var TaxRate */
     public $taxRate;
-
-    public function getView()
-    {
-        return new View\CartTotal($this);
-    }
 
     public function getDTOBuilder()
     {

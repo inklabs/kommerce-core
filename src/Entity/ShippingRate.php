@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\ShippingRateDTOBuilder;
-use inklabs\kommerce\View;
 
 class ShippingRate
 {
@@ -164,11 +163,6 @@ class ShippingRate
     public function setIsResidential($isResidential)
     {
         $this->isResidential = (bool) $isResidential;
-    }
-
-    public function getView()
-    {
-        return new View\ShippingRate($this);
     }
 
     public function getDTOBuilder()

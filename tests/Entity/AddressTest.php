@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use Symfony\Component\Validator\Validation;
-use inklabs\kommerce\View;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,6 +32,5 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('90401', $address->getZip5());
         $this->assertSame('3274', $address->getZip4());
         $this->assertTrue($address->getPoint() instanceof Point);
-        $this->assertTrue($address->getView() instanceof View\Address);
     }
 }

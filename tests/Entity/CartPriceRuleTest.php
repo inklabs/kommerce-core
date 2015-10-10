@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -18,13 +17,12 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($validator->validate($cartPriceRule));
         $this->assertSame(0, count($cartPriceRule->getCartPriceRuleItems()));
         $this->assertSame(0, count($cartPriceRule->getCartPriceRuleDiscounts()));
-        $this->assertTrue($cartPriceRule->getView() instanceof View\CartPriceRule);
     }
 
     public function testAdders()
     {
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem(new Product, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProductItem(new Product, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount(new Product, 1));
         $this->assertSame(1, count($cartPriceRule->getCartPriceRuleItems()));
         $this->assertSame(1, count($cartPriceRule->getCartPriceRuleDiscounts()));
@@ -36,7 +34,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product->setid(1);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem($product, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProductItem($product, 1));
 
         $cartItem = new CartItem;
         $cartItem->setProduct($product);
@@ -57,8 +55,8 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product2->setid(2);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem($product1, 1));
-        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem($product2, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProductItem($product1, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProductItem($product2, 1));
 
         $cartItem1 = new CartItem;
         $cartItem1->setProduct($product1);
@@ -84,7 +82,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product2->setid(2);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem($product1, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProductItem($product1, 1));
 
         $cartItem = new CartItem;
         $cartItem->setProduct($product2);
@@ -102,7 +100,7 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $product->setid(1);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new \inklabs\kommerce\Entity\CartPriceRuleProductItem($product, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProductItem($product, 1));
 
         $cartItem = new CartItem;
         $cartItem->setProduct($product);

@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-
 class CartTotalTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -22,6 +20,5 @@ class CartTotalTest extends \PHPUnit_Framework_TestCase
         $cartTotal->taxRate = new TaxRate;
 
         $this->assertTrue($cartTotal instanceof CartTotal);
-        $this->assertTrue($cartTotal->getView() instanceof View\CartTotal);
     }
 }

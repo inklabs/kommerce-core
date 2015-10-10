@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity\CashPayment;
-use inklabs\kommerce\Service;
 use inklabs\kommerce\tests\Helper;
 
 class PaymentRepositoryTest extends Helper\DoctrineTestCase

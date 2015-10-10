@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
-use inklabs\kommerce\Service;
 use Symfony\Component\Validator\Validation;
 
 class UserTest extends \PHPUnit_Framework_TestCase
@@ -55,20 +53,12 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($user->getLogins()[0] instanceof UserLogin);
         $this->assertTrue($user->getOrders()[0] instanceof Order);
         $this->assertTrue($user->getCart() instanceof Cart);
-        $this->assertTrue($user->getView() instanceof View\User);
     }
 
     public function testSetPasswordEmpty()
     {
         $user = new User;
         $user->setPassword();
-    }
-
-    public function testLoadFromView()
-    {
-        $user = new User;
-        $user->loadFromView(new View\User(new User));
-        $this->assertTrue($user instanceof User);
     }
 
     public function testVerifyPassword()

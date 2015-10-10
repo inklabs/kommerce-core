@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class TaxRateTest extends \PHPUnit_Framework_TestCase
@@ -27,7 +26,6 @@ class TaxRateTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(null, $taxRate->getZip5To());
         $this->assertSame(8.0, $taxRate->getRate());
         $this->assertSame(false, $taxRate->getApplyToShipping());
-        $this->assertTrue($taxRate->getView() instanceof View\TaxRate);
     }
 
     public function testGetTax()

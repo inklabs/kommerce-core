@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\Action\CommandInterface;
+use inklabs\kommerce\Lib\Command\CommandInterface;
 
 class GetTagCommand implements CommandInterface
 {

@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentGenerator;
-use inklabs\kommerce\Service;
 use inklabs\kommerce\tests\Helper;
 
 class OrderRepositoryTest extends Helper\DoctrineTestCase

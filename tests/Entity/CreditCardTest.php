@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class CreditCardTest extends \PHPUnit_Framework_TestCase
@@ -26,6 +25,5 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('123', $creditCard->getCvc());
         $this->assertSame('01', $creditCard->getExpirationMonth());
         $this->assertSame('2020', $creditCard->getExpirationYear());
-        $this->assertTrue($creditCard->getView() instanceof View\CreditCard);
     }
 }

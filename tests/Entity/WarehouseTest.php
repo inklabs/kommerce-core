@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\View;
 use Symfony\Component\Validator\Validation;
 
 class WarehouseTest extends \PHPUnit_Framework_TestCase
@@ -27,6 +26,5 @@ class WarehouseTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($validator->validate($warehouse));
         $this->assertSame('Store Headquarters', $warehouse->getName());
         $this->assertTrue($warehouse->getAddress() instanceof Address);
-        $this->assertTrue($warehouse->getView() instanceof View\Warehouse);
     }
 }
