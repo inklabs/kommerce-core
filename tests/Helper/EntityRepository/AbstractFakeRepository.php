@@ -18,6 +18,8 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
     /** @var Exception|null */
     public $crudExceptionToThrow;
 
+    protected $entityName = 'Entity';
+
     protected function getReturnValue()
     {
         return $this->returnValue;
@@ -60,7 +62,12 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
             return $this->entities[$id];
         }
 
-        throw new EntityNotFoundException;
+        throw $this->getEntityNotFoundException();
+    }
+
+    protected function getEntityNotFoundException()
+    {
+        return new EntityNotFoundException($this->entityName . ' not found');
     }
 
     public function getQueryBuilder()

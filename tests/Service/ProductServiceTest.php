@@ -1,15 +1,12 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeImageRepository;
-use LogicException;
 
 class ProductServiceTest extends Helper\DoctrineTestCase
 {
@@ -79,10 +76,9 @@ class ProductServiceTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException LogicException
-     * @expectedExceptionMessage Missing Product
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
      */
-    public function testAddTagWithMissingProduct()
+    public function testAddTagWithMissingProductThrowsException()
     {
         $this->productRepository->setReturnValue(null);
 
@@ -92,10 +88,9 @@ class ProductServiceTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException LogicException
-     * @expectedExceptionMessage Missing Tag
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
      */
-    public function testAddTagWithMissingTag()
+    public function testAddTagWithMissingTagThrowsException()
     {
         $product = new Product;
         $this->productRepository->create($product);
@@ -131,10 +126,9 @@ class ProductServiceTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException LogicException
-     * @expectedExceptionMessage Missing Image
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
      */
-    public function testRemoveImageWithMissingImage()
+    public function testRemoveImageWithMissingImageThrowsException()
     {
         $product = new Product;
         $this->productRepository->create($product);

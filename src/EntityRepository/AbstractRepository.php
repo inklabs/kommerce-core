@@ -59,9 +59,14 @@ abstract class AbstractRepository extends EntityRepository implements AbstractRe
     protected function returnOrThrowNotFoundException($entity)
     {
         if ($entity === null) {
-            throw new EntityNotFoundException;
+            throw $this->getEntityNotFoundException();
         }
 
         return $entity;
+    }
+
+    protected function getEntityNotFoundException()
+    {
+        return new EntityNotFoundException($this->getClassName() . ' not found');
     }
 }

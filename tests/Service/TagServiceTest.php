@@ -55,24 +55,6 @@ class TagServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($tag instanceof Tag);
     }
 
-    public function testGetTagAndThrowExceptionIfMissing()
-    {
-        $this->tagRepository->create(new Tag);
-
-        $tag = $this->tagService->getTagAndThrowExceptionIfMissing(1);
-        $this->assertTrue($tag instanceof Tag);
-    }
-
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Missing Tag
-     */
-    public function testGetTagAndThrowExceptionIfMissingThrows()
-    {
-        $this->tagRepository->setReturnValue(null);
-        $this->tagService->getTagAndThrowExceptionIfMissing(1);
-    }
-
     public function testGetAllTags()
     {
         $tags = $this->tagService->getAllTags();

@@ -57,7 +57,7 @@ class UserTokenRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $userToken = $this->userTokenRepository->find(1);
+        $userToken = $this->userTokenRepository->findOneById(1);
 
         $userToken->getUser()->getEmail();
 

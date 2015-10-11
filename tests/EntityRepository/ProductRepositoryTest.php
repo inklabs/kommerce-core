@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use Exception;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
@@ -46,7 +47,6 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
         $productQuantityDiscount = $this->getDummyProductQuantityDiscount();
         $product->addProductQuantityDiscount($productQuantityDiscount);
-        echo $productQuantityDiscount->getId();
 
         $this->assertSame(null, $product->getUpdated());
         $this->productRepository->save($product);
@@ -55,13 +55,19 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
         $product->removeProductQuantityDiscount($product->getProductQuantityDiscounts()[0]);
         $this->productRepository->save($product);
-        $this->assertSame(null, $this->repository()->getProductQuantityDiscountRepository()->find(1));
+
+        try {
+            $this->repository()->getProductQuantityDiscountRepository()->findOneById(1);
+            $this->assertTrue(false);
+        } catch (Exception $e) {
+            $this->assertTrue(true);
+        }
 
         $this->productRepository->remove($product);
         $this->assertSame(null, $product->getId());
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
         $this->setupProduct();
 
@@ -77,6 +83,15 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($product instanceof Product);
         $this->assertSame(6, $this->countSQLLogger->getTotalQueries());
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Product not found
+     */
+    public function testFindOneByIdThrowsException()
+    {
+        $this->productRepository->findOneById(1);
     }
 
     public function testGetRelatedProducts()

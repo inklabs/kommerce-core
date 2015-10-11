@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 
@@ -91,7 +92,8 @@ class UserService extends AbstractService
 
     /**
      * @param int $id
-     * @return User|null
+     * @return User
+     * @throws EntityNotFoundException
      */
     public function findOneById($id)
     {

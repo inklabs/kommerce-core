@@ -46,8 +46,7 @@ class CartPriceRuleItemRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $cartPriceRuleItem = $this->getRepository()
-            ->find(1);
+        $cartPriceRuleItem = $this->getRepository()->findOneById(1);
 
         $cartPriceRuleItem->getProduct()->getName();
         $cartPriceRuleItem->getCartPriceRule()->getName();

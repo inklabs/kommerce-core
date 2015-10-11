@@ -44,16 +44,25 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $warehouse->getId());
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
         $this->setupWarehouse();
 
         $this->setCountLogger();
 
-        $warehouse = $this->warehouseRepository->find(1);
+        $warehouse = $this->warehouseRepository->findOneById(1);
 
         $this->assertTrue($warehouse instanceof Warehouse);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Warehouse not found
+     */
+    public function testFindOneByIdThrowsException()
+    {
+        $this->warehouseRepository->findOneById(1);
     }
 
     public function testFindByPointNotInRange()

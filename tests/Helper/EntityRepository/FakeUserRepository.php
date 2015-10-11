@@ -11,6 +11,8 @@ use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
  */
 class FakeUserRepository extends AbstractFakeRepository implements UserRepositoryInterface
 {
+    protected $entityName = 'User';
+
     public function __construct()
     {
         $this->setReturnValue(new User);

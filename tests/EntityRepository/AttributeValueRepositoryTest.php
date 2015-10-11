@@ -33,7 +33,7 @@ class AttributeValueRepositoryTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
         $this->setupAttributeValue();
 
@@ -46,6 +46,15 @@ class AttributeValueRepositoryTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($attributeValue instanceof AttributeValue);
         $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage AttributeValue not found
+     */
+    public function testFindOneByIdThrowsException()
+    {
+        $this->attributeValueRepository->findOneById(1);
     }
 
     public function testGetAttributeValuesByIds()

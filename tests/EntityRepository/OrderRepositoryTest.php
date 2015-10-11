@@ -69,13 +69,13 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $order->getId());
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
         $this->setupOrder();
 
         $this->setCountLogger();
 
-        $order = $this->orderRepository->find(1);
+        $order = $this->orderRepository->findOneById(1);
 
         $order->getOrderItems()->toArray();
         $order->getPayments()->toArray();
@@ -85,6 +85,15 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($order instanceof Order);
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Order not found
+     */
+    public function testFindOneByIdThrowsException()
+    {
+        $this->orderRepository->findOneById(1);
     }
 
     public function testGetLatestOrders()

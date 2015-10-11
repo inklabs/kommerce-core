@@ -56,7 +56,7 @@ class OptionProductRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $optionProduct = $this->optionProductRepository->find(1);
+        $optionProduct = $this->optionProductRepository->findOneById(1);
 
         $optionProduct->getProduct()->getCreated();
         $optionProduct->getOption()->getCreated();

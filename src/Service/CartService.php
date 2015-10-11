@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CartItemOptionProduct;
 use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
+use inklabs\kommerce\Entity\InvalidCartActionException;
 use inklabs\kommerce\Entity\ShippingRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\OrderAddress;
@@ -21,7 +22,6 @@ use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use InvalidArgumentException;
-use LogicException;
 
 class CartService extends AbstractService
 {
@@ -99,17 +99,13 @@ class CartService extends AbstractService
      * @param int $cartId
      * @param string $couponCode
      * @return int
-     * @throws LogicException
+     * @throws EntityNotFoundException
      */
     public function addCouponByCode($cartId, $couponCode)
     {
         $coupon = $this->couponRepository->findOneByCode($couponCode);
+        $cart = $this->cartRepository->findOneById($cartId);
 
-        if ($coupon === null) {
-            throw new LogicException('Coupon not found');
-        }
-
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
         $couponIndex = $cart->addCoupon($coupon);
 
         $this->cartRepository->save($cart);
@@ -119,7 +115,7 @@ class CartService extends AbstractService
 
     public function getCoupons($cartId)
     {
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         return $cart->getCoupons();
     }
 
@@ -128,7 +124,7 @@ class CartService extends AbstractService
      */
     public function removeCart($cartId)
     {
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         $this->cartRepository->remove($cart);
     }
 
@@ -138,7 +134,7 @@ class CartService extends AbstractService
      */
     public function removeCoupon($cartId, $couponIndex)
     {
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         $cart->removeCoupon($couponIndex);
 
         $this->cartRepository->save($cart);
@@ -185,17 +181,12 @@ class CartService extends AbstractService
      * @param string $productId
      * @param int $quantity
      * @return int $cartItemIndex
-     * @throws LogicException
+     * @throws EntityNotFoundException
      */
     public function addItem($cartId, $productId, $quantity = 1)
     {
-        try {
-            $product = $this->productRepository->findOneById($productId);
-        } catch (EntityNotFoundException $e) {
-            throw new LogicException('Product not found');
-        }
-
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $product = $this->productRepository->findOneById($productId);
+        $cart = $this->cartRepository->findOneById($cartId);
 
         $cartItem = new CartItem;
         $cartItem->setProduct($product);
@@ -212,14 +203,15 @@ class CartService extends AbstractService
      * @param int $cartId
      * @param int $cartItemIndex
      * @param string[] $optionProductIds
-     * @throws LogicException
+     * @throws EntityNotFoundException
+     * @throws InvalidCartActionException
      */
     public function addItemOptionProducts($cartId, $cartItemIndex, array $optionProductIds)
     {
         $optionProducts = $this->optionProductRepository->getAllOptionProductsByIds($optionProductIds);
 
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
-        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
+        $cart = $this->cartRepository->findOneById($cartId);
+        $cartItem = $cart->getCartItem($cartItemIndex);
 
         foreach ($optionProducts as $optionProduct) {
             $cartItemOptionProduct = new CartItemOptionProduct;
@@ -235,14 +227,15 @@ class CartService extends AbstractService
      * @param int $cartId
      * @param int $cartItemIndex
      * @param string[] $optionValueIds
-     * @throws LogicException
+     * @throws EntityNotFoundException
+     * @throws InvalidCartActionException
      */
     public function addItemOptionValues($cartId, $cartItemIndex, array $optionValueIds)
     {
         $optionValues = $this->optionValueRepository->getAllOptionValuesByIds($optionValueIds);
 
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
-        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
+        $cart = $this->cartRepository->findOneById($cartId);
+        $cartItem = $cart->getCartItem($cartItemIndex);
 
         foreach ($optionValues as $optionValue) {
             $cartItemOptionValue = new CartItemOptionValue;
@@ -258,15 +251,16 @@ class CartService extends AbstractService
      * @param int $cartId
      * @param int $cartItemIndex
      * @param array $textOptionValues
-     * @throws LogicException
+     * @throws EntityNotFoundException
+     * @throws InvalidCartActionException
      */
     public function addItemTextOptionValues($cartId, $cartItemIndex, array $textOptionValues)
     {
         $textOptionIds = array_keys($textOptionValues);
         $textOptions = $this->textOptionRepository->getAllTextOptionsByIds($textOptionIds);
 
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
-        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
+        $cart = $this->cartRepository->findOneById($cartId);
+        $cartItem = $cart->getCartItem($cartItemIndex);
 
         foreach ($textOptions as $textOption) {
             $textOptionValue = $textOptionValues[$textOption->getId()];
@@ -284,11 +278,12 @@ class CartService extends AbstractService
     /**
      * @param int $fromCartId
      * @param int $toCartId
+     * @throws EntityNotFoundException
      */
     public function copyCartItems($fromCartId, $toCartId)
     {
-        $fromCart = $this->getCartAndThrowExceptionIfCartNotFound($fromCartId);
-        $toCart = $this->getCartAndThrowExceptionIfCartNotFound($toCartId);
+        $fromCart = $this->cartRepository->findOneById($fromCartId);
+        $toCart = $this->cartRepository->findOneById($toCartId);
 
         foreach ($fromCart->getCartItems() as $cartItem) {
             $toCart->addCartItem(clone $cartItem);
@@ -301,12 +296,13 @@ class CartService extends AbstractService
      * @param int $cartId
      * @param int $cartItemIndex
      * @param int $quantity
-     * @throws LogicException
+     * @throws EntityNotFoundException
+     * @throws InvalidCartActionException
      */
     public function updateQuantity($cartId, $cartItemIndex, $quantity)
     {
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
-        $cartItem = $this->getCartItemAndThrowExceptionIfNotFound($cart, $cartItemIndex);
+        $cart = $this->cartRepository->findOneById($cartId);
+        $cartItem = $cart->getCartItem($cartItemIndex);
         $cartItem->setQuantity($quantity);
 
         $this->cartRepository->save($cart);
@@ -315,10 +311,12 @@ class CartService extends AbstractService
     /**
      * @param int $cartId
      * @param int $cartItemIndex
+     * @throws EntityNotFoundException
+     * @throws InvalidCartActionException
      */
     public function deleteItem($cartId, $cartItemIndex)
     {
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         $cart->deleteCartItem($cartItemIndex);
 
         $this->cartRepository->save($cart);
@@ -327,10 +325,11 @@ class CartService extends AbstractService
     /**
      * @param int $cartId
      * @return Cart
+     * @throws EntityNotFoundException
      */
-    public function getCartFull($cartId)
+    public function findOneById($cartId)
     {
-        return $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        return $this->cartRepository->findOneById($cartId);
     }
 
     /**
@@ -339,7 +338,7 @@ class CartService extends AbstractService
      */
     public function setShippingRate($cartId, ShippingRate $shippingRate)
     {
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         $cart->setShippingRate($shippingRate);
 
         $this->cartRepository->save($cart);
@@ -347,7 +346,7 @@ class CartService extends AbstractService
 
     public function setTaxRate($cartId, TaxRate $taxRate = null)
     {
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         $cart->setTaxRate($taxRate);
 
         $this->cartRepository->save($cart);
@@ -366,7 +365,7 @@ class CartService extends AbstractService
         OrderAddress $shippingAddress,
         OrderAddress $billingAddress = null
     ) {
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
 
         if ($billingAddress === null) {
             $billingAddress = clone $shippingAddress;
@@ -385,17 +384,12 @@ class CartService extends AbstractService
     /**
      * @param int $cartId
      * @param int $userId
-     * @throws LogicException
+     * @throws EntityNotFoundException
      */
     public function setUserById($cartId, $userId)
     {
-        try {
-            $user = $this->userRepository->findOneById($userId);
-        } catch (EntityNotFoundException $e) {
-            throw new LogicException('User not found');
-        }
-
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $user = $this->userRepository->findOneById($userId);
+        $cart = $this->cartRepository->findOneById($cartId);
 
         $cart->setUser($user);
 
@@ -405,46 +399,14 @@ class CartService extends AbstractService
     /**
      * @param int $cartId
      * @param int $sessionId
-     * @throws LogicException
+     * @throws EntityNotFoundException
      */
     public function setSessionId($cartId, $sessionId)
     {
-        $cart = $this->getCartAndThrowExceptionIfCartNotFound($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
 
         $cart->setSessionId($sessionId);
 
         $this->cartRepository->save($cart);
-    }
-
-    /**
-     * @param int $cartId
-     * @return Cart
-     * @throws LogicException
-     */
-    protected function getCartAndThrowExceptionIfCartNotFound($cartId)
-    {
-        try {
-            $cart = $this->cartRepository->findOneById($cartId);
-            return $cart;
-        } catch (EntityNotFoundException $e) {
-            throw new LogicException('Cart not found');
-        }
-    }
-
-    /**
-     * @param Cart $cart
-     * @param int $cartItemIndex
-     * @return CartItem
-     * @throws LogicException
-     */
-    protected function getCartItemAndThrowExceptionIfNotFound(Cart $cart, $cartItemIndex)
-    {
-        $cartItem = $cart->getCartItem($cartItemIndex);
-
-        if ($cartItem === null) {
-            throw new LogicException('Cart Item not found');
-        }
-
-        return $cartItem;
     }
 }

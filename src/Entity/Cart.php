@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartDTOBuilder;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
-use InvalidArgumentException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -83,15 +82,16 @@ class Cart implements EntityInterface, ValidationInterface
 
     /**
      * @param int $cartItemIndex
-     * @return CartItem|null
+     * @return CartItem
+     * @throws InvalidCartActionException
      */
     public function getCartItem($cartItemIndex)
     {
-        if (isset($this->cartItems[$cartItemIndex])) {
-            return $this->cartItems[$cartItemIndex];
-        } else {
-            return null;
+        if (! isset($this->cartItems[$cartItemIndex])) {
+            throw new InvalidCartActionException('CartItem not found');
         }
+
+        return $this->cartItems[$cartItemIndex];
     }
 
     public function getCartItems()
@@ -102,7 +102,7 @@ class Cart implements EntityInterface, ValidationInterface
     public function deleteCartItem($cartItemIndex)
     {
         if (! $this->cartItems->offsetExists($cartItemIndex)) {
-            throw new InvalidArgumentException('Item missing');
+            throw new InvalidCartActionException('Item missing');
         }
 
         $this->cartItems->remove($cartItemIndex);
@@ -166,12 +166,12 @@ class Cart implements EntityInterface, ValidationInterface
 
     /**
      * @param int $key
-     * @throws InvalidArgumentException
+     * @throws InvalidCartActionException
      */
     public function removeCoupon($key)
     {
         if (! isset($this->coupons[$key])) {
-            throw new InvalidArgumentException('Coupon missing');
+            throw new InvalidCartActionException('Coupon missing');
         }
 
         unset($this->coupons[$key]);

@@ -57,7 +57,7 @@ class ImageRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $image->getId());
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
         $this->setupImageWithProductAndTag();
 
@@ -70,5 +70,14 @@ class ImageRepositoryTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($image instanceof Image);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Image not found
+     */
+    public function testFindOneByIdThrowsException()
+    {
+        $this->imageRepository->findOneById(1);
     }
 }

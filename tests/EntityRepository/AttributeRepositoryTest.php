@@ -47,7 +47,7 @@ class AttributeRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $attribute->getId());
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
         $this->setupAttribute();
 
@@ -60,5 +60,14 @@ class AttributeRepositoryTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($attribute instanceof Attribute);
         $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Attribute not found
+     */
+    public function testFindOneByIdThrowsException()
+    {
+        $this->attributeRepository->findOneById(1);
     }
 }

@@ -51,7 +51,7 @@ class TextOptionRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $textOption = $this->textOptionRepository->find(1);
+        $textOption = $this->textOptionRepository->findOneById(1);
 
         $textOption->getTags()->toArray();
 

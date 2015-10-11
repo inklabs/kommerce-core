@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
-use LogicException;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
 interface TagServiceInterface
 {
@@ -18,22 +18,17 @@ interface TagServiceInterface
 
     /**
      * @param int $id
-     * @return Tag|null
+     * @return Tag
+     * @throws EntityNotFoundException
      */
     public function findOneById($id);
 
     /**
      * @param string $code
-     * @return Tag|null
+     * @return Tag
+     * @throws EntityNotFoundException
      */
     public function findOneByCode($code);
-
-    /**
-     * @param int $tagId
-     * @return Tag
-     * @throws LogicException
-     */
-    public function getTagAndThrowExceptionIfMissing($tagId);
 
     /**
      * @param string $queryString

@@ -67,7 +67,7 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $userLogin = $this->userLoginRepository->find(1);
+        $userLogin = $this->userLoginRepository->findOneById(1);
 
         $userLogin->getUser()->getCreated();
 

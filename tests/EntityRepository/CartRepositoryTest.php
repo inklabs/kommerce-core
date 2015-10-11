@@ -54,7 +54,7 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $cart = $this->cartRepository->find(1);
+        $cart = $this->cartRepository->findOneById(1);
 
         $cart->getCartItems()->toArray();
         $cart->getUser()->getCreated();

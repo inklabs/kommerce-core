@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeImageRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
@@ -56,10 +57,9 @@ class ImageServiceTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Missing Product
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
      */
-    public function testCreateWithProductWithMissingProduct()
+    public function testCreateWithProductThrowsException()
     {
         $this->productRepository->setReturnValue(null);
 

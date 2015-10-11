@@ -43,7 +43,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       );
 
       $productId = 1;
-      $product = $productService->find($productId);
+      $product = $productService->findOneById($productId);
       $product->setSku('NEW-SKU');
 
       $productService->edit($product);
@@ -78,7 +78,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       $productRepository = $this->entityManager->getRepository('kommerce:Product');
 
       $productId = 1;
-      $product = $productRepository->find($productId);
+      $product = $productRepository->findOneById($productId);
       $product->setUnitPrice(600);
       $productRepository->save($product);
       ```

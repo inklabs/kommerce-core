@@ -38,7 +38,7 @@ class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $productQuantityDiscount = $this->productQuantityDiscountRepository->find(1);
+        $productQuantityDiscount = $this->productQuantityDiscountRepository->findOneById(1);
 
         $productQuantityDiscount->getProduct()->getName();
 

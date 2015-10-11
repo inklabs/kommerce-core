@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
 class CatalogPromotionService extends AbstractService
 {
@@ -29,7 +30,8 @@ class CatalogPromotionService extends AbstractService
 
     /**
      * @param int $id
-     * @return CatalogPromotion|null
+     * @return CatalogPromotion
+     * @throws EntityNotFoundException
      */
     public function findOneById($id)
     {

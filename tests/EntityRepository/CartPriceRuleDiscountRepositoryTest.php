@@ -39,13 +39,13 @@ class CartPriceRuleDiscountRepositoryTest extends Helper\DoctrineTestCase
         $this->entityManager->clear();
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
         $this->setupCartPriceRuleDiscount();
 
         $this->setCountLogger();
 
-        $cartPriceRuleDiscount = $this->cartPriceRuleDiscountRepository->find(1);
+        $cartPriceRuleDiscount = $this->cartPriceRuleDiscountRepository->findOneById(1);
 
         $cartPriceRuleDiscount->getProduct()->getName();
         $cartPriceRuleDiscount->getCartPriceRule()->getName();

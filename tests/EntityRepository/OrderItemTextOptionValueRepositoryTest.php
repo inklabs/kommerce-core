@@ -56,7 +56,7 @@ class OrderItemTextOptionValueRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $orderItemTextOptionValue = $this->orderItemTextOptionValueRepository->find(1);
+        $orderItemTextOptionValue = $this->orderItemTextOptionValueRepository->findOneById(1);
 
         $orderItemTextOptionValue->getOrderItem()->getCreated();
         $orderItemTextOptionValue->getTextOption()->getCreated();

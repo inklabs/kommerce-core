@@ -44,8 +44,7 @@ class ProductAttributeRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $productAttribute = $this->productAttributeRepository
-            ->find(1);
+        $productAttribute = $this->productAttributeRepository->findOneById(1);
 
         $productAttribute->getAttribute()->getCreated();
         $productAttribute->getAttributeValue()->getCreated();

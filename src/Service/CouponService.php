@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
 class CouponService extends AbstractService
 {
@@ -29,7 +30,8 @@ class CouponService extends AbstractService
 
     /**
      * @param int $id
-     * @return Coupon|null
+     * @return Coupon
+     * @throws EntityNotFoundException
      */
     public function findOneById($id)
     {

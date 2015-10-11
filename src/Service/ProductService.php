@@ -9,7 +9,6 @@ use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
-use LogicException;
 
 class ProductService extends AbstractService
 {
@@ -46,7 +45,8 @@ class ProductService extends AbstractService
 
     /**
      * @param int $id
-     * @return Product|null
+     * @return Product
+     * @throws EntityNotFoundException
      */
     public function findOneById($id)
     {
@@ -57,11 +57,12 @@ class ProductService extends AbstractService
      * @param int $productId
      * @param int $tagId
      * @return Tag
+     * @throws EntityNotFoundException
      */
     public function addTag($productId, $tagId)
     {
-        $product = $this->getProductAndThrowExceptionIfMissing($productId);
-        $tag = $this->getTagAndThrowExceptionIfMissing($tagId);
+        $product = $product = $this->productRepository->findOneById($productId);
+        $tag = $this->tagRepository->findOneById($tagId);
 
         $product->addTag($tag);
 
@@ -73,11 +74,12 @@ class ProductService extends AbstractService
     /**
      * @param int $productId
      * @param int $tagId
+     * @throws EntityNotFoundException
      */
     public function removeTag($productId, $tagId)
     {
-        $product = $this->getProductAndThrowExceptionIfMissing($productId);
-        $tag = $this->getTagAndThrowExceptionIfMissing($tagId);
+        $product = $this->productRepository->findOneById($productId);
+        $tag = $this->tagRepository->findOneById($tagId);
 
         $product->removeTag($tag);
 
@@ -87,11 +89,12 @@ class ProductService extends AbstractService
     /**
      * @param int $productId
      * @param int $imageId
+     * @throws EntityNotFoundException
      */
     public function removeImage($productId, $imageId)
     {
-        $product = $this->getProductAndThrowExceptionIfMissing($productId);
-        $image = $this->getImageAndThrowExceptionIfMissing($imageId);
+        $product = $this->productRepository->findOneById($productId);
+        $image = $this->imageRepository->findOneById($imageId);
 
         $product->removeImage($image);
 
@@ -173,53 +176,5 @@ class ProductService extends AbstractService
     public function getRandomProducts($limit)
     {
         return $this->productRepository->getRandomProducts($limit);
-    }
-
-    /**
-     * @param int $productId
-     * @return Product
-     * @throws LogicException
-     */
-    public function getProductAndThrowExceptionIfMissing($productId)
-    {
-        try {
-            $product = $this->productRepository->findOneById($productId);
-        } catch (EntityNotFoundException $e) {
-            throw new LogicException('Missing Product');
-        }
-
-        return $product;
-    }
-
-    /**
-     * @param int $tagId
-     * @return Tag
-     * @throws LogicException
-     */
-    private function getTagAndThrowExceptionIfMissing($tagId)
-    {
-        try {
-            $tag = $this->tagRepository->findOneById($tagId);
-        } catch (EntityNotFoundException $e) {
-            throw new LogicException('Missing Tag');
-        }
-
-        return $tag;
-    }
-
-    /**
-     * @param int $imageId
-     * @return Image
-     * @throws LogicException
-     */
-    private function getImageAndThrowExceptionIfMissing($imageId)
-    {
-        try {
-            $image = $this->imageRepository->findOneById($imageId);
-        } catch (EntityNotFoundException $e) {
-            throw new LogicException('Missing Image');
-        }
-
-        return $image;
     }
 }

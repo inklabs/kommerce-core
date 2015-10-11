@@ -63,10 +63,14 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(7, $cart->totalQuantity());
     }
 
-    public function testGetCartItemMissing()
+    /**
+     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
+     * @expectedExceptionMessage CartItem not found
+     */
+    public function testGetCartItemMissingThrowsException()
     {
         $cart = new Cart;
-        $this->assertSame(null, $cart->getCartItem(1));
+        $cart->getCartItem(1);
     }
 
     public function testDeleteCartItem()
@@ -84,7 +88,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
      * @expectedExceptionMessage Item missing
      */
     public function testDeleteCartItemMissing()
@@ -208,10 +212,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
      * @expectedExceptionMessage Coupon missing
      */
-    public function testRemoveCouponMissing()
+    public function testRemoveCouponMissingThrowsException()
     {
         $cart = new Cart;
         $cart->removeCoupon(0);

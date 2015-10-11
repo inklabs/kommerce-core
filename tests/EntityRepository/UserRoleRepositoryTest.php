@@ -56,7 +56,7 @@ class UserRoleRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $userRole = $this->userRoleRepository->find(1);
+        $userRole = $this->userRoleRepository->findOneById(1);
 
         $this->assertTrue($userRole instanceof UserRole);
         $this->assertSame(1, $this->countSQLLogger->getTotalQueries());

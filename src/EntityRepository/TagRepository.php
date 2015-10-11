@@ -7,7 +7,9 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
 {
     public function findOneByCode($code)
     {
-        return parent::findOneBy(['code' => $code]);
+        return $this->returnOrThrowNotFoundException(
+            parent::findOneBy(['code' => $code])
+        );
     }
 
     public function getAllTags($queryString = null, Pagination & $pagination = null)

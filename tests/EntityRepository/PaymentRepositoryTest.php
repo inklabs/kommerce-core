@@ -61,7 +61,7 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $payment = $this->paymentRepository->find(1);
+        $payment = $this->paymentRepository->findOneById(1);
 
         $payment->getOrder()->getCreated();
 

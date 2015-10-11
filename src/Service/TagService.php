@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 
 class TagService extends AbstractService implements TagServiceInterface
@@ -42,17 +41,6 @@ class TagService extends AbstractService implements TagServiceInterface
     public function findOneByCode($code)
     {
         return $this->tagRepository->findOneByCode($code);
-    }
-
-    public function getTagAndThrowExceptionIfMissing($tagId)
-    {
-        try {
-            $tag = $this->tagRepository->findOneById($tagId);
-        } catch (EntityNotFoundException $e) {
-            throw new \LogicException('Missing Tag');
-        }
-
-        return $tag;
     }
 
     public function getAllTags($queryString = null, Pagination & $pagination = null)

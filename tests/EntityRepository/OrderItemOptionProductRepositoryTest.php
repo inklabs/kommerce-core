@@ -61,7 +61,7 @@ class OrderItemOptionProductRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $orderItemOptionProduct = $this->orderItemOptionProductRepository->find(1);
+        $orderItemOptionProduct = $this->orderItemOptionProductRepository->findOneById(1);
 
         $orderItemOptionProduct->getOrderItem()->getCreated();
         $orderItemOptionProduct->getOptionProduct()->getCreated();

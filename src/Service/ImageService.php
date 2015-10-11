@@ -37,15 +37,11 @@ class ImageService extends AbstractService
     /**
      * @param Image $image
      * @param int $productId
-     * @throws \LogicException
+     * @throws EntityNotFoundException
      */
     public function createWithProduct(Image & $image, $productId)
     {
-        try {
-            $product = $this->productRepository->findOneById($productId);
-        } catch (EntityNotFoundException $e) {
-            throw new \LogicException('Missing Product');
-        }
+        $product = $this->productRepository->findOneById($productId);
 
         if ($product->getDefaultImage() === null) {
             $product->setDefaultImage($image->getPath());
@@ -57,7 +53,8 @@ class ImageService extends AbstractService
 
     /**
      * @param int $id
-     * @return Image|null
+     * @return Image
+     * @throws EntityNotFoundException
      */
     public function findOneById($id)
     {

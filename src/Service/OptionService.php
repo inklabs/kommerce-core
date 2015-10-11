@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 
 class OptionService extends AbstractService
@@ -29,12 +30,12 @@ class OptionService extends AbstractService
 
     /**
      * @param int $id
-     * @return Option|null
+     * @return Option
+     * @throws EntityNotFoundException
      */
     public function findOneById($id)
     {
-        $option = $this->optionRepository->findOneById($id);
-        return $option;
+        return $this->optionRepository->findOneById($id);
     }
 
     /**

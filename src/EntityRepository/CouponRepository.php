@@ -7,7 +7,13 @@ class CouponRepository extends AbstractRepository implements CouponRepositoryInt
 {
     public function findOneByCode($couponCode)
     {
-        return parent::findOneBy(['code' => $couponCode]);
+        $coupon = parent::findOneBy(['code' => $couponCode]);
+
+        if ($coupon === null) {
+            throw new EntityNotFoundException;
+        }
+
+        return $coupon;
     }
 
     public function getAllCoupons($queryString = null, Pagination & $pagination = null)

@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
 class CartPriceRuleService extends AbstractService
 {
@@ -28,7 +29,8 @@ class CartPriceRuleService extends AbstractService
 
     /**
      * @param int $id
-     * @return CartPriceRule|null
+     * @return CartPriceRule
+     * @throws EntityNotFoundException
      */
     public function findOneById($id)
     {

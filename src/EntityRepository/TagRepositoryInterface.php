@@ -11,7 +11,8 @@ interface TagRepositoryInterface extends AbstractRepositoryInterface
 {
     /**
      * @param string $code
-     * @return Tag|null
+     * @return Tag
+     * @throws EntityNotFoundException
      */
     public function findOneByCode($code);
 

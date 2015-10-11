@@ -53,7 +53,7 @@ class OptionValueRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $optionValue = $this->optionValueRepository->find(1);
+        $optionValue = $this->optionValueRepository->findOneById(1);
 
         $optionValue->getOption()->getCreated();
 

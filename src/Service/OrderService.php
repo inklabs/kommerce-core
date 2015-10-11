@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 
@@ -24,7 +25,8 @@ class OrderService extends AbstractService
 
     /**
      * @param int $id
-     * @return Order|null
+     * @return Order
+     * @throws EntityNotFoundException
      */
     public function findOneById($id)
     {

@@ -12,6 +12,7 @@ interface CouponRepositoryInterface extends AbstractRepositoryInterface
     /**
      * @param string $couponCode
      * @return Coupon
+     * @throws EntityNotFoundException
      */
     public function findOneByCode($couponCode);
 

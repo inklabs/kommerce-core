@@ -59,7 +59,7 @@ class OrderItemOptionValueRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $orderItemOptionValue = $this->orderItemOptionValue->find(1);
+        $orderItemOptionValue = $this->orderItemOptionValue->findOneById(1);
 
         $orderItemOptionValue->getOrderItem()->getCreated();
         $orderItemOptionValue->getOptionValue()->getCreated();

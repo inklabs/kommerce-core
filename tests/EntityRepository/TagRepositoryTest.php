@@ -50,13 +50,13 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $tag->getId());
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
         $this->setupTag();
 
         $this->setCountLogger();
 
-        $tag = $this->tagRepository->find(1);
+        $tag = $this->tagRepository->findOneById(1);
 
         $tag->getImages()->toArray();
         $tag->getProducts()->toArray();
@@ -67,13 +67,29 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
     }
 
-    public function testFindOneBy()
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Tag not found
+     */
+    public function testFindOneByIdThrowsException()
+    {
+        $this->tagRepository->findOneById(1);
+    }
+
+    public function testFindOneByCode()
     {
         $this->setupTag();
-
         $tag = $this->tagRepository->findOneByCode('TT1');
-
         $this->assertTrue($tag instanceof Tag);
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Tag not found
+     */
+    public function testFindOneByCodeThrowsException()
+    {
+        $this->tagRepository->findOneByCode('xx');
     }
 
     public function testGetAllTags()

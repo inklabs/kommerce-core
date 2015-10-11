@@ -55,27 +55,29 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
     public function testFindOneByCode()
     {
         $this->setupCoupon();
-
         $coupon = $this->couponRepository->findOneByCode('20PCT1');
-
         $this->assertTrue($coupon instanceof Coupon);
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     */
+    public function testFindOneByCodeMissingThrowsException()
+    {
+        $this->couponRepository->findOneByCode('20PCT1');
     }
 
     public function testGetAllCoupons()
     {
         $this->setupCoupon();
-
         $coupons = $this->couponRepository->getAllCoupons('Test');
-
         $this->assertTrue($coupons[0] instanceof Coupon);
     }
 
     public function testGetAllCouponsByIds()
     {
         $this->setupCoupon();
-
         $coupons = $this->couponRepository->getAllCouponsByIds([1]);
-
         $this->assertTrue($coupons[0] instanceof Coupon);
     }
 

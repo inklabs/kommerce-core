@@ -79,7 +79,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $user->getTotalLogins());
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
         $this->setupUser();
 
@@ -95,6 +95,15 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($user instanceof User);
         $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage User not found
+     */
+    public function testFindOneByIdThrowsException()
+    {
+        $this->userRepository->findOneById(1);
     }
 
     public function testGetAllUsers()

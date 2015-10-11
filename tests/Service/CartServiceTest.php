@@ -12,6 +12,7 @@ use inklabs\kommerce\Entity\ShippingRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper;
@@ -23,7 +24,6 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeTextOptionRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCouponRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
-use LogicException;
 
 class CartServiceTest extends Helper\DoctrineTestCase
 {
@@ -83,17 +83,6 @@ class CartServiceTest extends Helper\DoctrineTestCase
         );
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Cart not found
-     */
-    public function testGetCartAndThrowExceptionIfCartNotFoundThrowsException()
-    {
-        $this->cartRepository->setReturnValue(null);
-        $this->setupCartService();
-        $this->cartService->getCartFull(1);
-    }
-
     public function testFindByUser()
     {
         $this->setupCartService();
@@ -116,12 +105,11 @@ class CartServiceTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException LogicException
-     * @expectedExceptionMessage Coupon not found
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
      */
-    public function testAddCouponByCodeMissing()
+    public function testAddCouponByCodeMissingThrowsException()
     {
-        $this->couponRepository->setReturnValue(null);
+        $this->couponRepository->setCrudException(new EntityNotFoundException);
         $this->cartService->addCouponByCode(1, 'code');
     }
 
@@ -189,17 +177,16 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
         $cartItemIndex = $this->cartService->addItem($product->getId(), $quantity);
 
-        $cart = $this->cartService->getCartFull(1);
+        $cart = $this->cartService->findOneById(1);
 
         $this->assertSame(0, $cartItemIndex);
         $this->assertTrue($cart->getCartItem(0) instanceof CartItem);
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Product not found
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
      */
-    public function testAddItemWithMissingProduct()
+    public function testAddItemWithMissingProductThrowsException()
     {
         $this->productRepository->setReturnValue(null);
 
@@ -224,8 +211,8 @@ class CartServiceTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Cart Item not found
+     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
+     * @expectedExceptionMessage CartItem not found
      */
     public function testAddItemOptionProductsThrowsException()
     {
@@ -299,7 +286,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
         $this->cartService->updateQuantity($cartId, $cartItemIndex, $quantity);
 
-        $cart = $this->cartService->getCartFull($cartId);
+        $cart = $this->cartService->findOneById($cartId);
 
         $this->assertSame(2, $cart->getCartItem(0)->getQuantity());
     }
@@ -318,7 +305,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
         $this->cartService->deleteItem($cartId, $cartItemIndex);
 
-        $cart = $this->cartService->getCartFull($cartId);
+        $cart = $this->cartService->findOneById($cartId);
 
         $this->assertSame(0, count($cart->getCartItems()));
     }
@@ -335,7 +322,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
         $this->cartService->addItem($cartId, $product->getId());
 
-        $cart = $this->cartService->getCartFull($cartId);
+        $cart = $this->cartService->findOneById($cartId);
 
         $this->assertTrue($cart->getCartItem(0) instanceof CartItem);
     }
@@ -360,7 +347,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
         $this->cartService->setUserById($cart->getId(), $user->getId());
 
-        $cart = $this->cartService->getCartFull($cart->getId());
+        $cart = $this->cartService->findOneById($cart->getId());
 
         $this->assertTrue($cart->getUser() instanceof User);
     }
@@ -374,20 +361,16 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
         $this->cartService->setSessionId($cart->getId(), $sessionId);
 
-        $this->cartService->getCartFull($cart->getId());
+        $this->cartService->findOneById($cart->getId());
     }
 
     /**
-     * @expectedException \LogicException
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
      * @expectedExceptionMessage User not found
      */
-    public function testSetUserWithMissingUser()
+    public function testSetUserWithMissingUserThrowsException()
     {
-        $this->userRepository->setReturnValue(null);
-
-        $cartId = 1;
-        $userId = 1;
-        $this->cartService->setUserById($cartId, $userId);
+        $this->cartService->setUserById(1, 1);
     }
 
     public function testAddOrder()
