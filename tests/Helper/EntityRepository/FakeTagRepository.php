@@ -10,6 +10,8 @@ use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
  */
 class FakeTagRepository extends AbstractFakeRepository implements TagRepositoryInterface
 {
+    protected $entityName = 'Tag';
+
     public function __construct()
     {
         $this->setReturnValue(new Tag);

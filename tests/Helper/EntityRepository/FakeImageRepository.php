@@ -9,6 +9,8 @@ use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
  */
 class FakeImageRepository extends AbstractFakeRepository implements ImageRepositoryInterface
 {
+    protected $entityName = 'Image';
+
     public function __construct()
     {
         $this->setReturnValue(new Image);

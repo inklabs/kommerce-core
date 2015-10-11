@@ -58,6 +58,7 @@ class ImageServiceTest extends Helper\DoctrineTestCase
 
     /**
      * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Product not found
      */
     public function testCreateWithProductThrowsException()
     {

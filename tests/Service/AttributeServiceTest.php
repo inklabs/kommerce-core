@@ -47,6 +47,7 @@ class AttributeServiceTest extends Helper\DoctrineTestCase
 
     /**
      * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Attribute not found
      */
     public function testFindMissing()
     {

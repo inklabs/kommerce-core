@@ -61,6 +61,7 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
 
     /**
      * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Coupon not found
      */
     public function testFindOneByCodeMissingThrowsException()
     {

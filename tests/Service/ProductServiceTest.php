@@ -77,11 +77,10 @@ class ProductServiceTest extends Helper\DoctrineTestCase
 
     /**
      * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Product not found
      */
     public function testAddTagWithMissingProductThrowsException()
     {
-        $this->productRepository->setReturnValue(null);
-
         $productId = 1;
         $tagEncodedId = '1';
         $this->productService->addTag($productId, $tagEncodedId);
@@ -89,6 +88,7 @@ class ProductServiceTest extends Helper\DoctrineTestCase
 
     /**
      * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Tag not found
      */
     public function testAddTagWithMissingTagThrowsException()
     {
@@ -127,6 +127,7 @@ class ProductServiceTest extends Helper\DoctrineTestCase
 
     /**
      * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Image not found
      */
     public function testRemoveImageWithMissingImageThrowsException()
     {

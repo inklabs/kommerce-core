@@ -11,6 +11,8 @@ use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
  */
 class FakeProductRepository extends AbstractFakeRepository implements ProductRepositoryInterface
 {
+    protected $entityName = 'Product';
+
     /** @var Product[] */
     protected $entities = [];
 

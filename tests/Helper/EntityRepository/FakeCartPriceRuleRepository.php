@@ -9,6 +9,8 @@ use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
  */
 class FakeCartPriceRuleRepository extends AbstractFakeRepository implements CartPriceRuleRepositoryInterface
 {
+    protected $entityName = 'CartPriceRule';
+
     public function __construct()
     {
         $this->setReturnValue(new CartPriceRule);

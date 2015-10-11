@@ -99,25 +99,33 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function testAddCouponByCode()
     {
+        $coupon = new Coupon;
+        $coupon->setCode('20PCT');
+        $this->couponRepository->create($coupon);
         $this->cartRepository->create(new Cart);
-        $couponIndex = $this->cartService->addCouponByCode(1, 'code');
+
+        $couponIndex = $this->cartService->addCouponByCode(1, $coupon->getCode());
         $this->assertSame(0, $couponIndex);
     }
 
     /**
      * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage  Coupon not found
      */
     public function testAddCouponByCodeMissingThrowsException()
     {
-        $this->couponRepository->setCrudException(new EntityNotFoundException);
         $this->cartService->addCouponByCode(1, 'code');
     }
 
     public function testGetCoupons()
     {
+        $coupon = new Coupon;
+        $coupon->setCode('20PCT');
+        $this->couponRepository->create($coupon);
+
         $cart = new Cart;
         $this->cartRepository->create($cart);
-        $couponIndex = $this->cartService->addCouponByCode($cart->getId(), 'code');
+        $couponIndex = $this->cartService->addCouponByCode($cart->getId(), $coupon->getCode());
 
         $coupons = $this->cartService->getCoupons($cart->getId());
         $this->assertTrue($coupons[0] instanceof Coupon);
@@ -131,8 +139,12 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function testRemoveCoupon()
     {
+        $coupon = new Coupon;
+        $coupon->setCode('20PCT');
+        $this->couponRepository->create($coupon);
+
         $this->cartRepository->create(new Cart);
-        $couponIndex = $this->cartService->addCouponByCode(1, 'code');
+        $couponIndex = $this->cartService->addCouponByCode(1, $coupon->getCode());
 
         $coupons = $this->cartService->getCoupons(1);
         $this->assertSame(1, count($coupons));
@@ -185,6 +197,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     /**
      * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Product not found
      */
     public function testAddItemWithMissingProductThrowsException()
     {

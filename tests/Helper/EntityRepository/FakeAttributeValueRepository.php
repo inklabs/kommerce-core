@@ -10,6 +10,8 @@ use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
  */
 class FakeAttributeValueRepository extends AbstractFakeRepository implements AttributeValueRepositoryInterface
 {
+    protected $entityName = 'AttributeValue';
+
     public function __construct()
     {
         $this->setReturnValue(new AttributeValue);

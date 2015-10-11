@@ -9,6 +9,8 @@ use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
  */
 class FakeAttributeRepository extends AbstractFakeRepository implements AttributeRepositoryInterface
 {
+    protected $entityName = 'Attribute';
+
     /** @var Attribute[] */
     protected $entities = [];
 

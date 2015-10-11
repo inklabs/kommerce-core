@@ -28,6 +28,7 @@ class AttributeValueServiceTest extends Helper\DoctrineTestCase
 
     /**
      * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage AttributeValue not found
      */
     public function testFindMissing()
     {

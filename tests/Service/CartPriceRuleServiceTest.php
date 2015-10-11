@@ -46,6 +46,7 @@ class CartPriceRuleServiceTest extends Helper\DoctrineTestCase
 
     /**
      * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage CartPriceRule not found
      */
     public function testFindMissing()
     {

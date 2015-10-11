@@ -10,6 +10,11 @@ use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
  */
 class FakeCouponRepository extends AbstractFakeRepository implements CouponRepositoryInterface
 {
+    protected $entityName = 'Coupon';
+
+    /** @var Coupon[] */
+    protected $entities = [];
+
     public function __construct()
     {
         $this->setReturnValue(new Coupon);
@@ -17,7 +22,13 @@ class FakeCouponRepository extends AbstractFakeRepository implements CouponRepos
 
     public function findOneByCode($couponCode)
     {
-        return $this->getReturnValue();
+        foreach ($this->entities as $entity) {
+            if ($entity->getCode() === $couponCode) {
+                return $entity;
+            }
+        }
+
+        throw $this->getEntityNotFoundException();
     }
 
     public function getAllCoupons($queryString = null, Pagination & $pagination = null)
