@@ -110,10 +110,24 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Unable to add coupon
+     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
+     * @expectedExceptionMessage Duplicate Coupon
      */
-    public function testAddCouponWithNonStackableCoupon()
+    public function testAddCouponWithDuplicateCouponThrowsException()
+    {
+        $coupon1 = $this->getPercentCoupon(1, 20);
+        $coupon1->setCanCombineWithOtherCoupons(true);
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon1);
+        $cart->addCoupon($coupon1);
+    }
+
+    /**
+     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
+     * @expectedExceptionMessage Cannot stack coupon
+     */
+    public function testAddCouponWithNonStackableCouponThrowsException()
     {
         $coupon1 = $this->getPercentCoupon(1, 20);
         $coupon1->setCanCombineWithOtherCoupons(false);
@@ -127,20 +141,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Unable to add coupon
+     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
+     * @expectedExceptionMessage Cannot stack coupon
      */
-    public function testAddCouponWithDuplicateCoupon()
-    {
-        $coupon1 = $this->getPercentCoupon(1, 20);
-        $coupon1->setCanCombineWithOtherCoupons(true);
-
-        $cart = new Cart;
-        $cart->addCoupon($coupon1);
-        $cart->addCoupon($coupon1);
-    }
-
-    public function testAddCouponWithSecondStackableCoupon()
+    public function testAddCouponWithSecondStackableCouponThrowsException()
     {
         $coupon1 = $this->getPercentCoupon(1, 20);
         $coupon1->setCanCombineWithOtherCoupons(false);
@@ -151,10 +155,13 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart = new Cart;
         $cart->addCoupon($coupon1);
         $cart->addCoupon($coupon2);
-        $this->assertSame(2, count($cart->getCoupons()));
     }
 
-    public function testAddCouponWithFirstStackableCoupon()
+    /**
+     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
+     * @expectedExceptionMessage Cannot stack coupon
+     */
+    public function testAddCouponWithFirstStackableCouponThrowsException()
     {
         $coupon1 = $this->getPercentCoupon(1, 20);
         $coupon1->setCanCombineWithOtherCoupons(true);
@@ -166,6 +173,30 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->addCoupon($coupon1);
         $cart->addCoupon($coupon2);
         $this->assertSame(2, count($cart->getCoupons()));
+    }
+
+    public function testAddCouponWithStackableCoupons()
+    {
+        $coupon1 = $this->getPercentCoupon(1, 20);
+        $coupon1->setCanCombineWithOtherCoupons(true);
+
+        $coupon2 = $this->getPercentCoupon(2, 20);
+        $coupon2->setCanCombineWithOtherCoupons(true);
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon1);
+        $cart->addCoupon($coupon2);
+        $this->assertSame(2, count($cart->getCoupons()));
+    }
+
+    public function testAddNonStackableCoupon()
+    {
+        $coupon1 = $this->getPercentCoupon(1, 20);
+        $coupon1->setCanCombineWithOtherCoupons(false);
+
+        $cart = new Cart;
+        $cart->addCoupon($coupon1);
+        $this->assertSame(1, count($cart->getCoupons()));
     }
 
     public function testRemoveCoupon()

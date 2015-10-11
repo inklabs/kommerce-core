@@ -112,12 +112,20 @@ class Cart implements EntityInterface, ValidationInterface
     /**
      * @param Coupon $coupon
      * @return int
-     * @throws LogicException
+     * @throws InvalidCartActionException
      */
     public function addCoupon(Coupon $coupon)
     {
-        if (! $this->canAddCoupon($coupon)) {
-            throw new LogicException('Unable to add coupon');
+        if ($this->isExistingCoupon($coupon)) {
+            throw new InvalidCartActionException('Duplicate Coupon');
+        }
+
+        if (! $this->couponCanCombineWithOtherCoupons($coupon)) {
+            throw new InvalidCartActionException('Cannot stack coupon');
+        }
+
+        if (! $this->existingCouponsCanCombineWithOtherCoupons()) {
+            throw new InvalidCartActionException('Cannot stack coupon');
         }
 
         $this->coupons->add($coupon);
@@ -136,23 +144,6 @@ class Cart implements EntityInterface, ValidationInterface
         return $this->coupons;
     }
 
-    private function canAddCoupon(Coupon $addedCoupon)
-    {
-        if ($this->isExistingCoupon($addedCoupon)) {
-            return false;
-        }
-
-        if ($addedCoupon->getCanCombineWithOtherCoupons()) {
-            return true;
-        }
-
-        if ($this->existingCouponsCannotCombineWithOtherCoupons()) {
-            return false;
-        }
-
-        return true;
-    }
-
     private function isExistingCoupon(Coupon $addedCoupon)
     {
         foreach ($this->coupons as $coupon) {
@@ -164,14 +155,14 @@ class Cart implements EntityInterface, ValidationInterface
         return false;
     }
 
-    private function existingCouponsCannotCombineWithOtherCoupons()
+    private function existingCouponsCanCombineWithOtherCoupons()
     {
         foreach ($this->coupons as $coupon) {
             if (! $coupon->getCanCombineWithOtherCoupons()) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
@@ -267,5 +258,14 @@ class Cart implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new CartDTOBuilder($this);
+    }
+
+    /**
+     * @param Coupon $coupon
+     * @return bool
+     */
+    private function couponCanCombineWithOtherCoupons(Coupon $coupon)
+    {
+        return ! ($this->coupons->count() > 0 && ! $coupon->getCanCombineWithOtherCoupons());
     }
 }
