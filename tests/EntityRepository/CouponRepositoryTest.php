@@ -47,7 +47,7 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
     {
         $this->setupCoupon();
 
-        $coupon = $this->couponRepository->find(1);
+        $coupon = $this->couponRepository->findOneById(1);
 
         $this->assertTrue($coupon instanceof Coupon);
     }

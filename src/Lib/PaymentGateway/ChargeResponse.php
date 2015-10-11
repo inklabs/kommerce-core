@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ChargeResponse implements ValidationInterface
 {
     /** @var string */
-    protected $id;
+    protected $externalId;
 
     /** @var int */
     protected $amount;
@@ -34,8 +34,8 @@ class ChargeResponse implements ValidationInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('id', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('id', new Assert\Length([
+        $metadata->addPropertyConstraint('externalId', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('externalId', new Assert\Length([
             'max' => 255,
         ]));
 
@@ -80,14 +80,17 @@ class ChargeResponse implements ValidationInterface
         ]));
     }
 
-    public function getId()
+    public function getExternalId()
     {
-        return $this->id;
+        return $this->externalId;
     }
 
-    public function setId($id)
+    /**
+     * @param string $externalId
+     */
+    public function setExternalId($externalId = null)
     {
-        $this->id= (string) $id;
+        $this->externalId = (string) $externalId;
     }
 
     public function getAmount()

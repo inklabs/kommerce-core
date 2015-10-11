@@ -8,7 +8,7 @@ class StripeFake implements GatewayInterface
         $stripeCharge = $this->createCharge($chargeRequest);
 
         $chargeResponse = new ChargeResponse;
-        $chargeResponse->setId($stripeCharge['id']);
+        $chargeResponse->setExternalId($stripeCharge['id']);
         $chargeResponse->setAmount($stripeCharge['amount']);
         $chargeResponse->setLast4($stripeCharge['card']['last4']);
         $chargeResponse->setBrand($stripeCharge['card']['brand']);

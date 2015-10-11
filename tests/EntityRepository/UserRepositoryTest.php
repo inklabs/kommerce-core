@@ -86,7 +86,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $this->setCountLogger();
 
         $user = $this->userRepository
-            ->find(1);
+            ->findOneById(1);
 
         $user->getOrders()->toArray();
         $user->getLogins()->toArray();

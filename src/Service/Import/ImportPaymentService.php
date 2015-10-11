@@ -46,7 +46,7 @@ class ImportPaymentService
             $checkNumber = $row[3];
             $date = $row[4];
 
-            $order = $this->orderRepository->findOneBy(['externalId' => $orderExternalId]);
+            $order = $this->orderRepository->findOneByExternalId($orderExternalId);
 
             try {
                 // TODO: Handle checkNumber

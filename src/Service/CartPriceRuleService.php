@@ -28,11 +28,11 @@ class CartPriceRuleService extends AbstractService
 
     /**
      * @param int $id
-     * @return CartPriceRule
+     * @return CartPriceRule|null
      */
-    public function find($id)
+    public function findOneById($id)
     {
-        return $this->cartPriceRuleRepository->find($id);
+        return $this->cartPriceRuleRepository->findOneById($id);
     }
 
     /**

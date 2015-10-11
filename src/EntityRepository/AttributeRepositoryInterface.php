@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Attribute;
 
 /**
- * @method Attribute find($id)
+ * @method Attribute findOneById($id)
  */
 interface AttributeRepositoryInterface extends AbstractRepositoryInterface
 {

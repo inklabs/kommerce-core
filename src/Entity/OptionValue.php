@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\OptionValueDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OptionValue implements ValidationInterface
+class OptionValue implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

@@ -15,9 +15,9 @@ class ProductRepositoryDecorator implements ProductRepositoryInterface
         $this->productRepository = $productRepository;
     }
 
-    public function find($id)
+    public function findOneById($id)
     {
-        return $this->productRepository->find($id);
+        return $this->productRepository->findOneById($id);
     }
 
     public function findOneBySku($sku)

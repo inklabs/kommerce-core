@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Image;
 
 /**
- * @method Image find($id)
+ * @method Image findOneById($id)
  */
 interface ImageRepositoryInterface extends AbstractRepositoryInterface
 {

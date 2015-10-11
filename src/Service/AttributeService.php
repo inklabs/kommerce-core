@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
 class AttributeService extends AbstractService
 {
@@ -28,10 +29,11 @@ class AttributeService extends AbstractService
 
     /**
      * @param int $id
-     * @return Attribute|null
+     * @return Attribute
+     * @throws EntityNotFoundException
      */
-    public function find($id)
+    public function findOneById($id)
     {
-        return $this->attributeRepository->find($id);
+        return $this->attributeRepository->findOneById($id);
     }
 }

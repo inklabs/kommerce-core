@@ -12,6 +12,7 @@ use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
@@ -171,10 +172,10 @@ class CartService extends AbstractService
     private function addUserToCartIfExists($userId, Cart & $cart)
     {
         if (! empty($userId)) {
-            $user = $this->userRepository->find($userId);
-
-            if ($user !== null) {
+            try {
+                $user = $this->userRepository->findOneById($userId);
                 $cart->setUser($user);
+            } catch (EntityNotFoundException $e) {
             }
         }
     }
@@ -188,9 +189,9 @@ class CartService extends AbstractService
      */
     public function addItem($cartId, $productId, $quantity = 1)
     {
-        $product = $this->productRepository->find($productId);
-
-        if ($product === null) {
+        try {
+            $product = $this->productRepository->findOneById($productId);
+        } catch (EntityNotFoundException $e) {
             throw new LogicException('Product not found');
         }
 
@@ -388,9 +389,9 @@ class CartService extends AbstractService
      */
     public function setUserById($cartId, $userId)
     {
-        $user = $this->userRepository->find($userId);
-
-        if ($user === null) {
+        try {
+            $user = $this->userRepository->findOneById($userId);
+        } catch (EntityNotFoundException $e) {
             throw new LogicException('User not found');
         }
 
@@ -422,13 +423,12 @@ class CartService extends AbstractService
      */
     protected function getCartAndThrowExceptionIfCartNotFound($cartId)
     {
-        $cart = $this->cartRepository->find($cartId);
-
-        if ($cart === null) {
+        try {
+            $cart = $this->cartRepository->findOneById($cartId);
+            return $cart;
+        } catch (EntityNotFoundException $e) {
             throw new LogicException('Cart not found');
         }
-
-        return $cart;
     }
 
     /**

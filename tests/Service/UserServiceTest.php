@@ -48,14 +48,15 @@ class UserServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $viewUser = $this->userService->find(1);
-        $this->assertTrue($viewUser instanceof User);
+        $this->userRepository->create(new User);
+        $user = $this->userService->findOneById(1);
+        $this->assertTrue($user instanceof User);
     }
 
     public function testFindOneByEmail()
     {
-        $viewUser = $this->userService->findOneByEmail('test1@example.com');
-        $this->assertTrue($viewUser instanceof User);
+        $user = $this->userService->findOneByEmail('test1@example.com');
+        $this->assertTrue($user instanceof User);
     }
 
     public function testUserLogin()

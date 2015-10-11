@@ -6,7 +6,7 @@
 
     <embeddable name="inklabs\kommerce\Lib\PaymentGateway\ChargeResponse">
 
-        <field name="id" type="string" length="255"/>
+        <field name="externalId" type="string" length="255"/>
 
         <field name="created" type="integer">
             <options>

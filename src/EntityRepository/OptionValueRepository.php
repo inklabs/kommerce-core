@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Pagination;
 
 class OptionValueRepository extends AbstractRepository implements OptionValueRepositoryInterface
 {
-    public function find($id)
+    public function findOneById($id)
     {
         $qb = $this->getQueryBuilder();
 

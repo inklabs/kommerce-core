@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\Pagination;
 
 /**
- * @method OptionProduct find($id)
+ * @method OptionProduct findOneById($id)
  */
 interface OptionProductRepositoryInterface extends AbstractRepositoryInterface
 {

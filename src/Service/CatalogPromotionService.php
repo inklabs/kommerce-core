@@ -31,9 +31,9 @@ class CatalogPromotionService extends AbstractService
      * @param int $id
      * @return CatalogPromotion|null
      */
-    public function find($id)
+    public function findOneById($id)
     {
-        return $this->catalogPromotionRepository->find($id);
+        return $this->catalogPromotionRepository->findOneById($id);
     }
 
     /**

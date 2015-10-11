@@ -5,16 +5,14 @@ use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 
+/**
+ * @method Coupon findOneById($id)
+ */
 class FakeCouponRepository extends AbstractFakeRepository implements CouponRepositoryInterface
 {
     public function __construct()
     {
         $this->setReturnValue(new Coupon);
-    }
-
-    public function find($id)
-    {
-        return $this->getReturnValue();
     }
 
     public function findOneByCode($couponCode)

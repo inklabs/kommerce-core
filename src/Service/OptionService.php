@@ -31,9 +31,9 @@ class OptionService extends AbstractService
      * @param int $id
      * @return Option|null
      */
-    public function find($id)
+    public function findOneById($id)
     {
-        $option = $this->optionRepository->find($id);
+        $option = $this->optionRepository->findOneById($id);
         return $option;
     }
 

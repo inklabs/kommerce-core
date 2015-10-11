@@ -5,13 +5,13 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
 
 /**
- * @method Tag find($id)
+ * @method Tag findOneById($id)
  */
 interface TagRepositoryInterface extends AbstractRepositoryInterface
 {
     /**
      * @param string $code
-     * @return Tag
+     * @return Tag|null
      */
     public function findOneByCode($code);
 

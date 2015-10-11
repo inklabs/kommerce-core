@@ -47,7 +47,10 @@ class ImageServiceTest extends Helper\DoctrineTestCase
     {
         $image = $this->getDummyImage();
 
-        $this->imageService->createWithProduct($image, 1);
+        $product = new Product;
+        $this->productRepository->create($product);
+
+        $this->imageService->createWithProduct($image, $product->getId());
         $this->assertTrue($image instanceof Image);
         $this->assertTrue($image->getProduct() instanceof Product);
     }
@@ -66,15 +69,9 @@ class ImageServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $image = $this->imageService->find(1);
+        $this->imageRepository->create(new Image);
+
+        $image = $this->imageService->findOneById(1);
         $this->assertTrue($image instanceof Image);
-    }
-
-    public function testFindMissing()
-    {
-        $this->imageRepository->setReturnValue(null);
-
-        $image = $this->imageService->find(1);
-        $this->assertSame(null, $image);
     }
 }

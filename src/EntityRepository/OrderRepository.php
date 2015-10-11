@@ -9,6 +9,17 @@ use Symfony\Component\Yaml\Exception\RuntimeException;
 
 class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {
+    /**
+     * @param int $orderExternalId
+     * @return Order
+     */
+    public function findOneByExternalId($orderExternalId)
+    {
+        return $this->returnOrThrowNotFoundException(
+            parent::findOneBy(['externalId' => $orderExternalId])
+        );
+    }
+
     public function create(EntityInterface & $entity)
     {
         parent::create($entity);

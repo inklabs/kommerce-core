@@ -1,15 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\tests\Action\Tag\AbstractTagHandlerTestCase;
 
-class DeleteTagHandlerTest extends DoctrineTestCase
+class DeleteTagHandlerTest extends AbstractTagHandlerTestCase
 {
     public function testExecute()
     {
         $tagId = 1;
-        $command = new DeleteTagCommand($tagId);
+        $this->tagRepository->create(new Tag);
 
-        $this->dispatch($command);
+        $deleteTagHandler = new DeleteTagHandler($this->tagService);
+        $deleteTagHandler->handle(new DeleteTagCommand($tagId));
+
+        try {
+            $this->tagRepository->findOneById($tagId);
+            $this->assertTrue(false, 'failure');
+        } catch (EntityNotFoundException $e) {
+            $this->assertTrue(true, 'success');
+        }
     }
 }

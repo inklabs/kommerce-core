@@ -18,6 +18,5 @@ class CreateTagHandler implements TagServiceAwareInterface
     {
         $tag = $command->getTag();
         $this->tagService->create($tag);
-        $command->setReturnId($tag->getId());
     }
 }

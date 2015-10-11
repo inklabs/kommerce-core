@@ -8,6 +8,9 @@ class CommandBus implements CommandBusInterface
     /** @var ServiceFactory */
     private $serviceFactory;
 
+    /** @var HandlerInterface */
+    private $handler;
+
     public function __construct(ServiceFactory $serviceFactory)
     {
         $this->serviceFactory = $serviceFactory;
@@ -15,8 +18,8 @@ class CommandBus implements CommandBusInterface
 
     public function execute(CommandInterface $command)
     {
-        $handler = $this->getHandler($command);
-        $handler->handle($command);
+        $this->handler = $this->getHandler($command);
+        $this->handler->handle($command);
     }
 
     /**

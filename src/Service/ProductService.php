@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
@@ -47,9 +48,9 @@ class ProductService extends AbstractService
      * @param int $id
      * @return Product|null
      */
-    public function find($id)
+    public function findOneById($id)
     {
-        return $this->productRepository->find($id);
+        return $this->productRepository->findOneById($id);
     }
 
     /**
@@ -181,9 +182,9 @@ class ProductService extends AbstractService
      */
     public function getProductAndThrowExceptionIfMissing($productId)
     {
-        $product = $this->productRepository->find($productId);
-
-        if ($product === null) {
+        try {
+            $product = $this->productRepository->findOneById($productId);
+        } catch (EntityNotFoundException $e) {
             throw new LogicException('Missing Product');
         }
 
@@ -197,9 +198,9 @@ class ProductService extends AbstractService
      */
     private function getTagAndThrowExceptionIfMissing($tagId)
     {
-        $tag = $this->tagRepository->find($tagId);
-
-        if ($tag === null) {
+        try {
+            $tag = $this->tagRepository->findOneById($tagId);
+        } catch (EntityNotFoundException $e) {
             throw new LogicException('Missing Tag');
         }
 
@@ -213,9 +214,9 @@ class ProductService extends AbstractService
      */
     private function getImageAndThrowExceptionIfMissing($imageId)
     {
-        $image = $this->imageRepository->find($imageId);
-
-        if ($image === null) {
+        try {
+            $image = $this->imageRepository->findOneById($imageId);
+        } catch (EntityNotFoundException $e) {
             throw new LogicException('Missing Image');
         }
 

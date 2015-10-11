@@ -39,16 +39,10 @@ class TaxRateServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $taxRate = $this->taxRateService->find(1);
+        $this->taxRateRepository->create(new TaxRate);
+
+        $taxRate = $this->taxRateService->findOneById(1);
         $this->assertTrue($taxRate instanceof TaxRate);
-    }
-
-    public function testFindMissing()
-    {
-        $this->taxRateRepository->setReturnValue(null);
-
-        $taxRate = $this->taxRateService->find(1);
-        $this->assertSame(null, $taxRate);
     }
 
     public function testFindAll()

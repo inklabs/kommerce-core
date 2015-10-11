@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Pagination;
 
 /**
- * @method Coupon find($id)
+ * @method Coupon findOneById($id)
  */
 interface CouponRepositoryInterface extends AbstractRepositoryInterface
 {

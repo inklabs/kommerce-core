@@ -1,18 +1,21 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Action\Tag\AbstractTagHandlerTestCase;
 
-class EditTagHandlerTest extends DoctrineTestCase
+class EditTagHandlerTest extends AbstractTagHandlerTestCase
 {
-    public function testExecute()
+    public function testDispatch()
     {
         $tag = $this->getDummyTag();
-        $updated = $tag->getUpdated();
         $tag->setName('New Name');
+        $this->tagRepository->create($tag);
+        $this->assertNull($tag->getUpdated());
 
-        $this->dispatch(new EditTagCommand($tag));
+        $editTagHandler = new EditTagHandler($this->tagService);
+        $editTagHandler->handle(new EditTagCommand($tag));
 
-        $this->assertNotSame($updated, $tag->getUpdated());
+        $storedTag = $this->tagRepository->findOneById(1);
+        $this->assertNotNull($storedTag->getUpdated());
     }
 }

@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Pagination;
 
 /**
- * @method AttributeValue find($id)
+ * @method AttributeValue findOneById($id)
  */
 interface AttributeValueRepositoryInterface extends AbstractRepositoryInterface
 {

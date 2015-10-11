@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 
 /**
- * @method CartPriceRuleDiscount find($id)
+ * @method CartPriceRuleDiscount findOneById($id)
  */
 interface CartPriceRuleDiscountRepositoryInterface extends AbstractRepositoryInterface
 {

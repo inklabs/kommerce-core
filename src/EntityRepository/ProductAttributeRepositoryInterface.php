@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\ProductAttribute;
 
 /**
- * @method ProductAttribute find($id)
+ * @method ProductAttribute findOneById($id)
  */
 interface ProductAttributeRepositoryInterface extends AbstractRepositoryInterface
 {

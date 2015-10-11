@@ -63,7 +63,7 @@ class ImageRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $image = $this->imageRepository->find(1);
+        $image = $this->imageRepository->findOneById(1);
 
         $image->getProduct()->getName();
         $image->getTag()->getName();

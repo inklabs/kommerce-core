@@ -15,6 +15,6 @@ class GetTagHandler
 
     public function handle(GetTagCommand $command)
     {
-        return $this->tagService->findById($command->getTagId());
+        return $this->tagService->findOneById($command->getTagId());
     }
 }

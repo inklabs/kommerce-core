@@ -4,16 +4,14 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 
+/**
+ * @method Cart findOneById($id)
+ */
 class FakeCartRepository extends AbstractFakeRepository implements CartRepositoryInterface
 {
     public function __construct()
     {
         $this->setReturnValue(new Cart);
-    }
-
-    public function find($id)
-    {
-        return $this->getReturnValue();
     }
 
     public function findOneByUser($userId)

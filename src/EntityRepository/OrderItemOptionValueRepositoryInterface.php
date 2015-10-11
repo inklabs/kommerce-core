@@ -3,11 +3,9 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\OrderItemOptionValue;
 
+/**
+ * @method OrderItemOptionValue|null findOneById($id)
+ */
 interface OrderItemOptionValueRepositoryInterface extends AbstractRepositoryInterface
 {
-    /**
-     * @param int $id
-     * @return OrderItemOptionValue
-     */
-    public function find($id);
 }

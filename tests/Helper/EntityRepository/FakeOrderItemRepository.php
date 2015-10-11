@@ -1,19 +1,17 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
-use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\Lib\ReferenceNumber;
 
+/**
+ * @method OrderItem findOneById($id)
+ */
 class FakeOrderItemRepository extends AbstractFakeRepository implements OrderItemRepositoryInterface
 {
     public function __construct()
     {
-        $this->setReturnValue(new Order);
-    }
-
-    public function find($id)
-    {
-        return $this->getReturnValue();
+        $this->setReturnValue(new OrderItem);
     }
 }

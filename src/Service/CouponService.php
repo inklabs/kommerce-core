@@ -29,11 +29,11 @@ class CouponService extends AbstractService
 
     /**
      * @param int $id
-     * @return Coupon
+     * @return Coupon|null
      */
-    public function find($id)
+    public function findOneById($id)
     {
-        return $this->couponRepository->find($id);
+        return $this->couponRepository->findOneById($id);
     }
 
     /**

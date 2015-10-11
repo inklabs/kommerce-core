@@ -21,16 +21,17 @@ class AttributeValueServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $attributeValue = $this->attributeValueService->find(1);
+        $this->attributeValueRepository->create(new AttributeValue);
+        $attributeValue = $this->attributeValueService->findOneById(1);
         $this->assertTrue($attributeValue instanceof AttributeValue);
     }
 
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     */
     public function testFindMissing()
     {
-        $this->attributeValueRepository->setReturnValue(null);
-
-        $attributeValue = $this->attributeValueService->find(1);
-        $this->assertSame(null, $attributeValue);
+        $this->attributeValueService->findOneById(1);
     }
 
     public function testGetAttributeValuesByIds()

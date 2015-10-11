@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OptionProduct implements ValidationInterface
+class OptionProduct implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

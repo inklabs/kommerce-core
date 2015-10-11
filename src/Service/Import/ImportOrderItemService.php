@@ -54,7 +54,7 @@ class ImportOrderItemService
             $unitPrice = $this->convertDollarToCents($row[4]);
             $quantityPrice = $this->convertDollarToCents($row[5]);
 
-            $order = $this->orderRepository->findOneBy(['externalId' => $orderExternalId]);
+            $order = $this->orderRepository->findOneByExternalId($orderExternalId);
 
             $price = new Price;
             $price->origUnitPrice = $unitPrice;

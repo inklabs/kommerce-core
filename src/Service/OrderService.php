@@ -26,9 +26,9 @@ class OrderService extends AbstractService
      * @param int $id
      * @return Order|null
      */
-    public function find($id)
+    public function findOneById($id)
     {
-        $order = $this->orderRepository->find($id);
+        $order = $this->orderRepository->findOneById($id);
         $this->loadProductTags($order);
         return $order;
     }

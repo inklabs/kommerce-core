@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\ImageDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Image implements ValidationInterface
+class Image implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

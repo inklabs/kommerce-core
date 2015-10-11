@@ -39,18 +39,26 @@ class TagServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $tag = $this->tagService->findById(1);
+        $this->tagRepository->create(new Tag);
+        $tag = $this->tagService->findOneById(1);
         $this->assertTrue($tag instanceof Tag);
     }
 
     public function testFindOneByCode()
     {
+        $tag = new Tag;
+        $tag->setCode('TT1');
+        $this->tagRepository->create($tag);
+
         $tag = $this->tagService->findOneByCode('TT1');
+
         $this->assertTrue($tag instanceof Tag);
     }
 
     public function testGetTagAndThrowExceptionIfMissing()
     {
+        $this->tagRepository->create(new Tag);
+
         $tag = $this->tagService->getTagAndThrowExceptionIfMissing(1);
         $this->assertTrue($tag instanceof Tag);
     }
@@ -63,12 +71,6 @@ class TagServiceTest extends Helper\DoctrineTestCase
     {
         $this->tagRepository->setReturnValue(null);
         $this->tagService->getTagAndThrowExceptionIfMissing(1);
-    }
-
-    public function testFindSimple()
-    {
-        $tag = $this->tagService->findSimple(1);
-        $this->assertTrue($tag instanceof Tag);
     }
 
     public function testGetAllTags()

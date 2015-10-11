@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 
 /**
- * @method User find($id)
+ * @method User findOneById($id)
  */
 interface UserRepositoryInterface extends AbstractRepositoryInterface
 {

@@ -67,7 +67,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $product = $this->productRepository->find(1);
+        $product = $this->productRepository->findOneById(1);
 
         $product->getImages()->toArray();
         $product->getProductQuantityDiscounts()->toArray();

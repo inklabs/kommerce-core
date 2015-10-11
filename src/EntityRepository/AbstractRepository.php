@@ -48,4 +48,20 @@ abstract class AbstractRepository extends EntityRepository implements AbstractRe
         $entityManager = $this->getEntityManager();
         $entityManager->flush();
     }
+
+    public function findOneById($id)
+    {
+        return $this->returnOrThrowNotFoundException(
+            parent::find($id)
+        );
+    }
+
+    protected function returnOrThrowNotFoundException($entity)
+    {
+        if ($entity === null) {
+            throw new EntityNotFoundException;
+        }
+
+        return $entity;
+    }
 }

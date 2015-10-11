@@ -19,11 +19,16 @@ class ProductRepositoryInterfaceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $this->assertTrue($this->productRepository->find(1) instanceof Product);
+        $this->productRepository->create(new Product);
+        $this->assertTrue($this->productRepository->findOneById(1) instanceof Product);
     }
 
     public function testFindOneBy()
     {
+        $product = new Product;
+        $product->setSku('a');
+        $this->productRepository->create($product);
+
         $this->assertTrue($this->productRepository->findOneBySku('a') instanceof Product);
     }
 

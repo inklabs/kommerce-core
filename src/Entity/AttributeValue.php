@@ -6,7 +6,7 @@ use inklabs\kommerce\EntityDTO\Builder\AttributeValueDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class AttributeValue implements ValidationInterface
+class AttributeValue implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

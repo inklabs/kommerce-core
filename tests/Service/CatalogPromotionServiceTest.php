@@ -39,7 +39,9 @@ class CatalogPromotionServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $catalogPromotion = $this->catalogPromotionService->find(1);
+        $this->catalogPromotionRepository->create(new CatalogPromotion);
+
+        $catalogPromotion = $this->catalogPromotionService->findOneById(1);
         $this->assertTrue($catalogPromotion instanceof CatalogPromotion);
     }
 

@@ -93,9 +93,9 @@ class UserService extends AbstractService
      * @param int $id
      * @return User|null
      */
-    public function find($id)
+    public function findOneById($id)
     {
-        return $this->userRepository->find($id);
+        return $this->userRepository->findOneById($id);
     }
 
     /**

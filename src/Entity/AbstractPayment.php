@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\AbstractPaymentDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractPayment implements ValidationInterface
+abstract class AbstractPayment implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

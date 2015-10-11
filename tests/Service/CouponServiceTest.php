@@ -39,7 +39,9 @@ class CouponServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $coupon = $this->couponService->find(1);
+        $this->couponRepository->create(new Coupon);
+
+        $coupon = $this->couponService->findOneById(1);
         $this->assertTrue($coupon instanceof Coupon);
     }
 

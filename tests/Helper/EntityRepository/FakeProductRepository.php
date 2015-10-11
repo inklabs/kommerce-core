@@ -6,21 +6,26 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 
+/**
+ * @method Product findOneById($id)
+ */
 class FakeProductRepository extends AbstractFakeRepository implements ProductRepositoryInterface
 {
+    /** @var Product[] */
+    protected $entities = [];
+
     public function __construct()
     {
         $this->setReturnValue(new Product);
     }
 
-    public function find($id)
-    {
-        return $this->getReturnValue();
-    }
-
     public function findOneBySku($sku)
     {
-        return $this->getReturnValue();
+        foreach ($this->entities as $entity) {
+            if ($entity->getSku() === $sku) {
+                return $entity;
+            }
+        }
     }
 
     public function getRelatedProducts($products, $limit = 12)

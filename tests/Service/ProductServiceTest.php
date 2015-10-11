@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
@@ -56,18 +58,21 @@ class ProductServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $product = $this->productService->find(1);
+        $this->productRepository->create(new Product);
+
+        $product = $this->productService->findOneById(1);
         $this->assertTrue($product instanceof Product);
     }
 
     public function testAddTag()
     {
         $product = new Product;
-        $this->productRepository->setReturnValue($product);
+        $this->productRepository->create($product);
 
-        $productId = 1;
-        $tagEncodedId = '1';
-        $tag = $this->productService->addTag($productId, $tagEncodedId);
+        $tag = new Tag;
+        $this->tagRepository->create($tag);
+
+        $tag = $this->productService->addTag($product->getId(), $tag->getId());
 
         $this->assertTrue($tag instanceof Tag);
         $this->assertTrue($product->getTags()[0] instanceof Tag);
@@ -92,21 +97,20 @@ class ProductServiceTest extends Helper\DoctrineTestCase
      */
     public function testAddTagWithMissingTag()
     {
-        $this->tagRepository->setReturnValue(null);
+        $product = new Product;
+        $this->productRepository->create($product);
 
-        $productId = 1;
-        $tagEncodedId = '1';
-        $this->productService->addTag($productId, $tagEncodedId);
+        $this->productService->addTag($product->getId(), 1);
     }
 
     public function testRemoveTag()
     {
         $tag = $this->getDummyTag();
-        $tag->setId(1);
-
         $product = $this->getDummyProduct();
-        $product->setId(1);
         $product->addTag($tag);
+
+        $this->tagRepository->create($tag);
+        $this->productRepository->create($product);
 
         $this->productRepository->setReturnValue($product);
         $this->imageRepository->setReturnValue($tag);
@@ -117,14 +121,11 @@ class ProductServiceTest extends Helper\DoctrineTestCase
     public function testRemoveImage()
     {
         $image = $this->getDummyImage();
-        $image->setId(1);
-
         $product = $this->getDummyProduct();
-        $product->setId(1);
         $product->addImage($image);
 
-        $this->productRepository->setReturnValue($product);
-        $this->imageRepository->setReturnValue($image);
+        $this->imageRepository->create($image);
+        $this->productRepository->create($product);
 
         $this->productService->removeImage($product->getId(), $image->getId());
     }
@@ -135,8 +136,10 @@ class ProductServiceTest extends Helper\DoctrineTestCase
      */
     public function testRemoveImageWithMissingImage()
     {
-        $this->imageRepository->setReturnValue(null);
-        $this->productService->removeImage(1, 1);
+        $product = new Product;
+        $this->productRepository->create($product);
+
+        $this->productService->removeImage($product->getId(), 1);
     }
 
     public function testGetAllProducts()

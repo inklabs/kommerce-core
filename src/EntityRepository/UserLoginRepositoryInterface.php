@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\UserLogin;
 
 /**
- * @method UserLogin find($id)
+ * @method UserLogin findOneById($id)
  */
 interface UserLoginRepositoryInterface extends AbstractRepositoryInterface
 {

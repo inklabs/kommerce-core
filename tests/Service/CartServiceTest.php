@@ -7,6 +7,7 @@ use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
+use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ShippingRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
@@ -109,6 +110,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function testAddCouponByCode()
     {
+        $this->cartRepository->create(new Cart);
         $couponIndex = $this->cartService->addCouponByCode(1, 'code');
         $this->assertSame(0, $couponIndex);
     }
@@ -125,19 +127,23 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function testGetCoupons()
     {
-        $couponIndex = $this->cartService->addCouponByCode(1, 'code');
+        $cart = new Cart;
+        $this->cartRepository->create($cart);
+        $couponIndex = $this->cartService->addCouponByCode($cart->getId(), 'code');
 
-        $coupons = $this->cartService->getCoupons($couponIndex);
+        $coupons = $this->cartService->getCoupons($cart->getId());
         $this->assertTrue($coupons[0] instanceof Coupon);
     }
 
     public function testRemoveCart()
     {
+        $this->cartRepository->create(new Cart);
         $this->cartService->removeCart(1);
     }
 
     public function testRemoveCoupon()
     {
+        $this->cartRepository->create(new Cart);
         $couponIndex = $this->cartService->addCouponByCode(1, 'code');
 
         $coupons = $this->cartService->getCoupons(1);
@@ -173,10 +179,15 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function testAddItem()
     {
-        $productId = 2001;
         $quantity = 1;
 
-        $cartItemIndex = $this->cartService->addItem($productId, $quantity);
+        $product = new Product;
+        $product->setId(2001);
+
+        $this->cartRepository->create(new Cart);
+        $this->productRepository->create($product);
+
+        $cartItemIndex = $this->cartService->addItem($product->getId(), $quantity);
 
         $cart = $this->cartService->getCartFull(1);
 
@@ -200,10 +211,15 @@ class CartServiceTest extends Helper\DoctrineTestCase
     public function testAddItemOptionProducts()
     {
         $cartId = 1;
-        $productId = 2001;
         $optionProductIds = [101];
 
-        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
+        $product = new Product;
+        $product->setId(2001);
+
+        $this->cartRepository->create(new Cart);
+        $this->productRepository->create($product);
+
+        $cartItemIndex = $this->cartService->addItem($cartId, $product->getId());
         $this->cartService->addItemOptionProducts($cartId, $cartItemIndex, $optionProductIds);
     }
 
@@ -217,16 +233,23 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $cartItemIndex = 1;
         $optionProductIds = [101];
 
+        $this->cartRepository->create(new Cart);
+
         $this->cartService->addItemOptionProducts($cartId, $cartItemIndex, $optionProductIds);
     }
 
     public function testAddItemOptionValues()
     {
         $cartId = 1;
-        $productId = 2001;
         $optionValueIds = [201];
 
-        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
+        $product = new Product;
+        $product->setId(2001);
+
+        $this->cartRepository->create(new Cart);
+        $this->productRepository->create($product);
+
+        $cartItemIndex = $this->cartService->addItem($cartId, $product->getId());
         $this->cartService->addItemOptionValues($cartId, $cartItemIndex, $optionValueIds);
     }
 
@@ -237,10 +260,15 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->textOptionRepository->setReturnValue($textOption);
 
         $cartId = 1;
-        $productId = 2001;
         $textOptionValues = [$textOption->getId() => 'Happy Birthday'];
 
-        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
+        $product = new Product;
+        $product->setId(2001);
+
+        $this->cartRepository->create(new Cart);
+        $this->productRepository->create($product);
+
+        $cartItemIndex = $this->cartService->addItem($cartId, $product->getId());
         $this->cartService->addItemTextOptionValues($cartId, $cartItemIndex, $textOptionValues);
     }
 
@@ -259,10 +287,15 @@ class CartServiceTest extends Helper\DoctrineTestCase
     public function testUpdateQuantity()
     {
         $cartId = 1;
-        $productId = 2001;
         $quantity = 2;
 
-        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
+        $product = new Product;
+        $product->setId(2001);
+
+        $this->cartRepository->create(new Cart);
+        $this->productRepository->create($product);
+
+        $cartItemIndex = $this->cartService->addItem($cartId, $product->getId());
 
         $this->cartService->updateQuantity($cartId, $cartItemIndex, $quantity);
 
@@ -274,8 +307,14 @@ class CartServiceTest extends Helper\DoctrineTestCase
     public function testDeleteItem()
     {
         $cartId = 1;
-        $productId = 2001;
-        $cartItemIndex = $this->cartService->addItem($cartId, $productId);
+
+        $product = new Product;
+        $product->setId(2001);
+
+        $this->cartRepository->create(new Cart);
+        $this->productRepository->create($product);
+
+        $cartItemIndex = $this->cartService->addItem($cartId, $product->getId());
 
         $this->cartService->deleteItem($cartId, $cartItemIndex);
 
@@ -287,8 +326,14 @@ class CartServiceTest extends Helper\DoctrineTestCase
     public function testGetItems()
     {
         $cartId = 1;
-        $productId = 2001;
-        $this->cartService->addItem($cartId, $productId);
+
+        $product = new Product;
+        $product->setId(2001);
+
+        $this->cartRepository->create(new Cart);
+        $this->productRepository->create($product);
+
+        $this->cartService->addItem($cartId, $product->getId());
 
         $cart = $this->cartService->getCartFull($cartId);
 
@@ -299,28 +344,37 @@ class CartServiceTest extends Helper\DoctrineTestCase
     {
         $cartId = 1;
 
+        $this->cartRepository->create(new Cart);
+
         $this->cartService->setShippingRate($cartId, new ShippingRate);
         $this->cartService->setTaxRate($cartId, new TaxRate);
     }
 
     public function testSetUserById()
     {
-        $cartId = 1;
-        $userId = 1;
-        $this->cartService->setUserById($cartId, $userId);
+        $cart = new Cart;
+        $this->cartRepository->create($cart);
 
-        $cart = $this->cartService->getCartFull($cartId);
+        $user = new User;
+        $this->userRepository->create($user);
+
+        $this->cartService->setUserById($cart->getId(), $user->getId());
+
+        $cart = $this->cartService->getCartFull($cart->getId());
 
         $this->assertTrue($cart->getUser() instanceof User);
     }
 
     public function testSetSessionId()
     {
-        $cartId = 1;
         $sessionId = '6is7ujb3crb5ja85gf91g9en62';
-        $this->cartService->setSessionId($cartId, $sessionId);
 
-        $this->cartService->getCartFull($cartId);
+        $cart = new Cart;
+        $this->cartRepository->create($cart);
+
+        $this->cartService->setSessionId($cart->getId(), $sessionId);
+
+        $this->cartService->getCartFull($cart->getId());
     }
 
     /**
@@ -339,16 +393,18 @@ class CartServiceTest extends Helper\DoctrineTestCase
     public function testAddOrder()
     {
         $cart = new Cart;
-        $cart->setUser(new User);
+        $user = new User;
+        $cart->setUser($user);
         $cart->addCoupon(new Coupon);
-        $this->cartRepository->setReturnValue($cart);
         $this->setupCartService();
 
-        $cartId = 1;
+        $this->userRepository->create($user);
+        $this->cartRepository->create($cart);
+
         $payment = new CashPayment(100);
         $orderAddress = new OrderAddress;
 
-        $order = $this->cartService->createOrder($cartId, $payment, $orderAddress);
+        $order = $this->cartService->createOrder($cart->getId(), $payment, $orderAddress);
 
         $this->assertTrue($order instanceof Order);
     }

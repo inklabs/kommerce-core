@@ -39,16 +39,17 @@ class CartPriceRuleServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $product = $this->cartPriceRuleService->find(1);
+        $this->cartPriceRuleRepository->create(new CartPriceRule);
+        $product = $this->cartPriceRuleService->findOneById(1);
         $this->assertTrue($product instanceof CartPriceRule);
     }
 
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     */
     public function testFindMissing()
     {
-        $this->cartPriceRuleRepository->setReturnValue(null);
-
-        $product = $this->cartPriceRuleService->find(1);
-        $this->assertSame(null, $product);
+        $this->cartPriceRuleService->findOneById(1);
     }
 
     public function testFindAll()

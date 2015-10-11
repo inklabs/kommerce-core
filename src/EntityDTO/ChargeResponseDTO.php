@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 class ChargeResponseDTO
 {
-    public $id;
+    public $externalId;
     public $amount;
     public $last4;
     public $brand;

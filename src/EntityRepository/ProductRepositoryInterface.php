@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 
 /**
- * @method Product find($id)
+ * @method Product findOneById($id)
  */
 interface ProductRepositoryInterface extends AbstractRepositoryInterface
 {

@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Cart;
 
 /**
- * @method Cart find($id)
+ * @method Cart findOneById($id)
  */
 interface CartRepositoryInterface extends AbstractRepositoryInterface
 {

@@ -12,5 +12,11 @@ interface AbstractRepositoryInterface
     public function persist(EntityInterface & $entity);
     public function merge(EntityInterface & $entity);
     public function flush();
-    public function find($id);
+
+    /**
+     * @param int $id
+     * @return EntityInterface
+     * @throws EntityNotFoundException
+     */
+    public function findOneById($id);
 }

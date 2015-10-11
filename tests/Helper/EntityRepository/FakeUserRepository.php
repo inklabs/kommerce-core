@@ -6,6 +6,9 @@ use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 
+/**
+ * @method User findOneById($id)
+ */
 class FakeUserRepository extends AbstractFakeRepository implements UserRepositoryInterface
 {
     public function __construct()

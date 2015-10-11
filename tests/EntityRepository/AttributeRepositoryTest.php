@@ -53,7 +53,7 @@ class AttributeRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $attribute = $this->attributeRepository->find(1);
+        $attribute = $this->attributeRepository->findOneById(1);
 
         $attribute->getAttributeValues()->toArray();
         $attribute->getProductAttributes()->toArray();

@@ -4,16 +4,14 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 
+/**
+ * @method TaxRate findOneById($id)
+ */
 class FakeTaxRateRepository extends AbstractFakeRepository implements TaxRateRepositoryInterface
 {
     public function __construct()
     {
         $this->setReturnValue(new TaxRate);
-    }
-
-    public function find($id)
-    {
-        return $this->getReturnValue();
     }
 
     public function findAll()

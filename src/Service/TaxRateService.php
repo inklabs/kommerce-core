@@ -26,9 +26,9 @@ class TaxRateService extends AbstractService
         $this->taxRateRepository->save($taxRate);
     }
 
-    public function find($id)
+    public function findOneById($id)
     {
-        return $this->taxRateRepository->find($id);
+        return $this->taxRateRepository->findOneById($id);
     }
 
     public function findAll()

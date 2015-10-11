@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\TaxRate;
 
 /**
- * @method TaxRate find($id)
+ * @method TaxRate findOneById($id)
  */
 interface TaxRateRepositoryInterface extends AbstractRepositoryInterface
 {

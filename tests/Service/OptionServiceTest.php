@@ -39,7 +39,9 @@ class OptionServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $option = $this->optionService->find(1);
+        $this->optionRepository->create(new Option);
+
+        $option = $this->optionService->findOneById(1);
         $this->assertTrue($option instanceof Option);
     }
 

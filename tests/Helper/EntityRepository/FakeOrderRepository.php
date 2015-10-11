@@ -9,6 +9,9 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\Lib\ReferenceNumber;
 
+/**
+ * @method Order findOneById($id)
+ */
 class FakeOrderRepository extends AbstractFakeRepository implements OrderRepositoryInterface
 {
     public function __construct()
@@ -23,12 +26,7 @@ class FakeOrderRepository extends AbstractFakeRepository implements OrderReposit
         $this->setReturnValue($order);
     }
 
-    public function find($id)
-    {
-        return $this->getReturnValue();
-    }
-
-    public function findOneBy(array $criteria, array $orderBy = null)
+    public function findOneByExternalId($orderExternalId)
     {
         return $this->getReturnValue();
     }

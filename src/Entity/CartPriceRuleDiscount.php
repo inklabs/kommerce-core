@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDiscountDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartPriceRuleDiscount implements ValidationInterface
+class CartPriceRuleDiscount implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
 class AttributeValueService extends AbstractService
 {
@@ -17,11 +18,12 @@ class AttributeValueService extends AbstractService
 
     /**
      * @param int $id
-     * @return AttributeValue|null
+     * @return AttributeValue
+     * @throws EntityNotFoundException
      */
-    public function find($id)
+    public function findOneById($id)
     {
-        return $this->attributeValueRepository->find($id);
+        return $this->attributeValueRepository->findOneById($id);
     }
 
     /**

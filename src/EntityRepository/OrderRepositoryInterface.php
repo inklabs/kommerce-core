@@ -6,16 +6,15 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Lib\ReferenceNumber;
 
 /**
- * @method Order find($id)
+ * @method Order findOneById($id)
  */
 interface OrderRepositoryInterface extends AbstractRepositoryInterface, ReferenceNumber\RepositoryInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
+     * @param int $orderExternalId
      * @return Order
      */
-    public function findOneBy(array $criteria, array $orderBy = null);
+    public function findOneByExternalId($orderExternalId);
 
     /**
      * @param Pagination $pagination

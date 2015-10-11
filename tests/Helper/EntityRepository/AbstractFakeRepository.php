@@ -2,14 +2,16 @@
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use Exception;
-use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
 use inklabs\kommerce\Entity\EntityInterface;
-use inklabs\kommerce\Entity\UpdatedTrait;
 use inklabs\kommerce\Entity\ValidationInterface;
 use inklabs\kommerce\EntityRepository\AbstractRepositoryInterface;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
 class AbstractFakeRepository implements AbstractRepositoryInterface
 {
+    /** @var ValidationInterface[] */
+    protected $entities = [];
+
     /** @var ValidationInterface */
     public $returnValue;
 
@@ -47,9 +49,18 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
         }
     }
 
-    public function find($id)
+    /**
+     * @param int $id
+     * @return EntityInterface
+     * @throws EntityNotFoundException
+     */
+    public function findOneById($id)
     {
-        return $this->getReturnValue();
+        if (isset($this->entities[$id])) {
+            return $this->entities[$id];
+        }
+
+        throw new EntityNotFoundException;
     }
 
     public function getQueryBuilder()
@@ -63,6 +74,8 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
         if (method_exists($entity, 'setUpdated')) {
             $entity->setUpdated();
         }
+
+        $this->entities[$entity->getId()] = $entity;
     }
 
     public function create(EntityInterface & $entity)
@@ -70,13 +83,19 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
         $this->throwCrudExceptionIfSet();
 
         if (method_exists($entity, 'setId')) {
-            $entity->setId(1);
+            $entity->setId($this->getAutoincrement());
         }
+
+        $this->entities[$entity->getId()] = $entity;
     }
 
     public function remove(EntityInterface $entity)
     {
         $this->throwCrudExceptionIfSet();
+
+        if (isset($this->entities[$entity->getId()])) {
+            unset($this->entities[$entity->getId()]);
+        }
     }
 
     public function persist(EntityInterface & $entity)
@@ -90,5 +109,17 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
 
     public function flush()
     {
+    }
+
+    private function getAutoincrement()
+    {
+        if (count($this->entities) == 0) {
+            return 1;
+        }
+
+        end($this->entities);
+        $lastKey = key($this->entities);
+
+        return $lastKey + 1;
     }
 }

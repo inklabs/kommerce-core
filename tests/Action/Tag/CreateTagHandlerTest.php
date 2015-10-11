@@ -1,17 +1,18 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\tests\Action\Tag\AbstractTagHandlerTestCase;
 
-class CreateTagHandlerTest extends DoctrineTestCase
+class CreateTagHandlerTest extends AbstractTagHandlerTestCase
 {
-    public function testExecute()
+    public function testDispatch()
     {
         $tag = $this->getDummyTag();
-        $command = new CreateTagCommand($tag);
 
-        $this->dispatch($command);
+        $createTagHandler = new CreateTagHandler($this->tagService);
+        $createTagHandler->handle(new CreateTagCommand($tag));
 
-        $this->assertNotNull($command->getReturnId());
+        $this->assertTrue($this->tagRepository->findOneById(1) instanceof Tag);
     }
 }

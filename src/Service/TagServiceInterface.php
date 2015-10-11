@@ -20,19 +20,13 @@ interface TagServiceInterface
      * @param int $id
      * @return Tag|null
      */
-    public function findById($id);
+    public function findOneById($id);
 
     /**
      * @param string $code
      * @return Tag|null
      */
     public function findOneByCode($code);
-
-    /**
-     * @param int $id
-     * @return Tag|null
-     */
-    public function findSimple($id);
 
     /**
      * @param int $tagId

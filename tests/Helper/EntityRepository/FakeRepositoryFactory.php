@@ -55,7 +55,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getAttributeRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Attribute');
+        return new FakeAttributeRepository;
     }
 
     /**
@@ -63,7 +63,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getAttributeValueRepository()
     {
-        return $this->entityManager->getRepository('kommerce:AttributeValue');
+        return new FakeAttributeValueRepository;
     }
 
     /**
@@ -71,7 +71,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getCartRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Cart');
+        return new FakeCartRepository;
     }
 
     /**
@@ -79,7 +79,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getCartPriceRuleRepository()
     {
-        return $this->entityManager->getRepository('kommerce:CartPriceRule');
+        return new FakeCartPriceRuleRepository;
     }
 
     /**
@@ -87,7 +87,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getCartPriceRuleDiscountRepository()
     {
-        return $this->entityManager->getRepository('kommerce:CartPriceRuleDiscount');
+        //return new FakeCartPriceRuleDiscountRepository;
     }
 
     /**
@@ -95,7 +95,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getCatalogPromotionRepository()
     {
-        return $this->entityManager->getRepository('kommerce:CatalogPromotion');
+        return new FakeCatalogPromotionRepository;
     }
 
     /**
@@ -103,7 +103,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getCouponRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Coupon');
+        return new FakeCouponRepository;
     }
 
     /**
@@ -111,7 +111,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getImageRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Image');
+        return new FakeImageRepository;
     }
 
     /**
@@ -119,7 +119,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getOptionRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Option');
+        return new FakeOptionRepository;
     }
 
     /**
@@ -127,7 +127,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getOptionProductRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OptionProduct');
+        return new FakeOptionProductRepository;
     }
 
     /**
@@ -135,7 +135,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getOptionValueRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OptionValue');
+        return new FakeOptionValueRepository;
     }
 
     /**
@@ -143,7 +143,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getOrderRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Order');
+        return new FakeOrderRepository;
     }
 
     /**
@@ -152,7 +152,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
     public function getOrderWithHashSegmentGenerator()
     {
         /** @var OrderRepositoryInterface $orderRepository */
-        $orderRepository = $this->entityManager->getRepository('kommerce:Order');
+        $orderRepository = new FakeOrderRepository;
         $orderRepository->setReferenceNumberGenerator(new ReferenceNumber\HashSegmentGenerator($orderRepository));
         return $orderRepository;
     }
@@ -163,7 +163,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
     public function getOrderWithSequentialGenerator()
     {
         /** @var OrderRepositoryInterface $orderRepository */
-        $orderRepository = $this->entityManager->getRepository('kommerce:Order');
+        $orderRepository = new FakeOrderRepository;
         $orderRepository->setReferenceNumberGenerator(new ReferenceNumber\SequentialGenerator);
         return $orderRepository;
     }
@@ -173,7 +173,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getOrderItemRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItem');
+        return new FakeOrderItemRepository;
     }
 
     /**
@@ -181,7 +181,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getOrderItemOptionProductRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItemOptionProduct');
+        //return new FakeOrderItemOptionProductRepository;
     }
 
     /**
@@ -189,7 +189,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getOrderItemOptionValueRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItemOptionValue');
+        //return new FakeOrderItemOptionValueRepository;
     }
 
     /**
@@ -197,7 +197,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getOrderItemTextOptionValueRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItemTextOptionValue');
+        //return new FakeOrderItemTextOptionValueRepository;
     }
 
     /**
@@ -205,7 +205,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getPaymentRepository()
     {
-        return $this->entityManager->getRepository('kommerce:AbstractPayment');
+        //return new FakeAbstractPaymentRepository;
     }
 
     /**
@@ -213,7 +213,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getProductRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Product');
+        //return new FakeProductRepository;
     }
 
     /**
@@ -221,7 +221,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getProductAttributeRepository()
     {
-        return $this->entityManager->getRepository('kommerce:ProductAttribute');
+        //return new FakeProductAttributeRepository;
     }
 
     /**
@@ -229,7 +229,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getProductQuantityDiscountRepository()
     {
-        return $this->entityManager->getRepository('kommerce:ProductQuantityDiscount');
+        //return new FakeProductQuantityDiscountRepository;
     }
 
     /**
@@ -245,7 +245,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getTaxRateRepository()
     {
-        return $this->entityManager->getRepository('kommerce:TaxRate');
+        return new FakeTaxRateRepository;
     }
 
     /**
@@ -253,7 +253,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getTextOptionRepository()
     {
-        return $this->entityManager->getRepository('kommerce:TextOption');
+        return new FakeTextOptionRepository;
     }
 
     /**
@@ -261,7 +261,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getUserRepository()
     {
-        return $this->entityManager->getRepository('kommerce:User');
+        return new FakeUserRepository;
     }
 
     /**
@@ -269,7 +269,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getUserLoginRepository()
     {
-        return $this->entityManager->getRepository('kommerce:UserLogin');
+        return new FakeUserLoginRepository;
     }
 
     /**
@@ -277,7 +277,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getUserRoleRepository()
     {
-        return $this->entityManager->getRepository('kommerce:UserRole');
+        //return new FakeUserRoleRepository;
     }
 
     /**
@@ -285,7 +285,7 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getUserTokenRepository()
     {
-        return $this->entityManager->getRepository('kommerce:UserToken');
+        //return new FakeUserTokenRepository;
     }
 
     /**
@@ -293,6 +293,6 @@ class FakeRepositoryFactory implements RepositoryFactoryInterface
      */
     public function getWarehouseRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Warehouse');
+        //return new FakeWarehouseRepository;
     }
 }

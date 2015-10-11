@@ -54,7 +54,7 @@ class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $catalogPromotion = $this->catalogPromotionRepository->find(1);
+        $catalogPromotion = $this->catalogPromotionRepository->findOneById(1);
 
         $catalogPromotion->getTag()->getName();
 

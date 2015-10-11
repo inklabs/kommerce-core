@@ -5,16 +5,14 @@ use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 
+/**
+ * @method Option findOneById($id)
+ */
 class FakeOptionRepository extends AbstractFakeRepository implements OptionRepositoryInterface
 {
     public function __construct()
     {
         $this->setReturnValue(new Option);
-    }
-
-    public function find($id)
-    {
-        return $this->getReturnValue();
     }
 
     public function getAllOptions($queryString = null, Pagination & $pagination = null)

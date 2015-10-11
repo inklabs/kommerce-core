@@ -17,7 +17,7 @@ class ChargeResponseDTOBuilder
         $this->chargeResponse = $chargeResponse;
 
         $this->chargeResponseDTO = new ChargeResponseDTO;
-        $this->chargeResponseDTO->id          = $this->chargeResponse->getId();
+        $this->chargeResponseDTO->externalId  = $this->chargeResponse->getExternalId();
         $this->chargeResponseDTO->amount      = $this->chargeResponse->getAmount();
         $this->chargeResponseDTO->last4       = $this->chargeResponse->getLast4();
         $this->chargeResponseDTO->brand       = $this->chargeResponse->getBrand();

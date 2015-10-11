@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\UserTokenDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserToken implements ValidationInterface
+class UserToken implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

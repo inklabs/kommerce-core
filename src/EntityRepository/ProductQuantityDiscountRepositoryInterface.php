@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 
 /**
- * @method ProductQuantityDiscount find($id)
+ * @method ProductQuantityDiscount findOneById($id)
  */
 interface ProductQuantityDiscountRepositoryInterface extends AbstractRepositoryInterface
 {

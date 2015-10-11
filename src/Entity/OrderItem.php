@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OrderItem implements ValidationInterface
+class OrderItem implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -205,11 +205,6 @@ class OrderItem implements ValidationInterface
         }
 
         $this->discountNames = implode(', ', $discountNames);
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getPrice()

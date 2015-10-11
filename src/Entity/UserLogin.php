@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\UserLoginDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserLogin implements ValidationInterface
+class UserLogin implements EntityInterface, ValidationInterface
 {
     use CreatedTrait, IdTrait;
 

@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeAttributeRepository;
 
@@ -39,15 +40,16 @@ class AttributeServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $attributeValue = $this->attributeService->find(1);
+        $this->attributeRepository->create(new Attribute);
+        $attributeValue = $this->attributeService->findOneById(1);
         $this->assertTrue($attributeValue instanceof Attribute);
     }
 
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     */
     public function testFindMissing()
     {
-        $this->attributeRepository->setReturnValue(null);
-
-        $attributeValue = $this->attributeService->find(1);
-        $this->assertSame(null, $attributeValue);
+        $this->attributeService->findOneById(1);
     }
 }

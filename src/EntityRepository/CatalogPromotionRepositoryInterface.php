@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Pagination;
 
 /**
- * @method CatalogPromotion find($id)
+ * @method CatalogPromotion findOneById($id)
  */
 interface CatalogPromotionRepositoryInterface extends AbstractRepositoryInterface
 {

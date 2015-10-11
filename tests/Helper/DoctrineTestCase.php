@@ -577,26 +577,6 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return new ServiceFactory($this->repository(), $cartCalculator);
     }
 
-    protected function dispatch(CommandInterface $command)
-    {
-        $commandBus = $this->getCommandBusWithFakeRepository();
-        $commandBus->execute($command);
-    }
-
-    protected function getCommandBusWithFakeRepository()
-    {
-        return new CommandBus($this->serviceFactoryWithFakeRepositoryFactory());
-    }
-
-    protected function serviceFactoryWithFakeRepositoryFactory(CartCalculatorInterface $cartCalculator = null)
-    {
-        if ($cartCalculator === null) {
-            $cartCalculator = new CartCalculator(new Pricing);
-        }
-
-        return new ServiceFactory($this->fakeRepositoryFactory(), $cartCalculator);
-    }
-
     protected function beginTransaction()
     {
         $this->entityManager->getConnection()->beginTransaction();

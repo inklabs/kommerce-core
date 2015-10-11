@@ -8,7 +8,7 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $chargeResponse = new ChargeResponse;
-        $chargeResponse->setId('ch_xxxxxxxxxxxxxx');
+        $chargeResponse->setExternalId('ch_xxxxxxxxxxxxxx');
         $chargeResponse->setAmount(2000);
         $chargeResponse->setLast4('4242');
         $chargeResponse->setBrand('Visa');
@@ -22,7 +22,7 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
             ->getValidator();
 
         $this->assertEmpty($validator->validate($chargeResponse));
-        $this->assertSame('ch_xxxxxxxxxxxxxx', $chargeResponse->getId());
+        $this->assertSame('ch_xxxxxxxxxxxxxx', $chargeResponse->getExternalId());
         $this->assertSame(2000, $chargeResponse->getAmount());
         $this->assertSame('4242', $chargeResponse->getLast4());
         $this->assertSame('Visa', $chargeResponse->getBrand());
@@ -36,7 +36,7 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
     {
         $chargeResponse = new ChargeResponse;
 
-        $chargeResponse->setId(str_pad('x', 256, 'x'));
+        $chargeResponse->setExternalId(str_pad('x', 256, 'x'));
         $chargeResponse->setAmount(2147483648);
         $chargeResponse->setLast4('xxxx');
         $chargeResponse->setBrand('12345678901234567');
@@ -52,7 +52,7 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
         $errors = $validator->validate($chargeResponse);
 
         $this->assertSame(8, sizeof($errors));
-        $this->assertSame('id', $errors->get(0)->getPropertyPath());
+        $this->assertSame('externalId', $errors->get(0)->getPropertyPath());
         $this->assertSame('created', $errors->get(1)->getPropertyPath());
         $this->assertSame('last4', $errors->get(2)->getPropertyPath());
         $this->assertSame('brand', $errors->get(3)->getPropertyPath());

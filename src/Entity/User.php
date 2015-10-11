@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class User implements ValidationInterface
+class User implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -125,7 +125,7 @@ class User implements ValidationInterface
      */
     public function setExternalId($externalId = null)
     {
-        $this->externalId = $externalId;
+        $this->externalId = (string) $externalId;
     }
 
     public function setStatus($status)

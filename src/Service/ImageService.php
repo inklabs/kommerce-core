@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 
@@ -40,8 +41,9 @@ class ImageService extends AbstractService
      */
     public function createWithProduct(Image & $image, $productId)
     {
-        $product = $this->productRepository->find($productId);
-        if ($product === null) {
+        try {
+            $product = $this->productRepository->findOneById($productId);
+        } catch (EntityNotFoundException $e) {
             throw new \LogicException('Missing Product');
         }
 
@@ -57,8 +59,8 @@ class ImageService extends AbstractService
      * @param int $id
      * @return Image|null
      */
-    public function find($id)
+    public function findOneById($id)
     {
-        return $this->imageRepository->find($id);
+        return $this->imageRepository->findOneById($id);
     }
 }

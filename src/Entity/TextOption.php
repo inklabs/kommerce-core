@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class TextOption implements ValidationInterface
+class TextOption implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

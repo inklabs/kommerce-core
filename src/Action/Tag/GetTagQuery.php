@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Tag;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
 
-class GetTagCommand implements CommandInterface
+class GetTagQuery implements CommandInterface
 {
     /** @var int */
     private $tagId;

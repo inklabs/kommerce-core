@@ -30,7 +30,9 @@ class OrderServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $order = $this->orderService->find(1);
+        $this->orderRepository->create(new Order);
+
+        $order = $this->orderService->findOneById(1);
         $this->assertTrue($order instanceof Order);
     }
 
