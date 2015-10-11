@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Lib;
 
 use Doctrine;
 use inklabs\kommerce\Doctrine\Extensions\TablePrefix;
+use \inklabs\kommerce\Doctrine\Functions as DoctrineFunctions;
 
 class DoctrineHelper
 {
@@ -65,14 +66,14 @@ class DoctrineHelper
 
     public function addSqliteFunctions()
     {
-        $this->config->addCustomNumericFunction('RAND', 'inklabs\kommerce\Doctrine\Functions\Sqlite\Rand');
-        $this->config->addCustomNumericFunction('DISTANCE', 'inklabs\kommerce\Doctrine\Functions\Sqlite\Distance');
+        $this->config->addCustomNumericFunction('RAND', DoctrineFunctions\Sqlite\Rand::class);
+        $this->config->addCustomNumericFunction('DISTANCE', DoctrineFunctions\Sqlite\Distance::class);
     }
 
     public function addMysqlFunctions()
     {
-        $this->config->addCustomNumericFunction('RAND', 'inklabs\kommerce\Doctrine\Functions\Mysql\Rand');
-        $this->config->addCustomNumericFunction('DISTANCE', 'inklabs\kommerce\Doctrine\Functions\Mysql\Distance');
+        $this->config->addCustomNumericFunction('RAND', DoctrineFunctions\Mysql\Rand::class);
+        $this->config->addCustomNumericFunction('DISTANCE', DoctrineFunctions\Mysql\Distance::class);
     }
 
     public function setup(array $dbParams)

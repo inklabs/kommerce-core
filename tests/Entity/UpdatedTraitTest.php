@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class UpdatedTraitTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\UpdatedTrait');
+        $mock = $this->getObjectForTrait(UpdatedTrait::class);
         $mock->setUpdated(new \DateTime);
         $mock->preUpdate();
         $this->assertTrue($mock->getUpdated() instanceof \DateTime);
@@ -13,14 +13,14 @@ class UpdatedTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testSetUpdatedWithNull()
     {
-        $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\UpdatedTrait');
+        $mock = $this->getObjectForTrait(UpdatedTrait::class);
         $mock->setUpdated();
         $this->assertTrue($mock->getUpdated() instanceof \DateTime);
     }
 
     public function testGetUpdatedWithNull()
     {
-        $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\UpdatedTrait');
+        $mock = $this->getObjectForTrait(UpdatedTrait::class);
         $this->assertSame(null, $mock->getUpdated());
     }
 }

@@ -1,18 +1,18 @@
 <?php
-namespace inklabs\kommerce;
+namespace inklabs\kommerce\Entity;
 
 class CreatedTraitTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\CreatedTrait');
+        $mock = $this->getObjectForTrait(CreatedTrait::class);
         $mock->setCreated(new \DateTime);
         $this->assertTrue($mock->getCreated() instanceof \DateTime);
     }
 
     public function testSetCreatedWithNull()
     {
-        $mock = $this->getObjectForTrait('inklabs\kommerce\Entity\CreatedTrait');
+        $mock = $this->getObjectForTrait(CreatedTrait::class);
         $mock->setCreated();
         $this->assertTrue($mock->getCreated() instanceof \DateTime);
     }

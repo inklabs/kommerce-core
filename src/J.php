@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce;
 
+use inklabs\kommerce\Entity\Image;
 use ReflectionClass;
 
 class J
@@ -461,7 +462,7 @@ class J
             if (! empty($img)) {
                 $output .= '<img src="/data/image/' . $img . '" />';
             }
-        } elseif ((get_class($var) === 'inklabs\kommerce\Entity\Image') and method_exists($var, 'getPath')) {
+        } elseif ((get_class($var) === Image::class) and method_exists($var, 'getPath')) {
             $img = $var->getPath();
             if (! empty($img)) {
                 $output .= '<img src="/data/image/' . $img . '" />';

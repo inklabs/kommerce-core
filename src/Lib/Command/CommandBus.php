@@ -30,7 +30,7 @@ class CommandBus implements CommandBusInterface
     {
         $handlerClassName = $this->getHandlerClassName($command);
 
-        if (is_subclass_of($handlerClassName, 'inklabs\kommerce\Lib\Command\TagServiceAwareInterface', true)) {
+        if (is_subclass_of($handlerClassName, TagServiceAwareInterface::class, true)) {
             $handler = new $handlerClassName($this->serviceFactory->getTagService());
         } else {
             $handler = new $handlerClassName;

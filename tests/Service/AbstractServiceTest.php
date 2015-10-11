@@ -14,7 +14,7 @@ class AbstractServiceTest extends Helper\DoctrineTestCase
     public function testThrowValidationErrors()
     {
         /** @var AbstractService|\Mockery\MockInterface $mockAbstractService */
-        $mockAbstractService = \Mockery::mock('inklabs\kommerce\Service\AbstractService')
+        $mockAbstractService = \Mockery::mock(AbstractService::class)
             ->makePartial();
 
         $mockAbstractService
@@ -38,7 +38,7 @@ class AbstractServiceTest extends Helper\DoctrineTestCase
     public function testThrowValidationErrorsThrowsError()
     {
         /** @var AbstractService|\Mockery\MockInterface $mockAbstractService */
-        $mockAbstractService = \Mockery::mock('inklabs\kommerce\Service\AbstractService')
+        $mockAbstractService = \Mockery::mock(AbstractService::class)
             ->makePartial();
 
         $mockAbstractService

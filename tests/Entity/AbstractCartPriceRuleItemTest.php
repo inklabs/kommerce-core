@@ -8,7 +8,7 @@ class AbstractCartPriceRuleItemTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         /** @var AbstractCartPriceRuleItem|\PHPUnit_Framework_MockObject_MockObject $mock */
-        $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\AbstractCartPriceRuleItem');
+        $mock = $this->getMockForAbstractClass(AbstractCartPriceRuleItem::class);
         $mock->expects($this->any())
             ->method('matches')
             ->will($this->returnValue(true));

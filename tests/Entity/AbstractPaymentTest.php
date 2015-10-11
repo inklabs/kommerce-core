@@ -17,7 +17,7 @@ class AbstractPaymentTest extends \PHPUnit_Framework_TestCase
         $order->setTotal(new CartTotal);
 
         /** @var $mock AbstractPayment */
-        $mock = $this->getMockForAbstractClass('inklabs\kommerce\Entity\AbstractPayment');
+        $mock = $this->getMockForAbstractClass(AbstractPayment::class);
         $mock->setAmount(100);
         $mock->setOrder($order);
 

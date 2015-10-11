@@ -10,7 +10,7 @@ class AbstractPromotionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->promotion = $this->getMockForAbstractClass('inklabs\kommerce\Entity\AbstractPromotion');
+        $this->promotion = $this->getMockForAbstractClass(AbstractPromotion::class);
     }
 
     public function testCreate()
