@@ -4,7 +4,6 @@ namespace inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityDTO\Builder\CartDTOBuilder;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use InvalidArgumentException;
-use LogicException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;

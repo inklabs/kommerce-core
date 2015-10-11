@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\tests\Helper;
+use InvalidArgumentException;
 
 class TaxRateRepositoryTest extends Helper\DoctrineTestCase
 {
@@ -75,12 +76,12 @@ class TaxRateRepositoryTest extends Helper\DoctrineTestCase
     }
 
     /**
-     * @expectedException \LogicException
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Missing zip5 or state
      */
-    public function testFindByZip5AndStateEmpty()
+    public function testFindByZip5AndStateEmptyThrowsException()
     {
         $this->setupTaxRates();
-
         $this->taxRateRepository->findByZip5AndState();
     }
 

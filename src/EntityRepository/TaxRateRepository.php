@@ -2,13 +2,14 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\TaxRate;
+use InvalidArgumentException;
 
 class TaxRateRepository extends AbstractRepository implements TaxRateRepositoryInterface
 {
     public function findByZip5AndState($zip5 = null, $state = null)
     {
         if ($zip5 === null and $state === null) {
-            throw new \LogicException('Invalid zip5 or state');
+            throw new InvalidArgumentException('Missing zip5 or state');
         }
 
         $qb = $this->getQueryBuilder();
