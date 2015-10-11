@@ -13,7 +13,7 @@ class GetTagHandler
         $this->tagService = $tagService;
     }
 
-    public function handle(GetTagCommand $command)
+    public function handle(GetTagQuery $command)
     {
         return $this->tagService->findOneById($command->getTagId());
     }

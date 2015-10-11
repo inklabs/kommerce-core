@@ -6,7 +6,7 @@ use inklabs\kommerce\tests\Action\Tag\AbstractTagHandlerTestCase;
 
 class CreateTagHandlerTest extends AbstractTagHandlerTestCase
 {
-    public function testDispatch()
+    public function testHandle()
     {
         $tag = $this->getDummyTag();
 

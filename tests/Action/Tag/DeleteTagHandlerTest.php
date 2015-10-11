@@ -7,7 +7,7 @@ use inklabs\kommerce\tests\Action\Tag\AbstractTagHandlerTestCase;
 
 class DeleteTagHandlerTest extends AbstractTagHandlerTestCase
 {
-    public function testExecute()
+    public function testHandle()
     {
         $tagId = 1;
         $this->tagRepository->create(new Tag);

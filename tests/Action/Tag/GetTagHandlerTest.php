@@ -2,17 +2,18 @@
 namespace inklabs\kommerce\Action\Tag;
 
 use inklabs\kommerce\Entity\Tag;
-use inklabs\kommerce\Service\TagService;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
+use inklabs\kommerce\tests\Action\Tag\AbstractTagHandlerTestCase;
 
-class GetTagHandlerTest extends DoctrineTestCase
+class GetTagHandlerTest extends AbstractTagHandlerTestCase
 {
     public function testExecute()
     {
-//        $tagId = 1;
-//        $getTagAction = new GetTagHandler(new TagService(new FakeTagRepository));
-//        $tag = $getTagAction->handle(new GetTagCommand($tagId));
-//        $this->assertTrue($tag instanceof Tag);
+        $tag = $this->getDummyTag();
+        $this->tagRepository->create($tag);
+
+        $getTagHandler = new GetTagHandler($this->tagService);
+        $storedTag = $getTagHandler->handle(new GetTagQuery(1));
+
+        $this->assertTrue($storedTag instanceof Tag);
     }
 }
