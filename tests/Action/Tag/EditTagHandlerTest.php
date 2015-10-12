@@ -14,7 +14,7 @@ class EditTagHandlerTest extends AbstractTagHandlerTestCase
         $editTagHandler = new EditTagHandler($this->tagService);
         $editTagHandler->handle(new EditTagCommand(1, [
             'name' => 'New Name',
-            'code' => 'NEWCODE',
+            'code' => 'NEW-CODE',
             'description' => 'New Description',
             'isActive' => true,
             'isVisible' => true,

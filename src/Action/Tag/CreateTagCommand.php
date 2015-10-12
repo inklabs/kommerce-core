@@ -6,16 +6,17 @@ use inklabs\kommerce\Lib\Command\CommandInterface;
 
 class CreateTagCommand implements CommandInterface
 {
-    /** @var Tag */
-    private $tag;
+    public $name;
+    public $code;
+    public $description;
+    public $isActive;
+    public $isVisible;
+    public $sortOrder;
 
-    public function __construct(Tag $tag)
+    public function __construct(array $properties)
     {
-        $this->tag = $tag;
-    }
-
-    public function getTag()
-    {
-        return $this->tag;
+        foreach ($properties as $name => $value) {
+            $this->$name = $value;
+        }
     }
 }

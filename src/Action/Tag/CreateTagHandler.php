@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Lib\Command\TagServiceAwareInterface;
 use inklabs\kommerce\Service\TagServiceInterface;
 
@@ -16,7 +17,15 @@ class CreateTagHandler implements TagServiceAwareInterface
 
     public function handle(CreateTagCommand $command)
     {
-        $tag = clone $command->getTag();
+        $tag = new Tag;
+
+        $tag->setName($command->name);
+        $tag->setCode($command->code);
+        $tag->setDescription($command->description);
+        $tag->setIsActive($command->isActive);
+        $tag->setIsVisible($command->isVisible);
+        $tag->setSortOrder($command->sortOrder);
+
         $this->tagService->create($tag);
     }
 }
