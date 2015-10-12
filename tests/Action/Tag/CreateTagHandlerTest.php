@@ -2,39 +2,40 @@
 namespace inklabs\kommerce\Action\Tag;
 
 use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\tests\Action\Tag\AbstractTagHandlerTestCase;
 
 class CreateTagHandlerTest extends AbstractTagHandlerTestCase
 {
-    protected $tagPost = [
-        'name' => 'Tag Name',
-        'code' => 'TAG-CODE',
-        'description' => 'Tag Description',
-        'isActive' => true,
-        'isVisible' => true,
-        'sortOrder' => 0,
-    ];
+    /** @var TagDTO */
+    protected $tagDTO;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->tagDTO = new TagDTO;
+        $this->tagDTO->name = 'Tag Name';
+        $this->tagDTO->code = 'TAG-CODE';
+        $this->tagDTO->description = 'Tag Description';
+        $this->tagDTO->isActive = true;
+        $this->tagDTO->isVisible = true;
+        $this->tagDTO->sortOrder = 0;
+    }
 
     public function testHandle()
     {
         $createTagHandler = new CreateTagHandler($this->tagService);
-        $createTagHandler->handle(new CreateTagCommand($this->tagPost));
+        $createTagHandler->handle(new CreateTagCommand($this->tagDTO));
 
         $this->assertTrue($this->fakeTagRepository->findOneById(1) instanceof Tag);
     }
 
     public function testHandleThroughCommandBus()
     {
-        $this->metaDataClassNames = [
-            'kommerce:Image',
-            'kommerce:Tag',
-            'kommerce:Product',
-            'kommerce:Option',
-            'kommerce:TextOption',
-        ];
-        $this->setupEntityManager();
+        $this->setupEntityManager(['kommerce:Tag']);
 
-        $this->getCommandBus()->execute(new CreateTagCommand($this->tagPost));
+        $this->getCommandBus()->execute(new CreateTagCommand($this->tagDTO));
 
         $this->assertTrue($this->getRepositoryFactory()->getTagRepository()->findOneById(1) instanceof Tag);
     }

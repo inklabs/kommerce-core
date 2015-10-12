@@ -40,7 +40,7 @@ class ProductService extends AbstractService
     public function edit(Product & $product)
     {
         $this->throwValidationErrors($product);
-        $this->productRepository->save($product);
+        $this->productRepository->update($product);
     }
 
     /**
@@ -66,7 +66,7 @@ class ProductService extends AbstractService
 
         $product->addTag($tag);
 
-        $this->productRepository->save($product);
+        $this->productRepository->update($product);
 
         return $tag;
     }
@@ -83,7 +83,7 @@ class ProductService extends AbstractService
 
         $product->removeTag($tag);
 
-        $this->productRepository->save($product);
+        $this->productRepository->update($product);
     }
 
     /**
@@ -98,10 +98,10 @@ class ProductService extends AbstractService
 
         $product->removeImage($image);
 
-        $this->productRepository->save($product);
+        $this->productRepository->update($product);
 
         if ($image->getTag() === null) {
-            $this->imageRepository->remove($image);
+            $this->imageRepository->delete($image);
         }
     }
 

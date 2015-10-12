@@ -40,10 +40,10 @@ class AttributeRepositoryTest extends Helper\DoctrineTestCase
         $attribute->setName('New Name');
         $this->assertSame(null, $attribute->getUpdated());
 
-        $this->attributeRepository->save($attribute);
+        $this->attributeRepository->update($attribute);
         $this->assertTrue($attribute->getUpdated() instanceof \DateTime);
 
-        $this->attributeRepository->remove($attribute);
+        $this->attributeRepository->delete($attribute);
         $this->assertSame(null, $attribute->getId());
     }
 

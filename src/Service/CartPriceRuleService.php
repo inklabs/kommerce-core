@@ -24,7 +24,7 @@ class CartPriceRuleService extends AbstractService
     public function edit(CartPriceRule & $cartPriceRule)
     {
         $this->throwValidationErrors($cartPriceRule);
-        $this->cartPriceRuleRepository->save($cartPriceRule);
+        $this->cartPriceRuleRepository->update($cartPriceRule);
     }
 
     /**

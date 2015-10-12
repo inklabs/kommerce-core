@@ -43,10 +43,10 @@ class UserRoleRepositoryTest extends Helper\DoctrineTestCase
         $userRole->setName('New Name');
         $this->assertSame(null, $userRole->getUpdated());
 
-        $this->userRoleRepository->save($userRole);
+        $this->userRoleRepository->update($userRole);
         $this->assertTrue($userRole->getUpdated() instanceof \DateTime);
 
-        $this->userRoleRepository->remove($userRole);
+        $this->userRoleRepository->delete($userRole);
         $this->assertSame(null, $userRole->getId());
     }
 

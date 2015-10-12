@@ -62,10 +62,10 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
 
         $order->setExternalId('newExternalId');
         $this->assertSame(null, $order->getUpdated());
-        $this->orderRepository->save($order);
+        $this->orderRepository->update($order);
         $this->assertTrue($order->getUpdated() instanceof \DateTime);
 
-        $this->orderRepository->remove($order);
+        $this->orderRepository->delete($order);
         $this->assertSame(null, $order->getId());
     }
 

@@ -79,7 +79,7 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
 
         $cart->setUser($user2);
         $this->assertSame(null, $cart->getUpdated());
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
         $this->assertTrue($cart->getUpdated() instanceof \DateTime);
     }
 
@@ -90,7 +90,7 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
         $this->cartRepository->create($cart);
 
         $this->assertSame(1, $cart->getId());
-        $this->cartRepository->remove($cart);
+        $this->cartRepository->delete($cart);
         $this->assertSame(null, $cart->getId());
     }
 

@@ -42,7 +42,7 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $userLogin->getResult());
         $userLogin->setResult(2);
 
-        $this->userLoginRepository->save($userLogin);
+        $this->userLoginRepository->update($userLogin);
         $this->assertSame(2, $userLogin->getResult());
     }
 
@@ -55,9 +55,9 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
 
         $userLogin->setEmail('NewEmail@example.com');
 
-        $this->userLoginRepository->save($userLogin);
+        $this->userLoginRepository->update($userLogin);
 
-        $this->userLoginRepository->remove($userLogin);
+        $this->userLoginRepository->delete($userLogin);
         $this->assertSame(null, $userLogin->getId());
     }
 

@@ -33,7 +33,7 @@ class TagServiceTest extends Helper\DoctrineTestCase
         $this->assertNotSame($newName, $tag->getName());
 
         $tag->setName($newName);
-        $this->tagService->edit($tag);
+        $this->tagService->update($tag);
         $this->assertSame($newName, $tag->getName());
     }
 

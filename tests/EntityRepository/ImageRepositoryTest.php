@@ -50,10 +50,10 @@ class ImageRepositoryTest extends Helper\DoctrineTestCase
         $image->setPath('New/Path');
         $this->assertSame(null, $image->getUpdated());
 
-        $this->imageRepository->save($image);
+        $this->imageRepository->update($image);
         $this->assertTrue($image->getUpdated() instanceof \DateTime);
 
-        $this->imageRepository->remove($image);
+        $this->imageRepository->delete($image);
         $this->assertSame(null, $image->getId());
     }
 

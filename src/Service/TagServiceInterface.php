@@ -3,18 +3,20 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
 interface TagServiceInterface
 {
     public function create(Tag & $tag);
-
-    public function edit(Tag & $tag);
+    public function update(Tag & $tag);
+    public function createFromDTO(TagDTO $tagDTO);
+    public function updateFromDTO(TagDTO $tagDTO);
 
     /**
      * @param int $tagId
      */
-    public function remove($tagId);
+    public function delete($tagId);
 
     /**
      * @param int $id

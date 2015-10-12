@@ -37,10 +37,10 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
 
         $warehouse->setName('New Name');
         $this->assertSame(null, $warehouse->getUpdated());
-        $this->warehouseRepository->save($warehouse);
+        $this->warehouseRepository->update($warehouse);
         $this->assertTrue($warehouse->getUpdated() instanceof \DateTime);
 
-        $this->warehouseRepository->remove($warehouse);
+        $this->warehouseRepository->delete($warehouse);
         $this->assertSame(null, $warehouse->getId());
     }
 

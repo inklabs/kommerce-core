@@ -38,10 +38,10 @@ class TextOptionRepositoryTest extends Helper\DoctrineTestCase
         $textOption->setName('New Name');
         $this->assertSame(null, $textOption->getUpdated());
 
-        $this->textOptionRepository->save($textOption);
+        $this->textOptionRepository->update($textOption);
         $this->assertTrue($textOption->getUpdated() instanceof \DateTime);
 
-        $this->textOptionRepository->remove($textOption);
+        $this->textOptionRepository->delete($textOption);
         $this->assertSame(null, $textOption->getId());
     }
 

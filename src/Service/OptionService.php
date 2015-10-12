@@ -25,7 +25,7 @@ class OptionService extends AbstractService
     public function edit(Option & $option)
     {
         $this->throwValidationErrors($option);
-        $this->optionRepository->save($option);
+        $this->optionRepository->update($option);
     }
 
     /**

@@ -31,7 +31,7 @@ class ImageService extends AbstractService
     public function edit(Image & $image)
     {
         $this->throwValidationErrors($image);
-        $this->imageRepository->save($image);
+        $this->imageRepository->update($image);
     }
 
     /**

@@ -25,7 +25,7 @@ class CouponService extends AbstractService
     public function edit(Coupon & $coupon)
     {
         $this->throwValidationErrors($coupon);
-        $this->couponRepository->save($coupon);
+        $this->couponRepository->update($coupon);
     }
 
     /**

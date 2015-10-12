@@ -75,9 +75,9 @@ class ProductRepositoryDecorator implements ProductRepositoryInterface
         return $this->productRepository->getQueryBuilder();
     }
 
-    public function save(EntityInterface & $entity)
+    public function update(EntityInterface & $entity)
     {
-        return $this->productRepository->save($entity);
+        return $this->productRepository->update($entity);
     }
 
     public function create(EntityInterface & $entity)
@@ -85,9 +85,9 @@ class ProductRepositoryDecorator implements ProductRepositoryInterface
         return $this->productRepository->create($entity);
     }
 
-    public function remove(EntityInterface $entity)
+    public function delete(EntityInterface $entity)
     {
-        return $this->productRepository->remove($entity);
+        return $this->productRepository->delete($entity);
     }
 
     public function persist(EntityInterface & $entity)

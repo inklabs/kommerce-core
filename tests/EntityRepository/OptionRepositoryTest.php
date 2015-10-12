@@ -40,10 +40,10 @@ class OptionRepositoryTest extends Helper\DoctrineTestCase
         $option->setName('new name');
 
         $this->assertSame(null, $option->getUpdated());
-        $this->optionRepository->save($option);
+        $this->optionRepository->update($option);
         $this->assertTrue($option->getUpdated() instanceof \DateTime);
 
-        $this->optionRepository->remove($option);
+        $this->optionRepository->delete($option);
         $this->assertSame(null, $option->getId());
     }
 

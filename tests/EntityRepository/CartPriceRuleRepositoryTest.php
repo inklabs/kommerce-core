@@ -50,10 +50,10 @@ class CartPriceRuleRepositoryTest extends Helper\DoctrineTestCase
         $cartPriceRule->setName('New Name');
         $this->assertSame(null, $cartPriceRule->getUpdated());
 
-        $this->cartPriceRuleRepository->save($cartPriceRule);
+        $this->cartPriceRuleRepository->update($cartPriceRule);
         $this->assertTrue($cartPriceRule->getUpdated() instanceof \DateTime);
 
-        $this->cartPriceRuleRepository->remove($cartPriceRule);
+        $this->cartPriceRuleRepository->delete($cartPriceRule);
         $this->assertSame(null, $cartPriceRule->getId());
     }
 

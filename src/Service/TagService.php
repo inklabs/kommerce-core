@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 
 class TagService extends AbstractService implements TagServiceInterface
@@ -21,16 +22,40 @@ class TagService extends AbstractService implements TagServiceInterface
         $this->tagRepository->create($tag);
     }
 
-    public function edit(Tag & $tag)
+    public function update(Tag & $tag)
     {
         $this->throwValidationErrors($tag);
-        $this->tagRepository->save($tag);
+        $this->tagRepository->update($tag);
     }
 
-    public function remove($tagId)
+    public function createFromDTO(TagDTO $tagDTO)
+    {
+        $tag = new Tag;
+        $this->setFromDTO($tag, $tagDTO);
+        $this->create($tag);
+    }
+
+    public function updateFromDTO(TagDTO $tagDTO)
+    {
+        $tag = $this->tagRepository->findOneById($tagDTO->id);
+        $this->setFromDTO($tag, $tagDTO);
+        $this->update($tag);
+    }
+
+    public function delete($tagId)
     {
         $tag = $this->tagRepository->findOneById($tagId);
-        $this->tagRepository->remove($tag);
+        $this->tagRepository->delete($tag);
+    }
+
+    private function setFromDTO(Tag & $tag, TagDTO $tagDTO)
+    {
+        $tag->setName($tagDTO->name);
+        $tag->setCode($tagDTO->code);
+        $tag->setDescription($tagDTO->description);
+        $tag->setIsActive($tagDTO->isActive);
+        $tag->setIsVisible($tagDTO->isVisible);
+        $tag->setSortOrder($tagDTO->sortOrder);
     }
 
     public function findOneById($id)

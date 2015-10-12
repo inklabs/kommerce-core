@@ -74,7 +74,7 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
     {
         try {
             $this->referenceNumberGenerator->generate($order);
-            $this->save($order);
+            $this->update($order);
         } catch (RuntimeException $e) {
         }
     }

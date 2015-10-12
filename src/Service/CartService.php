@@ -108,7 +108,7 @@ class CartService extends AbstractService
 
         $couponIndex = $cart->addCoupon($coupon);
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
 
         return $couponIndex;
     }
@@ -125,7 +125,7 @@ class CartService extends AbstractService
     public function removeCart($cartId)
     {
         $cart = $this->cartRepository->findOneById($cartId);
-        $this->cartRepository->remove($cart);
+        $this->cartRepository->delete($cart);
     }
 
     /**
@@ -137,7 +137,7 @@ class CartService extends AbstractService
         $cart = $this->cartRepository->findOneById($cartId);
         $cart->removeCoupon($couponIndex);
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
     }
 
     /**
@@ -194,7 +194,7 @@ class CartService extends AbstractService
 
         $cartItemIndex = $cart->addCartItem($cartItem);
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
 
         return $cartItemIndex;
     }
@@ -220,7 +220,7 @@ class CartService extends AbstractService
             $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
         }
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
     }
 
     /**
@@ -244,7 +244,7 @@ class CartService extends AbstractService
             $cartItem->addCartItemOptionValue($cartItemOptionValue);
         }
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
     }
 
     /**
@@ -272,7 +272,7 @@ class CartService extends AbstractService
             $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
         }
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
     }
 
     /**
@@ -289,7 +289,7 @@ class CartService extends AbstractService
             $toCart->addCartItem(clone $cartItem);
         }
 
-        $this->cartRepository->save($toCart);
+        $this->cartRepository->update($toCart);
     }
 
     /**
@@ -305,7 +305,7 @@ class CartService extends AbstractService
         $cartItem = $cart->getCartItem($cartItemIndex);
         $cartItem->setQuantity($quantity);
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
     }
 
     /**
@@ -319,7 +319,7 @@ class CartService extends AbstractService
         $cart = $this->cartRepository->findOneById($cartId);
         $cart->deleteCartItem($cartItemIndex);
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
     }
 
     /**
@@ -341,7 +341,7 @@ class CartService extends AbstractService
         $cart = $this->cartRepository->findOneById($cartId);
         $cart->setShippingRate($shippingRate);
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
     }
 
     public function setTaxRate($cartId, TaxRate $taxRate = null)
@@ -349,7 +349,7 @@ class CartService extends AbstractService
         $cart = $this->cartRepository->findOneById($cartId);
         $cart->setTaxRate($taxRate);
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
     }
 
     /**
@@ -393,7 +393,7 @@ class CartService extends AbstractService
 
         $cart->setUser($user);
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
     }
 
     /**
@@ -407,6 +407,6 @@ class CartService extends AbstractService
 
         $cart->setSessionId($sessionId);
 
-        $this->cartRepository->save($cart);
+        $this->cartRepository->update($cart);
     }
 }

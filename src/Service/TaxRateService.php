@@ -23,7 +23,7 @@ class TaxRateService extends AbstractService
     public function edit(TaxRate & $taxRate)
     {
         $this->throwValidationErrors($taxRate);
-        $this->taxRateRepository->save($taxRate);
+        $this->taxRateRepository->update($taxRate);
     }
 
     public function findOneById($id)

@@ -74,7 +74,7 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
     {
     }
 
-    public function save(EntityInterface & $entity)
+    public function update(EntityInterface & $entity)
     {
         $this->throwCrudExceptionIfSet();
 
@@ -94,7 +94,7 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
         $this->entities[$entity->getId()] = $entity;
     }
 
-    public function remove(EntityInterface $entity)
+    public function delete(EntityInterface $entity)
     {
         $this->throwCrudExceptionIfSet();
 

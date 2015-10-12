@@ -44,10 +44,10 @@ class UserTokenRepositoryTest extends Helper\DoctrineTestCase
         $userToken->setToken('New Token');
         $this->assertSame(null, $userToken->getUpdated());
 
-        $this->userTokenRepository->save($userToken);
+        $this->userTokenRepository->update($userToken);
         $this->assertTrue($userToken->getUpdated() instanceof \DateTime);
 
-        $this->userTokenRepository->remove($userToken);
+        $this->userTokenRepository->delete($userToken);
         $this->assertSame(null, $userToken->getId());
     }
 

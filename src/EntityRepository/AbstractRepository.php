@@ -12,7 +12,7 @@ abstract class AbstractRepository extends EntityRepository implements AbstractRe
         return new QueryBuilder($this->getEntityManager());
     }
 
-    public function save(EntityInterface & $entity)
+    public function update(EntityInterface & $entity)
     {
         $this->merge($entity);
         $this->flush();
@@ -24,7 +24,7 @@ abstract class AbstractRepository extends EntityRepository implements AbstractRe
         $this->flush();
     }
 
-    public function remove(EntityInterface $entity)
+    public function delete(EntityInterface $entity)
     {
         $entityManager = $this->getEntityManager();
         $entityManager->remove($entity);

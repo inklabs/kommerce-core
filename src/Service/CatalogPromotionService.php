@@ -25,7 +25,7 @@ class CatalogPromotionService extends AbstractService
     public function edit(CatalogPromotion & $catalogPromotion)
     {
         $this->throwValidationErrors($catalogPromotion);
-        $this->catalogPromotionRepository->save($catalogPromotion);
+        $this->catalogPromotionRepository->update($catalogPromotion);
     }
 
     /**

@@ -24,7 +24,7 @@ class AttributeService extends AbstractService
     public function edit(Attribute & $attribute)
     {
         $this->throwValidationErrors($attribute);
-        $this->attributeRepository->save($attribute);
+        $this->attributeRepository->update($attribute);
     }
 
     /**

@@ -43,10 +43,10 @@ class OptionProductRepositoryTest extends Helper\DoctrineTestCase
         $optionProduct->setSortOrder(5);
 
         $this->assertSame(null, $optionProduct->getUpdated());
-        $this->optionProductRepository->save($optionProduct);
+        $this->optionProductRepository->update($optionProduct);
         $this->assertTrue($optionProduct->getUpdated() instanceof \DateTime);
 
-        $this->optionProductRepository->remove($optionProduct);
+        $this->optionProductRepository->delete($optionProduct);
         $this->assertSame(null, $optionProduct->getId());
     }
 

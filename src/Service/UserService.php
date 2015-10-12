@@ -35,7 +35,7 @@ class UserService extends AbstractService
     public function edit(User & $user)
     {
         $this->throwValidationErrors($user);
-        $this->userRepository->save($user);
+        $this->userRepository->update($user);
     }
 
     /**

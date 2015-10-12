@@ -45,13 +45,13 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
 
         $payment->setAmount(200);
         $this->assertSame(null, $payment->getUpdated());
-        $this->paymentRepository->save($payment);
+        $this->paymentRepository->update($payment);
         $this->assertTrue($payment->getUpdated() instanceof DateTime);
 
         $this->paymentRepository->persist($payment);
         $this->assertTrue($payment->getUpdated() instanceof DateTime);
 
-        $this->paymentRepository->remove($payment);
+        $this->paymentRepository->delete($payment);
         $this->assertSame(null, $payment->getId());
     }
 

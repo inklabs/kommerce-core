@@ -70,13 +70,13 @@ class OrderItemRepositoryTest extends Helper\DoctrineTestCase
 
         $orderItem->setQuantity(5);
         $this->assertSame(null, $orderItem->getUpdated());
-        $this->orderItemRepository->save($orderItem);
+        $this->orderItemRepository->update($orderItem);
         $this->assertTrue($orderItem->getUpdated() instanceof \DateTime);
 
         $this->orderItemRepository->persist($orderItem);
         $this->assertTrue($orderItem->getUpdated() instanceof \DateTime);
 
-        $this->orderItemRepository->remove($orderItem);
+        $this->orderItemRepository->delete($orderItem);
         $this->assertSame(null, $orderItem->getId());
     }
 

@@ -94,12 +94,12 @@ class ProductRepositoryInterfaceTest extends Helper\DoctrineTestCase
 
     public function testSave()
     {
-        $this->productRepository->save(new Product);
+        $this->productRepository->update(new Product);
     }
 
     public function testRemove()
     {
-        $this->productRepository->remove(new Product);
+        $this->productRepository->delete(new Product);
     }
 
     public function testPersist()

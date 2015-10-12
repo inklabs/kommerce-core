@@ -43,10 +43,10 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $tag->setName('New Name');
         $this->assertSame(null, $tag->getUpdated());
 
-        $this->tagRepository->save($tag);
+        $this->tagRepository->update($tag);
         $this->assertTrue($tag->getUpdated() instanceof \DateTime);
 
-        $this->tagRepository->remove($tag);
+        $this->tagRepository->delete($tag);
         $this->assertSame(null, $tag->getId());
     }
 

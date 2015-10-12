@@ -49,12 +49,12 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $product->addProductQuantityDiscount($productQuantityDiscount);
 
         $this->assertSame(null, $product->getUpdated());
-        $this->productRepository->save($product);
+        $this->productRepository->update($product);
         $this->assertTrue($product->getUpdated() instanceof \DateTime);
         $this->assertTrue($product->getProductQuantityDiscounts()[0]->getCreated() instanceof \DateTime);
 
         $product->removeProductQuantityDiscount($product->getProductQuantityDiscounts()[0]);
-        $this->productRepository->save($product);
+        $this->productRepository->update($product);
 
         try {
             $this->getRepositoryFactory()->getProductQuantityDiscountRepository()->findOneById(1);
@@ -63,7 +63,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
             $this->assertTrue(true);
         }
 
-        $this->productRepository->remove($product);
+        $this->productRepository->delete($product);
         $this->assertSame(null, $product->getId());
     }
 

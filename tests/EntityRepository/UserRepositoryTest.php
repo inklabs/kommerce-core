@@ -60,10 +60,10 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $user->setFirstName('New First Name');
         $this->assertSame(null, $user->getUpdated());
 
-        $this->userRepository->save($user);
+        $this->userRepository->update($user);
         $this->assertTrue($user->getUpdated() instanceof \DateTime);
 
-        $this->userRepository->remove($user);
+        $this->userRepository->delete($user);
         $this->assertSame(null, $user->getId());
     }
 
@@ -74,7 +74,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $user = $this->setupUser();
         $user->addLogin($userLogin);
 
-        $this->userRepository->save($user);
+        $this->userRepository->update($user);
 
         $this->assertSame(1, $user->getTotalLogins());
     }

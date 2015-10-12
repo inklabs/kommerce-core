@@ -60,10 +60,10 @@ class TaxRateRepositoryTest extends Helper\DoctrineTestCase
         $taxRate->setState('XX');
         $this->assertSame(null, $taxRate->getUpdated());
 
-        $this->taxRateRepository->save($taxRate);
+        $this->taxRateRepository->update($taxRate);
         $this->assertTrue($taxRate->getUpdated() instanceof \DateTime);
 
-        $this->taxRateRepository->remove($taxRate);
+        $this->taxRateRepository->delete($taxRate);
         $this->assertSame(null, $taxRate->getId());
     }
 
