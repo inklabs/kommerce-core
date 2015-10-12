@@ -1,6 +1,6 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-class UpdateTagCommand extends AbstractWriteTagCommand
+class UpdateTagCommand extends AbstractTagDTOCommand
 {
 }
