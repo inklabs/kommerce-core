@@ -47,16 +47,19 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $product->getId());
 
         $product->setName('new name');
+        $this->assertSame(null, $product->getUpdated());
+        $this->productRepository->update($product);
+        $this->assertTrue($product->getUpdated() instanceof \DateTime);
+
         $productQuantityDiscount = $this->getDummyProductQuantityDiscount();
         $product->addProductQuantityDiscount($productQuantityDiscount);
-        $this->assertSame(null, $product->getUpdated());
-
         $this->productRepository->update($product);
         $this->assertTrue($product->getUpdated() instanceof \DateTime);
         $this->assertTrue($product->getProductQuantityDiscounts()[0]->getCreated() instanceof \DateTime);
 
         $product->removeProductQuantityDiscount($product->getProductQuantityDiscounts()[0]);
         $this->productRepository->update($product);
+        $this->assertTrue($product->getUpdated() instanceof \DateTime);
 
         try {
             $this->getRepositoryFactory()->getProductQuantityDiscountRepository()->findOneById(1);
