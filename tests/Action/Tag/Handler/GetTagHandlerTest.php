@@ -1,7 +1,8 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\tests\Action\Tag\AbstractTagHandlerTestCase;
+use inklabs\kommerce\Action\Tag\Handler\GetTagHandler;
+use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
 
 class GetTagHandlerTest extends AbstractTagHandlerTestCase
 {

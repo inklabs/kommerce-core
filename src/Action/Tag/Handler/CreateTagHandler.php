@@ -1,5 +1,7 @@
 <?php
-namespace inklabs\kommerce\Action\Tag;
+namespace inklabs\kommerce\Action\Tag\Handler;
+
+use inklabs\kommerce\Action\Tag\CreateTagCommand;
 
 class CreateTagHandler extends AbstractTagHandler
 {

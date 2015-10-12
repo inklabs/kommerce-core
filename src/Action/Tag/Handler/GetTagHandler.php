@@ -1,6 +1,8 @@
 <?php
-namespace inklabs\kommerce\Action\Tag;
+namespace inklabs\kommerce\Action\Tag\Handler;
 
+use inklabs\kommerce\Action\Tag\GetTagRequest;
+use inklabs\kommerce\Action\Tag\GetTagResponse;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\TagServiceInterface;
 

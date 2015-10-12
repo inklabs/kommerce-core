@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Action\Tag;
+namespace inklabs\kommerce\Action\Tag\Handler;
 
 use inklabs\kommerce\Lib\Command\TagServiceAwareInterface;
 use inklabs\kommerce\Service\TagServiceInterface;

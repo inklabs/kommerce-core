@@ -61,7 +61,14 @@ class CommandBus implements CommandBusInterface
     private function getHandlerClassName(CommandInterface $command)
     {
         $className = get_class($command);
-        $baseClassName = substr($className, 0, -7);
-        return $baseClassName . 'Handler';
+        $pieces = explode('\\', $className);
+
+        $baseName = array_pop($pieces);
+        $handlerBaseName = substr($baseName, 0, -7) . 'Handler';
+
+        $pieces[] = 'Handler';
+        $pieces[] = $handlerBaseName;
+
+        return implode('\\', $pieces);
     }
 }

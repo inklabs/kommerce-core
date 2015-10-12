@@ -1,9 +1,10 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
+use inklabs\kommerce\Action\Tag\Handler\UpdateTagHandler;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityDTO\TagDTO;
-use inklabs\kommerce\tests\Action\Tag\AbstractTagHandlerTestCase;
+use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
 
 class UpdateTagHandlerTest extends AbstractTagHandlerTestCase
 {

@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\tests\Action\Tag;
+namespace inklabs\kommerce\tests\Action\Tag\Handler;
 
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\TagService;
