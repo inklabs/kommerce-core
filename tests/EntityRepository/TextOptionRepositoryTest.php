@@ -56,7 +56,7 @@ class TextOptionRepositoryTest extends Helper\DoctrineTestCase
         $textOption->getTags()->toArray();
 
         $this->assertTrue($textOption instanceof TextOption);
-        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(2, $this->getTotalQueries());
     }
 
     public function testGetAllOptionsByIds()

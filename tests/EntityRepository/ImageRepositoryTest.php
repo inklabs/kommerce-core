@@ -69,7 +69,7 @@ class ImageRepositoryTest extends Helper\DoctrineTestCase
         $image->getTag()->getName();
 
         $this->assertTrue($image instanceof Image);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 
     /**

@@ -62,6 +62,6 @@ class UserTokenRepositoryTest extends Helper\DoctrineTestCase
         $userToken->getUser()->getEmail();
 
         $this->assertTrue($userToken instanceof UserToken);
-        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(2, $this->getTotalQueries());
     }
 }

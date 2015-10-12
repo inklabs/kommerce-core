@@ -29,7 +29,7 @@ class ImportOrderServiceTest extends Helper\DoctrineTestCase
 
         $this->assertSame(3, $importResult->getSuccessCount());
         $this->assertSame(1, $importResult->getFailedCount());
-        $this->assertSame(13, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(13, $this->getTotalQueries());
     }
 
     private function setupUsersForImport()

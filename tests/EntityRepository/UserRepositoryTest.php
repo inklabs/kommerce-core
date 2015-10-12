@@ -95,7 +95,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $user->getRoles()->toArray();
 
         $this->assertTrue($user instanceof User);
-        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(5, $this->getTotalQueries());
     }
 
     /**
@@ -136,6 +136,6 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $user->getCart()->getCreated();
 
         $this->assertTrue($user instanceof User);
-        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(2, $this->getTotalQueries());
     }
 }

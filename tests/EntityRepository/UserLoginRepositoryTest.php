@@ -66,6 +66,6 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
         $userLogin->getUser()->getCreated();
 
         $this->assertTrue($userLogin instanceof UserLogin);
-        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(2, $this->getTotalQueries());
     }
 }

@@ -44,6 +44,6 @@ class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
         $productQuantityDiscount->getProduct()->getName();
 
         $this->assertTrue($productQuantityDiscount instanceof ProductQuantityDiscount);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 }

@@ -65,6 +65,6 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
         $payment->getOrder()->getCreated();
 
         $this->assertTrue($payment instanceof CashPayment);
-        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(2, $this->getTotalQueries());
     }
 }

@@ -62,7 +62,7 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
         $cart->getTaxRate()->getCreated();
 
         $this->assertTrue($cart instanceof Cart);
-        $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(3, $this->getTotalQueries());
     }
 
     public function testSave()

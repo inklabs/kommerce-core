@@ -30,7 +30,7 @@ class ImportPaymentServiceTest extends Helper\DoctrineTestCase
 
         $this->assertSame(11, $importResult->getSuccessCount());
         $this->assertSame(1, $importResult->getFailedCount());
-        $this->assertSame(25, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(25, $this->getTotalQueries());
     }
 
     private function setupOrdersForImport()

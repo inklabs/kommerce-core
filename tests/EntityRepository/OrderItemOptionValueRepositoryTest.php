@@ -65,6 +65,6 @@ class OrderItemOptionValueRepositoryTest extends Helper\DoctrineTestCase
         $orderItemOptionValue->getOptionValue()->getCreated();
 
         $this->assertTrue($orderItemOptionValue instanceof OrderItemOptionValue);
-        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(5, $this->getTotalQueries());
     }
 }

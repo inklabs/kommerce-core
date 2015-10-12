@@ -35,7 +35,7 @@ class ImportOrderItemServiceTest extends Helper\DoctrineTestCase
 
         $this->assertSame(37, $importResult->getSuccessCount());
         $this->assertSame(0, $importResult->getFailedCount());
-        $this->assertSame(111, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(111, $this->getTotalQueries());
     }
 
     public function testImportFail()

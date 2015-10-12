@@ -51,6 +51,6 @@ class CartPriceRuleDiscountRepositoryTest extends Helper\DoctrineTestCase
         $cartPriceRuleDiscount->getCartPriceRule()->getName();
 
         $this->assertTrue($cartPriceRuleDiscount instanceof CartPriceRuleDiscount);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 }

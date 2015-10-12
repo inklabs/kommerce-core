@@ -58,7 +58,7 @@ class AttributeRepositoryTest extends Helper\DoctrineTestCase
         $attribute->getProductAttributes()->toArray();
 
         $this->assertTrue($attribute instanceof Attribute);
-        $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(3, $this->getTotalQueries());
     }
 
     /**

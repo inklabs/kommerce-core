@@ -86,7 +86,7 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
         $order->getTaxRate()->getCreated();
 
         $this->assertTrue($order instanceof Order);
-        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(5, $this->getTotalQueries());
     }
 
     /**

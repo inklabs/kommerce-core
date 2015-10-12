@@ -64,7 +64,7 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $tag->getTextOptions()->toArray();
 
         $this->assertTrue($tag instanceof Tag);
-        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(5, $this->getTotalQueries());
     }
 
     /**
@@ -106,7 +106,7 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $tags[0]->getTextOptions()->toArray();
 
         $this->assertTrue($tags[0] instanceof Tag);
-        $this->assertSame(5, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(5, $this->getTotalQueries());
     }
 
     public function testGetTagsByIds()

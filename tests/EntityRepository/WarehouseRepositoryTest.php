@@ -56,7 +56,7 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
         $warehouse = $this->warehouseRepository->findOneById(1);
 
         $this->assertTrue($warehouse instanceof Warehouse);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 
     /**

@@ -96,6 +96,6 @@ class OrderItemRepositoryTest extends Helper\DoctrineTestCase
         $orderItem->getOrderItemTextOptionValues()->toArray();
 
         $this->assertTrue($orderItem instanceof OrderItem);
-        $this->assertSame(7, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(7, $this->getTotalQueries());
     }
 }

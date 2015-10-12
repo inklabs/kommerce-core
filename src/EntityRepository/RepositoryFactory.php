@@ -70,6 +70,14 @@ class RepositoryFactory implements RepositoryFactoryInterface
     }
 
     /**
+     * @return CartPriceRuleItemRepositoryInterface
+     */
+    public function getCartPriceRuleItemRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:AbstractCartPriceRuleItem');
+    }
+
+    /**
      * @return CatalogPromotionRepositoryInterface
      */
     public function getCatalogPromotionRepository()

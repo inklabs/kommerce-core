@@ -63,7 +63,7 @@ class OptionRepositoryTest extends Helper\DoctrineTestCase
         $option->getTags()->toArray();
 
         $this->assertTrue($option instanceof Option);
-        $this->assertSame(4, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(4, $this->getTotalQueries());
     }
 
     public function testGetAllOptionsByIds()

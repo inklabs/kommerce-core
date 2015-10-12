@@ -87,7 +87,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $product->getOptionProducts()->toArray();
 
         $this->assertTrue($product instanceof Product);
-        $this->assertSame(6, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(6, $this->getTotalQueries());
     }
 
     /**
@@ -161,7 +161,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(2, count($products));
         $this->assertSame(1, $products[0]->getId());
         $this->assertSame(2, $products[1]->getid());
-        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(2, $this->getTotalQueries());
     }
 
     public function testGetProductsByIds()
@@ -178,7 +178,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         }
 
         $this->assertSame(2, count($products));
-        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(2, $this->getTotalQueries());
     }
 
     public function testGetAllProducts()

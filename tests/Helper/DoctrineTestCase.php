@@ -132,6 +132,11 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $this->kommerce->setSqlLogger($this->countSQLLogger);
     }
 
+    public function getTotalQueries()
+    {
+        return $this->countSQLLogger->getTotalQueries();
+    }
+
     protected function getDummyProduct($num = 1)
     {
         $product = new Product;

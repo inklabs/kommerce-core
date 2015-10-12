@@ -59,7 +59,7 @@ class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
         $catalogPromotion->getTag()->getName();
 
         $this->assertTrue($catalogPromotion instanceof CatalogPromotion);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 
     public function testFindAll()

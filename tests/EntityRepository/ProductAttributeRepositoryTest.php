@@ -50,6 +50,6 @@ class ProductAttributeRepositoryTest extends Helper\DoctrineTestCase
         $productAttribute->getAttributeValue()->getCreated();
 
         $this->assertTrue($productAttribute instanceof ProductAttribute);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 }

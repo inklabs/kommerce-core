@@ -65,7 +65,7 @@ class OptionValueRepositoryTest extends Helper\DoctrineTestCase
         $optionValue->getOption()->getCreated();
 
         $this->assertTrue($optionValue instanceof OptionValue);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 
     public function testGetAllOptionValuesByIds()
@@ -79,6 +79,6 @@ class OptionValueRepositoryTest extends Helper\DoctrineTestCase
         $optionValues[0]->getOption()->getCreated();
 
         $this->assertTrue($optionValues[0] instanceof OptionValue);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 }
