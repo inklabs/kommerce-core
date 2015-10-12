@@ -20,7 +20,7 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->cartRepository = $this->repository()->getCartRepository();
+        $this->cartRepository = $this->getRepositoryFactory()->getCartRepository();
     }
 
     public function setupCart($sessionId = '')

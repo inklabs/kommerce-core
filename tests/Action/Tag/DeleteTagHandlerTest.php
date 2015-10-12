@@ -10,13 +10,13 @@ class DeleteTagHandlerTest extends AbstractTagHandlerTestCase
     public function testHandle()
     {
         $tagId = 1;
-        $this->tagRepository->create(new Tag);
+        $this->fakeTagRepository->create(new Tag);
 
         $deleteTagHandler = new DeleteTagHandler($this->tagService);
         $deleteTagHandler->handle(new DeleteTagCommand($tagId));
 
         try {
-            $this->tagRepository->findOneById($tagId);
+            $this->fakeTagRepository->findOneById($tagId);
             $this->assertTrue(false, 'failure');
         } catch (EntityNotFoundException $e) {
             $this->assertTrue(true, 'success');

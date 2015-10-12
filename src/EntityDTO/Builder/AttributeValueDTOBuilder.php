@@ -26,7 +26,7 @@ class AttributeValueDTOBuilder
         $this->attributeValueDTO->sortOrder   = $this->attributeValue->getSortOrder();
     }
 
-    private function withAttribute()
+    public function withAttribute()
     {
         if ($this->attributeValue->getAttribute() !== null) {
             $this->attributeValueDTO->attribute = $this->attributeValue->getAttribute()->getDTOBuilder()
@@ -36,7 +36,7 @@ class AttributeValueDTOBuilder
         return $this;
     }
 
-    private function withProductAttributes()
+    public function withProductAttributes()
     {
         foreach ($this->attributeValue->getProductAttributes() as $productAttribute) {
             $this->attributeValueDTO->productAttributes[] = $productAttribute->getDTOBuilder()

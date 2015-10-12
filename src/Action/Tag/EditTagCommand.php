@@ -1,21 +1,24 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 
 class EditTagCommand implements CommandInterface
 {
-    /** @var Tag */
-    private $tag;
+    public $id;
+    public $name;
+    public $code;
+    public $description;
+    public $isActive;
+    public $isVisible;
+    public $sortOrder;
 
-    public function __construct(Tag $tag)
+    public function __construct($id, array $properties)
     {
-        $this->tag = $tag;
-    }
+        foreach ($properties as $name => $value) {
+            $this->$name = $value;
+        }
 
-    public function getTag()
-    {
-        return $this->tag;
+        $this->id = (int) $id;
     }
 }

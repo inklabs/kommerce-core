@@ -16,6 +16,21 @@ class CommandBus implements CommandBusInterface
         $this->serviceFactory = $serviceFactory;
     }
 
+    /**
+     * @param ServiceFactory $serviceFactory
+     * @return CommandBus
+     */
+    public static function getInstance(ServiceFactory $serviceFactory)
+    {
+        static $commandBus = null;
+
+        if ($commandBus === null) {
+            $commandBus = new static($serviceFactory);
+        }
+
+        return $commandBus;
+    }
+
     public function execute(CommandInterface $command)
     {
         $this->handler = $this->getHandler($command);

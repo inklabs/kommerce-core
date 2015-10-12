@@ -16,7 +16,7 @@ class CreateTagHandler implements TagServiceAwareInterface
 
     public function handle(CreateTagCommand $command)
     {
-        $tag = $command->getTag();
+        $tag = clone $command->getTag();
         $this->tagService->create($tag);
     }
 }

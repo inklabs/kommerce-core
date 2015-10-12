@@ -23,7 +23,7 @@ class OrderItemOptionValueRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->orderItemOptionValue = $this->repository()->getOrderItemOptionValueRepository();
+        $this->orderItemOptionValue = $this->getRepositoryFactory()->getOrderItemOptionValueRepository();
     }
 
     public function setupOrder()

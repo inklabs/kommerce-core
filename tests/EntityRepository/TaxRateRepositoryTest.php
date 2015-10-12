@@ -16,7 +16,7 @@ class TaxRateRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->taxRateRepository = $this->repository()->getTaxRateRepository();
+        $this->taxRateRepository = $this->getRepositoryFactory()->getTaxRateRepository();
     }
 
     private function setupTaxRates()

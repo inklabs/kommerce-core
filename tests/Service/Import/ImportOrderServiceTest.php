@@ -18,7 +18,7 @@ class ImportOrderServiceTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $repositoryFactory = $this->repository();
+        $repositoryFactory = $this->getRepositoryFactory();
         $orderService = new ImportOrderService(
             $repositoryFactory->getOrderRepository(),
             $repositoryFactory->getUserRepository()

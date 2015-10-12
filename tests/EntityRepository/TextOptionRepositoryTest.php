@@ -16,7 +16,7 @@ class TextOptionRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->textOptionRepository = $this->repository()->getTextOptionRepository();
+        $this->textOptionRepository = $this->getRepositoryFactory()->getTextOptionRepository();
     }
 
     private function setupOption()

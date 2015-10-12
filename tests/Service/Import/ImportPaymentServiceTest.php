@@ -19,7 +19,7 @@ class ImportPaymentServiceTest extends Helper\DoctrineTestCase
 
         $this->setCountLogger();
 
-        $repositoryFactory = $this->repository();
+        $repositoryFactory = $this->getRepositoryFactory();
         $paymentService = new ImportPaymentService(
             $repositoryFactory->getOrderRepository(),
             $repositoryFactory->getPaymentRepository()

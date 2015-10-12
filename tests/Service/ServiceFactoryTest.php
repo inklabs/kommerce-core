@@ -18,13 +18,13 @@ class ServiceFactoryTest extends Helper\DoctrineTestCase
 
     public function testGetInstance()
     {
-        $serviceFactory = ServiceFactory::getInstance($this->repository(), new CartCalculator(new Pricing));
+        $serviceFactory = ServiceFactory::getInstance($this->getRepositoryFactory(), new CartCalculator(new Pricing));
         $this->assertTrue($serviceFactory instanceof ServiceFactory);
     }
 
     public function testGetServices()
     {
-        $serviceFactory = $this->service(new CartCalculator(new Pricing));
+        $serviceFactory = $this->getServiceFactory(new CartCalculator(new Pricing));
         $this->assertTrue($serviceFactory->getAttribute() instanceof AttributeService);
         $this->assertTrue($serviceFactory->getAttributeValue() instanceof AttributeValueService);
         $this->assertTrue($serviceFactory->getCart() instanceof CartService);

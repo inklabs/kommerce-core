@@ -16,7 +16,7 @@ class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->catalogPromotionRepository = $this->repository()->getCatalogPromotionRepository();
+        $this->catalogPromotionRepository = $this->getRepositoryFactory()->getCatalogPromotionRepository();
     }
 
     private function setupCatalogPromotion()

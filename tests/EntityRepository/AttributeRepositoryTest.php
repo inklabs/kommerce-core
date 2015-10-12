@@ -18,7 +18,7 @@ class AttributeRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->attributeRepository = $this->repository()->getAttributeRepository();
+        $this->attributeRepository = $this->getRepositoryFactory()->getAttributeRepository();
     }
 
     private function setupAttribute()

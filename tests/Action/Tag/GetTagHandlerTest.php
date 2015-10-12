@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Action\Tag\AbstractTagHandlerTestCase;
 
 class GetTagHandlerTest extends AbstractTagHandlerTestCase
@@ -9,11 +8,11 @@ class GetTagHandlerTest extends AbstractTagHandlerTestCase
     public function testExecute()
     {
         $tag = $this->getDummyTag();
-        $this->tagRepository->create($tag);
+        $this->fakeTagRepository->create($tag);
 
-        $getTagHandler = new GetTagHandler($this->tagService);
-        $storedTag = $getTagHandler->handle(new GetTagQuery($tag->getid()));
+        $getTagHandler = new GetTagHandler($this->tagService, $this->pricing);
+        $storedTag = $getTagHandler->handle(new GetTagRequest($tag->getid()));
 
-        $this->assertTrue($storedTag instanceof Tag);
+        $this->assertTrue($storedTag instanceof GetTagResponse);
     }
 }

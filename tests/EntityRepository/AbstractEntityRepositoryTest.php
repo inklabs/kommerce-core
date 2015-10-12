@@ -16,7 +16,7 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->userRepository = $this->repository()->getUserRepository();
+        $this->userRepository = $this->getRepositoryFactory()->getUserRepository();
     }
 
     private function getUser()

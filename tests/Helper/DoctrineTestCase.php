@@ -49,8 +49,10 @@ use inklabs\kommerce\EntityDTO\ProductAttributeDTO;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\ProductQuantityDiscountDTO;
 use inklabs\kommerce\EntityDTO\TextOptionDTO;
+use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
+use inklabs\kommerce\Lib\Command\CommandBus;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryFactory;
 use inklabs\kommerce\Lib\Pricing;
@@ -558,19 +560,28 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $productAttribute;
     }
 
-    protected function repository()
+    protected function getCommandBus(CartCalculatorInterface $cartCalculator = null)
+    {
+        return new CommandBus($this->getServiceFactory($cartCalculator));
+    }
+
+    protected function getRepositoryFactory()
     {
         return new RepositoryFactory($this->entityManager);
     }
 
-    protected function fakeRepositoryFactory()
+    protected function getFakeRepositoryFactory()
     {
         return new FakeRepositoryFactory;
     }
 
-    protected function service(CartCalculatorInterface $cartCalculator)
+    protected function getServiceFactory(CartCalculatorInterface $cartCalculator = null)
     {
-        return new ServiceFactory($this->repository(), $cartCalculator);
+        if ($cartCalculator === null) {
+            $cartCalculator = new CartCalculator(new Pricing);
+        }
+
+        return new ServiceFactory($this->getRepositoryFactory(), $cartCalculator);
     }
 
     protected function beginTransaction()

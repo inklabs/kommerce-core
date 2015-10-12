@@ -28,7 +28,7 @@ class OrderItemRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->orderItemRepository = $this->repository()->getOrderItemRepository();
+        $this->orderItemRepository = $this->getRepositoryFactory()->getOrderItemRepository();
     }
 
     public function setupOrderItem()

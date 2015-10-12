@@ -16,7 +16,7 @@ class OptionValueRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->optionValueRepository = $this->repository()->getOptionValueRepository();
+        $this->optionValueRepository = $this->getRepositoryFactory()->getOptionValueRepository();
     }
 
     private function setupOptionValue()

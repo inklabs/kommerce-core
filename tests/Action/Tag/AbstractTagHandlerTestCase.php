@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\tests\Action\Tag;
 
+use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\TagService;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
@@ -8,14 +9,18 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
 abstract class AbstractTagHandlerTestCase extends DoctrineTestCase
 {
     /** @var FakeTagRepository */
-    protected $tagRepository;
+    protected $fakeTagRepository;
 
     /** @var TagService */
     protected $tagService;
 
+    /** @var Pricing */
+    protected $pricing;
+
     public function setUp()
     {
-        $this->tagRepository = new FakeTagRepository;
-        $this->tagService = new TagService($this->tagRepository);
+        $this->fakeTagRepository = new FakeTagRepository;
+        $this->tagService = new TagService($this->fakeTagRepository);
+        $this->pricing = new Pricing;
     }
 }

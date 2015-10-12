@@ -16,7 +16,15 @@ class EditTagHandler implements TagServiceAwareInterface
 
     public function handle(EditTagCommand $command)
     {
-        $tag = $command->getTag();
+        $tag = $this->tagService->findOneById($command->id);
+
+        $tag->setName($command->name);
+        $tag->setCode($command->code);
+        $tag->setDescription($command->description);
+        $tag->setIsActive($command->isActive);
+        $tag->setIsVisible($command->isVisible);
+        $tag->setSortOrder($command->sortOrder);
+
         $this->tagService->edit($tag);
     }
 }

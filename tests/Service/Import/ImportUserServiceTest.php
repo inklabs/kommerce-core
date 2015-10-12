@@ -14,7 +14,7 @@ class ImportUserServiceTest extends Helper\DoctrineTestCase
     {
         $this->setCountLogger();
 
-        $userService = new ImportUserService($this->repository()->getUserRepository());
+        $userService = new ImportUserService($this->getRepositoryFactory()->getUserRepository());
 
         $iterator = new CSVIterator(__DIR__ . '/ImportUserServiceTest.csv');
         $importResult = $userService->import($iterator);

@@ -19,7 +19,7 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->paymentRepository = $this->repository()->getPaymentRepository();
+        $this->paymentRepository = $this->getRepositoryFactory()->getPaymentRepository();
     }
 
     public function setupPayment()

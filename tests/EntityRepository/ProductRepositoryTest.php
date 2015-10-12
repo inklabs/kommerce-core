@@ -26,7 +26,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->productRepository = $this->repository()->getProductRepository();
+        $this->productRepository = $this->getRepositoryFactory()->getProductRepository();
     }
 
     private function setupProduct($num = 1)
@@ -57,7 +57,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $this->productRepository->save($product);
 
         try {
-            $this->repository()->getProductQuantityDiscountRepository()->findOneById(1);
+            $this->getRepositoryFactory()->getProductQuantityDiscountRepository()->findOneById(1);
             $this->assertTrue(false);
         } catch (Exception $e) {
             $this->assertTrue(true);

@@ -19,7 +19,7 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->tagRepository = $this->repository()->getTagRepository();
+        $this->tagRepository = $this->getRepositoryFactory()->getTagRepository();
     }
 
     private function setupTag()
