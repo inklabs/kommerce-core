@@ -7,6 +7,6 @@ class DeleteTagHandler extends AbstractTagHandler
 {
     public function handle(DeleteTagCommand $command)
     {
-        $this->tagService->delete($command->getTagId());
+        $this->tagService->delete($command->getId());
     }
 }
