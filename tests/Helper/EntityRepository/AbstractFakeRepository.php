@@ -89,9 +89,7 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
     {
         $this->throwCrudExceptionIfSet();
 
-        if (method_exists($entity, 'setId')) {
-            $entity->setId($this->getAutoincrement());
-        }
+        $entity->setId($this->getAutoincrement());
 
         $this->entities[$entity->getId()] = $entity;
     }

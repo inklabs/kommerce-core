@@ -12,7 +12,7 @@ class GetTagHandlerTest extends AbstractTagHandlerTestCase
         $this->tagRepository->create($tag);
 
         $getTagHandler = new GetTagHandler($this->tagService);
-        $storedTag = $getTagHandler->handle(new GetTagQuery(1));
+        $storedTag = $getTagHandler->handle(new GetTagQuery($tag->getid()));
 
         $this->assertTrue($storedTag instanceof Tag);
     }
