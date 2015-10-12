@@ -95,11 +95,6 @@ class ProductRepositoryDecorator implements ProductRepositoryInterface
         return $this->productRepository->persist($entity);
     }
 
-    public function merge(EntityInterface & $entity)
-    {
-        return $this->productRepository->merge($entity);
-    }
-
     public function flush()
     {
         return $this->productRepository->flush();

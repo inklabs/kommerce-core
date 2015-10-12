@@ -53,7 +53,6 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
     public function testCRUD()
     {
         $user = $this->getDummyUser();
-
         $this->userRepository->create($user);
         $this->assertSame(1, $user->getId());
 
@@ -71,7 +70,9 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
     {
         $userLogin = $this->getDummyUserLogin();
 
-        $user = $this->setupUser();
+        $user = $this->getDummyUser();
+        $this->userRepository->create($user);
+
         $user->addLogin($userLogin);
 
         $this->userRepository->update($user);

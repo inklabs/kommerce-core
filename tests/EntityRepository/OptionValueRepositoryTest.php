@@ -36,10 +36,17 @@ class OptionValueRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $optionValue = $this->setupOptionValue();
+        $option = $this->getDummyOption();
+        $this->entityManager->persist($option);
+        $this->entityManager->flush();
+
+        $optionValue = $this->getDummyOptionValue($option);
+        $this->optionValueRepository->create($optionValue);
+        $this->assertSame(1, $optionValue->getId());
 
         $optionValue->setName('New Name');
         $this->assertSame(null, $optionValue->getUpdated());
+
         $this->optionValueRepository->update($optionValue);
         $this->assertTrue($optionValue->getUpdated() instanceof \DateTime);
 

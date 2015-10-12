@@ -31,18 +31,17 @@ class OptionProductRepositoryTest extends Helper\DoctrineTestCase
 
         $this->optionProductRepository->create($optionProduct);
 
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
         return $optionProduct;
     }
 
     public function testCRUD()
     {
         $optionProduct = $this->setupOptionProduct();
-        $optionProduct->setSortOrder(5);
+        $this->assertSame(1, $optionProduct->getId());
 
+        $optionProduct->setSortOrder(5);
         $this->assertSame(null, $optionProduct->getUpdated());
+
         $this->optionProductRepository->update($optionProduct);
         $this->assertTrue($optionProduct->getUpdated() instanceof \DateTime);
 

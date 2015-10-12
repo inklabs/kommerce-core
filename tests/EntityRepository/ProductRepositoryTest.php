@@ -42,13 +42,15 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $product = $this->setupProduct();
-        $product->setName('new name');
+        $product = $this->getDummyProduct();
+        $this->productRepository->create($product);
+        $this->assertSame(1, $product->getId());
 
+        $product->setName('new name');
         $productQuantityDiscount = $this->getDummyProductQuantityDiscount();
         $product->addProductQuantityDiscount($productQuantityDiscount);
-
         $this->assertSame(null, $product->getUpdated());
+
         $this->productRepository->update($product);
         $this->assertTrue($product->getUpdated() instanceof \DateTime);
         $this->assertTrue($product->getProductQuantityDiscounts()[0]->getCreated() instanceof \DateTime);

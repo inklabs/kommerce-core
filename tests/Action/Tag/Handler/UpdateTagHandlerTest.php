@@ -8,26 +8,48 @@ use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
 
 class UpdateTagHandlerTest extends AbstractTagHandlerTestCase
 {
+    /** @var TagDTO */
+    protected $tagDTO;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->tagDTO = new TagDTO;
+        $this->tagDTO->name = 'New Name';
+        $this->tagDTO->code = 'NEW-CODE';
+        $this->tagDTO->description = 'New Description';
+        $this->tagDTO->isActive = true;
+        $this->tagDTO->isVisible = true;
+        $this->tagDTO->sortOrder = 0;
+    }
+
     public function testHandle()
     {
         $tag = $this->getDummyTag();
         $this->fakeTagRepository->create($tag);
 
+        $this->tagDTO->id = $tag->getId();
+
         $editTagHandler = new UpdateTagHandler($this->tagService);
 
-        $tagDTO = new TagDTO;
-        $tagDTO->id = $tag->getId();
-        $tagDTO->name = 'New Name';
-        $tagDTO->code = 'NEW-CODE';
-        $tagDTO->description = 'New Description';
-        $tagDTO->isActive = true;
-        $tagDTO->isVisible = true;
-        $tagDTO->sortOrder = 0;
-
-        $editTagHandler->handle(new UpdateTagCommand($tagDTO));
+        $editTagHandler->handle(new UpdateTagCommand($this->tagDTO));
 
         $newTag = $this->fakeTagRepository->findOneById(1);
         $this->assertTrue($this->fakeTagRepository->findOneById(1) instanceof Tag);
         $this->assertSame('New Name', $newTag->getname());
+    }
+
+    public function testHandleThroughCommandBus()
+    {
+        $tag = $this->getDummyTag();
+        $this->setupEntityManager(['kommerce:Tag']);
+        $this->getRepositoryFactory()->getTagRepository()->create($tag);
+
+        $this->tagDTO->id = $tag->getId();
+
+        $this->getCommandBus()->execute(new UpdateTagCommand($this->tagDTO));
+
+        $this->assertTrue($this->getRepositoryFactory()->getTagRepository()->findOneById(1) instanceof Tag);
     }
 }

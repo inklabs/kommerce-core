@@ -106,10 +106,7 @@ class ProductRepositoryInterfaceTest extends Helper\DoctrineTestCase
     {
         $this->productRepository->persist(new Product);
     }
-    public function testMerge()
-    {
-        $this->productRepository->merge(new Product);
-    }
+
     public function testFlush()
     {
         $this->productRepository->flush();

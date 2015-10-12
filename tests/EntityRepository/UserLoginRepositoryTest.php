@@ -35,30 +35,24 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
         return $userLogin;
     }
 
-    public function testSave()
-    {
-        $userLogin = $this->setupUserLogin();
-
-        $this->assertSame(1, $userLogin->getResult());
-        $userLogin->setResult(2);
-
-        $this->userLoginRepository->update($userLogin);
-        $this->assertSame(2, $userLogin->getResult());
-    }
-
     public function testCRUD()
     {
         $userLogin = $this->getDummyUserLogin();
-
         $this->userLoginRepository->create($userLogin);
         $this->assertSame(1, $userLogin->getId());
 
-        $userLogin->setEmail('NewEmail@example.com');
-
-        $this->userLoginRepository->update($userLogin);
-
         $this->userLoginRepository->delete($userLogin);
         $this->assertSame(null, $userLogin->getId());
+    }
+
+    /**
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage Update not allowed
+     */
+    public function testUpdateThrowsException()
+    {
+        $userLogin = $this->getDummyUserLogin();
+        $this->userLoginRepository->update($userLogin);
     }
 
     public function testFind()

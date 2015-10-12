@@ -33,7 +33,6 @@ class AttributeRepositoryTest extends Helper\DoctrineTestCase
     public function testCRUD()
     {
         $attribute = $this->getDummyAttribute();
-
         $this->attributeRepository->create($attribute);
         $this->assertSame(1, $attribute->getId());
 

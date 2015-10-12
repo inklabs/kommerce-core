@@ -10,7 +10,6 @@ interface AbstractRepositoryInterface
     public function update(EntityInterface & $entity);
     public function delete(EntityInterface $entity);
     public function persist(EntityInterface & $entity);
-    public function merge(EntityInterface & $entity);
     public function flush();
 
     /**

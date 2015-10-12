@@ -51,7 +51,6 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
         $this->orderRepository->create($order);
 
         $this->entityManager->flush();
-        $this->entityManager->clear();
 
         return $order;
     }
@@ -59,9 +58,11 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
     public function testCRUD()
     {
         $order = $this->setupOrder();
+        $this->assertSame(1, $order->getId());
 
         $order->setExternalId('newExternalId');
         $this->assertSame(null, $order->getUpdated());
+
         $this->orderRepository->update($order);
         $this->assertTrue($order->getUpdated() instanceof \DateTime);
 
@@ -72,6 +73,7 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
     public function testFindOneById()
     {
         $this->setupOrder();
+        $this->entityManager->clear();
 
         $this->setCountLogger();
 

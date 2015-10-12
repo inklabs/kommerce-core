@@ -36,10 +36,13 @@ class OptionRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $option = $this->setupOption();
-        $option->setName('new name');
+        $option = $this->getDummyOption();
+        $this->optionRepository->create($option);
+        $this->assertSame(1, $option->getId());
 
+        $option->setName('new name');
         $this->assertSame(null, $option->getUpdated());
+
         $this->optionRepository->update($option);
         $this->assertTrue($option->getUpdated() instanceof \DateTime);
 

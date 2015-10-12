@@ -34,7 +34,6 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
         $this->paymentRepository->create($payment);
 
         $this->entityManager->flush();
-        $this->entityManager->clear();
 
         return $payment;
     }
@@ -42,13 +41,12 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
     public function testCRUD()
     {
         $payment = $this->setupPayment();
+        $this->assertSame(1, $payment->getId());
 
         $payment->setAmount(200);
         $this->assertSame(null, $payment->getUpdated());
-        $this->paymentRepository->update($payment);
-        $this->assertTrue($payment->getUpdated() instanceof DateTime);
 
-        $this->paymentRepository->persist($payment);
+        $this->paymentRepository->update($payment);
         $this->assertTrue($payment->getUpdated() instanceof DateTime);
 
         $this->paymentRepository->delete($payment);
@@ -58,6 +56,7 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
     public function testFind()
     {
         $this->setupPayment();
+        $this->entityManager->clear();
 
         $this->setCountLogger();
 

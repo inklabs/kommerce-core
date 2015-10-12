@@ -14,7 +14,9 @@ abstract class AbstractRepository extends EntityRepository implements AbstractRe
 
     public function update(EntityInterface & $entity)
     {
-        $this->merge($entity);
+        $this->assertManaged($entity);
+//        $this->assertChanged($entity);
+
         $this->flush();
     }
 
@@ -35,12 +37,6 @@ abstract class AbstractRepository extends EntityRepository implements AbstractRe
     {
         $entityManager = $this->getEntityManager();
         $entityManager->persist($entity);
-    }
-
-    public function merge(EntityInterface & $entity)
-    {
-        $entityManager = $this->getEntityManager();
-        $entity = $entityManager->merge($entity);
     }
 
     public function flush()
@@ -69,4 +65,30 @@ abstract class AbstractRepository extends EntityRepository implements AbstractRe
     {
         return new EntityNotFoundException($this->getClassName() . ' not found');
     }
+
+//    protected function getEntityNotModifiedException()
+//    {
+//        return new EntityNotModifiedException($this->getClassName() . ' not modified');
+//    }
+
+    private function assertManaged(EntityInterface $entity)
+    {
+        if (! $this->getEntityManager()->contains($entity)) {
+            throw $this->getEntityNotFoundException();
+        }
+    }
+
+//    private function assertChanged(EntityInterface $entity)
+//    {
+//        if ($this->isChanged($entity)) {
+//            throw $this->getEntityNotModifiedException();
+//        }
+//    }
+
+//    public function isChanged(EntityInterface $entity)
+//    {
+//        $unitOfWork = $this->getEntityManager()->getUnitOfWork();
+//        $unitOfWork->computeChangeSets();
+//        return $unitOfWork->isEntityScheduled($entity);
+//    }
 }

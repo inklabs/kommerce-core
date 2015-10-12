@@ -33,10 +33,13 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $warehouse = $this->setupWarehouse();
+        $warehouse = $this->getDummyWarehouse();
+        $this->warehouseRepository->create($warehouse);
+        $this->assertSame(1, $warehouse->getid());
 
         $warehouse->setName('New Name');
         $this->assertSame(null, $warehouse->getUpdated());
+
         $this->warehouseRepository->update($warehouse);
         $this->assertTrue($warehouse->getUpdated() instanceof \DateTime);
 
