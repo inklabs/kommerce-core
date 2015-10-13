@@ -42,19 +42,19 @@ class QueryBus implements QueryBusInterface
         return $queryBus;
     }
 
-    public function execute(QueryInterface $command)
+    public function execute(RequestInterface $request, ResponseInterface & $response)
     {
-        $this->handler = $this->getHandler($command);
-        return $this->handler->handle($command);
+        $this->handler = $this->getHandler($request);
+        $this->handler->handle($request, $response);
     }
 
     /**
-     * @param QueryInterface $command
+     * @param RequestInterface $request
      * @return QueryHandlerInterface
      */
-    private function getHandler(QueryInterface $command)
+    private function getHandler(RequestInterface $request)
     {
-        $handlerClassName = $this->getHandlerClassName($command);
+        $handlerClassName = $this->getHandlerClassName($request);
 
         $constructorParameters = [];
         if (is_subclass_of($handlerClassName, TagServiceAwareInterface::class, true)) {
@@ -76,10 +76,10 @@ class QueryBus implements QueryBusInterface
     }
 
     /**
-     * @param QueryInterface $command
+     * @param RequestInterface $command
      * @return string
      */
-    private function getHandlerClassName(QueryInterface $command)
+    private function getHandlerClassName(RequestInterface $command)
     {
         $className = get_class($command);
         $pieces = explode('\\', $className);

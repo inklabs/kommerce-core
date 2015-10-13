@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Action\Tag\Handler;
 
 use inklabs\kommerce\Action\Tag\GetTagRequest;
-use inklabs\kommerce\Action\Tag\GetTagResponse;
+use inklabs\kommerce\Action\Tag\GetTagResponseInterface;
 use inklabs\kommerce\Lib\Command\PricingAwareInterface;
 use inklabs\kommerce\Lib\Command\TagServiceAwareInterface;
 use inklabs\kommerce\Lib\Pricing;
@@ -22,11 +22,11 @@ class GetTagHandler implements TagServiceAwareInterface, PricingAwareInterface
         $this->pricing = $pricing;
     }
 
-    public function handle(GetTagRequest $command)
+    public function handle(GetTagRequest $command, GetTagResponseInterface & $response)
     {
         $tag = $this->tagService->findOneById($command->getTagId());
 
-        return new GetTagResponse(
+        $response->setTagDTO(
             $tag->getDTOBuilder()
                 ->withAllData($this->pricing)
                 ->build()

@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Query\RequestInterface;
 
-class GetTagRequest implements QueryInterface
+class GetTagRequest implements RequestInterface
 {
     /** @var int */
     private $tagId;
