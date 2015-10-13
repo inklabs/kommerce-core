@@ -8,7 +8,7 @@ class CommandBus implements CommandBusInterface
     /** @var ServiceFactory */
     private $serviceFactory;
 
-    /** @var HandlerInterface */
+    /** @var CommandHandlerInterface */
     private $handler;
 
     public function __construct(ServiceFactory $serviceFactory)
@@ -39,7 +39,7 @@ class CommandBus implements CommandBusInterface
 
     /**
      * @param CommandInterface $command
-     * @return HandlerInterface
+     * @return CommandHandlerInterface
      */
     private function getHandler(CommandInterface $command)
     {

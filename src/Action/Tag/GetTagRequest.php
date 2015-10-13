@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\Lib\Command\QueryInterface;
+use inklabs\kommerce\Lib\Query\QueryInterface;
 
 class GetTagRequest implements QueryInterface
 {

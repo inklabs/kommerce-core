@@ -53,6 +53,7 @@ use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\Command\CommandBus;
+use inklabs\kommerce\Lib\Query\QueryBus;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryFactory;
 use inklabs\kommerce\Lib\Pricing;
@@ -571,6 +572,11 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     protected function getCommandBus(CartCalculatorInterface $cartCalculator = null)
     {
         return new CommandBus($this->getServiceFactory($cartCalculator));
+    }
+
+    protected function getQueryBus(CartCalculatorInterface $cartCalculator = null)
+    {
+        return new QueryBus($this->getServiceFactory($cartCalculator), new Pricing);
     }
 
     protected function getRepositoryFactory()

@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\Command;
 
-interface HandlerInterface
+interface CommandHandlerInterface
 {
     public function handle(CommandInterface $command);
 }
