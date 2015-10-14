@@ -36,7 +36,7 @@ class UpdateTagHandlerTest extends AbstractTagHandlerTestCase
         $editTagHandler->handle(new UpdateTagCommand($this->tagDTO));
 
         $newTag = $this->fakeTagRepository->findOneById(1);
-        $this->assertTrue($this->fakeTagRepository->findOneById(1) instanceof Tag);
+        $this->assertTrue($newTag instanceof Tag);
         $this->assertSame('New Name', $newTag->getname());
     }
 
