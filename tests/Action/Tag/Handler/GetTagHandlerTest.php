@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Action\Tag\Handler;
 
 use inklabs\kommerce\Action\Tag\GetTagRequest;
-use inklabs\kommerce\Action\Tag\GetTagResponse;
+use inklabs\kommerce\Action\Tag\Response\GetTagResponse;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
 
