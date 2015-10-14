@@ -23,12 +23,24 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 ![Flow of Control](https://i.imgur.com/IJ5Trm7.png)
 
 * Action
-    - These are the use cases for the application. Actions are passed a Command object containing the required data payload.
-      This is the entry point into the application.
+    - These are the use cases into the application. Command Actions are passed a Command object containing the
+      required data payload. 
+      
+      ```php
+      $productDTO->sku = 'NEW-SKU';
+      $this->dispatch(new EditProductCommand($productDTO));
+      ```
+      
+    - Query Actions are passed a Request object and a Response object.
 
       ```php
-      $product->setSku('NEW-SKU');
-      $this->dispatch(new EditProductCommand($product));
+      $response = new GetProductResponse;
+      $this->dispatchQuery(new GetProductRequest(1), $response);
+      $productDTO = $response->getProductDTO();
+
+      echo $productDTO->sku;
+      echo $productDTO->price->unitPrice;
+      echo $productDTO->tags[0]->name;
       ```
 
 * Service
