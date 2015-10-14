@@ -72,6 +72,15 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $product->getId());
     }
 
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Product not found
+     */
+    public function testUpdateThrowsExceptionWhenNotFound()
+    {
+        $this->productRepository->update(new Product);
+    }
+
     public function testFindOneById()
     {
         $this->setupProduct();

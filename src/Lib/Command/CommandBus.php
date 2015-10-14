@@ -30,10 +30,9 @@ class CommandBus implements CommandBusInterface
     {
         $handlerClassName = $this->getHandlerClassName($command);
 
+        $handler = null;
         if (is_subclass_of($handlerClassName, TagServiceAwareInterface::class, true)) {
             $handler = new $handlerClassName($this->serviceFactory->getTagService());
-        } else {
-            $handler = new $handlerClassName;
         }
 
         return $handler;

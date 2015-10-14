@@ -50,10 +50,9 @@ class QueryBus implements QueryBusInterface
         }
 
         $reflection = new ReflectionClass($handlerClassName);
+        $handler = null;
         if (! empty($constructorParameters)) {
             $handler = $reflection->newInstanceArgs($constructorParameters);
-        } else {
-            $handler = $reflection->newInstance();
         }
 
         return $handler;
