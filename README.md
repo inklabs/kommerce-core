@@ -23,15 +23,18 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 ![Flow of Control](https://i.imgur.com/IJ5Trm7.png)
 
 * Action
-    - These are the use cases into the application. Command Actions are passed a Command object containing the
-      required data payload. 
+    - These are the use cases into the application. Command Actions are passed a Command object containing the required
+      data payload. There is nothing returned from the dispatch() method. Only exceptions are thrown if the
+      Command/Transaction is invalid.
       
       ```php
       $productDTO->sku = 'NEW-SKU';
       $this->dispatch(new EditProductCommand($productDTO));
       ```
       
-    - Query Actions are passed a Request object and a Response object.
+    - Query Actions are passed a Request object and a Response object. The return value is attached to the Response
+      as defined in the ResponseInterface (GetProductResponseInterface in this case). The main application can
+      implement this or use/extend the provided one. 
 
       ```php
       $response = new GetProductResponse;
@@ -42,6 +45,14 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       echo $productDTO->price->unitPrice;
       echo $productDTO->tags[0]->name;
       ```
+
+    - Attaching the return value to the Response is needed to maintain type hints. This allows for decoupling the main
+      application from the Use Case handler implementation. The main application only needs to know about
+      these objects from the above examples:
+      
+      - CommandInterface (EditProductCommand)
+      - RequestInterface (GetProductRequest)
+      - ResponseInterface (GetProductResponseInterface)
 
 * Service
     - These are the domain services to manage persisting domain state to the database through repositories. They contain
