@@ -6,7 +6,7 @@ use inklabs\kommerce\EntityDTO\TagDTO;
 class GetTagResponse implements GetTagResponseInterface
 {
     /** @var TagDTO */
-    private $tagDTO;
+    protected $tagDTO;
 
     public function setTagDTO(TagDTO $tagDTO)
     {
