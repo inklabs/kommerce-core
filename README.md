@@ -47,9 +47,9 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       echo $productDTO->tags[0]->name;
       ```
 
-    - Attaching the return value to the Response is needed to maintain type hints. This allows for decoupling the main
-      application from the Use Case handler implementation. The main application only needs to know about
-      these objects from the above examples:
+    - Attaching the return value to the Response is needed to maintain type hints in your IDE. Using the
+      command/query bus allows for decoupling the main application from the Use Case handler implementation.
+      The main application only needs to know about these objects from the above examples:
       
       - CommandInterface (EditProductCommand)
       - RequestInterface (GetProductRequest)
