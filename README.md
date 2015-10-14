@@ -32,9 +32,10 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       $this->dispatch(new EditProductCommand($productDTO));
       ```
       
-    - Query Actions are passed a Request and a Response object. The return value is attached to the Response
-      as defined in the ResponseInterface (GetProductResponseInterface in this case). The main application can
-      implement this or use/extend the provided one. 
+    - Query Actions are passed a Request and Response object. There is nothing returned from the dispatchQuery()
+      method. The return value is attached to the Response as defined in the ResponseInterface
+      (GetProductResponseInterface in this case). The main application can implement this or use/extend the
+      provided one. 
 
       ```php
       $response = new GetProductResponse;
