@@ -6,12 +6,6 @@ use Doctrine\ORM\EntityManager;
 interface RepositoryFactoryInterface
 {
     /**
-     * @param EntityManager $entityManager
-     * @return self
-     */
-    public static function getInstance(EntityManager $entityManager);
-
-    /**
      * @return AttributeRepositoryInterface
      */
     public function getAttributeRepository();

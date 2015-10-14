@@ -26,22 +26,6 @@ class QueryBus implements QueryBusInterface
         $this->pricing = $pricing;
     }
 
-    /**
-     * @param ServiceFactory $serviceFactory
-     * @param Pricing $pricing
-     * @return QueryBus
-     */
-    public static function getInstance(ServiceFactory $serviceFactory, Pricing $pricing)
-    {
-        static $queryBus = null;
-
-        if ($queryBus === null) {
-            $queryBus = new static($serviceFactory, $pricing);
-        }
-
-        return $queryBus;
-    }
-
     public function execute(RequestInterface $request, ResponseInterface & $response)
     {
         $this->handler = $this->getHandler($request);

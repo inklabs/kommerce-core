@@ -22,24 +22,6 @@ class ServiceFactory
     }
 
     /**
-     * @param RepositoryFactory $repositoryFactory
-     * @param CartCalculatorInterface $cartCalculator
-     * @return ServiceFactory
-     */
-    public static function getInstance(
-        RepositoryFactory $repositoryFactory,
-        CartCalculatorInterface $cartCalculator
-    ) {
-        static $serviceFactory = null;
-
-        if ($serviceFactory === null) {
-            $serviceFactory = new static($repositoryFactory, $cartCalculator);
-        }
-
-        return $serviceFactory;
-    }
-
-    /**
      * @return AttributeService
      */
     public function getAttribute()

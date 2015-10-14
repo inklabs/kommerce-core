@@ -16,12 +16,6 @@ class ServiceFactoryTest extends Helper\DoctrineTestCase
         $this->setupEntityManager();
     }
 
-    public function testGetInstance()
-    {
-        $serviceFactory = ServiceFactory::getInstance($this->getRepositoryFactory(), new CartCalculator(new Pricing));
-        $this->assertTrue($serviceFactory instanceof ServiceFactory);
-    }
-
     public function testGetServices()
     {
         $serviceFactory = $this->getServiceFactory(new CartCalculator(new Pricing));

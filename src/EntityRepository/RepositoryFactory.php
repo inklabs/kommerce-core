@@ -15,21 +15,6 @@ class RepositoryFactory implements RepositoryFactoryInterface
     }
 
     /**
-     * @param EntityManager $entityManager
-     * @return self
-     */
-    public static function getInstance(EntityManager $entityManager)
-    {
-        static $repositoryFactory = null;
-
-        if ($repositoryFactory === null) {
-            $repositoryFactory = new static($entityManager);
-        }
-
-        return $repositoryFactory;
-    }
-
-    /**
      * @return AttributeRepositoryInterface
      */
     public function getAttributeRepository()
