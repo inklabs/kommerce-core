@@ -1,7 +1,7 @@
 <?php
-namespace inklabs\kommerce\Action\Tag;
+namespace inklabs\kommerce\Action\Tag\Handler;
 
-use inklabs\kommerce\Action\Tag\Handler\UpdateTagHandler;
+use inklabs\kommerce\Action\Tag\UpdateTagCommand;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;

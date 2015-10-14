@@ -1,10 +1,9 @@
 <?php
-namespace inklabs\kommerce\tests\Action\Tag;
+namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\Action\Tag\GetTagResponseInterface;
 use inklabs\kommerce\EntityDTO\TagDTO;
 
-class TestingGetTagResponse implements GetTagResponseInterface
+class GetTagResponse implements GetTagResponseInterface
 {
     /** @var TagDTO */
     private $tagDTO;

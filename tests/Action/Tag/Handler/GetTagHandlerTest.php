@@ -1,10 +1,10 @@
 <?php
-namespace inklabs\kommerce\Action\Tag;
+namespace inklabs\kommerce\Action\Tag\Handler;
 
-use inklabs\kommerce\Action\Tag\Handler\GetTagHandler;
+use inklabs\kommerce\Action\Tag\GetTagRequest;
+use inklabs\kommerce\Action\Tag\GetTagResponse;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
-use inklabs\kommerce\tests\Action\Tag\TestingGetTagResponse;
 
 class GetTagHandlerTest extends AbstractTagHandlerTestCase
 {
@@ -14,7 +14,7 @@ class GetTagHandlerTest extends AbstractTagHandlerTestCase
         $this->fakeTagRepository->create($tag);
 
         $getTagHandler = new GetTagHandler($this->tagService, $this->pricing);
-        $response = new TestingGetTagResponse;
+        $response = new GetTagResponse;
         $getTagHandler->handle(new GetTagRequest($tag->getid()), $response);
 
         $this->assertTrue($response->getTagDTO() instanceof TagDTO);
@@ -26,7 +26,7 @@ class GetTagHandlerTest extends AbstractTagHandlerTestCase
         $tag = $this->getDummyTag();
         $this->getRepositoryFactory()->getTagRepository()->create($tag);
 
-        $response = new TestingGetTagResponse;
+        $response = new GetTagResponse;
         $this->getQueryBus()->execute(new GetTagRequest($tag->getId()), $response);
 
         $this->assertTrue($response->getTagDTO() instanceof TagDTO);
