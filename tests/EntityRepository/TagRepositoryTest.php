@@ -109,6 +109,13 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(5, $this->getTotalQueries());
     }
 
+    public function testGetAllTagsSearchByCode()
+    {
+        $this->setupTag();
+        $tags = $this->tagRepository->getAllTags('TT');
+        $this->assertTrue($tags[0] instanceof Tag);
+    }
+
     public function testGetTagsByIds()
     {
         $this->setupTag();

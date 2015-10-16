@@ -21,7 +21,8 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
 
         if ($queryString !== null) {
             $tags = $tags
-                ->where('tag.name LIKE :query')
+                ->orWhere('tag.name LIKE :query')
+                ->orWhere('tag.code LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 
