@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Tag\Response;
 
-use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
 
 class ListTagsResponse implements ListTagsResponseInterface
@@ -9,8 +9,8 @@ class ListTagsResponse implements ListTagsResponseInterface
     /** @var TagDTO[] */
     protected $tagDTOs = [];
 
-    /** @var Pagination */
-    protected $pagination;
+    /** @var PaginationDTO */
+    protected $paginationDTO;
 
     public function addTagDTO(TagDTO $tagDTO)
     {
@@ -22,13 +22,13 @@ class ListTagsResponse implements ListTagsResponseInterface
         return $this->tagDTOs;
     }
 
-    public function setPagination(Pagination $pagination)
+    public function setPaginationDTO(PaginationDTO $paginationDTO)
     {
-        $this->pagination = $pagination;
+        $this->paginationDTO = $paginationDTO;
     }
 
-    public function getPagination()
+    public function getPaginationDTO()
     {
-        return $this->pagination;
+        return $this->paginationDTO;
     }
 }

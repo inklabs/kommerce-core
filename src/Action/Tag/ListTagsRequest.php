@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\Lib\Query\RequestInterface;
 
 class ListTagsRequest implements RequestInterface
@@ -9,17 +9,17 @@ class ListTagsRequest implements RequestInterface
     /** @var string */
     private $queryString;
 
-    /** @var Pagination */
-    private $pagination;
+    /** @var PaginationDTO */
+    private $paginationDTO;
 
     /**
      * @param string $queryString
-     * @param Pagination $pagination
+     * @param PaginationDTO $paginationDTO
      */
-    public function __construct($queryString, Pagination $pagination)
+    public function __construct($queryString, PaginationDTO $paginationDTO)
     {
         $this->queryString = (string) $queryString;
-        $this->pagination = $pagination;
+        $this->paginationDTO = $paginationDTO;
     }
 
     public function getQueryString()
@@ -27,8 +27,8 @@ class ListTagsRequest implements RequestInterface
         return $this->queryString;
     }
 
-    public function getPagination()
+    public function getPaginationDTO()
     {
-        return $this->pagination;
+        return $this->paginationDTO;
     }
 }

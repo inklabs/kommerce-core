@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Tag\Handler;
 
 use inklabs\kommerce\Action\Tag\ListTagsRequest;
 use inklabs\kommerce\Action\Tag\Response\ListTagsResponse;
-use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
 
@@ -16,12 +16,12 @@ class ListTagsHandlerTest extends AbstractTagHandlerTestCase
 
         $getTagHandler = new ListTagsHandler($this->tagService, $this->pricing);
 
-        $pagination = new Pagination;
+        $paginationDTO = new PaginationDTO;
         $response = new ListTagsResponse;
-        $getTagHandler->handle(new ListTagsRequest('TT', $pagination), $response);
+        $getTagHandler->handle(new ListTagsRequest('TT', $paginationDTO), $response);
 
         $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);
-        $this->assertTrue($response->getPagination() instanceof Pagination);
+        $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
     }
 
     public function testHandleThroughQueryBus()
@@ -31,11 +31,11 @@ class ListTagsHandlerTest extends AbstractTagHandlerTestCase
         $tag = $this->getDummyTag();
         $this->getRepositoryFactory()->getTagRepository()->create($tag);
 
-        $pagination = new Pagination;
+        $paginationDTO = new PaginationDTO;
         $response = new ListTagsResponse;
-        $this->getQueryBus()->execute(new ListTagsRequest('TT', $pagination), $response);
+        $this->getQueryBus()->execute(new ListTagsRequest('TT', $paginationDTO), $response);
 
         $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);
-        $this->assertTrue($response->getPagination() instanceof Pagination);
+        $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
     }
 }
