@@ -19,6 +19,5 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1, $pagination->getPage());
         $this->assertTrue($pagination->isTotalIncluded());
         $this->assertSame(100, $pagination->getTotal());
-        $this->assertEquals($expectedResult, $pagination->getData());
     }
 }

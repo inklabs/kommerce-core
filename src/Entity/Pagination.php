@@ -48,17 +48,6 @@ class Pagination
         return $this->isTotalIncluded;
     }
 
-    public function getData()
-    {
-        $pagination = new \stdClass;
-        $pagination->maxResults      = $this->maxResults;
-        $pagination->page            = $this->page;
-        $pagination->total           = $this->total;
-        $pagination->isTotalIncluded = $this->isTotalIncluded;
-
-        return $pagination;
-    }
-
     public function getDTOBuilder()
     {
         return new PaginationDTOBuilder($this);
