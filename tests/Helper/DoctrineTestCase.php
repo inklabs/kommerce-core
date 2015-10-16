@@ -127,9 +127,9 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $this->kommerce->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
     }
 
-    public function setCountLogger()
+    public function setCountLogger($enableDisplay = false)
     {
-        $this->countSQLLogger = new CountSQLLogger;
+        $this->countSQLLogger = new CountSQLLogger($enableDisplay);
         $this->kommerce->setSqlLogger($this->countSQLLogger);
     }
 

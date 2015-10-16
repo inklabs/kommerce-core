@@ -11,14 +11,18 @@ class CountSQLLogger implements SQLLogger
     /** @var int */
     protected $totalQueries;
 
+    /** @var bool */
+    private $enableDisplay;
+
     public function getTotalQueries()
     {
         return $this->totalQueries;
     }
 
-    public function __construct()
+    public function __construct($enableDisplay = false)
     {
         $this->totalQueries = 0;
+        $this->enableDisplay = $enableDisplay;
     }
 
     /**
@@ -26,7 +30,10 @@ class CountSQLLogger implements SQLLogger
      */
     public function startQuery($sql, array $params = null, array $types = null)
     {
-        //$this->displaySql($sql, $params);
+        if ($this->enableDisplay) {
+            $this->displaySql($sql, $params);
+        }
+
         $this->totalQueries++;
     }
 
