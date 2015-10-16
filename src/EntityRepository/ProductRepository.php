@@ -128,7 +128,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
         $products = $qb->select('product')
             ->from('kommerce:Product', 'product');
 
-        if ($queryString !== null) {
+        if (trim($queryString) !== '') {
             $products = $products
                 ->where('product.sku LIKE :query')
                 ->orWhere('product.name LIKE :query')

@@ -19,7 +19,7 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
         $tags = $qb->select('tag')
             ->from('kommerce:tag', 'tag');
 
-        if ($queryString !== null) {
+        if (trim($queryString) !== '') {
             $tags = $tags
                 ->orWhere('tag.name LIKE :query')
                 ->orWhere('tag.code LIKE :query')
