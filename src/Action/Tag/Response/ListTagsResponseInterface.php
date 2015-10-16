@@ -8,7 +8,16 @@ use inklabs\kommerce\Lib\Query\ResponseInterface;
 interface ListTagsResponseInterface extends ResponseInterface
 {
     public function addTagDTO(TagDTO $tagDTO);
-    public function getTagDTOs();
     public function setPaginationDTO(PaginationDTO $paginationDTO);
+
+    /**
+     * @return TagDTO[]
+     */
+    public function getTagDTOs();
+
+
+    /**
+     * @return PaginationDTO
+     */
     public function getPaginationDTO();
 }
