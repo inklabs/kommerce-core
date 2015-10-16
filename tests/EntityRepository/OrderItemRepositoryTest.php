@@ -33,21 +33,21 @@ class OrderItemRepositoryTest extends Helper\DoctrineTestCase
 
     public function setupOrderItem()
     {
-        $catalogPromotion = $this->getDummyCatalogPromotion();
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
 
-        $product = $this->getDummyProduct();
-        $productQuantityDiscount = $this->getDummyProductQuantityDiscount();
+        $product = $this->dummyData->getProduct();
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
         $productQuantityDiscount->setProduct($product);
 
-        $price = $this->getDummyPrice();
+        $price = $this->dummyData->getPrice();
         $price->addCatalogPromotion($catalogPromotion);
         $price->addProductQuantityDiscount($productQuantityDiscount);
 
-        $user = $this->getDummyUser();
-        $orderItem = $this->getDummyOrderItem($product, $price);
-        $cartTotal = $this->getDummyCartTotal();
+        $user = $this->dummyData->getUser();
+        $orderItem = $this->dummyData->getOrderItem($product, $price);
+        $cartTotal = $this->dummyData->getCartTotal();
 
-        $order = $this->getDummyOrder($cartTotal, [$orderItem]);
+        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
         $order->setUser($user);
 
         $this->entityManager->persist($catalogPromotion);

@@ -20,7 +20,7 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupCoupon()
     {
-        $coupon = $this->getDummyCoupon();
+        $coupon = $this->dummyData->getCoupon();
 
         $this->entityManager->persist($coupon);
         $this->entityManager->flush();
@@ -29,7 +29,7 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
 
     public function testSave()
     {
-        $coupon = $this->getDummyCoupon(1);
+        $coupon = $this->dummyData->getCoupon(1);
 
         $couponRepository = $this->couponRepository;
         $couponRepository->create($coupon);
@@ -84,7 +84,7 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $coupon = $this->getDummyCoupon(1);
+        $coupon = $this->dummyData->getCoupon(1);
 
         $this->assertSame(null, $coupon->getId());
         $this->couponRepository->create($coupon);

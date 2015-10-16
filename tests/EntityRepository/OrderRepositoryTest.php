@@ -30,16 +30,16 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
     {
         $uniqueId = crc32($referenceNumber);
 
-        $product = $this->getDummyProduct($uniqueId);
-        $price = $this->getDummyPrice();
+        $product = $this->dummyData->getProduct($uniqueId);
+        $price = $this->dummyData->getPrice();
 
-        $user = $this->getDummyUser($uniqueId);
-        $orderItem = $this->getDummyOrderItem($product, $price);
-        $cartTotal = $this->getDummyCartTotal();
+        $user = $this->dummyData->getUser($uniqueId);
+        $orderItem = $this->dummyData->getOrderItem($product, $price);
+        $cartTotal = $this->dummyData->getCartTotal();
 
-        $taxRate = $this->getDummyTaxRate();
+        $taxRate = $this->dummyData->getTaxRate();
 
-        $order = $this->getDummyOrder($cartTotal, [$orderItem]);
+        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
         $order->setUser($user);
         $order->setReferenceNumber($referenceNumber);
         $order->setTaxRate($taxRate);

@@ -21,7 +21,7 @@ class TextOptionRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupOption()
     {
-        $textOption = $this->getDummyTextOption();
+        $textOption = $this->dummyData->getTextOption();
 
         $this->entityManager->persist($textOption);
         $this->entityManager->flush();
@@ -30,7 +30,7 @@ class TextOptionRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $textOption = $this->getDummyTextOption();
+        $textOption = $this->dummyData->getTextOption();
 
         $this->textOptionRepository->create($textOption);
         $this->assertSame(1, $textOption->getId());

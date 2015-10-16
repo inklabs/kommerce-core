@@ -21,7 +21,7 @@ class OptionServiceTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $option = $this->getDummyOption();
+        $option = $this->dummyData->getOption();
         $this->optionService->create($option);
         $this->assertTrue($option instanceof Option);
     }
@@ -29,7 +29,7 @@ class OptionServiceTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $newName = 'New Name';
-        $option = $this->getDummyOption();
+        $option = $this->dummyData->getOption();
         $this->assertNotSame($newName, $option->getName());
 
         $option->setName($newName);

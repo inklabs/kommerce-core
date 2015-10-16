@@ -22,7 +22,7 @@ class AttributeServiceTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $attribute = $this->getDummyAttribute();
+        $attribute = $this->dummyData->getAttribute();
         $this->attributeService->create($attribute);
         $this->assertTrue($attribute instanceof Attribute);
     }
@@ -30,7 +30,7 @@ class AttributeServiceTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $newName = 'New Name';
-        $attribute = $this->getDummyAttribute();
+        $attribute = $this->dummyData->getAttribute();
         $this->assertNotSame($newName, $attribute->getName());
 
         $attribute->setName($newName);

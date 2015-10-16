@@ -26,7 +26,7 @@ class UpdateTagHandlerTest extends AbstractTagHandlerTestCase
 
     public function testHandle()
     {
-        $tag = $this->getDummyTag();
+        $tag = $this->dummyData->getTag();
         $this->fakeTagRepository->create($tag);
 
         $this->tagDTO->id = $tag->getId();
@@ -42,7 +42,7 @@ class UpdateTagHandlerTest extends AbstractTagHandlerTestCase
 
     public function testHandleThroughCommandBus()
     {
-        $tag = $this->getDummyTag();
+        $tag = $this->dummyData->getTag();
         $this->setupEntityManager(['kommerce:Tag']);
         $this->getRepositoryFactory()->getTagRepository()->create($tag);
 

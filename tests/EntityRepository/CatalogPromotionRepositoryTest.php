@@ -21,8 +21,8 @@ class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupCatalogPromotion()
     {
-        $tag = $this->getDummyTag();
-        $catalogPromotion = $this->getDummyCatalogPromotion();
+        $tag = $this->dummyData->getTag();
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
         $catalogPromotion->setTag($tag);
 
         $this->entityManager->persist($catalogPromotion);
@@ -33,7 +33,7 @@ class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $catalogPromotion = $this->getDummyCatalogPromotion();
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
 
         $this->catalogPromotionRepository->create($catalogPromotion);
         $this->assertSame(1, $catalogPromotion->getId());

@@ -28,19 +28,19 @@ class OrderItemTextOptionValueRepositoryTest extends Helper\DoctrineTestCase
 
     public function setupOrder()
     {
-        $textOption = $this->getDummyTextOption();
-        $orderItemTextOptionValue = $this->getDummyOrderItemTextOptionValue($textOption, 'Happy Birthday');
+        $textOption = $this->dummyData->getTextOption();
+        $orderItemTextOptionValue = $this->dummyData->getOrderItemTextOptionValue($textOption, 'Happy Birthday');
 
-        $product = $this->getDummyProduct(1);
-        $price = $this->getDummyPrice();
+        $product = $this->dummyData->getProduct(1);
+        $price = $this->dummyData->getPrice();
 
-        $orderItem = $this->getDummyOrderItem($product, $price);
+        $orderItem = $this->dummyData->getOrderItem($product, $price);
         $orderItem->addOrderItemTextOptionValue($orderItemTextOptionValue);
 
-        $cartTotal = $this->getDummyCartTotal();
+        $cartTotal = $this->dummyData->getCartTotal();
 
-        $user = $this->getDummyUser();
-        $order = $this->getDummyOrder($cartTotal, [$orderItem]);
+        $user = $this->dummyData->getUser();
+        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
         $order->setUser($user);
 
         $this->entityManager->persist($product);

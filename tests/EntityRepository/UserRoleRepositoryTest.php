@@ -22,9 +22,9 @@ class UserRoleRepositoryTest extends Helper\DoctrineTestCase
 
     public function setupUserWithRole()
     {
-        $userRole = $this->getDummyUserRole();
+        $userRole = $this->dummyData->getUserRole();
 
-        $user = $this->getDummyUser();
+        $user = $this->dummyData->getUser();
         $user->addRole($userRole);
 
         $this->entityManager->persist($userRole);
@@ -35,7 +35,7 @@ class UserRoleRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $userRole = $this->getDummyUserRole();
+        $userRole = $this->dummyData->getUserRole();
 
         $this->userRoleRepository->create($userRole);
         $this->assertSame(1, $userRole->getId());

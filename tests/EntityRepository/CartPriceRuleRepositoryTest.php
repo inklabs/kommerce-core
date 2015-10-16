@@ -25,10 +25,10 @@ class CartPriceRuleRepositoryTest extends Helper\DoctrineTestCase
 
     public function setupCartPriceRuleDiscount()
     {
-        $productShirt = $this->getDummyProduct(1);
-        $productPoster = $this->getDummyProduct(2);
+        $productShirt = $this->dummyData->getProduct(1);
+        $productPoster = $this->dummyData->getProduct(2);
 
-        $cartPriceRule = $this->getDummyCartPriceRule();
+        $cartPriceRule = $this->dummyData->getCartPriceRule();
         $cartPriceRule->addItem(new CartPriceRuleProductItem($productShirt, 1));
         $cartPriceRule->addItem(new CartPriceRuleProductItem($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster));
@@ -42,7 +42,7 @@ class CartPriceRuleRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $cartPriceRule = $this->getDummyCartPriceRule();
+        $cartPriceRule = $this->dummyData->getCartPriceRule();
 
         $this->cartPriceRuleRepository->create($cartPriceRule);
         $this->assertSame(1, $cartPriceRule->getId());

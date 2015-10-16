@@ -57,11 +57,11 @@ class ImportOrderItemServiceTest extends Helper\DoctrineTestCase
 
     private function setupOrdersForImport()
     {
-        $cartTotal = $this->getDummyCartTotal();
+        $cartTotal = $this->dummyData->getCartTotal();
 
-        $order1 = $this->getDummyOrder($cartTotal);
-        $order2 = $this->getDummyOrder($cartTotal);
-        $order3 = $this->getDummyOrder($cartTotal);
+        $order1 = $this->dummyData->getOrder($cartTotal);
+        $order2 = $this->dummyData->getOrder($cartTotal);
+        $order3 = $this->dummyData->getOrder($cartTotal);
 
         $order1->setExternalId('CO1102-0016');
         $order2->setExternalId('CO1103-0027');
@@ -77,32 +77,32 @@ class ImportOrderItemServiceTest extends Helper\DoctrineTestCase
     private function setupProductsForImport()
     {
         $products = [
-            $this->getDummyProduct('SKU03BAN'),
-            $this->getDummyProduct('SKU03BOP'),
-            $this->getDummyProduct('SKU03CCM'),
-            $this->getDummyProduct('SKU03ODR'),
-            $this->getDummyProduct('SKU03SPC'),
-            $this->getDummyProduct('SKU03VAN'),
-            $this->getDummyProduct('SKU06BAN'),
-            $this->getDummyProduct('SKU06BLC'),
-            $this->getDummyProduct('SKU06BOP'),
-            $this->getDummyProduct('SKU06ODR'),
-            $this->getDummyProduct('SKU06VAN'),
-            $this->getDummyProduct('SKU12BAN'),
-            $this->getDummyProduct('SKU12BOP'),
-            $this->getDummyProduct('SKU12CCM'),
-            $this->getDummyProduct('SKU12CNR'),
-            $this->getDummyProduct('SKU12COL'),
-            $this->getDummyProduct('SKU12LVS'),
-            $this->getDummyProduct('SKU12ODR'),
-            $this->getDummyProduct('SKU12SPC'),
-            $this->getDummyProduct('SKU12VAN'),
-            $this->getDummyProduct('SKUFFF'),
-            $this->getDummyProduct('SKUFFL'),
-            $this->getDummyProduct('SKUGRN'),
-            $this->getDummyProduct('SKUSND'),
-            $this->getDummyProduct('SKUTBR'),
-            $this->getDummyProduct('SKUTCR'),
+            $this->dummyData->getProduct('SKU03BAN'),
+            $this->dummyData->getProduct('SKU03BOP'),
+            $this->dummyData->getProduct('SKU03CCM'),
+            $this->dummyData->getProduct('SKU03ODR'),
+            $this->dummyData->getProduct('SKU03SPC'),
+            $this->dummyData->getProduct('SKU03VAN'),
+            $this->dummyData->getProduct('SKU06BAN'),
+            $this->dummyData->getProduct('SKU06BLC'),
+            $this->dummyData->getProduct('SKU06BOP'),
+            $this->dummyData->getProduct('SKU06ODR'),
+            $this->dummyData->getProduct('SKU06VAN'),
+            $this->dummyData->getProduct('SKU12BAN'),
+            $this->dummyData->getProduct('SKU12BOP'),
+            $this->dummyData->getProduct('SKU12CCM'),
+            $this->dummyData->getProduct('SKU12CNR'),
+            $this->dummyData->getProduct('SKU12COL'),
+            $this->dummyData->getProduct('SKU12LVS'),
+            $this->dummyData->getProduct('SKU12ODR'),
+            $this->dummyData->getProduct('SKU12SPC'),
+            $this->dummyData->getProduct('SKU12VAN'),
+            $this->dummyData->getProduct('SKUFFF'),
+            $this->dummyData->getProduct('SKUFFL'),
+            $this->dummyData->getProduct('SKUGRN'),
+            $this->dummyData->getProduct('SKUSND'),
+            $this->dummyData->getProduct('SKUTBR'),
+            $this->dummyData->getProduct('SKUTCR'),
         ];
 
         foreach ($products as $product) {

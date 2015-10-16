@@ -28,21 +28,21 @@ class OrderItemOptionProductRepositoryTest extends Helper\DoctrineTestCase
 
     public function setupOrder()
     {
-        $product2 = $this->getDummyProduct(2);
-        $option = $this->getDummyOption();
-        $optionProduct = $this->getDummyOptionProduct($option, $product2);
-        $orderItemOptionProduct = $this->getDummyOrderItemOptionProduct($optionProduct);
+        $product2 = $this->dummyData->getProduct(2);
+        $option = $this->dummyData->getOption();
+        $optionProduct = $this->dummyData->getOptionProduct($option, $product2);
+        $orderItemOptionProduct = $this->dummyData->getOrderItemOptionProduct($optionProduct);
 
-        $product = $this->getDummyProduct(1);
-        $price = $this->getDummyPrice();
+        $product = $this->dummyData->getProduct(1);
+        $price = $this->dummyData->getPrice();
 
-        $orderItem = $this->getDummyOrderItem($product, $price);
+        $orderItem = $this->dummyData->getOrderItem($product, $price);
         $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
 
-        $cartTotal = $this->getDummyCartTotal();
+        $cartTotal = $this->dummyData->getCartTotal();
 
-        $user = $this->getDummyUser();
-        $order = $this->getDummyOrder($cartTotal, [$orderItem]);
+        $user = $this->dummyData->getUser();
+        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
         $order->setUser($user);
 
         $this->entityManager->persist($product);

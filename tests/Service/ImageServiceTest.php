@@ -37,7 +37,7 @@ class ImageServiceTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $image = $this->getDummyImage();
+        $image = $this->dummyData->getImage();
         $this->imageService->create($image);
         $this->assertTrue($image instanceof Image);
     }
@@ -45,7 +45,7 @@ class ImageServiceTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $newWidth = 500;
-        $image = $this->getDummyImage();
+        $image = $this->dummyData->getImage();
         $this->assertNotSame($newWidth, $image->getWidth());
 
         $image->setWidth($newWidth);
@@ -55,7 +55,7 @@ class ImageServiceTest extends Helper\DoctrineTestCase
 
     public function testCreateWithProduct()
     {
-        $image = $this->getDummyImage();
+        $image = $this->dummyData->getImage();
 
         $product = new Product;
         $this->productRepository->create($product);
@@ -73,7 +73,7 @@ class ImageServiceTest extends Helper\DoctrineTestCase
     {
         $this->productRepository->setReturnValue(null);
 
-        $image = $this->getDummyImage();
+        $image = $this->dummyData->getImage();
         $this->imageService->createWithProduct($image, 1);
     }
 

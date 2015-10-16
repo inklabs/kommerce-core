@@ -7,7 +7,7 @@ class OrderItemDTOBuilderTest extends Helper\DoctrineTestCase
 {
     public function testBuild()
     {
-        $orderItem = $this->getFullDummyOrderItem();
+        $orderItem = $this->dummyData->getOrderItemFull();
 
         $orderItemView = $orderItem->getDTOBuilder()
             ->withAllData()

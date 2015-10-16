@@ -13,12 +13,12 @@ class TagDTOBuilderTest extends Helper\DoctrineTestCase
     {
         $tag = new Tag;
         $tag->addImage(new Image);
-        $tag->addProduct($this->getFullDummyProduct());
+        $tag->addProduct($this->dummyData->getProductFull());
         $tag->addOption(new Option);
         $tag->addTextOption(new TextOption);
 
         $tagDTO = $tag->getDTOBuilder()
-            ->withAllData($this->getFullDummyPricing())
+            ->withAllData($this->dummyData->getPricing())
             ->build();
 
         $this->assertTrue($tagDTO instanceof TagDTO);

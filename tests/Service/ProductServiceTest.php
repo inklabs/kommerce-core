@@ -37,7 +37,7 @@ class ProductServiceTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $product = $this->getDummyProduct();
+        $product = $this->dummyData->getProduct();
         $this->productService->create($product);
         $this->assertTrue($product instanceof Product);
     }
@@ -45,7 +45,7 @@ class ProductServiceTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $newName = 'New Name';
-        $product = $this->getDummyProduct();
+        $product = $this->dummyData->getProduct();
         $this->assertNotSame($newName, $product->getName());
 
         $product->setName($newName);
@@ -100,8 +100,8 @@ class ProductServiceTest extends Helper\DoctrineTestCase
 
     public function testRemoveTag()
     {
-        $tag = $this->getDummyTag();
-        $product = $this->getDummyProduct();
+        $tag = $this->dummyData->getTag();
+        $product = $this->dummyData->getProduct();
         $product->addTag($tag);
 
         $this->tagRepository->create($tag);
@@ -115,8 +115,8 @@ class ProductServiceTest extends Helper\DoctrineTestCase
 
     public function testRemoveImage()
     {
-        $image = $this->getDummyImage();
-        $product = $this->getDummyProduct();
+        $image = $this->dummyData->getImage();
+        $product = $this->dummyData->getProduct();
         $product->addImage($image);
 
         $this->imageRepository->create($image);

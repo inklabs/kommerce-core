@@ -31,7 +31,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupProduct($num = 1)
     {
-        $product = $this->getDummyProduct($num);
+        $product = $this->dummyData->getProduct($num);
 
         $this->entityManager->persist($product);
         $this->entityManager->flush();
@@ -42,7 +42,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $product = $this->getDummyProduct();
+        $product = $this->dummyData->getProduct();
         $this->productRepository->create($product);
         $this->assertSame(1, $product->getId());
 
@@ -51,7 +51,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $this->productRepository->update($product);
         $this->assertTrue($product->getUpdated() instanceof \DateTime);
 
-        $productQuantityDiscount = $this->getDummyProductQuantityDiscount();
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
         $product->addProductQuantityDiscount($productQuantityDiscount);
         $this->productRepository->update($product);
         $this->assertTrue($product->getUpdated() instanceof \DateTime);
@@ -110,9 +110,9 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
     public function testGetRelatedProducts()
     {
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
-        $product3 = $this->getDummyProduct(3);
+        $product1 = $this->dummyData->getProduct(1);
+        $product2 = $this->dummyData->getProduct(2);
+        $product3 = $this->dummyData->getProduct(3);
 
         $tag = new Tag;
         $tag->setName('Test Tag');
@@ -145,9 +145,9 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $tag->setSortOrder(0);
         $tag->setIsVisible(true);
 
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
-        $product3 = $this->getDummyProduct(3);
+        $product1 = $this->dummyData->getProduct(1);
+        $product2 = $this->dummyData->getProduct(2);
+        $product3 = $this->dummyData->getProduct(3);
 
         $product1->addTag($tag);
         $product2->addTag($tag);
@@ -210,9 +210,9 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
     public function testGetRandomProducts()
     {
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
-        $product3 = $this->getDummyProduct(3);
+        $product1 = $this->dummyData->getProduct(1);
+        $product2 = $this->dummyData->getProduct(2);
+        $product3 = $this->dummyData->getProduct(3);
 
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
@@ -234,9 +234,9 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $tag->setSortOrder(0);
         $tag->setIsVisible(true);
 
-        $product1 = $this->getDummyProduct(1);
-        $product2 = $this->getDummyProduct(2);
-        $product3 = $this->getDummyProduct(3);
+        $product1 = $this->dummyData->getProduct(1);
+        $product2 = $this->dummyData->getProduct(2);
+        $product3 = $this->dummyData->getProduct(3);
 
         $product1->addTag($tag);
         $product2->addTag($tag);

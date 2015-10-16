@@ -21,7 +21,7 @@ class CatalogPromotionServiceTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $catalogPromotion = $this->getDummyCatalogPromotion();
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
         $this->catalogPromotionService->create($catalogPromotion);
         $this->assertTrue($catalogPromotion instanceof CatalogPromotion);
     }
@@ -29,7 +29,7 @@ class CatalogPromotionServiceTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $newName = 'New Name';
-        $catalogPromotion = $this->getDummyCatalogPromotion();
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
         $this->assertNotSame($newName, $catalogPromotion->getName());
 
         $catalogPromotion->setName($newName);

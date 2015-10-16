@@ -23,9 +23,9 @@ class UserTokenRepositoryTest extends Helper\DoctrineTestCase
 
     public function setupUserWithToken()
     {
-        $userToken = $this->getDummyUserToken();
+        $userToken = $this->dummyData->getUserToken();
 
-        $user = $this->getDummyUser();
+        $user = $this->dummyData->getUser();
         $user->addToken($userToken);
 
         $this->entityManager->persist($userToken);
@@ -36,7 +36,7 @@ class UserTokenRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $userToken = $this->getDummyUserToken();
+        $userToken = $this->dummyData->getUserToken();
 
         $this->userTokenRepository->create($userToken);
         $this->assertSame(1, $userToken->getId());

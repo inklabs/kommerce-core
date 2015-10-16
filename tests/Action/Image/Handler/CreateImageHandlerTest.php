@@ -61,7 +61,7 @@ class CreateImageHandlerTest extends DoctrineTestCase
             'kommerce:Image',
             'kommerce:Tag',
         ]);
-        $tag = $this->getdummyTag();
+        $tag = $this->dummyData->getTag();
         $this->getRepositoryFactory()->getTagRepository()->create($tag);
 
         $command = new CreateImageCommand($this->imageDTO);

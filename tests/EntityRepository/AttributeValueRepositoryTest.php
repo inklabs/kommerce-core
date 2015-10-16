@@ -23,9 +23,9 @@ class AttributeValueRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupAttributeValue()
     {
-        $attributeValue = $this->getDummyAttributeValue();
+        $attributeValue = $this->dummyData->getAttributeValue();
 
-        $attribute = $this->getDummyAttribute();
+        $attribute = $this->dummyData->getAttribute();
         $attribute->addAttributeValue($attributeValue);
 
         $this->entityManager->persist($attribute);

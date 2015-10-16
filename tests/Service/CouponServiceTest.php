@@ -21,7 +21,7 @@ class CouponServiceTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $coupon = $this->getDummyCoupon();
+        $coupon = $this->dummyData->getCoupon();
         $this->couponService->create($coupon);
         $this->assertTrue($coupon instanceof Coupon);
     }
@@ -29,7 +29,7 @@ class CouponServiceTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $newName = 'New Name';
-        $coupon = $this->getDummyCoupon();
+        $coupon = $this->dummyData->getCoupon();
         $this->assertNotSame($newName, $coupon->getName());
 
         $coupon->setName($newName);

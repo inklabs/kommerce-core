@@ -9,7 +9,7 @@ class CartItemTest extends Helper\DoctrineTestCase
 {
     public function testCreate()
     {
-        $cartItem = $this->getDummyFullCartItem();
+        $cartItem = $this->dummyData->getCartItemFull();
 
         $pricing = new Pricing;
 
@@ -32,7 +32,7 @@ class CartItemTest extends Helper\DoctrineTestCase
 
     public function testClone()
     {
-        $cartItem = $this->getDummyFullCartItem();
+        $cartItem = $this->dummyData->getCartItemFull();
         $newCartItem = clone $cartItem;
 
         $this->assertNotSame($cartItem, $newCartItem);
@@ -55,7 +55,7 @@ class CartItemTest extends Helper\DoctrineTestCase
 
     public function testGetOrderItem()
     {
-        $cartItem = $this->getDummyFullCartItem();
+        $cartItem = $this->dummyData->getCartItemFull();
         $orderItem = $cartItem->getOrderItem(new Pricing);
 
         $this->assertTrue($orderItem instanceof OrderItem);

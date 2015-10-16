@@ -26,7 +26,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupUser()
     {
-        $user = $this->getDummyUser();
+        $user = $this->dummyData->getUser();
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -37,9 +37,9 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupUserWithCart()
     {
-        $user = $this->getDummyUser();
+        $user = $this->dummyData->getUser();
 
-        $cart = $this->getDummyCart();
+        $cart = $this->dummyData->getCart();
         $cart->setUser($user);
 
         $this->entityManager->persist($user);
@@ -52,7 +52,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $user = $this->getDummyUser();
+        $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
         $this->assertSame(1, $user->getId());
 
@@ -68,9 +68,9 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCreateUserLogin()
     {
-        $userLogin = $this->getDummyUserLogin();
+        $userLogin = $this->dummyData->getUserLogin();
 
-        $user = $this->getDummyUser();
+        $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
         $user->addLogin($userLogin);

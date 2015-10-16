@@ -22,9 +22,9 @@ class OptionProductRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupOptionProduct()
     {
-        $product = $this->getDummyProduct();
-        $option = $this->getDummyOption();
-        $optionProduct = $this->getDummyOptionProduct($option, $product);
+        $product = $this->dummyData->getProduct();
+        $option = $this->dummyData->getOption();
+        $optionProduct = $this->dummyData->getOptionProduct($option, $product);
 
         $this->entityManager->persist($option);
         $this->entityManager->persist($product);

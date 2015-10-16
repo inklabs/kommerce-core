@@ -35,11 +35,11 @@ class ImportPaymentServiceTest extends Helper\DoctrineTestCase
 
     private function setupOrdersForImport()
     {
-        $cartTotal = $this->getDummyCartTotal();
+        $cartTotal = $this->dummyData->getCartTotal();
 
-        $order1 = $this->getDummyOrder($cartTotal);
-        $order2 = $this->getDummyOrder($cartTotal);
-        $order3 = $this->getDummyOrder($cartTotal);
+        $order1 = $this->dummyData->getOrder($cartTotal);
+        $order2 = $this->dummyData->getOrder($cartTotal);
+        $order3 = $this->dummyData->getOrder($cartTotal);
 
         $order1->setExternalId('CO1102-0016');
         $order2->setExternalId('CO1103-0027');

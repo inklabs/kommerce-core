@@ -21,8 +21,8 @@ class OptionValueRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupOptionValue()
     {
-        $option = $this->getDummyOption();
-        $optionValue = $this->getDummyOptionValue($option);
+        $option = $this->dummyData->getOption();
+        $optionValue = $this->dummyData->getOptionValue($option);
 
         $this->entityManager->persist($option);
 
@@ -36,11 +36,11 @@ class OptionValueRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $option = $this->getDummyOption();
+        $option = $this->dummyData->getOption();
         $this->entityManager->persist($option);
         $this->entityManager->flush();
 
-        $optionValue = $this->getDummyOptionValue($option);
+        $optionValue = $this->dummyData->getOptionValue($option);
         $this->optionValueRepository->create($optionValue);
         $this->assertSame(1, $optionValue->getId());
 

@@ -25,14 +25,14 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
 
     public function setupCart($sessionId = '')
     {
-        $product = $this->getDummyProduct();
+        $product = $this->dummyData->getProduct();
 
-        $user = $this->getDummyUser();
-        $cartItem = $this->getDummyCartItem($product);
+        $user = $this->dummyData->getUser();
+        $cartItem = $this->dummyData->getCartItem($product);
 
-        $taxRate = $this->getDummyTaxRate();
+        $taxRate = $this->dummyData->getTaxRate();
 
-        $cart = $this->getDummyCart();
+        $cart = $this->dummyData->getCart();
         $cart->setSessionId($sessionId);
         $cart->addCartItem($cartItem);
         $cart->setUser($user);
@@ -67,9 +67,9 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
 
     public function testSave()
     {
-        $user1 = $this->getDummyUser(1);
-        $user2 = $this->getDummyUser(2);
-        $cart = $this->getDummyCart();
+        $user1 = $this->dummyData->getUser(1);
+        $user2 = $this->dummyData->getUser(2);
+        $cart = $this->dummyData->getCart();
         $cart->setUser($user1);
 
         $this->entityManager->persist($user1);
@@ -85,7 +85,7 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
 
     public function testRemove()
     {
-        $cart = $this->getDummyCart();
+        $cart = $this->dummyData->getCart();
 
         $this->cartRepository->create($cart);
 

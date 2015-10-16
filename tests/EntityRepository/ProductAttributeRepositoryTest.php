@@ -23,12 +23,12 @@ class ProductAttributeRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupProductAttribute()
     {
-        $attributeValue = $this->getDummyAttributeValue();
+        $attributeValue = $this->dummyData->getAttributeValue();
 
-        $attribute = $this->getDummyAttribute();
+        $attribute = $this->dummyData->getAttribute();
         $attribute->addAttributeValue($attributeValue);
 
-        $productAttribute = $this->getDummyProductAttribute();
+        $productAttribute = $this->dummyData->getProductAttribute();
         $productAttribute->setAttribute($attribute);
         $productAttribute->setAttributeValue($attributeValue);
 

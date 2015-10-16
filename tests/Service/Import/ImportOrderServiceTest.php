@@ -34,9 +34,9 @@ class ImportOrderServiceTest extends Helper\DoctrineTestCase
 
     private function setupUsersForImport()
     {
-        $user19 = $this->getDummyUser(19);
-        $user42 = $this->getDummyUser(42);
-        $user52 = $this->getDummyUser(52);
+        $user19 = $this->dummyData->getUser(19);
+        $user42 = $this->dummyData->getUser(42);
+        $user52 = $this->dummyData->getUser(52);
 
         $this->entityManager->persist($user19);
         $this->entityManager->persist($user42);

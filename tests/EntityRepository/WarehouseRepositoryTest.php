@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Entity\DummyData;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\tests\Helper;
@@ -21,7 +22,7 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupWarehouse()
     {
-        $warehouse = $this->getDummyWarehouse();
+        $warehouse = $this->dummyData->getWarehouse();
 
         $this->warehouseRepository->create($warehouse);
 
@@ -33,7 +34,7 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $warehouse = $this->getDummyWarehouse();
+        $warehouse = $this->dummyData->getWarehouse();
         $this->warehouseRepository->create($warehouse);
         $this->assertSame(1, $warehouse->getid());
 

@@ -21,7 +21,7 @@ class TagServiceTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $tag = $this->getDummyTag();
+        $tag = $this->dummyData->getTag();
         $this->tagService->create($tag);
         $this->assertTrue($tag instanceof Tag);
     }
@@ -29,7 +29,7 @@ class TagServiceTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $newName = 'New Name';
-        $tag = $this->getDummyTag();
+        $tag = $this->dummyData->getTag();
         $this->assertNotSame($newName, $tag->getName());
 
         $tag->setName($newName);

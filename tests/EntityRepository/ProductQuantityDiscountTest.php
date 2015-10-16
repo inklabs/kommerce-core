@@ -22,9 +22,9 @@ class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
 
     private function setupProductWithProductQuantityDiscount()
     {
-        $product = $this->getDummyProduct();
+        $product = $this->dummyData->getProduct();
 
-        $productQuantityDiscount = $this->getDummyProductQuantityDiscount();
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
         $productQuantityDiscount->setProduct($product);
 
         $this->entityManager->persist($product);

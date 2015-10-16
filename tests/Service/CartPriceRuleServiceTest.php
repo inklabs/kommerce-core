@@ -21,7 +21,7 @@ class CartPriceRuleServiceTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $cartPriceRule = $this->getDummyCartPriceRule();
+        $cartPriceRule = $this->dummyData->getCartPriceRule();
         $this->cartPriceRuleService->create($cartPriceRule);
         $this->assertTrue($cartPriceRule instanceof CartPriceRule);
     }
@@ -29,7 +29,7 @@ class CartPriceRuleServiceTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $newName = 'New Name';
-        $cartPriceRule = $this->getDummyCartPriceRule();
+        $cartPriceRule = $this->dummyData->getCartPriceRule();
         $this->assertNotSame($newName, $cartPriceRule->getName());
 
         $cartPriceRule->setName($newName);

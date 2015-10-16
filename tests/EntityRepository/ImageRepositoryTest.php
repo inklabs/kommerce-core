@@ -22,10 +22,10 @@ class ImageRepositoryTest extends Helper\DoctrineTestCase
 
     public function setupImageWithProductAndTag()
     {
-        $product = $this->getDummyProduct();
-        $tag = $this->getDummyTag();
+        $product = $this->dummyData->getProduct();
+        $tag = $this->dummyData->getTag();
 
-        $image = $this->getDummyImage();
+        $image = $this->dummyData->getImage();
         $image->setProduct($product);
         $image->setTag($tag);
 
@@ -42,7 +42,7 @@ class ImageRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $image = $this->getDummyImage();
+        $image = $this->dummyData->getImage();
 
         $this->imageRepository->create($image);
         $this->assertSame(1, $image->getId());

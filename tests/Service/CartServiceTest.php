@@ -274,10 +274,10 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function testCopyCartItems()
     {
-        $fromCart = $this->getDummyCart([$this->getDummyFullCartItem()]);
+        $fromCart = $this->dummyData->getCart([$this->dummyData->getCartItemFull()]);
         $this->cartRepository->create($fromCart);
 
-        $toCart = $this->getDummyCart();
+        $toCart = $this->dummyData->getCart();
         $this->cartRepository->create($toCart);
 
         $this->cartService->copyCartItems($fromCart->getId(), $toCart->getId());

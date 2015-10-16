@@ -21,7 +21,7 @@ class TaxRateServiceTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $taxRate = $this->getDummyTaxRate();
+        $taxRate = $this->dummyData->getTaxRate();
         $this->taxRateService->create($taxRate);
         $this->assertTrue($taxRate instanceof TaxRate);
     }
@@ -29,7 +29,7 @@ class TaxRateServiceTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $newState = 'XX';
-        $taxRate = $this->getDummyTaxRate();
+        $taxRate = $this->dummyData->getTaxRate();
         $this->assertNotSame($newState, $taxRate->getState());
 
         $taxRate->setState($newState);

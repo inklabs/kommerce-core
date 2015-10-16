@@ -23,7 +23,7 @@ class AttributeRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupAttribute()
     {
-        $attribute = $this->getDummyAttribute();
+        $attribute = $this->dummyData->getAttribute();
 
         $this->entityManager->persist($attribute);
         $this->entityManager->flush();
@@ -32,7 +32,7 @@ class AttributeRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $attribute = $this->getDummyAttribute();
+        $attribute = $this->dummyData->getAttribute();
         $this->attributeRepository->create($attribute);
         $this->assertSame(1, $attribute->getId());
 

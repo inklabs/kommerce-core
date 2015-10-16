@@ -7,10 +7,10 @@ class ProductDTOBuilderTest extends Helper\DoctrineTestCase
 {
     public function testBuild()
     {
-        $product = $this->getFullDummyProduct();
+        $product = $this->dummyData->getProductFull();
 
         $productDTO = $product->getDTOBuilder()
-            ->withAllData($this->getFullDummyPricing())
+            ->withAllData($this->dummyData->getPricing())
             ->build();
 
         $this->assertFullProductDTO($productDTO);

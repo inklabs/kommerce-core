@@ -8,7 +8,7 @@ class CartItemDTOBuilderTest extends Helper\DoctrineTestCase
 {
     public function testBuild()
     {
-        $cartItem = $this->getDummyFullCartItem();
+        $cartItem = $this->dummyData->getCartItemFull();
 
         $cartItemDTO = $cartItem->getDTOBuilder()
             ->withAllData(new Pricing)

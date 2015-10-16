@@ -24,9 +24,9 @@ class PaymentRepositoryTest extends Helper\DoctrineTestCase
 
     public function setupPayment()
     {
-        $payment = $this->getDummyCashPayment();
-        $cartTotal = $this->getDummyCartTotal();
-        $order = $this->getDummyOrder($cartTotal);
+        $payment = $this->dummyData->getCashPayment();
+        $cartTotal = $this->dummyData->getCartTotal();
+        $order = $this->dummyData->getOrder($cartTotal);
         $order->addPayment($payment);
 
         $this->entityManager->persist($order);

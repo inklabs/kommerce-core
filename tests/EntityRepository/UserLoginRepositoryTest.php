@@ -23,8 +23,8 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupUserLogin()
     {
-        $user = $this->getDummyUser();
-        $userLogin = $this->getDummyUserLogin();
+        $user = $this->dummyData->getUser();
+        $userLogin = $this->dummyData->getUserLogin();
         $userLogin->setUser($user);
 
         $this->entityManager->persist($user);
@@ -37,7 +37,7 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $userLogin = $this->getDummyUserLogin();
+        $userLogin = $this->dummyData->getUserLogin();
         $this->userLoginRepository->create($userLogin);
         $this->assertSame(1, $userLogin->getId());
 
@@ -51,7 +51,7 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
      */
     public function testUpdateThrowsException()
     {
-        $userLogin = $this->getDummyUserLogin();
+        $userLogin = $this->dummyData->getUserLogin();
         $this->userLoginRepository->update($userLogin);
     }
 

@@ -10,7 +10,7 @@ class GetTagHandlerTest extends AbstractTagHandlerTestCase
 {
     public function testExecute()
     {
-        $tag = $this->getDummyTag();
+        $tag = $this->dummyData->getTag();
         $this->fakeTagRepository->create($tag);
 
         $getTagHandler = new GetTagHandler($this->tagService, $this->pricing);
@@ -23,7 +23,7 @@ class GetTagHandlerTest extends AbstractTagHandlerTestCase
     public function testHandleThroughQueryBus()
     {
         $this->setupEntityManager(['kommerce:Tag']);
-        $tag = $this->getDummyTag();
+        $tag = $this->dummyData->getTag();
         $this->getRepositoryFactory()->getTagRepository()->create($tag);
 
         $response = new GetTagResponse;

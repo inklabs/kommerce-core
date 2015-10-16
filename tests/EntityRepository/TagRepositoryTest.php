@@ -24,7 +24,7 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupTag()
     {
-        $tag = $this->getDummyTag();
+        $tag = $this->dummyData->getTag();
 
         $this->entityManager->persist($tag);
         $this->entityManager->flush();
@@ -35,7 +35,7 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $tag = $this->getDummyTag();
+        $tag = $this->dummyData->getTag();
 
         $this->tagRepository->create($tag);
         $this->assertSame(1, $tag->getId());

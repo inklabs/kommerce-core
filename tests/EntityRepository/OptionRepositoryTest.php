@@ -24,7 +24,7 @@ class OptionRepositoryTest extends Helper\DoctrineTestCase
 
     private function setupOption()
     {
-        $option = $this->getDummyOption();
+        $option = $this->dummyData->getOption();
 
         $this->optionRepository->create($option);
 
@@ -36,7 +36,7 @@ class OptionRepositoryTest extends Helper\DoctrineTestCase
 
     public function testCRUD()
     {
-        $option = $this->getDummyOption();
+        $option = $this->dummyData->getOption();
         $this->optionRepository->create($option);
         $this->assertSame(1, $option->getId());
 

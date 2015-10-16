@@ -30,7 +30,7 @@ class UserServiceTest extends Helper\DoctrineTestCase
 
     public function testCreate()
     {
-        $user = $this->getDummyUser('test1@example.com');
+        $user = $this->dummyData->getUser('test1@example.com');
         $this->userService->create($user);
         $this->assertTrue($user instanceof User);
     }
@@ -38,7 +38,7 @@ class UserServiceTest extends Helper\DoctrineTestCase
     public function testEdit()
     {
         $newName = 'New Name';
-        $user = $this->getDummyUser();
+        $user = $this->dummyData->getUser();
         $this->assertNotSame($newName, $user->getFirstName());
 
         $user->setFirstName($newName);
@@ -61,7 +61,7 @@ class UserServiceTest extends Helper\DoctrineTestCase
 
     public function testUserLogin()
     {
-        $user = $this->getDummyUser();
+        $user = $this->dummyData->getUser();
         $this->userRepository->setReturnValue($user);
 
         $this->assertSame(0, $user->getTotalLogins());
@@ -90,7 +90,7 @@ class UserServiceTest extends Helper\DoctrineTestCase
      */
     public function testUserLoginWithInactiveUser()
     {
-        $user = $this->getDummyUser();
+        $user = $this->dummyData->getUser();
         $user->setStatus(User::STATUS_INACTIVE);
         $this->userRepository->setReturnValue($user);
 
@@ -104,7 +104,7 @@ class UserServiceTest extends Helper\DoctrineTestCase
      */
     public function testUserLoginWithWrongPassword()
     {
-        $user = $this->getDummyUser();
+        $user = $this->dummyData->getUser();
         $this->userRepository->setReturnValue($user);
 
         $this->userService->login('test@example.com', 'zzz', '127.0.0.1');
