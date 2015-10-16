@@ -16,9 +16,9 @@ class ListTagsHandlerTest extends AbstractTagHandlerTestCase
 
         $getTagHandler = new ListTagsHandler($this->tagService, $this->pricing);
 
-        $paginationDTO = new PaginationDTO;
+        $request = new ListTagsRequest('TT', new PaginationDTO);
         $response = new ListTagsResponse;
-        $getTagHandler->handle(new ListTagsRequest('TT', $paginationDTO), $response);
+        $getTagHandler->handle($request, $response);
 
         $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
@@ -31,9 +31,9 @@ class ListTagsHandlerTest extends AbstractTagHandlerTestCase
         $tag = $this->getDummyTag();
         $this->getRepositoryFactory()->getTagRepository()->create($tag);
 
-        $paginationDTO = new PaginationDTO;
+        $request = new ListTagsRequest('TT', new PaginationDTO);
         $response = new ListTagsResponse;
-        $this->getQueryBus()->execute(new ListTagsRequest('TT', $paginationDTO), $response);
+        $this->getQueryBus()->execute($request, $response);
 
         $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
