@@ -21,6 +21,7 @@ class ListTagsHandlerTest extends AbstractTagHandlerTestCase
         $getTagHandler->handle(new ListTagsRequest('TT', $pagination), $response);
 
         $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);
+        $this->assertTrue($response->getPagination() instanceof Pagination);
     }
 
     public function testHandleThroughQueryBus()
@@ -35,5 +36,6 @@ class ListTagsHandlerTest extends AbstractTagHandlerTestCase
         $this->getQueryBus()->execute(new ListTagsRequest('TT', $pagination), $response);
 
         $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);
+        $this->assertTrue($response->getPagination() instanceof Pagination);
     }
 }

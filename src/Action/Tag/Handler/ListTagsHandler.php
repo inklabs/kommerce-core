@@ -19,8 +19,10 @@ class ListTagsHandler implements TagServiceAwareInterface
 
     public function handle(ListTagsRequest $command, ListTagsResponseInterface & $response)
     {
-        $pagination = $command->getPagination();
+        $pagination = clone $command->getPagination();
         $tags = $this->tagService->getAllTags($command->getQueryString(), $pagination);
+
+        $response->setPagination($pagination);
 
         foreach ($tags as $tag) {
             $response->addTagDTO(
