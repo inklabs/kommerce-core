@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\tests\Helper;
 
@@ -51,7 +52,7 @@ class ImageRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $image->getUpdated());
 
         $this->imageRepository->update($image);
-        $this->assertTrue($image->getUpdated() instanceof \DateTime);
+        $this->assertTrue($image->getUpdated() instanceof DateTime);
 
         $this->imageRepository->delete($image);
         $this->assertSame(null, $image->getId());

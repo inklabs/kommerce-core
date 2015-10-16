@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -48,7 +49,7 @@ class CartPriceRule extends AbstractPromotion
         return $this->cartPriceRuleDiscounts;
     }
 
-    public function isValid(\DateTime $date, $cartItems)
+    public function isValid(DateTime $date, $cartItems)
     {
         return $this->isValidPromotion($date)
             and $this->isCartItemsValid($cartItems);

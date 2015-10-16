@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\DummyData;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Warehouse;
@@ -42,7 +43,7 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $warehouse->getUpdated());
 
         $this->warehouseRepository->update($warehouse);
-        $this->assertTrue($warehouse->getUpdated() instanceof \DateTime);
+        $this->assertTrue($warehouse->getUpdated() instanceof DateTime);
 
         $this->warehouseRepository->delete($warehouse);
         $this->assertSame(null, $warehouse->getId());

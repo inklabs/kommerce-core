@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 use inklabs\kommerce\Entity\CartPriceRuleProductItem;
@@ -51,7 +52,7 @@ class CartPriceRuleRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $cartPriceRule->getUpdated());
 
         $this->cartPriceRuleRepository->update($cartPriceRule);
-        $this->assertTrue($cartPriceRule->getUpdated() instanceof \DateTime);
+        $this->assertTrue($cartPriceRule->getUpdated() instanceof DateTime);
 
         $this->cartPriceRuleRepository->delete($cartPriceRule);
         $this->assertSame(null, $cartPriceRule->getId());

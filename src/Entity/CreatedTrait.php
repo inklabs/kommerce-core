@@ -1,29 +1,32 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
+use DateTimeZone;
+
 trait CreatedTrait
 {
     /** @var int */
     protected $created;
 
     /**
-     * @param \DateTime $created
+     * @param DateTime $created
      */
-    public function setCreated(\DateTime $created = null)
+    public function setCreated(DateTime $created = null)
     {
         if ($created === null) {
-            $created = new \DateTime('now', new \DateTimeZone('UTC'));
+            $created = new DateTime('now', new DateTimeZone('UTC'));
         }
 
         $this->created = $created->gettimestamp();
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreated()
     {
-        $created = new \DateTime();
+        $created = new DateTime();
         $created->setTimestamp($this->created);
         return $created;
     }

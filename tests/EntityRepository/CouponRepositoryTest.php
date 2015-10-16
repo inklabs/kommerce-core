@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\tests\Helper;
 
@@ -37,7 +38,7 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
         $coupon->setName('new name');
         $this->assertSame(null, $coupon->getUpdated());
         $couponRepository->update($coupon);
-        $this->assertTrue($coupon->getUpdated() instanceof \DateTime);
+        $this->assertTrue($coupon->getUpdated() instanceof DateTime);
 
         $this->couponRepository->delete($coupon);
         $this->assertSame(null, $coupon->getId());

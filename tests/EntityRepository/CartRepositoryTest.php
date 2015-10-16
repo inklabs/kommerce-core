@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\tests\Helper;
 
@@ -80,7 +81,7 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
         $cart->setUser($user2);
         $this->assertSame(null, $cart->getUpdated());
         $this->cartRepository->update($cart);
-        $this->assertTrue($cart->getUpdated() instanceof \DateTime);
+        $this->assertTrue($cart->getUpdated() instanceof DateTime);
     }
 
     public function testRemove()

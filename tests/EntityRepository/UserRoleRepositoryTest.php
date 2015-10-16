@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\tests\Helper;
 
@@ -44,7 +45,7 @@ class UserRoleRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $userRole->getUpdated());
 
         $this->userRoleRepository->update($userRole);
-        $this->assertTrue($userRole->getUpdated() instanceof \DateTime);
+        $this->assertTrue($userRole->getUpdated() instanceof DateTime);
 
         $this->userRoleRepository->delete($userRole);
         $this->assertSame(null, $userRole->getId());

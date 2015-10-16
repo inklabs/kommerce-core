@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\Lib\Pricing;
 use Symfony\Component\Validator\Validation;
 
@@ -52,7 +53,7 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
     {
         $productQuantityDiscount = new ProductQuantityDiscount;
         $productQuantityDiscount->setQuantity(5);
-        $this->assertTrue($productQuantityDiscount->isValid(new \DateTime, 6));
+        $this->assertTrue($productQuantityDiscount->isValid(new DateTime, 6));
     }
 
     public function testGetNameExact()

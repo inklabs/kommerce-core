@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
+use DateTimeZone;
 use Symfony\Component\Validator\Validation;
 
 class AbstractPromotionTest extends \PHPUnit_Framework_TestCase
@@ -21,8 +23,8 @@ class AbstractPromotionTest extends \PHPUnit_Framework_TestCase
         $this->promotion->setRedemptions(10);
         $this->promotion->setMaxRedemptions(100);
         $this->promotion->setReducesTaxSubtotal(true);
-        $this->promotion->setStart(new \DateTime);
-        $this->promotion->setEnd(new \DateTime);
+        $this->promotion->setStart(new DateTime);
+        $this->promotion->setEnd(new DateTime);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -36,23 +38,23 @@ class AbstractPromotionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(10, $this->promotion->getRedemptions());
         $this->assertSame(100, $this->promotion->getMaxRedemptions());
         $this->assertSame(true, $this->promotion->getReducesTaxSubtotal());
-        $this->assertTrue($this->promotion->getStart() instanceof \DateTime);
-        $this->assertTrue($this->promotion->getEnd() instanceof \DateTime);
+        $this->assertTrue($this->promotion->getStart() instanceof DateTime);
+        $this->assertTrue($this->promotion->getEnd() instanceof DateTime);
     }
 
     private function setDatePromotion()
     {
-        $this->promotion->setStart(new \DateTime('2014-01-01', new \DateTimeZone('UTC')));
-        $this->promotion->setEnd(new \DateTime('2014-12-31', new \DateTimeZone('UTC')));
+        $this->promotion->setStart(new DateTime('2014-01-01', new DateTimeZone('UTC')));
+        $this->promotion->setEnd(new DateTime('2014-12-31', new DateTimeZone('UTC')));
     }
 
     public function testIsDateValid()
     {
         $this->setDatePromotion();
 
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new DateTime('2014-02-01', new DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid(new DateTime('2013-02-01', new DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid(new DateTime('2015-02-01', new DateTimeZone('UTC'))));
     }
 
     public function testIsDateValidWithNullStartAndEnd()
@@ -61,7 +63,7 @@ class AbstractPromotionTest extends \PHPUnit_Framework_TestCase
         $this->promotion->setStart(null);
         $this->promotion->setEnd(null);
 
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new DateTime('2014-02-01', new DateTimeZone('UTC'))));
     }
 
     public function testIsDateValidWithNullStart()
@@ -69,9 +71,9 @@ class AbstractPromotionTest extends \PHPUnit_Framework_TestCase
         $this->setDatePromotion();
         $this->promotion->setStart(null);
 
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new DateTime('2014-02-01', new DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new DateTime('2013-02-01', new DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid(new DateTime('2015-02-01', new DateTimeZone('UTC'))));
     }
 
     public function testIsDateValidWithNullEnd()
@@ -79,9 +81,9 @@ class AbstractPromotionTest extends \PHPUnit_Framework_TestCase
         $this->setDatePromotion();
         $this->promotion->setEnd(null);
 
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2014-02-01', new \DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new \DateTime('2013-02-01', new \DateTimeZone('UTC'))));
-        $this->assertTrue($this->promotion->isDateValid(new \DateTime('2015-02-01', new \DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new DateTime('2014-02-01', new DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid(new DateTime('2013-02-01', new DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid(new DateTime('2015-02-01', new DateTimeZone('UTC'))));
     }
 
     public function testIsRedemptionCountValid()
@@ -106,7 +108,7 @@ class AbstractPromotionTest extends \PHPUnit_Framework_TestCase
     public function testIsValid()
     {
         $this->promotion->setMaxRedemptions(null);
-        $this->assertTrue($this->promotion->isValidPromotion(new \DateTime));
+        $this->assertTrue($this->promotion->isValidPromotion(new DateTime));
     }
 
     public function testGetUnitPriceWithPercent()

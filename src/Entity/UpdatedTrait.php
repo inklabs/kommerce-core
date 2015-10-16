@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
+use DateTimeZone;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 trait UpdatedTrait
@@ -9,19 +11,19 @@ trait UpdatedTrait
     protected $updated;
 
     /**
-     * @param \DateTime $updated
+     * @param DateTime $updated
      */
-    public function setUpdated(\DateTime $updated = null)
+    public function setUpdated(DateTime $updated = null)
     {
         if ($updated === null) {
-            $updated = new \DateTime('now', new \DateTimeZone('UTC'));
+            $updated = new DateTime('now', new DateTimeZone('UTC'));
         }
 
         $this->updated = $updated->getTimestamp();
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
     public function getUpdated()
     {
@@ -29,7 +31,7 @@ trait UpdatedTrait
             return null;
         }
 
-        $updated = new \DateTime();
+        $updated = new DateTime();
         $updated->setTimestamp($this->updated);
         return $updated;
     }

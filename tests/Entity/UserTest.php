@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use Symfony\Component\Validator\Validation;
 
 class UserTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +18,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->setPassword('xxxx');
         $user->setFirstName('John');
         $user->setLastName('Doe');
-        $user->setLastLogin(new \DateTime);
+        $user->setLastLogin(new DateTime);
         $user->addRole(new UserRole);
         $user->addToken(new UserToken);
         $user->addLogin($userLogin);

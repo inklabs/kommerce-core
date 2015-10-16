@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
+use DateTimeZone;
 use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -202,7 +204,7 @@ class User implements EntityInterface, ValidationInterface
     public function incrementTotalLogins()
     {
         $this->totalLogins++;
-        $this->setLastLogin(new \DateTime('now', new \DateTimeZone('UTC')));
+        $this->setLastLogin(new DateTime('now', new DateTimeZone('UTC')));
     }
 
     public function getTotalLogins()
@@ -210,7 +212,7 @@ class User implements EntityInterface, ValidationInterface
         return $this->totalLogins;
     }
 
-    public function setLastLogin(\DateTime $lastLogin)
+    public function setLastLogin(DateTime $lastLogin)
     {
         $this->lastLogin = $lastLogin->getTimestamp();
     }

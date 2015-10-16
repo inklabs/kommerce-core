@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\tests\Helper;
 
@@ -72,7 +73,7 @@ class OrderItemRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $orderItem->getUpdated());
 
         $this->orderItemRepository->update($orderItem);
-        $this->assertTrue($orderItem->getUpdated() instanceof \DateTime);
+        $this->assertTrue($orderItem->getUpdated() instanceof DateTime);
 
         $this->orderItemRepository->delete($orderItem);
         $this->assertSame(null, $orderItem->getId());

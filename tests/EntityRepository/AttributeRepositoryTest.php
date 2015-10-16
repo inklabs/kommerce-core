@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\tests\Helper;
 
@@ -40,7 +41,7 @@ class AttributeRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $attribute->getUpdated());
 
         $this->attributeRepository->update($attribute);
-        $this->assertTrue($attribute->getUpdated() instanceof \DateTime);
+        $this->assertTrue($attribute->getUpdated() instanceof DateTime);
 
         $this->attributeRepository->delete($attribute);
         $this->assertSame(null, $attribute->getId());

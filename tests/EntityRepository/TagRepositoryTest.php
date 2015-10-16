@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper;
 
@@ -44,7 +45,7 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $tag->getUpdated());
 
         $this->tagRepository->update($tag);
-        $this->assertTrue($tag->getUpdated() instanceof \DateTime);
+        $this->assertTrue($tag->getUpdated() instanceof DateTime);
 
         $this->tagRepository->delete($tag);
         $this->assertSame(null, $tag->getId());

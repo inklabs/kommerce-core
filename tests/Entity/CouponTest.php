@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use Symfony\Component\Validator\Validation;
 
 class CouponTest extends \PHPUnit_Framework_TestCase
@@ -70,6 +71,6 @@ class CouponTest extends \PHPUnit_Framework_TestCase
     public function testIsValid()
     {
         $coupon = new Coupon;
-        $this->assertTrue($coupon->isValid(new \DateTime, 200));
+        $this->assertTrue($coupon->isValid(new DateTime, 200));
     }
 }

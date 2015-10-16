@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\UserTokenDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -100,7 +101,7 @@ class UserToken implements EntityInterface, ValidationInterface
         return $this->getTypeMapping()[$this->type];
     }
 
-    public function setExpires(\DateTime $expires = null)
+    public function setExpires(DateTime $expires = null)
     {
         if ($expires === null) {
             $this->expires = null;
@@ -111,7 +112,7 @@ class UserToken implements EntityInterface, ValidationInterface
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
     public function getExpires()
     {
@@ -119,7 +120,7 @@ class UserToken implements EntityInterface, ValidationInterface
             return null;
         }
 
-        $expires = new \DateTime();
+        $expires = new DateTime();
         $expires->setTimestamp($this->expires);
         return $expires;
     }

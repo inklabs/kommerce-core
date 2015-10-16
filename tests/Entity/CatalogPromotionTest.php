@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use Symfony\Component\Validator\Validation;
 
 class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
@@ -58,6 +59,6 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $catalogPromotion = new CatalogPromotion;
         $catalogPromotion->setCode('20PCTOFF');
 
-        $this->assertTrue($catalogPromotion->isValid(new \DateTime, new Product));
+        $this->assertTrue($catalogPromotion->isValid(new DateTime, new Product));
     }
 }

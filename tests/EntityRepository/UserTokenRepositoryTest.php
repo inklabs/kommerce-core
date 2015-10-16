@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\tests\Helper;
 
@@ -45,7 +46,7 @@ class UserTokenRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $userToken->getUpdated());
 
         $this->userTokenRepository->update($userToken);
-        $this->assertTrue($userToken->getUpdated() instanceof \DateTime);
+        $this->assertTrue($userToken->getUpdated() instanceof DateTime);
 
         $this->userTokenRepository->delete($userToken);
         $this->assertSame(null, $userToken->getId());

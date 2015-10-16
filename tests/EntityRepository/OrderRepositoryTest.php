@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentGenerator;
 use inklabs\kommerce\tests\Helper;
@@ -64,7 +65,7 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $order->getUpdated());
 
         $this->orderRepository->update($order);
-        $this->assertTrue($order->getUpdated() instanceof \DateTime);
+        $this->assertTrue($order->getUpdated() instanceof DateTime);
 
         $this->orderRepository->delete($order);
         $this->assertSame(null, $order->getId());

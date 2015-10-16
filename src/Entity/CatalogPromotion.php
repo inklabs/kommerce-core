@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\CatalogPromotionDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -42,7 +43,7 @@ class CatalogPromotion extends AbstractPromotion
         return $this->tag;
     }
 
-    public function isValid(\DateTime $date, Product $product)
+    public function isValid(DateTime $date, Product $product)
     {
         return $this->isValidPromotion($date)
             and $this->isTagValid($product);

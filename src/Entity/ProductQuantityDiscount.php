@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\ProductQuantityDiscountDTOBuilder;
 use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -99,7 +100,7 @@ class ProductQuantityDiscount extends AbstractPromotion
         return $this->product;
     }
 
-    public function isValid(\DateTime $date, $quantity)
+    public function isValid(DateTime $date, $quantity)
     {
         return $this->isValidPromotion($date)
             and $this->isQuantityValid($quantity);

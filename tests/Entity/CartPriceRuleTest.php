@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use Symfony\Component\Validator\Validation;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -109,6 +110,6 @@ class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
         $cartItems = new ArrayCollection;
         $cartItems->add($cartItem);
 
-        $this->assertTrue($cartPriceRule->isValid(new \DateTime, $cartItems));
+        $this->assertTrue($cartPriceRule->isValid(new DateTime, $cartItems));
     }
 }

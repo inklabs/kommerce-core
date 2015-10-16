@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service\Import;
 
+use DateTime;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\PaymentRepositoryInterface;
@@ -51,7 +52,7 @@ class ImportPaymentService
             try {
                 // TODO: Handle checkNumber
                 $payment = new CashPayment($amount);
-                $payment->setCreated(new \DateTime($date));
+                $payment->setCreated(new DateTime($date));
                 $payment->setOrder($order);
 
                 $errors = $validator->validate($payment);

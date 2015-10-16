@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
+use DateTime;
+use DateTimeZone;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Price;
@@ -11,7 +13,7 @@ use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 
 class Pricing implements PricingInterface
 {
-    /** @var \DateTime */
+    /** @var DateTime */
     protected $date;
 
     /** @var CatalogPromotion[] */
@@ -23,10 +25,10 @@ class Pricing implements PricingInterface
     /** @var CartPriceRule[] */
     protected $cartPriceRules = [];
 
-    public function __construct(\DateTime $date = null)
+    public function __construct(DateTime $date = null)
     {
         if ($date === null) {
-            $this->date = new \DateTime('now', new \DateTimeZone('UTC'));
+            $this->date = new DateTime('now', new DateTimeZone('UTC'));
         } else {
             $this->date = $date;
         }

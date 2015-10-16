@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\tests\Helper;
 
@@ -43,7 +44,7 @@ class OptionProductRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $optionProduct->getUpdated());
 
         $this->optionProductRepository->update($optionProduct);
-        $this->assertTrue($optionProduct->getUpdated() instanceof \DateTime);
+        $this->assertTrue($optionProduct->getUpdated() instanceof DateTime);
 
         $this->optionProductRepository->delete($optionProduct);
         $this->assertSame(null, $optionProduct->getId());

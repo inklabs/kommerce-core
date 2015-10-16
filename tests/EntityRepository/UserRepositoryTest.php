@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
 
@@ -60,7 +61,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $user->getUpdated());
 
         $this->userRepository->update($user);
-        $this->assertTrue($user->getUpdated() instanceof \DateTime);
+        $this->assertTrue($user->getUpdated() instanceof DateTime);
 
         $this->userRepository->delete($user);
         $this->assertSame(null, $user->getId());

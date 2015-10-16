@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\Lib\Pricing;
 
 class DummyData
@@ -505,7 +506,7 @@ class DummyData
         $userToken = new UserToken;
         $userToken->setUserAgent('SampleBot/1.1');
         $userToken->settoken('xxxx');
-        $userToken->setexpires(new \DateTime);
+        $userToken->setexpires(new DateTime);
         $userToken->setType(UserToken::TYPE_FACEBOOK);
 
         return $userToken;

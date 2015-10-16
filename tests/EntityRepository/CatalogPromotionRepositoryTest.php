@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\tests\Helper;
 
@@ -42,7 +43,7 @@ class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $catalogPromotion->getUpdated());
 
         $this->catalogPromotionRepository->update($catalogPromotion);
-        $this->assertTrue($catalogPromotion->getUpdated() instanceof \DateTime);
+        $this->assertTrue($catalogPromotion->getUpdated() instanceof DateTime);
 
         $this->catalogPromotionRepository->delete($catalogPromotion);
         $this->assertSame(null, $catalogPromotion->getId());

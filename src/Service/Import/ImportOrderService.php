@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service\Import;
 
+use DateTime;
 use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
@@ -56,7 +57,7 @@ class ImportOrderService
             $order = new Order;
             $order->setExternalId($externalId);
             $order->setTotal($cartTotal);
-            $order->setCreated(new \DateTime($date));
+            $order->setCreated(new DateTime($date));
 
             if ($userExternalId !== null) {
                 $user = $this->userRepository->findOneByExternalId($userExternalId);

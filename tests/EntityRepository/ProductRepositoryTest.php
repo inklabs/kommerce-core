@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use Exception;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
@@ -49,17 +50,17 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $product->setName('new name');
         $this->assertSame(null, $product->getUpdated());
         $this->productRepository->update($product);
-        $this->assertTrue($product->getUpdated() instanceof \DateTime);
+        $this->assertTrue($product->getUpdated() instanceof DateTime);
 
         $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
         $product->addProductQuantityDiscount($productQuantityDiscount);
         $this->productRepository->update($product);
-        $this->assertTrue($product->getUpdated() instanceof \DateTime);
-        $this->assertTrue($product->getProductQuantityDiscounts()[0]->getCreated() instanceof \DateTime);
+        $this->assertTrue($product->getUpdated() instanceof DateTime);
+        $this->assertTrue($product->getProductQuantityDiscounts()[0]->getCreated() instanceof DateTime);
 
         $product->removeProductQuantityDiscount($product->getProductQuantityDiscounts()[0]);
         $this->productRepository->update($product);
-        $this->assertTrue($product->getUpdated() instanceof \DateTime);
+        $this->assertTrue($product->getUpdated() instanceof DateTime);
 
         try {
             $this->getRepositoryFactory()->getProductQuantityDiscountRepository()->findOneById(1);

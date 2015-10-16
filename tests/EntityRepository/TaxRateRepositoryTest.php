@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use DateTime;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\tests\Helper;
 use InvalidArgumentException;
@@ -61,7 +62,7 @@ class TaxRateRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $taxRate->getUpdated());
 
         $this->taxRateRepository->update($taxRate);
-        $this->assertTrue($taxRate->getUpdated() instanceof \DateTime);
+        $this->assertTrue($taxRate->getUpdated() instanceof DateTime);
 
         $this->taxRateRepository->delete($taxRate);
         $this->assertSame(null, $taxRate->getId());

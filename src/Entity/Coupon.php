@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\CouponDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -90,7 +91,7 @@ class Coupon extends AbstractPromotion
         $this->canCombineWithOtherCoupons = (bool) $canCombineWithOtherCoupons;
     }
 
-    public function isValid(\DateTime $date, $subtotal)
+    public function isValid(DateTime $date, $subtotal)
     {
         return $this->isValidPromotion($date)
             and $this->isMinOrderValueValid($subtotal)

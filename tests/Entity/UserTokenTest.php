@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use Symfony\Component\Validator\Validation;
 
 class UserTokenTest extends \PHPUnit_Framework_TestCase
@@ -11,7 +12,7 @@ class UserTokenTest extends \PHPUnit_Framework_TestCase
         $userToken->setUserAgent('UserAgent');
         $userToken->setToken('token');
         $userToken->setType(UserToken::TYPE_GOOGLE);
-        $userToken->setExpires(new \DateTime);
+        $userToken->setExpires(new DateTime);
         $userToken->setUser(new User);
 
         $validator = Validation::createValidatorBuilder()
@@ -24,7 +25,7 @@ class UserTokenTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('token', $userToken->getToken());
         $this->assertSame(UserToken::TYPE_GOOGLE, $userToken->getType());
         $this->assertSame('Google', $userToken->getTypeText());
-        $this->assertTrue($userToken->getExpires() instanceof \DateTime);
+        $this->assertTrue($userToken->getExpires() instanceof DateTime);
         $this->assertTrue($userToken->getUser() instanceof User);
     }
 

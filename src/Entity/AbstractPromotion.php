@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\AbstractPromotionDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -30,10 +31,10 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
     /** @var bool */
     protected $reducesTaxSubtotal;
 
-    /** @var \DateTime|null */
+    /** @var DateTime|null */
     protected $start;
 
-    /** @var \DateTime|null */
+    /** @var DateTime|null */
     protected $end;
 
     public function __construct()
@@ -152,7 +153,7 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
         return $this->reducesTaxSubtotal;
     }
 
-    public function setStart(\DateTime $start = null)
+    public function setStart(DateTime $start = null)
     {
         $this->start = $start;
     }
@@ -162,7 +163,7 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
         return $this->start;
     }
 
-    public function setEnd(\DateTime $end = null)
+    public function setEnd(DateTime $end = null)
     {
         $this->end = $end;
     }
@@ -172,13 +173,13 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
         return $this->end;
     }
 
-    public function isValidPromotion(\DateTime $date)
+    public function isValidPromotion(DateTime $date)
     {
         return $this->isDateValid($date)
             and $this->isRedemptionCountValid();
     }
 
-    public function isDateValid(\DateTime $date)
+    public function isDateValid(DateTime $date)
     {
         $currentDateTs = $date->getTimestamp();
 
