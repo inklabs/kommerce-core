@@ -7,6 +7,7 @@ use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeImageRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
 
 class ImageServiceTest extends Helper\DoctrineTestCase
 {
@@ -16,6 +17,9 @@ class ImageServiceTest extends Helper\DoctrineTestCase
     /** @var FakeProductRepository */
     private $productRepository;
 
+    /** @var FakeTagRepository */
+    protected $tagRepository;
+
     /** @var ImageService */
     protected $imageService;
 
@@ -23,7 +27,12 @@ class ImageServiceTest extends Helper\DoctrineTestCase
     {
         $this->imageRepository = new FakeImageRepository;
         $this->productRepository = new FakeProductRepository;
-        $this->imageService = new ImageService($this->imageRepository, $this->productRepository);
+        $this->tagRepository = new FakeTagRepository;
+        $this->imageService = new ImageService(
+            $this->imageRepository,
+            $this->productRepository,
+            $this->tagRepository
+        );
     }
 
     public function testCreate()
@@ -40,7 +49,7 @@ class ImageServiceTest extends Helper\DoctrineTestCase
         $this->assertNotSame($newWidth, $image->getWidth());
 
         $image->setWidth($newWidth);
-        $this->imageService->edit($image);
+        $this->imageService->update($image);
         $this->assertSame($newWidth, $image->getWidth());
     }
 

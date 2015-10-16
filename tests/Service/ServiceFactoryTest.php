@@ -25,7 +25,7 @@ class ServiceFactoryTest extends Helper\DoctrineTestCase
         $this->assertTrue($serviceFactory->getCartPriceRule() instanceof CartPriceRuleService);
         $this->assertTrue($serviceFactory->getCatalogPromotion() instanceof CatalogPromotionService);
         $this->assertTrue($serviceFactory->getCoupon() instanceof CouponService);
-        $this->assertTrue($serviceFactory->getImage() instanceof ImageService);
+        $this->assertTrue($serviceFactory->getImageService() instanceof ImageService);
         $this->assertTrue($serviceFactory->getImportOrder() instanceof ImportOrderService);
         $this->assertTrue($serviceFactory->getImportOrderItem() instanceof ImportOrderItemService);
         $this->assertTrue($serviceFactory->getImportPayment() instanceof ImportPaymentService);

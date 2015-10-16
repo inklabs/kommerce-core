@@ -17,14 +17,20 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $tag->setName('Test Tag');
         $tag->setCode('TT');
         $tag->setDescription('Test Description');
-        $tag->setDefaultImage('http://lorempixel.com/400/200/');
+        $tag->setDefaultImage(null);
         $tag->setSortOrder(0);
         $tag->setIsVisible(true);
         $tag->setIsActive(true);
         $tag->addProduct(new Product);
-        $tag->addImage(new Image);
         $tag->addOption(new Option);
         $tag->addTextOption(new TextOption);
+
+        $this->assertSame(null, $tag->getDefaultImage());
+
+        $image = new Image;
+        $image->setPath('http://lorempixel.com/400/200/');
+
+        $tag->addImage($image);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')

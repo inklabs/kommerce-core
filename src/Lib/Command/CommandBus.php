@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Lib\Command;
 
 use inklabs\kommerce\Service\ServiceFactory;
+use ReflectionClass;
 
 class CommandBus implements CommandBusInterface
 {
@@ -30,9 +31,19 @@ class CommandBus implements CommandBusInterface
     {
         $handlerClassName = $this->getHandlerClassName($command);
 
-        $handler = null;
+        $constructorParameters = [];
         if (is_subclass_of($handlerClassName, TagServiceAwareInterface::class, true)) {
-            $handler = new $handlerClassName($this->serviceFactory->getTagService());
+            $constructorParameters[] = $this->serviceFactory->getTagService();
+        }
+
+        if (is_subclass_of($handlerClassName, ImageServiceAwareInterface::class, true)) {
+            $constructorParameters[] = $this->serviceFactory->getImageService();
+        }
+
+        $reflection = new ReflectionClass($handlerClassName);
+        $handler = null;
+        if (! empty($constructorParameters)) {
+            $handler = $reflection->newInstanceArgs($constructorParameters);
         }
 
         return $handler;

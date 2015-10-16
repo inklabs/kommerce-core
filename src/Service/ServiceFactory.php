@@ -82,11 +82,12 @@ class ServiceFactory
     /**
      * @return ImageService
      */
-    public function getImage()
+    public function getImageService()
     {
         return new ImageService(
             $this->repositoryFactory->getImageRepository(),
-            $this->repositoryFactory->getProductRepository()
+            $this->repositoryFactory->getProductRepository(),
+            $this->repositoryFactory->getTagRepository()
         );
     }
 

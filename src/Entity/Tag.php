@@ -91,8 +91,12 @@ class Tag implements EntityInterface, ValidationInterface
 
     public function addImage(Image $image)
     {
+        if ($this->images->isEmpty()) {
+            $this->setDefaultImage($image->getPath());
+        }
+
         $image->setTag($this);
-        $this->images[] = $image;
+        $this->images->add($image);
     }
 
     public function getImages()
@@ -162,7 +166,11 @@ class Tag implements EntityInterface, ValidationInterface
 
     public function setDefaultImage($defaultImage)
     {
-        $this->defaultImage = $defaultImage;
+        if (trim($defaultImage) === '') {
+            $this->defaultImage = null;
+        } else {
+            $this->defaultImage = (string) $defaultImage;
+        }
     }
 
     public function getDefaultImage()
