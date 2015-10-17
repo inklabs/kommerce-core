@@ -1,7 +1,44 @@
 <?php
-namespace inklabs\kommerce\Entity;
+namespace inklabs\kommerce\tests\Helper\Entity;
 
 use DateTime;
+use inklabs\kommerce\Entity\AbstractPromotion;
+use inklabs\kommerce\Entity\Address;
+use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartItem;
+use inklabs\kommerce\Entity\CartItemOptionProduct;
+use inklabs\kommerce\Entity\CartItemOptionValue;
+use inklabs\kommerce\Entity\CartItemTextOptionValue;
+use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\Entity\CartTotal;
+use inklabs\kommerce\Entity\CashPayment;
+use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
+use inklabs\kommerce\Entity\OptionValue;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderAddress;
+use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\OrderItemOptionProduct;
+use inklabs\kommerce\Entity\OrderItemOptionValue;
+use inklabs\kommerce\Entity\OrderItemTextOptionValue;
+use inklabs\kommerce\Entity\Point;
+use inklabs\kommerce\Entity\Price;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductAttribute;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\TextOption;
+use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Entity\UserLogin;
+use inklabs\kommerce\Entity\UserRole;
+use inklabs\kommerce\Entity\UserToken;
+use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\Lib\Pricing;
 
 class DummyData

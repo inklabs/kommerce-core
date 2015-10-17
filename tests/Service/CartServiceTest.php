@@ -94,14 +94,12 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function testFindByUser()
     {
-        $this->setupCartService();
         $cart = $this->cartService->findByUser(1);
         $this->assertTrue($cart instanceof Cart);
     }
 
     public function testFindBySession()
     {
-        $this->setupCartService();
         $cart = $this->cartService->findBySession('6is7ujb3crb5ja85gf91g9en62');
         $this->assertTrue($cart instanceof Cart);
     }
@@ -172,6 +170,9 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function testCreateWithUser()
     {
+        $user = $this->dummyData->getUser();
+        $this->userRepository->create($user);
+
         $cart = $this->cartService->create(1, null);
         $this->assertTrue($cart instanceof Cart);
     }
@@ -400,7 +401,6 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $user = new User;
         $cart->setUser($user);
         $cart->addCoupon(new Coupon);
-        $this->setupCartService();
 
         $this->userRepository->create($user);
         $this->cartRepository->create($cart);

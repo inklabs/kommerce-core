@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\tests\Helper;
 
-use inklabs\kommerce\Entity\DummyData;
+use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
@@ -17,8 +17,9 @@ use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\Command\CommandBus;
+use inklabs\kommerce\Lib\Event\EventDispatcher;
 use inklabs\kommerce\Lib\Query\QueryBus;
-use inklabs\kommerce\Service\EventDispatcherInterface;
+use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryFactory;
@@ -80,7 +81,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->entityManager->clear();
 
-        if (empty($this->metaDataClassNames)) {
+        if ($this->metaDataClassNames === null) {
             $classes = $this->entityManager->getMetaDataFactory()->getAllMetaData();
         } else {
             $classes = [];
@@ -117,6 +118,11 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     protected function getQueryBus(CartCalculatorInterface $cartCalculator = null)
     {
         return new QueryBus($this->getServiceFactory($cartCalculator), new Pricing);
+    }
+
+    protected function getEventDispatcher()
+    {
+        return new EventDispatcher;
     }
 
     protected function getRepositoryFactory()

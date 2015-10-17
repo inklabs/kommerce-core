@@ -12,9 +12,6 @@ class QueryBus implements QueryBusInterface
     /** @var ServiceFactory */
     private $serviceFactory;
 
-    /** @var QueryHandlerInterface */
-    private $handler;
-
     /** @var Pricing */
     private $pricing;
 
@@ -28,19 +25,19 @@ class QueryBus implements QueryBusInterface
 
     public function execute(RequestInterface $request, ResponseInterface & $response)
     {
-        $this->handler = $this->getHandler($request);
-        $this->handler->handle($request, $response);
+        $handlerClassName = $this->getHandlerClassName($request);
+        $handler = $this->getHandler($handlerClassName);
+        $handler->handle($request, $response);
     }
 
     /**
-     * @param RequestInterface $request
+     * @param string $handlerClassName
      * @return QueryHandlerInterface
      */
-    private function getHandler(RequestInterface $request)
+    private function getHandler($handlerClassName)
     {
-        $handlerClassName = $this->getHandlerClassName($request);
-
         $constructorParameters = [];
+
         if (is_subclass_of($handlerClassName, TagServiceAwareInterface::class, true)) {
             $constructorParameters[] = $this->serviceFactory->getTagService();
         }

@@ -19,19 +19,19 @@ class CommandBus implements CommandBusInterface
 
     public function execute(CommandInterface $command)
     {
-        $this->handler = $this->getHandler($command);
+        $handlerClassName = $this->getHandlerClassName($command);
+        $this->handler = $this->getHandler($handlerClassName);
         $this->handler->handle($command);
     }
 
     /**
-     * @param CommandInterface $command
+     * @param string $handlerClassName
      * @return CommandHandlerInterface
      */
-    private function getHandler(CommandInterface $command)
+    private function getHandler($handlerClassName)
     {
-        $handlerClassName = $this->getHandlerClassName($command);
-
         $constructorParameters = [];
+
         if (is_subclass_of($handlerClassName, TagServiceAwareInterface::class, true)) {
             $constructorParameters[] = $this->serviceFactory->getTagService();
         }

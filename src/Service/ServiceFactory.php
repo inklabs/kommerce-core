@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\EntityRepository\RepositoryFactoryInterface;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
+use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 
 class ServiceFactory
 {

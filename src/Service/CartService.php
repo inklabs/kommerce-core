@@ -22,6 +22,7 @@ use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
+use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use InvalidArgumentException;
 
 class CartService extends AbstractService
