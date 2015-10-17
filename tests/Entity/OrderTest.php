@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Lib\CartCalculator;
+use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Lib\PaymentGateway;
 use Symfony\Component\Validator\Validation;
@@ -71,5 +73,27 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($order->getShippingRate() instanceof ShippingRate);
         $this->assertTrue($order->getTaxRate() instanceof TaxRate);
         $this->assertTrue($order->getProducts()[0] instanceof Product);
+    }
+
+    public function testCreateFromCart()
+    {
+        $product = new Product;
+        $product->setUnitPrice(500);
+
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+
+        $cart = new Cart;
+        $cart->setUser(new User);
+        $cart->addCartItem($cartItem);
+        $cart->addCoupon(new Coupon);
+        $cart->setShippingRate(new ShippingRate);
+        $cart->setTaxRate(new TaxRate);
+
+        $cartCalculator = new CartCalculator(new Pricing);
+        $order = Order::fromCart($cart, $cartCalculator);
+
+        $this->assertTrue($order instanceof Order);
+        $this->assertTrue($order->releaseEvents()[0] instanceof OrderCreatedFromCartEvent);
     }
 }

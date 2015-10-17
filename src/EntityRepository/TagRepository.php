@@ -20,25 +20,23 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
             ->from('kommerce:tag', 'tag');
 
         if (trim($queryString) !== '') {
-            $tags = $tags
+            $tags
                 ->orWhere('tag.name LIKE :query')
                 ->orWhere('tag.code LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 
-        $tags = $tags
+        return $tags
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $tags;
     }
 
     public function getTagsByIds($tagIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
-        $tags = $qb->select('tag')
+        return $qb->select('tag')
             ->from('kommerce:Tag', 'tag')
             ->where('tag.id IN (:tagIds)')
             ->tagActiveAndVisible()
@@ -46,22 +44,18 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $tags;
     }
 
     public function getAllTagsByIds($tagIds, Pagination & $pagination = null)
     {
         $qb = $this->getQueryBuilder();
 
-        $tags = $qb->select('tag')
+        return $qb->select('tag')
             ->from('kommerce:Tag', 'tag')
             ->where('tag.id IN (:tagIds)')
             ->setParameter('tagIds', $tagIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $tags;
     }
 }

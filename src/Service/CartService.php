@@ -7,6 +7,7 @@ use inklabs\kommerce\Entity\CartItemOptionProduct;
 use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
 use inklabs\kommerce\Entity\InvalidCartActionException;
+use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\ShippingRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\OrderAddress;
@@ -50,10 +51,13 @@ class CartService extends AbstractService
     protected $userRepository;
 
     /** @var CartCalculatorInterface */
-    protected $pricing;
+    protected $cartCalculator;
 
     /** @var TaxRate */
     protected $taxRate;
+
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
 
     public function __construct(
         CartRepositoryInterface $cartRepository,
@@ -64,7 +68,8 @@ class CartService extends AbstractService
         CouponRepositoryInterface $couponRepository,
         OrderRepositoryInterface $orderRepository,
         UserRepositoryInterface $userRepository,
-        CartCalculatorInterface $cartCalculator
+        CartCalculatorInterface $cartCalculator,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->cartRepository = $cartRepository;
         $this->productRepository = $productRepository;
@@ -74,7 +79,8 @@ class CartService extends AbstractService
         $this->couponRepository = $couponRepository;
         $this->orderRepository = $orderRepository;
         $this->userRepository = $userRepository;
-        $this->pricing = $cartCalculator;
+        $this->cartCalculator = $cartCalculator;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -371,12 +377,16 @@ class CartService extends AbstractService
             $billingAddress = clone $shippingAddress;
         }
 
-        $order = $cart->getOrder($this->pricing);
+        $order = Order::fromCart($cart, $this->cartCalculator);
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
         $order->addPayment($payment);
 
         $this->orderRepository->create($order);
+
+        $this->eventDispatcher->dispatch(
+            $order->releaseEvents()
+        );
 
         return $order;
     }

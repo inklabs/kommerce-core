@@ -13,12 +13,17 @@ class ServiceFactory
     /** @var RepositoryFactory */
     protected $repositoryFactory;
 
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
+
     public function __construct(
         RepositoryFactoryInterface $repositoryFactory,
-        CartCalculatorInterface $cartCalculator
+        CartCalculatorInterface $cartCalculator,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->cartCalculator = $cartCalculator;
         $this->repositoryFactory = $repositoryFactory;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -51,7 +56,8 @@ class ServiceFactory
             $this->repositoryFactory->getCouponRepository(),
             $this->repositoryFactory->getOrderRepository(),
             $this->repositoryFactory->getUserRepository(),
-            $this->cartCalculator
+            $this->cartCalculator,
+            $this->eventDispatcher
         );
     }
 

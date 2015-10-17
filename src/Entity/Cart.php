@@ -214,26 +214,6 @@ class Cart implements EntityInterface, ValidationInterface
         return $cartCalculator->getTotal($this);
     }
 
-    public function getOrder(CartCalculatorInterface $cartCalculator)
-    {
-        $order = new Order;
-        $order->setTotal($this->getTotal($cartCalculator));
-
-        foreach ($this->getCartItems() as $item) {
-            $order->addOrderItem($item->getOrderItem($cartCalculator->getPricing()));
-        }
-
-        foreach ($this->getCoupons() as $coupon) {
-            $order->addCoupon($coupon);
-        }
-
-        $order->setUser($this->getUser());
-        $order->setShippingRate($this->getShippingRate());
-        $order->setTaxRate($this->getTaxRate());
-
-        return $order;
-    }
-
     public function getShippingRate()
     {
         return $this->shippingRate;

@@ -18,7 +18,9 @@ use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\Command\CommandBus;
 use inklabs\kommerce\Lib\Query\QueryBus;
+use inklabs\kommerce\Service\EventDispatcherInterface;
 use inklabs\kommerce\Service\ServiceFactory;
+use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryFactory;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\DoctrineHelper;
@@ -127,13 +129,23 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return new FakeRepositoryFactory;
     }
 
-    protected function getServiceFactory(CartCalculatorInterface $cartCalculator = null)
-    {
+    protected function getServiceFactory(
+        CartCalculatorInterface $cartCalculator = null,
+        EventDispatcherInterface $eventDispatcher = null
+    ) {
         if ($cartCalculator === null) {
             $cartCalculator = new CartCalculator(new Pricing);
         }
 
-        return new ServiceFactory($this->getRepositoryFactory(), $cartCalculator);
+        if ($eventDispatcher === null) {
+            $eventDispatcher = new FakeEventDispatcher;
+        }
+
+        return new ServiceFactory(
+            $this->getRepositoryFactory(),
+            $cartCalculator,
+            $eventDispatcher
+        );
     }
 
     protected function beginTransaction()

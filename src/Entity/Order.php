@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
+use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\ReferenceNumber;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -9,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Order implements EntityInterface, ValidationInterface, ReferenceNumber\EntityInterface
 {
-    use TimeTrait, IdTrait;
+    use TimeTrait, IdTrait, EventGeneratorTrait;
 
     /** @var string */
     protected $externalId;
@@ -60,6 +61,30 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         $this->coupons = new ArrayCollection;
 
         $this->setStatus(self::STATUS_PENDING);
+    }
+
+    public static function fromCart(Cart $cart, CartCalculatorInterface $cartCalculator)
+    {
+        $order = new static;
+        $order->setTotal($cart->getTotal($cartCalculator));
+
+        foreach ($cart->getCartItems() as $item) {
+            $order->addOrderItem($item->getOrderItem($cartCalculator->getPricing()));
+        }
+
+        foreach ($cart->getCoupons() as $coupon) {
+            $order->addCoupon($coupon);
+        }
+
+        $order->setUser($cart->getUser());
+        $order->setShippingRate($cart->getShippingRate());
+        $order->setTaxRate($cart->getTaxRate());
+
+        $order->raise(
+            new OrderCreatedFromCartEvent($order)
+        );
+
+        return $order;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

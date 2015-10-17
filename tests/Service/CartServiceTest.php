@@ -12,10 +12,10 @@ use inklabs\kommerce\Entity\ShippingRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionProductRepository;
@@ -54,6 +54,12 @@ class CartServiceTest extends Helper\DoctrineTestCase
     /** @var CartService */
     protected $cartService;
 
+    /** @var CartCalculator */
+    protected $cartCalculator;
+
+    /** @var FakeEventDispatcher */
+    protected $eventDispatcher;
+
     public function setUp()
     {
         $this->cartRepository = new FakeCartRepository;
@@ -64,6 +70,8 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->couponRepository = new FakeCouponRepository;
         $this->orderRepository = new FakeOrderRepository;
         $this->userRepository = new FakeUserRepository;
+        $this->cartCalculator = new CartCalculator(new Pricing);
+        $this->eventDispatcher = new FakeEventDispatcher;
 
         $this->setupCartService();
     }
@@ -79,7 +87,8 @@ class CartServiceTest extends Helper\DoctrineTestCase
             $this->couponRepository,
             $this->orderRepository,
             $this->userRepository,
-            new CartCalculator(new Pricing)
+            $this->cartCalculator,
+            $this->eventDispatcher
         );
     }
 
@@ -385,7 +394,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->cartService->setUserById(1, 1);
     }
 
-    public function testAddOrder()
+    public function testCreateOrder()
     {
         $cart = new Cart;
         $user = new User;
@@ -399,8 +408,13 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $payment = new CashPayment(100);
         $orderAddress = new OrderAddress;
 
-        $order = $this->cartService->createOrder($cart->getId(), $payment, $orderAddress);
+        $order = $this->cartService->createOrder(
+            $cart->getId(),
+            $payment,
+            $orderAddress
+        );
 
         $this->assertTrue($order instanceof Order);
+        $this->assertTrue($this->eventDispatcher->wasDispatchCalled());
     }
 }

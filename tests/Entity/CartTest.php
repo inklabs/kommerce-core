@@ -259,23 +259,4 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cartCalculator = new CartCalculator(new Pricing);
         $this->assertTrue($cart->getTotal($cartCalculator) instanceof CartTotal);
     }
-
-    public function testGetOrder()
-    {
-        $product = new Product;
-        $product->setUnitPrice(500);
-
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product);
-
-        $cart = new Cart;
-        $cart->setUser(new User);
-        $cart->addCartItem($cartItem);
-        $cart->addCoupon(new Coupon);
-        $cart->setShippingRate(new ShippingRate);
-
-        $order = $cart->getOrder(new CartCalculator(new Pricing));
-
-        $this->assertTrue($order instanceof Order);
-    }
 }
