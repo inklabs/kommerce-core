@@ -21,7 +21,6 @@ use inklabs\kommerce\Lib\Event\EventDispatcher;
 use inklabs\kommerce\Lib\Query\QueryBus;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Service\ServiceFactory;
-use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryFactory;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\DoctrineHelper;
@@ -144,7 +143,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         }
 
         if ($eventDispatcher === null) {
-            $eventDispatcher = new FakeEventDispatcher;
+            $eventDispatcher = new EventDispatcher;
         }
 
         return new ServiceFactory(

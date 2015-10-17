@@ -10,7 +10,8 @@ interface EventDispatcherInterface
 
     /**
      * @param string $eventClassName
-     * @param string $handlerClassName
+     * @param callable $callback
      */
-    public function addListener($eventClassName, $handlerClassName);
+    public function addListener($eventClassName, callable $callback);
+    public function addSubscriber(EventSubscriberInterface $subscriber);
 }

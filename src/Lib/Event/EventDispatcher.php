@@ -6,13 +6,20 @@ class EventDispatcher implements EventDispatcherInterface
     /** @var string[][] */
     private $listeners;
 
-    public function addListener($eventClassName, $handlerClassName)
+    public function addSubscriber(EventSubscriberInterface $subscriber)
+    {
+        foreach ($subscriber->getSubscribedEvents() as $eventName => $methodName) {
+            $this->addListener($eventName, array($subscriber, $methodName));
+        }
+    }
+
+    public function addListener($eventClassName, callable $callback)
     {
         if (! isset($this->listeners[$eventClassName])) {
             $this->listeners[$eventClassName] = [];
         }
 
-        $this->listeners[$eventClassName][] = $handlerClassName;
+        $this->listeners[$eventClassName][] = $callback;
     }
 
     public function dispatch(array $events)
@@ -22,25 +29,15 @@ class EventDispatcher implements EventDispatcherInterface
         }
     }
 
-    private function dispatchEvent(EventInterface $event)
+    public function dispatchEvent(EventInterface $event)
     {
-        $eventClassName = get_class($event);
-        if (! isset($this->listeners[$eventClassName])) {
+        $eventName = get_class($event);
+        if (! isset($this->listeners[$eventName])) {
             return;
         }
 
-        foreach ($this->listeners[$eventClassName] as $handlerClassName) {
-            $handler = $this->getHandler($handlerClassName);
-            $handler->handle($event);
+        foreach ($this->listeners[$eventName] as $listener) {
+            call_user_func($listener, $event, $eventName);
         }
-    }
-
-    /**
-     * @param string $handlerClassName
-     * @return EventHandlerInterface
-     */
-    private function getHandler($handlerClassName)
-    {
-        return new $handlerClassName;
     }
 }

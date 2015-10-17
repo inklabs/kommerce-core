@@ -1,15 +1,28 @@
 <?php
 namespace inklabs\kommerce\tests\Lib\Event;
 
+use DateTime;
+use inklabs\kommerce\Lib\Event\EventSubscriberInterface;
 use inklabs\kommerce\tests\Helper\Event\FakeEvent;
 
-class FakeEventHandler
+class FakeEventSubscriber implements EventSubscriberInterface
 {
     public static $hasBeenCalled = false;
 
-    public function __construct()
+    public function __construct(DateTime $fakeDependency)
     {
         self::reset();
+    }
+
+    public function getSubscribedEvents()
+    {
+        return [
+            FakeEvent::class => 'onFakeEvent'
+        ];
+    }
+    public function onFakeEvent(FakeEvent $event)
+    {
+        self::$hasBeenCalled = true;
     }
 
     public static function hasBeenCalled()
@@ -22,10 +35,5 @@ class FakeEventHandler
     protected static function reset()
     {
         self::$hasBeenCalled = false;
-    }
-
-    public function handle(FakeEvent $event)
-    {
-        self::$hasBeenCalled = true;
     }
 }

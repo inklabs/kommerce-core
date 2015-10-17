@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use Doctrine\ORM\EntityManager;
-
 interface RepositoryFactoryInterface
 {
     /**

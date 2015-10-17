@@ -1,35 +1,52 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
+use DateTime;
+use inklabs\kommerce\Lib\Event\EventInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 use inklabs\kommerce\tests\Helper\Event\FakeEvent;
-use inklabs\kommerce\tests\Lib\Event\FakeEventHandler;
+use inklabs\kommerce\tests\Helper\Event\FakeEvent2;
+use inklabs\kommerce\tests\Lib\Event\FakeEventSubscriber;
 
 class EventDispatcherTest extends DoctrineTestCase
 {
-    public function testDispatchFiresHandler()
+    public function testAddSubscriberAndDispatchFiresSubscriber()
     {
-        $this->setupEntityManager([]);
-
         $eventDispatcher = $this->getEventDispatcher();
-        $eventDispatcher->addListener(FakeEvent::class, FakeEventHandler::class);
+        $eventDispatcher->addSubscriber(new FakeEventSubscriber(new DateTime));
         $eventDispatcher->dispatch(
             [new FakeEvent]
         );
 
-        $this->assertTrue(FakeEventHandler::hasBeenCalled());
+        $this->assertTrue(FakeEventSubscriber::hasBeenCalled());
     }
 
-    public function testDispatchFailsToFire()
+    public function testAddSubscriberAndDispatchDoesNotFiresSubscriber()
     {
-        $this->setupEntityManager([]);
+        $eventDispatcher = $this->getEventDispatcher();
+        $eventDispatcher->addSubscriber(new FakeEventSubscriber(new DateTime));
+        $eventDispatcher->dispatch(
+            [new FakeEvent2]
+        );
+
+        $this->assertFalse(FakeEventSubscriber::hasBeenCalled());
+    }
+
+    public function testAddListenerAndDispatchFiresListener()
+    {
+        $hasBeenCalled = false;
+        $callable = function (EventInterface $event) use (& $hasBeenCalled) {
+            $hasBeenCalled = true;
+        };
+
+        $this->assertFalse($hasBeenCalled);
 
         $eventDispatcher = $this->getEventDispatcher();
-        $eventDispatcher->addListener('NonExistentClass', FakeEventHandler::class);
+        $eventDispatcher->addListener(FakeEvent::class, $callable);
         $eventDispatcher->dispatch(
             [new FakeEvent]
         );
 
-        $this->assertFalse(FakeEventHandler::hasBeenCalled());
+        $this->assertTrue($hasBeenCalled);
     }
 }

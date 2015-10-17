@@ -51,9 +51,7 @@
           <root url="file://$MODULE_DIR$/vendor/doctrine/orm" />
           <root url="file://$MODULE_DIR$/vendor/hamcrest/hamcrest-php" />
           <root url="file://$MODULE_DIR$/vendor/mockery/mockery" />
-          <root url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
           <root url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-docblock" />
-          <root url="file://$MODULE_DIR$/vendor/phpdocumentor/type-resolver" />
           <root url="file://$MODULE_DIR$/vendor/phploc/phploc" />
           <root url="file://$MODULE_DIR$/vendor/phpspec/prophecy" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/php-code-coverage" />
@@ -80,7 +78,6 @@
           <root url="file://$MODULE_DIR$/vendor/symfony/validator" />
           <root url="file://$MODULE_DIR$/vendor/symfony/yaml" />
           <root url="file://$MODULE_DIR$/vendor/theseer/fdomdocument" />
-          <root url="file://$MODULE_DIR$/vendor/webmozart/assert" />
         </CLASSES>
         <SOURCES>
           <root url="file://$MODULE_DIR$/vendor/doctrine/dbal" />
@@ -88,9 +85,7 @@
           <root url="file://$MODULE_DIR$/vendor/doctrine/orm" />
           <root url="file://$MODULE_DIR$/vendor/hamcrest/hamcrest-php" />
           <root url="file://$MODULE_DIR$/vendor/mockery/mockery" />
-          <root url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
           <root url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-docblock" />
-          <root url="file://$MODULE_DIR$/vendor/phpdocumentor/type-resolver" />
           <root url="file://$MODULE_DIR$/vendor/phploc/phploc" />
           <root url="file://$MODULE_DIR$/vendor/phpspec/prophecy" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/php-code-coverage" />
@@ -117,7 +112,6 @@
           <root url="file://$MODULE_DIR$/vendor/symfony/validator" />
           <root url="file://$MODULE_DIR$/vendor/symfony/yaml" />
           <root url="file://$MODULE_DIR$/vendor/theseer/fdomdocument" />
-          <root url="file://$MODULE_DIR$/vendor/webmozart/assert" />
         </SOURCES>
       </library>
     </orderEntry>

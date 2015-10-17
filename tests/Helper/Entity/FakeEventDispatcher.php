@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\Entity;
 
-use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
+use inklabs\kommerce\Lib\Event\EventDispatcher;
 
-class FakeEventDispatcher implements EventDispatcherInterface
+class FakeEventDispatcher extends EventDispatcher
 {
     protected $dispatchCalled = false;
 
@@ -15,10 +15,5 @@ class FakeEventDispatcher implements EventDispatcherInterface
     public function wasDispatchCalled()
     {
         return $this->dispatchCalled;
-    }
-
-    public function addListener($eventClassName, $handlerClassName)
-    {
-        // TODO: Implement addListener() method.
     }
 }
