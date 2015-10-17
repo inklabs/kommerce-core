@@ -297,6 +297,15 @@ class DummyData
         return $order;
     }
 
+    public function getOrderFull()
+    {
+        $cartTotal = $this->getCartTotal();
+        $orderItems = [$this->getOrderItemFull()];
+        $order = $this->getOrder($cartTotal, $orderItems);
+
+        return $order;
+    }
+
     public function getOrderAddress()
     {
         $orderAddress = new OrderAddress;

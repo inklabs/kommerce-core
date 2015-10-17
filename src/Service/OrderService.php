@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 
-class OrderService extends AbstractService
+class OrderService extends AbstractService implements OrderServiceInterface
 {
     /** @var OrderRepositoryInterface */
     private $orderRepository;
@@ -23,11 +23,6 @@ class OrderService extends AbstractService
         $this->productRepository = $productRepository;
     }
 
-    /**
-     * @param int $id
-     * @return Order
-     * @throws EntityNotFoundException
-     */
     public function findOneById($id)
     {
         $order = $this->orderRepository->findOneById($id);
@@ -46,10 +41,6 @@ class OrderService extends AbstractService
         return $this->orderRepository->getLatestOrders($pagination);
     }
 
-    /**
-     * @param int $userId
-     * @return Order[]
-     */
     public function getOrdersByUserId($userId)
     {
         return $this->orderRepository->getOrdersByUserId($userId);

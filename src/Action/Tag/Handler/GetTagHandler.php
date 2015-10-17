@@ -22,9 +22,9 @@ class GetTagHandler implements TagServiceAwareInterface, PricingAwareInterface
         $this->pricing = $pricing;
     }
 
-    public function handle(GetTagRequest $command, GetTagResponseInterface & $response)
+    public function handle(GetTagRequest $request, GetTagResponseInterface & $response)
     {
-        $tag = $this->tagService->findOneById($command->getTagId());
+        $tag = $this->tagService->findOneById($request->getTagId());
 
         $response->setTagDTO(
             $tag->getDTOBuilder()

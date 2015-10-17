@@ -386,7 +386,9 @@ class CartService extends AbstractService
 
         $this->orderRepository->create($order);
 
-        $this->eventDispatcher->dispatchEvent(new OrderCreatedFromCartEvent($order->getId()));
+        $this->eventDispatcher->dispatchEvent(
+            new OrderCreatedFromCartEvent($order->getId())
+        );
 
         return $order;
     }
