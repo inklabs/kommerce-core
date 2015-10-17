@@ -21,6 +21,7 @@ use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
+use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use InvalidArgumentException;
@@ -385,9 +386,7 @@ class CartService extends AbstractService
 
         $this->orderRepository->create($order);
 
-        $this->eventDispatcher->dispatch(
-            $order->releaseEvents()
-        );
+        $this->eventDispatcher->dispatchEvent(new OrderCreatedFromCartEvent($order->getId()));
 
         return $order;
     }

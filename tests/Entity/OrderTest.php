@@ -95,6 +95,5 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order = Order::fromCart($cart, $cartCalculator);
 
         $this->assertTrue($order instanceof Order);
-        $this->assertTrue($order->releaseEvents()[0] instanceof OrderCreatedFromCartEvent);
     }
 }

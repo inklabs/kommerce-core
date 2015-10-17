@@ -6,11 +6,14 @@ use inklabs\kommerce\Lib\Event\EventInterface;
 
 class OrderCreatedFromCartEvent implements EventInterface
 {
-    /** @var Order */
-    private $order;
+    /** @var int */
+    private $orderId;
 
-    public function __construct(Order $order)
+    /**
+     * @param int $orderId
+     */
+    public function __construct($orderId)
     {
-        $this->order = $order;
+        $this->orderId = $orderId;
     }
 }

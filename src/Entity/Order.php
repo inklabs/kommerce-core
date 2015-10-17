@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
-use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\ReferenceNumber;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -80,10 +79,6 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         $order->setUser($cart->getUser());
         $order->setShippingRate($cart->getShippingRate());
         $order->setTaxRate($cart->getTaxRate());
-
-        $order->raise(
-            new OrderCreatedFromCartEvent($order)
-        );
 
         return $order;
     }

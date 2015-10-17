@@ -2,18 +2,22 @@
 namespace inklabs\kommerce\tests\Helper\Entity;
 
 use inklabs\kommerce\Lib\Event\EventDispatcher;
+use inklabs\kommerce\Lib\Event\EventInterface;
 
 class FakeEventDispatcher extends EventDispatcher
 {
-    protected $dispatchCalled = false;
+    protected $dispatchedEvents = [];
 
-    public function dispatch(array $events)
+    public function dispatchEvent(EventInterface $event)
     {
-        $this->dispatchCalled = true;
+        parent::dispatchEvent($event);
+
+        $eventClassName = get_class($event);
+        $this->dispatchedEvents[$eventClassName] = true;
     }
 
-    public function wasDispatchCalled()
+    public function wasEventDispatched($eventClassName)
     {
-        return $this->dispatchCalled;
+        return isset($this->dispatchedEvents[$eventClassName]);
     }
 }

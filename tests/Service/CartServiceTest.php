@@ -12,8 +12,8 @@ use inklabs\kommerce\Entity\ShippingRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Lib\CartCalculator;
-use inklabs\kommerce\Lib\Event\EventDispatcher;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
@@ -416,6 +416,6 @@ class CartServiceTest extends Helper\DoctrineTestCase
         );
 
         $this->assertTrue($order instanceof Order);
-        $this->assertTrue($this->eventDispatcher->wasDispatchCalled());
+        $this->assertTrue($this->eventDispatcher->wasEventDispatched(OrderCreatedFromCartEvent::class));
     }
 }
