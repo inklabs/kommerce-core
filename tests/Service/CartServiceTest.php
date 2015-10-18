@@ -12,6 +12,7 @@ use inklabs\kommerce\Entity\ShippingRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
@@ -405,6 +406,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
         $this->userRepository->create($user);
         $this->cartRepository->create($cart);
+        $cartId = $cart->getId();
 
         $payment = new CashPayment(100);
         $orderAddress = new OrderAddress;
@@ -417,5 +419,12 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($order instanceof Order);
         $this->assertTrue($this->eventDispatcher->wasEventDispatched(OrderCreatedFromCartEvent::class));
+
+        try {
+            $this->cartRepository->findOneById($cartId);
+            $this->assertTrue(false);
+        } catch (EntityNotFoundException $e) {
+            $this->assertTrue(true);
+        }
     }
 }

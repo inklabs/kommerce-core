@@ -390,6 +390,8 @@ class CartService extends AbstractService
             new OrderCreatedFromCartEvent($order->getId())
         );
 
+        $this->cartRepository->delete($cart);
+
         return $order;
     }
 
