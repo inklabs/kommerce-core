@@ -22,8 +22,8 @@ class ServiceFactory
         CartCalculatorInterface $cartCalculator,
         EventDispatcherInterface $eventDispatcher
     ) {
-        $this->cartCalculator = $cartCalculator;
         $this->repositoryFactory = $repositoryFactory;
+        $this->cartCalculator = $cartCalculator;
         $this->eventDispatcher = $eventDispatcher;
     }
 

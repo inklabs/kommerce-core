@@ -5,6 +5,7 @@ class OrderAddressDTO
 {
     public $firstName;
     public $lastName;
+    public $fullName;
     public $company;
     public $address1;
     public $address2;

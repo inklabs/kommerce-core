@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\Query;
 
+use inklabs\kommerce\Lib\Command\OrderServiceAwareInterface;
 use inklabs\kommerce\Lib\Command\PricingAwareInterface;
 use inklabs\kommerce\Lib\Command\TagServiceAwareInterface;
 use inklabs\kommerce\Lib\Pricing;
@@ -40,6 +41,10 @@ class QueryBus implements QueryBusInterface
 
         if (is_subclass_of($handlerClassName, TagServiceAwareInterface::class, true)) {
             $constructorParameters[] = $this->serviceFactory->getTagService();
+        }
+
+        if (is_subclass_of($handlerClassName, OrderServiceAwareInterface::class, true)) {
+            $constructorParameters[] = $this->serviceFactory->getOrder();
         }
 
         if (is_subclass_of($handlerClassName, PricingAwareInterface::class, true)) {
