@@ -7,9 +7,8 @@ class OptionValueRepository extends AbstractRepository implements OptionValueRep
 {
     public function findOneById($id)
     {
-        $qb = $this->getQueryBuilder();
-
-        $optionValues = $qb->select('OptionValue')
+        return $this->getQueryBuilder()
+            ->select('OptionValue')
             ->from('kommerce:OptionValue', 'OptionValue')
 
             ->addSelect('Option')
@@ -18,16 +17,13 @@ class OptionValueRepository extends AbstractRepository implements OptionValueRep
             ->where('OptionValue.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
-            ->getResult();
-
-        return $optionValues[0];
+            ->getSingleResult();
     }
 
     public function getAllOptionValuesByIds(array $optionValueIds, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $optionValues = $qb->select('OptionValue')
+        return $this->getQueryBuilder()
+            ->select('OptionValue')
             ->from('kommerce:OptionValue', 'OptionValue')
 
             ->addSelect('Option')
@@ -38,7 +34,5 @@ class OptionValueRepository extends AbstractRepository implements OptionValueRep
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $optionValues;
     }
 }

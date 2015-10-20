@@ -18,37 +18,31 @@ class CouponRepository extends AbstractRepository implements CouponRepositoryInt
 
     public function getAllCoupons($queryString = null, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $coupons = $qb->select('coupon')
+        $query = $this->getQueryBuilder()
+            ->select('coupon')
             ->from('kommerce:coupon', 'coupon');
 
         if ($queryString !== null) {
-            $coupons = $coupons
+            $query
                 ->where('coupon.name LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 
-        $coupons = $coupons
+        return $query
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $coupons;
     }
 
     public function getAllCouponsByIds($couponIds, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $coupons = $qb->select('coupon')
+        return $this->getQueryBuilder()
+            ->select('coupon')
             ->from('kommerce:Coupon', 'coupon')
             ->where('coupon.id IN (:couponIds)')
             ->setParameter('couponIds', $couponIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $coupons;
     }
 }

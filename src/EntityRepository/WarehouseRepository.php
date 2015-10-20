@@ -8,9 +8,7 @@ class WarehouseRepository extends AbstractRepository implements WarehouseReposit
 {
     public function findByPoint(Point $point, $rangeInMiles = 50, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $warehouses = $qb
+        return $this->getQueryBuilder()
             ->select('warehouse')
             ->from('kommerce:Warehouse', 'warehouse')
             ->withDistance($point)
@@ -18,7 +16,5 @@ class WarehouseRepository extends AbstractRepository implements WarehouseReposit
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $warehouses;
     }
 }

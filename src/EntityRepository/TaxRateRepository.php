@@ -12,19 +12,18 @@ class TaxRateRepository extends AbstractRepository implements TaxRateRepositoryI
             throw new InvalidArgumentException('Missing zip5 or state');
         }
 
-        $qb = $this->getQueryBuilder();
-
-        $query = $qb->select('tax_rate')
+        $query = $this->getQueryBuilder()
+            ->select('tax_rate')
             ->from('kommerce:TaxRate', 'tax_rate');
 
         if ($state !== null) {
-            $query = $query
+            $query
                 ->where('tax_rate.state = :state')
                 ->setParameter('state', $state);
         }
 
         if ($zip5 !== null) {
-            $query = $query
+            $query
                 ->orWhere('tax_rate.zip5 = :zip5')
                 ->orWhere('tax_rate.zip5From <= :zip5 AND tax_rate.zip5To >= :zip5')
                 ->setParameter('zip5', $zip5);

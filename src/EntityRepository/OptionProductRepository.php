@@ -7,9 +7,8 @@ class OptionProductRepository extends AbstractRepository implements OptionProduc
 {
     public function findOneById($id)
     {
-        $qb = $this->getQueryBuilder();
-
-        $optionValues = $qb->select('OptionProduct')
+        return $this->getQueryBuilder()
+            ->select('OptionProduct')
             ->from('kommerce:OptionProduct', 'OptionProduct')
 
             ->addSelect('Option')
@@ -21,16 +20,13 @@ class OptionProductRepository extends AbstractRepository implements OptionProduc
             ->where('OptionProduct.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
-            ->getResult();
-
-        return $optionValues[0];
+            ->getSingleResult();
     }
 
     public function getAllOptionProductsByIds($optionValueIds, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $optionValues = $qb->select('OptionProduct')
+        return $this->getQueryBuilder()
+            ->select('OptionProduct')
             ->from('kommerce:OptionProduct', 'OptionProduct')
 
             ->addSelect('Option')
@@ -44,7 +40,5 @@ class OptionProductRepository extends AbstractRepository implements OptionProduc
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $optionValues;
     }
 }

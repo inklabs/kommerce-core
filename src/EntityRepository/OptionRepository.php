@@ -7,38 +7,32 @@ class OptionRepository extends AbstractRepository implements OptionRepositoryInt
 {
     public function getAllOptionsByIds(array $optionIds, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $options = $qb->select('Option')
+        return $this->getQueryBuilder()
+            ->select('Option')
             ->from('kommerce:Option', 'Option')
             ->where('Option.id IN (:optionIds)')
             ->setParameter('optionIds', $optionIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $options;
     }
 
     public function getAllOptions($queryString, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $options = $qb->select('option')
+        $query = $this->getQueryBuilder()
+            ->select('option')
             ->from('kommerce:Option', 'option');
 
         if ($queryString !== null) {
-            $options = $options
+            $query
                 ->where('option.name LIKE :query')
                 ->orWhere('option.description LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 
-        $options = $options
+        return $query
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $options;
     }
 }

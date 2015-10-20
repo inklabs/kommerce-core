@@ -7,16 +7,13 @@ class TextOptionRepository extends AbstractRepository implements TextOptionRepos
 {
     public function getAllTextOptionsByIds($optionIds, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $options = $qb->select('TextOption')
+        return $this->getQueryBuilder()
+            ->select('TextOption')
             ->from('kommerce:TextOption', 'TextOption')
             ->where('TextOption.id IN (:optionIds)')
             ->setParameter('optionIds', $optionIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $options;
     }
 }
