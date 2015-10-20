@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Tag;
 
 use inklabs\kommerce\Lib\Query\RequestInterface;
 
-class GetTagRequest implements RequestInterface
+final class GetTagRequest implements RequestInterface
 {
     /** @var int */
     private $tagId;

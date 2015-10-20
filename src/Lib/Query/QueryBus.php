@@ -1,80 +1,21 @@
 <?php
 namespace inklabs\kommerce\Lib\Query;
 
-use inklabs\kommerce\Lib\Command\OrderServiceAwareInterface;
-use inklabs\kommerce\Lib\Command\PricingAwareInterface;
-use inklabs\kommerce\Lib\Command\TagServiceAwareInterface;
-use inklabs\kommerce\Lib\Pricing;
-use inklabs\kommerce\Service\ServiceFactory;
-use ReflectionClass;
+use inklabs\kommerce\Lib\Mapper;
 
 class QueryBus implements QueryBusInterface
 {
-    /** @var ServiceFactory */
-    private $serviceFactory;
+    /** @var Mapper */
+    private $mapper;
 
-    /** @var Pricing */
-    private $pricing;
-
-    public function __construct(
-        ServiceFactory $serviceFactory,
-        Pricing $pricing
-    ) {
-        $this->serviceFactory = $serviceFactory;
-        $this->pricing = $pricing;
+    public function __construct(Mapper $mapper)
+    {
+        $this->mapper = $mapper;
     }
 
     public function execute(RequestInterface $request, ResponseInterface & $response)
     {
-        $handlerClassName = $this->getHandlerClassName($request);
-        $handler = $this->getHandler($handlerClassName);
+        $handler = $this->mapper->getQueryHandler($request);
         $handler->handle($request, $response);
-    }
-
-    /**
-     * @param string $handlerClassName
-     * @return QueryHandlerInterface
-     */
-    private function getHandler($handlerClassName)
-    {
-        $constructorParameters = [];
-
-        if (is_subclass_of($handlerClassName, TagServiceAwareInterface::class, true)) {
-            $constructorParameters[] = $this->serviceFactory->getTagService();
-        }
-
-        if (is_subclass_of($handlerClassName, OrderServiceAwareInterface::class, true)) {
-            $constructorParameters[] = $this->serviceFactory->getOrder();
-        }
-
-        if (is_subclass_of($handlerClassName, PricingAwareInterface::class, true)) {
-            $constructorParameters[] = $this->pricing;
-        }
-
-        $reflection = new ReflectionClass($handlerClassName);
-        $handler = null;
-        if (! empty($constructorParameters)) {
-            $handler = $reflection->newInstanceArgs($constructorParameters);
-        }
-
-        return $handler;
-    }
-
-    /**
-     * @param RequestInterface $command
-     * @return string
-     */
-    private function getHandlerClassName(RequestInterface $command)
-    {
-        $className = get_class($command);
-        $pieces = explode('\\', $className);
-
-        $baseName = array_pop($pieces);
-        $handlerBaseName = substr($baseName, 0, -7) . 'Handler';
-
-        $pieces[] = 'Handler';
-        $pieces[] = $handlerBaseName;
-
-        return implode('\\', $pieces);
     }
 }

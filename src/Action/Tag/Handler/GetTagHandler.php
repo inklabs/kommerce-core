@@ -3,12 +3,10 @@ namespace inklabs\kommerce\Action\Tag\Handler;
 
 use inklabs\kommerce\Action\Tag\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Response\GetTagResponseInterface;
-use inklabs\kommerce\Lib\Command\PricingAwareInterface;
-use inklabs\kommerce\Lib\Command\TagServiceAwareInterface;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\TagServiceInterface;
 
-class GetTagHandler implements TagServiceAwareInterface, PricingAwareInterface
+class GetTagHandler
 {
     /** @var TagServiceInterface */
     private $tagService;

@@ -1,10 +1,9 @@
 <?php
 namespace inklabs\kommerce\Action\Tag\Handler;
 
-use inklabs\kommerce\Lib\Command\TagServiceAwareInterface;
 use inklabs\kommerce\Service\TagServiceInterface;
 
-abstract class AbstractTagHandler implements TagServiceAwareInterface
+abstract class AbstractTagHandler
 {
     /** @var TagServiceInterface */
     protected $tagService;

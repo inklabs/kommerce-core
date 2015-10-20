@@ -4,10 +4,9 @@ namespace inklabs\kommerce\Action\Tag\Handler;
 use inklabs\kommerce\Action\Tag\ListTagsRequest;
 use inklabs\kommerce\Action\Tag\Response\ListTagsResponseInterface;
 use inklabs\kommerce\Entity\Pagination;
-use inklabs\kommerce\Lib\Command\TagServiceAwareInterface;
 use inklabs\kommerce\Service\TagServiceInterface;
 
-class ListTagsHandler implements TagServiceAwareInterface
+class ListTagsHandler
 {
     /** @var TagServiceInterface */
     private $tagService;

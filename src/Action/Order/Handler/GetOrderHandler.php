@@ -3,11 +3,9 @@ namespace inklabs\kommerce\Action\Order\Handler;
 
 use inklabs\kommerce\Action\Order\GetOrderRequest;
 use inklabs\kommerce\Action\Order\Response\GetOrderResponseInterface;
-use inklabs\kommerce\Lib\Command\PricingAwareInterface;
-use inklabs\kommerce\Lib\Command\OrderServiceAwareInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 
-class GetOrderHandler implements OrderServiceAwareInterface, PricingAwareInterface
+class GetOrderHandler
 {
     /** @var OrderServiceInterface */
     private $orderService;

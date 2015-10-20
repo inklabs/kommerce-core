@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\tests\Helper;
 
+use inklabs\kommerce\Lib\Mapper;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
@@ -109,14 +110,27 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return $this->countSQLLogger->getTotalQueries();
     }
 
-    protected function getCommandBus(CartCalculatorInterface $cartCalculator = null)
+    protected function getMapper(ServiceFactory $serviceFactory = null, Pricing $pricing = null)
     {
-        return new CommandBus($this->getServiceFactory($cartCalculator));
+        if ($serviceFactory === null) {
+            $serviceFactory = $this->getServiceFactory();
+        }
+
+        if ($pricing === null) {
+            $pricing = new Pricing;
+        }
+
+        return new Mapper($serviceFactory, $pricing);
     }
 
-    protected function getQueryBus(CartCalculatorInterface $cartCalculator = null)
+    protected function getCommandBus()
     {
-        return new QueryBus($this->getServiceFactory($cartCalculator), new Pricing);
+        return new CommandBus($this->getMapper());
+    }
+
+    protected function getQueryBus()
+    {
+        return new QueryBus($this->getMapper());
     }
 
     protected function getEventDispatcher()

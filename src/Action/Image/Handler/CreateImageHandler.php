@@ -2,10 +2,9 @@
 namespace inklabs\kommerce\Action\Image\Handler;
 
 use inklabs\kommerce\Action\Image\CreateImageCommand;
-use inklabs\kommerce\Lib\Command\ImageServiceAwareInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 
-class CreateImageHandler implements ImageServiceAwareInterface
+class CreateImageHandler
 {
     /** @var ImageServiceInterface */
     protected $imageService;

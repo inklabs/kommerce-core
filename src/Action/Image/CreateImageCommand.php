@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\Image;
 use inklabs\kommerce\EntityDTO\ImageDTO;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 
-class CreateImageCommand implements CommandInterface
+final class CreateImageCommand implements CommandInterface
 {
     /** @var ImageDTO */
     private $imageDTO;

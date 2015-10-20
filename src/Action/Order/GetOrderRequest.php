@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Order;
 
 use inklabs\kommerce\Lib\Query\RequestInterface;
 
-class GetOrderRequest implements RequestInterface
+final class GetOrderRequest implements RequestInterface
 {
     /** @var int */
     private $orderId;
