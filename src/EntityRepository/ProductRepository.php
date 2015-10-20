@@ -28,9 +28,8 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
 
     public function getRelatedProductsByIds(array $productIds, $tagIds = null, $limit = 12)
     {
-        $qb = $this->getQueryBuilder();
-
-        $query = $qb->select('product')
+        $query = $this->getQueryBuilder()
+            ->select('product')
             ->from('kommerce:Product', 'product')
             ->where('product.id NOT IN (:productId)')
             ->setParameter('productId', $productIds)
@@ -42,17 +41,15 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
             ->setMaxResults($limit);
 
         if (! empty($tagIds)) {
-            $query = $query
+            $query
                 ->innerJoin('product.tags', 'tag')
                 ->andWhere('tag.id IN (:tagIds)')
                 ->setParameter('tagIds', $tagIds);
         }
 
-        $products = $query
+        return $query
             ->getQuery()
             ->getResult();
-
-        return $products;
     }
 
     public function getProductsByTag(Tag $tag, Pagination & $pagination = null)
@@ -104,9 +101,8 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
 
     public function getProductsByIds(array $productIds, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $products = $qb->select('product')
+        $products = $this->getQueryBuilder()
+            ->select('product')
             ->from('kommerce:Product', 'product')
             ->where('product.id IN (:productIds)')
             ->productActiveAndVisible()
@@ -123,46 +119,39 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
 
     public function getAllProducts($queryString = null, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $products = $qb->select('product')
+        $query = $this->getQueryBuilder()
+            ->select('product')
             ->from('kommerce:Product', 'product');
 
         if (trim($queryString) !== '') {
-            $products = $products
+            $query
                 ->where('product.sku LIKE :query')
                 ->orWhere('product.name LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 
-        $products = $products
+        return $query
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $products;
     }
 
     public function getAllProductsByIds(array $productIds, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $products = $qb->select('product')
+        return $this->getQueryBuilder()
+            ->select('product')
             ->from('kommerce:Product', 'product')
             ->where('product.id IN (:productIds)')
             ->setParameter('productIds', $productIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
-
-        return $products;
     }
 
     public function getRandomProducts($limit)
     {
-        $qb = $this->getQueryBuilder();
-
-        $products = $qb->select('product')
+        return $this->getQueryBuilder()
+            ->select('product')
             ->from('kommerce:Product', 'product')
             ->productActiveAndVisible()
             ->productAvailable()
@@ -171,7 +160,5 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
-
-        return $products;
     }
 }
