@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 use inklabs\kommerce\Lib\Query\RequestInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
-use inklabs\kommerce\Service\OrderService;
+use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\Service\TagServiceInterface;
 use ReflectionClass;
@@ -60,7 +60,7 @@ class Mapper
                 $constructorParameters[] = $this->serviceFactory->getTagService();
             } elseif ($parameterClassName === ImageServiceInterface::class) {
                 $constructorParameters[] = $this->serviceFactory->getImageService();
-            } elseif ($parameterClassName === OrderService::class) {
+            } elseif ($parameterClassName === OrderServiceInterface::class) {
                 $constructorParameters[] = $this->serviceFactory->getOrder();
             } elseif ($parameterClassName === Pricing::class) {
                 $constructorParameters[] = $this->pricing;
