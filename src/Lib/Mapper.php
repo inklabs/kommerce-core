@@ -1,9 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
-use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 use inklabs\kommerce\Lib\Query\RequestInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
@@ -11,7 +9,7 @@ use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\Service\TagServiceInterface;
 use ReflectionClass;
 
-class Mapper
+class Mapper implements MapperInterface
 {
     /** @var ServiceFactory */
     private $serviceFactory;
@@ -25,20 +23,12 @@ class Mapper
         $this->pricing = $pricing;
     }
 
-    /**
-     * @param CommandInterface $command
-     * @return CommandHandlerInterface
-     */
     public function getCommandHandler(CommandInterface $command)
     {
         $handlerClassName = $this->getHandlerClassName($command);
         return $this->getHandler($handlerClassName);
     }
 
-    /**
-     * @param RequestInterface $request
-     * @return QueryHandlerInterface
-     */
     public function getQueryHandler(RequestInterface $request)
     {
         $handlerClassName = $this->getHandlerClassName($request);
