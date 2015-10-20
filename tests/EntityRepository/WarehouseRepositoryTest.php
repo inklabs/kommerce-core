@@ -93,8 +93,6 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($warehouse instanceof Warehouse);
 
-        // Correct distance is 14.421 miles.
-        // Check scalar distance column is within 5 miles (for Sqlite).
-        $this->assertTrue(($distance - 14.421) < 5);
+        $this->assertEquals(14.421, $distance, null, FLOAT_DELTA);
     }
 }

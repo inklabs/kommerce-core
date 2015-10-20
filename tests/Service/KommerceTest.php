@@ -37,21 +37,21 @@ class KommerceTest extends Helper\DoctrineTestCase
 
     public function testGetEntityManager()
     {
-        $this->assertTrue($this->kommerce->getEntityManager() instanceof Doctrine\ORM\EntityManager);
+        $this->assertTrue($this->doctrineHelper->getEntityManager() instanceof Doctrine\ORM\EntityManager);
     }
 
     public function testSetupSqlLogger()
     {
-        $this->kommerce->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
+        $this->doctrineHelper->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
     }
 
     public function testAddSqliteFunctions()
     {
-        $this->kommerce->addSqliteFunctions();
+        $this->doctrineHelper->addSqliteFunctions();
     }
 
     public function testAddMysqlFunctions()
     {
-        $this->kommerce->addMysqlFunctions();
+        $this->doctrineHelper->addMysqlFunctions();
     }
 }

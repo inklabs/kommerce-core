@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Lib;
 
 use Doctrine;
 use inklabs\kommerce\Doctrine\Extensions\TablePrefix;
-use \inklabs\kommerce\Doctrine\Functions as DoctrineFunctions;
+use inklabs\kommerce\Doctrine\Functions as DoctrineFunctions;
 
 class DoctrineHelper
 {
@@ -66,8 +66,18 @@ class DoctrineHelper
 
     public function addSqliteFunctions()
     {
-        $this->config->addCustomNumericFunction('RAND', DoctrineFunctions\Sqlite\Rand::class);
-        $this->config->addCustomNumericFunction('DISTANCE', DoctrineFunctions\Sqlite\Distance::class);
+        $pdo = $this->entityManager->getConnection()->getWrappedConnection();
+        $pdo->sqliteCreateFunction('acos', 'acos');
+        $pdo->sqliteCreateFunction('cos', 'cos');
+        $pdo->sqliteCreateFunction('sin', 'sin');
+        $pdo->sqliteCreateFunction('radians', 'deg2rad');
+        $pdo->sqliteCreateFunction('rand', function ($seed = null) {
+            if (isset($seed)) {
+                mt_srand($seed);
+            }
+
+            return mt_rand() / mt_getrandmax();
+        });
     }
 
     public function addMysqlFunctions()

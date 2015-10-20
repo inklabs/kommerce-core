@@ -33,7 +33,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     protected $entityManager;
 
     /** @var DoctrineHelper */
-    protected $kommerce;
+    protected $doctrineHelper;
 
     /** @var CountSQLLogger */
     protected $countSQLLogger;
@@ -67,14 +67,15 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     private function getConnection()
     {
-        $this->kommerce = new DoctrineHelper(new Doctrine\Common\Cache\ArrayCache());
-        $this->kommerce->addSqliteFunctions();
-        $this->kommerce->setup([
+        $this->doctrineHelper = new DoctrineHelper(new Doctrine\Common\Cache\ArrayCache());
+        $this->doctrineHelper->setup([
             'driver' => 'pdo_sqlite',
             'memory' => true,
         ]);
+        $this->doctrineHelper->addMysqlFunctions();
+        $this->doctrineHelper->addSqliteFunctions();
 
-        $this->entityManager = $this->kommerce->getEntityManager();
+        $this->entityManager = $this->doctrineHelper->getEntityManager();
     }
 
     private function setupTestSchema()
@@ -96,13 +97,13 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     public function setEchoLogger()
     {
-        $this->kommerce->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
+        $this->doctrineHelper->setSqlLogger(new Doctrine\DBAL\Logging\EchoSQLLogger);
     }
 
     public function setCountLogger($enableDisplay = false)
     {
         $this->countSQLLogger = new CountSQLLogger($enableDisplay);
-        $this->kommerce->setSqlLogger($this->countSQLLogger);
+        $this->doctrineHelper->setSqlLogger($this->countSQLLogger);
     }
 
     public function getTotalQueries()
