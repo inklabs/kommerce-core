@@ -14,19 +14,18 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
 
     public function getAllTags($queryString = null, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        $tags = $qb->select('tag')
+        $query = $this->getQueryBuilder()
+            ->select('tag')
             ->from('kommerce:tag', 'tag');
 
         if (trim($queryString) !== '') {
-            $tags
+            $query
                 ->orWhere('tag.name LIKE :query')
                 ->orWhere('tag.code LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 
-        return $tags
+        return $query
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
@@ -34,9 +33,8 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
 
     public function getTagsByIds($tagIds, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        return $qb->select('tag')
+        return $this->getQueryBuilder()
+            ->select('tag')
             ->from('kommerce:Tag', 'tag')
             ->where('tag.id IN (:tagIds)')
             ->tagActiveAndVisible()
@@ -48,9 +46,8 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
 
     public function getAllTagsByIds($tagIds, Pagination & $pagination = null)
     {
-        $qb = $this->getQueryBuilder();
-
-        return $qb->select('tag')
+        return $this->getQueryBuilder()
+            ->select('tag')
             ->from('kommerce:Tag', 'tag')
             ->where('tag.id IN (:tagIds)')
             ->setParameter('tagIds', $tagIds)
