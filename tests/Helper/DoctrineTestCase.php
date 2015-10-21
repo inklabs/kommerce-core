@@ -72,7 +72,6 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
             'driver' => 'pdo_sqlite',
             'memory' => true,
         ]);
-        $this->doctrineHelper->addMysqlFunctions();
         $this->doctrineHelper->addSqliteFunctions();
 
         $this->entityManager = $this->doctrineHelper->getEntityManager();

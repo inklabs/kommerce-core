@@ -64,6 +64,19 @@ class DoctrineHelper
         $this->entityManagerConfiguration->setSQLLogger($sqlLogger);
     }
 
+    public function setup(array $dbParams)
+    {
+        $this->entityManager = Doctrine\ORM\EntityManager::create($dbParams, $this->config, $this->eventManager);
+        $this->entityManagerConfiguration = $this->entityManager->getConnection()->getConfiguration();
+        $this->addMysqlFunctions();
+    }
+
+    public function addMysqlFunctions()
+    {
+        $this->config->addCustomNumericFunction('RAND', DoctrineFunctions\Mysql\Rand::class);
+        $this->config->addCustomNumericFunction('DISTANCE', DoctrineFunctions\Mysql\Distance::class);
+    }
+
     public function addSqliteFunctions()
     {
         $pdo = $this->entityManager->getConnection()->getWrappedConnection();
@@ -78,17 +91,5 @@ class DoctrineHelper
 
             return mt_rand() / mt_getrandmax();
         });
-    }
-
-    public function addMysqlFunctions()
-    {
-        $this->config->addCustomNumericFunction('RAND', DoctrineFunctions\Mysql\Rand::class);
-        $this->config->addCustomNumericFunction('DISTANCE', DoctrineFunctions\Mysql\Distance::class);
-    }
-
-    public function setup(array $dbParams)
-    {
-        $this->entityManager = Doctrine\ORM\EntityManager::create($dbParams, $this->config, $this->eventManager);
-        $this->entityManagerConfiguration = $this->entityManager->getConnection()->getConfiguration();
     }
 }
