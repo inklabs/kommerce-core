@@ -19,6 +19,8 @@ abstract class AbstractTagHandlerTestCase extends DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->fakeTagRepository = new FakeTagRepository;
         $this->tagService = new TagService($this->fakeTagRepository);
         $this->pricing = new Pricing;

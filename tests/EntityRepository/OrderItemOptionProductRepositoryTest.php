@@ -23,6 +23,7 @@ class OrderItemOptionProductRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->orderItemOptionProductRepository = $this->getRepositoryFactory()->getOrderItemOptionProductRepository();
     }
 

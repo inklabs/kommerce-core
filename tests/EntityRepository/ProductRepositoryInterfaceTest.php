@@ -14,6 +14,7 @@ class ProductRepositoryInterfaceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->productRepository = new FakeProductRepository;
     }
 

@@ -18,6 +18,7 @@ class ProductAttributeRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->productAttributeRepository = $this->getRepositoryFactory()->getProductAttributeRepository();
     }
 

@@ -19,6 +19,8 @@ class OrderServiceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->orderRepository = new FakeOrderRepository;
         $this->productRepository = new FakeProductRepository;
 

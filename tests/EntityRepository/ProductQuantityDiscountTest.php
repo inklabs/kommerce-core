@@ -16,6 +16,7 @@ class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->productQuantityDiscountRepository = $this->getRepositoryFactory()
             ->getProductQuantityDiscountRepository();
     }

@@ -17,6 +17,7 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->warehouseRepository = $this->getRepositoryFactory()->getWarehouseRepository();
     }
 

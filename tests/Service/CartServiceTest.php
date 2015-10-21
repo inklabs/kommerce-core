@@ -64,6 +64,8 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->cartRepository = new FakeCartRepository;
         $this->productRepository = new FakeProductRepository;
         $this->optionProductRepository = new FakeOptionProductRepository;

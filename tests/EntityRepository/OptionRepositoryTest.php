@@ -20,6 +20,7 @@ class OptionRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->optionRepository = $this->getRepositoryFactory()->getOptionRepository();
     }
 

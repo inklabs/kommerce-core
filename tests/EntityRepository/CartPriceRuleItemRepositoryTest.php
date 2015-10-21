@@ -20,6 +20,7 @@ class CartPriceRuleItemRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->cartPriceRuleItemRepository = $this->getRepositoryFactory()->getCartPriceRuleItemRepository();
     }
 

@@ -30,6 +30,8 @@ class CreateImageHandlerTest extends DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->fakeImageRepository = new FakeImageRepository;
         $this->fakeTagRepository = new FakeTagRepository;
         $this->fakeProductRepository = new FakeProductRepository;

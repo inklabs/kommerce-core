@@ -13,6 +13,8 @@ class ServiceFactoryTest extends Helper\DoctrineTestCase
 {
     public function setUp()
     {
+        parent::setUp();
+
         $this->setupEntityManager();
     }
 

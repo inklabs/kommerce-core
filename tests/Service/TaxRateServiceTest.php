@@ -15,6 +15,7 @@ class TaxRateServiceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->taxRateRepository = new FakeTaxRateRepository;
         $this->taxRateService = new TaxRateService($this->taxRateRepository);
     }

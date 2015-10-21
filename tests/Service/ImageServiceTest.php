@@ -25,6 +25,8 @@ class ImageServiceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->imageRepository = new FakeImageRepository;
         $this->productRepository = new FakeProductRepository;
         $this->tagRepository = new FakeTagRepository;

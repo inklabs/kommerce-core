@@ -18,6 +18,7 @@ class AttributeValueRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->attributeValueRepository = $this->getRepositoryFactory()->getAttributeValueRepository();
     }
 

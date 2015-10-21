@@ -15,6 +15,7 @@ class CartPriceRuleServiceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->cartPriceRuleRepository = new FakeCartPriceRuleRepository;
         $this->cartPriceRuleService = new CartPriceRuleService($this->cartPriceRuleRepository);
     }

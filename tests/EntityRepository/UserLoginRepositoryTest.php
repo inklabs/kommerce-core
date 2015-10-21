@@ -18,6 +18,7 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->userLoginRepository = $this->getRepositoryFactory()->getUserLoginRepository();
     }
 

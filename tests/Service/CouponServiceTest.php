@@ -15,6 +15,8 @@ class CouponServiceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->couponRepository = new FakeCouponRepository;
         $this->couponService = new CouponService($this->couponRepository);
     }

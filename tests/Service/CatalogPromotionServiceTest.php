@@ -15,6 +15,8 @@ class CatalogPromotionServiceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->catalogPromotionRepository = new FakeCatalogPromotionRepository;
         $this->catalogPromotionService = new CatalogPromotionService($this->catalogPromotionRepository);
     }

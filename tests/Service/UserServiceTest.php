@@ -19,6 +19,7 @@ class UserServiceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->userRepository = new FakeUserRepository;
         $this->userLoginRepository = new FakeUserLoginRepository;
 

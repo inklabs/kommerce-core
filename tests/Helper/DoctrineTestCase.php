@@ -44,10 +44,8 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     /** @var DummyData */
     protected $dummyData;
 
-    public function __construct($name = null, array $data = array(), $dataName = '')
+    public function setUp()
     {
-        parent::__construct($name, $data, $dataName);
-
         if ($this->metaDataClassNames !== null) {
             $this->setupEntityManager();
         }
@@ -79,8 +77,6 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     private function setupTestSchema()
     {
-        $this->entityManager->clear();
-
         if ($this->metaDataClassNames === null) {
             $classes = $this->entityManager->getMetaDataFactory()->getAllMetaData();
         } else {

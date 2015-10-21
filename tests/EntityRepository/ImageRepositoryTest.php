@@ -18,6 +18,7 @@ class ImageRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->imageRepository = $this->getRepositoryFactory()->getImageRepository();
     }
 

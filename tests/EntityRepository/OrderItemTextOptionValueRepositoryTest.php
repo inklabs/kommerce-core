@@ -22,6 +22,7 @@ class OrderItemTextOptionValueRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->orderItemTextOptionValueRepository = $this->getRepositoryFactory()
             ->getOrderItemTextOptionValueRepository();
     }

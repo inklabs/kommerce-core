@@ -15,6 +15,7 @@ class TagServiceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->tagRepository = new FakeTagRepository;
         $this->tagService = new TagService($this->tagRepository);
     }

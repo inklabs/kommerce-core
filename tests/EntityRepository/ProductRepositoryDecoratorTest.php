@@ -8,6 +8,7 @@ class ProductRepositoryDecoratorTest extends ProductRepositoryInterfaceTest
 {
     public function setUp()
     {
+        parent::setUp();
         $this->productRepository = new ProductRepositoryDecorator(new FakeProductRepository);
     }
 }

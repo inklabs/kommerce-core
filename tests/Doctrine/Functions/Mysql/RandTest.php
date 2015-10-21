@@ -21,6 +21,8 @@ class RandTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->product1 = $this->dummyData->getProduct(1);
         $this->product2 = $this->dummyData->getProduct(2);
         $this->product3 = $this->dummyData->getProduct(3);

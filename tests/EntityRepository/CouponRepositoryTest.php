@@ -16,6 +16,7 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->couponRepository = $this->getRepositoryFactory()->getCouponRepository();
     }
 

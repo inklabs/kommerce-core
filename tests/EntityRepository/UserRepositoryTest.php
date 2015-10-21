@@ -22,6 +22,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->userRepository = $this->getRepositoryFactory()->getUserRepository();
     }
 

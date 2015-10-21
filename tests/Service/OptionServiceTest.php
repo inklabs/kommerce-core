@@ -15,6 +15,7 @@ class OptionServiceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->optionRepository = new FakeOptionRepository;
         $this->optionService = new OptionService($this->optionRepository);
     }

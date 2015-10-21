@@ -15,6 +15,7 @@ class AttributeValueServiceTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->attributeValueRepository = new FakeAttributeValueRepository;
         $this->attributeValueService = new AttributeValueService($this->attributeValueRepository);
     }

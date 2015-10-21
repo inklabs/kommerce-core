@@ -19,6 +19,8 @@ abstract class AbstractOrderHandlerTestCase extends DoctrineTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->fakeOrderRepository = new FakeOrderRepository;
         $this->fakeProductRepository = new FakeProductRepository;
         $this->orderService = new OrderService(
