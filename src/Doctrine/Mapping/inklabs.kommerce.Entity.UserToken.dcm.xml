@@ -20,6 +20,12 @@
 
         <field name="userAgent" type="string" length="200"/>
 
+        <field name="ip4" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <field name="tokenHash" type="string" length="60">
             <options>
                 <option name="fixed">true</option>

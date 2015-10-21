@@ -140,4 +140,13 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $this->assertTrue($user instanceof User);
         $this->assertSame(2, $this->getTotalQueries());
     }
+
+    /**
+     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage User not found
+     */
+    public function testFindOneByEmailThrowsException()
+    {
+        $this->userRepository->findOneByEmail('test1@example.com');
+    }
 }

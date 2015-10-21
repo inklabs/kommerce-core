@@ -7,16 +7,18 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
 {
     public function findOneByEmail($email)
     {
-        return $this->getQueryBuilder()
-            ->select('user')
-            ->from('kommerce:User', 'user')
+        return $this->returnOrThrowNotFoundException(
+            $this->getQueryBuilder()
+                ->select('user')
+                ->from('kommerce:User', 'user')
 
-            ->addSelect('userRole')
-            ->leftJoin('user.roles', 'userRole')
+                ->addSelect('userRole')
+                ->leftJoin('user.roles', 'userRole')
 
-            ->where('user.email = :email')->setParameter('email', $email)
-            ->getQuery()
-            ->getSingleResult();
+                ->where('user.email = :email')->setParameter('email', $email)
+                ->getQuery()
+                ->getOneOrNullResult()
+        );
     }
 
     public function findOneByExternalId($externalId)
