@@ -86,6 +86,10 @@ class UserToken implements EntityInterface, ValidationInterface
         $this->ip4 = (int) ip2long($ip4);
     }
 
+    /**
+     * TODO: PHP7 - bin2hex(random_bytes($n))
+     * @return string
+     */
     public static function getRandomToken()
     {
         return bin2hex(openssl_random_pseudo_bytes(20));
