@@ -142,6 +142,7 @@ class UserService extends AbstractService implements UserServiceInterface
             new ResetPasswordEvent(
                 $user->getId(),
                 $user->getEmail(),
+                $user->getFullName(),
                 $token
             )
         );

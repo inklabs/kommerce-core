@@ -19,7 +19,7 @@ class OrderAddressDTOBuilder
         $this->orderAddressDTO = new OrderAddressDTO;
         $this->orderAddressDTO->firstName = $this->orderAddress->firstName;
         $this->orderAddressDTO->lastName  = $this->orderAddress->lastName;
-        $this->orderAddressDTO->fullName  = trim($this->orderAddress->firstName . ' ' . $this->orderAddress->lastName);
+        $this->orderAddressDTO->fullName  = $this->orderAddress->getFullName();
         $this->orderAddressDTO->company   = $this->orderAddress->company;
         $this->orderAddressDTO->address1  = $this->orderAddress->address1;
         $this->orderAddressDTO->address2  = $this->orderAddress->address2;

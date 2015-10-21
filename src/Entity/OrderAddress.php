@@ -72,6 +72,11 @@ class OrderAddress implements ValidationInterface
         ]));
     }
 
+    public function getFullName()
+    {
+        return trim($this->firstName . ' ' . $this->lastName);
+    }
+
     public function getDTOBuilder()
     {
         return new OrderAddressDTOBuilder($this);

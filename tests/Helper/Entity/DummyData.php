@@ -552,6 +552,7 @@ class DummyData
         $userToken = new UserToken;
         $userToken->setUserAgent('SampleBot/1.1');
         $userToken->setToken('xxxx');
+        $userToken->setIp4('8.8.8.8');
         $userToken->setexpires(new DateTime);
         $userToken->setType(UserToken::TYPE_FACEBOOK);
 
