@@ -194,7 +194,9 @@ class ServiceFactory
     {
         return new UserService(
             $this->repositoryFactory->getUserRepository(),
-            $this->repositoryFactory->getUserLoginRepository()
+            $this->repositoryFactory->getUserLoginRepository(),
+            $this->repositoryFactory->getUserTokenRepository(),
+            $this->eventDispatcher
         );
     }
 }

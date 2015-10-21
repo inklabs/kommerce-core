@@ -6,6 +6,8 @@ class EventDispatcher implements EventDispatcherInterface
     /** @var string[][] */
     private $listeners;
 
+    protected $dispatchedEvents = [];
+
     public function addSubscriber(EventSubscriberInterface $subscriber)
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $methodName) {

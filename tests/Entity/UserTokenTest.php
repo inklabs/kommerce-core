@@ -35,4 +35,12 @@ class UserTokenTest extends \PHPUnit_Framework_TestCase
         $userToken->setExpires(null);
         $this->assertSame(null, $userToken->getExpires());
     }
+
+    public function testSetRandomToken()
+    {
+        $userToken = new UserToken;
+        $userToken->setTokenRandom();
+
+        $this->assertSame(40, strlen($userToken->getToken()));
+    }
 }

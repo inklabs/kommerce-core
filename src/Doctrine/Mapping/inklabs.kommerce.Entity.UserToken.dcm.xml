@@ -18,9 +18,9 @@
             </options>
         </id>
 
-        <field name="userAgent" type="string" length="40"/>
+        <field name="userAgent" type="string" length="200"/>
 
-        <field name="token" type="string" length="40"/>
+        <field name="token" type="string" length="40" unique="true"/>
 
         <field name="expires" type="integer" nullable="true">
             <options>
@@ -28,7 +28,7 @@
             </options>
         </field>
 
-        <field name="type" type="smallint">
+        <field name="type" type="smallint" nullable="false">
             <options>
                 <option name="unsigned">true</option>
             </options>

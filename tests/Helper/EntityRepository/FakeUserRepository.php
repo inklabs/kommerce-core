@@ -13,6 +13,9 @@ class FakeUserRepository extends AbstractFakeRepository implements UserRepositor
 {
     protected $entityName = 'User';
 
+    /** @var User[] */
+    protected $entities = [];
+
     public function __construct()
     {
         $this->setReturnValue(new User);
@@ -20,7 +23,11 @@ class FakeUserRepository extends AbstractFakeRepository implements UserRepositor
 
     public function findOneByEmail($email)
     {
-        return $this->getReturnValue();
+        foreach ($this->entities as $entity) {
+            if ($entity->getEmail() === $email) {
+                return $entity;
+            }
+        }
     }
 
     public function findOneByExternalId($externalId)

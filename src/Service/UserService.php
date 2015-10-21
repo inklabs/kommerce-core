@@ -1,14 +1,18 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use DateTime;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
+use inklabs\kommerce\Event\ResetPasswordEvent;
+use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 
-class UserService extends AbstractService
+class UserService extends AbstractService implements UserServiceInterface
 {
     protected $userSessionKey = 'user';
 
@@ -18,12 +22,22 @@ class UserService extends AbstractService
     /** @var UserLoginRepositoryInterface */
     private $userLoginRepository;
 
+    /** @var UserTokenRepositoryInterface */
+    private $userTokenRepository;
+
+    /** @var EventDispatcherInterface */
+    private $eventDispatcher;
+
     public function __construct(
         UserRepositoryInterface $userRepository,
-        UserLoginRepositoryInterface $userLoginRepository
+        UserLoginRepositoryInterface $userLoginRepository,
+        UserTokenRepositoryInterface $userTokenRepository,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->userRepository = $userRepository;
         $this->userLoginRepository = $userLoginRepository;
+        $this->userTokenRepository = $userTokenRepository;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function create(User & $user)
@@ -32,19 +46,18 @@ class UserService extends AbstractService
         $this->userRepository->create($user);
     }
 
-    public function edit(User & $user)
+    public function update(User & $user)
     {
         $this->throwValidationErrors($user);
         $this->userRepository->update($user);
     }
 
-    /**
-     * @param string $email
-     * @param string $password
-     * @param string $remoteIp
-     * @return User
-     * @throws UserLoginException
-     */
+    public function delete($userId)
+    {
+        $tag = $this->userRepository->findOneById($userId);
+        $this->userRepository->delete($tag);
+    }
+
     public function login($email, $password, $remoteIp)
     {
         /** @var User $user */
@@ -90,30 +103,16 @@ class UserService extends AbstractService
         $this->userLoginRepository->create($userLogin);
     }
 
-    /**
-     * @param int $id
-     * @return User
-     * @throws EntityNotFoundException
-     */
     public function findOneById($id)
     {
         return $this->userRepository->findOneById($id);
     }
 
-    /**
-     * @param string $email
-     * @return User|null
-     */
     public function findOneByEmail($email)
     {
         return $this->userRepository->findOneByemail($email);
     }
 
-    /**
-     * @param string $queryString
-     * @param Pagination $pagination
-     * @return User[]
-     */
     public function getAllUsers($queryString = null, Pagination & $pagination = null)
     {
         return $this->userRepository->getAllUsers($queryString, $pagination);
@@ -122,5 +121,23 @@ class UserService extends AbstractService
     public function getAllUsersByIds($userIds, Pagination & $pagination = null)
     {
         return $this->userRepository->getAllUsersByIds($userIds, $pagination);
+    }
+
+    public function requestPasswordResetToken($email, $userAgent, $ip4)
+    {
+        $user = $this->userRepository->findOneByEmail($email);
+
+        $token = new UserToken;
+        $token->setTokenRandom();
+        $token->setUserAgent($userAgent);
+        $token->setIp4($ip4);
+        $token->setExpires(new DateTime('+1 day'));
+        $token->setUser($user);
+
+        $this->userTokenRepository->create($token);
+
+        $this->eventDispatcher->dispatchEvent(
+            new ResetPasswordEvent()
+        );
     }
 }

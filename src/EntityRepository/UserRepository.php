@@ -16,7 +16,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
 
             ->where('user.email = :email')->setParameter('email', $email)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getSingleResult();
     }
 
     public function findOneByExternalId($externalId)

@@ -13,6 +13,9 @@ class UserToken implements EntityInterface, ValidationInterface
     /** @var string */
     protected $userAgent;
 
+    /** @var int */
+    protected $ip4;
+
     /** @var string */
     protected $token;
 
@@ -21,10 +24,11 @@ class UserToken implements EntityInterface, ValidationInterface
 
     /** @var int */
     protected $type;
-    const TYPE_GOOGLE   = 0;
-    const TYPE_FACEBOOK = 1;
-    const TYPE_TWITTER  = 2;
-    const TYPE_YAHOO    = 3;
+    const TYPE_INTERNAL = 0;
+    const TYPE_GOOGLE   = 1;
+    const TYPE_FACEBOOK = 2;
+    const TYPE_TWITTER  = 3;
+    const TYPE_YAHOO    = 4;
 
     /** @var User */
     protected $user;
@@ -32,13 +36,18 @@ class UserToken implements EntityInterface, ValidationInterface
     public function __construct()
     {
         $this->setCreated();
+        $this->setType(self::TYPE_INTERNAL);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('userAgent', new Assert\NotBlank);
         $metadata->addPropertyConstraint('userAgent', new Assert\Length([
-            'max' => 40,
+            'max' => 200,
+        ]));
+
+        $metadata->addPropertyConstraint('ip4', new Assert\GreaterThanOrEqual([
+            'value' => 0,
         ]));
 
         $metadata->addPropertyConstraint('token', new Assert\NotBlank);
@@ -56,6 +65,9 @@ class UserToken implements EntityInterface, ValidationInterface
         ]));
     }
 
+    /**
+     * @param string $userAgent
+     */
     public function setUserAgent($userAgent)
     {
         $this->userAgent = $userAgent;
@@ -66,9 +78,25 @@ class UserToken implements EntityInterface, ValidationInterface
         return $this->userAgent;
     }
 
+    /**
+     * @param string $ip4
+     */
+    public function setIp4($ip4)
+    {
+        $this->ip4 = (int) ip2long($ip4);
+    }
+
+    /**
+     * @param string $token
+     */
     public function setToken($token)
     {
         $this->token = $token;
+    }
+
+    public function setTokenRandom()
+    {
+        $this->token = bin2hex(openssl_random_pseudo_bytes(20));
     }
 
     public function getToken()
@@ -76,6 +104,9 @@ class UserToken implements EntityInterface, ValidationInterface
         return $this->token;
     }
 
+    /**
+     * @param int $type
+     */
     public function setType($type)
     {
         $this->type = (int) $type;
@@ -89,6 +120,7 @@ class UserToken implements EntityInterface, ValidationInterface
     public static function getTypeMapping()
     {
         return [
+            static::TYPE_INTERNAL => 'Internal',
             static::TYPE_GOOGLE => 'Google',
             static::TYPE_FACEBOOK => 'Facebook',
             static::TYPE_TWITTER => 'Twitter',

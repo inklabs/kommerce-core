@@ -3,8 +3,10 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserLoginRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserTokenRepository;
 
 class UserServiceTest extends Helper\DoctrineTestCase
 {
@@ -14,6 +16,12 @@ class UserServiceTest extends Helper\DoctrineTestCase
     /** @var FakeUserLoginRepository */
     protected $userLoginRepository;
 
+    /** @var FakeUserTokenRepository */
+    protected $userTokenRepository;
+
+    /** @var FakeEventDispatcher */
+    protected $eventDispatcher;
+
     /** @var UserService */
     protected $userService;
 
@@ -22,10 +30,14 @@ class UserServiceTest extends Helper\DoctrineTestCase
         parent::setUp();
         $this->userRepository = new FakeUserRepository;
         $this->userLoginRepository = new FakeUserLoginRepository;
+        $this->userTokenRepository = new FakeUserTokenRepository;
+        $this->eventDispatcher = new FakeEventDispatcher;
 
         $this->userService = new UserService(
             $this->userRepository,
-            $this->userLoginRepository
+            $this->userLoginRepository,
+            $this->userTokenRepository,
+            $this->eventDispatcher
         );
     }
 
@@ -36,14 +48,14 @@ class UserServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($user instanceof User);
     }
 
-    public function testEdit()
+    public function testUpdate()
     {
         $newName = 'New Name';
         $user = $this->dummyData->getUser();
         $this->assertNotSame($newName, $user->getFirstName());
 
         $user->setFirstName($newName);
-        $this->userService->edit($user);
+        $this->userService->update($user);
         $this->assertSame($newName, $user->getFirstName());
     }
 
@@ -56,6 +68,9 @@ class UserServiceTest extends Helper\DoctrineTestCase
 
     public function testFindOneByEmail()
     {
+        $user = $this->dummyData->getUser();
+        $this->userRepository->create($user);
+
         $user = $this->userService->findOneByEmail('test1@example.com');
         $this->assertTrue($user instanceof User);
     }
@@ -63,11 +78,11 @@ class UserServiceTest extends Helper\DoctrineTestCase
     public function testUserLogin()
     {
         $user = $this->dummyData->getUser();
-        $this->userRepository->setReturnValue($user);
+        $this->userRepository->create($user);
 
         $this->assertSame(0, $user->getTotalLogins());
 
-        $loginUser = $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
+        $loginUser = $this->userService->login('test1@example.com', 'xxxx', '127.0.0.1');
 
         $this->assertSame(1, $user->getTotalLogins());
         $this->assertTrue($loginUser instanceof User);
@@ -80,7 +95,6 @@ class UserServiceTest extends Helper\DoctrineTestCase
      */
     public function testUserLoginWithWrongEmail()
     {
-        $this->userRepository->setReturnValue(null);
         $this->userService->login('zzz@example.com', 'xxxx', '127.0.0.1');
     }
 
@@ -93,9 +107,9 @@ class UserServiceTest extends Helper\DoctrineTestCase
     {
         $user = $this->dummyData->getUser();
         $user->setStatus(User::STATUS_INACTIVE);
-        $this->userRepository->setReturnValue($user);
+        $this->userRepository->create($user);
 
-        $this->userService->login('test@example.com', 'xxxx', '127.0.0.1');
+        $this->userService->login('test1@example.com', 'xxxx', '127.0.0.1');
     }
 
     /**
@@ -106,9 +120,9 @@ class UserServiceTest extends Helper\DoctrineTestCase
     public function testUserLoginWithWrongPassword()
     {
         $user = $this->dummyData->getUser();
-        $this->userRepository->setReturnValue($user);
+        $this->userRepository->create($user);
 
-        $this->userService->login('test@example.com', 'zzz', '127.0.0.1');
+        $this->userService->login('test1@example.com', 'zzz', '127.0.0.1');
     }
 
     public function testGetAllUsers()

@@ -7,6 +7,7 @@ use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\Service\UserServiceInterface;
 use ReflectionClass;
 
 class Mapper implements MapperInterface
@@ -54,6 +55,8 @@ class Mapper implements MapperInterface
                 $constructorParameters[] = $this->serviceFactory->getOrder();
             } elseif ($parameterClassName === Pricing::class) {
                 $constructorParameters[] = $this->pricing;
+            } elseif ($parameterClassName === UserServiceInterface::class) {
+                $constructorParameters[] = $this->serviceFactory->getUser();
             }
         }
 

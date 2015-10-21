@@ -68,11 +68,11 @@ class UserLogin implements EntityInterface, ValidationInterface
     }
 
     /**
-     * @param string $ip4String
+     * @param string $ip4
      */
-    public function setIp4($ip4String)
+    public function setIp4($ip4)
     {
-        $this->ip4 = (int) ip2long($ip4String);
+        $this->ip4 = (int) ip2long($ip4);
     }
 
     public function getIp4()
