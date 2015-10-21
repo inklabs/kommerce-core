@@ -4,6 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 
 /**
@@ -28,6 +29,8 @@ class FakeUserRepository extends AbstractFakeRepository implements UserRepositor
                 return $entity;
             }
         }
+
+        throw $this->getEntityNotFoundException();
     }
 
     public function findOneByExternalId($externalId)

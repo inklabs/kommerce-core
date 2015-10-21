@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserToken;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
@@ -60,10 +61,9 @@ class UserService extends AbstractService implements UserServiceInterface
 
     public function login($email, $password, $remoteIp)
     {
-        /** @var User $user */
-        $user = $this->userRepository->findOneByEmail($email);
-
-        if ($user === null) {
+        try {
+            $user = $this->userRepository->findOneByEmail($email);
+        } catch (EntityNotFoundException $e) {
             $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
             throw new UserLoginException('User not found', UserLoginException::USER_NOT_FOUND);
         }

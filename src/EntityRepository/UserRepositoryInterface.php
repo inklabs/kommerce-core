@@ -11,7 +11,8 @@ interface UserRepositoryInterface extends AbstractRepositoryInterface
 {
     /**
      * @param string $email
-     * @return User|null
+     * @return User
+     * @throws EntityNotFoundException
      */
     public function findOneByEmail($email);
 
