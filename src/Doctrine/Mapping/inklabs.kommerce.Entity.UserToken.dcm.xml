@@ -20,7 +20,11 @@
 
         <field name="userAgent" type="string" length="200"/>
 
-        <field name="token" type="string" length="40" unique="true"/>
+        <field name="tokenHash" type="string" length="60">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
 
         <field name="expires" type="integer" nullable="true">
             <options>

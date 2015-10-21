@@ -176,6 +176,10 @@ class User implements EntityInterface, ValidationInterface
         $this->passwordHash = password_hash((string) $password, PASSWORD_BCRYPT);
     }
 
+    /**
+     * @param string $password
+     * @return bool
+     */
     public function verifyPassword($password)
     {
         return password_verify($password, $this->passwordHash);

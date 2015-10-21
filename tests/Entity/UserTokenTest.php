@@ -22,7 +22,7 @@ class UserTokenTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($validator->validate($userToken));
         $this->assertSame(null, $userToken->getId());
         $this->assertSame('UserAgent', $userToken->getUserAgent());
-        $this->assertSame('token', $userToken->getToken());
+        $this->assertSame(true, $userToken->verifyToken('token'));
         $this->assertSame(UserToken::TYPE_GOOGLE, $userToken->getType());
         $this->assertSame('Google', $userToken->getTypeText());
         $this->assertTrue($userToken->getExpires() instanceof DateTime);
@@ -36,11 +36,8 @@ class UserTokenTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(null, $userToken->getExpires());
     }
 
-    public function testSetRandomToken()
+    public function testGetRandomToken()
     {
-        $userToken = new UserToken;
-        $userToken->setTokenRandom();
-
-        $this->assertSame(40, strlen($userToken->getToken()));
+        $this->assertSame(40, strlen(UserToken::getRandomToken()));
     }
 }

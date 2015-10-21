@@ -6,7 +6,6 @@ class UserTokenDTO
     public $id;
     public $encodedId;
     public $userAgent;
-    public $token;
     public $expires;
     public $type;
     public $typeText;

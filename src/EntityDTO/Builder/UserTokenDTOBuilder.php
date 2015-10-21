@@ -21,7 +21,6 @@ class UserTokenDTOBuilder
         $this->userTokenDTO->id        = $this->userToken->getId();
         $this->userTokenDTO->encodedId = BaseConvert::encode($this->userToken->getId());
         $this->userTokenDTO->userAgent = $this->userToken->getUserAgent();
-        $this->userTokenDTO->token     = $this->userToken->getToken();
         $this->userTokenDTO->expires   = $this->userToken->getExpires();
         $this->userTokenDTO->type      = $this->userToken->getType();
         $this->userTokenDTO->created   = $this->userToken->getCreated();

@@ -127,17 +127,23 @@ class UserService extends AbstractService implements UserServiceInterface
     {
         $user = $this->userRepository->findOneByEmail($email);
 
-        $token = new UserToken;
-        $token->setTokenRandom();
-        $token->setUserAgent($userAgent);
-        $token->setIp4($ip4);
-        $token->setExpires(new DateTime('+1 day'));
-        $token->setUser($user);
+        $token = UserToken::getRandomToken();
 
-        $this->userTokenRepository->create($token);
+        $userToken = new UserToken;
+        $userToken->setToken($token);
+        $userToken->setUserAgent($userAgent);
+        $userToken->setIp4($ip4);
+        $userToken->setExpires(new DateTime('+1 hour'));
+        $userToken->setUser($user);
+
+        $this->userTokenRepository->create($userToken);
 
         $this->eventDispatcher->dispatchEvent(
-            new ResetPasswordEvent()
+            new ResetPasswordEvent(
+                $user->getId(),
+                $user->getEmail(),
+                $token
+            )
         );
     }
 }

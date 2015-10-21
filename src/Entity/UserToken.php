@@ -17,7 +17,7 @@ class UserToken implements EntityInterface, ValidationInterface
     protected $ip4;
 
     /** @var string */
-    protected $token;
+    protected $tokenHash;
 
     /** @var int */
     protected $expires;
@@ -50,9 +50,9 @@ class UserToken implements EntityInterface, ValidationInterface
             'value' => 0,
         ]));
 
-        $metadata->addPropertyConstraint('token', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('token', new Assert\Length([
-            'max' => 40,
+        $metadata->addPropertyConstraint('tokenHash', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('tokenHash', new Assert\Length([
+            'max' => 60,
         ]));
 
         $metadata->addPropertyConstraint('expires', new Assert\GreaterThanOrEqual([
@@ -86,22 +86,26 @@ class UserToken implements EntityInterface, ValidationInterface
         $this->ip4 = (int) ip2long($ip4);
     }
 
+    public static function getRandomToken()
+    {
+        return bin2hex(openssl_random_pseudo_bytes(20));
+    }
+
     /**
      * @param string $token
      */
     public function setToken($token)
     {
-        $this->token = $token;
+        $this->tokenHash = password_hash((string) $token, PASSWORD_BCRYPT);
     }
 
-    public function setTokenRandom()
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public function verifyToken($token)
     {
-        $this->token = bin2hex(openssl_random_pseudo_bytes(20));
-    }
-
-    public function getToken()
-    {
-        return $this->token;
+        return password_verify($token, $this->tokenHash);
     }
 
     /**
