@@ -2,9 +2,11 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
+use inklabs\kommerce\Event\PasswordChangedEvent;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 use Symfony\Component\Validator\Validation;
 
-class UserTest extends \PHPUnit_Framework_TestCase
+class UserTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -54,6 +56,17 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($user->getLogins()[0] instanceof UserLogin);
         $this->assertTrue($user->getOrders()[0] instanceof Order);
         $this->assertTrue($user->getCart() instanceof Cart);
+    }
+
+    public function testSetPasswordRaisesEvent()
+    {
+        $user = new User;
+        $user->setPassword('Password1');
+        $this->assertTypeNotInArray(PasswordChangedEvent::class, $user->releaseEvents());
+
+        $user->setId(1);
+        $user->setPassword('NewPassword123');
+        $this->assertTypeInArray(PasswordChangedEvent::class, $user->releaseEvents());
     }
 
     public function testSetPasswordEmpty()

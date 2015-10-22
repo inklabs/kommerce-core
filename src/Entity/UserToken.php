@@ -175,11 +175,6 @@ class UserToken implements EntityInterface, ValidationInterface
         return $this->user;
     }
 
-    public function getDTOBuilder()
-    {
-        return new UserTokenDTOBuilder($this);
-    }
-
     public function verifyTokenDateValid(DateTime $date = null)
     {
         if ($date === null) {
@@ -191,5 +186,10 @@ class UserToken implements EntityInterface, ValidationInterface
         }
 
         return true;
+    }
+
+    public function getDTOBuilder()
+    {
+        return new UserTokenDTOBuilder($this);
     }
 }

@@ -192,4 +192,25 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue($productDTO->optionProducts[0] instanceof OptionProductDTO);
         $this->assertTrue($productDTO->optionProducts[0]->option instanceof OptionDTO);
     }
+
+    protected function assertTypeInArray($className, $array)
+    {
+        $this->assertTrue($this->isTypeInArray($className, $array));
+    }
+
+    protected function assertTypeNotInArray($className, $array)
+    {
+        $this->assertFalse($this->isTypeInArray($className, $array));
+    }
+
+    protected function isTypeInArray($className, $array)
+    {
+        foreach ($array as $item) {
+            if ($className === get_class($item)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

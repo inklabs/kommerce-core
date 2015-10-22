@@ -5,12 +5,14 @@ use DateTime;
 use DateTimeZone;
 use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Event\PasswordChangedEvent;
+use inklabs\kommerce\Lib\Event\EventInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class User implements EntityInterface, ValidationInterface
 {
-    use TimeTrait, IdTrait;
+    use TimeTrait, IdTrait, EventGeneratorTrait;
 
     /** @var string */
     protected $externalId;
@@ -174,6 +176,16 @@ class User implements EntityInterface, ValidationInterface
         }
 
         $this->passwordHash = password_hash((string) $password, PASSWORD_BCRYPT);
+
+        if ($this->id !== null) {
+            $this->raise(
+                new PasswordChangedEvent(
+                    $this->id,
+                    $this->email,
+                    $this->getFullName()
+                )
+            );
+        }
     }
 
     /**

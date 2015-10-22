@@ -53,6 +53,7 @@ class UserService extends AbstractService implements UserServiceInterface
     {
         $this->throwValidationErrors($user);
         $this->userRepository->update($user);
+        $this->eventDispatcher->dispatch($user->releaseEvents());
     }
 
     public function delete($userId)
@@ -197,13 +198,5 @@ class UserService extends AbstractService implements UserServiceInterface
         $user->setPassword($password);
 
         $this->update($user);
-
-        $this->eventDispatcher->dispatchEvent(
-            new PasswordChangedEvent(
-                $userId,
-                $user->getEmail(),
-                $user->getFullName()
-            )
-        );
     }
 }

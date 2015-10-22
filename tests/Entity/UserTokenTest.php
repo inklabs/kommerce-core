@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
+use DateTimeZone;
 use Symfony\Component\Validator\Validation;
 
 class UserTokenTest extends \PHPUnit_Framework_TestCase
@@ -39,5 +40,15 @@ class UserTokenTest extends \PHPUnit_Framework_TestCase
     public function testGetRandomToken()
     {
         $this->assertSame(40, strlen(UserToken::getRandomToken()));
+    }
+
+    public function testVerifyTokenDateValid()
+    {
+        $userToken = new UserToken;
+        $userToken->setExpires(new DateTime('2015-10-21', new DateTimeZone('UTC')));
+
+        $this->assertFalse($userToken->verifyTokenDateValid());
+        $this->assertFalse($userToken->verifyTokenDateValid(new DateTime('2016-10-22', new DateTimeZone('UTC'))));
+        $this->assertTrue($userToken->verifyTokenDateValid(new DateTime('2014-10-22', new DateTimeZone('UTC'))));
     }
 }
