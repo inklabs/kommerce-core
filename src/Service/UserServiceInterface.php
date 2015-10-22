@@ -63,4 +63,10 @@ interface UserServiceInterface
      * @throws EntityNotFoundException
      */
     public function requestPasswordResetToken($getEmail, $getUserAgent, $getIp4);
+
+    /**
+     * @param int $userId
+     * @param string $password
+     */
+    public function changePassword($userId, $password);
 }
