@@ -11,11 +11,6 @@ interface UserServiceInterface
     public function update(User & $user);
 
     /**
-     * @param int $userId
-     */
-    public function delete($userId);
-
-    /**
      * @param string $email
      * @param string $password
      * @param string $remoteIp

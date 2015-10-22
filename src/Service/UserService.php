@@ -56,12 +56,6 @@ class UserService extends AbstractService implements UserServiceInterface
         $this->eventDispatcher->dispatch($user->releaseEvents());
     }
 
-    public function delete($userId)
-    {
-        $tag = $this->userRepository->findOneById($userId);
-        $this->userRepository->delete($tag);
-    }
-
     public function login($email, $password, $remoteIp)
     {
         try {
