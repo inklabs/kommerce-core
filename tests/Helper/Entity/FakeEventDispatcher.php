@@ -10,14 +10,14 @@ class FakeEventDispatcher extends EventDispatcher
 
     public function dispatchEvent(EventInterface $event)
     {
-        parent::dispatchEvent($event);
-
         $eventClassName = get_class($event);
-        $this->dispatchedEvents[$eventClassName] = true;
+        $this->dispatchedEvents[$eventClassName][] = $event;
+
+        parent::dispatchEvent($event);
     }
 
-    public function wasEventDispatched($eventClassName)
+    public function getDispatchedEvents($eventClassName)
     {
-        return isset($this->dispatchedEvents[$eventClassName]);
+        return $this->dispatchedEvents[$eventClassName];
     }
 }

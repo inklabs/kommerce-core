@@ -58,7 +58,13 @@ class ChangePasswordHandlerTest extends DoctrineTestCase
 
         $user = $this->fakeUserRepository->findOneById(1);
         $this->assertTrue($user->verifyPassword('newPassword123'));
-        $this->assertTrue($this->fakeEventDispatcher->wasEventDispatched(PasswordChangedEvent::class));
+
+        /** @var PasswordChangedEvent $event */
+        $event = $this->fakeEventDispatcher->getDispatchedEvents(PasswordChangedEvent::class)[0];
+        $this->assertTrue($event instanceof PasswordChangedEvent);
+        $this->assertSame(1, $event->getUserId());
+        $this->assertSame('test1@example.com', $event->getEmail());
+        $this->assertSame('John Doe', $event->getFullName());
     }
 
     public function testHandleThroughCommandBus()

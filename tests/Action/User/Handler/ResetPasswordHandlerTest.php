@@ -58,7 +58,14 @@ class ResetPasswordHandlerTest extends DoctrineTestCase
         $handler = new ResetPasswordHandler($this->userService);
         $handler->handle($this->command);
         $this->assertTrue($this->fakeUserTokenRepository->findOneById(1) instanceof UserToken);
-        $this->assertTrue($this->fakeEventDispatcher->wasEventDispatched(ResetPasswordEvent::class));
+
+        /** @var ResetPasswordEvent $event */
+        $event = $this->fakeEventDispatcher->getDispatchedEvents(ResetPasswordEvent::class)[0];
+        $this->assertTrue($event instanceof ResetPasswordEvent);
+        $this->assertSame(1, $event->getUserId());
+        $this->assertSame('test1@example.com', $event->getEmail());
+        $this->assertSame(40, strlen($event->getToken()));
+        $this->assertSame('John Doe', $event->getFullName());
     }
 
     public function testHandleThroughCommandBus()

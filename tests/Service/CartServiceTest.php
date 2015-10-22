@@ -60,7 +60,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
     protected $cartCalculator;
 
     /** @var FakeEventDispatcher */
-    protected $eventDispatcher;
+    protected $fakeEventDispatcher;
 
     public function setUp()
     {
@@ -75,7 +75,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->orderRepository = new FakeOrderRepository;
         $this->userRepository = new FakeUserRepository;
         $this->cartCalculator = new CartCalculator(new Pricing);
-        $this->eventDispatcher = new FakeEventDispatcher;
+        $this->fakeEventDispatcher = new FakeEventDispatcher;
 
         $this->setupCartService();
     }
@@ -92,7 +92,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
             $this->orderRepository,
             $this->userRepository,
             $this->cartCalculator,
-            $this->eventDispatcher
+            $this->fakeEventDispatcher
         );
     }
 
@@ -420,7 +420,11 @@ class CartServiceTest extends Helper\DoctrineTestCase
         );
 
         $this->assertTrue($order instanceof Order);
-        $this->assertTrue($this->eventDispatcher->wasEventDispatched(OrderCreatedFromCartEvent::class));
+
+        /** @var OrderCreatedFromCartEvent $event */
+        $event = $this->fakeEventDispatcher->getDispatchedEvents(OrderCreatedFromCartEvent::class)[0];
+        $this->assertTrue($event instanceof OrderCreatedFromCartEvent);
+        $this->assertSame(1, $event->getOrderId());
 
         try {
             $this->cartRepository->findOneById($cartId);
