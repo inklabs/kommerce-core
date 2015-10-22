@@ -22,7 +22,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 
 ![Flow of Control](https://i.imgur.com/IJ5Trm7.png)
 
-* [Action](#action)
+* <a name="action"></a>Action
     - These are the use cases into the application. Command Actions are passed a Command object containing the required
       data payload. There is nothing returned from the dispatch() method. Only exceptions are thrown if the
       Command/Transaction is invalid.
@@ -56,7 +56,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       - RequestInterface (GetProductRequest)
       - ResponseInterface (GetProductResponseInterface)
 
-* [Event](#event)
+* <a name="event"></a>Event
     - Events can be raised in the Entity layer and are dispatched in the service layer.
     
     ```php
@@ -96,7 +96,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
     );
     ```
 
-* [Service](#service)
+* <a name="service"></a>Service
     - These are the domain services to manage persisting domain state to the database through repositories. They contain
       behavior related to multiple Entities and any business logic that does not fit any specific Entity.
 
@@ -113,7 +113,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       $productService->edit($product);
       ```
 
-* [Entity](#entity)
+* <a name="entity"></a>Entity
     - These are plain old PHP objects. You will not find any ORM code or external dependencies here. This is where
       the relationships between objects are constructed. An Entitiy contains business logic and behavior with high cohesion to
       its own properties. Business logic related to the data of a single instance of an Entity belongs here.
@@ -134,7 +134,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       }
       ```
 
-* [EntityRepository](#repository)
+* <a name="repository"></a>EntityRepository
     - This module is responsible for storing and retrieving entities. Doctrine 2 is used in this layer to hydrate Entities
       using the Data Mapper Pattern.
 
@@ -147,7 +147,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       $productRepository->save($product);
       ```
       
-* [EntityDTO](#entitydto)
+* <a name="entitydto"></a>EntityDTO
     - These classes are simple anemic objects with no business logic. Data is accessible via public class member variables. 
       Using the EntityDTOBuilder, the complete network graph relationships are available (e.g., withAllData()) prior to
       calling build(). The primary reason for using these Data Transfer Objects (DTO) is to flatten the object graph from
@@ -167,7 +167,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       echo $productDTO->tags[0]->name;
       ```
 
-* [Lib](#lib)
+* <a name="lib"></a>Lib
     - This is where you will find a variety of utility code including the Payment Gateway (src/Lib/PaymentGateway).
 
       ```php
