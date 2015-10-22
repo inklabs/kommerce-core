@@ -63,10 +63,12 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
     // UserService:
     $user = $this->userRepository->findOneById($userId);
     $user->setPassword($password);
-
     $this->userRepository->update($user);
+
     $this->eventDispatcher->dispatch($user->releaseEvents());
-    
+    ```
+
+    ```
     // UserEntity:
     public function setPassword($password)
     {
@@ -88,7 +90,6 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
     ```php
     // CartService:
     $order = Order::fromCart($cart);
-
     $this->orderRepository->create($order);
 
     $this->eventDispatcher->dispatchEvent(
