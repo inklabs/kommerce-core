@@ -25,6 +25,15 @@ interface UserServiceInterface
     public function login($email, $password, $remoteIp);
 
     /**
+     * @param string $email
+     * @param string $token
+     * @param string $remoteIp
+     * @return User
+     * @throws UserLoginException
+     */
+    public function loginWithToken($email, $token, $remoteIp);
+
+    /**
      * @param int $id
      * @return User
      * @throws EntityNotFoundException

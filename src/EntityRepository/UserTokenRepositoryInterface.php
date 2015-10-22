@@ -8,4 +8,9 @@ use inklabs\kommerce\Entity\UserToken;
  */
 interface UserTokenRepositoryInterface extends AbstractRepositoryInterface
 {
+    /**
+     * @param int $getId
+     * @return UserToken
+     */
+    public function findLatestOneByUserId($getId);
 }

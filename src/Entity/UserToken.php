@@ -179,4 +179,17 @@ class UserToken implements EntityInterface, ValidationInterface
     {
         return new UserTokenDTOBuilder($this);
     }
+
+    public function verifyTokenDateValid(DateTime $date = null)
+    {
+        if ($date === null) {
+            $date = new DateTime;
+        }
+
+        if ($date->getTimestamp() > $this->expires) {
+            return false;
+        }
+
+        return true;
+    }
 }

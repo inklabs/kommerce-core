@@ -83,6 +83,43 @@ class UserService extends AbstractService implements UserServiceInterface
         return $user;
     }
 
+    public function loginWithToken($email, $token, $remoteIp)
+    {
+        try {
+            $user = $this->userRepository->findOneByEmail($email);
+        } catch (EntityNotFoundException $e) {
+            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
+            throw new UserLoginException('User not found', UserLoginException::USER_NOT_FOUND);
+        }
+
+        if (! $user->isActive()) {
+            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
+            throw new UserLoginException('User not active', UserLoginException::USER_NOT_ACTIVE);
+        }
+
+        try {
+            $userToken = $this->userTokenRepository->findLatestOneByUserId($user->getId());
+        } catch (EntityNotFoundException $e) {
+            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL, $user);
+            throw new UserLoginException('Token not found', UserLoginException::TOKEN_NOT_FOUND);
+        }
+
+        if (! $userToken->verifyToken($token)) {
+            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL, $user);
+            throw new UserLoginException('Token not valid', UserLoginException::TOKEN_INVALID);
+        }
+
+        if (! $userToken->verifyTokenDateValid()) {
+            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL, $user);
+            throw new UserLoginException('Token expired', UserLoginException::TOKEN_EXPIRED);
+        }
+
+        $this->recordLogin($email, $remoteIp, UserLogin::RESULT_SUCCESS, $user);
+
+        return $user;
+    }
+
+
     /**
      * @param string $email
      * @param string $remoteIp

@@ -6,9 +6,6 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 
-/**
- * @method Product findOneById($id)
- */
 class FakeProductRepository extends AbstractFakeRepository implements ProductRepositoryInterface
 {
     protected $entityName = 'Product';
