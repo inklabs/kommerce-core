@@ -24,12 +24,13 @@ class UserPasswordValidatorTest extends DoctrineTestCase
 
         $this->assertPasswordValidForUser($user, '', 'Password must be at least 8 characters');
         $this->assertPasswordValidForUser($user, 'password2', 'Invalid password');
-        $this->assertPasswordValidForUser($user, 'johndoe1', 'Password is too similar to your name or email');
         $this->assertPasswordValidForUser($user, 'valueinemail', 'Password is too similar to your name or email');
         $this->assertPasswordValidForUser($user, 'example1', 'Password is too similar to your name or email');
+        $this->assertPasswordValidForUser($user, 'johndoe1', 'Password is too similar to your name or email');
+        $this->assertPasswordValidForUser($user, 'johnjohn', 'Password is too similar to your name or email');
+        $this->assertPasswordValidForUser($user, 'john1234', 'Password is too similar to your name or email');
+        $this->assertPasswordValidForUser($user, 'doe12345', 'Password is too similar to your name or email');
 
-
-        $this->userPasswordValidator->assertPasswordValid($user, 'doejohn1');
         $this->userPasswordValidator->assertPasswordValid($user, 'V3ryStr00ngPa$$word!!');
     }
 

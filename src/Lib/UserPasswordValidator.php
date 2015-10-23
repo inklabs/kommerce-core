@@ -22,6 +22,8 @@ class UserPasswordValidator
         }
 
         $tooSimilarValues = [
+            $user->getFirstName(),
+            $user->getLastName(),
             $user->getFullName(),
             $user->getEmail(),
         ];
@@ -41,6 +43,10 @@ class UserPasswordValidator
     private function isTooSimilar($password, $text)
     {
         if (stripos($text, $password) !== false) {
+            return true;
+        }
+
+        if (stripos($password, $text) !== false) {
             return true;
         }
 
