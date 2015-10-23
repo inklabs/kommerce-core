@@ -43,7 +43,6 @@ class ShipmentRate implements EntityInterface, ValidationInterface
 
         $metadata->addPropertyConstraint('currency', new Assert\NotBlank);
         $metadata->addPropertyConstraint('currency', new Assert\Length([
-            'min' => 2,
             'max' => 3,
         ]));
 
