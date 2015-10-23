@@ -1,9 +1,9 @@
 <?php
-namespace inklabs\kommerce\Entity;
+namespace inklabs\kommerce\Lib;
 
 use Exception;
 
-class UserPasswordException extends Exception
+class UserPasswordValidationException extends Exception
 {
     public function __construct($message = '', $code = 0, Exception $previous = null)
     {

@@ -2,23 +2,23 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Entity\User;
-use inklabs\kommerce\Entity\UserPasswordException;
+use inklabs\kommerce\Lib\UserPasswordValidationException;
 
 class UserPasswordValidator
 {
     /**
      * @param User $user
      * @param string $password
-     * @throws UserPasswordException
+     * @throws UserPasswordValidationException
      */
     public function assertPasswordValid(User $user, $password)
     {
         if (strlen($password) < 8) {
-            throw new UserPasswordException('Password must be at least 8 characters');
+            throw new UserPasswordValidationException('Password must be at least 8 characters');
         }
 
         if ($user->verifyPassword($password)) {
-            throw new UserPasswordException('Invalid password');
+            throw new UserPasswordValidationException('Invalid password');
         }
 
         $tooSimilarValues = [
@@ -28,7 +28,7 @@ class UserPasswordValidator
 
         foreach ($tooSimilarValues as $text) {
             if ($this->isTooSimilar($password, $text)) {
-                throw new UserPasswordException('Password is too similar to your name or email');
+                throw new UserPasswordValidationException('Password is too similar to your name or email');
             }
         }
     }

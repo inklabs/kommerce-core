@@ -6,7 +6,7 @@ use inklabs\kommerce\Action\User\ChangePasswordCommand;
 class ChangePasswordCommandTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException \inklabs\kommerce\Entity\UserPasswordException
+     * @expectedException \inklabs\kommerce\Lib\UserPasswordValidationException
      */
     public function testInvalidPasswordThrowsException()
     {
