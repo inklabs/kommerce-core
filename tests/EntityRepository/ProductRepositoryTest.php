@@ -65,7 +65,7 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
 
         try {
             $this->getRepositoryFactory()->getProductQuantityDiscountRepository()->findOneById(1);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (Exception $e) {
             $this->assertTrue(true);
         }

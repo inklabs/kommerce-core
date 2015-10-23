@@ -18,7 +18,7 @@ class DeleteTagHandlerTest extends AbstractTagHandlerTestCase
 
         try {
             $this->fakeTagRepository->findOneById($tagId);
-            $this->assertTrue(false, 'failure');
+            $this->fail();
         } catch (EntityNotFoundException $e) {
             $this->assertTrue(true, 'success');
         }

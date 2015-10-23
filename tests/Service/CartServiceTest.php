@@ -428,7 +428,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
         try {
             $this->cartRepository->findOneById($cartId);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (EntityNotFoundException $e) {
             $this->assertTrue(true);
         }

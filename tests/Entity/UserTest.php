@@ -17,7 +17,7 @@ class UserTest extends DoctrineTestCase
         $user->setExternalId('5');
         $user->setStatus(User::STATUS_ACTIVE);
         $user->setEmail('test@example.com');
-        $user->setPassword('xxxx');
+        $user->setPassword('password1');
         $user->setFirstName('John');
         $user->setLastName('Doe');
         $user->setLastLogin(new DateTime);
@@ -69,18 +69,12 @@ class UserTest extends DoctrineTestCase
         $this->assertTypeInArray(PasswordChangedEvent::class, $user->releaseEvents());
     }
 
-    public function testSetPasswordEmpty()
-    {
-        $user = new User;
-        $user->setPassword();
-    }
-
     public function testVerifyPassword()
     {
         $user = new User;
-        $user->setPassword('qwerty');
-        $this->assertTrue($user->verifyPassword('qwerty'));
-        $this->assertFalse($user->verifyPassword('wrong'));
+        $user->setPassword('qwerty1234');
+        $this->assertTrue($user->verifyPassword('qwerty1234'));
+        $this->assertFalse($user->verifyPassword('wrong1234'));
     }
 
     public function testIncrementTotalLogins()

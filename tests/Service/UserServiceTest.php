@@ -82,7 +82,7 @@ class UserServiceTest extends Helper\DoctrineTestCase
 
         $this->assertSame(0, $user->getTotalLogins());
 
-        $loginUser = $this->userService->login('test1@example.com', 'xxxx', '127.0.0.1');
+        $loginUser = $this->userService->login('test1@example.com', 'password1', '127.0.0.1');
 
         $this->assertSame(1, $user->getTotalLogins());
         $this->assertTrue($loginUser instanceof User);
@@ -95,7 +95,7 @@ class UserServiceTest extends Helper\DoctrineTestCase
      */
     public function testUserLoginWithWrongEmail()
     {
-        $this->userService->login('zzz@example.com', 'xxxx', '127.0.0.1');
+        $this->userService->login('zzz@example.com', 'password1', '127.0.0.1');
     }
 
     /**
@@ -109,7 +109,7 @@ class UserServiceTest extends Helper\DoctrineTestCase
         $user->setStatus(User::STATUS_INACTIVE);
         $this->userRepository->create($user);
 
-        $this->userService->login('test1@example.com', 'xxxx', '127.0.0.1');
+        $this->userService->login('test1@example.com', 'password1', '127.0.0.1');
     }
 
     /**
@@ -122,7 +122,7 @@ class UserServiceTest extends Helper\DoctrineTestCase
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
-        $this->userService->login('test1@example.com', 'zzz', '127.0.0.1');
+        $this->userService->login('test1@example.com', 'wrongpassword', '127.0.0.1');
     }
 
     public function testGetAllUsers()

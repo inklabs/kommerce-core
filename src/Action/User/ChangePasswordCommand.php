@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\Action\User;
 
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Lib\UserPasswordValidator;
 
 final class ChangePasswordCommand implements CommandInterface
 {
@@ -17,6 +19,8 @@ final class ChangePasswordCommand implements CommandInterface
      */
     public function __construct($userId, $password)
     {
+        $this->assertPasswordValid($password);
+
         $this->userId = (int) $userId;
         $this->password = (string) $password;
     }
@@ -29,5 +33,16 @@ final class ChangePasswordCommand implements CommandInterface
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * @param $password
+     */
+    private function assertPasswordValid($password)
+    {
+        $user = new User;
+
+        $userPasswordValidator = new UserPasswordValidator;
+        $userPasswordValidator->assertPasswordValid($user, $password);
     }
 }

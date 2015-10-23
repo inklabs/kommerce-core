@@ -169,12 +169,8 @@ class User implements EntityInterface, ValidationInterface
     /**
      * @param string $password
      */
-    public function setPassword($password = null)
+    public function setPassword($password)
     {
-        if (empty($password)) {
-            $password = uniqid();
-        }
-
         $this->passwordHash = password_hash((string) $password, PASSWORD_BCRYPT);
 
         if ($this->id !== null) {

@@ -521,7 +521,7 @@ class DummyData
         $user->setExternalId($num);
         $user->setStatus(User::STATUS_ACTIVE);
         $user->setEmail('test' . $num . '@example.com');
-        $user->setPassword('xxxx');
+        $user->setPassword('password1');
         $user->setFirstName('John');
         $user->setLastName('Doe');
 

@@ -10,10 +10,9 @@ use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
-use inklabs\kommerce\Event\PasswordChangedEvent;
 use inklabs\kommerce\Event\ResetPasswordEvent;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
-use InvalidArgumentException;
+use inklabs\kommerce\Lib\UserPasswordValidator;
 
 class UserService extends AbstractService implements UserServiceInterface
 {
@@ -184,11 +183,11 @@ class UserService extends AbstractService implements UserServiceInterface
 
     public function changePassword($userId, $password)
     {
-        if (strlen($password) < 8) {
-            throw new InvalidArgumentException('Password is too short');
-        }
-
         $user = $this->userRepository->findOneById($userId);
+
+        $userPasswordValidator = new UserPasswordValidator;
+        $userPasswordValidator->assertPasswordValid($user, $password);
+
         $user->setPassword($password);
 
         $this->update($user);
