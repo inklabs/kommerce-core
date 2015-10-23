@@ -38,7 +38,7 @@ class ShipmentLabel implements EntityInterface, ValidationInterface
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('externalId', new Assert\Length([
-            'max' => 255,
+            'max' => 60,
         ]));
 
         $metadata->addPropertyConstraint('resolution', new Assert\Range([

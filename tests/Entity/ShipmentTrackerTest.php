@@ -12,8 +12,8 @@ class ShipmentTrackerTest extends DoctrineTestCase
             '1Z9999999999999999'
         );
 
-        $shipmentTracking->setExternalId('trk_Txyy1vaM');
-        $shipmentTracking->setShipmentRate(new ShipmentRate(225));
+        $shipmentTracking->setExternalId('trk_84ec7e2c5a224222a6e129ce927b936x');
+        $shipmentTracking->setShipmentRate(new ShipmentRate(new Money(225, 'USD')));
         $shipmentTracking->setShipmentLabel(new ShipmentLabel);
 
         $this->assertEntityValid($shipmentTracking);

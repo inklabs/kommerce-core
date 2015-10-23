@@ -49,7 +49,7 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
         ]));
 
         $metadata->addPropertyConstraint('externalId', new Assert\Length([
-            'max' => 255,
+            'max' => 60,
         ]));
 
         $metadata->addPropertyConstraint('shipmentRate', new Assert\Valid);

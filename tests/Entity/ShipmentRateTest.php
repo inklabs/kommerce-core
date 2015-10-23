@@ -8,18 +8,27 @@ class ShipmentRateTest extends DoctrineTestCase
 {
     public function testCreate()
     {
-        $shipmentRate = new ShipmentRate(225);
-        $shipmentRate->setService('First');
-        $shipmentRate->setCarrier('USPS');
-        $shipmentRate->setExternalId('rate_nyCb6ubX');
-        $shipmentRate->setCreated(new DateTime);
+        $shipmentRate = new ShipmentRate(new Money(907, 'USD'));
+        $shipmentRate->setExternalId('rate_04f9a67abcb54511b756254e3b72a48z');
+        $shipmentRate->setCarrier('UPS');
+        $shipmentRate->setService('Ground');
+        $shipmentRate->setListRate(new Money(986, 'USD'));
+        $shipmentRate->setRetailRate(new Money(1196, 'USD'));
+        $shipmentRate->setDeliveryDate(new DateTime);
+        $shipmentRate->setIsDeliveryDateGuaranteed(true);
+        $shipmentRate->setDeliveryDays(5);
+        $shipmentRate->setEstDeliveryDays(null);
 
         $this->assertEntityValid($shipmentRate);
-        $this->assertSame(225, $shipmentRate->getRate());
-        $this->assertSame('USD', $shipmentRate->getCurrency());
-        $this->assertSame('First', $shipmentRate->getService());
-        $this->assertSame('USPS', $shipmentRate->getCarrier());
-        $this->assertSame('rate_nyCb6ubX', $shipmentRate->getExternalId());
-        $this->assertNotSame(null, $shipmentRate->getCreated());
+        $this->assertSame('rate_04f9a67abcb54511b756254e3b72a48z', $shipmentRate->getExternalId());
+        $this->assertSame('UPS', $shipmentRate->getCarrier());
+        $this->assertSame('Ground', $shipmentRate->getService());
+        $this->assertSame(907, $shipmentRate->getRate()->getAmount());
+        $this->assertSame(986, $shipmentRate->getListRate()->getAmount());
+        $this->assertSame(1196, $shipmentRate->getRetailRate()->getAmount());
+        $this->assertTrue($shipmentRate->getDeliveryDate() instanceof DateTime);
+        $this->assertSame(5, $shipmentRate->getDeliveryDays());
+        $this->assertSame(true, $shipmentRate->isDeliveryDateGuaranteed());
+        $this->assertSame(null, $shipmentRate->getEstDeliveryDays());
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -8,11 +9,8 @@ class ShipmentRate implements EntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
 
-    /** @var int */
+    /** @var Money */
     protected $rate;
-
-    /** @var string */
-    protected $currency;
 
     /** @var string */
     protected $externalId;
@@ -23,31 +21,39 @@ class ShipmentRate implements EntityInterface, ValidationInterface
     /** @var string */
     protected $carrier;
 
-    /**
-     * @param int $rate
-     * @param string $currency
-     */
-    public function __construct($rate, $currency = 'USD')
+    /** @var DateTime */
+    protected $deliveryDate;
+
+    /** @var bool */
+    protected $isDeliveryDateGuaranteed;
+
+    /** @var int */
+    protected $deliveryDays;
+
+    /** @var int */
+    protected $estDeliveryDays;
+
+    /** @var Money */
+    protected $listRate;
+
+    /** @var Money */
+    protected $retailRate;
+
+    public function __construct(Money $rate)
     {
-        $this->rate = (int) $rate;
-        $this->currency = (string) $currency;
+        $this->rate = $rate;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('rate', new Assert\NotNull);
-        $metadata->addPropertyConstraint('rate', new Assert\Range([
-            'min' => 0,
-            'max' => 4294967295,
-        ]));
+        $metadata->addPropertyConstraint('rate', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('rate', new Assert\Valid);
 
-        $metadata->addPropertyConstraint('currency', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('currency', new Assert\Length([
-            'max' => 3,
-        ]));
+        $metadata->addPropertyConstraint('listRate', new Assert\Valid);
+        $metadata->addPropertyConstraint('retailRate', new Assert\Valid);
 
         $metadata->addPropertyConstraint('externalId', new Assert\Length([
-            'max' => 30,
+            'max' => 60,
         ]));
 
         $metadata->addPropertyConstraint('service', new Assert\Length([
@@ -57,16 +63,21 @@ class ShipmentRate implements EntityInterface, ValidationInterface
         $metadata->addPropertyConstraint('carrier', new Assert\Length([
             'max' => 20,
         ]));
+
+        $metadata->addPropertyConstraint('deliveryDays', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+
+        $metadata->addPropertyConstraint('estDeliveryDays', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
     }
 
     public function getRate()
     {
         return $this->rate;
-    }
-
-    public function getCurrency()
-    {
-        return $this->currency;
     }
 
     /**
@@ -106,5 +117,86 @@ class ShipmentRate implements EntityInterface, ValidationInterface
     public function getExternalId()
     {
         return $this->externalId;
+    }
+
+    /**
+     * @param DateTime $deliveryDate
+     */
+    public function setDeliveryDate(DateTime $deliveryDate = null)
+    {
+        $this->deliveryDate = $deliveryDate->gettimestamp();
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDeliveryDate()
+    {
+        $deliveryDate = new DateTime();
+        $deliveryDate->setTimestamp($this->deliveryDate);
+        return $deliveryDate;
+    }
+
+    /**
+     * @param bool $isDeliveryDateGuaranteed
+     */
+    public function setIsDeliveryDateGuaranteed($isDeliveryDateGuaranteed)
+    {
+        $this->isDeliveryDateGuaranteed = (bool) $isDeliveryDateGuaranteed;
+    }
+
+    public function isDeliveryDateGuaranteed()
+    {
+        return $this->isDeliveryDateGuaranteed;
+    }
+
+    /**
+     * @param int $deliveryDays
+     */
+    public function setDeliveryDays($deliveryDays)
+    {
+        $this->deliveryDays = (int) $deliveryDays;
+    }
+
+    /**
+     * @param int $estDeliveryDays
+     */
+    public function setEstDeliveryDays($estDeliveryDays = null)
+    {
+        if ($estDeliveryDays !== null) {
+            $estDeliveryDays = (int) $estDeliveryDays;
+        }
+
+        $this->estDeliveryDays = $estDeliveryDays;
+    }
+
+    public function getDeliveryDays()
+    {
+        return $this->deliveryDays;
+    }
+
+    public function getEstDeliveryDays()
+    {
+        return $this->estDeliveryDays;
+    }
+
+    public function setListRate(Money $listRate)
+    {
+        $this->listRate = $listRate;
+    }
+
+    public function setRetailRate(Money $retailRate)
+    {
+        $this->retailRate = $retailRate;
+    }
+
+    public function getListRate()
+    {
+        return $this->listRate;
+    }
+
+    public function getRetailRate()
+    {
+        return $this->retailRate;
     }
 }
