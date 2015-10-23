@@ -1,16 +1,16 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ShipmentTest extends \PHPUnit_Framework_TestCase
+class ShipmentTest extends DoctrineTestCase
 {
     public function testCreate()
     {
         $shipment = new Shipment;
-        $shipment->addShipmentTrackingNumber(
-            new ShipmentTrackingNumber(
-                ShipmentTrackingNumber::CARRIER_UPS,
+        $shipment->addShipmentTracker(
+            new ShipmentTracker(
+                ShipmentTracker::CARRIER_UPS,
                 '1Z9999999999999999'
             )
         );
@@ -23,14 +23,12 @@ class ShipmentTest extends \PHPUnit_Framework_TestCase
         );
 
         $shipment->addShipmentComment(new ShipmentComment('Enjoy your items!'));
+        $shipment->setOrder(new Order);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($shipment));
-        $this->assertTrue($shipment->getShipmentTrackingNumbers()[0] instanceof ShipmentTrackingNumber);
+        $this->assertEntityValid($shipment);
+        $this->assertTrue($shipment->getShipmentTrackers()[0] instanceof ShipmentTracker);
         $this->assertTrue($shipment->getShipmentItems()[0] instanceof ShipmentItem);
         $this->assertTrue($shipment->getShipmentComments()[0] instanceof ShipmentComment);
+        $this->assertTrue($shipment->getOrder() instanceof Order);
     }
 }

@@ -9,7 +9,7 @@ class ShipmentComment implements EntityInterface, ValidationInterface
     use IdTrait, TimeTrait;
 
     /** @var string */
-    private $comment;
+    protected $comment;
 
     /**
      * @param string $comment

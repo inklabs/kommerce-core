@@ -9,10 +9,10 @@ class ShipmentItem implements EntityInterface, ValidationInterface
     use IdTrait, TimeTrait;
 
     /** @var OrderItem */
-    private $orderItem;
+    protected $orderItem;
 
     /** @var int */
-    private $quantityToShip;
+    protected $quantityToShip;
 
     public function __construct(OrderItem $orderItem, $quantityToShip)
     {

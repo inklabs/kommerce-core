@@ -9,8 +9,8 @@ class Shipment implements EntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
 
-    /** @var ShipmentTrackingNumber[] */
-    protected $shipmentTrackingNumbers;
+    /** @var ShipmentTracker[] */
+    protected $shipmentTrackers;
 
     /** @var ShipmentItem[] */
     protected $shipmentItems;
@@ -18,28 +18,41 @@ class Shipment implements EntityInterface, ValidationInterface
     /** @var ShipmentComment[] */
     protected $shipmentComments;
 
+    /** @var Order */
+    protected $order;
+
     public function __construct()
     {
-        $this->shipmentTrackingNumbers = new ArrayCollection;
+        $this->shipmentTrackers = new ArrayCollection;
         $this->shipmentItems = new ArrayCollection;
         $this->shipmentComments = new ArrayCollection;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('shipmentTrackingNumbers', new Assert\Valid);
+        $metadata->addPropertyConstraint('shipmentTrackers', new Assert\Valid);
         $metadata->addPropertyConstraint('shipmentItems', new Assert\Valid);
         $metadata->addPropertyConstraint('shipmentComments', new Assert\Valid);
     }
 
-    public function addShipmentTrackingNumber(ShipmentTrackingNumber $trackingNumber)
+    public function setOrder(Order $order)
     {
-        $this->shipmentTrackingNumbers->add($trackingNumber);
+        $this->order = $order;
     }
 
-    public function getShipmentTrackingNumbers()
+    public function getOrder()
     {
-        return $this->shipmentTrackingNumbers;
+        return $this->order;
+    }
+
+    public function addShipmentTracker(ShipmentTracker $shipmentTracker)
+    {
+        $this->shipmentTrackers->add($shipmentTracker);
+    }
+
+    public function getShipmentTrackers()
+    {
+        return $this->shipmentTrackers;
     }
 
     public function addShipmentItem(ShipmentItem $shipmentItem)

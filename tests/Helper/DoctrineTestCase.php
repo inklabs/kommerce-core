@@ -26,6 +26,7 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryFactory;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\DoctrineHelper;
 use Doctrine;
+use Symfony\Component\Validator\Validation;
 
 abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -212,5 +213,21 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         }
 
         return false;
+    }
+
+    protected function assertEntityValid($shipmentTracking)
+    {
+        $errors = Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator()
+            ->validate($shipmentTracking);
+
+        $messages = [];
+        foreach ($errors as $violation) {
+            $messages[] = $violation->getPropertyPath() . ': ' . $violation->getMessage();
+        }
+        $errorMessage = implode(PHP_EOL, $messages);
+
+        $this->assertEmpty($errors, $errorMessage);
     }
 }

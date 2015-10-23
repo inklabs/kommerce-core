@@ -1,19 +1,15 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ShipmentItemTest extends \PHPUnit_Framework_TestCase
+class ShipmentItemTest extends DoctrineTestCase
 {
     public function testCreate()
     {
         $shipmentItem = new ShipmentItem(new OrderItem, 1);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($shipmentItem));
+        $this->assertEntityValid($shipmentItem);
         $this->assertTrue($shipmentItem->getOrderItem() instanceof OrderItem);
         $this->assertSame(1, $shipmentItem->getQuantityToShip());
     }

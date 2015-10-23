@@ -1,0 +1,35 @@
+<?php
+namespace inklabs\kommerce\Entity;
+
+use DateTime;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+
+class ShipmentLabelTest extends DoctrineTestCase
+{
+    public function testCreate()
+    {
+        $shipmentLabel = new ShipmentLabel;
+        $shipmentLabel->setExternalId('pl_UYD34S2R');
+        $shipmentLabel->setCreated(new DateTime);
+        $shipmentLabel->setResolution(300);
+        $shipmentLabel->setSize('4x6');
+        $shipmentLabel->setType('default');
+        $shipmentLabel->setFileType('image/png');
+        $shipmentLabel->setUrl('http://assets.example.com/file.png');
+        $shipmentLabel->setPdfUrl('http://assets.example.com/file.pdf');
+        $shipmentLabel->setEpl2Url('http://assets.example.com/file.epl2');
+        $shipmentLabel->setZplUrl('http://assets.example.com/file.zpl');
+
+        $this->assertEntityValid($shipmentLabel);
+        $this->assertSame('pl_UYD34S2R', $shipmentLabel->getExternalId());
+        $this->assertNotSame(null, $shipmentLabel->getCreated());
+        $this->assertSame(300, $shipmentLabel->getResolution());
+        $this->assertSame('4x6', $shipmentLabel->getSize());
+        $this->assertSame('default', $shipmentLabel->getType());
+        $this->assertSame('image/png', $shipmentLabel->getFileType());
+        $this->assertSame('http://assets.example.com/file.png', $shipmentLabel->getUrl());
+        $this->assertSame('http://assets.example.com/file.pdf', $shipmentLabel->getPdfUrl());
+        $this->assertSame('http://assets.example.com/file.epl2', $shipmentLabel->getEpl2Url());
+        $this->assertSame('http://assets.example.com/file.zpl', $shipmentLabel->getZplUrl());
+    }
+}
