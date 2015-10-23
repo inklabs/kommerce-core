@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper;
@@ -50,6 +49,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->setTaxRate(new TaxRate);
         $order->addOrderItem($orderItem);
         $order->setTotal(new CartTotal);
+        $order->addShipment(new Shipment);
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')
@@ -74,6 +74,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($order->getShippingRate() instanceof ShippingRate);
         $this->assertTrue($order->getTaxRate() instanceof TaxRate);
         $this->assertTrue($order->getProducts()[0] instanceof Product);
+        $this->assertTrue($order->getShipments()[0] instanceof Shipment);
     }
 
     public function testCreateFromCart()

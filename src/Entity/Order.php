@@ -53,12 +53,16 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     /** @var TaxRate */
     protected $taxRate;
 
+    /** @var Shipment[] */
+    protected $shipments;
+
     public function __construct()
     {
         $this->setCreated();
         $this->orderItems = new ArrayCollection;
         $this->payments = new ArrayCollection;
         $this->coupons = new ArrayCollection;
+        $this->shipments = new ArrayCollection;
 
         $this->setStatus(self::STATUS_PENDING);
     }
@@ -99,6 +103,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         $metadata->addPropertyConstraint('billingAddress', new Assert\Valid);
         $metadata->addPropertyConstraint('orderItems', new Assert\Valid);
         $metadata->addPropertyConstraint('payments', new Assert\Valid);
+        $metadata->addPropertyConstraint('shipments', new Assert\Valid);
     }
 
     public function getReferenceId()
@@ -305,5 +310,15 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     public function getDTOBuilder()
     {
         return new OrderDTOBuilder($this);
+    }
+
+    public function addShipment(Shipment $shipment)
+    {
+        $this->shipments->add($shipment);
+    }
+
+    public function getShipments()
+    {
+        return $this->shipments;
     }
 }

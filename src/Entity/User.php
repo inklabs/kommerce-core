@@ -6,7 +6,6 @@ use DateTimeZone;
 use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Event\PasswordChangedEvent;
-use inklabs\kommerce\Lib\Event\EventInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
