@@ -23,6 +23,8 @@ class AttributeDTOBuilder
         $this->attributeDTO->name        = $this->attribute->getName();
         $this->attributeDTO->description = $this->attribute->getDescription();
         $this->attributeDTO->sortOrder   = $this->attribute->getSortOrder();
+        $this->attributeDTO->created     = $this->attribute->getCreated();
+        $this->attributeDTO->updated     = $this->attribute->getUpdated();
     }
 
     public function withAttributeValues()

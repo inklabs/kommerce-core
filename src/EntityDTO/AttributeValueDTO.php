@@ -3,7 +3,8 @@ namespace inklabs\kommerce\EntityDTO;
 
 class AttributeValueDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $encodedId;
     public $sku;
     public $name;

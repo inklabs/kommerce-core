@@ -3,8 +3,8 @@ namespace inklabs\kommerce\EntityDTO;
 
 abstract class AbstractCartPriceRuleItemDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
+    /** @var int */
     public $quantity;
-    public $created;
-    public $updated;
 }

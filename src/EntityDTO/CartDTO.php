@@ -3,14 +3,13 @@ namespace inklabs\kommerce\EntityDTO;
 
 class CartDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $totalItems;
     public $totalQuantity;
     public $shippingWeight;
     public $shippingWeightInPounds;
     public $sessionId;
-    public $created;
-    public $updated;
 
     /** @var ShippingRateDTO */
     public $shippingRate;

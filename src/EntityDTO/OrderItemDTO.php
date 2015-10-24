@@ -3,13 +3,12 @@ namespace inklabs\kommerce\EntityDTO;
 
 class OrderItemDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $quantity;
     public $sku;
     public $name;
     public $discountNames;
-    public $created;
-    public $updated;
 
     /** @var PriceDTO */
     public $price;

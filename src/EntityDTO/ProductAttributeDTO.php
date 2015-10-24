@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 class ProductAttributeDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
 
     /** @var ProductDTO */
     public $product;

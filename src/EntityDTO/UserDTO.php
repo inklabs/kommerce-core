@@ -3,7 +3,8 @@ namespace inklabs\kommerce\EntityDTO;
 
 class UserDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $encodedId;
     public $externalId;
     public $email;
@@ -13,8 +14,6 @@ class UserDTO
     public $lastLogin;
     public $status;
     public $statusText;
-    public $created;
-    public $updated;
 
     /** @var UserRoleDTO[] */
     public $roles = [];

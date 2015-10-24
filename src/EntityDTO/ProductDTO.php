@@ -3,7 +3,8 @@ namespace inklabs\kommerce\EntityDTO;
 
 class ProductDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $encodedId;
     public $slug;
     public $sku;
@@ -22,8 +23,6 @@ class ProductDTO
     public $rating;
     public $defaultImage;
     public $isInStock;
-    public $created;
-    public $updated;
 
     /** @var TagDTO[] */
     public $tags = [];

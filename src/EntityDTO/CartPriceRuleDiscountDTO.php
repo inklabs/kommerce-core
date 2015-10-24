@@ -3,10 +3,10 @@ namespace inklabs\kommerce\EntityDTO;
 
 class CartPriceRuleDiscountDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
+    /** @var int */
     public $quantity;
-    public $created;
-    public $updated;
 
     /** @var ProductDTO */
     public $product;

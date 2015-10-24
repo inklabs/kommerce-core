@@ -3,14 +3,13 @@ namespace inklabs\kommerce\EntityDTO;
 
 class ImageDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $encodedId;
     public $path;
     public $width;
     public $height;
     public $sortOrder;
-    public $created;
-    public $updated;
 
     /** @var ProductDTO */
     public $product;

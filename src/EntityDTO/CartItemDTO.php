@@ -3,13 +3,12 @@ namespace inklabs\kommerce\EntityDTO;
 
 class CartItemDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $encodedId;
     public $fullSku;
     public $quantity;
     public $shippingWeight;
-    public $created;
-    public $updated;
 
     /** @var ProductDTO */
     public $product;

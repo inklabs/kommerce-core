@@ -3,12 +3,11 @@ namespace inklabs\kommerce\EntityDTO;
 
 class OrderItemOptionProductDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $sku;
     public $optionName;
     public $optionProductName;
-    public $created;
-    public $updated;
 
     /** @var OptionProductDTO */
     public $optionProduct;

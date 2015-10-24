@@ -3,7 +3,8 @@ namespace inklabs\kommerce\EntityDTO;
 
 class OrderDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $externalId;
     public $referenceNumber;
     public $encodedId;
@@ -13,8 +14,6 @@ class OrderDTO
     public $statusText;
     public $totalItems;
     public $totalQuantity;
-    public $created;
-    public $updated;
 
     /** @var CartTotalDTO */
     public $total;

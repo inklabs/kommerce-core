@@ -3,7 +3,8 @@ namespace inklabs\kommerce\EntityDTO;
 
 class TagDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $encodedId;
     public $slug;
     public $name;
@@ -13,8 +14,6 @@ class TagDTO
     public $sortOrder;
     public $isVisible;
     public $isActive;
-    public $created;
-    public $updated;
 
     /** @var ProductDTO[] */
     public $products = [];

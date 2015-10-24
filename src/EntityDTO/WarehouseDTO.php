@@ -3,11 +3,10 @@ namespace inklabs\kommerce\EntityDTO;
 
 class WarehouseDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $encodedId;
     public $name;
-    public $created;
-    public $updated;
 
     /** @var AddressDTO */
     public $address;

@@ -3,9 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 class CartItemOptionValueDTO
 {
-    public $id;
-    public $created;
-    public $updated;
+    use IdDTOTrait, TimeDTOTrait;
 
     /** @var OptionValueDTO */
     public $optionValue;

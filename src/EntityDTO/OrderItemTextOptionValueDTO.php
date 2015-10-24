@@ -3,11 +3,10 @@ namespace inklabs\kommerce\EntityDTO;
 
 class OrderItemTextOptionValueDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $textOptionName;
     public $textOptionValue;
-    public $created;
-    public $updated;
 
     /** @var TextOptionDTO */
     public $textOption;

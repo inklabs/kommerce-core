@@ -17,7 +17,9 @@ class ProductAttributeDTOBuilder
         $this->productAttribute = $productAttribute;
 
         $this->productAttributeDTO = new ProductAttributeDTO;
-        $this->productAttributeDTO->id = $this->productAttribute->getId();
+        $this->productAttributeDTO->id      = $this->productAttribute->getId();
+        $this->productAttributeDTO->created = $this->productAttribute->getCreated();
+        $this->productAttributeDTO->updated = $this->productAttribute->getUpdated();
     }
 
     public function withProduct()

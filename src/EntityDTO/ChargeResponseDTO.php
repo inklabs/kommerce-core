@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use DateTime;
+
 class ChargeResponseDTO
 {
     public $externalId;
@@ -10,5 +12,7 @@ class ChargeResponseDTO
     public $currency;
     public $fee;
     public $description;
+
+    /** @var DateTime */
     public $created;
 }

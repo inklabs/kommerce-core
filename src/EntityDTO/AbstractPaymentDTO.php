@@ -3,8 +3,8 @@ namespace inklabs\kommerce\EntityDTO;
 
 class AbstractPaymentDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
+    /** @var int */
     public $amount;
-    public $created;
-    public $updated;
 }

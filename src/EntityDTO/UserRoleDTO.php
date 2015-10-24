@@ -3,10 +3,9 @@ namespace inklabs\kommerce\EntityDTO;
 
 class UserRoleDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $encodedId;
     public $name;
     public $description;
-    public $created;
-    public $updated;
 }

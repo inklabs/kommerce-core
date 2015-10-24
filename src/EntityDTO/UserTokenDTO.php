@@ -3,14 +3,13 @@ namespace inklabs\kommerce\EntityDTO;
 
 class UserTokenDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $encodedId;
     public $userAgent;
     public $expires;
     public $type;
     public $typeText;
-    public $created;
-    public $updated;
 
     /** @var UserDTO */
     public $user;

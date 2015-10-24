@@ -3,14 +3,13 @@ namespace inklabs\kommerce\EntityDTO;
 
 class OptionValueDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $encodedId;
     public $sortOrder;
     public $name;
     public $sku;
     public $shippingWeight;
-    public $created;
-    public $updated;
 
     /** @var OptionDTO */
     public $option;

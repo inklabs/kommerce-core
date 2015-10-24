@@ -5,7 +5,8 @@ use DateTime;
 
 class AbstractPromotionDTO
 {
-    public $id;
+    use IdDTOTrait, TimeDTOTrait;
+
     public $encodedId;
     public $name;
     public $type;
@@ -17,8 +18,6 @@ class AbstractPromotionDTO
     public $startFormatted;
     public $endFormatted;
     public $isRedemptionCountValid;
-    public $created;
-    public $updated;
 
     /** @var DateTime */
     public $start;
