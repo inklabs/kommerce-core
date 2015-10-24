@@ -61,7 +61,7 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
      */
     private function setCarrier($carrier)
     {
-        $this->carrier = $carrier;
+        $this->carrier = (int) $carrier;
     }
 
     public function getCarrier()
