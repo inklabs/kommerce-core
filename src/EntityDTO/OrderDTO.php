@@ -29,4 +29,10 @@ class OrderDTO
 
     /** @var CouponDTO[] */
     public $coupons = [];
+
+    /** @var ShippingRateDTO */
+    public $shippingRate;
+
+    /** @var TaxRateDTO */
+    public $taxRate;
 }

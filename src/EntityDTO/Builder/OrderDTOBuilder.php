@@ -44,6 +44,16 @@ class OrderDTOBuilder
                 ->withAllData()
                 ->build();
         }
+
+        if ($this->order->getShippingRate() !== null) {
+            $this->orderDTO->shippingRate = $this->order->getShippingRate()->getDTOBuilder()
+                ->build();
+        }
+
+        if ($this->order->getTaxRate() !== null) {
+            $this->orderDTO->taxRate = $this->order->getTaxRate()->getDTOBuilder()
+                ->build();
+        }
     }
 
     public function withUser()
