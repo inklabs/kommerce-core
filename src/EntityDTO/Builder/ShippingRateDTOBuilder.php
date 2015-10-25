@@ -16,7 +16,7 @@ class ShippingRateDTOBuilder
     {
         $this->shippingRate = $shippingRate;
 
-        $this->shippingRateDTO = new ShippingRateDTO();
+        $this->shippingRateDTO = new ShippingRateDTO;
         $this->shippingRateDTO->code           = $this->shippingRate->getCode();
         $this->shippingRateDTO->name           = $this->shippingRate->getName();
         $this->shippingRateDTO->cost           = $this->shippingRate->getCost();
