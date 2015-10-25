@@ -251,4 +251,19 @@ class OrderItem implements EntityInterface, ValidationInterface
     {
         return new OrderItemDTOBuilder($this);
     }
+
+    public function getShippingWeight()
+    {
+        $weight = $this->product->getShippingWeight();
+
+        foreach ($this->orderItemOptionProducts as $orderItemOptionValue) {
+            $weight += $orderItemOptionValue->getOptionProduct()->getShippingWeight();
+        }
+
+        foreach ($this->orderItemOptionValues as $orderItemOptionValue) {
+            $weight += $orderItemOptionValue->getOptionValue()->getShippingWeight();
+        }
+
+        return $weight;
+    }
 }

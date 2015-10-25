@@ -18,14 +18,15 @@ class OrderItemDTOBuilder
         $this->orderItem = $orderItem;
 
         $this->orderItemDTO = new OrderItemDTO;
-        $this->orderItemDTO->id            = $this->orderItem->getId();
-        $this->orderItemDTO->encodedId     = BaseConvert::encode($this->orderItem->getId());
-        $this->orderItemDTO->quantity      = $this->orderItem->getQuantity();
-        $this->orderItemDTO->sku           = $this->orderItem->getSku();
-        $this->orderItemDTO->name          = $this->orderItem->getName();
-        $this->orderItemDTO->discountNames = $this->orderItem->getDiscountNames();
-        $this->orderItemDTO->created       = $this->orderItem->getCreated();
-        $this->orderItemDTO->updated       = $this->orderItem->getUpdated();
+        $this->orderItemDTO->id             = $this->orderItem->getId();
+        $this->orderItemDTO->encodedId      = BaseConvert::encode($this->orderItem->getId());
+        $this->orderItemDTO->quantity       = $this->orderItem->getQuantity();
+        $this->orderItemDTO->sku            = $this->orderItem->getSku();
+        $this->orderItemDTO->name           = $this->orderItem->getName();
+        $this->orderItemDTO->discountNames  = $this->orderItem->getDiscountNames();
+        $this->orderItemDTO->created        = $this->orderItem->getCreated();
+        $this->orderItemDTO->updated        = $this->orderItem->getUpdated();
+        $this->orderItemDTO->shippingWeight = $this->orderItem->getShippingWeight();
 
         $this->orderItemDTO->price = $orderItem->getPrice()->getDTOBuilder()
             ->withAllData()

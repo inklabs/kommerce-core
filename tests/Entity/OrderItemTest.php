@@ -120,6 +120,39 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($orderItem instanceof OrderItem);
     }
 
+    public function testGetShippingWeight()
+    {
+        $product = new Product;
+        $product->setShippingWeight(2);
+
+        $orderItem = new OrderItem;
+        $orderItem->setProduct($product);
+        $orderItem->setQuantity(2);
+
+        $this->assertSame(2, $orderItem->getShippingWeight());
+
+        $product2 = new Product;
+        $product2->setShippingWeight(3);
+        $optionProduct = new OptionProduct;
+        $optionProduct->setProduct($product2);
+        $optionProduct->setOption(new Option);
+        $orderItemOptionProduct = new OrderItemOptionProduct;
+        $orderItemOptionProduct->setOptionProduct($optionProduct);
+        $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
+        $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
+
+        $this->assertSame(8, $orderItem->getShippingWeight());
+
+        $optionValue = new OptionValue;
+        $optionValue->setShippingWeight(4);
+        $optionValue->setOption(new Option);
+        $orderItemOptionValue = new OrderItemOptionValue;
+        $orderItemOptionValue->setOptionValue($optionValue);
+        $orderItem->addOrderItemOptionValue($orderItemOptionValue);
+
+        $this->assertSame(12, $orderItem->getShippingWeight());
+    }
+
     private function getOptionProduct(Product $product)
     {
         $option = new Option;

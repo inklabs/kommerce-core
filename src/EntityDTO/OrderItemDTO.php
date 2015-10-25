@@ -10,6 +10,9 @@ class OrderItemDTO
     public $name;
     public $discountNames;
 
+    /** @var int */
+    public $shippingWeight;
+
     /** @var PriceDTO */
     public $price;
 
