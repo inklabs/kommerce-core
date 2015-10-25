@@ -11,7 +11,7 @@ interface ShipmentInterface
      * @param OrderAddress $fromAddress
      * @param OrderAddress $toAddress
      * @param Parcel $parcel
-     * @return ShipmentRate
+     * @return ShipmentRate[]
      */
     public function getRates($fromAddress, $toAddress, $parcel);
 }
