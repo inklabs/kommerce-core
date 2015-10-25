@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
+class CatalogPromotionTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -13,11 +13,7 @@ class CatalogPromotionTest extends \PHPUnit_Framework_TestCase
         $catalogPromotion->setValue(20);
         $catalogPromotion->setTag(new Tag);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($catalogPromotion));
+        $this->assertEntityValid($catalogPromotion);
         $this->assertSame('20PCTOFF', $catalogPromotion->getCode());
         $this->assertTrue($catalogPromotion->getTag() instanceof Tag);
     }

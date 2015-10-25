@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CartTest extends \PHPUnit_Framework_TestCase
+class CartTest extends DoctrineTestCase
 {
     private function getPercentCoupon($id, $value)
     {
@@ -31,11 +31,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $cart->setTaxRate(new TaxRate);
         $cart->setSessionId('6is7ujb3crb5ja85gf91g9en62');
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($cart));
+        $this->assertEntityValid($cart);
         $this->assertTrue($cart instanceof Cart);
         $this->assertSame('6is7ujb3crb5ja85gf91g9en62', $cart->getSessionId());
         $this->assertTrue($cart->getCartitems()[0] instanceof CartItem);

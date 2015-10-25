@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use DateTimeZone;
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class AbstractPromotionTest extends \PHPUnit_Framework_TestCase
+class AbstractPromotionTest extends DoctrineTestCase
 {
     /** @var AbstractPromotion */
     protected $promotion;
@@ -26,11 +26,7 @@ class AbstractPromotionTest extends \PHPUnit_Framework_TestCase
         $this->promotion->setStart(new DateTime);
         $this->promotion->setEnd(new DateTime);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($this->promotion));
+        $this->assertEntityValid($this->promotion);
         $this->assertSame('20% Off in 2014', $this->promotion->getName());
         $this->assertSame(AbstractPromotion::TYPE_PERCENT, $this->promotion->getType());
         $this->assertSame('Percent', $this->promotion->getTypeText());

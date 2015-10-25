@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class OptionValueTest extends \PHPUnit_Framework_TestCase
+class OptionValueTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -20,11 +20,7 @@ class OptionValueTest extends \PHPUnit_Framework_TestCase
         $optionValue->setUnitPrice(500);
         $optionValue->setOption($option);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($optionValue));
+        $this->assertEntityValid($optionValue);
         $this->assertSame(0, $optionValue->getSortOrder());
         $this->assertSame('MD', $optionValue->getSku());
         $this->assertSame('Medium Shirt', $optionValue->getName());

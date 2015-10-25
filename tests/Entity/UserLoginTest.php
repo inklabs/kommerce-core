@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class UserLoginTest extends \PHPUnit_Framework_TestCase
+class UserLoginTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -13,11 +13,7 @@ class UserLoginTest extends \PHPUnit_Framework_TestCase
         $userLogin->setResult(UserLogin::RESULT_SUCCESS);
         $userLogin->setUser(new User);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($userLogin));
+        $this->assertEntityValid($userLogin);
         $this->assertSame('test@example.com', $userLogin->getEmail());
         $this->assertSame('8.8.8.8', $userLogin->getIp4());
         $this->assertSame(UserLogin::RESULT_SUCCESS, $userLogin->getResult());

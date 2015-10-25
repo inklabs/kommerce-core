@@ -2,20 +2,16 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use Symfony\Component\Validator\Validation;
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CartPriceRuleTest extends \PHPUnit_Framework_TestCase
+class CartPriceRuleTest extends DoctrineTestCase
 {
     public function testCreate()
     {
         $cartPriceRule = new CartPriceRule;
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($cartPriceRule));
+        $this->assertEntityValid($cartPriceRule);
         $this->assertSame(0, count($cartPriceRule->getCartPriceRuleItems()));
         $this->assertSame(0, count($cartPriceRule->getCartPriceRuleDiscounts()));
     }

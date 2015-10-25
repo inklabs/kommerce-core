@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class OptionTest extends \PHPUnit_Framework_TestCase
+class OptionTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -16,11 +16,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $option->addOptionProduct(new OptionProduct(new Product));
         $option->addOptionValue(new OptionValue);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($option));
+        $this->assertEntityValid($option);
         $this->assertSame(Option::TYPE_RADIO, $option->getType());
         $this->assertSame('Radio', $option->getTypeText());
         $this->assertTrue($option->getTags()[0] instanceof Tag);

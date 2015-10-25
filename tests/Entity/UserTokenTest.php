@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use DateTimeZone;
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class UserTokenTest extends \PHPUnit_Framework_TestCase
+class UserTokenTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -16,11 +16,7 @@ class UserTokenTest extends \PHPUnit_Framework_TestCase
         $userToken->setExpires(new DateTime);
         $userToken->setUser(new User);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($userToken));
+        $this->assertEntityValid($userToken);
         $this->assertSame(null, $userToken->getId());
         $this->assertSame('UserAgent', $userToken->getUserAgent());
         $this->assertSame(true, $userToken->verifyToken('token'));

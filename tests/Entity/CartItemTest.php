@@ -2,10 +2,9 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Lib\Pricing;
-use Symfony\Component\Validator\Validation;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CartItemTest extends Helper\DoctrineTestCase
+class CartItemTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -13,11 +12,7 @@ class CartItemTest extends Helper\DoctrineTestCase
 
         $pricing = new Pricing;
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($cartItem));
+        $this->assertEntityValid($cartItem);
         $this->assertTrue($cartItem instanceof CartItem);
         $this->assertSame(2, $cartItem->getQuantity());
         $this->assertSame('P1-OP1-OV1', $cartItem->getFullSku());

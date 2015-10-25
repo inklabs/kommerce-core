@@ -1,19 +1,15 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CartPriceRuleTagItemTest extends \PHPUnit_Framework_TestCase
+class CartPriceRuleTagItemTest extends DoctrineTestCase
 {
     public function testCreate()
     {
         $priceRule = new CartPriceRuleTagItem(new Tag, 1);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($priceRule));
+        $this->assertEntityValid($priceRule);
         $this->assertTrue($priceRule->getTag() instanceof Tag);
     }
 

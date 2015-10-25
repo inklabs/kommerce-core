@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\tests\Helper;
 
+use inklabs\kommerce\Entity\ValidationInterface;
 use inklabs\kommerce\Lib\Mapper;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
@@ -217,10 +218,7 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function assertEntityValid($shipmentTracking)
     {
-        $errors = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator()
-            ->validate($shipmentTracking);
+        $errors = $this->getValidationErrors($shipmentTracking);
 
         $messages = [];
         foreach ($errors as $violation) {
@@ -229,5 +227,17 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $errorMessage = implode(PHP_EOL, $messages);
 
         $this->assertEmpty($errors, $errorMessage);
+    }
+
+    /**
+     * @param validationInterface $entity
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
+    protected function getValidationErrors(ValidationInterface $entity)
+    {
+        return Validation::createValidatorBuilder()
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator()
+            ->validate($entity);
     }
 }

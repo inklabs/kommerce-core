@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
 use inklabs\kommerce\Entity\CreditCard;
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ChargeRequestTest extends \PHPUnit_Framework_TestCase
+class ChargeRequestTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -22,11 +22,7 @@ class ChargeRequestTest extends \PHPUnit_Framework_TestCase
         $chargeRequest->setCurrency('usd');
         $chargeRequest->setDescription('test@example.com');
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($chargeRequest));
+        $this->assertEntityValid($chargeRequest);
         $this->assertSame(2000, $chargeRequest->getAmount());
         $this->assertSame('usd', $chargeRequest->getCurrency());
         $this->assertSame('test@example.com', $chargeRequest->getDescription());

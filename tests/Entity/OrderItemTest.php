@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class OrderItemTest extends \PHPUnit_Framework_TestCase
+class OrderItemTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -66,11 +66,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $order->addOrderItem($orderItem);
         $order->setTotal(new CartTotal);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($orderItem));
+        $this->assertEntityValid($orderItem);
         $this->assertSame(2, $orderItem->getQuantity());
         $this->assertSame('sku1-LAA-MD', $orderItem->getSku());
         $this->assertSame('test name', $orderItem->getName());
@@ -107,11 +103,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
         $order->addOrderItem($orderItem);
         $order->setTotal(new CartTotal);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($orderItem));
+        $this->assertEntityValid($orderItem);
         $this->assertSame(3, $orderItem->getQuantity());
         $this->assertSame('NONE', $orderItem->getSku());
         $this->assertSame('Free Entry Line Item', $orderItem->getName());

@@ -1,19 +1,15 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CashPaymentTest extends \PHPUnit_Framework_TestCase
+class CashPaymentTest extends DoctrineTestCase
 {
     public function testCreate()
     {
         $payment = new CashPayment(100);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($payment));
+        $this->assertEntityValid($payment);
         $this->assertSame(100, $payment->getAmount());
     }
 }

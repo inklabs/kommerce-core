@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Lib\Pricing;
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ProductTest extends \PHPUnit_Framework_TestCase
+class ProductTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -36,11 +36,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->addOptionProduct(new OptionProduct(new Product));
         $product->addProductAttribute(new ProductAttribute);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($product));
+        $this->assertEntityValid($product);
         $this->assertSame('TST101', $product->getSku());
         $this->assertSame('Test Product', $product->getName());
         $this->assertSame(500, $product->getUnitPrice());

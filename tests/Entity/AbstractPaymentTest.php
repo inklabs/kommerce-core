@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class AbstractPaymentTest extends \PHPUnit_Framework_TestCase
+class AbstractPaymentTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -21,11 +21,7 @@ class AbstractPaymentTest extends \PHPUnit_Framework_TestCase
         $mock->setAmount(100);
         $mock->setOrder($order);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($mock));
+        $this->assertEntityValid($mock);
         $this->assertSame(100, $mock->getAmount());
         $this->assertTrue($mock->getOrder() instanceof Order);
     }

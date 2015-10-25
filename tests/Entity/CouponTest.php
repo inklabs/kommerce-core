@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CouponTest extends \PHPUnit_Framework_TestCase
+class CouponTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -18,11 +18,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $coupon->setFlagFreeShipping(true);
         $coupon->setCanCombineWithOtherCoupons(true);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($coupon));
+        $this->assertEntityValid($coupon);
         $this->assertSame('20% Off orders over $100', $coupon->getName());
         $this->assertSame('20PCT100', $coupon->getCode());
         $this->assertSame(AbstractPromotion::TYPE_PERCENT, $coupon->getType());

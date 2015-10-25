@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CreditCardTest extends \PHPUnit_Framework_TestCase
+class CreditCardTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -15,11 +15,7 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
         $creditCard->setExpirationMonth('1');
         $creditCard->setExpirationYear('2020');
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($creditCard));
+        $this->assertEntityValid($creditCard);
         $this->assertSame('John Doe', $creditCard->getName());
         $this->assertSame('4242424242424242', $creditCard->getNumber());
         $this->assertSame('123', $creditCard->getCvc());

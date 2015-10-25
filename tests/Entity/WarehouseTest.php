@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class WarehouseTest extends \PHPUnit_Framework_TestCase
+class WarehouseTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -19,11 +19,7 @@ class WarehouseTest extends \PHPUnit_Framework_TestCase
         $warehouse->setName('Store Headquarters');
         $warehouse->setAddress($address);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($warehouse));
+        $this->assertEntityValid($warehouse);
         $this->assertSame('Store Headquarters', $warehouse->getName());
         $this->assertTrue($warehouse->getAddress() instanceof Address);
     }

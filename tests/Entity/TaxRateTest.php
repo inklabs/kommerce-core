@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class TaxRateTest extends \PHPUnit_Framework_TestCase
+class TaxRateTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -15,11 +15,7 @@ class TaxRateTest extends \PHPUnit_Framework_TestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($taxRate));
+        $this->assertEntityValid($taxRate);
         $this->assertSame(null, $taxRate->getState());
         $this->assertSame('92606', $taxRate->getZip5());
         $this->assertSame(null, $taxRate->getZip5From());

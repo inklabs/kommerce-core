@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ChargeResponseTest extends \PHPUnit_Framework_TestCase
+class ChargeResponseTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -17,11 +17,7 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
         $chargeResponse->setDescription('test@example.com');
         $chargeResponse->setCreated(1420656887);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($chargeResponse));
+        $this->assertEntityValid($chargeResponse);
         $this->assertSame('ch_xxxxxxxxxxxxxx', $chargeResponse->getExternalId());
         $this->assertSame(2000, $chargeResponse->getAmount());
         $this->assertSame('4242', $chargeResponse->getLast4());
@@ -45,11 +41,7 @@ class ChargeResponseTest extends \PHPUnit_Framework_TestCase
         $chargeResponse->setDescription(str_pad('x', 256, 'x'));
         $chargeResponse->setCreated(-1);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $errors = $validator->validate($chargeResponse);
+        $errors = $this->getValidationErrors($chargeResponse);
 
         $this->assertSame(8, sizeof($errors));
         $this->assertSame('externalId', $errors->get(0)->getPropertyPath());

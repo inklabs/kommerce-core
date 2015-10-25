@@ -4,7 +4,6 @@ namespace inklabs\kommerce\Entity;
 use DateTime;
 use inklabs\kommerce\Event\PasswordChangedEvent;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use Symfony\Component\Validator\Validation;
 
 class UserTest extends DoctrineTestCase
 {
@@ -37,11 +36,7 @@ class UserTest extends DoctrineTestCase
         $user->addOrder($order);
         $user->setCart(new Cart);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($user));
+        $this->assertEntityValid($user);
         $this->assertSame(User::STATUS_ACTIVE, $user->getStatus());
         $this->assertSame('Active', $user->getStatusText());
         $this->assertSame('5', $user->getExternalId());

@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use inklabs\kommerce\Lib\Pricing;
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
+class ProductQuantityDiscountTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -15,11 +15,7 @@ class ProductQuantityDiscountTest extends \PHPUnit_Framework_TestCase
         $productQuantityDiscount->setFlagApplyCatalogPromotions(true);
         $productQuantityDiscount->setProduct(new Product);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($productQuantityDiscount));
+        $this->assertEntityValid($productQuantityDiscount);
         $this->assertSame(null, $productQuantityDiscount->getCustomerGroup());
         $this->assertSame(6, $productQuantityDiscount->getQuantity());
         $this->assertSame(true, $productQuantityDiscount->getFlagApplyCatalogPromotions());

@@ -1,19 +1,15 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class PointTest extends \PHPUnit_Framework_TestCase
+class PointTest extends DoctrineTestCase
 {
     public function testCreate()
     {
         $point = new Point(34.052234, -118.243685);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($point));
+        $this->assertEntityValid($point);
         $this->assertEquals(34.052234, $point->getLatitude(), '', FLOAT_DELTA);
         $this->assertEquals(-118.243685, $point->getLongitude(), '', FLOAT_DELTA);
     }

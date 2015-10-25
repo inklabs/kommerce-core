@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class TextOptionTest extends \PHPUnit_Framework_TestCase
+class TextOptionTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -14,11 +14,7 @@ class TextOptionTest extends \PHPUnit_Framework_TestCase
         $textOption->setSortOrder(0);
         $textOption->addTag(new Tag);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($textOption));
+        $this->assertEntityValid($textOption);
         $this->assertSame(TextOption::TYPE_TEXTAREA, $textOption->getType());
         $this->assertSame('Textarea', $textOption->getTypeText());
         $this->assertSame('Custom Message', $textOption->getName());

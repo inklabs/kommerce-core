@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class AttributeValueTest extends \PHPUnit_Framework_TestCase
+class AttributeValueTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -15,11 +15,7 @@ class AttributeValueTest extends \PHPUnit_Framework_TestCase
         $attributeValue->setAttribute(new Attribute);
         $attributeValue->addProductAttribute(new ProductAttribute);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($attributeValue));
+        $this->assertEntityValid($attributeValue);
         $this->assertSame('TA', $attributeValue->getSku());
         $this->assertSame('Test Attribute', $attributeValue->getName());
         $this->assertSame('Test attribute description', $attributeValue->getDescription());

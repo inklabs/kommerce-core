@@ -4,9 +4,9 @@ namespace inklabs\kommerce\Entity;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 use inklabs\kommerce\Lib\PaymentGateway\StripeFake;
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CreditPaymentTest extends \PHPUnit_Framework_TestCase
+class CreditPaymentTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -25,11 +25,7 @@ class CreditPaymentTest extends \PHPUnit_Framework_TestCase
 
         $payment = new CreditPayment($chargeRequest, new StripeFake);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($payment));
+        $this->assertEntityValid($payment);
         $this->assertSame(100, $payment->getAmount());
         $this->assertTrue($payment->getChargeResponse() instanceof ChargeResponse);
     }

@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class TagTest extends \PHPUnit_Framework_TestCase
+class TagTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -32,11 +32,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
         $tag->addImage($image);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($tag));
+        $this->assertEntityValid($tag);
         $this->assertSame('Test Tag', $tag->getName());
         $this->assertSame('TT', $tag->getCode());
         $this->assertSame('Test Description', $tag->getDescription());

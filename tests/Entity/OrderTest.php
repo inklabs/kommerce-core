@@ -5,9 +5,8 @@ use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Lib\PaymentGateway;
-use Symfony\Component\Validator\Validation;
 
-class OrderTest extends \PHPUnit_Framework_TestCase
+class OrderTest extends Helper\DoctrineTestCase
 {
     public function testCreate()
     {
@@ -51,11 +50,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->setTotal(new CartTotal);
         $order->addShipment(new Shipment);
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($order));
+        $this->assertEntityValid($order);
         $this->assertSame(1, $order->getReferenceId());
         $this->assertSame('xxx-xxxxxxx-xxxxxxx', $order->getReferenceNumber());
         $this->assertSame(Order::STATUS_PENDING, $order->getStatus());
