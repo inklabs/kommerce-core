@@ -28,7 +28,7 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
     /** @var int */
     protected $maxRedemptions;
 
-    /** @var bool */
+    /** @var boolean */
     protected $reducesTaxSubtotal;
 
     /** @var DateTime|null */
@@ -141,7 +141,7 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
     }
 
     /**
-     * @param bool $reducesTaxSubtotal
+     * @param boolean $reducesTaxSubtotal
      */
     public function setReducesTaxSubtotal($reducesTaxSubtotal)
     {

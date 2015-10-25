@@ -19,6 +19,12 @@ class OrderAddress implements ValidationInterface
     public $phone;
     public $email;
 
+    /** @var string */
+    protected $country;
+
+    /** @var boolean */
+    protected $isResidential;
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('firstName', new Assert\NotBlank);
@@ -70,6 +76,26 @@ class OrderAddress implements ValidationInterface
         $metadata->addPropertyConstraint('email', new Assert\Length([
             'max' => 128,
         ]));
+
+        $metadata->addPropertyConstraint('country', new Assert\Length([
+            'max' => 2,
+        ]));
+    }
+
+    /**
+     * @param string $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @param boolean $isResidential
+     */
+    public function setIsResidential($isResidential)
+    {
+        $this->isResidential = (bool) $isResidential;
     }
 
     public function getFullName()

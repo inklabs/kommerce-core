@@ -24,7 +24,7 @@ class ShipmentRate implements EntityInterface, ValidationInterface
     /** @var int */
     protected $deliveryDate;
 
-    /** @var bool */
+    /** @var boolean */
     protected $isDeliveryDateGuaranteed;
 
     /** @var int */
@@ -41,6 +41,7 @@ class ShipmentRate implements EntityInterface, ValidationInterface
 
     public function __construct(Money $rate)
     {
+        $this->setCreated();
         $this->rate = $rate;
     }
 
@@ -138,7 +139,7 @@ class ShipmentRate implements EntityInterface, ValidationInterface
     }
 
     /**
-     * @param bool $isDeliveryDateGuaranteed
+     * @param boolean $isDeliveryDateGuaranteed
      */
     public function setIsDeliveryDateGuaranteed($isDeliveryDateGuaranteed)
     {

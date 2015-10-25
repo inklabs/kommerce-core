@@ -32,7 +32,7 @@ class ShippingRate
     /** @var string */
     protected $state;
 
-    /** @var bool */
+    /** @var boolean */
     protected $isResidential;
 
     public function getCode()

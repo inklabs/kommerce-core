@@ -23,22 +23,22 @@ class Product implements EntityInterface, ValidationInterface
     /** @var int */
     protected $quantity;
 
-    /** @var bool */
+    /** @var boolean */
     protected $isInventoryRequired;
 
-    /** @var bool */
+    /** @var boolean */
     protected $isPriceVisible;
 
-    /** @var bool */
+    /** @var boolean */
     protected $isActive;
 
-    /** @var bool */
+    /** @var boolean */
     protected $isVisible;
 
-    /** @var bool */
+    /** @var boolean */
     protected $isTaxable;
 
-    /** @var bool */
+    /** @var boolean */
     protected $isShippable;
 
     /** @var int */

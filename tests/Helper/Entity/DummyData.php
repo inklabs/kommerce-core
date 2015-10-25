@@ -17,6 +17,7 @@ use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\OptionValue;
@@ -26,11 +27,13 @@ use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\OrderItemOptionProduct;
 use inklabs\kommerce\Entity\OrderItemOptionValue;
 use inklabs\kommerce\Entity\OrderItemTextOptionValue;
+use inklabs\kommerce\Entity\Parcel;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
@@ -320,6 +323,8 @@ class DummyData
         $orderAddress->zip4 = '3274';
         $orderAddress->phone = '555-123-4567';
         $orderAddress->email = 'john@example.com';
+        $orderAddress->setCountry('US');
+        $orderAddress->setIsResidential(true);
 
         return $orderAddress;
     }
@@ -388,6 +393,28 @@ class DummyData
         $orderItemOptionValue = new OrderItemOptionValue;
         $orderItemOptionValue->setOptionValue($optionValue);
         return $orderItemOptionValue;
+    }
+
+    public function getParcel()
+    {
+        $parcel = new Parcel;
+        $parcel->setExternalId('prcl_xxxx');
+        $parcel->setLength(4.1);
+        $parcel->setWidth(6.2);
+        $parcel->setHeight(8.3);
+        $parcel->setWeight(32);
+
+        return $parcel;
+    }
+
+    public function getParcelSmallFlatRateBox()
+    {
+        $parcel = new Parcel;
+        $parcel->setExternalId('prcl_xxxx');
+        $parcel->setPredefinedPackage('SmallFlatRateBox');
+        $parcel->setWeight(32);
+
+        return $parcel;
     }
 
     public function getPrice()
@@ -566,5 +593,19 @@ class DummyData
         $warehouse->setAddress($this->getAddress());
 
         return $warehouse;
+    }
+
+    public function getShipmentRate($amount)
+    {
+        $shipmentRate = new ShipmentRate(new Money($amount, 'USD'));
+        $shipmentRate->setExternalId('rate_xxxxxxx');
+        $shipmentRate->setCarrier('UPS');
+        $shipmentRate->setService('Ground');
+        $shipmentRate->setDeliveryDays(3);
+        $shipmentRate->setDeliveryDate(new DateTime('+3 days'));
+        $shipmentRate->setListRate(new Money($amount * 1.05, 'USD'));
+        $shipmentRate->setRetailRate(new Money($amount * 1.15, 'USD'));
+
+        return $shipmentRate;
     }
 }

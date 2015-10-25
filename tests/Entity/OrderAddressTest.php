@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Validation;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class OrderAddressTest extends \PHPUnit_Framework_TestCase
+class OrderAddressTest extends DoctrineTestCase
 {
     public function testCreate()
     {
@@ -20,11 +20,7 @@ class OrderAddressTest extends \PHPUnit_Framework_TestCase
         $orderAddress->phone = '555-123-4567';
         $orderAddress->email = 'john@example.com';
 
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $this->assertEmpty($validator->validate($orderAddress));
+        $this->assertEntityValid($orderAddress);
         $this->assertTrue($orderAddress instanceof OrderAddress);
     }
 }

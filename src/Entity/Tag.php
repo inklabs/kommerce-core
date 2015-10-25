@@ -25,10 +25,10 @@ class Tag implements EntityInterface, ValidationInterface
     /** @var int */
     protected $sortOrder;
 
-    /** @var bool */
+    /** @var boolean */
     protected $isActive;
 
-    /** @var bool */
+    /** @var boolean */
     protected $isVisible;
 
     /** @var Product[] */

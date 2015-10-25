@@ -24,7 +24,7 @@ class TaxRate implements EntityInterface, ValidationInterface
     /** @var double */
     protected $rate;
 
-    /** @var bool */
+    /** @var boolean */
     protected $applyToShipping;
 
     public function __construct()
