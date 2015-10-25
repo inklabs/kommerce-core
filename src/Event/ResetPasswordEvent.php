@@ -20,6 +20,7 @@ class ResetPasswordEvent implements EventInterface
     /**
      * @param int $userId
      * @param string $email
+     * @param string $fullName
      * @param string $token
      */
     public function __construct($userId, $email, $fullName, $token)

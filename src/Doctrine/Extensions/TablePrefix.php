@@ -1,9 +1,11 @@
 <?php
 namespace inklabs\kommerce\Doctrine\Extensions;
 
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
-class TablePrefix implements \Doctrine\Common\EventSubscriber
+class TablePrefix implements EventSubscriber
 {
     protected $prefix = '';
 
@@ -29,7 +31,7 @@ class TablePrefix implements \Doctrine\Common\EventSubscriber
             $classMetadata->setPrimaryTable(['name' => $this->prefix . $classMetadata->getTableName()]);
 
             foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
-                if ($mapping['type'] == \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY
+                if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY
                     && isset($classMetadata->associationMappings[$fieldName]['joinTable']['name'])
                 ) {
                     $mappedTableName = $classMetadata->associationMappings[$fieldName]['joinTable']['name'];

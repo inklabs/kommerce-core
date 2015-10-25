@@ -21,7 +21,7 @@ class ShipmentRate implements EntityInterface, ValidationInterface
     /** @var string */
     protected $carrier;
 
-    /** @var DateTime */
+    /** @var int */
     protected $deliveryDate;
 
     /** @var bool */
