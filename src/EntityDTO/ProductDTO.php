@@ -5,7 +5,6 @@ class ProductDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $encodedId;
     public $slug;
     public $sku;
     public $name;

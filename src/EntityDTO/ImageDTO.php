@@ -5,7 +5,6 @@ class ImageDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $encodedId;
     public $path;
     public $width;
     public $height;

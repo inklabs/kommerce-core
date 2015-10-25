@@ -5,4 +5,7 @@ trait IdDTOTrait
 {
     /** @var int */
     public $id;
+
+    /** @var string */
+    public $encodedId;
 }

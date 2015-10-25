@@ -7,7 +7,6 @@ class OrderDTO
 
     public $externalId;
     public $referenceNumber;
-    public $encodedId;
     public $shippingAddress;
     public $billingAddress;
     public $status;

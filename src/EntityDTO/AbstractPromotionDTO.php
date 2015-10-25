@@ -7,7 +7,6 @@ class AbstractPromotionDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $encodedId;
     public $name;
     public $type;
     public $typeText;

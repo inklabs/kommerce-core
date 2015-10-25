@@ -5,7 +5,6 @@ class UserRoleDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $encodedId;
     public $name;
     public $description;
 }

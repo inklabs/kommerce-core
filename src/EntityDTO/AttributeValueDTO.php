@@ -5,7 +5,6 @@ class AttributeValueDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $encodedId;
     public $sku;
     public $name;
     public $description;

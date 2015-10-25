@@ -5,7 +5,6 @@ class UserTokenDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $encodedId;
     public $userAgent;
     public $expires;
     public $type;

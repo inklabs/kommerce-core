@@ -5,7 +5,6 @@ class OptionValueDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $encodedId;
     public $sortOrder;
     public $name;
     public $sku;

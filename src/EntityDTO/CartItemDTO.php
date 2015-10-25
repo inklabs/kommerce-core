@@ -5,7 +5,6 @@ class CartItemDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $encodedId;
     public $fullSku;
     public $quantity;
     public $shippingWeight;

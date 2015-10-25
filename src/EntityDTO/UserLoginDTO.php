@@ -7,7 +7,6 @@ class UserLoginDTO
 {
     use IdDTOTrait;
 
-    public $encodedId;
     public $email;
     public $ip4;
     public $result;

@@ -5,7 +5,6 @@ class TagDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $encodedId;
     public $slug;
     public $name;
     public $code;

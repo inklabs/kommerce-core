@@ -5,7 +5,6 @@ class OptionProductDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $encodedId;
     public $name;
     public $sku;
     public $shippingWeight;

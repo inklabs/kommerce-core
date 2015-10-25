@@ -5,7 +5,6 @@ class UserDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $encodedId;
     public $externalId;
     public $email;
     public $firstName;
