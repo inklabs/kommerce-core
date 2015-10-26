@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\ParcelDTOBuilder;
+
 class Parcel
 {
     use TimeTrait;
@@ -36,12 +38,22 @@ class Parcel
         $this->externalId = (string) $externalId;
     }
 
+    public function getExternalId()
+    {
+        return $this->externalId;
+    }
+
     /**
      * @param float $length
      */
     public function setLength($length)
     {
         $this->length = (float) $length;
+    }
+
+    public function getLength()
+    {
+        return $this->length;
     }
 
     /**
@@ -52,12 +64,22 @@ class Parcel
         $this->width = (float) $width;
     }
 
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
     /**
      * @param float $height
      */
     public function setHeight($height)
     {
         $this->height = (float) $height;
+    }
+
+    public function getHeight()
+    {
+        return $this->height;
     }
 
     /**
@@ -68,11 +90,26 @@ class Parcel
         $this->weight = (int) $weight;
     }
 
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
     /**
      * @param string $predefinedPackage
      */
     public function setPredefinedPackage($predefinedPackage)
     {
         $this->predefinedPackage = (string) $predefinedPackage;
+    }
+
+    public function getPredefinedPackage()
+    {
+        return $this->predefinedPackage;
+    }
+
+    public function getDTOBuilder()
+    {
+        return new ParcelDTOBuilder($this);
     }
 }

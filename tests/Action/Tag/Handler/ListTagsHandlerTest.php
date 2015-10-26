@@ -9,16 +9,16 @@ use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
 
 class ListTagsHandlerTest extends AbstractTagHandlerTestCase
 {
-    public function testExecute()
+    public function testHandle()
     {
         $tag = $this->dummyData->getTag();
         $this->fakeTagRepository->create($tag);
 
-        $getTagHandler = new ListTagsHandler($this->tagService, $this->pricing);
+        $handler = new ListTagsHandler($this->tagService, $this->pricing);
 
         $request = new ListTagsRequest('TT', new PaginationDTO);
         $response = new ListTagsResponse;
-        $getTagHandler->handle($request, $response);
+        $handler->handle($request, $response);
 
         $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);

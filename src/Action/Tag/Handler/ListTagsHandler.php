@@ -16,12 +16,12 @@ class ListTagsHandler
         $this->tagService = $tagService;
     }
 
-    public function handle(ListTagsRequest $command, ListTagsResponseInterface & $response)
+    public function handle(ListTagsRequest $request, ListTagsResponseInterface & $response)
     {
-        $paginationDTO = $command->getPaginationDTO();
+        $paginationDTO = $request->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        $tags = $this->tagService->getAllTags($command->getQueryString(), $pagination);
+        $tags = $this->tagService->getAllTags($request->getQueryString(), $pagination);
 
         $response->setPaginationDTO(
             $pagination->getDTOBuilder()

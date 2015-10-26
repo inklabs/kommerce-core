@@ -1,10 +1,12 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityRepository\RepositoryFactoryInterface;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
+use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
 class ServiceFactory
 {
@@ -169,6 +171,20 @@ class ServiceFactory
             $this->repositoryFactory->getTagRepository(),
             $this->repositoryFactory->getImageRepository()
         );
+    }
+
+    public function getShipmentGateway()
+    {
+        $fromAddress = new OrderAddressDTO;
+        $fromAddress->company = 'Acme Co.';
+        $fromAddress->address1 = '123 Any St';
+        $fromAddress->address2 = 'Ste 3';
+        $fromAddress->city = 'Santa Monica';
+        $fromAddress->state = 'CA';
+        $fromAddress->zip5 = '90401';
+        $fromAddress->phone = '555-123-4567';
+
+        return new FakeShipmentGateway($fromAddress);
     }
 
     /**

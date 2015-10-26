@@ -2,22 +2,29 @@
 namespace inklabs\kommerce\tests\Helper\Lib\ShipmentGateway;
 
 use DateTime;
-use inklabs\kommerce\Entity\OrderAddress;
-use inklabs\kommerce\Entity\Parcel;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\ShipmentTracker;
+use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 
 class FakeShipmentGateway implements ShipmentGatewayInterface
 {
+    /** @var OrderAddressDTO */
+    private $fromAddress;
+
+    public function __construct(OrderAddressDTO $fromAddress)
+    {
+        $this->fromAddress = $fromAddress;
+    }
+
     /**
-     * @param OrderAddress $fromAddress
-     * @param OrderAddress $toAddress
-     * @param Parcel $parcel
+     * @param OrderAddressDTO $toAddress
+     * @param ParcelDTO $parcel
      * @return ShipmentRate[]
      */
-    public function getRates($fromAddress, $toAddress, $parcel)
+    public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel)
     {
         $dummyData = new DummyData;
 

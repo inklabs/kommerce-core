@@ -17,7 +17,7 @@ class ShipmentRateTest extends DoctrineTestCase
         $shipmentRate->setDeliveryDate(new DateTime);
         $shipmentRate->setIsDeliveryDateGuaranteed(true);
         $shipmentRate->setDeliveryDays(5);
-        $shipmentRate->setEstDeliveryDays(null);
+        $shipmentRate->setEstDeliveryDays(5);
 
         $this->assertEntityValid($shipmentRate);
         $this->assertSame('rate_04f9a67abcb54511b756254e3b72a48z', $shipmentRate->getExternalId());
@@ -29,6 +29,6 @@ class ShipmentRateTest extends DoctrineTestCase
         $this->assertTrue($shipmentRate->getDeliveryDate() instanceof DateTime);
         $this->assertSame(5, $shipmentRate->getDeliveryDays());
         $this->assertSame(true, $shipmentRate->isDeliveryDateGuaranteed());
-        $this->assertSame(null, $shipmentRate->getEstDeliveryDays());
+        $this->assertSame(5, $shipmentRate->getEstDeliveryDays());
     }
 }
