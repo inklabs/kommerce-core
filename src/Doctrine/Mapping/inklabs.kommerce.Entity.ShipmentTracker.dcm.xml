@@ -4,21 +4,11 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                 https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="inklabs\kommerce\Entity\AbstractPayment"
-            table="Payment"
-            inheritance-type="SINGLE_TABLE"
-            repository-class="inklabs\kommerce\EntityRepository\PaymentRepository">
-
-        <discriminator-column name="payment_type" type="string" length="6"/>
-        <discriminator-map>
-            <discriminator-mapping value="cash" class="CashPayment"/>
-            <discriminator-mapping value="credit" class="CreditPayment"/>
-        </discriminator-map>
+    <entity name="inklabs\kommerce\Entity\ShipmentTracker">
 
         <lifecycle-callbacks>
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
-
 
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
@@ -27,11 +17,14 @@
             </options>
         </id>
 
-        <field name="amount" type="integer">
+        <field name="carrier" type="smallint">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
+
+        <field name="trackingCode" type="string" length="255" nullable="false"/>
+        <field name="externalId" type="string" length="60" nullable="true" unique="true"/>
 
         <field name="created" type="integer">
             <options>
@@ -45,7 +38,10 @@
             </options>
         </field>
 
-        <many-to-one field="order" target-entity="Order" inversed-by="payments">
+        <embedded name="shipmentRate" class="ShipmentRate"/>
+        <embedded name="shipmentLabel" class="ShipmentLabel"/>
+
+        <many-to-one field="shipment" target-entity="Shipment" inversed-by="shipmentTrackers">
             <join-column nullable="false"/>
         </many-to-one>
 

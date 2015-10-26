@@ -57,6 +57,12 @@
             </cascade>
         </one-to-many>
 
+        <one-to-many field="shipments" target-entity="Shipment" mapped-by="order" fetch="EXTRA_LAZY">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+
         <many-to-one field="user" target-entity="User" inversed-by="orders" fetch="EAGER"/>
         <many-to-one field="taxRate" target-entity="TaxRate" fetch="EAGER"/>
         <many-to-many field="coupons" target-entity="Coupon" fetch="EXTRA_LAZY"/>

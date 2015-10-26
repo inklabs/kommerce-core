@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <embeddable name="inklabs\kommerce\Entity\ShipmentRate">
+
+        <field name="externalId" type="string" length="60" nullable="true" unique="true"/>
+        <field name="shipmentExternalId" type="string" length="60" nullable="true" unique="true"/>
+        <field name="service" type="string" length="20" nullable="true"/>
+        <field name="carrier" type="string" length="20" nullable="true"/>
+
+        <field name="deliveryDate" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="isDeliveryDateGuaranteed" type="boolean"/>
+
+        <field name="deliveryDays" type="smallint" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="estDeliveryDays" type="smallint" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <embedded name="rate" class="Money"/>
+        <embedded name="listRate" class="Money"/>
+        <embedded name="retailRate" class="Money"/>
+
+    </embeddable>
+
+</doctrine-mapping>

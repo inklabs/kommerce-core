@@ -509,6 +509,16 @@ class DummyData
         return $productQuantityDiscount;
     }
 
+    /**
+     * TODO: PHP7 - bin2hex(random_bytes($n))
+     * @param int $bitLength
+     * @return string
+     */
+    public static function getRandomToken($bitLength = 10)
+    {
+        return bin2hex(openssl_random_pseudo_bytes($bitLength));
+    }
+
     public function getShipment()
     {
         $shipment = new Shipment;
@@ -518,7 +528,7 @@ class DummyData
     public function getShipmentLabel()
     {
         $shipmentLabel = new ShipmentLabel;
-        $shipmentLabel->setExternalId('pl_af0ec9e7299a42b3af5adaa3e18ff7fy');
+        $shipmentLabel->setExternalId('pl_' . $this->getRandomToken());
         $shipmentLabel->setCreated(new DateTime);
         $shipmentLabel->setResolution(300);
         $shipmentLabel->setSize('4x6');
@@ -532,7 +542,7 @@ class DummyData
     public function getShipmentRate($amount)
     {
         $shipmentRate = new ShipmentRate(new Money($amount, 'USD'));
-        $shipmentRate->setExternalId('rate_xxxxxxx');
+        $shipmentRate->setExternalId('rate_' . $this->getRandomToken());
         $shipmentRate->setCarrier('UPS');
         $shipmentRate->setService('Ground');
         $shipmentRate->setListRate(new Money($amount * 1.05, 'USD'));
@@ -547,7 +557,7 @@ class DummyData
             ShipmentTracker::CARRIER_UPS,
             '1Z9999999999999999'
         );
-        $shipmentTracker->setExternalId('trk_xxxxxxxxx');
+        $shipmentTracker->setExternalId('trk_' . $this->getRandomToken());
         $shipmentTracker->setShipmentRate($this->getShipmentRate(595));
         $shipmentTracker->setShipmentLabel($this->getShipmentLabel());
 

@@ -3,6 +3,9 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\Shipment;
+use inklabs\kommerce\Entity\ShipmentComment;
+use inklabs\kommerce\Entity\ShipmentItem;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentGenerator;
 use inklabs\kommerce\tests\Helper;
 
@@ -17,9 +20,13 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
         'kommerce:User',
         'kommerce:Cart',
         'kommerce:TaxRate',
+        'kommerce:Shipment',
+        'kommerce:ShipmentTracker',
+        'kommerce:ShipmentItem',
+        'kommerce:ShipmentComment',
     ];
 
-    /** @var OrderRepository */
+    /** @var OrderRepositoryInterface */
     protected $orderRepository;
 
     public function setUp()
@@ -41,10 +48,16 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
 
         $taxRate = $this->dummyData->getTaxRate();
 
+        $shipment = $this->dummyData->getshipment();
+        $shipment->addShipmentTracker($this->dummyData->getShipmentTracker());
+        $shipment->addShipmentItem(new ShipmentItem($orderItem, 1));
+        $shipment->addShipmentComment(new ShipmentComment('A comment'));
+
         $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
         $order->setUser($user);
         $order->setReferenceNumber($referenceNumber);
         $order->setTaxRate($taxRate);
+        $order->addShipment($shipment);
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);
@@ -87,8 +100,13 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
         $order->getCoupons()->toArray();
         $order->getTaxRate()->getCreated();
 
+        $shipment = $order->getShipments()[0];
+        $shipment->getShipmentTrackers()->toArray();
+        $shipment->getShipmentItems()[0]->getQuantityToShip();
+        $shipment->getShipmentComments()->toArray();
+
         $this->assertTrue($order instanceof Order);
-        $this->assertSame(5, $this->getTotalQueries());
+        $this->assertSame(9, $this->getTotalQueries());
     }
 
     /**

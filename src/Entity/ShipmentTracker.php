@@ -28,6 +28,9 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
     /** @var ShipmentLabel */
     protected $shipmentLabel;
 
+    /** @var Shipment */
+    protected $shipment;
+
     /**
      * @param int $carrier
      * @param string $trackingCode
@@ -122,5 +125,10 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new ShipmentTrackerDTOBuilder($this);
+    }
+
+    public function setShipment(Shipment $shipment)
+    {
+        $this->shipment = $shipment;
     }
 }

@@ -10,13 +10,13 @@ class Shipment implements EntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
 
-    /** @var ShipmentTracker[] */
+    /** @var ShipmentTracker[]|ArrayCollection */
     protected $shipmentTrackers;
 
-    /** @var ShipmentItem[] */
+    /** @var ShipmentItem[]|ArrayCollection */
     protected $shipmentItems;
 
-    /** @var ShipmentComment[] */
+    /** @var ShipmentComment[]|ArrayCollection */
     protected $shipmentComments;
 
     /** @var Order */
@@ -24,6 +24,7 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setCreated();
         $this->shipmentTrackers = new ArrayCollection;
         $this->shipmentItems = new ArrayCollection;
         $this->shipmentComments = new ArrayCollection;
@@ -48,12 +49,10 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function addShipmentTracker(ShipmentTracker $shipmentTracker)
     {
+        $shipmentTracker->setShipment($this);
         $this->shipmentTrackers->add($shipmentTracker);
     }
 
-    /**
-     * @return ShipmentTracker[]
-     */
     public function getShipmentTrackers()
     {
         return $this->shipmentTrackers;
@@ -61,12 +60,10 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function addShipmentItem(ShipmentItem $shipmentItem)
     {
+        $shipmentItem->setShipment($this);
         $this->shipmentItems->add($shipmentItem);
     }
 
-    /**
-     * @return ShipmentItem[]
-     */
     public function getShipmentItems()
     {
         return $this->shipmentItems;
@@ -74,12 +71,10 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function addShipmentComment(ShipmentComment $shipmentComment)
     {
+        $shipmentComment->setShipment($this);
         $this->shipmentComments->add($shipmentComment);
     }
 
-    /**
-     * @return ShipmentComment[]
-     */
     public function getShipmentComments()
     {
         return $this->shipmentComments;

@@ -6,13 +6,8 @@ use inklabs\kommerce\EntityDTO\Builder\ShipmentRateDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ShipmentRate implements EntityInterface, ValidationInterface
+class ShipmentRate implements ValidationInterface
 {
-    use IdTrait, TimeTrait;
-
-    /** @var Money */
-    protected $rate;
-
     /** @var string */
     protected $externalId;
 
@@ -38,6 +33,9 @@ class ShipmentRate implements EntityInterface, ValidationInterface
     protected $estDeliveryDays;
 
     /** @var Money */
+    protected $rate;
+
+    /** @var Money */
     protected $listRate;
 
     /** @var Money */
@@ -45,8 +43,8 @@ class ShipmentRate implements EntityInterface, ValidationInterface
 
     public function __construct(Money $rate)
     {
-        $this->setCreated();
         $this->rate = $rate;
+        $this->isDeliveryDateGuaranteed = false;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -58,6 +56,10 @@ class ShipmentRate implements EntityInterface, ValidationInterface
         $metadata->addPropertyConstraint('retailRate', new Assert\Valid);
 
         $metadata->addPropertyConstraint('externalId', new Assert\Length([
+            'max' => 60,
+        ]));
+
+        $metadata->addPropertyConstraint('shipmentExternalId', new Assert\Length([
             'max' => 60,
         ]));
 

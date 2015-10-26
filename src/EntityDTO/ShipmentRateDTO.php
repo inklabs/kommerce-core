@@ -5,8 +5,6 @@ use DateTime;
 
 class ShipmentRateDTO
 {
-    use IdDTOTrait, TimeDTOTrait;
-
     /** @var MoneyDTO */
     public $rate;
 

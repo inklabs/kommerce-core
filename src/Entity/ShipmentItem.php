@@ -15,8 +15,12 @@ class ShipmentItem implements EntityInterface, ValidationInterface
     /** @var int */
     protected $quantityToShip;
 
+    /** @var Shipment */
+    protected $shipment;
+
     public function __construct(OrderItem $orderItem, $quantityToShip)
     {
+        $this->setCreated();
         $this->orderItem = $orderItem;
         $this->quantityToShip = (int) $quantityToShip;
     }
@@ -38,6 +42,11 @@ class ShipmentItem implements EntityInterface, ValidationInterface
     public function getQuantityToShip()
     {
         return $this->quantityToShip;
+    }
+
+    public function setShipment(Shipment $shipment)
+    {
+        $this->shipment = $shipment;
     }
 
     public function getDTOBuilder()

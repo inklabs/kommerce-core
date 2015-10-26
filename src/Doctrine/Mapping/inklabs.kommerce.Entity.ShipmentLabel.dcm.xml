@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <embeddable name="inklabs\kommerce\Entity\ShipmentLabel">
+
+        <field name="externalId" type="string" length="60" nullable="true" unique="true"/>
+
+        <field name="resolution" type="smallint">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="size" type="string" length="10" nullable="true"/>
+        <field name="type" type="string" length="20" nullable="true"/>
+        <field name="fileType" type="string" length="20" nullable="true"/>
+        <field name="url" type="string" length="255" nullable="true"/>
+        <field name="pdfUrl" type="string" length="255" nullable="true"/>
+        <field name="epl2Url" type="string" length="255" nullable="true"/>
+        <field name="zplUrl" type="string" length="255" nullable="true"/>
+
+    </embeddable>
+
+</doctrine-mapping>

@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class ShipmentRateDTOBuilder
 {
@@ -18,15 +17,11 @@ class ShipmentRateDTOBuilder
         $this->shipmentRate = $shipmentRate;
 
         $this->shipmentRateDTO = new ShipmentRateDTO;
-        $this->shipmentRateDTO->id         = $this->shipmentRate->getId();
-        $this->shipmentRateDTO->encodedId  = BaseConvert::encode($this->shipmentRate->getId());
         $this->shipmentRateDTO->externalId = $this->shipmentRate->getExternalId();
         $this->shipmentRateDTO->shipmentExternalId = $this->shipmentRate->getShipmentExternalId();
         $this->shipmentRateDTO->service    = $this->shipmentRate->getService();
         $this->shipmentRateDTO->carrier    = $this->shipmentRate->getCarrier();
         $this->shipmentRateDTO->rate       = $this->shipmentRate->getRate()->getDTOBuilder()->build();
-        $this->shipmentRateDTO->created    = $this->shipmentRate->getCreated();
-        $this->shipmentRateDTO->updated    = $this->shipmentRate->getUpdated();
 
         $this->shipmentRateDTO->isDeliveryDateGuaranteed = $this->shipmentRate->isDeliveryDateGuaranteed();
         $this->shipmentRateDTO->deliveryDays             = $this->shipmentRate->getDeliveryDays();
