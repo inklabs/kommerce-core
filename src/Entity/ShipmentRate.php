@@ -130,10 +130,14 @@ class ShipmentRate implements EntityInterface, ValidationInterface
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
     public function getDeliveryDate()
     {
+        if ($this->deliveryDate === null) {
+            return null;
+        }
+
         $deliveryDate = new DateTime();
         $deliveryDate->setTimestamp($this->deliveryDate);
         return $deliveryDate;

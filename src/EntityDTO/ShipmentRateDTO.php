@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use DateTime;
+
 class ShipmentRateDTO
 {
     use IdDTOTrait, TimeDTOTrait;
@@ -23,7 +25,7 @@ class ShipmentRateDTO
     /** @var string */
     public $carrier;
 
-    /** @var int */
+    /** @var DateTime */
     public $deliveryDate;
 
     /** @var boolean */

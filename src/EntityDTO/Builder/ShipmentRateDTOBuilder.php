@@ -28,9 +28,12 @@ class ShipmentRateDTOBuilder
         $this->shipmentRateDTO->updated    = $this->shipmentRate->getUpdated();
 
         $this->shipmentRateDTO->isDeliveryDateGuaranteed = $this->shipmentRate->isDeliveryDateGuaranteed();
-        $this->shipmentRateDTO->deliveryDate             = $this->shipmentRate->getDeliveryDate();
         $this->shipmentRateDTO->deliveryDays             = $this->shipmentRate->getDeliveryDays();
         $this->shipmentRateDTO->estDeliveryDays          = $this->shipmentRate->getEstDeliveryDays();
+
+        if ($this->shipmentRate->getDeliveryDate() !== null) {
+            $this->shipmentRateDTO->deliveryDate = $this->shipmentRate->getDeliveryDate();
+        }
 
         if ($this->shipmentRate->getListRate() !== null) {
             $this->shipmentRateDTO->listRate = $this->shipmentRate->getListRate()->getDTOBuilder()->build();

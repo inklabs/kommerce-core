@@ -601,8 +601,6 @@ class DummyData
         $shipmentRate->setExternalId('rate_xxxxxxx');
         $shipmentRate->setCarrier('UPS');
         $shipmentRate->setService('Ground');
-        $shipmentRate->setDeliveryDays(3);
-        $shipmentRate->setDeliveryDate(new DateTime('+3 days'));
         $shipmentRate->setListRate(new Money($amount * 1.05, 'USD'));
         $shipmentRate->setRetailRate(new Money($amount * 1.15, 'USD'));
 

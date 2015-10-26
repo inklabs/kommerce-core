@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\Lib;
 
+use DateTime;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Parcel;
 use inklabs\kommerce\Entity\ShipmentRate;
@@ -19,10 +20,21 @@ class FakeShipment implements ShipmentInterface
     {
         $dummyData = new DummyData;
 
+        $shipmentRate1 = $dummyData->getShipmentRate(225);
+        $shipmentRate1->setDeliveryDays(7);
+
+        $shipmentRate2 = $dummyData->getShipmentRate(775);
+        $shipmentRate2->setDeliveryDays(3);
+
+        $shipmentRate3 = $dummyData->getShipmentRate(1195);
+        $shipmentRate3->setDeliveryDays(2);
+        $shipmentRate3->setDeliveryDate(new DateTime('+2 days'));
+        $shipmentRate3->setIsDeliveryDateGuaranteed(true);
+
         return [
-            $dummyData->getShipmentRate(225),
-            $dummyData->getShipmentRate(775),
-            $dummyData->getShipmentRate(1195),
+            $shipmentRate1,
+            $shipmentRate2,
+            $shipmentRate3,
         ];
     }
 }
