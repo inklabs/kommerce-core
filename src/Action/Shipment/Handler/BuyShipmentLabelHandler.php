@@ -2,16 +2,22 @@
 namespace inklabs\kommerce\Action\Shipment\Handler;
 
 use inklabs\kommerce\Action\Shipment\BuyShipmentLabelCommand;
+use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Service\OrderServiceInterface;
 
 class BuyShipmentLabelHandler
 {
     /** @var ShipmentGatewayInterface */
     private $shipmentGateway;
 
-    public function __construct(ShipmentGatewayInterface $shipmentGateway)
+    /** @var OrderServiceInterface */
+    private $orderService;
+
+    public function __construct(ShipmentGatewayInterface $shipmentGateway, OrderServiceInterface $orderService)
     {
         $this->shipmentGateway = $shipmentGateway;
+        $this->orderService = $orderService;
     }
 
     public function handle(BuyShipmentLabelCommand $command)
@@ -21,6 +27,9 @@ class BuyShipmentLabelHandler
             $command->getRateExternalId()
         );
 
-        // TODO: Create Shipment and attach to Order
+        $shipment = new Shipment;
+        $shipment->addShipmentTracker($shipmentTracker);
+
+        $this->orderService->addShipment($command->getOrderId(), $shipment);
     }
 }

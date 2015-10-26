@@ -5,6 +5,9 @@ use inklabs\kommerce\Lib\Command\CommandInterface;
 
 class BuyShipmentLabelCommand implements CommandInterface
 {
+    /** @var int */
+    private $orderId;
+
     /** @var string */
     private $shipmentExternalId;
 
@@ -12,13 +15,20 @@ class BuyShipmentLabelCommand implements CommandInterface
     private $rateExternalId;
 
     /**
+     * @param int $orderId
      * @param string $shipmentExternalId
      * @param string $rateExternalId
      */
-    public function __construct($shipmentExternalId, $rateExternalId)
+    public function __construct($orderId, $shipmentExternalId, $rateExternalId)
     {
+        $this->orderId = $orderId;
         $this->shipmentExternalId = $shipmentExternalId;
         $this->rateExternalId = $rateExternalId;
+    }
+
+    public function getOrderId()
+    {
+        return $this->orderId;
     }
 
     public function getShipmentExternalId()

@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 
@@ -20,6 +21,12 @@ class OrderService extends AbstractService implements OrderServiceInterface
     ) {
         $this->orderRepository = $orderRepository;
         $this->productRepository = $productRepository;
+    }
+
+    public function update(Order & $order)
+    {
+        $this->throwValidationErrors($order);
+        $this->orderRepository->update($order);
     }
 
     public function findOneById($id)
@@ -43,5 +50,16 @@ class OrderService extends AbstractService implements OrderServiceInterface
     public function getOrdersByUserId($userId)
     {
         return $this->orderRepository->getOrdersByUserId($userId);
+    }
+
+    /**
+     * @param int $orderId
+     * @param Shipment $shipment
+     */
+    public function addShipment($orderId, $shipment)
+    {
+        $order = $this->orderRepository->findOneById($orderId);
+        $order->addShipment($shipment);
+        $this->update($order);
     }
 }
