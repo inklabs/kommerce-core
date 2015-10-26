@@ -103,7 +103,9 @@ class Pricing implements PricingInterface
     {
         usort(
             $this->productQuantityDiscounts,
-            create_function('$a, $b', 'return ($a->getQuantity() < $b->getQuantity());')
+            function (ProductQuantityDiscount $a, ProductQuantityDiscount $b) {
+                return ($a->getQuantity() < $b->getQuantity());
+            }
         );
     }
 
