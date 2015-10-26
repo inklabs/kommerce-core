@@ -5,10 +5,8 @@ use inklabs\kommerce\EntityDTO\Builder\ShipmentLabelDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ShipmentLabel implements EntityInterface, ValidationInterface
+class ShipmentLabel implements ValidationInterface
 {
-    use IdTrait, TimeTrait;
-
     /** @var string */
     protected $externalId;
 

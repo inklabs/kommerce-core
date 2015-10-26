@@ -10,7 +10,6 @@ class ShipmentLabelTest extends DoctrineTestCase
     {
         $shipmentLabel = new ShipmentLabel;
         $shipmentLabel->setExternalId('pl_af0ec9e7299a42b3af5adaa3e18ff7fy');
-        $shipmentLabel->setCreated(new DateTime);
         $shipmentLabel->setResolution(300);
         $shipmentLabel->setSize('4x6');
         $shipmentLabel->setType('default');
@@ -22,7 +21,6 @@ class ShipmentLabelTest extends DoctrineTestCase
 
         $this->assertEntityValid($shipmentLabel);
         $this->assertSame('pl_af0ec9e7299a42b3af5adaa3e18ff7fy', $shipmentLabel->getExternalId());
-        $this->assertNotSame(null, $shipmentLabel->getCreated());
         $this->assertSame(300, $shipmentLabel->getResolution());
         $this->assertSame('4x6', $shipmentLabel->getSize());
         $this->assertSame('default', $shipmentLabel->getType());

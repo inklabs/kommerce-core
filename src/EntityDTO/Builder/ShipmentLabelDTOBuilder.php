@@ -15,11 +15,6 @@ class ShipmentLabelDTOBuilder
         $this->shipmentLabel = $shipmentLabel;
 
         $this->shipmentLabelDTO = new ShipmentLabelDTO;
-        $this->shipmentLabelDTO->id              = $this->shipmentLabel->getId();
-        $this->shipmentLabelDTO->encodedId       = BaseConvert::encode($this->shipmentLabel->getId());
-        $this->shipmentLabelDTO->created         = $this->shipmentLabel->getCreated();
-        $this->shipmentLabelDTO->updated         = $this->shipmentLabel->getUpdated();
-
         $this->shipmentLabelDTO->externalId = $this->shipmentLabel->getExternalId();
         $this->shipmentLabelDTO->resolution = $this->shipmentLabel->getResolution();
         $this->shipmentLabelDTO->size       = $this->shipmentLabel->getSize();

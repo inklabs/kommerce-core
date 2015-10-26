@@ -3,8 +3,6 @@ namespace inklabs\kommerce\EntityDTO;
 
 class ShipmentLabelDTO
 {
-    use IdDTOTrait, TimeDTOTrait;
-
     /** @var string */
     public $externalId;
 

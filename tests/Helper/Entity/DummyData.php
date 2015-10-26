@@ -529,7 +529,6 @@ class DummyData
     {
         $shipmentLabel = new ShipmentLabel;
         $shipmentLabel->setExternalId('pl_' . $this->getRandomToken());
-        $shipmentLabel->setCreated(new DateTime);
         $shipmentLabel->setResolution(300);
         $shipmentLabel->setSize('4x6');
         $shipmentLabel->setType('default');
