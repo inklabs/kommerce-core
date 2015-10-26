@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Lib\ShipmentGateway;
 use DateTime;
 use EasyPost;
 use inklabs\kommerce\Entity\Money;
+use inklabs\kommerce\Entity\ShipmentLabel;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
@@ -54,7 +55,14 @@ class EasyPostGateway implements ShipmentGatewayInterface
      */
     public function buy($shipmentExternalId, $rateExternalId)
     {
-        // TODO: Implement buy() method.
+        $shipment = new EasyPost\Shipment($shipmentExternalId);
+        $shipment->buy([
+            'rate' => [
+                'id' => $rateExternalId
+            ]
+        ]);
+
+        return $this->getShipmentTrackerFromEasyPostShipment($shipment);
     }
 
     /**
@@ -71,6 +79,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
             'city' => $address->city,
             'state' => $address->state,
             'zip' => $address->zip5,
+            'phone' => $address->phone,
             'country' => $address->country,
             'residential' => $address->isResidential
         ];
@@ -120,5 +129,46 @@ class EasyPostGateway implements ShipmentGatewayInterface
                 return ($a->getRate()->getAmount() > $b->getRate()->getAmount());
             }
         );
+    }
+
+    private function getShipmentTrackerFromEasyPostShipment($shipment)
+    {
+        switch ($shipment->tracker->carrier) {
+            case 'UPS':
+                $carrier = ShipmentTracker::CARRIER_UPS;
+                break;
+            case 'USPS':
+                $carrier = ShipmentTracker::CARRIER_USPS;
+                break;
+            case 'FEDEX':
+                $carrier = ShipmentTracker::CARRIER_FEDEX;
+                break;
+            default:
+                $carrier = ShipmentTracker::CARRIER_UNKNOWN;
+        }
+
+        $shipmentTracker = new ShipmentTracker($carrier, $shipment->tracking_code);
+        $shipmentTracker->setExternalId($shipment->id);
+        $shipmentTracker->setShipmentLabel($this->getShipmentLabelFromEasyPostShipment($shipment));
+        $shipmentTracker->setShipmentRate($this->getShipmentRateFromEasyPostRate($shipment->selected_rate));
+        return $shipmentTracker;
+    }
+
+    private function getShipmentLabelFromEasyPostShipment($shipment)
+    {
+        $label = $shipment->postage_label;
+
+        $shipmentLabel = new ShipmentLabel;
+        $shipmentLabel->setExternalId($label->id);
+        $shipmentLabel->setResolution($label->label_resolution);
+        $shipmentLabel->setSize($label->label_size);
+        $shipmentLabel->setType($label->label_type);
+        $shipmentLabel->setUrl($label->label_url);
+        $shipmentLabel->setFileType($label->label_file_type);
+        $shipmentLabel->setPdfUrl($label->label_pdf_url);
+        $shipmentLabel->setEpl2Url($label->label_epl2_url);
+        $shipmentLabel->setZplUrl($label->zpl_url);
+
+        return $shipmentLabel;
     }
 }

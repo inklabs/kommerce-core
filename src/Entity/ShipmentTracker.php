@@ -11,9 +11,10 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
 
     /** @var int */
     protected $carrier;
-    const CARRIER_UPS = 0;
-    const CARRIER_USPS = 1;
-    const CARRIER_FEDEX = 2;
+    const CARRIER_UNKNOWN = 0;
+    const CARRIER_UPS = 1;
+    const CARRIER_USPS = 2;
+    const CARRIER_FEDEX = 3;
 
     /** @var string */
     protected $trackingCode;
