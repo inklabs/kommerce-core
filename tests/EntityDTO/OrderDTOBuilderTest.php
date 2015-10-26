@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
+use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
 
@@ -23,6 +24,7 @@ class OrderDTOBuilderTest extends Helper\DoctrineTestCase
         $order->setUser(new User);
         $order->addCoupon(new Coupon);
         $order->addPayment(new CashPayment(100));
+        $order->addShipment(new Shipment);
 
         $orderDTO = $order->getDTOBuilder()
             ->withAllData()
@@ -47,5 +49,6 @@ class OrderDTOBuilderTest extends Helper\DoctrineTestCase
 
         $this->assertTrue($orderDTO->payments[0] instanceof AbstractPaymentDTO);
         $this->assertTrue($orderDTO->coupons[0] instanceof CouponDTO);
+        $this->assertTrue($orderDTO->shipments[0] instanceof ShipmentDTO);
     }
 }

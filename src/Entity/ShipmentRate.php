@@ -17,6 +17,9 @@ class ShipmentRate implements EntityInterface, ValidationInterface
     protected $externalId;
 
     /** @var string */
+    protected $shipmentExternalId;
+
+    /** @var string */
     protected $service;
 
     /** @var string */
@@ -119,6 +122,19 @@ class ShipmentRate implements EntityInterface, ValidationInterface
     public function getExternalId()
     {
         return $this->externalId;
+    }
+
+    /**
+     * @param string $shipmentExternalId
+     */
+    public function setShipmentExternalId($shipmentExternalId)
+    {
+        $this->shipmentExternalId = (string) $shipmentExternalId;
+    }
+
+    public function getShipmentExternalId()
+    {
+        return $this->shipmentExternalId;
     }
 
     /**

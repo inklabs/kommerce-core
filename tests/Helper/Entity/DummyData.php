@@ -33,7 +33,10 @@ use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\Shipment;
+use inklabs\kommerce\Entity\ShipmentLabel;
 use inklabs\kommerce\Entity\ShipmentRate;
+use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
@@ -506,6 +509,51 @@ class DummyData
         return $productQuantityDiscount;
     }
 
+    public function getShipment()
+    {
+        $shipment = new Shipment;
+        return $shipment;
+    }
+
+    public function getShipmentLabel()
+    {
+        $shipmentLabel = new ShipmentLabel;
+        $shipmentLabel->setExternalId('pl_af0ec9e7299a42b3af5adaa3e18ff7fy');
+        $shipmentLabel->setCreated(new DateTime);
+        $shipmentLabel->setResolution(300);
+        $shipmentLabel->setSize('4x6');
+        $shipmentLabel->setType('default');
+        $shipmentLabel->setFileType('image/png');
+        $shipmentLabel->setUrl('http://assets.geteasypost.com/postage_labels/labels/0jvZJy.png');
+
+        return $shipmentLabel;
+    }
+
+    public function getShipmentRate($amount)
+    {
+        $shipmentRate = new ShipmentRate(new Money($amount, 'USD'));
+        $shipmentRate->setExternalId('rate_xxxxxxx');
+        $shipmentRate->setCarrier('UPS');
+        $shipmentRate->setService('Ground');
+        $shipmentRate->setListRate(new Money($amount * 1.05, 'USD'));
+        $shipmentRate->setRetailRate(new Money($amount * 1.15, 'USD'));
+
+        return $shipmentRate;
+    }
+
+    public function getShipmentTracker()
+    {
+        $shipmentTracker = new ShipmentTracker(
+            ShipmentTracker::CARRIER_UPS,
+            '1Z9999999999999999'
+        );
+        $shipmentTracker->setExternalId('trk_xxxxxxxxx');
+        $shipmentTracker->setShipmentRate($this->getShipmentRate(595));
+        $shipmentTracker->setShipmentLabel($this->getShipmentLabel());
+
+        return $shipmentTracker;
+    }
+
     public function getTag($num = 1)
     {
         $tag = new Tag;
@@ -593,17 +641,5 @@ class DummyData
         $warehouse->setAddress($this->getAddress());
 
         return $warehouse;
-    }
-
-    public function getShipmentRate($amount)
-    {
-        $shipmentRate = new ShipmentRate(new Money($amount, 'USD'));
-        $shipmentRate->setExternalId('rate_xxxxxxx');
-        $shipmentRate->setCarrier('UPS');
-        $shipmentRate->setService('Ground');
-        $shipmentRate->setListRate(new Money($amount * 1.05, 'USD'));
-        $shipmentRate->setRetailRate(new Money($amount * 1.15, 'USD'));
-
-        return $shipmentRate;
     }
 }

@@ -26,13 +26,15 @@ class OrderItemDTOBuilder
         $this->orderItemDTO->discountNames  = $this->orderItem->getDiscountNames();
         $this->orderItemDTO->created        = $this->orderItem->getCreated();
         $this->orderItemDTO->updated        = $this->orderItem->getUpdated();
-        $this->orderItemDTO->shippingWeight = $this->orderItem->getShippingWeight();
 
-        $this->orderItemDTO->price = $orderItem->getPrice()->getDTOBuilder()
-            ->withAllData()
-            ->build();
+        if ($this->orderItem->getPrice() !== null) {
+            $this->orderItemDTO->price = $orderItem->getPrice()->getDTOBuilder()
+                ->withAllData()
+                ->build();
+        }
 
         if ($this->orderItem->getProduct() !== null) {
+            $this->orderItemDTO->shippingWeight = $this->orderItem->getShippingWeight();
             $this->orderItemDTO->product = $this->orderItem->getProduct()->getDTOBuilder()
                 ->withTags()
                 ->build();

@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\ShipmentCommentDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -30,5 +31,10 @@ class ShipmentComment implements EntityInterface, ValidationInterface
     public function getComment()
     {
         return $this->comment;
+    }
+
+    public function getDTOBuilder()
+    {
+        return new ShipmentCommentDTOBuilder($this);
     }
 }

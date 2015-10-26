@@ -46,7 +46,7 @@ class OrderItem implements EntityInterface, ValidationInterface
     /** @var string */
     protected $discountNames;
 
-    public function __construct()
+    public function __construct(Product $product = null)
     {
         $this->setCreated();
         $this->catalogPromotions = new ArrayCollection;

@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\EntityDTO\Builder\ShipmentDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -50,6 +51,9 @@ class Shipment implements EntityInterface, ValidationInterface
         $this->shipmentTrackers->add($shipmentTracker);
     }
 
+    /**
+     * @return ShipmentTracker[]
+     */
     public function getShipmentTrackers()
     {
         return $this->shipmentTrackers;
@@ -60,6 +64,9 @@ class Shipment implements EntityInterface, ValidationInterface
         $this->shipmentItems->add($shipmentItem);
     }
 
+    /**
+     * @return ShipmentItem[]
+     */
     public function getShipmentItems()
     {
         return $this->shipmentItems;
@@ -70,8 +77,16 @@ class Shipment implements EntityInterface, ValidationInterface
         $this->shipmentComments->add($shipmentComment);
     }
 
+    /**
+     * @return ShipmentComment[]
+     */
     public function getShipmentComments()
     {
         return $this->shipmentComments;
+    }
+
+    public function getDTOBuilder()
+    {
+        return new ShipmentDTOBuilder($this);
     }
 }

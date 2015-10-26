@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\ShipmentItemDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -37,5 +38,10 @@ class ShipmentItem implements EntityInterface, ValidationInterface
     public function getQuantityToShip()
     {
         return $this->quantityToShip;
+    }
+
+    public function getDTOBuilder()
+    {
+        return new ShipmentItemDTOBuilder($this);
     }
 }

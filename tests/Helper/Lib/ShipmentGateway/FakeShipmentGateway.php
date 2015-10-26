@@ -1,14 +1,15 @@
 <?php
-namespace inklabs\kommerce\tests\Helper\Lib;
+namespace inklabs\kommerce\tests\Helper\Lib\ShipmentGateway;
 
 use DateTime;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Parcel;
 use inklabs\kommerce\Entity\ShipmentRate;
-use inklabs\kommerce\Lib\Shipping\ShipmentInterface;
+use inklabs\kommerce\Entity\ShipmentTracker;
+use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 
-class FakeShipment implements ShipmentInterface
+class FakeShipmentGateway implements ShipmentGatewayInterface
 {
     /**
      * @param OrderAddress $fromAddress
@@ -20,21 +21,41 @@ class FakeShipment implements ShipmentInterface
     {
         $dummyData = new DummyData;
 
+        $shipmentExternalId = 'shp_xxxxxxxx';
+
         $shipmentRate1 = $dummyData->getShipmentRate(225);
         $shipmentRate1->setDeliveryDays(7);
+        $shipmentRate1->setShipmentExternalId($shipmentExternalId);
 
         $shipmentRate2 = $dummyData->getShipmentRate(775);
         $shipmentRate2->setDeliveryDays(3);
+        $shipmentRate2->setShipmentExternalId($shipmentExternalId);
 
         $shipmentRate3 = $dummyData->getShipmentRate(1195);
         $shipmentRate3->setDeliveryDays(2);
         $shipmentRate3->setDeliveryDate(new DateTime('+2 days'));
         $shipmentRate3->setIsDeliveryDateGuaranteed(true);
+        $shipmentRate3->setShipmentExternalId($shipmentExternalId);
 
         return [
             $shipmentRate1,
             $shipmentRate2,
             $shipmentRate3,
         ];
+    }
+
+    /**
+     * @param string $shipmentExternalId
+     * @param string $rateExternalId
+     * @return ShipmentTracker
+     */
+    public function buy($shipmentExternalId, $rateExternalId)
+    {
+        $dummyData = new DummyData;
+        $shipmentTracker = $dummyData->getShipmentTracker();
+        $shipmentTracker->getShipmentLabel()->setExternalId($shipmentExternalId);
+        $shipmentTracker->getShipmentRate()->setExternalId($rateExternalId);
+
+        return $shipmentTracker;
     }
 }

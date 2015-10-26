@@ -21,6 +21,7 @@ class ShipmentRateDTOBuilder
         $this->shipmentRateDTO->id         = $this->shipmentRate->getId();
         $this->shipmentRateDTO->encodedId  = BaseConvert::encode($this->shipmentRate->getId());
         $this->shipmentRateDTO->externalId = $this->shipmentRate->getExternalId();
+        $this->shipmentRateDTO->shipmentExternalId = $this->shipmentRate->getShipmentExternalId();
         $this->shipmentRateDTO->service    = $this->shipmentRate->getService();
         $this->shipmentRateDTO->carrier    = $this->shipmentRate->getCarrier();
         $this->shipmentRateDTO->rate       = $this->shipmentRate->getRate()->getDTOBuilder()->build();

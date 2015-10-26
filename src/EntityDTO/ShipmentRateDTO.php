@@ -20,6 +20,9 @@ class ShipmentRateDTO
     public $externalId;
 
     /** @var string */
+    public $shipmentExternalId;
+
+    /** @var string */
     public $service;
 
     /** @var string */

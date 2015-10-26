@@ -34,4 +34,7 @@ class OrderDTO
 
     /** @var TaxRateDTO */
     public $taxRate;
+
+    /** @var ShipmentDTO[] */
+    public $shipments = [];
 }

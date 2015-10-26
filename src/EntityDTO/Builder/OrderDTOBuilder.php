@@ -54,6 +54,11 @@ class OrderDTOBuilder
             $this->orderDTO->taxRate = $this->order->getTaxRate()->getDTOBuilder()
                 ->build();
         }
+
+        foreach ($this->order->getShipments() as $shipment) {
+            $this->orderDTO->shipments[] = $shipment->getDTOBuilder()
+                ->build();
+        }
     }
 
     public function withUser()

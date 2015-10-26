@@ -54,7 +54,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     protected $taxRate;
 
     /** @var Shipment[] */
-    protected $shipments;
+    protected $shipments = [];
 
     public function __construct()
     {
@@ -317,6 +317,9 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         $this->shipments->add($shipment);
     }
 
+    /**
+     * @return Shipment[]
+     */
     public function getShipments()
     {
         return $this->shipments;
