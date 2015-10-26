@@ -116,7 +116,9 @@ class EasyPostGateway implements ShipmentGatewayInterface
     {
         usort(
             $shipmentRates,
-            create_function('$a, $b', 'return ($a->getRate()->getAmount() > $b->getRate()->getAmount());')
+            function (ShipmentRate $a, ShipmentRate $b) {
+                return ($a->getRate()->getAmount() > $b->getRate()->getAmount());
+            }
         );
     }
 }
