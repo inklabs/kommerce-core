@@ -29,6 +29,8 @@ class OrderAddressDTOBuilder
         $this->orderAddressDTO->zip4      = $this->orderAddress->zip4;
         $this->orderAddressDTO->phone     = $this->orderAddress->phone;
         $this->orderAddressDTO->email     = $this->orderAddress->email;
+        $this->orderAddressDTO->country   = $this->orderAddress->getCountry();
+        $this->orderAddressDTO->isResidential = $this->orderAddress->isResidential();
     }
 
     public function build()

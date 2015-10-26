@@ -15,4 +15,10 @@ class OrderAddressDTO
     public $zip4;
     public $phone;
     public $email;
+
+    /** @var string */
+    public $country;
+
+    /** @var boolean */
+    public $isResidential;
 }

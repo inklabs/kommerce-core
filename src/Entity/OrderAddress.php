@@ -107,4 +107,14 @@ class OrderAddress implements ValidationInterface
     {
         return new OrderAddressDTOBuilder($this);
     }
+
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    public function isResidential()
+    {
+        return $this->isResidential;
+    }
 }

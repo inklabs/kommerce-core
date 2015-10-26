@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c5a470c8e14c39e69361df95785d756c",
-    "content-hash": "14312219ca1635b573a6ec68c4f49e8a",
+    "hash": "b1e152df9717e15d5ff08620b3365220",
+    "content-hash": "d6f4cb450b18db22df234038bab0ab89",
     "packages": [
         {
             "name": "composer/installers",
@@ -701,6 +701,52 @@
                 "orm"
             ],
             "time": "2015-08-31 12:59:39"
+        },
+        {
+            "name": "easypost/easypost-php",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EasyPost/easypost-php.git",
+                "reference": "c43f3c6a4ba30e0e9a5ac0a259061062c78957bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EasyPost/easypost-php/zipball/c43f3c6a4ba30e0e9a5ac0a259061062c78957bb",
+                "reference": "c43f3c6a4ba30e0e9a5ac0a259061062c78957bb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "EasyPost": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sawyer Bateman"
+                }
+            ],
+            "description": "EasyPost Shipping API Client Library for PHP",
+            "homepage": "https://github.com/EasyPost/easypost-php",
+            "keywords": [
+                "api",
+                "easypost",
+                "shipping"
+            ],
+            "time": "2015-07-01 17:22:39"
         },
         {
             "name": "stripe/stripe-php",
