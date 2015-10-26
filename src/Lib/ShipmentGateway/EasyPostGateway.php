@@ -42,6 +42,8 @@ class EasyPostGateway implements ShipmentGatewayInterface
             $shipmentRates[] = $this->getShipmentRateFromEasyPostRate($rate);
         }
 
+         $this->sortShipmentRatesLowestToHighest($shipmentRates);
+
         return $shipmentRates;
     }
 
@@ -105,5 +107,16 @@ class EasyPostGateway implements ShipmentGatewayInterface
         }
 
         return $shipmentRate;
+    }
+
+    /**
+     * @param ShipmentRate[] & $shipmentRates
+     */
+    protected function sortShipmentRatesLowestToHighest(& $shipmentRates)
+    {
+        usort(
+            $shipmentRates,
+            create_function('$a, $b', 'return ($a->getRate()->getAmount() > $b->getRate()->getAmount());')
+        );
     }
 }
