@@ -49,9 +49,7 @@ class ShipmentRate implements ValidationInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('rate', new Assert\NotBlank);
         $metadata->addPropertyConstraint('rate', new Assert\Valid);
-
         $metadata->addPropertyConstraint('listRate', new Assert\Valid);
         $metadata->addPropertyConstraint('retailRate', new Assert\Valid);
 

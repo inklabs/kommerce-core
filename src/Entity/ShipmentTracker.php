@@ -78,6 +78,7 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
     public static function getCarrierMapping()
     {
         return [
+            static::CARRIER_UNKNOWN => 'Unknown',
             static::CARRIER_UPS => 'UPS',
             static::CARRIER_USPS => 'USPS',
             static::CARRIER_FEDEX => 'FEDEX',

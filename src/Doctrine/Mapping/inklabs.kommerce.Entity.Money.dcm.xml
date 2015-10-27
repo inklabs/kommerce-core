@@ -6,13 +6,13 @@
 
     <embeddable name="inklabs\kommerce\Entity\Money">
 
-        <field name="amount" type="integer">
+        <field name="amount" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>
         </field>
 
-        <field name="currency" type="string" length="3">
+        <field name="currency" type="string" length="3" nullable="true">
             <options>
                 <option name="fixed">true</option>
             </options>

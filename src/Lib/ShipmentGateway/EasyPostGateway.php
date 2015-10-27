@@ -104,8 +104,14 @@ class EasyPostGateway implements ShipmentGatewayInterface
         $shipmentRate->setCarrier($rate->carrier);
         $shipmentRate->setService($rate->service);
         $shipmentRate->setIsDeliveryDateGuaranteed($rate->delivery_date_guaranteed);
-        $shipmentRate->setListRate(new Money($rate->list_rate * 100, $rate->list_rate_currency));
-        $shipmentRate->setRetailRate(new Money($rate->retail_rate * 100, $rate->retail_rate_currency));
+
+        if ($rate->list_rate !== null) {
+            $shipmentRate->setListRate(new Money($rate->list_rate * 100, $rate->list_currency));
+        }
+
+        if ($rate->retail_rate !== null) {
+            $shipmentRate->setRetailRate(new Money($rate->retail_rate * 100, $rate->retail_currency));
+        }
 
         if (! empty($rate->delivery_date)) {
             $shipmentRate->setDeliveryDate(new DateTime($rate->delivery_date));

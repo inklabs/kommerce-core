@@ -33,7 +33,7 @@
 
         <embedded name="rate" class="Money"/>
         <embedded name="listRate" class="Money"/>
-        <embedded name="retailRate" class="Money"/>
+        <embedded name="retailRate" class="Money" />
 
     </embeddable>
 

@@ -8,10 +8,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Money implements ValidationInterface
 {
     /** @var int */
-    private $amount;
+    protected $amount;
 
     /** @var string */
-    private $currency;
+    protected $currency;
 
     /**
      * @param int $amount
@@ -19,19 +19,22 @@ class Money implements ValidationInterface
      */
     public function __construct($amount, $currency)
     {
-        $this->amount = (int) $amount;
-        $this->currency = (string) $currency;
+        if ($amount !== null) {
+            $this->amount = (int) $amount;
+        }
+
+        if ($currency !== null) {
+            $this->currency = (string)$currency;
+        }
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('amount', new Assert\NotNull);
         $metadata->addPropertyConstraint('amount', new Assert\Range([
             'min' => 0,
             'max' => 4294967295,
         ]));
 
-        $metadata->addPropertyConstraint('currency', new Assert\NotBlank);
         $metadata->addPropertyConstraint('currency', new Assert\Length([
             'max' => 3,
         ]));
