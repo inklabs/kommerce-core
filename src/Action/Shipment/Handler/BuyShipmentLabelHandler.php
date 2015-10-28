@@ -2,8 +2,6 @@
 namespace inklabs\kommerce\Action\Shipment\Handler;
 
 use inklabs\kommerce\Action\Shipment\BuyShipmentLabelCommand;
-use inklabs\kommerce\Entity\Shipment;
-use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 
 class BuyShipmentLabelHandler

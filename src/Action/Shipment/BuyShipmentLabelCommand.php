@@ -36,9 +36,9 @@ final class BuyShipmentLabelCommand implements CommandInterface
     ) {
         $this->orderId = $orderId;
         $this->orderItemQtyDTO = $orderItemQtyDTO;
-        $this->comment = $comment;
-        $this->shipmentExternalId = $shipmentExternalId;
-        $this->rateExternalId = $rateExternalId;
+        $this->comment = (string) $comment;
+        $this->shipmentExternalId = (string) $shipmentExternalId;
+        $this->rateExternalId = (string) $rateExternalId;
     }
 
     public function getOrderId()

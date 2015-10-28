@@ -83,7 +83,10 @@ class OrderService extends AbstractService implements OrderServiceInterface
 
         $shipment = new Shipment;
         $shipment->addShipmentTracker($shipmentTracker);
-        $shipment->addShipmentComment(new ShipmentComment($comment));
+
+        if ($comment !== '') {
+            $shipment->addShipmentComment(new ShipmentComment($comment));
+        }
 
         foreach ($orderItemQtyDTO->getItems() as $orderItemId => $qty) {
             $orderItem = $this->orderItemRepository->findOneById($orderItemId);
