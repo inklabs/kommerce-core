@@ -8,28 +8,22 @@ use inklabs\kommerce\Service\OrderServiceInterface;
 
 class BuyShipmentLabelHandler
 {
-    /** @var ShipmentGatewayInterface */
-    private $shipmentGateway;
-
     /** @var OrderServiceInterface */
     private $orderService;
 
-    public function __construct(ShipmentGatewayInterface $shipmentGateway, OrderServiceInterface $orderService)
+    public function __construct(OrderServiceInterface $orderService)
     {
-        $this->shipmentGateway = $shipmentGateway;
         $this->orderService = $orderService;
     }
 
     public function handle(BuyShipmentLabelCommand $command)
     {
-        $shipmentTracker = $this->shipmentGateway->buy(
-            $command->getShipmentExternalId(),
-            $command->getRateExternalId()
+        $this->orderService->addShipment(
+            $command->getOrderId(),
+            $command->getOrderItemQtyDTO(),
+            $command->getComment(),
+            $command->getRateExternalId(),
+            $command->getShipmentExternalId()
         );
-
-        $shipment = new Shipment;
-        $shipment->addShipmentTracker($shipmentTracker);
-
-        $this->orderService->addShipment($command->getOrderId(), $shipment);
     }
 }

@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
-use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
 interface OrderServiceInterface
@@ -27,7 +27,16 @@ interface OrderServiceInterface
 
     /**
      * @param int $orderId
-     * @param Shipment $shipment
+     * @param OrderItemQtyDTO $orderItemQtyDTO
+     * @param string $comment
+     * @param string $rateExternalId
+     * @param string $shipmentExternalId
      */
-    public function addShipment($orderId, $shipment);
+    public function addShipment(
+        $orderId,
+        OrderItemQtyDTO $orderItemQtyDTO,
+        $comment,
+        $rateExternalId,
+        $shipmentExternalId
+    );
 }

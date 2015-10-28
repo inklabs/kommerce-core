@@ -157,7 +157,9 @@ class ServiceFactory
     {
         return new OrderService(
             $this->repositoryFactory->getOrderRepository(),
-            $this->repositoryFactory->getProductRepository()
+            $this->repositoryFactory->getOrderItemRepository(),
+            $this->repositoryFactory->getProductRepository(),
+            $this->getShipmentGateway()
         );
     }
 

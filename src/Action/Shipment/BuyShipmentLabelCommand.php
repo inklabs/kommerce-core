@@ -3,10 +3,16 @@ namespace inklabs\kommerce\Action\Shipment;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
 
-class BuyShipmentLabelCommand implements CommandInterface
+final class BuyShipmentLabelCommand implements CommandInterface
 {
     /** @var int */
     private $orderId;
+
+    /** @var OrderItemQtyDTO */
+    private $orderItemQtyDTO;
+
+    /** @var string */
+    private $comment;
 
     /** @var string */
     private $shipmentExternalId;
@@ -16,12 +22,21 @@ class BuyShipmentLabelCommand implements CommandInterface
 
     /**
      * @param int $orderId
+     * @param OrderItemQtyDTO $orderItemQtyDTO
+     * @param string $comment
      * @param string $shipmentExternalId
      * @param string $rateExternalId
      */
-    public function __construct($orderId, $shipmentExternalId, $rateExternalId)
-    {
+    public function __construct(
+        $orderId,
+        OrderItemQtyDTO $orderItemQtyDTO,
+        $comment,
+        $shipmentExternalId,
+        $rateExternalId
+    ) {
         $this->orderId = $orderId;
+        $this->orderItemQtyDTO = $orderItemQtyDTO;
+        $this->comment = $comment;
         $this->shipmentExternalId = $shipmentExternalId;
         $this->rateExternalId = $rateExternalId;
     }
@@ -39,5 +54,15 @@ class BuyShipmentLabelCommand implements CommandInterface
     public function getRateExternalId()
     {
         return $this->rateExternalId;
+    }
+
+    public function getOrderItemQtyDTO()
+    {
+        return $this->orderItemQtyDTO;
+    }
+
+    public function getComment()
+    {
+        return $this->comment;
     }
 }
