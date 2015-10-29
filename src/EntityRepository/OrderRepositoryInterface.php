@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Order;
-use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Lib\ReferenceNumber;
 

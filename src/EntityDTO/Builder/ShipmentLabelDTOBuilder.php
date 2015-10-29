@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\ShipmentLabel;
 use inklabs\kommerce\EntityDTO\ShipmentLabelDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class ShipmentLabelDTOBuilder
 {

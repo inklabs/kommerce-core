@@ -3,8 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Order;
-use inklabs\kommerce\Entity\OrderItem;
-use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\tests\Helper;
