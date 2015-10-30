@@ -46,6 +46,9 @@ class OrderItem implements EntityInterface, ValidationInterface
     /** @var string */
     protected $discountNames;
 
+    /** @var ShipmentItem[] */
+    protected $shipmentItems;
+
     public function __construct(Product $product = null)
     {
         $this->setCreated();
@@ -54,6 +57,7 @@ class OrderItem implements EntityInterface, ValidationInterface
         $this->orderItemOptionProducts = new ArrayCollection;
         $this->orderItemOptionValues = new ArrayCollection;
         $this->orderItemTextOptionValues = new ArrayCollection;
+        $this->shipmentItems = new ArrayCollection;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

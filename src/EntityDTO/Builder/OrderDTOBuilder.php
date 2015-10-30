@@ -24,6 +24,7 @@ class OrderDTOBuilder
         $this->orderDTO->externalId      = $this->order->getExternalId();
         $this->orderDTO->status          = $this->order->getStatus();
         $this->orderDTO->statusText      = $this->order->getStatusText();
+        $this->orderDTO->statusMapping   = $this->order->getStatusMapping();
         $this->orderDTO->totalItems      = $this->order->totalItems();
         $this->orderDTO->totalQuantity   = $this->order->totalQuantity();
         $this->orderDTO->created         = $this->order->getCreated();

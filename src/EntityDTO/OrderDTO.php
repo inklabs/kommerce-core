@@ -14,6 +14,9 @@ class OrderDTO
     public $totalItems;
     public $totalQuantity;
 
+    /** @var string[] */
+    public $statusMapping;
+
     /** @var CartTotalDTO */
     public $total;
 

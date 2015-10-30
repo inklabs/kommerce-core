@@ -35,7 +35,7 @@
             </options>
         </field>
 
-        <one-to-one field="orderItem" target-entity="OrderItem" fetch="EXTRA_LAZY"/>
+        <many-to-one field="orderItem" target-entity="OrderItem" inversed-by="shipmentItems" fetch="EXTRA_LAZY"/>
 
         <many-to-one field="shipment" target-entity="Shipment" inversed-by="shipmentItems">
             <join-column nullable="false"/>
