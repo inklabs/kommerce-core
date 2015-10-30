@@ -32,7 +32,7 @@ interface OrderServiceInterface
      * @param string $rateExternalId
      * @param string $shipmentExternalId
      */
-    public function addShipment(
+    public function buyShipmentLabel(
         $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,

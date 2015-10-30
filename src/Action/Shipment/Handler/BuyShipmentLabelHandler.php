@@ -16,7 +16,7 @@ class BuyShipmentLabelHandler
 
     public function handle(BuyShipmentLabelCommand $command)
     {
-        $this->orderService->addShipment(
+        $this->orderService->buyShipmentLabel(
             $command->getOrderId(),
             $command->getOrderItemQtyDTO(),
             $command->getComment(),

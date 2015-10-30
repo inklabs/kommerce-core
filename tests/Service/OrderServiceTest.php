@@ -72,7 +72,7 @@ class OrderServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($orders[0] instanceof Order);
     }
 
-    public function testAddShipment()
+    public function testBuyShipmentLabel()
     {
         $this->setupEntityManager([
             'kommerce:Order',
@@ -98,7 +98,7 @@ class OrderServiceTest extends Helper\DoctrineTestCase
         $shipmentExternalId = 'shp_xxxxx';
 
         $fakeEventDispatcher = new FakeEventDispatcher;
-        $this->getServiceFactory(null, $fakeEventDispatcher)->getOrder()->addShipment(
+        $this->getServiceFactory(null, $fakeEventDispatcher)->getOrder()->buyShipmentLabel(
             $orderId,
             $orderItemQtyDTO,
             'A comment',

@@ -73,7 +73,7 @@ class OrderService extends AbstractService implements OrderServiceInterface
         return $this->orderRepository->getOrdersByUserId($userId);
     }
 
-    public function addShipment(
+    public function buyShipmentLabel(
         $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
