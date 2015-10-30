@@ -58,17 +58,8 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 
 * <a name="event"></a>Event
     - Events can be raised in the Entity layer and are dispatched in the service layer.
-    
+
     ```php
-    // UserService:
-    $user = $this->userRepository->findOneById($userId);
-    $user->setPassword($password);
-    $this->userRepository->update($user);
-
-    $this->eventDispatcher->dispatch($user->releaseEvents());
-    ```
-
-    ```
     // UserEntity:
     public function setPassword($password)
     {
@@ -82,6 +73,15 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
             )
         );
     }
+    ```
+
+    ```php
+    // UserService:
+    $user = $this->userRepository->findOneById($userId);
+    $user->setPassword($password);
+    $this->userRepository->update($user);
+
+    $this->eventDispatcher->dispatch($user->releaseEvents());
     ```
 
     - Events can be dispatched directly in the service layer. This is usually done for Entity creation
