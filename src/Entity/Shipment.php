@@ -84,4 +84,19 @@ class Shipment implements EntityInterface, ValidationInterface
     {
         return new ShipmentDTOBuilder($this);
     }
+
+    /**
+     * @param OrderItem $orderItem
+     * @return ShipmentItem|null
+     */
+    public function getShipmentItemForOrderItem(OrderItem $orderItem)
+    {
+        foreach ($this->shipmentItems as $shipmentItem) {
+            if ($shipmentItem->getOrderItem()->getId() === $orderItem->getId()) {
+                return $shipmentItem;
+            }
+        }
+
+        return null;
+    }
 }

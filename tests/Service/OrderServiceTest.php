@@ -4,8 +4,10 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\Event\OrderShippedEvent;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderItemRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
@@ -28,16 +30,21 @@ class OrderServiceTest extends Helper\DoctrineTestCase
     /** @var ShipmentGatewayInterface */
     protected $shipmentGateway;
 
+    /** @var FakeEventDispatcher */
+    protected $fakeEventDispatcher;
+
     public function setUp()
     {
         parent::setUp();
 
+        $this->fakeEventDispatcher = new FakeEventDispatcher;
         $this->orderRepository = new FakeOrderRepository;
         $this->orderItemRepository = new FakeOrderItemRepository;
         $this->productRepository = new FakeProductRepository;
         $this->shipmentGateway = new FakeShipmentGateway(new OrderAddressDTO);
 
         $this->orderService = new OrderService(
+            $this->fakeEventDispatcher,
             $this->orderRepository,
             $this->orderItemRepository,
             $this->productRepository,
@@ -90,7 +97,8 @@ class OrderServiceTest extends Helper\DoctrineTestCase
         $rateExternalId = 'rate_xxxxx';
         $shipmentExternalId = 'shp_xxxxx';
 
-        $this->getServiceFactory()->getOrder()->addShipment(
+        $fakeEventDispatcher = new FakeEventDispatcher;
+        $this->getServiceFactory(null, $fakeEventDispatcher)->getOrder()->addShipment(
             $orderId,
             $orderItemQtyDTO,
             'A comment',
@@ -102,5 +110,10 @@ class OrderServiceTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $order->getShipments()[0]->getId());
         $this->assertSame(1, $order->getShipments()[0]->getShipmentItems()[0]->getId());
         $this->assertSame('A comment', $order->getShipments()[0]->getShipmentComments()[0]->getComment());
+
+        $event = $fakeEventDispatcher->getDispatchedEvents(OrderShippedEvent::class)[0];
+        $this->assertTrue($event instanceof OrderShippedEvent);
+        $this->assertSame(1, $event->getOrderId());
+        $this->assertSame(1, $event->getShipmentId());
     }
 }

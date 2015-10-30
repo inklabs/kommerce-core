@@ -31,9 +31,10 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     protected $status;
     const STATUS_PENDING    = 0;
     const STATUS_PROCESSING = 1;
-    const STATUS_SHIPPED    = 2;
-    const STATUS_COMPLETE   = 3;
-    const STATUS_CANCELED   = 4;
+    const STATUS_PARTIALLY_SHIPPED = 2;
+    const STATUS_SHIPPED    = 3;
+    const STATUS_COMPLETE   = 4;
+    const STATUS_CANCELED   = 5;
 
     /** @var User */
     protected $user;
@@ -187,6 +188,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         return [
             static::STATUS_PENDING => 'Pending',
             static::STATUS_PROCESSING => 'Processing',
+            static::STATUS_PARTIALLY_SHIPPED => 'Partially Shipped',
             static::STATUS_SHIPPED => 'Shipped',
             static::STATUS_COMPLETE => 'Complete',
             static::STATUS_CANCELED => 'Canceled',
@@ -316,6 +318,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     {
         $shipment->setOrder($this);
         $this->shipments->add($shipment);
+        $this->setOrderShippedStatus($shipment);
     }
 
     /**
@@ -324,5 +327,35 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     public function getShipments()
     {
         return $this->shipments;
+    }
+
+    private function setOrderShippedStatus(Shipment $shipment)
+    {
+        if ($this->isShipmentFullyShipped($shipment)) {
+            $this->setStatus(Order::STATUS_SHIPPED);
+        } else {
+            $this->setStatus(Order::STATUS_PARTIALLY_SHIPPED);
+        }
+    }
+
+    private function isShipmentFullyShipped(Shipment $shipment)
+    {
+        foreach ($this->orderItems as $orderItem) {
+            if (! $orderItem->isShipmentFullyShipped($shipment)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function isStatusShipped()
+    {
+        return $this->status === self::STATUS_SHIPPED;
+    }
+
+    public function isStatusPartiallyShipped()
+    {
+        return $this->status === self::STATUS_PARTIALLY_SHIPPED;
     }
 }

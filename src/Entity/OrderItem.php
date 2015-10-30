@@ -266,4 +266,19 @@ class OrderItem implements EntityInterface, ValidationInterface
 
         return $weight;
     }
+
+    public function isShipmentFullyShipped(Shipment $shipment)
+    {
+        $shipmentItem = $shipment->getShipmentItemForOrderItem($this);
+
+        if ($shipmentItem === null) {
+            return false;
+        }
+
+        if ($shipmentItem->getQuantityToShip() < $this->quantity) {
+            return false;
+        }
+
+        return true;
+    }
 }

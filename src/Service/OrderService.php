@@ -10,10 +10,15 @@ use inklabs\kommerce\Entity\ShipmentItem;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\Event\OrderShippedEvent;
+use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 
 class OrderService extends AbstractService implements OrderServiceInterface
 {
+    /** @var EventDispatcherInterface */
+    private $eventDispatcher;
+
     /** @var OrderRepositoryInterface */
     private $orderRepository;
 
@@ -22,11 +27,11 @@ class OrderService extends AbstractService implements OrderServiceInterface
 
     /** @var ShipmentGatewayInterface */
     private $shipmentGateway;
-
     /** @var OrderItemRepositoryInterface */
     private $orderItemRepository;
 
     public function __construct(
+        EventDispatcherInterface $eventDispatcher,
         OrderRepositoryInterface $orderRepository,
         OrderItemRepositoryInterface $orderItemRepository,
         ProductRepositoryInterface $productRepository,
@@ -36,6 +41,7 @@ class OrderService extends AbstractService implements OrderServiceInterface
         $this->orderItemRepository = $orderItemRepository;
         $this->productRepository = $productRepository;
         $this->shipmentGateway = $shipmentGateway;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function update(Order & $order)
@@ -98,5 +104,9 @@ class OrderService extends AbstractService implements OrderServiceInterface
 
         $order->addShipment($shipment);
         $this->update($order);
+
+        $this->eventDispatcher->dispatchEvent(
+            new OrderShippedEvent($order->getId(), $shipment->getId())
+        );
     }
 }

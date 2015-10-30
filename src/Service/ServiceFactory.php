@@ -156,6 +156,7 @@ class ServiceFactory
     public function getOrder()
     {
         return new OrderService(
+            $this->eventDispatcher,
             $this->repositoryFactory->getOrderRepository(),
             $this->repositoryFactory->getOrderItemRepository(),
             $this->repositoryFactory->getProductRepository(),
