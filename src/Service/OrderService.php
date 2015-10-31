@@ -88,12 +88,7 @@ class OrderService extends AbstractService implements OrderServiceInterface
             $rateExternalId
         );
 
-        $shipment = new Shipment;
-        $shipment->addShipmentTracker($shipmentTracker);
-
-        $this->addShipmentComment($comment, $shipment);
-        $this->addShipmentItemsFromOrderItems($orderItemQtyDTO, $shipment);
-        $this->addShipment($order, $shipment);
+        $this->addShipment($comment, $orderItemQtyDTO, $shipmentTracker, $order);
     }
 
     public function addShipmentTrackingCode(
@@ -107,23 +102,36 @@ class OrderService extends AbstractService implements OrderServiceInterface
 
         $shipmentTracker = new ShipmentTracker($carrier, $trackingCode);
 
-        $shipment = new Shipment;
-        $shipment->addShipmentTracker($shipmentTracker);
-
-        $this->addShipmentComment($comment, $shipment);
-        $this->addShipmentItemsFromOrderItems($orderItemQtyDTO, $shipment);
-        $this->addShipment($order, $shipment);
+        $this->addShipment($comment, $orderItemQtyDTO, $shipmentTracker, $order);
     }
 
     /**
      * @param string $comment
-     * @param Shipment $shipment
+     * @param OrderItemQtyDTO $orderItemQtyDTO
+     * @param ShipmentTracker $shipmentTracker
+     * @param Order $order
      */
-    private function addShipmentComment($comment, Shipment $shipment)
-    {
+    private function addShipment(
+        $comment,
+        OrderItemQtyDTO $orderItemQtyDTO,
+        ShipmentTracker $shipmentTracker,
+        Order $order
+    ) {
+        $shipment = new Shipment;
+        $shipment->addShipmentTracker($shipmentTracker);
+
         if ($comment !== '') {
             $shipment->addShipmentComment(new ShipmentComment($comment));
         }
+
+        $this->addShipmentItemsFromOrderItems($orderItemQtyDTO, $shipment);
+
+        $order->addShipment($shipment);
+        $this->update($order);
+
+        $this->eventDispatcher->dispatchEvent(
+            new OrderShippedEvent($order->getId(), $shipment->getId())
+        );
     }
 
     private function addShipmentItemsFromOrderItems(OrderItemQtyDTO $orderItemQtyDTO, Shipment $shipment)
@@ -135,15 +143,5 @@ class OrderService extends AbstractService implements OrderServiceInterface
                 new ShipmentItem($orderItem, $qty)
             );
         }
-    }
-
-    private function addShipment(Order $order, Shipment $shipment)
-    {
-        $order->addShipment($shipment);
-        $this->update($order);
-
-        $this->eventDispatcher->dispatchEvent(
-            new OrderShippedEvent($order->getId(), $shipment->getId())
-        );
     }
 }
