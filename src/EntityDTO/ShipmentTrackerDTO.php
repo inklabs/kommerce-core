@@ -9,6 +9,9 @@ class ShipmentTrackerDTO
     public $carrier;
 
     /** @var string */
+    public $carrierText;
+
+    /** @var string */
     public $trackingCode;
 
     /** @var string */

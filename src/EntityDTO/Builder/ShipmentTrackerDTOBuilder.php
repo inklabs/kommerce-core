@@ -23,6 +23,7 @@ class ShipmentTrackerDTOBuilder
         $this->shipmentTrackerDTO->created      = $this->shipmentTracker->getCreated();
         $this->shipmentTrackerDTO->updated      = $this->shipmentTracker->getUpdated();
         $this->shipmentTrackerDTO->carrier      = $this->shipmentTracker->getCarrier();
+        $this->shipmentTrackerDTO->carrierText  = $this->shipmentTracker->getCarrierText();
         $this->shipmentTrackerDTO->trackingCode = $this->shipmentTracker->getTrackingCode();
         $this->shipmentTrackerDTO->externalId   = $this->shipmentTracker->getExternalId();
 

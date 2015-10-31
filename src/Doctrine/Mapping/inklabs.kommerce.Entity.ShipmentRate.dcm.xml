@@ -17,7 +17,7 @@
             </options>
         </field>
 
-        <field name="isDeliveryDateGuaranteed" type="boolean"/>
+        <field name="isDeliveryDateGuaranteed" type="boolean" nullable="true"/>
 
         <field name="deliveryDays" type="smallint" nullable="true">
             <options>

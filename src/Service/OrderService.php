@@ -7,6 +7,7 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\ShipmentComment;
 use inklabs\kommerce\Entity\ShipmentItem;
+use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
@@ -90,10 +91,43 @@ class OrderService extends AbstractService implements OrderServiceInterface
         $shipment = new Shipment;
         $shipment->addShipmentTracker($shipmentTracker);
 
+        $this->addShipmentComment($comment, $shipment);
+        $this->addShipmentItemsFromOrderItems($orderItemQtyDTO, $shipment);
+        $this->addShipment($order, $shipment);
+    }
+
+    public function addShipmentTrackingCode(
+        $orderId,
+        OrderItemQtyDTO $orderItemQtyDTO,
+        $comment,
+        $carrier,
+        $trackingCode
+    ) {
+        $order = $this->orderRepository->findOneById($orderId);
+
+        $shipmentTracker = new ShipmentTracker($carrier, $trackingCode);
+
+        $shipment = new Shipment;
+        $shipment->addShipmentTracker($shipmentTracker);
+
+        $this->addShipmentComment($comment, $shipment);
+        $this->addShipmentItemsFromOrderItems($orderItemQtyDTO, $shipment);
+        $this->addShipment($order, $shipment);
+    }
+
+    /**
+     * @param string $comment
+     * @param Shipment $shipment
+     */
+    private function addShipmentComment($comment, Shipment $shipment)
+    {
         if ($comment !== '') {
             $shipment->addShipmentComment(new ShipmentComment($comment));
         }
+    }
 
+    private function addShipmentItemsFromOrderItems(OrderItemQtyDTO $orderItemQtyDTO, Shipment $shipment)
+    {
         foreach ($orderItemQtyDTO->getItems() as $orderItemId => $qty) {
             $orderItem = $this->orderItemRepository->findOneById($orderItemId);
 
@@ -101,7 +135,10 @@ class OrderService extends AbstractService implements OrderServiceInterface
                 new ShipmentItem($orderItem, $qty)
             );
         }
+    }
 
+    private function addShipment(Order $order, Shipment $shipment)
+    {
         $order->addShipment($shipment);
         $this->update($order);
 

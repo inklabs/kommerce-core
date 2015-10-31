@@ -39,4 +39,20 @@ interface OrderServiceInterface
         $rateExternalId,
         $shipmentExternalId
     );
+
+    /**
+     * @param int $orderId
+     * @param OrderItemQtyDTO $orderItemQtyDTO
+     * @param string $comment
+     * @param int $carrier ShipmentTracker::$carrier
+     * @param string $trackingCode
+     * @return
+     */
+    public function addShipmentTrackingCode(
+        $orderId,
+        OrderItemQtyDTO $orderItemQtyDTO,
+        $comment,
+        $carrier,
+        $trackingCode
+    );
 }

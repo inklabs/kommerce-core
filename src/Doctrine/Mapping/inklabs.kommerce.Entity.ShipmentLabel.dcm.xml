@@ -8,7 +8,7 @@
 
         <field name="externalId" type="string" length="60" nullable="true" unique="true"/>
 
-        <field name="resolution" type="smallint">
+        <field name="resolution" type="smallint" nullable="true">
             <options>
                 <option name="unsigned">true</option>
             </options>

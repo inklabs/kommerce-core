@@ -139,14 +139,14 @@ class EasyPostGateway implements ShipmentGatewayInterface
 
     private function getShipmentTrackerFromEasyPostShipment($shipment)
     {
-        switch ($shipment->tracker->carrier) {
-            case 'UPS':
+        switch (strtolower($shipment->tracker->carrier)) {
+            case 'ups':
                 $carrier = ShipmentTracker::CARRIER_UPS;
                 break;
-            case 'USPS':
+            case 'usps':
                 $carrier = ShipmentTracker::CARRIER_USPS;
                 break;
-            case 'FEDEX':
+            case 'fedex':
                 $carrier = ShipmentTracker::CARRIER_FEDEX;
                 break;
             default:
