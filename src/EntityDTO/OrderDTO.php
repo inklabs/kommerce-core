@@ -7,8 +7,13 @@ class OrderDTO
 
     public $externalId;
     public $referenceNumber;
+
+    /** @var OrderAddressDTO */
     public $shippingAddress;
+
+    /** @var OrderAddressDTO */
     public $billingAddress;
+
     public $status;
     public $statusText;
     public $totalItems;
