@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Lib;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\RequestInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ServiceFactory;
@@ -52,6 +53,8 @@ class Mapper implements MapperInterface
                 $constructorParameters[] = $this->serviceFactory->getTagService();
             } elseif ($parameterClassName === ImageServiceInterface::class) {
                 $constructorParameters[] = $this->serviceFactory->getImageService();
+            } elseif ($parameterClassName === CartServiceInterface::class) {
+                $constructorParameters[] = $this->serviceFactory->getCart();
             } elseif ($parameterClassName === OrderServiceInterface::class) {
                 $constructorParameters[] = $this->serviceFactory->getOrder();
             } elseif ($parameterClassName === Pricing::class) {

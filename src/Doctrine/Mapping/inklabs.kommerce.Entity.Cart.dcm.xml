@@ -32,7 +32,8 @@
 
         <field name="sessionId" type="string" length="64" nullable="true" unique="true"/>
 
-        <embedded name="shippingRate" class="ShippingRate"/>
+        <embedded name="shipmentRate" class="ShipmentRate"/>
+        <embedded name="shippingAddress" class="OrderAddress"/>
 
         <one-to-one field="user" target-entity="User" inversed-by="cart" fetch="EAGER">
             <join-column nullable="true"/>

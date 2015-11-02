@@ -16,6 +16,12 @@ interface ShipmentGatewayInterface
     public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel);
 
     /**
+     * @param string $shipmentRateExternalId
+     * @return ShipmentRate
+     */
+    public function getShipmentRateByExternalId($shipmentRateExternalId);
+
+    /**
      * @param string $shipmentExternalId
      * @param string $rateExternalId
      * @return ShipmentTracker

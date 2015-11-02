@@ -46,8 +46,8 @@ class OrderDTOBuilder
                 ->build();
         }
 
-        if ($this->order->getShippingRate() !== null) {
-            $this->orderDTO->shippingRate = $this->order->getShippingRate()->getDTOBuilder()
+        if ($this->order->getShipmentRate() !== null) {
+            $this->orderDTO->shipmentRate = $this->order->getShipmentRate()->getDTOBuilder()
                 ->build();
         }
 

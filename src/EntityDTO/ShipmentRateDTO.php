@@ -37,4 +37,10 @@ class ShipmentRateDTO
 
     /** @var int */
     public $estDeliveryDays;
+
+    /** @var int */
+    public $deliveryMethod;
+
+    /** @var string */
+    public $deliveryMethodText;
 }

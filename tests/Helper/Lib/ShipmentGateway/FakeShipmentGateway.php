@@ -65,4 +65,18 @@ class FakeShipmentGateway implements ShipmentGatewayInterface
 
         return $shipmentTracker;
     }
+
+    /**
+     * @param string $shipmentRateExternalId
+     * @return ShipmentRate
+     */
+    public function getShipmentRateByExternalId($shipmentRateExternalId)
+    {
+        $dummyData = new DummyData;
+
+        $shipmentRate = $dummyData->getShipmentRate(225);
+        $shipmentRate->setDeliveryDays(7);
+        $shipmentRate->setShipmentExternalId('shp_xxxxxxxx');
+        return $shipmentRate;
+    }
 }

@@ -32,6 +32,12 @@ class ShipmentRate implements ValidationInterface
     /** @var int */
     protected $estDeliveryDays;
 
+    /** @var int */
+    protected $deliveryMethod;
+    const DELIVERY_METHOD_STANDARD = 0;
+    const DELIVERY_METHOD_ONE_DAY = 1;
+    const DELIVERY_METHOD_TWO_DAY = 2;
+
     /** @var Money */
     protected $rate;
 
@@ -45,6 +51,7 @@ class ShipmentRate implements ValidationInterface
     {
         $this->rate = $rate;
         $this->isDeliveryDateGuaranteed = false;
+        $this->setDeliveryMethod();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -178,6 +185,8 @@ class ShipmentRate implements ValidationInterface
     public function setDeliveryDays($deliveryDays)
     {
         $this->deliveryDays = (int) $deliveryDays;
+
+        $this->setDeliveryMethod();
     }
 
     /**
@@ -220,6 +229,40 @@ class ShipmentRate implements ValidationInterface
     public function getRetailRate()
     {
         return $this->retailRate;
+    }
+
+    private function setDeliveryMethod()
+    {
+        if ($this->deliveryDays === 1) {
+            $this->deliveryMethod = self::DELIVERY_METHOD_ONE_DAY;
+        } elseif ($this->deliveryDays === 2) {
+            $this->deliveryMethod = self::DELIVERY_METHOD_TWO_DAY;
+        } else {
+            $this->deliveryMethod = self::DELIVERY_METHOD_STANDARD;
+        }
+    }
+
+    public function getDeliveryMethod()
+    {
+        return $this->deliveryMethod;
+    }
+
+    public function getDeliveryMethodText()
+    {
+        if (! isset(self::getDeliveryMethodMapping()[$this->deliveryMethod])) {
+            return null;
+        }
+
+        return self::getDeliveryMethodMapping()[$this->deliveryMethod];
+    }
+
+    public static function getDeliveryMethodMapping()
+    {
+        return [
+            self::DELIVERY_METHOD_STANDARD => 'Standard',
+            self::DELIVERY_METHOD_ONE_DAY => 'One-Day',
+            self::DELIVERY_METHOD_TWO_DAY => 'Two-Day',
+        ];
     }
 
     public function getDTOBuilder()

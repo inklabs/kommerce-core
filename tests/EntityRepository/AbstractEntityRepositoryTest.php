@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Doctrine\ORM\QueryBuilder as KommerceQueryBuilder;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
+class AbstractEntityRepositoryTest extends DoctrineTestCase
 {
     protected $metaDataClassNames = [
         'kommerce:User',
@@ -23,6 +23,6 @@ class AbstractEntityRepositoryTest extends Helper\DoctrineTestCase
     public function testGetQueryBuilder()
     {
         $queryBuilder = $this->userRepository->getQueryBuilder();
-        $this->assertTrue($queryBuilder instanceof KommerceQueryBuilder);
+        $this->assertTrue($queryBuilder instanceof QueryBuilder);
     }
 }

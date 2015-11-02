@@ -27,7 +27,8 @@ class CartTest extends DoctrineTestCase
         $cart = new Cart;
         $cart->addCartItem($cartItem);
         $cart->addCoupon(new Coupon);
-        $cart->setShippingRate(new ShippingRate);
+        $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
+        $cart->setShippingAddress(new OrderAddress);
         $cart->setTaxRate(new TaxRate);
         $cart->setSessionId('6is7ujb3crb5ja85gf91g9en62');
 
@@ -37,7 +38,8 @@ class CartTest extends DoctrineTestCase
         $this->assertTrue($cart->getCartitems()[0] instanceof CartItem);
         $this->assertTrue($cart->getCartitem(0) instanceof CartItem);
         $this->assertTrue($cart->getCoupons()[0] instanceof Coupon);
-        $this->assertTrue($cart->getShippingRate() instanceof ShippingRate);
+        $this->assertTrue($cart->getShipmentRate() instanceof ShipmentRate);
+        $this->assertTrue($cart->getShippingAddress() instanceof OrderAddress);
         $this->assertTrue($cart->getTaxRate() instanceof TaxRate);
     }
 

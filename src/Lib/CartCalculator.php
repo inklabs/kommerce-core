@@ -106,9 +106,9 @@ class CartCalculator implements CartCalculatorInterface
 
     private function calculateShippingPrice()
     {
-        $shippingRate = $this->cart->getShippingRate();
-        if ($shippingRate !== null) {
-            $this->cartTotal->shipping = $shippingRate->getCost();
+        $shipmentRate = $this->cart->getShipmentRate();
+        if ($shipmentRate !== null) {
+            $this->cartTotal->shipping = $shipmentRate->getRate()->getAmount();
         }
     }
 

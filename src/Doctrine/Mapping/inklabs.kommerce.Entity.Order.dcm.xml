@@ -43,7 +43,7 @@
         <embedded name="total" class="CartTotal"/>
         <embedded name="shippingAddress" class="OrderAddress"/>
         <embedded name="billingAddress" class="OrderAddress"/>
-        <embedded name="shippingRate" class="ShippingRate"/>
+        <embedded name="shipmentRate" class="ShipmentRate"/>
 
         <one-to-many field="orderItems" target-entity="OrderItem" mapped-by="order" fetch="EXTRA_LAZY">
             <cascade>

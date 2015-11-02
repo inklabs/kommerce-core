@@ -11,8 +11,11 @@ class CartDTO
     public $shippingWeightInPounds;
     public $sessionId;
 
-    /** @var ShippingRateDTO */
-    public $shippingRate;
+    /** @var ShipmentRateDTO */
+    public $shipmentRate;
+
+    /** @var OrderAddressDTO */
+    public $shippingAddress;
 
     /** @var TaxRateDTO */
     public $taxRate;

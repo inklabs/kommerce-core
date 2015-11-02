@@ -48,8 +48,8 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     /** @var Coupon[] */
     protected $coupons;
 
-    /** @var ShippingRate */
-    protected $shippingRate;
+    /** @var ShipmentRate */
+    protected $shipmentRate;
 
     /** @var TaxRate */
     protected $taxRate;
@@ -82,7 +82,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         }
 
         $order->setUser($cart->getUser());
-        $order->setShippingRate($cart->getShippingRate());
+        $order->setShipmentRate($cart->getShipmentRate());
         $order->setTaxRate($cart->getTaxRate());
 
         return $order;
@@ -272,14 +272,14 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         return $this->user;
     }
 
-    public function getShippingRate()
+    public function getShipmentRate()
     {
-        return $this->shippingRate;
+        return $this->shipmentRate;
     }
 
-    public function setShippingRate(ShippingRate $shippingRate = null)
+    public function setShipmentRate(ShipmentRate $shipmentRate = null)
     {
-        $this->shippingRate = $shippingRate;
+        $this->shipmentRate = $shipmentRate;
     }
 
     public function getTaxRate()

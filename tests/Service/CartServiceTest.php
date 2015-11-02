@@ -5,13 +5,15 @@ use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\ShippingRate;
+use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Lib\CartCalculator;
@@ -22,18 +24,29 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionValueRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeTaxRateRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTextOptionRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCouponRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
+use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
 class CartServiceTest extends Helper\DoctrineTestCase
 {
+    /** @var CartService */
+    protected $cartService;
+
+    /** @var CartCalculator */
+    protected $cartCalculator;
+
     /** @var FakeCartRepository */
     protected $cartRepository;
 
-    /** @var FakeProductRepository */
-    protected $productRepository;
+    /** @var FakeCouponRepository */
+    protected $couponRepository;
+
+    /** @var FakeEventDispatcher */
+    protected $fakeEventDispatcher;
 
     /** @var FakeOptionProductRepository */
     protected $optionProductRepository;
@@ -41,41 +54,40 @@ class CartServiceTest extends Helper\DoctrineTestCase
     /** @var FakeOptionValueRepository */
     protected $optionValueRepository;
 
-    /** @var FakeTextOptionRepository */
-    protected $textOptionRepository;
-
-    /** @var FakeCouponRepository */
-    protected $couponRepository;
-
     /** @var FakeOrderRepository */
     protected $orderRepository;
 
+    /** @var FakeProductRepository */
+    protected $productRepository;
+
+    /** @var FakeShipmentGateway */
+    protected $fakeShipmentGateway;
+
+    /** @var FakeTaxRateRepository */
+    protected $taxRateRepository;
+
+    /** @var FakeTextOptionRepository */
+    protected $textOptionRepository;
+
     /** @var FakeUserRepository */
     protected $userRepository;
-
-    /** @var CartService */
-    protected $cartService;
-
-    /** @var CartCalculator */
-    protected $cartCalculator;
-
-    /** @var FakeEventDispatcher */
-    protected $fakeEventDispatcher;
 
     public function setUp()
     {
         parent::setUp();
 
+        $this->cartCalculator = new CartCalculator(new Pricing);
         $this->cartRepository = new FakeCartRepository;
+        $this->couponRepository = new FakeCouponRepository;
+        $this->fakeEventDispatcher = new FakeEventDispatcher;
         $this->productRepository = new FakeProductRepository;
         $this->optionProductRepository = new FakeOptionProductRepository;
         $this->optionValueRepository = new FakeOptionValueRepository;
-        $this->textOptionRepository = new FakeTextOptionRepository;
-        $this->couponRepository = new FakeCouponRepository;
         $this->orderRepository = new FakeOrderRepository;
+        $this->fakeShipmentGateway = new FakeShipmentGateway(new OrderAddressDTO);
+        $this->taxRateRepository = new FakeTaxRateRepository;
+        $this->textOptionRepository = new FakeTextOptionRepository;
         $this->userRepository = new FakeUserRepository;
-        $this->cartCalculator = new CartCalculator(new Pricing);
-        $this->fakeEventDispatcher = new FakeEventDispatcher;
 
         $this->setupCartService();
     }
@@ -83,16 +95,18 @@ class CartServiceTest extends Helper\DoctrineTestCase
     private function setupCartService()
     {
         $this->cartService = new CartService(
+            $this->cartCalculator,
             $this->cartRepository,
-            $this->productRepository,
+            $this->couponRepository,
+            $this->fakeEventDispatcher,
             $this->optionProductRepository,
             $this->optionValueRepository,
-            $this->textOptionRepository,
-            $this->couponRepository,
             $this->orderRepository,
-            $this->userRepository,
-            $this->cartCalculator,
-            $this->fakeEventDispatcher
+            $this->productRepository,
+            $this->fakeShipmentGateway,
+            $this->taxRateRepository,
+            $this->textOptionRepository,
+            $this->userRepository
         );
     }
 
@@ -359,7 +373,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
         $this->cartRepository->create(new Cart);
 
-        $this->cartService->setShippingRate($cartId, new ShippingRate);
+        $this->cartService->setShipmentRate($cartId, new ShipmentRate(new Money(295, 'USD')));
         $this->cartService->setTaxRate($cartId, new TaxRate);
     }
 

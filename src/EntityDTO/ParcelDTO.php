@@ -17,7 +17,7 @@ class ParcelDTO
     /** @var float */
     public $height;
 
-    /** @var int */
+    /** @var int (in ounces) */
     public $weight;
 
     /** @var string */

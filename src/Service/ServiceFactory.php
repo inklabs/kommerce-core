@@ -51,16 +51,18 @@ class ServiceFactory
     public function getCart()
     {
         return new CartService(
+            $this->cartCalculator,
             $this->repositoryFactory->getCartRepository(),
-            $this->repositoryFactory->getProductRepository(),
+            $this->repositoryFactory->getCouponRepository(),
+            $this->eventDispatcher,
             $this->repositoryFactory->getOptionProductRepository(),
             $this->repositoryFactory->getOptionValueRepository(),
-            $this->repositoryFactory->getTextOptionRepository(),
-            $this->repositoryFactory->getCouponRepository(),
             $this->repositoryFactory->getOrderRepository(),
-            $this->repositoryFactory->getUserRepository(),
-            $this->cartCalculator,
-            $this->eventDispatcher
+            $this->repositoryFactory->getProductRepository(),
+            $this->getShipmentGateway(),
+            $this->repositoryFactory->getTaxRateRepository(),
+            $this->repositoryFactory->getTextOptionRepository(),
+            $this->repositoryFactory->getUserRepository()
         );
     }
 

@@ -9,8 +9,9 @@ use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 use inklabs\kommerce\Entity\CartPriceRuleProductItem;
 use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\ShippingRate;
+use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TaxRate;
 
 class CartCalculatorTest extends \PHPUnit_Framework_TestCase
@@ -243,11 +244,6 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $product = new Product;
         $product->setUnitPrice(500);
 
-        $shippingRate = new ShippingRate;
-        $shippingRate->setCode('4');
-        $shippingRate->setName('Parcel Post');
-        $shippingRate->setCost(1000);
-
         $cartItem = new CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
@@ -255,7 +251,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $cart = new Cart;
         $cart->addCoupon($coupon);
         $cart->addCartItem($cartItem);
-        $cart->setShippingRate($shippingRate);
+        $cart->setShipmentRate(new ShipmentRate(new Money(1000, 'USD')));
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1000;
@@ -277,18 +273,13 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $product = new Product;
         $product->setUnitPrice(500);
 
-        $shippingRate = new ShippingRate;
-        $shippingRate->setCode('4');
-        $shippingRate->setName('Parcel Post');
-        $shippingRate->setCost(1000);
-
         $cartItem = new CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(3);
 
         $cart = new Cart;
         $cart->addCartItem($cartItem);
-        $cart->setShippingRate($shippingRate);
+        $cart->setShipmentRate(new ShipmentRate(new Money(1000, 'USD')));
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1500;
@@ -348,18 +339,13 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(true);
 
-        $shippingRate = new ShippingRate;
-        $shippingRate->setCode('4');
-        $shippingRate->setName('Parcel Post');
-        $shippingRate->setCost(1000);
-
         $cartItem = new CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
 
         $cart = new Cart;
         $cart->addCartItem($cartItem);
-        $cart->setShippingRate($shippingRate);
+        $cart->setShipmentRate(new ShipmentRate(new Money(1000, 'USD')));
         $cart->setTaxRate($taxRate);
 
         $expectedCartTotal = new CartTotal;

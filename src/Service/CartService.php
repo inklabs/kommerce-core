@@ -8,10 +8,11 @@ use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
 use inklabs\kommerce\Entity\InvalidCartActionException;
 use inklabs\kommerce\Entity\Order;
-use inklabs\kommerce\Entity\ShippingRate;
+use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
@@ -19,23 +20,28 @@ use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
+use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use InvalidArgumentException;
 
-class CartService extends AbstractService
+class CartService extends AbstractService implements CartServiceInterface
 {
+    /** @var CartCalculatorInterface */
+    protected $cartCalculator;
+
     /** @var CartRepositoryInterface */
     protected $cartRepository;
 
     /** @var CouponRepositoryInterface */
     protected $couponRepository;
 
-    /** @var ProductRepositoryInterface */
-    protected $productRepository;
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
 
     /** @var OptionProductRepositoryInterface */
     protected $optionProductRepository;
@@ -43,46 +49,50 @@ class CartService extends AbstractService
     /** @var OptionValueRepositoryInterface */
     protected $optionValueRepository;
 
+    /** @var OrderRepositoryInterface */
+    protected $orderRepository;
+
+    /** @var ProductRepositoryInterface */
+    protected $productRepository;
+
+    /** @var ShipmentGatewayInterface */
+    protected $shipmentGateway;
+
     /** @var TextOptionRepositoryInterface */
     protected $textOptionRepository;
 
-    /** @var OrderRepositoryInterface */
-    protected $orderRepository;
+    /** @var TaxRateRepositoryInterface */
+    protected $taxRateRepository;
 
     /** @var UserRepositoryInterface */
     protected $userRepository;
 
-    /** @var CartCalculatorInterface */
-    protected $cartCalculator;
-
-    /** @var TaxRate */
-    protected $taxRate;
-
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
-
     public function __construct(
+        CartCalculatorInterface $cartCalculator,
         CartRepositoryInterface $cartRepository,
-        ProductRepositoryInterface $productRepository,
+        CouponRepositoryInterface $couponRepository,
+        EventDispatcherInterface $eventDispatcher,
         OptionProductRepositoryInterface $optionProductRepository,
         OptionValueRepositoryInterface $optionValueRepository,
-        TextOptionRepositoryInterface $textOptionRepository,
-        CouponRepositoryInterface $couponRepository,
         OrderRepositoryInterface $orderRepository,
-        UserRepositoryInterface $userRepository,
-        CartCalculatorInterface $cartCalculator,
-        EventDispatcherInterface $eventDispatcher
+        ProductRepositoryInterface $productRepository,
+        ShipmentGatewayInterface $shipmentGateway,
+        TaxRateRepositoryInterface $taxRateRepository,
+        TextOptionRepositoryInterface $textOptionRepository,
+        UserRepositoryInterface $userRepository
     ) {
+        $this->cartCalculator = $cartCalculator;
         $this->cartRepository = $cartRepository;
-        $this->productRepository = $productRepository;
+        $this->couponRepository = $couponRepository;
+        $this->eventDispatcher = $eventDispatcher;
         $this->optionProductRepository = $optionProductRepository;
         $this->optionValueRepository = $optionValueRepository;
-        $this->textOptionRepository = $textOptionRepository;
-        $this->couponRepository = $couponRepository;
         $this->orderRepository = $orderRepository;
+        $this->productRepository = $productRepository;
+        $this->shipmentGateway = $shipmentGateway;
+        $this->taxRateRepository = $taxRateRepository;
+        $this->textOptionRepository = $textOptionRepository;
         $this->userRepository = $userRepository;
-        $this->cartCalculator = $cartCalculator;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -342,12 +352,12 @@ class CartService extends AbstractService
 
     /**
      * @param int $cartId
-     * @param ShippingRate $shippingRate
+     * @param ShipmentRate $shipmentRate
      */
-    public function setShippingRate($cartId, ShippingRate $shippingRate)
+    public function setShipmentRate($cartId, ShipmentRate $shipmentRate)
     {
         $cart = $this->cartRepository->findOneById($cartId);
-        $cart->setShippingRate($shippingRate);
+        $cart->setShipmentRate($shipmentRate);
 
         $this->cartRepository->update($cart);
     }
@@ -420,6 +430,33 @@ class CartService extends AbstractService
         $cart = $this->cartRepository->findOneById($cartId);
 
         $cart->setSessionId($sessionId);
+
+        $this->cartRepository->update($cart);
+    }
+
+    /**
+     * @param int $cartId
+     * @param string $shipmentRateExternalId
+     * @param OrderAddressDTO $shippingAddressDTO
+     */
+    public function addShipmentRate(
+        $cartId,
+        $shipmentRateExternalId,
+        OrderAddressDTO $shippingAddressDTO
+    ) {
+        $cart = $this->cartRepository->findOneById($cartId);
+
+        $shipmentRate = $this->shipmentGateway->getShipmentRateByExternalId($shipmentRateExternalId);
+
+        $cart->setShipmentRate($shipmentRate);
+        $cart->setShippingAddress(OrderAddress::createFromDTO($shippingAddressDTO));
+
+        $taxRate = $this->taxRateRepository->findByZip5AndState(
+            $shippingAddressDTO->zip5,
+            $shippingAddressDTO->state
+        );
+
+        $cart->setTaxRate($taxRate);
 
         $this->cartRepository->update($cart);
     }

@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
+use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -80,6 +81,26 @@ class OrderAddress implements ValidationInterface
         $metadata->addPropertyConstraint('country', new Assert\Length([
             'max' => 2,
         ]));
+    }
+
+    public static function createFromDTO(OrderAddressDTO $orderAddressDTO)
+    {
+        $orderAddress = new self;
+        $orderAddress->firstName = $orderAddressDTO->firstName;
+        $orderAddress->lastName = $orderAddressDTO->lastName;
+        $orderAddress->company = $orderAddressDTO->company;
+        $orderAddress->address1 = $orderAddressDTO->address1;
+        $orderAddress->address2 = $orderAddressDTO->address2;
+        $orderAddress->city = $orderAddressDTO->city;
+        $orderAddress->state = $orderAddressDTO->state;
+        $orderAddress->zip5 = $orderAddressDTO->zip5;
+        $orderAddress->zip4 = $orderAddressDTO->zip4;
+        $orderAddress->phone = $orderAddressDTO->phone;
+        $orderAddress->email = $orderAddressDTO->email;
+        $orderAddress->setIsResidential($orderAddressDTO->isResidential);
+        $orderAddress->setCountry($orderAddressDTO->country);
+
+        return $orderAddress;
     }
 
     /**

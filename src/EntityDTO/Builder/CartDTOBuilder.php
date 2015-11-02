@@ -28,8 +28,13 @@ class CartDTOBuilder
 
         $this->cartDTO->shippingWeightInPounds = $this->cart->getShippingWeightInPounds();
 
-        if ($cart->getShippingRate() !== null) {
-            $this->cartDTO->shippingRate = $cart->getShippingRate()->getDTOBuilder()
+        if ($cart->getShipmentRate() !== null) {
+            $this->cartDTO->shipmentRate = $cart->getShipmentRate()->getDTOBuilder()
+                ->build();
+        }
+
+        if ($cart->getShippingAddress() !== null) {
+            $this->cartDTO->shippingAddress = $cart->getShippingAddress()->getDTOBuilder()
                 ->build();
         }
 

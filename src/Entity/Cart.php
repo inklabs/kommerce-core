@@ -17,8 +17,11 @@ class Cart implements EntityInterface, ValidationInterface
     /** @var Coupon[]|ArrayCollection */
     protected $coupons;
 
-    /** @var ShippingRate */
-    protected $shippingRate;
+    /** @var ShipmentRate */
+    protected $shipmentRate;
+
+    /** @var OrderAddress */
+    protected $shippingAddress;
 
     /** @var TaxRate */
     protected $taxRate;
@@ -214,14 +217,14 @@ class Cart implements EntityInterface, ValidationInterface
         return $cartCalculator->getTotal($this);
     }
 
-    public function getShippingRate()
+    public function getShipmentRate()
     {
-        return $this->shippingRate;
+        return $this->shipmentRate;
     }
 
-    public function setShippingRate(ShippingRate $shippingRate)
+    public function setShipmentRate(ShipmentRate $shipmentRate)
     {
-        $this->shippingRate = $shippingRate;
+        $this->shipmentRate = $shipmentRate;
     }
 
     public function getTaxRate()
@@ -246,5 +249,15 @@ class Cart implements EntityInterface, ValidationInterface
     private function couponCanCombineWithOtherCoupons(Coupon $coupon)
     {
         return ! ($this->coupons->count() > 0 && ! $coupon->getCanCombineWithOtherCoupons());
+    }
+
+    public function setShippingAddress(OrderAddress $shippingAddress)
+    {
+        $this->shippingAddress = $shippingAddress;
+    }
+
+    public function getShippingAddress()
+    {
+        return $this->shippingAddress;
     }
 }

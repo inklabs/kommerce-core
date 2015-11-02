@@ -44,7 +44,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $order->addCoupon(new Coupon);
         $order->addPayment(new CashPayment(100));
         $order->setReferenceNumber('xxx-xxxxxxx-xxxxxxx');
-        $order->setShippingRate(new ShippingRate);
+        $order->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
         $order->setTaxRate(new TaxRate);
         $order->addOrderItem($orderItem);
         $order->setTotal(new CartTotal);
@@ -66,7 +66,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->assertTrue($order->getOrderItem(0) instanceof OrderItem);
         $this->assertTrue($order->getOrderItems()[0] instanceof OrderItem);
         $this->assertTrue($order->getPayments()[0] instanceof AbstractPayment);
-        $this->assertTrue($order->getShippingRate() instanceof ShippingRate);
+        $this->assertTrue($order->getShipmentRate() instanceof ShipmentRate);
         $this->assertTrue($order->getTaxRate() instanceof TaxRate);
         $this->assertTrue($order->getProducts()[0] instanceof Product);
         $this->assertTrue($order->getShipments()[0] instanceof Shipment);
@@ -84,7 +84,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $cart->setUser(new User);
         $cart->addCartItem($cartItem);
         $cart->addCoupon(new Coupon);
-        $cart->setShippingRate(new ShippingRate);
+        $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
         $cart->setTaxRate(new TaxRate);
 
         $cartCalculator = new CartCalculator(new Pricing);

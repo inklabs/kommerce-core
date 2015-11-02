@@ -49,6 +49,44 @@ class EasyPostGateway implements ShipmentGatewayInterface
     }
 
     /**
+     * @param OrderAddressDTO $toAddress
+     * @param ParcelDTO $parcel
+     * @return ShipmentRate[]
+     */
+    public function getTrimmedRates(OrderAddressDTO $toAddress, ParcelDTO $parcel)
+    {
+        $shipmentRates = $this->getRates($toAddress, $parcel);
+
+        /** @var ShipmentRate[] $newShipmentRates */
+        $newShipmentRates = [];
+        foreach ($shipmentRates as $shipmentRate) {
+            $deliveryMethod = $shipmentRate->getDeliveryMethod();
+
+            if (! isset($newShipmentRates[$deliveryMethod])) {
+                $newShipmentRates[$deliveryMethod] = $shipmentRate;
+                continue;
+            }
+
+            if ($shipmentRate->getRate()->getAmount() < $newShipmentRates[$deliveryMethod]->getRate()->getAmount()) {
+                $newShipmentRates[$deliveryMethod] = $shipmentRate;
+            }
+        }
+
+        return $newShipmentRates;
+    }
+
+    /**
+     * @param string $shipmentRateExternalId
+     * @return ShipmentRate
+     */
+    public function getShipmentRateByExternalId($shipmentRateExternalId)
+    {
+        $rate = EasyPost\Rate::retrieve($shipmentRateExternalId);
+        $shipmentRate = $this->getShipmentRateFromEasyPostRate($rate);
+        return $shipmentRate;
+    }
+
+    /**
      * @param string $shipmentExternalId
      * @param string $rateExternalId
      * @return ShipmentTracker
