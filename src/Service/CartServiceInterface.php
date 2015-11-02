@@ -119,12 +119,6 @@ interface CartServiceInterface
      */
     public function findOneById($cartId);
 
-    /**
-     * @param int $cartId
-     * @param ShipmentRate $shipmentRate
-     */
-    public function setShipmentRate($cartId, ShipmentRate $shipmentRate);
-
     public function setTaxRate($cartId, TaxRate $taxRate = null);
 
     /**
@@ -160,7 +154,7 @@ interface CartServiceInterface
      * @param string $shipmentRateExternalId
      * @param OrderAddressDTO $shippingAddressDTO
      */
-    public function addShipmentRate(
+    public function setShipmentRate(
         $cartId,
         $shipmentRateExternalId,
         OrderAddressDTO $shippingAddressDTO

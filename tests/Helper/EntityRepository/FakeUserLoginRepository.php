@@ -10,6 +10,11 @@ use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
  */
 class FakeUserLoginRepository extends AbstractFakeRepository implements UserLoginRepositoryInterface
 {
+    protected $entityName = 'UserLogin';
+
+    /** @var UserLogin[] */
+    protected $entities = [];
+
     public function __construct()
     {
         $this->setReturnValue(new UserLogin);

@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper;
@@ -55,6 +56,8 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->assertSame('xxx-xxxxxxx-xxxxxxx', $order->getReferenceNumber());
         $this->assertSame(Order::STATUS_PARTIALLY_SHIPPED, $order->getStatus());
         $this->assertSame('Partially Shipped', $order->getStatusText());
+        $this->assertSame(true, $order->isStatusPartiallyShipped());
+        $this->assertSame(false, $order->isStatusShipped());
         $this->assertSame('CO1102-0016', $order->getExternalId());
         $this->assertSame(1, $order->totalItems());
         $this->assertSame(2, $order->totalQuantity());
@@ -70,6 +73,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->assertTrue($order->getTaxRate() instanceof TaxRate);
         $this->assertTrue($order->getProducts()[0] instanceof Product);
         $this->assertTrue($order->getShipments()[0] instanceof Shipment);
+        $this->assertTrue($order->getDTOBuilder() instanceof OrderDTOBuilder);
     }
 
     public function testCreateFromCart()

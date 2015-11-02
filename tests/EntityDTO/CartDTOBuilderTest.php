@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Money;
+use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TaxRate;
@@ -29,6 +30,7 @@ class CartDTOBuilderTest extends \PHPUnit_Framework_TestCase
         $cart->addCartItem($cartItem);
         $cart->addCoupon($coupon);
         $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
+        $cart->setShippingAddress(new OrderAddress);
         $cart->setTaxRate(new TaxRate);
         $cart->setuser(new User);
 
@@ -41,6 +43,7 @@ class CartDTOBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($cartDTO->cartItems[0] instanceof CartItemDTO);
         $this->assertTrue($cartDTO->coupons[0] instanceof CouponDTO);
         $this->assertTrue($cartDTO->shipmentRate instanceof ShipmentRateDTO);
+        $this->assertTrue($cartDTO->shippingAddress instanceof OrderAddressDTO);
         $this->assertTrue($cartDTO->taxRate instanceof TaxRateDTO);
         $this->assertTrue($cartDTO->user instanceof UserDTO);
     }

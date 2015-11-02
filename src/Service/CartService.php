@@ -350,18 +350,6 @@ class CartService extends AbstractService implements CartServiceInterface
         return $this->cartRepository->findOneById($cartId);
     }
 
-    /**
-     * @param int $cartId
-     * @param ShipmentRate $shipmentRate
-     */
-    public function setShipmentRate($cartId, ShipmentRate $shipmentRate)
-    {
-        $cart = $this->cartRepository->findOneById($cartId);
-        $cart->setShipmentRate($shipmentRate);
-
-        $this->cartRepository->update($cart);
-    }
-
     public function setTaxRate($cartId, TaxRate $taxRate = null)
     {
         $cart = $this->cartRepository->findOneById($cartId);
@@ -439,7 +427,7 @@ class CartService extends AbstractService implements CartServiceInterface
      * @param string $shipmentRateExternalId
      * @param OrderAddressDTO $shippingAddressDTO
      */
-    public function addShipmentRate(
+    public function setShipmentRate(
         $cartId,
         $shipmentRateExternalId,
         OrderAddressDTO $shippingAddressDTO
@@ -449,7 +437,10 @@ class CartService extends AbstractService implements CartServiceInterface
         $shipmentRate = $this->shipmentGateway->getShipmentRateByExternalId($shipmentRateExternalId);
 
         $cart->setShipmentRate($shipmentRate);
-        $cart->setShippingAddress(OrderAddress::createFromDTO($shippingAddressDTO));
+
+        $shippingAddress = new OrderAddress;
+        $this->setOrderAddressFromDTO($shippingAddress, $shippingAddressDTO);
+        $cart->setShippingAddress($shippingAddress);
 
         $taxRate = $this->taxRateRepository->findByZip5AndState(
             $shippingAddressDTO->zip5,
@@ -459,5 +450,22 @@ class CartService extends AbstractService implements CartServiceInterface
         $cart->setTaxRate($taxRate);
 
         $this->cartRepository->update($cart);
+    }
+
+    private function setOrderAddressFromDTO(OrderAddress & $orderAddress, OrderAddressDTO $orderAddressDTO)
+    {
+        $orderAddress->firstName = $orderAddressDTO->firstName;
+        $orderAddress->lastName = $orderAddressDTO->lastName;
+        $orderAddress->company = $orderAddressDTO->company;
+        $orderAddress->address1 = $orderAddressDTO->address1;
+        $orderAddress->address2 = $orderAddressDTO->address2;
+        $orderAddress->city = $orderAddressDTO->city;
+        $orderAddress->state = $orderAddressDTO->state;
+        $orderAddress->zip5 = $orderAddressDTO->zip5;
+        $orderAddress->zip4 = $orderAddressDTO->zip4;
+        $orderAddress->phone = $orderAddressDTO->phone;
+        $orderAddress->email = $orderAddressDTO->email;
+        $orderAddress->setIsResidential($orderAddressDTO->isResidential);
+        $orderAddress->setCountry($orderAddressDTO->country);
     }
 }

@@ -367,14 +367,10 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($cart->getCartItem(0) instanceof CartItem);
     }
 
-    public function testSetters()
+    public function testSetTaxRate()
     {
-        $cartId = 1;
-
         $this->cartRepository->create(new Cart);
-
-        $this->cartService->setShipmentRate($cartId, new ShipmentRate(new Money(295, 'USD')));
-        $this->cartService->setTaxRate($cartId, new TaxRate);
+        $this->cartService->setTaxRate(1, new TaxRate);
     }
 
     public function testSetUserById()
@@ -388,7 +384,6 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->cartService->setUserById($cart->getId(), $user->getId());
 
         $cart = $this->cartService->findOneById($cart->getId());
-
         $this->assertTrue($cart->getUser() instanceof User);
     }
 
@@ -401,7 +396,8 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
         $this->cartService->setSessionId($cart->getId(), $sessionId);
 
-        $this->cartService->findOneById($cart->getId());
+        $testCart = $this->cartService->findOneById($cart->getId());
+        $this->assertSame($sessionId, $testCart->getSessionId());
     }
 
     /**
@@ -446,5 +442,11 @@ class CartServiceTest extends Helper\DoctrineTestCase
         } catch (EntityNotFoundException $e) {
             $this->assertTrue(true);
         }
+    }
+
+    public function testSetShipmentRate()
+    {
+        $this->cartRepository->create(new Cart);
+        $this->cartService->setShipmentRate(1, 'shp_xxxxxxxx', new OrderAddressDTO);
     }
 }

@@ -16,7 +16,7 @@ class AddShipmentRateHandler
 
     public function handle(AddShipmentRateCommand $command)
     {
-        $this->cartService->addShipmentRate(
+        $this->cartService->setShipmentRate(
             $command->getCartId(),
             $command->getShipmentRateExternalId(),
             $command->getBillingAddressDTO()

@@ -83,26 +83,6 @@ class OrderAddress implements ValidationInterface
         ]));
     }
 
-    public static function createFromDTO(OrderAddressDTO $orderAddressDTO)
-    {
-        $orderAddress = new self;
-        $orderAddress->firstName = $orderAddressDTO->firstName;
-        $orderAddress->lastName = $orderAddressDTO->lastName;
-        $orderAddress->company = $orderAddressDTO->company;
-        $orderAddress->address1 = $orderAddressDTO->address1;
-        $orderAddress->address2 = $orderAddressDTO->address2;
-        $orderAddress->city = $orderAddressDTO->city;
-        $orderAddress->state = $orderAddressDTO->state;
-        $orderAddress->zip5 = $orderAddressDTO->zip5;
-        $orderAddress->zip4 = $orderAddressDTO->zip4;
-        $orderAddress->phone = $orderAddressDTO->phone;
-        $orderAddress->email = $orderAddressDTO->email;
-        $orderAddress->setIsResidential($orderAddressDTO->isResidential);
-        $orderAddress->setCountry($orderAddressDTO->country);
-
-        return $orderAddress;
-    }
-
     /**
      * @param string $country
      */
