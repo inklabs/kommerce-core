@@ -111,6 +111,7 @@ class OrderServiceTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $order->getShipments()[0]->getShipmentItems()[0]->getId());
         $this->assertSame('A comment', $order->getShipments()[0]->getShipmentComments()[0]->getComment());
 
+        /** @var OrderShippedEvent $event */
         $event = $fakeEventDispatcher->getDispatchedEvents(OrderShippedEvent::class)[0];
         $this->assertTrue($event instanceof OrderShippedEvent);
         $this->assertSame(1, $event->getOrderId());
