@@ -19,7 +19,7 @@ class AddShipmentRateHandler
         $this->cartService->setShipmentRate(
             $command->getCartId(),
             $command->getShipmentRateExternalId(),
-            $command->getBillingAddressDTO()
+            $command->getShippingAddressDTO()
         );
     }
 }

@@ -13,21 +13,21 @@ final class AddShipmentRateCommand implements CommandInterface
     private $shipmentRateExternalId;
 
     /** @var OrderAddressDTO */
-    private $billingAddressDTO;
+    private $shippingAddressDTO;
 
     /**
      * @param int $cartId
      * @param string $shipmentRateExternalId
-     * @param OrderAddressDTO $billingAddressDTO
+     * @param OrderAddressDTO $shippingAddressDTO
      */
     public function __construct(
         $cartId,
         $shipmentRateExternalId,
-        OrderAddressDTO $billingAddressDTO
+        OrderAddressDTO $shippingAddressDTO
     ) {
         $this->cartId = (int) $cartId;
         $this->shipmentRateExternalId = (string) $shipmentRateExternalId;
-        $this->billingAddressDTO = $billingAddressDTO;
+        $this->shippingAddressDTO = $shippingAddressDTO;
     }
 
     public function getCartId()
@@ -40,8 +40,8 @@ final class AddShipmentRateCommand implements CommandInterface
         return $this->shipmentRateExternalId;
     }
 
-    public function getBillingAddressDTO()
+    public function getShippingAddressDTO()
     {
-        return $this->billingAddressDTO;
+        return $this->shippingAddressDTO;
     }
 }
