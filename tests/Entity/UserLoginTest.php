@@ -12,6 +12,7 @@ class UserLoginTest extends DoctrineTestCase
         $userLogin->setIp4('8.8.8.8');
         $userLogin->setResult(UserLogin::RESULT_SUCCESS);
         $userLogin->setUser(new User);
+        $userLogin->setUserToken(new UserToken);
 
         $this->assertEntityValid($userLogin);
         $this->assertSame('test@example.com', $userLogin->getEmail());
@@ -19,5 +20,6 @@ class UserLoginTest extends DoctrineTestCase
         $this->assertSame(UserLogin::RESULT_SUCCESS, $userLogin->getResult());
         $this->assertSame('Success', $userLogin->getResultText());
         $this->assertTrue($userLogin->getUser() instanceof User);
+        $this->assertTrue($userLogin->getUserToken() instanceof UserToken);
     }
 }

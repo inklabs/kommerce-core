@@ -11,17 +11,17 @@ class UserDTOBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuild()
     {
         $user = new User;
-        $user->addToken(new UserToken);
-        $user->addRole(new UserRole);
-        $user->addLogin(new UserLogin);
+        $user->addUserToken(new UserToken);
+        $user->addUserRole(new UserRole);
+        $user->addUserLogin(new UserLogin);
 
         $userDTO = $user->getDTOBuilder()
             ->withAllData()
             ->build();
 
         $this->assertTrue($userDTO instanceof UserDTO);
-        $this->assertTrue($userDTO->roles[0] instanceof UserRoleDTO);
-        $this->assertTrue($userDTO->tokens[0] instanceof UserTokenDTO);
-        $this->assertTrue($userDTO->logins[0] instanceof UserLoginDTO);
+        $this->assertTrue($userDTO->userRoles[0] instanceof UserRoleDTO);
+        $this->assertTrue($userDTO->userTokens[0] instanceof UserTokenDTO);
+        $this->assertTrue($userDTO->userLogins[0] instanceof UserLoginDTO);
     }
 }

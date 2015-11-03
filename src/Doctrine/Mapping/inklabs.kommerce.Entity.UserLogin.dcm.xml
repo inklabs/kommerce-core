@@ -33,7 +33,8 @@
             </options>
         </field>
 
-        <many-to-one field="user" target-entity="User" inversed-by="logins" fetch="EAGER"/>
+        <many-to-one field="user" target-entity="User" inversed-by="userLogins" fetch="EAGER"/>
+        <many-to-one field="userToken" target-entity="UserToken" inversed-by="userLogins" fetch="EAGER"/>
 
     </entity>
 

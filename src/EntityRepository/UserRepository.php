@@ -12,7 +12,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
             ->from('kommerce:User', 'user')
 
             ->addSelect('userRole')
-            ->leftJoin('user.roles', 'userRole')
+            ->leftJoin('user.userRoles', 'userRole')
 
             ->where('user.email = :email')->setParameter('email', $email)
             ->getQuery()

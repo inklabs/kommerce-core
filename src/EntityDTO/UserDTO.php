@@ -15,11 +15,11 @@ class UserDTO
     public $statusText;
 
     /** @var UserRoleDTO[] */
-    public $roles = [];
+    public $userRoles = [];
 
     /** @var UserTokenDTO[] */
-    public $tokens = [];
+    public $userTokens = [];
 
     /** @var UserLoginDTO[] */
-    public $logins = [];
+    public $userLogins = [];
 }

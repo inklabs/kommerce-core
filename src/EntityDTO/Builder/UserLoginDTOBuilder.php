@@ -37,10 +37,21 @@ class UserLoginDTOBuilder
         return $this;
     }
 
+    public function withUserToken()
+    {
+        $userToken = $this->userLogin->getUserToken();
+        if ($userToken !== null) {
+            $this->userLoginDTO->userToken = $userToken->getDTOBuilder()
+                ->build();
+        }
+        return $this;
+    }
+
     public function withAllData()
     {
         return $this
-            ->withUser();
+            ->withUser()
+            ->withUserToken();
     }
 
     public function build()

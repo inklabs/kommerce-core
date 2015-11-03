@@ -16,11 +16,14 @@ class UserLogin implements EntityInterface, ValidationInterface
     protected $ip4;
 
     protected $result;
-    const RESULT_FAIL      = 0;
-    const RESULT_SUCCESS   = 1;
+    const RESULT_FAIL    = 0;
+    const RESULT_SUCCESS = 1;
 
     /** @var User */
     protected $user;
+
+    /** @var UserToken */
+    protected $userToken;
 
     public function __construct()
     {
@@ -58,7 +61,7 @@ class UserLogin implements EntityInterface, ValidationInterface
 
     public function setUser(User $user)
     {
-        $user->addLogin($this);
+        $user->addUserLogin($this);
         $this->user = $user;
     }
 
@@ -101,6 +104,17 @@ class UserLogin implements EntityInterface, ValidationInterface
     public function getResultText()
     {
         return $this->getResultMapping()[$this->result];
+    }
+
+    public function setUserToken(UserToken $userToken)
+    {
+        $userToken->addUserLogin($this);
+        $this->userToken = $userToken;
+    }
+
+    public function getUserToken()
+    {
+        return $this->userToken;
     }
 
     public function getDTOBuilder()

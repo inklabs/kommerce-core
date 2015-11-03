@@ -34,8 +34,8 @@ class UserDTOBuilder
 
     public function withRoles()
     {
-        foreach ($this->user->getRoles() as $role) {
-            $this->userDTO->roles[] = $role->getDTOBuilder()
+        foreach ($this->user->getUserRoles() as $role) {
+            $this->userDTO->userRoles[] = $role->getDTOBuilder()
                 ->build();
         }
         return $this;
@@ -43,8 +43,8 @@ class UserDTOBuilder
 
     public function withTokens()
     {
-        foreach ($this->user->getTokens() as $token) {
-            $this->userDTO->tokens[] = $token->getDTOBuilder()
+        foreach ($this->user->getUserTokens() as $token) {
+            $this->userDTO->userTokens[] = $token->getDTOBuilder()
                 ->build();
         }
         return $this;
@@ -52,8 +52,8 @@ class UserDTOBuilder
 
     public function withLogins()
     {
-        foreach ($this->user->getLogins() as $login) {
-            $this->userDTO->logins[] = $login->getDTOBuilder()
+        foreach ($this->user->getUserLogins() as $login) {
+            $this->userDTO->userLogins[] = $login->getDTOBuilder()
                 ->build();
         }
         return $this;

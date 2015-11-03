@@ -56,7 +56,7 @@ class LoginWithTokenHandlerTest extends DoctrineTestCase
         $user = $this->dummyData->getUser();
         $userToken = $this->dummyData->getUserToken();
         $userToken->setExpires(new DateTime('+1 hour'));
-        $user->addToken($userToken);
+        $user->addUserToken($userToken);
         $this->fakeUserRepository->create($user);
         $this->fakeUserTokenRepository->create($userToken);
 
@@ -78,7 +78,7 @@ class LoginWithTokenHandlerTest extends DoctrineTestCase
         $user = $this->dummyData->getUser();
         $userToken = $this->dummyData->getUserToken();
         $userToken->setExpires(new DateTime('+1 hour'));
-        $user->addToken($userToken);
+        $user->addUserToken($userToken);
 
         $this->getRepositoryFactory()->getUserRepository()->create($user);
 

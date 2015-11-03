@@ -1,14 +1,17 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
+use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\tests\Helper;
 
 class UserLoginRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:UserLogin',
         'kommerce:User',
+        'kommerce:UserLogin',
+        'kommerce:UserToken',
         'kommerce:Cart',
         'kommerce:TaxRate',
     ];
@@ -25,11 +28,14 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
     private function setupUserLogin()
     {
         $user = $this->dummyData->getUser();
+        $userToken = $this->dummyData->getUserToken();
         $userLogin = $this->dummyData->getUserLogin();
         $userLogin->setUser($user);
+        $userLogin->setUserToken($userToken);
 
         $this->entityManager->persist($user);
         $this->entityManager->persist($userLogin);
+        $this->entityManager->persist($userToken);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
@@ -61,12 +67,14 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
         $this->setupUserLogin();
 
         $this->setCountLogger();
-
         $userLogin = $this->userLoginRepository->findOneById(1);
 
         $userLogin->getUser()->getCreated();
+        $userLogin->getUserToken()->getCreated();
 
         $this->assertTrue($userLogin instanceof UserLogin);
+        $this->assertTrue($userLogin->getUser() instanceof User);
+        $this->assertTrue($userLogin->getUserToken() instanceof UserToken);
         $this->assertSame(2, $this->getTotalQueries());
     }
 }

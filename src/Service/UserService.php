@@ -57,17 +57,7 @@ class UserService extends AbstractService implements UserServiceInterface
 
     public function login($email, $password, $remoteIp)
     {
-        try {
-            $user = $this->userRepository->findOneByEmail($email);
-        } catch (EntityNotFoundException $e) {
-            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
-            throw new UserLoginException('User not found', UserLoginException::USER_NOT_FOUND);
-        }
-
-        if (! $user->isActive()) {
-            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
-            throw new UserLoginException('User not active', UserLoginException::USER_NOT_ACTIVE);
-        }
+        $user = $this->getUserOrAssertAndRecordLoginFailure($email, $remoteIp);
 
         if (! $user->verifyPassword($password)) {
             $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL, $user);
@@ -81,17 +71,7 @@ class UserService extends AbstractService implements UserServiceInterface
 
     public function loginWithToken($email, $token, $remoteIp)
     {
-        try {
-            $user = $this->userRepository->findOneByEmail($email);
-        } catch (EntityNotFoundException $e) {
-            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
-            throw new UserLoginException('User not found', UserLoginException::USER_NOT_FOUND);
-        }
-
-        if (! $user->isActive()) {
-            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
-            throw new UserLoginException('User not active', UserLoginException::USER_NOT_ACTIVE);
-        }
+        $user = $this->getUserOrAssertAndRecordLoginFailure($email, $remoteIp);
 
         try {
             $userToken = $this->userTokenRepository->findLatestOneByUserId($user->getId());
@@ -191,5 +171,28 @@ class UserService extends AbstractService implements UserServiceInterface
         $user->setPassword($password);
 
         $this->update($user);
+    }
+
+    /**
+     * @param string $email
+     * @param string $remoteIp
+     * @return User
+     * @throws UserLoginException
+     */
+    private function getUserOrAssertAndRecordLoginFailure($email, $remoteIp)
+    {
+        try {
+            $user = $this->userRepository->findOneByEmail($email);
+        } catch (EntityNotFoundException $e) {
+            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
+            throw new UserLoginException('User not found', UserLoginException::USER_NOT_FOUND);
+        }
+
+        if (! $user->isActive()) {
+            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
+            throw new UserLoginException('User not active', UserLoginException::USER_NOT_ACTIVE);
+        }
+
+        return $user;
     }
 }

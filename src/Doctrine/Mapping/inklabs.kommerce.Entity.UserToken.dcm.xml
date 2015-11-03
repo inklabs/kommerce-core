@@ -56,7 +56,13 @@
             </options>
         </field>
 
-        <many-to-one field="user" target-entity="User" inversed-by="tokens" fetch="EAGER"/>
+        <one-to-many field="userLogins" target-entity="UserLogin" mapped-by="userToken" fetch="EXTRA_LAZY">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+
+        <many-to-one field="user" target-entity="User" inversed-by="userTokens" fetch="EAGER"/>
 
     </entity>
 

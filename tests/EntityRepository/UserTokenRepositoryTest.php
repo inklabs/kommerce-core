@@ -28,7 +28,7 @@ class UserTokenRepositoryTest extends Helper\DoctrineTestCase
         $userToken = $this->dummyData->getUserToken();
 
         $user = $this->dummyData->getUser();
-        $user->addToken($userToken);
+        $user->addUserToken($userToken);
 
         $this->entityManager->persist($userToken);
         $this->entityManager->persist($user);

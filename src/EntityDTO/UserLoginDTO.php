@@ -17,4 +17,7 @@ class UserLoginDTO
 
     /** @var UserDTO */
     public $user;
+
+    /** @var UserTokenDTO */
+    public $userToken;
 }

@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\EntityDTO\Builder\UserTokenDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,10 +34,14 @@ class UserToken implements EntityInterface, ValidationInterface
     /** @var User */
     protected $user;
 
+    /** @var UserLogin[] */
+    protected $userLogins;
+
     public function __construct()
     {
         $this->setCreated();
         $this->setType(self::TYPE_INTERNAL);
+        $this->userLogins = new ArrayCollection;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -191,5 +196,10 @@ class UserToken implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new UserTokenDTOBuilder($this);
+    }
+
+    public function addUserLogin(UserLogin $userLogin)
+    {
+        $this->userLogins->add($userLogin);
     }
 }

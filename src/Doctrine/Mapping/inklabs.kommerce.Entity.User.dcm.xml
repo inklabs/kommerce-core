@@ -63,7 +63,7 @@
 
         <one-to-many field="orders" target-entity="Order" mapped-by="user" fetch="EXTRA_LAZY"/>
 
-        <one-to-many field="logins" target-entity="UserLogin" mapped-by="user" fetch="EXTRA_LAZY">
+        <one-to-many field="userLogins" target-entity="UserLogin" mapped-by="user" fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>
@@ -72,13 +72,13 @@
             </order-by>
         </one-to-many>
 
-        <one-to-many field="tokens" target-entity="UserToken" mapped-by="user" fetch="EXTRA_LAZY">
+        <one-to-many field="userTokens" target-entity="UserToken" mapped-by="user" fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>
         </one-to-many>
 
-        <many-to-many field="roles" target-entity="UserRole" fetch="EXTRA_LAZY">
+        <many-to-many field="userRoles" target-entity="UserRole" fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>

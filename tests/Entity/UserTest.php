@@ -20,9 +20,9 @@ class UserTest extends DoctrineTestCase
         $user->setFirstName('John');
         $user->setLastName('Doe');
         $user->setLastLogin(new DateTime);
-        $user->addRole(new UserRole);
-        $user->addToken(new UserToken);
-        $user->addLogin($userLogin);
+        $user->addUserRole(new UserRole);
+        $user->addUserToken(new UserToken);
+        $user->addUserLogin($userLogin);
 
         $orderItem = new OrderItem;
         $orderItem->setProduct(new Product);
@@ -46,9 +46,9 @@ class UserTest extends DoctrineTestCase
         $this->assertSame('Doe', $user->getLastName());
         $this->assertSame(1, $user->getTotalLogins());
         $this->assertTrue($user->getLastLogin() > 0);
-        $this->assertTrue($user->getRoles()[0] instanceof UserRole);
-        $this->assertTrue($user->getTokens()[0] instanceof UserToken);
-        $this->assertTrue($user->getLogins()[0] instanceof UserLogin);
+        $this->assertTrue($user->getUserRoles()[0] instanceof UserRole);
+        $this->assertTrue($user->getUserTokens()[0] instanceof UserToken);
+        $this->assertTrue($user->getUserLogins()[0] instanceof UserLogin);
         $this->assertTrue($user->getOrders()[0] instanceof Order);
         $this->assertTrue($user->getCart() instanceof Cart);
     }
@@ -86,9 +86,9 @@ class UserTest extends DoctrineTestCase
         $adminRole->setName('admin');
 
         $user = new User;
-        $user->addRole($adminRole);
+        $user->addUserRole($adminRole);
 
-        $this->assertTrue($user->hasRoles(['admin']));
-        $this->assertFalse($user->hasRoles(['developer']));
+        $this->assertTrue($user->hasUserRoles(['admin']));
+        $this->assertFalse($user->hasUserRoles(['developer']));
     }
 }

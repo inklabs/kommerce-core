@@ -27,7 +27,7 @@ class UserRoleRepositoryTest extends Helper\DoctrineTestCase
         $userRole = $this->dummyData->getUserRole();
 
         $user = $this->dummyData->getUser();
-        $user->addRole($userRole);
+        $user->addUserRole($userRole);
 
         $this->entityManager->persist($userRole);
         $this->entityManager->persist($user);

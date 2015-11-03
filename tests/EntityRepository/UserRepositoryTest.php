@@ -75,7 +75,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
-        $user->addLogin($userLogin);
+        $user->addUserLogin($userLogin);
 
         $this->userRepository->update($user);
 
@@ -92,9 +92,9 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
             ->findOneById(1);
 
         $user->getOrders()->toArray();
-        $user->getLogins()->toArray();
-        $user->getTokens()->toArray();
-        $user->getRoles()->toArray();
+        $user->getUserLogins()->toArray();
+        $user->getUserTokens()->toArray();
+        $user->getUserRoles()->toArray();
 
         $this->assertTrue($user instanceof User);
         $this->assertSame(5, $this->getTotalQueries());
@@ -134,7 +134,7 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $this->setCountLogger();
 
         $user = $this->userRepository->findOneByEmail('test1@example.com');
-        $user->getRoles()->toArray();
+        $user->getUserRoles()->toArray();
         $user->getCart()->getCreated();
 
         $this->assertTrue($user instanceof User);

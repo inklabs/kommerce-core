@@ -41,16 +41,16 @@ class User implements EntityInterface, ValidationInterface
     const STATUS_LOCKED = 2;
 
     /** @var ArrayCollection|UserRole[] */
-    protected $roles;
+    protected $userRoles;
 
     /** @var ArrayCollection|UserToken[] */
-    protected $tokens;
+    protected $userTokens;
+
+    /** @var ArrayCollection|UserLogin[] */
+    protected $userLogins;
 
     /** @var ArrayCollection|Order[] */
     protected $orders;
-
-    /** @var ArrayCollection|UserLogin[] */
-    protected $logins;
 
     /** @var Cart */
     protected $cart;
@@ -58,10 +58,10 @@ class User implements EntityInterface, ValidationInterface
     public function __construct()
     {
         $this->setCreated();
-        $this->roles = new ArrayCollection;
-        $this->tokens = new ArrayCollection;
+        $this->userRoles = new ArrayCollection;
+        $this->userTokens = new ArrayCollection;
+        $this->userLogins = new ArrayCollection;
         $this->orders = new ArrayCollection;
-        $this->logins = new ArrayCollection;
 
         $this->totalLogins = 0;
         $this->lastLogin = null;
@@ -238,20 +238,20 @@ class User implements EntityInterface, ValidationInterface
         return $this->lastLogin;
     }
 
-    public function addRole(UserRole $role)
+    public function addUserRole(UserRole $userRole)
     {
-        $this->roles[] = $role;
+        $this->userRoles->add($userRole);
     }
 
-    public function getRoles()
+    public function getUserRoles()
     {
-        return $this->roles;
+        return $this->userRoles;
     }
 
-    public function hasRoles(array $roleNames)
+    public function hasUserRoles(array $roleNames)
     {
         $userRoles = [];
-        foreach ($this->roles as $role) {
+        foreach ($this->userRoles as $role) {
             $userRoles[$role->getName()] = true;
         }
 
@@ -264,29 +264,29 @@ class User implements EntityInterface, ValidationInterface
         return true;
     }
 
-    public function addToken(UserToken $token)
+    public function addUserToken(UserToken $userToken)
     {
-        $token->setUser($this);
-        $this->tokens[] = $token;
+        $userToken->setUser($this);
+        $this->userTokens[] = $userToken;
     }
 
-    public function getTokens()
+    public function getUserTokens()
     {
-        return $this->tokens;
+        return $this->userTokens;
     }
 
-    public function addLogin(UserLogin $login)
+    public function addUserLogin(UserLogin $userLogin)
     {
-        $this->logins[] = $login;
+        $this->userLogins[] = $userLogin;
 
-        if ($login->getResult() == UserLogin::RESULT_SUCCESS) {
+        if ($userLogin->getResult() == UserLogin::RESULT_SUCCESS) {
             $this->incrementTotalLogins();
         }
     }
 
-    public function getLogins()
+    public function getUserLogins()
     {
-        return $this->logins;
+        return $this->userLogins;
     }
 
     public function addOrder(Order $order)
