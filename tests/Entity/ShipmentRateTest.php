@@ -62,4 +62,10 @@ class ShipmentRateTest extends DoctrineTestCase
         $this->assertSame(ShipmentRate::DELIVERY_METHOD_TWO_DAY, $shipmentRate->getDeliveryMethod());
         $this->assertSame('Two-Day', $shipmentRate->getDeliveryMethodText());
     }
+
+    public function testDeliveryMethodEmpty()
+    {
+        $shipmentRate = new ShipmentRate(new Money(907, 'USD'));
+        $this->assertSame('', $shipmentRate->getDeliveryMethodText());
+    }
 }
