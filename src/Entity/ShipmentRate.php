@@ -51,6 +51,7 @@ class ShipmentRate implements ValidationInterface
     {
         $this->rate = $rate;
         $this->isDeliveryDateGuaranteed = false;
+        $this->setupDeliveryMethod();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -251,11 +252,13 @@ class ShipmentRate implements ValidationInterface
      */
     public function getDeliveryMethodText()
     {
-        if ($this->deliveryMethod === null) {
-            return '';
+        $deliveryMethodText = '';
+
+        if ($this->deliveryMethod !== null) {
+            $deliveryMethodText = self::getDeliveryMethodMapping()[$this->deliveryMethod];
         }
 
-        return self::getDeliveryMethodMapping()[$this->deliveryMethod];
+        return $deliveryMethodText;
     }
 
     public static function getDeliveryMethodMapping()
