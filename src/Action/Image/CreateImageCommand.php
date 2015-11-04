@@ -12,19 +12,19 @@ final class CreateImageCommand implements CommandInterface
     /** @var int */
     protected $tagId;
 
-    public function __construct(ImageDTO $imageDTO)
+    /**
+     * @param ImageDTO $imageDTO
+     * @param int $tagId
+     */
+    public function __construct(ImageDTO $imageDTO, $tagId)
     {
         $this->imageDTO = $imageDTO;
+        $this->tagId = (int) $tagId;
     }
 
     public function getImageDTO()
     {
         return $this->imageDTO;
-    }
-
-    public function setTagId($tagId)
-    {
-        $this->tagId = (int) $tagId;
     }
 
     public function getTagId()

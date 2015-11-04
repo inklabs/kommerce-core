@@ -66,4 +66,18 @@ class UserTokenRepositoryTest extends Helper\DoctrineTestCase
         $this->assertTrue($userToken instanceof UserToken);
         $this->assertSame(2, $this->getTotalQueries());
     }
+
+    public function testFindLatestOneByUserId()
+    {
+        $this->setupUserWithToken();
+
+        $this->setCountLogger();
+
+        $userToken = $this->userTokenRepository->findLatestOneByUserId(1);
+
+        $userToken->getUser()->getEmail();
+
+        $this->assertTrue($userToken instanceof UserToken);
+        $this->assertSame(2, $this->getTotalQueries());
+    }
 }

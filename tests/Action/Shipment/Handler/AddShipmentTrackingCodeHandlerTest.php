@@ -77,10 +77,4 @@ class AddShipmentTrackingCodeHandlerTest extends DoctrineTestCase
         $handler = new AddShipmentTrackingCodeHandler($this->fakeOrderService);
         $handler->handle($this->command);
     }
-
-    public function xtestHandleThroughQueryBus()
-    {
-        $this->setupEntityManager([]);
-        $this->getCommandBus()->execute($this->command);
-    }
 }

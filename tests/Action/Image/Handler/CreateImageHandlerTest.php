@@ -51,27 +51,12 @@ class CreateImageHandlerTest extends DoctrineTestCase
 
     public function testHandle()
     {
+        $tag = $this->dummyData->getTag();
+        $this->fakeTagRepository->create($tag);
+
         $createImageHandler = new CreateImageHandler($this->imageService);
-        $createImageHandler->handle(new CreateImageCommand($this->imageDTO));
+        $createImageHandler->handle(new CreateImageCommand($this->imageDTO, $tag->getId()));
 
         $this->assertTrue($this->fakeImageRepository->findOneById(1) instanceof Image);
-    }
-
-    public function testHandleThroughCommandBus()
-    {
-        $this->setupEntityManager([
-            'kommerce:Image',
-            'kommerce:Tag',
-        ]);
-        $tag = $this->dummyData->getTag();
-        $this->getRepositoryFactory()->getTagRepository()->create($tag);
-
-        $command = new CreateImageCommand($this->imageDTO);
-        $command->setTagId($tag->getId());
-        $this->getCommandBus()->execute($command);
-
-        $image = $this->getRepositoryFactory()->getImageRepository()->findOneById(1);
-        $this->assertTrue($image instanceof Image);
-        $this->assertTrue($image->getTag() instanceof Tag);
     }
 }

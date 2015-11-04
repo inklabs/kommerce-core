@@ -23,24 +23,4 @@ class ListTagsHandlerTest extends AbstractTagHandlerTestCase
         $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
     }
-
-    public function testHandleThroughQueryBus()
-    {
-        $this->loadDummyTagInRepository();
-
-        $request = new ListTagsRequest('TT', new PaginationDTO);
-        $response = new ListTagsResponse;
-        $this->getQueryBus()->execute($request, $response);
-
-        $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);
-        $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
-    }
-
-    private function loadDummyTagInRepository()
-    {
-        $this->setupEntityManager(['kommerce:Tag']);
-
-        $tag = $this->dummyData->getTag();
-        $this->getRepositoryFactory()->getTagRepository()->create($tag);
-    }
 }

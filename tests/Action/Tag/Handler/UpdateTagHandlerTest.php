@@ -39,17 +39,4 @@ class UpdateTagHandlerTest extends AbstractTagHandlerTestCase
         $this->assertTrue($newTag instanceof Tag);
         $this->assertSame('New Name', $newTag->getname());
     }
-
-    public function testHandleThroughCommandBus()
-    {
-        $tag = $this->dummyData->getTag();
-        $this->setupEntityManager(['kommerce:Tag']);
-        $this->getRepositoryFactory()->getTagRepository()->create($tag);
-
-        $this->tagDTO->id = $tag->getId();
-
-        $this->getCommandBus()->execute(new UpdateTagCommand($this->tagDTO));
-
-        $this->assertTrue($this->getRepositoryFactory()->getTagRepository()->findOneById(1) instanceof Tag);
-    }
 }

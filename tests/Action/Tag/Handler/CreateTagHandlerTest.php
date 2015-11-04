@@ -31,13 +31,4 @@ class CreateTagHandlerTest extends AbstractTagHandlerTestCase
 
         $this->assertTrue($this->fakeTagRepository->findOneById(1) instanceof Tag);
     }
-
-    public function testHandleThroughCommandBus()
-    {
-        $this->setupEntityManager(['kommerce:Tag']);
-
-        $this->getCommandBus()->execute(new CreateTagCommand($this->tagDTO));
-
-        $this->assertTrue($this->getRepositoryFactory()->getTagRepository()->findOneById(1) instanceof Tag);
-    }
 }

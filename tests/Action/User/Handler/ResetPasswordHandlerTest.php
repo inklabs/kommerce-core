@@ -67,19 +67,4 @@ class ResetPasswordHandlerTest extends DoctrineTestCase
         $this->assertSame(40, strlen($event->getToken()));
         $this->assertSame('John Doe', $event->getFullName());
     }
-
-    public function testHandleThroughCommandBus()
-    {
-        $this->setupEntityManager([
-            'kommerce:User',
-            'kommerce:UserRole',
-            'kommerce:UserToken',
-        ]);
-        $user = $this->dummyData->getUser();
-        $this->getRepositoryFactory()->getUserRepository()->create($user);
-
-        $this->getCommandBus()->execute($this->command);
-
-        $this->assertTrue($this->getRepositoryFactory()->getUserTokenRepository()->findOneById(1) instanceof UserToken);
-    }
 }

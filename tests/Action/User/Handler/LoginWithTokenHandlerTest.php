@@ -66,25 +66,4 @@ class LoginWithTokenHandlerTest extends DoctrineTestCase
 
         $this->assertTrue($response->getUserDTO() instanceof UserDTO);
     }
-
-    public function testHandleThroughQueryBus()
-    {
-        $this->setupEntityManager([
-            'kommerce:User',
-            'kommerce:UserRole',
-            'kommerce:UserToken',
-            'kommerce:UserLogin',
-        ]);
-        $user = $this->dummyData->getUser();
-        $userToken = $this->dummyData->getUserToken();
-        $userToken->setExpires(new DateTime('+1 hour'));
-        $user->addUserToken($userToken);
-
-        $this->getRepositoryFactory()->getUserRepository()->create($user);
-
-        $response = new LoginWithTokenResponse;
-        $this->getQueryBus()->execute($this->request, $response);
-
-        $this->assertTrue($response->getUserDTO() instanceof UserDTO);
-    }
 }

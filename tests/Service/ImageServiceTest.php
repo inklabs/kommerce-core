@@ -44,6 +44,17 @@ class ImageServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($image instanceof Image);
     }
 
+    public function testCreateFromDTOWithTag()
+    {
+        $tag = $this->dummyData->getTag();
+        $this->tagRepository->create($tag);
+        $imageDTO = $this->dummyData->getImage()->getDTOBuilder()->build();
+
+        $this->imageService->createFromDTOWithTag($imageDTO, $tag->getid());
+
+        $this->assertTrue($this->imageRepository->findOneById(1) instanceof Image);
+    }
+
     public function testEdit()
     {
         $newWidth = 500;

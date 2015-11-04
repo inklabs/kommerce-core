@@ -78,10 +78,4 @@ class BuyShipmentLabelHandlerTest extends DoctrineTestCase
         $handler = new BuyShipmentLabelHandler($this->fakeOrderService);
         $handler->handle($this->command);
     }
-
-    public function xtestHandleThroughQueryBus()
-    {
-        $this->setupEntityManager([]);
-        $this->getCommandBus()->execute($this->command);
-    }
 }

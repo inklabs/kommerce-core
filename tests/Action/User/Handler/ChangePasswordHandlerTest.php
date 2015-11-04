@@ -66,20 +66,4 @@ class ChangePasswordHandlerTest extends DoctrineTestCase
         $this->assertSame('test1@example.com', $event->getEmail());
         $this->assertSame('John Doe', $event->getFullName());
     }
-
-    public function testHandleThroughCommandBus()
-    {
-        $this->setupEntityManager([
-            'kommerce:User',
-            'kommerce:UserRole',
-            'kommerce:UserToken',
-        ]);
-        $user = $this->dummyData->getUser();
-        $this->getRepositoryFactory()->getUserRepository()->create($user);
-
-        $this->getCommandBus()->execute($this->command);
-
-        $user = $this->getRepositoryFactory()->getUserRepository()->findOneById(1);
-        $this->assertTrue($user->verifyPassword('newPassword123'));
-    }
 }

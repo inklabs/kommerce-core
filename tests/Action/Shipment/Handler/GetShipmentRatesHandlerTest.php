@@ -39,11 +39,4 @@ class GetShipmentRatesHandlerTest extends DoctrineTestCase
         $handler->handle($this->request, $this->response);
         $this->assertTrue($this->response->getShipmentRatesDTO()[0] instanceof ShipmentRateDTO);
     }
-
-    public function testHandleThroughQueryBus()
-    {
-        $this->setupEntityManager([]);
-        $this->getQueryBus()->execute($this->request, $this->response);
-        $this->assertTrue($this->response->getShipmentRatesDTO()[0] instanceof ShipmentRateDTO);
-    }
 }

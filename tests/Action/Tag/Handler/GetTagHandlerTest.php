@@ -19,16 +19,4 @@ class GetTagHandlerTest extends AbstractTagHandlerTestCase
 
         $this->assertTrue($response->getTagDTO() instanceof TagDTO);
     }
-
-    public function testHandleThroughQueryBus()
-    {
-        $this->setupEntityManager(['kommerce:Tag']);
-        $tag = $this->dummyData->getTag();
-        $this->getRepositoryFactory()->getTagRepository()->create($tag);
-
-        $response = new GetTagResponse;
-        $this->getQueryBus()->execute(new GetTagRequest($tag->getId()), $response);
-
-        $this->assertTrue($response->getTagDTO() instanceof TagDTO);
-    }
 }
