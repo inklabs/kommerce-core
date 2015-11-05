@@ -8,7 +8,6 @@ use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
 use inklabs\kommerce\Entity\InvalidCartActionException;
 use inklabs\kommerce\Entity\Order;
-use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\AbstractPayment;
@@ -367,7 +366,7 @@ class CartService extends AbstractService implements CartServiceInterface
      * @param AbstractPayment $payment
      * @param OrderAddress $shippingAddress
      * @param OrderAddress $billingAddress
-     * @return OrderService
+     * @return Order
      */
     public function createOrder(
         $cartId,
@@ -385,6 +384,8 @@ class CartService extends AbstractService implements CartServiceInterface
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
         $order->addPayment($payment);
+
+        $this->throwValidationErrors($order);
 
         $this->orderRepository->create($order);
 

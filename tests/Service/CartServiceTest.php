@@ -412,7 +412,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $cartId = $cart->getId();
 
         $payment = new CashPayment(100);
-        $orderAddress = new OrderAddress;
+        $orderAddress = $this->dummyData->getOrderAddress();
 
         $order = $this->cartService->createOrder(
             $cart->getId(),

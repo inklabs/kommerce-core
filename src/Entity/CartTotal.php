@@ -2,8 +2,10 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartTotalDTOBuilder;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class CartTotal
+class CartTotal implements ValidationInterface
 {
     /** @var int */
     public $origSubtotal = 0;
@@ -40,6 +42,29 @@ class CartTotal
 
     /** @var TaxRate */
     public $taxRate;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $integerColumns = [
+            'origSubtotal',
+            'subtotal',
+            'taxSubtotal',
+            'discount',
+            'shipping',
+            'shippingDiscount',
+            'tax',
+            'total',
+            'savings',
+        ];
+
+        foreach ($integerColumns as $columnName) {
+            $metadata->addPropertyConstraint($columnName, new Assert\NotNull);
+            $metadata->addPropertyConstraint($columnName, new Assert\Range([
+                'min' => 0,
+                'max' => 4294967295,
+            ]));
+        }
+    }
 
     public function getDTOBuilder()
     {

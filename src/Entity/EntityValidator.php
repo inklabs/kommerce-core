@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Exception\ValidatorException;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validation;
 
 class EntityValidator
@@ -12,10 +12,16 @@ class EntityValidator
             ->addMethodMapping('loadValidatorMetadata')
             ->getValidator();
 
+        /** @var ConstraintViolationList $errors */
         $errors = $validator->validate($entity);
 
         if (count($errors) > 0) {
-            $exception = new ValidatorException;
+            $message = '';
+            foreach ($errors as $error) {
+                $message .= $error->getPropertyPath() . ', '  . $error->getMessage() . PHP_EOL;
+            }
+
+            $exception = new EntityValidatorException($message);
             $exception->errors = $errors;
             throw $exception;
         }
