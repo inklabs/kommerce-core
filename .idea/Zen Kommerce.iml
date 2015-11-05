@@ -5,7 +5,6 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="inklabs\kommerce\tests" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="inklabs\kommerce" />
       <excludeFolder url="file://$MODULE_DIR$/coverage_report" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/easypost/easypost-php" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -222,7 +222,7 @@ class Cart implements EntityInterface, ValidationInterface
         return $this->shipmentRate;
     }
 
-    public function setShipmentRate(ShipmentRate $shipmentRate)
+    public function setShipmentRate(ShipmentRate $shipmentRate = null)
     {
         $this->shipmentRate = $shipmentRate;
     }

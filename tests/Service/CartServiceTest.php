@@ -207,20 +207,18 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function testAddItem()
     {
-        $quantity = 1;
-
         $product = new Product;
-        $product->setId(2001);
-
-        $this->cartRepository->create(new Cart);
+        $cart = new Cart;
+        $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
+        $this->cartRepository->create($cart);
         $this->productRepository->create($product);
-
-        $cartItemIndex = $this->cartService->addItem($product->getId(), $quantity);
+        $cartItemIndex = $this->cartService->addItem($product->getId(), 1);
 
         $cart = $this->cartService->findOneById(1);
 
         $this->assertSame(0, $cartItemIndex);
         $this->assertTrue($cart->getCartItem(0) instanceof CartItem);
+        $this->assertSame(null, $cart->getShipmentRate());
     }
 
     /**
@@ -313,41 +311,34 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function testUpdateQuantity()
     {
-        $cartId = 1;
-        $quantity = 2;
-
         $product = new Product;
-        $product->setId(2001);
-
-        $this->cartRepository->create(new Cart);
+        $cart = new Cart;
+        $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
+        $this->cartRepository->create($cart);
         $this->productRepository->create($product);
+        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
 
-        $cartItemIndex = $this->cartService->addItem($cartId, $product->getId());
+        $this->cartService->updateQuantity($cart->getId(), $cartItemIndex, 2);
 
-        $this->cartService->updateQuantity($cartId, $cartItemIndex, $quantity);
-
-        $cart = $this->cartService->findOneById($cartId);
-
+        $cart = $this->cartService->findOneById($cart->getId());
         $this->assertSame(2, $cart->getCartItem(0)->getQuantity());
+        $this->assertSame(null, $cart->getShipmentRate());
     }
 
     public function testDeleteItem()
     {
-        $cartId = 1;
-
         $product = new Product;
-        $product->setId(2001);
-
-        $this->cartRepository->create(new Cart);
+        $cart = new Cart;
+        $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
+        $this->cartRepository->create($cart);
         $this->productRepository->create($product);
+        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
 
-        $cartItemIndex = $this->cartService->addItem($cartId, $product->getId());
+        $this->cartService->deleteItem($cart->getId(), $cartItemIndex);
 
-        $this->cartService->deleteItem($cartId, $cartItemIndex);
-
-        $cart = $this->cartService->findOneById($cartId);
-
+        $cart = $this->cartService->findOneById($cart->getId());
         $this->assertSame(0, count($cart->getCartItems()));
+        $this->assertSame(null, $cart->getShipmentRate());
     }
 
     public function testGetItems()

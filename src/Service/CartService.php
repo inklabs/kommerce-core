@@ -205,6 +205,7 @@ class CartService extends AbstractService implements CartServiceInterface
     {
         $product = $this->productRepository->findOneById($productId);
         $cart = $this->cartRepository->findOneById($cartId);
+        $cart->setShipmentRate(null);
 
         $cartItem = new CartItem;
         $cartItem->setProduct($product);
@@ -320,6 +321,8 @@ class CartService extends AbstractService implements CartServiceInterface
     public function updateQuantity($cartId, $cartItemIndex, $quantity)
     {
         $cart = $this->cartRepository->findOneById($cartId);
+        $cart->setShipmentRate(null);
+
         $cartItem = $cart->getCartItem($cartItemIndex);
         $cartItem->setQuantity($quantity);
 
@@ -335,6 +338,7 @@ class CartService extends AbstractService implements CartServiceInterface
     public function deleteItem($cartId, $cartItemIndex)
     {
         $cart = $this->cartRepository->findOneById($cartId);
+        $cart->setShipmentRate(null);
         $cart->deleteCartItem($cartItemIndex);
 
         $this->cartRepository->update($cart);
