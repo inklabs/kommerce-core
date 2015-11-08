@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\tests\Action\Order;
+namespace inklabs\kommerce\tests\Action\Order\Handler;
 
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Service\OrderService;

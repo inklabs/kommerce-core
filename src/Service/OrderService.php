@@ -144,4 +144,16 @@ class OrderService extends AbstractService implements OrderServiceInterface
             );
         }
     }
+
+    /**
+     * @param int $orderId
+     * @param int $orderStatus
+     * @return mixed
+     */
+    public function setOrderStatus($orderId, $orderStatus)
+    {
+        $order = $this->orderRepository->findOneById($orderId);
+        $order->setStatus($orderStatus);
+        $this->update($order);
+    }
 }

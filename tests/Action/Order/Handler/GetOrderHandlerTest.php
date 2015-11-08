@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\Order\Handler;
 use inklabs\kommerce\Action\Order\GetOrderRequest;
 use inklabs\kommerce\Action\Order\Response\GetOrderResponse;
 use inklabs\kommerce\EntityDTO\OrderDTO;
-use inklabs\kommerce\tests\Action\Order\AbstractOrderHandlerTestCase;
+use inklabs\kommerce\tests\Action\Order\Handler\AbstractOrderHandlerTestCase;
 
 class GetOrderHandlerTest extends AbstractOrderHandlerTestCase
 {

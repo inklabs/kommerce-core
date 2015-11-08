@@ -55,4 +55,11 @@ interface OrderServiceInterface
         $carrier,
         $trackingCode
     );
+
+    /**
+     * @param int $orderId
+     * @param int $orderStatus
+     * @return mixed
+     */
+    public function setOrderStatus($orderId, $orderStatus);
 }
