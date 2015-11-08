@@ -1,7 +1,9 @@
 <?php
-namespace inklabs\kommerce\Action\Order\Handler;
+namespace inklabs\kommerce\Action\Order;
 
-class SetOrderStatusCommand
+use inklabs\kommerce\Lib\Command\CommandInterface;
+
+class SetOrderStatusCommand implements CommandInterface
 {
     /** @var int */
     private $orderId;

@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Order\Handler;
 
+use inklabs\kommerce\Action\Order\SetOrderStatusCommand;
 use inklabs\kommerce\Service\OrderServiceInterface;
 
 class SetOrderStatusHandler

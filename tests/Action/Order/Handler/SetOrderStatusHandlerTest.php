@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Order\Handler;
 
+use inklabs\kommerce\Action\Order\SetOrderStatusCommand;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\tests\Action\Order\Handler\AbstractOrderHandlerTestCase;
 
