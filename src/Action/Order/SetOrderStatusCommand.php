@@ -12,6 +12,7 @@ class SetOrderStatusCommand implements CommandInterface
     private $orderStatus;
 
     /**
+     * @param int $orderId
      * @param int $orderStatus
      */
     public function __construct($orderId, $orderStatus)
