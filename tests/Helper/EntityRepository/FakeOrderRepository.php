@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\Pagination;
@@ -14,6 +15,9 @@ use inklabs\kommerce\Lib\ReferenceNumber;
  */
 class FakeOrderRepository extends AbstractFakeRepository implements OrderRepositoryInterface
 {
+    /** @var int */
+    protected $shipmentAutoincrementId = 1;
+
     public function __construct()
     {
         $orderItem = new OrderItem;
@@ -24,6 +28,14 @@ class FakeOrderRepository extends AbstractFakeRepository implements OrderReposit
         $order->addOrderItem($orderItem);
 
         $this->setReturnValue($order);
+    }
+
+    public function update(EntityInterface & $entity)
+    {
+        parent::update($entity);
+
+        /** @var Order $entity */
+        $this->setShipmentIds($entity);
     }
 
     public function findOneByExternalId($orderExternalId)
@@ -47,5 +59,19 @@ class FakeOrderRepository extends AbstractFakeRepository implements OrderReposit
 
     public function referenceNumberExists($referenceNumber)
     {
+    }
+
+    private function getShipmentAutoincrementId()
+    {
+        return $this->shipmentAutoincrementId++;
+    }
+
+    private function setShipmentIds(Order & $entity)
+    {
+        foreach ($entity->getShipments() as $shipment) {
+            if ($shipment->getId() === null) {
+                $shipment->setId($this->getShipmentAutoincrementId());
+            }
+        }
     }
 }
