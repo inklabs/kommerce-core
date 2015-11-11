@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Event\OrderShippedEvent;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
@@ -74,47 +75,75 @@ class OrderServiceTest extends Helper\DoctrineTestCase
 
     public function testBuyShipmentLabel()
     {
-        $this->setupEntityManager([
-            'kommerce:Order',
-            'kommerce:OrderItem',
-            'kommerce:Product',
-            'kommerce:Shipment',
-            'kommerce:ShipmentTracker',
-            'kommerce:ShipmentItem',
-            'kommerce:ShipmentComment',
-        ]);
-
-        $order = $this->dummyData->getOrder($this->dummyData->getCartTotal());
-        $product = $this->dummyData->getProduct(1);
-        $orderItem = $this->dummyData->getOrderItem($product, $this->dummyData->getPrice());
-        $order->addOrderItem($orderItem);
-        $this->getRepositoryFactory()->getProductRepository()->create($product);
-        $this->getRepositoryFactory()->getOrderRepository()->create($order);
-
-        $orderId = $order->getId();
+        $order = $this->getPersistedDummyOrder();
         $orderItemQtyDTO = new OrderItemQtyDTO;
         $orderItemQtyDTO->addOrderItemQty(1, 1);
+        $comment = 'A comment';
         $rateExternalId = 'rate_xxxxx';
         $shipmentExternalId = 'shp_xxxxx';
 
-        $fakeEventDispatcher = new FakeEventDispatcher;
-        $this->getServiceFactory(null, $fakeEventDispatcher)->getOrder()->buyShipmentLabel(
-            $orderId,
+        $this->orderService->buyShipmentLabel(
+            $order->getId(),
             $orderItemQtyDTO,
-            'A comment',
+            $comment,
             $rateExternalId,
             $shipmentExternalId
         );
 
-        $this->assertSame(1, $order->getId());
-        $this->assertSame(1, $order->getShipments()[0]->getId());
-        $this->assertSame(1, $order->getShipments()[0]->getShipmentItems()[0]->getId());
+        $this->assertSame(1, count($order->getShipments()));
         $this->assertSame('A comment', $order->getShipments()[0]->getShipmentComments()[0]->getComment());
+        $this->assertOrderShippedEventIsDipatched();
+    }
 
+    public function testAddShipmentTrackingCode()
+    {
+        $order = $this->getPersistedDummyOrder();
+        $orderItemQtyDTO = new OrderItemQtyDTO;
+        $orderItemQtyDTO->addOrderItemQty(1, 1);
+        $comment = 'A comment';
+        $carrier = ShipmentTracker::CARRIER_UNKNOWN;
+        $trackingCode = 'XXXX';
+
+        $this->orderService->addShipmentTrackingCode(
+            $order->getId(),
+            $orderItemQtyDTO,
+            $comment,
+            $carrier,
+            $trackingCode
+        );
+
+        $this->assertSame(1, count($order->getShipments()));
+        $this->assertSame('A comment', $order->getShipments()[0]->getShipmentComments()[0]->getComment());
+        $this->assertOrderShippedEventIsDipatched();
+    }
+
+    public function testSetOrderStatus()
+    {
+        $order = $this->getPersistedDummyOrder();
+        $this->orderService->setOrderStatus($order->getId(), Order::STATUS_CANCELED);
+        $this->assertSame(Order::STATUS_CANCELED, $order->getStatus());
+    }
+
+    /**
+     * @return Order
+     */
+    private function getPersistedDummyOrder()
+    {
+        $order = $this->dummyData->getOrderFull();
+        $this->orderRepository->create($order);
+
+        foreach ($order->getOrderItems() as $orderItem) {
+            $this->orderItemRepository->create($orderItem);
+        }
+
+        return $order;
+    }
+
+    private function assertOrderShippedEventIsDipatched()
+    {
         /** @var OrderShippedEvent $event */
-        $event = $fakeEventDispatcher->getDispatchedEvents(OrderShippedEvent::class)[0];
+        $event = $this->fakeEventDispatcher->getDispatchedEvents(OrderShippedEvent::class)[0];
         $this->assertTrue($event instanceof OrderShippedEvent);
         $this->assertSame(1, $event->getOrderId());
-        $this->assertSame(1, $event->getShipmentId());
     }
 }

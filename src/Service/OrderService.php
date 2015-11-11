@@ -91,6 +91,13 @@ class OrderService extends AbstractService implements OrderServiceInterface
         $this->addShipment($comment, $orderItemQtyDTO, $shipmentTracker, $order);
     }
 
+    /**
+     * @param int $orderId
+     * @param OrderItemQtyDTO $orderItemQtyDTO
+     * @param string $comment
+     * @param int $carrier ShipmentTracker::$carrier
+     * @param string $trackingCode
+     */
     public function addShipmentTrackingCode(
         $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,

@@ -46,7 +46,6 @@ interface OrderServiceInterface
      * @param string $comment
      * @param int $carrier ShipmentTracker::$carrier
      * @param string $trackingCode
-     * @return
      */
     public function addShipmentTrackingCode(
         $orderId,
