@@ -318,7 +318,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     {
         $shipment->setOrder($this);
         $this->shipments->add($shipment);
-        $this->setOrderShippedStatus($shipment);
+        $this->setOrderShippedStatus();
     }
 
     /**
@@ -329,24 +329,35 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         return $this->shipments;
     }
 
-    private function setOrderShippedStatus(Shipment $shipment)
+    private function setOrderShippedStatus()
     {
-        if ($this->isShipmentFullyShipped($shipment)) {
+        if ($this->isFullyShipped()) {
             $this->setStatus(Order::STATUS_SHIPPED);
         } else {
             $this->setStatus(Order::STATUS_PARTIALLY_SHIPPED);
         }
     }
 
-    private function isShipmentFullyShipped(Shipment $shipment)
+    private function isFullyShipped()
     {
         foreach ($this->orderItems as $orderItem) {
-            if (! $orderItem->isShipmentFullyShipped($shipment)) {
+            if (! $this->isOrderItemFullyShipped($orderItem)) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private function isOrderItemFullyShipped(OrderItem $orderItem)
+    {
+        foreach ($this->getShipments() as $shipment) {
+            if ($orderItem->isShipmentFullyShipped($shipment)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function isStatusShipped()

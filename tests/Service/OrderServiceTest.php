@@ -117,6 +117,40 @@ class OrderServiceTest extends Helper\DoctrineTestCase
         $this->assertOrderShippedEventIsDipatched();
     }
 
+    public function testOrderMarkedAsShippedWhen2PartialShipmentsAreFullyShipped()
+    {
+        $order = $this->getPersistedDummyOrder();
+        $orderItem2 = $this->dummyData->getOrderItemFull();
+        $this->orderItemRepository->create($orderItem2);
+        $order->addOrderItem($orderItem2);
+
+        $orderItemQtyDTO = new OrderItemQtyDTO;
+        $orderItemQtyDTO->addOrderItemQty($order->getOrderItem(0)->getId(), 1);
+        $this->orderService->addShipmentTrackingCode(
+            $order->getId(),
+            $orderItemQtyDTO,
+            '1 of 2 items shipped',
+            ShipmentTracker::CARRIER_UNKNOWN,
+            'XXXX'
+        );
+
+        $this->assertSame(1, count($order->getShipments()));
+        $this->assertSame(Order::STATUS_PARTIALLY_SHIPPED, $order->getStatus());
+
+        $orderItemQtyDTO = new OrderItemQtyDTO;
+        $orderItemQtyDTO->addOrderItemQty($order->getOrderItem(1)->getId(), 1);
+        $this->orderService->addShipmentTrackingCode(
+            $order->getId(),
+            $orderItemQtyDTO,
+            '2 of 2 items shipped. This completes your order',
+            ShipmentTracker::CARRIER_UNKNOWN,
+            'XXXX'
+        );
+
+        $this->assertSame(2, count($order->getShipments()));
+        $this->assertSame(Order::STATUS_SHIPPED, $order->getStatus());
+    }
+
     public function testSetOrderStatus()
     {
         $order = $this->getPersistedDummyOrder();
