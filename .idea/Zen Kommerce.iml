@@ -5,22 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="inklabs\kommerce\tests" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="inklabs\kommerce" />
       <excludeFolder url="file://$MODULE_DIR$/coverage_report" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/resource-operations" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="PHP">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
-          <root url="file://$MODULE_DIR$/vendor/sebastian/resource-operations" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
-          <root url="file://$MODULE_DIR$/vendor/sebastian/resource-operations" />
-        </SOURCES>
-      </library>
-    </orderEntry>
   </component>
 </module>
