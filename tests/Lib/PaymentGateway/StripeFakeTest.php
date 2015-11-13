@@ -25,7 +25,6 @@ class StripeFakeTest extends \PHPUnit_Framework_TestCase
         $charge = $stripe->getCharge($chargeRequest);
 
         $this->assertSame(2000, $charge->getAmount());
-        $this->assertSame(88, $charge->getFee());
         $this->assertSame('usd', $charge->getCurrency());
         $this->assertSame('test@example.com', $charge->getDescription());
         $this->assertSame('ch_xxxxxxxxxxxxxx', $charge->getExternalId());

@@ -5,20 +5,20 @@ class Stripe implements GatewayInterface
 {
     public function __construct($apiKey)
     {
-        \Stripe::setApiKey($apiKey);
+        \Stripe\Stripe::setApiKey($apiKey);
     }
 
     public function getCharge(ChargeRequest $chargeRequest)
     {
         $stripeCharge = $this->createCharge($chargeRequest);
+        error_log(print_r($stripeCharge, true), 3, '/tmp/stripe.txt');
 
         $chargeResponse = new ChargeResponse;
         $chargeResponse->setExternalId($stripeCharge['id']);
         $chargeResponse->setAmount($stripeCharge['amount']);
-        $chargeResponse->setLast4($stripeCharge['card']['last4']);
-        $chargeResponse->setBrand($stripeCharge['card']['brand']);
+        $chargeResponse->setLast4($stripeCharge['source']['last4']);
+        $chargeResponse->setBrand($stripeCharge['source']['brand']);
         $chargeResponse->setCurrency($stripeCharge['currency']);
-        $chargeResponse->setFee($stripeCharge['fee']);
         $chargeResponse->setDescription($stripeCharge['description']);
         $chargeResponse->setCreated($stripeCharge['created']);
 
@@ -29,7 +29,7 @@ class Stripe implements GatewayInterface
     {
         $card = $chargeRequest->getCreditCard();
 
-        return \Stripe_Charge::create([
+        return \Stripe\Charge::create([
             'amount' => $chargeRequest->getAmount(),
             'currency' => $chargeRequest->getCurrency(),
             'card' => [

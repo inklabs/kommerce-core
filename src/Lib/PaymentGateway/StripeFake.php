@@ -10,10 +10,9 @@ class StripeFake implements GatewayInterface
         $chargeResponse = new ChargeResponse;
         $chargeResponse->setExternalId($stripeCharge['id']);
         $chargeResponse->setAmount($stripeCharge['amount']);
-        $chargeResponse->setLast4($stripeCharge['card']['last4']);
-        $chargeResponse->setBrand($stripeCharge['card']['brand']);
+        $chargeResponse->setLast4($stripeCharge['source']['last4']);
+        $chargeResponse->setBrand($stripeCharge['source']['brand']);
         $chargeResponse->setCurrency($stripeCharge['currency']);
-        $chargeResponse->setFee($stripeCharge['fee']);
         $chargeResponse->setDescription($stripeCharge['description']);
         $chargeResponse->setCreated($stripeCharge['created']);
 
@@ -34,7 +33,7 @@ class StripeFake implements GatewayInterface
             'amount' => $chargeRequest->getAmount(),
             'currency' => $chargeRequest->getCurrency(),
             'refunded' => false,
-            'card' => array(
+            'source' => array(
                 'id' => 'card_xxxxxxxxxxxxxx',
                 'object' => 'card',
                 'last4' => $last4,
@@ -76,20 +75,10 @@ class StripeFake implements GatewayInterface
             'receipt_email' => null,
             'receipt_number' => null,
             'shipping' => null,
-            'fee' => 88,
-            'fee_details' => array(
-                0 => array(
-                    'amount' => 88,
-                    'currency' => 'usd',
-                    'type' => 'stripe_fee',
-                    'description' => 'Stripe processing fees',
-                    'application' => null,
-                ),
-            ),
         );
 
         $apiKey = 'sk_xxxxxxxxxxxxxxxxxxxxxxxx';
 
-        return \Stripe_Util::convertToStripeObject($response, $apiKey);
+        return \Stripe\Util\Util::convertToStripeObject($response, $apiKey);
     }
 }

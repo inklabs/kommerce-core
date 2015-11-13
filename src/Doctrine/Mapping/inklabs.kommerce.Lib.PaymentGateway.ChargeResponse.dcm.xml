@@ -30,8 +30,6 @@
             </options>
         </field>
 
-        <field name="fee" type="integer"/>
-
         <field name="description" type="string" length="255"/>
 
     </embeddable>

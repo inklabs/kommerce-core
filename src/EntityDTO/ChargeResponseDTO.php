@@ -10,7 +10,6 @@ class ChargeResponseDTO
     public $last4;
     public $brand;
     public $currency;
-    public $fee;
     public $description;
 
     /** @var DateTime */

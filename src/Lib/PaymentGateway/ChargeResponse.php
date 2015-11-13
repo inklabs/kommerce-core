@@ -23,9 +23,6 @@ class ChargeResponse implements ValidationInterface
     /** @var string */
     protected $currency;
 
-    /** @var int */
-    protected $fee;
-
     /** @var string */
     protected $description;
 
@@ -66,12 +63,6 @@ class ChargeResponse implements ValidationInterface
         $metadata->addPropertyConstraint('currency', new Assert\NotBlank);
         $metadata->addPropertyConstraint('currency', new Assert\Length([
             'max' => 3,
-        ]));
-
-        $metadata->addPropertyConstraint('fee', new Assert\NotNull);
-        $metadata->addPropertyConstraint('fee', new Assert\Range([
-            'min' => -2147483648,
-            'max' => 2147483647,
         ]));
 
         $metadata->addPropertyConstraint('description', new Assert\NotBlank);
@@ -141,16 +132,6 @@ class ChargeResponse implements ValidationInterface
     public function setCurrency($currency)
     {
         $this->currency = (string) $currency;
-    }
-
-    public function getFee()
-    {
-        return $this->fee;
-    }
-
-    public function setFee($fee)
-    {
-        $this->fee = (int) $fee;
     }
 
     public function getDescription()
