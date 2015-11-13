@@ -8,10 +8,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Coupon extends AbstractPromotion
 {
+    /** @var string */
     protected $code;
+
+    /** @var bool */
     protected $flagFreeShipping;
+
+    /** @var int */
     protected $minOrderValue;
+
+    /** @var int */
     protected $maxOrderValue;
+
+    /** @var bool */
     protected $canCombineWithOtherCoupons;
 
     public function __construct()
@@ -41,6 +50,9 @@ class Coupon extends AbstractPromotion
         ]));
     }
 
+    /**
+     * @param string $code
+     */
     public function setCode($code)
     {
         $this->code = (string) $code;
@@ -51,6 +63,9 @@ class Coupon extends AbstractPromotion
         return $this->code;
     }
 
+    /**
+     * @param bool $flagFreeShipping
+     */
     public function setFlagFreeShipping($flagFreeShipping)
     {
         $this->flagFreeShipping = (bool) $flagFreeShipping;
@@ -61,9 +76,12 @@ class Coupon extends AbstractPromotion
         return $this->flagFreeShipping;
     }
 
+    /**
+     * @param int $minOrderValue
+     */
     public function setMinOrderValue($minOrderValue)
     {
-        $this->minOrderValue = $minOrderValue;
+        $this->minOrderValue = (int) $minOrderValue;
     }
 
     public function getMinOrderValue()
@@ -71,9 +89,12 @@ class Coupon extends AbstractPromotion
         return $this->minOrderValue;
     }
 
+    /**
+     * @param int $maxOrderValue
+     */
     public function setMaxOrderValue($maxOrderValue)
     {
-        $this->maxOrderValue = $maxOrderValue;
+        $this->maxOrderValue = (int) $maxOrderValue;
     }
 
     public function getMaxOrderValue()
@@ -86,6 +107,9 @@ class Coupon extends AbstractPromotion
         return $this->canCombineWithOtherCoupons;
     }
 
+    /**
+     * @param bool $canCombineWithOtherCoupons
+     */
     public function setCanCombineWithOtherCoupons($canCombineWithOtherCoupons)
     {
         $this->canCombineWithOtherCoupons = (bool) $canCombineWithOtherCoupons;

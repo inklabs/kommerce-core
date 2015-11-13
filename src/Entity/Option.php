@@ -120,9 +120,12 @@ class Option implements EntityInterface, ValidationInterface
         return $this->description;
     }
 
+    /**
+     * @param int $sortOrder
+     */
     public function setSortOrder($sortOrder)
     {
-        $this->sortOrder = $sortOrder;
+        $this->sortOrder = (int) $sortOrder;
     }
 
     public function getSortOrder()

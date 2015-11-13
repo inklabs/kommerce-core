@@ -75,7 +75,7 @@ class UserToken implements EntityInterface, ValidationInterface
      */
     public function setUserAgent($userAgent)
     {
-        $this->userAgent = $userAgent;
+        $this->userAgent = (string) $userAgent;
     }
 
     public function getUserAgent()

@@ -9,7 +9,7 @@ class TaxRateTest extends DoctrineTestCase
     {
         $taxRate = new TaxRate;
         $taxRate->setState(null);
-        $taxRate->setZip5('92606');
+        $taxRate->setZip5(null);
         $taxRate->setZip5From(null);
         $taxRate->setZip5To(null);
         $taxRate->setRate(8.0);
@@ -17,11 +17,15 @@ class TaxRateTest extends DoctrineTestCase
 
         $this->assertEntityValid($taxRate);
         $this->assertSame(null, $taxRate->getState());
-        $this->assertSame('92606', $taxRate->getZip5());
+        $this->assertSame(null, $taxRate->getZip5());
         $this->assertSame(null, $taxRate->getZip5From());
         $this->assertSame(null, $taxRate->getZip5To());
         $this->assertSame(8.0, $taxRate->getRate());
         $this->assertSame(false, $taxRate->getApplyToShipping());
+
+        $taxRate->setZip5('92606');
+        $this->assertSame('92606', $taxRate->getZip5());
+
     }
 
     public function testGetTax()

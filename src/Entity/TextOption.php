@@ -128,9 +128,12 @@ class TextOption implements EntityInterface, ValidationInterface
         return $this->tags;
     }
 
+    /**
+     * @param int $sortOrder
+     */
     public function setSortOrder($sortOrder)
     {
-        $this->sortOrder = $sortOrder;
+        $this->sortOrder = (int) $sortOrder;
     }
 
     public function getSortOrder()

@@ -117,8 +117,15 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         return $this->referenceNumber;
     }
 
+    /**
+     * @param string|null $referenceNumber
+     */
     public function setReferenceNumber($referenceNumber = null)
     {
+        if ($referenceNumber !== null) {
+            $referenceNumber = (string) $referenceNumber;
+        }
+
         $this->referenceNumber = $referenceNumber;
     }
 

@@ -28,9 +28,12 @@ class OptionProduct implements EntityInterface, ValidationInterface
     {
     }
 
+    /**
+     * @param int $sortOrder
+     */
     public function setSortOrder($sortOrder)
     {
-        $this->sortOrder = $sortOrder;
+        $this->sortOrder = (int) $sortOrder;
     }
 
     public function getSortOrder()

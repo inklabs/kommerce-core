@@ -68,8 +68,15 @@ class TaxRate implements EntityInterface, ValidationInterface
         return $this->state;
     }
 
-    public function setZip5($zip5)
+    /**
+     * @param string $zip5
+     */
+    public function setZip5($zip5 = null)
     {
+        if ($zip5 !== null) {
+            $zip5 = (string) $zip5;
+        }
+
         $this->zip5 = $zip5;
     }
 
@@ -78,8 +85,15 @@ class TaxRate implements EntityInterface, ValidationInterface
         return $this->zip5;
     }
 
-    public function setZip5From($zip5From)
+    /**
+     * @param string $zip5From
+     */
+    public function setZip5From($zip5From = null)
     {
+        if ($zip5From !== null) {
+            $zip5From = (string) $zip5From;
+        }
+
         $this->zip5From = $zip5From;
     }
 
@@ -88,8 +102,15 @@ class TaxRate implements EntityInterface, ValidationInterface
         return $this->zip5From;
     }
 
-    public function setZip5To($zip5To)
+    /**
+     * @param string $zip5To
+     */
+    public function setZip5To($zip5To = null)
     {
+        if ($zip5To !== null) {
+            $zip5To = (string) $zip5To;
+        }
+
         $this->zip5To = $zip5To;
     }
 
@@ -98,6 +119,9 @@ class TaxRate implements EntityInterface, ValidationInterface
         return $this->zip5To;
     }
 
+    /**
+     * @param double $rate
+     */
     public function setRate($rate)
     {
         $this->rate = (double) $rate;

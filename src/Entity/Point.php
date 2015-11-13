@@ -7,7 +7,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Point implements ValidationInterface
 {
+    /** @var float */
     protected $latitude;
+
+    /** @var float */
     protected $longitude;
 
     public function __construct($latitude = null, $longitude = null)
@@ -34,9 +37,12 @@ class Point implements ValidationInterface
         return $this->latitude;
     }
 
+    /**
+     * @param float $latitude
+     */
     public function setLatitude($latitude)
     {
-        $this->latitude = $latitude;
+        $this->latitude = (float) $latitude;
     }
 
     public function getLongitude()
@@ -44,9 +50,12 @@ class Point implements ValidationInterface
         return $this->longitude;
     }
 
+    /**
+     * @param float $longitude
+     */
     public function setLongitude($longitude)
     {
-        $this->longitude = $longitude;
+        $this->longitude = (float) $longitude;
     }
 
     /**

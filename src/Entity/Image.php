@@ -59,9 +59,12 @@ class Image implements EntityInterface, ValidationInterface
         ]));
     }
 
+    /**
+     * @param string $path
+     */
     public function setPath($path)
     {
-        $this->path = $path;
+        $this->path = (string) $path;
     }
 
     public function getPath()
@@ -69,9 +72,12 @@ class Image implements EntityInterface, ValidationInterface
         return $this->path;
     }
 
+    /**
+     * @param int $width
+     */
     public function setWidth($width)
     {
-        $this->width = $width;
+        $this->width = (int) $width;
     }
 
     public function getWidth()
@@ -79,9 +85,12 @@ class Image implements EntityInterface, ValidationInterface
         return $this->width;
     }
 
+    /**
+     * @param int $height
+     */
     public function setHeight($height)
     {
-        $this->height = $height;
+        $this->height = (int) $height;
     }
 
     public function getHeight()
@@ -89,6 +98,9 @@ class Image implements EntityInterface, ValidationInterface
         return $this->height;
     }
 
+    /**
+     * @param int $sortOrder
+     */
     public function setSortOrder($sortOrder)
     {
         $this->sortOrder = (int) $sortOrder;

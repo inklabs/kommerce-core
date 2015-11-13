@@ -48,9 +48,12 @@ class AttributeValue implements EntityInterface, ValidationInterface
         ]));
     }
 
+    /**
+     * @param string $sku
+     */
     public function setSku($sku)
     {
-        $this->sku = $sku;
+        $this->sku = (string) $sku;
     }
 
     public function getSku()
@@ -58,9 +61,12 @@ class AttributeValue implements EntityInterface, ValidationInterface
         return $this->sku;
     }
 
+    /**
+     * @param string $name
+     */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
     }
 
     public function getName()
@@ -68,9 +74,12 @@ class AttributeValue implements EntityInterface, ValidationInterface
         return $this->name;
     }
 
+    /**
+     * @param string $description
+     */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = (string) $description;
     }
 
     public function getDescription()
@@ -78,9 +87,12 @@ class AttributeValue implements EntityInterface, ValidationInterface
         return $this->description;
     }
 
+    /**
+     * @param int $sortOrder
+     */
     public function setSortOrder($sortOrder)
     {
-        $this->sortOrder = $sortOrder;
+        $this->sortOrder = (int) $sortOrder;
     }
 
     public function getSortOrder()

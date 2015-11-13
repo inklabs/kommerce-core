@@ -114,9 +114,12 @@ class OptionValue implements EntityInterface, ValidationInterface
         $this->shippingWeight = (int) $shippingWeight;
     }
 
+    /**
+     * @param int $sortOrder
+     */
     public function setSortOrder($sortOrder)
     {
-        $this->sortOrder = $sortOrder;
+        $this->sortOrder = (int) $sortOrder;
     }
 
     public function getSortOrder()

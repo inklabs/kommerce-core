@@ -5,9 +5,16 @@ use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 
 class Pagination
 {
+    /** @var int */
     protected $maxResults;
+
+    /** @var int */
     protected $page;
+
+    /** @var int */
     protected $total;
+
+    /** @var bool */
     protected $isTotalIncluded;
 
     public function __construct($maxResults = 10, $page = 1)
@@ -28,9 +35,12 @@ class Pagination
         return $this->page;
     }
 
+    /**
+     * @param int $total
+     */
     public function setTotal($total)
     {
-        $this->total = $total;
+        $this->total = (int) $total;
     }
 
     public function getTotal()
@@ -38,6 +48,9 @@ class Pagination
         return $this->total;
     }
 
+    /**
+     * @param bool $isTotalIncluded
+     */
     public function setIsTotalIncluded($isTotalIncluded)
     {
         $this->isTotalIncluded = (bool) $isTotalIncluded;

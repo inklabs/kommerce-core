@@ -80,9 +80,12 @@ class ProductQuantityDiscount extends AbstractPromotion
         return $this->flagApplyCatalogPromotions;
     }
 
+    /**
+     * @param int $quantity
+     */
     public function setQuantity($quantity)
     {
-        $this->quantity = $quantity;
+        $this->quantity = (int) $quantity;
     }
 
     public function getQuantity()

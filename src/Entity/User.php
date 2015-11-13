@@ -155,9 +155,12 @@ class User implements EntityInterface, ValidationInterface
         return $this->getStatusMapping()[$this->status];
     }
 
+    /**
+     * @param string $email
+     */
     public function setEmail($email)
     {
-        $this->email = $email;
+        $this->email = (string) $email;
     }
 
     public function getEmail()
@@ -192,9 +195,12 @@ class User implements EntityInterface, ValidationInterface
         return password_verify($password, $this->passwordHash);
     }
 
+    /**
+     * @param string $firstName
+     */
     public function setFirstName($firstName)
     {
-        $this->firstName = $firstName;
+        $this->firstName = (string) $firstName;
     }
 
     public function getFirstName()
@@ -202,9 +208,12 @@ class User implements EntityInterface, ValidationInterface
         return $this->firstName;
     }
 
+    /**
+     * @param string $lastName
+     */
     public function setLastName($lastName)
     {
-        $this->lastName = $lastName;
+        $this->lastName = (string) $lastName;
     }
 
     public function getLastName()
