@@ -32,6 +32,9 @@ class Cart implements EntityInterface, ValidationInterface
     /** @var User */
     protected $user;
 
+    /** @var int */
+    protected $ip4;
+
     public function __construct()
     {
         $this->setCreated();
@@ -42,6 +45,11 @@ class Cart implements EntityInterface, ValidationInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
+        $metadata->addPropertyConstraint('ip4', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('ip4', new Assert\GreaterThanOrEqual([
+            'value' => 0,
+        ]));
+
         $metadata->addPropertyConstraint('cartItems', new Assert\Valid);
     }
 
@@ -259,5 +267,18 @@ class Cart implements EntityInterface, ValidationInterface
     public function getShippingAddress()
     {
         return $this->shippingAddress;
+    }
+
+    /**
+     * @param string $ip4
+     */
+    public function setIp4($ip4)
+    {
+        $this->ip4 = (int) ip2long($ip4);
+    }
+
+    public function getIp4()
+    {
+        return long2ip($this->ip4);
     }
 }

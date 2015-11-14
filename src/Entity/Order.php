@@ -57,6 +57,9 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     /** @var Shipment[] */
     protected $shipments;
 
+    /** @var int */
+    protected $ip4;
+
     public function __construct()
     {
         $this->setCreated();
@@ -68,9 +71,16 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         $this->setStatus(self::STATUS_PENDING);
     }
 
-    public static function fromCart(Cart $cart, CartCalculatorInterface $cartCalculator)
+    /**
+     * @param Cart $cart
+     * @param CartCalculatorInterface $cartCalculator
+     * @param string $ip4
+     * @return static
+     */
+    public static function fromCart(Cart $cart, CartCalculatorInterface $cartCalculator, $ip4)
     {
-        $order = new static;
+        $order = new Order;
+        $order->setIp4($ip4);
         $order->setTotal($cart->getTotal($cartCalculator));
 
         foreach ($cart->getCartItems() as $item) {
@@ -97,6 +107,11 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         $metadata->addPropertyConstraint('status', new Assert\Choice([
             'choices' => array_keys(static::getStatusMapping()),
             'message' => 'The status is not a valid choice',
+        ]));
+
+        $metadata->addPropertyConstraint('ip4', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('ip4', new Assert\GreaterThanOrEqual([
+            'value' => 0,
         ]));
 
         $metadata->addPropertyConstraint('total', new Assert\Valid);
@@ -375,5 +390,18 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     public function isStatusPartiallyShipped()
     {
         return $this->status === self::STATUS_PARTIALLY_SHIPPED;
+    }
+
+    /**
+     * @param string $ip4
+     */
+    public function setIp4($ip4)
+    {
+        $this->ip4 = (int) ip2long($ip4);
+    }
+
+    public function getIp4()
+    {
+        return long2ip($this->ip4);
     }
 }

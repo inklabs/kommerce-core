@@ -182,7 +182,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
 
     public function testCreateWithSession()
     {
-        $cart = $this->cartService->create(null, '6is7ujb3crb5ja85gf91g9en62');
+        $cart = $this->cartService->create(null, '6is7ujb3crb5ja85gf91g9en62', '10.0.0.1');
         $this->assertTrue($cart instanceof Cart);
     }
 
@@ -191,7 +191,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
-        $cart = $this->cartService->create(1, null);
+        $cart = $this->cartService->create(1, null, '10.0.0.1');
         $this->assertTrue($cart instanceof Cart);
     }
 
@@ -201,7 +201,7 @@ class CartServiceTest extends Helper\DoctrineTestCase
      */
     public function testCreateWithNone()
     {
-        $cart = $this->cartService->create(null, null);
+        $cart = $this->cartService->create(null, null, '10.0.0.1');
         $this->assertTrue($cart instanceof Cart);
     }
 
@@ -414,8 +414,11 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $payment = new CashPayment(100);
         $orderAddress = $this->dummyData->getOrderAddress();
 
+        $ip4 = '10.0.0.1';
+
         $order = $this->cartService->createOrder(
             $cart->getId(),
+            $ip4,
             $payment,
             $orderAddress
         );

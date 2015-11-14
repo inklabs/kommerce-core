@@ -25,6 +25,7 @@ class CartTest extends DoctrineTestCase
         $cartItem->setQuantity(1);
 
         $cart = new Cart;
+        $cart->setIp4('10.0.0.1');
         $cart->addCartItem($cartItem);
         $cart->addCoupon(new Coupon);
         $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
@@ -34,6 +35,7 @@ class CartTest extends DoctrineTestCase
 
         $this->assertEntityValid($cart);
         $this->assertTrue($cart instanceof Cart);
+        $this->assertSame('10.0.0.1', $cart->getIp4());
         $this->assertSame('6is7ujb3crb5ja85gf91g9en62', $cart->getSessionId());
         $this->assertTrue($cart->getCartitems()[0] instanceof CartItem);
         $this->assertTrue($cart->getCartitem(0) instanceof CartItem);

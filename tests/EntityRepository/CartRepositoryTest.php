@@ -48,9 +48,31 @@ class CartRepositoryTest extends Helper\DoctrineTestCase
 
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $cart;
     }
 
-    public function testFind()
+    public function testCRUD()
+    {
+        $cart = $this->dummyData->getCart();
+        $this->cartRepository->create($cart);
+        $this->assertSame(1, $cart->getId());
+
+        $cart->setSessionId('sessionidXXX');
+        $this->assertSame(null, $cart->getUpdated());
+
+        $this->cartRepository->update($cart);
+        $this->assertTrue($cart->getUpdated() instanceof DateTime);
+
+        $this->entityManager->clear();
+        $cart = $this->cartRepository->findOneById($cart->getId());
+        $this->assertSame('10.0.0.1', $cart->getIp4());
+
+        $this->cartRepository->delete($cart);
+        $this->assertSame(null, $cart->getId());
+    }
+
+    public function testFindOneById()
     {
         $this->setupCart();
 

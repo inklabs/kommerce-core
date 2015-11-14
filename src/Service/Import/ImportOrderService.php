@@ -55,6 +55,7 @@ class ImportOrderService
             $cartTotal->total = $total;
 
             $order = new Order;
+            $order->setIp4(null);
             $order->setExternalId($externalId);
             $order->setTotal($cartTotal);
             $order->setCreated(new DateTime($date));

@@ -93,6 +93,7 @@ class DummyData
     public function getCart(array $cartItems = [])
     {
         $cart = new Cart;
+        $cart->setIp4('10.0.0.1');
 
         foreach ($cartItems as $cartItem) {
             $cart->addCartItem($cartItem);
@@ -290,6 +291,7 @@ class DummyData
         $orderAddress = $this->getOrderAddress();
 
         $order = new Order;
+        $order->setIp4('10.0.0.1');
         $order->setTotal($total);
         $order->setShippingAddress($orderAddress);
         $order->setBillingAddress($orderAddress);

@@ -160,15 +160,17 @@ class CartService extends AbstractService implements CartServiceInterface
     /**
      * @param int $userId
      * @param string $sessionId
+     * @param string $ip4
      * @return Cart
      */
-    public function create($userId, $sessionId)
+    public function create($userId, $sessionId, $ip4)
     {
         if (empty($userId) && empty($sessionId)) {
             throw new InvalidArgumentException('User or session id required.');
         }
 
         $cart = new Cart;
+        $cart->setIp4($ip4);
         $cart->setSessionId($sessionId);
 
         $this->addUserToCartIfExists($userId, $cart);
@@ -363,6 +365,7 @@ class CartService extends AbstractService implements CartServiceInterface
 
     /**
      * @param int $cartId
+     * @param string $ip4
      * @param AbstractPayment $payment
      * @param OrderAddress $shippingAddress
      * @param OrderAddress $billingAddress
@@ -370,6 +373,7 @@ class CartService extends AbstractService implements CartServiceInterface
      */
     public function createOrder(
         $cartId,
+        $ip4,
         AbstractPayment $payment,
         OrderAddress $shippingAddress,
         OrderAddress $billingAddress = null
@@ -380,7 +384,7 @@ class CartService extends AbstractService implements CartServiceInterface
             $billingAddress = clone $shippingAddress;
         }
 
-        $order = Order::fromCart($cart, $this->cartCalculator);
+        $order = Order::fromCart($cart, $this->cartCalculator, $ip4);
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
         $order->addPayment($payment);

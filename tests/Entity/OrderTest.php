@@ -39,6 +39,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $order = new Order;
         $order->setId(1);
         $order->setExternalId('CO1102-0016');
+        $order->setIp4('10.0.0.1');
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
         $order->setUser(new User);
@@ -54,6 +55,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->assertEntityValid($order);
         $this->assertSame(1, $order->getReferenceId());
         $this->assertSame('xxx-xxxxxxx-xxxxxxx', $order->getReferenceNumber());
+        $this->assertSame('10.0.0.1', $order->getIp4());
         $this->assertSame(Order::STATUS_PARTIALLY_SHIPPED, $order->getStatus());
         $this->assertSame('Partially Shipped', $order->getStatusText());
         $this->assertSame(true, $order->isStatusPartiallyShipped());
@@ -92,7 +94,9 @@ class OrderTest extends Helper\DoctrineTestCase
         $cart->setTaxRate(new TaxRate);
 
         $cartCalculator = new CartCalculator(new Pricing);
-        $order = Order::fromCart($cart, $cartCalculator);
+        $ip4 = '10.0.0.1';
+
+        $order = Order::fromCart($cart, $cartCalculator, $ip4);
 
         $this->assertTrue($order instanceof Order);
     }

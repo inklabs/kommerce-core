@@ -81,6 +81,10 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
         $this->orderRepository->update($order);
         $this->assertTrue($order->getUpdated() instanceof DateTime);
 
+        $this->entityManager->clear();
+        $order = $this->orderRepository->findOneById($order->getId());
+        $this->assertSame('10.0.0.1', $order->getIp4());
+
         $this->orderRepository->delete($order);
         $this->assertSame(null, $order->getId());
     }

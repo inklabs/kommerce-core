@@ -28,6 +28,12 @@
             </options>
         </field>
 
+        <field name="ip4" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>

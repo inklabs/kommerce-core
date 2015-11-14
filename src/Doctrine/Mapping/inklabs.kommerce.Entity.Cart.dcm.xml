@@ -32,6 +32,12 @@
 
         <field name="sessionId" type="string" length="64" nullable="true" unique="true"/>
 
+        <field name="ip4" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <embedded name="shipmentRate" class="ShipmentRate"/>
         <embedded name="shippingAddress" class="OrderAddress"/>
 

@@ -47,9 +47,10 @@ interface CartServiceInterface
     /**
      * @param int $userId
      * @param string $sessionId
+     * @param string $ip4
      * @return Cart
      */
-    public function create($userId, $sessionId);
+    public function create($userId, $sessionId, $ip4);
 
     /**
      * @param int $cartId
@@ -122,6 +123,7 @@ interface CartServiceInterface
 
     /**
      * @param int $cartId
+     * @param string $ip4
      * @param AbstractPayment $payment
      * @param OrderAddress $shippingAddress
      * @param OrderAddress $billingAddress
@@ -129,6 +131,7 @@ interface CartServiceInterface
      */
     public function createOrder(
         $cartId,
+        $ip4,
         AbstractPayment $payment,
         OrderAddress $shippingAddress,
         OrderAddress $billingAddress = null
