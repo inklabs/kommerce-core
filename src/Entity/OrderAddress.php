@@ -27,12 +27,10 @@ class OrderAddress implements ValidationInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('firstName', new Assert\NotBlank);
         $metadata->addPropertyConstraint('firstName', new Assert\Length([
             'max' => 32,
         ]));
 
-        $metadata->addPropertyConstraint('lastName', new Assert\NotBlank);
         $metadata->addPropertyConstraint('lastName', new Assert\Length([
             'max' => 32,
         ]));
