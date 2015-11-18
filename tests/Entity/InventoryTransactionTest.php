@@ -29,6 +29,23 @@ class InventoryTransactionTest extends DoctrineTestCase
 
         $this->assertSame(null, $shipTransaction->getDebitQuantity());
         $this->assertSame(2, $shipTransaction->getCreditQuantity());
+    }
 
+    public function testDebitOrCreditMustNotBeNull()
+    {
+        $inventoryLocation = $this->dummyData->getInventoryLocation();
+        $inventoryTransaction = new InventoryTransaction($inventoryLocation);
+        $inventoryTransaction->setDebitQuantity(null);
+        $inventoryTransaction->setCreditQuantity(null);
+        $inventoryTransaction->setMemo('Failed Transaction');
+
+        $errors = $this->getValidationErrors($inventoryTransaction);
+
+        $this->assertSame(2, count($errors));
+        $this->assertSame('debitQuantity', $errors->get(0)->getPropertyPath());
+        $this->assertSame('Both DebitQuantity and CreditQuantity should not be null', $errors->get(0)->getMessage());
+
+        $this->assertSame('creditQuantity', $errors->get(1)->getPropertyPath());
+        $this->assertSame('Both DebitQuantity and CreditQuantity should not be null', $errors->get(1)->getMessage());
     }
 }

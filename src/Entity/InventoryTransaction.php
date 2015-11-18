@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -43,8 +44,26 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
             'max' => 65535,
         ]));
 
+        $metadata->addConstraint(new Assert\Callback(
+            function (InventoryTransaction $inventoryTransaction, ExecutionContextInterface $context) {
+                if ($inventoryTransaction->isQuantityInvalid()) {
+                    $context->buildViolation('Both DebitQuantity and CreditQuantity should not be null')
+                        ->atPath('debitQuantity')
+                        ->addViolation();
+
+                    $context->buildViolation('Both DebitQuantity and CreditQuantity should not be null')
+                        ->atPath('creditQuantity')
+                        ->addViolation();
+                }
+            }
+        ));
 
         $metadata->addPropertyConstraint('inventoryLocation', new Assert\Valid);
+    }
+
+    private function isQuantityInvalid()
+    {
+        return ($this->getDebitQuantity() === null && $this->getDebitQuantity() === null);
     }
 
     /**

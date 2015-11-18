@@ -17,6 +17,7 @@ use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
@@ -233,6 +234,17 @@ class DummyData
         $image->setSortOrder(0);
 
         return $image;
+    }
+
+    public function getInventoryLocation(Warehouse $warehouse = null)
+    {
+        if ($warehouse === null) {
+            $warehouse = $this->getWarehouse();
+        }
+
+        $inventoryLocation = new InventoryLocation($warehouse, 'Widget Bin', 'Z1-A13-B37-L5-P3');
+
+        return $inventoryLocation;
     }
 
     public function getOption()
