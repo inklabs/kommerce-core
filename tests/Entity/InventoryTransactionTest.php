@@ -6,11 +6,11 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class InventoryTransactionTest extends DoctrineTestCase
 {
-    public function testCreate()
+    public function testPickAndShipTransaction()
     {
         $warehouse = $this->dummyData->getWarehouse();
         $widgetBin = new InventoryLocation($warehouse, 'Widget Bin', 'Z1-A13-B37-L5-P3');
-        $customerLocation = new InventoryLocation($warehouse, 'Shipped to Customer', 'SHP');
+        $customerLocation = new InventoryLocation($warehouse, 'Shipped to Customer', 'SHIP');
 
         $pickTransaction = new InventoryTransaction($widgetBin);
         $pickTransaction->setDebitQuantity(2);
@@ -21,11 +21,13 @@ class InventoryTransactionTest extends DoctrineTestCase
         $shipTransaction->setMemo('Shipped 2 Widgets to customer');
 
         $this->assertEntityValid($pickTransaction);
+        $this->assertEntityValid($shipTransaction);
         $this->assertTrue($pickTransaction->getInventoryLocation() instanceof InventoryLocation);
         $this->assertTrue($pickTransaction->getCreated() instanceof DateTime);
         $this->assertSame(2, $pickTransaction->getDebitQuantity());
         $this->assertSame(null, $pickTransaction->getCreditQuantity());
         $this->assertSame('Picked 2 Widgets', $pickTransaction->getMemo());
+        $this->assertSame('Move', $pickTransaction->getTypeText());
 
         $this->assertSame(null, $shipTransaction->getDebitQuantity());
         $this->assertSame(2, $shipTransaction->getCreditQuantity());
@@ -47,5 +49,23 @@ class InventoryTransactionTest extends DoctrineTestCase
 
         $this->assertSame('creditQuantity', $errors->get(1)->getPropertyPath());
         $this->assertSame('Both DebitQuantity and CreditQuantity should not be null', $errors->get(1)->getMessage());
+    }
+
+    public function testHoldInventoryForOrderShipment()
+    {
+        $warehouse = $this->dummyData->getWarehouse();
+        $widgetBin = $this->dummyData->getInventoryLocation($warehouse);
+        $customerHoldingLocation = new InventoryLocation($warehouse, 'Reserve for Customer', 'HOLD');
+
+        $debitTransaction = new InventoryTransaction($widgetBin, InventoryTransaction::TYPE_HOLD);
+        $debitTransaction->setDebitQuantity(2);
+        $debitTransaction->setMemo('Hold 2 Widgets for order #123');
+
+        $creditTransaction = new InventoryTransaction($customerHoldingLocation, InventoryTransaction::TYPE_HOLD);
+        $creditTransaction->setCreditQuantity(2);
+        $creditTransaction->setMemo('Hold 2 Widgets for order #123');
+
+        $this->assertEntityValid($debitTransaction);
+        $this->assertEntityValid($creditTransaction);
     }
 }

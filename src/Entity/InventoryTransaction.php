@@ -13,6 +13,11 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
     protected $inventoryLocation;
 
     /** @var int */
+    protected $type;
+    const TYPE_MOVE = 0;
+    const TYPE_HOLD = 1;
+
+    /** @var int */
     protected $debitQuantity;
 
     /** @var int */
@@ -21,17 +26,22 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
     /** @var string */
     protected $memo;
 
-    public function __construct(InventoryLocation $inventoryLocation)
+    /**
+     * @param InventoryLocation $inventoryLocation
+     * @param int $type
+     */
+    public function __construct(InventoryLocation $inventoryLocation, $type = self::TYPE_MOVE)
     {
         $this->setCreated();
+        $this->setType($type);
         $this->inventoryLocation = $inventoryLocation;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('memo', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('memo', new Assert\Length([
-            'max' => 255,
+        $metadata->addPropertyConstraint('type', new Assert\Choice([
+            'choices' => array_keys(static::getTypeMapping()),
+            'message' => 'The type is not a valid choice',
         ]));
 
         $metadata->addPropertyConstraint('debitQuantity', new Assert\Range([
@@ -58,12 +68,17 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
             }
         ));
 
+        $metadata->addPropertyConstraint('memo', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('memo', new Assert\Length([
+            'max' => 255,
+        ]));
+
         $metadata->addPropertyConstraint('inventoryLocation', new Assert\Valid);
     }
 
     private function isQuantityInvalid()
     {
-        return ($this->getDebitQuantity() === null && $this->getDebitQuantity() === null);
+        return ($this->getDebitQuantity() === null && $this->getCreditQuantity() === null);
     }
 
     /**
@@ -86,11 +101,10 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
      * @param int $quantity
      * @return int
      */
-    protected function getQuantityOrNull($quantity)
+    protected function getQuantityOrNull($quantity = null)
     {
         if ($quantity !== null) {
             $quantity = (int) $quantity;
-            return $quantity;
         }
         return $quantity;
     }
@@ -121,5 +135,31 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
     public function getMemo()
     {
         return $this->memo;
+    }
+
+    /**
+     * @param int $type
+     */
+    public function setType($type)
+    {
+        $this->type = (int) $type;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public static function getTypeMapping()
+    {
+        return [
+            static::TYPE_MOVE => 'Move',
+            static::TYPE_HOLD => 'Hold',
+        ];
+    }
+
+    public function getTypeText()
+    {
+        return $this->getTypeMapping()[$this->type];
     }
 }
