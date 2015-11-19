@@ -67,5 +67,6 @@ class InventoryTransactionTest extends DoctrineTestCase
 
         $this->assertEntityValid($debitTransaction);
         $this->assertEntityValid($creditTransaction);
+        $this->assertSame('Hold', $debitTransaction->getTypeText());
     }
 }
