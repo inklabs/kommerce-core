@@ -27,6 +27,7 @@ class InventoryTransactionTest extends DoctrineTestCase
         $this->assertSame(2, $pickTransaction->getDebitQuantity());
         $this->assertSame(null, $pickTransaction->getCreditQuantity());
         $this->assertSame('Picked 2 Widgets', $pickTransaction->getMemo());
+        $this->assertSame(InventoryTransaction::TYPE_MOVE, $pickTransaction->getType());
         $this->assertSame('Move', $pickTransaction->getTypeText());
 
         $this->assertSame(null, $shipTransaction->getDebitQuantity());
@@ -67,6 +68,7 @@ class InventoryTransactionTest extends DoctrineTestCase
 
         $this->assertEntityValid($debitTransaction);
         $this->assertEntityValid($creditTransaction);
+        $this->assertSame(InventoryTransaction::TYPE_HOLD, $debitTransaction->getType());
         $this->assertSame('Hold', $debitTransaction->getTypeText());
     }
 }
