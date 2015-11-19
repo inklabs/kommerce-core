@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\InvalidCartActionException;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
@@ -30,6 +31,7 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeCouponRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
+use InvalidArgumentException;
 
 class CartServiceTest extends Helper\DoctrineTestCase
 {
@@ -133,12 +135,13 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->assertSame(0, $couponIndex);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage  Coupon not found
-     */
     public function testAddCouponByCodeMissingThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Coupon not found'
+        );
+
         $this->cartService->addCouponByCode(1, 'code');
     }
 
@@ -195,14 +198,14 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($cart instanceof Cart);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage User or session id required
-     */
     public function testCreateWithNone()
     {
-        $cart = $this->cartService->create(null, null, '10.0.0.1');
-        $this->assertTrue($cart instanceof Cart);
+        $this->setExpectedException(
+            InvalidArgumentException::class,
+            'User or session id required'
+        );
+
+        $this->cartService->create(null, null, '10.0.0.1');
     }
 
     public function testAddItem()
@@ -221,16 +224,16 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $cart->getShipmentRate());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Product not found
-     */
     public function testAddItemWithMissingProductThrowsException()
     {
-        $this->productRepository->setReturnValue(null);
-
         $cartId = 1;
         $productId = 2001;
+
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Product not found'
+        );
+
         $this->cartService->addItem($cartId, $productId);
     }
 
@@ -249,10 +252,6 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->cartService->addItemOptionProducts($cartId, $cartItemIndex, $optionProductIds);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
-     * @expectedExceptionMessage CartItem not found
-     */
     public function testAddItemOptionProductsThrowsException()
     {
         $cartId = 1;
@@ -260,6 +259,11 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $optionProductIds = [101];
 
         $this->cartRepository->create(new Cart);
+
+        $this->setExpectedException(
+            InvalidCartActionException::class,
+            'CartItem not found'
+        );
 
         $this->cartService->addItemOptionProducts($cartId, $cartItemIndex, $optionProductIds);
     }
@@ -391,12 +395,13 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->assertSame($sessionId, $testCart->getSessionId());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage User not found
-     */
     public function testSetUserWithMissingUserThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'User not found'
+        );
+
         $this->cartService->setUserById(1, 1);
     }
 
@@ -406,21 +411,14 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $user = new User;
         $cart->setUser($user);
         $cart->addCoupon(new Coupon);
-
         $this->userRepository->create($user);
         $this->cartRepository->create($cart);
-        $cartId = $cart->getId();
-
-        $payment = new CashPayment(100);
-        $orderAddress = $this->dummyData->getOrderAddress();
-
-        $ip4 = '10.0.0.1';
 
         $order = $this->cartService->createOrder(
             $cart->getId(),
-            $ip4,
-            $payment,
-            $orderAddress
+            '10.0.0.1',
+            new CashPayment(100),
+            $this->dummyData->getOrderAddress()
         );
 
         $this->assertTrue($order instanceof Order);
@@ -430,12 +428,8 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($event instanceof OrderCreatedFromCartEvent);
         $this->assertSame(1, $event->getOrderId());
 
-        try {
-            $this->cartRepository->findOneById($cartId);
-            $this->fail();
-        } catch (EntityNotFoundException $e) {
-            $this->assertTrue(true);
-        }
+        $this->setExpectedException(EntityNotFoundException::class);
+        $this->cartRepository->findOneById($cart->getId());
     }
 
     public function testSetShipmentRate()
