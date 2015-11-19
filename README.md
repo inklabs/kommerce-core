@@ -20,7 +20,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 
 ## Architecture
 
-![Flow of Control](https://i.imgur.com/IJ5Trm7.png)
+![Flow of Control](https://i.imgur.com/WOZwpS4.png)
 
 * <a name="action"></a>Action
     - These are the use cases into the application. Command Actions are passed a Command object containing the required
