@@ -12,6 +12,9 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
     /** @var InventoryLocation */
     protected $inventoryLocation;
 
+    /** @var Product */
+    protected $product;
+
     /** @var int */
     protected $type;
     const TYPE_MOVE = 0;
@@ -74,6 +77,9 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
         ]));
 
         $metadata->addPropertyConstraint('inventoryLocation', new Assert\Valid);
+
+        $metadata->addPropertyConstraint('product', new Assert\NotNull);
+        $metadata->addPropertyConstraint('product', new Assert\Valid);
     }
 
     private function isQuantityInvalid()
@@ -120,6 +126,16 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
     public function getInventoryLocation()
     {
         return $this->inventoryLocation;
+    }
+
+    public function setProduct(Product $product)
+    {
+        $this->product = $product;
+    }
+
+    public function getProduct()
+    {
+        return $this->product;
     }
 
     public function getDebitQuantity()

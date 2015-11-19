@@ -9,20 +9,24 @@ class InventoryTransactionTest extends DoctrineTestCase
     public function testPickAndShipTransaction()
     {
         $warehouse = $this->dummyData->getWarehouse();
+        $product = $this->dummyData->getProduct();
         $widgetBin = new InventoryLocation($warehouse, 'Widget Bin', 'Z1-A13-B37-L5-P3');
         $customerLocation = new InventoryLocation($warehouse, 'Shipped to Customer', 'SHIP');
 
         $pickTransaction = new InventoryTransaction($widgetBin);
+        $pickTransaction->setProduct($product);
         $pickTransaction->setDebitQuantity(2);
         $pickTransaction->setMemo('Picked 2 Widgets');
 
         $shipTransaction = new InventoryTransaction($customerLocation);
+        $shipTransaction->setProduct($product);
         $shipTransaction->setCreditQuantity(2);
         $shipTransaction->setMemo('Shipped 2 Widgets to customer');
 
         $this->assertEntityValid($pickTransaction);
         $this->assertEntityValid($shipTransaction);
         $this->assertTrue($pickTransaction->getInventoryLocation() instanceof InventoryLocation);
+        $this->assertTrue($pickTransaction->getProduct() instanceof Product);
         $this->assertTrue($pickTransaction->getCreated() instanceof DateTime);
         $this->assertSame(2, $pickTransaction->getDebitQuantity());
         $this->assertSame(null, $pickTransaction->getCreditQuantity());
@@ -36,11 +40,9 @@ class InventoryTransactionTest extends DoctrineTestCase
 
     public function testDebitOrCreditMustNotBeNull()
     {
-        $inventoryLocation = $this->dummyData->getInventoryLocation();
-        $inventoryTransaction = new InventoryTransaction($inventoryLocation);
+        $inventoryTransaction = $this->dummyData->getInventoryTransaction();
         $inventoryTransaction->setDebitQuantity(null);
         $inventoryTransaction->setCreditQuantity(null);
-        $inventoryTransaction->setMemo('Failed Transaction');
 
         $errors = $this->getValidationErrors($inventoryTransaction);
 
@@ -55,14 +57,17 @@ class InventoryTransactionTest extends DoctrineTestCase
     public function testHoldInventoryForOrderShipment()
     {
         $warehouse = $this->dummyData->getWarehouse();
-        $widgetBin = $this->dummyData->getInventoryLocation($warehouse);
-        $customerHoldingLocation = new InventoryLocation($warehouse, 'Reserve for Customer', 'HOLD');
+        $product = $this->dummyData->getProduct();
 
-        $debitTransaction = new InventoryTransaction($widgetBin, InventoryTransaction::TYPE_HOLD);
+        $widgetBinLocation = $this->dummyData->getInventoryLocation($warehouse);
+        $debitTransaction = new InventoryTransaction($widgetBinLocation, InventoryTransaction::TYPE_HOLD);
+        $debitTransaction->setProduct($product);
         $debitTransaction->setDebitQuantity(2);
         $debitTransaction->setMemo('Hold 2 Widgets for order #123');
 
+        $customerHoldingLocation = new InventoryLocation($warehouse, 'Reserve for Customer', 'HOLD');
         $creditTransaction = new InventoryTransaction($customerHoldingLocation, InventoryTransaction::TYPE_HOLD);
+        $creditTransaction->setProduct($product);
         $creditTransaction->setCreditQuantity(2);
         $creditTransaction->setMemo('Hold 2 Widgets for order #123');
 

@@ -18,6 +18,7 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\InventoryLocation;
+use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
@@ -245,6 +246,24 @@ class DummyData
         $inventoryLocation = new InventoryLocation($warehouse, 'Widget Bin', 'Z1-A13-B37-L5-P3');
 
         return $inventoryLocation;
+    }
+
+    public function getInventoryTransaction(InventoryLocation $inventoryLocation = null, Product $product = null)
+    {
+        if ($inventoryLocation === null) {
+            $inventoryLocation = $this->getInventoryLocation();
+        }
+
+        if ($product === null) {
+            $product = $this->getProduct();
+        }
+
+        $inventoryTransaction = new InventoryTransaction($inventoryLocation);
+        $inventoryTransaction->setDebitQuantity(2);
+        $inventoryTransaction->setProduct($product);
+        $inventoryTransaction->setMemo('Pick 2 Widgets');
+
+        return $inventoryTransaction;
     }
 
     public function getOption()
