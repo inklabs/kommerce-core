@@ -56,12 +56,19 @@ class UserTest extends DoctrineTestCase
     public function testSetPasswordRaisesEvent()
     {
         $user = new User;
+        $user->setEmail('john@example.com');
         $user->setPassword('Password1');
-        $this->assertTypeNotInArray(PasswordChangedEvent::class, $user->releaseEvents());
+        $this->assertSame(0, count($user->releaseEvents()));
 
         $user->setId(1);
         $user->setPassword('NewPassword123');
-        $this->assertTypeInArray(PasswordChangedEvent::class, $user->releaseEvents());
+
+        /** @var PasswordChangedEvent $event */
+        $event = $user->releaseEvents()[0];
+        $this->assertTrue($event instanceof PasswordChangedEvent);
+        $this->assertSame($user->getId(), $event->getUserId());
+        $this->assertSame($user->getFullName(), $event->getFullName());
+        $this->assertSame($user->getEmail(), $event->getEmail());
     }
 
     public function testVerifyPassword()

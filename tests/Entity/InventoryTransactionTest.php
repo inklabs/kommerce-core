@@ -38,20 +38,34 @@ class InventoryTransactionTest extends DoctrineTestCase
         $this->assertSame(2, $shipTransaction->getCreditQuantity());
     }
 
-    public function testDebitOrCreditMustNotBeNull()
+    public function testBothDebitAndCreditCannotBeNull()
     {
         $inventoryTransaction = $this->dummyData->getInventoryTransaction();
         $inventoryTransaction->setDebitQuantity(null);
         $inventoryTransaction->setCreditQuantity(null);
 
+        $this->assertInvalidQuantity($inventoryTransaction);
+    }
+
+    public function testDebitOrCreditMustBeNull()
+    {
+        $inventoryTransaction = $this->dummyData->getInventoryTransaction();
+        $inventoryTransaction->setDebitQuantity(2);
+        $inventoryTransaction->setCreditQuantity(2);
+
+        $this->assertInvalidQuantity($inventoryTransaction);
+    }
+
+    protected function assertInvalidQuantity(InventoryTransaction $inventoryTransaction)
+    {
         $errors = $this->getValidationErrors($inventoryTransaction);
 
         $this->assertSame(2, count($errors));
         $this->assertSame('debitQuantity', $errors->get(0)->getPropertyPath());
-        $this->assertSame('Both DebitQuantity and CreditQuantity should not be null', $errors->get(0)->getMessage());
+        $this->assertSame('Only DebitQuantity or CreditQuantity should be set', $errors->get(0)->getMessage());
 
         $this->assertSame('creditQuantity', $errors->get(1)->getPropertyPath());
-        $this->assertSame('Both DebitQuantity and CreditQuantity should not be null', $errors->get(1)->getMessage());
+        $this->assertSame('Only DebitQuantity or CreditQuantity should be set', $errors->get(1)->getMessage());
     }
 
     public function testHoldInventoryForOrderShipment()

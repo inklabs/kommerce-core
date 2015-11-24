@@ -33,6 +33,8 @@ interface CartServiceInterface
 
     public function getCoupons($cartId);
 
+    public function delete(Cart $cart);
+
     /**
      * @param int $cartId
      */
@@ -120,22 +122,6 @@ interface CartServiceInterface
     public function findOneById($cartId);
 
     public function setTaxRate($cartId, TaxRate $taxRate = null);
-
-    /**
-     * @param int $cartId
-     * @param string $ip4
-     * @param AbstractPayment $payment
-     * @param OrderAddress $shippingAddress
-     * @param OrderAddress $billingAddress
-     * @return OrderService
-     */
-    public function createOrder(
-        $cartId,
-        $ip4,
-        AbstractPayment $payment,
-        OrderAddress $shippingAddress,
-        OrderAddress $billingAddress = null
-    );
 
     /**
      * @param int $cartId

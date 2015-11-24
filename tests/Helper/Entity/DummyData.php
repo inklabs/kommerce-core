@@ -16,6 +16,7 @@ use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
@@ -122,38 +123,37 @@ class DummyData
         $tag = $this->getTag();
         $tag->addImage($this->getImage());
 
-        $product = new Product;
+        $product = $this->getProduct(1);
         $product->setSku('P1');
         $product->setUnitPrice(100);
         $product->setShippingWeight(10);
         $product->addTag($tag);
         $product->addProductQuantityDiscount($this->getProductQuantityDiscount());
 
-        $product2 = new Product;
+        $product2 = $this->getProduct(2);
         $product2->setSku('OP1');
         $product2->setUnitPrice(100);
         $product2->setShippingWeight(10);
 
-        $option1 = new Option;
-        $option1->setname('Option 1');
+        $option1 = $this->getOption();
+        $option1->setName('Option 1');
 
         $optionProduct = new OptionProduct;
         $optionProduct->setOption($option1);
         $optionProduct->setProduct($product2);
 
-        $option2 = new Option;
-        $option2->setname('Option 2');
+        $option2 = $this->getOption();
+        $option2->setName('Option 2');
 
-        $optionValue = new OptionValue;
+        $optionValue = $this->getOptionValue();
         $optionValue->setOption($option2);
         $optionValue->setSku('OV1');
         $optionValue->setUnitPrice(100);
         $optionValue->setShippingWeight(10);
 
-        $textOption = new TextOption;
+        $textOption = $this->getTextOption();
 
-        $cartItemOptionProduct = new CartItemOptionProduct;
-        $cartItemOptionProduct->setOptionProduct($optionProduct);
+        $cartItemOptionProduct = $this->getCartItemOptionProduct($optionProduct);
 
         $cartItemOptionValue = new CartItemOptionValue;
         $cartItemOptionValue->setOptionValue($optionValue);
@@ -171,6 +171,18 @@ class DummyData
         $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
 
         return $cartItem;
+    }
+
+    public function getCartItemOptionProduct(OptionProduct $optionProduct = null)
+    {
+        if ($optionProduct === null) {
+            $optionProduct = $this->getOptionProduct();
+        }
+
+        $cartItemOptionProduct = new CartItemOptionProduct;
+        $cartItemOptionProduct->setOptionProduct($optionProduct);
+
+        return $cartItemOptionProduct;
     }
 
     public function getCartPriceRule()
@@ -226,6 +238,19 @@ class DummyData
         return $coupon;
     }
 
+    public function getCreditCard()
+    {
+        $creditCard = new CreditCard;
+        $creditCard->setName('John Doe');
+        $creditCard->setZip5('90210');
+        $creditCard->setNumber('4242424242424242');
+        $creditCard->setCvc('123');
+        $creditCard->setExpirationMonth('1');
+        $creditCard->setExpirationYear('2020');
+
+        return $creditCard;
+    }
+
     public function getImage()
     {
         $image = new Image;
@@ -259,9 +284,9 @@ class DummyData
         }
 
         $inventoryTransaction = new InventoryTransaction($inventoryLocation);
-        $inventoryTransaction->setDebitQuantity(2);
+        $inventoryTransaction->setCreditQuantity(2);
         $inventoryTransaction->setProduct($product);
-        $inventoryTransaction->setMemo('Pick 2 Widgets');
+        $inventoryTransaction->setMemo('Initial Inventory');
 
         return $inventoryTransaction;
     }
@@ -313,17 +338,21 @@ class DummyData
     }
 
     /**
-     * @param CartTotal $total
+     * @param CartTotal $cartTotal
      * @param OrderItem[] $orderItems
      * @return Order
      */
-    public function getOrder(CartTotal $total, array $orderItems = null)
+    public function getOrder(CartTotal $cartTotal = null, array $orderItems = null)
     {
+        if ($cartTotal === null) {
+            $cartTotal = $this->getCartTotal();
+        }
+
         $orderAddress = $this->getOrderAddress();
 
         $order = new Order;
         $order->setIp4('10.0.0.1');
-        $order->setTotal($total);
+        $order->setTotal($cartTotal);
         $order->setShippingAddress($orderAddress);
         $order->setBillingAddress($orderAddress);
 

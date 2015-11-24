@@ -4,39 +4,26 @@ namespace inklabs\kommerce\Action\Tag\Handler;
 use inklabs\kommerce\Action\Tag\UpdateTagCommand;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityDTO\TagDTO;
-use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
+use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use Mockery;
 
-class UpdateTagHandlerTest extends AbstractTagHandlerTestCase
+class UpdateTagHandlerTest extends DoctrineTestCase
 {
     /** @var TagDTO */
     protected $tagDTO;
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->tagDTO = new TagDTO;
-        $this->tagDTO->name = 'New Name';
-        $this->tagDTO->code = 'NEW-CODE';
-        $this->tagDTO->description = 'New Description';
-        $this->tagDTO->isActive = true;
-        $this->tagDTO->isVisible = true;
-        $this->tagDTO->sortOrder = 0;
-    }
-
     public function testHandle()
     {
-        $tag = $this->dummyData->getTag();
-        $this->fakeTagRepository->create($tag);
+        $tagService = Mockery::mock(TagServiceInterface::class);
+        $tagService->shouldReceive('findOneById')
+            ->andReturn(new Tag);
+        $tagService->shouldReceive('update')
+            ->once();
+        /** @var TagServiceInterface $tagService */
 
-        $this->tagDTO->id = $tag->getId();
-
-        $editTagHandler = new UpdateTagHandler($this->tagService);
-
-        $editTagHandler->handle(new UpdateTagCommand($this->tagDTO));
-
-        $newTag = $this->fakeTagRepository->findOneById(1);
-        $this->assertTrue($newTag instanceof Tag);
-        $this->assertSame('New Name', $newTag->getname());
+        $command = new UpdateTagCommand(new TagDTO);
+        $handler = new UpdateTagHandler($tagService);
+        $handler->handle($command);
     }
 }

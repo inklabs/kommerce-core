@@ -5,19 +5,26 @@ use inklabs\kommerce\Action\Tag\ListTagsRequest;
 use inklabs\kommerce\Action\Tag\Response\ListTagsResponse;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
-use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
+use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use Mockery;
 
-class ListTagsHandlerTest extends AbstractTagHandlerTestCase
+class ListTagsHandlerTest extends DoctrineTestCase
 {
     public function testHandle()
     {
-        $tag = $this->dummyData->getTag();
-        $this->fakeTagRepository->create($tag);
-
-        $handler = new ListTagsHandler($this->tagService, $this->pricing);
+        $tagService = Mockery::mock(TagServiceInterface::class);
+        $tagService->shouldReceive('getAllTags')
+            ->andReturn([
+                $this->dummyData->getTag()
+            ]);
+        /** @var TagServiceInterface $tagService */
 
         $request = new ListTagsRequest('TT', new PaginationDTO);
         $response = new ListTagsResponse;
+
+        $handler = new ListTagsHandler($tagService, new Pricing);
         $handler->handle($request, $response);
 
         $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);

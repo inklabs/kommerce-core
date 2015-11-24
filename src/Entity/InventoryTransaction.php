@@ -33,7 +33,7 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
      * @param InventoryLocation $inventoryLocation
      * @param int $type
      */
-    public function __construct(InventoryLocation $inventoryLocation, $type = self::TYPE_MOVE)
+    public function __construct(InventoryLocation $inventoryLocation = null, $type = self::TYPE_MOVE)
     {
         $this->setCreated();
         $this->setType($type);
@@ -59,12 +59,12 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
 
         $metadata->addConstraint(new Assert\Callback(
             function (InventoryTransaction $inventoryTransaction, ExecutionContextInterface $context) {
-                if ($inventoryTransaction->isQuantityInvalid()) {
-                    $context->buildViolation('Both DebitQuantity and CreditQuantity should not be null')
+                if (! $inventoryTransaction->isQuantityValid()) {
+                    $context->buildViolation('Only DebitQuantity or CreditQuantity should be set')
                         ->atPath('debitQuantity')
                         ->addViolation();
 
-                    $context->buildViolation('Both DebitQuantity and CreditQuantity should not be null')
+                    $context->buildViolation('Only DebitQuantity or CreditQuantity should be set')
                         ->atPath('creditQuantity')
                         ->addViolation();
                 }
@@ -82,9 +82,9 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
         $metadata->addPropertyConstraint('product', new Assert\Valid);
     }
 
-    private function isQuantityInvalid()
+    private function isQuantityValid()
     {
-        return ($this->getDebitQuantity() === null && $this->getCreditQuantity() === null);
+        return ($this->getDebitQuantity() !== null ^ $this->getCreditQuantity() !== null);
     }
 
     /**
@@ -177,5 +177,10 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
     public function getTypeText()
     {
         return $this->getTypeMapping()[$this->type];
+    }
+
+    public function getQuantity()
+    {
+        return $this->creditQuantity - $this->debitQuantity;
     }
 }

@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\User\Handler;
 use inklabs\kommerce\Action\User\ResetPasswordCommand;
 use inklabs\kommerce\Service\UserServiceInterface;
 
-class ResetPasswordHandler
+final class ResetPasswordHandler
 {
     /** @var UserServiceInterface */
     private $userService;

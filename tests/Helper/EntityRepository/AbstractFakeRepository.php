@@ -103,9 +103,13 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
         }
     }
 
+    public function remove(EntityInterface $entity)
+    {
+    }
+
     public function persist(EntityInterface & $entity)
     {
-        $this->throwCrudExceptionIfSet();
+        $this->create($entity);
     }
 
     public function merge(EntityInterface & $entity)

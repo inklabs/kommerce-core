@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Lib\PaymentGateway;
 
 use inklabs\kommerce\Entity\CreditCard;
 
-class StripeFakeTest extends \PHPUnit_Framework_TestCase
+class FakePaymentGatewayTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetCharge()
     {
@@ -21,8 +21,8 @@ class StripeFakeTest extends \PHPUnit_Framework_TestCase
         $chargeRequest->setCurrency('usd');
         $chargeRequest->setDescription('test@example.com');
 
-        $stripe = new StripeFake;
-        $charge = $stripe->getCharge($chargeRequest);
+        $paymentGateway = new FakePaymentGateway;
+        $charge = $paymentGateway->getCharge($chargeRequest);
 
         $this->assertSame(2000, $charge->getAmount());
         $this->assertSame('usd', $charge->getCurrency());

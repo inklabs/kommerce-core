@@ -10,13 +10,11 @@ interface TagServiceInterface
 {
     public function create(Tag & $tag);
     public function update(Tag & $tag);
-    public function createFromDTO(TagDTO $tagDTO);
-    public function updateFromDTO(TagDTO $tagDTO);
 
     /**
-     * @param int $tagId
+     * @param Tag $tag
      */
-    public function delete($tagId);
+    public function delete(Tag $tag);
 
     /**
      * @param int $id

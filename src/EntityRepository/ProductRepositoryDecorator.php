@@ -90,6 +90,11 @@ class ProductRepositoryDecorator implements ProductRepositoryInterface
         return $this->productRepository->delete($entity);
     }
 
+    public function remove(EntityInterface $entity)
+    {
+        return $this->productRepository->remove($entity);
+    }
+
     public function persist(EntityInterface & $entity)
     {
         return $this->productRepository->persist($entity);

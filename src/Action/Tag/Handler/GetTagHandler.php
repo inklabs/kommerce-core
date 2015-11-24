@@ -6,7 +6,7 @@ use inklabs\kommerce\Action\Tag\Response\GetTagResponseInterface;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\TagServiceInterface;
 
-class GetTagHandler
+final class GetTagHandler
 {
     /** @var TagServiceInterface */
     private $tagService;

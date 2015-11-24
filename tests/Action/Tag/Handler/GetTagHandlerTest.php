@@ -4,18 +4,30 @@ namespace inklabs\kommerce\Action\Tag\Handler;
 use inklabs\kommerce\Action\Tag\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Response\GetTagResponse;
 use inklabs\kommerce\EntityDTO\TagDTO;
-use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
+use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use Mockery;
 
-class GetTagHandlerTest extends AbstractTagHandlerTestCase
+class GetTagHandlerTest extends DoctrineTestCase
 {
-    public function testExecute()
+    public function testHandle()
     {
         $tag = $this->dummyData->getTag();
-        $this->fakeTagRepository->create($tag);
 
-        $getTagHandler = new GetTagHandler($this->tagService, $this->pricing);
+        $tagService = Mockery::mock(TagServiceInterface::class);
+        $tagService->shouldReceive('findOneById')
+            ->andReturn(
+                $tag
+            );
+        /** @var TagServiceInterface $tagService */
+
+        $pricing = new Pricing;
+
+        $request = new GetTagRequest($tag->getid());
         $response = new GetTagResponse;
-        $getTagHandler->handle(new GetTagRequest($tag->getid()), $response);
+        $handler = new GetTagHandler($tagService, $pricing);
+        $handler->handle($request, $response);
 
         $this->assertTrue($response->getTagDTO() instanceof TagDTO);
     }

@@ -9,6 +9,7 @@ interface AbstractRepositoryInterface
     public function create(EntityInterface & $entity);
     public function update(EntityInterface & $entity);
     public function delete(EntityInterface $entity);
+    public function remove(EntityInterface $entity);
     public function persist(EntityInterface & $entity);
     public function flush();
 

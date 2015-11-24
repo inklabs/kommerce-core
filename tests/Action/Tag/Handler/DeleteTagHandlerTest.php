@@ -3,24 +3,23 @@ namespace inklabs\kommerce\Action\Tag\Handler;
 
 use inklabs\kommerce\Action\Tag\DeleteTagCommand;
 use inklabs\kommerce\Entity\Tag;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
-use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
+use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use Mockery;
 
-class DeleteTagHandlerTest extends AbstractTagHandlerTestCase
+class DeleteTagHandlerTest extends DoctrineTestCase
 {
     public function testHandle()
     {
-        $tagId = 1;
-        $this->fakeTagRepository->create(new Tag);
+        $tagService = Mockery::mock(TagServiceInterface::class);
+        $tagService->shouldReceive('findOneById')
+            ->andReturn(new Tag);
+        $tagService->shouldReceive('delete')
+            ->once();
+        /** @var TagServiceInterface $tagService */
 
-        $deleteTagHandler = new DeleteTagHandler($this->tagService);
-        $deleteTagHandler->handle(new DeleteTagCommand($tagId));
-
-        try {
-            $this->fakeTagRepository->findOneById($tagId);
-            $this->fail();
-        } catch (EntityNotFoundException $e) {
-            $this->assertTrue(true, 'success');
-        }
+        $command = new DeleteTagCommand(1);
+        $handler = new DeleteTagHandler($tagService);
+        $handler->handle($command);
     }
 }

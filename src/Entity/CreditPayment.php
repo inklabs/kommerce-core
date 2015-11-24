@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CreditPaymentDTOBuilder;
-use inklabs\kommerce\Lib\PaymentGateway\GatewayInterface;
+use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -13,11 +13,11 @@ class CreditPayment extends AbstractPayment
     /** @var ChargeResponse */
     protected $chargeResponse;
 
-    public function __construct(ChargeRequest $chargeRequest, GatewayInterface $gateway)
+    public function __construct(ChargeResponse $chargeResponse)
     {
         $this->setCreated();
-        $this->amount = $chargeRequest->getAmount();
-        $this->setCharge($gateway->getCharge($chargeRequest));
+        $this->amount = $chargeResponse->getAmount();
+        $this->chargeResponse = $chargeResponse;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -25,11 +25,6 @@ class CreditPayment extends AbstractPayment
         parent::loadValidatorMetadata($metadata);
 
         $metadata->addPropertyConstraint('chargeResponse', new Assert\Valid);
-    }
-
-    private function setCharge(ChargeResponse $chargeResponse)
-    {
-        $this->chargeResponse = $chargeResponse;
     }
 
     public function getChargeResponse()

@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\User\Handler;
 use inklabs\kommerce\Action\User\ChangePasswordCommand;
 use inklabs\kommerce\Service\UserServiceInterface;
 
-class ChangePasswordHandler
+final class ChangePasswordHandler
 {
     /** @var UserServiceInterface */
     private $userService;

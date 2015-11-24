@@ -2,14 +2,13 @@
 namespace inklabs\kommerce\tests\Action\User;
 
 use inklabs\kommerce\Action\User\ChangePasswordCommand;
+use inklabs\kommerce\Lib\UserPasswordValidationException;
 
 class ChangePasswordCommandTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @expectedException \inklabs\kommerce\Lib\UserPasswordValidationException
-     */
     public function testInvalidPasswordThrowsException()
     {
+        $this->setExpectedException(UserPasswordValidationException::class);
         $command = new ChangePasswordCommand(1, 'xx');
     }
 }

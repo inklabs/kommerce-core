@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\Cart\Handler;
 use inklabs\kommerce\Action\Cart\AddShipmentRateCommand;
 use inklabs\kommerce\Service\CartServiceInterface;
 
-class AddShipmentRateHandler
+final class AddShipmentRateHandler
 {
     /** @var CartServiceInterface */
     private $cartService;

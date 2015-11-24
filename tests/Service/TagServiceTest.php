@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
 use inklabs\kommerce\tests\Helper;
 
@@ -23,19 +24,40 @@ class TagServiceTest extends Helper\DoctrineTestCase
     public function testCreate()
     {
         $tag = $this->dummyData->getTag();
+
         $this->tagService->create($tag);
+
+        $tag = $this->tagRepository->findOneById(1);
         $this->assertTrue($tag instanceof Tag);
     }
 
-    public function testEdit()
+    public function testUpdate()
     {
         $newName = 'New Name';
         $tag = $this->dummyData->getTag();
-        $this->assertNotSame($newName, $tag->getName());
+        $this->tagRepository->create($tag);
 
+        $this->assertNotSame($newName, $tag->getName());
         $tag->setName($newName);
+
         $this->tagService->update($tag);
+
+        $tag = $this->tagRepository->findOneById(1);
         $this->assertSame($newName, $tag->getName());
+    }
+
+    public function testDelete()
+    {
+        $tag = $this->dummyData->getTag();
+        $this->tagRepository->create($tag);
+
+        $this->tagService->delete($tag);
+
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Tag not found'
+        );
+        $this->tagRepository->findOneById(1);
     }
 
     public function testFind()

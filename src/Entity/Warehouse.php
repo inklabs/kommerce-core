@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\EntityDTO\Builder\WarehouseDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,9 +16,13 @@ class Warehouse implements EntityInterface, ValidationInterface
     /** @var Address */
     protected $address;
 
+    /** @var InventoryLocation[] */
+    protected $inventoryLocations;
+
     public function __construct()
     {
         $this->setCreated();
+        $this->inventoryLocations = new ArrayCollection;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

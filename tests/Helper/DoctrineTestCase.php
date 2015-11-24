@@ -3,6 +3,8 @@ namespace inklabs\kommerce\tests\Helper;
 
 use inklabs\kommerce\Entity\ValidationInterface;
 use inklabs\kommerce\Lib\Mapper;
+use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
+use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
@@ -23,7 +25,6 @@ use inklabs\kommerce\Lib\Event\EventDispatcher;
 use inklabs\kommerce\Lib\Query\QueryBus;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Service\ServiceFactory;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepositoryFactory;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\DoctrineHelper;
 use Doctrine;
@@ -141,28 +142,40 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return new RepositoryFactory($this->entityManager);
     }
 
-    protected function getFakeRepositoryFactory()
-    {
-        return new FakeRepositoryFactory;
-    }
-
     protected function getServiceFactory(
         CartCalculatorInterface $cartCalculator = null,
-        EventDispatcherInterface $eventDispatcher = null
+        EventDispatcherInterface $eventDispatcher = null,
+        PaymentGatewayInterface $paymentGateway = null
     ) {
         if ($cartCalculator === null) {
-            $cartCalculator = new CartCalculator(new Pricing);
+            $cartCalculator = $this->getCartCalculator();
         }
 
         if ($eventDispatcher === null) {
             $eventDispatcher = new EventDispatcher;
         }
 
+        if ($paymentGateway === null) {
+            $paymentGateway = $this->getPaymentGateway();
+        }
+
         return new ServiceFactory(
             $this->getRepositoryFactory(),
             $cartCalculator,
-            $eventDispatcher
+            $eventDispatcher,
+            $paymentGateway
         );
+    }
+
+    protected function getPaymentGateway()
+    {
+        return new FakePaymentGateway;
+    }
+
+    protected function getCartCalculator()
+    {
+        $cartCalculator = new CartCalculator(new Pricing);
+        return $cartCalculator;
     }
 
     protected function beginTransaction()

@@ -4,18 +4,28 @@ namespace inklabs\kommerce\Action\Order\Handler;
 use inklabs\kommerce\Action\Order\GetOrderRequest;
 use inklabs\kommerce\Action\Order\Response\GetOrderResponse;
 use inklabs\kommerce\EntityDTO\OrderDTO;
-use inklabs\kommerce\tests\Action\Order\Handler\AbstractOrderHandlerTestCase;
+use inklabs\kommerce\Service\OrderServiceInterface;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use Mockery;
 
-class GetOrderHandlerTest extends AbstractOrderHandlerTestCase
+class GetOrderHandlerTest extends DoctrineTestCase
 {
-    public function testExecute()
+    public function testHandle()
     {
-        $order = $this->dummyData->getOrderFull();
-        $this->fakeOrderRepository->create($order);
+        $order = $this->dummyData->getOrder();
 
-        $getOrderHandler = new GetOrderHandler($this->orderService);
+        $orderService = Mockery::mock(OrderServiceInterface::class);
+        $orderService->shouldReceive('findOneById')
+            ->andReturn(
+                $order
+            );
+        /** @var OrderServiceInterface $orderService */
+
+        $request = new GetOrderRequest($order->getid());
         $response = new GetOrderResponse;
-        $getOrderHandler->handle(new GetOrderRequest($order->getid()), $response);
+
+        $handler = new GetOrderHandler($orderService);
+        $handler->handle($request, $response);
 
         $this->assertTrue($response->getOrderDTO() instanceof OrderDTO);
     }

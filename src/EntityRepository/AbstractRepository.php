@@ -12,41 +12,46 @@ abstract class AbstractRepository extends EntityRepository implements AbstractRe
         return new QueryBuilder($this->getEntityManager());
     }
 
-    public function update(EntityInterface & $entity)
-    {
-        $this->assertManaged($entity);
-        $this->flush();
-    }
-
     public function create(EntityInterface & $entity)
     {
         $this->persist($entity);
         $this->flush();
     }
 
+    public function update(EntityInterface & $entity)
+    {
+        $this->assertManaged($entity);
+        $this->flush();
+    }
+
     public function delete(EntityInterface $entity)
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->remove($entity);
+        $this->remove($entity);
         $this->flush();
+    }
+
+    public function remove(EntityInterface $entity)
+    {
+        $this->getEntityManager()
+            ->remove($entity);
     }
 
     public function persist(EntityInterface & $entity)
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($entity);
+        $this->getEntityManager()
+            ->persist($entity);
     }
 
     public function flush()
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->flush();
+        $this->getEntityManager()
+            ->flush();
     }
 
     public function findOneById($id)
     {
         return $this->returnOrThrowNotFoundException(
-            parent::find($id)
+            parent::findOneBy(['id' => $id])
         );
     }
 

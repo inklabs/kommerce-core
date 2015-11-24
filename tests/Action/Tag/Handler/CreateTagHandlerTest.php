@@ -2,33 +2,22 @@
 namespace inklabs\kommerce\Action\Tag\Handler;
 
 use inklabs\kommerce\Action\Tag\CreateTagCommand;
-use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityDTO\TagDTO;
-use inklabs\kommerce\tests\Action\Tag\Handler\AbstractTagHandlerTestCase;
+use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use Mockery;
 
-class CreateTagHandlerTest extends AbstractTagHandlerTestCase
+class CreateTagHandlerTest extends DoctrineTestCase
 {
-    /** @var TagDTO */
-    protected $tagDTO;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->tagDTO = new TagDTO;
-        $this->tagDTO->name = 'Tag Name';
-        $this->tagDTO->code = 'TAG-CODE';
-        $this->tagDTO->description = 'Tag Description';
-        $this->tagDTO->isActive = true;
-        $this->tagDTO->isVisible = true;
-        $this->tagDTO->sortOrder = 0;
-    }
-
     public function testHandle()
     {
-        $createTagHandler = new CreateTagHandler($this->tagService);
-        $createTagHandler->handle(new CreateTagCommand($this->tagDTO));
+        $tagService = Mockery::mock(TagServiceInterface::class);
+        $tagService->shouldReceive('create')
+            ->once();
+        /** @var TagServiceInterface $tagService */
 
-        $this->assertTrue($this->fakeTagRepository->findOneById(1) instanceof Tag);
+        $command = new CreateTagCommand(new TagDTO);
+        $handler = new CreateTagHandler($tagService);
+        $handler->handle($command);
     }
 }

@@ -6,7 +6,7 @@ use inklabs\kommerce\Action\Tag\Response\ListTagsResponseInterface;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Service\TagServiceInterface;
 
-class ListTagsHandler
+final class ListTagsHandler
 {
     /** @var TagServiceInterface */
     private $tagService;

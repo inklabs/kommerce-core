@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\Shipment\Handler;
 use inklabs\kommerce\Action\Shipment\AddShipmentTrackingCodeCommand;
 use inklabs\kommerce\Service\OrderServiceInterface;
 
-class AddShipmentTrackingCodeHandler
+final class AddShipmentTrackingCodeHandler
 {
     /** @var OrderServiceInterface */
     private $orderService;

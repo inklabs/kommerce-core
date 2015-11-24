@@ -7,36 +7,30 @@ use inklabs\kommerce\Action\Shipment\Response\GetShipmentRatesResponse;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
+use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
+use Mockery;
 
 class GetShipmentRatesHandlerTest extends DoctrineTestCase
 {
-    /** @var FakeShipmentGateway */
-    protected $fakeShipmentGateway;
-
-    /** @var GetShipmentRatesRequest */
-    protected $request;
-
-    /** @var GetShipmentRatesResponse */
-    protected $response;
-
-    public function setUp()
+    public function testHandle()
     {
-        parent::setUp();
+        $shipmentGateway = Mockery::mock(ShipmentGatewayInterface::class);
+        $shipmentGateway->shouldReceive('getRates')
+            ->once()
+            ->andReturn([
+                $this->dummyData->getShipmentRate(225)
+            ]);
+        /** @var ShipmentGatewayInterface $shipmentGateway */
 
-        $this->fakeShipmentGateway = new FakeShipmentGateway(new OrderAddressDTO);
-        $this->request = new GetShipmentRatesRequest(
+        $request = new GetShipmentRatesRequest(
             new OrderAddressDTO,
             new ParcelDTO
         );
-        $this->response = new GetShipmentRatesResponse;
-    }
+        $response = new GetShipmentRatesResponse;
 
-    public function testHandle()
-    {
-        $handler = new GetShipmentRatesHandler($this->fakeShipmentGateway);
-        $handler->handle($this->request, $this->response);
-        $this->assertTrue($this->response->getShipmentRatesDTO()[0] instanceof ShipmentRateDTO);
+        $handler = new GetShipmentRatesHandler($shipmentGateway);
+        $handler->handle($request, $response);
+        $this->assertTrue($response->getShipmentRatesDTO()[0] instanceof ShipmentRateDTO);
     }
 }

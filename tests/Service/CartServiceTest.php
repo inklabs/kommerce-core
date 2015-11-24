@@ -6,9 +6,10 @@ use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\InvalidCartActionException;
+use inklabs\kommerce\Entity\InventoryLocation;
+use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Order;
-use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TaxRate;
@@ -16,12 +17,16 @@ use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
+use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryLocationRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryTransactionRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionValueRepository;
@@ -33,7 +38,7 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 use InvalidArgumentException;
 
-class CartServiceTest extends Helper\DoctrineTestCase
+class CartServiceTest extends DoctrineTestCase
 {
     /** @var CartService */
     protected $cartService;
@@ -74,6 +79,15 @@ class CartServiceTest extends Helper\DoctrineTestCase
     /** @var FakeUserRepository */
     protected $userRepository;
 
+    /** @var InventoryLocationRepositoryInterface */
+    protected $inventoryLocationRepository;
+
+    /** @var  InventoryTransactionRepositoryInterface */
+    protected $inventoryTransactionRepository;
+
+    /** @var InventoryServiceInterface */
+    protected $inventoryService;
+
     public function setUp()
     {
         parent::setUp();
@@ -90,6 +104,20 @@ class CartServiceTest extends Helper\DoctrineTestCase
         $this->taxRateRepository = new FakeTaxRateRepository;
         $this->textOptionRepository = new FakeTextOptionRepository;
         $this->userRepository = new FakeUserRepository;
+        $this->inventoryLocationRepository = new FakeInventoryLocationRepository;
+        $this->inventoryTransactionRepository = new FakeInventoryTransactionRepository;
+
+        $customerHoldInventoryLocation = $this->dummyData->getInventoryLocation();
+        $customerHoldInventoryLocation->setName('Hold For Customer Order');
+        $customerHoldInventoryLocation->setCode('CUSTOMER-HOLD');
+
+        $this->inventoryLocationRepository->create($customerHoldInventoryLocation);
+
+        $this->inventoryService = new InventoryService(
+            $this->inventoryLocationRepository,
+            $this->inventoryTransactionRepository,
+            $customerHoldInventoryLocation->getId()
+        );
 
         $this->setupCartService();
     }
@@ -108,7 +136,8 @@ class CartServiceTest extends Helper\DoctrineTestCase
             $this->fakeShipmentGateway,
             $this->taxRateRepository,
             $this->textOptionRepository,
-            $this->userRepository
+            $this->userRepository,
+            $this->inventoryService
         );
     }
 
@@ -403,33 +432,6 @@ class CartServiceTest extends Helper\DoctrineTestCase
         );
 
         $this->cartService->setUserById(1, 1);
-    }
-
-    public function testCreateOrder()
-    {
-        $cart = new Cart;
-        $user = new User;
-        $cart->setUser($user);
-        $cart->addCoupon(new Coupon);
-        $this->userRepository->create($user);
-        $this->cartRepository->create($cart);
-
-        $order = $this->cartService->createOrder(
-            $cart->getId(),
-            '10.0.0.1',
-            new CashPayment(100),
-            $this->dummyData->getOrderAddress()
-        );
-
-        $this->assertTrue($order instanceof Order);
-
-        /** @var OrderCreatedFromCartEvent $event */
-        $event = $this->fakeEventDispatcher->getDispatchedEvents(OrderCreatedFromCartEvent::class)[0];
-        $this->assertTrue($event instanceof OrderCreatedFromCartEvent);
-        $this->assertSame(1, $event->getOrderId());
-
-        $this->setExpectedException(EntityNotFoundException::class);
-        $this->cartRepository->findOneById($cart->getId());
     }
 
     public function testSetShipmentRate()

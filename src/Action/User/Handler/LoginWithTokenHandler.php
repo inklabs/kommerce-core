@@ -5,7 +5,7 @@ use inklabs\kommerce\Action\User\LoginWithTokenRequest;
 use inklabs\kommerce\Action\User\Response\LoginWithTokenResponseInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
 
-class LoginWithTokenHandler
+final class LoginWithTokenHandler
 {
     /** @var UserServiceInterface */
     private $userService;

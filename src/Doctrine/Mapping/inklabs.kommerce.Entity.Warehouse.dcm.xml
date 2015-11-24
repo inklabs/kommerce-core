@@ -22,6 +22,8 @@
 
         <embedded name="address" class="Address"/>
 
+        <one-to-many field="inventoryLocations" target-entity="InventoryLocation" mapped-by="warehouse" fetch="EXTRA_LAZY"/>
+
     </entity>
 
 </doctrine-mapping>

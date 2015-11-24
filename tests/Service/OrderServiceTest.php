@@ -2,22 +2,32 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
+use inklabs\kommerce\Entity\CashPayment;
+use inklabs\kommerce\Entity\CreditPayment;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Event\OrderShippedEvent;
+use inklabs\kommerce\Lib\CartCalculator;
+use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
+use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryLocationRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryTransactionRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderItemRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
+use Mockery;
 
-class OrderServiceTest extends Helper\DoctrineTestCase
+class OrderServiceTest extends DoctrineTestCase
 {
     /** @var FakeOrderRepository */
-    protected $orderRepository;
+    protected $fakeOrderRepository;
 
     /** @var FakeOrderItemRepository */
     protected $orderItemRepository;
@@ -34,20 +44,49 @@ class OrderServiceTest extends Helper\DoctrineTestCase
     /** @var FakeEventDispatcher */
     protected $fakeEventDispatcher;
 
+    /** @var FakeInventoryLocationRepository */
+    protected $fakeInventoryLocationRepository;
+
+    /** @var FakeInventoryTransactionRepository */
+    protected $fakeInventoryTransactionRepository;
+
+    /** @var InventoryServiceInterface */
+    protected $inventoryService;
+
+    /** @var PaymentGatewayInterface */
+    protected $paymentGateway;
+
     public function setUp()
     {
         parent::setUp();
 
         $this->fakeEventDispatcher = new FakeEventDispatcher;
-        $this->orderRepository = new FakeOrderRepository;
+        $this->fakeOrderRepository = new FakeOrderRepository;
         $this->orderItemRepository = new FakeOrderItemRepository;
         $this->productRepository = new FakeProductRepository;
         $this->shipmentGateway = new FakeShipmentGateway(new OrderAddressDTO);
 
-        $this->orderService = new OrderService(
+        $this->fakeInventoryLocationRepository = new FakeInventoryLocationRepository;
+        $this->fakeInventoryTransactionRepository = new FakeInventoryTransactionRepository;
+
+        $this->inventoryService = new InventoryService(
+            $this->fakeInventoryLocationRepository,
+            $this->fakeInventoryTransactionRepository
+        );
+
+        $this->paymentGateway = new FakePaymentGateway;
+
+        $this->orderService = $this->getOrderService();
+    }
+
+    private function getOrderService()
+    {
+        return new OrderService(
             $this->fakeEventDispatcher,
-            $this->orderRepository,
+            $this->inventoryService,
+            $this->fakeOrderRepository,
             $this->orderItemRepository,
+            $this->paymentGateway,
             $this->productRepository,
             $this->shipmentGateway
         );
@@ -55,8 +94,7 @@ class OrderServiceTest extends Helper\DoctrineTestCase
 
     public function testFind()
     {
-        $this->orderRepository->create(new Order);
-
+        $this->fakeOrderRepository->create(new Order);
         $order = $this->orderService->findOneById(1);
         $this->assertTrue($order instanceof Order);
     }
@@ -164,7 +202,7 @@ class OrderServiceTest extends Helper\DoctrineTestCase
     private function getPersistedDummyOrder()
     {
         $order = $this->dummyData->getOrderFull();
-        $this->orderRepository->create($order);
+        $this->fakeOrderRepository->create($order);
 
         foreach ($order->getOrderItems() as $orderItem) {
             $this->orderItemRepository->create($orderItem);
@@ -180,5 +218,37 @@ class OrderServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($event instanceof OrderShippedEvent);
         $this->assertSame(1, $event->getOrderId());
         $this->assertSame(1, $event->getShipmentId());
+    }
+
+    public function testCreateOrderFromCart()
+    {
+        $cart = $this->dummyData->getCart();
+        $product = $this->dummyData->getProduct();
+        $cartItem = $this->dummyData->getCartItem($product);
+        $cartItem->addCartItemOptionProduct($this->dummyData->getCartItemOptionProduct());
+        $cart->addCartItem($cartItem);
+        $cart->setUser($this->dummyData->getUser());
+
+        $this->inventoryService = Mockery::mock(InventoryServiceInterface::class);
+        $this->inventoryService
+            ->shouldReceive('reserveProduct')
+            ->times(2);
+
+        $order = $this->getOrderService()->createOrderFromCart(
+            $cart,
+            $this->getCartCalculator(),
+            '10.0.0.1',
+            $this->dummyData->getOrderAddress(),
+            $this->dummyData->getOrderAddress(),
+            $this->dummyData->getCreditCard()
+        );
+
+        $this->assertTrue($order instanceof Order);
+        $this->assertTrue($order->getPayments()[0] instanceof CreditPayment);
+
+        /** @var OrderCreatedFromCartEvent $event */
+        $event = $this->fakeEventDispatcher->getDispatchedEvents(OrderCreatedFromCartEvent::class)[0];
+        $this->assertTrue($event instanceof OrderCreatedFromCartEvent);
+        $this->assertSame(1, $event->getOrderId());
     }
 }

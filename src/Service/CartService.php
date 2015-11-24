@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CartItemOptionProduct;
 use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
+use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\Entity\InvalidCartActionException;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\TaxRate;
@@ -66,6 +67,9 @@ class CartService extends AbstractService implements CartServiceInterface
     /** @var UserRepositoryInterface */
     protected $userRepository;
 
+    /** @var InventoryServiceInterface */
+    protected $inventoryService;
+
     public function __construct(
         CartCalculatorInterface $cartCalculator,
         CartRepositoryInterface $cartRepository,
@@ -78,7 +82,8 @@ class CartService extends AbstractService implements CartServiceInterface
         ShipmentGatewayInterface $shipmentGateway,
         TaxRateRepositoryInterface $taxRateRepository,
         TextOptionRepositoryInterface $textOptionRepository,
-        UserRepositoryInterface $userRepository
+        UserRepositoryInterface $userRepository,
+        InventoryServiceInterface $inventoryService
     ) {
         $this->cartCalculator = $cartCalculator;
         $this->cartRepository = $cartRepository;
@@ -92,6 +97,7 @@ class CartService extends AbstractService implements CartServiceInterface
         $this->taxRateRepository = $taxRateRepository;
         $this->textOptionRepository = $textOptionRepository;
         $this->userRepository = $userRepository;
+        $this->inventoryService = $inventoryService;
     }
 
     /**
@@ -134,6 +140,11 @@ class CartService extends AbstractService implements CartServiceInterface
     {
         $cart = $this->cartRepository->findOneById($cartId);
         return $cart->getCoupons();
+    }
+
+    public function delete(Cart $cart)
+    {
+        $this->cartRepository->delete($cart);
     }
 
     /**
@@ -361,45 +372,6 @@ class CartService extends AbstractService implements CartServiceInterface
         $cart->setTaxRate($taxRate);
 
         $this->cartRepository->update($cart);
-    }
-
-    /**
-     * @param int $cartId
-     * @param string $ip4
-     * @param AbstractPayment $payment
-     * @param OrderAddress $shippingAddress
-     * @param OrderAddress $billingAddress
-     * @return Order
-     */
-    public function createOrder(
-        $cartId,
-        $ip4,
-        AbstractPayment $payment,
-        OrderAddress $shippingAddress,
-        OrderAddress $billingAddress = null
-    ) {
-        $cart = $this->cartRepository->findOneById($cartId);
-
-        if ($billingAddress === null) {
-            $billingAddress = clone $shippingAddress;
-        }
-
-        $order = Order::fromCart($cart, $this->cartCalculator, $ip4);
-        $order->setShippingAddress($shippingAddress);
-        $order->setBillingAddress($billingAddress);
-        $order->addPayment($payment);
-
-        $this->throwValidationErrors($order);
-
-        $this->orderRepository->create($order);
-
-        $this->eventDispatcher->dispatchEvent(
-            new OrderCreatedFromCartEvent($order->getId())
-        );
-
-        $this->cartRepository->delete($cart);
-
-        return $order;
     }
 
     /**

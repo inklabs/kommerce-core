@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\Shipment\Handler;
 use inklabs\kommerce\Action\Shipment\BuyShipmentLabelCommand;
 use inklabs\kommerce\Service\OrderServiceInterface;
 
-class BuyShipmentLabelHandler
+final class BuyShipmentLabelHandler
 {
     /** @var OrderServiceInterface */
     private $orderService;

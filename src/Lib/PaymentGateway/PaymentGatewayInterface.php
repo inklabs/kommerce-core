@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-interface GatewayInterface
+interface PaymentGatewayInterface
 {
     /**
      * @param ChargeRequest $chargeRequest

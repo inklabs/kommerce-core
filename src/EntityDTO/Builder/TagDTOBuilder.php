@@ -35,6 +35,23 @@ class TagDTOBuilder
         $this->tagDTO->updated      = $this->tag->getUpdated();
     }
 
+    public static function createFromDTO(TagDTO $tagDTO)
+    {
+        $tag = new Tag;
+        self::setFromDTO($tag, $tagDTO);
+        return $tag;
+    }
+
+    public static function setFromDTO(Tag & $tag, TagDTO $tagDTO)
+    {
+        $tag->setName($tagDTO->name);
+        $tag->setCode($tagDTO->code);
+        $tag->setDescription($tagDTO->description);
+        $tag->setIsActive($tagDTO->isActive);
+        $tag->setIsVisible($tagDTO->isVisible);
+        $tag->setSortOrder($tagDTO->sortOrder);
+    }
+
     public function withImages()
     {
         foreach ($this->tag->getImages() as $image) {

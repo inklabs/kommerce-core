@@ -5,7 +5,7 @@ use inklabs\kommerce\Action\Shipment\GetShipmentRatesRequest;
 use inklabs\kommerce\Action\Shipment\Response\GetShipmentRatesResponse;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 
-class GetShipmentRatesHandler
+final class GetShipmentRatesHandler
 {
     /** @var ShipmentGatewayInterface */
     private $shipmentGateway;

@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\Image\Handler;
 use inklabs\kommerce\Action\Image\CreateImageCommand;
 use inklabs\kommerce\Service\ImageServiceInterface;
 
-class CreateImageHandler
+final class CreateImageHandler
 {
     /** @var ImageServiceInterface */
     protected $imageService;

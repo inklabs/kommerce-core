@@ -2,10 +2,10 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
-use inklabs\kommerce\EntityRepository\RepositoryFactoryInterface;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
+use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
 class ServiceFactory
@@ -19,14 +19,19 @@ class ServiceFactory
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
+    /** @var PaymentGatewayInterface */
+    protected $paymentGateway;
+
     public function __construct(
-        RepositoryFactoryInterface $repositoryFactory,
+        RepositoryFactory $repositoryFactory,
         CartCalculatorInterface $cartCalculator,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        PaymentGatewayInterface $paymentGateway
     ) {
         $this->repositoryFactory = $repositoryFactory;
         $this->cartCalculator = $cartCalculator;
         $this->eventDispatcher = $eventDispatcher;
+        $this->paymentGateway = $paymentGateway;
     }
 
     /**
@@ -62,7 +67,8 @@ class ServiceFactory
             $this->getShipmentGateway(),
             $this->repositoryFactory->getTaxRateRepository(),
             $this->repositoryFactory->getTextOptionRepository(),
-            $this->repositoryFactory->getUserRepository()
+            $this->repositoryFactory->getUserRepository(),
+            $this->getInventoryService()
         );
     }
 
@@ -144,6 +150,15 @@ class ServiceFactory
         return new Import\ImportUserService($this->repositoryFactory->getUserRepository());
     }
 
+    private function getInventoryService()
+    {
+        return new InventoryService(
+            $this->repositoryFactory->getInventoryLocationRepository(),
+            $this->repositoryFactory->getInventoryTransactionRepository(),
+            1
+        );
+    }
+
     /**
      * @return OptionService
      */
@@ -159,8 +174,10 @@ class ServiceFactory
     {
         return new OrderService(
             $this->eventDispatcher,
+            $this->getInventoryService(),
             $this->repositoryFactory->getOrderRepository(),
             $this->repositoryFactory->getOrderItemRepository(),
+            $this->paymentGateway,
             $this->repositoryFactory->getProductRepository(),
             $this->getShipmentGateway()
         );
@@ -219,5 +236,10 @@ class ServiceFactory
             $this->repositoryFactory->getUserTokenRepository(),
             $this->eventDispatcher
         );
+    }
+
+    public function getCartCalculator()
+    {
+        return $this->cartCalculator;
     }
 }

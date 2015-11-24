@@ -5,7 +5,7 @@ use inklabs\kommerce\Action\Order\GetOrderRequest;
 use inklabs\kommerce\Action\Order\Response\GetOrderResponseInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 
-class GetOrderHandler
+final class GetOrderHandler
 {
     /** @var OrderServiceInterface */
     private $orderService;

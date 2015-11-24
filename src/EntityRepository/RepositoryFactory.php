@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Lib\ReferenceNumber;
 
-class RepositoryFactory implements RepositoryFactoryInterface
+class RepositoryFactory
 {
     /** @var EntityManager */
     protected $entityManager;
@@ -84,6 +84,22 @@ class RepositoryFactory implements RepositoryFactoryInterface
     public function getImageRepository()
     {
         return $this->entityManager->getRepository('kommerce:Image');
+    }
+
+    /**
+     * @return InventoryLocationRepositoryInterface
+     */
+    public function getInventoryLocationRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:InventoryLocation');
+    }
+
+    /**
+     * @return InventoryTransactionRepositoryInterface
+     */
+    public function getInventoryTransactionRepository()
+    {
+        return $this->entityManager->getRepository('kommerce:InventoryTransaction');
     }
 
     /**

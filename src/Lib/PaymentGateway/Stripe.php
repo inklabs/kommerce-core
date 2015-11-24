@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-class Stripe implements GatewayInterface
+class Stripe implements PaymentGatewayInterface
 {
     public function __construct($apiKey)
     {
@@ -11,7 +11,6 @@ class Stripe implements GatewayInterface
     public function getCharge(ChargeRequest $chargeRequest)
     {
         $stripeCharge = $this->createCharge($chargeRequest);
-        error_log(print_r($stripeCharge, true), 3, '/tmp/stripe.txt');
 
         $chargeResponse = new ChargeResponse;
         $chargeResponse->setExternalId($stripeCharge['id']);
