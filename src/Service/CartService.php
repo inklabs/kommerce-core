@@ -6,12 +6,9 @@ use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CartItemOptionProduct;
 use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
-use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\Entity\InvalidCartActionException;
-use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\OrderAddress;
-use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
@@ -23,14 +20,15 @@ use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
-use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use InvalidArgumentException;
 
-class CartService extends AbstractService implements CartServiceInterface
+class CartService implements CartServiceInterface
 {
+    use EntityValidationTrait;
+
     /** @var CartCalculatorInterface */
     protected $cartCalculator;
 

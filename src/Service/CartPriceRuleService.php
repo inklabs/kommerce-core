@@ -5,8 +5,10 @@ use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
-class CartPriceRuleService extends AbstractService
+class CartPriceRuleService
 {
+    use EntityValidationTrait;
+
     /** @var CartPriceRuleRepositoryInterface */
     private $cartPriceRuleRepository;
 

@@ -7,8 +7,10 @@ use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 
-class ImageService extends AbstractService implements ImageServiceInterface
+class ImageService implements ImageServiceInterface
 {
+    use EntityValidationTrait;
+
     /** @var ImageRepositoryInterface */
     private $imageRepository;
 

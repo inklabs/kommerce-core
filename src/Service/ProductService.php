@@ -9,8 +9,10 @@ use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 
-class ProductService extends AbstractService
+class ProductService
 {
+    use EntityValidationTrait;
+
     /** @var ProductRepositoryInterface */
     private $productRepository;
 

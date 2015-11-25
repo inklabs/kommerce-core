@@ -9,6 +9,8 @@ use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 
 class InventoryService implements InventoryServiceInterface
 {
+    use EntityValidationTrait;
+
     /** @var InventoryLocationRepositoryInterface */
     private $inventoryLocationRepository;
 
@@ -54,6 +56,8 @@ class InventoryService implements InventoryServiceInterface
         $creditTransaction->setProduct($product);
         $creditTransaction->setCreditQuantity($quantity);
         $creditTransaction->setMemo('Hold product for customer');
+
+        $this->throwValidationErrors($debitTransaction);
 
         $this->inventoryTransactionRepository->persist($debitTransaction);
         $this->inventoryTransactionRepository->persist($creditTransaction);

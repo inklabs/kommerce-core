@@ -6,8 +6,10 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
-class CatalogPromotionService extends AbstractService
+class CatalogPromotionService
 {
+    use EntityValidationTrait;
+
     /** @var CatalogPromotionRepositoryInterface */
     private $catalogPromotionRepository;
 

@@ -5,8 +5,10 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 
-class TagService extends AbstractService implements TagServiceInterface
+class TagService implements TagServiceInterface
 {
+    use EntityValidationTrait;
+
     /** @var TagRepositoryInterface */
     private $tagRepository;
 

@@ -14,8 +14,10 @@ use inklabs\kommerce\Event\ResetPasswordEvent;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\UserPasswordValidator;
 
-class UserService extends AbstractService implements UserServiceInterface
+class UserService implements UserServiceInterface
 {
+    use EntityValidationTrait;
+
     protected $userSessionKey = 'user';
 
     /** @var UserRepositoryInterface */

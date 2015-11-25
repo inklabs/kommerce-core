@@ -23,8 +23,10 @@ use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 
-class OrderService extends AbstractService implements OrderServiceInterface
+class OrderService implements OrderServiceInterface
 {
+    use EntityValidationTrait;
+
     /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
@@ -205,8 +207,8 @@ class OrderService extends AbstractService implements OrderServiceInterface
         $order->setBillingAddress($billingAddress);
 
         $this->throwValidationErrors($order);
-        $this->reserveProductsFromInventory($order);
 
+        $this->reserveProductsFromInventory($order);
         $this->addCreditCardPayment($order, $creditCard, $order->getTotal()->total);
 
         $this->orderRepository->create($order);

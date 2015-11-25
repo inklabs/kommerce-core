@@ -6,8 +6,10 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
-class AttributeValueService extends AbstractService
+class AttributeValueService
 {
+    use EntityValidationTrait;
+
     /** @var AttributeValueRepositoryInterface */
     private $attributeValueRepository;
 

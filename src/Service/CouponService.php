@@ -6,8 +6,10 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
-class CouponService extends AbstractService
+class CouponService
 {
+    use EntityValidationTrait;
+
     /** @var CouponRepositoryInterface */
     private $couponRepository;
 

@@ -4,8 +4,10 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 
-class TaxRateService extends AbstractService
+class TaxRateService
 {
+    use EntityValidationTrait;
+
     /** @var TaxRateRepositoryInterface */
     private $taxRateRepository;
 

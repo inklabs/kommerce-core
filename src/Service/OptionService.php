@@ -6,8 +6,10 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 
-class OptionService extends AbstractService
+class OptionService
 {
+    use EntityValidationTrait;
+
     /** @var OptionRepositoryInterface */
     private $optionRepository;
 

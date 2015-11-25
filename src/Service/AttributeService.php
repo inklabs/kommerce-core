@@ -5,8 +5,10 @@ use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 
-class AttributeService extends AbstractService
+class AttributeService
 {
+    use EntityValidationTrait;
+
     /** @var AttributeRepositoryInterface */
     private $attributeRepository;
 
