@@ -51,27 +51,60 @@ class CartPriceRule extends AbstractPromotion
 
     public function isValid(DateTime $date, $cartItems)
     {
+        $localCartItems = $this->cloneCartItems($cartItems);
+
         return $this->isValidPromotion($date)
-            and $this->isCartItemsValid($cartItems);
+            and $this->isCartItemsValid($localCartItems);
     }
 
-    public function isCartItemsValid($cartItems)
+    /**
+     * @param CartItem[] $cartItems
+     * @return bool
+     */
+    public function isCartItemsValid(& $cartItems)
     {
-        $matchedItemsCount = 0;
-        foreach ($this->cartPriceRuleItems as $item) {
-            foreach ($cartItems as $cartItem) {
-                if ($item->matches($cartItem)) {
-                    $matchedItemsCount++;
-                    break;
-                }
-            }
-        }
+        $matchedItems = $this->getCartItemMatches($cartItems);
 
-        if ($matchedItemsCount == count($this->cartPriceRuleItems)) {
+        if (iterator_count($matchedItems) === count($this->cartPriceRuleItems)) {
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * @param CartItem[] $cartItems
+     * @return CartItem[]|\Generator
+     */
+    private function getCartItemMatches(& $cartItems)
+    {
+        foreach ($this->cartPriceRuleItems as $cartPriceRuleItem) {
+            foreach ($cartItems as & $cartItem) {
+                if ($cartPriceRuleItem->matches($cartItem)) {
+                    $newQuantity = $cartItem->getQuantity() - $cartPriceRuleItem->getQuantity();
+                    $cartItem->setQuantity($newQuantity);
+
+                    yield $cartItem;
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * @param CartItem[] $cartItems
+     * @return int
+     */
+    public function numberTimesToApply($cartItems)
+    {
+        $numberTimesToApply = 0;
+        $localCartItems = $this->cloneCartItems($cartItems);
+
+        while ($this->isCartItemsValid($localCartItems)) {
+            $numberTimesToApply++;
+        }
+
+        return $numberTimesToApply;
     }
 
     /**
@@ -80,5 +113,20 @@ class CartPriceRule extends AbstractPromotion
     public function getDTOBuilder()
     {
         return new CartPriceRuleDTOBuilder($this);
+    }
+
+    /**
+     * @param CartItem[] $cartItems
+     * @return CartItem[]
+     */
+    private function cloneCartItems($cartItems)
+    {
+        $localCartItems = [];
+
+        foreach ($cartItems as $cartItem) {
+            $localCartItems[] = clone $cartItem;
+        }
+
+        return $localCartItems;
     }
 }

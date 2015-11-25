@@ -92,6 +92,96 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
     }
 
+    public function testGetTotalWithCartPriceRulesAppliedTwice()
+    {
+        $productShirt = new Product;
+        $productShirt->setId(1);
+        $productShirt->setUnitPrice(1200);
+
+        $productPoster = new Product;
+        $productPoster->setId(2);
+        $productPoster->setUnitPrice(500);
+
+        $cartPriceRule = new CartPriceRule;
+        $cartPriceRule->setName('Buy a Shirt get a FREE poster');
+        $cartPriceRule->addItem(new CartPriceRuleProductItem($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProductItem($productPoster, 1));
+        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster));
+
+        $pricing = new Pricing;
+        $pricing->setCartPriceRules([$cartPriceRule]);
+
+        $cartItem1 = new CartItem;
+        $cartItem1->setProduct($productShirt);
+        $cartItem1->setQuantity(2);
+
+        $cartItem2 = new CartItem;
+        $cartItem2->setProduct($productPoster);
+        $cartItem2->setQuantity(2);
+
+        $cart = new Cart;
+        $cart->addCartItem($cartItem1);
+        $cart->addCartItem($cartItem2);
+
+        $expectedCartTotal = new CartTotal;
+        $expectedCartTotal->origSubtotal = 3400;
+        $expectedCartTotal->subtotal = 3400;
+        $expectedCartTotal->shipping = 0;
+        $expectedCartTotal->discount = 1000;
+        $expectedCartTotal->tax = 0;
+        $expectedCartTotal->total = 2400;
+        $expectedCartTotal->savings = 1000;
+        $expectedCartTotal->cartPriceRules = [$cartPriceRule];
+
+        $cartCalculator = new CartCalculator($pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
+    }
+
+    public function testGetTotalWithCartPriceRulesAppliedOnlyTwice()
+    {
+        $productShirt = new Product;
+        $productShirt->setId(1);
+        $productShirt->setUnitPrice(1200);
+
+        $productPoster = new Product;
+        $productPoster->setId(2);
+        $productPoster->setUnitPrice(500);
+
+        $cartPriceRule = new CartPriceRule;
+        $cartPriceRule->setName('Buy a Shirt get a FREE poster');
+        $cartPriceRule->addItem(new CartPriceRuleProductItem($productShirt, 1));
+        $cartPriceRule->addItem(new CartPriceRuleProductItem($productPoster, 1));
+        $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster));
+
+        $pricing = new Pricing;
+        $pricing->setCartPriceRules([$cartPriceRule]);
+
+        $cartItem1 = new CartItem;
+        $cartItem1->setProduct($productShirt);
+        $cartItem1->setQuantity(3);
+
+        $cartItem2 = new CartItem;
+        $cartItem2->setProduct($productPoster);
+        $cartItem2->setQuantity(2);
+
+        $cart = new Cart;
+        $cart->addCartItem($cartItem1);
+        $cart->addCartItem($cartItem2);
+
+        $expectedCartTotal = new CartTotal;
+        $expectedCartTotal->origSubtotal = 4600;
+        $expectedCartTotal->subtotal = 4600;
+        $expectedCartTotal->shipping = 0;
+        $expectedCartTotal->discount = 1000;
+        $expectedCartTotal->tax = 0;
+        $expectedCartTotal->total = 3600;
+        $expectedCartTotal->savings = 1000;
+        $expectedCartTotal->cartPriceRules = [$cartPriceRule];
+
+        $cartCalculator = new CartCalculator($pricing);
+        $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
+    }
+
     public function testGetTotalCartPriceRuleInvalidCartItems()
     {
         $productShirt = new Product;

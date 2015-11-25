@@ -61,9 +61,13 @@ class CartCalculator implements CartCalculatorInterface
     {
         foreach ($this->pricing->getCartPriceRules() as $cartPriceRule) {
             if ($cartPriceRule->isValid($this->pricing->getDate(), $this->cart->getCartItems())) {
+                $numberTimesToApply = $cartPriceRule->numberTimesToApply($this->cart->getCartItems());
+
                 foreach ($cartPriceRule->getCartPriceRuleDiscounts() as $discount) {
                     $price = $this->pricing->getPrice($discount->getProduct(), $discount->getQuantity());
                     $discountValue = $price->quantityPrice;
+
+                    $discountValue *= $numberTimesToApply;
 
                     $this->cartTotal->discount += $discountValue;
 
