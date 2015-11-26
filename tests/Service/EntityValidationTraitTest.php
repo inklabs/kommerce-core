@@ -9,7 +9,7 @@ class EntityValidationTraitTest extends DoctrineTestCase
 {
     use EntityValidationTrait;
 
-    public function testThrowValidationErrors()
+    public function testThrowValidationErrorsSingleValid()
     {
         $validEntity = new InvalidEntity;
         $validEntity->setIsValid();

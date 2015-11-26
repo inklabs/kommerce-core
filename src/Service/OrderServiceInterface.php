@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CreditCard;
+use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Pagination;
@@ -81,6 +82,7 @@ interface OrderServiceInterface
      * @param OrderAddress $billingAddress
      * @param CreditCard $creditCard
      * @return Order
+     * @throws EntityValidatorException
      */
     public function createOrderFromCart(
         Cart $cart,

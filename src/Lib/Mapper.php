@@ -53,6 +53,8 @@ class Mapper implements MapperInterface
                 $constructorParameters[] = $this->serviceFactory->getTagService();
             } elseif ($parameterClassName === ImageServiceInterface::class) {
                 $constructorParameters[] = $this->serviceFactory->getImageService();
+            } elseif ($parameterClassName === CartCalculatorInterface::class) {
+                $constructorParameters[] = $this->serviceFactory->getCartCalculator();
             } elseif ($parameterClassName === CartServiceInterface::class) {
                 $constructorParameters[] = $this->serviceFactory->getCart();
             } elseif ($parameterClassName === OrderServiceInterface::class) {

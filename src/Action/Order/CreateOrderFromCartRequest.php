@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Action\Order;
 
 use inklabs\kommerce\EntityDTO\CreditCardDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
-use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Lib\Query\RequestInterface;
 
-final class CreateOrderFromCartCommand implements CommandInterface
+final class CreateOrderFromCartRequest implements RequestInterface
 {
     /** @var int */
     private $cartId;
