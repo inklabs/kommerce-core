@@ -204,11 +204,13 @@ class OrderService implements OrderServiceInterface
         OrderAddress $billingAddress,
         CreditCard $creditCard
     ) {
+        $this->throwValidationErrors($creditCard);
+
         $order = Order::fromCart($cart, $cartCalculator, $ip4);
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
 
-        $this->throwValidationErrors($order, $shippingAddress, $billingAddress, $creditCard);
+        $this->throwValidationErrors($order);
 
         $this->reserveProductsFromInventory($order);
         $this->addCreditCardPayment($order, $creditCard, $order->getTotal()->total);
