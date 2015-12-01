@@ -90,4 +90,40 @@ class InventoryTransactionTest extends DoctrineTestCase
         $this->assertSame(InventoryTransaction::TYPE_HOLD, $debitTransaction->getType());
         $this->assertSame('Hold', $debitTransaction->getTypeText());
     }
+
+    public function testMoveInventoryBetweenLocations()
+    {
+        $warehouse = $this->dummyData->getWarehouse();
+        $product = $this->dummyData->getProduct();
+        $sourceLocation = new InventoryLocation($warehouse, 'Source Location', 'S1');
+        $destinationLocation = new InventoryLocation($warehouse, 'Destination Location', 'D1');
+
+        $debitTransaction = new InventoryTransaction($sourceLocation);
+        $debitTransaction->setProduct($product);
+        $debitTransaction->setDebitQuantity(2);
+        $debitTransaction->setMemo('Move 2 Widgets');
+
+        $creditTransaction = new InventoryTransaction($destinationLocation);
+        $creditTransaction->setProduct($product);
+        $creditTransaction->setCreditQuantity(2);
+        $creditTransaction->setMemo('Move 2 Widgets');
+
+        $this->assertEntityValid($debitTransaction);
+        $this->assertEntityValid($creditTransaction);
+    }
+
+    public function testInventoryTransactionFailsIfMoveTypeAndMissingInventoryLocation()
+    {
+        $product = $this->dummyData->getProduct();
+        $inventoryTransaction = new InventoryTransaction;
+        $inventoryTransaction->setProduct($product);
+        $inventoryTransaction->setDebitQuantity(2);
+        $inventoryTransaction->setMemo('Move 2 Widgets');
+
+        $errors = $this->getValidationErrors($inventoryTransaction);
+
+        $this->assertSame(1, count($errors));
+        $this->assertSame('inventoryLocation', $errors->get(0)->getPropertyPath());
+        $this->assertSame('InventoryLocation must be set for Move operation', $errors->get(0)->getMessage());
+    }
 }

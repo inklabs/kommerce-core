@@ -19,6 +19,12 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
     protected $type;
     const TYPE_MOVE = 0;
     const TYPE_HOLD = 1;
+    const TYPE_NEW_PRODUCTS = 2;
+    const TYPE_SHIPPED = 3;
+    const TYPE_RETURNED = 4;
+    const TYPE_PROMOTION = 5;
+    const TYPE_DAMAGED = 6;
+    const TYPE_SHRINKAGE = 7;
 
     /** @var int */
     protected $debitQuantity;
@@ -76,15 +82,34 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
             'max' => 255,
         ]));
 
-        $metadata->addPropertyConstraint('inventoryLocation', new Assert\Valid);
-
         $metadata->addPropertyConstraint('product', new Assert\NotNull);
         $metadata->addPropertyConstraint('product', new Assert\Valid);
+
+        $metadata->addPropertyConstraint('inventoryLocation', new Assert\Valid);
+
+        $metadata->addConstraint(new Assert\Callback(
+            function (InventoryTransaction $inventoryTransaction, ExecutionContextInterface $context) {
+                if (! $inventoryTransaction->isLocationValidForMoveOperation()) {
+                    $context->buildViolation('InventoryLocation must be set for Move operation')
+                        ->atPath('inventoryLocation')
+                        ->addViolation();
+                }
+            }
+        ));
     }
 
     private function isQuantityValid()
     {
         return ($this->getDebitQuantity() !== null ^ $this->getCreditQuantity() !== null);
+    }
+
+    private function isLocationValidForMoveOperation()
+    {
+        if ($this->type === self::TYPE_MOVE && $this->inventoryLocation === null) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -171,12 +196,23 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
         return [
             static::TYPE_MOVE => 'Move',
             static::TYPE_HOLD => 'Hold',
+            static::TYPE_NEW_PRODUCTS => 'New Products',
+            static::TYPE_SHIPPED => 'Shipped',
+            static::TYPE_RETURNED => 'Returned',
+            static::TYPE_PROMOTION => 'Promotion',
+            static::TYPE_DAMAGED => 'Damaged',
+            static::TYPE_SHRINKAGE => 'Shrinkage',
         ];
+    }
+
+    public static function getTypeTextFromType($type)
+    {
+        return self::getTypeMapping()[$type];
     }
 
     public function getTypeText()
     {
-        return $this->getTypeMapping()[$this->type];
+        return $this->getTypeTextFromType($this->type);
     }
 
     public function getQuantity()
