@@ -11,7 +11,7 @@ class CreateImageHandlerTest extends DoctrineTestCase
 {
     public function testHandle()
     {
-        $imageService = Mockery::mock(ImageServiceInterface::class);
+        $imageService = $this->getMockeryMock(ImageServiceInterface::class);
         $imageService->shouldReceive('createFromDTOWithTag');
         /** @var ImageServiceInterface $imageService */
 

@@ -5,13 +5,12 @@ use inklabs\kommerce\Action\Tag\DeleteTagCommand;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Service\TagServiceInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use Mockery;
 
 class DeleteTagHandlerTest extends DoctrineTestCase
 {
     public function testHandle()
     {
-        $tagService = Mockery::mock(TagServiceInterface::class);
+        $tagService = $this->getMockeryMock(TagServiceInterface::class);
         $tagService->shouldReceive('findOneById')
             ->andReturn(new Tag);
         $tagService->shouldReceive('delete')

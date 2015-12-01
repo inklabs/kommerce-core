@@ -7,13 +7,12 @@ use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use Mockery;
 
 class AddShipmentTrackingCodeHandlerTest extends DoctrineTestCase
 {
     public function testHandle()
     {
-        $orderService = Mockery::mock(OrderServiceInterface::class);
+        $orderService = $this->getMockeryMock(OrderServiceInterface::class);
         $orderService->shouldReceive('addShipmentTrackingCode')
             ->once();
         /** @var OrderServiceInterface $orderService */

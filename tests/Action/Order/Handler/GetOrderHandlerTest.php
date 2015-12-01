@@ -6,7 +6,6 @@ use inklabs\kommerce\Action\Order\Response\GetOrderResponse;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use Mockery;
 
 class GetOrderHandlerTest extends DoctrineTestCase
 {
@@ -14,7 +13,7 @@ class GetOrderHandlerTest extends DoctrineTestCase
     {
         $order = $this->dummyData->getOrder();
 
-        $orderService = Mockery::mock(OrderServiceInterface::class);
+        $orderService = $this->getMockeryMock(OrderServiceInterface::class);
         $orderService->shouldReceive('findOneById')
             ->andReturn(
                 $order

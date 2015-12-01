@@ -6,13 +6,12 @@ use inklabs\kommerce\Action\User\Response\LoginWithTokenResponse;
 use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\Service\UserServiceInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use Mockery;
 
 class LoginWithTokenHandlerTest extends DoctrineTestCase
 {
     public function testHandle()
     {
-        $userService = Mockery::mock(UserServiceInterface::class);
+        $userService = $this->getMockeryMock(UserServiceInterface::class);
         $userService->shouldReceive('loginWithToken')
             ->andReturn(
                 $this->dummyData->getUser()

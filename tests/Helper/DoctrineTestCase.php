@@ -28,6 +28,7 @@ use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\DoctrineHelper;
 use Doctrine;
+use Mockery;
 use Symfony\Component\Validator\Validation;
 
 abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
@@ -252,5 +253,14 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
             ->addMethodMapping('loadValidatorMetadata')
             ->getValidator()
             ->validate($entity);
+    }
+
+    /**
+     * @param string $className
+     * @return Mockery\Mock
+     */
+    protected function getMockeryMock($className)
+    {
+        return Mockery::mock($className);
     }
 }

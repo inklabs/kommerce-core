@@ -6,7 +6,6 @@ use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\Service\TagServiceInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use Mockery;
 
 class UpdateTagHandlerTest extends DoctrineTestCase
 {
@@ -15,7 +14,7 @@ class UpdateTagHandlerTest extends DoctrineTestCase
 
     public function testHandle()
     {
-        $tagService = Mockery::mock(TagServiceInterface::class);
+        $tagService = $this->getMockeryMock(TagServiceInterface::class);
         $tagService->shouldReceive('findOneById')
             ->andReturn(new Tag);
         $tagService->shouldReceive('update')

@@ -2,15 +2,12 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
-use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CreditPayment;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Event\OrderShippedEvent;
-use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
@@ -22,7 +19,6 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderItemRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
-use Mockery;
 
 class OrderServiceTest extends DoctrineTestCase
 {
@@ -229,7 +225,7 @@ class OrderServiceTest extends DoctrineTestCase
         $cart->addCartItem($cartItem);
         $cart->setUser($this->dummyData->getUser());
 
-        $this->inventoryService = Mockery::mock(InventoryServiceInterface::class);
+        $this->inventoryService = $this->getMockeryMock(InventoryServiceInterface::class);
         $this->inventoryService
             ->shouldReceive('reserveProduct')
             ->times(2);

@@ -5,13 +5,12 @@ use inklabs\kommerce\Action\Tag\CreateTagCommand;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\Service\TagServiceInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use Mockery;
 
 class CreateTagHandlerTest extends DoctrineTestCase
 {
     public function testHandle()
     {
-        $tagService = Mockery::mock(TagServiceInterface::class);
+        $tagService = $this->getMockeryMock(TagServiceInterface::class);
         $tagService->shouldReceive('create')
             ->once();
         /** @var TagServiceInterface $tagService */

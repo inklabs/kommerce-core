@@ -5,13 +5,12 @@ use inklabs\kommerce\Action\Order\SetOrderStatusCommand;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use Mockery;
 
 class SetOrderStatusHandlerTest extends DoctrineTestCase
 {
     public function testHandle()
     {
-        $orderService = Mockery::mock(OrderServiceInterface::class);
+        $orderService = $this->getMockeryMock(OrderServiceInterface::class);
         $orderService->shouldReceive('setOrderStatus')
             ->once();
         /** @var OrderServiceInterface $orderService */

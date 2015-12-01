@@ -9,13 +9,12 @@ use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use Mockery;
 
 class GetShipmentRatesHandlerTest extends DoctrineTestCase
 {
     public function testHandle()
     {
-        $shipmentGateway = Mockery::mock(ShipmentGatewayInterface::class);
+        $shipmentGateway = $this->getMockeryMock(ShipmentGatewayInterface::class);
         $shipmentGateway->shouldReceive('getRates')
             ->once()
             ->andReturn([

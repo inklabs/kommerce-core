@@ -7,7 +7,6 @@ use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\TagServiceInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use Mockery;
 
 class GetTagHandlerTest extends DoctrineTestCase
 {
@@ -15,7 +14,7 @@ class GetTagHandlerTest extends DoctrineTestCase
     {
         $tag = $this->dummyData->getTag();
 
-        $tagService = Mockery::mock(TagServiceInterface::class);
+        $tagService = $this->getMockeryMock(TagServiceInterface::class);
         $tagService->shouldReceive('findOneById')
             ->andReturn(
                 $tag
