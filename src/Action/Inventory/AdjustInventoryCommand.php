@@ -1,9 +1,6 @@
 <?php
 namespace inklabs\kommerce\Action\Inventory;
 
-use inklabs\kommerce\Entity\InventoryTransaction;
-use InvalidArgumentException;
-
 class AdjustInventoryCommand
 {
     /** @var int */
@@ -23,7 +20,6 @@ class AdjustInventoryCommand
      * @param int $quantity (can be negative)
      * @param int $inventoryLocationId
      * @param int $transactionType
-     * @throws InvalidArgumentException
      */
     public function __construct($productId, $quantity, $inventoryLocationId, $transactionType)
     {
