@@ -7,6 +7,7 @@ use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
+use inklabs\kommerce\Service\ProductServiceInterface;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\Service\TagServiceInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
@@ -61,6 +62,8 @@ class Mapper implements MapperInterface
                 $constructorParameters[] = $this->serviceFactory->getOrder();
             } elseif ($parameterClassName === Pricing::class) {
                 $constructorParameters[] = $this->pricing;
+            } elseif ($parameterClassName === ProductServiceInterface::class) {
+                $constructorParameters[] = $this->serviceFactory->getProduct();
             } elseif ($parameterClassName === ShipmentGatewayInterface::class) {
                 $constructorParameters[] = $this->serviceFactory->getShipmentGateway();
             } elseif ($parameterClassName === UserServiceInterface::class) {

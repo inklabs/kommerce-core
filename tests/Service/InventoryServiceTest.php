@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryLocationRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryTransactionRepository;
+use InvalidArgumentException;
 
 class InventoryServiceTest extends DoctrineTestCase
 {
@@ -264,5 +265,17 @@ class InventoryServiceTest extends DoctrineTestCase
         $this->assertSame(InventoryTransaction::TYPE_SHRINKAGE, $creditTransaction->getType());
         $this->assertSame(1, $creditTransaction->getQuantity());
         $this->assertSame('Adjusting inventory: Shrinkage', $creditTransaction->getMemo());
+    }
+
+    public function testAdjustInventoryThrowsException()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+
+        $this->inventoryService->adjustInventory(
+            $this->dummyData->getProduct(),
+            1,
+            1,
+            InventoryTransaction::TYPE_MOVE
+        );
     }
 }

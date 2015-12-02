@@ -9,7 +9,7 @@ use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 
-class ProductService
+class ProductService implements ProductServiceInterface
 {
     use EntityValidationTrait;
 

@@ -8,6 +8,7 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
+use InvalidArgumentException;
 
 class InventoryService implements InventoryServiceInterface
 {
@@ -65,17 +66,13 @@ class InventoryService implements InventoryServiceInterface
      * @param int $quantity
      * @param int $sourceLocationId
      * @param int $destinationLocationId
-     * @throws InsufficientInventoryException
+     * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
     public function moveProduct(Product $product, $quantity, $sourceLocationId, $destinationLocationId)
     {
-        try {
-            $sourceLocation = $this->inventoryLocationRepository->findOneById($sourceLocationId);
-            $destinationLocation = $this->inventoryLocationRepository->findOneById($destinationLocationId);
-        } catch (EntityNotFoundException $e) {
-            throw new InsufficientInventoryException;
-        }
+        $sourceLocation = $this->inventoryLocationRepository->findOneById($sourceLocationId);
+        $destinationLocation = $this->inventoryLocationRepository->findOneById($destinationLocationId);
 
         $this->transferProduct(
             $product,
@@ -196,9 +193,14 @@ class InventoryService implements InventoryServiceInterface
      * @param int $transactionType
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
+     * @throws InvalidArgumentException
      */
-    private function adjustInventory(Product $product, $quantity, $inventoryLocationId, $transactionType)
+    public function adjustInventory(Product $product, $quantity, $inventoryLocationId, $transactionType)
     {
+        if (! in_array($transactionType, InventoryTransaction::getAdjustmentTypes())) {
+            throw new InvalidArgumentException;
+        }
+
         $inventoryLocation = $this->inventoryLocationRepository->findOneById($inventoryLocationId);
 
         if ($quantity > 0) {

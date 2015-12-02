@@ -205,6 +205,18 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
         ];
     }
 
+    public static function getAdjustmentTypes()
+    {
+        return [
+            static::TYPE_NEW_PRODUCTS,
+            static::TYPE_SHIPPED,
+            static::TYPE_RETURNED,
+            static::TYPE_PROMOTION,
+            static::TYPE_DAMAGED,
+            static::TYPE_SHRINKAGE,
+        ];
+    }
+
     public static function getTypeTextFromType($type)
     {
         return self::getTypeMapping()[$type];
