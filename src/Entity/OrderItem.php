@@ -49,7 +49,7 @@ class OrderItem implements EntityInterface, ValidationInterface
     /** @var ShipmentItem[] */
     protected $shipmentItems;
 
-    public function __construct(Product $product = null)
+    public function __construct()
     {
         $this->setCreated();
         $this->catalogPromotions = new ArrayCollection;
@@ -89,6 +89,7 @@ class OrderItem implements EntityInterface, ValidationInterface
         $this->product = $product;
 
         $this->setName($product->getName());
+        $this->setSku();
     }
 
     public function getProduct()
@@ -105,6 +106,8 @@ class OrderItem implements EntityInterface, ValidationInterface
     {
         $orderItemOptionProduct->setOrderItem($this);
         $this->orderItemOptionProducts[] = $orderItemOptionProduct;
+
+        $this->setSku();
     }
 
     public function getOrderItemOptionValues()
@@ -116,6 +119,8 @@ class OrderItem implements EntityInterface, ValidationInterface
     {
         $orderItemOptionValue->setOrderItem($this);
         $this->orderItemOptionValues[] = $orderItemOptionValue;
+
+        $this->setSku();
     }
 
     public function getOrderItemTextOptionValues()
@@ -142,25 +147,20 @@ class OrderItem implements EntityInterface, ValidationInterface
         return $this->quantity;
     }
 
-    public function setSku($sku)
+    private function setSku()
     {
-        $this->sku = (string) $sku;
+        $this->sku = $this->getFullSku();
     }
 
-    public function getSku()
+    private function getFullSku()
     {
         $fullSku = [];
 
-        if ($this->sku !== null) {
-            $fullSku[] = $this->sku;
-        }
-
-        $product = $this->getProduct();
-        if ($product !== null) {
-            $sku = $product->getSku();
+        if ($this->product !== null) {
+            $sku = $this->product->getSku();
 
             if ($sku !== null) {
-                $fullSku[] = $product->getSku();
+                $fullSku[] = $sku;
             }
         }
 
@@ -183,6 +183,11 @@ class OrderItem implements EntityInterface, ValidationInterface
         return implode('-', $fullSku);
     }
 
+    public function getSku()
+    {
+        return $this->sku;
+    }
+
     public function setName($name)
     {
         $this->name = (string) $name;
@@ -196,14 +201,18 @@ class OrderItem implements EntityInterface, ValidationInterface
     public function setPrice(Price $price)
     {
         $this->price = $price;
+        $this->setDiscountNames();
+    }
 
+    private function setDiscountNames()
+    {
         $discountNames = [];
-        foreach ($price->getCatalogPromotions() as $catalogPromotion) {
+        foreach ($this->price->getCatalogPromotions() as $catalogPromotion) {
             $this->addCatalogPromotion($catalogPromotion);
             $discountNames[] = $catalogPromotion->getName();
         }
 
-        foreach ($price->getProductQuantityDiscounts() as $productQuantityDiscount) {
+        foreach ($this->price->getProductQuantityDiscounts() as $productQuantityDiscount) {
             $this->addProductQuantityDiscount($productQuantityDiscount);
             $discountNames[] = $productQuantityDiscount->getName();
         }

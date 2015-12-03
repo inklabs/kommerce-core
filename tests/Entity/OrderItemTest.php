@@ -94,7 +94,6 @@ class OrderItemTest extends DoctrineTestCase
         $price->quantityPrice = 1;
 
         $orderItem = new OrderItem;
-        $orderItem->setSku('NONE');
         $orderItem->setName('Free Entry Line Item');
         $orderItem->setQuantity(3);
         $orderItem->setPrice($price);
@@ -105,7 +104,7 @@ class OrderItemTest extends DoctrineTestCase
 
         $this->assertEntityValid($orderItem);
         $this->assertSame(3, $orderItem->getQuantity());
-        $this->assertSame('NONE', $orderItem->getSku());
+        $this->assertSame(null, $orderItem->getSku());
         $this->assertSame('Free Entry Line Item', $orderItem->getName());
         $this->assertSame('', $orderItem->getDiscountNames());
         $this->assertSame(null, $orderItem->getId());

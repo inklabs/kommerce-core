@@ -79,7 +79,7 @@ class ImportOrderItemService
             try {
                 $errors = $validator->validate($orderItem);
                 if ($errors->count() > 0) {
-                    throw new ValidatorException('Invalid Order Item' . $errors);
+                    throw new ValidatorException('Invalid Order Item: ' . $errors);
                 }
 
                 $this->orderItemRepository->persist($orderItem);
