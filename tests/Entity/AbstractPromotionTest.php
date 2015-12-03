@@ -10,9 +10,31 @@ class AbstractPromotionTest extends DoctrineTestCase
     /** @var AbstractPromotion */
     protected $promotion;
 
+    /** @var DateTime */
+    protected $startDate;
+
+    /** @var DateTime */
+    protected $endDate;
+
+    /** @var DateTime */
+    protected $validDateInMiddle;
+
+    /** @var DateTime */
+    protected $oneYearPrior;
+
+    /** @var DateTime */
+    protected $oneYearAfter;
+
     public function setUp()
     {
         $this->promotion = $this->getMockForAbstractClass(AbstractPromotion::class);
+
+        $this->startDate = new DateTime('2014-01-02 08:00:00', new DateTimeZone('UTC'));
+        $this->endDate = new DateTime('2014-12-31 13:00:00', new DateTimeZone('UTC'));
+
+        $this->oneYearPrior = new DateTime('2013-06-01', new DateTimeZone('UTC'));
+        $this->validDateInMiddle = new DateTime('2014-06-01', new DateTimeZone('UTC'));
+        $this->oneYearAfter = new DateTime('2015-06-01', new DateTimeZone('UTC'));
     }
 
     public function testCreate()
@@ -40,17 +62,23 @@ class AbstractPromotionTest extends DoctrineTestCase
 
     private function setDatePromotion()
     {
-        $this->promotion->setStart(new DateTime('2014-01-01', new DateTimeZone('UTC')));
-        $this->promotion->setEnd(new DateTime('2014-12-31', new DateTimeZone('UTC')));
+        $this->promotion->setStart($this->startDate);
+        $this->promotion->setEnd($this->endDate);
     }
 
     public function testIsDateValid()
     {
         $this->setDatePromotion();
 
-        $this->assertTrue($this->promotion->isDateValid(new DateTime('2014-02-01', new DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new DateTime('2013-02-01', new DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new DateTime('2015-02-01', new DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid($this->getModifiedDate($this->startDate, '-1 second')));
+        $this->assertTrue($this->promotion->isDateValid($this->startDate));
+        $this->assertTrue($this->promotion->isDateValid($this->getModifiedDate($this->startDate, '+1 second')));
+
+        $this->assertTrue($this->promotion->isDateValid($this->validDateInMiddle));
+
+        $this->assertTrue($this->promotion->isDateValid($this->getModifiedDate($this->endDate, '-1 second')));
+        $this->assertTrue($this->promotion->isDateValid($this->endDate));
+        $this->assertFalse($this->promotion->isDateValid($this->getModifiedDate($this->endDate, '+1 second')));
     }
 
     public function testIsDateValidWithNullStartAndEnd()
@@ -59,7 +87,9 @@ class AbstractPromotionTest extends DoctrineTestCase
         $this->promotion->setStart(null);
         $this->promotion->setEnd(null);
 
-        $this->assertTrue($this->promotion->isDateValid(new DateTime('2014-02-01', new DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid($this->oneYearPrior));
+        $this->assertTrue($this->promotion->isDateValid($this->validDateInMiddle));
+        $this->assertTrue($this->promotion->isDateValid($this->oneYearAfter));
     }
 
     public function testIsDateValidWithNullStart()
@@ -67,9 +97,9 @@ class AbstractPromotionTest extends DoctrineTestCase
         $this->setDatePromotion();
         $this->promotion->setStart(null);
 
-        $this->assertTrue($this->promotion->isDateValid(new DateTime('2014-02-01', new DateTimeZone('UTC'))));
-        $this->assertTrue($this->promotion->isDateValid(new DateTime('2013-02-01', new DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new DateTime('2015-02-01', new DateTimeZone('UTC'))));
+        $this->assertTrue($this->promotion->isDateValid($this->oneYearPrior));
+        $this->assertTrue($this->promotion->isDateValid($this->validDateInMiddle));
+        $this->assertFalse($this->promotion->isDateValid($this->oneYearAfter));
     }
 
     public function testIsDateValidWithNullEnd()
@@ -77,9 +107,9 @@ class AbstractPromotionTest extends DoctrineTestCase
         $this->setDatePromotion();
         $this->promotion->setEnd(null);
 
-        $this->assertTrue($this->promotion->isDateValid(new DateTime('2014-02-01', new DateTimeZone('UTC'))));
-        $this->assertFalse($this->promotion->isDateValid(new DateTime('2013-02-01', new DateTimeZone('UTC'))));
-        $this->assertTrue($this->promotion->isDateValid(new DateTime('2015-02-01', new DateTimeZone('UTC'))));
+        $this->assertFalse($this->promotion->isDateValid($this->oneYearPrior));
+        $this->assertTrue($this->promotion->isDateValid($this->validDateInMiddle));
+        $this->assertTrue($this->promotion->isDateValid($this->oneYearAfter));
     }
 
     public function testIsRedemptionCountValid()
@@ -135,5 +165,17 @@ class AbstractPromotionTest extends DoctrineTestCase
     {
         $this->promotion->setType(-1);
         $this->promotion->getUnitPrice(0);
+    }
+
+    /**
+     * @param DateTime $date
+     * @param string $modify
+     * @return DateTime
+     */
+    protected function getModifiedDate(DateTime $date, $modify)
+    {
+        $modifiedDate = clone $date;
+        $modifiedDate->modify($modify);
+        return $modifiedDate;
     }
 }

@@ -45,8 +45,17 @@
 
         <field name="reducesTaxSubtotal" type="boolean"/>
 
-        <field name="start" type="date" nullable="true"/>
-        <field name="end" type="date" nullable="true"/>
+        <field name="start" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="end" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
 
         <field name="created" type="integer">
             <options>

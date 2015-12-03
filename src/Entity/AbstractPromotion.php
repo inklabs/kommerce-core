@@ -31,10 +31,10 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
     /** @var boolean */
     protected $reducesTaxSubtotal;
 
-    /** @var DateTime|null */
+    /** @var int|null */
     protected $start;
 
-    /** @var DateTime|null */
+    /** @var int|null */
     protected $end;
 
     public function __construct()
@@ -72,8 +72,15 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
             'max' => 65535,
         ]));
 
-        $metadata->addPropertyConstraint('start', new Assert\Date());
-        $metadata->addPropertyConstraint('end', new Assert\Date());
+        $metadata->addPropertyConstraint('start', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+
+        $metadata->addPropertyConstraint('end', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
     }
 
     public function setName($name)
@@ -155,22 +162,42 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
 
     public function setStart(DateTime $start = null)
     {
-        $this->start = $start;
+        if ($start === null) {
+            $this->start = null;
+        } else {
+            $this->start = $start->getTimestamp();
+        }
     }
 
     public function getStart()
     {
-        return $this->start;
+        if ($this->start === null) {
+            return null;
+        }
+
+        $start = new DateTime();
+        $start->setTimestamp($this->start);
+        return $start;
     }
 
     public function setEnd(DateTime $end = null)
     {
-        $this->end = $end;
+        if ($end === null) {
+            $this->end = null;
+        } else {
+            $this->end = $end->getTimestamp();
+        }
     }
 
     public function getEnd()
     {
-        return $this->end;
+        if ($this->end === null) {
+            return null;
+        }
+
+        $end = new DateTime();
+        $end->setTimestamp($this->end);
+        return $end;
     }
 
     public function isValidPromotion(DateTime $date)
@@ -183,14 +210,11 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
     {
         $currentDateTs = $date->getTimestamp();
 
-        $start = $this->getStart();
-        $end = $this->getEnd();
-
-        if (($start !== null) and ($currentDateTs < $start->getTimestamp())) {
+        if (($this->start !== null) && ($currentDateTs < $this->start)) {
             return false;
         }
 
-        if (($end !== null) and ($currentDateTs > $end->getTimestamp())) {
+        if (($this->end !== null) && ($currentDateTs > $this->end)) {
             return false;
         }
 
