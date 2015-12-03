@@ -165,11 +165,11 @@ class OrderService implements OrderServiceInterface
 
     private function addShipmentItemsFromOrderItems(OrderItemQtyDTO $orderItemQtyDTO, Shipment $shipment)
     {
-        foreach ($orderItemQtyDTO->getItems() as $orderItemId => $qty) {
+        foreach ($orderItemQtyDTO->getItems() as $orderItemId => $quantity) {
             $orderItem = $this->orderItemRepository->findOneById($orderItemId);
 
             $shipment->addShipmentItem(
-                new ShipmentItem($orderItem, $qty)
+                new ShipmentItem($orderItem, $quantity)
             );
         }
     }

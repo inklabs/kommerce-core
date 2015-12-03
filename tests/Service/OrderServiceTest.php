@@ -132,8 +132,14 @@ class OrderServiceTest extends DoctrineTestCase
     public function testAddShipmentTrackingCode()
     {
         $order = $this->getPersistedDummyOrder();
+        $orderItem2 = $this->dummyData->getOrderItemFull();
+        $this->orderItemRepository->create($orderItem2);
+        $order->addOrderItem($orderItem2);
+
         $orderItemQtyDTO = new OrderItemQtyDTO;
         $orderItemQtyDTO->addOrderItemQty(1, 1);
+        $orderItemQtyDTO->addOrderItemQty(2, 0);
+
         $comment = 'A comment';
         $carrier = ShipmentTracker::CARRIER_UNKNOWN;
         $trackingCode = 'XXXX';
@@ -147,6 +153,7 @@ class OrderServiceTest extends DoctrineTestCase
         );
 
         $this->assertSame(1, count($order->getShipments()));
+        $this->assertSame(1, count($order->getShipments()[0]->getShipmentItems()));
         $this->assertSame('A comment', $order->getShipments()[0]->getShipmentComments()[0]->getComment());
         $this->assertOrderShippedEventIsDipatched();
     }

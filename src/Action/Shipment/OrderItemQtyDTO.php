@@ -7,11 +7,13 @@ final class OrderItemQtyDTO
 
     /**
      * @param int $orderItemId
-     * @param int $qty
+     * @param int $quantity
      */
-    public function addOrderItemQty($orderItemId, $qty)
+    public function addOrderItemQty($orderItemId, $quantity)
     {
-        $this->items[$orderItemId] = $qty;
+        if ($quantity > 0) {
+            $this->items[$orderItemId] = (int) $quantity;
+        }
     }
 
     public function getItems()
