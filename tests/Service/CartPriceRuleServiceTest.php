@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRuleRepository;
 
@@ -45,12 +46,13 @@ class CartPriceRuleServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($product instanceof CartPriceRule);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage CartPriceRule not found
-     */
     public function testFindMissing()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'CartPriceRule not found'
+        );
+
         $this->cartPriceRuleService->findOneById(1);
     }
 

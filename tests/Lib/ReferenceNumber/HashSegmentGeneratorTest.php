@@ -2,7 +2,8 @@
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
 use inklabs\kommerce\tests\Entity\FakeEntity;
-use inklabs\kommerce\tests\Helper\FakeRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepository;
+use RuntimeException;
 
 class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,14 +38,16 @@ class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('9-12-153-3247-12944', $entity->getReferenceNumber());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Lookup limit reached
-     */
     public function testGenerateThrowsException()
     {
         $entity = new FakeEntity;
         $this->repository->setReferenceNumberReturnValue(true);
+
+        $this->setExpectedException(
+            RuntimeException::class,
+            'Lookup limit reached'
+        );
+
         $this->hashSegmentGenerator->generate($entity);
     }
 }

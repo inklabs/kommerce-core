@@ -69,12 +69,13 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(5, $this->getTotalQueries());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Tag not found
-     */
     public function testFindOneByIdThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Tag not found'
+        );
+
         $this->tagRepository->findOneById(1);
     }
 
@@ -85,12 +86,13 @@ class TagRepositoryTest extends Helper\DoctrineTestCase
         $this->assertTrue($tag instanceof Tag);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Tag not found
-     */
     public function testFindOneByCodeThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Tag not found'
+        );
+
         $this->tagRepository->findOneByCode('xx');
     }
 

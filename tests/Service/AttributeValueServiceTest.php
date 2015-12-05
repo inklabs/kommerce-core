@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeAttributeValueRepository;
 
@@ -27,12 +28,13 @@ class AttributeValueServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($attributeValue instanceof AttributeValue);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage AttributeValue not found
-     */
     public function testFindMissing()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'AttributeValue not found'
+        );
+
         $this->attributeValueService->findOneById(1);
     }
 

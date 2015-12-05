@@ -100,12 +100,13 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(5, $this->getTotalQueries());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage User not found
-     */
     public function testFindOneByIdThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'User not found'
+        );
+
         $this->userRepository->findOneById(1);
     }
 
@@ -141,12 +142,13 @@ class UserRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(2, $this->getTotalQueries());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage User not found
-     */
     public function testFindOneByEmailThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'User not found'
+        );
+
         $this->userRepository->findOneByEmail('test1@example.com');
     }
 }

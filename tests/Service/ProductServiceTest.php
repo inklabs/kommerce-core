@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
@@ -77,25 +78,28 @@ class ProductServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($product->getTags()[0] instanceof Tag);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Product not found
-     */
     public function testAddTagWithMissingProductThrowsException()
     {
         $productId = 1;
         $tagEncodedId = '1';
+
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Product not found'
+        );
+
         $this->productService->addTag($productId, $tagEncodedId);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Tag not found
-     */
     public function testAddTagWithMissingTagThrowsException()
     {
         $product = new Product;
         $this->productRepository->create($product);
+
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Tag not found'
+        );
 
         $this->productService->addTag($product->getId(), 1);
     }
@@ -127,14 +131,15 @@ class ProductServiceTest extends Helper\DoctrineTestCase
         $this->productService->removeImage($product->getId(), $image->getId());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Image not found
-     */
     public function testRemoveImageWithMissingImageThrowsException()
     {
         $product = new Product;
         $this->productRepository->create($product);
+
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Image not found'
+        );
 
         $this->productService->removeImage($product->getId(), 1);
     }

@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
+use Exception;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
@@ -22,12 +23,15 @@ class ProductQuantityDiscountTest extends DoctrineTestCase
         $this->assertTrue($productQuantityDiscount->getProduct() instanceof Product);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testSetNameThrowsException()
     {
         $productQuantityDiscount = new ProductQuantityDiscount;
+
+        $this->setExpectedException(
+            Exception::class,
+            'Unable to set name'
+        );
+
         $productQuantityDiscount->setName('test');
     }
 

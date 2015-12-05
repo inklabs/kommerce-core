@@ -61,12 +61,13 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $this->getTotalQueries());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Warehouse not found
-     */
     public function testFindOneByIdThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Warehouse not found'
+        );
+
         $this->warehouseRepository->findOneById(1);
     }
 

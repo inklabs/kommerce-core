@@ -74,12 +74,13 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $product->getId());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Product not found
-     */
     public function testUpdateThrowsExceptionWhenNotFound()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Product not found'
+        );
+
         $this->productRepository->update(new Product);
     }
 
@@ -101,12 +102,13 @@ class ProductRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(6, $this->getTotalQueries());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Product not found
-     */
     public function testFindOneByIdThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Product not found'
+        );
+
         $this->productRepository->findOneById(1);
     }
 

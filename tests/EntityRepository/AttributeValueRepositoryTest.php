@@ -49,12 +49,13 @@ class AttributeValueRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(2, $this->getTotalQueries());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage AttributeValue not found
-     */
     public function testFindOneByIdThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'AttributeValue not found'
+        );
+
         $this->attributeValueRepository->findOneById(1);
     }
 

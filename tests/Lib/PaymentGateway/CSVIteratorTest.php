@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
+use InvalidArgumentException;
+
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
@@ -31,11 +33,13 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(8, $count);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testCreateMissingFile()
     {
+        $this->setExpectedException(
+            InvalidArgumentException::class,
+            '/missing.csv'
+        );
+
         $iterator = new CSVIterator(__DIR__ . '/missing.csv');
     }
 }

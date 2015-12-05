@@ -22,13 +22,15 @@ class AbstractPromotionDTOBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($promotionDTO->endFormatted, '2015-01-30');
     }
 
-    /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage promotionDTO has not been initialized
-     */
     public function testBuildFails()
     {
         $promotion = new TestablePromotionInvalid;
+
+        $this->setExpectedException(
+            RuntimeException::class,
+            'promotionDTO has not been initialized'
+        );
+
         $promotion->getDTOBuilder();
     }
 }

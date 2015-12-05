@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
+use Exception;
 use inklabs\kommerce\EntityDTO\Builder\ProductQuantityDiscountDTOBuilder;
 use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -29,7 +30,7 @@ class ProductQuantityDiscount extends AbstractPromotion
 
     public function setName($name)
     {
-        throw new \Exception('Unable to set name.');
+        throw new Exception('Unable to set name');
     }
 
     public function getName()

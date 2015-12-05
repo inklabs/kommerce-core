@@ -5,13 +5,15 @@ use RuntimeException;
 
 class AbstractPaymentDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage paymentDTO has not been initialized
-     */
     public function testBuildFails()
     {
         $cartPriceRuleItem = new TestablePaymentInvalid;
+
+        $this->setExpectedException(
+            RuntimeException::class,
+            'paymentDTO has not been initialized'
+        );
+
         $cartPriceRuleItem->getDTOBuilder();
     }
 }

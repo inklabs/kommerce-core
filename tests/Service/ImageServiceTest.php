@@ -78,15 +78,17 @@ class ImageServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($image->getProduct() instanceof Product);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Product not found
-     */
     public function testCreateWithProductThrowsException()
     {
         $this->productRepository->setReturnValue(null);
 
         $image = $this->dummyData->getImage();
+
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Product not found'
+        );
+
         $this->imageService->createWithProduct($image, 1);
     }
 

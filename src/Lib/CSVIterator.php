@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
+use InvalidArgumentException;
 use Iterator;
 
 class CSVIterator implements Iterator
@@ -28,12 +29,12 @@ class CSVIterator implements Iterator
 
     /**
      * @param string $file
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($file)
     {
         if (! file_exists($file)) {
-            throw new \InvalidArgumentException($file);
+            throw new InvalidArgumentException($file);
         }
 
         // Use this in case the file has Windows `\r` line endings.

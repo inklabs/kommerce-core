@@ -113,7 +113,7 @@ class Cart implements EntityInterface, ValidationInterface
     public function deleteCartItem($cartItemIndex)
     {
         if (! $this->cartItems->offsetExists($cartItemIndex)) {
-            throw new InvalidCartActionException('Item missing');
+            throw new InvalidCartActionException('CartItem missing');
         }
 
         $this->cartItems->remove($cartItemIndex);

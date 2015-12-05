@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use DateTimeZone;
+use Exception;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class AbstractPromotionTest extends DoctrineTestCase
@@ -158,12 +159,15 @@ class AbstractPromotionTest extends DoctrineTestCase
         $this->assertSame(20, $this->promotion->getUnitPrice(1000));
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testGetUnitPriceWithInvalidType()
     {
         $this->promotion->setType(-1);
+
+        $this->setExpectedException(
+            Exception::class,
+            'Invalid discount type'
+        );
+
         $this->promotion->getUnitPrice(0);
     }
 

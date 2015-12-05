@@ -46,12 +46,13 @@ class AttributeServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($attributeValue instanceof Attribute);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Attribute not found
-     */
     public function testFindMissing()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Attribute not found'
+        );
+
         $this->attributeService->findOneById(1);
     }
 }

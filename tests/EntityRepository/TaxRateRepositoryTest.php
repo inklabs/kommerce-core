@@ -77,13 +77,15 @@ class TaxRateRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(3, count($taxRates));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Missing zip5 or state
-     */
     public function testFindByZip5AndStateEmptyThrowsException()
     {
         $this->setupTaxRates();
+
+        $this->setExpectedException(
+            InvalidArgumentException::class,
+            'Missing zip5 or state'
+        );
+
         $this->taxRateRepository->findByZip5AndState();
     }
 

@@ -63,13 +63,15 @@ class CartTest extends DoctrineTestCase
         $this->assertSame(7, $cart->totalQuantity());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
-     * @expectedExceptionMessage CartItem not found
-     */
     public function testGetCartItemMissingThrowsException()
     {
         $cart = new Cart;
+
+        $this->setExpectedException(
+            InvalidCartActionException::class,
+            'CartItem not found'
+        );
+
         $cart->getCartItem(1);
     }
 
@@ -87,13 +89,15 @@ class CartTest extends DoctrineTestCase
         $this->assertSame(0, $cart->totalItems());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
-     * @expectedExceptionMessage Item missing
-     */
     public function testDeleteCartItemMissing()
     {
         $cart = new Cart;
+
+        $this->setExpectedException(
+            InvalidCartActionException::class,
+            'CartItem missing'
+        );
+
         $cart->deleteCartItem(1);
     }
 
@@ -113,10 +117,6 @@ class CartTest extends DoctrineTestCase
         $this->assertSame(2, $cart->getCoupons()[0]->getId());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
-     * @expectedExceptionMessage Duplicate Coupon
-     */
     public function testAddCouponWithDuplicateCouponThrowsException()
     {
         $coupon1 = $this->getPercentCoupon(1, 20);
@@ -124,13 +124,15 @@ class CartTest extends DoctrineTestCase
 
         $cart = new Cart;
         $cart->addCoupon($coupon1);
+
+        $this->setExpectedException(
+            InvalidCartActionException::class,
+            'Duplicate Coupon'
+        );
+
         $cart->addCoupon($coupon1);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
-     * @expectedExceptionMessage Cannot stack coupon
-     */
     public function testAddCouponWithNonStackableCouponThrowsException()
     {
         $coupon1 = $this->getPercentCoupon(1, 20);
@@ -141,13 +143,15 @@ class CartTest extends DoctrineTestCase
 
         $cart = new Cart;
         $cart->addCoupon($coupon1);
+
+        $this->setExpectedException(
+            InvalidCartActionException::class,
+            'Cannot stack coupon'
+        );
+
         $cart->addCoupon($coupon2);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
-     * @expectedExceptionMessage Cannot stack coupon
-     */
     public function testAddCouponWithSecondStackableCouponThrowsException()
     {
         $coupon1 = $this->getPercentCoupon(1, 20);
@@ -158,13 +162,15 @@ class CartTest extends DoctrineTestCase
 
         $cart = new Cart;
         $cart->addCoupon($coupon1);
+
+        $this->setExpectedException(
+            InvalidCartActionException::class,
+            'Cannot stack coupon'
+        );
+
         $cart->addCoupon($coupon2);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
-     * @expectedExceptionMessage Cannot stack coupon
-     */
     public function testAddCouponWithFirstStackableCouponThrowsException()
     {
         $coupon1 = $this->getPercentCoupon(1, 20);
@@ -175,8 +181,13 @@ class CartTest extends DoctrineTestCase
 
         $cart = new Cart;
         $cart->addCoupon($coupon1);
+
+        $this->setExpectedException(
+            InvalidCartActionException::class,
+            'Cannot stack coupon'
+        );
+
         $cart->addCoupon($coupon2);
-        $this->assertSame(2, count($cart->getCoupons()));
     }
 
     public function testAddCouponWithStackableCoupons()
@@ -211,13 +222,15 @@ class CartTest extends DoctrineTestCase
         $this->assertSame(0, count($cart->getCoupons()));
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Entity\InvalidCartActionException
-     * @expectedExceptionMessage Coupon missing
-     */
     public function testRemoveCouponMissingThrowsException()
     {
         $cart = new Cart;
+
+        $this->setExpectedException(
+            InvalidCartActionException::class,
+            'Coupon missing'
+        );
+
         $cart->removeCoupon(0);
     }
 

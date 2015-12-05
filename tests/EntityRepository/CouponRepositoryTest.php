@@ -61,12 +61,13 @@ class CouponRepositoryTest extends Helper\DoctrineTestCase
         $this->assertTrue($coupon instanceof Coupon);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Coupon not found
-     */
     public function testFindOneByCodeMissingThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Coupon not found'
+        );
+
         $this->couponRepository->findOneByCode('20PCT1');
     }
 

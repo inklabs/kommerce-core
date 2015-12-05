@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use BadMethodCallException;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserToken;
@@ -52,13 +53,15 @@ class UserLoginRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $userLogin->getId());
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage Update not allowed
-     */
     public function testUpdateThrowsException()
     {
         $userLogin = $this->dummyData->getUserLogin();
+
+        $this->setExpectedException(
+            BadMethodCallException::class,
+            'Update not allowed'
+        );
+
         $this->userLoginRepository->update($userLogin);
     }
 

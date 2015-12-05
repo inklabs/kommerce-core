@@ -113,12 +113,13 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(9, $this->getTotalQueries());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Order not found
-     */
     public function testFindOneByIdThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Order not found'
+        );
+
         $this->orderRepository->findOneById(1);
     }
 

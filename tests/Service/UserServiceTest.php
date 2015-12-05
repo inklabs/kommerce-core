@@ -5,6 +5,7 @@ use DateTime;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserToken;
+use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\Event\ResetPasswordEvent;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
@@ -92,39 +93,42 @@ class UserServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($loginUser instanceof User);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Service\UserLoginException
-     * @expectedExceptionCode 0
-     * @expectedExceptionMessage User not found
-     */
     public function testUserLoginWithWrongEmail()
     {
+        $this->setExpectedException(
+            UserLoginException::class,
+            'User not found',
+            0
+        );
+
         $this->userService->login('zzz@example.com', 'password1', '127.0.0.1');
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Service\UserLoginException
-     * @expectedExceptionCode 1
-     * @expectedExceptionMessage User not active
-     */
     public function testUserLoginWithInactiveUser()
     {
         $user = $this->dummyData->getUser();
         $user->setStatus(User::STATUS_INACTIVE);
         $this->userRepository->create($user);
 
+        $this->setExpectedException(
+            UserLoginException::class,
+            'User not active',
+            1
+        );
+
         $this->userService->login('test1@example.com', 'password1', '127.0.0.1');
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Service\UserLoginException
-     * @expectedExceptionCode 2
-     * @expectedExceptionMessage User password not valid
-     */
     public function testUserLoginWithWrongPassword()
     {
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
+
+        $this->setExpectedException(
+            UserLoginException::class,
+            'User password not valid',
+            2
+        );
 
         $this->userService->login('test1@example.com', 'wrongpassword', '127.0.0.1');
     }
@@ -141,44 +145,43 @@ class UserServiceTest extends Helper\DoctrineTestCase
         $this->assertTrue($users[0] instanceof User);
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Service\UserLoginException
-     * @expectedExceptionMessage User not found
-     */
     public function testLoginWithTokenThrowsExceptionWhenUserNotFound()
     {
+        $this->setExpectedException(
+            UserLoginException::class,
+            'User not found'
+        );
+
         $this->userService->loginWithToken('test@example.com', 'token123', '127.0.0.1');
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Service\UserLoginException
-     * @expectedExceptionMessage User not active
-     */
     public function testLoginWithTokenThrowsExceptionWhenUserNotActive()
     {
         $user = $this->dummyData->getUser();
         $user->setStatus(User::STATUS_INACTIVE);
         $this->userRepository->create($user);
 
+        $this->setExpectedException(
+            UserLoginException::class,
+            'User not active'
+        );
+
         $this->userService->loginWithToken($user->getEmail(), 'token123', '127.0.0.1');
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Service\UserLoginException
-     * @expectedExceptionMessage Token not found
-     */
     public function testLoginWithTokenThrowsExceptionWhenTokenNotFound()
     {
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
+        $this->setExpectedException(
+            UserLoginException::class,
+            'Token not found'
+        );
+
         $this->userService->loginWithToken($user->getEmail(), 'token123', '127.0.0.1');
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Service\UserLoginException
-     * @expectedExceptionMessage Token not valid
-     */
     public function testLoginWithTokenThrowsExceptionWhenTokenNotValid()
     {
         $user = $this->dummyData->getUser();
@@ -188,13 +191,14 @@ class UserServiceTest extends Helper\DoctrineTestCase
         $userToken->setUser($user);
         $this->userTokenRepository->create($userToken);
 
+        $this->setExpectedException(
+            UserLoginException::class,
+            'Token not valid'
+        );
+
         $this->userService->loginWithToken($user->getEmail(), 'token123', '127.0.0.1');
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\Service\UserLoginException
-     * @expectedExceptionMessage Token expired
-     */
     public function testLoginWithTokenThrowsExceptionWhenTokenExpired()
     {
         $user = $this->dummyData->getUser();
@@ -205,6 +209,11 @@ class UserServiceTest extends Helper\DoctrineTestCase
         $userToken->setExpires(new DateTime('-1 day'));
         $userToken->setUser($user);
         $this->userTokenRepository->create($userToken);
+
+        $this->setExpectedException(
+            UserLoginException::class,
+            'Token expired'
+        );
 
         $this->userService->loginWithToken($user->getEmail(), 'token999', '127.0.0.1');
     }

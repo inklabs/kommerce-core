@@ -7,13 +7,15 @@ use RuntimeException;
 
 class AbstractCartPriceRuleItemDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage cartPriceRuleItemDTO has not been initialized
-     */
     public function testBuildFails()
     {
         $cartPriceRuleItem = new TestableCartPriceRuleItemInvalid;
+
+        $this->setExpectedException(
+            RuntimeException::class,
+            'cartPriceRuleItemDTO has not been initialized'
+        );
+
         $cartPriceRuleItem->getDTOBuilder();
     }
 }

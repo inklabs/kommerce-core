@@ -74,12 +74,13 @@ class ImageRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $this->getTotalQueries());
     }
 
-    /**
-     * @expectedException \inklabs\kommerce\EntityRepository\EntityNotFoundException
-     * @expectedExceptionMessage Image not found
-     */
     public function testFindOneByIdThrowsException()
     {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Image not found'
+        );
+
         $this->imageRepository->findOneById(1);
     }
 }
