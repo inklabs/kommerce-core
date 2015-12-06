@@ -2,8 +2,8 @@
 
 The builder design pattern is used to construct complex objects that would otherwise be monotonous to assemble.
 
-In this project, we prefer to avoid exposing objects with behavior to the frontend UI. We use the **builder pattern**
-in this **PHP project** to convert the domain Entities into Data Transfer Objects. These DTOs are
+We prefer to avoid exposing objects with behavior to the frontend UI. We use the **builder pattern**
+in this **PHP project** to convert the domain Entities into **Data Transfer Objects**. These **DTOs** are
 simple anemic objects containing no business logic. Perfect for use inside templates within the view layer.
 
 ## Example
