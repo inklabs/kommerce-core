@@ -13,7 +13,6 @@ Below is how your code would be organized after retrieving a [Product](../../src
 We use the [ProductDTOBuilder](../../src/EntityDTO/Builder/ProductDTOBuilder.php) class to construct
 a [ProductDTO](../../src/EntityDTO/ProductDTO.php).
 
-
 ### Query
 
 ```php
