@@ -116,7 +116,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 
 * <a name="entity"></a>Entity
     - These are plain old PHP objects. You will not find any ORM code or external dependencies here. This is where
-      the relationships between objects are constructed. An Entitiy contains business logic and behavior with high cohesion to
+      the relationships between objects are constructed. An Entity contains business logic and behavior with high cohesion to
       its own properties. Business logic related to the data of a single instance of an Entity belongs here.
 
       ```php
