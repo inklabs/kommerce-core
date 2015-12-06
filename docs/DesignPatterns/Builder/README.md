@@ -9,7 +9,8 @@ inside templates within the view layer.
 
 ## Example
 
-In this example, we would like to view a single product with all of the associated images and tags.
+In this example, we would like to view a single product with all of the associated
+[Images](../../../src/Entity/Image.php) and [Tags](../../../src/Entity/Tag.php).
 Below is how your code would be organized after retrieving a [Product](../../../src/Entity/Product.php) Entity.
 We use the [ProductDTOBuilder](../../../src/EntityDTO/Builder/ProductDTOBuilder.php) class to construct
 a [ProductDTO](../../../src/EntityDTO/ProductDTO.php).
