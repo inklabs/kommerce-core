@@ -23,7 +23,7 @@ a [ProductDTO](../../../src/EntityDTO/ProductDTO.php).
     $productDTO = $product->getDTOBuilder()
         ->withImages()
         ->withTags()
-        ->build;
+        ->build();
 ```
 
 ### View
