@@ -24,13 +24,12 @@ class RepositoryFactory
 {
     public function getProductRepository()
     {
-        $productRepository =
+        return
             new LoggingProductRepository(
                 new CachingProductRepository(
                     $this->entityManager->getRepository('kommerce:Product')
                 )
-            )
-        );
+            );
     }
 
     // ...
