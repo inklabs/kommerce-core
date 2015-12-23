@@ -65,7 +65,7 @@ class ProductController extends ApplicationController
         $productId = $this->request->param('id');
 
         $productService = $this->serviceFactory->getProductService();
-        $productService->findOneById($productId);
+        $product = $productService->findOneById($productId);
 
         // ...
     }
