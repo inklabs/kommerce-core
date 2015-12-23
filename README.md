@@ -18,6 +18,10 @@ are using the PSR-4 standard.
 This project is over 36,000 lines of code. Unit tests account for 30-40% of that total and execute in
 under 10 seconds. The repository tests use an in-memory SQLite database.
 
+## Design Patterns
+
+* [Design Patterns used in this project](docs/DesignPatterns).
+
 ## Architecture
 
 ![Flow of Control](https://i.imgur.com/WOZwpS4.png)
