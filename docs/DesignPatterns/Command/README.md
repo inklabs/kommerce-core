@@ -23,7 +23,7 @@ logging, throttling actions, etc.
 
 ### Command:
 
-```
+```php
 final class ChangePasswordCommand implements CommandInterface
 {
     public function __construct($userId, $password)
@@ -36,7 +36,7 @@ final class ChangePasswordCommand implements CommandInterface
 
 ### Handler:
 
-```
+```php
 final class ChangePasswordHandler
 {
     public function handle(ChangePasswordCommand $command)
@@ -51,7 +51,7 @@ final class ChangePasswordHandler
 
 ### Executing the command:
 
-```
+```php
 $userId = 1;
 $newPassword = 'newpassword123';
 $this->dispatch(new ChangePasswordCommand($userId, $newPassword));
