@@ -15,7 +15,7 @@ or consuming a REST API would be seamless.
 
 ## Also Known As
 
-* Cursor
+* Cursor Design Pattern
 
 ## Example
 
