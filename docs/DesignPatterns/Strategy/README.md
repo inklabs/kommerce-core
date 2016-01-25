@@ -4,7 +4,7 @@ This design pattern allows algorithms to evolve independently from clients that 
 
 In this project we have a
 [PricingInterface](../../../src/Lib/PricingInterface.php)
-to support pricing strategy algorithm. Our
+to support any pricing strategy algorithm. The
 [PricingCalculator](../../../src/Lib/PricingCalculator.php)
 algorithm currently takes into account
 [CatalogPromotions](../../../src/Entity/CatalogPromotion.php)
