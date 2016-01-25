@@ -125,7 +125,6 @@ class CartServiceTest extends DoctrineTestCase
     private function setupCartService()
     {
         $this->cartService = new CartService(
-            $this->cartCalculator,
             $this->cartRepository,
             $this->couponRepository,
             $this->fakeEventDispatcher,

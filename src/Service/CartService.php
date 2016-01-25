@@ -29,9 +29,6 @@ class CartService implements CartServiceInterface
 {
     use EntityValidationTrait;
 
-    /** @var CartCalculatorInterface */
-    protected $cartCalculator;
-
     /** @var CartRepositoryInterface */
     protected $cartRepository;
 
@@ -69,7 +66,6 @@ class CartService implements CartServiceInterface
     protected $inventoryService;
 
     public function __construct(
-        CartCalculatorInterface $cartCalculator,
         CartRepositoryInterface $cartRepository,
         CouponRepositoryInterface $couponRepository,
         EventDispatcherInterface $eventDispatcher,
@@ -83,7 +79,6 @@ class CartService implements CartServiceInterface
         UserRepositoryInterface $userRepository,
         InventoryServiceInterface $inventoryService
     ) {
-        $this->cartCalculator = $cartCalculator;
         $this->cartRepository = $cartRepository;
         $this->couponRepository = $couponRepository;
         $this->eventDispatcher = $eventDispatcher;
