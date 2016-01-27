@@ -4,14 +4,13 @@ A **domain event** defines something important that happens in your domain model
 These are domain specific events encapsulated as a simple data transfer object similar to the
 [Command Design Pattern](../Command).
 
-Events in this project are raised in the Entities or in the Service layer. The below example
-is an event that is raised when the users password changes through the
-[User Entity](../../../src/Entity/User.php) setPassword method. The
+Events in this project are raised in the Entities or Service layer. Below is an example of the
+[PasswordChangedEvent](../../../src/Event/PasswordChangedEvent.php)
+being raised in the Entity layer, and dispatched in the Service layer. This event is
+raised when the users password changes through the
+[User Entity](../../../src/Entity/User.php) setPassword() method. The
 [User Service](../../../src/Service/UserService.php) releases and dispatches events when
 the update method is called.
-
-Below is an example of the [PasswordChangedEvent](../../../src/Event/PasswordChangedEvent.php)
-being raised in the Entity layer, and dispatched in the Service layer.
 
 ## Example
 
@@ -37,6 +36,13 @@ being raised in the Entity layer, and dispatched in the Service layer.
 ### User Service
 
 ```php
+    public function changePassword(int $userId, string $password)
+    {
+        $user = $this->userRepository->findOneById($userId);
+        $user->setPassword($password);
+        $this->update($user);
+    }
+
     public function update(User & $user)
     {
         $this->throwValidationErrors($user);
