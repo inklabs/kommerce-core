@@ -7,7 +7,7 @@ These are domain specific events encapsulated as a simple data transfer object s
 Events in this project are raised in the Entities or Service layer. Below is an example of the
 [PasswordChangedEvent](../../../src/Event/PasswordChangedEvent.php)
 being raised in the Entity layer, and dispatched in the Service layer. This event is
-raised when the users password changes through the
+raised in the
 [User Entity](../../../src/Entity/User.php) setPassword() method. The
 [User Service](../../../src/Service/UserService.php) releases and dispatches events when
 the update method is called.
