@@ -56,10 +56,11 @@ the update method is called.
 ```php
 $eventDispatcher = new EventDispatcher;
 $eventDispatcher->addSubscriber(new EmailSubscriber));
-$serviceFactory = new ServiceFactory(
-    $this->getRepositoryFactory(),
-    $eventDispatcher
-);
+
+$serviceFactory = new ServiceFactory($eventDispatcher);
+$userService = $serviceFactory->getUserService();
+
+$userService->changePassword(1, 'password123');
 ```
 
 ### Email Event Subscriber
