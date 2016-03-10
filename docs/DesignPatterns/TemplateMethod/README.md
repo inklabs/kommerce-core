@@ -9,9 +9,10 @@ defines alternate algorithms at run-time.
 In this project we use a
 [ProductRepositoryDecorator](../../../src/EntityRepository/ProductRepositoryDecorator.php)
 template which is extended by decorating classes. Below, an audit logging decorator
-extends the ProductRepositoryDecorator template and overrides any methods than need logging.
-With this strategy, we avoid needing to implement all classes from the
-[ProductRepositoryInterface](../../../src/EntityRepository/ProductRepositoryInterface.php).
+extends the ProductRepositoryDecorator template and overrides any methods that need logging.
+With this strategy, we avoid needing to implement every method from the
+[ProductRepositoryInterface](../../../src/EntityRepository/ProductRepositoryInterface.php)
+just to log when a product is updated.
 
 ```php
 class LoggingProductRepository extends ProductRepositoryDecorator
