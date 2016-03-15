@@ -11,7 +11,7 @@ to facilitate the call to the
 [UserService](../../../src/Service/UserService.php) changePassword() method. This enables
 us to later use the [Decorator](../Decorator) pattern on the
 [CommandBusInterface](../../../src/Lib/Command/CommandBusInterface.php) to add behavior for
-logging, throttling actions, etc.
+audit logging, throttling actions, etc.
 
 
 ## Also Known As
