@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Inventory;
 
-class AdjustInventoryCommand
+final class AdjustInventoryCommand
 {
     /** @var int */
     private $productId;

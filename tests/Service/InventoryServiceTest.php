@@ -267,7 +267,7 @@ class InventoryServiceTest extends DoctrineTestCase
         $this->assertSame('Adjusting inventory: Shrinkage', $creditTransaction->getMemo());
     }
 
-    public function testAdjustInventoryThrowsException()
+    public function testAdjustInventoryThrowsExceptionWithWrongTransactionType()
     {
         $this->setExpectedException(InvalidArgumentException::class);
 
@@ -275,7 +275,7 @@ class InventoryServiceTest extends DoctrineTestCase
             $this->dummyData->getProduct(),
             1,
             1,
-            InventoryTransaction::TYPE_MOVE
+            999
         );
     }
 }
