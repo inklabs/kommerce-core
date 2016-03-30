@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
 use inklabs\kommerce\EntityDTO\AbstractCartPriceRuleItemDTO;
-use RuntimeException;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 
 abstract class AbstractCartPriceRuleItemDTOBuilder
 {
@@ -16,7 +16,7 @@ abstract class AbstractCartPriceRuleItemDTOBuilder
     public function __construct(AbstractCartPriceRuleItem $cartPriceRuleItem)
     {
         if ($this->cartPriceRuleItemDTO === null) {
-            throw new RuntimeException('cartPriceRuleItemDTO has not been initialized');
+            throw new InvalidArgumentException('cartPriceRuleItemDTO has not been initialized');
         }
 
         $this->cartPriceRuleItem = $cartPriceRuleItem;

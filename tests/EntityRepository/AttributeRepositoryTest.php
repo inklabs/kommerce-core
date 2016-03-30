@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 
 class AttributeRepositoryTest extends Helper\DoctrineTestCase

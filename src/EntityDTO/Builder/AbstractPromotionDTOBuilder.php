@@ -3,8 +3,8 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AbstractPromotion;
 use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Lib\BaseConvert;
-use RuntimeException;
 
 abstract class AbstractPromotionDTOBuilder
 {
@@ -17,7 +17,7 @@ abstract class AbstractPromotionDTOBuilder
     public function __construct(AbstractPromotion $promotion)
     {
         if ($this->promotionDTO === null) {
-            throw new RuntimeException('promotionDTO has not been initialized');
+            throw new InvalidArgumentException('promotionDTO has not been initialized');
         }
 
         $this->promotion = $promotion;

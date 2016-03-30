@@ -5,12 +5,16 @@ use DateTime;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\PaymentRepositoryInterface;
+use inklabs\kommerce\Exception\KommerceException;
+use inklabs\kommerce\Service\EntityValidationTrait;
 use Iterator;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validation;
 
 class ImportPaymentService
 {
+    use EntityValidationTrait;
+
     /** @var PaymentRepositoryInterface */
     private $paymentRepository;
 
@@ -31,10 +35,6 @@ class ImportPaymentService
      */
     public function import(Iterator $iterator)
     {
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
         $importResult = new ImportResult;
         foreach ($iterator as $key => $row) {
             if ($key < 2 && $row[0] === 'order_ref') {
@@ -55,14 +55,11 @@ class ImportPaymentService
                 $payment->setCreated(new DateTime($date));
                 $payment->setOrder($order);
 
-                $errors = $validator->validate($payment);
-                if ($errors->count() > 0) {
-                    throw new ValidatorException('Invalid Payment ' . $errors);
-                }
+                $this->throwValidationErrors($payment);
 
                 $this->paymentRepository->persist($payment);
                 $importResult->incrementSuccess();
-            } catch (\Exception $e) {
+            } catch (KommerceException $e) {
                 $importResult->addFailedRow($row);
                 $importResult->addErrorMessage($e->getMessage());
             }

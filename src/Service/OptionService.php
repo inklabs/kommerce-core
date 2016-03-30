@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Pagination;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 
 class OptionService

@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartDTOBuilder;
+use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;

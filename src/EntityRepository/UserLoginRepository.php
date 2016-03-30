@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use BadMethodCallException;
 use inklabs\kommerce\Entity\EntityInterface;
+use inklabs\kommerce\Exception\BadMethodCallException;
 
 class UserLoginRepository extends AbstractRepository implements UserLoginRepositoryInterface
 {

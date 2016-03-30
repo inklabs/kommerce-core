@@ -6,9 +6,10 @@ use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
+use inklabs\kommerce\Exception\InsufficientInventoryException;
 
 class InventoryService implements InventoryServiceInterface
 {

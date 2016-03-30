@@ -3,12 +3,16 @@ namespace inklabs\kommerce\Service\Import;
 
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
+use inklabs\kommerce\Exception\KommerceException;
+use inklabs\kommerce\Service\EntityValidationTrait;
 use Iterator;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validation;
 
 class ImportUserService
 {
+    use EntityValidationTrait;
+
     /** @var UserRepositoryInterface */
     private $userRepository;
 
@@ -23,10 +27,6 @@ class ImportUserService
      */
     public function import(Iterator $iterator)
     {
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
         $importResult = new ImportResult;
         foreach ($iterator as $key => $row) {
             if ($key < 2 && $row[0] === 'id') {
@@ -56,14 +56,11 @@ class ImportUserService
             }
 
             try {
-                $errors = $validator->validate($user);
-                if ($errors->count() > 0) {
-                    throw new ValidatorException('Invalid User' . $errors);
-                }
+                $this->throwValidationErrors($user);
 
                 $this->userRepository->create($user);
                 $importResult->incrementSuccess();
-            } catch (\Exception $e) {
+            } catch (KommerceException $e) {
                 $importResult->addFailedRow($row);
                 $importResult->addErrorMessage($e->getMessage());
             }

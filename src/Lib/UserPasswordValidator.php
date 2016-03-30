@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Exception\UserPasswordValidationException;
 
 class UserPasswordValidator
 {

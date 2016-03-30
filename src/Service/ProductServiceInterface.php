@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 
 interface ProductServiceInterface
 {

@@ -4,8 +4,8 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Exception\RuntimeException;
 use inklabs\kommerce\Lib\ReferenceNumber;
-use Symfony\Component\Yaml\Exception\RuntimeException;
 
 class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {

@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use DateTimeZone;
-use Exception;
+use inklabs\kommerce\Exception\PromotionException;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class AbstractPromotionTest extends DoctrineTestCase
@@ -164,7 +164,7 @@ class AbstractPromotionTest extends DoctrineTestCase
         $this->promotion->setType(-1);
 
         $this->setExpectedException(
-            Exception::class,
+            PromotionException::class,
             'Invalid discount type'
         );
 

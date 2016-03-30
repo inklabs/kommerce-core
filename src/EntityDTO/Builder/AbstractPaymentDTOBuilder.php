@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\EntityDTO\AbstractPaymentDTO;
-use RuntimeException;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 
 abstract class AbstractPaymentDTOBuilder
 {
@@ -16,7 +16,7 @@ abstract class AbstractPaymentDTOBuilder
     public function __construct(AbstractPayment $payment)
     {
         if ($this->paymentDTO === null) {
-            throw new RuntimeException('paymentDTO has not been initialized');
+            throw new InvalidArgumentException('paymentDTO has not been initialized');
         }
         $this->payment = $payment;
 

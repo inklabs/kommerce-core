@@ -2,8 +2,8 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use Exception;
 use inklabs\kommerce\EntityDTO\Builder\AbstractPromotionDTOBuilder;
+use inklabs\kommerce\Exception\PromotionException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -236,25 +236,28 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
     /**
      * @param int $unitPrice
      * @return int
-     * @throws Exception
+     * @throws PromotionException
      */
     public function getUnitPrice($unitPrice)
     {
         switch ($this->type) {
             case static::TYPE_FIXED:
-                return (int) ($unitPrice - $this->value);
+                $returnValue = (int) ($unitPrice - $this->value);
                 break;
 
             case static::TYPE_PERCENT:
-                return (int) ($unitPrice - ($unitPrice * ($this->value / 100)));
+                $returnValue = (int) ($unitPrice - ($unitPrice * ($this->value / 100)));
                 break;
 
             case static::TYPE_EXACT:
-                return (int) $this->value;
+                $returnValue = (int) $this->value;
                 break;
+
+            default:
+                throw new PromotionException('Invalid discount type');
         }
 
-        throw new Exception('Invalid discount type');
+        return $returnValue;
     }
 
     /**

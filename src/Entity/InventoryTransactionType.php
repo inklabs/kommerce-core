@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use InvalidArgumentException;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,6 +21,7 @@ class InventoryTransactionType implements ValidationInterface
 
     /**
      * @param int $id
+     * @throws InvalidArgumentException
      */
     private function __construct($id)
     {

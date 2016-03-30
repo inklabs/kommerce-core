@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 
 class AttributeService
 {
@@ -32,7 +32,7 @@ class AttributeService
     /**
      * @param int $id
      * @return Attribute
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      */
     public function findOneById($id)
     {

@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\AttributeValue;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeAttributeValueRepository;
 

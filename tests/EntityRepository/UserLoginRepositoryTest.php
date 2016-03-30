@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use BadMethodCallException;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserToken;
+use inklabs\kommerce\Exception\BadMethodCallException;
 use inklabs\kommerce\tests\Helper;
 
 class UserLoginRepositoryTest extends Helper\DoctrineTestCase

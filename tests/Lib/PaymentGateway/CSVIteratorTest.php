@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use InvalidArgumentException;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {

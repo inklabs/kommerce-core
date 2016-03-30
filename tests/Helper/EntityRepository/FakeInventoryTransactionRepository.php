@@ -3,7 +3,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 
 /**

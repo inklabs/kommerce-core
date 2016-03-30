@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\EntityDTO\ImageDTO;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 
 interface ImageServiceInterface
 {
@@ -28,7 +28,7 @@ interface ImageServiceInterface
     /**
      * @param int $id
      * @return Image
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      */
     public function findOneById($id);
 }

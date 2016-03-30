@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
+use inklabs\kommerce\Exception\RuntimeException;
 use inklabs\kommerce\tests\Entity\FakeEntity;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepository;
-use RuntimeException;
 
 class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
 {

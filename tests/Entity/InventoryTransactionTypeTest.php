@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use InvalidArgumentException;
 
 class InventoryTransactionTypeTest extends DoctrineTestCase
 {

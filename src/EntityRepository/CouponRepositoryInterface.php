@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 
 /**
  * @method Coupon findOneById($id)

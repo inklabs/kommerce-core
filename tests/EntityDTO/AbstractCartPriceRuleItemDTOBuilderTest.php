@@ -1,9 +1,7 @@
 <?php
 namespace inklabs\kommerce\tests\EntityDTO;
 
-use inklabs\kommerce\EntityDTO\AbstractCartPriceRuleItemDTO;
-use inklabs\kommerce\tests\Entity\TestableCartPriceRuleItem;
-use RuntimeException;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 
 class AbstractCartPriceRuleItemDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +10,7 @@ class AbstractCartPriceRuleItemDTOBuilderTest extends \PHPUnit_Framework_TestCas
         $cartPriceRuleItem = new TestableCartPriceRuleItemInvalid;
 
         $this->setExpectedException(
-            RuntimeException::class,
+            InvalidArgumentException::class,
             'cartPriceRuleItemDTO has not been initialized'
         );
 

@@ -7,7 +7,7 @@ use inklabs\kommerce\Action\Order\Response\CreateOrderFromCartResponse;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\EntityDTO\OrderDTO;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class CreateOrderFromCartHandlerTest extends DoctrineTestCase

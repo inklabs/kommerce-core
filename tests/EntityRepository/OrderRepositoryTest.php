@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\ShipmentComment;
 use inklabs\kommerce\Entity\ShipmentItem;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentGenerator;
 use inklabs\kommerce\tests\Helper;
 

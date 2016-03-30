@@ -4,7 +4,8 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Exception\InsufficientInventoryException;
 
 interface InventoryServiceInterface
 {
@@ -21,7 +22,7 @@ interface InventoryServiceInterface
      * @param int $quantity
      * @param int $sourceLocationId
      * @param int $destinationLocationId
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      * @throws EntityValidatorException
      */
     public function moveProduct(Product $product, $quantity, $sourceLocationId, $destinationLocationId);
@@ -31,7 +32,7 @@ interface InventoryServiceInterface
      * @param int $quantity (can be negative)
      * @param int $inventoryLocationId
      * @param InventoryTransactionType $transactionType
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      * @throws EntityValidatorException
      */
     public function adjustInventory(
@@ -45,7 +46,7 @@ interface InventoryServiceInterface
      * @param Product $product
      * @param int $quantity
      * @param int $inventoryLocationId
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      * @throws EntityValidatorException
      */
     public function addProduct(Product $product, $quantity, $inventoryLocationId);
@@ -54,7 +55,7 @@ interface InventoryServiceInterface
      * @param Product $product
      * @param int $quantity
      * @param int $inventoryLocationId
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      * @throws EntityValidatorException
      */
     public function shipProduct(Product $product, $quantity, $inventoryLocationId);
@@ -63,7 +64,7 @@ interface InventoryServiceInterface
      * @param Product $product
      * @param int $quantity
      * @param int $inventoryLocationId
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      * @throws EntityValidatorException
      */
     public function returnProduct(Product $product, $quantity, $inventoryLocationId);
@@ -81,7 +82,7 @@ interface InventoryServiceInterface
      * @param Product $product
      * @param int $quantity
      * @param int $inventoryLocationId
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      * @throws EntityValidatorException
      */
     public function reduceProductForDamage(Product $product, $quantity, $inventoryLocationId);
@@ -90,7 +91,7 @@ interface InventoryServiceInterface
      * @param Product $product
      * @param int $quantity
      * @param int $inventoryLocationId
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      * @throws EntityValidatorException
      */
     public function reduceProductForShrinkage(Product $product, $quantity, $inventoryLocationId);

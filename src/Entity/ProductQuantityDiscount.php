@@ -2,8 +2,8 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use Exception;
 use inklabs\kommerce\EntityDTO\Builder\ProductQuantityDiscountDTOBuilder;
+use inklabs\kommerce\Exception\BadMethodCallException;
 use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -28,9 +28,13 @@ class ProductQuantityDiscount extends AbstractPromotion
         ]));
     }
 
+    /**
+     * @param string $name
+     * @throws BadMethodCallException
+     */
     public function setName($name)
     {
-        throw new Exception('Unable to set name');
+        throw new BadMethodCallException('Unable to set name');
     }
 
     public function getName()

@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\TaxRate;
-use InvalidArgumentException;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 
 class TaxRateRepository extends AbstractRepository implements TaxRateRepositoryInterface
 {

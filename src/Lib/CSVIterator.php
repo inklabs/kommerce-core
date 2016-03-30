@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use InvalidArgumentException;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 use Iterator;
 
 class CSVIterator implements Iterator

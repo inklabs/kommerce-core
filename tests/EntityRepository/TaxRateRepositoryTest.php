@@ -3,8 +3,8 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\tests\Helper;
-use InvalidArgumentException;
 
 class TaxRateRepositoryTest extends Helper\DoctrineTestCase
 {

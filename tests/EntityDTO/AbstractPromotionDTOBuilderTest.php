@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\EntityDTO;
 
 use DateTime;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\tests\Entity\TestablePromotion;
 use inklabs\kommerce\tests\Entity\TestablePromotionInvalid;
-use RuntimeException;
 
 class AbstractPromotionDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class AbstractPromotionDTOBuilderTest extends \PHPUnit_Framework_TestCase
         $promotion = new TestablePromotionInvalid;
 
         $this->setExpectedException(
-            RuntimeException::class,
+            InvalidArgumentException::class,
             'promotionDTO has not been initialized'
         );
 

@@ -6,6 +6,7 @@ use Exception;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 
 class ProductRepositoryTest extends Helper\DoctrineTestCase

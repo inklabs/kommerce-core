@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
-use Symfony\Component\Yaml\Exception\RuntimeException;
+use inklabs\kommerce\Exception\RuntimeException;
 
 class HashSegmentGenerator implements GeneratorInterface
 {

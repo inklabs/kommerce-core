@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Exception\KommerceException;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Component\Validator\Exception\ValidatorException;
 
-class EntityValidatorException extends ValidatorException
+class EntityValidatorException extends KommerceException
 {
     /** @var ConstraintViolationListInterface */
     public $errors;

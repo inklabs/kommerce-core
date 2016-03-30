@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\tests\EntityDTO;
 
-use RuntimeException;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 
 class AbstractPaymentDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,7 +10,7 @@ class AbstractPaymentDTOBuilderTest extends \PHPUnit_Framework_TestCase
         $cartPriceRuleItem = new TestablePaymentInvalid;
 
         $this->setExpectedException(
-            RuntimeException::class,
+            InvalidArgumentException::class,
             'paymentDTO has not been initialized'
         );
 

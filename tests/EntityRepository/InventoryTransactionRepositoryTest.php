@@ -5,7 +5,7 @@ use DateTime;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
@@ -82,7 +82,7 @@ class InventoryTransactionRepositoryTest extends DoctrineTestCase
     public function testFindOneByIdThrowsNotFoundException()
     {
         $this->setExpectedException(
-            EntityNotFoundException::class,
+            \inklabs\kommerce\Exception\EntityNotFoundException::class,
             'InventoryTransaction not found'
         );
 

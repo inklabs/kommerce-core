@@ -3,7 +3,8 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Exception\UserLoginException;
 
 interface UserServiceInterface
 {
@@ -55,7 +56,7 @@ interface UserServiceInterface
      * @param string $getUserAgent
      * @param string $getIp4
      * @return mixed
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      */
     public function requestPasswordResetToken($getEmail, $getUserAgent, $getIp4);
 

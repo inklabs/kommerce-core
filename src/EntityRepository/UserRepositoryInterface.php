@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 
 /**
  * @method User findOneById($id)

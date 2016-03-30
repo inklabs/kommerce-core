@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service\Import;
 
 use Exception;
+use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Lib\CSVIterator;
 use inklabs\kommerce\tests\Helper;
 
@@ -41,7 +42,7 @@ class ImportOrderItemServiceTest extends Helper\DoctrineTestCase
     public function testImportFail()
     {
         $orderItemRepository = new Helper\EntityRepository\FakeOrderItemRepository;
-        $orderItemRepository->setCrudException(new Exception);
+        $orderItemRepository->setCrudException(new KommerceException);
         $orderItemService = new ImportOrderItemService(
             new Helper\EntityRepository\FakeOrderRepository,
             $orderItemRepository,

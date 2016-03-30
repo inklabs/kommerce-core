@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\EntityInterface;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 
 interface AbstractRepositoryInterface
 {

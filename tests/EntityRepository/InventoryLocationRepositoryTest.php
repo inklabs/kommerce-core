@@ -4,7 +4,7 @@ namespace inklabs\kommerce\tests\EntityRepository;
 use DateTime;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\Warehouse;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
@@ -72,7 +72,7 @@ class InventoryLocationRepositoryTest extends DoctrineTestCase
     public function testFindOneByIdThrowsNotFoundException()
     {
         $this->setExpectedException(
-            EntityNotFoundException::class,
+            \inklabs\kommerce\Exception\EntityNotFoundException::class,
             'InventoryLocation not found'
         );
 

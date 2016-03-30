@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\TaxRate;
-use InvalidArgumentException;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 
 /**
  * @method TaxRate findOneById($id)

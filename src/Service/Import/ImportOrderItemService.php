@@ -6,12 +6,16 @@ use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\Exception\KommerceException;
+use inklabs\kommerce\Service\EntityValidationTrait;
 use Iterator;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validation;
 
 class ImportOrderItemService
 {
+    use EntityValidationTrait;
+
     /** @var OrderItemRepositoryInterface */
     private $orderItemRepository;
 
@@ -37,10 +41,6 @@ class ImportOrderItemService
      */
     public function import(Iterator $iterator)
     {
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
         $importResult = new ImportResult;
         foreach ($iterator as $key => $row) {
             if ($key < 2 && $row[0] === 'order_ref') {
@@ -77,14 +77,11 @@ class ImportOrderItemService
             }
 
             try {
-                $errors = $validator->validate($orderItem);
-                if ($errors->count() > 0) {
-                    throw new ValidatorException('Invalid Order Item: ' . $errors);
-                }
+                $this->throwValidationErrors($orderItem);
 
                 $this->orderItemRepository->persist($orderItem);
                 $importResult->incrementSuccess();
-            } catch (\Exception $e) {
+            } catch (KommerceException $e) {
                 $importResult->addFailedRow($row);
                 $importResult->addErrorMessage($e->getMessage());
             }

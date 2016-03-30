@@ -3,23 +3,19 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
-use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\Coupon;
-use inklabs\kommerce\Entity\InvalidCartActionException;
-use inklabs\kommerce\Entity\InventoryLocation;
-use inklabs\kommerce\Entity\InventoryTransaction;
+use inklabs\kommerce\Exception\InvalidArgumentException;
+use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Entity\Money;
-use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
-use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
@@ -36,7 +32,6 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeCouponRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
-use InvalidArgumentException;
 
 class CartServiceTest extends DoctrineTestCase
 {
@@ -224,6 +219,16 @@ class CartServiceTest extends DoctrineTestCase
 
         $cart = $this->cartService->create(1, null, '10.0.0.1');
         $this->assertTrue($cart instanceof Cart);
+    }
+
+    public function testCreateFailsWithMissingUser()
+    {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'User not found'
+        );
+
+        $this->cartService->create(999, null, '10.0.0.1');
     }
 
     public function testCreateWithNone()

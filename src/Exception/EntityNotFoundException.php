@@ -1,9 +1,9 @@
 <?php
-namespace inklabs\kommerce\EntityRepository;
+namespace inklabs\kommerce\Exception;
 
 use Exception;
 
-class EntityNotFoundException extends Exception
+class EntityNotFoundException extends KommerceException
 {
     public function __construct($message = '', $code = 404, Exception $previous = null, $exceptionData = null)
     {

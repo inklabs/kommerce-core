@@ -6,13 +6,14 @@ use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CartItemOptionProduct;
 use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
-use inklabs\kommerce\Entity\InvalidCartActionException;
+use inklabs\kommerce\Exception\InvalidArgumentException;
+use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
@@ -20,10 +21,8 @@ use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
-use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
-use InvalidArgumentException;
 
 class CartService implements CartServiceInterface
 {
@@ -166,6 +165,7 @@ class CartService implements CartServiceInterface
      * @param string $sessionId
      * @param string $ip4
      * @return Cart
+     * @throws InvalidArgumentException
      */
     public function create($userId, $sessionId, $ip4)
     {
@@ -191,11 +191,8 @@ class CartService implements CartServiceInterface
     private function addUserToCartIfExists($userId, Cart & $cart)
     {
         if (! empty($userId)) {
-            try {
-                $user = $this->userRepository->findOneById($userId);
-                $cart->setUser($user);
-            } catch (EntityNotFoundException $e) {
-            }
+            $user = $this->userRepository->findOneById($userId);
+            $cart->setUser($user);
         }
     }
 
@@ -275,7 +272,7 @@ class CartService implements CartServiceInterface
      * @param int $cartId
      * @param int $cartItemIndex
      * @param array $textOptionValues
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      * @throws InvalidCartActionException
      */
     public function addItemTextOptionValues($cartId, $cartItemIndex, array $textOptionValues)
@@ -352,7 +349,7 @@ class CartService implements CartServiceInterface
     /**
      * @param int $cartId
      * @return Cart
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      */
     public function findOneById($cartId)
     {
@@ -370,7 +367,7 @@ class CartService implements CartServiceInterface
     /**
      * @param int $cartId
      * @param int $userId
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      */
     public function setUserById($cartId, $userId)
     {

@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 
 class AttributeValueService
 {
@@ -21,7 +21,7 @@ class AttributeValueService
     /**
      * @param int $id
      * @return AttributeValue
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      */
     public function findOneById($id)
     {

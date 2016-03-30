@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use Exception;
+use inklabs\kommerce\Exception\BadMethodCallException;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
@@ -28,7 +28,7 @@ class ProductQuantityDiscountTest extends DoctrineTestCase
         $productQuantityDiscount = new ProductQuantityDiscount;
 
         $this->setExpectedException(
-            Exception::class,
+            BadMethodCallException::class,
             'Unable to set name'
         );
 

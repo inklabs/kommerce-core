@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 
 class InventoryTransactionRepository extends AbstractRepository implements InventoryTransactionRepositoryInterface
 {

@@ -1,11 +1,11 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
-use Exception;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\ValidationInterface;
 use inklabs\kommerce\EntityRepository\AbstractRepositoryInterface;
-use inklabs\kommerce\EntityRepository\EntityNotFoundException;
+use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Exception\KommerceException;
 
 class AbstractFakeRepository implements AbstractRepositoryInterface
 {
@@ -15,7 +15,7 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
     /** @var ValidationInterface */
     public $returnValue;
 
-    /** @var Exception|null */
+    /** @var KommerceException|null */
     public $crudExceptionToThrow;
 
     protected $entityName = 'Entity';
@@ -39,7 +39,7 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
         $this->returnValue = $returnValue;
     }
 
-    public function setCrudException(Exception $exception)
+    public function setCrudException(KommerceException $exception)
     {
         $this->crudExceptionToThrow = $exception;
     }
@@ -54,7 +54,7 @@ class AbstractFakeRepository implements AbstractRepositoryInterface
     /**
      * @param int $id
      * @return EntityInterface
-     * @throws EntityNotFoundException
+     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      */
     public function findOneById($id)
     {
