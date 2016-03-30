@@ -28,7 +28,7 @@ interface ImageServiceInterface
     /**
      * @param int $id
      * @return Image
-     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
+     * @throws EntityNotFoundException
      */
     public function findOneById($id);
 }

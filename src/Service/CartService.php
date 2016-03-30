@@ -272,7 +272,7 @@ class CartService implements CartServiceInterface
      * @param int $cartId
      * @param int $cartItemIndex
      * @param array $textOptionValues
-     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
+     * @throws EntityNotFoundException
      * @throws InvalidCartActionException
      */
     public function addItemTextOptionValues($cartId, $cartItemIndex, array $textOptionValues)
@@ -349,7 +349,7 @@ class CartService implements CartServiceInterface
     /**
      * @param int $cartId
      * @return Cart
-     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
+     * @throws EntityNotFoundException
      */
     public function findOneById($cartId)
     {
@@ -367,7 +367,7 @@ class CartService implements CartServiceInterface
     /**
      * @param int $cartId
      * @param int $userId
-     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
+     * @throws EntityNotFoundException
      */
     public function setUserById($cartId, $userId)
     {

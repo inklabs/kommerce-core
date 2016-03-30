@@ -56,7 +56,7 @@ interface UserServiceInterface
      * @param string $getUserAgent
      * @param string $getIp4
      * @return mixed
-     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
+     * @throws EntityNotFoundException
      */
     public function requestPasswordResetToken($getEmail, $getUserAgent, $getIp4);
 

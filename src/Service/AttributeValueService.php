@@ -21,7 +21,7 @@ class AttributeValueService
     /**
      * @param int $id
      * @return AttributeValue
-     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
+     * @throws EntityNotFoundException
      */
     public function findOneById($id)
     {

@@ -32,7 +32,7 @@ class CartPriceRuleService
     /**
      * @param int $id
      * @return CartPriceRule
-     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
+     * @throws EntityNotFoundException
      */
     public function findOneById($id)
     {

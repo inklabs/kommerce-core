@@ -32,7 +32,7 @@ class AttributeService
     /**
      * @param int $id
      * @return Attribute
-     * @throws \inklabs\kommerce\Exception\EntityNotFoundException
+     * @throws EntityNotFoundException
      */
     public function findOneById($id)
     {
