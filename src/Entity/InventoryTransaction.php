@@ -15,16 +15,8 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
     /** @var Product */
     protected $product;
 
-    /** @var int */
+    /** @var InventoryTransactionType */
     protected $type;
-    const TYPE_MOVE = 0;
-    const TYPE_HOLD = 1;
-    const TYPE_NEW_PRODUCTS = 2;
-    const TYPE_SHIPPED = 3;
-    const TYPE_RETURNED = 4;
-    const TYPE_PROMOTION = 5;
-    const TYPE_DAMAGED = 6;
-    const TYPE_SHRINKAGE = 7;
 
     /** @var int */
     protected $debitQuantity;
@@ -35,24 +27,19 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
     /** @var string */
     protected $memo;
 
-    /**
-     * @param InventoryLocation $inventoryLocation
-     * @param int $type
-     */
-    public function __construct(InventoryLocation $inventoryLocation = null, $type = self::TYPE_MOVE)
+    public function __construct(InventoryLocation $inventoryLocation = null, InventoryTransactionType $type = null)
     {
+        if ($type === null) {
+            $type = InventoryTransactionType::move();
+        }
+
         $this->setCreated();
-        $this->setType($type);
         $this->inventoryLocation = $inventoryLocation;
+        $this->type = $type;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('type', new Assert\Choice([
-            'choices' => array_keys(static::getTypeMapping()),
-            'message' => 'The type is not a valid choice',
-        ]));
-
         $metadata->addPropertyConstraint('debitQuantity', new Assert\Range([
             'min' => 0,
             'max' => 65535,
@@ -86,6 +73,7 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
         $metadata->addPropertyConstraint('product', new Assert\Valid);
 
         $metadata->addPropertyConstraint('inventoryLocation', new Assert\Valid);
+        $metadata->addPropertyConstraint('type', new Assert\Valid);
 
         $metadata->addConstraint(new Assert\Callback(
             function (InventoryTransaction $inventoryTransaction, ExecutionContextInterface $context) {
@@ -105,7 +93,7 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
 
     private function isLocationValidForMoveOperation()
     {
-        if ($this->type === self::TYPE_MOVE && $this->inventoryLocation === null) {
+        if ($this->type->isMove() && $this->inventoryLocation === null) {
             return false;
         }
 
@@ -178,53 +166,9 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
         return $this->memo;
     }
 
-    /**
-     * @param int $type
-     */
-    public function setType($type)
-    {
-        $this->type = (int) $type;
-    }
-
     public function getType()
     {
         return $this->type;
-    }
-
-    public static function getTypeMapping()
-    {
-        return [
-            static::TYPE_MOVE => 'Move',
-            static::TYPE_HOLD => 'Hold',
-            static::TYPE_NEW_PRODUCTS => 'New Products',
-            static::TYPE_SHIPPED => 'Shipped',
-            static::TYPE_RETURNED => 'Returned',
-            static::TYPE_PROMOTION => 'Promotion',
-            static::TYPE_DAMAGED => 'Damaged',
-            static::TYPE_SHRINKAGE => 'Shrinkage',
-        ];
-    }
-
-    public static function getAdjustmentTypes()
-    {
-        return [
-            static::TYPE_NEW_PRODUCTS,
-            static::TYPE_SHIPPED,
-            static::TYPE_RETURNED,
-            static::TYPE_PROMOTION,
-            static::TYPE_DAMAGED,
-            static::TYPE_SHRINKAGE,
-        ];
-    }
-
-    public static function getTypeTextFromType($type)
-    {
-        return self::getTypeMapping()[$type];
-    }
-
-    public function getTypeText()
-    {
-        return $this->getTypeTextFromType($this->type);
     }
 
     public function getQuantity()

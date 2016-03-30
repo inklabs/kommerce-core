@@ -13,20 +13,20 @@ final class AdjustInventoryCommand
     private $inventoryLocationId;
 
     /** @var int */
-    private $transactionType;
+    private $transactionTypeId;
 
     /**
      * @param int $productId
      * @param int $quantity (can be negative)
      * @param int $inventoryLocationId
-     * @param int $transactionType
+     * @param int $transactionTypeId
      */
-    public function __construct($productId, $quantity, $inventoryLocationId, $transactionType)
+    public function __construct($productId, $quantity, $inventoryLocationId, $transactionTypeId)
     {
         $this->productId = (int) $productId;
         $this->quantity = (int) $quantity;
         $this->inventoryLocationId = (int) $inventoryLocationId;
-        $this->transactionType = (int) $transactionType;
+        $this->transactionTypeId = (int) $transactionTypeId;
     }
 
     public function getProductId()
@@ -44,8 +44,8 @@ final class AdjustInventoryCommand
         return $this->inventoryLocationId;
     }
 
-    public function getTransactionType()
+    public function getTransactionTypeId()
     {
-        return $this->transactionType;
+        return $this->transactionTypeId;
     }
 }

@@ -3,12 +3,11 @@ namespace inklabs\kommerce\Action\Order\Handler;
 
 use inklabs\kommerce\Action\Inventory\AdjustInventoryCommand;
 use inklabs\kommerce\Action\Inventory\Handler\AdjustInventoryHandler;
-use inklabs\kommerce\Entity\InventoryTransaction;
+use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
-use InvalidArgumentException;
 
 class AdjustInventoryHandlerTest extends DoctrineTestCase
 {
@@ -42,7 +41,7 @@ class AdjustInventoryHandlerTest extends DoctrineTestCase
             1,
             3,
             1,
-            InventoryTransaction::TYPE_SHIPPED
+            InventoryTransactionType::SHIPPED
         );
 
         $this->handler->handle($command);

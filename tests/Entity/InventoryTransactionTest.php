@@ -31,8 +31,7 @@ class InventoryTransactionTest extends DoctrineTestCase
         $this->assertSame(2, $pickTransaction->getDebitQuantity());
         $this->assertSame(null, $pickTransaction->getCreditQuantity());
         $this->assertSame('Picked 2 Widgets', $pickTransaction->getMemo());
-        $this->assertSame(InventoryTransaction::TYPE_MOVE, $pickTransaction->getType());
-        $this->assertSame('Move', $pickTransaction->getTypeText());
+        $this->assertTrue($pickTransaction->getType()->isMove());
 
         $this->assertSame(null, $shipTransaction->getDebitQuantity());
         $this->assertSame(2, $shipTransaction->getCreditQuantity());
@@ -74,21 +73,20 @@ class InventoryTransactionTest extends DoctrineTestCase
         $product = $this->dummyData->getProduct();
 
         $widgetBinLocation = $this->dummyData->getInventoryLocation($warehouse);
-        $debitTransaction = new InventoryTransaction($widgetBinLocation, InventoryTransaction::TYPE_HOLD);
+        $debitTransaction = new InventoryTransaction($widgetBinLocation, InventoryTransactionType::hold());
         $debitTransaction->setProduct($product);
         $debitTransaction->setDebitQuantity(2);
         $debitTransaction->setMemo('Hold 2 Widgets for order #123');
 
         $customerHoldingLocation = new InventoryLocation($warehouse, 'Reserve for Customer', 'HOLD');
-        $creditTransaction = new InventoryTransaction($customerHoldingLocation, InventoryTransaction::TYPE_HOLD);
+        $creditTransaction = new InventoryTransaction($customerHoldingLocation, InventoryTransactionType::hold());
         $creditTransaction->setProduct($product);
         $creditTransaction->setCreditQuantity(2);
         $creditTransaction->setMemo('Hold 2 Widgets for order #123');
 
         $this->assertEntityValid($debitTransaction);
         $this->assertEntityValid($creditTransaction);
-        $this->assertSame(InventoryTransaction::TYPE_HOLD, $debitTransaction->getType());
-        $this->assertSame('Hold', $debitTransaction->getTypeText());
+        $this->assertTrue($debitTransaction->getType()->isHold());
     }
 
     public function testMoveInventoryBetweenLocations()

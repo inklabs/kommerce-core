@@ -18,12 +18,6 @@
             </options>
         </id>
 
-        <field name="type" type="smallint">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
         <field name="memo" type="string" length="255"/>
 
         <field name="debitQuantity" type="smallint" nullable="true">
@@ -49,6 +43,8 @@
                 <option name="unsigned">true</option>
             </options>
         </field>
+
+        <embedded name="type" class="InventoryTransactionType" use-column-prefix="false"/>
 
         <many-to-one field="inventoryLocation" target-entity="InventoryLocation" fetch="EXTRA_LAZY">
                 <join-column nullable="true"/>

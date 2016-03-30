@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\EntityValidatorException;
+use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
-use InvalidArgumentException;
 
 interface InventoryServiceInterface
 {
@@ -30,12 +30,16 @@ interface InventoryServiceInterface
      * @param Product $product
      * @param int $quantity (can be negative)
      * @param int $inventoryLocationId
-     * @param int $transactionType
+     * @param InventoryTransactionType $transactionType
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
-     * @throws InvalidArgumentException
      */
-    public function adjustInventory(Product $product, $quantity, $inventoryLocationId, $transactionType);
+    public function adjustInventory(
+        Product $product,
+        $quantity,
+        $inventoryLocationId,
+        InventoryTransactionType $transactionType
+    );
 
     /**
      * @param Product $product

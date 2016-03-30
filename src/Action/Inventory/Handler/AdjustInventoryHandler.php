@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Action\Inventory\Handler;
 
 use inklabs\kommerce\Action\Inventory\AdjustInventoryCommand;
+use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
 
@@ -29,7 +30,7 @@ class AdjustInventoryHandler
             $product,
             $command->getQuantity(),
             $command->getInventoryLocationId(),
-            $command->getTransactionType()
+            InventoryTransactionType::createById($command->getTransactionTypeId())
         );
     }
 }

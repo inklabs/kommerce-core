@@ -76,7 +76,7 @@ class InventoryTransactionRepositoryTest extends DoctrineTestCase
         $this->assertSame('Initial Inventory', $inventoryTransaction->getMemo());
         $this->assertSame(null, $inventoryTransaction->getDebitQuantity());
         $this->assertSame(2, $inventoryTransaction->getCreditQuantity());
-        $this->assertSame(InventoryTransaction::TYPE_MOVE, $inventoryTransaction->getType());
+        $this->assertTrue($inventoryTransaction->getType()->isMove());
     }
 
     public function testFindOneByIdThrowsNotFoundException()

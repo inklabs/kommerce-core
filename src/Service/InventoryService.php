@@ -4,11 +4,11 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
+use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityRepository\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
-use InvalidArgumentException;
 
 class InventoryService implements InventoryServiceInterface
 {
@@ -57,7 +57,7 @@ class InventoryService implements InventoryServiceInterface
             'Hold ' . ngettext('item', 'items', $quantity) . ' for order',
             $inventoryLocation,
             null,
-            InventoryTransaction::TYPE_HOLD
+            InventoryTransactionType::hold()
         );
     }
 
@@ -80,7 +80,7 @@ class InventoryService implements InventoryServiceInterface
             'Move ' . ngettext('item', 'items', $quantity),
             $sourceLocation,
             $destinationLocation,
-            InventoryTransaction::TYPE_MOVE
+            InventoryTransactionType::move()
         );
     }
 
@@ -97,7 +97,7 @@ class InventoryService implements InventoryServiceInterface
             $product,
             abs($quantity),
             $inventoryLocationId,
-            InventoryTransaction::TYPE_NEW_PRODUCTS
+            InventoryTransactionType::newProducts()
         );
     }
 
@@ -114,7 +114,7 @@ class InventoryService implements InventoryServiceInterface
             $product,
             abs($quantity) * -1,
             $inventoryLocationId,
-            InventoryTransaction::TYPE_SHIPPED
+            InventoryTransactionType::shipped()
         );
     }
 
@@ -131,7 +131,7 @@ class InventoryService implements InventoryServiceInterface
             $product,
             abs($quantity),
             $inventoryLocationId,
-            InventoryTransaction::TYPE_RETURNED
+            InventoryTransactionType::returned()
         );
     }
 
@@ -148,7 +148,7 @@ class InventoryService implements InventoryServiceInterface
             $product,
             abs($quantity) * -1,
             $inventoryLocationId,
-            InventoryTransaction::TYPE_PROMOTION
+            InventoryTransactionType::promotion()
         );
     }
 
@@ -165,7 +165,7 @@ class InventoryService implements InventoryServiceInterface
             $product,
             abs($quantity) * -1,
             $inventoryLocationId,
-            InventoryTransaction::TYPE_DAMAGED
+            InventoryTransactionType::damaged()
         );
     }
 
@@ -182,7 +182,7 @@ class InventoryService implements InventoryServiceInterface
             $product,
             abs($quantity) * -1,
             $inventoryLocationId,
-            InventoryTransaction::TYPE_SHRINKAGE
+            InventoryTransactionType::shrinkage()
         );
     }
 
@@ -190,17 +190,16 @@ class InventoryService implements InventoryServiceInterface
      * @param Product $product
      * @param int $quantity (can be negative)
      * @param int $inventoryLocationId
-     * @param int $transactionType
+     * @param InventoryTransactionType $transactionType
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
-     * @throws InvalidArgumentException
      */
-    public function adjustInventory(Product $product, $quantity, $inventoryLocationId, $transactionType)
-    {
-        if (! in_array($transactionType, InventoryTransaction::getAdjustmentTypes())) {
-            throw new InvalidArgumentException;
-        }
-
+    public function adjustInventory(
+        Product $product,
+        $quantity,
+        $inventoryLocationId,
+        InventoryTransactionType $transactionType
+    ) {
         $inventoryLocation = $this->inventoryLocationRepository->findOneById($inventoryLocationId);
 
         if ($quantity > 0) {
@@ -214,7 +213,7 @@ class InventoryService implements InventoryServiceInterface
         $this->transferProduct(
             $product,
             abs($quantity),
-            'Adjusting inventory: ' . InventoryTransaction::getTypeTextFromType($transactionType),
+            'Adjusting inventory: ' . $transactionType->getName(),
             $sourceLocation,
             $destinationLocation,
             $transactionType
@@ -227,7 +226,7 @@ class InventoryService implements InventoryServiceInterface
      * @param string $memo
      * @param InventoryLocation $sourceLocation
      * @param InventoryLocation $destinationLocation
-     * @param int $transactionType
+     * @param InventoryTransactionType $transactionType
      * @throws EntityValidatorException
      */
     private function transferProduct(
@@ -236,7 +235,7 @@ class InventoryService implements InventoryServiceInterface
         $memo,
         InventoryLocation $sourceLocation = null,
         InventoryLocation $destinationLocation = null,
-        $transactionType = InventoryTransaction::TYPE_MOVE
+        InventoryTransactionType $transactionType = null
     ) {
         $debitTransaction = new InventoryTransaction($sourceLocation, $transactionType);
         $debitTransaction->setProduct($product);
