@@ -43,7 +43,7 @@ class TaxRateRepository extends AbstractRepository implements TaxRateRepositoryI
      */
     protected function getZip5OrRateOrStateTaxRate($taxRates)
     {
-        $stateTaxRates = $zip5TaxRates = $RangeTaxRates = [];
+        $stateTaxRates = $zip5TaxRates = $rangeTaxRates = [];
 
         foreach ($taxRates as $taxRate) {
             if ($taxRate->getState() !== null) {
@@ -51,16 +51,16 @@ class TaxRateRepository extends AbstractRepository implements TaxRateRepositoryI
             } elseif ($taxRate->getZip5() !== null) {
                 $zip5TaxRates[] = $taxRate;
             } elseif ($taxRate->getZip5From() !== null) {
-                $RangeTaxRates[] = $taxRate;
+                $rangeTaxRates[] = $taxRate;
             }
         }
         unset($taxRates);
 
-        if (!empty($zip5TaxRates)) {
+        if (! empty($zip5TaxRates)) {
             $taxRate = $zip5TaxRates[0];
-        } elseif (!empty($RangeTaxRates)) {
-            $taxRate = $RangeTaxRates[0];
-        } elseif (!empty($stateTaxRates)) {
+        } elseif (! empty($rangeTaxRates)) {
+            $taxRate = $rangeTaxRates[0];
+        } elseif (! empty($stateTaxRates)) {
             $taxRate = $stateTaxRates[0];
         } else {
             return null;
