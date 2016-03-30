@@ -2,10 +2,18 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
+use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\ShipmentComment;
 use inklabs\kommerce\Entity\ShipmentItem;
+use inklabs\kommerce\Entity\ShipmentTracker;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentGenerator;
 use inklabs\kommerce\tests\Helper;
@@ -13,18 +21,18 @@ use inklabs\kommerce\tests\Helper;
 class OrderRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Coupon',
-        'kommerce:Order',
-        'kommerce:OrderItem',
-        'kommerce:AbstractPayment',
-        'kommerce:Product',
-        'kommerce:User',
-        'kommerce:Cart',
-        'kommerce:TaxRate',
-        'kommerce:Shipment',
-        'kommerce:ShipmentTracker',
-        'kommerce:ShipmentItem',
-        'kommerce:ShipmentComment',
+        Coupon::class,
+        Order::class,
+        OrderItem::class,
+        AbstractPayment::class,
+        Product::class,
+        User::class,
+        Cart::class,
+        TaxRate::class,
+        Shipment::class,
+        ShipmentTracker::class,
+        ShipmentItem::class,
+        ShipmentComment::class,
     ];
 
     /** @var OrderRepositoryInterface */

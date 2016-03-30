@@ -1,13 +1,14 @@
 <?php
 namespace inklabs\kommerce\Service\Import;
 
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\CSVIterator;
 use inklabs\kommerce\tests\Helper;
 
 class ImportUserServiceTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:User',
+        User::class,
     ];
 
     public function testImport()

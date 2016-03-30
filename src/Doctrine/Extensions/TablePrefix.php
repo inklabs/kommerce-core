@@ -27,7 +27,7 @@ class TablePrefix implements EventSubscriber
             return;
         }
 
-        if (false !== strpos($classMetadata->namespace, 'kommerce')) {
+        if (false !== strpos($classMetadata->namespace, 'Entity')) {
             $classMetadata->setPrimaryTable(['name' => $this->prefix . $classMetadata->getTableName()]);
 
             foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {

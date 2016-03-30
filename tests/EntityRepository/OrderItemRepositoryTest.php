@@ -2,26 +2,39 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\OptionProduct;
+use inklabs\kommerce\Entity\OptionValue;
+use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\OrderItemOptionProduct;
+use inklabs\kommerce\Entity\OrderItemOptionValue;
+use inklabs\kommerce\Entity\OrderItemTextOptionValue;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TextOption;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
 
 class OrderItemRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:OptionProduct',
-        'kommerce:OptionValue',
-        'kommerce:TextOption',
-        'kommerce:Order',
-        'kommerce:OrderItem',
-        'kommerce:OrderItemOptionProduct',
-        'kommerce:OrderItemOptionValue',
-        'kommerce:OrderItemTextOptionValue',
-        'kommerce:Product',
-        'kommerce:ProductQuantityDiscount',
-        'kommerce:CatalogPromotion',
-        'kommerce:Tag',
-        'kommerce:User',
-        'kommerce:Cart',
+        OptionProduct::class,
+        OptionValue::class,
+        TextOption::class,
+        Order::class,
+        OrderItem::class,
+        OrderItemOptionProduct::class,
+        OrderItemOptionValue::class,
+        OrderItemTextOptionValue::class,
+        Product::class,
+        ProductQuantityDiscount::class,
+        CatalogPromotion::class,
+        Tag::class,
+        User::class,
+        Cart::class,
     ];
 
     /** @var OrderItemRepositoryInterface */

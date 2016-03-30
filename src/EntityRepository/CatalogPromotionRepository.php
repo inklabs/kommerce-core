@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Pagination;
 
 class CatalogPromotionRepository extends AbstractRepository implements CatalogPromotionRepositoryInterface
@@ -8,12 +9,12 @@ class CatalogPromotionRepository extends AbstractRepository implements CatalogPr
     public function getAllCatalogPromotions($queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
-            ->select('catalog_promotion')
-            ->from('kommerce:CatalogPromotion', 'catalog_promotion');
+            ->select('CatalogPromotion')
+            ->from(CatalogPromotion::class, 'CatalogPromotion');
 
         if ($queryString !== null) {
             $query
-                ->where('catalog_promotion.name LIKE :query')
+                ->where('CatalogPromotion.name LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 
@@ -26,9 +27,9 @@ class CatalogPromotionRepository extends AbstractRepository implements CatalogPr
     public function getAllCatalogPromotionsByIds($catalogPromotionIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
-            ->select('catalog_promotion')
-            ->from('kommerce:CatalogPromotion', 'catalog_promotion')
-            ->where('catalog_promotion.id IN (:catalogPromotionIds)')
+            ->select('CatalogPromotion')
+            ->from(CatalogPromotion::class, 'CatalogPromotion')
+            ->where('CatalogPromotion.id IN (:catalogPromotionIds)')
             ->setParameter('catalogPromotionIds', $catalogPromotionIds)
             ->paginate($pagination)
             ->getQuery()

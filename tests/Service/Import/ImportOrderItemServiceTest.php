@@ -2,6 +2,12 @@
 namespace inklabs\kommerce\Service\Import;
 
 use Exception;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Lib\CSVIterator;
 use inklabs\kommerce\tests\Helper;
@@ -9,12 +15,12 @@ use inklabs\kommerce\tests\Helper;
 class ImportOrderItemServiceTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Order',
-        'kommerce:OrderItem',
-        'kommerce:Product',
-        'kommerce:User',
-        'kommerce:Cart',
-        'kommerce:TaxRate',
+        Order::class,
+        OrderItem::class,
+        Product::class,
+        User::class,
+        Cart::class,
+        TaxRate::class,
     ];
 
     public function testImport()

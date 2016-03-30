@@ -50,25 +50,25 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
     public function tagActiveAndVisible()
     {
         return $this
-            ->andWhere('tag.isActive = true')
-            ->andWhere('tag.isVisible = true');
+            ->andWhere('Tag.isActive = true')
+            ->andWhere('Tag.isVisible = true');
     }
 
     public function productActiveAndVisible()
     {
         return $this
-            ->andWhere('product.isActive = true')
-            ->andWhere('product.isVisible = true');
+            ->andWhere('Product.isActive = true')
+            ->andWhere('Product.isVisible = true');
     }
 
     public function productAvailable()
     {
         return $this
             ->andWhere('(
-                product.isInventoryRequired = true
-                AND product.quantity > 0
+                Product.isInventoryRequired = true
+                AND Product.quantity > 0
             ) OR (
-                product.isInventoryRequired = false
+                Product.isInventoryRequired = false
             )');
     }
 
@@ -91,7 +91,7 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
     {
         return $this
             ->addSelect(
-                'DISTANCE(warehouse.address.point.latitude,warehouse.address.point.longitude,' .
+                'DISTANCE(Warehouse.address.point.latitude,Warehouse.address.point.longitude,' .
                 $point->getLatitude() . ',' . $point->getLongitude() . ') AS distance'
             );
     }

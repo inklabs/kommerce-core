@@ -13,24 +13,24 @@ class TaxRateRepository extends AbstractRepository implements TaxRateRepositoryI
         }
 
         $query = $this->getQueryBuilder()
-            ->select('tax_rate')
-            ->from('kommerce:TaxRate', 'tax_rate');
+            ->select('TaxRate')
+            ->from(TaxRate::class, 'TaxRate');
 
         if ($state !== null) {
             $query
-                ->where('tax_rate.state = :state')
+                ->where('TaxRate.state = :state')
                 ->setParameter('state', $state);
         }
 
         if ($zip5 !== null) {
             $query
-                ->orWhere('tax_rate.zip5 = :zip5')
-                ->orWhere('tax_rate.zip5From <= :zip5 AND tax_rate.zip5To >= :zip5')
+                ->orWhere('TaxRate.zip5 = :zip5')
+                ->orWhere('TaxRate.zip5From <= :zip5 AND TaxRate.zip5To >= :zip5')
                 ->setParameter('zip5', $zip5);
         }
 
         $taxRates = $query
-            ->orderBy('tax_rate.id')
+            ->orderBy('TaxRate.id')
             ->getQuery()
             ->getResult();
 

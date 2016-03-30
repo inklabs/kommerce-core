@@ -1,6 +1,11 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\DoctrineHelper;
 use inklabs\kommerce\tests\Helper;
 use Doctrine;
@@ -8,11 +13,11 @@ use Doctrine;
 class KommerceTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:User',
-        'kommerce:Cart',
-        'kommerce:CatalogPromotion',
-        'kommerce:CartPriceRule',
-        'kommerce:Tag',
+        User::class,
+        Cart::class,
+        CatalogPromotion::class,
+        CartPriceRule::class,
+        Tag::class,
     ];
 
     public function testClearCache()

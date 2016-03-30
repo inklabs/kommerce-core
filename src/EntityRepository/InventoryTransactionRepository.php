@@ -15,7 +15,7 @@ class InventoryTransactionRepository extends AbstractRepository implements Inven
     {
         return $this->getQueryBuilder()
             ->select('InventoryTransaction')
-            ->from('kommerce:InventoryTransaction', 'InventoryTransaction')
+            ->from(InventoryTransaction::class, 'InventoryTransaction')
             ->where('InventoryTransaction.product = :productId')
             ->setParameter('productId', $product->getId())
             ->getQuery()

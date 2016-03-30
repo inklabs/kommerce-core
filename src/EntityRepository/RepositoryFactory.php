@@ -2,6 +2,37 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use Doctrine\ORM\EntityManager;
+use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
+use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\Entity\CartPriceRuleDiscount;
+use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\InventoryLocation;
+use inklabs\kommerce\Entity\InventoryTransaction;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
+use inklabs\kommerce\Entity\OptionValue;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\OrderItemOptionProduct;
+use inklabs\kommerce\Entity\OrderItemOptionValue;
+use inklabs\kommerce\Entity\OrderItemTextOptionValue;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductAttribute;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\TextOption;
+use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Entity\UserLogin;
+use inklabs\kommerce\Entity\UserRole;
+use inklabs\kommerce\Entity\UserToken;
+use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\Lib\ReferenceNumber;
 
 class RepositoryFactory
@@ -19,7 +50,7 @@ class RepositoryFactory
      */
     public function getAttributeRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Attribute');
+        return $this->entityManager->getRepository(Attribute::class);
     }
 
     /**
@@ -27,7 +58,7 @@ class RepositoryFactory
      */
     public function getAttributeValueRepository()
     {
-        return $this->entityManager->getRepository('kommerce:AttributeValue');
+        return $this->entityManager->getRepository(AttributeValue::class);
     }
 
     /**
@@ -35,7 +66,7 @@ class RepositoryFactory
      */
     public function getCartRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Cart');
+        return $this->entityManager->getRepository(Cart::class);
     }
 
     /**
@@ -43,7 +74,7 @@ class RepositoryFactory
      */
     public function getCartPriceRuleRepository()
     {
-        return $this->entityManager->getRepository('kommerce:CartPriceRule');
+        return $this->entityManager->getRepository(CartPriceRule::class);
     }
 
     /**
@@ -51,7 +82,7 @@ class RepositoryFactory
      */
     public function getCartPriceRuleDiscountRepository()
     {
-        return $this->entityManager->getRepository('kommerce:CartPriceRuleDiscount');
+        return $this->entityManager->getRepository(CartPriceRuleDiscount::class);
     }
 
     /**
@@ -59,7 +90,7 @@ class RepositoryFactory
      */
     public function getCartPriceRuleItemRepository()
     {
-        return $this->entityManager->getRepository('kommerce:AbstractCartPriceRuleItem');
+        return $this->entityManager->getRepository(AbstractCartPriceRuleItem::class);
     }
 
     /**
@@ -67,7 +98,7 @@ class RepositoryFactory
      */
     public function getCatalogPromotionRepository()
     {
-        return $this->entityManager->getRepository('kommerce:CatalogPromotion');
+        return $this->entityManager->getRepository(CatalogPromotion::class);
     }
 
     /**
@@ -75,7 +106,7 @@ class RepositoryFactory
      */
     public function getCouponRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Coupon');
+        return $this->entityManager->getRepository(Coupon::class);
     }
 
     /**
@@ -83,7 +114,7 @@ class RepositoryFactory
      */
     public function getImageRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Image');
+        return $this->entityManager->getRepository(Image::class);
     }
 
     /**
@@ -91,7 +122,7 @@ class RepositoryFactory
      */
     public function getInventoryLocationRepository()
     {
-        return $this->entityManager->getRepository('kommerce:InventoryLocation');
+        return $this->entityManager->getRepository(InventoryLocation::class);
     }
 
     /**
@@ -99,7 +130,7 @@ class RepositoryFactory
      */
     public function getInventoryTransactionRepository()
     {
-        return $this->entityManager->getRepository('kommerce:InventoryTransaction');
+        return $this->entityManager->getRepository(InventoryTransaction::class);
     }
 
     /**
@@ -107,7 +138,7 @@ class RepositoryFactory
      */
     public function getOptionRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Option');
+        return $this->entityManager->getRepository(Option::class);
     }
 
     /**
@@ -115,7 +146,7 @@ class RepositoryFactory
      */
     public function getOptionProductRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OptionProduct');
+        return $this->entityManager->getRepository(OptionProduct::class);
     }
 
     /**
@@ -123,7 +154,7 @@ class RepositoryFactory
      */
     public function getOptionValueRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OptionValue');
+        return $this->entityManager->getRepository(OptionValue::class);
     }
 
     /**
@@ -131,7 +162,7 @@ class RepositoryFactory
      */
     public function getOrderRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Order');
+        return $this->entityManager->getRepository(Order::class);
     }
 
     /**
@@ -140,7 +171,7 @@ class RepositoryFactory
     public function getOrderWithHashSegmentGenerator()
     {
         /** @var OrderRepositoryInterface $orderRepository */
-        $orderRepository = $this->entityManager->getRepository('kommerce:Order');
+        $orderRepository = $this->entityManager->getRepository(Order::class);
         $orderRepository->setReferenceNumberGenerator(new ReferenceNumber\HashSegmentGenerator($orderRepository));
         return $orderRepository;
     }
@@ -151,7 +182,7 @@ class RepositoryFactory
     public function getOrderWithSequentialGenerator()
     {
         /** @var OrderRepositoryInterface $orderRepository */
-        $orderRepository = $this->entityManager->getRepository('kommerce:Order');
+        $orderRepository = $this->entityManager->getRepository(Order::class);
         $orderRepository->setReferenceNumberGenerator(new ReferenceNumber\SequentialGenerator);
         return $orderRepository;
     }
@@ -161,7 +192,7 @@ class RepositoryFactory
      */
     public function getOrderItemRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItem');
+        return $this->entityManager->getRepository(OrderItem::class);
     }
 
     /**
@@ -169,7 +200,7 @@ class RepositoryFactory
      */
     public function getOrderItemOptionProductRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItemOptionProduct');
+        return $this->entityManager->getRepository(OrderItemOptionProduct::class);
     }
 
     /**
@@ -177,7 +208,7 @@ class RepositoryFactory
      */
     public function getOrderItemOptionValueRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItemOptionValue');
+        return $this->entityManager->getRepository(OrderItemOptionValue::class);
     }
 
     /**
@@ -185,7 +216,7 @@ class RepositoryFactory
      */
     public function getOrderItemTextOptionValueRepository()
     {
-        return $this->entityManager->getRepository('kommerce:OrderItemTextOptionValue');
+        return $this->entityManager->getRepository(OrderItemTextOptionValue::class);
     }
 
     /**
@@ -193,7 +224,7 @@ class RepositoryFactory
      */
     public function getPaymentRepository()
     {
-        return $this->entityManager->getRepository('kommerce:AbstractPayment');
+        return $this->entityManager->getRepository(AbstractPayment::class);
     }
 
     /**
@@ -201,7 +232,7 @@ class RepositoryFactory
      */
     public function getProductRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Product');
+        return $this->entityManager->getRepository(Product::class);
     }
 
     /**
@@ -209,7 +240,7 @@ class RepositoryFactory
      */
     public function getProductAttributeRepository()
     {
-        return $this->entityManager->getRepository('kommerce:ProductAttribute');
+        return $this->entityManager->getRepository(ProductAttribute::class);
     }
 
     /**
@@ -217,7 +248,7 @@ class RepositoryFactory
      */
     public function getProductQuantityDiscountRepository()
     {
-        return $this->entityManager->getRepository('kommerce:ProductQuantityDiscount');
+        return $this->entityManager->getRepository(ProductQuantityDiscount::class);
     }
 
     /**
@@ -225,7 +256,7 @@ class RepositoryFactory
      */
     public function getTagRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Tag');
+        return $this->entityManager->getRepository(Tag::class);
     }
 
     /**
@@ -233,7 +264,7 @@ class RepositoryFactory
      */
     public function getTaxRateRepository()
     {
-        return $this->entityManager->getRepository('kommerce:TaxRate');
+        return $this->entityManager->getRepository(TaxRate::class);
     }
 
     /**
@@ -241,7 +272,7 @@ class RepositoryFactory
      */
     public function getTextOptionRepository()
     {
-        return $this->entityManager->getRepository('kommerce:TextOption');
+        return $this->entityManager->getRepository(TextOption::class);
     }
 
     /**
@@ -249,7 +280,7 @@ class RepositoryFactory
      */
     public function getUserRepository()
     {
-        return $this->entityManager->getRepository('kommerce:User');
+        return $this->entityManager->getRepository(User::class);
     }
 
     /**
@@ -257,7 +288,7 @@ class RepositoryFactory
      */
     public function getUserLoginRepository()
     {
-        return $this->entityManager->getRepository('kommerce:UserLogin');
+        return $this->entityManager->getRepository(UserLogin::class);
     }
 
     /**
@@ -265,7 +296,7 @@ class RepositoryFactory
      */
     public function getUserRoleRepository()
     {
-        return $this->entityManager->getRepository('kommerce:UserRole');
+        return $this->entityManager->getRepository(UserRole::class);
     }
 
     /**
@@ -273,7 +304,7 @@ class RepositoryFactory
      */
     public function getUserTokenRepository()
     {
-        return $this->entityManager->getRepository('kommerce:UserToken');
+        return $this->entityManager->getRepository(UserToken::class);
     }
 
     /**
@@ -281,6 +312,6 @@ class RepositoryFactory
      */
     public function getWarehouseRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Warehouse');
+        return $this->entityManager->getRepository(Warehouse::class);
     }
 }

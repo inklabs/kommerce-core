@@ -2,16 +2,20 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
+use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\CashPayment;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
 
 class PaymentRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Order',
-        'kommerce:User',
-        'kommerce:TaxRate',
-        'kommerce:AbstractPayment',
+        Order::class,
+        User::class,
+        TaxRate::class,
+        AbstractPayment::class,
     ];
 
     /** @var PaymentRepositoryInterface */

@@ -30,7 +30,7 @@ class DoctrineHelper
         $this->config = Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
         $xmlDriver = new Doctrine\ORM\Mapping\Driver\XmlDriver(realpath(__DIR__ . '/../Doctrine/Mapping'));
         $this->config->setMetadataDriverImpl($xmlDriver);
-        $this->config->addEntityNamespace('kommerce', 'inklabs\kommerce\Entity');
+        $this->config->addEntityNamespace('Entity', 'inklabs\kommerce\Entity');
 
         if ($cacheDriver !== null) {
             $this->cacheDriver = $cacheDriver;

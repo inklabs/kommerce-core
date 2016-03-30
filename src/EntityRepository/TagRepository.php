@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\Tag;
 
 class TagRepository extends AbstractRepository implements TagRepositoryInterface
 {
@@ -15,13 +16,13 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
     public function getAllTags($queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
-            ->select('tag')
-            ->from('kommerce:tag', 'tag');
+            ->select('Tag')
+            ->from(Tag::class, 'Tag');
 
         if (trim($queryString) !== '') {
             $query
-                ->orWhere('tag.name LIKE :query')
-                ->orWhere('tag.code LIKE :query')
+                ->orWhere('Tag.name LIKE :query')
+                ->orWhere('Tag.code LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 
@@ -34,9 +35,9 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
     public function getTagsByIds($tagIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
-            ->select('tag')
-            ->from('kommerce:Tag', 'tag')
-            ->where('tag.id IN (:tagIds)')
+            ->select('Tag')
+            ->from(Tag::class, 'Tag')
+            ->where('Tag.id IN (:tagIds)')
             ->tagActiveAndVisible()
             ->setParameter('tagIds', $tagIds)
             ->paginate($pagination)
@@ -47,9 +48,9 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
     public function getAllTagsByIds($tagIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
-            ->select('tag')
-            ->from('kommerce:Tag', 'tag')
-            ->where('tag.id IN (:tagIds)')
+            ->select('Tag')
+            ->from(Tag::class, 'Tag')
+            ->where('Tag.id IN (:tagIds)')
             ->setParameter('tagIds', $tagIds)
             ->paginate($pagination)
             ->getQuery()

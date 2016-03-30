@@ -3,17 +3,22 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartItem;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
 
 class CartRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Coupon',
-        'kommerce:Cart',
-        'kommerce:CartItem',
-        'kommerce:Product',
-        'kommerce:User',
-        'kommerce:TaxRate',
+        Coupon::class,
+        Cart::class,
+        CartItem::class,
+        Product::class,
+        User::class,
+        TaxRate::class,
     ];
 
     /** @var CartRepositoryInterface */

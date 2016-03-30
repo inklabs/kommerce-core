@@ -1,14 +1,15 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\tests\Helper;
 
 class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:ProductQuantityDiscount',
-        'kommerce:Product',
+        ProductQuantityDiscount::class,
+        Product::class,
     ];
 
     /** @var ProductQuantityDiscountRepositoryInterface */

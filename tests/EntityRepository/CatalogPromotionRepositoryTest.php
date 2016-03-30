@@ -3,13 +3,14 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper;
 
 class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:CatalogPromotion',
-        'kommerce:Tag',
+        CatalogPromotion::class,
+        Tag::class,
     ];
 
     /** @var CatalogPromotionRepositoryInterface */

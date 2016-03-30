@@ -2,19 +2,20 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\User;
 
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
     public function findOneByEmail($email)
     {
         $user = $this->getQueryBuilder()
-            ->select('user')
-            ->from('kommerce:User', 'user')
+            ->select('User')
+            ->from(User::class, 'User')
 
             ->addSelect('userRole')
-            ->leftJoin('user.userRoles', 'userRole')
+            ->leftJoin('User.userRoles', 'userRole')
 
-            ->where('user.email = :email')->setParameter('email', $email)
+            ->where('User.email = :email')->setParameter('email', $email)
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -29,14 +30,14 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     public function getAllUsers($queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
-            ->select('user')
-            ->from('kommerce:user', 'user');
+            ->select('User')
+            ->from(User::class, 'User');
 
         if ($queryString !== null) {
             $query
-                ->where('user.firstName LIKE :query')
-                ->orWhere('user.lastName LIKE :query')
-                ->orWhere('user.email LIKE :query')
+                ->where('User.firstName LIKE :query')
+                ->orWhere('User.lastName LIKE :query')
+                ->orWhere('User.email LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 
@@ -49,9 +50,9 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     public function getAllUsersByIds($userIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
-            ->select('user')
-            ->from('kommerce:User', 'user')
-            ->where('user.id IN (:userIds)')
+            ->select('User')
+            ->from(User::class, 'User')
+            ->where('User.id IN (:userIds)')
             ->setParameter('userIds', $userIds)
             ->paginate($pagination)
             ->getQuery()

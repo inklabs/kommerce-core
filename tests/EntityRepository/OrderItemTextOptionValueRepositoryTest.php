@@ -1,20 +1,27 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\OrderItemTextOptionValue;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\TextOption;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
 
 class OrderItemTextOptionValueRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:TextOption',
-        'kommerce:Order',
-        'kommerce:OrderItem',
-        'kommerce:OrderItemTextOptionValue',
-        'kommerce:Product',
-        'kommerce:User',
-        'kommerce:Cart',
-        'kommerce:TaxRate',
+        TextOption::class,
+        Order::class,
+        OrderItem::class,
+        OrderItemTextOptionValue::class,
+        Product::class,
+        User::class,
+        Cart::class,
+        TaxRate::class,
     ];
 
     /** @var OrderItemTextOptionValueRepositoryInterface */

@@ -2,15 +2,17 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\tests\Helper;
 
 class UserRoleRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:UserRole',
-        'kommerce:User',
-        'kommerce:Cart',
+        UserRole::class,
+        User::class,
+        Cart::class,
     ];
 
     /** @var UserRoleRepositoryInterface */

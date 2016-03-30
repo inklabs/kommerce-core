@@ -53,7 +53,7 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
     {
         return $this->getQueryBuilder()
             ->select('o')
-            ->from('kommerce:Order', 'o')
+            ->from(Order::class, 'o')
             ->paginate($pagination)
             ->orderBy('o.id', 'DESC')
             ->getQuery()

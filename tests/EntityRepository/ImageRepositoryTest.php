@@ -3,15 +3,17 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 
 class ImageRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Image',
-        'kommerce:Tag',
-        'kommerce:Product',
+        Image::class,
+        Tag::class,
+        Product::class,
     ];
 
     /** @var ImageRepositoryInterface */

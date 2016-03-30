@@ -16,7 +16,7 @@ class RandTest extends Helper\DoctrineTestCase
     private $product3;
 
     protected $metaDataClassNames = [
-        'kommerce:Product',
+        Product::class,
     ];
 
     public function setUp()
@@ -37,8 +37,8 @@ class RandTest extends Helper\DoctrineTestCase
     {
         $qb = $this->entityManager->createQueryBuilder();
 
-        $randomProducts = $qb->select('product')
-            ->from('kommerce:Product', 'product')
+        $randomProducts = $qb->select('Product')
+            ->from(Product::class, 'Product')
             ->addSelect('RAND() as HIDDEN rand')
             ->orderBy('rand')
             ->getQuery()
@@ -54,8 +54,8 @@ class RandTest extends Helper\DoctrineTestCase
     {
         $qb = $this->entityManager->createQueryBuilder();
 
-        $randomProducts = $qb->select('product')
-            ->from('kommerce:Product', 'product')
+        $randomProducts = $qb->select('Product')
+            ->from(Product::class, 'Product')
             ->addSelect('RAND(:rand) as HIDDEN rand')
             ->orderBy('rand')
             ->setParameter('rand', $this->product1->getId())

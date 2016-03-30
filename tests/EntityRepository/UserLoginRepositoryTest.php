@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserToken;
@@ -10,11 +12,11 @@ use inklabs\kommerce\tests\Helper;
 class UserLoginRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:User',
-        'kommerce:UserLogin',
-        'kommerce:UserToken',
-        'kommerce:Cart',
-        'kommerce:TaxRate',
+        User::class,
+        UserLogin::class,
+        UserToken::class,
+        Cart::class,
+        TaxRate::class,
     ];
 
     /** @var UserLoginRepositoryInterface */

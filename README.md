@@ -144,7 +144,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       using the Data Mapper Pattern.
 
       ```php
-      $productRepository = $this->entityManager->getRepository('kommerce:Product');
+      $productRepository = $this->entityManager->getRepository(Product::class);
 
       $productId = 1;
       $product = $productRepository->findOneById($productId);

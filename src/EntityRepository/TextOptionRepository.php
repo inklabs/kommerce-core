@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\TextOption;
 
 class TextOptionRepository extends AbstractRepository implements TextOptionRepositoryInterface
 {
@@ -9,7 +10,7 @@ class TextOptionRepository extends AbstractRepository implements TextOptionRepos
     {
         return $this->getQueryBuilder()
             ->select('TextOption')
-            ->from('kommerce:TextOption', 'TextOption')
+            ->from(TextOption::class, 'TextOption')
             ->where('TextOption.id IN (:optionIds)')
             ->setParameter('optionIds', $optionIds)
             ->paginate($pagination)

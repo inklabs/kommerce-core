@@ -2,14 +2,15 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\tests\Helper;
 
 class TextOptionRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:TextOption',
-        'kommerce:Tag',
+        TextOption::class,
+        Tag::class,
     ];
 
     /** @var TextOptionRepositoryInterface */

@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Pagination;
 
 class OptionValueRepository extends AbstractRepository implements OptionValueRepositoryInterface
@@ -9,7 +10,7 @@ class OptionValueRepository extends AbstractRepository implements OptionValueRep
     {
         return $this->getQueryBuilder()
             ->select('OptionValue')
-            ->from('kommerce:OptionValue', 'OptionValue')
+            ->from(OptionValue::class, 'OptionValue')
 
             ->addSelect('Option')
             ->innerJoin('OptionValue.option', 'Option')
@@ -24,7 +25,7 @@ class OptionValueRepository extends AbstractRepository implements OptionValueRep
     {
         return $this->getQueryBuilder()
             ->select('OptionValue')
-            ->from('kommerce:OptionValue', 'OptionValue')
+            ->from(OptionValue::class, 'OptionValue')
 
             ->addSelect('Option')
             ->innerJoin('OptionValue.option', 'Option')

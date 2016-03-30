@@ -10,7 +10,7 @@ use inklabs\kommerce\tests\Helper;
 class WarehouseRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Warehouse',
+        Warehouse::class,
     ];
 
     /** @var WarehouseRepositoryInterface */

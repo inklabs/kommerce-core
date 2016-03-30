@@ -29,9 +29,9 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
     public function getRelatedProductsByIds(array $productIds, $tagIds = null, $limit = 12)
     {
         $query = $this->getQueryBuilder()
-            ->select('product')
-            ->from('kommerce:Product', 'product')
-            ->where('product.id NOT IN (:productId)')
+            ->select('Product')
+            ->from(Product::class, 'Product')
+            ->where('Product.id NOT IN (:productId)')
             ->setParameter('productId', $productIds)
             ->productActiveAndVisible()
             ->productAvailable()
@@ -42,7 +42,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
 
         if (! empty($tagIds)) {
             $query
-                ->innerJoin('product.tags', 'tag')
+                ->innerJoin('Product.tags', 'tag')
                 ->andWhere('tag.id IN (:tagIds)')
                 ->setParameter('tagIds', $tagIds);
         }
@@ -60,9 +60,9 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
     public function getProductsByTagId($tagId, Pagination & $pagination = null)
     {
         $products = $this->getQueryBuilder()
-            ->select('product')
-            ->from('kommerce:Product', 'product')
-            ->innerJoin('product.tags', 'tag')
+            ->select('Product')
+            ->from(Product::class, 'Product')
+            ->innerJoin('Product.tags', 'tag')
             ->where('tag.id = :tagId')
             ->productActiveAndVisible()
             ->productAvailable()
@@ -89,11 +89,11 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
         }
 
         $this->getQueryBuilder()
-            ->select('product')
-            ->from('kommerce:Product', 'product')
-            ->where('product.id IN (:productIds)')
+            ->select('Product')
+            ->from(Product::class, 'Product')
+            ->where('Product.id IN (:productIds)')
             ->addSelect('tag2')
-            ->leftJoin('product.tags', 'tag2')
+            ->leftJoin('Product.tags', 'tag2')
             ->setParameter('productIds', $productIds)
             ->getQuery()
             ->getResult();
@@ -102,9 +102,9 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
     public function getProductsByIds(array $productIds, Pagination & $pagination = null)
     {
         $products = $this->getQueryBuilder()
-            ->select('product')
-            ->from('kommerce:Product', 'product')
-            ->where('product.id IN (:productIds)')
+            ->select('Product')
+            ->from(Product::class, 'Product')
+            ->where('Product.id IN (:productIds)')
             ->productActiveAndVisible()
             ->productAvailable()
             ->setParameter('productIds', $productIds)
@@ -120,13 +120,13 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
     public function getAllProducts($queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
-            ->select('product')
-            ->from('kommerce:Product', 'product');
+            ->select('Product')
+            ->from(Product::class, 'Product');
 
         if (trim($queryString) !== '') {
             $query
-                ->where('product.sku LIKE :query')
-                ->orWhere('product.name LIKE :query')
+                ->where('Product.sku LIKE :query')
+                ->orWhere('Product.name LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 
@@ -139,9 +139,9 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
     public function getAllProductsByIds(array $productIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
-            ->select('product')
-            ->from('kommerce:Product', 'product')
-            ->where('product.id IN (:productIds)')
+            ->select('Product')
+            ->from(Product::class, 'Product')
+            ->where('Product.id IN (:productIds)')
             ->setParameter('productIds', $productIds)
             ->paginate($pagination)
             ->getQuery()
@@ -151,8 +151,8 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
     public function getRandomProducts($limit)
     {
         return $this->getQueryBuilder()
-            ->select('product')
-            ->from('kommerce:Product', 'product')
+            ->select('Product')
+            ->from(Product::class, 'Product')
             ->productActiveAndVisible()
             ->productAvailable()
             ->addSelect('RAND() as HIDDEN rand')

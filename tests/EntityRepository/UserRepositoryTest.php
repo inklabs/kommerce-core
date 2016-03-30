@@ -2,20 +2,26 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Entity\UserLogin;
+use inklabs\kommerce\Entity\UserRole;
+use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 
 class UserRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:User',
-        'kommerce:UserLogin',
-        'kommerce:UserToken',
-        'kommerce:UserRole',
-        'kommerce:Order',
-        'kommerce:Cart',
-        'kommerce:TaxRate',
+        User::class,
+        UserLogin::class,
+        UserToken::class,
+        UserRole::class,
+        Order::class,
+        Cart::class,
+        TaxRate::class,
     ];
 
     /** @var UserRepositoryInterface */

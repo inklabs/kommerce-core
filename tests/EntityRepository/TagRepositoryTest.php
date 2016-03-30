@@ -2,18 +2,22 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 
 class TagRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Image',
-        'kommerce:Tag',
-        'kommerce:Product',
-        'kommerce:Option',
-        'kommerce:TextOption',
+        Image::class,
+        Tag::class,
+        Product::class,
+        Option::class,
+        TextOption::class,
     ];
 
     /** @var TagRepositoryInterface */

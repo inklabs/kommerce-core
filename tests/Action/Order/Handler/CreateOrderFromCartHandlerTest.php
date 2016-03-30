@@ -5,7 +5,22 @@ use inklabs\kommerce\Action\Order\CreateOrderFromCartRequest;
 use inklabs\kommerce\Action\Order\Handler\CreateOrderFromCartHandler;
 use inklabs\kommerce\Action\Order\Response\CreateOrderFromCartResponse;
 use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartItem;
+use inklabs\kommerce\Entity\CartItemOptionProduct;
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\InventoryLocation;
+use inklabs\kommerce\Entity\InventoryTransaction;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\OrderItemOptionProduct;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
@@ -13,23 +28,23 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 class CreateOrderFromCartHandlerTest extends DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:User',
-        'kommerce:Product',
-        'kommerce:Option',
-        'kommerce:OptionProduct',
-        'kommerce:Tag',
-        'kommerce:Image',
-        'kommerce:Cart',
-        'kommerce:CartItem',
-        'kommerce:CartItemOptionProduct',
-        'kommerce:Order',
-        'kommerce:OrderItem',
-        'kommerce:OrderItemOptionProduct',
-        'kommerce:AbstractPayment',
-        'kommerce:InventoryLocation',
-        'kommerce:InventoryTransaction',
-        'kommerce:Warehouse',
-        'kommerce:TaxRate',
+        User::class,
+        Product::class,
+        Option::class,
+        OptionProduct::class,
+        Tag::class,
+        Image::class,
+        Cart::class,
+        CartItem::class,
+        CartItemOptionProduct::class,
+        Order::class,
+        OrderItem::class,
+        OrderItemOptionProduct::class,
+        AbstractPayment::class,
+        InventoryLocation::class,
+        InventoryTransaction::class,
+        Warehouse::class,
+        TaxRate::class,
     ];
 
     public function testHandleWithFullIntegration()

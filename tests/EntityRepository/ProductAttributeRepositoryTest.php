@@ -1,16 +1,19 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\tests\Helper;
 
 class ProductAttributeRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Attribute',
-        'kommerce:AttributeValue',
-        'kommerce:ProductAttribute',
-        'kommerce:Product',
+        Attribute::class,
+        AttributeValue::class,
+        ProductAttribute::class,
+        Product::class,
     ];
 
     /** @var ProductAttributeRepositoryInterface */

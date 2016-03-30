@@ -2,12 +2,13 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class AbstractEntityRepositoryTest extends DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:User',
+        User::class,
     ];
 
     /** @var UserRepositoryInterface */

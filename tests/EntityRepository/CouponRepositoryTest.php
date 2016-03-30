@@ -9,7 +9,7 @@ use inklabs\kommerce\tests\Helper;
 class CouponRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Coupon',
+        Coupon::class,
     ];
 
     /** @var CouponRepositoryInterface */

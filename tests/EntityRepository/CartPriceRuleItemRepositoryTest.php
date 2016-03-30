@@ -2,17 +2,19 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
+use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 use inklabs\kommerce\Entity\CartPriceRuleProductItem;
+use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\tests\Helper;
 
 class CartPriceRuleItemRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:CartPriceRule',
-        'kommerce:CartPriceRuleDiscount',
-        'kommerce:AbstractCartPriceRuleItem',
-        'kommerce:Product',
+        CartPriceRule::class,
+        CartPriceRuleDiscount::class,
+        AbstractCartPriceRuleItem::class,
+        Product::class,
     ];
 
     /** @var CartPriceRuleItemRepositoryInterface */

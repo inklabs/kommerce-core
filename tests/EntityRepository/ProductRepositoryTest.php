@@ -3,8 +3,15 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use Exception;
+use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductAttribute;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
@@ -12,15 +19,15 @@ use inklabs\kommerce\tests\Helper;
 class ProductRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Attribute',
-        'kommerce:AttributeValue',
-        'kommerce:Product',
-        'kommerce:ProductQuantityDiscount',
-        'kommerce:ProductAttribute',
-        'kommerce:Image',
-        'kommerce:Tag',
-        'kommerce:Option',
-        'kommerce:OptionProduct',
+        Attribute::class,
+        AttributeValue::class,
+        Product::class,
+        ProductQuantityDiscount::class,
+        ProductAttribute::class,
+        Image::class,
+        Tag::class,
+        Option::class,
+        OptionProduct::class,
     ];
 
     /** @var ProductRepositoryInterface */

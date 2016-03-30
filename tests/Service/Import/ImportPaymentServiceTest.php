@@ -1,16 +1,20 @@
 <?php
 namespace inklabs\kommerce\Service\Import;
 
+use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\CSVIterator;
 use inklabs\kommerce\tests\Helper;
 
 class ImportPaymentServiceTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Order',
-        'kommerce:AbstractPayment',
-        'kommerce:User',
-        'kommerce:TaxRate',
+        Order::class,
+        AbstractPayment::class,
+        User::class,
+        TaxRate::class,
     ];
 
     public function testImport()

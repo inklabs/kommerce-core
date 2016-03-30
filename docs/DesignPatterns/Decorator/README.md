@@ -30,7 +30,7 @@ class RepositoryFactory
         return
             new LoggingProductRepository(
                 new CachingProductRepository(
-                    $this->entityManager->getRepository('kommerce:Product')
+                    $this->entityManager->getRepository(Product::class)
                 )
             );
     }

@@ -9,7 +9,7 @@ use inklabs\kommerce\tests\Helper;
 class TaxRateRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:TaxRate',
+        TaxRate::class,
     ];
 
     /** @var TaxRateRepositoryInterface */

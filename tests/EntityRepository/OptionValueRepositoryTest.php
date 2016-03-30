@@ -2,14 +2,15 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
+use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\tests\Helper;
 
 class OptionValueRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:Option',
-        'kommerce:OptionValue',
+        Option::class,
+        OptionValue::class,
     ];
 
     /** @var OptionValueRepositoryInterface */

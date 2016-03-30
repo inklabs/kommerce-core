@@ -1,13 +1,15 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Entity\UserToken;
+
 class UserTokenRepository extends AbstractRepository implements UserTokenRepositoryInterface
 {
     public function findLatestOneByUserId($userId)
     {
         $userToken = $this->getQueryBuilder()
             ->select('UserToken')
-            ->from('kommerce:UserToken', 'UserToken')
+            ->from(UserToken::class, 'UserToken')
             ->leftJoin('UserToken.user', 'User')
             ->where('User.id = :userId')
             ->setParameter('userId', $userId)

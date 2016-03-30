@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Pagination;
 
 class OptionRepository extends AbstractRepository implements OptionRepositoryInterface
@@ -9,7 +10,7 @@ class OptionRepository extends AbstractRepository implements OptionRepositoryInt
     {
         return $this->getQueryBuilder()
             ->select('Option')
-            ->from('kommerce:Option', 'Option')
+            ->from(Option::class, 'Option')
             ->where('Option.id IN (:optionIds)')
             ->setParameter('optionIds', $optionIds)
             ->paginate($pagination)
@@ -21,7 +22,7 @@ class OptionRepository extends AbstractRepository implements OptionRepositoryInt
     {
         $query = $this->getQueryBuilder()
             ->select('option')
-            ->from('kommerce:Option', 'option');
+            ->from(Option::class, 'option');
 
         if ($queryString !== null) {
             $query

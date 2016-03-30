@@ -48,7 +48,7 @@ class RepositoryFactory
 
     public function getProductRepository()
     {
-        return $this->entityManager->getRepository('kommerce:Product');
+        return $this->entityManager->getRepository(Product::class);
     }
 
     // ...

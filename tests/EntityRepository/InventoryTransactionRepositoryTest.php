@@ -5,6 +5,7 @@ use DateTime;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
@@ -12,10 +13,10 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 class InventoryTransactionRepositoryTest extends DoctrineTestCase
 {
     protected $metaDataClassNames = [
-        'kommerce:InventoryLocation',
-        'kommerce:InventoryTransaction',
-        'kommerce:Product',
-        'kommerce:Warehouse',
+        InventoryLocation::class,
+        InventoryTransaction::class,
+        Product::class,
+        Warehouse::class,
     ];
 
     /** @var InventoryTransactionRepositoryInterface */
