@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\OrderStatusTypeDTOBuilder;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -58,11 +59,16 @@ class OrderStatusType implements ValidationInterface
         return array_keys(self::getNameMap());
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
     public function getName()
     {
         return $this->getNameMap()[$this->id];
     }
-
 
     /**
      * @param int $id
@@ -131,5 +137,10 @@ class OrderStatusType implements ValidationInterface
     public function isCanceled()
     {
         return $this->id === self::CANCELED;
+    }
+
+    public function getDTOBuilder()
+    {
+        return new OrderStatusTypeDTOBuilder($this);
     }
 }

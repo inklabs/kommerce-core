@@ -22,11 +22,13 @@ class OrderDTOBuilder
         $this->orderDTO->encodedId       = BaseConvert::encode($this->order->getId());
         $this->orderDTO->referenceNumber = $this->order->getReferenceNumber();
         $this->orderDTO->externalId      = $this->order->getExternalId();
-        $this->orderDTO->statusType      = $this->order->getStatusType();
         $this->orderDTO->totalItems      = $this->order->totalItems();
         $this->orderDTO->totalQuantity   = $this->order->totalQuantity();
         $this->orderDTO->created         = $this->order->getCreated();
         $this->orderDTO->updated         = $this->order->getUpdated();
+
+        $this->orderDTO->statusType = $this->order->getStatusType()->getDTOBuilder()
+            ->build();
 
         if ($this->order->getShippingAddress() !== null) {
             $this->orderDTO->shippingAddress = $this->order->getShippingAddress()->getDTOBuilder()

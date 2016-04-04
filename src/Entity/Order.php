@@ -202,23 +202,6 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         return $this->statusType;
     }
 
-    public static function getStatusMapping()
-    {
-        return [
-            static::STATUS_PENDING => 'Pending',
-            static::STATUS_PROCESSING => 'Processing',
-            static::STATUS_PARTIALLY_SHIPPED => 'Partially Shipped',
-            static::STATUS_SHIPPED => 'Shipped',
-            static::STATUS_COMPLETE => 'Complete',
-            static::STATUS_CANCELED => 'Canceled',
-        ];
-    }
-
-    public function getStatusText()
-    {
-        return $this->getStatusMapping()[$this->statusType];
-    }
-
     public function setTotal(CartTotal $total)
     {
         $this->total = $total;
