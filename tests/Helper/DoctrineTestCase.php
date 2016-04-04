@@ -230,9 +230,9 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         return false;
     }
 
-    protected function assertEntityValid($shipmentTracking)
+    protected function assertEntityValid($entity)
     {
-        $errors = $this->getValidationErrors($shipmentTracking);
+        $errors = $this->getValidationErrors($entity);
 
         $messages = [];
         foreach ($errors as $violation) {

@@ -6,56 +6,92 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class ProductTest extends DoctrineTestCase
 {
-    public function testCreate()
+    public function testCreateDefaults()
     {
         $product = new Product;
-        $this->assertSame(null, $product->getRating());
 
-        $product->setSku(null);
-        $product->setDescription(null);
         $this->assertSame(null, $product->getSku());
+        $this->assertSame(null, $product->getName());
         $this->assertSame(null, $product->getDescription());
+        $this->assertSame(null, $product->getDefaultImage());
+        $this->assertSame(0, $product->getUnitPrice());
+        $this->assertSame(0, $product->getQuantity());
+        $this->assertSame(0, $product->getShippingWeight());
+        $this->assertSame(null, $product->getRating());
+        $this->assertFalse($product->isInventoryRequired());
+        $this->assertFalse($product->isPriceVisible());
+        $this->assertFalse($product->isActive());
+        $this->assertFalse($product->isVisible());
+        $this->assertFalse($product->isTaxable());
+        $this->assertFalse($product->isShippable());
+        $this->assertSame(0, count($product->getTags()));
+        $this->assertSame(0, count($product->getImages()));
+        $this->assertSame(0, count($product->getProductQuantityDiscounts()));
+        $this->assertSame(0, count($product->getOptionProducts()));
+        $this->assertSame(0, count($product->getProductAttributes()));
+    }
 
+    public function testCreate()
+    {
+        $tag = $this->dummyData->getTag();
+        $image = $this->dummyData->getImage();
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
+        $optionProduct = $this->dummyData->getOptionProduct();
+        $productAttribute = $this->dummyData->getProductAttribute();
+
+        $product = new Product;
         $product->setSku('TST101');
         $product->setName('Test Product');
+        $product->setDescription('Test description');
+        $product->setDefaultImage('http://lorempixel.com/400/200/');
         $product->setUnitPrice(500);
         $product->setQuantity(10);
+        $product->setShippingWeight(16);
+        $product->setRating(500);
         $product->setIsInventoryRequired(true);
         $product->setIsPriceVisible(true);
         $product->setIsActive(true);
         $product->setIsVisible(true);
         $product->setIsTaxable(true);
         $product->setIsShippable(true);
-        $product->setShippingWeight(16);
-        $product->setDescription('Test description');
-        $product->setRating(500);
-        $product->addTag(new Tag);
-        $product->addImage(new Image);
-        $product->setDefaultImage('http://lorempixel.com/400/200/');
-        $product->addProductQuantityDiscount(new ProductQuantityDiscount);
-        $product->addOptionProduct(new OptionProduct(new Product));
-        $product->addProductAttribute(new ProductAttribute);
+        $product->addTag($tag);
+        $product->addImage($image);
+        $product->addProductQuantityDiscount($productQuantityDiscount);
+        $product->addOptionProduct($optionProduct);
+        $product->addProductAttribute($productAttribute);
 
         $this->assertEntityValid($product);
         $this->assertSame('TST101', $product->getSku());
         $this->assertSame('Test Product', $product->getName());
+        $this->assertSame('Test description', $product->getDescription());
+        $this->assertSame('http://lorempixel.com/400/200/', $product->getDefaultImage());
         $this->assertSame(500, $product->getUnitPrice());
         $this->assertSame(10, $product->getQuantity());
+        $this->assertSame(16, $product->getShippingWeight());
+        $this->assertSame(5.0, $product->getRating());
         $this->assertSame(true, $product->isInventoryRequired());
         $this->assertSame(true, $product->isPriceVisible());
         $this->assertSame(true, $product->isActive());
         $this->assertSame(true, $product->isVisible());
         $this->assertSame(true, $product->isTaxable());
         $this->assertSame(true, $product->isShippable());
-        $this->assertSame(16, $product->getShippingWeight());
-        $this->assertSame('Test description', $product->getDescription());
-        $this->assertSame(5.0, $product->getRating());
-        $this->assertSame('http://lorempixel.com/400/200/', $product->getDefaultImage());
-        $this->assertTrue($product->getTags()[0] instanceof Tag);
-        $this->assertTrue($product->getImages()[0] instanceof Image);
-        $this->assertTrue($product->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
-        $this->assertTrue($product->getOptionProducts()[0] instanceof OptionProduct);
-        $this->assertTrue($product->getProductAttributes()[0] instanceof ProductAttribute);
+        $this->assertSame($tag, $product->getTags()[0]);
+        $this->assertSame($image, $product->getImages()[0]);
+        $this->assertSame($productQuantityDiscount, $product->getProductQuantityDiscounts()[0]);
+        $this->assertSame($optionProduct, $product->getOptionProducts()[0]);
+        $this->assertSame($productAttribute, $product->getProductAttributes()[0]);
+    }
+
+    public function testStringOrNull()
+    {
+        $product = new Product;
+        $product->setSku('');
+        $product->setDescription('');
+        $product->setDefaultImage('');
+
+        $this->assertSame(null, $product->getSku());
+        $this->assertSame(null, $product->getDescription());
+        $this->assertSame(null, $product->getDefaultImage());
     }
 
     public function testRemoveTag()

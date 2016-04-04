@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Product implements EntityInterface, ValidationInterface
 {
-    use TimeTrait, IdTrait;
+    use TimeTrait, IdTrait, StringSetterTrait;
 
     /** @var string */
     protected $sku;
@@ -133,11 +133,7 @@ class Product implements EntityInterface, ValidationInterface
 
     public function setSku($sku)
     {
-        if (trim($sku) === '') {
-            $this->sku = null;
-        } else {
-            $this->sku = (string) $sku;
-        }
+        $this->setStringOrNull($this->sku, $sku);
     }
 
     public function getSku()
@@ -252,11 +248,7 @@ class Product implements EntityInterface, ValidationInterface
 
     public function setDescription($description)
     {
-        if (trim($description) === '') {
-            $this->description = null;
-        } else {
-            $this->description = (string) $description;
-        }
+        $this->setStringOrNull($this->description, $description);
     }
 
     public function getDescription()
@@ -266,11 +258,7 @@ class Product implements EntityInterface, ValidationInterface
 
     public function setDefaultImage($defaultImage)
     {
-        if (trim($defaultImage) === '') {
-            $this->defaultImage = null;
-        } else {
-            $this->defaultImage = (string) $defaultImage;
-        }
+        $this->setStringOrNull($this->defaultImage, $defaultImage);
     }
 
     public function getDefaultImage()

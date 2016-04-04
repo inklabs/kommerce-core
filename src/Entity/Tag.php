@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Tag implements EntityInterface, ValidationInterface
 {
-    use TimeTrait, IdTrait;
+    use TimeTrait, IdTrait, StringSetterTrait;
 
     /** @var string */
     protected $name;
@@ -46,10 +46,10 @@ class Tag implements EntityInterface, ValidationInterface
     public function __construct()
     {
         $this->setCreated();
-        $this->products = new ArrayCollection();
-        $this->images = new ArrayCollection();
-        $this->options = new ArrayCollection();
-        $this->textOptions = new ArrayCollection();
+        $this->products = new ArrayCollection;
+        $this->images = new ArrayCollection;
+        $this->options = new ArrayCollection;
+        $this->textOptions = new ArrayCollection;
 
         $this->sortOrder = 0;
         $this->isActive = false;
@@ -136,13 +136,12 @@ class Tag implements EntityInterface, ValidationInterface
         return $this->name;
     }
 
+    /**
+     * @param string $code
+     */
     public function setCode($code)
     {
-        if (trim($code) === '') {
-            $this->code = null;
-        } else {
-            $this->code = (string) $code;
-        }
+        $this->setStringOrNull($this->code, $code);
     }
 
     public function getCode()
@@ -150,13 +149,12 @@ class Tag implements EntityInterface, ValidationInterface
         return $this->code;
     }
 
+    /**
+     * @param string $description
+     */
     public function setDescription($description)
     {
-        if (trim($description) === '') {
-            $this->description = null;
-        } else {
-            $this->description = (string) $description;
-        }
+        $this->setStringOrNull($this->description, $description);
     }
 
     public function getDescription()
@@ -164,13 +162,12 @@ class Tag implements EntityInterface, ValidationInterface
         return $this->description;
     }
 
+    /**
+     * @param string $defaultImage
+     */
     public function setDefaultImage($defaultImage)
     {
-        if (trim($defaultImage) === '') {
-            $this->defaultImage = null;
-        } else {
-            $this->defaultImage = (string) $defaultImage;
-        }
+        $this->setStringOrNull($this->defaultImage, $defaultImage);
     }
 
     public function getDefaultImage()
