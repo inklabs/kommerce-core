@@ -64,7 +64,6 @@ class OrderStatusType implements ValidationInterface
         return $this->id;
     }
 
-
     public function getName()
     {
         return $this->getNameMap()[$this->id];
