@@ -29,12 +29,6 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
 
     /** @var OrderStatusType */
     protected $statusType;
-    const STATUS_PENDING    = 0;
-    const STATUS_PROCESSING = 1;
-    const STATUS_PARTIALLY_SHIPPED = 2;
-    const STATUS_SHIPPED    = 3;
-    const STATUS_COMPLETE   = 4;
-    const STATUS_CANCELED   = 5;
 
     /** @var User */
     protected $user;
