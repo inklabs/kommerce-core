@@ -11,19 +11,7 @@ class OrderTest extends Helper\DoctrineTestCase
 {
     public function testCreate()
     {
-        $shippingAddress = new OrderAddress;
-        $shippingAddress->firstName = 'John';
-        $shippingAddress->lastName = 'Doe';
-        $shippingAddress->company = 'Acme Co.';
-        $shippingAddress->address1 = '123 Any St';
-        $shippingAddress->address2 = 'Ste 3';
-        $shippingAddress->city = 'Santa Monica';
-        $shippingAddress->state = 'CA';
-        $shippingAddress->zip5 = '90401';
-        $shippingAddress->zip4 = '3274';
-        $shippingAddress->phone = '555-123-4567';
-        $shippingAddress->email = 'john@example.com';
-
+        $shippingAddress = $this->dummyData->getOrderAddress();
         $billingAddress = clone $shippingAddress;
 
         $product = new Product;

@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CartItemOptionProduct;
 use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
+use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Entity\TaxRate;
@@ -409,8 +410,7 @@ class CartService implements CartServiceInterface
 
         $cart->setShipmentRate($shipmentRate);
 
-        $shippingAddress = new OrderAddress;
-        $this->setOrderAddressFromDTO($shippingAddress, $shippingAddressDTO);
+        $shippingAddress = OrderAddressDTOBuilder::createFromDTO($shippingAddressDTO);
         $cart->setShippingAddress($shippingAddress);
 
         $taxRate = $this->taxRateRepository->findByZip5AndState(
@@ -421,22 +421,5 @@ class CartService implements CartServiceInterface
         $cart->setTaxRate($taxRate);
 
         $this->cartRepository->update($cart);
-    }
-
-    private function setOrderAddressFromDTO(OrderAddress & $orderAddress, OrderAddressDTO $orderAddressDTO)
-    {
-        $orderAddress->firstName = $orderAddressDTO->firstName;
-        $orderAddress->lastName = $orderAddressDTO->lastName;
-        $orderAddress->company = $orderAddressDTO->company;
-        $orderAddress->address1 = $orderAddressDTO->address1;
-        $orderAddress->address2 = $orderAddressDTO->address2;
-        $orderAddress->city = $orderAddressDTO->city;
-        $orderAddress->state = $orderAddressDTO->state;
-        $orderAddress->zip5 = $orderAddressDTO->zip5;
-        $orderAddress->zip4 = $orderAddressDTO->zip4;
-        $orderAddress->phone = $orderAddressDTO->phone;
-        $orderAddress->email = $orderAddressDTO->email;
-        $orderAddress->setIsResidential($orderAddressDTO->isResidential);
-        $orderAddress->setCountry($orderAddressDTO->country);
     }
 }

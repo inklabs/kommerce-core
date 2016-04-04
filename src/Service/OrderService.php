@@ -235,7 +235,7 @@ class OrderService implements OrderServiceInterface
         $chargeRequest->setCreditCard($creditCard);
         $chargeRequest->setAmount($amount);
         $chargeRequest->setCurrency('usd');
-        $chargeRequest->setDescription($order->getShippingAddress()->email);
+        $chargeRequest->setDescription($order->getShippingAddress()->getEmail());
 
         $chargeResponse = $this->paymentGateway->getCharge($chargeRequest);
 

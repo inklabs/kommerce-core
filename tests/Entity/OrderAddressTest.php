@@ -9,30 +9,35 @@ class OrderAddressTest extends DoctrineTestCase
     public function testCreate()
     {
         $orderAddress = new OrderAddress;
-        $orderAddress->firstName = 'John';
-        $orderAddress->lastName = 'Doe';
-        $orderAddress->company = 'Acme Co.';
-        $orderAddress->address1 = '123 Any St';
-        $orderAddress->address2 = 'Ste 3';
-        $orderAddress->city = 'Santa Monica';
-        $orderAddress->state = 'CA';
-        $orderAddress->zip5 = '90401';
-        $orderAddress->zip4 = '3274';
-        $orderAddress->phone = '555-123-4567';
-        $orderAddress->email = 'john@example.com';
+        $orderAddress->setFirstName('John');
+        $orderAddress->setLastName('Doe');
+        $orderAddress->setCompany('Acme Co.');
+        $orderAddress->setAddress1('123 Any St');
+        $orderAddress->setAddress2('Ste 3');
+        $orderAddress->setCity('Santa Monica');
+        $orderAddress->setState('CA');
+        $orderAddress->setZip5('90401');
+        $orderAddress->setZip4('3274');
+        $orderAddress->setPhone('555-123-4567');
+        $orderAddress->setEmail('john@example.com');
         $orderAddress->setCountry('US');
         $orderAddress->setIsResidential(true);
 
         $this->assertEntityValid($orderAddress);
         $this->assertTrue($orderAddress instanceof OrderAddress);
-        $this->assertSame('John Doe', $orderAddress->getFullName());
+        $this->assertSame('John', $orderAddress->getFirstName());
+        $this->assertSame('Doe', $orderAddress->getLastName());
+        $this->assertSame('Acme Co.', $orderAddress->getCompany());
+        $this->assertSame('123 Any St', $orderAddress->getAddress1());
+        $this->assertSame('Ste 3', $orderAddress->getAddress2());
+        $this->assertSame('Santa Monica', $orderAddress->getCity());
+        $this->assertSame('CA', $orderAddress->getState());
+        $this->assertSame('90401', $orderAddress->getZip5());
+        $this->assertSame('3274', $orderAddress->getZip4());
+        $this->assertSame('555-123-4567', $orderAddress->getPhone());
+        $this->assertSame('john@example.com', $orderAddress->getEmail());
         $this->assertSame('US', $orderAddress->getCountry());
-        $this->assertSame(true, $orderAddress->isResidential());
+        $this->assertTrue($orderAddress->isResidential());
         $this->assertTrue($orderAddress->getDTOBuilder() instanceof OrderAddressDTOBuilder);
-    }
-
-    public function testCreateFromDTO()
-    {
-
     }
 }
