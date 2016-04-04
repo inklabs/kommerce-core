@@ -9,16 +9,16 @@ class SetOrderStatusCommand implements CommandInterface
     private $orderId;
 
     /** @var int */
-    private $orderStatus;
+    private $orderStatusTypeId;
 
     /**
      * @param int $orderId
-     * @param int $orderStatus
+     * @param int $orderStatusTypeId
      */
-    public function __construct($orderId, $orderStatus)
+    public function __construct($orderId, $orderStatusTypeId)
     {
         $this->orderId = (int) $orderId;
-        $this->orderStatus = (int) $orderStatus;
+        $this->orderStatusTypeId = (int) $orderStatusTypeId;
     }
 
     public function getOrderId()
@@ -26,8 +26,8 @@ class SetOrderStatusCommand implements CommandInterface
         return $this->orderId;
     }
 
-    public function getOrderStatus()
+    public function getOrderStatusTypeId()
     {
-        return $this->orderStatus;
+        return $this->orderStatusTypeId;
     }
 }

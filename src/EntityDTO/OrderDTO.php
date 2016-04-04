@@ -5,7 +5,10 @@ class OrderDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
+    /** @var string */
     public $externalId;
+
+    /** @var string */
     public $referenceNumber;
 
     /** @var OrderAddressDTO */
@@ -14,13 +17,14 @@ class OrderDTO
     /** @var OrderAddressDTO */
     public $billingAddress;
 
-    public $status;
-    public $statusText;
-    public $totalItems;
-    public $totalQuantity;
+    /** @var OrderStatusTypeDTO */
+    public $statusType;
 
-    /** @var string[] */
-    public $statusMapping;
+    /** @var int */
+    public $totalItems;
+
+    /** @var int */
+    public $totalQuantity;
 
     /** @var CartTotalDTO */
     public $total;

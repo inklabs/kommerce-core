@@ -7,6 +7,7 @@ use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
+use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
@@ -62,10 +63,9 @@ interface OrderServiceInterface
 
     /**
      * @param int $orderId
-     * @param int $orderStatus
-     * @return mixed
+     * @param OrderStatusType $orderStatusType
      */
-    public function setOrderStatus($orderId, $orderStatus);
+    public function setOrderStatus($orderId, OrderStatusType $orderStatusType);
 
     /**
      * @param Order $order

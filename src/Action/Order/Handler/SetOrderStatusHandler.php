@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Action\Order\Handler;
 
 use inklabs\kommerce\Action\Order\SetOrderStatusCommand;
+use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Service\OrderServiceInterface;
 
 final class SetOrderStatusHandler
@@ -18,7 +19,7 @@ final class SetOrderStatusHandler
     {
         $this->orderService->setOrderStatus(
             $command->getOrderId(),
-            $command->getOrderStatus()
+            OrderStatusType::createById($command->getOrderStatusTypeId())
         );
     }
 }

@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Action\Order\Handler;
 
 use inklabs\kommerce\Action\Order\SetOrderStatusCommand;
-use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
@@ -15,7 +15,7 @@ class SetOrderStatusHandlerTest extends DoctrineTestCase
             ->once();
         /** @var OrderServiceInterface $orderService */
 
-        $command = new SetOrderStatusCommand(1, Order::STATUS_SHIPPED);
+        $command = new SetOrderStatusCommand(1, OrderStatusType::SHIPPED);
         $handler = new SetOrderStatusHandler($orderService);
         $handler->handle($command);
     }

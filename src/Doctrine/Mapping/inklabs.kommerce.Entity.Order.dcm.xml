@@ -22,12 +22,6 @@
 
         <field name="referenceNumber" type="string" length="255" nullable="true" unique="true"/>
 
-        <field name="status" type="smallint">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
         <field name="ip4" type="integer">
             <options>
                 <option name="unsigned">true</option>
@@ -50,6 +44,7 @@
         <embedded name="shippingAddress" class="OrderAddress"/>
         <embedded name="billingAddress" class="OrderAddress"/>
         <embedded name="shipmentRate" class="ShipmentRate"/>
+        <embedded name="statusType" class="OrderStatusType" use-column-prefix="false"/>
 
         <one-to-many field="orderItems" target-entity="OrderItem" mapped-by="order" fetch="EXTRA_LAZY">
             <cascade>

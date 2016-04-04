@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\CreditPayment;
 use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
@@ -176,7 +177,7 @@ class OrderServiceTest extends DoctrineTestCase
         );
 
         $this->assertSame(1, count($order->getShipments()));
-        $this->assertSame(Order::STATUS_PARTIALLY_SHIPPED, $order->getStatus());
+        $this->assertTrue($order->getStatusType()->isPartiallyShipped());
 
         $orderItemQtyDTO = new OrderItemQtyDTO;
         $orderItemQtyDTO->addOrderItemQty($order->getOrderItem(1)->getId(), 1);
@@ -189,14 +190,14 @@ class OrderServiceTest extends DoctrineTestCase
         );
 
         $this->assertSame(2, count($order->getShipments()));
-        $this->assertSame(Order::STATUS_SHIPPED, $order->getStatus());
+        $this->assertTrue($order->getStatusType()->isShipped());
     }
 
     public function testSetOrderStatus()
     {
         $order = $this->getPersistedDummyOrder();
-        $this->orderService->setOrderStatus($order->getId(), Order::STATUS_CANCELED);
-        $this->assertSame(Order::STATUS_CANCELED, $order->getStatus());
+        $this->orderService->setOrderStatus($order->getId(), OrderStatusType::canceled());
+        $this->assertTrue($order->getStatusType()->isCanceled());
     }
 
     /**

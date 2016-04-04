@@ -8,6 +8,7 @@ use inklabs\kommerce\Entity\CreditPayment;
 use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
+use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\ShipmentComment;
@@ -176,13 +177,12 @@ class OrderService implements OrderServiceInterface
 
     /**
      * @param int $orderId
-     * @param int $orderStatus
-     * @return mixed
+     * @param OrderStatusType $orderStatusType
      */
-    public function setOrderStatus($orderId, $orderStatus)
+    public function setOrderStatus($orderId, OrderStatusType $orderStatusType)
     {
         $order = $this->orderRepository->findOneById($orderId);
-        $order->setStatus($orderStatus);
+        $order->setStatusType($orderStatusType);
         $this->update($order);
     }
 

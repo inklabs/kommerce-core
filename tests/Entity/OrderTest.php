@@ -44,10 +44,7 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->assertSame(1, $order->getReferenceId());
         $this->assertSame('xxx-xxxxxxx-xxxxxxx', $order->getReferenceNumber());
         $this->assertSame('10.0.0.1', $order->getIp4());
-        $this->assertSame(Order::STATUS_PARTIALLY_SHIPPED, $order->getStatus());
-        $this->assertSame('Partially Shipped', $order->getStatusText());
-        $this->assertSame(true, $order->isStatusPartiallyShipped());
-        $this->assertSame(false, $order->isStatusShipped());
+        $this->assertTrue($order->getStatusType()->isPartiallyShipped());
         $this->assertSame('CO1102-0016', $order->getExternalId());
         $this->assertSame(1, $order->totalItems());
         $this->assertSame(2, $order->totalQuantity());
@@ -102,8 +99,7 @@ class OrderTest extends Helper\DoctrineTestCase
 
         $order->addShipment($shipment);
 
-        $this->assertSame(Order::STATUS_SHIPPED, $order->getStatus());
-        $this->assertSame('Shipped', $order->getStatusText());
+        $this->assertTrue($order->getStatusType()->isShipped());
     }
 
     public function testAddShipmentChangesOrderStatusToPartiallyShipped()
@@ -119,7 +115,6 @@ class OrderTest extends Helper\DoctrineTestCase
 
         $order->addShipment($shipment);
 
-        $this->assertSame(Order::STATUS_PARTIALLY_SHIPPED, $order->getStatus());
-        $this->assertSame('Partially Shipped', $order->getStatusText());
+        $this->assertTrue($order->getStatusType()->isPartiallyShipped());
     }
 }

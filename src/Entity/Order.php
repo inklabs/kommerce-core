@@ -27,8 +27,8 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     /** @var OrderAddress */
     protected $billingAddress;
 
-    /** @var int */
-    protected $status;
+    /** @var OrderStatusType */
+    protected $statusType;
     const STATUS_PENDING    = 0;
     const STATUS_PROCESSING = 1;
     const STATUS_PARTIALLY_SHIPPED = 2;
@@ -68,7 +68,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         $this->coupons = new ArrayCollection;
         $this->shipments = new ArrayCollection;
 
-        $this->setStatus(self::STATUS_PENDING);
+        $this->setStatusType(OrderStatusType::pending());
     }
 
     /**
@@ -104,10 +104,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
             'max' => 255,
         ]));
 
-        $metadata->addPropertyConstraint('status', new Assert\Choice([
-            'choices' => array_keys(static::getStatusMapping()),
-            'message' => 'The status is not a valid choice',
-        ]));
+        $metadata->addPropertyConstraint('statusType', new Assert\Valid);
 
         $metadata->addPropertyConstraint('ip4', new Assert\NotBlank);
         $metadata->addPropertyConstraint('ip4', new Assert\GreaterThanOrEqual([
@@ -195,14 +192,14 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         return $total;
     }
 
-    public function setStatus($status)
+    public function setStatusType(OrderStatusType $orderStatusType)
     {
-        $this->status = (int) $status;
+        $this->statusType = $orderStatusType;
     }
 
-    public function getStatus()
+    public function getStatusType()
     {
-        return $this->status;
+        return $this->statusType;
     }
 
     public static function getStatusMapping()
@@ -219,7 +216,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
 
     public function getStatusText()
     {
-        return $this->getStatusMapping()[$this->status];
+        return $this->getStatusMapping()[$this->statusType];
     }
 
     public function setTotal(CartTotal $total)
@@ -354,9 +351,9 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     private function setOrderShippedStatus()
     {
         if ($this->isFullyShipped()) {
-            $this->setStatus(Order::STATUS_SHIPPED);
+            $this->setStatusType(OrderStatusType::shipped());
         } else {
-            $this->setStatus(Order::STATUS_PARTIALLY_SHIPPED);
+            $this->setStatusType(OrderStatusType::partiallyShipped());
         }
     }
 
@@ -380,16 +377,6 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         }
 
         return false;
-    }
-
-    public function isStatusShipped()
-    {
-        return $this->status === self::STATUS_SHIPPED;
-    }
-
-    public function isStatusPartiallyShipped()
-    {
-        return $this->status === self::STATUS_PARTIALLY_SHIPPED;
     }
 
     /**
