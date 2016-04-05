@@ -48,6 +48,7 @@ use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Entity\Warehouse;
+use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 
 class DummyData
@@ -103,6 +104,11 @@ class DummyData
         }
 
         return $cart;
+    }
+
+    public function getCartCalculator()
+    {
+        return new CartCalculator(new Pricing);
     }
 
     public function getCartItem($product = null)
@@ -600,6 +606,10 @@ class DummyData
         return $shipmentLabel;
     }
 
+    /**
+     * @param int $amount
+     * @return ShipmentRate
+     */
     public function getShipmentRate($amount)
     {
         $shipmentRate = new ShipmentRate(new Money($amount, 'USD'));

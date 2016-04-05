@@ -2,8 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
-use inklabs\kommerce\Lib\CartCalculator;
-use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Lib\PaymentGateway;
 
@@ -65,25 +63,25 @@ class OrderTest extends Helper\DoctrineTestCase
 
     public function testCreateFromCart()
     {
-        $product = new Product;
-        $product->setUnitPrice(500);
+        $user = $this->dummyData->getUser();
+        $shipmentRate = $this->dummyData->getShipmentRate(1000);
+        $taxRate = $this->dummyData->getTaxRate();
 
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product);
+        $cart = $this->dummyData->getCart([
+            $this->dummyData->getCartItemFull()
+        ]);
+        $cart->setUser($user);
+        $cart->setShipmentRate($shipmentRate);
+        $cart->setTaxRate($taxRate);
 
-        $cart = new Cart;
-        $cart->setUser(new User);
-        $cart->addCartItem($cartItem);
-        $cart->addCoupon(new Coupon);
-        $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
-        $cart->setTaxRate(new TaxRate);
+        $cartCalculator = $this->dummyData->getCartCalculator();
 
-        $cartCalculator = new CartCalculator(new Pricing);
-        $ip4 = '10.0.0.1';
-
-        $order = Order::fromCart($cart, $cartCalculator, $ip4);
+        $order = Order::fromCart($cart, $cartCalculator, '10.0.0.1');
 
         $this->assertTrue($order instanceof Order);
+        $this->assertSame($user, $order->getUser());
+        $this->assertSame($shipmentRate, $order->getShipmentRate());
+        $this->assertSame($taxRate, $order->getTaxRate());
     }
 
     public function testAddShipmentChangesOrderStatusToShipped()
