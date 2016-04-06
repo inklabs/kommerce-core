@@ -34,14 +34,14 @@ class CartTotal implements ValidationInterface
     /** @var int */
     public $savings = 0;
 
+    /** @var TaxRate */
+    public $taxRate;
+
     /** @var Coupon[] */
     public $coupons = [];
 
     /** @var CartPriceRule[] */
     public $cartPriceRules = [];
-
-    /** @var TaxRate */
-    public $taxRate;
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {

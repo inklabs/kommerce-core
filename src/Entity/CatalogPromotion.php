@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CatalogPromotion extends AbstractPromotion
 {
+    /** @var string */
     protected $code;
 
     /** @var Tag */
