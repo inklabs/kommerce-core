@@ -86,8 +86,8 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         }
 
         $order->setUser($cart->getUser());
-        $order->setShipmentRate($cart->getShipmentRate());
         $order->setTaxRate($cart->getTaxRate());
+        $order->setShipmentRate($cart->getShipmentRate());
 
         return $order;
     }

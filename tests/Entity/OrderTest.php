@@ -63,24 +63,28 @@ class OrderTest extends Helper\DoctrineTestCase
 
     public function testCreateFromCart()
     {
+        $cartCalculator = $this->dummyData->getCartCalculator();
         $user = $this->dummyData->getUser();
-        $shipmentRate = $this->dummyData->getShipmentRate(1000);
+        $coupon = $this->dummyData->getCoupon();
         $taxRate = $this->dummyData->getTaxRate();
+        $shipmentRate = $this->dummyData->getShipmentRate(1000);
 
         $cart = $this->dummyData->getCart([
             $this->dummyData->getCartItemFull()
         ]);
         $cart->setUser($user);
-        $cart->setShipmentRate($shipmentRate);
+        $cart->addCoupon($coupon);
         $cart->setTaxRate($taxRate);
-        $cartCalculator = $this->dummyData->getCartCalculator();
+        $cart->setShipmentRate($shipmentRate);
 
         $order = Order::fromCart($cart, $cartCalculator, '10.0.0.1');
 
         $this->assertTrue($order instanceof Order);
+        $this->assertSame('10.0.0.1', $order->getIp4());
         $this->assertSame($user, $order->getUser());
-        $this->assertSame($shipmentRate, $order->getShipmentRate());
+        $this->assertSame($coupon, $order->getCoupons()[0]);
         $this->assertSame($taxRate, $order->getTaxRate());
+        $this->assertSame($shipmentRate, $order->getShipmentRate());
         $this->assertSame(
             'Test Catalog Promotion #1, Buy 1 or more for 5% off',
             $order->getOrderItems()[0]->getDiscountNames()
