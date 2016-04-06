@@ -108,7 +108,7 @@ class DummyData
 
     public function getCartCalculator()
     {
-        return new CartCalculator(new Pricing);
+        return new CartCalculator($this->getPricing());
     }
 
     public function getCartItem($product = null)
@@ -570,6 +570,9 @@ class DummyData
     public function getProductQuantityDiscount()
     {
         $productQuantityDiscount = new ProductQuantityDiscount;
+        $productQuantityDiscount->setType(AbstractPromotion::TYPE_PERCENT);
+        $productQuantityDiscount->setQuantity(6);
+        $productQuantityDiscount->setValue(5);
         $productQuantityDiscount->setCustomerGroup(null);
         $productQuantityDiscount->setQuantity(1);
         $productQuantityDiscount->setFlagApplyCatalogPromotions(true);

@@ -73,7 +73,6 @@ class OrderTest extends Helper\DoctrineTestCase
         $cart->setUser($user);
         $cart->setShipmentRate($shipmentRate);
         $cart->setTaxRate($taxRate);
-
         $cartCalculator = $this->dummyData->getCartCalculator();
 
         $order = Order::fromCart($cart, $cartCalculator, '10.0.0.1');
@@ -82,6 +81,10 @@ class OrderTest extends Helper\DoctrineTestCase
         $this->assertSame($user, $order->getUser());
         $this->assertSame($shipmentRate, $order->getShipmentRate());
         $this->assertSame($taxRate, $order->getTaxRate());
+        $this->assertSame(
+            'Test Catalog Promotion #1, Buy 1 or more for 5% off',
+            $order->getOrderItems()[0]->getDiscountNames()
+        );
     }
 
     public function testAddShipmentChangesOrderStatusToShipped()

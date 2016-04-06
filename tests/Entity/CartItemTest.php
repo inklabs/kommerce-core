@@ -61,4 +61,15 @@ class CartItemTest extends DoctrineTestCase
         $this->assertTrue($orderItem->getOrderItemOptionValues()[0] instanceof OrderItemOptionValue);
         $this->assertTrue($orderItem->getOrderItemTextOptionValues()[0] instanceof OrderItemTextOptionValue);
     }
+
+    public function testGetPriceWithOptionProductsAndValuesRetainsCatalogPromotionsAndProductQuantityDiscounts()
+    {
+        $cartItem = $this->dummyData->getCartItemFull();
+        $pricing = $this->dummyData->getPricing();
+
+        $price = $cartItem->getPrice($pricing);
+
+        $this->assertSame(1, count($price->getCatalogPromotions()));
+        $this->assertSame(1, count($price->getProductQuantityDiscounts()));
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\EntityDTO\Builder\PriceDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,11 +13,17 @@ class Price implements ValidationInterface
     public $origQuantityPrice;
     public $quantityPrice;
 
-    /** @var CatalogPromotion[] */
-    protected $catalogPromotions = [];
+    /** @var CatalogPromotion[] | ArrayCollection */
+    protected $catalogPromotions;
 
     /** @var ProductQuantityDiscount[] */
-    protected $productQuantityDiscounts = [];
+    protected $productQuantityDiscounts;
+
+    public function __construct()
+    {
+        $this->catalogPromotions = new ArrayCollection;
+        $this->productQuantityDiscounts = new ArrayCollection;
+    }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
@@ -44,7 +51,9 @@ class Price implements ValidationInterface
 
     public function addCatalogPromotion(CatalogPromotion $catalogPromotion)
     {
-        $this->catalogPromotions[] = $catalogPromotion;
+        if (! $this->catalogPromotions->contains($catalogPromotion)) {
+            $this->catalogPromotions->add($catalogPromotion);
+        }
     }
 
     public function getCatalogPromotions()
@@ -54,7 +63,9 @@ class Price implements ValidationInterface
 
     public function addProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
     {
-        $this->productQuantityDiscounts[] = $productQuantityDiscount;
+        if (! $this->productQuantityDiscounts->contains($productQuantityDiscount)) {
+            $this->productQuantityDiscounts->add($productQuantityDiscount);
+        }
     }
 
     public function getProductQuantityDiscounts()
@@ -64,11 +75,19 @@ class Price implements ValidationInterface
 
     public static function add(Price $a, Price $b)
     {
-        $price = new Price;
-        $price->unitPrice         = $a->unitPrice         + $b->unitPrice;
-        $price->origUnitPrice     = $a->origUnitPrice     + $b->origUnitPrice;
-        $price->quantityPrice     = $a->quantityPrice     + $b->quantityPrice;
-        $price->origQuantityPrice = $a->origQuantityPrice + $b->origQuantityPrice;
+        $price = clone $a;
+        $price->unitPrice         += $b->unitPrice;
+        $price->origUnitPrice     += $b->origUnitPrice;
+        $price->quantityPrice     += $b->quantityPrice;
+        $price->origQuantityPrice += $b->origQuantityPrice;
+
+        foreach ($b->getCatalogPromotions() as $catalogPromotion) {
+            $price->addCatalogPromotion($catalogPromotion);
+        }
+
+        foreach ($b->getProductQuantityDiscounts() as $productQuantityDiscount) {
+            $price->addProductQuantityDiscount($productQuantityDiscount);
+        }
 
         return $price;
     }
