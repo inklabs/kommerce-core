@@ -12,6 +12,8 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
     protected $metaDataClassNames = [
         Warehouse::class,
     ];
+    protected $santaMonicaPoint;
+    protected $losAngelesPoint;
 
     /** @var WarehouseRepositoryInterface */
     protected $warehouseRepository;
@@ -20,11 +22,14 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
     {
         parent::setUp();
         $this->warehouseRepository = $this->getRepositoryFactory()->getWarehouseRepository();
+        $this->losAngelesPoint = new Point(34.052234, -118.243685);
+        $this->santaMonicaPoint = new Point(34.010947, -118.490541);
     }
 
     private function setupWarehouse()
     {
         $warehouse = $this->dummyData->getWarehouse();
+        $warehouse->getAddress()->setPoint($this->santaMonicaPoint);
 
         $this->warehouseRepository->create($warehouse);
 
@@ -53,7 +58,6 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
     public function testFindOneById()
     {
         $this->setupWarehouse();
-
         $this->setCountLogger();
 
         $warehouse = $this->warehouseRepository->findOneById(1);
@@ -75,11 +79,7 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
     public function testFindByPointNotInRange()
     {
         $this->setupWarehouse();
-
-        $losAngeles = new Point(34.052234, -118.243685);
-
-        $warehouses = $this->warehouseRepository->findByPoint($losAngeles, 1);
-
+        $warehouses = $this->warehouseRepository->findByPoint($this->losAngelesPoint, 1);
         $this->assertSame(0, count($warehouses));
     }
 
@@ -87,15 +87,12 @@ class WarehouseRepositoryTest extends Helper\DoctrineTestCase
     {
         $this->setupWarehouse();
 
-        $losAngeles = new Point(34.052234, -118.243685);
-
-        $warehouses = $this->warehouseRepository->findByPoint($losAngeles, 50);
+        $warehouses = $this->warehouseRepository->findByPoint($this->losAngelesPoint, 50);
 
         $warehouse = $warehouses[0][0];
         $distance = $warehouses[0]['distance'];
 
         $this->assertTrue($warehouse instanceof Warehouse);
-
         $this->assertEquals(14.421, $distance, null, FLOAT_DELTA);
     }
 }

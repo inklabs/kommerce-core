@@ -8,9 +8,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Price implements ValidationInterface
 {
+    /** @var int */
     public $origUnitPrice;
+
+    /** @var int */
     public $unitPrice;
+
+    /** @var int */
     public $origQuantityPrice;
+
+    /** @var int */
     public $quantityPrice;
 
     /** @var CatalogPromotion[] | ArrayCollection */

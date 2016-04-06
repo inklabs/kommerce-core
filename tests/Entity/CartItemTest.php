@@ -6,23 +6,54 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class CartItemTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $cartItem = new CartItem;
+
+        $this->assertSame(null, $cartItem->getQuantity());
+        $this->assertSame(null, $cartItem->getProduct());
+        $this->assertSame(null, $cartItem->getCart());
+        $this->assertSame(0, count($cartItem->getCartItemOptionProducts()));
+        $this->assertSame(0, count($cartItem->getCartItemOptionValues()));
+        $this->assertSame(0, count($cartItem->getCartItemTextOptionValues()));
+    }
+
     public function testCreate()
     {
-        $cartItem = $this->dummyData->getCartItemFull();
+        $pricing = $this->dummyData->getPricing();
+        $cart = $this->dummyData->getCart();
+        $cartItemOptionProduct = $this->dummyData->getCartItemOptionProduct();
+        $cartItemOptionValue = $this->dummyData->getCartItemOptionValue();
+        $cartItemTextOptionValue = $this->dummyData->getCartItemTextOptionValue();
+        $product = $this->dummyData->getProduct();
 
-        $pricing = new Pricing;
+        $product->setShippingWeight(1);
+        $product->setSku('P1');
+
+        $cartItemOptionProduct->getOptionProduct()->getProduct()->setSku('OP1');
+        $cartItemOptionProduct->getOptionProduct()->getProduct()->setShippingWeight(3);
+
+        $cartItemOptionValue->getOptionValue()->setSku('OV1');
+        $cartItemOptionValue->getOptionValue()->setShippingWeight(5);
+
+        $cartItem = new CartItem;
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+        $cartItem->setCart($cart);
+        $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
+        $cartItem->addCartItemOptionValue($cartItemOptionValue);
+        $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
 
         $this->assertEntityValid($cartItem);
         $this->assertTrue($cartItem instanceof CartItem);
+        $this->assertTrue($cartItem->getPrice($pricing) instanceof Price);
         $this->assertSame(2, $cartItem->getQuantity());
         $this->assertSame('P1-OP1-OV1', $cartItem->getFullSku());
-        $this->assertSame(600, $cartItem->getPrice($pricing)->quantityPrice);
-        $this->assertSame(60, $cartItem->getShippingWeight());
-        $this->assertTrue($cartItem->getCartItemOptionProducts()[0] instanceof CartItemOptionProduct);
-        $this->assertTrue($cartItem->getCartItemOptionValues()[0] instanceof CartItemOptionValue);
-        $this->assertTrue($cartItem->getCartItemTextOptionValues()[0] instanceof CartItemTextOptionValue);
-        $this->assertTrue($cartItem->getPrice($pricing) instanceof Price);
-        $this->assertTrue($cartItem->getCart() instanceof Cart);
+        $this->assertSame(18, $cartItem->getShippingWeight());
+        $this->assertSame($cartItemOptionProduct, $cartItem->getCartItemOptionProducts()[0]);
+        $this->assertSame($cartItemOptionValue, $cartItem->getCartItemOptionValues()[0]);
+        $this->assertSame($cartItemTextOptionValue, $cartItem->getCartItemTextOptionValues()[0]);
+        $this->assertSame($cart, $cartItem->getCart());
     }
 
     public function testClone()

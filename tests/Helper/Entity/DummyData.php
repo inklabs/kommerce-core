@@ -64,7 +64,7 @@ class DummyData
         $address->setState('CA');
         $address->setZip5('90401');
         $address->setZip4('3274');
-        $address->setPoint(new Point(34.010947, -118.490541));
+        $address->setPoint($this->getPoint());
 
         return $address;
     }
@@ -189,6 +189,19 @@ class DummyData
         $cartItemOptionProduct->setOptionProduct($optionProduct);
 
         return $cartItemOptionProduct;
+    }
+
+    public function getCartItemTextOptionValue(TextOption $textOption = null)
+    {
+        if ($textOption === null) {
+            $textOption = $this->getTextOption();
+        }
+
+        $cartItemTextOptionValue = new CartItemTextOptionValue;
+        $cartItemTextOptionValue->setTextOption($textOption);
+        $cartItemTextOptionValue->setTextOptionValue('Happy Birthday');
+
+        return $cartItemTextOptionValue;
     }
 
     public function getCartPriceRule()
@@ -488,6 +501,11 @@ class DummyData
         return $parcel;
     }
 
+    public function getPoint()
+    {
+        return new Point(34.052234, -118.243685);
+    }
+
     public function getPrice()
     {
         $price = new Price;
@@ -725,5 +743,17 @@ class DummyData
         $warehouse->setAddress($this->getAddress());
 
         return $warehouse;
+    }
+
+    public function getCartItemOptionValue(OptionValue $optionValue = null)
+    {
+        if ($optionValue === null) {
+            $optionValue = $this->getOptionValue();
+        }
+
+        $cartItemOptionValue = new CartItemOptionValue;
+        $cartItemOptionValue->setOptionValue($optionValue);
+
+        return $cartItemOptionValue;
     }
 }

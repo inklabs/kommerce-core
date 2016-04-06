@@ -17,6 +17,9 @@ class CartItem implements EntityInterface, ValidationInterface
     /** @var Product */
     protected $product;
 
+    /** @var Cart */
+    protected $cart;
+
     /** @var CartItemOptionProduct[] */
     protected $cartItemOptionProducts;
 
@@ -25,9 +28,6 @@ class CartItem implements EntityInterface, ValidationInterface
 
     /** @var CartItemTextOptionValue[] */
     protected $cartItemTextOptionValues;
-
-    /** @var Cart */
-    protected $cart;
 
     public function __construct()
     {

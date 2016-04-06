@@ -1,31 +1,33 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-class CartItemOptionValueTest extends \PHPUnit_Framework_TestCase
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+
+class CartItemOptionValueTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $cartItemOptionValue = new CartItemOptionValue;
+
+        $this->assertSame(null, $cartItemOptionValue->getOptionValue());
+        $this->assertSame(null, $cartItemOptionValue->getCartItem());
+    }
+
     public function testCreate()
     {
-        $option = new Option;
-        $option->setType(Option::TYPE_SELECT);
-        $option->setName('Shirt Size');
-        $option->setDescription('Shirt Size Description');
-
-        $optionValue = new OptionValue;
-        $optionValue->setSortOrder(0);
+        $cartItem = $this->dummyData->getCartItem();
+        $optionValue = $this->dummyData->getOptionValue();
         $optionValue->setSku('MD');
-        $optionValue->setName('Medium Shirt');
         $optionValue->setShippingWeight(6);
-        $optionValue->setUnitPrice(500);
-        $optionValue->setOption($option);
 
         $cartItemOptionValue = new CartItemOptionValue;
         $cartItemOptionValue->setOptionValue($optionValue);
-        $cartItemOptionValue->setCartItem(new CartItem);
+        $cartItemOptionValue->setCartItem($cartItem);
 
         $this->assertSame('MD', $cartItemOptionValue->getSku());
         $this->assertSame(6, $cartItemOptionValue->getShippingWeight());
         $this->assertTrue($cartItemOptionValue->getPrice() instanceof Price);
-        $this->assertTrue($cartItemOptionValue->getOptionValue() instanceof OptionValue);
-        $this->assertTrue($cartItemOptionValue->getCartItem() instanceof CartItem);
+        $this->assertSame($optionValue, $cartItemOptionValue->getOptionValue());
+        $this->assertSame($cartItem, $cartItemOptionValue->getCartItem());
     }
 }

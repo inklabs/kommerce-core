@@ -19,11 +19,11 @@ class AttributeValue implements EntityInterface, ValidationInterface
     /** @var string */
     protected $description;
 
-    /** @var Attribute */
-    protected $attribute;
-
     /** @var int */
     protected $sortOrder;
+
+    /** @var Attribute */
+    protected $attribute;
 
     /** @var ProductAttribute[] */
     protected $productAttributes;

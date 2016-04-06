@@ -5,8 +5,28 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class AddressTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $address = new Address;
+
+        $this->assertSame(null, $address->getAttention());
+        $this->assertSame(null, $address->getCompany());
+        $this->assertSame(null, $address->getAddress1());
+        $this->assertSame(null, $address->getAddress2());
+        $this->assertSame(null, $address->getCity());
+        $this->assertSame(null, $address->getState());
+        $this->assertSame(null, $address->getZip5());
+        $this->assertSame(null, $address->getZip4());
+
+        $point = $address->getPoint();
+        $this->assertEquals(0.0, $point->getLatitude(), '', FLOAT_DELTA);
+        $this->assertEquals(0.0, $point->getLongitude(), '', FLOAT_DELTA);
+    }
+
     public function testCreate()
     {
+        $point = $this->dummyData->getPoint();
+
         $address = new Address;
         $address->setAttention('John Doe');
         $address->setCompany('Acme Co.');
@@ -16,7 +36,7 @@ class AddressTest extends DoctrineTestCase
         $address->setState('CA');
         $address->setZip5('90401');
         $address->setZip4('3274');
-        $address->setPoint(new Point(34.052234, -118.243685));
+        $address->setPoint($point);
 
         $this->assertEntityValid($address);
         $this->assertSame('John Doe', $address->getAttention());
@@ -27,6 +47,6 @@ class AddressTest extends DoctrineTestCase
         $this->assertSame('CA', $address->getState());
         $this->assertSame('90401', $address->getZip5());
         $this->assertSame('3274', $address->getZip4());
-        $this->assertTrue($address->getPoint() instanceof Point);
+        $this->assertSame($point, $address->getPoint());
     }
 }

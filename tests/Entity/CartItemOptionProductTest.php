@@ -1,35 +1,35 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CartItemOptionProductTest extends \PHPUnit_Framework_TestCase
+class CartItemOptionProductTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $cartItemOptionProduct = new CartItemOptionProduct;
+
+        $this->assertSame(null, $cartItemOptionProduct->getOptionProduct());
+        $this->assertSame(null, $cartItemOptionProduct->getCartItem());
+    }
+
     public function testCreate()
     {
-        $option = new Option;
-        $option->setType(Option::TYPE_SELECT);
-        $option->setName('Team Logo');
-        $option->setDescription('Embroidered Team Logo');
+        $pricing = $this->dummyData->getPricing();
+        $cartItem = $this->dummyData->getCartItem();
 
-        $logoProduct = new Product;
-        $logoProduct->setSku('LAA');
-        $logoProduct->setName('LA Angels');
-        $logoProduct->setShippingWeight(6);
-
-        $optionProduct = new OptionProduct;
-        $optionProduct->setProduct($logoProduct);
-        $optionProduct->setSortOrder(0);
-        $optionProduct->setOption($option);
+        $optionProduct = $this->dummyData->getOptionProduct();
+        $optionProduct->getProduct()->setSku('LAA');
+        $optionProduct->getProduct()->setShippingWeight(6);
 
         $cartItemOptionProduct = new CartItemOptionProduct;
         $cartItemOptionProduct->setOptionProduct($optionProduct);
-        $cartItemOptionProduct->setCartItem(new CartItem);
+        $cartItemOptionProduct->setCartItem($cartItem);
 
         $this->assertSame('LAA', $cartItemOptionProduct->getSku());
         $this->assertSame(6, $cartItemOptionProduct->getShippingWeight());
-        $this->assertTrue($cartItemOptionProduct->getPrice(new Pricing) instanceof Price);
-        $this->assertTrue($cartItemOptionProduct->getOptionProduct() instanceof OptionProduct);
-        $this->assertTrue($cartItemOptionProduct->getCartItem() instanceof CartItem);
+        $this->assertTrue($cartItemOptionProduct->getPrice($pricing) instanceof Price);
+        $this->assertSame($optionProduct, $cartItemOptionProduct->getOptionProduct());
+        $this->assertSame($cartItem, $cartItemOptionProduct->getCartItem());
     }
 }
