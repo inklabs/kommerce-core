@@ -12,29 +12,29 @@ class Cart implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
-    /** @var CartItem[]|ArrayCollection */
-    protected $cartItems;
-
-    /** @var Coupon[]|ArrayCollection */
-    protected $coupons;
-
-    /** @var ShipmentRate */
-    protected $shipmentRate;
-
-    /** @var OrderAddress */
-    protected $shippingAddress;
-
-    /** @var TaxRate */
-    protected $taxRate;
-
     /** @var string */
     protected $sessionId;
+
+    /** @var int */
+    protected $ip4;
 
     /** @var User */
     protected $user;
 
-    /** @var int */
-    protected $ip4;
+    /** @var OrderAddress */
+    protected $shippingAddress;
+
+    /** @var ShipmentRate */
+    protected $shipmentRate;
+
+    /** @var TaxRate */
+    protected $taxRate;
+
+    /** @var CartItem[] | ArrayCollection */
+    protected $cartItems;
+
+    /** @var Coupon[] | ArrayCollection */
+    protected $coupons;
 
     public function __construct()
     {

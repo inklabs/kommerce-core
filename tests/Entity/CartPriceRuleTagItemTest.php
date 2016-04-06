@@ -5,26 +5,13 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class CartPriceRuleTagItemTest extends DoctrineTestCase
 {
-    public function testCreate()
+    public function testCreateDefaults()
     {
-        $priceRule = new CartPriceRuleTagItem(new Tag, 1);
+        $tag = $this->dummyData->getTag();
+        $cartPriceRuleTagItem = new CartPriceRuleTagItem($tag, 1);
 
-        $this->assertEntityValid($priceRule);
-        $this->assertTrue($priceRule->getTag() instanceof Tag);
-    }
-
-    private function getTag($id)
-    {
-        $tag = new Tag;
-        $tag->setId($id);
-        return $tag;
-    }
-
-    private function getProduct($id)
-    {
-        $product = new Product();
-        $product->setId($id);
-        return $product;
+        $this->assertSame(1, $cartPriceRuleTagItem->getQuantity());
+        $this->assertSame($tag, $cartPriceRuleTagItem->getTag());
     }
 
     public function testTagMatches()
@@ -32,10 +19,7 @@ class CartPriceRuleTagItemTest extends DoctrineTestCase
         $tag1 = $this->getTag(1);
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
-
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product1);
-        $cartItem->setQuantity(1);
+        $cartItem = $this->dummyData->getCartItem($product1, 1);
 
         $priceRule = new CartPriceRuleTagItem($tag1, 1);
 
@@ -47,10 +31,7 @@ class CartPriceRuleTagItemTest extends DoctrineTestCase
         $tag1 = $this->getTag(1);
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
-
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product1);
-        $cartItem->setQuantity(2);
+        $cartItem = $this->dummyData->getCartItem($product1, 2);
 
         $priceRule = new CartPriceRuleTagItem($tag1, 1);
 
@@ -61,13 +42,10 @@ class CartPriceRuleTagItemTest extends DoctrineTestCase
     {
         $tag1 = $this->getTag(1);
         $tag2 = $this->getTag(2);
-
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
 
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product1);
-        $cartItem->setQuantity(1);
+        $cartItem = $this->dummyData->getCartItem($product1, 1);
 
         $priceRule = new CartPriceRuleTagItem($tag2, 1);
 
@@ -77,23 +55,26 @@ class CartPriceRuleTagItemTest extends DoctrineTestCase
     public function testTagDoesNotMatchByQuantity()
     {
         $tag1 = $this->getTag(1);
-
         $product1 = $this->getProduct(1);
         $product1->addTag($tag1);
-
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product1);
-        $cartItem->setQuantity(1);
+        $cartItem = $this->dummyData->getCartItem($product1, 1);
 
         $priceRule = new CartPriceRuleTagItem($tag1, 2);
 
         $this->assertFalse($priceRule->matches($cartItem));
     }
 
-    public function testGetTag()
+    private function getProduct($id)
     {
-        $tag1 = $this->getTag(1);
-        $priceRule = new CartPriceRuleTagItem($tag1, 1);
-        $this->assertTrue($priceRule->getTag() instanceof Tag);
+        $product = $this->dummyData->getProduct($id);
+        $product->setId($id);
+        return $product;
+    }
+
+    private function getTag($id)
+    {
+        $tag = $this->dummyData->getTag($id);
+        $tag->setId($id);
+        return $tag;
     }
 }

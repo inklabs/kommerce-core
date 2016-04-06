@@ -54,14 +54,14 @@ class CartPriceRule extends AbstractPromotion
         $localCartItems = $this->cloneCartItems($cartItems);
 
         return $this->isValidPromotion($date)
-            and $this->isCartItemsValid($localCartItems);
+            and $this->areCartItemsValid($localCartItems);
     }
 
     /**
      * @param CartItem[] $cartItems
      * @return bool
      */
-    public function isCartItemsValid(& $cartItems)
+    public function areCartItemsValid(& $cartItems)
     {
         $matchedItems = $this->getCartItemMatches($cartItems);
 
@@ -100,7 +100,7 @@ class CartPriceRule extends AbstractPromotion
         $numberTimesToApply = 0;
         $localCartItems = $this->cloneCartItems($cartItems);
 
-        while ($this->isCartItemsValid($localCartItems)) {
+        while ($this->areCartItemsValid($localCartItems)) {
             $numberTimesToApply++;
         }
 

@@ -12,6 +12,8 @@ use inklabs\kommerce\Entity\CartItemOptionProduct;
 use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
 use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\Entity\CartPriceRuleDiscount;
+use inklabs\kommerce\Entity\CartPriceRuleProductItem;
 use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CatalogPromotion;
@@ -111,7 +113,7 @@ class DummyData
         return new CartCalculator($this->getPricing());
     }
 
-    public function getCartItem($product = null)
+    public function getCartItem($product = null, $quantity = 2)
     {
         if ($product === null) {
             $product = $this->getProduct();
@@ -119,7 +121,7 @@ class DummyData
 
         $cartItem = new CartItem;
         $cartItem->setProduct($product);
-        $cartItem->setQuantity(2);
+        $cartItem->setQuantity($quantity);
 
         return $cartItem;
     }
@@ -212,6 +214,20 @@ class DummyData
         $cartPriceRule->setValue(0);
 
         return $cartPriceRule;
+    }
+
+    public function getCartPriceRuleDiscount()
+    {
+        return new CartPriceRuleDiscount($this->getProduct(), 1);
+    }
+
+    public function getCartPriceRuleProductItem(Product $product = null, $quantity = 1)
+    {
+        if ($product === null) {
+            $product = $this->getProduct();
+        }
+
+        return new CartPriceRuleProductItem($product, $quantity);
     }
 
     public function getCartTotal()
@@ -631,7 +647,7 @@ class DummyData
      * @param int $amount
      * @return ShipmentRate
      */
-    public function getShipmentRate($amount)
+    public function getShipmentRate($amount = 500)
     {
         $shipmentRate = new ShipmentRate(new Money($amount, 'USD'));
         $shipmentRate->setExternalId('rate_' . $this->getRandomToken());

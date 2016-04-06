@@ -8,53 +8,53 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class CartTest extends DoctrineTestCase
 {
-    private function getPercentCoupon($id, $value)
+    public function testCreateDefaults()
     {
-        $coupon = new Coupon;
-        $coupon->setId($id);
-        $coupon->setName($value . '% Off');
-        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
-        $coupon->setValue($value);
+        $cart = new Cart;
 
-        return $coupon;
+        $this->assertSame(null, $cart->getSessionId());
+        $this->assertSame(null, $cart->getUser());
+        $this->assertSame(null, $cart->getShippingAddress());
+        $this->assertSame(null, $cart->getShipmentRate());
+        $this->assertSame(null, $cart->getTaxRate());
+        $this->assertSame('0.0.0.0', $cart->getIp4());
+        $this->assertSame(0, count($cart->getCartItems()));
+        $this->assertSame(0, count($cart->getCoupons()));
     }
 
     public function testCreate()
     {
-        $cartItem = new CartItem;
-        $cartItem->setProduct(new Product);
-        $cartItem->setQuantity(1);
+        $cartItem = $this->dummyData->getCartItem();
+        $coupon = $this->dummyData->getCoupon();
+        $shipmentRate = $this->dummyData->getShipmentRate();
+        $orderAddress = $this->dummyData->getOrderAddress();
+        $taxRate = $this->dummyData->getTaxRate();
 
         $cart = new Cart;
+        $cart->setSessionId('6is7ujb3crb5ja85gf91g9en62');
         $cart->setIp4('10.0.0.1');
         $cart->addCartItem($cartItem);
-        $cart->addCoupon(new Coupon);
-        $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
-        $cart->setShippingAddress(new OrderAddress);
-        $cart->setTaxRate(new TaxRate);
-        $cart->setSessionId('6is7ujb3crb5ja85gf91g9en62');
+        $cart->addCoupon($coupon);
+        $cart->setShipmentRate($shipmentRate);
+        $cart->setShippingAddress($orderAddress);
+        $cart->setTaxRate($taxRate);
 
         $this->assertEntityValid($cart);
         $this->assertTrue($cart instanceof Cart);
         $this->assertSame('10.0.0.1', $cart->getIp4());
         $this->assertSame('6is7ujb3crb5ja85gf91g9en62', $cart->getSessionId());
-        $this->assertTrue($cart->getCartitems()[0] instanceof CartItem);
-        $this->assertTrue($cart->getCartitem(0) instanceof CartItem);
-        $this->assertTrue($cart->getCoupons()[0] instanceof Coupon);
-        $this->assertTrue($cart->getShipmentRate() instanceof ShipmentRate);
-        $this->assertTrue($cart->getShippingAddress() instanceof OrderAddress);
-        $this->assertTrue($cart->getTaxRate() instanceof TaxRate);
+        $this->assertSame($cartItem, $cart->getCartitem(0));
+        $this->assertSame($cartItem, $cart->getCartitems()[0]);
+        $this->assertSame($coupon, $cart->getCoupons()[0]);
+        $this->assertSame($shipmentRate, $cart->getShipmentRate());
+        $this->assertSame($orderAddress, $cart->getShippingAddress());
+        $this->assertSame($taxRate, $cart->getTaxRate());
     }
 
     public function testAddCartItemWithDuplicate()
     {
-        $cartItem1 = new CartItem;
-        $cartItem1->setProduct(new Product);
-        $cartItem1->setQuantity(5);
-
-        $cartItem2 = new CartItem;
-        $cartItem2->setProduct(new Product);
-        $cartItem2->setQuantity(2);
+        $cartItem1 = $this->dummyData->getCartItem(null, 5);
+        $cartItem2 = $this->dummyData->getCartItem(null, 2);
 
         $cart = new Cart;
         $cart->addCartItem($cartItem1);
@@ -78,15 +78,13 @@ class CartTest extends DoctrineTestCase
 
     public function testDeleteCartItem()
     {
-        $cartItem = new CartItem;
-        $cartItem->setProduct(new Product);
-        $cartItem->setQuantity(1);
-
+        $cartItem = $this->dummyData->getCartItem(null, 1);
         $cart = new Cart;
         $cartItemIndex1 = $cart->addCartItem($cartItem);
         $this->assertSame(1, $cart->totalItems());
 
         $cart->deleteCartItem($cartItemIndex1);
+
         $this->assertSame(0, $cart->totalItems());
     }
 
@@ -104,10 +102,10 @@ class CartTest extends DoctrineTestCase
 
     public function testUpdateCoupon()
     {
-        $coupon1 = new Coupon;
+        $coupon1 = $this->dummyData->getCoupon(1);
         $coupon1->setId(1);
 
-        $coupon2 = new Coupon;
+        $coupon2 = $this->dummyData->getCoupon(2);
         $coupon2->setid(2);
 
         $cart = new Cart;
@@ -218,7 +216,7 @@ class CartTest extends DoctrineTestCase
     public function testRemoveCoupon()
     {
         $cart = new Cart;
-        $cart->addCoupon(new Coupon);
+        $cart->addCoupon($this->dummyData->getCoupon());
         $cart->removeCoupon(0);
         $this->assertSame(0, count($cart->getCoupons()));
     }
@@ -237,19 +235,11 @@ class CartTest extends DoctrineTestCase
 
     public function testGetShippingWeight()
     {
-        $product1 = new Product;
-        $product1->setShippingWeight(16);
+        $cartItem1 = $this->dummyData->getCartitem(null, 1);
+        $cartItem1->getProduct()->setShippingWeight(16);
 
-        $product2 = new Product;
-        $product2->setShippingWeight(16);
-
-        $cartItem1 = new CartItem;
-        $cartItem1->setProduct($product1);
-        $cartItem1->setQuantity(1);
-
-        $cartItem2 = new CartItem;
-        $cartItem2->setProduct($product2);
-        $cartItem2->setQuantity(3);
+        $cartItem2 = $this->dummyData->getCartitem(null, 3);
+        $cartItem2->getProduct()->setShippingWeight(16);
 
         $cart = new Cart;
         $cart->addCartItem($cartItem1);
@@ -260,17 +250,24 @@ class CartTest extends DoctrineTestCase
 
     public function testGetTotal()
     {
-        $product = new Product;
-        $product->setUnitPrice(500);
-
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product);
-        $cartItem->setQuantity(2);
+        $cartItem = $this->dummyData->getCartitem(null, 2);
+        $cartItem->getProduct()->setUnitPrice(500);
 
         $cart = new Cart;
         $cart->addCartItem($cartItem);
 
-        $cartCalculator = new CartCalculator(new Pricing);
+        $cartCalculator = $this->getCartCalculator();
         $this->assertTrue($cart->getTotal($cartCalculator) instanceof CartTotal);
+    }
+
+    private function getPercentCoupon($id, $value)
+    {
+        $coupon = new Coupon;
+        $coupon->setId($id);
+        $coupon->setName($value . '% Off');
+        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
+        $coupon->setValue($value);
+
+        return $coupon;
     }
 }

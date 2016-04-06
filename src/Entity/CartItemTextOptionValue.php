@@ -2,8 +2,10 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartItemTextOptionValueDTOBuilder;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class CartItemTextOptionValue
+class CartItemTextOptionValue implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -19,6 +21,14 @@ class CartItemTextOptionValue
     public function __construct()
     {
         $this->setCreated();
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('textOptionValue', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('textOptionValue', new Assert\Length([
+            'max' => 255,
+        ]));
     }
 
     public function getTextOption()

@@ -5,28 +5,19 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class CartPriceRuleProductItemTest extends DoctrineTestCase
 {
-    public function testCreate()
+    public function testCreateDefaults()
     {
-        $priceRule = new CartPriceRuleProductItem(new Product, 1);
+        $product = $this->dummyData->getProduct();
+        $cartPriceRuleProductItem = new CartPriceRuleProductItem($product, 1);
 
-        $this->assertEntityValid($priceRule);
-        $this->assertTrue($priceRule->getProduct() instanceof Product);
+        $this->assertSame(1, $cartPriceRuleProductItem->getQuantity());
+        $this->assertSame($product, $cartPriceRuleProductItem->getProduct());
     }
 
-    private function getProduct($id)
-    {
-        $product = new Product;
-        $product->setid($id);
-        return $product;
-    }
-
-    public function testMathces()
+    public function testMatches()
     {
         $product = $this->getProduct(1);
-
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product);
-        $cartItem->setQuantity(1);
+        $cartItem = $this->dummyData->getCartItem($product, 1);
 
         $priceRule = new CartPriceRuleProductItem($product, 1);
 
@@ -36,10 +27,7 @@ class CartPriceRuleProductItemTest extends DoctrineTestCase
     public function testMatchesWithLargerQuantity()
     {
         $product = $this->getProduct(1);
-
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product);
-        $cartItem->setQuantity(2);
+        $cartItem = $this->dummyData->getCartItem($product, 2);
 
         $priceRule = new CartPriceRuleProductItem($product, 1);
 
@@ -50,10 +38,7 @@ class CartPriceRuleProductItemTest extends DoctrineTestCase
     {
         $product1 = $this->getProduct(1);
         $product2 = $this->getProduct(2);
-
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product1);
-        $cartItem->setQuantity(1);
+        $cartItem = $this->dummyData->getCartItem($product1, 1);
 
         $priceRule = new CartPriceRuleProductItem($product2, 1);
 
@@ -63,13 +48,18 @@ class CartPriceRuleProductItemTest extends DoctrineTestCase
     public function testProductDoesNotMatchByQuantity()
     {
         $product1 = $this->getProduct(1);
-
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product1);
-        $cartItem->setQuantity(1);
+        $cartItem = $this->dummyData->getCartItem($product1, 1);
 
         $priceRule = new CartPriceRuleProductItem($product1, 2);
 
         $this->assertFalse($priceRule->matches($cartItem));
+    }
+
+    private function getProduct($id)
+    {
+        $product = $this->dummyData->getProduct($id);
+        $product->setid($id);
+
+        return $product;
     }
 }

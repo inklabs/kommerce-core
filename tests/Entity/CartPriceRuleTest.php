@@ -7,104 +7,90 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class CartPriceRuleTest extends DoctrineTestCase
 {
-    public function testCreate()
+    public function testCreateDefaults()
     {
         $cartPriceRule = new CartPriceRule;
 
-        $this->assertEntityValid($cartPriceRule);
         $this->assertSame(0, count($cartPriceRule->getCartPriceRuleItems()));
         $this->assertSame(0, count($cartPriceRule->getCartPriceRuleDiscounts()));
     }
 
-    public function testAdders()
+    public function testCreate()
     {
+        $item = $this->dummyData->getCartPriceRuleProductItem();
+        $discount = $this->dummyData->getCartPriceRuleDiscount();
+
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRuleProductItem(new Product, 1));
-        $cartPriceRule->addDiscount(new CartPriceRuleDiscount(new Product, 1));
-        $this->assertSame(1, count($cartPriceRule->getCartPriceRuleItems()));
-        $this->assertSame(1, count($cartPriceRule->getCartPriceRuleDiscounts()));
+        $cartPriceRule->addItem($item);
+        $cartPriceRule->addDiscount($discount);
+
+        $this->assertEntityValid($cartPriceRule);
+        $this->assertSame($item, $cartPriceRule->getCartPriceRuleItems()[0]);
+        $this->assertSame($discount, $cartPriceRule->getCartPriceRuleDiscounts()[0]);
     }
 
     public function testIsCartItemsValid()
     {
-        $product = new Product;
+        $product = $this->dummyData->getProduct(1);
         $product->setid(1);
+        $cartPriceRuleProductItem = $this->dummyData->getCartPriceRuleProductItem($product, 1);
+        $cartItem = $this->dummyData->getCartItem($product, 1);
+        $cartItems = new ArrayCollection([$cartItem]);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRuleProductItem($product, 1));
+        $cartPriceRule->addItem($cartPriceRuleProductItem);
 
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product);
-        $cartItem->setQuantity(1);
-
-        $cartItems = new ArrayCollection;
-        $cartItems->add($cartItem);
-
-        $this->assertTrue($cartPriceRule->isCartItemsValid($cartItems));
+        $this->assertTrue($cartPriceRule->areCartItemsValid($cartItems));
     }
 
     public function testIsCartItemsValidWithMultipleItems()
     {
-        $product1 = new Product;
+        $product1 = $this->dummyData->getProduct(1);
+        $product2 = $this->dummyData->getProduct(2);
         $product1->setid(1);
-
-        $product2 = new Product;
         $product2->setid(2);
+        $cartPriceRuleProductItem1 = $this->dummyData->getCartPriceRuleProductItem($product1, 1);
+        $cartPriceRuleProductItem2 = $this->dummyData->getCartPriceRuleProductItem($product2, 1);
+        $cartItems = new ArrayCollection([
+            $this->dummyData->getCartItem($product1, 1),
+            $this->dummyData->getCartItem($product2, 1),
+        ]);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRuleProductItem($product1, 1));
-        $cartPriceRule->addItem(new CartPriceRuleProductItem($product2, 1));
+        $cartPriceRule->addItem($cartPriceRuleProductItem1);
+        $cartPriceRule->addItem($cartPriceRuleProductItem2);
 
-        $cartItem1 = new CartItem;
-        $cartItem1->setProduct($product1);
-        $cartItem1->setQuantity(1);
-
-        $cartItem2 = new CartItem;
-        $cartItem2->setProduct($product2);
-        $cartItem2->setQuantity(1);
-
-        $cartItems = new ArrayCollection;
-        $cartItems->add($cartItem1);
-        $cartItems->add($cartItem2);
-
-        $this->assertTrue($cartPriceRule->isCartItemsValid($cartItems));
+        $this->assertTrue($cartPriceRule->areCartItemsValid($cartItems));
     }
 
     public function testIsCartItemsValidReturnFalse()
     {
-        $product1 = new Product;
+        $product1 = $this->dummyData->getProduct(1);
+        $product2 = $this->dummyData->getProduct(2);
         $product1->setid(1);
-
-        $product2 = new Product;
         $product2->setid(2);
+        $cartPriceRuleProductItem1 = $this->dummyData->getCartPriceRuleProductItem($product1, 1);
+        $cartItems = new ArrayCollection([
+            $this->dummyData->getCartItem($product2, 1)
+        ]);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRuleProductItem($product1, 1));
+        $cartPriceRule->addItem($cartPriceRuleProductItem1);
 
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product2);
-        $cartItem->setQuantity(1);
-
-        $cartItems = new ArrayCollection;
-        $cartItems->add($cartItem);
-
-        $this->assertFalse($cartPriceRule->isCartItemsValid($cartItems));
+        $this->assertFalse($cartPriceRule->areCartItemsValid($cartItems));
     }
 
     public function testIsValid()
     {
-        $product = new Product;
-        $product->setid(1);
+        $product1 = $this->dummyData->getProduct(1);
+        $product1->setid(1);
+        $cartPriceRuleProductItem1 = $this->dummyData->getCartPriceRuleProductItem($product1, 1);
+        $cartItems = new ArrayCollection([
+            $this->dummyData->getCartItem($product1, 1)
+        ]);
 
         $cartPriceRule = new CartPriceRule;
-        $cartPriceRule->addItem(new CartPriceRuleProductItem($product, 1));
-
-        $cartItem = new CartItem;
-        $cartItem->setProduct($product);
-        $cartItem->setQuantity(1);
-
-        $cartItems = new ArrayCollection;
-        $cartItems->add($cartItem);
+        $cartPriceRule->addItem($cartPriceRuleProductItem1);
 
         $this->assertTrue($cartPriceRule->isValid(new DateTime, $cartItems));
     }
