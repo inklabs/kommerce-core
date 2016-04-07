@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\InventoryTransactionDTOBuilder;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -174,5 +175,10 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
     public function getQuantity()
     {
         return $this->creditQuantity - $this->debitQuantity;
+    }
+
+    public function getDTOBuilder()
+    {
+        return new InventoryTransactionDTOBuilder($this);
     }
 }

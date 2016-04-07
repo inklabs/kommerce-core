@@ -52,6 +52,7 @@ use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\Entity\UserToken;
+use inklabs\kommerce\Entity\UserTokenType;
 use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
@@ -798,7 +799,7 @@ class DummyData
         $userToken->setToken('xxxx');
         $userToken->setIp4('8.8.8.8');
         $userToken->setexpires(new DateTime);
-        $userToken->setType(UserToken::TYPE_FACEBOOK);
+        $userToken->setType(UserTokenType::facebook());
 
         return $userToken;
     }

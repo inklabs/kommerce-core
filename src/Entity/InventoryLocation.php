@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\EntityDTO\Builder\InventoryLocationDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -74,5 +75,10 @@ class InventoryLocation implements EntityInterface, ValidationInterface
     public function getWarehouse()
     {
         return $this->warehouse;
+    }
+
+    public function getDTOBuilder()
+    {
+        return new InventoryLocationDTOBuilder($this);
     }
 }

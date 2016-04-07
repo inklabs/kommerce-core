@@ -2,42 +2,20 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderStatusTypeDTOBuilder;
-use inklabs\kommerce\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OrderStatusType implements ValidationInterface
+/**
+ * @method static OrderStatusType createById($id)
+ */
+class OrderStatusType extends AbstractIntegerType
 {
-    /** @var int */
-    private $id;
-
     const PENDING    = 0;
     const PROCESSING = 1;
     const PARTIALLY_SHIPPED = 2;
     const SHIPPED    = 3;
     const COMPLETE   = 4;
     const CANCELED   = 5;
-
-    /**
-     * @param int $id
-     * @throws InvalidArgumentException
-     */
-    private function __construct($id)
-    {
-        if (! in_array($id, self::validIds())) {
-            throw new InvalidArgumentException;
-        }
-
-        $this->id = (int) $id;
-    }
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addPropertyConstraint('id', new Assert\Choice([
-            'choices' => self::validIds(),
-            'message' => 'The type is not a valid choice',
-        ]));
-    }
 
     public static function getNameMap()
     {
@@ -51,31 +29,12 @@ class OrderStatusType implements ValidationInterface
         ];
     }
 
-    /**
-     * @return array
-     */
-    private static function validIds()
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        return array_keys(self::getNameMap());
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getName()
-    {
-        return $this->getNameMap()[$this->id];
-    }
-
-    /**
-     * @param int $id
-     * @return OrderStatusType
-     */
-    public static function createById($id)
-    {
-        return new self($id);
+        $metadata->addPropertyConstraint('id', new Assert\Choice([
+            'choices' => self::validIds(),
+            'message' => 'The type is not a valid choice',
+        ]));
     }
 
     public static function pending()

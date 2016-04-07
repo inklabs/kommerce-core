@@ -22,9 +22,11 @@ class UserTokenDTOBuilder
         $this->userTokenDTO->encodedId = BaseConvert::encode($this->userToken->getId());
         $this->userTokenDTO->userAgent = $this->userToken->getUserAgent();
         $this->userTokenDTO->expires   = $this->userToken->getExpires();
-        $this->userTokenDTO->type      = $this->userToken->getType();
         $this->userTokenDTO->created   = $this->userToken->getCreated();
         $this->userTokenDTO->updated   = $this->userToken->getUpdated();
+
+        $this->userTokenDTO->type = $this->userToken->getType()->getDTOBuilder()
+            ->build();
     }
 
     public function withUser()

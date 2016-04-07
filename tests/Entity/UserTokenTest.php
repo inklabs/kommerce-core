@@ -14,10 +14,9 @@ class UserTokenTest extends DoctrineTestCase
         $this->assertSame(null, $userToken->getId());
         $this->assertSame(null, $userToken->getUserAgent());
         $this->assertSame(false, $userToken->verifyToken('token'));
-        $this->assertSame(UserToken::TYPE_INTERNAL, $userToken->getType());
-        $this->assertSame('Internal', $userToken->getTypeText());
         $this->assertSame(null, $userToken->getUser());
         $this->assertSame(null, $userToken->getExpires());
+        $this->assertTrue($userToken->getType()->isInternal());
     }
 
     public function testCreate()
@@ -28,7 +27,7 @@ class UserTokenTest extends DoctrineTestCase
         $userToken = new UserToken;
         $userToken->setUserAgent('UserAgent');
         $userToken->setToken('token');
-        $userToken->setType(UserToken::TYPE_GOOGLE);
+        $userToken->setType(UserTokenType::google());
         $userToken->setExpires($expires);
         $userToken->setUser($user);
 
@@ -36,10 +35,9 @@ class UserTokenTest extends DoctrineTestCase
         $this->assertSame(null, $userToken->getId());
         $this->assertSame('UserAgent', $userToken->getUserAgent());
         $this->assertSame(true, $userToken->verifyToken('token'));
-        $this->assertSame(UserToken::TYPE_GOOGLE, $userToken->getType());
-        $this->assertSame('Google', $userToken->getTypeText());
         $this->assertSame($user, $userToken->getUser());
         $this->assertEquals($expires, $userToken->getExpires());
+        $this->assertTrue($userToken->getType()->isGoogle());
     }
 
     public function testCreateWithNullExpires()

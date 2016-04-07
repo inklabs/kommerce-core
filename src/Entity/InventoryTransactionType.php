@@ -1,15 +1,15 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Exception\InvalidArgumentException;
+use inklabs\kommerce\EntityDTO\Builder\InventoryTransactionTypeDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class InventoryTransactionType implements ValidationInterface
+/**
+ * @method static InventoryTransactionType createById($id)
+ */
+class InventoryTransactionType extends AbstractIntegerType
 {
-    /** @var int */
-    private $id;
-
     const MOVE = 0;
     const HOLD = 1;
     const NEW_PRODUCTS = 2;
@@ -18,27 +18,6 @@ class InventoryTransactionType implements ValidationInterface
     const PROMOTION = 5;
     const DAMAGED = 6;
     const SHRINKAGE = 7;
-
-    /**
-     * @param int $id
-     * @throws InvalidArgumentException
-     */
-    private function __construct($id)
-    {
-        if (! in_array($id, self::validIds())) {
-            throw new InvalidArgumentException;
-        }
-
-        $this->id = (int) $id;
-    }
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addPropertyConstraint('id', new Assert\Choice([
-            'choices' => self::validIds(),
-            'message' => 'The type is not a valid choice',
-        ]));
-    }
 
     public static function getNameMap()
     {
@@ -54,27 +33,12 @@ class InventoryTransactionType implements ValidationInterface
         ];
     }
 
-    /**
-     * @return array
-     */
-    private static function validIds()
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        return array_keys(self::getNameMap());
-    }
-
-    public function getName()
-    {
-        return $this->getNameMap()[$this->id];
-    }
-
-
-    /**
-     * @param int $id
-     * @return InventoryTransactionType
-     */
-    public static function createById($id)
-    {
-        return new self($id);
+        $metadata->addPropertyConstraint('id', new Assert\Choice([
+            'choices' => self::validIds(),
+            'message' => 'The type is not a valid choice',
+        ]));
     }
 
     public static function move()
@@ -155,5 +119,10 @@ class InventoryTransactionType implements ValidationInterface
     public function isShrinkage()
     {
         return $this->id === self::SHRINKAGE;
+    }
+
+    public function getDTOBuilder()
+    {
+        return new InventoryTransactionTypeDTOBuilder($this);
     }
 }

@@ -23,13 +23,8 @@ class UserToken implements EntityInterface, ValidationInterface
     /** @var int */
     protected $expires;
 
-    /** @var int */
+    /** @var UserTokenType */
     protected $type;
-    const TYPE_INTERNAL = 0;
-    const TYPE_GOOGLE   = 1;
-    const TYPE_FACEBOOK = 2;
-    const TYPE_TWITTER  = 3;
-    const TYPE_YAHOO    = 4;
 
     /** @var User */
     protected $user;
@@ -40,7 +35,7 @@ class UserToken implements EntityInterface, ValidationInterface
     public function __construct()
     {
         $this->setCreated();
-        $this->setType(self::TYPE_INTERNAL);
+        $this->setType(UserTokenType::internal());
         $this->userLogins = new ArrayCollection;
     }
 
@@ -64,10 +59,7 @@ class UserToken implements EntityInterface, ValidationInterface
             'value' => 0,
         ]));
 
-        $metadata->addPropertyConstraint('type', new Assert\Choice([
-            'choices' => array_keys(static::getTypeMapping()),
-            'message' => 'The type is not a valid choice',
-        ]));
+        $metadata->addPropertyConstraint('type', new Assert\Valid);
     }
 
     /**
@@ -117,33 +109,14 @@ class UserToken implements EntityInterface, ValidationInterface
         return password_verify($token, $this->tokenHash);
     }
 
-    /**
-     * @param int $type
-     */
-    public function setType($type)
+    public function setType(UserTokenType $type)
     {
-        $this->type = (int) $type;
+        $this->type = $type;
     }
 
     public function getType()
     {
         return $this->type;
-    }
-
-    public static function getTypeMapping()
-    {
-        return [
-            static::TYPE_INTERNAL => 'Internal',
-            static::TYPE_GOOGLE => 'Google',
-            static::TYPE_FACEBOOK => 'Facebook',
-            static::TYPE_TWITTER => 'Twitter',
-            static::TYPE_YAHOO => 'Yahoo',
-        ];
-    }
-
-    public function getTypeText()
-    {
-        return $this->getTypeMapping()[$this->type];
     }
 
     public function setExpires(DateTime $expires = null)

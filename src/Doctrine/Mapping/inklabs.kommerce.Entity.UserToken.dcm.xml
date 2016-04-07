@@ -38,12 +38,6 @@
             </options>
         </field>
 
-        <field name="type" type="smallint" nullable="false">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
         <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
@@ -55,6 +49,8 @@
                 <option name="unsigned">true</option>
             </options>
         </field>
+
+        <embedded name="type" class="UserTokenType" use-column-prefix="false"/>
 
         <one-to-many field="userLogins" target-entity="UserLogin" mapped-by="userToken" fetch="EXTRA_LAZY">
             <cascade>
