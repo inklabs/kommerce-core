@@ -8,19 +8,33 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class ProductQuantityDiscountTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $productQuantityDiscount = new ProductQuantityDiscount;
+
+        $this->assertSame(null, $productQuantityDiscount->getCustomerGroup());
+        $this->assertSame(null, $productQuantityDiscount->getQuantity());
+        $this->assertSame(false, $productQuantityDiscount->getFlagApplyCatalogPromotions());
+        $this->assertSame(null, $productQuantityDiscount->getProduct());
+    }
+
     public function testCreate()
     {
+        $pricing = $this->dummyData->getPricing();
+        $product = $this->dummyData->getProduct();
+
         $productQuantityDiscount = new ProductQuantityDiscount;
         $productQuantityDiscount->setCustomerGroup(null);
         $productQuantityDiscount->setQuantity(6);
         $productQuantityDiscount->setFlagApplyCatalogPromotions(true);
-        $productQuantityDiscount->setProduct(new Product);
+        $productQuantityDiscount->setProduct($product);
 
         $this->assertEntityValid($productQuantityDiscount);
         $this->assertSame(null, $productQuantityDiscount->getCustomerGroup());
         $this->assertSame(6, $productQuantityDiscount->getQuantity());
         $this->assertSame(true, $productQuantityDiscount->getFlagApplyCatalogPromotions());
-        $this->assertTrue($productQuantityDiscount->getProduct() instanceof Product);
+        $this->assertSame($product, $productQuantityDiscount->getProduct());
+        $this->assertTrue($productQuantityDiscount->getPrice($pricing) instanceof Price);
     }
 
     public function testSetNameThrowsException()
@@ -81,13 +95,5 @@ class ProductQuantityDiscountTest extends DoctrineTestCase
         $productQuantityDiscount->setQuantity(10);
         $productQuantityDiscount->setValue(500);
         $this->assertSame('Buy 10 or more for $5.00 off', $productQuantityDiscount->getName());
-    }
-
-    public function testGetPrice()
-    {
-        $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setProduct(new Product);
-        $productQuantityDiscount->setQuantity(1);
-        $this->assertTrue($productQuantityDiscount->getPrice(new Pricing) instanceof Price);
     }
 }

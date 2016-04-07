@@ -11,11 +11,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ProductQuantityDiscount extends AbstractPromotion
 {
     protected $customerGroup;
-    protected $flagApplyCatalogPromotions;
+
+    /** @var int */
     protected $quantity;
+
+    /** @var bool */
+    protected $flagApplyCatalogPromotions;
 
     /** @var Product */
     protected $product;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setFlagApplyCatalogPromotions(false);
+    }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {

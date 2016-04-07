@@ -1,17 +1,32 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-class ProductAttributeTest extends \PHPUnit_Framework_TestCase
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+
+class ProductAttributeTest extends DoctrineTestCase
 {
-    public function testCreate()
+    public function testCreateDefaults()
     {
         $productAttribute = new ProductAttribute;
-        $productAttribute->setProduct(new Product);
-        $productAttribute->setAttribute(new Attribute);
-        $productAttribute->setAttributeValue(new AttributeValue);
 
-        $this->assertTrue($productAttribute->getProduct() instanceof Product);
-        $this->assertTrue($productAttribute->getAttribute() instanceof Attribute);
-        $this->assertTrue($productAttribute->getAttributeValue() instanceof AttributeValue);
+        $this->assertSame(null, $productAttribute->getProduct());
+        $this->assertSame(null, $productAttribute->getAttribute());
+        $this->assertSame(null, $productAttribute->getAttributeValue());
+    }
+
+    public function testCreate()
+    {
+        $product = $this->dummyData->getProduct();
+        $attribute = $this->dummyData->getAttribute();
+        $attributeValue = $this->dummyData->getAttributeValue();
+
+        $productAttribute = new ProductAttribute;
+        $productAttribute->setProduct($product);
+        $productAttribute->setAttribute($attribute);
+        $productAttribute->setAttributeValue($attributeValue);
+
+        $this->assertSame($product, $productAttribute->getProduct());
+        $this->assertSame($attribute, $productAttribute->getAttribute());
+        $this->assertSame($attributeValue, $productAttribute->getAttributeValue());
     }
 }
