@@ -76,16 +76,12 @@ class UserTest extends DoctrineTestCase
         $user->setId(1);
         $user->setPassword('NewPassword123');
 
+        /** @var PasswordChangedEvent $event */
         $event = $user->releaseEvents()[0];
-
-        $this->assertEquals(
-            new PasswordChangedEvent(
-                $user->getId(),
-                $user->getEmail(),
-                $user->getFullName()
-            ),
-            $event
-        );
+        $this->assertTrue($event instanceof PasswordChangedEvent);
+        $this->assertSame($user->getId(), $event->getUserId());
+        $this->assertSame($user->getEmail(), $event->getEmail());
+        $this->assertSame($user->getFullName(), $event->getFullName());
     }
 
     public function testVerifyPassword()
