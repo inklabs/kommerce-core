@@ -8,6 +8,7 @@ class OptionProductTest extends DoctrineTestCase
 {
     public function testCreateDefaults()
     {
+        $pricing = $this->dummyData->getPricing();
         $product = $this->dummyData->getProduct();
         $product->setSku('sku1');
         $product->setName('Test Product');
@@ -22,11 +23,12 @@ class OptionProductTest extends DoctrineTestCase
         $this->assertSame(null, $optionProduct->getSortOrder());
         $this->assertSame(null, $optionProduct->getOption());
         $this->assertSame($product, $optionProduct->getProduct());
-        $this->assertTrue($optionProduct->getPrice(new Pricing) instanceof Price);
+        $this->assertTrue($optionProduct->getPrice($pricing) instanceof Price);
     }
 
     public function testCreate()
     {
+        $pricing = $this->dummyData->getPricing();
         $option = $this->dummyData->getOption();
         $product = $this->dummyData->getProduct();
         $product->setSku('SM');
@@ -42,8 +44,8 @@ class OptionProductTest extends DoctrineTestCase
         $this->assertSame('Small Shirt', $optionProduct->getName());
         $this->assertSame(16, $optionProduct->getShippingWeight());
         $this->assertSame(0, $optionProduct->getSortOrder());
-        $this->assertTrue($optionProduct->getPrice(new Pricing) instanceof Price);
         $this->assertSame($option, $optionProduct->getOption());
         $this->assertSame($product, $optionProduct->getProduct());
+        $this->assertTrue($optionProduct->getPrice($pricing) instanceof Price);
     }
 }

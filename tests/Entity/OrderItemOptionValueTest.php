@@ -1,31 +1,40 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-class OrderItemOptionValueTest extends \PHPUnit_Framework_TestCase
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+
+class OrderItemOptionValueTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $orderItemOptionValue = new OrderItemOptionValue;
+
+        $this->assertSame(null, $orderItemOptionValue->getSku());
+        $this->assertSame(null, $orderItemOptionValue->getOptionName());
+        $this->assertSame(null, $orderItemOptionValue->getOptionValueName());
+        $this->assertSame(null, $orderItemOptionValue->getOptionValue());
+        $this->assertSame(null, $orderItemOptionValue->getOrderItem());
+    }
+
     public function testCreate()
     {
-        $option = new Option;
-        $option->setType(Option::TYPE_SELECT);
+        $option = $this->dummyData->getOption();
         $option->setName('Shirt Size');
-        $option->setDescription('Shirt Size Description');
 
-        $optionValue = new OptionValue;
-        $optionValue->setSortOrder(0);
+        $optionValue = $this->dummyData->getOptionValue($option);
         $optionValue->setSku('MD');
         $optionValue->setName('Medium Shirt');
-        $optionValue->setShippingWeight(0);
-        $optionValue->setUnitPrice(500);
-        $optionValue->setOption($option);
+
+        $orderItem = $this->dummyData->getOrderItem();
 
         $orderItemOptionValue = new OrderItemOptionValue;
         $orderItemOptionValue->setOptionValue($optionValue);
-        $orderItemOptionValue->setOrderItem(new OrderItem);
+        $orderItemOptionValue->setOrderItem($orderItem);
 
         $this->assertSame('MD', $orderItemOptionValue->getSku());
         $this->assertSame('Shirt Size', $orderItemOptionValue->getOptionName());
         $this->assertSame('Medium Shirt', $orderItemOptionValue->getOptionValueName());
-        $this->assertTrue($orderItemOptionValue->getOptionValue() instanceof OptionValue);
-        $this->assertTrue($orderItemOptionValue->getOrderItem() instanceof OrderItem);
+        $this->assertSame($optionValue, $orderItemOptionValue->getOptionValue());
+        $this->assertSame($orderItem, $orderItemOptionValue->getOrderItem());
     }
 }

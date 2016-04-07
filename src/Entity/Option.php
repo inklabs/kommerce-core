@@ -38,6 +38,7 @@ class Option implements EntityInterface, ValidationInterface
     {
         $this->setCreated();
 
+        $this->type = self::TYPE_SELECT;
         $this->tags = new ArrayCollection;
         $this->optionProducts = new ArrayCollection;
         $this->optionValues = new ArrayCollection;

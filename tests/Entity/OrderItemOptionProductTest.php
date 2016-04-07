@@ -1,33 +1,41 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-class OrderItemOptionProductTest extends \PHPUnit_Framework_TestCase
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+
+class OrderItemOptionProductTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $orderItemOptionProduct = new OrderItemOptionProduct;
+
+        $this->assertSame(null, $orderItemOptionProduct->getSku());
+        $this->assertSame(null, $orderItemOptionProduct->getOptionName());
+        $this->assertSame(null, $orderItemOptionProduct->getOptionProductName());
+        $this->assertSame(null, $orderItemOptionProduct->getOptionProduct());
+        $this->assertSame(null, $orderItemOptionProduct->getOrderItem());
+    }
+
     public function testCreate()
     {
-        $option = new Option;
-        $option->setType(Option::TYPE_SELECT);
+        $option = $this->dummyData->getOption();
         $option->setName('Team Logo');
-        $option->setDescription('Embroidered Team Logo');
 
-        $logoProduct = new Product;
-        $logoProduct->setSku('LAA');
-        $logoProduct->setName('LA Angels');
-        $logoProduct->setShippingWeight(6);
+        $product = $this->dummyData->getProduct();
+        $product->setSku('LAA');
+        $product->setName('LA Angels');
 
-        $optionProduct = new OptionProduct;
-        $optionProduct->setProduct($logoProduct);
-        $optionProduct->setSortOrder(0);
-        $optionProduct->setOption($option);
+        $optionProduct = $this->dummyData->getOptionProduct($option, $product);
+        $orderItem = $this->dummyData->getOrderItem();
 
         $orderItemOptionProduct = new OrderItemOptionProduct;
         $orderItemOptionProduct->setOptionProduct($optionProduct);
-        $orderItemOptionProduct->setOrderItem(new OrderItem);
+        $orderItemOptionProduct->setOrderItem($orderItem);
 
         $this->assertSame('LAA', $orderItemOptionProduct->getSku());
         $this->assertSame('Team Logo', $orderItemOptionProduct->getOptionName());
         $this->assertSame('LA Angels', $orderItemOptionProduct->getOptionProductName());
-        $this->assertTrue($orderItemOptionProduct->getOptionProduct() instanceof OptionProduct);
-        $this->assertTrue($orderItemOptionProduct->getOrderItem() instanceof OrderItem);
+        $this->assertSame($optionProduct, $orderItemOptionProduct->getOptionProduct());
+        $this->assertSame($orderItem, $orderItemOptionProduct->getOrderItem());
     }
 }

@@ -6,6 +6,25 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class OrderAddressTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $orderAddress = new OrderAddress;
+
+        $this->assertSame(null, $orderAddress->getFirstName());
+        $this->assertSame(null, $orderAddress->getLastName());
+        $this->assertSame(null, $orderAddress->getCompany());
+        $this->assertSame(null, $orderAddress->getAddress1());
+        $this->assertSame(null, $orderAddress->getAddress2());
+        $this->assertSame(null, $orderAddress->getCity());
+        $this->assertSame(null, $orderAddress->getState());
+        $this->assertSame(null, $orderAddress->getZip5());
+        $this->assertSame(null, $orderAddress->getZip4());
+        $this->assertSame(null, $orderAddress->getPhone());
+        $this->assertSame(null, $orderAddress->getEmail());
+        $this->assertSame(null, $orderAddress->getCountry());
+        $this->assertTrue($orderAddress->isResidential());
+    }
+
     public function testCreate()
     {
         $orderAddress = new OrderAddress;
@@ -21,10 +40,9 @@ class OrderAddressTest extends DoctrineTestCase
         $orderAddress->setPhone('555-123-4567');
         $orderAddress->setEmail('john@example.com');
         $orderAddress->setCountry('US');
-        $orderAddress->setIsResidential(true);
+        $orderAddress->setIsResidential(false);
 
         $this->assertEntityValid($orderAddress);
-        $this->assertTrue($orderAddress instanceof OrderAddress);
         $this->assertSame('John', $orderAddress->getFirstName());
         $this->assertSame('Doe', $orderAddress->getLastName());
         $this->assertSame('Acme Co.', $orderAddress->getCompany());
@@ -37,7 +55,7 @@ class OrderAddressTest extends DoctrineTestCase
         $this->assertSame('555-123-4567', $orderAddress->getPhone());
         $this->assertSame('john@example.com', $orderAddress->getEmail());
         $this->assertSame('US', $orderAddress->getCountry());
-        $this->assertTrue($orderAddress->isResidential());
+        $this->assertFalse($orderAddress->isResidential());
         $this->assertTrue($orderAddress->getDTOBuilder() instanceof OrderAddressDTOBuilder);
     }
 }

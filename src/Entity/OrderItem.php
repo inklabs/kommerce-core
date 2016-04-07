@@ -13,11 +13,23 @@ class OrderItem implements EntityInterface, ValidationInterface
     /** @var int */
     protected $quantity;
 
+    /** @var string */
+    protected $sku;
+
+    /** @var string */
+    protected $name;
+
+    /** @var string */
+    protected $discountNames;
+
     /** @var Price */
     protected $price;
 
     /** @var Product */
     protected $product;
+
+    /** @var Order */
+    protected $order;
 
     /** @var OrderItemOptionProduct[] */
     protected $orderItemOptionProducts;
@@ -28,23 +40,11 @@ class OrderItem implements EntityInterface, ValidationInterface
     /** @var OrderItemTextOptionValue[] */
     protected $orderItemTextOptionValues;
 
-    /** @var Order */
-    protected $order;
-
     /** @var CatalogPromotion[] */
     protected $catalogPromotions;
 
     /** @var ProductQuantityDiscount[] */
     protected $productQuantityDiscounts;
-
-    /** @var string */
-    protected $sku;
-
-    /** @var string */
-    protected $name;
-
-    /** @var string */
-    protected $discountNames;
 
     /** @var ShipmentItem[] */
     protected $shipmentItems;
@@ -260,24 +260,26 @@ class OrderItem implements EntityInterface, ValidationInterface
         return $this->productQuantityDiscounts;
     }
 
-    public function getDTOBuilder()
-    {
-        return new OrderItemDTOBuilder($this);
-    }
-
+    /**
+     * TODO: Flatten this value
+     */
     public function getShippingWeight()
     {
-        $weight = $this->product->getShippingWeight();
+        $shippingWeight = $this->product->getShippingWeight();
 
         foreach ($this->orderItemOptionProducts as $orderItemOptionValue) {
-            $weight += $orderItemOptionValue->getOptionProduct()->getShippingWeight();
+            $shippingWeight += $orderItemOptionValue->getOptionProduct()->getShippingWeight();
         }
 
         foreach ($this->orderItemOptionValues as $orderItemOptionValue) {
-            $weight += $orderItemOptionValue->getOptionValue()->getShippingWeight();
+            $shippingWeight += $orderItemOptionValue->getOptionValue()->getShippingWeight();
         }
 
-        return $weight;
+        // No shippingWeight for orderItemTextOptionValues
+
+        $quantityShippingWeight = $shippingWeight * $this->quantity;
+
+        return $quantityShippingWeight;
     }
 
     public function isShipmentFullyShipped(Shipment $shipment)
@@ -293,5 +295,10 @@ class OrderItem implements EntityInterface, ValidationInterface
         }
 
         return true;
+    }
+
+    public function getDTOBuilder()
+    {
+        return new OrderItemDTOBuilder($this);
     }
 }

@@ -47,6 +47,11 @@ class OrderAddress implements ValidationInterface
     /** @var boolean */
     protected $isResidential;
 
+    public function __construct()
+    {
+        $this->setIsResidential(true);
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('firstName', new Assert\Length([

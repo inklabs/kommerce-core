@@ -436,8 +436,16 @@ class DummyData
         return $orderAddress;
     }
 
-    public function getOrderItem(Product $product, Price $price)
+    public function getOrderItem(Product $product = null, Price $price = null)
     {
+        if ($product === null) {
+            $product = $this->getProduct();
+        }
+
+        if ($price === null) {
+            $price = $this->getPrice();
+        }
+
         $orderItem = new OrderItem;
         $orderItem->setProduct($product);
         $orderItem->setQuantity(1);

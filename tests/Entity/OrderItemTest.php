@@ -5,185 +5,127 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class OrderItemTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $orderItem = new OrderItem;
+
+        $this->assertSame(null, $orderItem->getId());
+        $this->assertSame(null, $orderItem->getQuantity());
+        $this->assertSame(null, $orderItem->getSku());
+        $this->assertSame(null, $orderItem->getName());
+        $this->assertSame(null, $orderItem->getDiscountNames());
+        $this->assertSame(null, $orderItem->getPrice());
+        $this->assertSame(null, $orderItem->getProduct());
+        $this->assertSame(null, $orderItem->getOrder());
+        $this->assertSame(0, count($orderItem->getOrderItemOptionProducts()));
+        $this->assertSame(0, count($orderItem->getOrderItemOptionValues()));
+        $this->assertSame(0, count($orderItem->getOrderItemTextOptionValues()));
+        $this->assertSame(0, count($orderItem->getCatalogPromotions()));
+        $this->assertSame(0, count($orderItem->getProductQuantityDiscounts()));
+    }
+
     public function testCreate()
     {
-        $catalogPromotion = new CatalogPromotion;
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
         $catalogPromotion->setName('20% OFF Everything');
-        $catalogPromotion->setType(CatalogPromotion::TYPE_PERCENT);
-        $catalogPromotion->setValue(20);
 
-        $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setType(ProductQuantityDiscount::TYPE_EXACT);
-        $productQuantityDiscount->setQuantity(2);
-        $productQuantityDiscount->setValue(100);
+        $productQuantityDiscount1 = $this->dummyData->getProductQuantityDiscount();
+        $productQuantityDiscount1->setType(ProductQuantityDiscount::TYPE_EXACT);
+        $productQuantityDiscount1->setQuantity(1);
+        $productQuantityDiscount1->setValue(100);
 
-        $product = new Product;
+        $product = $this->dummyData->getProduct();
         $product->setSku('sku1');
-        $product->setName('test name');
-        $product->setUnitPrice(500);
-        $product->setQuantity(10);
-        $product->addProductQuantityDiscount($productQuantityDiscount);
+        $product->setName('Test Product');
 
-        $logoProductQuantityDiscount = new ProductQuantityDiscount;
-        $logoProductQuantityDiscount->setType(ProductQuantityDiscount::TYPE_FIXED);
-        $logoProductQuantityDiscount->setQuantity(2);
-        $logoProductQuantityDiscount->setValue(100);
+        $productQuantityDiscount2 = $this->dummyData->getProductQuantityDiscount();
+        $productQuantityDiscount2->setType(ProductQuantityDiscount::TYPE_FIXED);
+        $productQuantityDiscount2->setQuantity(2);
+        $productQuantityDiscount2->setValue(200);
 
-        $logoProduct = new Product;
-        $logoProduct->setSku('LAA');
-        $logoProduct->setName('LA Angels');
-        $logoProduct->setShippingWeight(6);
-        $logoProduct->addProductQuantityDiscount($logoProductQuantityDiscount);
-
-        $price = new Price;
-        $price->origUnitPrice = 1;
-        $price->unitPrice = 1;
-        $price->origQuantityPrice = 1;
-        $price->quantityPrice = 1;
+        $price = $this->dummyData->getPrice();
         $price->addCatalogPromotion($catalogPromotion);
-        $price->addProductQuantityDiscount($productQuantityDiscount);
-        $price->addProductQuantityDiscount($logoProductQuantityDiscount);
+        $price->addProductQuantityDiscount($productQuantityDiscount1);
+        $price->addProductQuantityDiscount($productQuantityDiscount2);
 
-        $orderItemOptionProduct = new OrderItemOptionProduct;
-        $orderItemOptionProduct->setOptionProduct($this->getOptionProduct($logoProduct));
+        $optionProduct = $this->dummyData->getOptionProduct();
+        $optionProduct->getProduct()->setSku('OP1');
+        $orderItemOptionProduct = $this->dummyData->getOrderItemOptionProduct($optionProduct);
 
-        $orderItemOptionValue = new OrderItemOptionValue;
-        $orderItemOptionValue->setOptionValue($this->getOptionValue());
+        $optionValue = $this->dummyData->getOptionValue();
+        $optionValue->setSku('OV1');
+        $orderItemOptionValue = $this->dummyData->getOrderItemOptionValue($optionValue);
 
-        $orderItemTextOptionValue = new OrderItemTextOptionValue;
-        $orderItemTextOptionValue->setTextOption($this->getTextOption());
-        $orderItemTextOptionValue->setTextOptionValue('Happy Birthday');
+        $orderItemTextOptionValue = $this->dummyData->getOrderItemTextOptionValue();
+
+        $order = $this->dummyData->getOrder();
 
         $orderItem = new OrderItem;
         $orderItem->setProduct($product);
         $orderItem->setQuantity(2);
         $orderItem->setPrice($price);
+        $orderItem->setOrder($order);
         $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
         $orderItem->addOrderItemOptionValue($orderItemOptionValue);
         $orderItem->addOrderItemTextOptionValue($orderItemTextOptionValue);
 
-        $order = new Order;
-        $order->addOrderItem($orderItem);
-        $order->setTotal(new CartTotal);
-
         $this->assertEntityValid($orderItem);
         $this->assertSame(2, $orderItem->getQuantity());
-        $this->assertSame('sku1-LAA-MD', $orderItem->getSku());
-        $this->assertSame('test name', $orderItem->getName());
+        $this->assertSame('sku1-OP1-OV1', $orderItem->getSku());
+        $this->assertSame('Test Product', $orderItem->getName());
         $this->assertSame(
-            '20% OFF Everything, Buy 2 or more for $1.00 each, Buy 2 or more for $1.00 off',
+            '20% OFF Everything, Buy 1 or more for $1.00 each, Buy 2 or more for $2.00 off',
             $orderItem->getDiscountNames()
         );
         $this->assertSame(null, $orderItem->getId());
-        $this->assertTrue($orderItem->getOrder() instanceof Order);
-        $this->assertTrue($orderItem->getPrice() instanceof Price);
-        $this->assertTrue($orderItem->getProduct() instanceof Product);
-        $this->assertTrue($orderItem->getOrderItemOptionProducts()[0] instanceof OrderItemOptionProduct);
-        $this->assertTrue($orderItem->getOrderItemOptionValues()[0] instanceof OrderItemOptionValue);
-        $this->assertTrue($orderItem->getOrderItemTextOptionValues()[0] instanceof OrderItemTextOptionValue);
-        $this->assertTrue($orderItem->getCatalogPromotions()[0] instanceof CatalogPromotion);
-        $this->assertTrue($orderItem->getProductQuantityDiscounts()[0] instanceof ProductQuantityDiscount);
+        $this->assertSame($order, $orderItem->getOrder());
+        $this->assertSame($product, $orderItem->getProduct());
+        $this->assertSame($orderItemOptionProduct, $orderItem->getOrderItemOptionProducts()[0]);
+        $this->assertSame($orderItemOptionValue, $orderItem->getOrderItemOptionValues()[0]);
+        $this->assertSame($orderItemTextOptionValue, $orderItem->getOrderItemTextOptionValues()[0]);
+        $this->assertSame($catalogPromotion, $orderItem->getCatalogPromotions()[0]);
+        $this->assertSame($productQuantityDiscount1, $orderItem->getProductQuantityDiscounts()[0]);
+        $this->assertSame($price, $orderItem->getPrice());
     }
 
     public function testCreateWithCustomItem()
     {
-        $price = new Price;
-        $price->origUnitPrice = 1;
-        $price->unitPrice = 1;
-        $price->origQuantityPrice = 1;
-        $price->quantityPrice = 1;
-
         $orderItem = new OrderItem;
         $orderItem->setName('Free Entry Line Item');
         $orderItem->setQuantity(3);
-        $orderItem->setPrice($price);
-
-        $order = new Order;
-        $order->addOrderItem($orderItem);
-        $order->setTotal(new CartTotal);
 
         $this->assertEntityValid($orderItem);
         $this->assertSame(3, $orderItem->getQuantity());
         $this->assertSame(null, $orderItem->getSku());
         $this->assertSame('Free Entry Line Item', $orderItem->getName());
-        $this->assertSame('', $orderItem->getDiscountNames());
-        $this->assertSame(null, $orderItem->getId());
-        $this->assertTrue($orderItem instanceof OrderItem);
     }
 
     public function testGetShippingWeight()
     {
-        $product = new Product;
-        $product->setShippingWeight(2);
+        $product1 = $this->dummyData->getProduct(1);
+        $product1->setShippingWeight(1);
 
         $orderItem = new OrderItem;
-        $orderItem->setProduct($product);
+        $orderItem->setProduct($product1);
         $orderItem->setQuantity(2);
 
         $this->assertSame(2, $orderItem->getShippingWeight());
 
-        $product2 = new Product;
+        $product2 = $this->dummyData->getProduct(2);
         $product2->setShippingWeight(3);
-        $optionProduct = new OptionProduct;
-        $optionProduct->setProduct($product2);
-        $optionProduct->setOption(new Option);
-        $orderItemOptionProduct = new OrderItemOptionProduct;
-        $orderItemOptionProduct->setOptionProduct($optionProduct);
+        $optionProduct = $this->dummyData->getOptionProduct(null, $product2);
+        $orderItemOptionProduct = $this->dummyData->getOrderItemOptionProduct($optionProduct);
         $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
         $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
 
-        $this->assertSame(8, $orderItem->getShippingWeight());
+        $this->assertSame(14, $orderItem->getShippingWeight());
 
-        $optionValue = new OptionValue;
-        $optionValue->setShippingWeight(4);
-        $optionValue->setOption(new Option);
-        $orderItemOptionValue = new OrderItemOptionValue;
-        $orderItemOptionValue->setOptionValue($optionValue);
+        $optionValue = $this->dummyData->getOptionValue();
+        $optionValue->setShippingWeight(5);
+        $orderItemOptionValue = $this->dummyData->getOrderItemOptionValue($optionValue);
+        $orderItem->addOrderItemOptionValue($orderItemOptionValue);
         $orderItem->addOrderItemOptionValue($orderItemOptionValue);
 
-        $this->assertSame(12, $orderItem->getShippingWeight());
-    }
-
-    private function getOptionProduct(Product $product)
-    {
-        $option = new Option;
-        $option->setType(Option::TYPE_SELECT);
-        $option->setName('Team Logo');
-        $option->setDescription('Embroidered Team Logo');
-
-        $optionProduct = new OptionProduct;
-        $optionProduct->setProduct($product);
-        $optionProduct->setSortOrder(0);
-        $optionProduct->setOption($option);
-
-        return $optionProduct;
-    }
-
-    private function getOptionValue()
-    {
-        $option = new Option;
-        $option->setType(Option::TYPE_SELECT);
-        $option->setName('Shirt Size');
-        $option->setDescription('Shirt Size Description');
-
-        $optionValue = new OptionValue;
-        $optionValue->setSortOrder(0);
-        $optionValue->setSku('MD');
-        $optionValue->setName('Medium Shirt');
-        $optionValue->setShippingWeight(0);
-        $optionValue->setUnitPrice(500);
-        $optionValue->setOption($option);
-
-        return $optionValue;
-    }
-
-    private function getTextOption()
-    {
-        $textOption = new TextOption;
-        $textOption->setType(TextOption::TYPE_TEXTAREA);
-        $textOption->setName('Custom Message');
-        $textOption->setDescription('Custom engraved message');
-
-        return $textOption;
+        $this->assertSame(34, $orderItem->getShippingWeight());
     }
 }
