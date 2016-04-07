@@ -40,6 +40,8 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\Shipment;
+use inklabs\kommerce\Entity\ShipmentComment;
+use inklabs\kommerce\Entity\ShipmentItem;
 use inklabs\kommerce\Entity\ShipmentLabel;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\ShipmentTracker;
@@ -639,10 +641,34 @@ class DummyData
         return bin2hex(openssl_random_pseudo_bytes($bitLength));
     }
 
-    public function getShipment()
+    public function getShipment(ShipmentItem $shipmentItem = null)
     {
+        if ($shipmentItem === null) {
+            $shipmentItem = $this->getShipmentItem();
+        }
+
         $shipment = new Shipment;
+        $shipment->addShipmentItem($shipmentItem);
+        $shipment->addShipmentTracker($this->getShipmentTracker());
+        $shipment->addShipmentComment($this->getShipmentComment());
+
         return $shipment;
+    }
+
+    public function getShipmentComment()
+    {
+        return new ShipmentComment('A shipment comment');
+    }
+
+    public function getShipmentItem(OrderItem $orderItem = null, $quantityToShip = 1)
+    {
+        if ($orderItem === null) {
+            $orderItem = $this->getOrderItem();
+        }
+
+        $shipmentItem = new ShipmentItem($orderItem, $quantityToShip);
+
+        return $shipmentItem;
     }
 
     public function getShipmentLabel()

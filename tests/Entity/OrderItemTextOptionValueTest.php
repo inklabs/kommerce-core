@@ -1,22 +1,31 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-class OrderItemTextOptionValueTest extends \PHPUnit_Framework_TestCase
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+
+class OrderItemTextOptionValueTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $orderItemTextOptionValue = new OrderItemTextOptionValue;
+
+        $this->assertSame(null, $orderItemTextOptionValue->getTextOptionValue());
+        $this->assertSame(null, $orderItemTextOptionValue->getTextOption());
+        $this->assertSame(null, $orderItemTextOptionValue->getOrderItem());
+    }
+
     public function testCreate()
     {
-        $textOption = new TextOption;
-        $textOption->setType(TextOption::TYPE_TEXTAREA);
-        $textOption->setName('Custom Message');
-        $textOption->setDescription('Custom engraved message');
+        $textOption = $this->dummyData->getTextOption();
+        $orderItem = new OrderItem;
 
         $orderItemTextOptionValue = new OrderItemTextOptionValue;
-        $orderItemTextOptionValue->setTextOption($textOption);
         $orderItemTextOptionValue->setTextOptionValue('Happy Birthday');
-        $orderItemTextOptionValue->setOrderItem(new OrderItem);
+        $orderItemTextOptionValue->setTextOption($textOption);
+        $orderItemTextOptionValue->setOrderItem($orderItem);
 
         $this->assertSame('Happy Birthday', $orderItemTextOptionValue->getTextOptionValue());
-        $this->assertTrue($orderItemTextOptionValue->getTextOption() instanceof TextOption);
-        $this->assertTrue($orderItemTextOptionValue->getOrderItem() instanceof OrderItem);
+        $this->assertSame($textOption, $orderItemTextOptionValue->getTextOption());
+        $this->assertSame($orderItem, $orderItemTextOptionValue->getOrderItem());
     }
 }

@@ -57,10 +57,8 @@ class OrderRepositoryTest extends Helper\DoctrineTestCase
 
         $taxRate = $this->dummyData->getTaxRate();
 
-        $shipment = $this->dummyData->getshipment();
-        $shipment->addShipmentTracker($this->dummyData->getShipmentTracker());
-        $shipment->addShipmentItem(new ShipmentItem($orderItem, 1));
-        $shipment->addShipmentComment(new ShipmentComment('A comment'));
+        $shipmentItem = $this->dummyData->getShipmentItem($orderItem, 1);
+        $shipment = $this->dummyData->getShipment($shipmentItem);
 
         $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
         $order->setUser($user);
