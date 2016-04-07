@@ -5,6 +5,7 @@ class WarehouseDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
+    /** @var string */
     public $name;
 
     /** @var AddressDTO */

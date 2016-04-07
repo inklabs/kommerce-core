@@ -15,6 +15,7 @@ class UserLogin implements EntityInterface, ValidationInterface
     /** @var int */
     protected $ip4;
 
+    /** @var int */
     protected $result;
     const RESULT_FAIL    = 0;
     const RESULT_SUCCESS = 1;

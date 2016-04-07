@@ -14,7 +14,7 @@ class ChargeResponse implements ValidationInterface
     /** @var int */
     protected $amount;
 
-    /** @var int */
+    /** @var string */
     protected $last4;
 
     /** @var string */

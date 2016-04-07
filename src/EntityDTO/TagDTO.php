@@ -5,13 +5,28 @@ class TagDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
+    /** @var string */
     public $slug;
+
+    /** @var string */
     public $name;
+
+    /** @var string */
     public $code;
+
+    /** @var string */
     public $description;
+
+    /** @var string */
     public $defaultImage;
+
+    /** @var int */
     public $sortOrder;
+
+    /** @var bool */
     public $isVisible;
+
+    /** @var bool */
     public $isActive;
 
     /** @var ProductDTO[] */

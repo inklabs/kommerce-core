@@ -5,10 +5,19 @@ class CartDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
+    /** @var int */
     public $totalItems;
+
+    /** @var int */
     public $totalQuantity;
+
+    /** @var int */
     public $shippingWeight;
+
+    /** @var int */
     public $shippingWeightInPounds;
+
+    /** @var string */
     public $sessionId;
 
     /** @var ShipmentRateDTO */

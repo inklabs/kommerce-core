@@ -5,9 +5,16 @@ class OptionValueDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    public $sortOrder;
+    /** @var string */
     public $name;
+
+    /** @var string */
     public $sku;
+
+    /** @var int */
+    public $sortOrder;
+
+    /** @var int */
     public $shippingWeight;
 
     /** @var OptionDTO */

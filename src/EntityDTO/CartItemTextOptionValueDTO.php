@@ -5,6 +5,7 @@ class CartItemTextOptionValueDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
+    /** @var string */
     public $textOptionValue;
 
     /** @var TextOptionDTO */

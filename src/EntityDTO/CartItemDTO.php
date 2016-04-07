@@ -5,8 +5,13 @@ class CartItemDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
+    /** @var string */
     public $fullSku;
+
+    /** @var int */
     public $quantity;
+
+    /** @var int */
     public $shippingWeight;
 
     /** @var ProductDTO */

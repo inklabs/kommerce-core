@@ -5,9 +5,16 @@ class OrderItemDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
+    /** @var int */
     public $quantity;
+
+    /** @var string */
     public $sku;
+
+    /** @var string */
     public $name;
+
+    /** @var string */
     public $discountNames;
 
     /** @var int */

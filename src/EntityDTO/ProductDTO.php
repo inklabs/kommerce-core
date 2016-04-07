@@ -5,23 +5,53 @@ class ProductDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
+    /** @var string */
     public $slug;
+
+    /** @var string */
     public $sku;
+
+    /** @var string */
     public $name;
+
+    /** @var int */
     public $unitPrice;
+
+    /** @var int */
     public $quantity;
-    public $productGroup;
+
+    /** @var bool */
     public $isInventoryRequired;
+
+    /** @var bool */
     public $isPriceVisible;
+
+    /** @var bool */
     public $isActive;
+
+    /** @var bool */
     public $isVisible;
+
+    /** @var bool */
     public $isTaxable;
+
+    /** @var bool */
     public $isShippable;
-    public $shippingWeight;
-    public $description;
-    public $rating;
-    public $defaultImage;
+
+    /** @var bool */
     public $isInStock;
+
+    /** @var int */
+    public $shippingWeight;
+
+    /** @var string */
+    public $description;
+
+    /** @var float */
+    public $rating;
+
+    /** @var string */
+    public $defaultImage;
 
     /** @var TagDTO[] */
     public $tags = [];
