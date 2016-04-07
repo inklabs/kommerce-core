@@ -52,7 +52,7 @@ class ShipmentRateTest extends DoctrineTestCase
         $this->assertSame(907, $shipmentRate->getRate()->getAmount());
         $this->assertSame(986, $shipmentRate->getListRate()->getAmount());
         $this->assertSame(1196, $shipmentRate->getRetailRate()->getAmount());
-        $this->assertSame($deliveryDate->getTimestamp(), $shipmentRate->getDeliveryDate()->getTimestamp());
+        $this->assertEquals($deliveryDate, $shipmentRate->getDeliveryDate());
         $this->assertSame(5, $shipmentRate->getDeliveryDays());
         $this->assertSame(true, $shipmentRate->isDeliveryDateGuaranteed());
         $this->assertSame(5, $shipmentRate->getEstDeliveryDays());

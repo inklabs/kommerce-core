@@ -18,13 +18,13 @@ class UserTest extends DoctrineTestCase
         $this->assertSame(null, $user->getEmail());
         $this->assertSame(null, $user->getFirstName());
         $this->assertSame(null, $user->getLastName());
+        $this->assertSame(null, $user->getCart());
+        $this->assertSame(null, $user->getLastLogin());
         $this->assertSame(0, $user->getTotalLogins());
         $this->assertSame(0, count($user->getUserRoles()));
         $this->assertSame(0, count($user->getUserTokens()));
         $this->assertSame(0, count($user->getUserLogins()));
         $this->assertSame(0, count($user->getOrders()));
-        $this->assertSame(null, $user->getCart());
-        $this->assertTrue($user->getLastLogin()->getTimestamp() === 0);
     }
 
     public function testCreate()
@@ -99,7 +99,7 @@ class UserTest extends DoctrineTestCase
     public function testIncrementTotalLogins()
     {
         $user = new User;
-        $this->assertTrue($user->getLastLogin()->getTimestamp() === 0);
+        $this->assertSame(null, $user->getLastLogin());
 
         $user->incrementTotalLogins();
         $this->assertSame(1, $user->getTotalLogins());

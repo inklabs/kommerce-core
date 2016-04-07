@@ -5,15 +5,17 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class WarehouseTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $warehouse = new Warehouse;
+
+        $this->assertSame(null, $warehouse->getName());
+        $this->assertSame(null, $warehouse->getAddress());
+    }
+
     public function testCreate()
     {
-        $address = new Address;
-        $address->setAttention('John Doe');
-        $address->setAddress1('123 Any St');
-        $address->setCity('Santa Monica');
-        $address->setState('CA');
-        $address->setZip5('90401');
-        $address->setPoint(new Point);
+        $address = $this->dummyData->getAddress();
 
         $warehouse = new Warehouse;
         $warehouse->setName('Store Headquarters');
@@ -21,6 +23,6 @@ class WarehouseTest extends DoctrineTestCase
 
         $this->assertEntityValid($warehouse);
         $this->assertSame('Store Headquarters', $warehouse->getName());
-        $this->assertTrue($warehouse->getAddress() instanceof Address);
+        $this->assertSame($address, $warehouse->getAddress());
     }
 }

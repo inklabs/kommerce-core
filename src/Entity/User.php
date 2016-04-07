@@ -244,6 +244,10 @@ class User implements EntityInterface, ValidationInterface
 
     public function getLastLogin()
     {
+        if ($this->lastLogin === null) {
+            return null;
+        }
+
         $lastLogin = new DateTime();
         $lastLogin->setTimestamp($this->lastLogin);
         return $lastLogin;
