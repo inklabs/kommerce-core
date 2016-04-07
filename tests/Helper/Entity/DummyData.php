@@ -22,6 +22,7 @@ use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
+use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
@@ -51,6 +52,7 @@ use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\Lib\CartCalculator;
+use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 use inklabs\kommerce\Lib\Pricing;
 
 class DummyData
@@ -324,6 +326,11 @@ class DummyData
         $inventoryTransaction->setMemo('Initial Inventory');
 
         return $inventoryTransaction;
+    }
+
+    public function getInventoryTransactionType()
+    {
+        return InventoryTransactionType::hold();
     }
 
     public function getOption()
@@ -771,5 +778,19 @@ class DummyData
         $cartItemOptionValue->setOptionValue($optionValue);
 
         return $cartItemOptionValue;
+    }
+
+    public function getChargeResponse()
+    {
+        $chargeResponse = new ChargeResponse;
+        $chargeResponse->setExternalId('ch_xxxxxxxxxxxxxx');
+        $chargeResponse->setAmount(2000);
+        $chargeResponse->setLast4('4242');
+        $chargeResponse->setBrand('Visa');
+        $chargeResponse->setCurrency('usd');
+        $chargeResponse->setDescription('test@example.com');
+        $chargeResponse->setCreated(1420656887);
+
+        return $chargeResponse;
     }
 }

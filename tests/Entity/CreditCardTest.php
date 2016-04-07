@@ -5,6 +5,17 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class CreditCardTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $creditCard = new CreditCard;
+
+        $this->assertSame(null, $creditCard->getName());
+        $this->assertSame(null, $creditCard->getNumber());
+        $this->assertSame(null, $creditCard->getCvc());
+        $this->assertSame(null, $creditCard->getExpirationMonth());
+        $this->assertSame(null, $creditCard->getExpirationYear());
+    }
+
     public function testCreate()
     {
         $creditCard = new CreditCard;

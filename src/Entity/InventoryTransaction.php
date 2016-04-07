@@ -9,15 +9,6 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
-    /** @var InventoryLocation */
-    protected $inventoryLocation;
-
-    /** @var Product */
-    protected $product;
-
-    /** @var InventoryTransactionType */
-    protected $type;
-
     /** @var int */
     protected $debitQuantity;
 
@@ -26,6 +17,15 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
 
     /** @var string */
     protected $memo;
+
+    /** @var InventoryLocation */
+    protected $inventoryLocation;
+
+    /** @var Product */
+    protected $product;
+
+    /** @var InventoryTransactionType */
+    protected $type;
 
     public function __construct(InventoryLocation $inventoryLocation = null, InventoryTransactionType $type = null)
     {

@@ -6,6 +6,21 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class CouponTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $coupon = new Coupon;
+
+        $this->assertSame(null, $coupon->getName());
+        $this->assertSame(null, $coupon->getCode());
+        $this->assertSame(AbstractPromotion::TYPE_FIXED, $coupon->getType());
+        $this->assertSame('Fixed', $coupon->getTypeText());
+        $this->assertSame(null, $coupon->getValue());
+        $this->assertSame(null, $coupon->getMinOrderValue());
+        $this->assertSame(null, $coupon->getMaxOrderValue());
+        $this->assertFalse($coupon->getFlagFreeShipping());
+        $this->assertFalse($coupon->getCanCombineWithOtherCoupons());
+    }
+
     public function testCreate()
     {
         $coupon = new Coupon;

@@ -53,12 +53,12 @@ class OptionProduct implements EntityInterface, ValidationInterface
 
     public function getName()
     {
-        return $this->getProduct()->getName();
+        return $this->product->getName();
     }
 
     public function getSku()
     {
-        return $this->getProduct()->getSku();
+        return $this->product->getSku();
     }
 
     public function getShippingWeight()

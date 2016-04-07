@@ -40,8 +40,8 @@ class ImportOrderItemServiceTest extends Helper\DoctrineTestCase
         $iterator = new CSVIterator(__DIR__ . '/ImportOrderItemServiceTest.csv');
         $importResult = $orderItemService->import($iterator);
 
-        $this->assertSame(37, $importResult->getSuccessCount());
         $this->assertSame(0, $importResult->getFailedCount());
+        $this->assertSame(37, $importResult->getSuccessCount());
         $this->assertSame(111, $this->getTotalQueries());
     }
 

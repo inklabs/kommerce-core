@@ -13,7 +13,7 @@ class InventoryLocationTest extends DoctrineTestCase
         // Zone 1 - Aisle 13 - Bay 37 - Level 5 - Position 3
 
         $this->assertEntityValid($inventoryLocation);
-        $this->assertTrue($inventoryLocation->getWarehouse() instanceof Warehouse);
+        $this->assertSame($warehouse, $inventoryLocation->getWarehouse());
         $this->assertTrue($inventoryLocation->getCreated() instanceof DateTime);
         $this->assertSame('Widget Bin', $inventoryLocation->getName());
         $this->assertSame('Z1-A13-B37-L5-P3', $inventoryLocation->getCode());

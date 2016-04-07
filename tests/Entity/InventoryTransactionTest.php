@@ -6,6 +6,37 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class InventoryTransactionTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $inventoryTransaction = new InventoryTransaction;
+
+        $this->assertSame(null, $inventoryTransaction->getInventoryLocation());
+        $this->assertSame(null, $inventoryTransaction->getProduct());
+        $this->assertSame(null, $inventoryTransaction->getDebitQuantity());
+        $this->assertSame(null, $inventoryTransaction->getCreditQuantity());
+        $this->assertSame(null, $inventoryTransaction->getMemo());
+        $this->assertTrue($inventoryTransaction->getType()->isMove());
+    }
+
+    public function testCreateDebitTransaction()
+    {
+        $inventoryLocation = $this->dummyData->getInventoryLocation();
+        $inventoryTransactionType = $this->dummyData->getInventoryTransactionType();
+        $product = $this->dummyData->getProduct();
+
+        $inventoryTransaction = new InventoryTransaction($inventoryLocation, $inventoryTransactionType);
+        $inventoryTransaction->setProduct($product);
+        $inventoryTransaction->setDebitQuantity(5);
+        $inventoryTransaction->setMemo('Test memo');
+
+        $this->assertEntityValid($inventoryTransaction);
+        $this->assertSame(5, $inventoryTransaction->getDebitQuantity());
+        $this->assertSame('Test memo', $inventoryTransaction->getMemo());
+        $this->assertSame($inventoryLocation, $inventoryTransaction->getInventoryLocation());
+        $this->assertSame($product, $inventoryTransaction->getProduct());
+        $this->assertSame($inventoryTransactionType, $inventoryTransaction->getType());
+    }
+
     public function testPickAndShipTransaction()
     {
         $warehouse = $this->dummyData->getWarehouse();
