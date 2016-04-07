@@ -335,6 +335,16 @@ class DummyData
         return InventoryTransactionType::hold();
     }
 
+    /**
+     * @param int $amount
+     * @param string $currency
+     * @return Money
+     */
+    public function getMoney($amount, $currency = 'USD')
+    {
+        return new Money((int) $amount, $currency);
+    }
+
     public function getOption()
     {
         $option = new Option;

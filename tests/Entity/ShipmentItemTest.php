@@ -7,10 +7,14 @@ class ShipmentItemTest extends DoctrineTestCase
 {
     public function testCreate()
     {
-        $shipmentItem = new ShipmentItem(new OrderItem, 1);
+        $orderItem = $this->dummyData->getOrderItem();
+        $shipment = $this->dummyData->getShipment();
+
+        $shipmentItem = new ShipmentItem($orderItem, 1);
+        $shipmentItem->setShipment($shipment);
 
         $this->assertEntityValid($shipmentItem);
-        $this->assertTrue($shipmentItem->getOrderItem() instanceof OrderItem);
         $this->assertSame(1, $shipmentItem->getQuantityToShip());
+        $this->assertSame($orderItem, $shipmentItem->getOrderItem());
     }
 }

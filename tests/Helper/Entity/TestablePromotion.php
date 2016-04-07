@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\tests\Entity;
+namespace inklabs\kommerce\tests\Helper\Entity;
 
 use inklabs\kommerce\Entity\AbstractPromotion;
 use inklabs\kommerce\tests\EntityDTO\TestablePromotionDTOBuilder;

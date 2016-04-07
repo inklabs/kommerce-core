@@ -25,7 +25,6 @@ class TaxRateTest extends DoctrineTestCase
 
         $taxRate->setZip5('92606');
         $this->assertSame('92606', $taxRate->getZip5());
-
     }
 
     public function testGetTax()

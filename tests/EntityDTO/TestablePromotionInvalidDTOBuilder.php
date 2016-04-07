@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\tests\EntityDTO;
 
 use inklabs\kommerce\EntityDTO\Builder\AbstractPromotionDTOBuilder;
-use inklabs\kommerce\tests\Entity\TestablePromotionInvalid;
+use inklabs\kommerce\tests\Helper\Entity\TestablePromotionInvalid;
 
 class TestablePromotionInvalidDTOBuilder extends AbstractPromotionDTOBuilder
 {

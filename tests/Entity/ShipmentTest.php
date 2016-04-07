@@ -5,30 +5,33 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class ShipmentTest extends DoctrineTestCase
 {
-    public function testCreate()
+    public function testCreateDefaults()
     {
         $shipment = new Shipment;
-        $shipment->addShipmentTracker(
-            new ShipmentTracker(
-                ShipmentTracker::CARRIER_UPS,
-                '1Z9999999999999999'
-            )
-        );
 
-        $shipment->addShipmentItem(
-            new ShipmentItem(
-                new OrderItem,
-                1
-            )
-        );
+        $this->assertSame(null, $shipment->getOrder());
+        $this->assertSame(0, count($shipment->getShipmentTrackers()));
+        $this->assertSame(0, count($shipment->getShipmentItems()));
+        $this->assertSame(0, count($shipment->getShipmentComments()));
+    }
 
-        $shipment->addShipmentComment(new ShipmentComment('Enjoy your items!'));
-        $shipment->setOrder(new Order);
+    public function testCreate()
+    {
+        $shipmentTracker = $this->dummyData->getShipmentTracker();
+        $shipmentItem = $this->dummyData->getShipmentItem();
+        $shipmentComment = $this->dummyData->getShipmentComment();
+        $order = $this->dummyData->getOrder();
+
+        $shipment = new Shipment;
+        $shipment->setOrder($order);
+        $shipment->addShipmentTracker($shipmentTracker);
+        $shipment->addShipmentItem($shipmentItem);
+        $shipment->addShipmentComment($shipmentComment);
 
         $this->assertEntityValid($shipment);
-        $this->assertTrue($shipment->getShipmentTrackers()[0] instanceof ShipmentTracker);
-        $this->assertTrue($shipment->getShipmentItems()[0] instanceof ShipmentItem);
-        $this->assertTrue($shipment->getShipmentComments()[0] instanceof ShipmentComment);
-        $this->assertTrue($shipment->getOrder() instanceof Order);
+        $this->assertSame($order, $shipment->getOrder());
+        $this->assertSame($shipmentTracker, $shipment->getShipmentTrackers()[0]);
+        $this->assertSame($shipmentItem, $shipment->getShipmentItems()[0]);
+        $this->assertSame($shipmentComment, $shipment->getShipmentComments()[0]);
     }
 }

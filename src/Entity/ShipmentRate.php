@@ -50,7 +50,7 @@ class ShipmentRate implements ValidationInterface
     public function __construct(Money $rate)
     {
         $this->rate = $rate;
-        $this->isDeliveryDateGuaranteed = false;
+        $this->setIsDeliveryDateGuaranteed(false);
         $this->setupDeliveryMethod();
     }
 

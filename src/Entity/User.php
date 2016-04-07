@@ -31,7 +31,7 @@ class User implements EntityInterface, ValidationInterface
     /** @var int */
     protected $totalLogins;
 
-    /** @var int */
+    /** @var DateTime */
     protected $lastLogin;
 
     /** @var int */
@@ -237,14 +237,16 @@ class User implements EntityInterface, ValidationInterface
         return $this->totalLogins;
     }
 
-    public function setLastLogin(DateTime $lastLogin)
+    private function setLastLogin(DateTime $lastLogin)
     {
         $this->lastLogin = $lastLogin->getTimestamp();
     }
 
     public function getLastLogin()
     {
-        return $this->lastLogin;
+        $lastLogin = new DateTime();
+        $lastLogin->setTimestamp($this->lastLogin);
+        return $lastLogin;
     }
 
     public function addUserRole(UserRole $userRole)

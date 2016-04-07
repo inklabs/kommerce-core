@@ -37,6 +37,7 @@ class TextOption implements EntityInterface, ValidationInterface
 
         $this->tags = new ArrayCollection;
         $this->sortOrder = 0;
+        $this->setType(self::TYPE_TEXT);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

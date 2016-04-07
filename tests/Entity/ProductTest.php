@@ -96,40 +96,43 @@ class ProductTest extends DoctrineTestCase
 
     public function testRemoveTag()
     {
-        $product = new Product;
-        $tag = new Tag;
+        $tag1 = $this->dummyData->getTag();
+        $tag2 = $this->dummyData->getTag();
 
-        $product->addTag($tag);
-        $product->addTag(new Tag);
+        $product = new Product;
+        $product->addTag($tag1);
+        $product->addTag($tag2);
         $this->assertSame(2, count($product->getTags()));
 
-        $product->removeTag($tag);
+        $product->removeTag($tag2);
         $this->assertSame(1, count($product->getTags()));
     }
 
     public function testRemoveImage()
     {
-        $product = new Product;
-        $image = new Image;
+        $image1 = $this->dummyData->getImage();
+        $image2 = $this->dummyData->getImage();
 
-        $product->addImage($image);
-        $product->addImage(new Image);
+        $product = new Product;
+        $product->addImage($image1);
+        $product->addImage($image2);
         $this->assertSame(2, count($product->getImages()));
 
-        $product->removeImage($image);
+        $product->removeImage($image2);
         $this->assertSame(1, count($product->getImages()));
     }
 
     public function testRemoveProductQuantityDiscount()
     {
-        $product = new Product;
-        $productQuantityDiscount = new ProductQuantityDiscount;
+        $productQuantityDiscount1 = $this->dummyData->getProductQuantityDiscount();
+        $productQuantityDiscount2 = $this->dummyData->getProductQuantityDiscount();
 
-        $product->addProductQuantityDiscount($productQuantityDiscount);
-        $product->addProductQuantityDiscount(new ProductQuantityDiscount);
+        $product = new Product;
+        $product->addProductQuantityDiscount($productQuantityDiscount1);
+        $product->addProductQuantityDiscount($productQuantityDiscount2);
         $this->assertSame(2, count($product->getProductQuantityDiscounts()));
 
-        $product->removeProductQuantityDiscount($productQuantityDiscount);
+        $product->removeProductQuantityDiscount($productQuantityDiscount2);
         $this->assertSame(1, count($product->getProductQuantityDiscounts()));
     }
 
@@ -158,8 +161,9 @@ class ProductTest extends DoctrineTestCase
 
     public function testGetPrice()
     {
+        $pricing = $this->dummyData->getPricing();
         $product = new Product;
         $product->setQuantity(1);
-        $this->assertTrue($product->getPrice(new Pricing) instanceof Price);
+        $this->assertTrue($product->getPrice($pricing) instanceof Price);
     }
 }

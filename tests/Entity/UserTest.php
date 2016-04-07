@@ -7,10 +7,34 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class UserTest extends DoctrineTestCase
 {
+    public function testCreateDefaults()
+    {
+        $user = new User;
+
+        $this->assertSame(User::STATUS_ACTIVE, $user->getStatus());
+        $this->assertSame('Active', $user->getStatusText());
+        $this->assertSame(null, $user->getExternalId());
+        $this->assertTrue($user->isActive());
+        $this->assertSame(null, $user->getEmail());
+        $this->assertSame(null, $user->getFirstName());
+        $this->assertSame(null, $user->getLastName());
+        $this->assertSame(0, $user->getTotalLogins());
+        $this->assertSame(0, count($user->getUserRoles()));
+        $this->assertSame(0, count($user->getUserTokens()));
+        $this->assertSame(0, count($user->getUserLogins()));
+        $this->assertSame(0, count($user->getOrders()));
+        $this->assertSame(null, $user->getCart());
+        $this->assertTrue($user->getLastLogin()->getTimestamp() === 0);
+    }
+
     public function testCreate()
     {
-        $userLogin = new UserLogin;
-        $userLogin->setResult(UserLogin::RESULT_SUCCESS);
+        $userLogin = $this->dummyData->getUserLogin();
+        $userRole = $this->dummyData->getUserRole();
+        $userToken = $this->dummyData->getUserToken();
+
+        $order = $this->dummyData->getOrder();
+        $cart = $this->dummyData->getCart();
 
         $user = new User;
         $user->setExternalId('5');
@@ -19,22 +43,11 @@ class UserTest extends DoctrineTestCase
         $user->setPassword('password1');
         $user->setFirstName('John');
         $user->setLastName('Doe');
-        $user->setLastLogin(new DateTime);
-        $user->addUserRole(new UserRole);
-        $user->addUserToken(new UserToken);
+        $user->addUserRole($userRole);
+        $user->addUserToken($userToken);
         $user->addUserLogin($userLogin);
-
-        $orderItem = new OrderItem;
-        $orderItem->setProduct(new Product);
-        $orderItem->setQuantity(1);
-        $orderItem->setPrice(new Price);
-
-        $order = new Order;
-        $order->addOrderItem($orderItem);
-        $order->setTotal(new CartTotal);
-
         $user->addOrder($order);
-        $user->setCart(new Cart);
+        $user->setCart($cart);
 
         $this->assertEntityValid($user);
         $this->assertSame(User::STATUS_ACTIVE, $user->getStatus());
@@ -45,12 +58,12 @@ class UserTest extends DoctrineTestCase
         $this->assertSame('John', $user->getFirstName());
         $this->assertSame('Doe', $user->getLastName());
         $this->assertSame(1, $user->getTotalLogins());
-        $this->assertTrue($user->getLastLogin() > 0);
-        $this->assertTrue($user->getUserRoles()[0] instanceof UserRole);
-        $this->assertTrue($user->getUserTokens()[0] instanceof UserToken);
-        $this->assertTrue($user->getUserLogins()[0] instanceof UserLogin);
-        $this->assertTrue($user->getOrders()[0] instanceof Order);
-        $this->assertTrue($user->getCart() instanceof Cart);
+        $this->assertSame($userRole, $user->getUserRoles()[0]);
+        $this->assertSame($userToken, $user->getUserTokens()[0]);
+        $this->assertSame($userLogin, $user->getUserLogins()[0]);
+        $this->assertSame($order, $user->getOrders()[0]);
+        $this->assertSame($cart, $user->getCart());
+        $this->assertTrue($user->getLastLogin()->getTimestamp() > 0);
     }
 
     public function testSetPasswordRaisesEvent()
@@ -63,12 +76,16 @@ class UserTest extends DoctrineTestCase
         $user->setId(1);
         $user->setPassword('NewPassword123');
 
-        /** @var PasswordChangedEvent $event */
         $event = $user->releaseEvents()[0];
-        $this->assertTrue($event instanceof PasswordChangedEvent);
-        $this->assertSame($user->getId(), $event->getUserId());
-        $this->assertSame($user->getFullName(), $event->getFullName());
-        $this->assertSame($user->getEmail(), $event->getEmail());
+
+        $this->assertEquals(
+            new PasswordChangedEvent(
+                $user->getId(),
+                $user->getEmail(),
+                $user->getFullName()
+            ),
+            $event
+        );
     }
 
     public function testVerifyPassword()
@@ -82,9 +99,11 @@ class UserTest extends DoctrineTestCase
     public function testIncrementTotalLogins()
     {
         $user = new User;
+        $this->assertTrue($user->getLastLogin()->getTimestamp() === 0);
+
         $user->incrementTotalLogins();
         $this->assertSame(1, $user->getTotalLogins());
-        $this->assertTrue($user->getLastLogin() > 0);
+        $this->assertTrue($user->getLastLogin()->getTimestamp() > 0);
     }
 
     public function testHasRoles()

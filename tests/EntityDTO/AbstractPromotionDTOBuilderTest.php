@@ -3,8 +3,8 @@ namespace inklabs\kommerce\EntityDTO;
 
 use DateTime;
 use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\tests\Entity\TestablePromotion;
-use inklabs\kommerce\tests\Entity\TestablePromotionInvalid;
+use inklabs\kommerce\tests\Helper\Entity\TestablePromotion;
+use inklabs\kommerce\tests\Helper\Entity\TestablePromotionInvalid;
 
 class AbstractPromotionDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
