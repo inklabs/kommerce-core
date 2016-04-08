@@ -1,35 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\CartTotal;
-use inklabs\kommerce\Entity\CashPayment;
-use inklabs\kommerce\Entity\Coupon;
-use inklabs\kommerce\Entity\Money;
-use inklabs\kommerce\Entity\Order;
-use inklabs\kommerce\Entity\OrderAddress;
-use inklabs\kommerce\Entity\Shipment;
-use inklabs\kommerce\Entity\ShipmentRate;
-use inklabs\kommerce\Entity\TaxRate;
-use inklabs\kommerce\Entity\User;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class OrderDTOBuilderTest extends Helper\DoctrineTestCase
+class OrderDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $orderItem = $this->dummyData->getOrderItemFull();
-
-        $order = new Order;
-        $order->addOrderItem($orderItem);
-        $order->setTotal(new CartTotal);
-        $order->setShippingAddress(new OrderAddress);
-        $order->setBillingAddress(new OrderAddress);
-        $order->setUser(new User);
-        $order->addCoupon(new Coupon);
-        $order->addPayment(new CashPayment(100));
-        $order->addShipment(new Shipment);
-        $order->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
-        $order->setTaxRate(new TaxRate);
+        $order = $this->dummyData->getOrderFull();
 
         $orderDTO = $order->getDTOBuilder()
             ->withAllData()

@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\CashPayment;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CashPaymentDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class CashPaymentDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $cashPayment = new CashPayment(2000);
+        $cashPayment = $this->dummyData->getCashPayment();
 
         $cashPaymentDTO = $cashPayment->getDTOBuilder()
             ->build();

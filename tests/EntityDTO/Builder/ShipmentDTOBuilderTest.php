@@ -1,22 +1,14 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Order;
-use inklabs\kommerce\Entity\OrderItem;
-use inklabs\kommerce\Entity\Shipment;
-use inklabs\kommerce\Entity\ShipmentComment;
-use inklabs\kommerce\Entity\ShipmentItem;
-use inklabs\kommerce\Entity\ShipmentTracker;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ShipmentDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class ShipmentDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $shipment = new Shipment;
-        $shipment->addShipmentTracker(new ShipmentTracker(ShipmentTracker::CARRIER_UPS, 'xxxx'));
-        $shipment->addShipmentItem(new ShipmentItem(new OrderItem, 1));
-        $shipment->addShipmentComment(new ShipmentComment('A comment'));
-        $shipment->setOrder(new Order);
+        $shipment = $this->dummyData->getShipment();
+        $shipment->setOrder($this->dummyData->getOrder());
 
         $shipmentDTO = $shipment->getDTOBuilder()
             ->withAllData()

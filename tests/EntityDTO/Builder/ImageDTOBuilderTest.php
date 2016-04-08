@@ -1,17 +1,15 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Image;
-use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ImageDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class ImageDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $image = new Image;
-        $image->setProduct(new Product);
-        $image->setTag(new Tag);
+        $image = $this->dummyData->getImage();
+        $image->setProduct($this->dummyData->getProduct());
+        $image->setTag($this->dummyData->getTag());
 
         $imageDTO = $image->getDTOBuilder()
             ->withAllData()

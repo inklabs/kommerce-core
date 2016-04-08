@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\UserRole;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class UserRoleDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class UserRoleDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $userRole = new UserRole;
+        $userRole = $this->dummyData->getUserRole();
 
         $userRoleDTO = $userRole->getDTOBuilder()
             ->build();

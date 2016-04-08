@@ -1,21 +1,16 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Option;
-use inklabs\kommerce\Entity\OptionProduct;
-use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class OptionProductDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class OptionProductDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $optionProduct = new OptionProduct;
-        $optionProduct->setOption(new Option);
-        $optionProduct->setProduct(new Product);
+        $optionProduct = $this->dummyData->getOptionProduct();
 
         $optionProductDTO = $optionProduct->getDTOBuilder()
-            ->withAllData(new Pricing)
+            ->withAllData($this->dummyData->getPricing())
             ->build();
 
         $this->assertTrue($optionProductDTO instanceof OptionProductDTO);

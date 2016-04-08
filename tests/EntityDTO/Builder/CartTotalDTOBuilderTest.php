@@ -1,17 +1,15 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\CartPriceRule;
-use inklabs\kommerce\Entity\CartTotal;
-use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CartTotalDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class CartTotalDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $cartTotal = new CartTotal;
-        $cartTotal->coupons = [new Coupon];
-        $cartTotal->cartPriceRules = [new CartPriceRule];
+        $cartTotal = $this->dummyData->getCartTotal();
+        $cartTotal->coupons = [$this->dummyData->getCoupon()];
+        $cartTotal->cartPriceRules = [$this->dummyData->getCartPriceRule()];
 
         $cartTotalDTO = $cartTotal->getDTOBuilder()
             ->withAllData()

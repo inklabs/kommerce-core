@@ -1,18 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Money;
-use inklabs\kommerce\Entity\ShipmentLabel;
-use inklabs\kommerce\Entity\ShipmentRate;
-use inklabs\kommerce\Entity\ShipmentTracker;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ShipmentTrackerDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class ShipmentTrackerDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $shipmentTracker = new ShipmentTracker(ShipmentTracker::CARRIER_UPS, 'xxxx');
-        $shipmentTracker->setShipmentRate(new ShipmentRate(new Money(1, 'USD')));
-        $shipmentTracker->setShipmentLabel(new ShipmentLabel);
+        $shipmentTracker = $this->dummyData->getShipmentTracker();
 
         $shipmentTrackerDTO = $shipmentTracker->getDTOBuilder()
             ->build();

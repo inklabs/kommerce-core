@@ -1,17 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\CatalogPromotion;
-use inklabs\kommerce\Entity\Price;
-use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class PriceDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class PriceDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $price = new Price;
-        $price->addCatalogPromotion(new CatalogPromotion);
-        $price->addProductQuantityDiscount(new ProductQuantityDiscount);
+        $price = $this->dummyData->getPriceFull();
 
         $priceDTO = $price->getDTOBuilder()
             ->withAllData()

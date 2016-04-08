@@ -1,23 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Option;
-use inklabs\kommerce\Entity\OptionProduct;
-use inklabs\kommerce\Entity\OrderItem;
-use inklabs\kommerce\Entity\OrderItemOptionProduct;
-use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class OrderItemOptionProductDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class OrderItemOptionProductDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $optionProduct = new OptionProduct;
-        $optionProduct->setOption(new Option);
-        $optionProduct->setProduct(new Product);
-
-        $orderItemOptionProduct = new OrderItemOptionProduct;
-        $orderItemOptionProduct->setOptionProduct($optionProduct);
-        $orderItemOptionProduct->setOrderItem(new OrderItem);
+        $orderItemOptionProduct = $this->dummyData->getOrderItemOptionProduct();
 
         $orderItemOptionProductDTO = $orderItemOptionProduct->getDTOBuilder()
             ->withAllData()

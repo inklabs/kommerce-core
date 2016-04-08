@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\ShipmentLabel;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ShipmentLabelDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class ShipmentLabelDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $shipmentLabel = new ShipmentLabel;
+        $shipmentLabel = $this->dummyData->getShipmentLabel();
 
         $shipmentLabelDTO = $shipmentLabel->getDTOBuilder()
             ->build();

@@ -1,19 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Address;
-use inklabs\kommerce\Entity\Point;
-use inklabs\kommerce\Entity\Warehouse;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class WarehouseDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class WarehouseDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $address = new Address;
-        $address->setPoint(new Point);
-
-        $warehouse = new Warehouse;
-        $warehouse->setAddress($address);
+        $warehouse = $this->dummyData->getWarehouse();
 
         $warehouseDTO = $warehouse->getDTOBuilder()
             ->build();

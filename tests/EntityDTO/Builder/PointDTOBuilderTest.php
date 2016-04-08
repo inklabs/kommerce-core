@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Point;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class PointDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class PointDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $point = new Point;
+        $point = $this->dummyData->getPoint();
 
         $pointDTO = $point->getDTOBuilder()
             ->build();

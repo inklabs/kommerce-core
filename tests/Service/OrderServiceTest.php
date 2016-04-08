@@ -205,7 +205,7 @@ class OrderServiceTest extends DoctrineTestCase
      */
     private function getPersistedDummyOrder()
     {
-        $order = $this->dummyData->getOrderFull();
+        $order = $this->dummyData->getOrderFullWithoutShipments();
         $this->fakeOrderRepository->create($order);
 
         foreach ($order->getOrderItems() as $orderItem) {

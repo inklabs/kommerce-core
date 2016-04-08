@@ -1,14 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\OrderItem;
-use inklabs\kommerce\Entity\ShipmentItem;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ShipmentItemDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class ShipmentItemDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $shipmentItem = new ShipmentItem(new Orderitem, 1);
+        $shipmentItem = $this->dummyData->getShipmentItem();
 
         $shipmentItemDTO = $shipmentItem->getDTOBuilder()
             ->build();

@@ -19,6 +19,7 @@ use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\CreditCard;
+use inklabs\kommerce\Entity\CreditPayment;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
@@ -34,6 +35,7 @@ use inklabs\kommerce\Entity\OrderItemOptionProduct;
 use inklabs\kommerce\Entity\OrderItemOptionValue;
 use inklabs\kommerce\Entity\OrderItemTextOptionValue;
 use inklabs\kommerce\Entity\OrderStatusType;
+use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Parcel;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Price;
@@ -108,12 +110,26 @@ class DummyData
     {
         $cart = new Cart;
         $cart->setIp4('10.0.0.1');
+        $cart->setShippingAddress($this->getOrderAddress());
 
         foreach ($cartItems as $cartItem) {
             $cart->addCartItem($cartItem);
         }
 
         return $cart;
+    }
+
+    public function getCartFull()
+    {
+        $cart = $this->getCart();
+        $cart->addCartItem($this->getCartItem());
+        $cart->addCoupon($this->getCoupon());
+        $cart->setShipmentRate($this->getShipmentRate());
+        $cart->setTaxRate($this->getTaxRate());
+        $cart->setUser($this->getUser());
+
+        return $cart;
+
     }
 
     public function getCartCalculator()
@@ -335,6 +351,11 @@ class DummyData
         return $creditCard;
     }
 
+    public function getCreditPayment()
+    {
+        return new CreditPayment($this->getChargeResponse());
+    }
+
     public function getImage()
     {
         $image = new Image;
@@ -466,9 +487,22 @@ class DummyData
 
     public function getOrderFull()
     {
+        $order = $this->getOrderFullWithoutShipments();
+        $order->addShipment($this->getShipment());
+
+        return $order;
+    }
+
+    public function getOrderFullWithoutShipments()
+    {
         $cartTotal = $this->getCartTotal();
         $orderItems = [$this->getOrderItemFull()];
         $order = $this->getOrder($cartTotal, $orderItems);
+        $order->setUser($this->getUser());
+        $order->addCoupon($this->getCoupon());
+        $order->addPayment($this->getCashPayment());
+        $order->setShipmentRate($this->getShipmentRate());
+        $order->setTaxRate($this->getTaxRate());
 
         return $order;
     }
@@ -875,5 +909,10 @@ class DummyData
         $warehouse->setAddress($this->getAddress());
 
         return $warehouse;
+    }
+
+    public function getPagination()
+    {
+        return new Pagination;
     }
 }

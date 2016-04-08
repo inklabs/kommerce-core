@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CouponDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class CouponDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
 
         $couponDTO = $coupon->getDTOBuilder()
             ->build();

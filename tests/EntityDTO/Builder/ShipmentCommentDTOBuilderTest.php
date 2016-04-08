@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\ShipmentComment;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ShipmentCommentDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class ShipmentCommentDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $shipmentComment = new ShipmentComment('A comment');
+        $shipmentComment = $this->dummyData->getShipmentComment();
 
         $shipmentCommentDTO = $shipmentComment->getDTOBuilder()
             ->build();

@@ -1,19 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Attribute;
-use inklabs\kommerce\Entity\AttributeValue;
-use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\ProductAttribute;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ProductAttributeDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class ProductAttributeDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $productAttribute = new ProductAttribute;
-        $productAttribute->setProduct(new Product);
-        $productAttribute->setAttribute(new Attribute);
-        $productAttribute->setAttributeValue(new AttributeValue);
+        $productAttribute = $this->dummyData->getProductAttribute();
 
         $productAttributeDTO = $productAttribute->getDTOBuilder()
             ->withAllData()

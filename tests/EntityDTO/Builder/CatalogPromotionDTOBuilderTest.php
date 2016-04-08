@@ -1,15 +1,14 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\CatalogPromotion;
-use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CatalogPromotionDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class CatalogPromotionDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $catalogPromotion = new CatalogPromotion;
-        $catalogPromotion->setTag(new Tag);
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
+        $catalogPromotion->setTag($this->dummyData->getTag());
 
         $catalogPromotionDTO = $catalogPromotion->getDTOBuilder()
             ->withAllData()

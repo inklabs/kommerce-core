@@ -1,19 +1,16 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\User;
-use inklabs\kommerce\Entity\UserLogin;
-use inklabs\kommerce\Entity\UserRole;
-use inklabs\kommerce\Entity\UserToken;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class UserDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class UserDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $user = new User;
-        $user->addUserToken(new UserToken);
-        $user->addUserRole(new UserRole);
-        $user->addUserLogin(new UserLogin);
+        $user = $this->dummyData->getUser();
+        $user->addUserToken($this->dummyData->getUserToken());
+        $user->addUserRole($this->dummyData->getUserRole());
+        $user->addUserLogin($this->dummyData->getUserLogin());
 
         $userDTO = $user->getDTOBuilder()
             ->withAllData()

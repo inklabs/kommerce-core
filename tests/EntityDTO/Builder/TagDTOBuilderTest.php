@@ -1,21 +1,17 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Image;
-use inklabs\kommerce\Entity\Option;
-use inklabs\kommerce\Entity\Tag;
-use inklabs\kommerce\Entity\TextOption;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class TagDTOBuilderTest extends Helper\DoctrineTestCase
+class TagDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $tag = new Tag;
-        $tag->addImage(new Image);
+        $tag = $this->dummyData->getTag();
+        $tag->addImage($this->dummyData->getImage());
         $tag->addProduct($this->dummyData->getProductFull());
-        $tag->addOption(new Option);
-        $tag->addTextOption(new TextOption);
+        $tag->addOption($this->dummyData->getOption());
+        $tag->addTextOption($this->dummyData->getTextOption());
 
         $tagDTO = $tag->getDTOBuilder()
             ->withAllData($this->dummyData->getPricing())

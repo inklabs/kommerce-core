@@ -1,15 +1,14 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Tag;
-use inklabs\kommerce\Entity\TextOption;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class TextOptionDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class TextOptionDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $textOption = new TextOption;
-        $textOption->addTag(new Tag);
+        $textOption = $this->dummyData->getTextOption();
+        $textOption->addTag($this->dummyData->getTag());
 
         $textOptionDTO = $textOption->getDTOBuilder()
             ->withAllData()

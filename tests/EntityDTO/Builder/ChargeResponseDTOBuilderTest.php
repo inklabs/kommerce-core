@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ChargeResponseDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class ChargeResponseDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $chargeResponse = new ChargeResponse;
+        $chargeResponse = $this->dummyData->getChargeResponse();
 
         $chargeResponseDTO = $chargeResponse->getDTOBuilder()
             ->build();

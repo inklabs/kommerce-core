@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class TaxRateDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class TaxRateDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $taxRate = new TaxRate;
+        $taxRate = $this->dummyData->getTaxRate();
 
         $taxRateDTO = $taxRate->getDTOBuilder()
             ->build();

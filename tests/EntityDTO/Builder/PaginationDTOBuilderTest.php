@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class PaginationDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class PaginationDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $pagination = new Pagination;
+        $pagination = $this->dummyData->getPagination();
 
         $paginationDTO = $pagination->getDTOBuilder()
             ->build();

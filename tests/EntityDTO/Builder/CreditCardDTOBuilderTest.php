@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\CreditCard;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CreditCardDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class CreditCardDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $creditCard = new CreditCard;
+        $creditCard = $this->dummyData->getCreditCard();
 
         $creditCardDTO = $creditCard->getDTOBuilder()
             ->build();

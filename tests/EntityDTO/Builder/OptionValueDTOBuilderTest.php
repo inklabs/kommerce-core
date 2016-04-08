@@ -1,15 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Option;
-use inklabs\kommerce\Entity\OptionValue;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class OptionValueDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class OptionValueDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $optionValue = new OptionValue;
-        $optionValue->setOption(new Option);
+        $optionValue = $this->dummyData->getOptionValue();
 
         $optionValueDTO = $optionValue->getDTOBuilder()
             ->withAllData()

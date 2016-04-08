@@ -1,14 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Money;
-use inklabs\kommerce\Entity\ShipmentRate;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ShipmentRateDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class ShipmentRateDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $shipmentRate = new ShipmentRate(new Money(1, 'USD'));
+        $shipmentRate = $this->dummyData->getShipmentRate();
 
         $shipmentRateDTO = $shipmentRate->getDTOBuilder()
             ->build();

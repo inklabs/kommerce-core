@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\OrderAddress;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class OrderAddressDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class OrderAddressDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $orderAddress = new OrderAddress;
+        $orderAddress = $this->dummyData->getOrderAddress();
 
         $orderAddressDTO = $orderAddress->getDTOBuilder()
             ->build();

@@ -1,15 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\CreditPayment;
-use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CreditPaymentDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class CreditPaymentDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $chargeResponse = new ChargeResponse;
-        $creditPayment = new CreditPayment($chargeResponse);
+        $creditPayment = $this->dummyData->getCreditPayment();
 
         $creditPaymentDTO = $creditPayment->getDTOBuilder()
             ->build();

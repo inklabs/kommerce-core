@@ -1,19 +1,17 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\ProductQuantityDiscount;
-use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class ProductQuantityDiscountDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class ProductQuantityDiscountDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setProduct(new Product);
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
+        $productQuantityDiscount->setProduct($this->dummyData->getProduct());
 
         $productQuantityDiscountDTO = $productQuantityDiscount->getDTOBuilder()
-            ->withAllData(new Pricing)
+            ->withAllData($this->dummyData->getPricing())
             ->build();
 
         $this->assertTrue($productQuantityDiscountDTO instanceof ProductQuantityDiscountDTO);

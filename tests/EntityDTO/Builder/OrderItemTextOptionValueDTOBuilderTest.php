@@ -1,17 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\OrderItem;
-use inklabs\kommerce\Entity\OrderItemTextOptionValue;
-use inklabs\kommerce\Entity\TextOption;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class OrderItemTextOptionValueDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class OrderItemTextOptionValueDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $orderItemTextOptionValue = new OrderItemTextOptionValue('Happy Birthday');
-        $orderItemTextOptionValue->setTextOption(new TextOption);
-        $orderItemTextOptionValue->setOrderItem(new OrderItem);
+        $orderItemTextOptionValue = $this->dummyData->getOrderItemTextOptionValue();
 
         $orderItemTextOptionValueDTO = $orderItemTextOptionValue->getDTOBuilder()
             ->withAllData()

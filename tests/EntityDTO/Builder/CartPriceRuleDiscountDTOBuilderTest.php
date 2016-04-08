@@ -1,14 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\CartPriceRuleDiscount;
-use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class CartPriceRuleDiscountDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class CartPriceRuleDiscountDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $cartPriceRuleDiscount = new CartPriceRuleDiscount(new Product, 2);
+        $cartPriceRuleDiscount = $this->dummyData->getCartPriceRuleDiscount();
 
         $cartPriceRuleDiscountDTO = $cartPriceRuleDiscount->getDTOBuilder()
             ->withAllData()
