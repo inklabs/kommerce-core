@@ -4,9 +4,9 @@ namespace inklabs\kommerce\EntityRepository;
 use DateTime;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Tag;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class CatalogPromotionRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class CatalogPromotionRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         CatalogPromotion::class,

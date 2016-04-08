@@ -16,9 +16,9 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentGenerator;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class OrderRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class OrderRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Coupon::class,

@@ -6,9 +6,9 @@ use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserToken;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class UserTokenRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class UserTokenRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         User::class,

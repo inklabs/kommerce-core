@@ -10,18 +10,15 @@ use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
  */
 class FakeOptionRepository extends AbstractFakeRepository implements OptionRepositoryInterface
 {
-    public function __construct()
-    {
-        $this->setReturnValue(new Option);
-    }
+    protected $entityName = 'Option';
 
     public function getAllOptions($queryString = null, Pagination & $pagination = null)
     {
-        return $this->getReturnValueAsArray();
+        return $this->entities;
     }
 
     public function getAllOptionsByIds(array $optionIds, Pagination & $pagination = null)
     {
-        return $this->getReturnValueAsArray();
+        return $this->entities;
     }
 }

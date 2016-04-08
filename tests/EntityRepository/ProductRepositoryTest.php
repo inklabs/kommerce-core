@@ -14,9 +14,9 @@ use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class ProductRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class ProductRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Attribute::class,

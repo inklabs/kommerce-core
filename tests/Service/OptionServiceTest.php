@@ -2,10 +2,10 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Option;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionRepository;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class OptionServiceTest extends Helper\TestCase\ServiceTestCase
+class OptionServiceTest extends ServiceTestCase
 {
     /** @var FakeOptionRepository */
     protected $optionRepository;
@@ -35,20 +35,27 @@ class OptionServiceTest extends Helper\TestCase\ServiceTestCase
 
         $option->setName($newName);
         $this->optionService->edit($option);
+
         $this->assertSame($newName, $option->getName());
     }
 
     public function testFind()
     {
-        $this->optionRepository->create(new Option);
+        $option1 = $this->dummyData->getOption();
+        $this->optionRepository->create($option1);
 
         $option = $this->optionService->findOneById(1);
+
         $this->assertTrue($option instanceof Option);
     }
 
     public function testGetAllOptions()
     {
+        $option1 = $this->dummyData->getOption();
+        $this->optionRepository->create($option1);
+
         $options = $this->optionService->getAllOptions();
-        $this->assertTrue($options[0] instanceof Option);
+
+        $this->assertTrue($options[1] instanceof Option);
     }
 }

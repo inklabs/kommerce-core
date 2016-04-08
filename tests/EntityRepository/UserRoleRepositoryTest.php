@@ -5,9 +5,9 @@ use DateTime;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserRole;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class UserRoleRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class UserRoleRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         UserRole::class,

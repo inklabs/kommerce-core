@@ -5,9 +5,9 @@ use DateTime;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class OptionProductRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class OptionProductRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Option::class,

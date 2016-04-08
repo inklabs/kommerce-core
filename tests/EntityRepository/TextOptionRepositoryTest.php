@@ -4,9 +4,9 @@ namespace inklabs\kommerce\EntityRepository;
 use DateTime;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TextOption;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class TextOptionRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class TextOptionRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         TextOption::class,

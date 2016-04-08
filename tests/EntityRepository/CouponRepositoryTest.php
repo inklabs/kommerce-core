@@ -4,9 +4,9 @@ namespace inklabs\kommerce\EntityRepository;
 use DateTime;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class CouponRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class CouponRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Coupon::class,

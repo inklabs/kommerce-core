@@ -10,9 +10,9 @@ use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class UserRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class UserRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         User::class,

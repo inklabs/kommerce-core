@@ -5,9 +5,9 @@ use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class ProductAttributeRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class ProductAttributeRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Attribute::class,

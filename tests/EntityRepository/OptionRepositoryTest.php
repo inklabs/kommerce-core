@@ -7,9 +7,9 @@ use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class OptionRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class OptionRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Option::class,

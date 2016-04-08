@@ -8,9 +8,9 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class TagRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class TagRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Image::class,

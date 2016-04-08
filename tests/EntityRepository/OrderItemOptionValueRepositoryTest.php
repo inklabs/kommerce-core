@@ -10,9 +10,9 @@ use inklabs\kommerce\Entity\OrderItemOptionValue;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class OrderItemOptionValueRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class OrderItemOptionValueRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Option::class,

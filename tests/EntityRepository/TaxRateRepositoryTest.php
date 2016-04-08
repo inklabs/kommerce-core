@@ -4,9 +4,9 @@ namespace inklabs\kommerce\EntityRepository;
 use DateTime;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class TaxRateRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class TaxRateRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         TaxRate::class,

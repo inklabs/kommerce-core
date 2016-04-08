@@ -8,9 +8,9 @@ use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class CartRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class CartRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Coupon::class,

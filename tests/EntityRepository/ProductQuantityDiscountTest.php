@@ -3,9 +3,9 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class ProductQuantityDiscountTest extends Helper\TestCase\EntityRepositoryTestCase
+class ProductQuantityDiscountTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         ProductQuantityDiscount::class,

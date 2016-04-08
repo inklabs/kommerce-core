@@ -8,8 +8,9 @@ use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 use inklabs\kommerce\Entity\CartPriceRuleProductItem;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class CartPriceRuleRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class CartPriceRuleRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         CartPriceRule::class,

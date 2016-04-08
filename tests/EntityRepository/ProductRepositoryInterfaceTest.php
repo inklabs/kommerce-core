@@ -4,10 +4,10 @@ namespace inklabs\kommerce\tests\EntityRepository;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class ProductRepositoryInterfaceTest extends Helper\TestCase\EntityRepositoryTestCase
+class ProductRepositoryInterfaceTest extends EntityRepositoryTestCase
 {
     /** @var ProductRepositoryInterface */
     protected $productRepository;

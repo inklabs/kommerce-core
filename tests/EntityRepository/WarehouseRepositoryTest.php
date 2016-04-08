@@ -5,9 +5,9 @@ use DateTime;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class WarehouseRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class WarehouseRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Warehouse::class,

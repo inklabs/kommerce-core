@@ -16,9 +16,9 @@ use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class OrderItemRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
+class OrderItemRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         OptionProduct::class,

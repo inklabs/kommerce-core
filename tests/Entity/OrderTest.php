@@ -2,10 +2,10 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Lib\PaymentGateway;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class OrderTest extends Helper\TestCase\EntityTestCase
+class OrderTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {

@@ -14,7 +14,6 @@ class ServiceFactoryTest extends Helper\TestCase\ServiceTestCase
     public function setUp()
     {
         parent::setUp();
-
         $this->setupEntityManager();
     }
 
