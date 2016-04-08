@@ -205,6 +205,7 @@ class ServiceFactory
         $fromAddress->zip5 = '90401';
         $fromAddress->phone = '555-123-4567';
 
+        // TODO: This dependency crosses the src / test boundary
         return new FakeShipmentGateway($fromAddress);
     }
 
