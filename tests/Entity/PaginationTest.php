@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-class PaginationTest extends \PHPUnit_Framework_TestCase
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+
+class PaginationTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {

@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class PointTest extends DoctrineTestCase
+class PointTest extends EntityTestCase
 {
     protected $latitude = 34.052234;
     protected $longitude = -118.243685;

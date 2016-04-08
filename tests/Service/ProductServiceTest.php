@@ -9,7 +9,7 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeImageRepository;
 
-class ProductServiceTest extends Helper\DoctrineTestCase
+class ProductServiceTest extends Helper\TestCase\ServiceTestCase
 {
     /** @var FakeProductRepository */
     protected $productRepository;

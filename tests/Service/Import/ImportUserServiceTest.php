@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\CSVIterator;
 use inklabs\kommerce\tests\Helper;
 
-class ImportUserServiceTest extends Helper\DoctrineTestCase
+class ImportUserServiceTest extends Helper\TestCase\ServiceTestCase
 {
     protected $metaDataClassNames = [
         User::class,

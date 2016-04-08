@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityDTO;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper;
 
-class CartItemDTOBuilderTest extends Helper\DoctrineTestCase
+class CartItemDTOBuilderTest extends Helper\TestCase\EntityDTOBuilderTestCase
 {
     public function testBuild()
     {

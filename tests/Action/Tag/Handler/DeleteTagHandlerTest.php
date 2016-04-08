@@ -4,9 +4,9 @@ namespace inklabs\kommerce\Action\Tag\Handler;
 use inklabs\kommerce\Action\Tag\DeleteTagCommand;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Service\TagServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class DeleteTagHandlerTest extends DoctrineTestCase
+class DeleteTagHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

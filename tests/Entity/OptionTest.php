@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class OptionTest extends DoctrineTestCase
+class OptionTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {

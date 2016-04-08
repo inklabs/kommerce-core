@@ -3,12 +3,12 @@ namespace inklabs\kommerce\Lib;
 
 use DateTime;
 use inklabs\kommerce\Lib\Event\EventInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 use inklabs\kommerce\tests\Helper\Event\FakeEvent;
 use inklabs\kommerce\tests\Helper\Event\FakeEvent2;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 use inklabs\kommerce\tests\Lib\Event\FakeEventSubscriber;
 
-class EventDispatcherTest extends DoctrineTestCase
+class EventDispatcherTest extends ServiceTestCase
 {
     public function testAddSubscriberAndDispatchFiresSubscriber()
     {

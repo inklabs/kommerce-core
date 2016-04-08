@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\tests\Helper;
 
-class UserRoleRepositoryTest extends Helper\DoctrineTestCase
+class UserRoleRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         UserRole::class,

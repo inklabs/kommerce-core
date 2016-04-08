@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class CartPriceRuleTest extends DoctrineTestCase
+class CartPriceRuleTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {

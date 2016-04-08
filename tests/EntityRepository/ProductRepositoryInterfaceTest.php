@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 
-class ProductRepositoryInterfaceTest extends Helper\DoctrineTestCase
+class ProductRepositoryInterfaceTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     /** @var ProductRepositoryInterface */
     protected $productRepository;

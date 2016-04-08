@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\KommerceTestCase;
 
-class ChargeResponseTest extends DoctrineTestCase
+class ChargeResponseTest extends KommerceTestCase
 {
     public function testCreate()
     {

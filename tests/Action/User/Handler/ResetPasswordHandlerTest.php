@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Action\User\Handler;
 
 use inklabs\kommerce\Action\User\ResetPasswordCommand;
 use inklabs\kommerce\Service\UserServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class ResetPasswordHandlerTest extends DoctrineTestCase
+class ResetPasswordHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

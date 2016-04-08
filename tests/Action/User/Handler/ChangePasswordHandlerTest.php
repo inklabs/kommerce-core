@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Action\User\Handler;
 
 use inklabs\kommerce\Action\User\ChangePasswordCommand;
 use inklabs\kommerce\Service\UserServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class ChangePasswordHandlerTest extends DoctrineTestCase
+class ChangePasswordHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

@@ -5,9 +5,9 @@ use inklabs\kommerce\Action\Shipment\BuyShipmentLabelCommand;
 use inklabs\kommerce\Action\Shipment\Handler\BuyShipmentLabelHandler;
 use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
 use inklabs\kommerce\Service\OrderServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class BuyShipmentLabelHandlerTest extends DoctrineTestCase
+class BuyShipmentLabelHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

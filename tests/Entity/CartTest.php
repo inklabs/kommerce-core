@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Exception\InvalidCartActionException;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class CartTest extends DoctrineTestCase
+class CartTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {

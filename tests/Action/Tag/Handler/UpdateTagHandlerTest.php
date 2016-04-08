@@ -5,9 +5,9 @@ use inklabs\kommerce\Action\Tag\UpdateTagCommand;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\Service\TagServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class UpdateTagHandlerTest extends DoctrineTestCase
+class UpdateTagHandlerTest extends ActionTestCase
 {
     /** @var TagDTO */
     protected $tagDTO;

@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 use inklabs\kommerce\tests\Helper;
 
-class OrderItemDTOBuilderTest extends Helper\DoctrineTestCase
+class OrderItemDTOBuilderTest extends Helper\TestCase\EntityDTOBuilderTestCase
 {
     public function testBuild()
     {

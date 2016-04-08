@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Doctrine\Functions\Sqlite;
 
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class RandTest extends Helper\DoctrineTestCase
+class RandTest extends EntityRepositoryTestCase
 {
     /** @var Product */
     private $product1;

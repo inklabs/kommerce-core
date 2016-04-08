@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use inklabs\kommerce\Event\PasswordChangedEvent;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class UserTest extends DoctrineTestCase
+class UserTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {

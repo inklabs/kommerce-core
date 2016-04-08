@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
-class CartItemOptionProductDTOBuilderTest extends DoctrineTestCase
+class CartItemOptionProductDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     public function testBuild()
     {

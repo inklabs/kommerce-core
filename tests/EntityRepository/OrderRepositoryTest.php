@@ -18,7 +18,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentGenerator;
 use inklabs\kommerce\tests\Helper;
 
-class OrderRepositoryTest extends Helper\DoctrineTestCase
+class OrderRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Coupon::class,

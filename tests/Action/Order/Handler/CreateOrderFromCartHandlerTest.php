@@ -23,9 +23,9 @@ use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class CreateOrderFromCartHandlerTest extends DoctrineTestCase
+class CreateOrderFromCartHandlerTest extends ActionTestCase
 {
     protected $metaDataClassNames = [
         User::class,

@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class UpdatedTraitTest extends \PHPUnit_Framework_TestCase
+class UpdatedTraitTest extends EntityTestCase
 {
     public function testCreate()
     {

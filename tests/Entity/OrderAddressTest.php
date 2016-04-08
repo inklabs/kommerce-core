@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class OrderAddressTest extends DoctrineTestCase
+class OrderAddressTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {

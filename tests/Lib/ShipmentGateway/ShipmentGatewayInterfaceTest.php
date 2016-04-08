@@ -4,10 +4,10 @@ namespace inklabs\kommerce\tests\Lib\ShipmentGateway;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\KommerceTestCase;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
-class ShipmentGatewayInterfaceTest extends DoctrineTestCase
+class ShipmentGatewayInterfaceTest extends KommerceTestCase
 {
     public function testCreate()
     {

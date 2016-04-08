@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Lib\Pricing;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class OptionProductTest extends DoctrineTestCase
+class OptionProductTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {

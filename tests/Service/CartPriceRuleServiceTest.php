@@ -6,7 +6,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRuleRepository;
 
-class CartPriceRuleServiceTest extends Helper\DoctrineTestCase
+class CartPriceRuleServiceTest extends Helper\TestCase\ServiceTestCase
 {
     /** @var FakeCartPriceRuleRepository */
     protected $cartPriceRuleRepository;

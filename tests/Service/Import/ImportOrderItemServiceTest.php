@@ -12,7 +12,7 @@ use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Lib\CSVIterator;
 use inklabs\kommerce\tests\Helper;
 
-class ImportOrderItemServiceTest extends Helper\DoctrineTestCase
+class ImportOrderItemServiceTest extends Helper\TestCase\ServiceTestCase
 {
     protected $metaDataClassNames = [
         Order::class,

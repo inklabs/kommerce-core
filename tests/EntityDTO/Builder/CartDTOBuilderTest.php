@@ -13,9 +13,9 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
-class CartDTOBuilderTest extends DoctrineTestCase
+class CartDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     public function testBuild()
     {

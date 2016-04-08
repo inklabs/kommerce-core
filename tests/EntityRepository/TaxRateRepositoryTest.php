@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\tests\Helper;
 
-class TaxRateRepositoryTest extends Helper\DoctrineTestCase
+class TaxRateRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         TaxRate::class,

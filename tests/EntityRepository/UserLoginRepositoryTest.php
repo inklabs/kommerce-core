@@ -9,7 +9,7 @@ use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Exception\BadMethodCallException;
 use inklabs\kommerce\tests\Helper;
 
-class UserLoginRepositoryTest extends Helper\DoctrineTestCase
+class UserLoginRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         User::class,

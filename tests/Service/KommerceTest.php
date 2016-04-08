@@ -10,7 +10,7 @@ use inklabs\kommerce\Lib\DoctrineHelper;
 use inklabs\kommerce\tests\Helper;
 use Doctrine;
 
-class KommerceTest extends Helper\DoctrineTestCase
+class KommerceTest extends Helper\TestCase\ServiceTestCase
 {
     protected $metaDataClassNames = [
         User::class,

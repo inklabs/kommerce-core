@@ -6,9 +6,9 @@ use inklabs\kommerce\Action\Shipment\Handler\AddShipmentTrackingCodeHandler;
 use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\Service\OrderServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class AddShipmentTrackingCodeHandlerTest extends DoctrineTestCase
+class AddShipmentTrackingCodeHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

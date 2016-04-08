@@ -8,7 +8,7 @@ use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\tests\Helper;
 
-class UserTokenRepositoryTest extends Helper\DoctrineTestCase
+class UserTokenRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         User::class,

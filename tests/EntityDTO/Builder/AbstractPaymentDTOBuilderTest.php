@@ -3,8 +3,9 @@ namespace inklabs\kommerce\tests\EntityDTO;
 
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\tests\Helper\EntityDTO\TestablePaymentInvalid;
+use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
-class AbstractPaymentDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class AbstractPaymentDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     public function testBuildFails()
     {

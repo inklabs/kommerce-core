@@ -8,9 +8,9 @@ use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class GetShipmentRatesHandlerTest extends DoctrineTestCase
+class GetShipmentRatesHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

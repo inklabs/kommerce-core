@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
-class InventoryLocationDTOBuilderTest extends DoctrineTestCase
+class InventoryLocationDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     public function testBuild()
     {

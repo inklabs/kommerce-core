@@ -8,7 +8,7 @@ use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 
-class ImageRepositoryTest extends Helper\DoctrineTestCase
+class ImageRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Image::class,

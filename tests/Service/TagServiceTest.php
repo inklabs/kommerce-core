@@ -6,7 +6,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
 use inklabs\kommerce\tests\Helper;
 
-class TagServiceTest extends Helper\DoctrineTestCase
+class TagServiceTest extends Helper\TestCase\ServiceTestCase
 {
     /** @var FakeTagRepository */
     protected $tagRepository;

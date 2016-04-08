@@ -4,9 +4,9 @@ namespace inklabs\kommerce\Action\Order\Handler;
 use inklabs\kommerce\Action\Order\SetOrderStatusCommand;
 use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Service\OrderServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class SetOrderStatusHandlerTest extends DoctrineTestCase
+class SetOrderStatusHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

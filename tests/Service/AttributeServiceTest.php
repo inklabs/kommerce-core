@@ -6,7 +6,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeAttributeRepository;
 
-class AttributeServiceTest extends Helper\DoctrineTestCase
+class AttributeServiceTest extends Helper\TestCase\ServiceTestCase
 {
     /** @var FakeAttributeRepository */
     protected $attributeRepository;

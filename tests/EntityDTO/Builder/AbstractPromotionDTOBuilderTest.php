@@ -5,8 +5,9 @@ use DateTime;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\tests\Helper\Entity\TestablePromotion;
 use inklabs\kommerce\tests\Helper\Entity\TestablePromotionInvalid;
+use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
-class AbstractPromotionDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class AbstractPromotionDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     public function testBuild()
     {

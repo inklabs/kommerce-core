@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\CSVIterator;
 use inklabs\kommerce\tests\Helper;
 
-class ImportOrderServiceTest extends Helper\DoctrineTestCase
+class ImportOrderServiceTest extends Helper\TestCase\ServiceTestCase
 {
     protected $metaDataClassNames = [
         Order::class,

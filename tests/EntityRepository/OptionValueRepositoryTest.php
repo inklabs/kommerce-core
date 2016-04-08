@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\tests\Helper;
 
-class OptionValueRepositoryTest extends Helper\DoctrineTestCase
+class OptionValueRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Option::class,

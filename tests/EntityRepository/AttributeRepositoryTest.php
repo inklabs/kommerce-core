@@ -9,7 +9,7 @@ use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 
-class AttributeRepositoryTest extends Helper\DoctrineTestCase
+class AttributeRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Attribute::class,

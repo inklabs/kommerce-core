@@ -12,7 +12,7 @@ use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 
-class UserRepositoryTest extends Helper\DoctrineTestCase
+class UserRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         User::class,

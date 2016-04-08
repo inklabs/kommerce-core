@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
 use inklabs\kommerce\Entity\CreditCard;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\KommerceTestCase;
 
-class ChargeRequestTest extends DoctrineTestCase
+class ChargeRequestTest extends KommerceTestCase
 {
     public function testCreate()
     {

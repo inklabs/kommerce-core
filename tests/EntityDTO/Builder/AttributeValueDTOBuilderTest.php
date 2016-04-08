@@ -5,9 +5,9 @@ use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
-class AttributeValueDTOBuilderTest extends DoctrineTestCase
+class AttributeValueDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     public function testBuild()
     {

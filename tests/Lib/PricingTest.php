@@ -12,7 +12,7 @@ use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCatalogPromotionRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRuleRepository;
 
-class PricingTest extends Helper\DoctrineTestCase
+class PricingTest extends Helper\TestCase\KommerceTestCase
 {
     /** @var Pricing */
     protected $pricing;

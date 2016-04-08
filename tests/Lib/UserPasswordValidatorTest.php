@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Lib;
 
 use Exception;
 use inklabs\kommerce\Entity\User;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\KommerceTestCase;
 
-class UserPasswordValidatorTest extends DoctrineTestCase
+class UserPasswordValidatorTest extends KommerceTestCase
 {
     /** @var UserPasswordValidator */
     protected $userPasswordValidator;

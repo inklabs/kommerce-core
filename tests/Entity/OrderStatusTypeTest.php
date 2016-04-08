@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class OrderStatusTypeTest extends DoctrineTestCase
+class OrderStatusTypeTest extends EntityTestCase
 {
     public function testCreate()
     {

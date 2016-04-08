@@ -10,7 +10,7 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
 
-class CartRepositoryTest extends Helper\DoctrineTestCase
+class CartRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Coupon::class,

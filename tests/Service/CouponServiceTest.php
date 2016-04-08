@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCouponRepository;
 
-class CouponServiceTest extends Helper\DoctrineTestCase
+class CouponServiceTest extends Helper\TestCase\ServiceTestCase
 {
     /** @var FakeCouponRepository */
     protected $couponRepository;

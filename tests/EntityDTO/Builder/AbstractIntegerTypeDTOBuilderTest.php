@@ -3,9 +3,9 @@ namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\EntityDTO\AbstractIntegerTypeDTO;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
-abstract class AbstractIntegerTypeDTOBuilderTest extends DoctrineTestCase
+abstract class AbstractIntegerTypeDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     /**
      * @return OrderStatusType

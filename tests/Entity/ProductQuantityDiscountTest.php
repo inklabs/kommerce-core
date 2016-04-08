@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use inklabs\kommerce\Exception\BadMethodCallException;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class ProductQuantityDiscountTest extends DoctrineTestCase
+class ProductQuantityDiscountTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {

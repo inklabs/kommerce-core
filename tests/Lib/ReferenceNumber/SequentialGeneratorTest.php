@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
-use inklabs\kommerce\tests\Entity\FakeEntity;
+use inklabs\kommerce\tests\Helper\Entity\FakeEntity;
 
 class SequentialGeneratorTest extends \PHPUnit_Framework_TestCase
 {

@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\tests\Helper;
 
-class ProductQuantityDiscountTest extends Helper\DoctrineTestCase
+class ProductQuantityDiscountTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         ProductQuantityDiscount::class,

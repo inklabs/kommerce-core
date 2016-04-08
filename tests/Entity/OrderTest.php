@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\Lib\PaymentGateway;
 
-class OrderTest extends Helper\DoctrineTestCase
+class OrderTest extends Helper\TestCase\EntityTestCase
 {
     public function testCreateDefaults()
     {

@@ -14,7 +14,7 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserLoginRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserTokenRepository;
 
-class UserServiceTest extends Helper\DoctrineTestCase
+class UserServiceTest extends Helper\TestCase\ServiceTestCase
 {
     /** @var FakeUserRepository */
     protected $userRepository;

@@ -3,11 +3,11 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Exception\InsufficientInventoryException;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryLocationRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryTransactionRepository;
 
-class InventoryServiceTest extends DoctrineTestCase
+class InventoryServiceTest extends ServiceTestCase
 {
     /** @var FakeInventoryLocationRepository */
     protected $fakeInventoryLocationRepository;

@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use DateTimeZone;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class AbstractPromotionTest extends DoctrineTestCase
+class AbstractPromotionTest extends EntityTestCase
 {
     /** @var AbstractPromotion */
     protected $promotion;

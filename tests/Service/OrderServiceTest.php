@@ -12,7 +12,7 @@ use inklabs\kommerce\Event\OrderShippedEvent;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryLocationRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryTransactionRepository;
@@ -21,7 +21,7 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
-class OrderServiceTest extends DoctrineTestCase
+class OrderServiceTest extends ServiceTestCase
 {
     /** @var FakeOrderRepository */
     protected $fakeOrderRepository;

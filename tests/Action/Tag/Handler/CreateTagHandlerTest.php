@@ -4,9 +4,9 @@ namespace inklabs\kommerce\Action\Tag\Handler;
 use inklabs\kommerce\Action\Tag\CreateTagCommand;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\Service\TagServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class CreateTagHandlerTest extends DoctrineTestCase
+class CreateTagHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\tests\Helper;
 
-class ProductAttributeRepositoryTest extends Helper\DoctrineTestCase
+class ProductAttributeRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Attribute::class,

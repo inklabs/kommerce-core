@@ -9,7 +9,7 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper;
 
-class OptionRepositoryTest extends Helper\DoctrineTestCase
+class OptionRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Option::class,

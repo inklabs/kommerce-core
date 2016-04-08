@@ -1,11 +1,11 @@
 <?php
 namespace inklabs\kommerce\tests\Lib;
 
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 use inklabs\kommerce\tests\Helper\Lib\FakeCommand;
 use inklabs\kommerce\tests\Helper\Lib\FakeRequest;
 
-class MapperTest extends DoctrineTestCase
+class MapperTest extends ActionTestCase
 {
     protected $metaDataClassNames = [];
 

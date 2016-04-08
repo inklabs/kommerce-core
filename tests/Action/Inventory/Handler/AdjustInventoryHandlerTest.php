@@ -7,9 +7,9 @@ use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class AdjustInventoryHandlerTest extends DoctrineTestCase
+class AdjustInventoryHandlerTest extends ActionTestCase
 {
     /** @var AdjustInventoryHandler */
     protected $handler;

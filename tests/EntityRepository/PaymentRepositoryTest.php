@@ -9,7 +9,7 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
 
-class PaymentRepositoryTest extends Helper\DoctrineTestCase
+class PaymentRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Order::class,

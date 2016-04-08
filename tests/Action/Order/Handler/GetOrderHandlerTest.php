@@ -5,9 +5,9 @@ use inklabs\kommerce\Action\Order\GetOrderRequest;
 use inklabs\kommerce\Action\Order\Response\GetOrderResponse;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\Service\OrderServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class GetOrderHandlerTest extends DoctrineTestCase
+class GetOrderHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

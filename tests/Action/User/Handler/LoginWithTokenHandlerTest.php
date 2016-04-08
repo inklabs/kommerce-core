@@ -5,9 +5,9 @@ use inklabs\kommerce\Action\User\LoginWithTokenRequest;
 use inklabs\kommerce\Action\User\Response\LoginWithTokenResponse;
 use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\Service\UserServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class LoginWithTokenHandlerTest extends DoctrineTestCase
+class LoginWithTokenHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

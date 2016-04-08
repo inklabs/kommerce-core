@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class CartPriceRuleTagItemTest extends DoctrineTestCase
+class CartPriceRuleTagItemTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {

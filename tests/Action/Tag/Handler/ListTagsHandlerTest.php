@@ -7,9 +7,9 @@ use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\TagServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class ListTagsHandlerTest extends DoctrineTestCase
+class ListTagsHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

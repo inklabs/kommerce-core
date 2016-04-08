@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTaxRateRepository;
 
-class TaxRateServiceTest extends Helper\DoctrineTestCase
+class TaxRateServiceTest extends Helper\TestCase\ServiceTestCase
 {
     /** @var FakeTaxRateRepository */
     protected $taxRateRepository;

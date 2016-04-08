@@ -10,7 +10,7 @@ use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 
-class TagRepositoryTest extends Helper\DoctrineTestCase
+class TagRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Image::class,

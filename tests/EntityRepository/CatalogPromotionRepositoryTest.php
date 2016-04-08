@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper;
 
-class CatalogPromotionRepositoryTest extends Helper\DoctrineTestCase
+class CatalogPromotionRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         CatalogPromotion::class,

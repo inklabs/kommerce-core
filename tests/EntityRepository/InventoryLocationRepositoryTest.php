@@ -7,9 +7,9 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class InventoryLocationRepositoryTest extends DoctrineTestCase
+class InventoryLocationRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Product::class,

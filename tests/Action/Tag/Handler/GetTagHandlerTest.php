@@ -6,9 +6,9 @@ use inklabs\kommerce\Action\Tag\Response\GetTagResponse;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\TagServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class GetTagHandlerTest extends DoctrineTestCase
+class GetTagHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {

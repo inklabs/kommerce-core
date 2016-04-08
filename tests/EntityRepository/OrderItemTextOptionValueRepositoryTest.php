@@ -11,7 +11,7 @@ use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
 
-class OrderItemTextOptionValueRepositoryTest extends Helper\DoctrineTestCase
+class OrderItemTextOptionValueRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         TextOption::class,

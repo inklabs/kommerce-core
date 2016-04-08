@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\tests\Helper;
 
-class TextOptionRepositoryTest extends Helper\DoctrineTestCase
+class TextOptionRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         TextOption::class,

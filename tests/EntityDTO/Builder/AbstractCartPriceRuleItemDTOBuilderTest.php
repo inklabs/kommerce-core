@@ -4,9 +4,9 @@ namespace inklabs\kommerce\tests\EntityDTO\Builder;
 use DateTime;
 use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
 use inklabs\kommerce\EntityDTO\AbstractCartPriceRuleItemDTO;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
-abstract class AbstractCartPriceRuleItemDTOBuilderTest extends DoctrineTestCase
+abstract class AbstractCartPriceRuleItemDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     /**
      * @return AbstractCartPriceRuleItem

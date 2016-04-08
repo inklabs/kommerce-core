@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCatalogPromotionRepository;
 
-class CatalogPromotionServiceTest extends Helper\DoctrineTestCase
+class CatalogPromotionServiceTest extends Helper\TestCase\ServiceTestCase
 {
     /** @var FakeCatalogPromotionRepository */
     protected $catalogPromotionRepository;

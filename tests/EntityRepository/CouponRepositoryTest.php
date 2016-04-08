@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 
-class CouponRepositoryTest extends Helper\DoctrineTestCase
+class CouponRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Coupon::class,

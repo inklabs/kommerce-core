@@ -12,7 +12,7 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper;
 
-class OrderItemOptionProductRepositoryTest extends Helper\DoctrineTestCase
+class OrderItemOptionProductRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Option::class,

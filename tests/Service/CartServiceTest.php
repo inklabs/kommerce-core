@@ -18,7 +18,7 @@ use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryLocationRepository;
@@ -33,7 +33,7 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
-class CartServiceTest extends DoctrineTestCase
+class CartServiceTest extends ServiceTestCase
 {
     /** @var CartService */
     protected $cartService;

@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class CouponTest extends DoctrineTestCase
+class CouponTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {

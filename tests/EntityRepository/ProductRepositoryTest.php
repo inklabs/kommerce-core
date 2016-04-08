@@ -16,7 +16,7 @@ use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper;
 
-class ProductRepositoryTest extends Helper\DoctrineTestCase
+class ProductRepositoryTest extends Helper\TestCase\EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Attribute::class,

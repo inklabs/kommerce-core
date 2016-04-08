@@ -9,7 +9,7 @@ use inklabs\kommerce\Service\Import\ImportPaymentService;
 use inklabs\kommerce\Service\Import\ImportUserService;
 use inklabs\kommerce\tests\Helper;
 
-class ServiceFactoryTest extends Helper\DoctrineTestCase
+class ServiceFactoryTest extends Helper\TestCase\ServiceTestCase
 {
     public function setUp()
     {

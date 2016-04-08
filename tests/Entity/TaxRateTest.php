@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class TaxRateTest extends DoctrineTestCase
+class TaxRateTest extends EntityTestCase
 {
     public function testCreate()
     {

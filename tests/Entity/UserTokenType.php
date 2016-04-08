@@ -2,9 +2,9 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class UserTokenTypeTest extends DoctrineTestCase
+class UserTokenTypeTest extends EntityTestCase
 {
     public function testCreate()
     {

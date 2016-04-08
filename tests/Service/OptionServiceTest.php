@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionRepository;
 
-class OptionServiceTest extends Helper\DoctrineTestCase
+class OptionServiceTest extends Helper\TestCase\ServiceTestCase
 {
     /** @var FakeOptionRepository */
     protected $optionRepository;
