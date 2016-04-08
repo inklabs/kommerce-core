@@ -5,17 +5,14 @@ use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class AttributeValueDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class AttributeValueDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $productAttribute = new ProductAttribute;
-        $productAttribute->setProduct(new Product);
-
-        $attributeValue = new AttributeValue;
-        $attributeValue->setAttribute(new Attribute);
-        $attributeValue->addProductAttribute($productAttribute);
+        $attributeValue = $this->dummyData->getAttributeValue();
+        $attributeValue->addProductAttribute($this->dummyData->getProductAttribute());
 
         $attributeValueDTO = $attributeValue->getDTOBuilder()
             ->withAllData()

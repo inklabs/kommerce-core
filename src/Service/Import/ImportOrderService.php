@@ -6,12 +6,9 @@ use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
-use inklabs\kommerce\Exception\Kommerce400Exception;
 use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Service\EntityValidationTrait;
 use Iterator;
-use Symfony\Component\Validator\Exception\ValidatorException;
-use Symfony\Component\Validator\Validation;
 
 class ImportOrderService
 {

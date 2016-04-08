@@ -24,7 +24,7 @@ class ParcelDTOBuilder
         $this->parcelDTO->length     = $this->parcel->getLength();
         $this->parcelDTO->width      = $this->parcel->getWidth();
         $this->parcelDTO->height     = $this->parcel->getHeight();
-        $this->parcelDTO->weigth     = $this->parcel->getWeight();
+        $this->parcelDTO->weight     = $this->parcel->getWeight();
         $this->parcelDTO->predefinedPackage = $this->parcel->getPredefinedPackage();
     }
 

@@ -31,7 +31,7 @@ class User implements EntityInterface, ValidationInterface
     /** @var int */
     protected $totalLogins;
 
-    /** @var DateTime */
+    /** @var int */
     protected $lastLogin;
 
     /** @var int */

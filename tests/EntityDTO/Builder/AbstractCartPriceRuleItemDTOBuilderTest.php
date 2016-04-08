@@ -1,20 +1,29 @@
 <?php
-namespace inklabs\kommerce\tests\EntityDTO;
+namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
-use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\tests\Helper\EntityDTO\TestableCartPriceRuleItemInvalid;
+use DateTime;
+use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
+use inklabs\kommerce\EntityDTO\AbstractCartPriceRuleItemDTO;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class AbstractCartPriceRuleItemDTOBuilderTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractCartPriceRuleItemDTOBuilderTest extends DoctrineTestCase
 {
-    public function testBuildFails()
+    /**
+     * @return AbstractCartPriceRuleItem
+     */
+    abstract protected function getItem();
+
+    public function testBuild()
     {
-        $cartPriceRuleItem = new TestableCartPriceRuleItemInvalid;
+        $item = $this->getItem();
 
-        $this->setExpectedException(
-            InvalidArgumentException::class,
-            'cartPriceRuleItemDTO has not been initialized'
-        );
+        $itemDTO = $item->getDTOBuilder()
+            ->build();
 
-        $cartPriceRuleItem->getDTOBuilder();
+        $this->assertTrue($itemDTO instanceof AbstractCartPriceRuleItemDTO);
+        $this->assertSame($item->getId(), $itemDTO->id);
+        $this->assertSame($item->getQuantity(), $itemDTO->quantity);
+        $this->assertTrue($itemDTO->created instanceof DateTime);
+        $this->assertTrue($itemDTO->updated instanceof DateTime);
     }
 }

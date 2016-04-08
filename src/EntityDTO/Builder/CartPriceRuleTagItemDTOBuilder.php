@@ -10,23 +10,16 @@ use inklabs\kommerce\EntityDTO\CartPriceRuleTagItemDTO;
 class CartPriceRuleTagItemDTOBuilder extends AbstractCartPriceRuleItemDTOBuilder
 {
     /** @var CartPriceRuleTagItem */
-    protected $cartPriceRuleItem;
+    protected $item;
 
     /** @var CartPriceRuleTagItemDTO */
-    protected $cartPriceRuleItemDTO;
-
-    public function __construct(CartPriceRuleTagItem $productCartPriceRuleItem)
-    {
-        $this->cartPriceRuleItemDTO = new CartPriceRuleTagItemDTO;
-
-        parent::__construct($productCartPriceRuleItem);
-    }
+    protected $itemDTO;
 
     public function withTag()
     {
-        $tag = $this->cartPriceRuleItem->getTag();
+        $tag = $this->item->getTag();
         if ($tag !== null) {
-            $this->cartPriceRuleItemDTO->tag = $tag->getDTOBuilder()
+            $this->itemDTO->tag = $tag->getDTOBuilder()
                 ->build();
         }
         return $this;
@@ -36,5 +29,10 @@ class CartPriceRuleTagItemDTOBuilder extends AbstractCartPriceRuleItemDTOBuilder
     {
         return $this
             ->withTag();
+    }
+
+    protected function getItemDTO()
+    {
+        return new CartPriceRuleTagItemDTO;
     }
 }

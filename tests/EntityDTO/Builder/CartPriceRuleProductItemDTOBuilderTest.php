@@ -1,20 +1,23 @@
 <?php
-namespace inklabs\kommerce\EntityDTO;
+namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
-use inklabs\kommerce\Entity\CartPriceRuleProductItem;
-use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\EntityDTO\ProductDTO;
 
-class CartPriceRuleProductItemDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class CartPriceRuleProductItemDTOBuilderTest extends AbstractCartPriceRuleItemDTOBuilderTest
 {
-    public function testBuild()
+    public function testBuildWithAllData()
     {
-        $cartPriceRuleItem = new CartPriceRuleProductItem(new Product, 1);
+        $item = $this->getItem();
 
-        $cartPriceRuleItemDTO = $cartPriceRuleItem->getDTOBuilder()
+        $itemDTO = $item->getDTOBuilder()
             ->withAllData()
             ->build();
 
-        $this->assertTrue($cartPriceRuleItemDTO instanceof CartPriceRuleProductItemDTO);
-        $this->assertTrue($cartPriceRuleItemDTO->product instanceof ProductDTO);
+        $this->assertTrue($itemDTO->product instanceof ProductDTO);
+    }
+
+    protected function getItem()
+    {
+        return $this->dummyData->getCartPriceRuleProductItem();
     }
 }

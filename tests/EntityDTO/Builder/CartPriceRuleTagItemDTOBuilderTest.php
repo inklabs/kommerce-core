@@ -1,20 +1,25 @@
 <?php
-namespace inklabs\kommerce\EntityDTO;
+namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
-use inklabs\kommerce\Entity\CartPriceRuleTagItem;
-use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\EntityDTO\CartPriceRuleTagItemDTO;
+use inklabs\kommerce\EntityDTO\TagDTO;
 
-class CartPriceRuleTagItemDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class CartPriceRuleTagItemDTOBuilderTest extends AbstractCartPriceRuleItemDTOBuilderTest
 {
-    public function testBuild()
+    public function testBuildWithAllData()
     {
-        $cartPriceRuleItem = new CartPriceRuleTagItem(new Tag, 1);
+        $item = $this->getItem();
 
-        $cartPriceRuleItemDTO = $cartPriceRuleItem->getDTOBuilder()
+        $itemDTO = $item->getDTOBuilder()
             ->withAllData()
             ->build();
 
-        $this->assertTrue($cartPriceRuleItemDTO instanceof CartPriceRuleTagItemDTO);
-        $this->assertTrue($cartPriceRuleItemDTO->tag instanceof TagDTO);
+        $this->assertTrue($itemDTO instanceof CartPriceRuleTagItemDTO);
+        $this->assertTrue($itemDTO->tag instanceof TagDTO);
+    }
+
+    protected function getItem()
+    {
+        return $this->dummyData->getCartPriceRuleTagItem();
     }
 }

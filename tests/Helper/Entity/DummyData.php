@@ -13,6 +13,7 @@ use inklabs\kommerce\Entity\CartItemTextOptionValue;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 use inklabs\kommerce\Entity\CartPriceRuleProductItem;
+use inklabs\kommerce\Entity\CartPriceRuleTagItem;
 use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CatalogPromotion;
@@ -89,13 +90,14 @@ class DummyData
 
     public function getAttributeValue()
     {
-        $attribute = new AttributeValue;
-        $attribute->setSku('TAV');
-        $attribute->setName('Test Attribute Value');
-        $attribute->setDescription('Test Attribute Value Description');
-        $attribute->setSortOrder(0);
+        $attributeValue = new AttributeValue;
+        $attributeValue->setSku('TAV');
+        $attributeValue->setName('Test Attribute Value');
+        $attributeValue->setDescription('Test Attribute Value Description');
+        $attributeValue->setSortOrder(0);
+        $attributeValue->setAttribute($this->getAttribute());
 
-        return $attribute;
+        return $attributeValue;
     }
 
     /**
@@ -245,7 +247,22 @@ class DummyData
             $product = $this->getProduct();
         }
 
-        return new CartPriceRuleProductItem($product, $quantity);
+        $productItem = new CartPriceRuleProductItem($product, $quantity);
+        $productItem->setUpdated();
+
+        return $productItem;
+    }
+
+    public function getCartPriceRuleTagItem(Tag $tag = null, $quantity = 1)
+    {
+        if ($tag === null) {
+            $tag = $this->getTag();
+        }
+
+        $tagItem = new CartPriceRuleTagItem($tag, $quantity);
+        $tagItem->setUpdated();
+
+        return $tagItem;
     }
 
     public function getCartTotal()
@@ -652,9 +669,14 @@ class DummyData
         return $product;
     }
 
-    public function getProductAttribute()
+    public function getProductAttribute(Product $product = null)
     {
+        if ($product === null) {
+            $product = $this->getProduct();
+        }
+
         $productAttribute = new ProductAttribute;
+        $productAttribute->setProduct($product);
         $productAttribute->setAttribute($this->getAttribute());
         $productAttribute->setAttributeValue($this->getAttributeValue());
 

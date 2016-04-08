@@ -32,10 +32,12 @@ class ProductAttributeRepositoryTest extends Helper\DoctrineTestCase
         $attribute = $this->dummyData->getAttribute();
         $attribute->addAttributeValue($attributeValue);
 
-        $productAttribute = $this->dummyData->getProductAttribute();
+        $product = $this->dummyData->getProduct();
+        $productAttribute = $this->dummyData->getProductAttribute($product);
         $productAttribute->setAttribute($attribute);
         $productAttribute->setAttributeValue($attributeValue);
 
+        $this->entityManager->persist($product);
         $this->entityManager->persist($attribute);
         $this->entityManager->persist($productAttribute);
         $this->entityManager->flush();

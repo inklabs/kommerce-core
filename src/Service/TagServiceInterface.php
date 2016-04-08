@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
-use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 
 interface TagServiceInterface

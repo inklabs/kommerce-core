@@ -1,15 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\Address;
-use inklabs\kommerce\Entity\Point;
+use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
-class AddressDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class AddressDTOBuilderTest extends DoctrineTestCase
 {
     public function testBuild()
     {
-        $address = new Address;
-        $address->setPoint(new Point);
+        $address = $this->dummyData->getAddress();
 
         $addressDTO = $address->getDTOBuilder()
             ->build();

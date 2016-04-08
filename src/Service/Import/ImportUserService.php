@@ -6,8 +6,6 @@ use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Service\EntityValidationTrait;
 use Iterator;
-use Symfony\Component\Validator\Exception\ValidatorException;
-use Symfony\Component\Validator\Validation;
 
 class ImportUserService
 {

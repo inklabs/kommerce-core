@@ -4,7 +4,6 @@ namespace inklabs\kommerce\Action\Tag\Handler;
 use inklabs\kommerce\Action\Tag\UpdateTagCommand;
 use inklabs\kommerce\EntityDTO\Builder\TagDTOBuilder;
 use inklabs\kommerce\Service\TagServiceInterface;
-use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 final class UpdateTagHandler
 {

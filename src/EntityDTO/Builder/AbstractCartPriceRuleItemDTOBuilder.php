@@ -3,32 +3,33 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
 use inklabs\kommerce\EntityDTO\AbstractCartPriceRuleItemDTO;
-use inklabs\kommerce\Exception\InvalidArgumentException;
 
 abstract class AbstractCartPriceRuleItemDTOBuilder
 {
     /** @var AbstractCartPriceRuleItem */
-    protected $cartPriceRuleItem;
+    protected $item;
 
     /** @var AbstractCartPriceRuleItemDTO */
-    protected $cartPriceRuleItemDTO;
+    protected $itemDTO;
 
-    public function __construct(AbstractCartPriceRuleItem $cartPriceRuleItem)
+    /**
+     * @return AbstractCartPriceRuleItemDTO
+     */
+    abstract protected function getItemDTO();
+
+    public function __construct(AbstractCartPriceRuleItem $item)
     {
-        if ($this->cartPriceRuleItemDTO === null) {
-            throw new InvalidArgumentException('cartPriceRuleItemDTO has not been initialized');
-        }
+        $this->item = $item;
 
-        $this->cartPriceRuleItem = $cartPriceRuleItem;
-
-        $this->cartPriceRuleItemDTO->id = $this->cartPriceRuleItem->getId();
-        $this->cartPriceRuleItemDTO->quantity = $this->cartPriceRuleItem->getQuantity();
-        $this->cartPriceRuleItemDTO->created = $this->cartPriceRuleItem->getCreated();
-        $this->cartPriceRuleItemDTO->updated = $this->cartPriceRuleItem->getUpdated();
+        $this->itemDTO = $this->getItemDTO();
+        $this->itemDTO->id = $this->item->getId();
+        $this->itemDTO->quantity = $this->item->getQuantity();
+        $this->itemDTO->created = $this->item->getCreated();
+        $this->itemDTO->updated = $this->item->getUpdated();
     }
 
     public function build()
     {
-        return $this->cartPriceRuleItemDTO;
+        return $this->itemDTO;
     }
 }

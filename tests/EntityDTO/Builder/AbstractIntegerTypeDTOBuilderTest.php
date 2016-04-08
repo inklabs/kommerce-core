@@ -7,6 +7,11 @@ use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 abstract class AbstractIntegerTypeDTOBuilderTest extends DoctrineTestCase
 {
+    /**
+     * @return OrderStatusType
+     */
+    abstract protected function getType();
+
     public function testBuild()
     {
         $type = $this->getType();
@@ -19,9 +24,4 @@ abstract class AbstractIntegerTypeDTOBuilderTest extends DoctrineTestCase
         $this->assertSame($type->getName(), $typeDTO->name);
         $this->assertSame($type->getNameMap(), $typeDTO->nameMap);
     }
-
-    /**
-     * @return OrderStatusType
-     */
-    abstract protected function getType();
 }
