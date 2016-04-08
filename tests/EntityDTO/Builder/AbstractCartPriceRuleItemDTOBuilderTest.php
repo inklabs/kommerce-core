@@ -2,16 +2,17 @@
 namespace inklabs\kommerce\tests\EntityDTO;
 
 use inklabs\kommerce\Exception\InvalidArgumentException;
+use inklabs\kommerce\tests\Helper\EntityDTO\TestableCartPriceRuleItemInvalid;
 
-class AbstractPaymentDTOBuilderTest extends \PHPUnit_Framework_TestCase
+class AbstractCartPriceRuleItemDTOBuilderTest extends \PHPUnit_Framework_TestCase
 {
     public function testBuildFails()
     {
-        $cartPriceRuleItem = new TestablePaymentInvalid;
+        $cartPriceRuleItem = new TestableCartPriceRuleItemInvalid;
 
         $this->setExpectedException(
             InvalidArgumentException::class,
-            'paymentDTO has not been initialized'
+            'cartPriceRuleItemDTO has not been initialized'
         );
 
         $cartPriceRuleItem->getDTOBuilder();

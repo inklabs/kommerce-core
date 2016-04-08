@@ -12,11 +12,10 @@ class CouponTest extends DoctrineTestCase
 
         $this->assertSame(null, $coupon->getName());
         $this->assertSame(null, $coupon->getCode());
-        $this->assertSame(AbstractPromotion::TYPE_FIXED, $coupon->getType());
-        $this->assertSame('Fixed', $coupon->getTypeText());
         $this->assertSame(null, $coupon->getValue());
         $this->assertSame(null, $coupon->getMinOrderValue());
         $this->assertSame(null, $coupon->getMaxOrderValue());
+        $this->assertTrue($coupon->getType()->isFixed());
         $this->assertFalse($coupon->getFlagFreeShipping());
         $this->assertFalse($coupon->getCanCombineWithOtherCoupons());
     }
@@ -26,7 +25,7 @@ class CouponTest extends DoctrineTestCase
         $coupon = new Coupon;
         $coupon->setName('20% Off orders over $100');
         $coupon->setCode('20PCT100');
-        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
+        $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
         $coupon->setMinOrderValue(10000);
         $coupon->setMaxOrderValue(100000);
@@ -36,11 +35,10 @@ class CouponTest extends DoctrineTestCase
         $this->assertEntityValid($coupon);
         $this->assertSame('20% Off orders over $100', $coupon->getName());
         $this->assertSame('20PCT100', $coupon->getCode());
-        $this->assertSame(AbstractPromotion::TYPE_PERCENT, $coupon->getType());
-        $this->assertSame('Percent', $coupon->getTypeText());
         $this->assertSame(20, $coupon->getValue());
         $this->assertSame(10000, $coupon->getMinOrderValue());
         $this->assertSame(100000, $coupon->getMaxOrderValue());
+        $this->assertTrue($coupon->getType()->isPercent());
         $this->assertTrue($coupon->getFlagFreeShipping());
         $this->assertTrue($coupon->getCanCombineWithOtherCoupons());
     }

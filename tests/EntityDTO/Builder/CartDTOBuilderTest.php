@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Entity\AbstractPromotion;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
@@ -20,7 +20,7 @@ class CartDTOBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $coupon = new Coupon;
         $coupon->setId(1);
-        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
+        $coupon->setType(PromotionType::percent());
 
         $cartItem= new CartItem;
         $cartItem->setProduct(new Product);

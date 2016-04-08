@@ -11,12 +11,6 @@ class AbstractPromotionDTO
     public $name;
 
     /** @var int */
-    public $type;
-
-    /** @var string */
-    public $typeText;
-
-    /** @var int */
     public $value;
 
     /** @var int */
@@ -42,4 +36,7 @@ class AbstractPromotionDTO
 
     /** @var DateTime */
     public $end;
+
+    /** @var PromotionTypeDTO */
+    public $type;
 }

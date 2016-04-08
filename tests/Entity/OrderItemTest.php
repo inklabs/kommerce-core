@@ -30,7 +30,7 @@ class OrderItemTest extends DoctrineTestCase
         $catalogPromotion->setName('20% OFF Everything');
 
         $productQuantityDiscount1 = $this->dummyData->getProductQuantityDiscount();
-        $productQuantityDiscount1->setType(ProductQuantityDiscount::TYPE_EXACT);
+        $productQuantityDiscount1->setType(PromotionType::exact());
         $productQuantityDiscount1->setQuantity(1);
         $productQuantityDiscount1->setValue(100);
 
@@ -39,7 +39,7 @@ class OrderItemTest extends DoctrineTestCase
         $product->setName('Test Product');
 
         $productQuantityDiscount2 = $this->dummyData->getProductQuantityDiscount();
-        $productQuantityDiscount2->setType(ProductQuantityDiscount::TYPE_FIXED);
+        $productQuantityDiscount2->setType(PromotionType::fixed());
         $productQuantityDiscount2->setQuantity(2);
         $productQuantityDiscount2->setValue(200);
 

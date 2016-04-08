@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\AbstractPromotionDTOBuilder;
-use inklabs\kommerce\Exception\PromotionException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,11 +13,8 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
     /** @var string */
     protected $name;
 
-    /** @var int */
+    /** @var PromotionType */
     protected $type;
-    const TYPE_FIXED   = 0;
-    const TYPE_PERCENT = 1;
-    const TYPE_EXACT   = 2;
 
     /** @var int */
     protected $value;
@@ -41,9 +37,9 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
     public function __construct()
     {
         $this->setCreated();
-        $this->type = static::TYPE_FIXED;
-        $this->redemptions = 0;
-        $this->reducesTaxSubtotal = true;
+        $this->setType(PromotionType::fixed());
+        $this->setRedemptions(0);
+        $this->setReducesTaxSubtotal(true);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -52,10 +48,7 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
             'max' => 255,
         ]));
 
-        $metadata->addPropertyConstraint('type', new Assert\Choice([
-            'choices' => array_keys(static::getTypeMapping()),
-            'message' => 'The type is not a valid choice',
-        ]));
+        $metadata->addPropertyConstraint('type', new Assert\Valid);
 
         $metadata->addPropertyConstraint('value', new Assert\Range([
             'min' => 0,
@@ -94,28 +87,14 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
         return $this->name;
     }
 
-    public function setType($type)
+    public function setType(PromotionType $type)
     {
-        $this->type = (int) $type;
+        $this->type = $type;
     }
 
     public function getType()
     {
         return $this->type;
-    }
-
-    public static function getTypeMapping()
-    {
-        return [
-            static::TYPE_FIXED => 'Fixed',
-            static::TYPE_PERCENT => 'Percent',
-            static::TYPE_EXACT => 'Exact',
-        ];
-    }
-
-    public function getTypeText()
-    {
-        return $this->getTypeMapping()[$this->type];
     }
 
     public function setValue($value)
@@ -236,28 +215,20 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
     /**
      * @param int $unitPrice
      * @return int
-     * @throws PromotionException
      */
     public function getUnitPrice($unitPrice)
     {
-        switch ($this->type) {
-            case static::TYPE_FIXED:
-                $returnValue = (int) ($unitPrice - $this->value);
-                break;
+        $returnValue = 0;
 
-            case static::TYPE_PERCENT:
-                $returnValue = (int) ($unitPrice - ($unitPrice * ($this->value / 100)));
-                break;
-
-            case static::TYPE_EXACT:
-                $returnValue = (int) $this->value;
-                break;
-
-            default:
-                throw new PromotionException('Invalid discount type');
+        if ($this->type->isFixed()) {
+            $returnValue = $unitPrice - $this->value;
+        } elseif ($this->type->isPercent()) {
+            $returnValue = $unitPrice - ($unitPrice * ($this->value / 100));
+        } elseif ($this->type->isExact()) {
+            $returnValue = $this->value;
         }
 
-        return $returnValue;
+        return (int) $returnValue;
     }
 
     /**

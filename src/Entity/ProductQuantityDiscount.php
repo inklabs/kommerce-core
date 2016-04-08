@@ -51,11 +51,11 @@ class ProductQuantityDiscount extends AbstractPromotion
     {
         $name = 'Buy ' . $this->getQuantity() . ' or more for ';
 
-        if ($this->getType() === AbstractPromotion::TYPE_EXACT) {
+        if ($this->type->isExact()) {
             $name .= $this->displayCents($this->getValue()) . ' each';
-        } elseif ($this->getType() === AbstractPromotion::TYPE_PERCENT) {
+        } elseif ($this->type->isPercent()) {
             $name .= $this->getValue() . '% off';
-        } elseif ($this->getType() === AbstractPromotion::TYPE_FIXED) {
+        } elseif ($this->type->isFixed()) {
             $name .= $this->displayCents($this->getValue()) . ' off';
         }
 

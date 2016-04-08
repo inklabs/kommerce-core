@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use inklabs\kommerce\Entity\AbstractPromotion;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CartPriceRule;
@@ -11,6 +10,7 @@ use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TaxRate;
 
@@ -297,7 +297,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $coupon = new Coupon;
         $coupon->setid(1);
         $coupon->setName('20% Off');
-        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
+        $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
 
         $cartItem = new CartItem;
@@ -327,7 +327,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $coupon = new Coupon;
         $coupon->setid(1);
         $coupon->setName('20% Off');
-        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
+        $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
         $coupon->setFlagFreeShipping(true);
 
@@ -498,7 +498,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $coupon = new Coupon;
         $coupon->setName('20% Off orders under $100');
-        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
+        $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
         $coupon->setMinOrderValue(1000);
         $coupon->setMaxOrderValue(10000);

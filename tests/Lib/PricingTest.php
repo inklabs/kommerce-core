@@ -2,17 +2,17 @@
 namespace inklabs\kommerce\Lib;
 
 use DateTime;
-use inklabs\kommerce\Entity\AbstractPromotion;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCatalogPromotionRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRuleRepository;
 
-class PricingInterfaceTest extends Helper\DoctrineTestCase
+class PricingTest extends Helper\DoctrineTestCase
 {
     /** @var Pricing */
     protected $pricing;
@@ -26,11 +26,11 @@ class PricingInterfaceTest extends Helper\DoctrineTestCase
     {
         $this->pricing = new Pricing(new DateTime);
         $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setType(AbstractPromotion::TYPE_FIXED);
+        $productQuantityDiscount->setType(PromotionType::fixed());
         $this->pricing->setProductQuantityDiscounts([$productQuantityDiscount]);
 
         $catalogPromotion = new CatalogPromotion;
-        $catalogPromotion->setType(AbstractPromotion::TYPE_FIXED);
+        $catalogPromotion->setType(PromotionType::fixed());
         $this->pricing->setCatalogPromotions([$catalogPromotion]);
 
         $this->assertTrue($this->pricing->getPrice(new Product, 1) instanceof Price);

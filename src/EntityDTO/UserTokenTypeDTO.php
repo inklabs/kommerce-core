@@ -1,14 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-class UserTokenTypeDTO
+class UserTokenTypeDTO extends AbstractIntegerTypeDTO
 {
-    /** @var int */
-    public $id;
-
-    /** @var string */
-    public $name;
-
-    /** @var string[] */
-    public $nameMap;
 }

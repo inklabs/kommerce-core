@@ -2,8 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Exception\InvalidCartActionException;
-use inklabs\kommerce\Lib\CartCalculator;
-use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class CartTest extends DoctrineTestCase
@@ -265,7 +263,7 @@ class CartTest extends DoctrineTestCase
         $coupon = new Coupon;
         $coupon->setId($id);
         $coupon->setName($value . '% Off');
-        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
+        $coupon->setType(PromotionType::percent());
         $coupon->setValue($value);
 
         return $coupon;

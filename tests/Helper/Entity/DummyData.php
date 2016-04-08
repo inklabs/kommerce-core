@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\tests\Helper\Entity;
 
 use DateTime;
-use inklabs\kommerce\Entity\AbstractPromotion;
 use inklabs\kommerce\Entity\Address;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
@@ -33,12 +32,14 @@ use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\OrderItemOptionProduct;
 use inklabs\kommerce\Entity\OrderItemOptionValue;
 use inklabs\kommerce\Entity\OrderItemTextOptionValue;
+use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Entity\Parcel;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\ShipmentComment;
 use inklabs\kommerce\Entity\ShipmentItem;
@@ -198,6 +199,18 @@ class DummyData
         return $cartItemOptionProduct;
     }
 
+    public function getCartItemOptionValue(OptionValue $optionValue = null)
+    {
+        if ($optionValue === null) {
+            $optionValue = $this->getOptionValue();
+        }
+
+        $cartItemOptionValue = new CartItemOptionValue;
+        $cartItemOptionValue->setOptionValue($optionValue);
+
+        return $cartItemOptionValue;
+    }
+
     public function getCartItemTextOptionValue(TextOption $textOption = null)
     {
         if ($textOption === null) {
@@ -215,7 +228,7 @@ class DummyData
     {
         $cartPriceRule = new CartPriceRule;
         $cartPriceRule->setName('Test Cart Price Rule');
-        $cartPriceRule->setType(AbstractPromotion::TYPE_FIXED);
+        $cartPriceRule->setType(PromotionType::fixed());
         $cartPriceRule->setValue(0);
 
         return $cartPriceRule;
@@ -267,12 +280,26 @@ class DummyData
         return $catalogPromotion;
     }
 
+    public function getChargeResponse()
+    {
+        $chargeResponse = new ChargeResponse;
+        $chargeResponse->setExternalId('ch_xxxxxxxxxxxxxx');
+        $chargeResponse->setAmount(2000);
+        $chargeResponse->setLast4('4242');
+        $chargeResponse->setBrand('Visa');
+        $chargeResponse->setCurrency('usd');
+        $chargeResponse->setDescription('test@example.com');
+        $chargeResponse->setCreated(1420656887);
+
+        return $chargeResponse;
+    }
+
     public function getCoupon($num = 1)
     {
         $coupon = new Coupon;
         $coupon->setName('20% OFF Test Coupon #' . $num);
         $coupon->setCode('20PCT' . $num);
-        $coupon->setType(AbstractPromotion::TYPE_PERCENT);
+        $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
 
         return $coupon;
@@ -523,6 +550,11 @@ class DummyData
         return $orderItemOptionValue;
     }
 
+    public function getOrderStatusType()
+    {
+        return OrderStatusType::pending();
+    }
+
     public function getParcel()
     {
         $parcel = new Parcel;
@@ -632,7 +664,7 @@ class DummyData
     public function getProductQuantityDiscount()
     {
         $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setType(AbstractPromotion::TYPE_PERCENT);
+        $productQuantityDiscount->setType(PromotionType::percent());
         $productQuantityDiscount->setQuantity(6);
         $productQuantityDiscount->setValue(5);
         $productQuantityDiscount->setCustomerGroup(null);
@@ -640,6 +672,11 @@ class DummyData
         $productQuantityDiscount->setFlagApplyCatalogPromotions(true);
 
         return $productQuantityDiscount;
+    }
+
+    public function getPromotionType()
+    {
+        return PromotionType::exact();
     }
 
     /**
@@ -804,6 +841,11 @@ class DummyData
         return $userToken;
     }
 
+    public function getUserTokenType()
+    {
+        return UserTokenType::internal();
+    }
+
     public function getWarehouse($num = 1)
     {
         $warehouse = new Warehouse;
@@ -811,31 +853,5 @@ class DummyData
         $warehouse->setAddress($this->getAddress());
 
         return $warehouse;
-    }
-
-    public function getCartItemOptionValue(OptionValue $optionValue = null)
-    {
-        if ($optionValue === null) {
-            $optionValue = $this->getOptionValue();
-        }
-
-        $cartItemOptionValue = new CartItemOptionValue;
-        $cartItemOptionValue->setOptionValue($optionValue);
-
-        return $cartItemOptionValue;
-    }
-
-    public function getChargeResponse()
-    {
-        $chargeResponse = new ChargeResponse;
-        $chargeResponse->setExternalId('ch_xxxxxxxxxxxxxx');
-        $chargeResponse->setAmount(2000);
-        $chargeResponse->setLast4('4242');
-        $chargeResponse->setBrand('Visa');
-        $chargeResponse->setCurrency('usd');
-        $chargeResponse->setDescription('test@example.com');
-        $chargeResponse->setCreated(1420656887);
-
-        return $chargeResponse;
     }
 }

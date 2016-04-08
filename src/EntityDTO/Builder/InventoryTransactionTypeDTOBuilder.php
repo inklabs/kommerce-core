@@ -4,26 +4,16 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\EntityDTO\InventoryTransactionTypeDTO;
 
-class InventoryTransactionTypeDTOBuilder
+class InventoryTransactionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var InventoryTransactionType */
-    protected $orderStatusType;
+    protected $type;
 
     /** @var InventoryTransactionTypeDTO */
-    protected $orderStatusTypeDTO;
+    protected $typeDTO;
 
-    public function __construct(InventoryTransactionType $orderStatusType)
+    protected function getTypeDTO()
     {
-        $this->orderStatusType = $orderStatusType;
-
-        $this->orderStatusTypeDTO = new InventoryTransactionTypeDTO;
-        $this->orderStatusTypeDTO->id = $this->orderStatusType->getId();
-        $this->orderStatusTypeDTO->name = $this->orderStatusType->getName();
-        $this->orderStatusTypeDTO->nameMap = $this->orderStatusType->getNameMap();
-    }
-
-    public function build()
-    {
-        return $this->orderStatusTypeDTO;
+        return new InventoryTransactionTypeDTO;
     }
 }

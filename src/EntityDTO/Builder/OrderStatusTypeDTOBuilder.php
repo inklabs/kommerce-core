@@ -4,26 +4,16 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\EntityDTO\OrderStatusTypeDTO;
 
-class OrderStatusTypeDTOBuilder
+class OrderStatusTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var OrderStatusType */
-    protected $orderStatusType;
+    protected $type;
 
     /** @var OrderStatusTypeDTO */
-    protected $orderStatusTypeDTO;
+    protected $typeDTO;
 
-    public function __construct(OrderStatusType $orderStatusType)
+    protected function getTypeDTO()
     {
-        $this->orderStatusType = $orderStatusType;
-
-        $this->orderStatusTypeDTO = new OrderStatusTypeDTO;
-        $this->orderStatusTypeDTO->id = $this->orderStatusType->getId();
-        $this->orderStatusTypeDTO->name = $this->orderStatusType->getName();
-        $this->orderStatusTypeDTO->nameMap = $this->orderStatusType->getNameMap();
-    }
-
-    public function build()
-    {
-        return $this->orderStatusTypeDTO;
+        return new OrderStatusTypeDTO;
     }
 }

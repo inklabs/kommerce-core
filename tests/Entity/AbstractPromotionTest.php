@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use DateTimeZone;
-use inklabs\kommerce\Exception\PromotionException;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class AbstractPromotionTest extends DoctrineTestCase
@@ -38,10 +37,22 @@ class AbstractPromotionTest extends DoctrineTestCase
         $this->oneYearAfter = new DateTime('2015-06-01', new DateTimeZone('UTC'));
     }
 
+    public function testCreateDefaults()
+    {
+        $this->assertSame(null, $this->promotion->getName());
+        $this->assertSame(null, $this->promotion->getValue());
+        $this->assertSame(0, $this->promotion->getRedemptions());
+        $this->assertSame(null, $this->promotion->getMaxRedemptions());
+        $this->assertSame(true, $this->promotion->getReducesTaxSubtotal());
+        $this->assertSame(null, $this->promotion->getStart());
+        $this->assertSame(null, $this->promotion->getEnd());
+        $this->assertTrue($this->promotion->getType()->isFixed());
+    }
+
     public function testCreate()
     {
         $this->promotion->setName('20% Off in 2014');
-        $this->promotion->setType(AbstractPromotion::TYPE_PERCENT);
+        $this->promotion->setType(PromotionType::percent());
         $this->promotion->setValue(20);
         $this->promotion->setRedemptions(10);
         $this->promotion->setMaxRedemptions(100);
@@ -51,14 +62,13 @@ class AbstractPromotionTest extends DoctrineTestCase
 
         $this->assertEntityValid($this->promotion);
         $this->assertSame('20% Off in 2014', $this->promotion->getName());
-        $this->assertSame(AbstractPromotion::TYPE_PERCENT, $this->promotion->getType());
-        $this->assertSame('Percent', $this->promotion->getTypeText());
         $this->assertSame(20, $this->promotion->getValue());
         $this->assertSame(10, $this->promotion->getRedemptions());
         $this->assertSame(100, $this->promotion->getMaxRedemptions());
         $this->assertSame(true, $this->promotion->getReducesTaxSubtotal());
         $this->assertTrue($this->promotion->getStart() instanceof DateTime);
         $this->assertTrue($this->promotion->getEnd() instanceof DateTime);
+        $this->assertTrue($this->promotion->getType()->isPercent());
     }
 
     private function setDatePromotion()
@@ -140,35 +150,23 @@ class AbstractPromotionTest extends DoctrineTestCase
 
     public function testGetUnitPriceWithPercent()
     {
-        $this->promotion->setType(AbstractPromotion::TYPE_PERCENT);
+        $this->promotion->setType(PromotionType::percent());
         $this->promotion->setValue(20);
         $this->assertSame(800, $this->promotion->getUnitPrice(1000));
     }
 
     public function testGetUnitPriceWithFixed()
     {
-        $this->promotion->setType(AbstractPromotion::TYPE_FIXED);
+        $this->promotion->setType(PromotionType::fixed());
         $this->promotion->setValue(20);
         $this->assertSame(980, $this->promotion->getUnitPrice(1000));
     }
 
     public function testGetUnitPriceWithExact()
     {
-        $this->promotion->setType(AbstractPromotion::TYPE_EXACT);
+        $this->promotion->setType(PromotionType::exact());
         $this->promotion->setValue(20);
         $this->assertSame(20, $this->promotion->getUnitPrice(1000));
-    }
-
-    public function testGetUnitPriceWithInvalidType()
-    {
-        $this->promotion->setType(-1);
-
-        $this->setExpectedException(
-            PromotionException::class,
-            'Invalid discount type'
-        );
-
-        $this->promotion->getUnitPrice(0);
     }
 
     /**

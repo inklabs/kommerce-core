@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use inklabs\kommerce\Exception\BadMethodCallException;
-use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper\DoctrineTestCase;
 
 class ProductQuantityDiscountTest extends DoctrineTestCase
@@ -73,7 +72,7 @@ class ProductQuantityDiscountTest extends DoctrineTestCase
     public function testGetNameExact()
     {
         $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setType(AbstractPromotion::TYPE_EXACT);
+        $productQuantityDiscount->setType(PromotionType::exact());
         $productQuantityDiscount->setQuantity(10);
         $productQuantityDiscount->setValue(500);
         $this->assertSame('Buy 10 or more for $5.00 each', $productQuantityDiscount->getName());
@@ -82,7 +81,7 @@ class ProductQuantityDiscountTest extends DoctrineTestCase
     public function testGetNamePercent()
     {
         $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setType(AbstractPromotion::TYPE_PERCENT);
+        $productQuantityDiscount->setType(PromotionType::percent());
         $productQuantityDiscount->setQuantity(10);
         $productQuantityDiscount->setValue(50);
         $this->assertSame('Buy 10 or more for 50% off', $productQuantityDiscount->getName());
@@ -91,7 +90,7 @@ class ProductQuantityDiscountTest extends DoctrineTestCase
     public function testGetNameFixed()
     {
         $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setType(AbstractPromotion::TYPE_FIXED);
+        $productQuantityDiscount->setType(PromotionType::fixed());
         $productQuantityDiscount->setQuantity(10);
         $productQuantityDiscount->setValue(500);
         $this->assertSame('Buy 10 or more for $5.00 off', $productQuantityDiscount->getName());

@@ -1,11 +1,11 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use inklabs\kommerce\Entity\AbstractPromotion;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\PromotionType;
 
 class PricingInterfaceCalculatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -52,7 +52,7 @@ class PricingInterfaceCalculatorTest extends \PHPUnit_Framework_TestCase
     {
         $catalogPromotion = new CatalogPromotion;
         $catalogPromotion->setName('20% Off');
-        $catalogPromotion->setType(AbstractPromotion::TYPE_PERCENT);
+        $catalogPromotion->setType(PromotionType::percent());
         $catalogPromotion->setValue(20);
 
         $this->pricing->setCatalogPromotions([$catalogPromotion]);
@@ -72,17 +72,17 @@ class PricingInterfaceCalculatorTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceWithProductQuantityDiscountPercent()
     {
         $productQuantityDiscount6 = new ProductQuantityDiscount;
-        $productQuantityDiscount6->setType(AbstractPromotion::TYPE_PERCENT);
+        $productQuantityDiscount6->setType(PromotionType::percent());
         $productQuantityDiscount6->setQuantity(6);
         $productQuantityDiscount6->setValue(5);
 
         $productQuantityDiscount12 = new ProductQuantityDiscount;
-        $productQuantityDiscount12->setType(AbstractPromotion::TYPE_PERCENT);
+        $productQuantityDiscount12->setType(PromotionType::percent());
         $productQuantityDiscount12->setQuantity(12);
         $productQuantityDiscount12->setValue(30);
 
         $productQuantityDiscount24 = new ProductQuantityDiscount;
-        $productQuantityDiscount24->setType(AbstractPromotion::TYPE_PERCENT);
+        $productQuantityDiscount24->setType(PromotionType::percent());
         $productQuantityDiscount24->setQuantity(24);
         $productQuantityDiscount24->setValue(35);
 

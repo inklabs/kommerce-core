@@ -19,12 +19,6 @@
 
         <field name="name" type="string" length="255" nullable="true"/>
 
-        <field name="type" type="smallint">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
         <field name="value" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>
@@ -68,6 +62,8 @@
                 <option name="unsigned">true</option>
             </options>
         </field>
+
+        <embedded name="type" class="PromotionType" use-column-prefix="false"/>
 
     </mapped-superclass>
 
