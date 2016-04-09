@@ -25,9 +25,13 @@ class PriceDTOBuilder
 
     public function withCatalogPromotions()
     {
-        foreach ($this->price->getCatalogPromotions() as $catalogPromotion) {
-            $this->priceDTO->catalogPromotions[] = $catalogPromotion->getDTOBuilder()
-                ->build();
+        $catalogPromotions = $this->price->getCatalogPromotions();
+
+        if ($catalogPromotions !== null) {
+            foreach ($catalogPromotions as $catalogPromotion) {
+                $this->priceDTO->catalogPromotions[] = $catalogPromotion->getDTOBuilder()
+                    ->build();
+            }
         }
 
         return $this;
@@ -35,9 +39,13 @@ class PriceDTOBuilder
 
     public function withProductQuantityDiscounts()
     {
-        foreach ($this->price->getProductQuantityDiscounts() as $productQuantityDiscount) {
-            $this->priceDTO->productQuantityDiscounts[] = $productQuantityDiscount->getDTOBuilder()
-                ->build();
+        $productQuantityDiscounts = $this->price->getProductQuantityDiscounts();
+
+        if ($productQuantityDiscounts !== null) {
+            foreach ($productQuantityDiscounts as $productQuantityDiscount) {
+                $this->priceDTO->productQuantityDiscounts[] = $productQuantityDiscount->getDTOBuilder()
+                    ->build();
+            }
         }
 
         return $this;

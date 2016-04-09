@@ -1,14 +1,14 @@
 <?php
 namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
-use inklabs\kommerce\Entity\OrderStatusType;
+use inklabs\kommerce\Entity\AbstractIntegerType;
 use inklabs\kommerce\EntityDTO\AbstractIntegerTypeDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 abstract class AbstractIntegerTypeDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     /**
-     * @return OrderStatusType
+     * @return AbstractIntegerType
      */
     abstract protected function getType();
 

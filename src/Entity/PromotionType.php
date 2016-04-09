@@ -61,6 +61,9 @@ class PromotionType extends AbstractIntegerType
         return $this->id === self::EXACT;
     }
 
+    /**
+     * @return PromotionTypeDTOBuilder
+     */
     public function getDTOBuilder()
     {
         return new PromotionTypeDTOBuilder($this);
