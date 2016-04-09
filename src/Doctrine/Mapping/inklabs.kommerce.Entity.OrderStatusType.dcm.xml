@@ -6,7 +6,7 @@
 
     <embeddable name="inklabs\kommerce\Entity\OrderStatusType">
 
-        <field name="id" column="type" type="smallint" nullable="false">
+        <field name="id" column="status" type="smallint" nullable="false">
             <options>
                 <option name="unsigned">true</option>
             </options>
