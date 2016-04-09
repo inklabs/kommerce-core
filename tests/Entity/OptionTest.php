@@ -9,11 +9,10 @@ class OptionTest extends EntityTestCase
     {
         $option = new Option;
 
-        $this->assertSame(Option::TYPE_SELECT, $option->getType());
-        $this->assertSame('Select', $option->getTypeText());
         $this->assertSame(0, count($option->getTags()));
         $this->assertSame(0, count($option->getOptionProducts()));
         $this->assertSame(0, count($option->getOptionValues()));
+        $this->assertTrue($option->getType()->isSelect());
     }
 
     public function testCreate()
@@ -21,9 +20,10 @@ class OptionTest extends EntityTestCase
         $tag = $this->dummyData->getTag();
         $optionProduct = $this->dummyData->getOptionProduct();
         $optionValue = $this->dummyData->getOptionValue();
+        $optionType = $this->dummyData->getOptionType();
 
         $option = new Option;
-        $option->setType(Option::TYPE_RADIO);
+        $option->setType($optionType);
         $option->setName('Size');
         $option->setDescription('Shirt Size');
         $option->setSortOrder(0);
@@ -32,8 +32,7 @@ class OptionTest extends EntityTestCase
         $option->addOptionValue($optionValue);
 
         $this->assertEntityValid($option);
-        $this->assertSame(Option::TYPE_RADIO, $option->getType());
-        $this->assertSame('Radio', $option->getTypeText());
+        $this->assertSame($optionType, $option->getType());
         $this->assertSame($tag, $option->getTags()[0]);
         $this->assertSame($optionProduct, $option->getOptionProducts()[0]);
         $this->assertSame($optionValue, $option->getOptionValues()[0]);

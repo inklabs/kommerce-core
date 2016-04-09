@@ -85,6 +85,9 @@ class UserTokenType extends AbstractIntegerType
         return $this->id === self::YAHOO;
     }
 
+    /**
+     * @return UserTokenTypeDTOBuilder
+     */
     public function getDTOBuilder()
     {
         return new UserTokenTypeDTOBuilder($this);

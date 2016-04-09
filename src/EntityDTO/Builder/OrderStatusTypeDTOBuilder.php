@@ -4,6 +4,9 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\EntityDTO\OrderStatusTypeDTO;
 
+/**
+ * @method OrderStatusTypeDTO build()
+ */
 class OrderStatusTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var OrderStatusType */

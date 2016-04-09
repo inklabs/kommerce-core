@@ -5,6 +5,9 @@ use inklabs\kommerce\Entity\UserTokenType;
 use inklabs\kommerce\EntityDTO\AbstractIntegerTypeDTO;
 use inklabs\kommerce\EntityDTO\UserTokenTypeDTO;
 
+/**
+ * @method UserTokenTypeDTO build()
+ */
 class UserTokenTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var UserTokenType */

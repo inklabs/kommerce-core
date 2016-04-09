@@ -97,6 +97,9 @@ class OrderStatusType extends AbstractIntegerType
         return $this->id === self::CANCELED;
     }
 
+    /**
+     * @return OrderStatusTypeDTOBuilder
+     */
     public function getDTOBuilder()
     {
         return new OrderStatusTypeDTOBuilder($this);

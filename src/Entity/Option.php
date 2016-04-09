@@ -16,16 +16,13 @@ class Option implements EntityInterface, ValidationInterface
     /** @var string */
     protected $description;
 
-    /** @var int */
+    /** @var OptionType */
     protected $type;
-    const TYPE_SELECT   = 0;
-    const TYPE_RADIO    = 1;
-    const TYPE_CHECKBOX = 2;
 
     /** @var int */
     protected $sortOrder;
 
-    /** @var ArrayCollection|Tag */
+    /** @var Tag[] | ArrayCollection */
     protected $tags;
 
     /** @var OptionProduct[] */
@@ -38,7 +35,7 @@ class Option implements EntityInterface, ValidationInterface
     {
         $this->setCreated();
 
-        $this->type = self::TYPE_SELECT;
+        $this->setType(OptionType::select());
         $this->tags = new ArrayCollection;
         $this->optionProducts = new ArrayCollection;
         $this->optionValues = new ArrayCollection;
@@ -62,32 +59,12 @@ class Option implements EntityInterface, ValidationInterface
             'max' => 65535,
         ]));
 
-        $metadata->addPropertyConstraint('type', new Assert\Choice([
-            'choices' => array_keys(static::getTypeMapping()),
-            'message' => 'The type is not a valid choice',
-        ]));
+        $metadata->addPropertyConstraint('type', new Assert\Valid);
     }
 
-    public static function getTypeMapping()
+    public function setType(OptionType $type)
     {
-        return [
-            static::TYPE_SELECT => 'Select',
-            static::TYPE_RADIO => 'Radio',
-            static::TYPE_CHECKBOX => 'Checkbox',
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    public function getTypeText()
-    {
-        return $this->getTypeMapping()[$this->getType()];
-    }
-
-    public function setType($type)
-    {
-        $this->type = (int) $type;
+        $this->type = $type;
     }
 
     public function getType()

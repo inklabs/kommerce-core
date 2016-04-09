@@ -27,6 +27,7 @@ use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
+use inklabs\kommerce\Entity\OptionType;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
@@ -415,7 +416,7 @@ class DummyData
     {
         $option = new Option;
         $option->setName('Size');
-        $option->setType(Option::TYPE_RADIO);
+        $option->setType($this->getOptionType());
         $option->setDescription('Shirt Size');
         $option->setSortOrder(0);
 
@@ -438,6 +439,11 @@ class DummyData
         $optionProduct->setSortOrder(0);
 
         return $optionProduct;
+    }
+
+    public function getOptionType()
+    {
+        return OptionType::select();
     }
 
     public function getOptionValue(Option $option = null)
@@ -604,6 +610,11 @@ class DummyData
     public function getOrderStatusType()
     {
         return OrderStatusType::pending();
+    }
+
+    public function getPagination()
+    {
+        return new Pagination;
     }
 
     public function getParcel()
@@ -909,10 +920,5 @@ class DummyData
         $warehouse->setAddress($this->getAddress());
 
         return $warehouse;
-    }
-
-    public function getPagination()
-    {
-        return new Pagination;
     }
 }

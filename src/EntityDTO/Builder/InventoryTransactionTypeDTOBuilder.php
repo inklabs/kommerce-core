@@ -4,6 +4,9 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\EntityDTO\InventoryTransactionTypeDTO;
 
+/**
+ * @method InventoryTransactionTypeDTO build()
+ */
 class InventoryTransactionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var InventoryTransactionType */
