@@ -60,8 +60,8 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       - RequestInterface (GetProductRequest)
       - ResponseInterface (GetProductResponseInterface)
 
-* <a name="event"></a>Event
-    - Events can be raised in the Entity layer and are dispatched in the service layer.
+* <a name="domain-event"></a>Domain Event
+    - Domain Events can be raised in the Entity layer and are dispatched in the service layer.
 
     ```php
     // UserEntity:
