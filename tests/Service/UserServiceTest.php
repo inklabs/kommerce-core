@@ -252,7 +252,7 @@ class UserServiceTest extends Helper\TestCase\ServiceTestCase
         $this->assertSame($ip4, $userToken->getIp4());
         $this->assertSame($userAgent, $userToken->getUserAgent());
         $this->assertSame($user, $userToken->getUser());
-        $this->assertSame(3600, $userToken->getExpires()->getTimestamp() - $userToken->getCreated()->getTimestamp());
+        $this->assertCloseTo(3600, $userToken->getExpires()->getTimestamp() - $userToken->getCreated()->getTimestamp());
         $this->assertTrue($userToken->getType()->isInternal());
 
         /** @var ResetPasswordEvent $event */
