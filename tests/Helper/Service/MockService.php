@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\Helper\Service;
 
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
@@ -37,6 +38,16 @@ class MockService
         $inventoryService = $this->getMockeryMock(InventoryServiceInterface::class);
 
         return $inventoryService;
+    }
+
+    /**
+     * @return ImageServiceInterface | Mockery\Mock
+     */
+    public function getImageService()
+    {
+        $imageService = $this->getMockeryMock(ImageServiceInterface::class);
+
+        return $imageService;
     }
 
     /**
