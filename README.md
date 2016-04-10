@@ -24,7 +24,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 
 ## Architecture
 
-![Flow of Control](https://i.imgur.com/WOZwpS4.png)
+![Flow of Control](https://i.imgur.com/ZkPtmsA.png)
 
 * <a name="action"></a>Action
     - These are the use cases into the application. Command Actions are passed a Command object containing the required
@@ -60,8 +60,8 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       - RequestInterface (GetProductRequest)
       - ResponseInterface (GetProductResponseInterface)
 
-* <a name="event"></a>Event
-    - Events can be raised in the Entity layer and are dispatched in the service layer.
+* <a name="domain-event"></a>Domain Event
+    - Domain Events can be raised in the Entity layer and are dispatched in the service layer.
 
     ```php
     // UserEntity:
