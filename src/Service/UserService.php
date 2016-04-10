@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserToken;
+use inklabs\kommerce\Entity\UserTokenType;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
@@ -146,6 +147,7 @@ class UserService implements UserServiceInterface
         $token = UserToken::getRandomToken();
 
         $userToken = new UserToken;
+        $userToken->setType(UserTokenType::internal());
         $userToken->setToken($token);
         $userToken->setUserAgent($userAgent);
         $userToken->setIp4($ip4);

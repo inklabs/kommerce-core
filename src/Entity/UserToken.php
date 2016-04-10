@@ -175,4 +175,9 @@ class UserToken implements EntityInterface, ValidationInterface
     {
         $this->userLogins->add($userLogin);
     }
+
+    public function getIp4()
+    {
+        return long2ip($this->ip4);
+    }
 }

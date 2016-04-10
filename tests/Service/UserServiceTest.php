@@ -241,10 +241,21 @@ class UserServiceTest extends Helper\TestCase\ServiceTestCase
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
-        $this->userService->requestPasswordResetToken($user->getEmail(), 'UserAgent String', '127.0.0.1');
+        $ip4 = '127.0.0.1';
+        $userAgent = 'UserAgent String';
+
+        $this->userService->requestPasswordResetToken($user->getEmail(), $userAgent, $ip4);
 
         $userToken = $this->userTokenRepository->findOneById(1);
+
         $this->assertTrue($userToken instanceof UserToken);
+        $this->assertSame($ip4, $userToken->getIp4());
+        $this->assertSame($userAgent, $userToken->getUserAgent());
+        $this->assertSame($user, $userToken->getUser());
+        $this->assertTrue($userToken->getType()->isInternal());
+
+        $expirationTimeDifference = $userToken->getExpires()->getTimestamp() - time();
+        $this->assertTrue($expirationTimeDifference >= 3600 && $expirationTimeDifference < 3605);
 
         /** @var ResetPasswordEvent $event */
         $event = $this->fakeEventDispatcher->getDispatchedEvents(ResetPasswordEvent::class)[0];

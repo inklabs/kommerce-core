@@ -22,22 +22,23 @@ class UserTokenTest extends EntityTestCase
     public function testCreate()
     {
         $expires = new DateTime;
+        $userTokenType = $this->dummyData->getUserTokenType();
         $user = $this->dummyData->getuser();
 
         $userToken = new UserToken;
         $userToken->setUserAgent('UserAgent');
         $userToken->setToken('token');
-        $userToken->setType(UserTokenType::google());
+        $userToken->setType($userTokenType);
         $userToken->setExpires($expires);
         $userToken->setUser($user);
 
         $this->assertEntityValid($userToken);
         $this->assertSame(null, $userToken->getId());
         $this->assertSame('UserAgent', $userToken->getUserAgent());
-        $this->assertSame(true, $userToken->verifyToken('token'));
+        $this->assertTrue($userToken->verifyToken('token'));
         $this->assertSame($user, $userToken->getUser());
+        $this->assertSame($userTokenType, $userToken->getType());
         $this->assertEquals($expires, $userToken->getExpires());
-        $this->assertTrue($userToken->getType()->isGoogle());
     }
 
     public function testCreateWithNullExpires()
