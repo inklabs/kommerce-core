@@ -2,17 +2,15 @@
 namespace inklabs\kommerce\Action\User\Handler;
 
 use inklabs\kommerce\Action\User\ResetPasswordCommand;
-use inklabs\kommerce\Service\UserServiceInterface;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class ResetPasswordHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $userService = $this->getMockeryMock(UserServiceInterface::class);
+        $userService = $this->mockService->getUserServiceMock();
         $userService->shouldReceive('requestPasswordResetToken')
             ->once();
-        /** @var UserServiceInterface $userService */
 
         $command = new ResetPasswordCommand(
             'test1@example.com',

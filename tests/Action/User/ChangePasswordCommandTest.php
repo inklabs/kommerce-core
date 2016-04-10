@@ -9,6 +9,6 @@ class ChangePasswordCommandTest extends \PHPUnit_Framework_TestCase
     public function testInvalidPasswordThrowsException()
     {
         $this->setExpectedException(UserPasswordValidationException::class);
-        $command = new ChangePasswordCommand(1, 'xx');
+        new ChangePasswordCommand(1, 'xx');
     }
 }

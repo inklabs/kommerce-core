@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\Helper\Service;
 
 use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\Service\UserServiceInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use Mockery;
 
@@ -13,6 +14,15 @@ class MockService
     public function __construct(DummyData $dummyData)
     {
         $this->dummyData = $dummyData;
+    }
+
+    /**
+     * @param string $className
+     * @return Mockery\Mock
+     */
+    protected function getMockeryMock($className)
+    {
+        return Mockery::mock($className);
     }
 
     /**
@@ -35,11 +45,16 @@ class MockService
     }
 
     /**
-     * @param string $className
-     * @return Mockery\Mock
+     * @return UserServiceInterface | Mockery\Mock
      */
-    protected function getMockeryMock($className)
+    public function getUserServiceMock()
     {
-        return Mockery::mock($className);
+        $userService = $this->getMockeryMock(UserServiceInterface::class);
+        $userService->shouldReceive('loginWithToken')
+            ->andReturn(
+                $this->dummyData->getUser()
+            );
+
+        return $userService;
     }
 }
