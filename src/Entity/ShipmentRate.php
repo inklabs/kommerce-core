@@ -82,6 +82,8 @@ class ShipmentRate implements ValidationInterface
             'min' => 0,
             'max' => 65535,
         ]));
+
+        $metadata->addPropertyConstraint('deliveryMethod', new Assert\Valid);
     }
 
     public function getRate()
