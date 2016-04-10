@@ -2,7 +2,9 @@
 namespace inklabs\kommerce\tests\Helper\Service;
 
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
+use inklabs\kommerce\Service\ProductServiceInterface;
 use inklabs\kommerce\Service\TagServiceInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
@@ -28,13 +30,22 @@ class MockService
     }
 
     /**
+     * @return InventoryServiceInterface | Mockery\Mock
+     */
+    public function getInventoryService()
+    {
+        $inventoryService = $this->getMockeryMock(InventoryServiceInterface::class);
+
+        return $inventoryService;
+    }
+
+    /**
      * @return ShipmentGatewayInterface | Mockery\Mock
      */
     public function getShipmentGateway()
     {
         $shipmentGateway = $this->getMockeryMock(ShipmentGatewayInterface::class);
         $shipmentGateway->shouldReceive('getRates')
-            ->once()
             ->andReturn([
                 $this->dummyData->getShipmentRate(225)
             ]);
@@ -69,6 +80,20 @@ class MockService
         $orderService = $this->getMockeryMock(OrderServiceInterface::class);
 
         return $orderService;
+    }
+
+    /**
+     * @return ProductServiceInterface | Mockery\Mock
+     */
+    public function getProductService()
+    {
+        $productService = $this->getMockeryMock(ProductServiceInterface::class);
+        $productService->shouldReceive('findOneById')
+            ->andReturn(
+                $this->dummyData->getProduct()
+            );
+
+        return $productService;
     }
 
     /**

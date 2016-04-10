@@ -4,46 +4,28 @@ namespace inklabs\kommerce\Action\Order\Handler;
 use inklabs\kommerce\Action\Inventory\AdjustInventoryCommand;
 use inklabs\kommerce\Action\Inventory\Handler\AdjustInventoryHandler;
 use inklabs\kommerce\Entity\InventoryTransactionType;
-use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Service\InventoryServiceInterface;
-use inklabs\kommerce\Service\ProductServiceInterface;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class AdjustInventoryHandlerTest extends ActionTestCase
 {
-    /** @var AdjustInventoryHandler */
-    protected $handler;
-
-    /**
-     * @return array
-     */
-    public function setUp()
-    {
-        parent::setUp();
-
-        $productService = $this->getMockeryMock(ProductServiceInterface::class);
-        $productService->shouldReceive('findOneById')
-            ->once()
-            ->andReturn(new Product);
-        /** @var ProductServiceInterface $productService */
-
-        $inventoryService = $this->getMockeryMock(InventoryServiceInterface::class);
-        $inventoryService->shouldReceive('adjustInventory')
-            ->once();
-        /** @var InventoryServiceInterface $inventoryService */
-
-        $this->handler = new AdjustInventoryHandler($inventoryService, $productService);
-    }
-
     public function testHandle()
     {
+        $productService = $this->mockService->getProductService();
+        $inventoryService = $this->mockService->getInventoryService();
+        $inventoryService->shouldReceive('adjustInventory')
+            ->once();
+
+        $productId = 1;
+        $quantity = 3;
+        $inventoryLocationId = 1;
         $command = new AdjustInventoryCommand(
-            1,
-            3,
-            1,
+            $productId,
+            $quantity,
+            $inventoryLocationId,
             InventoryTransactionType::SHIPPED
         );
 
-        $this->handler->handle($command);
+        $handler = new AdjustInventoryHandler($inventoryService, $productService);
+        $handler->handle($command);
     }
 }
