@@ -269,7 +269,7 @@ class User implements EntityInterface, ValidationInterface
     {
         $this->userLogins[] = $userLogin;
 
-        if ($userLogin->getResult() == UserLogin::RESULT_SUCCESS) {
+        if ($userLogin->getResult()->isSuccess()) {
             $this->incrementTotalLogins();
         }
     }

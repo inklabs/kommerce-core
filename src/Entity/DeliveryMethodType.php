@@ -27,7 +27,7 @@ class DeliveryMethodType extends AbstractIntegerType
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([
             'choices' => self::validIds(),
-            'message' => 'The type is not a valid choice',
+            'message' => 'The delivery method is not a valid choice',
         ]));
     }
 

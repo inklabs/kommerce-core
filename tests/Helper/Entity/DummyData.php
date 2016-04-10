@@ -57,6 +57,7 @@ use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\TextOptionType;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
+use inklabs\kommerce\Entity\UserLoginResultType;
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\Entity\UserToken;
@@ -894,9 +895,14 @@ class DummyData
         $userLogin = new UserLogin;
         $userLogin->setEmail('john@example.com');
         $userLogin->setIp4('8.8.8.8');
-        $userLogin->setResult(UserLogin::RESULT_SUCCESS);
+        $userLogin->setResult($this->getUserLoginResultType());
 
         return $userLogin;
+    }
+
+    public function getUserLoginResultType()
+    {
+        return UserLoginResultType::success();
     }
 
     public function getUserRole()

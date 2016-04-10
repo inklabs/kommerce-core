@@ -15,10 +15,8 @@ class UserLogin implements EntityInterface, ValidationInterface
     /** @var int */
     protected $ip4;
 
-    /** @var int */
+    /** @var UserLoginResultType */
     protected $result;
-    const RESULT_FAIL    = 0;
-    const RESULT_SUCCESS = 1;
 
     /** @var User */
     protected $user;
@@ -29,7 +27,7 @@ class UserLogin implements EntityInterface, ValidationInterface
     public function __construct()
     {
         $this->setCreated();
-        $this->result = static::RESULT_FAIL;
+        $this->setResult(UserLoginResultType::fail());
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -44,10 +42,7 @@ class UserLogin implements EntityInterface, ValidationInterface
             'value' => 0,
         ]));
 
-        $metadata->addPropertyConstraint('result', new Assert\Choice([
-            'choices' => array_keys(static::getResultMapping()),
-            'message' => 'The result is not a valid choice',
-        ]));
+        $metadata->addPropertyConstraint('result', new Assert\Valid);
     }
 
     public function setEmail($email)
@@ -84,27 +79,14 @@ class UserLogin implements EntityInterface, ValidationInterface
         return long2ip($this->ip4);
     }
 
-    public function setResult($result)
+    public function setResult(UserLoginResultType $result)
     {
-        $this->result = (int) $result;
+        $this->result = $result;
     }
 
     public function getResult()
     {
         return $this->result;
-    }
-
-    public static function getResultMapping()
-    {
-        return [
-            static::RESULT_FAIL => 'Fail',
-            static::RESULT_SUCCESS => 'Success',
-        ];
-    }
-
-    public function getResultText()
-    {
-        return $this->getResultMapping()[$this->result];
     }
 
     public function setUserToken(UserToken $userToken)

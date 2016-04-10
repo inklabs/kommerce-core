@@ -5,6 +5,7 @@ use DateTime;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
+use inklabs\kommerce\Entity\UserLoginResultType;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Entity\UserTokenType;
 use inklabs\kommerce\Exception\EntityNotFoundException;
@@ -64,11 +65,11 @@ class UserService implements UserServiceInterface
         $user = $this->getUserOrAssertAndRecordLoginFailure($email, $remoteIp);
 
         if (! $user->verifyPassword($password)) {
-            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL, $user);
+            $this->recordLogin($email, $remoteIp, UserLoginResultType::fail(), $user);
             throw new UserLoginException('User password not valid', UserLoginException::INVALID_PASSWORD);
         }
 
-        $this->recordLogin($email, $remoteIp, UserLogin::RESULT_SUCCESS, $user);
+        $this->recordLogin($email, $remoteIp, UserLoginResultType::success(), $user);
 
         return $user;
     }
@@ -80,21 +81,21 @@ class UserService implements UserServiceInterface
         try {
             $userToken = $this->userTokenRepository->findLatestOneByUserId($user->getId());
         } catch (EntityNotFoundException $e) {
-            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL, $user);
+            $this->recordLogin($email, $remoteIp, UserLoginResultType::fail(), $user);
             throw new UserLoginException('Token not found', UserLoginException::TOKEN_NOT_FOUND);
         }
 
         if (! $userToken->verifyToken($token)) {
-            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL, $user);
+            $this->recordLogin($email, $remoteIp, UserLoginResultType::fail(), $user);
             throw new UserLoginException('Token not valid', UserLoginException::TOKEN_INVALID);
         }
 
         if (! $userToken->verifyTokenDateValid()) {
-            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL, $user);
+            $this->recordLogin($email, $remoteIp, UserLoginResultType::fail(), $user);
             throw new UserLoginException('Token expired', UserLoginException::TOKEN_EXPIRED);
         }
 
-        $this->recordLogin($email, $remoteIp, UserLogin::RESULT_SUCCESS, $user);
+        $this->recordLogin($email, $remoteIp, UserLoginResultType::success(), $user);
 
         return $user;
     }
@@ -103,15 +104,15 @@ class UserService implements UserServiceInterface
     /**
      * @param string $email
      * @param string $remoteIp
-     * @param int $status
+     * @param UserLoginResultType $result
      * @param User $user
      */
-    protected function recordLogin($email, $remoteIp, $status, User $user = null)
+    protected function recordLogin($email, $remoteIp, UserLoginResultType $result, User $user = null)
     {
         $userLogin = new UserLogin;
         $userLogin->setEmail($email);
         $userLogin->setIp4($remoteIp);
-        $userLogin->setResult($status);
+        $userLogin->setResult($result);
 
         if ($user !== null) {
             $userLogin->setUser($user);
@@ -189,12 +190,12 @@ class UserService implements UserServiceInterface
         try {
             $user = $this->userRepository->findOneByEmail($email);
         } catch (EntityNotFoundException $e) {
-            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
+            $this->recordLogin($email, $remoteIp, UserLoginResultType::fail());
             throw new UserLoginException('User not found', UserLoginException::USER_NOT_FOUND);
         }
 
         if (! $user->getStatus()->isActive()) {
-            $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
+            $this->recordLogin($email, $remoteIp, UserLoginResultType::fail());
             throw new UserLoginException('User not active', UserLoginException::USER_NOT_ACTIVE);
         }
 

@@ -22,9 +22,10 @@ class UserLoginDTOBuilder
         $this->userLoginDTO->encodedId  = BaseConvert::encode($this->userLogin->getId());
         $this->userLoginDTO->email      = $userLogin->getEmail();
         $this->userLoginDTO->ip4        = $userLogin->getIp4();
-        $this->userLoginDTO->result     = $userLogin->getResult();
-        $this->userLoginDTO->resultText = $userLogin->getResultText();
         $this->userLoginDTO->created    = $this->userLogin->getCreated();
+
+        $this->userLoginDTO->result = $userLogin->getResult()->getDTOBuilder()
+            ->build();
     }
 
     public function withUser()

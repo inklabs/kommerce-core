@@ -13,11 +13,8 @@ class UserLoginDTO
     /** @var string */
     public $ip4;
 
-    /** @var int */
+    /** @var UserLoginResultTypeDTO */
     public $result;
-
-    /** @var string */
-    public $resultText;
 
     /** @var DateTime */
     public $created;
