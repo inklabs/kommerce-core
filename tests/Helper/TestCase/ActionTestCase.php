@@ -6,19 +6,9 @@ use inklabs\kommerce\Lib\Mapper;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\Query\QueryBus;
 use inklabs\kommerce\Service\ServiceFactory;
-use inklabs\kommerce\tests\Helper\Service\MockService;
 
 abstract class ActionTestCase extends ServiceTestCase
 {
-    /** @var MockService */
-    protected $mockService;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->mockService = new MockService($this->dummyData);
-    }
-
     protected function getCommandBus()
     {
         return new CommandBus($this->getMapper());

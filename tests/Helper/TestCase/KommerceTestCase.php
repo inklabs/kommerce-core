@@ -102,15 +102,6 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $className
-     * @return Mockery\Mock
-     */
-    protected function getMockeryMock($className)
-    {
-        return Mockery::mock($className);
-    }
-
-    /**
      * @param int $expected
      * @param int $actual
      * @param int $delta

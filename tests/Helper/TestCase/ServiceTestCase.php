@@ -7,9 +7,19 @@ use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Service\ServiceFactory;
+use inklabs\kommerce\tests\Helper\Service\MockService;
 
 abstract class ServiceTestCase extends EntityRepositoryTestCase
 {
+    /** @var MockService */
+    protected $mockService;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->mockService = new MockService($this->dummyData);
+    }
+
     protected function getEventDispatcher()
     {
         return new EventDispatcher;

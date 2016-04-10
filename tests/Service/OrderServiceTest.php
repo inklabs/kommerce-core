@@ -233,9 +233,8 @@ class OrderServiceTest extends ServiceTestCase
         $cart->addCartItem($cartItem);
         $cart->setUser($this->dummyData->getUser());
 
-        $this->inventoryService = $this->getMockeryMock(InventoryServiceInterface::class);
-        $this->inventoryService
-            ->shouldReceive('reserveProduct')
+        $this->inventoryService = $this->mockService->getInventoryService();
+        $this->inventoryService->shouldReceive('reserveProduct')
             ->times(2);
 
         $order = $this->getOrderService()->createOrderFromCart(
