@@ -9,7 +9,7 @@ class CreateTagHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $tagService = $this->mockService->getTagServiceMock();
+        $tagService = $this->mockService->getTagService();
         $tagService->shouldReceive('create')
             ->once();
 

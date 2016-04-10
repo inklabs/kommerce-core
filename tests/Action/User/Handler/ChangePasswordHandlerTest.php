@@ -8,7 +8,7 @@ class ChangePasswordHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $userService = $this->mockService->getUserServiceMock();
+        $userService = $this->mockService->getUserService();
         $userService->shouldReceive('changePassword')
             ->once();
 

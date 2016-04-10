@@ -7,20 +7,13 @@ use inklabs\kommerce\Action\Shipment\Response\GetShipmentRatesResponse;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
-use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetShipmentRatesHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $shipmentGateway = $this->getMockeryMock(ShipmentGatewayInterface::class);
-        $shipmentGateway->shouldReceive('getRates')
-            ->once()
-            ->andReturn([
-                $this->dummyData->getShipmentRate(225)
-            ]);
-        /** @var ShipmentGatewayInterface $shipmentGateway */
+        $shipmentGateway = $this->mockService->getShipmentGateway();
 
         $request = new GetShipmentRatesRequest(
             new OrderAddressDTO,
@@ -30,6 +23,7 @@ class GetShipmentRatesHandlerTest extends ActionTestCase
 
         $handler = new GetShipmentRatesHandler($shipmentGateway);
         $handler->handle($request, $response);
+
         $this->assertTrue($response->getShipmentRatesDTO()[0] instanceof ShipmentRateDTO);
     }
 }

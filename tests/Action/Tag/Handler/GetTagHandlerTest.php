@@ -11,7 +11,7 @@ class GetTagHandlerTest extends ActionTestCase
     public function testHandle()
     {
         $pricing = $this->dummyData->getPricing();
-        $tagService = $this->mockService->getTagServiceMock();
+        $tagService = $this->mockService->getTagService();
 
         $request = new GetTagRequest(1);
         $response = new GetTagResponse;

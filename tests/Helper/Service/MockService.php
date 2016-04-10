@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\Service;
 
+use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\TagServiceInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
@@ -26,9 +28,24 @@ class MockService
     }
 
     /**
+     * @return ShipmentGatewayInterface | Mockery\Mock
+     */
+    public function getShipmentGateway()
+    {
+        $shipmentGateway = $this->getMockeryMock(ShipmentGatewayInterface::class);
+        $shipmentGateway->shouldReceive('getRates')
+            ->once()
+            ->andReturn([
+                $this->dummyData->getShipmentRate(225)
+            ]);
+
+        return $shipmentGateway;
+    }
+
+    /**
      * @return TagServiceInterface | Mockery\Mock
      */
-    public function getTagServiceMock()
+    public function getTagService()
     {
         $tagService = $this->getMockeryMock(TagServiceInterface::class);
         $tagService->shouldReceive('findOneById')
@@ -45,9 +62,19 @@ class MockService
     }
 
     /**
+     * @return OrderServiceInterface | Mockery\Mock
+     */
+    public function getOrderService()
+    {
+        $orderService = $this->getMockeryMock(OrderServiceInterface::class);
+
+        return $orderService;
+    }
+
+    /**
      * @return UserServiceInterface | Mockery\Mock
      */
-    public function getUserServiceMock()
+    public function getUserService()
     {
         $userService = $this->getMockeryMock(UserServiceInterface::class);
         $userService->shouldReceive('loginWithToken')

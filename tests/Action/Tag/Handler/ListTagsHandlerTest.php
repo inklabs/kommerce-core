@@ -12,7 +12,7 @@ class ListTagsHandlerTest extends ActionTestCase
     public function testHandle()
     {
         $pricing = $this->dummyData->getPricing();
-        $tagService = $this->mockService->getTagServiceMock();
+        $tagService = $this->mockService->getTagService();
 
         $request = new ListTagsRequest('TT', new PaginationDTO);
         $response = new ListTagsResponse;

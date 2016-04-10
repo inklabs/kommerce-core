@@ -10,7 +10,7 @@ class LoginWithTokenHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $userService = $this->mockService->getUserServiceMock();
+        $userService = $this->mockService->getUserService();
 
         $request = new LoginWithTokenRequest(
             'test1@example.com',

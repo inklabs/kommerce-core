@@ -8,7 +8,7 @@ class ResetPasswordHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $userService = $this->mockService->getUserServiceMock();
+        $userService = $this->mockService->getUserService();
         $userService->shouldReceive('requestPasswordResetToken')
             ->once();
 

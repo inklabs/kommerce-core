@@ -8,7 +8,7 @@ class DeleteTagHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $tagService = $this->mockService->getTagServiceMock();
+        $tagService = $this->mockService->getTagService();
         $tagService->shouldReceive('delete')
             ->once();
 
