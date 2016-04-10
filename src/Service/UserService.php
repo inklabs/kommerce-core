@@ -66,7 +66,7 @@ class UserService implements UserServiceInterface
 
         if (! $user->verifyPassword($password)) {
             $this->recordLogin($email, $remoteIp, UserLoginResultType::fail(), $user);
-            throw new UserLoginException('User password not valid', UserLoginException::INVALID_PASSWORD);
+            throw UserLoginException::invalidPassword();
         }
 
         $this->recordLogin($email, $remoteIp, UserLoginResultType::success(), $user);
@@ -82,17 +82,17 @@ class UserService implements UserServiceInterface
             $userToken = $this->userTokenRepository->findLatestOneByUserId($user->getId());
         } catch (EntityNotFoundException $e) {
             $this->recordLogin($email, $remoteIp, UserLoginResultType::fail(), $user);
-            throw new UserLoginException('Token not found', UserLoginException::TOKEN_NOT_FOUND);
+            throw UserLoginException::tokenNotFound();
         }
 
         if (! $userToken->verifyToken($token)) {
             $this->recordLogin($email, $remoteIp, UserLoginResultType::fail(), $user);
-            throw new UserLoginException('Token not valid', UserLoginException::TOKEN_INVALID);
+            throw UserLoginException::tokenNotValid();
         }
 
         if (! $userToken->verifyTokenDateValid()) {
             $this->recordLogin($email, $remoteIp, UserLoginResultType::fail(), $user);
-            throw new UserLoginException('Token expired', UserLoginException::TOKEN_EXPIRED);
+            throw UserLoginException::tokenExpired();
         }
 
         $this->recordLogin($email, $remoteIp, UserLoginResultType::success(), $user);
@@ -191,12 +191,12 @@ class UserService implements UserServiceInterface
             $user = $this->userRepository->findOneByEmail($email);
         } catch (EntityNotFoundException $e) {
             $this->recordLogin($email, $remoteIp, UserLoginResultType::fail());
-            throw new UserLoginException('User not found', UserLoginException::USER_NOT_FOUND);
+            throw UserLoginException::userNotFound();
         }
 
         if (! $user->getStatus()->isActive()) {
             $this->recordLogin($email, $remoteIp, UserLoginResultType::fail());
-            throw new UserLoginException('User not active', UserLoginException::USER_NOT_ACTIVE);
+            throw UserLoginException::userNotActive();
         }
 
         return $user;
