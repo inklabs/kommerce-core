@@ -31,15 +31,10 @@
             </options>
         </field>
 
-        <field name="deliveryMethod" type="smallint" nullable="true">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
         <embedded name="rate" class="Money"/>
         <embedded name="listRate" class="Money"/>
         <embedded name="retailRate" class="Money" />
+        <embedded name="deliveryMethod" class="DeliveryMethodType" column-prefix="false"/>
 
     </embeddable>
 

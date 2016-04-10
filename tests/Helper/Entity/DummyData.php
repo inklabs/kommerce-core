@@ -20,6 +20,7 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Entity\CreditPayment;
+use inklabs\kommerce\Entity\DeliveryMethodType;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
@@ -357,6 +358,11 @@ class DummyData
     public function getCreditPayment()
     {
         return new CreditPayment($this->getChargeResponse());
+    }
+
+    public function getDeliveryMethodType()
+    {
+        return DeliveryMethodType::twoDay();
     }
 
     public function getImage()

@@ -24,6 +24,7 @@ class ShipmentRateTest extends EntityTestCase
         $this->assertSame(null, $shipmentRate->getDeliveryDays());
         $this->assertSame(false, $shipmentRate->isDeliveryDateGuaranteed());
         $this->assertSame(null, $shipmentRate->getEstDeliveryDays());
+        $this->assertTrue($shipmentRate->getDeliveryMethod()->isStandard());
     }
 
     public function testCreate()
@@ -56,36 +57,7 @@ class ShipmentRateTest extends EntityTestCase
         $this->assertSame(5, $shipmentRate->getDeliveryDays());
         $this->assertSame(true, $shipmentRate->isDeliveryDateGuaranteed());
         $this->assertSame(5, $shipmentRate->getEstDeliveryDays());
+        $this->assertTrue($shipmentRate->getDeliveryMethod()->isStandard());
         $this->assertTrue($shipmentRate->getDTOBuilder() instanceof ShipmentRateDTOBuilder);
-    }
-
-    public function testDeliveryMethodStandard()
-    {
-        $shipmentRate = new ShipmentRate($this->dummyData->getMoney(907));
-        $shipmentRate->setDeliveryDays(3);
-        $this->assertSame(ShipmentRate::DELIVERY_METHOD_STANDARD, $shipmentRate->getDeliveryMethod());
-        $this->assertSame('Standard', $shipmentRate->getDeliveryMethodText());
-    }
-
-    public function testDeliveryMethodOneDay()
-    {
-        $shipmentRate = new ShipmentRate($this->dummyData->getMoney(907));
-        $shipmentRate->setDeliveryDays(1);
-        $this->assertSame(ShipmentRate::DELIVERY_METHOD_ONE_DAY, $shipmentRate->getDeliveryMethod());
-        $this->assertSame('One-Day', $shipmentRate->getDeliveryMethodText());
-    }
-
-    public function testDeliveryMethodTwoDay()
-    {
-        $shipmentRate = new ShipmentRate($this->dummyData->getMoney(907));
-        $shipmentRate->setDeliveryDays(2);
-        $this->assertSame(ShipmentRate::DELIVERY_METHOD_TWO_DAY, $shipmentRate->getDeliveryMethod());
-        $this->assertSame('Two-Day', $shipmentRate->getDeliveryMethodText());
-    }
-
-    public function testDeliveryMethodEmptyDefault()
-    {
-        $shipmentRate = new ShipmentRate($this->dummyData->getMoney(907));
-        $this->assertSame('Standard', $shipmentRate->getDeliveryMethodText());
     }
 }

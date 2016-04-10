@@ -13,5 +13,6 @@ class ShipmentRateDTOBuilderTest extends EntityDTOBuilderTestCase
             ->build();
 
         $this->assertTrue($shipmentRateDTO instanceof ShipmentRateDTO);
+        $this->assertTrue($shipmentRateDTO->deliveryMethod instanceof DeliveryMethodTypeDTO);
     }
 }

@@ -27,8 +27,8 @@ class ShipmentRateDTOBuilder
         $this->shipmentRateDTO->deliveryDays             = $this->shipmentRate->getDeliveryDays();
         $this->shipmentRateDTO->estDeliveryDays          = $this->shipmentRate->getEstDeliveryDays();
 
-        $this->shipmentRateDTO->deliveryMethod = $this->shipmentRate->getDeliveryMethod();
-        $this->shipmentRateDTO->deliveryMethodText = $this->shipmentRate->getDeliveryMethodText();
+        $this->shipmentRateDTO->deliveryMethod = $this->shipmentRate->getDeliveryMethod()->getDTOBuilder()
+            ->build();
 
         if ($this->shipmentRate->getDeliveryDate() !== null) {
             $this->shipmentRateDTO->deliveryDate = $this->shipmentRate->getDeliveryDate();

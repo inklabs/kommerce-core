@@ -32,11 +32,8 @@ class ShipmentRate implements ValidationInterface
     /** @var int */
     protected $estDeliveryDays;
 
-    /** @var int */
+    /** @var DeliveryMethodType */
     protected $deliveryMethod;
-    const DELIVERY_METHOD_STANDARD = 0;
-    const DELIVERY_METHOD_ONE_DAY = 1;
-    const DELIVERY_METHOD_TWO_DAY = 2;
 
     /** @var Money */
     protected $rate;
@@ -233,13 +230,9 @@ class ShipmentRate implements ValidationInterface
 
     private function setupDeliveryMethod()
     {
-        if ($this->deliveryDays === 1) {
-            $this->deliveryMethod = self::DELIVERY_METHOD_ONE_DAY;
-        } elseif ($this->deliveryDays === 2) {
-            $this->deliveryMethod = self::DELIVERY_METHOD_TWO_DAY;
-        } else {
-            $this->deliveryMethod = self::DELIVERY_METHOD_STANDARD;
-        }
+        $this->setDeliveryMethod(
+            DeliveryMethodType::createByDeliveryDays($this->deliveryDays)
+        );
     }
 
     public function getDeliveryMethod()
@@ -247,31 +240,13 @@ class ShipmentRate implements ValidationInterface
         return $this->deliveryMethod;
     }
 
-    /**
-     * @return string
-     */
-    public function getDeliveryMethodText()
-    {
-        $deliveryMethodText = '';
-
-        if ($this->deliveryMethod !== null) {
-            $deliveryMethodText = self::getDeliveryMethodMapping()[$this->deliveryMethod];
-        }
-
-        return $deliveryMethodText;
-    }
-
-    public static function getDeliveryMethodMapping()
-    {
-        return [
-            self::DELIVERY_METHOD_STANDARD => 'Standard',
-            self::DELIVERY_METHOD_ONE_DAY => 'One-Day',
-            self::DELIVERY_METHOD_TWO_DAY => 'Two-Day',
-        ];
-    }
-
     public function getDTOBuilder()
     {
         return new ShipmentRateDTOBuilder($this);
+    }
+
+    private function setDeliveryMethod(DeliveryMethodType $deliveryMethod)
+    {
+        $this->deliveryMethod = $deliveryMethod;
     }
 }
