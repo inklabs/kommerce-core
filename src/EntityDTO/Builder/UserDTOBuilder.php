@@ -26,10 +26,11 @@ class UserDTOBuilder
         $this->userDTO->lastName    = $this->user->getLastName();
         $this->userDTO->totalLogins = $this->user->getTotalLogins();
         $this->userDTO->lastLogin   = $this->user->getLastLogin();
-        $this->userDTO->status      = $this->user->getStatus();
-        $this->userDTO->statusText  = $this->user->getStatusText();
         $this->userDTO->created     = $this->user->getCreated();
         $this->userDTO->updated     = $this->user->getUpdated();
+
+        $this->userDTO->status = $this->user->getStatus()->getDTOBuilder()
+            ->build();
     }
 
     public function withRoles()

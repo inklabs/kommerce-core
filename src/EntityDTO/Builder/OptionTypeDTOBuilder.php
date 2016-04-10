@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\OptionType;
-use inklabs\kommerce\EntityDTO\AbstractIntegerTypeDTO;
 use inklabs\kommerce\EntityDTO\OptionTypeDTO;
 
 /**
@@ -17,7 +16,7 @@ class OptionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     protected $typeDTO;
 
     /**
-     * @return AbstractIntegerTypeDTO
+     * @return OptionTypeDTO
      */
     protected function getTypeDTO()
     {

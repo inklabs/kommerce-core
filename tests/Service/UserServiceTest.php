@@ -4,8 +4,8 @@ namespace inklabs\kommerce\Service;
 use DateTime;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
+use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\Entity\UserToken;
-use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Event\ResetPasswordEvent;
 use inklabs\kommerce\Exception\UserLoginException;
 use inklabs\kommerce\tests\Helper;
@@ -108,7 +108,7 @@ class UserServiceTest extends Helper\TestCase\ServiceTestCase
     public function testUserLoginWithInactiveUser()
     {
         $user = $this->dummyData->getUser();
-        $user->setStatus(User::STATUS_INACTIVE);
+        $user->setStatus(UserStatusType::inactive());
         $this->userRepository->create($user);
 
         $this->setExpectedException(
@@ -159,7 +159,7 @@ class UserServiceTest extends Helper\TestCase\ServiceTestCase
     public function testLoginWithTokenThrowsExceptionWhenUserNotActive()
     {
         $user = $this->dummyData->getUser();
-        $user->setStatus(User::STATUS_INACTIVE);
+        $user->setStatus(UserStatusType::inactive());
         $this->userRepository->create($user);
 
         $this->setExpectedException(

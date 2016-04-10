@@ -25,11 +25,8 @@ class UserDTO
     /** @var DateTime */
     public $lastLogin;
 
-    /** @var int */
+    /** @var UserStatusTypeDTO */
     public $status;
-
-    /** @var string */
-    public $statusText;
 
     /** @var UserRoleDTO[] */
     public $userRoles = [];

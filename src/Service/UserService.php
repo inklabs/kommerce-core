@@ -191,7 +191,7 @@ class UserService implements UserServiceInterface
             throw new UserLoginException('User not found', UserLoginException::USER_NOT_FOUND);
         }
 
-        if (! $user->isActive()) {
+        if (! $user->getStatus()->isActive()) {
             $this->recordLogin($email, $remoteIp, UserLogin::RESULT_FAIL);
             throw new UserLoginException('User not active', UserLoginException::USER_NOT_ACTIVE);
         }

@@ -41,12 +41,6 @@
             </options>
         </field>
 
-        <field name="status" type="smallint">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
         <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
@@ -58,6 +52,8 @@
                 <option name="unsigned">true</option>
             </options>
         </field>
+
+        <embedded name="status" class="UserStatusType" use-column-prefix="false"/>
 
         <one-to-one field="cart" target-entity="Cart" mapped-by="user" fetch="EXTRA_LAZY"/>
 

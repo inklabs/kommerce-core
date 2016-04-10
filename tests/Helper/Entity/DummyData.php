@@ -56,6 +56,7 @@ use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserRole;
+use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Entity\UserTokenType;
 use inklabs\kommerce\Entity\Warehouse;
@@ -868,7 +869,6 @@ class DummyData
     {
         $user = new User;
         $user->setExternalId($num);
-        $user->setStatus(User::STATUS_ACTIVE);
         $user->setEmail('test' . $num . '@example.com');
         $user->setPassword('password1');
         $user->setFirstName('John');
@@ -894,6 +894,11 @@ class DummyData
         $userRole->setDescription('Admin account. Access to everything');
 
         return $userRole;
+    }
+
+    public function getUserStatusType()
+    {
+        return UserStatusType::inactive();
     }
 
     public function getUserToken()

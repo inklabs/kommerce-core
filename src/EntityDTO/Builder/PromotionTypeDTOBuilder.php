@@ -15,6 +15,9 @@ class PromotionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     /** @var PromotionTypeDTO */
     protected $typeDTO;
 
+    /**
+     * @return PromotionTypeDTO
+     */
     protected function getTypeDTO()
     {
         return new PromotionTypeDTO;

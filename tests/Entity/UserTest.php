@@ -11,10 +11,8 @@ class UserTest extends EntityTestCase
     {
         $user = new User;
 
-        $this->assertSame(User::STATUS_ACTIVE, $user->getStatus());
-        $this->assertSame('Active', $user->getStatusText());
+        $this->assertTrue($user->getStatus()->isActive());
         $this->assertSame(null, $user->getExternalId());
-        $this->assertTrue($user->isActive());
         $this->assertSame(null, $user->getEmail());
         $this->assertSame(null, $user->getFirstName());
         $this->assertSame(null, $user->getLastName());
@@ -32,13 +30,14 @@ class UserTest extends EntityTestCase
         $userLogin = $this->dummyData->getUserLogin();
         $userRole = $this->dummyData->getUserRole();
         $userToken = $this->dummyData->getUserToken();
+        $userStatus = $this->dummyData->getUserStatusType();
 
         $order = $this->dummyData->getOrder();
         $cart = $this->dummyData->getCart();
 
         $user = new User;
         $user->setExternalId('5');
-        $user->setStatus(User::STATUS_ACTIVE);
+        $user->setStatus($userStatus);
         $user->setEmail('test@example.com');
         $user->setPassword('password1');
         $user->setFirstName('John');
@@ -50,10 +49,8 @@ class UserTest extends EntityTestCase
         $user->setCart($cart);
 
         $this->assertEntityValid($user);
-        $this->assertSame(User::STATUS_ACTIVE, $user->getStatus());
-        $this->assertSame('Active', $user->getStatusText());
+        $this->assertSame($userStatus, $user->getStatus());
         $this->assertSame('5', $user->getExternalId());
-        $this->assertTrue($user->isActive());
         $this->assertSame('test@example.com', $user->getEmail());
         $this->assertSame('John', $user->getFirstName());
         $this->assertSame('Doe', $user->getLastName());

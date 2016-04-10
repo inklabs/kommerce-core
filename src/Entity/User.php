@@ -34,11 +34,8 @@ class User implements EntityInterface, ValidationInterface
     /** @var int */
     protected $lastLogin;
 
-    /** @var int */
+    /** @var UserStatusType */
     protected $status;
-    const STATUS_INACTIVE = 0;
-    const STATUS_ACTIVE = 1;
-    const STATUS_LOCKED = 2;
 
     /** @var ArrayCollection|UserRole[] */
     protected $userRoles;
@@ -65,7 +62,7 @@ class User implements EntityInterface, ValidationInterface
 
         $this->totalLogins = 0;
         $this->lastLogin = null;
-        $this->status = static::STATUS_ACTIVE;
+        $this->setStatus(UserStatusType::active());
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -97,10 +94,7 @@ class User implements EntityInterface, ValidationInterface
             'value' => 0,
         ]));
 
-        $metadata->addPropertyConstraint('status', new Assert\Choice([
-            'choices' => array_keys(static::getStatusMapping()),
-            'message' => 'The status is not a valid choice',
-        ]));
+        $metadata->addPropertyConstraint('status', new Assert\Valid);
     }
 
     public function getCart()
@@ -111,11 +105,6 @@ class User implements EntityInterface, ValidationInterface
     public function setCart(Cart $cart)
     {
         $this->cart = $cart;
-    }
-
-    public function isActive()
-    {
-        return $this->status === self::STATUS_ACTIVE;
     }
 
     public function getExternalId()
@@ -131,28 +120,14 @@ class User implements EntityInterface, ValidationInterface
         $this->externalId = (string) $externalId;
     }
 
-    public function setStatus($status)
+    public function setStatus(UserStatusType $status)
     {
-        $this->status = (int) $status;
+        $this->status = $status;
     }
 
     public function getStatus()
     {
         return $this->status;
-    }
-
-    public static function getStatusMapping()
-    {
-        return [
-            static::STATUS_INACTIVE => 'Inactive',
-            static::STATUS_ACTIVE => 'Active',
-            static::STATUS_LOCKED => 'Locked',
-        ];
-    }
-
-    public function getStatusText()
-    {
-        return $this->getStatusMapping()[$this->status];
     }
 
     /**
