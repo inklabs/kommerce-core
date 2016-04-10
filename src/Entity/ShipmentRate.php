@@ -182,7 +182,6 @@ class ShipmentRate implements ValidationInterface
     public function setDeliveryDays($deliveryDays)
     {
         $this->deliveryDays = (int) $deliveryDays;
-
         $this->setupDeliveryMethod();
     }
 
