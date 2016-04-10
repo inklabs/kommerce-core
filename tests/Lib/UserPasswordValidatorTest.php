@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use Exception;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Exception\UserPasswordValidationException;
 use inklabs\kommerce\tests\Helper\TestCase\KommerceTestCase;
 
 class UserPasswordValidatorTest extends KommerceTestCase
@@ -39,7 +39,7 @@ class UserPasswordValidatorTest extends KommerceTestCase
         try {
             $this->userPasswordValidator->assertPasswordValid($user, $passwordString);
             $this->fail();
-        } catch (Exception $e) {
+        } catch (UserPasswordValidationException $e) {
             $this->assertSame($exceptionMessage, $e->getMessage());
         }
     }
