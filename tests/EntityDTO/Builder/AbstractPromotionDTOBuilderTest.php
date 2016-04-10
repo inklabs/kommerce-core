@@ -19,6 +19,7 @@ class AbstractPromotionDTOBuilderTest extends EntityDTOBuilderTestCase
             ->build();
 
         $this->assertTrue($promotionDTO instanceof AbstractPromotionDTO);
+        $this->assertTrue($promotionDTO->type instanceof PromotionTypeDTO);
         $this->assertSame($promotionDTO->startFormatted, '2015-01-29');
         $this->assertSame($promotionDTO->endFormatted, '2015-01-30');
     }

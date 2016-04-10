@@ -16,14 +16,8 @@ class TextOption implements EntityInterface, ValidationInterface
     /** @var string */
     protected $description;
 
-    /** @var int */
+    /** @var TextOptionType */
     protected $type;
-    const TYPE_TEXT     = 3;
-    const TYPE_TEXTAREA = 4;
-    const TYPE_FILE     = 5;
-    const TYPE_DATE     = 6;
-    const TYPE_TIME     = 7;
-    const TYPE_DATETIME = 8;
 
     /** @var int */
     protected $sortOrder;
@@ -37,7 +31,7 @@ class TextOption implements EntityInterface, ValidationInterface
 
         $this->tags = new ArrayCollection;
         $this->sortOrder = 0;
-        $this->setType(self::TYPE_TEXT);
+        $this->setType(TextOptionType::text());
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -57,35 +51,12 @@ class TextOption implements EntityInterface, ValidationInterface
             'max' => 65535,
         ]));
 
-        $metadata->addPropertyConstraint('type', new Assert\Choice([
-            'choices' => array_keys(static::getTypeMapping()),
-            'message' => 'The type is not a valid choice',
-        ]));
+        $metadata->addPropertyConstraint('type', new Assert\Valid);
     }
 
-    public static function getTypeMapping()
+    public function setType(TextOptionType $type)
     {
-        return [
-            static::TYPE_TEXT => 'Text',
-            static::TYPE_TEXTAREA => 'Textarea',
-            static::TYPE_FILE => 'File',
-            static::TYPE_DATE => 'Date',
-            static::TYPE_TIME => 'Time',
-            static::TYPE_DATETIME => 'Datetime',
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    public function getTypeText()
-    {
-        return $this->getTypeMapping()[$this->getType()];
-    }
-
-    public function setType($type)
-    {
-        $this->type = (int) $type;
+        $this->type = $type;
     }
 
     public function getType()

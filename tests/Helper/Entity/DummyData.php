@@ -53,6 +53,7 @@ use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
+use inklabs\kommerce\Entity\TextOptionType;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserRole;
@@ -858,11 +859,16 @@ class DummyData
     {
         $textOption = new TextOption;
         $textOption->setName('Size');
-        $textOption->setType(TextOption::TYPE_TEXTAREA);
+        $textOption->setType($this->getTextOptionType());
         $textOption->setDescription('Shirt Size');
         $textOption->setSortOrder(0);
 
         return $textOption;
+    }
+
+    public function getTextOptionType()
+    {
+        return TextOptionType::textarea();
     }
 
     public function getUser($num = 1)

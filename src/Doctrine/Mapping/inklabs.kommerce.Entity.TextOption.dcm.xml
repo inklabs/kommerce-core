@@ -27,12 +27,6 @@
             </options>
         </field>
 
-        <field name="type" type="smallint">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
         <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>
@@ -44,6 +38,8 @@
                 <option name="unsigned">true</option>
             </options>
         </field>
+
+        <embedded name="type" class="TextOptionType" use-column-prefix="false"/>
 
         <many-to-many field="tags"
                       target-entity="inklabs\kommerce\Entity\Tag"

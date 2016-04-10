@@ -177,7 +177,7 @@ class OrderServiceTest extends ServiceTestCase
         );
 
         $this->assertSame(1, count($order->getShipments()));
-        $this->assertTrue($order->getStatusType()->isPartiallyShipped());
+        $this->assertTrue($order->getStatus()->isPartiallyShipped());
 
         $orderItemQtyDTO = new OrderItemQtyDTO;
         $orderItemQtyDTO->addOrderItemQty($order->getOrderItem(1)->getId(), 1);
@@ -190,14 +190,14 @@ class OrderServiceTest extends ServiceTestCase
         );
 
         $this->assertSame(2, count($order->getShipments()));
-        $this->assertTrue($order->getStatusType()->isShipped());
+        $this->assertTrue($order->getStatus()->isShipped());
     }
 
     public function testSetOrderStatus()
     {
         $order = $this->getPersistedDummyOrder();
         $this->orderService->setOrderStatus($order->getId(), OrderStatusType::canceled());
-        $this->assertTrue($order->getStatusType()->isCanceled());
+        $this->assertTrue($order->getStatus()->isCanceled());
     }
 
     /**

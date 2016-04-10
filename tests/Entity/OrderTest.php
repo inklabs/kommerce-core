@@ -17,7 +17,7 @@ class OrderTest extends EntityTestCase
         $this->assertSame('0.0.0.0', $order->getIp4());
         $this->assertSame(0, $order->totalItems());
         $this->assertSame(0, $order->totalQuantity());
-        $this->assertTrue($order->getStatusType()->isPending());
+        $this->assertTrue($order->getStatus()->isPending());
         $this->assertSame(null, $order->getTotal());
         $this->assertSame(null, $order->getShippingAddress());
         $this->assertSame(null, $order->getBillingAddress());
@@ -70,7 +70,7 @@ class OrderTest extends EntityTestCase
         $this->assertSame('CO1102-0016', $order->getExternalId());
         $this->assertSame('xxx-xxxxxxx-xxxxxxx', $order->getReferenceNumber());
         $this->assertSame('10.0.0.1', $order->getIp4());
-        $this->assertTrue($order->getStatusType()->isShipped());
+        $this->assertTrue($order->getStatus()->isShipped());
         $this->assertSame(1, $order->totalItems());
         $this->assertSame(2, $order->totalQuantity());
         $this->assertSame($cartTotal, $order->getTotal());
@@ -127,10 +127,10 @@ class OrderTest extends EntityTestCase
         $order = new Order;
         $order->addOrderItem($orderItem);
 
-        $this->assertFalse($order->getStatusType()->isShipped());
+        $this->assertFalse($order->getStatus()->isShipped());
         $order->addShipment($shipment);
 
-        $this->assertTrue($order->getStatusType()->isShipped());
+        $this->assertTrue($order->getStatus()->isShipped());
     }
 
     public function testAddShipmentChangesOrderStatusToPartiallyShipped()
@@ -142,9 +142,9 @@ class OrderTest extends EntityTestCase
         $order = new Order;
         $order->addOrderItem($orderItem);
 
-        $this->assertFalse($order->getStatusType()->isPartiallyShipped());
+        $this->assertFalse($order->getStatus()->isPartiallyShipped());
         $order->addShipment($shipment);
 
-        $this->assertTrue($order->getStatusType()->isPartiallyShipped());
+        $this->assertTrue($order->getStatus()->isPartiallyShipped());
     }
 }

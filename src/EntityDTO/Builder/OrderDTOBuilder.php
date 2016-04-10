@@ -27,7 +27,7 @@ class OrderDTOBuilder
         $this->orderDTO->created         = $this->order->getCreated();
         $this->orderDTO->updated         = $this->order->getUpdated();
 
-        $this->orderDTO->statusType = $this->order->getStatusType()->getDTOBuilder()
+        $this->orderDTO->status = $this->order->getStatus()->getDTOBuilder()
             ->build();
 
         if ($this->order->getShippingAddress() !== null) {

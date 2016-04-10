@@ -21,9 +21,11 @@ class OptionDTOBuilder
         $this->optionDTO->name        = $this->option->getname();
         $this->optionDTO->description = $this->option->getDescription();
         $this->optionDTO->sortOrder   = $this->option->getSortOrder();
-        $this->optionDTO->type        = $this->option->getType();
         $this->optionDTO->created     = $this->option->getCreated();
         $this->optionDTO->updated     = $this->option->getUpdated();
+
+        $this->optionDTO->type = $this->option->getType()->getDTOBuilder()
+            ->build();
     }
 
     public function withOptionProducts(PricingInterface $pricing)

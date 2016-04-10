@@ -18,7 +18,7 @@ class OrderDTO
     public $billingAddress;
 
     /** @var OrderStatusTypeDTO */
-    public $statusType;
+    public $status;
 
     /** @var int */
     public $totalItems;

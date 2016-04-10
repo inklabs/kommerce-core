@@ -11,11 +11,8 @@ class UserTokenDTO
     /** @var int */
     public $expires;
 
-    /** @var int */
+    /** @var UserTokenTypeDTO */
     public $type;
-
-    /** @var string */
-    public $typeText;
 
     /** @var UserDTO */
     public $user;

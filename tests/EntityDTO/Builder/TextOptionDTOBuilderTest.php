@@ -16,5 +16,6 @@ class TextOptionDTOBuilderTest extends EntityDTOBuilderTestCase
 
         $this->assertTrue($textOptionDTO instanceof TextOptionDTO);
         $this->assertTrue($textOptionDTO->tags[0] instanceof TagDTO);
+        $this->assertTrue($textOptionDTO->type instanceof TextOptionTypeDTO);
     }
 }

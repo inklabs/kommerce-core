@@ -18,6 +18,7 @@ class OptionDTOBuilderTest extends EntityDTOBuilderTestCase
 
         $this->assertTrue($optionDTO instanceof OptionDTO);
         $this->assertTrue($optionDTO->tags[0] instanceof TagDTO);
+        $this->assertTrue($optionDTO->type instanceof OptionTypeDTO);
         $this->assertTrue($optionDTO->optionProducts[0] instanceof OptionProductDTO);
         $this->assertTrue($optionDTO->optionValues[0] instanceof OptionValueDTO);
     }

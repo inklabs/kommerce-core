@@ -182,7 +182,7 @@ class OrderService implements OrderServiceInterface
     public function setOrderStatus($orderId, OrderStatusType $orderStatusType)
     {
         $order = $this->orderRepository->findOneById($orderId);
-        $order->setStatusType($orderStatusType);
+        $order->setStatus($orderStatusType);
         $this->update($order);
     }
 

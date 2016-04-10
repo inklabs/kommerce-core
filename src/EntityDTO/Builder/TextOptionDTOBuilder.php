@@ -23,9 +23,11 @@ class TextOptionDTOBuilder
         $this->textOptionDTO->name        = $this->textOption->getname();
         $this->textOptionDTO->description = $this->textOption->getDescription();
         $this->textOptionDTO->sortOrder   = $this->textOption->getSortOrder();
-        $this->textOptionDTO->type        = $this->textOption->getType();
         $this->textOptionDTO->created     = $this->textOption->getCreated();
         $this->textOptionDTO->updated     = $this->textOption->getUpdated();
+
+        $this->textOptionDTO->type = $this->textOption->getType()->getDTOBuilder()
+            ->build();
     }
 
     public function withTags()

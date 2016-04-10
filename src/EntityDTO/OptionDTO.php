@@ -14,7 +14,7 @@ class OptionDTO
     /** @var int */
     public $sortOrder;
 
-    /** @var int */
+    /** @var OptionTypeDTO */
     public $type;
 
     /** @var TagDTO[] */

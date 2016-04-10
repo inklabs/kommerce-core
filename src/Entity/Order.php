@@ -28,7 +28,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     protected $billingAddress;
 
     /** @var OrderStatusType */
-    protected $statusType;
+    protected $status;
 
     /** @var User */
     protected $user;
@@ -62,7 +62,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         $this->coupons = new ArrayCollection;
         $this->shipments = new ArrayCollection;
 
-        $this->setStatusType(OrderStatusType::pending());
+        $this->setStatus(OrderStatusType::pending());
     }
 
     /**
@@ -98,7 +98,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
             'max' => 255,
         ]));
 
-        $metadata->addPropertyConstraint('statusType', new Assert\Valid);
+        $metadata->addPropertyConstraint('status', new Assert\Valid);
 
         $metadata->addPropertyConstraint('ip4', new Assert\NotBlank);
         $metadata->addPropertyConstraint('ip4', new Assert\GreaterThanOrEqual([
@@ -186,14 +186,14 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
         return $total;
     }
 
-    public function setStatusType(OrderStatusType $orderStatusType)
+    public function setStatus(OrderStatusType $status)
     {
-        $this->statusType = $orderStatusType;
+        $this->status = $status;
     }
 
-    public function getStatusType()
+    public function getStatus()
     {
-        return $this->statusType;
+        return $this->status;
     }
 
     public function setTotal(CartTotal $total)
@@ -328,9 +328,9 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumber\Ent
     private function setOrderShippedStatus()
     {
         if ($this->isFullyShipped()) {
-            $this->setStatusType(OrderStatusType::shipped());
+            $this->setStatus(OrderStatusType::shipped());
         } else {
-            $this->setStatusType(OrderStatusType::partiallyShipped());
+            $this->setStatus(OrderStatusType::partiallyShipped());
         }
     }
 

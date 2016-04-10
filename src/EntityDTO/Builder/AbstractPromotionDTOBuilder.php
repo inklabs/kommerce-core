@@ -35,7 +35,8 @@ abstract class AbstractPromotionDTOBuilder
 
         $this->promotionDTO->isRedemptionCountValid = $this->promotion->isRedemptionCountValid();
 
-        $this->promotionDTO->type = $this->promotion->getType()->getDTOBuilder()->build();
+        $this->promotionDTO->type = $this->promotion->getType()->getDTOBuilder()
+            ->build();
 
         if ($this->promotionDTO->start !== null) {
             $this->promotionDTO->startFormatted = $this->promotionDTO->start->format('Y-m-d');

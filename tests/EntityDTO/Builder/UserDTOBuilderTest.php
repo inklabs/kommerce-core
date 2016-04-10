@@ -17,6 +17,7 @@ class UserDTOBuilderTest extends EntityDTOBuilderTestCase
             ->build();
 
         $this->assertTrue($userDTO instanceof UserDTO);
+        $this->assertTrue($userDTO->status instanceof UserStatusTypeDTO);
         $this->assertTrue($userDTO->userRoles[0] instanceof UserRoleDTO);
         $this->assertTrue($userDTO->userTokens[0] instanceof UserTokenDTO);
         $this->assertTrue($userDTO->userLogins[0] instanceof UserLoginDTO);
