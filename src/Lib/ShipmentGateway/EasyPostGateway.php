@@ -61,15 +61,15 @@ class EasyPostGateway implements ShipmentGatewayInterface
         /** @var ShipmentRate[] $newShipmentRates */
         $newShipmentRates = [];
         foreach ($shipmentRates as $shipmentRate) {
-            $deliveryMethod = $shipmentRate->getDeliveryMethod();
+            $deliveryMethodId = $shipmentRate->getDeliveryMethod()->getId();
 
-            if (! isset($newShipmentRates[$deliveryMethod])) {
-                $newShipmentRates[$deliveryMethod] = $shipmentRate;
+            if (! isset($newShipmentRates[$deliveryMethodId])) {
+                $newShipmentRates[$deliveryMethodId] = $shipmentRate;
                 continue;
             }
 
-            if ($shipmentRate->getRate()->getAmount() < $newShipmentRates[$deliveryMethod]->getRate()->getAmount()) {
-                $newShipmentRates[$deliveryMethod] = $shipmentRate;
+            if ($shipmentRate->getRate()->getAmount() < $newShipmentRates[$deliveryMethodId]->getRate()->getAmount()) {
+                $newShipmentRates[$deliveryMethodId] = $shipmentRate;
             }
         }
 

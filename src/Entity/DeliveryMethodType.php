@@ -11,8 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class DeliveryMethodType extends AbstractIntegerType
 {
     const STANDARD = 0;
-    const ONE_DAY   = 1;
-    const TWO_DAY = 2;
+    const ONE_DAY  = 1;
+    const TWO_DAY  = 2;
 
     public static function getNameMap()
     {
