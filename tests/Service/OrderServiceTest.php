@@ -132,6 +132,7 @@ class OrderServiceTest extends ServiceTestCase
 
     public function testAddShipmentTrackingCode()
     {
+        $carrier = $this->dummyData->getShipmentCarrierType();
         $order = $this->getPersistedDummyOrder();
         $orderItem2 = $this->dummyData->getOrderItemFull();
         $this->orderItemRepository->create($orderItem2);
@@ -142,14 +143,13 @@ class OrderServiceTest extends ServiceTestCase
         $orderItemQtyDTO->addOrderItemQty(2, 0);
 
         $comment = 'A comment';
-        $carrier = ShipmentTracker::CARRIER_UNKNOWN;
         $trackingCode = 'XXXX';
 
         $this->orderService->addShipmentTrackingCode(
             $order->getId(),
             $orderItemQtyDTO,
             $comment,
-            $carrier,
+            $carrier->getId(),
             $trackingCode
         );
 
@@ -161,6 +161,7 @@ class OrderServiceTest extends ServiceTestCase
 
     public function testOrderMarkedAsShippedWhen2PartialShipmentsAreFullyShipped()
     {
+        $carrier = $this->dummyData->getShipmentCarrierType();
         $order = $this->getPersistedDummyOrder();
         $orderItem2 = $this->dummyData->getOrderItemFull();
         $this->orderItemRepository->create($orderItem2);
@@ -172,7 +173,7 @@ class OrderServiceTest extends ServiceTestCase
             $order->getId(),
             $orderItemQtyDTO,
             '1 of 2 items shipped',
-            ShipmentTracker::CARRIER_UNKNOWN,
+            $carrier->getId(),
             'XXXX'
         );
 
@@ -185,7 +186,7 @@ class OrderServiceTest extends ServiceTestCase
             $order->getId(),
             $orderItemQtyDTO,
             '2 of 2 items shipped. This completes your order',
-            ShipmentTracker::CARRIER_UNKNOWN,
+            $carrier->getId(),
             'XXXX'
         );
 

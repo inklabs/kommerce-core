@@ -9,12 +9,8 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
 
-    /** @var int */
+    /** @var ShipmentCarrierType */
     protected $carrier;
-    const CARRIER_UNKNOWN = 0;
-    const CARRIER_UPS = 1;
-    const CARRIER_USPS = 2;
-    const CARRIER_FEDEX = 3;
 
     /** @var string */
     protected $trackingCode;
@@ -32,10 +28,10 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
     protected $shipment;
 
     /**
-     * @param int $carrier
+     * @param ShipmentCarrierType $carrier
      * @param string $trackingCode
      */
-    public function __construct($carrier, $trackingCode)
+    public function __construct(ShipmentCarrierType $carrier, $trackingCode)
     {
         $this->setCreated();
         $this->setCarrier($carrier);
@@ -44,10 +40,7 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('carrier', new Assert\Choice([
-            'choices' => array_keys(static::getCarrierMapping()),
-            'message' => 'The carrier is not a valid choice',
-        ]));
+        $metadata->addPropertyConstraint('carrier', new Assert\Valid);
 
         $metadata->addPropertyConstraint('trackingCode', new Assert\NotBlank);
         $metadata->addPropertyConstraint('trackingCode', new Assert\Length([
@@ -62,32 +55,14 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
         $metadata->addPropertyConstraint('shipmentLabel', new Assert\Valid);
     }
 
-    /**
-     * @param int $carrier
-     */
-    private function setCarrier($carrier)
+    private function setCarrier(ShipmentCarrierType $carrier)
     {
-        $this->carrier = (int) $carrier;
+        $this->carrier = $carrier;
     }
 
     public function getCarrier()
     {
         return $this->carrier;
-    }
-
-    public static function getCarrierMapping()
-    {
-        return [
-            static::CARRIER_UNKNOWN => 'Unknown',
-            static::CARRIER_UPS => 'UPS',
-            static::CARRIER_USPS => 'USPS',
-            static::CARRIER_FEDEX => 'FedEx',
-        ];
-    }
-
-    public function getCarrierText()
-    {
-        return $this->getCarrierMapping()[$this->carrier];
     }
 
     public function getTrackingCode()

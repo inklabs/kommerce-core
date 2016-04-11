@@ -17,12 +17,6 @@
             </options>
         </id>
 
-        <field name="carrier" type="smallint">
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </field>
-
         <field name="trackingCode" type="string" length="255" nullable="false"/>
         <field name="externalId" type="string" length="60" nullable="true" unique="true"/>
 
@@ -38,6 +32,7 @@
             </options>
         </field>
 
+        <embedded name="carrier" class="ShipmentCarrierType" column-prefix="false"/>
         <embedded name="shipmentRate" class="ShipmentRate"/>
         <embedded name="shipmentLabel" class="ShipmentLabel"/>
 

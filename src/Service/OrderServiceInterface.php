@@ -50,14 +50,14 @@ interface OrderServiceInterface
      * @param int $orderId
      * @param OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment
-     * @param int $carrier ShipmentTracker::$carrier
+     * @param int $shipmentCarrierTypeId
      * @param string $trackingCode
      */
     public function addShipmentTrackingCode(
         $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
-        $carrier,
+        $shipmentCarrierTypeId,
         $trackingCode
     );
 

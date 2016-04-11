@@ -11,6 +11,7 @@ class AddShipmentTrackingCodeHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
+        $carrier = $this->dummyData->getShipmentCarrierType();
         $orderService = $this->mockService->getOrderService();
         $orderService->shouldReceive('addShipmentTrackingCode')
             ->once();
@@ -22,7 +23,7 @@ class AddShipmentTrackingCodeHandlerTest extends ActionTestCase
             1,
             $orderItemQtyDTO,
             'A comment',
-            ShipmentTracker::CARRIER_USPS,
+            $carrier->getId(),
             'xxxxxx'
         );
 

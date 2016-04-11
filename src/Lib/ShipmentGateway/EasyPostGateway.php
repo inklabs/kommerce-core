@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Lib\ShipmentGateway;
 use DateTime;
 use EasyPost;
 use inklabs\kommerce\Entity\Money;
+use inklabs\kommerce\Entity\ShipmentCarrierType;
 use inklabs\kommerce\Entity\ShipmentLabel;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\ShipmentTracker;
@@ -179,16 +180,16 @@ class EasyPostGateway implements ShipmentGatewayInterface
     {
         switch (strtolower($shipment->tracker->carrier)) {
             case 'ups':
-                $carrier = ShipmentTracker::CARRIER_UPS;
+                $carrier = ShipmentCarrierType::ups();
                 break;
             case 'usps':
-                $carrier = ShipmentTracker::CARRIER_USPS;
+                $carrier = ShipmentCarrierType::usps();
                 break;
             case 'fedex':
-                $carrier = ShipmentTracker::CARRIER_FEDEX;
+                $carrier = ShipmentCarrierType::fedex();
                 break;
             default:
-                $carrier = ShipmentTracker::CARRIER_UNKNOWN;
+                $carrier = ShipmentCarrierType::unknown();
         }
 
         $shipmentTracker = new ShipmentTracker($carrier, $shipment->tracking_code);

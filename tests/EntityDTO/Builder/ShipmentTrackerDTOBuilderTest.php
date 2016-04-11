@@ -13,6 +13,7 @@ class ShipmentTrackerDTOBuilderTest extends EntityDTOBuilderTestCase
             ->build();
 
         $this->assertTrue($shipmentTrackerDTO instanceof ShipmentTrackerDTO);
+        $this->assertTrue($shipmentTrackerDTO->carrier instanceof ShipmentCarrierTypeDTO);
         $this->assertTrue($shipmentTrackerDTO->shipmentRate instanceof ShipmentRateDTO);
         $this->assertTrue($shipmentTrackerDTO->shipmentLabel instanceof ShipmentLabelDTO);
     }

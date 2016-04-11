@@ -11,6 +11,7 @@ use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Shipment;
+use inklabs\kommerce\Entity\ShipmentCarrierType;
 use inklabs\kommerce\Entity\ShipmentComment;
 use inklabs\kommerce\Entity\ShipmentItem;
 use inklabs\kommerce\Entity\ShipmentTracker;
@@ -118,19 +119,20 @@ class OrderService implements OrderServiceInterface
      * @param int $orderId
      * @param OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment
-     * @param int $carrier ShipmentTracker::$carrier
+     * @param int $shipmentCarrierTypeId
      * @param string $trackingCode
      */
     public function addShipmentTrackingCode(
         $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
-        $carrier,
+        $shipmentCarrierTypeId,
         $trackingCode
     ) {
         $order = $this->orderRepository->findOneById($orderId);
 
-        $shipmentTracker = new ShipmentTracker($carrier, $trackingCode);
+        $shipmentCarrierType = ShipmentCarrierType::createById($shipmentCarrierTypeId);
+        $shipmentTracker = new ShipmentTracker($shipmentCarrierType, $trackingCode);
 
         $this->addShipment($comment, $orderItemQtyDTO, $shipmentTracker, $order);
     }

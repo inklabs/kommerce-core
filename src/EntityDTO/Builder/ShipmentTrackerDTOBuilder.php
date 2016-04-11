@@ -22,10 +22,11 @@ class ShipmentTrackerDTOBuilder
         $this->shipmentTrackerDTO->encodedId    = BaseConvert::encode($this->shipmentTracker->getId());
         $this->shipmentTrackerDTO->created      = $this->shipmentTracker->getCreated();
         $this->shipmentTrackerDTO->updated      = $this->shipmentTracker->getUpdated();
-        $this->shipmentTrackerDTO->carrier      = $this->shipmentTracker->getCarrier();
-        $this->shipmentTrackerDTO->carrierText  = $this->shipmentTracker->getCarrierText();
         $this->shipmentTrackerDTO->trackingCode = $this->shipmentTracker->getTrackingCode();
         $this->shipmentTrackerDTO->externalId   = $this->shipmentTracker->getExternalId();
+
+        $this->shipmentTrackerDTO->carrier = $this->shipmentTracker->getCarrier()->getDTOBuilder()
+            ->build();
 
         if ($this->shipmentTracker->getShipmentRate() !== null) {
             $this->shipmentTrackerDTO->shipmentRate = $this->shipmentTracker->getShipmentRate()->getDTOBuilder()

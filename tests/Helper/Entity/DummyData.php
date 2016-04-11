@@ -46,6 +46,7 @@ use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Entity\Shipment;
+use inklabs\kommerce\Entity\ShipmentCarrierType;
 use inklabs\kommerce\Entity\ShipmentComment;
 use inklabs\kommerce\Entity\ShipmentItem;
 use inklabs\kommerce\Entity\ShipmentLabel;
@@ -779,6 +780,11 @@ class DummyData
         return $shipment;
     }
 
+    public function getShipmentCarrierType()
+    {
+        return ShipmentCarrierType::ups();
+    }
+
     public function getShipmentComment()
     {
         return new ShipmentComment('A shipment comment');
@@ -827,7 +833,7 @@ class DummyData
     public function getShipmentTracker()
     {
         $shipmentTracker = new ShipmentTracker(
-            ShipmentTracker::CARRIER_UPS,
+            $this->getShipmentCarrierType(),
             '1Z9999999999999999'
         );
         $shipmentTracker->setExternalId('trk_' . $this->getRandomToken());

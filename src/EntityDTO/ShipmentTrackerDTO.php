@@ -5,17 +5,14 @@ class ShipmentTrackerDTO
 {
     use IdDTOTrait, TimeDTOTrait;
 
-    /** @var int */
-    public $carrier;
-
-    /** @var string */
-    public $carrierText;
-
     /** @var string */
     public $trackingCode;
 
     /** @var string */
     public $externalId;
+
+    /** @var ShipmentCarrierTypeDTO */
+    public $carrier;
 
     /** @var ShipmentRateDTO */
     public $shipmentRate;
