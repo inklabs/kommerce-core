@@ -27,7 +27,7 @@
             </options>
         </field>
 
-        <embedded name="result" class="UserLoginResultType" column-prefix="false"/>
+        <embedded name="result" class="UserLoginResultType" use-column-prefix="false"/>
 
         <many-to-one field="user" target-entity="User" inversed-by="userLogins" fetch="EAGER"/>
         <many-to-one field="userToken" target-entity="UserToken" inversed-by="userLogins" fetch="EAGER"/>

@@ -32,7 +32,7 @@
             </options>
         </field>
 
-        <embedded name="carrier" class="ShipmentCarrierType" column-prefix="false"/>
+        <embedded name="carrier" class="ShipmentCarrierType" use-column-prefix="false"/>
         <embedded name="shipmentRate" class="ShipmentRate"/>
         <embedded name="shipmentLabel" class="ShipmentLabel"/>
 
