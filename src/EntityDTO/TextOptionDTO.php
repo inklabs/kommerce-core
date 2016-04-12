@@ -14,7 +14,7 @@ class TextOptionDTO
     /** @var int */
     public $sortOrder;
 
-    /** @var int */
+    /** @var TextOptionTypeDTO */
     public $type;
 
     /** @var TagDTO[] */
