@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
@@ -145,4 +146,10 @@ interface CartServiceInterface
         $shipmentRateExternalId,
         OrderAddressDTO $shippingAddressDTO
     );
+
+    /**
+     * @param int $cartId
+     * @param ShipmentRate $shipmentRate
+     */
+    public function setShipmentRate($cartId, ShipmentRate $shipmentRate);
 }

@@ -816,16 +816,17 @@ class DummyData
 
     /**
      * @param int $amount
+     * @param string $currency
      * @return ShipmentRate
      */
-    public function getShipmentRate($amount = 500)
+    public function getShipmentRate($amount = 500, $currency = 'USD')
     {
-        $shipmentRate = new ShipmentRate(new Money($amount, 'USD'));
+        $shipmentRate = new ShipmentRate(new Money($amount, $currency));
         $shipmentRate->setExternalId('rate_' . $this->getRandomToken());
         $shipmentRate->setCarrier('UPS');
         $shipmentRate->setService('Ground');
-        $shipmentRate->setListRate(new Money($amount * 1.05, 'USD'));
-        $shipmentRate->setRetailRate(new Money($amount * 1.15, 'USD'));
+        $shipmentRate->setListRate(new Money($amount * 1.05, $currency));
+        $shipmentRate->setRetailRate(new Money($amount * 1.15, $currency));
 
         return $shipmentRate;
     }

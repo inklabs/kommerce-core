@@ -438,9 +438,34 @@ class CartServiceTest extends ServiceTestCase
         $this->cartService->setUserById(1, 1);
     }
 
+    public function testSetExternalShipmentRate()
+    {
+        $orderAddress = $this->dummyData->getOrderAddress();
+        $orderAddress->setZip5('76667');
+        $orderAddressDTO = $orderAddress->getDTOBuilder()->build();
+
+        $cart = $this->dummyData->getCart();
+        $this->cartRepository->create($cart);
+        $cartId = $cart->getId();
+
+        $this->cartService->setExternalShipmentRate($cartId, 'shp_xxxxxxxx', $orderAddressDTO);
+
+        $cart = $this->cartRepository->findOneById($cartId);
+        $this->assertSame('shp_xxxxxxxx', $cart->getShipmentRate()->getShipmentExternalId());
+        $this->assertSame('76667', $cart->getShippingAddress()->getZip5());
+    }
+
     public function testSetShipmentRate()
     {
-        $this->cartRepository->create(new Cart);
-        $this->cartService->setExternalShipmentRate(1, 'shp_xxxxxxxx', new OrderAddressDTO);
+        $shipmentRate = $this->dummyData->getShipmentRate(1000, 'USD');
+
+        $cart = $this->dummyData->getCart();
+        $this->cartRepository->create($cart);
+        $cartId = $cart->getId();
+
+        $this->cartService->setShipmentRate($cartId, $shipmentRate);
+
+        $cart = $this->cartRepository->findOneById($cartId);
+        $this->assertEquals(new Money(1000, 'USD'), $cart->getShipmentRate()->getRate());
     }
 }

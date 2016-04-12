@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CartItemOptionProduct;
 use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
+use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Exception\InvalidCartActionException;
@@ -419,6 +420,17 @@ class CartService implements CartServiceInterface
 
         $cart->setTaxRate($taxRate);
 
+        $this->cartRepository->update($cart);
+    }
+
+    /**
+     * @param int $cartId
+     * @param ShipmentRate $shipmentRate
+     */
+    public function setShipmentRate($cartId, ShipmentRate $shipmentRate)
+    {
+        $cart = $this->cartRepository->findOneById($cartId);
+        $cart->setShipmentRate($shipmentRate);
         $this->cartRepository->update($cart);
     }
 }
