@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Order;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
 
-class SetOrderStatusCommand implements CommandInterface
+final class SetOrderStatusCommand implements CommandInterface
 {
     /** @var int */
     private $orderId;
