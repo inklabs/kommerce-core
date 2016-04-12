@@ -16,7 +16,6 @@ use inklabs\kommerce\EntityDTO\ProductQuantityDiscountDTO;
 use inklabs\kommerce\EntityDTO\TextOptionDTO;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
-use Mockery;
 use Symfony\Component\Validator\Validation;
 
 abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
