@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
 
-class AdjustInventoryHandler
+final class AdjustInventoryHandler
 {
     /** @var InventoryServiceInterface */
     private $inventoryService;

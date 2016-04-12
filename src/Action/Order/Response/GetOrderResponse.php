@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Order\Response;
 
 use inklabs\kommerce\EntityDTO\OrderDTO;
 
-class GetOrderResponse implements GetOrderResponseInterface
+final class GetOrderResponse implements GetOrderResponseInterface
 {
     /** @var OrderDTO */
     protected $orderDTO;

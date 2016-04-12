@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Tag\Response;
 
 use inklabs\kommerce\EntityDTO\TagDTO;
 
-class GetTagResponse implements GetTagResponseInterface
+final class GetTagResponse implements GetTagResponseInterface
 {
     /** @var TagDTO */
     protected $tagDTO;

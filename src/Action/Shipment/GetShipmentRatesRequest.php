@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\Lib\Query\RequestInterface;
 
-class GetShipmentRatesRequest implements RequestInterface
+final class GetShipmentRatesRequest implements RequestInterface
 {
     /** @var OrderAddressDTO */
     private $toAddressDTO;

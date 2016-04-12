@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\Action\Inventory;
 
-final class AdjustInventoryCommand
+use inklabs\kommerce\Lib\Command\CommandInterface;
+
+final class AdjustInventoryCommand implements CommandInterface
 {
     /** @var int */
     private $productId;

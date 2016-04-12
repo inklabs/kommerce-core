@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\User\Response;
 
 use inklabs\kommerce\EntityDTO\UserDTO;
 
-class LoginWithTokenResponse implements LoginWithTokenResponseInterface
+final class LoginWithTokenResponse implements LoginWithTokenResponseInterface
 {
     /** @var UserDTO */
     protected $userDTO;
