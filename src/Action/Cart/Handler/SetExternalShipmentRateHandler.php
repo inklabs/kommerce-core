@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\Action\Cart\Handler;
 
-use inklabs\kommerce\Action\Cart\AddShipmentRateCommand;
+use inklabs\kommerce\Action\Cart\SetExternalShipmentRateCommand;
 use inklabs\kommerce\Service\CartServiceInterface;
 
-final class AddShipmentRateHandler
+final class SetExternalShipmentRateHandler
 {
     /** @var CartServiceInterface */
     private $cartService;
@@ -14,9 +14,9 @@ final class AddShipmentRateHandler
         $this->cartService = $cartService;
     }
 
-    public function handle(AddShipmentRateCommand $command)
+    public function handle(SetExternalShipmentRateCommand $command)
     {
-        $this->cartService->setShipmentRate(
+        $this->cartService->setExternalShipmentRate(
             $command->getCartId(),
             $command->getShipmentRateExternalId(),
             $command->getShippingAddressDTO()

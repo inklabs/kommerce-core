@@ -106,7 +106,7 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
      * @param int $actual
      * @param int $delta
      */
-    protected function assertCloseTo($expected, $actual, $delta = 3)
+    protected function assertCloseTo($expected, $actual, $delta = 5)
     {
         $difference = $expected - $actual;
         $this->assertTrue($difference >= 0 && $difference <= $delta);

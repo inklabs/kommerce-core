@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\Helper\Service;
 
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
@@ -28,6 +29,16 @@ class MockService
     protected function getMockeryMock($className)
     {
         return Mockery::mock($className);
+    }
+
+    /**
+     * @return CartServiceInterface | Mockery\Mock
+     */
+    public function getCartService()
+    {
+        $cartService = $this->getMockeryMock(CartServiceInterface::class);
+
+        return $cartService;
     }
 
     /**

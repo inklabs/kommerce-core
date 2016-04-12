@@ -441,6 +441,6 @@ class CartServiceTest extends ServiceTestCase
     public function testSetShipmentRate()
     {
         $this->cartRepository->create(new Cart);
-        $this->cartService->setShipmentRate(1, 'shp_xxxxxxxx', new OrderAddressDTO);
+        $this->cartService->setExternalShipmentRate(1, 'shp_xxxxxxxx', new OrderAddressDTO);
     }
 }

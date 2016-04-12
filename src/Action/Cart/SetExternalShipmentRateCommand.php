@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\Cart;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 
-final class AddShipmentRateCommand implements CommandInterface
+final class SetExternalShipmentRateCommand implements CommandInterface
 {
     /** @var int */
     private $cartId;

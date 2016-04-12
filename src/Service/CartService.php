@@ -398,7 +398,7 @@ class CartService implements CartServiceInterface
      * @param string $shipmentRateExternalId
      * @param OrderAddressDTO $shippingAddressDTO
      */
-    public function setShipmentRate(
+    public function setExternalShipmentRate(
         $cartId,
         $shipmentRateExternalId,
         OrderAddressDTO $shippingAddressDTO
