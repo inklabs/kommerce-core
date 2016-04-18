@@ -12,6 +12,7 @@
         <discriminator-column name="payment_type" type="string" length="6"/>
         <discriminator-map>
             <discriminator-mapping value="cash" class="CashPayment"/>
+            <discriminator-mapping value="check" class="CheckPayment"/>
             <discriminator-mapping value="credit" class="CreditPayment"/>
         </discriminator-map>
 

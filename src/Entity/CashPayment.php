@@ -7,10 +7,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CashPayment extends AbstractPayment
 {
+    /**
+     * @param int $amount
+     */
     public function __construct($amount)
     {
         $this->setCreated();
-        $this->amount = $amount;
+        $this->amount = (int) $amount;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

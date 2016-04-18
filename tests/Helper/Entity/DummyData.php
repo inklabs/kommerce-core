@@ -17,6 +17,7 @@ use inklabs\kommerce\Entity\CartPriceRuleTagItem;
 use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\CheckPayment;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Entity\CreditPayment;
@@ -331,6 +332,16 @@ class DummyData
         $chargeResponse->setCreated(1420656887);
 
         return $chargeResponse;
+    }
+
+    public function getCheckPayment($amount = 100)
+    {
+        return new CheckPayment(
+            $amount,
+            '0001234',
+            new DateTime('4/13/2016'),
+            'memo area'
+        );
     }
 
     public function getCoupon($num = 1)

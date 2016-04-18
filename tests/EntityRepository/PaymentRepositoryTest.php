@@ -4,6 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use DateTime;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\CashPayment;
+use inklabs\kommerce\Entity\CheckPayment;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
@@ -27,9 +28,8 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
         $this->paymentRepository = $this->getRepositoryFactory()->getPaymentRepository();
     }
 
-    public function setupPayment()
+    public function setupPayment(AbstractPayment & $payment)
     {
-        $payment = $this->dummyData->getCashPayment();
         $cartTotal = $this->dummyData->getCartTotal();
         $order = $this->dummyData->getOrder($cartTotal);
         $order->addPayment($payment);
@@ -39,13 +39,12 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
         $this->paymentRepository->create($payment);
 
         $this->entityManager->flush();
-
-        return $payment;
     }
 
     public function testCRUD()
     {
-        $payment = $this->setupPayment();
+        $payment = $this->dummyData->getCashPayment();
+        $this->setupPayment($payment);
         $this->assertSame(1, $payment->getId());
 
         $payment->setAmount(200);
@@ -58,9 +57,10 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
         $this->assertSame(null, $payment->getId());
     }
 
-    public function testFind()
+    public function testFindCashPayment()
     {
-        $this->setupPayment();
+        $payment = $this->dummyData->getCashPayment();
+        $this->setupPayment($payment);
         $this->entityManager->clear();
 
         $this->setCountLogger();
@@ -70,6 +70,32 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
         $payment->getOrder()->getCreated();
 
         $this->assertTrue($payment instanceof CashPayment);
+        $this->assertSame(100, $payment->getAmount());
         $this->assertSame(2, $this->getTotalQueries());
+    }
+
+    public function testFindCheckPayment()
+    {
+        $payment = $this->dummyData->getCheckPayment();
+        $this->setupPayment($payment);
+        $this->entityManager->clear();
+
+        $this->setCountLogger();
+
+        $payment = $this->paymentRepository->findOneById(1);
+
+        $payment->getOrder()->getCreated();
+
+        $this->assertTrue($payment instanceof CheckPayment);
+        $this->assertSame(100, $payment->getAmount());
+        $this->assertSame('0001234', $payment->getCheckNumber());
+        $this->assertSame('memo area', $payment->getMemo());
+        $this->assertEquals(new DateTime('4/13/2016'), $payment->getCheckDate());
+        $this->assertSame(2, $this->getTotalQueries());
+    }
+
+    public function testFindCreditPayment()
+    {
+        // TODO: test CreditPayment
     }
 }

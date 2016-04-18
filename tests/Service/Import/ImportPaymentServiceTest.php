@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\Service\Import;
 
 use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\CashPayment;
+use inklabs\kommerce\Entity\CheckPayment;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
@@ -35,6 +37,11 @@ class ImportPaymentServiceTest extends Helper\TestCase\ServiceTestCase
         $this->assertSame(11, $importResult->getSuccessCount());
         $this->assertSame(1, $importResult->getFailedCount());
         $this->assertSame(25, $this->getTotalQueries());
+
+        $paymentTypes = $this->getPaymentTypesInRepository($repositoryFactory);
+
+        $this->assertSame(4, $paymentTypes[CashPayment::class]);
+        $this->assertSame(7, $paymentTypes[CheckPayment::class]);
     }
 
     private function setupOrdersForImport()
@@ -54,5 +61,24 @@ class ImportPaymentServiceTest extends Helper\TestCase\ServiceTestCase
         $this->entityManager->persist($order3);
 
         $this->entityManager->flush();
+    }
+
+    /**
+     * @param $repositoryFactory
+     * @return array
+     */
+    private function getPaymentTypesInRepository($repositoryFactory)
+    {
+        $paymentTypes = [];
+        foreach ($repositoryFactory->getPaymentRepository()->findAll() as $payment) {
+            $class = get_class($payment);
+
+            if (! isset($paymentTypes[$class])) {
+                $paymentTypes[$class] = 1;
+            } else {
+                $paymentTypes[$class]++;
+            }
+        }
+        return $paymentTypes;
     }
 }

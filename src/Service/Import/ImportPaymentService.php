@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service\Import;
 
 use DateTime;
 use inklabs\kommerce\Entity\CashPayment;
+use inklabs\kommerce\Entity\CheckPayment;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\PaymentRepositoryInterface;
 use inklabs\kommerce\Exception\KommerceException;
@@ -48,8 +49,12 @@ class ImportPaymentService
             $order = $this->orderRepository->findOneByExternalId($orderExternalId);
 
             try {
-                // TODO: Handle checkNumber
-                $payment = new CashPayment($amount);
+                if (! empty($checkNumber)) {
+                    $payment = new CheckPayment($amount, $checkNumber, new DateTime($date));
+                } else {
+                    $payment = new CashPayment($amount);
+                }
+
                 $payment->setCreated(new DateTime($date));
                 $payment->setOrder($order);
 
