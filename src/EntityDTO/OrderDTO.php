@@ -35,7 +35,7 @@ class OrderDTO
     /** @var OrderItemDTO[] */
     public $orderItems = [];
 
-    /** @var CreditPaymentDTO[]|CashPaymentDTO[] */
+    /** @var CreditPaymentDTO[] | CashPaymentDTO[] | CheckPaymentDTO[] */
     public $payments = [];
 
     /** @var CouponDTO[] */
