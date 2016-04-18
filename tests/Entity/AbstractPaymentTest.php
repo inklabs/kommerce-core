@@ -7,14 +7,7 @@ class AbstractPaymentTest extends EntityTestCase
 {
     public function testCreate()
     {
-        $orderItem = new OrderItem;
-        $orderItem->setProduct(new Product);
-        $orderItem->setQuantity(1);
-        $orderItem->setPrice(new Price);
-
-        $order = new Order;
-        $order->addOrderItem($orderItem);
-        $order->setTotal(new CartTotal);
+        $order = $this->dummyData->getOrder();
 
         /** @var $mock AbstractPayment */
         $mock = $this->getMockForAbstractClass(AbstractPayment::class);
