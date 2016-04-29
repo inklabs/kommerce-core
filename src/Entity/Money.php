@@ -24,7 +24,7 @@ class Money implements ValidationInterface
         }
 
         if ($currency !== null) {
-            $this->currency = (string)$currency;
+            $this->currency = (string) $currency;
         }
     }
 
