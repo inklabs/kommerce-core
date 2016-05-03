@@ -39,7 +39,7 @@ class ImportPaymentServiceTest extends Helper\TestCase\ServiceTestCase
         $this->assertSame(1, $importResult->getFailedCount());
         $this->assertSame(25, $this->getTotalQueries());
 
-        $paymentTypes = $this->getPaymentTypesInRepository($repositoryFactory);
+        $paymentTypes = $this->getPaymentTypeTotals($repositoryFactory);
 
         $this->assertSame(4, $paymentTypes[CashPayment::class]);
         $this->assertSame(7, $paymentTypes[CheckPayment::class]);
@@ -68,17 +68,17 @@ class ImportPaymentServiceTest extends Helper\TestCase\ServiceTestCase
      * @param RepositoryFactory $repositoryFactory
      * @return array
      */
-    private function getPaymentTypesInRepository(RepositoryFactory $repositoryFactory)
+    private function getPaymentTypeTotals(RepositoryFactory $repositoryFactory)
     {
         $paymentTypes = [];
         foreach ($repositoryFactory->getPaymentRepository()->findAll() as $payment) {
-            $class = get_class($payment);
+            $paymentClassName = get_class($payment);
 
-            if (! isset($paymentTypes[$class])) {
-                $paymentTypes[$class] = 1;
-            } else {
-                $paymentTypes[$class]++;
+            if (! isset($paymentTypes[$paymentClassName])) {
+                $paymentTypes[$paymentClassName] = 0;
             }
+
+            $paymentTypes[$paymentClassName]++;
         }
         return $paymentTypes;
     }
