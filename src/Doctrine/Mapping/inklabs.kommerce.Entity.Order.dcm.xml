@@ -48,19 +48,19 @@
 
         <one-to-many field="orderItems" target-entity="OrderItem" mapped-by="order" fetch="EXTRA_LAZY">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
         <one-to-many field="payments" target-entity="AbstractPayment" mapped-by="order" fetch="EXTRA_LAZY">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
         <one-to-many field="shipments" target-entity="Shipment" mapped-by="order" fetch="EXTRA_LAZY">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 

@@ -31,19 +31,19 @@
 
         <one-to-many field="shipmentTrackers" target-entity="ShipmentTracker" mapped-by="shipment" fetch="EXTRA_LAZY">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
         <one-to-many field="shipmentItems" target-entity="ShipmentItem" mapped-by="shipment" fetch="EXTRA_LAZY">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
         <one-to-many field="shipmentComments" target-entity="ShipmentComment" mapped-by="shipment" fetch="EXTRA_LAZY">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
