@@ -6,7 +6,7 @@ use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 
-abstract class AbstractRepository extends EntityRepository implements AbstractRepositoryInterface
+abstract class AbstractRepository extends EntityRepository implements RepositoryInterface
 {
     public function getQueryBuilder()
     {

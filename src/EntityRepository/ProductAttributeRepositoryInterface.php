@@ -6,6 +6,6 @@ use inklabs\kommerce\Entity\ProductAttribute;
 /**
  * @method ProductAttribute findOneById($id)
  */
-interface ProductAttributeRepositoryInterface extends AbstractRepositoryInterface
+interface ProductAttributeRepositoryInterface extends RepositoryInterface
 {
 }

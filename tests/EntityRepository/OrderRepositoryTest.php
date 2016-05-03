@@ -15,7 +15,7 @@ use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentGenerator;
+use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentReferenceNumberGenerator;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
 class OrderRepositoryTest extends EntityRepositoryTestCase
@@ -171,7 +171,7 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $this->setupOrder('117-1819459-9097917');
 
         $this->orderRepository->setReferenceNumberGenerator(
-            new HashSegmentGenerator($this->orderRepository)
+            new HashSegmentReferenceNumberGenerator($this->orderRepository)
         );
 
         $order = $this->setupOrder();

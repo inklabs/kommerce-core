@@ -8,7 +8,7 @@ use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 /**
  * @method CatalogPromotion findOneById($id)
  */
-class FakeCatalogPromotionRepository extends AbstractFakeRepository implements CatalogPromotionRepositoryInterface
+class FakeCatalogPromotionRepository extends FakeRepository implements CatalogPromotionRepositoryInterface
 {
     public function __construct()
     {

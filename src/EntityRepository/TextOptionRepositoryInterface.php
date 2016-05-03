@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\TextOption;
 /**
  * @package TextOption find($id)
  */
-interface TextOptionRepositoryInterface extends AbstractRepositoryInterface
+interface TextOptionRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param int[] $optionIds

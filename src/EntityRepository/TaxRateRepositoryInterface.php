@@ -7,7 +7,7 @@ use inklabs\kommerce\Exception\InvalidArgumentException;
 /**
  * @method TaxRate findOneById($id)
  */
-interface TaxRateRepositoryInterface extends AbstractRepositoryInterface
+interface TaxRateRepositoryInterface extends RepositoryInterface
 {
     /**
      * @return TaxRate[]

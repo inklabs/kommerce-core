@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\CartPriceRule;
 /**
  * @method CartPriceRule findOneById($id)
  */
-interface CartPriceRuleRepositoryInterface extends AbstractRepositoryInterface
+interface CartPriceRuleRepositoryInterface extends RepositoryInterface
 {
     /**
      * @return CartPriceRule[]

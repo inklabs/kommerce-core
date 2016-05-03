@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
-interface RepositoryInterface
+interface ReferenceNumberRepositoryInterface
 {
     /**
      * Is the Reference Number already in use?

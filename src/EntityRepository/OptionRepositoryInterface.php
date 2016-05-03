@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\Pagination;
 /**
  * @method Option findOneById($id)
  */
-interface OptionRepositoryInterface extends AbstractRepositoryInterface
+interface OptionRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param int[] $optionIds

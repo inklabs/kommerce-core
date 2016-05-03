@@ -8,7 +8,7 @@ use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 /**
  * @method TextOption findOneById($id)
  */
-class FakeTextOptionRepository extends AbstractFakeRepository implements TextOptionRepositoryInterface
+class FakeTextOptionRepository extends FakeRepository implements TextOptionRepositoryInterface
 {
     public function __construct()
     {

@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
-use inklabs\kommerce\Lib\ReferenceNumber\RepositoryInterface;
+use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberRepositoryInterface;
 
-class FakeRepository implements RepositoryInterface
+class FakeReferenceNumberRepository implements ReferenceNumberRepositoryInterface
 {
     /** @var bool */
     protected $referenceNumberReturnValue = false;

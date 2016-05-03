@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
-interface GeneratorInterface
+interface ReferenceNumberGeneratorInterface
 {
     /**
      * @param ReferenceNumberEntityInterface $entity

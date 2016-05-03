@@ -3,22 +3,22 @@ namespace inklabs\kommerce\Lib\ReferenceNumber;
 
 use inklabs\kommerce\Exception\RuntimeException;
 use inklabs\kommerce\tests\Helper\Entity\FakeReferenceNumberEntity;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeReferenceNumberRepository;
 
 class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var HashSegmentGenerator */
+    /** @var HashSegmentReferenceNumberGenerator */
     protected $hashSegmentGenerator;
 
-    /** @var FakeRepository */
+    /** @var FakeReferenceNumberRepository */
     protected $repository;
 
     public function setUp()
     {
         mt_srand(0);
 
-        $this->repository = new FakeRepository;
-        $this->hashSegmentGenerator = new HashSegmentGenerator($this->repository);
+        $this->repository = new FakeReferenceNumberRepository;
+        $this->hashSegmentGenerator = new HashSegmentReferenceNumberGenerator($this->repository);
     }
 
     public function testGenerate()

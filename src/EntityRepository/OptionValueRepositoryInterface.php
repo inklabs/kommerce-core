@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\OptionValue;
 /**
  * @method OptionValue findOneById($id)
  */
-interface OptionValueRepositoryInterface extends AbstractRepositoryInterface
+interface OptionValueRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param int[] $optionValueIds

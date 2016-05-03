@@ -6,6 +6,6 @@ use inklabs\kommerce\Entity\UserRole;
 /**
  * @method UserRole findOneById($id)
  */
-interface UserRoleRepositoryInterface extends AbstractRepositoryInterface
+interface UserRoleRepositoryInterface extends RepositoryInterface
 {
 }

@@ -8,7 +8,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 /**
  * @method Tag findOneById($id)
  */
-interface TagRepositoryInterface extends AbstractRepositoryInterface
+interface TagRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param string $code

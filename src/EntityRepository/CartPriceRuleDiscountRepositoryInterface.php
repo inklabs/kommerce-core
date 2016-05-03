@@ -6,6 +6,6 @@ use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 /**
  * @method CartPriceRuleDiscount findOneById($id)
  */
-interface CartPriceRuleDiscountRepositoryInterface extends AbstractRepositoryInterface
+interface CartPriceRuleDiscountRepositoryInterface extends RepositoryInterface
 {
 }

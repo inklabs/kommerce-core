@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
-class SequentialGenerator implements GeneratorInterface
+class SequentialReferenceNumberGenerator implements ReferenceNumberGeneratorInterface
 {
     /** @var int */
     protected $padLength = 10;

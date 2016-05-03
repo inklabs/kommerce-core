@@ -9,7 +9,7 @@ use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 /**
  * @method InventoryTransaction findOneById($id)
  */
-class FakeInventoryTransactionRepository extends AbstractFakeRepository implements
+class FakeInventoryTransactionRepository extends FakeRepository implements
     InventoryTransactionRepositoryInterface
 {
     protected $entityName = 'InventoryTransaction';

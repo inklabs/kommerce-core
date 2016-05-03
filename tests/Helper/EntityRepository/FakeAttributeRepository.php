@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
 /**
  * @method Attribute findOneById($id)
  */
-class FakeAttributeRepository extends AbstractFakeRepository implements AttributeRepositoryInterface
+class FakeAttributeRepository extends FakeRepository implements AttributeRepositoryInterface
 {
     protected $entityName = 'Attribute';
 

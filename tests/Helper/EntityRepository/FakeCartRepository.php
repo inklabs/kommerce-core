@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 /**
  * @method Cart findOneById($id)
  */
-class FakeCartRepository extends AbstractFakeRepository implements CartRepositoryInterface
+class FakeCartRepository extends FakeRepository implements CartRepositoryInterface
 {
     public function __construct()
     {

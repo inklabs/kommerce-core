@@ -6,6 +6,6 @@ use inklabs\kommerce\Entity\OrderItemOptionValue;
 /**
  * @method OrderItemOptionValue|null findOneById($id)
  */
-interface OrderItemOptionValueRepositoryInterface extends AbstractRepositoryInterface
+interface OrderItemOptionValueRepositoryInterface extends RepositoryInterface
 {
 }

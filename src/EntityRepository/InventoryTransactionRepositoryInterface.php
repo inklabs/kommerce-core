@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\Product;
 /**
  * @method InventoryTransaction findOneById($id)
  */
-interface InventoryTransactionRepositoryInterface extends AbstractRepositoryInterface
+interface InventoryTransactionRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param Product $product

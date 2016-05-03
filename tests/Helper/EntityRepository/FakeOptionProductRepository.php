@@ -8,7 +8,7 @@ use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
 /**
  * @method OptionProduct findOneById($id)
  */
-class FakeOptionProductRepository extends AbstractFakeRepository implements OptionProductRepositoryInterface
+class FakeOptionProductRepository extends FakeRepository implements OptionProductRepositoryInterface
 {
     public function __construct()
     {

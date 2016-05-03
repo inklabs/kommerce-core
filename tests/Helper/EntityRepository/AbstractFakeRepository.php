@@ -3,11 +3,11 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\ValidationInterface;
-use inklabs\kommerce\EntityRepository\AbstractRepositoryInterface;
+use inklabs\kommerce\EntityRepository\RepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\KommerceException;
 
-class AbstractFakeRepository implements AbstractRepositoryInterface
+class FakeRepository implements RepositoryInterface
 {
     /** @var ValidationInterface[] */
     protected $entities = [];

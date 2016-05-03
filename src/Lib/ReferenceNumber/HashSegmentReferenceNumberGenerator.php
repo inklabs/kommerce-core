@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Lib\ReferenceNumber;
 
 use inklabs\kommerce\Exception\RuntimeException;
 
-class HashSegmentGenerator implements GeneratorInterface
+class HashSegmentReferenceNumberGenerator implements ReferenceNumberGeneratorInterface
 {
     /** @var int[]  */
     protected $segments = [3, 7, 7];
@@ -11,10 +11,10 @@ class HashSegmentGenerator implements GeneratorInterface
     /** @var int */
     protected $lookupLimit = 3;
 
-    /** @var RepositoryInterface */
+    /** @var ReferenceNumberRepositoryInterface */
     protected $repository;
 
-    public function __construct(RepositoryInterface $repository)
+    public function __construct(ReferenceNumberRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }

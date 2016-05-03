@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Cart;
 /**
  * @method Cart findOneById($id)
  */
-interface CartRepositoryInterface extends AbstractRepositoryInterface
+interface CartRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param int $userId

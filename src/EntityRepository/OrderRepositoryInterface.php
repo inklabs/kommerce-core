@@ -3,12 +3,13 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
-use inklabs\kommerce\Lib\ReferenceNumber;
+use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
+use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberRepositoryInterface;
 
 /**
  * @method Order findOneById($id)
  */
-interface OrderRepositoryInterface extends AbstractRepositoryInterface, ReferenceNumber\RepositoryInterface
+interface OrderRepositoryInterface extends RepositoryInterface, ReferenceNumberRepositoryInterface
 {
     /**
      * @param int $orderExternalId
@@ -28,5 +29,5 @@ interface OrderRepositoryInterface extends AbstractRepositoryInterface, Referenc
      */
     public function getOrdersByUserId($userId);
 
-    public function setReferenceNumberGenerator(ReferenceNumber\GeneratorInterface $referenceNumberGenerator);
+    public function setReferenceNumberGenerator(ReferenceNumberGeneratorInterface $referenceNumberGenerator);
 }

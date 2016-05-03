@@ -6,6 +6,6 @@ use inklabs\kommerce\Entity\UserLogin;
 /**
  * @method UserLogin findOneById($id)
  */
-interface UserLoginRepositoryInterface extends AbstractRepositoryInterface
+interface UserLoginRepositoryInterface extends RepositoryInterface
 {
 }

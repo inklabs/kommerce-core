@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\RuntimeException;
-use inklabs\kommerce\Lib\ReferenceNumber;
+use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
 
 class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {
@@ -28,10 +28,10 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
         $this->flush();
     }
 
-    /** @var ReferenceNumber\GeneratorInterface */
+    /** @var ReferenceNumberGeneratorInterface */
     protected $referenceNumberGenerator;
 
-    public function setReferenceNumberGenerator(ReferenceNumber\GeneratorInterface $referenceNumberGenerator)
+    public function setReferenceNumberGenerator(ReferenceNumberGeneratorInterface $referenceNumberGenerator)
     {
         $this->referenceNumberGenerator = $referenceNumberGenerator;
     }

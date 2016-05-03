@@ -8,7 +8,7 @@ use inklabs\kommerce\Entity\CreditPayment;
 /**
  * @method AbstractPayment | CheckPayment | CheckPayment | CreditPayment findOneById($id)
  */
-interface PaymentRepositoryInterface extends AbstractRepositoryInterface
+interface PaymentRepositoryInterface extends RepositoryInterface
 {
     /**
      * @return AbstractPayment[] | CheckPayment[] | CheckPayment[] | CreditPayment[]

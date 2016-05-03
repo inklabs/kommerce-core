@@ -8,7 +8,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 /**
  * @method Coupon findOneById($id)
  */
-interface CouponRepositoryInterface extends AbstractRepositoryInterface
+interface CouponRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param string $couponCode

@@ -6,6 +6,6 @@ use inklabs\kommerce\Entity\Image;
 /**
  * @method Image findOneById($id)
  */
-interface ImageRepositoryInterface extends AbstractRepositoryInterface
+interface ImageRepositoryInterface extends RepositoryInterface
 {
 }

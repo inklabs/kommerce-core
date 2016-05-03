@@ -23,7 +23,7 @@ class SequentialGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerate($expected, $input)
     {
-        $sequentialGenerator = new SequentialGenerator;
+        $sequentialGenerator = new SequentialReferenceNumberGenerator;
 
         $entity = new FakeReferenceNumberEntity;
         $entity->id = $input;
@@ -35,7 +35,7 @@ class SequentialGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testGenerateWithOffset()
     {
-        $sequentialGenerator = new SequentialGenerator;
+        $sequentialGenerator = new SequentialReferenceNumberGenerator;
         $sequentialGenerator->setOffset(1000);
 
         $entity = new FakeReferenceNumberEntity;
@@ -48,7 +48,7 @@ class SequentialGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testGenerateWithZeroPadLength()
     {
-        $sequentialGenerator = new SequentialGenerator;
+        $sequentialGenerator = new SequentialReferenceNumberGenerator;
         $sequentialGenerator->setOffset(1000);
         $sequentialGenerator->setPadLength(0);
 

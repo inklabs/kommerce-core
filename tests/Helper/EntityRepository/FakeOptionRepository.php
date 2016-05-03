@@ -8,7 +8,7 @@ use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 /**
  * @method Option findOneById($id)
  */
-class FakeOptionRepository extends AbstractFakeRepository implements OptionRepositoryInterface
+class FakeOptionRepository extends FakeRepository implements OptionRepositoryInterface
 {
     protected $entityName = 'Option';
 

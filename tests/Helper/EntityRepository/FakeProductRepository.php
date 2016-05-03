@@ -9,7 +9,7 @@ use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 /**
  * @method Product findOneById($id)
  */
-class FakeProductRepository extends AbstractFakeRepository implements ProductRepositoryInterface
+class FakeProductRepository extends FakeRepository implements ProductRepositoryInterface
 {
     protected $entityName = 'Product';
 

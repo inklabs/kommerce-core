@@ -6,6 +6,6 @@ use inklabs\kommerce\Entity\OrderItem;
 /**
  * @method OrderItem|null findOneById($id)
  */
-interface OrderItemRepositoryInterface extends AbstractRepositoryInterface
+interface OrderItemRepositoryInterface extends RepositoryInterface
 {
 }

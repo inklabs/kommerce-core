@@ -6,6 +6,6 @@ use inklabs\kommerce\Entity\ProductQuantityDiscount;
 /**
  * @method ProductQuantityDiscount findOneById($id)
  */
-interface ProductQuantityDiscountRepositoryInterface extends AbstractRepositoryInterface
+interface ProductQuantityDiscountRepositoryInterface extends RepositoryInterface
 {
 }

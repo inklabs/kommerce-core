@@ -8,7 +8,7 @@ use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 /**
  * @method UserLogin findOneById($id)
  */
-class FakeUserLoginRepository extends AbstractFakeRepository implements UserLoginRepositoryInterface
+class FakeUserLoginRepository extends FakeRepository implements UserLoginRepositoryInterface
 {
     protected $entityName = 'UserLogin';
 

@@ -8,7 +8,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 /**
  * @method User findOneById($id)
  */
-interface UserRepositoryInterface extends AbstractRepositoryInterface
+interface UserRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param string $email

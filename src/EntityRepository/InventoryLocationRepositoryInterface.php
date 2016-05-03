@@ -6,6 +6,6 @@ use inklabs\kommerce\Entity\InventoryLocation;
 /**
  * @method InventoryLocation findOneById($id)
  */
-interface InventoryLocationRepositoryInterface extends AbstractRepositoryInterface
+interface InventoryLocationRepositoryInterface extends RepositoryInterface
 {
 }

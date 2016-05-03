@@ -8,7 +8,7 @@ use inklabs\kommerce\Entity\Warehouse;
 /**
  * @method Warehouse findOneById($id)
  */
-interface WarehouseRepositoryInterface extends AbstractRepositoryInterface
+interface WarehouseRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param Point $point

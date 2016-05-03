@@ -8,12 +8,12 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
-use inklabs\kommerce\Lib\ReferenceNumber;
+use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
 
 /**
  * @method Order findOneById($id)
  */
-class FakeOrderRepository extends AbstractFakeRepository implements OrderRepositoryInterface
+class FakeOrderRepository extends FakeRepository implements OrderRepositoryInterface
 {
     /** @var int */
     protected $shipmentAutoincrementId = 1;
@@ -53,7 +53,7 @@ class FakeOrderRepository extends AbstractFakeRepository implements OrderReposit
         return $this->getReturnValueAsArray();
     }
 
-    public function setReferenceNumberGenerator(ReferenceNumber\GeneratorInterface $referenceNumberGenerator)
+    public function setReferenceNumberGenerator(ReferenceNumberGeneratorInterface $referenceNumberGenerator)
     {
     }
 

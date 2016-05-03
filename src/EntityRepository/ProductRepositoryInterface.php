@@ -8,7 +8,7 @@ use inklabs\kommerce\Entity\Tag;
 /**
  * @method Product findOneById($id)
  */
-interface ProductRepositoryInterface extends AbstractRepositoryInterface
+interface ProductRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param string $sku

@@ -7,6 +7,6 @@ use inklabs\kommerce\Entity\CartPriceRuleTagItem;
 /**
  * @method CartPriceRuleProductItem|CartPriceRuleTagItem findOneById($id)
  */
-interface CartPriceRuleItemRepositoryInterface extends AbstractRepositoryInterface
+interface CartPriceRuleItemRepositoryInterface extends RepositoryInterface
 {
 }
