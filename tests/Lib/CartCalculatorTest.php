@@ -13,8 +13,9 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\tests\Helper\TestCase\LibTestCase;
 
-class CartCalculatorTest extends \PHPUnit_Framework_TestCase
+class CartCalculatorTest extends LibTestCase
 {
     public function testGetTotal()
     {
@@ -294,7 +295,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $product = new Product;
         $product->setUnitPrice(500);
 
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $coupon->setid(1);
         $coupon->setName('20% Off');
         $coupon->setType(PromotionType::percent());
@@ -324,7 +325,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTotalWithCouponWithFreeShipping()
     {
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $coupon->setid(1);
         $coupon->setName('20% Off');
         $coupon->setType(PromotionType::percent());
@@ -496,7 +497,7 @@ class CartCalculatorTest extends \PHPUnit_Framework_TestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $coupon->setName('20% Off orders under $100');
         $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);

@@ -23,11 +23,15 @@ class Coupon extends AbstractPromotion
     /** @var bool */
     protected $canCombineWithOtherCoupons;
 
-    public function __construct()
+    /**
+     * @param string $code
+     */
+    public function __construct($code)
     {
         parent::__construct();
         $this->flagFreeShipping = false;
         $this->canCombineWithOtherCoupons = false;
+        $this->setCode($code);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

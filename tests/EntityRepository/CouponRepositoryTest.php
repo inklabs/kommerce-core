@@ -48,6 +48,9 @@ class CouponRepositoryTest extends EntityRepositoryTestCase
 
     public function testFind()
     {
+        $code = '20PCT';
+        $coupon = new Coupon($code);
+
         $this->setupCoupon();
 
         $coupon = $this->couponRepository->findOneById(1);

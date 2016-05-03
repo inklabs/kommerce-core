@@ -41,8 +41,8 @@ class OrderTest extends EntityTestCase
         $orderItem = $this->dummyData->getOrderItem($product);
         $orderItem->setQuantity(2);
 
-        $user = new User;
-        $coupon = new Coupon;
+        $user = $this->dummyData->getUser();
+        $coupon = $this->dummyData->getCoupon();
         $shipment = $this->dummyData->getShipment();
         $cartTotal = $this->dummyData->getCartTotal();
         $payment = $this->dummyData->getCashPayment();

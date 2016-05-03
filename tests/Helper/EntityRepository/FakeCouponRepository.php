@@ -4,6 +4,7 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
+use inklabs\kommerce\tests\Helper\Entity\DummyData;
 
 /**
  * @method Coupon findOneById($id)
@@ -17,7 +18,9 @@ class FakeCouponRepository extends AbstractFakeRepository implements CouponRepos
 
     public function __construct()
     {
-        $this->setReturnValue(new Coupon);
+        $dummyData = new DummyData();
+        $coupon = $dummyData->getCoupon();
+        $this->setReturnValue($coupon);
     }
 
     public function findOneByCode($couponCode)

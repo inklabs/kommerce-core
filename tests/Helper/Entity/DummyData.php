@@ -346,9 +346,8 @@ class DummyData
 
     public function getCoupon($num = 1)
     {
-        $coupon = new Coupon;
+        $coupon = new Coupon('20PCT' . $num);
         $coupon->setName('20% OFF Test Coupon #' . $num);
-        $coupon->setCode('20PCT' . $num);
         $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
 

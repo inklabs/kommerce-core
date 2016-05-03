@@ -260,7 +260,7 @@ class CartTest extends EntityTestCase
 
     private function getPercentCoupon($id, $value)
     {
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $coupon->setId($id);
         $coupon->setName($value . '% Off');
         $coupon->setType(PromotionType::percent());

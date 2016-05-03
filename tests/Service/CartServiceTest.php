@@ -149,7 +149,7 @@ class CartServiceTest extends ServiceTestCase
 
     public function testAddCouponByCode()
     {
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $coupon->setCode('20PCT');
         $this->couponRepository->create($coupon);
         $this->cartRepository->create(new Cart);
@@ -170,7 +170,7 @@ class CartServiceTest extends ServiceTestCase
 
     public function testGetCoupons()
     {
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $coupon->setCode('20PCT');
         $this->couponRepository->create($coupon);
 
@@ -190,7 +190,7 @@ class CartServiceTest extends ServiceTestCase
 
     public function testRemoveCoupon()
     {
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $coupon->setCode('20PCT');
         $this->couponRepository->create($coupon);
 

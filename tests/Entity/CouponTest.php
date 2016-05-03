@@ -8,10 +8,11 @@ class CouponTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {
-        $coupon = new Coupon;
+        $code = '20PCT100';
+        $coupon = new Coupon($code);
 
         $this->assertSame(null, $coupon->getName());
-        $this->assertSame(null, $coupon->getCode());
+        $this->assertSame($code, $coupon->getCode());
         $this->assertSame(null, $coupon->getValue());
         $this->assertSame(null, $coupon->getMinOrderValue());
         $this->assertSame(null, $coupon->getMaxOrderValue());
@@ -22,9 +23,8 @@ class CouponTest extends EntityTestCase
 
     public function testCreate()
     {
-        $coupon = new Coupon;
+        $coupon = new Coupon('20PCT100');
         $coupon->setName('20% Off orders over $100');
-        $coupon->setCode('20PCT100');
         $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
         $coupon->setMinOrderValue(10000);
@@ -45,7 +45,7 @@ class CouponTest extends EntityTestCase
 
     public function testIsMinOrderValueValid()
     {
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $this->assertTrue($coupon->isMinOrderValueValid(100));
 
         $coupon->setMinOrderValue(100);
@@ -55,14 +55,14 @@ class CouponTest extends EntityTestCase
 
     public function testIsMinOrderValueValidReturnsFalse()
     {
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $coupon->setMinOrderValue(100);
         $this->assertFalse($coupon->isMinOrderValueValid(50));
     }
 
     public function testIsMaxOrderValueValid()
     {
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $this->assertTrue($coupon->isMaxOrderValueValid(100));
 
         $coupon->setMaxOrderValue(1000);
@@ -72,14 +72,14 @@ class CouponTest extends EntityTestCase
 
     public function testIsMaxOrderValueValidReturnsFalse()
     {
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $coupon->setMaxOrderValue(1000);
         $this->assertFalse($coupon->isMaxOrderValueValid(2000));
     }
 
     public function testIsValid()
     {
-        $coupon = new Coupon;
+        $coupon = $this->dummyData->getCoupon();
         $this->assertTrue($coupon->isValid(new DateTime, 200));
     }
 }

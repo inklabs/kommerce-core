@@ -41,7 +41,8 @@ class CouponServiceTest extends Helper\TestCase\ServiceTestCase
 
     public function testFind()
     {
-        $this->couponRepository->create(new Coupon);
+        $coupon = $this->dummyData->getCoupon();
+        $this->couponRepository->create($coupon);
 
         $coupon = $this->couponService->findOneById(1);
         $this->assertTrue($coupon instanceof Coupon);
