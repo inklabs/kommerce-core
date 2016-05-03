@@ -52,7 +52,9 @@ class KommerceTest extends Helper\TestCase\ServiceTestCase
 
     public function testAddSqliteFunctions()
     {
-        $this->doctrineHelper->addSqliteFunctions();
+        if (! isset($_ENV['DB_NAME'])) {
+            $this->doctrineHelper->addSqliteFunctions();
+        }
     }
 
     public function testAddMysqlFunctions()

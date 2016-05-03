@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\tests\Helper\TestCase;
 
 use Doctrine;
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\DoctrineHelper;
@@ -9,7 +11,7 @@ use inklabs\kommerce\tests\Helper\CountSQLLogger;
 
 abstract class EntityRepositoryTestCase extends KommerceTestCase
 {
-    /** @var \Doctrine\ORM\EntityManager */
+    /** @var EntityManager */
     protected $entityManager;
 
     /** @var DoctrineHelper */
@@ -42,14 +44,40 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
 
     private function getConnection()
     {
-        $this->doctrineHelper = new DoctrineHelper(new Doctrine\Common\Cache\ArrayCache());
+        $this->doctrineHelper = new DoctrineHelper(new ArrayCache());
+        $this->setupDatabaseConnection();
+
+        $this->entityManager = $this->doctrineHelper->getEntityManager();
+    }
+
+    private function setupDatabaseConnection()
+    {
+        if (isset($_ENV['DB_NAME'])) {
+            $this->setupMysqlConnection();
+        } else {
+            $this->setupSqliteConnection();
+        }
+    }
+
+    private function setupMysqlConnection()
+    {
+        $this->doctrineHelper->setup([
+            'driver' => 'pdo_mysql',
+            'dbname' => $_ENV['DB_NAME'],
+            'user' => $_ENV['DB_USER'],
+            'password' => $_ENV['DB_PASSWORD'],
+            'host' => $_ENV['DB_HOST'],
+            'port' => $_ENV['DB_PORT'],
+            'charset' => 'utf8',
+        ]);
+    }
+    private function setupSqliteConnection()
+    {
         $this->doctrineHelper->setup([
             'driver' => 'pdo_sqlite',
             'memory' => true,
         ]);
         $this->doctrineHelper->addSqliteFunctions();
-
-        $this->entityManager = $this->doctrineHelper->getEntityManager();
     }
 
     protected function getRepositoryFactory()
@@ -69,6 +97,7 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
         }
 
         $tool = new Doctrine\ORM\Tools\SchemaTool($this->entityManager);
+        $tool->dropSchema($classes);
         $tool->createSchema($classes);
     }
 

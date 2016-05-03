@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="All Tests (MySQL)" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" singleton="true">
+    <CommandLine parameters="-n -d zend_extension=&quot;/usr/local/opt/php70-opcache/opcache.so&quot;">
+      <envs>
+        <env name="DB_HOST" value="db_time.trinetcloud.comlocal" />
+        <env name="DB_NAME" value="time_test" />
+        <env name="DB_PASSWORD" value="root" />
+        <env name="DB_PORT" value="3306" />
+        <env name="DB_USER" value="root" />
+      </envs>
+    </CommandLine>
+    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/tests" scope="XML" />
+    <method />
+  </configuration>
+</component>
