@@ -119,6 +119,11 @@ class Coupon extends AbstractPromotion
         $this->canCombineWithOtherCoupons = (bool) $canCombineWithOtherCoupons;
     }
 
+    /**
+     * @param DateTime $date
+     * @param int $subtotal
+     * @return bool
+     */
     public function isValid(DateTime $date, $subtotal)
     {
         return $this->isValidPromotion($date)
@@ -126,6 +131,10 @@ class Coupon extends AbstractPromotion
             and $this->isMaxOrderValueValid($subtotal);
     }
 
+    /**
+     * @param int $subtotal
+     * @return bool
+     */
     public function isMinOrderValueValid($subtotal)
     {
         if ($this->minOrderValue !== null and $subtotal < $this->minOrderValue) {
@@ -135,6 +144,10 @@ class Coupon extends AbstractPromotion
         }
     }
 
+    /**
+     * @param int $subtotal
+     * @return bool
+     */
     public function isMaxOrderValueValid($subtotal)
     {
         if ($this->maxOrderValue !== null and $subtotal > $this->maxOrderValue) {
