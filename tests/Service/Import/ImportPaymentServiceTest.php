@@ -7,6 +7,7 @@ use inklabs\kommerce\Entity\CheckPayment;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\CSVIterator;
 use inklabs\kommerce\tests\Helper;
 
@@ -64,10 +65,10 @@ class ImportPaymentServiceTest extends Helper\TestCase\ServiceTestCase
     }
 
     /**
-     * @param $repositoryFactory
+     * @param RepositoryFactory $repositoryFactory
      * @return array
      */
-    private function getPaymentTypesInRepository($repositoryFactory)
+    private function getPaymentTypesInRepository(RepositoryFactory $repositoryFactory)
     {
         $paymentTypes = [];
         foreach ($repositoryFactory->getPaymentRepository()->findAll() as $payment) {
