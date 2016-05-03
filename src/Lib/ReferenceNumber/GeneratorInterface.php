@@ -4,8 +4,8 @@ namespace inklabs\kommerce\Lib\ReferenceNumber;
 interface GeneratorInterface
 {
     /**
-     * @param EntityInterface $entity
+     * @param ReferenceNumberEntityInterface $entity
      * @throws \RuntimeException
      */
-    public function generate(EntityInterface & $entity);
+    public function generate(ReferenceNumberEntityInterface & $entity);
 }

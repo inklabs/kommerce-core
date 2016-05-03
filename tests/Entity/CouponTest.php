@@ -6,7 +6,7 @@ use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class CouponTest extends EntityTestCase
 {
-    public function testCreateDefaults()
+    public function testCreate()
     {
         $code = '20PCT100';
         $coupon = new Coupon($code);
@@ -19,28 +19,6 @@ class CouponTest extends EntityTestCase
         $this->assertTrue($coupon->getType()->isFixed());
         $this->assertFalse($coupon->getFlagFreeShipping());
         $this->assertFalse($coupon->getCanCombineWithOtherCoupons());
-    }
-
-    public function testCreate()
-    {
-        $coupon = new Coupon('20PCT100');
-        $coupon->setName('20% Off orders over $100');
-        $coupon->setType(PromotionType::percent());
-        $coupon->setValue(20);
-        $coupon->setMinOrderValue(10000);
-        $coupon->setMaxOrderValue(100000);
-        $coupon->setFlagFreeShipping(true);
-        $coupon->setCanCombineWithOtherCoupons(true);
-
-        $this->assertEntityValid($coupon);
-        $this->assertSame('20% Off orders over $100', $coupon->getName());
-        $this->assertSame('20PCT100', $coupon->getCode());
-        $this->assertSame(20, $coupon->getValue());
-        $this->assertSame(10000, $coupon->getMinOrderValue());
-        $this->assertSame(100000, $coupon->getMaxOrderValue());
-        $this->assertTrue($coupon->getType()->isPercent());
-        $this->assertTrue($coupon->getFlagFreeShipping());
-        $this->assertTrue($coupon->getCanCombineWithOtherCoupons());
     }
 
     public function testIsMinOrderValueValid()

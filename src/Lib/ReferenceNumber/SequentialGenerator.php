@@ -9,7 +9,7 @@ class SequentialGenerator implements GeneratorInterface
     /** @var */
     protected $offset = 0;
 
-    public function generate(EntityInterface & $entity)
+    public function generate(ReferenceNumberEntityInterface & $entity)
     {
         $index = $this->offset + ((int) $entity->getReferenceId());
 

@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\Helper\TestCase;
 
 use Doctrine;
+use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\DoctrineHelper;
 use inklabs\kommerce\tests\Helper\CountSQLLogger;
@@ -95,5 +96,12 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
     protected function rollback()
     {
         $this->entityManager->getConnection()->rollback();
+    }
+
+    protected function persistEntityAndFlushClear(EntityInterface $entity)
+    {
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
     }
 }

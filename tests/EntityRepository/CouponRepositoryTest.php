@@ -3,7 +3,9 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberEntityInterface;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
 class CouponRepositoryTest extends EntityRepositoryTestCase
@@ -24,10 +26,7 @@ class CouponRepositoryTest extends EntityRepositoryTestCase
     private function setupCoupon()
     {
         $coupon = $this->dummyData->getCoupon();
-
-        $this->entityManager->persist($coupon);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $this->persistEntityAndFlushClear($coupon);
     }
 
     public function testSave()
@@ -49,13 +48,37 @@ class CouponRepositoryTest extends EntityRepositoryTestCase
     public function testFind()
     {
         $code = '20PCT';
-        $coupon = new Coupon($code);
+        $name = '20% Off orders over $100';
+        $value = 20;
+        $minOrderValue = 10000;
+        $maxOrderValue = 100000;
+        $promotionType = PromotionType::fixed();
 
-        $this->setupCoupon();
+        $coupon = new Coupon($code);
+        $coupon->setName($name);
+        $coupon->setValue($value);
+        $coupon->setType($promotionType);
+        $coupon->setMinOrderValue($minOrderValue);
+        $coupon->setMaxOrderValue($maxOrderValue);
+        $coupon->setFlagFreeShipping(true);
+        $coupon->setCanCombineWithOtherCoupons(true);
+
+        $this->persistEntityAndFlushClear($coupon);
+
+        $this->setCountLogger();
 
         $coupon = $this->couponRepository->findOneById(1);
 
         $this->assertTrue($coupon instanceof Coupon);
+        $this->assertSame($code, $coupon->getCode());
+        $this->assertSame($name, $coupon->getName());
+        $this->assertSame($value, $coupon->getValue());
+        $this->assertSame($minOrderValue, $coupon->getMinOrderValue());
+        $this->assertSame($maxOrderValue, $coupon->getMaxOrderValue());
+        $this->assertTrue($coupon->getType()->isFixed());
+        $this->assertTrue($coupon->getFlagFreeShipping());
+        $this->assertTrue($coupon->getCanCombineWithOtherCoupons());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 
     public function testFindOneByCode()

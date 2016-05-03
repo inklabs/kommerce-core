@@ -19,7 +19,7 @@ class HashSegmentGenerator implements GeneratorInterface
         $this->repository = $repository;
     }
 
-    public function generate(EntityInterface & $entity)
+    public function generate(ReferenceNumberEntityInterface & $entity)
     {
         do {
             $this->throwExceptionWhenBeyondLookupLimit();

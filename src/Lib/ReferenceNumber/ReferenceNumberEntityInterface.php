@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
-interface EntityInterface
+interface ReferenceNumberEntityInterface
 {
     /**
      * @return int

@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\Entity;
 
-use inklabs\kommerce\Lib\ReferenceNumber;
+use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberEntityInterface;
 
-class FakeEntity implements ReferenceNumber\EntityInterface
+class FakeReferenceNumberEntity implements ReferenceNumberEntityInterface
 {
     /** @var int */
     public $id = 1;

@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
 use inklabs\kommerce\Exception\RuntimeException;
-use inklabs\kommerce\tests\Helper\Entity\FakeEntity;
+use inklabs\kommerce\tests\Helper\Entity\FakeReferenceNumberEntity;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeRepository;
 
 class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
@@ -23,7 +23,7 @@ class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testGenerate()
     {
-        $entity = new FakeEntity;
+        $entity = new FakeReferenceNumberEntity;
         $this->hashSegmentGenerator->generate($entity);
 
         $this->assertSame('963-1273124-1535857', $entity->getReferenceNumber());
@@ -31,7 +31,7 @@ class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testGenerateWithCustomSegments()
     {
-        $entity = new FakeEntity;
+        $entity = new FakeReferenceNumberEntity;
         $this->hashSegmentGenerator->setSegments([1, 2, 3, 4, 5]);
         $this->hashSegmentGenerator->generate($entity);
 
@@ -40,7 +40,7 @@ class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testGenerateThrowsException()
     {
-        $entity = new FakeEntity;
+        $entity = new FakeReferenceNumberEntity;
         $this->repository->setReferenceNumberReturnValue(true);
 
         $this->setExpectedException(

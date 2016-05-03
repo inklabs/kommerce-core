@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
-use inklabs\kommerce\tests\Helper\Entity\FakeEntity;
+use inklabs\kommerce\tests\Helper\Entity\FakeReferenceNumberEntity;
 
 class SequentialGeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +25,7 @@ class SequentialGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $sequentialGenerator = new SequentialGenerator;
 
-        $entity = new FakeEntity;
+        $entity = new FakeReferenceNumberEntity;
         $entity->id = $input;
 
         $sequentialGenerator->generate($entity);
@@ -38,7 +38,7 @@ class SequentialGeneratorTest extends \PHPUnit_Framework_TestCase
         $sequentialGenerator = new SequentialGenerator;
         $sequentialGenerator->setOffset(1000);
 
-        $entity = new FakeEntity;
+        $entity = new FakeReferenceNumberEntity;
         $entity->id = 1;
 
         $sequentialGenerator->generate($entity);
@@ -52,7 +52,7 @@ class SequentialGeneratorTest extends \PHPUnit_Framework_TestCase
         $sequentialGenerator->setOffset(1000);
         $sequentialGenerator->setPadLength(0);
 
-        $entity = new FakeEntity;
+        $entity = new FakeReferenceNumberEntity;
         $entity->id = 1;
 
         $sequentialGenerator->generate($entity);
