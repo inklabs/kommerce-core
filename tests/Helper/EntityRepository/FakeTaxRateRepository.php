@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 /**
  * @method TaxRate findOneById($id)
  */
-class FakeTaxRateRepository extends FakeRepository implements TaxRateRepositoryInterface
+class FakeTaxRateRepository extends AbstractFakeRepository implements TaxRateRepositoryInterface
 {
     public function __construct()
     {

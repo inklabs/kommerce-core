@@ -8,7 +8,7 @@ use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 /**
  * @method Tag findOneById($id)
  */
-class FakeTagRepository extends FakeRepository implements TagRepositoryInterface
+class FakeTagRepository extends AbstractFakeRepository implements TagRepositoryInterface
 {
     protected $entityName = 'Tag';
 

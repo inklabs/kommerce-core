@@ -9,7 +9,7 @@ use inklabs\kommerce\tests\Helper\Entity\DummyData;
 /**
  * @method Coupon findOneById($id)
  */
-class FakeCouponRepository extends FakeRepository implements CouponRepositoryInterface
+class FakeCouponRepository extends AbstractFakeRepository implements CouponRepositoryInterface
 {
     protected $entityName = 'Coupon';
 

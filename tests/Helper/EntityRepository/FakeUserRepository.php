@@ -10,7 +10,7 @@ use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 /**
  * @method User findOneById($id)
  */
-class FakeUserRepository extends FakeRepository implements UserRepositoryInterface
+class FakeUserRepository extends AbstractFakeRepository implements UserRepositoryInterface
 {
     protected $entityName = 'User';
 

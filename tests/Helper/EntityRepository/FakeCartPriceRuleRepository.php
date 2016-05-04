@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 /**
  * @method CartPriceRule findOneById($id)
  */
-class FakeCartPriceRuleRepository extends FakeRepository implements CartPriceRuleRepositoryInterface
+class FakeCartPriceRuleRepository extends AbstractFakeRepository implements CartPriceRuleRepositoryInterface
 {
     protected $entityName = 'CartPriceRule';
 

@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 /**
  * @method Image findOneById($id)
  */
-class FakeImageRepository extends FakeRepository implements ImageRepositoryInterface
+class FakeImageRepository extends AbstractFakeRepository implements ImageRepositoryInterface
 {
     protected $entityName = 'Image';
 

@@ -8,7 +8,7 @@ use inklabs\kommerce\Lib\ReferenceNumber;
 /**
  * @method OrderItem findOneById($id)
  */
-class FakeOrderItemRepository extends FakeRepository implements OrderItemRepositoryInterface
+class FakeOrderItemRepository extends AbstractFakeRepository implements OrderItemRepositoryInterface
 {
     public function __construct()
     {

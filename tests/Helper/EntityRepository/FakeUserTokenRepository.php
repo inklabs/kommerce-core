@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
 /**
  * @method UserToken findOneById($id)
  */
-class FakeUserTokenRepository extends FakeRepository implements UserTokenRepositoryInterface
+class FakeUserTokenRepository extends AbstractFakeRepository implements UserTokenRepositoryInterface
 {
     protected $entityName = 'UserToken';
 

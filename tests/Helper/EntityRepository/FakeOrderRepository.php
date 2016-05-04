@@ -13,7 +13,7 @@ use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
 /**
  * @method Order findOneById($id)
  */
-class FakeOrderRepository extends FakeRepository implements OrderRepositoryInterface
+class FakeOrderRepository extends AbstractFakeRepository implements OrderRepositoryInterface
 {
     /** @var int */
     protected $shipmentAutoincrementId = 1;

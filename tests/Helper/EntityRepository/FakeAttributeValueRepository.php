@@ -8,7 +8,7 @@ use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
 /**
  * @method AttributeValue findOneById($id)
  */
-class FakeAttributeValueRepository extends FakeRepository implements AttributeValueRepositoryInterface
+class FakeAttributeValueRepository extends AbstractFakeRepository implements AttributeValueRepositoryInterface
 {
     protected $entityName = 'AttributeValue';
 
