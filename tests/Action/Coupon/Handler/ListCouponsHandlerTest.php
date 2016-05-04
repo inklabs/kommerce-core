@@ -11,14 +11,13 @@ class ListCouponsHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $pricing = $this->dummyData->getPricing();
         $couponService = $this->mockService->getCouponService();
 
         $queryString = 'PCT';
         $request = new ListCouponsRequest($queryString, new PaginationDTO);
         $response = new ListCouponsResponse;
 
-        $handler = new ListCouponsHandler($couponService, $pricing);
+        $handler = new ListCouponsHandler($couponService);
         $handler->handle($request, $response);
 
         $this->assertTrue($response->getCouponDTOs()[0] instanceof CouponDTO);
