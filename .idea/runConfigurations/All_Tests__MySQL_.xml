@@ -2,7 +2,7 @@
   <configuration default="false" name="All Tests (MySQL)" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" singleton="true">
     <CommandLine parameters="-n -d zend_extension=&quot;/usr/local/opt/php70-opcache/opcache.so&quot;">
       <envs>
-        <env name="DB_HOST" value="127.0.0.1" />
+        <env name="DB_HOST" value="testdbserver" />
         <env name="DB_NAME" value="testdb" />
         <env name="DB_PASSWORD" value="root" />
         <env name="DB_PORT" value="3306" />
