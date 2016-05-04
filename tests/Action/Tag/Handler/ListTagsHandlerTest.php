@@ -14,7 +14,8 @@ class ListTagsHandlerTest extends ActionTestCase
         $pricing = $this->dummyData->getPricing();
         $tagService = $this->mockService->getTagService();
 
-        $request = new ListTagsRequest('TT', new PaginationDTO);
+        $queryString = 'TT';
+        $request = new ListTagsRequest($queryString, new PaginationDTO);
         $response = new ListTagsResponse;
 
         $handler = new ListTagsHandler($tagService, $pricing);

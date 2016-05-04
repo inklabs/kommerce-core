@@ -4,9 +4,9 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class TagServiceTest extends Helper\TestCase\ServiceTestCase
+class TagServiceTest extends ServiceTestCase
 {
     /** @var FakeTagRepository */
     protected $tagRepository;

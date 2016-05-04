@@ -2,10 +2,11 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Coupon;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCouponRepository;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class CouponServiceTest extends Helper\TestCase\ServiceTestCase
+class CouponServiceTest extends ServiceTestCase
 {
     /** @var FakeCouponRepository */
     protected $couponRepository;
@@ -24,19 +25,40 @@ class CouponServiceTest extends Helper\TestCase\ServiceTestCase
     public function testCreate()
     {
         $coupon = $this->dummyData->getCoupon();
+
         $this->couponService->create($coupon);
+
+        $coupon = $this->couponRepository->findOneById(1);
         $this->assertTrue($coupon instanceof Coupon);
     }
 
-    public function testEdit()
+    public function testUpdate()
     {
         $newName = 'New Name';
         $coupon = $this->dummyData->getCoupon();
-        $this->assertNotSame($newName, $coupon->getName());
+        $this->couponRepository->create($coupon);
 
+        $this->assertNotSame($newName, $coupon->getName());
         $coupon->setName($newName);
-        $this->couponService->edit($coupon);
+
+        $this->couponService->update($coupon);
+
+        $coupon = $this->couponRepository->findOneById(1);
         $this->assertSame($newName, $coupon->getName());
+    }
+
+    public function testDelete()
+    {
+        $coupon = $this->dummyData->getCoupon();
+        $this->couponRepository->create($coupon);
+
+        $this->couponService->delete($coupon);
+
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Coupon not found'
+        );
+        $this->couponRepository->findOneById(1);
     }
 
     public function testFind()

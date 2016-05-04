@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityRepository\RepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\KommerceException;
 
-class FakeRepository implements RepositoryInterface
+class AbstractFakeRepository implements RepositoryInterface
 {
     /** @var ValidationInterface[] */
     protected $entities = [];

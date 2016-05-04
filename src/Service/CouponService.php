@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 
-class CouponService
+class CouponService implements CouponServiceInterface
 {
     use EntityValidationTrait;
 
@@ -24,10 +24,15 @@ class CouponService
         $this->couponRepository->create($coupon);
     }
 
-    public function edit(Coupon & $coupon)
+    public function update(Coupon & $coupon)
     {
         $this->throwValidationErrors($coupon);
         $this->couponRepository->update($coupon);
+    }
+
+    public function delete(Coupon $coupon)
+    {
+        $this->couponRepository->delete($coupon);
     }
 
     /**

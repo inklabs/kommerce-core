@@ -3,6 +3,7 @@ namespace inklabs\kommerce\tests\Helper\Service;
 
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
+use inklabs\kommerce\Service\CouponServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
@@ -42,6 +43,23 @@ class MockService
     }
 
     /**
+     * @return CouponServiceInterface | Mockery\Mock
+     */
+    public function getCouponService()
+    {
+        $coupon = $this->dummyData->getCoupon();
+
+        $couponService = $this->getMockeryMock(CouponServiceInterface::class);
+        $couponService->shouldReceive('findOneById')
+            ->andReturn($coupon);
+
+        $couponService->shouldReceive('getAllCoupons')
+            ->andReturn([$coupon]);
+
+        return $couponService;
+    }
+
+    /**
      * @return InventoryServiceInterface | Mockery\Mock
      */
     public function getInventoryService()
@@ -66,11 +84,11 @@ class MockService
      */
     public function getShipmentGateway()
     {
+        $shipmentRate = $this->dummyData->getShipmentRate(225);
+
         $shipmentGateway = $this->getMockeryMock(ShipmentGatewayInterface::class);
         $shipmentGateway->shouldReceive('getRates')
-            ->andReturn([
-                $this->dummyData->getShipmentRate(225)
-            ]);
+            ->andReturn([$shipmentRate]);
 
         return $shipmentGateway;
     }
@@ -80,16 +98,14 @@ class MockService
      */
     public function getTagService()
     {
+        $tag = $this->dummyData->getTag();
+
         $tagService = $this->getMockeryMock(TagServiceInterface::class);
         $tagService->shouldReceive('findOneById')
-            ->andReturn(
-                $this->dummyData->getTag()
-            );
+            ->andReturn($tag);
 
         $tagService->shouldReceive('getAllTags')
-            ->andReturn([
-                $this->dummyData->getTag()
-            ]);
+            ->andReturn([$tag]);
 
         return $tagService;
     }
@@ -99,11 +115,11 @@ class MockService
      */
     public function getOrderService()
     {
+        $order = $this->dummyData->getOrder();
+
         $orderService = $this->getMockeryMock(OrderServiceInterface::class);
         $orderService->shouldReceive('findOneById')
-            ->andReturn(
-                $this->dummyData->getOrder()
-            );
+            ->andReturn($order);
 
         return $orderService;
     }
@@ -113,11 +129,11 @@ class MockService
      */
     public function getProductService()
     {
+        $product = $this->dummyData->getProduct();
+
         $productService = $this->getMockeryMock(ProductServiceInterface::class);
         $productService->shouldReceive('findOneById')
-            ->andReturn(
-                $this->dummyData->getProduct()
-            );
+            ->andReturn($product);
 
         return $productService;
     }
@@ -127,11 +143,11 @@ class MockService
      */
     public function getUserService()
     {
+        $user = $this->dummyData->getUser();
+
         $userService = $this->getMockeryMock(UserServiceInterface::class);
         $userService->shouldReceive('loginWithToken')
-            ->andReturn(
-                $this->dummyData->getUser()
-            );
+            ->andReturn($user);
 
         return $userService;
     }
