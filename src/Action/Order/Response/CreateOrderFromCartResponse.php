@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Order\Response;
 
 use inklabs\kommerce\EntityDTO\OrderDTO;
 
-final class CreateOrderFromCartResponse implements CreateOrderFromCartResponseInterface
+class CreateOrderFromCartResponse implements CreateOrderFromCartResponseInterface
 {
     /** @var OrderDTO */
     private $orderDTO;

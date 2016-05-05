@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Shipment\Response;
 
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
 
-final class GetShipmentRatesResponse implements GetShipmentRatesResponseInterface
+class GetShipmentRatesResponse implements GetShipmentRatesResponseInterface
 {
     /** @var ShipmentRateDTO[] */
     private $shipmentRatesDTO = [];
