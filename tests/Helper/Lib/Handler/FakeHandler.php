@@ -5,6 +5,7 @@ use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
+use inklabs\kommerce\Service\CouponServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
@@ -19,6 +20,7 @@ class FakeHandler
         ImageServiceInterface $imageServiceInterface,
         CartCalculatorInterface $cartCalculator,
         CartServiceInterface $cartServiceInterface,
+        CouponServiceInterface $couponServiceInterface,
         OrderServiceInterface $orderServiceInterface,
         Pricing $pricing,
         ProductServiceInterface $productServiceInterface,

@@ -5,6 +5,7 @@ use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\RequestInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
+use inklabs\kommerce\Service\CouponServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
@@ -58,6 +59,8 @@ class Mapper implements MapperInterface
                 $constructorParameters[] = $this->serviceFactory->getCartCalculator();
             } elseif ($parameterClassName === CartServiceInterface::class) {
                 $constructorParameters[] = $this->serviceFactory->getCart();
+            } elseif ($parameterClassName === CouponServiceInterface::class) {
+                $constructorParameters[] = $this->serviceFactory->getCoupon();
             } elseif ($parameterClassName === OrderServiceInterface::class) {
                 $constructorParameters[] = $this->serviceFactory->getOrder();
             } elseif ($parameterClassName === Pricing::class) {
