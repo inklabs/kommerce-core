@@ -25,7 +25,8 @@ class CouponRepository extends AbstractRepository implements CouponRepositoryInt
 
         if ($queryString !== null) {
             $query
-                ->where('Coupon.name LIKE :query')
+                ->orWhere('Coupon.name LIKE :query')
+                ->orWhere('Coupon.code LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
         }
 
