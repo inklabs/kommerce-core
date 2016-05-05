@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Coupon\Response;
 
 use inklabs\kommerce\EntityDTO\CouponDTO;
 
-final class GetCouponResponse implements GetCouponResponseInterface
+class GetCouponResponse implements GetCouponResponseInterface
 {
     /** @var CouponDTO */
     protected $couponDTO;

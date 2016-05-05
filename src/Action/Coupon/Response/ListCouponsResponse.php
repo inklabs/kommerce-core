@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\Coupon\Response;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\CouponDTO;
 
-final class ListCouponsResponse implements ListCouponsResponseInterface
+class ListCouponsResponse implements ListCouponsResponseInterface
 {
     /** @var CouponDTO[] */
     protected $couponDTOs = [];

@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\Tag\Response;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
 
-final class ListTagsResponse implements ListTagsResponseInterface
+class ListTagsResponse implements ListTagsResponseInterface
 {
     /** @var TagDTO[] */
     protected $tagDTOs = [];
