@@ -59,6 +59,10 @@ class CartItemTest extends EntityTestCase
         $this->assertSame($cartItemOptionValue, $cartItem->getCartItemOptionValues()[0]);
         $this->assertSame($cartItemTextOptionValue, $cartItem->getCartItemTextOptionValues()[0]);
         $this->assertSame($attachment, $cartItem->getAttachments()[0]);
+
+        $cartItem->removeAttachment($attachment);
+
+        $this->assertSame(0, count($cartItem->getAttachments()));
     }
 
     public function testClone()

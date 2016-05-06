@@ -311,4 +311,9 @@ class OrderItem implements EntityInterface, ValidationInterface
     {
         $this->attachments->add($attachment);
     }
+
+    public function removeAttachment(Attachment $attachment)
+    {
+        $this->attachments->removeElement($attachment);
+    }
 }

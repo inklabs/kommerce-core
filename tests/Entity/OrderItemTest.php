@@ -90,6 +90,10 @@ class OrderItemTest extends EntityTestCase
         $this->assertSame($catalogPromotion, $orderItem->getCatalogPromotions()[0]);
         $this->assertSame($productQuantityDiscount1, $orderItem->getProductQuantityDiscounts()[0]);
         $this->assertSame($attachment, $orderItem->getAttachments()[0]);
+
+        $orderItem->removeAttachment($attachment);
+
+        $this->assertSame(0, count($orderItem->getAttachments()));
     }
 
     public function testCreateWithCustomItem()

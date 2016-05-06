@@ -257,4 +257,9 @@ class CartItem implements EntityInterface, ValidationInterface
     {
         $this->attachments->add($attachment);
     }
+
+    public function removeAttachment(Attachment $attachment)
+    {
+        $this->attachments->removeElement($attachment);
+    }
 }
