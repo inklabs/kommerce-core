@@ -8,6 +8,12 @@ class Attachment implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
+    /** @var bool */
+    protected $isVisible;
+
+    /** @var bool */
+    protected $isLocked;
+
     /** @var string */
     private $filePath;
 
@@ -18,6 +24,8 @@ class Attachment implements EntityInterface, ValidationInterface
     {
         $this->setCreated();
         $this->setFilePath($filePath);
+        $this->setVisible();
+        $this->setUnlocked();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -39,5 +47,35 @@ class Attachment implements EntityInterface, ValidationInterface
     private function setFilePath($filePath)
     {
         $this->filePath = $filePath;
+    }
+
+    public function isVisible()
+    {
+        return $this->isVisible;
+    }
+
+    public function setNotVisible()
+    {
+        $this->isVisible = false;
+    }
+
+    private function setVisible()
+    {
+        $this->isVisible = true;
+    }
+
+    public function isLocked()
+    {
+        return $this->isLocked;
+    }
+
+    public function setLocked()
+    {
+        $this->isLocked = true;
+    }
+
+    public function setUnlocked()
+    {
+        $this->isLocked = false;
     }
 }
