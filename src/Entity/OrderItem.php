@@ -46,9 +46,6 @@ class OrderItem implements EntityInterface, ValidationInterface
     /** @var ProductQuantityDiscount[] */
     protected $productQuantityDiscounts;
 
-    /** @var ShipmentItem[] */
-    protected $shipmentItems;
-
     /** @var Attachment[] */
     protected $attachments;
 
@@ -60,7 +57,6 @@ class OrderItem implements EntityInterface, ValidationInterface
         $this->orderItemOptionProducts = new ArrayCollection;
         $this->orderItemOptionValues = new ArrayCollection;
         $this->orderItemTextOptionValues = new ArrayCollection;
-        $this->shipmentItems = new ArrayCollection;
         $this->attachments = new ArrayCollection;
     }
 
