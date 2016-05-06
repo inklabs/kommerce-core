@@ -3,6 +3,7 @@ namespace inklabs\kommerce\tests\Helper\Entity;
 
 use DateTime;
 use inklabs\kommerce\Entity\Address;
+use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Cart;
@@ -95,6 +96,12 @@ class DummyData
         $attribute->setSortOrder(0);
 
         return $attribute;
+    }
+
+    public function getAttachment()
+    {
+        $attachment = new Attachment('img/example.png');
+        return $attachment;
     }
 
     public function getAttributeValue()

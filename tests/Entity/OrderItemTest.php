@@ -22,6 +22,7 @@ class OrderItemTest extends EntityTestCase
         $this->assertSame(0, count($orderItem->getOrderItemTextOptionValues()));
         $this->assertSame(0, count($orderItem->getCatalogPromotions()));
         $this->assertSame(0, count($orderItem->getProductQuantityDiscounts()));
+        $this->assertSame(0, count($orderItem->getAttachments()));
     }
 
     public function testCreate()
@@ -59,6 +60,7 @@ class OrderItemTest extends EntityTestCase
         $orderItemTextOptionValue = $this->dummyData->getOrderItemTextOptionValue();
 
         $order = $this->dummyData->getOrder();
+        $attachment = $this->dummyData->getAttachment();
 
         $orderItem = new OrderItem;
         $orderItem->setProduct($product);
@@ -68,6 +70,7 @@ class OrderItemTest extends EntityTestCase
         $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
         $orderItem->addOrderItemOptionValue($orderItemOptionValue);
         $orderItem->addOrderItemTextOptionValue($orderItemTextOptionValue);
+        $orderItem->addAttachment($attachment);
 
         $this->assertEntityValid($orderItem);
         $this->assertSame(2, $orderItem->getQuantity());
@@ -80,12 +83,13 @@ class OrderItemTest extends EntityTestCase
         $this->assertSame(null, $orderItem->getId());
         $this->assertSame($order, $orderItem->getOrder());
         $this->assertSame($product, $orderItem->getProduct());
+        $this->assertSame($price, $orderItem->getPrice());
         $this->assertSame($orderItemOptionProduct, $orderItem->getOrderItemOptionProducts()[0]);
         $this->assertSame($orderItemOptionValue, $orderItem->getOrderItemOptionValues()[0]);
         $this->assertSame($orderItemTextOptionValue, $orderItem->getOrderItemTextOptionValues()[0]);
         $this->assertSame($catalogPromotion, $orderItem->getCatalogPromotions()[0]);
         $this->assertSame($productQuantityDiscount1, $orderItem->getProductQuantityDiscounts()[0]);
-        $this->assertSame($price, $orderItem->getPrice());
+        $this->assertSame($attachment, $orderItem->getAttachments()[0]);
     }
 
     public function testCreateWithCustomItem()

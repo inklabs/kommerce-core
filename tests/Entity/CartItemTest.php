@@ -16,6 +16,7 @@ class CartItemTest extends EntityTestCase
         $this->assertSame(0, count($cartItem->getCartItemOptionProducts()));
         $this->assertSame(0, count($cartItem->getCartItemOptionValues()));
         $this->assertSame(0, count($cartItem->getCartItemTextOptionValues()));
+        $this->assertSame(0, count($cartItem->getAttachments()));
     }
 
     public function testCreate()
@@ -36,6 +37,8 @@ class CartItemTest extends EntityTestCase
         $cartItemOptionValue->getOptionValue()->setSku('OV1');
         $cartItemOptionValue->getOptionValue()->setShippingWeight(5);
 
+        $attachment = $this->dummyData->getAttachment();
+
         $cartItem = new CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
@@ -43,6 +46,7 @@ class CartItemTest extends EntityTestCase
         $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
         $cartItem->addCartItemOptionValue($cartItemOptionValue);
         $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
+        $cartItem->addAttachment($attachment);
 
         $this->assertEntityValid($cartItem);
         $this->assertTrue($cartItem instanceof CartItem);
@@ -50,10 +54,11 @@ class CartItemTest extends EntityTestCase
         $this->assertSame(2, $cartItem->getQuantity());
         $this->assertSame('P1-OP1-OV1', $cartItem->getFullSku());
         $this->assertSame(18, $cartItem->getShippingWeight());
+        $this->assertSame($cart, $cartItem->getCart());
         $this->assertSame($cartItemOptionProduct, $cartItem->getCartItemOptionProducts()[0]);
         $this->assertSame($cartItemOptionValue, $cartItem->getCartItemOptionValues()[0]);
         $this->assertSame($cartItemTextOptionValue, $cartItem->getCartItemTextOptionValues()[0]);
-        $this->assertSame($cart, $cartItem->getCart());
+        $this->assertSame($attachment, $cartItem->getAttachments()[0]);
     }
 
     public function testClone()

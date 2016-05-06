@@ -29,12 +29,16 @@ class CartItem implements EntityInterface, ValidationInterface
     /** @var CartItemTextOptionValue[] */
     protected $cartItemTextOptionValues;
 
+    /** @var Attachment[] */
+    protected $attachments;
+
     public function __construct()
     {
         $this->setCreated();
         $this->cartItemOptionProducts = new ArrayCollection;
         $this->cartItemOptionValues = new ArrayCollection;
         $this->cartItemTextOptionValues = new ArrayCollection;
+        $this->attachments = new ArrayCollection;
     }
 
     public function __clone()
@@ -242,5 +246,15 @@ class CartItem implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new CartItemDTOBuilder($this);
+    }
+
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachment $attachment)
+    {
+        $this->attachments->add($attachment);
     }
 }

@@ -49,6 +49,9 @@ class OrderItem implements EntityInterface, ValidationInterface
     /** @var ShipmentItem[] */
     protected $shipmentItems;
 
+    /** @var Attachment[] */
+    protected $attachments;
+
     public function __construct()
     {
         $this->setCreated();
@@ -58,6 +61,7 @@ class OrderItem implements EntityInterface, ValidationInterface
         $this->orderItemOptionValues = new ArrayCollection;
         $this->orderItemTextOptionValues = new ArrayCollection;
         $this->shipmentItems = new ArrayCollection;
+        $this->attachments = new ArrayCollection;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -300,5 +304,15 @@ class OrderItem implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new OrderItemDTOBuilder($this);
+    }
+
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachment $attachment)
+    {
+        $this->attachments->add($attachment);
     }
 }
