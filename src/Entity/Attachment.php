@@ -9,9 +9,6 @@ class Attachment implements EntityInterface, ValidationInterface
     use TimeTrait, IdTrait;
 
     /** @var string */
-    protected $path;
-
-    /** @var string */
     private $filePath;
 
     /**
