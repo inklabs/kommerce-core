@@ -39,7 +39,6 @@ class OrderItemTest extends EntityTestCase
         $product = $this->dummyData->getProduct();
         $product->setSku('sku1');
         $product->setName('Test Product');
-        $product->enableAttachments();
 
         $productQuantityDiscount2 = $this->dummyData->getProductQuantityDiscount();
         $productQuantityDiscount2->setType(PromotionType::fixed());
@@ -62,7 +61,6 @@ class OrderItemTest extends EntityTestCase
         $orderItemTextOptionValue = $this->dummyData->getOrderItemTextOptionValue();
 
         $order = $this->dummyData->getOrder();
-        $attachment = $this->dummyData->getAttachment();
 
         $orderItem = new OrderItem;
         $orderItem->setProduct($product);
@@ -72,7 +70,6 @@ class OrderItemTest extends EntityTestCase
         $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
         $orderItem->addOrderItemOptionValue($orderItemOptionValue);
         $orderItem->addOrderItemTextOptionValue($orderItemTextOptionValue);
-        $orderItem->addAttachment($attachment);
 
         $this->assertEntityValid($orderItem);
         $this->assertSame(2, $orderItem->getQuantity());
@@ -91,11 +88,6 @@ class OrderItemTest extends EntityTestCase
         $this->assertSame($orderItemTextOptionValue, $orderItem->getOrderItemTextOptionValues()[0]);
         $this->assertSame($catalogPromotion, $orderItem->getCatalogPromotions()[0]);
         $this->assertSame($productQuantityDiscount1, $orderItem->getProductQuantityDiscounts()[0]);
-        $this->assertSame($attachment, $orderItem->getAttachments()[0]);
-
-        $orderItem->removeAttachment($attachment);
-
-        $this->assertSame(0, count($orderItem->getAttachments()));
     }
 
     public function testCreateWithCustomItem()
@@ -139,12 +131,50 @@ class OrderItemTest extends EntityTestCase
         $this->assertSame(34, $orderItem->getShippingWeight());
     }
 
-    public function testAddAttachmentFailsViaProduct()
+    public function testAddRemoveAttachmentViaProduct()
     {
         $attachment = $this->dummyData->getAttachment();
         $product = $this->dummyData->getProduct();
+        $product->enableAttachments();
+        $orderItem = $this->dummyData->getCartItem($product);
+        $orderItem->addAttachment($attachment);
+
+        $this->assertSame($attachment, $orderItem->getAttachments()[0]);
+
+        $orderItem->removeAttachment($attachment);
+
+        $this->assertSame(0, count($orderItem->getAttachments()));
+    }
+
+    public function testAddAttachmentViaTag()
+    {
+        $tag = $this->dummyData->getTag();
+        $tag->enableAttachments();
+
+        $product = $this->dummyData->getProduct();
+        $product->addTag($tag);
         $product->disableAttachments();
-        $orderItem = $this->dummyData->getOrderItem($product);
+
+        $attachment = $this->dummyData->getAttachment();
+
+        $orderItem = $this->dummyData->getCartItem($product);
+        $orderItem->addAttachment($attachment);
+
+        $this->assertSame($attachment, $orderItem->getAttachments()[0]);
+    }
+
+    public function testAddAttachmentFails()
+    {
+        $tag = $this->dummyData->getTag();
+        $tag->disableAttachments();
+
+        $product = $this->dummyData->getProduct();
+        $product->addTag($tag);
+        $product->disableAttachments();
+
+        $attachment = $this->dummyData->getAttachment();
+
+        $orderItem = $this->dummyData->getCartItem($product);
 
         $this->setExpectedException(
             AttachmentException::class,

@@ -8,7 +8,7 @@ use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartItem implements EntityInterface, ValidationInterface
+class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait;
 
@@ -256,7 +256,7 @@ class CartItem implements EntityInterface, ValidationInterface
 
     public function addAttachment(Attachment $attachment)
     {
-        if (! $this->product->isAttachmentsEnabled()) {
+        if (! $this->isAttachmentsEnabled()) {
             throw AttachmentException::notAllowed();
         }
 
@@ -266,5 +266,10 @@ class CartItem implements EntityInterface, ValidationInterface
     public function removeAttachment(Attachment $attachment)
     {
         $this->attachments->removeElement($attachment);
+    }
+
+    public function isAttachmentsEnabled()
+    {
+        return $this->product->isAttachmentsEnabled();
     }
 }

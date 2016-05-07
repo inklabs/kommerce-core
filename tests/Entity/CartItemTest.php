@@ -31,15 +31,12 @@ class CartItemTest extends EntityTestCase
 
         $product->setShippingWeight(1);
         $product->setSku('P1');
-        $product->enableAttachments();
 
         $cartItemOptionProduct->getOptionProduct()->getProduct()->setSku('OP1');
         $cartItemOptionProduct->getOptionProduct()->getProduct()->setShippingWeight(3);
 
         $cartItemOptionValue->getOptionValue()->setSku('OV1');
         $cartItemOptionValue->getOptionValue()->setShippingWeight(5);
-
-        $attachment = $this->dummyData->getAttachment();
 
         $cartItem = new CartItem;
         $cartItem->setProduct($product);
@@ -48,7 +45,6 @@ class CartItemTest extends EntityTestCase
         $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
         $cartItem->addCartItemOptionValue($cartItemOptionValue);
         $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
-        $cartItem->addAttachment($attachment);
 
         $this->assertEntityValid($cartItem);
         $this->assertTrue($cartItem instanceof CartItem);
@@ -60,11 +56,6 @@ class CartItemTest extends EntityTestCase
         $this->assertSame($cartItemOptionProduct, $cartItem->getCartItemOptionProducts()[0]);
         $this->assertSame($cartItemOptionValue, $cartItem->getCartItemOptionValues()[0]);
         $this->assertSame($cartItemTextOptionValue, $cartItem->getCartItemTextOptionValues()[0]);
-        $this->assertSame($attachment, $cartItem->getAttachments()[0]);
-
-        $cartItem->removeAttachment($attachment);
-
-        $this->assertSame(0, count($cartItem->getAttachments()));
     }
 
     public function testClone()
@@ -115,11 +106,49 @@ class CartItemTest extends EntityTestCase
         $this->assertSame(1, count($price->getProductQuantityDiscounts()));
     }
 
-    public function testAddAttachmentFailsViaProduct()
+    public function testAddRemoveAttachmentViaProduct()
     {
         $attachment = $this->dummyData->getAttachment();
         $product = $this->dummyData->getProduct();
+        $product->enableAttachments();
+        $cartItem = $this->dummyData->getCartItem($product);
+        $cartItem->addAttachment($attachment);
+
+        $this->assertSame($attachment, $cartItem->getAttachments()[0]);
+
+        $cartItem->removeAttachment($attachment);
+
+        $this->assertSame(0, count($cartItem->getAttachments()));
+    }
+
+    public function testAddAttachmentViaTag()
+    {
+        $tag = $this->dummyData->getTag();
+        $tag->enableAttachments();
+
+        $product = $this->dummyData->getProduct();
+        $product->addTag($tag);
         $product->disableAttachments();
+
+        $attachment = $this->dummyData->getAttachment();
+
+        $cartItem = $this->dummyData->getCartItem($product);
+        $cartItem->addAttachment($attachment);
+
+        $this->assertSame($attachment, $cartItem->getAttachments()[0]);
+    }
+
+    public function testAddAttachmentFails()
+    {
+        $tag = $this->dummyData->getTag();
+        $tag->disableAttachments();
+
+        $product = $this->dummyData->getProduct();
+        $product->addTag($tag);
+        $product->disableAttachments();
+
+        $attachment = $this->dummyData->getAttachment();
+
         $cartItem = $this->dummyData->getCartItem($product);
 
         $this->setExpectedException(

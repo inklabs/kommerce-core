@@ -7,7 +7,7 @@ use inklabs\kommerce\Exception\AttachmentException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OrderItem implements EntityInterface, ValidationInterface
+class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait;
 
@@ -310,7 +310,7 @@ class OrderItem implements EntityInterface, ValidationInterface
 
     public function addAttachment(Attachment $attachment)
     {
-        if (! $this->product->isAttachmentsEnabled()) {
+        if (! $this->isAttachmentsEnabled()) {
             throw AttachmentException::notAllowed();
         }
 
@@ -320,5 +320,10 @@ class OrderItem implements EntityInterface, ValidationInterface
     public function removeAttachment(Attachment $attachment)
     {
         $this->attachments->removeElement($attachment);
+    }
+
+    public function isAttachmentsEnabled()
+    {
+        return $this->product->isAttachmentsEnabled();
     }
 }

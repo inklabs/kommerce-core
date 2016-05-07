@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Tag implements EntityInterface, ValidationInterface
+class Tag implements EntityInterface, ValidationInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait, StringSetterTrait;
 
@@ -30,6 +30,9 @@ class Tag implements EntityInterface, ValidationInterface
 
     /** @var boolean */
     protected $isVisible;
+
+    /** @var boolean */
+    protected $isAttachmentsEnabled;
 
     /** @var Product[] */
     protected $products;
@@ -208,5 +211,20 @@ class Tag implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new TagDTOBuilder($this);
+    }
+
+    public function disableAttachments()
+    {
+        $this->isAttachmentsEnabled = false;
+    }
+
+    public function enableAttachments()
+    {
+        $this->isAttachmentsEnabled = true;
+    }
+
+    public function isAttachmentsEnabled()
+    {
+        return $this->isAttachmentsEnabled;
     }
 }

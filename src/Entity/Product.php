@@ -7,7 +7,7 @@ use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Product implements EntityInterface, ValidationInterface
+class Product implements EntityInterface, ValidationInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait, StringSetterTrait;
 
@@ -404,6 +404,12 @@ class Product implements EntityInterface, ValidationInterface
 
     public function isAttachmentsEnabled()
     {
+        foreach ($this->tags as $tag) {
+            if ($tag->isAttachmentsEnabled()) {
+                return true;
+            }
+        }
+
         return $this->isAttachmentsEnabled;
     }
 }
