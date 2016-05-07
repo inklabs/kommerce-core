@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartItemDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Exception\AttachmentException;
 use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -255,6 +256,10 @@ class CartItem implements EntityInterface, ValidationInterface
 
     public function addAttachment(Attachment $attachment)
     {
+        if (! $this->product->isAttachmentsEnabled()) {
+            throw AttachmentException::notAllowed();
+        }
+
         $this->attachments->add($attachment);
     }
 

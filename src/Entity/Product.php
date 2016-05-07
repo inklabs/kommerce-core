@@ -41,6 +41,9 @@ class Product implements EntityInterface, ValidationInterface
     /** @var boolean */
     protected $isShippable;
 
+    /** @var boolean */
+    protected $isAttachmentsEnabled;
+
     /** @var int */
     protected $shippingWeight;
 
@@ -83,6 +86,8 @@ class Product implements EntityInterface, ValidationInterface
         $this->isVisible = false;
         $this->isTaxable = false;
         $this->isShippable = false;
+
+        $this->disableAttachments();
 
         $this->unitPrice = 0;
         $this->quantity = 0;
@@ -385,5 +390,20 @@ class Product implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new ProductDTOBuilder($this);
+    }
+
+    public function disableAttachments()
+    {
+        $this->isAttachmentsEnabled = false;
+    }
+
+    public function enableAttachments()
+    {
+        $this->isAttachmentsEnabled = true;
+    }
+
+    public function isAttachmentsEnabled()
+    {
+        return $this->isAttachmentsEnabled;
     }
 }

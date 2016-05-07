@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Exception\AttachmentException;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class OrderItemTest extends EntityTestCase
@@ -38,6 +39,7 @@ class OrderItemTest extends EntityTestCase
         $product = $this->dummyData->getProduct();
         $product->setSku('sku1');
         $product->setName('Test Product');
+        $product->enableAttachments();
 
         $productQuantityDiscount2 = $this->dummyData->getProductQuantityDiscount();
         $productQuantityDiscount2->setType(PromotionType::fixed());
@@ -135,5 +137,20 @@ class OrderItemTest extends EntityTestCase
         $orderItem->addOrderItemOptionValue($orderItemOptionValue);
 
         $this->assertSame(34, $orderItem->getShippingWeight());
+    }
+
+    public function testAddAttachmentFailsViaProduct()
+    {
+        $attachment = $this->dummyData->getAttachment();
+        $product = $this->dummyData->getProduct();
+        $product->disableAttachments();
+        $orderItem = $this->dummyData->getOrderItem($product);
+
+        $this->setExpectedException(
+            AttachmentException::class,
+            'Attachment not allowed'
+        );
+
+        $orderItem->addAttachment($attachment);
     }
 }
