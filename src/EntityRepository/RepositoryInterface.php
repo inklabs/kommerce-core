@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 interface RepositoryInterface
 {

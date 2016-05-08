@@ -17,6 +17,8 @@
         "php": ">=5.6",
         "doctrine/dbal": "2.5.*",
         "doctrine/orm": "2.5.*",
+        "ramsey/uuid": "3.4.1",
+        "ramsey/uuid-doctrine": "1.2.0",
         "symfony/validator": "2.6.6",
         "stripe/stripe-php": "3.4.0",
         "easypost/easypost-php": "2.1.1"

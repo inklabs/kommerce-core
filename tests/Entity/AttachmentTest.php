@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class AttachmentTest extends EntityTestCase
 {
@@ -10,12 +11,11 @@ class AttachmentTest extends EntityTestCase
         $filePath = 'img/example.png';
         $attachment = new Attachment($filePath);
 
-        $this->assertTrue($attachment instanceof EntityInterface);
         $this->assertEntityValid($attachment);
+        $this->assertTrue($attachment->getId() instanceof UuidInterface);
         $this->assertTrue($attachment->getCreated()->getTimestamp() > 0);
         $this->assertTrue($attachment->isVisible());
         $this->assertFalse($attachment->isLocked());
-        $this->assertSame(null, $attachment->getId());
         $this->assertSame(null, $attachment->getUpdated());
         $this->assertSame($filePath, $attachment->getFilePath());
 

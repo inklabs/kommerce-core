@@ -4,9 +4,9 @@ namespace inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Attachment implements EntityInterface, ValidationInterface
+class Attachment implements UuidEntityInterface, ValidationInterface
 {
-    use TimeTrait, IdTrait;
+    use TimeTrait, UuidTrait;
 
     /** @var bool */
     protected $isVisible;
@@ -22,6 +22,7 @@ class Attachment implements EntityInterface, ValidationInterface
      */
     public function __construct($filePath)
     {
+        $this->setId();
         $this->setCreated();
         $this->setFilePath($filePath);
         $this->setVisible();

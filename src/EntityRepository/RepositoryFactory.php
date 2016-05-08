@@ -4,6 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
 use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Cart;
@@ -44,6 +45,14 @@ class RepositoryFactory
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @return AttachmentRepositoryInterface
+     */
+    public function getAttachmentRepository()
+    {
+        return $this->entityManager->getRepository(Attachment::class);
     }
 
     /**

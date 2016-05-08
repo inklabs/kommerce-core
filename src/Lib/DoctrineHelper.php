@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Lib;
 use Doctrine;
 use inklabs\kommerce\Doctrine\Extensions\TablePrefix;
 use inklabs\kommerce\Doctrine\Functions as DoctrineFunctions;
+use Ramsey\Uuid\Doctrine\UuidBinaryType;
 
 class DoctrineHelper
 {
@@ -68,6 +69,8 @@ class DoctrineHelper
     {
         $this->entityManager = Doctrine\ORM\EntityManager::create($dbParams, $this->config, $this->eventManager);
         $this->entityManagerConfiguration = $this->entityManager->getConnection()->getConfiguration();
+
+        $this->addUuidType();
         $this->addMysqlFunctions();
     }
 
@@ -91,5 +94,21 @@ class DoctrineHelper
 
             return mt_rand() / mt_getrandmax();
         });
+    }
+
+    private function addUuidType()
+    {
+        $this->setupUuidType();
+        $platform = $this->entityManager->getConnection()->getDatabasePlatform();
+        $platform->registerDoctrineTypeMapping('uuid_binary', 'binary');
+    }
+
+    private function setupUuidType()
+    {
+        static $isAdded = false;
+        if (! $isAdded) {
+            Doctrine\DBAL\Types\Type::addType('uuid_binary', UuidBinaryType::class);
+            $isAdded = true;
+        }
     }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="inklabs\kommerce\Entity\Attachment"
+            repository-class="inklabs\kommerce\EntityRepository\AttachmentRepository">
+
+        <lifecycle-callbacks>
+            <lifecycle-callback type="preUpdate" method="preUpdate"/>
+        </lifecycle-callbacks>
+
+        <id name="id" type="uuid_binary"/>
+
+        <field name="filePath" type="string" length="255"/>
+
+        <field name="isVisible" type="boolean"/>
+        <field name="isLocked" type="boolean"/>
+
+        <field name="created" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="updated" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+    </entity>
+
+</doctrine-mapping>
