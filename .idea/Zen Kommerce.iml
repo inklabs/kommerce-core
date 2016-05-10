@@ -11,19 +11,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="PHP">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/paragonie/random_compat" />
-          <root url="file://$MODULE_DIR$/vendor/ramsey/uuid" />
-          <root url="file://$MODULE_DIR$/vendor/ramsey/uuid-doctrine" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/paragonie/random_compat" />
-          <root url="file://$MODULE_DIR$/vendor/ramsey/uuid" />
-          <root url="file://$MODULE_DIR$/vendor/ramsey/uuid-doctrine" />
-        </SOURCES>
-      </library>
-    </orderEntry>
   </component>
 </module>
