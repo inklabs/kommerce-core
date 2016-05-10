@@ -25,13 +25,9 @@ class Pricing implements PricingInterface
     /** @var CartPriceRule[] */
     protected $cartPriceRules = [];
 
-    public function __construct(DateTime $date = null)
+    public function __construct()
     {
-        if ($date === null) {
-            $this->date = new DateTime('now', new DateTimeZone('UTC'));
-        } else {
-            $this->date = $date;
-        }
+        $this->date = new DateTime('now', new DateTimeZone('UTC'));
     }
 
     public function getDate()

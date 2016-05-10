@@ -23,7 +23,9 @@ class AttributeValueServiceTest extends Helper\TestCase\ServiceTestCase
 
     public function testFind()
     {
-        $this->attributeValueRepository->create(new AttributeValue);
+        $attribute = $this->dummyData->getAttribute();
+        $attributeValue = new AttributeValue($attribute);
+        $this->attributeValueRepository->create($attributeValue);
         $attributeValue = $this->attributeValueService->findOneById(1);
         $this->assertTrue($attributeValue instanceof AttributeValue);
     }

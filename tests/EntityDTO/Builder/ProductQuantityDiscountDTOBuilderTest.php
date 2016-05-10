@@ -8,7 +8,6 @@ class ProductQuantityDiscountDTOBuilderTest extends EntityDTOBuilderTestCase
     public function testBuild()
     {
         $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
-        $productQuantityDiscount->setProduct($this->dummyData->getProduct());
 
         $productQuantityDiscountDTO = $productQuantityDiscount->getDTOBuilder()
             ->withAllData($this->dummyData->getPricing())

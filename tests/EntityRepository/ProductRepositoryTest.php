@@ -61,8 +61,8 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         $this->productRepository->update($product);
         $this->assertTrue($product->getUpdated() instanceof DateTime);
 
-        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
-        $product->addProductQuantityDiscount($productQuantityDiscount);
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($product);
+
         $this->productRepository->update($product);
         $this->assertTrue($product->getUpdated() instanceof DateTime);
         $this->assertTrue($product->getProductQuantityDiscounts()[0]->getCreated() instanceof DateTime);
@@ -94,19 +94,77 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
 
     public function testFindOneById()
     {
-        $this->setupProduct();
+        $tag = $this->dummyData->getTag();
+        $image = $this->dummyData->getImage();
+
+        $sku = 'TST101';
+        $name = 'Test Product';
+        $description = 'Test description';
+        $defaultImage = 'http://lorempixel.com/400/200/';
+        $unitPrice = 500;
+        $quantity = 10;
+        $shippingWeight = 16;
+        $rating = 500;
+
+        $product = new Product;
+        $product->setSku($sku);
+        $product->setName($name);
+        $product->setDescription($description);
+        $product->setDefaultImage($defaultImage);
+        $product->setUnitPrice($unitPrice);
+        $product->setQuantity($quantity);
+        $product->setShippingWeight($shippingWeight);
+        $product->setRating($rating);
+        $product->setIsInventoryRequired(true);
+        $product->setIsPriceVisible(true);
+        $product->setIsActive(true);
+        $product->setIsVisible(true);
+        $product->setIsTaxable(true);
+        $product->setIsShippable(true);
+        $product->addTag($tag);
+        $product->addImage($image);
+
+        $attribute = $this->dummyData->getAttribute();
+        $attributeValue = $this->dummyData->getAttributeValue($attribute);
+        $productAttribute = $this->dummyData->getProductAttribute($product, $attribute, $attributeValue);
+        $option = $this->dummyData->getOption();
+        $optionProduct = $this->dummyData->getOptionProduct($option, $product);
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($product);
+
+        $this->persistEntityAndFlushClear([
+            $tag,
+            $image,
+            $option,
+            $optionProduct,
+            $attribute,
+            $attributeValue,
+            $product,
+        ]);
 
         $this->setCountLogger();
 
-        $product = $this->productRepository->findOneById(1);
-
-        $product->getImages()->toArray();
-        $product->getProductQuantityDiscounts()->toArray();
-        $product->getTags()->toArray();
-        $product->getProductAttributes()->toArray();
-        $product->getOptionProducts()->toArray();
+        $product = $this->productRepository->findOneById($product->getId());
 
         $this->assertTrue($product instanceof Product);
+        $this->assertSame($sku, $product->getSku());
+        $this->assertSame($name, $product->getName());
+        $this->assertSame($description, $product->getDescription());
+        $this->assertSame($defaultImage, $product->getDefaultImage());
+        $this->assertSame($unitPrice, $product->getUnitPrice());
+        $this->assertSame($quantity, $product->getQuantity());
+        $this->assertSame($shippingWeight, $product->getShippingWeight());
+        $this->assertSame(5, $product->getRating());
+        $this->assertTrue($product->isInventoryRequired());
+        $this->assertTrue($product->isPriceVisible());
+        $this->assertTrue($product->isActive());
+        $this->assertTrue($product->isvisible());
+        $this->assertTrue($product->isTaxable());
+        $this->assertTrue($product->isShippable());
+        $this->assertSame($tag->getId(), $product->getTags()[0]->getId());
+        $this->assertSame($image->getId(), $product->getImages()[0]->getId());
+        $this->assertSame($productQuantityDiscount->getId(), $product->getProductQuantityDiscounts()[0]->getId());
+        $this->assertSame($optionProduct->getId(), $product->getOptionProducts()[0]->getId());
+        $this->assertSame($productAttribute->getId(), $product->getProductAttributes()[0]->getId());
         $this->assertSame(6, $this->getTotalQueries());
     }
 

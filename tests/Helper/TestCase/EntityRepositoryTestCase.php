@@ -127,9 +127,19 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
         $this->entityManager->getConnection()->rollback();
     }
 
-    protected function persistEntityAndFlushClear(EntityInterface $entity)
+    /**
+     * @param EntityInterface | EntityInterface[] $entities
+     */
+    protected function persistEntityAndFlushClear($entities)
     {
-        $this->entityManager->persist($entity);
+        if (! is_array($entities)) {
+            $entities = [$entities];
+        }
+
+        foreach ($entities as $entity) {
+            $this->entityManager->persist($entity);
+        }
+
         $this->entityManager->flush();
         $this->entityManager->clear();
     }

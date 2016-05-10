@@ -8,20 +8,20 @@ class OptionProductTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {
+        $option = $this->dummyData->getOption();
         $pricing = $this->dummyData->getPricing();
         $product = $this->dummyData->getProduct();
         $product->setSku('sku1');
         $product->setName('Test Product');
         $product->setShippingWeight(6);
 
-        $optionProduct = new OptionProduct();
-        $optionProduct->setProduct($product);
+        $optionProduct = new OptionProduct($option, $product);
 
         $this->assertSame('sku1', $optionProduct->getSku());
         $this->assertSame('Test Product', $optionProduct->getName());
         $this->assertSame(6, $optionProduct->getShippingWeight());
         $this->assertSame(null, $optionProduct->getSortOrder());
-        $this->assertSame(null, $optionProduct->getOption());
+        $this->assertSame($option, $optionProduct->getOption());
         $this->assertSame($product, $optionProduct->getProduct());
         $this->assertTrue($optionProduct->getPrice($pricing) instanceof Price);
     }
@@ -34,10 +34,8 @@ class OptionProductTest extends EntityTestCase
         $product->setSku('SM');
         $product->setName('Small Shirt');
 
-        $optionProduct = new OptionProduct();
+        $optionProduct = new OptionProduct($option, $product);
         $optionProduct->setSortOrder(0);
-        $optionProduct->setProduct($product);
-        $optionProduct->setOption($option);
 
         $this->assertEntityValid($optionProduct);
         $this->assertSame('SM', $optionProduct->getSku());

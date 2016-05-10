@@ -71,26 +71,23 @@ class PricingInterfaceCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPriceWithProductQuantityDiscountPercent()
     {
-        $productQuantityDiscount6 = new ProductQuantityDiscount;
+        $product = new Product;
+        $product->setUnitPrice(500);
+
+        $productQuantityDiscount6 = new ProductQuantityDiscount($product);
         $productQuantityDiscount6->setType(PromotionType::percent());
         $productQuantityDiscount6->setQuantity(6);
         $productQuantityDiscount6->setValue(5);
 
-        $productQuantityDiscount12 = new ProductQuantityDiscount;
+        $productQuantityDiscount12 = new ProductQuantityDiscount($product);
         $productQuantityDiscount12->setType(PromotionType::percent());
         $productQuantityDiscount12->setQuantity(12);
         $productQuantityDiscount12->setValue(30);
 
-        $productQuantityDiscount24 = new ProductQuantityDiscount;
+        $productQuantityDiscount24 = new ProductQuantityDiscount($product);
         $productQuantityDiscount24->setType(PromotionType::percent());
         $productQuantityDiscount24->setQuantity(24);
         $productQuantityDiscount24->setValue(35);
-
-        $product = new Product;
-        $product->setUnitPrice(500);
-        $product->addProductQuantityDiscount($productQuantityDiscount24);
-        $product->addProductQuantityDiscount($productQuantityDiscount12);
-        $product->addProductQuantityDiscount($productQuantityDiscount6);
 
         $productQuantityDiscounts = $product->getProductQuantityDiscounts();
         $this->pricing->setProductQuantityDiscounts($productQuantityDiscounts);

@@ -19,9 +19,13 @@ class OptionProduct implements EntityInterface, ValidationInterface
     /** @var Option */
     protected $option;
 
-    public function __construct()
+    public function __construct(Option $option, Product $product)
     {
         $this->setCreated();
+        $this->option = $option;
+        $this->product = $product;
+        $option->addOptionProduct($this);
+        $product->addOptionProduct($this);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -39,11 +43,6 @@ class OptionProduct implements EntityInterface, ValidationInterface
     public function getSortOrder()
     {
         return $this->sortOrder;
-    }
-
-    public function setOption(Option $option)
-    {
-        $this->option = $option;
     }
 
     public function getOption()
@@ -74,12 +73,6 @@ class OptionProduct implements EntityInterface, ValidationInterface
     public function getPrice(PricingInterface $pricing, $quantity = 1)
     {
         return $this->getProduct()->getPrice($pricing, $quantity);
-    }
-
-    public function setProduct(Product $product)
-    {
-        $product->addOptionProduct($this);
-        $this->product = $product;
     }
 
     public function getProduct()

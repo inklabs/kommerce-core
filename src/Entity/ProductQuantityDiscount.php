@@ -21,10 +21,12 @@ class ProductQuantityDiscount extends AbstractPromotion
     /** @var Product */
     protected $product;
 
-    public function __construct()
+    public function __construct(Product $product)
     {
         parent::__construct();
         $this->setFlagApplyCatalogPromotions(false);
+        $this->product = $product;
+        $product->addProductQuantityDiscount($this);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -106,11 +108,6 @@ class ProductQuantityDiscount extends AbstractPromotion
     public function getQuantity()
     {
         return $this->quantity;
-    }
-
-    public function setProduct(Product $product)
-    {
-        $this->product = $product;
     }
 
     public function getProduct()

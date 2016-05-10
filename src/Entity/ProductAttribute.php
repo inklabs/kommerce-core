@@ -16,9 +16,16 @@ class ProductAttribute
     /** @var AttributeValue */
     protected $attributeValue;
 
-    public function __construct()
+    public function __construct(Product $product, Attribute $attribute, AttributeValue $attributeValue)
     {
         $this->setCreated();
+        $this->product = $product;
+        $this->attribute = $attribute;
+        $this->attributeValue = $attributeValue;
+
+        $product->addProductAttribute($this);
+        $attribute->addProductAttribute($this);
+        $attributeValue->addProductAttribute($this);
     }
 
     public function getProduct()
@@ -26,29 +33,14 @@ class ProductAttribute
         return $this->product;
     }
 
-    public function setProduct(Product $product)
-    {
-        $this->product = $product;
-    }
-
     public function getAttribute()
     {
         return $this->attribute;
     }
 
-    public function setAttribute(Attribute $attribute)
-    {
-        $this->attribute = $attribute;
-    }
-
     public function getAttributeValue()
     {
         return $this->attributeValue;
-    }
-
-    public function setAttributeValue(AttributeValue $attributeValue)
-    {
-        $this->attributeValue = $attributeValue;
     }
 
     public function getDTOBuilder()

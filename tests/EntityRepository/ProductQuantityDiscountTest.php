@@ -25,9 +25,7 @@ class ProductQuantityDiscountTest extends EntityRepositoryTestCase
     private function setupProductWithProductQuantityDiscount()
     {
         $product = $this->dummyData->getProduct();
-
-        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
-        $productQuantityDiscount->setProduct($product);
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($product);
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($productQuantityDiscount);

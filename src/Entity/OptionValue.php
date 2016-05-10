@@ -27,9 +27,11 @@ class OptionValue implements EntityInterface, ValidationInterface
     /** @var Option */
     protected $option;
 
-    public function __construct()
+    public function __construct(Option $option)
     {
         $this->setCreated();
+        $this->option = $option;
+        $option->addOptionValue($this);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -125,11 +127,6 @@ class OptionValue implements EntityInterface, ValidationInterface
     public function getSortOrder()
     {
         return $this->sortOrder;
-    }
-
-    public function setOption(Option $option)
-    {
-        $this->option = $option;
     }
 
     public function getOption()

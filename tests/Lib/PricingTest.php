@@ -7,30 +7,27 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
-use inklabs\kommerce\Entity\PromotionType;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCatalogPromotionRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRuleRepository;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class PricingTest extends Helper\TestCase\KommerceTestCase
+class PricingTest extends EntityTestCase
 {
     /** @var Pricing */
     protected $pricing;
 
     public function setUp()
     {
-        $this->pricing = new Pricing;
+        parent::setUp();
+        $this->pricing = $this->dummyData->getPricing();
     }
 
     public function testCreate()
     {
-        $this->pricing = new Pricing(new DateTime);
-        $productQuantityDiscount = new ProductQuantityDiscount;
-        $productQuantityDiscount->setType(PromotionType::fixed());
-        $this->pricing->setProductQuantityDiscounts([$productQuantityDiscount]);
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
 
-        $catalogPromotion = new CatalogPromotion;
-        $catalogPromotion->setType(PromotionType::fixed());
+        $this->pricing->setProductQuantityDiscounts([$productQuantityDiscount]);
         $this->pricing->setCatalogPromotions([$catalogPromotion]);
 
         $this->assertTrue($this->pricing->getPrice(new Product, 1) instanceof Price);

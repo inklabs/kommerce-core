@@ -27,15 +27,10 @@ class ProductAttributeRepositoryTest extends EntityRepositoryTestCase
 
     private function setupProductAttribute()
     {
-        $attributeValue = $this->dummyData->getAttributeValue();
-
-        $attribute = $this->dummyData->getAttribute();
-        $attribute->addAttributeValue($attributeValue);
-
         $product = $this->dummyData->getProduct();
-        $productAttribute = $this->dummyData->getProductAttribute($product);
-        $productAttribute->setAttribute($attribute);
-        $productAttribute->setAttributeValue($attributeValue);
+        $attribute = $this->dummyData->getAttribute();
+        $attributeValue = $this->dummyData->getAttributeValue($attribute);
+        $productAttribute = $this->dummyData->getProductAttribute($product, $attribute, $attributeValue);
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($attribute);

@@ -136,7 +136,7 @@ class OrderItemTest extends EntityTestCase
         $attachment = $this->dummyData->getAttachment();
         $product = $this->dummyData->getProduct();
         $product->enableAttachments();
-        $orderItem = $this->dummyData->getCartItem($product);
+        $orderItem = $this->dummyData->getOrderItem($product);
         $orderItem->addAttachment($attachment);
 
         $this->assertSame($attachment, $orderItem->getAttachments()[0]);
@@ -157,7 +157,7 @@ class OrderItemTest extends EntityTestCase
 
         $attachment = $this->dummyData->getAttachment();
 
-        $orderItem = $this->dummyData->getCartItem($product);
+        $orderItem = $this->dummyData->getOrderItem($product);
         $orderItem->addAttachment($attachment);
 
         $this->assertSame($attachment, $orderItem->getAttachments()[0]);
@@ -174,7 +174,7 @@ class OrderItemTest extends EntityTestCase
 
         $attachment = $this->dummyData->getAttachment();
 
-        $orderItem = $this->dummyData->getCartItem($product);
+        $orderItem = $this->dummyData->getOrderItem($product);
 
         $this->setExpectedException(
             AttachmentException::class,

@@ -100,7 +100,6 @@ class ProductDTOBuilder
         $pricing->setProductQuantityDiscounts($productQuantityDiscounts);
 
         foreach ($productQuantityDiscounts as $productQuantityDiscount) {
-            $productQuantityDiscount->setProduct($this->product);
             $this->productDTO->productQuantityDiscounts[] = $productQuantityDiscount->getDTOBuilder()
                 ->withPrice($pricing)
                 ->build();

@@ -88,6 +88,12 @@ class DummyData
         return $address;
     }
 
+    public function getAttachment()
+    {
+        $attachment = new Attachment('img/example.png');
+        return $attachment;
+    }
+
     public function getAttribute()
     {
         $attribute = new Attribute;
@@ -98,20 +104,17 @@ class DummyData
         return $attribute;
     }
 
-    public function getAttachment()
+    public function getAttributeValue(Attribute $attribute = null)
     {
-        $attachment = new Attachment('img/example.png');
-        return $attachment;
-    }
+        if ($attribute === null) {
+            $attribute = $this->getAttribute();
+        }
 
-    public function getAttributeValue()
-    {
-        $attributeValue = new AttributeValue;
+        $attributeValue = new AttributeValue($attribute);
         $attributeValue->setSku('TAV');
         $attributeValue->setName('Test Attribute Value');
         $attributeValue->setDescription('Test Attribute Value Description');
         $attributeValue->setSortOrder(0);
-        $attributeValue->setAttribute($this->getAttribute());
 
         return $attributeValue;
     }
@@ -184,15 +187,12 @@ class DummyData
         $option1 = $this->getOption();
         $option1->setName('Option 1');
 
-        $optionProduct = new OptionProduct;
-        $optionProduct->setOption($option1);
-        $optionProduct->setProduct($product2);
+        $optionProduct = $this->getOptionProduct($option1, $product2);
 
         $option2 = $this->getOption();
         $option2->setName('Option 2');
 
-        $optionValue = $this->getOptionValue();
-        $optionValue->setOption($option2);
+        $optionValue = $this->getOptionValue($option2);
         $optionValue->setSku('OV1');
         $optionValue->setUnitPrice(100);
         $optionValue->setShippingWeight(10);
@@ -460,9 +460,7 @@ class DummyData
             $product = $this->getProduct();
         }
 
-        $optionProduct = new OptionProduct;
-        $optionProduct->setProduct($product);
-        $optionProduct->setOption($option);
+        $optionProduct = new OptionProduct($option, $product);
         $optionProduct->setSortOrder(0);
 
         return $optionProduct;
@@ -479,13 +477,12 @@ class DummyData
             $option = $this->getOption();
         }
 
-        $optionValue = new OptionValue;
+        $optionValue = new OptionValue($option);
         $optionValue->setName('Option Value Name');
         $optionValue->setSku('OV-SKU');
         $optionValue->setShippingWeight(16);
         $optionValue->setSortOrder(0);
         $optionValue->setUnitPrice(100);
-        $optionValue->setOption($option);
 
         return $optionValue;
     }
@@ -729,7 +726,8 @@ class DummyData
         );
         $product->addProductQuantityDiscount($this->getProductQuantityDiscount());
         $product->addImage($this->getImage());
-        $product->addProductAttribute($this->getProductAttribute());
+
+        $productAttribute = $this->getProductAttribute($product);
 
         $tag = $this->getTag();
         $tag->addImage($this->getImage());
@@ -741,23 +739,37 @@ class DummyData
         return $product;
     }
 
-    public function getProductAttribute(Product $product = null)
+    public function getProductAttribute(
+        Product $product = null,
+        Attribute $attribute = null,
+        AttributeValue $attributeValue = null
+    ) {
+        if ($product === null) {
+            $product = $this->getProduct();
+        }
+
+        if ($attribute === null) {
+            $attribute = $this->getAttribute();
+        }
+
+        if ($attributeValue === null) {
+            $attributeValue = $this->getAttributeValue();
+        }
+
+        return new ProductAttribute(
+            $product,
+            $attribute,
+            $attributeValue
+        );
+    }
+
+    public function getProductQuantityDiscount(Product $product = null)
     {
         if ($product === null) {
             $product = $this->getProduct();
         }
 
-        $productAttribute = new ProductAttribute;
-        $productAttribute->setProduct($product);
-        $productAttribute->setAttribute($this->getAttribute());
-        $productAttribute->setAttributeValue($this->getAttributeValue());
-
-        return $productAttribute;
-    }
-
-    public function getProductQuantityDiscount()
-    {
-        $productQuantityDiscount = new ProductQuantityDiscount;
+        $productQuantityDiscount = new ProductQuantityDiscount($product);
         $productQuantityDiscount->setType(PromotionType::percent());
         $productQuantityDiscount->setQuantity(6);
         $productQuantityDiscount->setValue(5);

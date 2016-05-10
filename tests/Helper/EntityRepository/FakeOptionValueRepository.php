@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
@@ -12,7 +13,7 @@ class FakeOptionValueRepository extends AbstractFakeRepository implements Option
 {
     public function __construct()
     {
-        $this->setReturnValue(new OptionValue);
+        $this->setReturnValue(new OptionValue(new Option));
     }
 
     public function getAllOptionValuesByIds(array $optionValueIds, Pagination &$pagination = null)

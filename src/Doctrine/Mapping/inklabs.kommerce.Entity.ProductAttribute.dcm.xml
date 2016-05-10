@@ -30,7 +30,9 @@
             </options>
         </field>
 
-        <many-to-one field="product" target-entity="Product" inversed-by="productAttributes" fetch="EAGER"/>
+        <many-to-one field="product" target-entity="Product" inversed-by="productAttributes" fetch="EAGER">
+            <join-column nullable="false"/>
+        </many-to-one>
 
         <many-to-one field="attribute" target-entity="Attribute" inversed-by="productAttributes" fetch="EAGER">
             <join-column nullable="false"/>

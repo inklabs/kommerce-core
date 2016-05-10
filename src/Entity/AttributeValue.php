@@ -28,10 +28,13 @@ class AttributeValue implements EntityInterface, ValidationInterface
     /** @var ProductAttribute[] */
     protected $productAttributes;
 
-    public function __construct()
+    public function __construct(Attribute $attribute)
     {
         $this->setCreated();
         $this->productAttributes = new ArrayCollection;
+        $this->attribute = $attribute;
+
+        $attribute->addAttributeValue($this);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -105,11 +108,6 @@ class AttributeValue implements EntityInterface, ValidationInterface
         return $this->attribute;
     }
 
-    public function setAttribute(Attribute $attribute)
-    {
-        $this->attribute = $attribute;
-    }
-
     public function getProductAttributes()
     {
         return $this->productAttributes;
@@ -117,7 +115,7 @@ class AttributeValue implements EntityInterface, ValidationInterface
 
     public function addProductAttribute(ProductAttribute $productAttribute)
     {
-        $this->productAttributes[] = $productAttribute;
+        $this->productAttributes->add($productAttribute);
     }
 
     public function getDTOBuilder()

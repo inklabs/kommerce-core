@@ -51,8 +51,7 @@ class OrderItemRepositoryTest extends EntityRepositoryTestCase
         $catalogPromotion = $this->dummyData->getCatalogPromotion();
 
         $product = $this->dummyData->getProduct();
-        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
-        $productQuantityDiscount->setProduct($product);
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($product);
 
         $price = $this->dummyData->getPrice();
         $price->addCatalogPromotion($catalogPromotion);

@@ -12,7 +12,7 @@ class AttributeValueDTOBuilderTest extends EntityDTOBuilderTestCase
     public function testBuild()
     {
         $attributeValue = $this->dummyData->getAttributeValue();
-        $attributeValue->addProductAttribute($this->dummyData->getProductAttribute());
+        $productAttribute = $this->dummyData->getProductAttribute(null, null, $attributeValue);
 
         $attributeValueDTO = $attributeValue->getDTOBuilder()
             ->withAllData()

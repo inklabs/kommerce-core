@@ -9,10 +9,11 @@ class CartItemDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     public function testBuild()
     {
+        $pricing = $this->dummyData->getPricing();
         $cartItem = $this->dummyData->getCartItemFull();
 
         $cartItemDTO = $cartItem->getDTOBuilder()
-            ->withAllData(new Pricing)
+            ->withAllData($pricing)
             ->build();
 
         $this->assertTrue($cartItemDTO->price instanceof PriceDTO);

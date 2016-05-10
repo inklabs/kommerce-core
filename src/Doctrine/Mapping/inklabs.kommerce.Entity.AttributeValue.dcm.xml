@@ -46,7 +46,9 @@
             </cascade>
         </one-to-many>
 
-        <many-to-one field="attribute" target-entity="Attribute" inversed-by="attributeValues" fetch="EAGER"/>
+        <many-to-one field="attribute" target-entity="Attribute" inversed-by="attributeValues" fetch="EAGER">
+            <join-column nullable="false"/>
+        </many-to-one>
 
     </entity>
 

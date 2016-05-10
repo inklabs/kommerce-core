@@ -31,57 +31,6 @@ class ProductTest extends EntityTestCase
         $this->assertSame(0, count($product->getProductAttributes()));
     }
 
-    public function testCreate()
-    {
-        $tag = $this->dummyData->getTag();
-        $image = $this->dummyData->getImage();
-        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
-        $optionProduct = $this->dummyData->getOptionProduct();
-        $productAttribute = $this->dummyData->getProductAttribute();
-
-        $product = new Product;
-        $product->setSku('TST101');
-        $product->setName('Test Product');
-        $product->setDescription('Test description');
-        $product->setDefaultImage('http://lorempixel.com/400/200/');
-        $product->setUnitPrice(500);
-        $product->setQuantity(10);
-        $product->setShippingWeight(16);
-        $product->setRating(500);
-        $product->setIsInventoryRequired(true);
-        $product->setIsPriceVisible(true);
-        $product->setIsActive(true);
-        $product->setIsVisible(true);
-        $product->setIsTaxable(true);
-        $product->setIsShippable(true);
-        $product->addTag($tag);
-        $product->addImage($image);
-        $product->addProductQuantityDiscount($productQuantityDiscount);
-        $product->addOptionProduct($optionProduct);
-        $product->addProductAttribute($productAttribute);
-
-        $this->assertEntityValid($product);
-        $this->assertSame('TST101', $product->getSku());
-        $this->assertSame('Test Product', $product->getName());
-        $this->assertSame('Test description', $product->getDescription());
-        $this->assertSame('http://lorempixel.com/400/200/', $product->getDefaultImage());
-        $this->assertSame(500, $product->getUnitPrice());
-        $this->assertSame(10, $product->getQuantity());
-        $this->assertSame(16, $product->getShippingWeight());
-        $this->assertSame(5.0, $product->getRating());
-        $this->assertSame(true, $product->isInventoryRequired());
-        $this->assertSame(true, $product->isPriceVisible());
-        $this->assertSame(true, $product->isActive());
-        $this->assertSame(true, $product->isVisible());
-        $this->assertSame(true, $product->isTaxable());
-        $this->assertSame(true, $product->isShippable());
-        $this->assertSame($tag, $product->getTags()[0]);
-        $this->assertSame($image, $product->getImages()[0]);
-        $this->assertSame($productQuantityDiscount, $product->getProductQuantityDiscounts()[0]);
-        $this->assertSame($optionProduct, $product->getOptionProducts()[0]);
-        $this->assertSame($productAttribute, $product->getProductAttributes()[0]);
-    }
-
     public function testStringOrNull()
     {
         $product = new Product;

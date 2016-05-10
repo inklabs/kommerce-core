@@ -18,8 +18,6 @@ class OptionTest extends EntityTestCase
     public function testCreate()
     {
         $tag = $this->dummyData->getTag();
-        $optionProduct = $this->dummyData->getOptionProduct();
-        $optionValue = $this->dummyData->getOptionValue();
         $optionType = $this->dummyData->getOptionType();
 
         $option = new Option;
@@ -28,8 +26,9 @@ class OptionTest extends EntityTestCase
         $option->setDescription('Shirt Size');
         $option->setSortOrder(0);
         $option->addTag($tag);
-        $option->addOptionProduct($optionProduct);
-        $option->addOptionValue($optionValue);
+
+        $optionProduct = $this->dummyData->getOptionProduct($option);
+        $optionValue = $this->dummyData->getOptionValue($option);
 
         $this->assertEntityValid($option);
         $this->assertSame($optionType, $option->getType());

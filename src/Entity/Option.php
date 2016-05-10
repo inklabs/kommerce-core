@@ -123,8 +123,7 @@ class Option implements EntityInterface, ValidationInterface
 
     public function addOptionProduct(OptionProduct $optionProduct)
     {
-        $optionProduct->setOption($this);
-        $this->optionProducts[] = $optionProduct;
+        $this->optionProducts->add($optionProduct);
     }
 
     public function getOptionProducts()
@@ -134,8 +133,7 @@ class Option implements EntityInterface, ValidationInterface
 
     public function addOptionValue(OptionValue $optionValue)
     {
-        $optionValue->setOption($this);
-        $this->optionValues[] = $optionValue;
+        $this->optionValues->add($optionValue);
     }
 
     public function getOptionValues()

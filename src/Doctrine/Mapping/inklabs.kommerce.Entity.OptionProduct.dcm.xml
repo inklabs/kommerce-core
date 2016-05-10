@@ -36,8 +36,13 @@
             </options>
         </field>
 
-        <many-to-one field="option" target-entity="Option" inversed-by="optionProducts" fetch="EAGER" />
-        <many-to-one field="product" target-entity="Product" inversed-by="optionProducts" fetch="EAGER"/>
+        <many-to-one field="option" target-entity="Option" inversed-by="optionProducts" fetch="EAGER">
+            <join-column nullable="false"/>
+        </many-to-one>
+
+        <many-to-one field="product" target-entity="Product" inversed-by="optionProducts" fetch="EAGER">
+            <join-column nullable="false"/>
+        </many-to-one>
 
     </entity>
 </doctrine-mapping>

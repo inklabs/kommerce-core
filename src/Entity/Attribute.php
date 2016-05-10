@@ -87,8 +87,7 @@ class Attribute implements EntityInterface, ValidationInterface
 
     public function addAttributeValue(AttributeValue $attributeValue)
     {
-        $attributeValue->setAttribute($this);
-        $this->attributeValues[] = $attributeValue;
+        $this->attributeValues->add($attributeValue);
     }
 
     public function getAttributeValues()
@@ -103,7 +102,7 @@ class Attribute implements EntityInterface, ValidationInterface
 
     public function addProductAttribute(ProductAttribute $productAttribute)
     {
-        $this->productAttributes[] = $productAttribute;
+        $this->productAttributes->add($productAttribute);
     }
 
     public function getDTOBuilder()

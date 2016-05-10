@@ -74,7 +74,6 @@
         <one-to-many field="productQuantityDiscounts"
                      target-entity="ProductQuantityDiscount"
                      mapped-by="product"
-                     index-by="id"
                      orphan-removal="true"
                      fetch="EXTRA_LAZY">
             <cascade>
@@ -93,7 +92,11 @@
         <one-to-many field="productAttributes"
                      target-entity="ProductAttribute"
                      mapped-by="product"
-                     fetch="EXTRA_LAZY"/>
+                     fetch="EXTRA_LAZY">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-many>
 
         <many-to-many field="tags"
                       target-entity="Tag"

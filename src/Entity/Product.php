@@ -74,11 +74,11 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
     public function __construct()
     {
         $this->setCreated();
-        $this->tags = new ArrayCollection;
-        $this->images = new ArrayCollection;
-        $this->productQuantityDiscounts = new ArrayCollection;
-        $this->productAttributes = new ArrayCollection;
-        $this->optionProducts = new ArrayCollection;
+        $this->tags = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->productQuantityDiscounts = new ArrayCollection();
+        $this->optionProducts = new ArrayCollection();
+        $this->productAttributes = new ArrayCollection();
 
         $this->isInventoryRequired = false;
         $this->isPriceVisible = false;
@@ -317,6 +317,9 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
         return $this->tags->removeElement($tag);
     }
 
+    /**
+     * @return Tag[]
+     */
     public function getTags()
     {
         return $this->tags;
@@ -328,6 +331,7 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
             $this->setDefaultImage($image->getPath());
         }
 
+        $image->setProduct($this);
         $this->images->add($image);
     }
 
@@ -346,6 +350,9 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
         return $result;
     }
 
+    /**
+     * @return Image[]
+     */
     public function getImages()
     {
         return $this->images;
@@ -354,7 +361,6 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
     public function addProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
     {
         $this->productQuantityDiscounts->add($productQuantityDiscount);
-        $productQuantityDiscount->setProduct($this);
     }
 
     public function removeProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
@@ -362,11 +368,17 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
         return $this->productQuantityDiscounts->removeElement($productQuantityDiscount);
     }
 
+    /**
+     * @return ProductQuantityDiscount[]
+     */
     public function getProductQuantityDiscounts()
     {
         return $this->productQuantityDiscounts;
     }
 
+    /**
+     * @return OptionProduct[]
+     */
     public function getOptionProducts()
     {
         return $this->optionProducts;
@@ -374,9 +386,12 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
 
     public function addOptionProduct(OptionProduct $optionProduct)
     {
-        $this->optionProducts[] = $optionProduct;
+        $this->optionProducts->add($optionProduct);
     }
 
+    /**
+     * @return ProductAttribute[]
+     */
     public function getProductAttributes()
     {
         return $this->productAttributes;
@@ -384,7 +399,7 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
 
     public function addProductAttribute(ProductAttribute $productAttribute)
     {
-        $this->productAttributes[] = $productAttribute;
+        $this->productAttributes->add($productAttribute);
     }
 
     public function getDTOBuilder()

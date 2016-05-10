@@ -28,10 +28,8 @@ class AttributeValueRepositoryTest extends EntityRepositoryTestCase
 
     private function setupAttributeValue()
     {
-        $attributeValue = $this->dummyData->getAttributeValue();
-
         $attribute = $this->dummyData->getAttribute();
-        $attribute->addAttributeValue($attributeValue);
+        $attributeValue = $this->dummyData->getAttributeValue($attribute);
 
         $this->entityManager->persist($attribute);
         $this->entityManager->flush();
