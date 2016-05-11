@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use Mockery;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
@@ -26,6 +28,15 @@ class MockRepository
     }
 
     /**
+     * @return ImageRepositoryInterface | Mockery\Mock
+     */
+    public function getImageRepository()
+    {
+        $repository = $this->getMockeryMock(ImageRepositoryInterface::class);
+        return $repository;
+    }
+
+    /**
      * @return OrderItemRepositoryInterface | Mockery\Mock
      */
     public function getOrderItemRepository()
@@ -36,6 +47,41 @@ class MockRepository
             ->shouldReceive('findOneById')
             ->with(1)
             ->andReturn($this->dummyData->getOrderitem());
+
+        return $repository;
+    }
+
+    /**
+     * @return ProductRepositoryInterface | Mockery\Mock
+     */
+    public function getProductRepository()
+    {
+        $repository = $this->getMockeryMock(ProductRepositoryInterface::class);
+
+        $product = $this->dummyData->getProduct();
+        $product->setId(99);
+
+        $repository->shouldReceive('findOneById')
+            ->with($product->getId())
+            ->andReturn($product);
+
+        $repository->shouldReceive('getAllProducts')
+            ->andReturn([$product]);
+
+        $repository->shouldReceive('getRelatedProductsByIds')
+            ->andReturn([$product]);
+
+        $repository->shouldReceive('getProductsByTagId')
+            ->andReturn([$product]);
+
+        $repository->shouldReceive('getProductsByIds')
+            ->andReturn([$product]);
+
+        $repository->shouldReceive('getAllProductsByIds')
+            ->andReturn([$product]);
+
+        $repository->shouldReceive('getRandomProducts')
+            ->andReturn([$product]);
 
         return $repository;
     }

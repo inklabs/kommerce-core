@@ -9,7 +9,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 interface ProductServiceInterface
 {
     public function create(Product & $product);
-    public function edit(Product & $product);
+    public function update(Product & $product);
 
     /**
      * @param int $id

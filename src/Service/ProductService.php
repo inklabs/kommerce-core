@@ -38,7 +38,7 @@ class ProductService implements ProductServiceInterface
         $this->productRepository->create($product);
     }
 
-    public function edit(Product & $product)
+    public function update(Product & $product)
     {
         $this->throwValidationErrors($product);
         $this->productRepository->update($product);
@@ -117,7 +117,7 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param Product|Product[] $products
+     * @param Product | Product[] $products
      * @param int $limit
      * @return Product[]
      */

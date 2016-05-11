@@ -1,23 +1,20 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity\Image;
-use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeImageRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
+use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class ImageServiceTest extends ServiceTestCase
 {
-    /** @var FakeImageRepository */
+    /** @var ImageRepositoryInterface | \Mockery\Mock */
     protected $imageRepository;
 
-    /** @var FakeProductRepository */
+    /** @var ProductRepositoryInterface | \Mockery\Mock */
     private $productRepository;
 
-    /** @var FakeTagRepository */
+    /** @var TagRepositoryInterface | \Mockery\Mock */
     protected $tagRepository;
 
     /** @var ImageService */
@@ -27,9 +24,9 @@ class ImageServiceTest extends ServiceTestCase
     {
         parent::setUp();
 
-        $this->imageRepository = new FakeImageRepository;
-        $this->productRepository = new FakeProductRepository;
-        $this->tagRepository = new FakeTagRepository;
+        $this->imageRepository = $this->mockRepository->getImageRepository();
+        $this->productRepository = $this->mockRepository->getProductRepository();
+        $this->tagRepository = $this->mockRepository->getTagRepository();
         $this->imageService = new ImageService(
             $this->imageRepository,
             $this->productRepository,
@@ -40,63 +37,71 @@ class ImageServiceTest extends ServiceTestCase
     public function testCreate()
     {
         $image = $this->dummyData->getImage();
+        $this->imageRepository->shouldReceive('create')
+            ->with($image)
+            ->once();
+
         $this->imageService->create($image);
-        $this->assertTrue($image instanceof Image);
+    }
+
+    public function testUpdate()
+    {
+        $image = $this->dummyData->getImage();
+        $this->imageRepository->shouldReceive('update')
+            ->with($image)
+            ->once();
+
+        $this->imageService->update($image);
     }
 
     public function testCreateFromDTOWithTag()
     {
-        $tag = $this->dummyData->getTag();
-        $this->tagRepository->create($tag);
         $imageDTO = $this->dummyData->getImage()->getDTOBuilder()->build();
+        $tag = $this->dummyData->getTag();
+        $tag->setId(1);
+
+        $this->tagRepository->shouldReceive('findOneById')
+            ->with($tag->getId())
+            ->andReturn($tag)
+            ->once();
+
+        $this->imageRepository->shouldReceive('create')
+            ->once();
 
         $this->imageService->createFromDTOWithTag($imageDTO, $tag->getid());
-
-        $this->assertTrue($this->imageRepository->findOneById(1) instanceof Image);
-    }
-
-    public function testEdit()
-    {
-        $newWidth = 500;
-        $image = $this->dummyData->getImage();
-        $this->assertNotSame($newWidth, $image->getWidth());
-
-        $image->setWidth($newWidth);
-        $this->imageService->update($image);
-        $this->assertSame($newWidth, $image->getWidth());
     }
 
     public function testCreateWithProduct()
     {
         $image = $this->dummyData->getImage();
 
-        $product = new Product;
-        $this->productRepository->create($product);
+        $product = $this->dummyData->getProduct();
+        $product->setId(1);
+
+        $this->productRepository->shouldReceive('findOneById')
+            ->with($product->getId())
+            ->andReturn($product)
+            ->once();
+
+        $this->imageRepository->shouldReceive('create')
+            ->with($image)
+            ->once();
 
         $this->imageService->createWithProduct($image, $product->getId());
-        $this->assertTrue($image instanceof Image);
-        $this->assertTrue($image->getProduct() instanceof Product);
+        $this->assertSame($product, $image->getProduct());
     }
 
-    public function testCreateWithProductThrowsException()
+    public function testFindOneById()
     {
-        $this->productRepository->setReturnValue(null);
+        $image1 = $this->dummyData->getTag();
+        $image1->setId(1);
+        $this->imageRepository->shouldReceive('findOneById')
+            ->with($image1->getId())
+            ->andReturn($image1)
+            ->once();
 
-        $image = $this->dummyData->getImage();
+        $image = $this->imageService->findOneById($image1->getId());
 
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'Product not found'
-        );
-
-        $this->imageService->createWithProduct($image, 1);
-    }
-
-    public function testFind()
-    {
-        $this->imageRepository->create(new Image);
-
-        $image = $this->imageService->findOneById(1);
-        $this->assertTrue($image instanceof Image);
+        $this->assertSame($image1, $image);
     }
 }

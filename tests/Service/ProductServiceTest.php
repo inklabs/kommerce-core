@@ -2,22 +2,20 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\Tag;
-use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeImageRepository;
+use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class ProductServiceTest extends ServiceTestCase
 {
-    /** @var FakeProductRepository */
+    /** @var ProductRepositoryInterface | \Mockery\Mock */
     protected $productRepository;
 
-    /** @var FakeTagRepository */
+    /** @var TagRepositoryInterface | \Mockery\Mock */
     protected $tagRepository;
 
-    /** @var FakeImageRepository */
+    /** @var ImageRepositoryInterface | \Mockery\Mock */
     protected $imageRepository;
 
     /** @var ProductService */
@@ -27,9 +25,9 @@ class ProductServiceTest extends ServiceTestCase
     {
         parent::setUp();
 
-        $this->productRepository = new FakeProductRepository;
-        $this->tagRepository = new FakeTagRepository;
-        $this->imageRepository = new FakeImageRepository;
+        $this->productRepository = $this->mockRepository->getProductRepository();
+        $this->tagRepository = $this->mockRepository->getTagRepository();
+        $this->imageRepository = $this->mockRepository->getImageRepository();
 
         $this->productService = new ProductService(
             $this->productRepository,
@@ -41,67 +39,56 @@ class ProductServiceTest extends ServiceTestCase
     public function testCreate()
     {
         $product = $this->dummyData->getProduct();
+        $this->productRepository->shouldReceive('create')
+            ->with($product)
+            ->once();
+
         $this->productService->create($product);
-        $this->assertTrue($product instanceof Product);
     }
 
-    public function testEdit()
+    public function testUpdate()
     {
-        $newName = 'New Name';
         $product = $this->dummyData->getProduct();
-        $this->assertNotSame($newName, $product->getName());
+        $this->productRepository->shouldReceive('update')
+            ->with($product)
+            ->once();
 
-        $product->setName($newName);
-        $this->productService->edit($product);
-        $this->assertSame($newName, $product->getName());
+        $this->productService->update($product);
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
-        $this->productRepository->create(new Product);
+        $product1 = $this->dummyData->getTag();
+        $product1->setId(1);
+        $this->productRepository->shouldReceive('findOneById')
+            ->with($product1->getId())
+            ->andReturn($product1)
+            ->once();
 
-        $product = $this->productService->findOneById(1);
-        $this->assertTrue($product instanceof Product);
+        $product = $this->productService->findOneById($product1->getId());
+
+        $this->assertSame($product1, $product);
     }
 
     public function testAddTag()
     {
-        $product = new Product;
-        $this->productRepository->create($product);
+        $product = $this->dummyData->getProduct();
+        $tag1 = $this->dummyData->getTag();
 
-        $tag = new Tag;
-        $this->tagRepository->create($tag);
+        $this->productRepository->shouldReceive('findOneById')
+            ->with($product->getId())
+            ->andReturn($product);
 
-        $tag = $this->productService->addTag($product->getId(), $tag->getId());
+        $this->tagRepository->shouldReceive('findOneById')
+            ->andReturn($tag1);
 
-        $this->assertTrue($tag instanceof Tag);
-        $this->assertTrue($product->getTags()[0] instanceof Tag);
-    }
+        $this->productRepository->shouldReceive('update')
+            ->once();
 
-    public function testAddTagWithMissingProductThrowsException()
-    {
-        $productId = 1;
-        $tagEncodedId = '1';
+        $tag = $this->productService->addTag($product->getId(), $tag1->getId());
 
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'Product not found'
-        );
-
-        $this->productService->addTag($productId, $tagEncodedId);
-    }
-
-    public function testAddTagWithMissingTagThrowsException()
-    {
-        $product = new Product;
-        $this->productRepository->create($product);
-
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'Tag not found'
-        );
-
-        $this->productService->addTag($product->getId(), 1);
+        $this->assertSame($tag, $tag1);
+        $this->assertSame($tag, $product->getTags()[0]);
     }
 
     public function testRemoveTag()
@@ -110,13 +97,18 @@ class ProductServiceTest extends ServiceTestCase
         $product = $this->dummyData->getProduct();
         $product->addTag($tag);
 
-        $this->tagRepository->create($tag);
-        $this->productRepository->create($product);
+        $this->productRepository->shouldReceive('findOneById')
+            ->andReturn($product);
 
-        $this->productRepository->setReturnValue($product);
-        $this->imageRepository->setReturnValue($tag);
+        $this->tagRepository->shouldReceive('findOneById')
+            ->andReturn($tag);
+
+        $this->productRepository->shouldReceive('update')
+            ->once();
 
         $this->productService->removeTag($product->getId(), $tag->getId());
+
+        $this->assertCount(0, $product->getTags());
     }
 
     public function testRemoveImage()
@@ -125,23 +117,21 @@ class ProductServiceTest extends ServiceTestCase
         $product = $this->dummyData->getProduct();
         $product->addImage($image);
 
-        $this->imageRepository->create($image);
-        $this->productRepository->create($product);
+        $this->imageRepository->shouldReceive('findOneById')
+            ->andReturn($image);
+
+        $this->productRepository->shouldReceive('findOneById')
+            ->andReturn($product);
+
+        $this->productRepository->shouldReceive('update')
+            ->with($product)
+            ->once();
+
+        $this->imageRepository->shouldReceive('delete')
+            ->with($image)
+            ->once();
 
         $this->productService->removeImage($product->getId(), $image->getId());
-    }
-
-    public function testRemoveImageWithMissingImageThrowsException()
-    {
-        $product = new Product;
-        $this->productRepository->create($product);
-
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'Image not found'
-        );
-
-        $this->productService->removeImage($product->getId(), 1);
     }
 
     public function testGetAllProducts()
@@ -152,16 +142,15 @@ class ProductServiceTest extends ServiceTestCase
 
     public function testGetRelatedProducts()
     {
-        $product = new Product;
-        $product->addTag(new Tag);
-
+        $product = $this->dummyData->getProduct();
         $products = $this->productService->getRelatedProducts($product);
         $this->assertTrue($products[0] instanceof Product);
     }
 
     public function testGetProductsByTag()
     {
-        $products = $this->productService->getProductsByTag(new Tag);
+        $tag = $this->dummyData->getTag();
+        $products = $this->productService->getProductsByTag($tag);
         $this->assertTrue($products[0] instanceof Product);
     }
 
