@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use Mockery;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 
@@ -36,6 +37,15 @@ class MockRepository
             ->with(1)
             ->andReturn($this->dummyData->getOrderitem());
 
+        return $repository;
+    }
+
+    /**
+     * @return TagRepositoryInterface | Mockery\Mock
+     */
+    public function getTagRepository()
+    {
+        $repository = $this->getMockeryMock(TagRepositoryInterface::class);
         return $repository;
     }
 }

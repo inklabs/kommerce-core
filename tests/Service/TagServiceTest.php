@@ -1,14 +1,12 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity\Tag;
-use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class TagServiceTest extends ServiceTestCase
 {
-    /** @var FakeTagRepository */
+    /** @var TagRepositoryInterface | \Mockery\Mock */
     protected $tagRepository;
 
     /** @var TagService */
@@ -17,82 +15,103 @@ class TagServiceTest extends ServiceTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->tagRepository = new FakeTagRepository;
+        $this->tagRepository = $this->mockRepository->getTagRepository();
         $this->tagService = new TagService($this->tagRepository);
     }
 
     public function testCreate()
     {
         $tag = $this->dummyData->getTag();
+        $this->tagRepository->shouldReceive('create')
+            ->with($tag)
+            ->once();
 
         $this->tagService->create($tag);
-
-        $tag = $this->tagRepository->findOneById(1);
-        $this->assertTrue($tag instanceof Tag);
     }
 
     public function testUpdate()
     {
-        $newName = 'New Name';
         $tag = $this->dummyData->getTag();
-        $this->tagRepository->create($tag);
-
-        $this->assertNotSame($newName, $tag->getName());
-        $tag->setName($newName);
+        $this->tagRepository->shouldReceive('update')
+            ->with($tag)
+            ->once();
 
         $this->tagService->update($tag);
-
-        $tag = $this->tagRepository->findOneById(1);
-        $this->assertSame($newName, $tag->getName());
     }
 
     public function testDelete()
     {
         $tag = $this->dummyData->getTag();
-        $this->tagRepository->create($tag);
+        $this->tagRepository->shouldReceive('delete')
+            ->with($tag)
+            ->once();
 
         $this->tagService->delete($tag);
-
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'Tag not found'
-        );
-        $this->tagRepository->findOneById(1);
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
-        $this->tagRepository->create(new Tag);
-        $tag = $this->tagService->findOneById(1);
-        $this->assertTrue($tag instanceof Tag);
+        $tag1 = $this->dummyData->getTag();
+        $tag1->setId(1);
+        $this->tagRepository->shouldReceive('findOneById')
+            ->with($tag1->getId())
+            ->andReturn($tag1)
+            ->once();
+
+        $tag = $this->tagService->findOneById($tag1->getId());
+
+        $this->assertSame($tag1, $tag);
     }
 
     public function testFindOneByCode()
     {
-        $tag = new Tag;
-        $tag->setCode('TT1');
-        $this->tagRepository->create($tag);
+        $tag1 = $this->dummyData->getTag();
+        $tag1->setId(1);
+        $this->tagRepository->shouldReceive('findOneByCode')
+            ->with($tag1->getCode())
+            ->andReturn($tag1)
+            ->once();
 
-        $tag = $this->tagService->findOneByCode('TT1');
+        $tag = $this->tagService->findOneByCode($tag1->getCode());
 
-        $this->assertTrue($tag instanceof Tag);
+        $this->assertSame($tag1, $tag);
     }
 
     public function testGetAllTags()
     {
+        $tag = $this->dummyData->getTag();
+        $this->tagRepository->shouldReceive('getAllTags')
+            ->andReturn([$tag])
+            ->once();
+
         $tags = $this->tagService->getAllTags();
-        $this->assertTrue($tags[0] instanceof Tag);
+
+        $this->assertSame($tag, $tags[0]);
     }
 
     public function testGetTagsByIds()
     {
-        $tags = $this->tagService->getTagsByIds([1]);
-        $this->assertTrue($tags[0] instanceof Tag);
+        $tag = $this->dummyData->getTag();
+        $tag->setId(1);
+        $this->tagRepository->shouldReceive('getTagsByIds')
+            ->andReturn([$tag])
+            ->once();
+
+        $tags = $this->tagService->getTagsByIds([$tag->getId()]);
+
+        $this->assertSame($tag, $tags[0]);
     }
 
     public function testAllGetTagsByIds()
     {
-        $tags = $this->tagService->getAllTagsByIds([1]);
-        $this->assertTrue($tags[0] instanceof Tag);
+        $tag = $this->dummyData->getTag();
+        $tag->setId(1);
+        $this->tagRepository->shouldReceive('getAllTagsByIds')
+            ->andReturn([$tag])
+            ->once();
+
+        $tags = $this->tagService->getAllTagsByIds([$tag->getId()]);
+
+        $this->assertSame($tag, $tags[0]);
     }
 }
