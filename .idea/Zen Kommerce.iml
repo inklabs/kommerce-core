@@ -5,9 +5,6 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="inklabs\kommerce\tests" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="inklabs\kommerce" />
       <excludeFolder url="file://$MODULE_DIR$/coverage_report" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/paragonie/random_compat" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/ramsey/uuid" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/ramsey/uuid-doctrine" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
