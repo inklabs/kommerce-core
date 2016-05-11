@@ -4,12 +4,12 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTagRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeImageRepository;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class ProductServiceTest extends Helper\TestCase\ServiceTestCase
+class ProductServiceTest extends ServiceTestCase
 {
     /** @var FakeProductRepository */
     protected $productRepository;

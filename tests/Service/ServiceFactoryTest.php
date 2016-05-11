@@ -7,9 +7,9 @@ use inklabs\kommerce\Service\Import\ImportOrderItemService;
 use inklabs\kommerce\Service\Import\ImportOrderService;
 use inklabs\kommerce\Service\Import\ImportPaymentService;
 use inklabs\kommerce\Service\Import\ImportUserService;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class ServiceFactoryTest extends Helper\TestCase\ServiceTestCase
+class ServiceFactoryTest extends ServiceTestCase
 {
     public function setUp()
     {

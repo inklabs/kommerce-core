@@ -3,10 +3,10 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeAttributeRepository;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class AttributeServiceTest extends Helper\TestCase\ServiceTestCase
+class AttributeServiceTest extends ServiceTestCase
 {
     /** @var FakeAttributeRepository */
     protected $attributeRepository;

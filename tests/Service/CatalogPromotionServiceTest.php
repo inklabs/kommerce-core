@@ -2,10 +2,10 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\CatalogPromotion;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCatalogPromotionRepository;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class CatalogPromotionServiceTest extends Helper\TestCase\ServiceTestCase
+class CatalogPromotionServiceTest extends ServiceTestCase
 {
     /** @var FakeCatalogPromotionRepository */
     protected $catalogPromotionRepository;

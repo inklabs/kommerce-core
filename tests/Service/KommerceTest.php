@@ -7,10 +7,10 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\DoctrineHelper;
-use inklabs\kommerce\tests\Helper;
 use Doctrine;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class KommerceTest extends Helper\TestCase\ServiceTestCase
+class KommerceTest extends ServiceTestCase
 {
     protected $metaDataClassNames = [
         User::class,

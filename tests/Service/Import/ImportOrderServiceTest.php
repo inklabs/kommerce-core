@@ -5,9 +5,9 @@ use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\CSVIterator;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class ImportOrderServiceTest extends Helper\TestCase\ServiceTestCase
+class ImportOrderServiceTest extends ServiceTestCase
 {
     protected $metaDataClassNames = [
         Order::class,

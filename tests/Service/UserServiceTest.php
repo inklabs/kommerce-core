@@ -8,13 +8,13 @@ use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Event\ResetPasswordEvent;
 use inklabs\kommerce\Exception\UserLoginException;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserLoginRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserTokenRepository;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class UserServiceTest extends Helper\TestCase\ServiceTestCase
+class UserServiceTest extends ServiceTestCase
 {
     /** @var FakeUserRepository */
     protected $userRepository;

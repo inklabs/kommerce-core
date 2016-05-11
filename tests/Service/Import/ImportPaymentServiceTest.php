@@ -9,9 +9,9 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\CSVIterator;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class ImportPaymentServiceTest extends Helper\TestCase\ServiceTestCase
+class ImportPaymentServiceTest extends ServiceTestCase
 {
     protected $metaDataClassNames = [
         Order::class,

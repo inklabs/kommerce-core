@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class OrderItemDTOBuilderTest extends EntityDTOBuilderTestCase

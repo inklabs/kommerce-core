@@ -3,10 +3,10 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRuleRepository;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class CartPriceRuleServiceTest extends Helper\TestCase\ServiceTestCase
+class CartPriceRuleServiceTest extends ServiceTestCase
 {
     /** @var FakeCartPriceRuleRepository */
     protected $cartPriceRuleRepository;

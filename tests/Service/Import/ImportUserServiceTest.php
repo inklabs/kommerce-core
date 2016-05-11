@@ -3,9 +3,9 @@ namespace inklabs\kommerce\Service\Import;
 
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\CSVIterator;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class ImportUserServiceTest extends Helper\TestCase\ServiceTestCase
+class ImportUserServiceTest extends ServiceTestCase
 {
     protected $metaDataClassNames = [
         User::class,

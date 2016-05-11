@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Service\Import;
 
-use Exception;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderItem;
@@ -10,9 +9,12 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Lib\CSVIterator;
-use inklabs\kommerce\tests\Helper;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderItemRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
+use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class ImportOrderItemServiceTest extends Helper\TestCase\ServiceTestCase
+class ImportOrderItemServiceTest extends ServiceTestCase
 {
     protected $metaDataClassNames = [
         Order::class,
@@ -47,12 +49,12 @@ class ImportOrderItemServiceTest extends Helper\TestCase\ServiceTestCase
 
     public function testImportFail()
     {
-        $orderItemRepository = new Helper\EntityRepository\FakeOrderItemRepository;
+        $orderItemRepository = new FakeOrderItemRepository;
         $orderItemRepository->setCrudException(new KommerceException);
         $orderItemService = new ImportOrderItemService(
-            new Helper\EntityRepository\FakeOrderRepository,
+            new FakeOrderRepository,
             $orderItemRepository,
-            new Helper\EntityRepository\FakeProductRepository
+            new FakeProductRepository
         );
 
         $iterator = new CSVIterator(__DIR__ . '/ImportOrderItemServiceTest.csv');

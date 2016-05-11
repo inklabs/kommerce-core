@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\Lib\Pricing;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class CartItemDTOBuilderTest extends EntityDTOBuilderTestCase

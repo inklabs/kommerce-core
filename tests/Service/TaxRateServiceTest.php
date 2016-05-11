@@ -2,10 +2,10 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\TaxRate;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTaxRateRepository;
+use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
-class TaxRateServiceTest extends Helper\TestCase\ServiceTestCase
+class TaxRateServiceTest extends ServiceTestCase
 {
     /** @var FakeTaxRateRepository */
     protected $taxRateRepository;

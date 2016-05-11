@@ -7,7 +7,6 @@ use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 use inklabs\kommerce\Entity\CartPriceRuleProductItem;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\tests\Helper;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
 class CartPriceRuleRepositoryTest extends EntityRepositoryTestCase
