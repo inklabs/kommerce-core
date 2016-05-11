@@ -4,9 +4,11 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\CreditPayment;
 use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Event\OrderShippedEvent;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
@@ -32,7 +34,7 @@ class OrderServiceTest extends ServiceTestCase
     /** @var FakeProductRepository */
     protected $productRepository;
 
-    /** @var OrderService */
+    /** @var OrderServiceInterface */
     protected $orderService;
 
     /** @var ShipmentGatewayInterface */
@@ -94,6 +96,17 @@ class OrderServiceTest extends ServiceTestCase
         $this->fakeOrderRepository->create(new Order);
         $order = $this->orderService->findOneById(1);
         $this->assertTrue($order instanceof Order);
+    }
+
+    public function testGetOrderItem()
+    {
+        $orderItemId = 1;
+        $this->orderItemRepository = $this->mockRepository->getOrderItemRepository();
+        $orderService = $this->getOrderService();
+
+        $orderItem = $orderService->getOrderItemById($orderItemId);
+
+        $this->assertTrue($orderItem instanceof OrderItem);
     }
 
     public function testGetLatestOrders()

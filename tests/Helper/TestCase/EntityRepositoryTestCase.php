@@ -8,6 +8,7 @@ use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\DoctrineHelper;
 use inklabs\kommerce\tests\Helper\CountSQLLogger;
+use inklabs\kommerce\tests\Helper\EntityRepository\MockRepository;
 
 abstract class EntityRepositoryTestCase extends KommerceTestCase
 {
@@ -20,6 +21,9 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
     /** @var CountSQLLogger */
     protected $countSQLLogger;
 
+    /** @var MockRepository */
+    protected $mockRepository;
+
     /** @var string[] */
     protected $metaDataClassNames;
 
@@ -30,6 +34,8 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
         }
 
         parent::setUp();
+
+        $this->mockRepository = new MockRepository($this->dummyData);
     }
 
     protected function setupEntityManager($metaDataClassNames = null)

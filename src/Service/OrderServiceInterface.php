@@ -7,6 +7,7 @@ use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
+use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
@@ -22,6 +23,13 @@ interface OrderServiceInterface
      * @throws EntityNotFoundException
      */
     public function findOneById($id);
+
+    /**
+     * @param int $id
+     * @return OrderItem
+     * @throws EntityNotFoundException
+     */
+    public function getOrderItemById($id);
 
     public function getLatestOrders(Pagination & $pagination = null);
 

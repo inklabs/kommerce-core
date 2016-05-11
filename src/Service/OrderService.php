@@ -8,6 +8,7 @@ use inklabs\kommerce\Entity\CreditPayment;
 use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
+use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Shipment;
@@ -78,13 +79,26 @@ class OrderService implements OrderServiceInterface
     public function findOneById($id)
     {
         $order = $this->orderRepository->findOneById($id);
-        $this->loadProductTags($order);
+        $this->loadProductTagsFromOrder($order);
         return $order;
     }
 
-    private function loadProductTags(Order $order)
+    public function getOrderItemById($id)
+    {
+        $orderItem = $this->orderItemRepository->findOneById($id);
+        $this->loadProductTagsFromOrderItem($orderItem);
+        return $orderItem;
+    }
+
+    private function loadProductTagsFromOrder(Order $order)
     {
         $products = $order->getProducts();
+        $this->productRepository->loadProductTags($products);
+    }
+
+    private function loadProductTagsFromOrderItem(OrderItem $orderItem)
+    {
+        $products = [$orderItem->getProduct()];
         $this->productRepository->loadProductTags($products);
     }
 
