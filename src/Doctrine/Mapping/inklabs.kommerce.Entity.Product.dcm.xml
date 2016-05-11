@@ -29,6 +29,7 @@
         <field name="isVisible" type="boolean"/>
         <field name="isTaxable" type="boolean"/>
         <field name="isShippable" type="boolean"/>
+        <field name="areAttachmentsEnabled" type="boolean"/>
 
         <field name="unitPrice" type="integer">
             <options>

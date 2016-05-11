@@ -256,7 +256,7 @@ class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmen
 
     public function addAttachment(Attachment $attachment)
     {
-        if (! $this->isAttachmentsEnabled()) {
+        if (! $this->areAttachmentsEnabled()) {
             throw AttachmentException::notAllowed();
         }
 
@@ -268,8 +268,8 @@ class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmen
         $this->attachments->removeElement($attachment);
     }
 
-    public function isAttachmentsEnabled()
+    public function areAttachmentsEnabled()
     {
-        return $this->product->isAttachmentsEnabled();
+        return $this->product->areAttachmentsEnabled();
     }
 }

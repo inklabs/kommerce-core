@@ -121,6 +121,7 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         $product->setIsVisible(true);
         $product->setIsTaxable(true);
         $product->setIsShippable(true);
+        $product->enableAttachments();
         $product->addTag($tag);
         $product->addImage($image);
 
@@ -160,6 +161,7 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         $this->assertTrue($product->isvisible());
         $this->assertTrue($product->isTaxable());
         $this->assertTrue($product->isShippable());
+        $this->assertTrue($product->areAttachmentsEnabled());
         $this->assertSame($tag->getId(), $product->getTags()[0]->getId());
         $this->assertSame($image->getId(), $product->getImages()[0]->getId());
         $this->assertSame($productQuantityDiscount->getId(), $product->getProductQuantityDiscounts()[0]->getId());

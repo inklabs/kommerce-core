@@ -16,6 +16,7 @@ class OrderItemDTOBuilderTest extends EntityDTOBuilderTestCase
         $this->assertTrue($orderItemDTO instanceof OrderItemDTO);
         $this->assertTrue($orderItemDTO->price instanceof PriceDTO);
         $this->assertTrue($orderItemDTO->product instanceof ProductDTO);
+        $this->assertFalse($orderItemDTO->areAttachmentsEnabled);
         $this->assertTrue($orderItemDTO->catalogPromotions[0] instanceof CatalogPromotionDTO);
         $this->assertTrue($orderItemDTO->productQuantityDiscounts[0] instanceof ProductQuantityDiscountDTO);
         $this->assertTrue($orderItemDTO->orderItemOptionProducts[0] instanceof OrderItemOptionProductDTO);

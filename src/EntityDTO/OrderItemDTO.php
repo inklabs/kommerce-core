@@ -20,6 +20,9 @@ class OrderItemDTO
     /** @var int */
     public $shippingWeight;
 
+    /** @var boolean */
+    public $areAttachmentsEnabled;
+
     /** @var PriceDTO */
     public $price;
 

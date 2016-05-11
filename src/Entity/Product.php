@@ -42,7 +42,7 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
     protected $isShippable;
 
     /** @var boolean */
-    protected $isAttachmentsEnabled;
+    protected $areAttachmentsEnabled;
 
     /** @var int */
     protected $shippingWeight;
@@ -409,22 +409,22 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
 
     public function disableAttachments()
     {
-        $this->isAttachmentsEnabled = false;
+        $this->areAttachmentsEnabled = false;
     }
 
     public function enableAttachments()
     {
-        $this->isAttachmentsEnabled = true;
+        $this->areAttachmentsEnabled = true;
     }
 
-    public function isAttachmentsEnabled()
+    public function areAttachmentsEnabled()
     {
         foreach ($this->tags as $tag) {
-            if ($tag->isAttachmentsEnabled()) {
+            if ($tag->areAttachmentsEnabled()) {
                 return true;
             }
         }
 
-        return $this->isAttachmentsEnabled;
+        return $this->areAttachmentsEnabled;
     }
 }

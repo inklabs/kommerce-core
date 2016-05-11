@@ -6,5 +6,5 @@ interface EnabledAttachmentInterface
     /**
      * @return boolean
      */
-    public function isAttachmentsEnabled();
+    public function areAttachmentsEnabled();
 }

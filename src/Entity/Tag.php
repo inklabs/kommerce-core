@@ -32,7 +32,7 @@ class Tag implements EntityInterface, ValidationInterface, EnabledAttachmentInte
     protected $isVisible;
 
     /** @var boolean */
-    protected $isAttachmentsEnabled;
+    protected $areAttachmentsEnabled;
 
     /** @var Product[] */
     protected $products;
@@ -215,16 +215,16 @@ class Tag implements EntityInterface, ValidationInterface, EnabledAttachmentInte
 
     public function disableAttachments()
     {
-        $this->isAttachmentsEnabled = false;
+        $this->areAttachmentsEnabled = false;
     }
 
     public function enableAttachments()
     {
-        $this->isAttachmentsEnabled = true;
+        $this->areAttachmentsEnabled = true;
     }
 
-    public function isAttachmentsEnabled()
+    public function areAttachmentsEnabled()
     {
-        return $this->isAttachmentsEnabled;
+        return $this->areAttachmentsEnabled;
     }
 }

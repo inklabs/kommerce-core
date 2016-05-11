@@ -26,6 +26,7 @@ class OrderItemDTOBuilder
         $this->orderItemDTO->discountNames  = $this->orderItem->getDiscountNames();
         $this->orderItemDTO->created        = $this->orderItem->getCreated();
         $this->orderItemDTO->updated        = $this->orderItem->getUpdated();
+        $this->orderItemDTO->areAttachmentsEnabled = $this->orderItem->areAttachmentsEnabled();
 
         if ($this->orderItem->getPrice() !== null) {
             $this->orderItemDTO->price = $orderItem->getPrice()->getDTOBuilder()

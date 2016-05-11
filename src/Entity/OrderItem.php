@@ -310,7 +310,7 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
 
     public function addAttachment(Attachment $attachment)
     {
-        if (! $this->isAttachmentsEnabled()) {
+        if (! $this->areAttachmentsEnabled()) {
             throw AttachmentException::notAllowed();
         }
 
@@ -322,8 +322,8 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         $this->attachments->removeElement($attachment);
     }
 
-    public function isAttachmentsEnabled()
+    public function areAttachmentsEnabled()
     {
-        return $this->product->isAttachmentsEnabled();
+        return $this->product->areAttachmentsEnabled();
     }
 }
