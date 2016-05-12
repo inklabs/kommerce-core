@@ -23,7 +23,7 @@ class AttributeService
         $this->attributeRepository->create($attribute);
     }
 
-    public function edit(Attribute & $attribute)
+    public function update(Attribute & $attribute)
     {
         $this->throwValidationErrors($attribute);
         $this->attributeRepository->update($attribute);

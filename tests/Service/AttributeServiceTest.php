@@ -2,13 +2,13 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeAttributeRepository;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class AttributeServiceTest extends ServiceTestCase
 {
-    /** @var FakeAttributeRepository */
+    /** @var AttributeRepositoryInterface | \Mockery\Mock */
     protected $attributeRepository;
 
     /** @var AttributeService */
@@ -17,42 +17,41 @@ class AttributeServiceTest extends ServiceTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->attributeRepository = new FakeAttributeRepository;
+        $this->attributeRepository = $this->mockRepository->getAttributeRepository();
         $this->attributeService = new AttributeService($this->attributeRepository);
     }
 
     public function testCreate()
     {
         $attribute = $this->dummyData->getAttribute();
+        $this->attributeRepository->shouldReceive('create')
+            ->with($attribute)
+            ->once();
+
         $this->attributeService->create($attribute);
-        $this->assertTrue($attribute instanceof Attribute);
     }
 
-    public function testEdit()
+    public function testUpdate()
     {
-        $newName = 'New Name';
         $attribute = $this->dummyData->getAttribute();
-        $this->assertNotSame($newName, $attribute->getName());
+        $this->attributeRepository->shouldReceive('update')
+            ->with($attribute)
+            ->once();
 
-        $attribute->setName($newName);
-        $this->attributeService->edit($attribute);
-        $this->assertSame($newName, $attribute->getName());
+        $this->attributeService->update($attribute);
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
-        $this->attributeRepository->create(new Attribute);
-        $attributeValue = $this->attributeService->findOneById(1);
-        $this->assertTrue($attributeValue instanceof Attribute);
-    }
+        $attribute1 = $this->dummyData->getAttribute();
+        $attribute1->setId(1);
+        $this->attributeRepository->shouldReceive('findOneById')
+            ->with($attribute1->getId())
+            ->andReturn($attribute1)
+            ->once();
 
-    public function testFindMissing()
-    {
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'Attribute not found'
-        );
+        $attribute = $this->attributeService->findOneById($attribute1->getId());
 
-        $this->attributeService->findOneById(1);
+        $this->assertSame($attribute1, $attribute);
     }
 }

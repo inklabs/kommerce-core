@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
@@ -25,6 +26,15 @@ class MockRepository
     protected function getMockeryMock($className)
     {
         return Mockery::mock($className);
+    }
+
+    /**
+     * @return AttributeRepositoryInterface | Mockery\Mock
+     */
+    public function getAttributeRepository()
+    {
+        $repository = $this->getMockeryMock(AttributeRepositoryInterface::class);
+        return $repository;
     }
 
     /**
