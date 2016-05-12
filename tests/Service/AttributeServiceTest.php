@@ -1,9 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
-use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class AttributeServiceTest extends ServiceTestCase
