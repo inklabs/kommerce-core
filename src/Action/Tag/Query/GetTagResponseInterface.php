@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Action\Tag\Response;
+namespace inklabs\kommerce\Action\Tag\Query;
 
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\Lib\Query\ResponseInterface;
