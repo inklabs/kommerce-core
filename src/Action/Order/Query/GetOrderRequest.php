@@ -1,9 +1,7 @@
 <?php
-namespace inklabs\kommerce\Action\Order;
+namespace inklabs\kommerce\Action\Order\Query;
 
-use inklabs\kommerce\Lib\Query\RequestInterface;
-
-final class GetOrderRequest implements RequestInterface
+final class GetOrderRequest
 {
     /** @var int */
     private $orderId;

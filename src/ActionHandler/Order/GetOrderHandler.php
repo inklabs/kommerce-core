@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Order;
 
-use inklabs\kommerce\Action\Order\GetOrderRequest;
-use inklabs\kommerce\Action\Order\Response\GetOrderResponseInterface;
+use inklabs\kommerce\Action\Order\GetOrderQuery;
 use inklabs\kommerce\Service\OrderServiceInterface;
 
 final class GetOrderHandler
@@ -15,8 +14,11 @@ final class GetOrderHandler
         $this->orderService = $orderService;
     }
 
-    public function handle(GetOrderRequest $request, GetOrderResponseInterface & $response)
+    public function handle(GetOrderQuery $query)
     {
+        $request = $query->getRequest();
+        $response = $query->getResponse();
+
         $order = $this->orderService->findOneById($request->getOrderId());
 
         $response->setOrderDTO(

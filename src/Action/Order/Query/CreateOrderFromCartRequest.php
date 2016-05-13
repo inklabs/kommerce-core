@@ -1,11 +1,10 @@
 <?php
-namespace inklabs\kommerce\Action\Order;
+namespace inklabs\kommerce\Action\Order\Query;
 
 use inklabs\kommerce\EntityDTO\CreditCardDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
-use inklabs\kommerce\Lib\Query\RequestInterface;
 
-final class CreateOrderFromCartRequest implements RequestInterface
+final class CreateOrderFromCartRequest
 {
     /** @var int */
     private $cartId;

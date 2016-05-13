@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Order;
 
-use inklabs\kommerce\Action\Order\CreateOrderFromCartRequest;
-use inklabs\kommerce\Action\Order\Response\CreateOrderFromCartResponse;
+use inklabs\kommerce\Action\Order\CreateOrderFromCartQuery;
 use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\EntityDTO\Builder\CreditCardDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
@@ -32,12 +31,14 @@ final class CreateOrderFromCartHandler
     }
 
     /**
-     * @param CreateOrderFromCartRequest $request
-     * @param CreateOrderFromCartResponse $response
+     * @param CreateOrderFromCartQuery $query
      * @throws EntityValidatorException
      */
-    public function handle(CreateOrderFromCartRequest $request, CreateOrderFromCartResponse $response)
+    public function handle(CreateOrderFromCartQuery $query)
     {
+        $request = $query->getRequest();
+        $response = $query->getResponse();
+
         $cart = $this->cartService->findOneById($request->getCartId());
 
         $order = $this->orderService->createOrderFromCart(

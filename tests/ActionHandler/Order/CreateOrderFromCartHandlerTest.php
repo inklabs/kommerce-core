@@ -1,8 +1,9 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Order;
 
-use inklabs\kommerce\Action\Order\CreateOrderFromCartRequest;
-use inklabs\kommerce\Action\Order\Response\CreateOrderFromCartResponse;
+use inklabs\kommerce\Action\Order\CreateOrderFromCartQuery;
+use inklabs\kommerce\Action\Order\Query\CreateOrderFromCartRequest;
+use inklabs\kommerce\Action\Order\Query\CreateOrderFromCartResponse;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
@@ -48,14 +49,6 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
 
     public function testHandleWithFullIntegration()
     {
-        $serviceFactory = $this->getServiceFactory();
-        $handler = new CreateOrderFromCartHandler(
-            $serviceFactory->getCart(),
-            $serviceFactory->getCartCalculator(),
-            $serviceFactory->getOrder(),
-            $this->getPaymentGateway()
-        );
-
         $cart = $this->setupDBCart();
 
         $creditCardDTO = $this->dummyData->getCreditCard()->getDTOBuilder()->build();
@@ -70,7 +63,15 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
             $billingAddressDTO
         );
         $response = new CreateOrderFromCartResponse;
-        $handler->handle($request, $response);
+
+        $serviceFactory = $this->getServiceFactory();
+        $handler = new CreateOrderFromCartHandler(
+            $serviceFactory->getCart(),
+            $serviceFactory->getCartCalculator(),
+            $serviceFactory->getOrder(),
+            $this->getPaymentGateway()
+        );
+        $handler->handle(new CreateOrderFromCartQuery($request, $response));
 
         $order = $this->getRepositoryFactory()->getOrderRepository()->findOneById(1);
         $this->assertTrue($order instanceof Order);

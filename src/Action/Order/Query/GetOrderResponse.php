@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Action\Order\Response;
+namespace inklabs\kommerce\Action\Order\Query;
 
 use inklabs\kommerce\EntityDTO\OrderDTO;
 
