@@ -12,7 +12,7 @@ class ListTagsQuery implements QueryInterface
     /** @var ListTagsResponse */
     private $response;
 
-    public function __construct(ListTagsRequest $request, ListTagsResponse $response)
+    public function __construct(ListTagsRequest $request, ListTagsResponse & $response)
     {
         $this->request = $request;
         $this->response = $response;

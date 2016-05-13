@@ -1,9 +1,7 @@
 <?php
-namespace inklabs\kommerce\Action\User;
+namespace inklabs\kommerce\Action\User\Query;
 
-use inklabs\kommerce\Lib\Query\RequestInterface;
-
-final class LoginWithTokenRequest implements RequestInterface
+final class LoginWithTokenRequest
 {
     /** @var string */
     private $email;
@@ -14,6 +12,11 @@ final class LoginWithTokenRequest implements RequestInterface
     /** @var string */
     private $ip4;
 
+    /**
+     * @param string $email
+     * @param string $token
+     * @param string $ip4
+     */
     public function __construct($email, $token, $ip4)
     {
         $this->email = (string) $email;

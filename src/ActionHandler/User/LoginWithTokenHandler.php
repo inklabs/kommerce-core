@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\User;
 
-use inklabs\kommerce\Action\User\LoginWithTokenRequest;
-use inklabs\kommerce\Action\User\Response\LoginWithTokenResponseInterface;
+use inklabs\kommerce\Action\User\LoginWithTokenQuery;
 use inklabs\kommerce\Service\UserServiceInterface;
 
 final class LoginWithTokenHandler
@@ -15,15 +14,17 @@ final class LoginWithTokenHandler
         $this->userService = $userService;
     }
 
-    public function handle(LoginWithTokenRequest $request, LoginWithTokenResponseInterface & $response)
+    public function handle(LoginWithTokenQuery $query)
     {
+        $request = $query->getRequest();
+
         $user = $this->userService->loginWithToken(
             $request->getEmail(),
             $request->getToken(),
             $request->getIp4()
         );
 
-        $response->setUserDTO(
+        $query->getResponse()->setUserDTO(
             $user->getDTOBuilder()
                 ->withRoles()
                 ->withTokens()

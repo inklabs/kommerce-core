@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Action\User\Response;
+namespace inklabs\kommerce\Action\User\Query;
 
 use inklabs\kommerce\EntityDTO\UserDTO;
 

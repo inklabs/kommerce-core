@@ -3,9 +3,8 @@ namespace inklabs\kommerce\Action\Tag\Query;
 
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
-use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-interface ListTagsResponseInterface extends ResponseInterface
+interface ListTagsResponseInterface
 {
     public function addTagDTO(TagDTO $tagDTO);
     public function setPaginationDTO(PaginationDTO $paginationDTO);

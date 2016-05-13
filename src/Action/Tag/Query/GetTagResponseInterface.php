@@ -2,9 +2,8 @@
 namespace inklabs\kommerce\Action\Tag\Query;
 
 use inklabs\kommerce\EntityDTO\TagDTO;
-use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-interface GetTagResponseInterface extends ResponseInterface
+interface GetTagResponseInterface
 {
     public function setTagDTO(TagDTO $tagDTO);
 }
