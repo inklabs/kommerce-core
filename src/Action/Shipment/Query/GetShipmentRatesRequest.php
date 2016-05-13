@@ -1,11 +1,10 @@
 <?php
-namespace inklabs\kommerce\Action\Shipment;
+namespace inklabs\kommerce\Action\Shipment\Query;
 
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
-use inklabs\kommerce\Lib\Query\RequestInterface;
 
-final class GetShipmentRatesRequest implements RequestInterface
+final class GetShipmentRatesRequest
 {
     /** @var OrderAddressDTO */
     private $toAddressDTO;

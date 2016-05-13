@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Action\Shipment\Response;
+namespace inklabs\kommerce\Action\Shipment\Query;
 
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
 

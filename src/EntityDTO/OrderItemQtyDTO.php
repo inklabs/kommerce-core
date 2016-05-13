@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Action\Shipment;
+namespace inklabs\kommerce\EntityDTO;
 
 final class OrderItemQtyDTO
 {

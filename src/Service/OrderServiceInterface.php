@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
+use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Entity\EntityValidatorException;
@@ -41,7 +41,7 @@ interface OrderServiceInterface
 
     /**
      * @param int $orderId
-     * @param OrderItemQtyDTO $orderItemQtyDTO
+     * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment
      * @param string $rateExternalId
      * @param string $shipmentExternalId
@@ -56,7 +56,7 @@ interface OrderServiceInterface
 
     /**
      * @param int $orderId
-     * @param OrderItemQtyDTO $orderItemQtyDTO
+     * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment
      * @param int $shipmentCarrierTypeId
      * @param string $trackingCode

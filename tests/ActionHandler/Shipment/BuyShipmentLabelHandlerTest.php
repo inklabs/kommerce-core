@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Shipment;
 
 use inklabs\kommerce\Action\Shipment\BuyShipmentLabelCommand;
-use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
+use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class BuyShipmentLabelHandlerTest extends ActionTestCase
