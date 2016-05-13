@@ -13,9 +13,9 @@ class QueryBus implements QueryBusInterface
         $this->mapper = $mapper;
     }
 
-    public function execute(RequestInterface $request, ResponseInterface & $response)
+    public function execute(QueryInterface $query)
     {
-        $handler = $this->mapper->getQueryHandler($request);
-        $handler->handle($request, $response);
+        $handler = $this->mapper->getQueryHandler($query);
+        $handler->handle($query);
     }
 }

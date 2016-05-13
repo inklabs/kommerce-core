@@ -2,9 +2,8 @@
 namespace inklabs\kommerce\Action\Tag;
 
 use inklabs\kommerce\EntityDTO\PaginationDTO;
-use inklabs\kommerce\Lib\Query\RequestInterface;
 
-final class ListTagsRequest implements RequestInterface
+final class ListTagsRequest
 {
     /** @var string */
     private $queryString;

@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Coupon;
 
-use inklabs\kommerce\Action\Coupon\ListCouponsRequest;
-use inklabs\kommerce\Action\Coupon\Response\ListCouponsResponseInterface;
+use inklabs\kommerce\Action\Coupon\ListCouponsQuery;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Service\CouponServiceInterface;
 
@@ -16,8 +15,11 @@ final class ListCouponsHandler
         $this->couponService = $couponService;
     }
 
-    public function handle(ListCouponsRequest $request, ListCouponsResponseInterface & $response)
+    public function handle(ListCouponsQuery $query)
     {
+        $request = $query->getRequest();
+        $response = $query->getResponse();
+
         $paginationDTO = $request->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 

@@ -1,8 +1,9 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Coupon;
 
-use inklabs\kommerce\Action\Coupon\GetCouponRequest;
-use inklabs\kommerce\Action\Coupon\Response\GetCouponResponse;
+use inklabs\kommerce\Action\Coupon\GetCouponQuery;
+use inklabs\kommerce\Action\Coupon\Query\GetCouponRequest;
+use inklabs\kommerce\Action\Coupon\Query\GetCouponResponse;
 use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
@@ -16,7 +17,7 @@ class GetCouponHandlerTest extends ActionTestCase
         $response = new GetCouponResponse;
 
         $handler = new GetCouponHandler($couponService);
-        $handler->handle($request, $response);
+        $handler->handle(new GetCouponQuery($request, $response));
 
         $this->assertTrue($response->getCouponDTO() instanceof CouponDTO);
     }

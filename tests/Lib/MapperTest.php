@@ -2,7 +2,9 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\tests\Helper\Action\FakeCommand;
-use inklabs\kommerce\tests\Helper\Action\FakeRequest;
+use inklabs\kommerce\tests\Helper\Action\FakeQuery;
+use inklabs\kommerce\tests\Helper\Action\Query\FakeRequest;
+use inklabs\kommerce\tests\Helper\Action\Query\FakeResponse;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class MapperTest extends ActionTestCase
@@ -25,7 +27,7 @@ class MapperTest extends ActionTestCase
 
     public function testGetQueryHandler()
     {
-        $this->mapper->getQueryHandler(new FakeRequest());
+        $this->mapper->getQueryHandler(new FakeQuery(new FakeRequest(), new FakeResponse()));
     }
 
     public function testGetHandlerOnAllHandlers()

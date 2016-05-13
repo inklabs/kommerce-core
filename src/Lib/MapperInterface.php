@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Lib;
 use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
-use inklabs\kommerce\Lib\Query\RequestInterface;
+use inklabs\kommerce\Lib\Query\QueryInterface;
 
 interface MapperInterface
 {
@@ -15,8 +15,8 @@ interface MapperInterface
     public function getCommandHandler(CommandInterface $command);
 
     /**
-     * @param RequestInterface $request
+     * @param QueryInterface $query
      * @return QueryHandlerInterface
      */
-    public function getQueryHandler(RequestInterface $request);
+    public function getQueryHandler(QueryInterface $query);
 }

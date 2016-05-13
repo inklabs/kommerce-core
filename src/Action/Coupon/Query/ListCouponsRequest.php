@@ -1,10 +1,9 @@
 <?php
-namespace inklabs\kommerce\Action\Coupon;
+namespace inklabs\kommerce\Action\Coupon\Query;
 
 use inklabs\kommerce\EntityDTO\PaginationDTO;
-use inklabs\kommerce\Lib\Query\RequestInterface;
 
-final class ListCouponsRequest implements RequestInterface
+final class ListCouponsRequest
 {
     /** @var string */
     private $queryString;

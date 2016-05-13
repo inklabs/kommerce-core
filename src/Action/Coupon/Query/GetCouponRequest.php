@@ -1,9 +1,7 @@
 <?php
-namespace inklabs\kommerce\Action\Coupon;
+namespace inklabs\kommerce\Action\Coupon\Query;
 
-use inklabs\kommerce\Lib\Query\RequestInterface;
-
-final class GetCouponRequest implements RequestInterface
+final class GetCouponRequest
 {
     /** @var int */
     private $couponId;

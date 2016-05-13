@@ -1,8 +1,9 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Coupon;
 
-use inklabs\kommerce\Action\Coupon\ListCouponsRequest;
-use inklabs\kommerce\Action\Coupon\Response\ListCouponsResponse;
+use inklabs\kommerce\Action\Coupon\ListCouponsQuery;
+use inklabs\kommerce\Action\Coupon\Query\ListCouponsRequest;
+use inklabs\kommerce\Action\Coupon\Query\ListCouponsResponse;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
@@ -18,7 +19,7 @@ class ListCouponsHandlerTest extends ActionTestCase
         $response = new ListCouponsResponse;
 
         $handler = new ListCouponsHandler($couponService);
-        $handler->handle($request, $response);
+        $handler->handle(new ListCouponsQuery($request, $response));
 
         $this->assertTrue($response->getCouponDTOs()[0] instanceof CouponDTO);
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
