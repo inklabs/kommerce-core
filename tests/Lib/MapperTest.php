@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use inklabs\kommerce\tests\Helper\Lib\FakeCommand;
-use inklabs\kommerce\tests\Helper\Lib\FakeRequest;
+use inklabs\kommerce\tests\Helper\Action\FakeCommand;
+use inklabs\kommerce\tests\Helper\Action\FakeRequest;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class MapperTest extends ActionTestCase
