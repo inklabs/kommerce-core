@@ -91,8 +91,6 @@ class Mapper implements MapperInterface
         return $handler;
     }
 
-//ReflectionException [ -1 ]: Class inklabs\kommerce\Action\Order\Handler\SetOrderStatusHandler does not exist
-
     /**
      * @param CommandInterface | RequestInterface $command
      * @return string
