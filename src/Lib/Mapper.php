@@ -91,6 +91,8 @@ class Mapper implements MapperInterface
         return $handler;
     }
 
+//ReflectionException [ -1 ]: Class inklabs\kommerce\Action\Order\Handler\SetOrderStatusHandler does not exist
+
     /**
      * @param CommandInterface | RequestInterface $command
      * @return string
@@ -98,12 +100,12 @@ class Mapper implements MapperInterface
     private function getHandlerClassName($command)
     {
         $className = get_class($command);
+        $className = str_replace('\\Action\\', '\\ActionHandler\\', $className);
         $pieces = explode('\\', $className);
 
         $baseName = array_pop($pieces);
         $handlerBaseName = substr($baseName, 0, -7) . 'Handler';
 
-        $pieces[] = 'Handler';
         $pieces[] = $handlerBaseName;
 
         return implode('\\', $pieces);
