@@ -1,7 +1,6 @@
 <?php
-namespace inklabs\kommerce\tests\Lib;
+namespace inklabs\kommerce\Lib;
 
-use inklabs\kommerce\Lib\Mapper;
 use inklabs\kommerce\tests\Helper\Lib\FakeCommand;
 use inklabs\kommerce\tests\Helper\Lib\FakeRequest;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
@@ -31,10 +30,9 @@ class MapperTest extends ActionTestCase
 
     public function testGetHandlerOnAllHandlers()
     {
-        $files = glob('../../src/ActionHandler/*/*Handler.php', GLOB_BRACE);
+        $files = glob(__DIR__ . '/../../src/ActionHandler/*/*Handler.php', GLOB_BRACE);
 
         foreach ($files as $file) {
-            error_log($file);
             $handlerClassName = $this->getClassNameFromFile($file);
             $this->mapper->getHandler($handlerClassName);
         }
