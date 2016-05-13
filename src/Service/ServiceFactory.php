@@ -149,7 +149,7 @@ class ServiceFactory
         return new Import\ImportUserService($this->repositoryFactory->getUserRepository());
     }
 
-    private function getInventoryService()
+    public function getInventoryService()
     {
         return new InventoryService(
             $this->repositoryFactory->getInventoryLocationRepository(),

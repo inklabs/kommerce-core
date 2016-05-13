@@ -7,6 +7,7 @@ use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
+use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
 use inklabs\kommerce\Service\ServiceFactory;
@@ -44,46 +45,54 @@ class Mapper implements MapperInterface
      * @param string $handlerClassName
      * @return null|object
      */
-    private function getHandler($handlerClassName)
+    public function getHandler($handlerClassName)
     {
         $reflection = new ReflectionClass($handlerClassName);
 
         $constructorParameters = [];
-        foreach ($reflection->getConstructor()->getParameters() as $parameter) {
-            $parameterClassName = $parameter->getClass()->getName();
-            if ($parameterClassName === TagServiceInterface::class) {
-                $constructorParameters[] = $this->serviceFactory->getTagService();
-            } elseif ($parameterClassName === ImageServiceInterface::class) {
-                $constructorParameters[] = $this->serviceFactory->getImageService();
-            } elseif ($parameterClassName === CartCalculatorInterface::class) {
-                $constructorParameters[] = $this->serviceFactory->getCartCalculator();
-            } elseif ($parameterClassName === CartServiceInterface::class) {
-                $constructorParameters[] = $this->serviceFactory->getCart();
-            } elseif ($parameterClassName === CouponServiceInterface::class) {
-                $constructorParameters[] = $this->serviceFactory->getCoupon();
-            } elseif ($parameterClassName === OrderServiceInterface::class) {
-                $constructorParameters[] = $this->serviceFactory->getOrder();
-            } elseif ($parameterClassName === Pricing::class) {
-                $constructorParameters[] = $this->pricing;
-            } elseif ($parameterClassName === ProductServiceInterface::class) {
-                $constructorParameters[] = $this->serviceFactory->getProduct();
-            } elseif ($parameterClassName === ShipmentGatewayInterface::class) {
-                $constructorParameters[] = $this->serviceFactory->getShipmentGateway();
-            } elseif ($parameterClassName === UserServiceInterface::class) {
-                $constructorParameters[] = $this->serviceFactory->getUser();
+        $constructor = $reflection->getConstructor();
+        if ($constructor !== null) {
+            foreach ($constructor->getParameters() as $parameter) {
+                $parameterClassName = $parameter->getClass()->getName();
+                if ($parameterClassName === TagServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getTagService();
+                } elseif ($parameterClassName === InventoryServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getInventoryService();
+                } elseif ($parameterClassName === ImageServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getImageService();
+                } elseif ($parameterClassName === CartCalculatorInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getCartCalculator();
+                } elseif ($parameterClassName === CartServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getCart();
+                } elseif ($parameterClassName === CouponServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getCoupon();
+                } elseif ($parameterClassName === OrderServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getOrder();
+                } elseif ($parameterClassName === Pricing::class) {
+                    $constructorParameters[] = $this->pricing;
+                } elseif ($parameterClassName === ProductServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getProduct();
+                } elseif ($parameterClassName === ShipmentGatewayInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getShipmentGateway();
+                } elseif ($parameterClassName === UserServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getUser();
+                }
             }
         }
 
         $handler = null;
+
         if (! empty($constructorParameters)) {
             $handler = $reflection->newInstanceArgs($constructorParameters);
+        } else {
+            $handler = $reflection->newInstance();
         }
 
         return $handler;
     }
 
     /**
-     * @param CommandInterface|RequestInterface $command
+     * @param CommandInterface | RequestInterface $command
      * @return string
      */
     private function getHandlerClassName($command)

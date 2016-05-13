@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib\Event\EventInterface;
 use inklabs\kommerce\tests\Helper\Event\FakeEvent;
 use inklabs\kommerce\tests\Helper\Event\FakeEvent2;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
-use inklabs\kommerce\tests\Lib\Event\FakeEventSubscriber;
+use inklabs\kommerce\tests\Helper\Lib\FakeEventSubscriber;
 
 class EventDispatcherTest extends ServiceTestCase
 {
