@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Action\Tag;
 
 use inklabs\kommerce\Action\Tag\Query\ListTagsRequest;
-use inklabs\kommerce\Action\Tag\Query\ListTagsResponse;
+use inklabs\kommerce\Action\Tag\Query\ListTagsResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
 class ListTagsQuery implements QueryInterface
@@ -10,10 +10,10 @@ class ListTagsQuery implements QueryInterface
     /** @var ListTagsRequest */
     private $request;
 
-    /** @var ListTagsResponse */
+    /** @var ListTagsResponseInterface */
     private $response;
 
-    public function __construct(ListTagsRequest $request, ListTagsResponse & $response)
+    public function __construct(ListTagsRequest $request, ListTagsResponseInterface & $response)
     {
         $this->request = $request;
         $this->response = $response;
@@ -28,7 +28,7 @@ class ListTagsQuery implements QueryInterface
     }
 
     /**
-     * @return ListTagsResponse
+     * @return ListTagsResponseInterface
      */
     public function getResponse()
     {

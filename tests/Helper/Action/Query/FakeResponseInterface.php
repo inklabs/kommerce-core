@@ -1,6 +1,6 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\Action\Query;
 
-class FakeResponse implements FakeResponseInterface
+interface FakeResponseInterface
 {
 }

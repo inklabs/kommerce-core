@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Action\Coupon;
 
 use inklabs\kommerce\Action\Coupon\Query\ListCouponsRequest;
-use inklabs\kommerce\Action\Coupon\Query\ListCouponsResponse;
+use inklabs\kommerce\Action\Coupon\Query\ListCouponsResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
 class ListCouponsQuery implements QueryInterface
@@ -10,10 +10,10 @@ class ListCouponsQuery implements QueryInterface
     /** @var ListCouponsRequest */
     private $request;
 
-    /** @var ListCouponsResponse */
+    /** @var ListCouponsResponseInterface */
     private $response;
 
-    public function __construct(ListCouponsRequest $request, ListCouponsResponse & $response)
+    public function __construct(ListCouponsRequest $request, ListCouponsResponseInterface & $response)
     {
         $this->request = $request;
         $this->response = $response;
@@ -28,7 +28,7 @@ class ListCouponsQuery implements QueryInterface
     }
 
     /**
-     * @return ListCouponsResponse
+     * @return ListCouponsResponseInterface
      */
     public function getResponse()
     {

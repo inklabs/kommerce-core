@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Action\Order;
 
 use inklabs\kommerce\Action\Order\Query\CreateOrderFromCartRequest;
-use inklabs\kommerce\Action\Order\Query\CreateOrderFromCartResponse;
+use inklabs\kommerce\Action\Order\Query\CreateOrderFromCartResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
 class CreateOrderFromCartQuery implements QueryInterface
@@ -10,10 +10,10 @@ class CreateOrderFromCartQuery implements QueryInterface
     /** @var CreateOrderFromCartRequest */
     private $request;
 
-    /** @var \inklabs\kommerce\Action\Order\Query\CreateOrderFromCartResponse */
+    /** @var CreateOrderFromCartResponseInterface */
     private $response;
 
-    public function __construct(CreateOrderFromCartRequest $request, CreateOrderFromCartResponse & $response)
+    public function __construct(CreateOrderFromCartRequest $request, CreateOrderFromCartResponseInterface & $response)
     {
         $this->request = $request;
         $this->response = $response;
@@ -28,7 +28,7 @@ class CreateOrderFromCartQuery implements QueryInterface
     }
 
     /**
-     * @return \inklabs\kommerce\Action\Order\Query\CreateOrderFromCartResponse
+     * @return CreateOrderFromCartResponseInterface
      */
     public function getResponse()
     {

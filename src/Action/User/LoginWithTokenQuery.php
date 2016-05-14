@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Action\User;
 
 use inklabs\kommerce\Action\User\Query\LoginWithTokenRequest;
-use inklabs\kommerce\Action\User\Query\LoginWithTokenResponse;
+use inklabs\kommerce\Action\User\Query\LoginWithTokenResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
 class LoginWithTokenQuery implements QueryInterface
@@ -10,10 +10,10 @@ class LoginWithTokenQuery implements QueryInterface
     /** @var LoginWithTokenRequest */
     private $request;
 
-    /** @var \inklabs\kommerce\Action\User\Query\LoginWithTokenResponse */
+    /** @var LoginWithTokenResponseInterface */
     private $response;
 
-    public function __construct(LoginWithTokenRequest $request, LoginWithTokenResponse & $response)
+    public function __construct(LoginWithTokenRequest $request, LoginWithTokenResponseInterface & $response)
     {
         $this->request = $request;
         $this->response = $response;
@@ -28,7 +28,7 @@ class LoginWithTokenQuery implements QueryInterface
     }
 
     /**
-     * @return \inklabs\kommerce\Action\User\Query\LoginWithTokenResponse
+     * @return LoginWithTokenResponseInterface
      */
     public function getResponse()
     {

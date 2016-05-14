@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Action\Order;
 
 use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
-use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
+use inklabs\kommerce\Action\Order\Query\GetOrderResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
 class GetOrderQuery implements QueryInterface
@@ -10,10 +10,10 @@ class GetOrderQuery implements QueryInterface
     /** @var GetOrderRequest */
     private $request;
 
-    /** @var \inklabs\kommerce\Action\Order\Query\GetOrderResponse */
+    /** @var GetOrderResponseInterface */
     private $response;
 
-    public function __construct(GetOrderRequest $request, GetOrderResponse & $response)
+    public function __construct(GetOrderRequest $request, GetOrderResponseInterface & $response)
     {
         $this->request = $request;
         $this->response = $response;
@@ -28,7 +28,7 @@ class GetOrderQuery implements QueryInterface
     }
 
     /**
-     * @return \inklabs\kommerce\Action\Order\Query\GetOrderResponse
+     * @return GetOrderResponseInterface
      */
     public function getResponse()
     {
