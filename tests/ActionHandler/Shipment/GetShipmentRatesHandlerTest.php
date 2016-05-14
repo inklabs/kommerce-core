@@ -1,8 +1,9 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Shipment;
 
-use inklabs\kommerce\Action\Shipment\GetShipmentRatesRequest;
-use inklabs\kommerce\Action\Shipment\Response\GetShipmentRatesResponse;
+use inklabs\kommerce\Action\Shipment\GetShipmentRatesQuery;
+use inklabs\kommerce\Action\Shipment\Query\GetShipmentRatesRequest;
+use inklabs\kommerce\Action\Shipment\Query\GetShipmentRatesResponse;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
@@ -21,7 +22,7 @@ class GetShipmentRatesHandlerTest extends ActionTestCase
         $response = new GetShipmentRatesResponse;
 
         $handler = new GetShipmentRatesHandler($shipmentGateway);
-        $handler->handle($request, $response);
+        $handler->handle(new GetShipmentRatesQuery($request, $response));
 
         $this->assertTrue($response->getShipmentRatesDTO()[0] instanceof ShipmentRateDTO);
     }

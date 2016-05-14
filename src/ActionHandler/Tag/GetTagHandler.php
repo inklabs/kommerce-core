@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Tag;
 
-use inklabs\kommerce\Action\Tag\GetTagRequest;
-use inklabs\kommerce\Action\Tag\Response\GetTagResponseInterface;
+use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\TagServiceInterface;
 
@@ -20,11 +19,11 @@ final class GetTagHandler
         $this->pricing = $pricing;
     }
 
-    public function handle(GetTagRequest $request, GetTagResponseInterface & $response)
+    public function handle(GetTagQuery $query)
     {
-        $tag = $this->tagService->findOneById($request->getTagId());
+        $tag = $this->tagService->findOneById($query->getRequest()->getTagId());
 
-        $response->setTagDTO(
+        $query->getResponse()->setTagDTO(
             $tag->getDTOBuilder()
                 ->withAllData($this->pricing)
                 ->build()

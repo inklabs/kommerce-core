@@ -4,9 +4,8 @@ namespace inklabs\kommerce\Lib\Query;
 interface QueryHandlerInterface
 {
     /**
-     * @param RequestInterface $request
-     * @param ResponseInterface & $response
+     * @param QueryInterface $query
      * @return void
      */
-    public function handle(RequestInterface $request, ResponseInterface & $response);
+    public function handle(QueryInterface $query);
 }

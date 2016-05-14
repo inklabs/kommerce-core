@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Tag;
 
-use inklabs\kommerce\Action\Tag\ListTagsRequest;
-use inklabs\kommerce\Action\Tag\Response\ListTagsResponseInterface;
+use inklabs\kommerce\Action\Tag\ListTagsQuery;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Service\TagServiceInterface;
 
@@ -16,20 +15,20 @@ final class ListTagsHandler
         $this->tagService = $tagService;
     }
 
-    public function handle(ListTagsRequest $request, ListTagsResponseInterface & $response)
+    public function handle(ListTagsQuery $query)
     {
-        $paginationDTO = $request->getPaginationDTO();
+        $paginationDTO = $query->getRequest()->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        $tags = $this->tagService->getAllTags($request->getQueryString(), $pagination);
+        $tags = $this->tagService->getAllTags($query->getRequest()->getQueryString(), $pagination);
 
-        $response->setPaginationDTO(
+        $query->getResponse()->setPaginationDTO(
             $pagination->getDTOBuilder()
                 ->build()
         );
 
         foreach ($tags as $tag) {
-            $response->addTagDTO(
+            $query->getResponse()->addTagDTO(
                 $tag->getDTOBuilder()
                     ->build()
             );

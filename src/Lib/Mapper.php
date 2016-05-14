@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
-use inklabs\kommerce\Lib\Query\RequestInterface;
+use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
@@ -31,13 +31,13 @@ class Mapper implements MapperInterface
 
     public function getCommandHandler(CommandInterface $command)
     {
-        $handlerClassName = $this->getHandlerClassName($command);
+        $handlerClassName = $this->getCommandHandlerClassName($command);
         return $this->getHandler($handlerClassName);
     }
 
-    public function getQueryHandler(RequestInterface $request)
+    public function getQueryHandler(QueryInterface $query)
     {
-        $handlerClassName = $this->getHandlerClassName($request);
+        $handlerClassName = $this->getQueryHandlerClassName($query);
         return $this->getHandler($handlerClassName);
     }
 
@@ -92,10 +92,10 @@ class Mapper implements MapperInterface
     }
 
     /**
-     * @param CommandInterface | RequestInterface $command
+     * @param CommandInterface $command
      * @return string
      */
-    private function getHandlerClassName($command)
+    private function getCommandHandlerClassName($command)
     {
         $className = get_class($command);
         $className = str_replace('\\Action\\', '\\ActionHandler\\', $className);
@@ -103,6 +103,24 @@ class Mapper implements MapperInterface
 
         $baseName = array_pop($pieces);
         $handlerBaseName = substr($baseName, 0, -7) . 'Handler';
+
+        $pieces[] = $handlerBaseName;
+
+        return implode('\\', $pieces);
+    }
+
+    /**
+     * @param QueryInterface
+     * @return string
+     */
+    private function getQueryHandlerClassName($query)
+    {
+        $className = get_class($query);
+        $className = str_replace('\\Action\\', '\\ActionHandler\\', $className);
+        $pieces = explode('\\', $className);
+
+        $baseName = array_pop($pieces);
+        $handlerBaseName = substr($baseName, 0, -5) . 'Handler';
 
         $pieces[] = $handlerBaseName;
 

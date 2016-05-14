@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Action\Shipment\OrderItemQtyDTO;
+use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\CreditPayment;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderItem;

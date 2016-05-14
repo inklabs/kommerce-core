@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Shipment;
 
-use inklabs\kommerce\Action\Shipment\GetShipmentRatesRequest;
-use inklabs\kommerce\Action\Shipment\Response\GetShipmentRatesResponse;
+use inklabs\kommerce\Action\Shipment\GetShipmentRatesQuery;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 
 final class GetShipmentRatesHandler
@@ -15,8 +14,11 @@ final class GetShipmentRatesHandler
         $this->shipmentGateway = $shipmentGateway;
     }
 
-    public function handle(GetShipmentRatesRequest $request, GetShipmentRatesResponse & $response)
+    public function handle(GetShipmentRatesQuery $query)
     {
+        $request = $query->getRequest();
+        $response = $query->getResponse();
+
         $shipmentRates = $this->shipmentGateway->getRates(
             $request->getToAddressDTO(),
             $request->getParcelDTO()
