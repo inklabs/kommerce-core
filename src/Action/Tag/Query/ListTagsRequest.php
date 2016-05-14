@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Action\Tag;
+namespace inklabs\kommerce\Action\Tag\Query;
 
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 

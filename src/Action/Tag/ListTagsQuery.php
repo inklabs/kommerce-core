@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
+use inklabs\kommerce\Action\Tag\Query\ListTagsRequest;
 use inklabs\kommerce\Action\Tag\Query\ListTagsResponse;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
