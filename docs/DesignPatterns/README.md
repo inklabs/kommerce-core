@@ -6,7 +6,7 @@ Below are the design patterns used in this project.
 * [Builder](Builder)
 * [Command](Command)
 * [Decorator](Decorator)
-* [Domain Event](DomainEvent)
+* [Mediator](Mediator)
 * [Facade](Facade)
 * [Iterator](Iterator)
 * [Strategy](Strategy)

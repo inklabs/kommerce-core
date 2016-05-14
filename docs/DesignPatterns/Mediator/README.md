@@ -1,4 +1,4 @@
-# Domain Event Design Pattern
+# Mediator Design Pattern
 
 A **domain event** defines something important that happens in your domain model.
 These are domain specific events encapsulated as a simple data transfer object similar to the
