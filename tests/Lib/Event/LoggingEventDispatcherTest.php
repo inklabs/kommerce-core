@@ -34,7 +34,6 @@ class LoggingEventDispatcherTest extends ServiceTestCase
             FakeEvent::class
         ];
 
-        $result = $loggingEventDispatcher->getEvents();
-        $this->assertSame($expected, array_map('get_class', $result));
+        $this->assertSame($expected, array_map('get_class', $loggingEventDispatcher->getEvents()));
     }
 }
