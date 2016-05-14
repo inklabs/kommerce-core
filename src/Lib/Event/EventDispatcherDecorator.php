@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib\Event;
 
-class EventDispatcherDecorator implements EventDispatcherInterface
+abstract class EventDispatcherDecorator implements EventDispatcherInterface
 {
     /** @var EventDispatcherInterface */
     private $eventDispatcher;

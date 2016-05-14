@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Lib\Event;
 
 class LoggingEventDispatcher extends EventDispatcherDecorator
 {
+    /** @var EventInterface[] */
     private $events = [];
 
     public function dispatch(array $events)
@@ -20,7 +21,10 @@ class LoggingEventDispatcher extends EventDispatcherDecorator
         parent::dispatchEvent($event);
     }
 
-    public function getEventStrings()
+    /**
+     * @return EventInterface[]
+     */
+    public function getEvents()
     {
         return $this->events;
     }
@@ -30,6 +34,6 @@ class LoggingEventDispatcher extends EventDispatcherDecorator
      */
     protected function logEvent(EventInterface $event)
     {
-        $this->events[] = get_class($event);
+        $this->events[] = $event;
     }
 }

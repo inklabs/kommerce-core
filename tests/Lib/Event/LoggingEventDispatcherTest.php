@@ -11,22 +11,9 @@ use inklabs\kommerce\tests\Helper\Lib\FakeEventSubscriber;
 
 class LoggingEventDispatcherTest extends ServiceTestCase
 {
-    public function testAddSubscriberAndDispatchFiresSubscriber()
-    {
-        $eventDispatcher = $this->getEventDispatcher();
-        $eventDispatcher->addSubscriber(new FakeEventSubscriber(new DateTime()));
-        $eventDispatcher->dispatch([
-            new FakeEvent()
-        ]);
-
-        $this->assertTrue(FakeEventSubscriber::hasBeenCalled());
-    }
-
     public function testLoggingDecorator()
     {
-        $loggingEventDispatcher = new LoggingEventDispatcher(
-            new EventDispatcher()
-        );
+        $loggingEventDispatcher = new LoggingEventDispatcher(new EventDispatcher());
         $loggingEventDispatcher->addListener(
             FakeEvent::class,
             function () {
@@ -47,6 +34,7 @@ class LoggingEventDispatcherTest extends ServiceTestCase
             FakeEvent::class
         ];
 
-        $this->assertSame($expected, $loggingEventDispatcher->getEventStrings());
+        $result = $loggingEventDispatcher->getEvents();
+        $this->assertSame($expected, array_map('get_class', $result));
     }
 }
