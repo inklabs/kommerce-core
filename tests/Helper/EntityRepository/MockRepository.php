@@ -1,9 +1,11 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
+use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use Mockery;
@@ -26,6 +28,15 @@ class MockRepository
     protected function getMockeryMock($className)
     {
         return Mockery::mock($className);
+    }
+
+    /**
+     * @return AttachmentRepositoryInterface | Mockery\Mock
+     */
+    public function getAttachmentRepository()
+    {
+        $repository = $this->getMockeryMock(AttachmentRepositoryInterface::class);
+        return $repository;
     }
 
     /**
@@ -56,7 +67,7 @@ class MockRepository
         $repository
             ->shouldReceive('findOneById')
             ->with(1)
-            ->andReturn($this->dummyData->getOrderitem());
+            ->andReturn($this->dummyData->getOrderItem());
 
         return $repository;
     }

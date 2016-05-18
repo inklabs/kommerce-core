@@ -13,7 +13,7 @@ class GetOrderHandlerTest extends ActionTestCase
     {
         $orderService = $this->mockService->getOrderService();
 
-        $request = new GetOrderRequest(1);
+        $request = new GetOrderRequest(99);
         $response = new GetOrderResponse;
 
         $handler = new GetOrderHandler($orderService);

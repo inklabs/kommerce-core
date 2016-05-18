@@ -66,6 +66,7 @@ use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Entity\UserTokenType;
 use inklabs\kommerce\Entity\Warehouse;
+use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 use inklabs\kommerce\Lib\Pricing;
@@ -912,6 +913,16 @@ class DummyData
     public function getTextOptionType()
     {
         return TextOptionType::textarea();
+    }
+
+    public function getUploadFileDTO()
+    {
+        return new UploadFileDTO(
+            '42-348301152.jpg',
+            'image/jpeg',
+            '/tmp/phpupuP2I',
+            236390
+        );
     }
 
     public function getUser($num = 1)

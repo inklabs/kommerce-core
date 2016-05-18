@@ -2,8 +2,10 @@
 namespace inklabs\kommerce\tests\Helper\Service;
 
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Service\AttachmentServiceInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
+use inklabs\kommerce\Service\FileManagerInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
@@ -30,6 +32,15 @@ class MockService
     protected function getMockeryMock($className)
     {
         return Mockery::mock($className);
+    }
+
+    /**
+     * @return AttachmentServiceInterface | Mockery\Mock
+     */
+    public function getAttachmentService()
+    {
+        $attachmentService = $this->getMockeryMock(AttachmentServiceInterface::class);
+        return $attachmentService;
     }
 
     /**
@@ -60,6 +71,15 @@ class MockService
     }
 
     /**
+     * @return FileManagerInterface | Mockery\Mock
+     */
+    public function getFileManager()
+    {
+        $service = $this->getMockeryMock(FileManagerInterface::class);
+        return $service;
+    }
+
+    /**
      * @return InventoryServiceInterface | Mockery\Mock
      */
     public function getInventoryService()
@@ -77,6 +97,44 @@ class MockService
         $imageService = $this->getMockeryMock(ImageServiceInterface::class);
 
         return $imageService;
+    }
+
+    /**
+     * @return OrderServiceInterface | Mockery\Mock
+     */
+    public function getOrderService()
+    {
+        $service = $this->getMockeryMock(OrderServiceInterface::class);
+
+        $order = $this->dummyData->getOrder();
+        $order->setId(99);
+
+        $orderItem = $this->dummyData->getOrderItem();
+        $orderItem->setId(99);
+
+        $service->shouldReceive('getOrderItemById')
+            ->with($orderItem->getId())
+            ->andReturn($orderItem);
+
+        $service->shouldReceive('findOneById')
+            ->with($order->getId())
+            ->andReturn($order);
+
+        return $service;
+    }
+
+    /**
+     * @return ProductServiceInterface | Mockery\Mock
+     */
+    public function getProductService()
+    {
+        $product = $this->dummyData->getProduct();
+
+        $productService = $this->getMockeryMock(ProductServiceInterface::class);
+        $productService->shouldReceive('findOneById')
+            ->andReturn($product);
+
+        return $productService;
     }
 
     /**
@@ -108,34 +166,6 @@ class MockService
             ->andReturn([$tag]);
 
         return $tagService;
-    }
-
-    /**
-     * @return OrderServiceInterface | Mockery\Mock
-     */
-    public function getOrderService()
-    {
-        $order = $this->dummyData->getOrder();
-
-        $orderService = $this->getMockeryMock(OrderServiceInterface::class);
-        $orderService->shouldReceive('findOneById')
-            ->andReturn($order);
-
-        return $orderService;
-    }
-
-    /**
-     * @return ProductServiceInterface | Mockery\Mock
-     */
-    public function getProductService()
-    {
-        $product = $this->dummyData->getProduct();
-
-        $productService = $this->getMockeryMock(ProductServiceInterface::class);
-        $productService->shouldReceive('findOneById')
-            ->andReturn($product);
-
-        return $productService;
     }
 
     /**

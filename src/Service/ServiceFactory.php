@@ -11,27 +11,44 @@ use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 class ServiceFactory
 {
     /** @var CartCalculatorInterface */
-    protected $cartCalculator;
+    private $cartCalculator;
 
     /** @var RepositoryFactory */
-    protected $repositoryFactory;
+    private $repositoryFactory;
 
     /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
+    private $eventDispatcher;
 
     /** @var PaymentGatewayInterface */
-    protected $paymentGateway;
+    private $paymentGateway;
+
+    /** @var FileManagerInterface */
+    private $fileManager;
 
     public function __construct(
         RepositoryFactory $repositoryFactory,
         CartCalculatorInterface $cartCalculator,
         EventDispatcherInterface $eventDispatcher,
-        PaymentGatewayInterface $paymentGateway
+        PaymentGatewayInterface $paymentGateway,
+        FileManagerInterface $fileManager
     ) {
         $this->repositoryFactory = $repositoryFactory;
         $this->cartCalculator = $cartCalculator;
         $this->eventDispatcher = $eventDispatcher;
         $this->paymentGateway = $paymentGateway;
+        $this->fileManager = $fileManager;
+    }
+
+    /**
+     * @return AttachmentService
+     */
+    public function getAttachmentService()
+    {
+        return new AttachmentService(
+            $this->repositoryFactory->getAttachmentRepository(),
+            $this->getFileManager(),
+            $this->getOrder()
+        );
     }
 
     /**
@@ -71,6 +88,11 @@ class ServiceFactory
         );
     }
 
+    public function getCartCalculator()
+    {
+        return $this->cartCalculator;
+    }
+
     /**
      * @return CartPriceRuleService
      */
@@ -93,6 +115,14 @@ class ServiceFactory
     public function getCoupon()
     {
         return new CouponService($this->repositoryFactory->getCouponRepository());
+    }
+
+    /**
+     * @return FileManagerInterface
+     */
+    public function getFileManager()
+    {
+        return $this->fileManager;
     }
 
     /**
@@ -206,6 +236,7 @@ class ServiceFactory
         $fromAddress->phone = '555-123-4567';
 
         // TODO: This dependency crosses the src / test boundary
+        // TODO: Inject via constructor!
         return new FakeShipmentGateway($fromAddress);
     }
 
@@ -236,10 +267,5 @@ class ServiceFactory
             $this->repositoryFactory->getUserTokenRepository(),
             $this->eventDispatcher
         );
-    }
-
-    public function getCartCalculator()
-    {
-        return $this->cartCalculator;
     }
 }

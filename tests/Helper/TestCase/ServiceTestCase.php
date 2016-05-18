@@ -6,7 +6,9 @@ use inklabs\kommerce\Lib\Event\EventDispatcher;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
+use inklabs\kommerce\Service\FileManagerInterface;
 use inklabs\kommerce\Service\ServiceFactory;
+use inklabs\kommerce\tests\Helper\Lib\FakeFileManager;
 use inklabs\kommerce\tests\Helper\Service\MockService;
 
 abstract class ServiceTestCase extends EntityRepositoryTestCase
@@ -28,7 +30,8 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
     protected function getServiceFactory(
         CartCalculatorInterface $cartCalculator = null,
         EventDispatcherInterface $eventDispatcher = null,
-        PaymentGatewayInterface $paymentGateway = null
+        PaymentGatewayInterface $paymentGateway = null,
+        FileManagerInterface $fileManager = null
     ) {
         if ($cartCalculator === null) {
             $cartCalculator = $this->getCartCalculator();
@@ -42,16 +45,26 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
             $paymentGateway = $this->getPaymentGateway();
         }
 
+        if ($fileManager === null) {
+            $fileManager = $this->getFileManager();
+        }
+
         return new ServiceFactory(
             $this->getRepositoryFactory(),
             $cartCalculator,
             $eventDispatcher,
-            $paymentGateway
+            $paymentGateway,
+            $fileManager
         );
     }
 
     protected function getPaymentGateway()
     {
         return new FakePaymentGateway;
+    }
+
+    private function getFileManager()
+    {
+        return new FakeFileManager;
     }
 }

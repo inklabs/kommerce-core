@@ -4,8 +4,10 @@ namespace inklabs\kommerce\Lib;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Service\AttachmentServiceInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
+use inklabs\kommerce\Service\FileManagerInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
@@ -54,18 +56,20 @@ class Mapper implements MapperInterface
         if ($constructor !== null) {
             foreach ($constructor->getParameters() as $parameter) {
                 $parameterClassName = $parameter->getClass()->getName();
-                if ($parameterClassName === TagServiceInterface::class) {
-                    $constructorParameters[] = $this->serviceFactory->getTagService();
-                } elseif ($parameterClassName === InventoryServiceInterface::class) {
-                    $constructorParameters[] = $this->serviceFactory->getInventoryService();
-                } elseif ($parameterClassName === ImageServiceInterface::class) {
-                    $constructorParameters[] = $this->serviceFactory->getImageService();
+                if ($parameterClassName === AttachmentServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getAttachmentService();
                 } elseif ($parameterClassName === CartCalculatorInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getCartCalculator();
                 } elseif ($parameterClassName === CartServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getCart();
                 } elseif ($parameterClassName === CouponServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getCoupon();
+                } elseif ($parameterClassName === FileManagerInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getFileManager();
+                } elseif ($parameterClassName === InventoryServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getInventoryService();
+                } elseif ($parameterClassName === ImageServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getImageService();
                 } elseif ($parameterClassName === OrderServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getOrder();
                 } elseif ($parameterClassName === Pricing::class) {
@@ -74,6 +78,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->serviceFactory->getProduct();
                 } elseif ($parameterClassName === ShipmentGatewayInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getShipmentGateway();
+                } elseif ($parameterClassName === TagServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getTagService();
                 } elseif ($parameterClassName === UserServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getUser();
                 }
