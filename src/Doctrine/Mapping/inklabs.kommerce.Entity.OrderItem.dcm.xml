@@ -47,7 +47,7 @@
                      mapped-by="orderItem"
                      fetch="EXTRA_LAZY">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
@@ -56,7 +56,7 @@
                      mapped-by="orderItem"
                      fetch="EXTRA_LAZY">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
@@ -65,7 +65,7 @@
                      mapped-by="orderItem"
                      fetch="EXTRA_LAZY">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
@@ -75,6 +75,7 @@
             <join-column nullable="false"/>
         </many-to-one>
 
+        <many-to-many field="attachments" target-entity="Attachment" inversed-by="orderItems" fetch="EXTRA_LAZY"/>
         <many-to-many field="catalogPromotions" target-entity="CatalogPromotion" fetch="EXTRA_LAZY"/>
         <many-to-many field="productQuantityDiscounts" target-entity="ProductQuantityDiscount" fetch="EXTRA_LAZY"/>
 

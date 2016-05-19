@@ -34,6 +34,7 @@ class AttachmentService implements AttachmentServiceInterface
     public function createAttachmentForOrderItem(UploadFileDTO $uploadFileDTO, $orderItemId)
     {
         $orderItem = $this->orderService->getOrderItemById($orderItemId);
+        $order = $orderItem->getOrder();
         $urlFilePath = $this->fileManager->saveFile($uploadFileDTO->getFilePath());
 
         $attachment = new Attachment(
@@ -42,7 +43,7 @@ class AttachmentService implements AttachmentServiceInterface
 
         $this->attachmentRepository->create($attachment);
 
-        $order = $orderItem->getOrder();
+        $orderItem->addAttachment($attachment);
         $this->orderService->update($order);
     }
 }

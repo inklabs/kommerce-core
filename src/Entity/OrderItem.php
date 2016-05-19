@@ -53,12 +53,12 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
     public function __construct()
     {
         $this->setCreated();
-        $this->catalogPromotions = new ArrayCollection;
-        $this->productQuantityDiscounts = new ArrayCollection;
-        $this->orderItemOptionProducts = new ArrayCollection;
-        $this->orderItemOptionValues = new ArrayCollection;
-        $this->orderItemTextOptionValues = new ArrayCollection;
-        $this->attachments = new ArrayCollection;
+        $this->catalogPromotions = new ArrayCollection();
+        $this->productQuantityDiscounts = new ArrayCollection();
+        $this->orderItemOptionProducts = new ArrayCollection();
+        $this->orderItemOptionValues = new ArrayCollection();
+        $this->orderItemTextOptionValues = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -314,6 +314,7 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
             throw AttachmentException::notAllowed();
         }
 
+        $attachment->addOrderItem($this);
         $this->attachments->add($attachment);
     }
 

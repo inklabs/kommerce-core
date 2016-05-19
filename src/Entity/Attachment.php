@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,6 +18,9 @@ class Attachment implements UuidEntityInterface, ValidationInterface
     /** @var string */
     private $filePath;
 
+    /** @var OrderItem[] */
+    private $orderItems;
+
     /**
      * @param string $filePath
      */
@@ -27,6 +31,7 @@ class Attachment implements UuidEntityInterface, ValidationInterface
         $this->setFilePath($filePath);
         $this->setVisible();
         $this->setUnlocked();
+        $this->orderItems = new ArrayCollection();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -78,5 +83,10 @@ class Attachment implements UuidEntityInterface, ValidationInterface
     public function setUnlocked()
     {
         $this->isLocked = false;
+    }
+
+    public function addOrderItem(OrderItem $orderItem)
+    {
+        $this->orderItems->add($orderItem);
     }
 }

@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Coupon;
@@ -34,6 +35,7 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
 
     protected $metaDataClassNames = [
         AbstractPayment::class,
+        Attachment::class,
         Cart::class,
         CatalogPromotion::class,
         Coupon::class,
@@ -67,20 +69,11 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $uniqueId = crc32($referenceNumber);
 
         $product = $this->dummyData->getProduct($uniqueId);
-
-        $catalogPromotion = $this->dummyData->getCatalogPromotion();
-        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($product);
-
         $price = $this->dummyData->getPrice();
-        $price->addCatalogPromotion($catalogPromotion);
-        $price->addProductQuantityDiscount($productQuantityDiscount);
-
         $user = $this->dummyData->getUser($uniqueId);
         $orderItem = $this->dummyData->getOrderItem($product, $price);
         $cartTotal = $this->dummyData->getCartTotal();
-
         $taxRate = $this->dummyData->getTaxRate();
-
         $shipmentItem = $this->dummyData->getShipmentItem($orderItem, 1);
         $shipment = $this->dummyData->getShipment($shipmentItem);
 
@@ -90,8 +83,6 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $order->setTaxRate($taxRate);
         $order->addShipment($shipment);
 
-        $this->entityManager->persist($catalogPromotion);
-        $this->entityManager->persist($productQuantityDiscount);
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);
         $this->entityManager->persist($taxRate);
@@ -122,9 +113,56 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $this->assertSame(null, $order->getId());
     }
 
+    public function setupOrderForFind($referenceNumber = null)
+    {
+        $uniqueId = crc32($referenceNumber);
+
+        $product = $this->dummyData->getProduct($uniqueId);
+        $product->enableAttachments();
+
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($product);
+
+        $price = $this->dummyData->getPrice();
+        $price->addCatalogPromotion($catalogPromotion);
+        $price->addProductQuantityDiscount($productQuantityDiscount);
+
+        $user = $this->dummyData->getUser($uniqueId);
+
+        $attachmentForOrderItem = $this->dummyData->getAttachment();
+        $orderItem = $this->dummyData->getOrderItem($product, $price);
+        $orderItem->addAttachment($attachmentForOrderItem);
+
+        $cartTotal = $this->dummyData->getCartTotal();
+
+        $taxRate = $this->dummyData->getTaxRate();
+
+        $shipmentItem = $this->dummyData->getShipmentItem($orderItem, 1);
+        $shipment = $this->dummyData->getShipment($shipmentItem);
+
+        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
+        $order->setUser($user);
+        $order->setReferenceNumber($referenceNumber);
+        $order->setTaxRate($taxRate);
+        $order->addShipment($shipment);
+
+        $this->entityManager->persist($catalogPromotion);
+        $this->entityManager->persist($productQuantityDiscount);
+        $this->entityManager->persist($product);
+        $this->entityManager->persist($attachmentForOrderItem);
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($taxRate);
+
+        $this->orderRepository->create($order);
+
+        $this->entityManager->flush();
+
+        return $order;
+    }
+
     public function testFindOneById()
     {
-        $this->setupOrder();
+        $this->setupOrderForFind();
         $this->entityManager->clear();
 
         $this->setCountLogger();
@@ -153,7 +191,9 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $orderItem->getOrderItemOptionValues()->toArray();
         $orderItem->getOrderItemTextOptionValues()->toArray();
 
-        $this->assertSame(14, $this->getTotalQueries());
+        $this->assertCount(1, $orderItem->getAttachments());
+
+        $this->assertSame(15, $this->getTotalQueries());
     }
 
     public function testFindOneByIdThrowsException()

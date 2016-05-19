@@ -30,6 +30,8 @@
             </options>
         </field>
 
+        <many-to-many field="orderItems" target-entity="OrderItem" mapped-by="attachments" fetch="EXTRA_LAZY"/>
+
     </entity>
 
 </doctrine-mapping>
