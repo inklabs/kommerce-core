@@ -40,8 +40,9 @@ class AttachmentService implements AttachmentServiceInterface
             $urlFilePath
         );
 
-        // TODO: Link OrderItem to attachment
-
         $this->attachmentRepository->create($attachment);
+
+        $order = $orderItem->getOrder();
+        $this->orderService->update($order);
     }
 }

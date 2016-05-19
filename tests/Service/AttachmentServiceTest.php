@@ -37,6 +37,8 @@ class AttachmentServiceTest extends ServiceTestCase
     {
         $orderItem = $this->dummyData->getOrderItem();
         $orderItem->setId(1);
+        $order = $this->dummyData->getOrder();
+        $order->addOrderItem($orderItem);
 
         $uploadFileDTO = $this->dummyData->getUploadFileDTO();
 
@@ -52,8 +54,10 @@ class AttachmentServiceTest extends ServiceTestCase
         $this->attachmentRepository->shouldReceive('create')
             ->once();
 
-        $this->attributeService->createAttachmentForOrderItem($uploadFileDTO, $orderItem->getId());
+        $this->orderService->shouldReceive('update')
+            ->with($order)
+            ->once();
 
-        // TODO: Finish testing
+        $this->attributeService->createAttachmentForOrderItem($uploadFileDTO, $orderItem->getId());
     }
 }

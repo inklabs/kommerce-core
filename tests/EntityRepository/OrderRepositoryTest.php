@@ -4,15 +4,24 @@ namespace inklabs\kommerce\EntityRepository;
 use DateTime;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\OptionProduct;
+use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\OrderItemOptionProduct;
+use inklabs\kommerce\Entity\OrderItemOptionValue;
+use inklabs\kommerce\Entity\OrderItemTextOptionValue;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\ShipmentComment;
 use inklabs\kommerce\Entity\ShipmentItem;
 use inklabs\kommerce\Entity\ShipmentTracker;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentReferenceNumberGenerator;
@@ -20,23 +29,32 @@ use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
 class OrderRepositoryTest extends EntityRepositoryTestCase
 {
+    /** @var OrderRepositoryInterface */
+    protected $orderRepository;
+
     protected $metaDataClassNames = [
+        AbstractPayment::class,
+        Cart::class,
+        CatalogPromotion::class,
         Coupon::class,
         Order::class,
         OrderItem::class,
-        AbstractPayment::class,
+        OrderItemOptionProduct::class,
+        OrderItemOptionValue::class,
+        OrderItemTextOptionValue::class,
+        OptionProduct::class,
+        OptionValue::class,
         Product::class,
-        User::class,
-        Cart::class,
-        TaxRate::class,
+        ProductQuantityDiscount::class,
         Shipment::class,
         ShipmentTracker::class,
         ShipmentItem::class,
         ShipmentComment::class,
+        Tag::class,
+        TaxRate::class,
+        TextOption::class,
+        User::class,
     ];
-
-    /** @var OrderRepositoryInterface */
-    protected $orderRepository;
 
     public function setUp()
     {
@@ -49,7 +67,13 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $uniqueId = crc32($referenceNumber);
 
         $product = $this->dummyData->getProduct($uniqueId);
+
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($product);
+
         $price = $this->dummyData->getPrice();
+        $price->addCatalogPromotion($catalogPromotion);
+        $price->addProductQuantityDiscount($productQuantityDiscount);
 
         $user = $this->dummyData->getUser($uniqueId);
         $orderItem = $this->dummyData->getOrderItem($product, $price);
@@ -66,6 +90,8 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $order->setTaxRate($taxRate);
         $order->addShipment($shipment);
 
+        $this->entityManager->persist($catalogPromotion);
+        $this->entityManager->persist($productQuantityDiscount);
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);
         $this->entityManager->persist($taxRate);
@@ -117,7 +143,17 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $shipment->getShipmentComments()->toArray();
 
         $this->assertTrue($order instanceof Order);
-        $this->assertSame(9, $this->getTotalQueries());
+
+        $orderItem = $order->getOrderItem(0);
+        $orderItem->getProduct()->getCreated();
+        $orderItem->getOrder()->getCreated();
+        $orderItem->getCatalogPromotions()->toArray();
+        $orderItem->getProductQuantityDiscounts()->toArray();
+        $orderItem->getOrderItemOptionProducts()->toArray();
+        $orderItem->getOrderItemOptionValues()->toArray();
+        $orderItem->getOrderItemTextOptionValues()->toArray();
+
+        $this->assertSame(14, $this->getTotalQueries());
     }
 
     public function testFindOneByIdThrowsException()
