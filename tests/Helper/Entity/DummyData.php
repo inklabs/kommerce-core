@@ -578,13 +578,17 @@ class DummyData
 
     public function getOrderItemFull()
     {
+        $product = $this->getProduct();
+        $product->enableAttachments();
+
         $orderItem = new OrderItem;
-        $orderItem->setProduct($this->getProduct());
+        $orderItem->setProduct($product);
         $orderItem->setQuantity(1);
         $orderItem->setPrice($this->getPriceFull());
         $orderItem->addOrderItemOptionProduct($this->getOrderItemOptionProduct());
         $orderItem->addOrderItemOptionValue($this->getOrderItemOptionValue());
         $orderItem->addOrderItemTextOptionValue($this->getOrderItemTextOptionValue());
+        $orderItem->addAttachment($this->getAttachment());
 
         return $orderItem;
     }

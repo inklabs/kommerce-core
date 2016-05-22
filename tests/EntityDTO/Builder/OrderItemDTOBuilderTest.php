@@ -16,7 +16,7 @@ class OrderItemDTOBuilderTest extends EntityDTOBuilderTestCase
         $this->assertTrue($orderItemDTO instanceof OrderItemDTO);
         $this->assertTrue($orderItemDTO->price instanceof PriceDTO);
         $this->assertTrue($orderItemDTO->product instanceof ProductDTO);
-        $this->assertFalse($orderItemDTO->areAttachmentsEnabled);
+        $this->assertTrue($orderItemDTO->areAttachmentsEnabled);
         $this->assertTrue($orderItemDTO->catalogPromotions[0] instanceof CatalogPromotionDTO);
         $this->assertTrue($orderItemDTO->productQuantityDiscounts[0] instanceof ProductQuantityDiscountDTO);
         $this->assertTrue($orderItemDTO->orderItemOptionProducts[0] instanceof OrderItemOptionProductDTO);
@@ -27,5 +27,6 @@ class OrderItemDTOBuilderTest extends EntityDTOBuilderTestCase
         $this->assertTrue($orderItemDTO->orderItemOptionValues[0]->optionValue->option instanceof OptionDTO);
         $this->assertTrue($orderItemDTO->orderItemTextOptionValues[0] instanceof OrderItemTextOptionValueDTO);
         $this->assertTrue($orderItemDTO->orderItemTextOptionValues[0]->textOption instanceof TextOptionDTO);
+        $this->assertTrue($orderItemDTO->attachments[0] instanceof AttachmentDTO);
     }
 }

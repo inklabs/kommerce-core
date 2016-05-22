@@ -93,6 +93,16 @@ class OrderItemDTOBuilder
         return $this;
     }
 
+    public function withAttachments()
+    {
+        foreach ($this->orderItem->getAttachments() as $attachment) {
+            $this->orderItemDTO->attachments[] = $attachment->getDTOBuilder()
+                ->build();
+        }
+
+        return $this;
+    }
+
     public function withAllData()
     {
         return $this
@@ -100,7 +110,8 @@ class OrderItemDTOBuilder
             ->withProductQuantityDiscounts()
             ->withOrderItemOptionProducts()
             ->withOrderItemOptionValues()
-            ->withOrderItemTextOptionValues();
+            ->withOrderItemTextOptionValues()
+            ->withAttachments();
     }
 
     public function build()

@@ -43,4 +43,7 @@ class OrderItemDTO
 
     /** @var ProductQuantityDiscountDTO[] */
     public $productQuantityDiscounts = [];
+
+    /** @var AttachmentDTO[] */
+    public $attachments;
 }

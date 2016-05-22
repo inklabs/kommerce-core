@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\EntityDTO\Builder\AttachmentDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -10,10 +11,10 @@ class Attachment implements UuidEntityInterface, ValidationInterface
     use TimeTrait, UuidTrait;
 
     /** @var bool */
-    protected $isVisible;
+    private $isVisible;
 
     /** @var bool */
-    protected $isLocked;
+    private $isLocked;
 
     /** @var string */
     private $uri;
@@ -88,5 +89,15 @@ class Attachment implements UuidEntityInterface, ValidationInterface
     public function addOrderItem(OrderItem $orderItem)
     {
         $this->orderItems->add($orderItem);
+    }
+
+    public function getOrderItems()
+    {
+        return $this->orderItems;
+    }
+
+    public function getDTOBuilder()
+    {
+        return new AttachmentDTOBuilder($this);
     }
 }
