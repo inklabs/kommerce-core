@@ -16,19 +16,19 @@ class Attachment implements UuidEntityInterface, ValidationInterface
     protected $isLocked;
 
     /** @var string */
-    private $filePath;
+    private $uri;
 
     /** @var OrderItem[] */
     private $orderItems;
 
     /**
-     * @param string $filePath
+     * @param string $uri
      */
-    public function __construct($filePath)
+    public function __construct($uri)
     {
         $this->setId();
         $this->setCreated();
-        $this->setFilePath($filePath);
+        $this->setUri($uri);
         $this->setVisible();
         $this->setUnlocked();
         $this->orderItems = new ArrayCollection();
@@ -36,23 +36,23 @@ class Attachment implements UuidEntityInterface, ValidationInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('filePath', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('filePath', new Assert\Length([
+        $metadata->addPropertyConstraint('uri', new Assert\NotBlank);
+        $metadata->addPropertyConstraint('uri', new Assert\Length([
             'max' => 255,
         ]));
     }
 
-    public function getFilePath()
+    public function getUri()
     {
-        return $this->filePath;
+        return $this->uri;
     }
 
     /**
-     * @param string $filePath
+     * @param string $uri
      */
-    private function setFilePath($filePath)
+    private function setUri($uri)
     {
-        $this->filePath = $filePath;
+        $this->uri = $uri;
     }
 
     public function isVisible()

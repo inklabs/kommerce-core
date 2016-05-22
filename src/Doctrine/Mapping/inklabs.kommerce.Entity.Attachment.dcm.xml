@@ -13,7 +13,7 @@
 
         <id name="id" type="uuid_binary"/>
 
-        <field name="filePath" type="string" length="255"/>
+        <field name="uri" type="string" length="255"/>
 
         <field name="isVisible" type="boolean"/>
         <field name="isLocked" type="boolean"/>

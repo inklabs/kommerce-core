@@ -4,8 +4,8 @@ namespace inklabs\kommerce\Service;
 interface FileManagerInterface
 {
     /**
-     * @param string $filePath
+     * @param string $uri
      * @return string
      */
-    public function saveFile($filePath);
+    public function saveFile($uri);
 }

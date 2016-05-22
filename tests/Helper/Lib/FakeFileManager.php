@@ -6,10 +6,10 @@ use inklabs\kommerce\Service\FileManagerInterface;
 class FakeFileManager implements FileManagerInterface
 {
     /**
-     * @param string $filePath
+     * @param string $uri
      * @return string
      */
-    public function saveFile($filePath)
+    public function saveFile($uri)
     {
         return 'http://lorempixel.com/400/200/';
     }

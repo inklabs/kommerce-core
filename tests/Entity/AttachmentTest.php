@@ -17,7 +17,7 @@ class AttachmentTest extends EntityTestCase
         $this->assertTrue($attachment->isVisible());
         $this->assertFalse($attachment->isLocked());
         $this->assertSame(null, $attachment->getUpdated());
-        $this->assertSame($filePath, $attachment->getFilePath());
+        $this->assertSame($filePath, $attachment->getUri());
 
         $attachment->setUpdated();
         $attachment->setNotVisible();
