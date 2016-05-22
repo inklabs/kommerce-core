@@ -1,12 +1,11 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
-use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
+use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 
 class ServiceFactory
 {
@@ -22,6 +21,9 @@ class ServiceFactory
     /** @var PaymentGatewayInterface */
     private $paymentGateway;
 
+    /** @var ShipmentGatewayInterface */
+    private $shipmentGateway;
+
     /** @var FileManagerInterface */
     private $fileManager;
 
@@ -30,12 +32,14 @@ class ServiceFactory
         CartCalculatorInterface $cartCalculator,
         EventDispatcherInterface $eventDispatcher,
         PaymentGatewayInterface $paymentGateway,
+        ShipmentGatewayInterface $shipmentGateway,
         FileManagerInterface $fileManager
     ) {
         $this->repositoryFactory = $repositoryFactory;
         $this->cartCalculator = $cartCalculator;
         $this->eventDispatcher = $eventDispatcher;
         $this->paymentGateway = $paymentGateway;
+        $this->shipmentGateway = $shipmentGateway;
         $this->fileManager = $fileManager;
     }
 
@@ -80,7 +84,7 @@ class ServiceFactory
             $this->repositoryFactory->getOptionValueRepository(),
             $this->repositoryFactory->getOrderRepository(),
             $this->repositoryFactory->getProductRepository(),
-            $this->getShipmentGateway(),
+            $this->shipmentGateway,
             $this->repositoryFactory->getTaxRateRepository(),
             $this->repositoryFactory->getTextOptionRepository(),
             $this->repositoryFactory->getUserRepository(),
@@ -208,7 +212,7 @@ class ServiceFactory
             $this->repositoryFactory->getOrderItemRepository(),
             $this->paymentGateway,
             $this->repositoryFactory->getProductRepository(),
-            $this->getShipmentGateway()
+            $this->shipmentGateway
         );
     }
 
@@ -226,18 +230,7 @@ class ServiceFactory
 
     public function getShipmentGateway()
     {
-        $fromAddress = new OrderAddressDTO;
-        $fromAddress->company = 'Acme Co.';
-        $fromAddress->address1 = '123 Any St';
-        $fromAddress->address2 = 'Ste 3';
-        $fromAddress->city = 'Santa Monica';
-        $fromAddress->state = 'CA';
-        $fromAddress->zip5 = '90401';
-        $fromAddress->phone = '555-123-4567';
-
-        // TODO: This dependency crosses the src / test boundary
-        // TODO: Inject via constructor!
-        return new FakeShipmentGateway($fromAddress);
+        return $this->shipmentGateway;
     }
 
     /**

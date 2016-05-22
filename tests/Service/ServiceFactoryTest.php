@@ -19,7 +19,7 @@ class ServiceFactoryTest extends ServiceTestCase
 
     public function testGetServices()
     {
-        $serviceFactory = $this->getServiceFactory(new CartCalculator(new Pricing));
+        $serviceFactory = $this->getServiceFactory();
         $this->assertTrue($serviceFactory->getAttribute() instanceof AttributeService);
         $this->assertTrue($serviceFactory->getAttributeValue() instanceof AttributeValueService);
         $this->assertTrue($serviceFactory->getCart() instanceof CartService);
