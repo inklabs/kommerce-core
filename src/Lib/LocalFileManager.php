@@ -159,7 +159,7 @@ class LocalFileManager implements FileManagerInterface
 
     private function checkValidImage($sourceFilePath)
     {
-        if (! $this->fileIs12BytesOrMore($sourceFilePath)) {
+        if (! $this->imageIsLargeEnoughToReadFirstBytes($sourceFilePath)) {
             throw FileManagerException::invalidUploadedFile();
         }
 
@@ -173,7 +173,7 @@ class LocalFileManager implements FileManagerInterface
      * @param string $sourceFilePath
      * @return bool
      */
-    private function fileIs12BytesOrMore($sourceFilePath)
+    private function imageIsLargeEnoughToReadFirstBytes($sourceFilePath)
     {
         return filesize($sourceFilePath) > 11;
     }
