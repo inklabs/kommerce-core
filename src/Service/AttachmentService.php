@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
+use inklabs\kommerce\Lib\FileManagerInterface;
 
 class AttachmentService implements AttachmentServiceInterface
 {

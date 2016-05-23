@@ -7,7 +7,7 @@ use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
-use inklabs\kommerce\Service\FileManagerInterface;
+use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;

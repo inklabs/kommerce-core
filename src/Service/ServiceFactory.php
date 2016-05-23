@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
+use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 

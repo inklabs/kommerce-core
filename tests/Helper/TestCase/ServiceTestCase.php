@@ -8,7 +8,7 @@ use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
-use inklabs\kommerce\Service\FileManagerInterface;
+use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\tests\Helper\Lib\FakeFileManager;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;

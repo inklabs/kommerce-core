@@ -1,13 +1,13 @@
 <?php
-namespace inklabs\kommerce\Service;
+namespace inklabs\kommerce\Lib;
 
 class FileManager implements FileManagerInterface
 {
     /**
-     * @param string $uri
+     * @param string $filePath
      * @return string
      */
-    public function saveFile($uri)
+    public function saveFile($filePath)
     {
         return 'http://lorempixel.com/400/200/';
         // TODO: Implement saveFile() method.
