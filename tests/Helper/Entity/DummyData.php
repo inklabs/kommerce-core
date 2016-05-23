@@ -47,6 +47,7 @@ use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\PromotionType;
+use inklabs\kommerce\Entity\RemoteManagedFile;
 use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\ShipmentCarrierType;
 use inklabs\kommerce\Entity\ShipmentComment;
@@ -798,6 +799,15 @@ class DummyData
     public static function getRandomToken($bitLength = 10)
     {
         return bin2hex(openssl_random_pseudo_bytes($bitLength));
+    }
+
+    public function getRemoteManagedFile()
+    {
+        return new RemoteManagedFile(
+            'http://lorempixel.com/400/200/',
+            IMAGETYPE_JPEG,
+            'image/jpeg'
+        );
     }
 
     public function getShipment(ShipmentItem $shipmentItem = null)

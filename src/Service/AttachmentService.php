@@ -36,10 +36,11 @@ class AttachmentService implements AttachmentServiceInterface
     {
         $orderItem = $this->orderService->getOrderItemById($orderItemId);
         $order = $orderItem->getOrder();
-        $urlFilePath = $this->fileManager->saveFile($uploadFileDTO->getFilePath());
+
+        $managedFile = $this->fileManager->saveFile($uploadFileDTO->getFilePath());
 
         $attachment = new Attachment(
-            $urlFilePath
+            $managedFile->getUri()
         );
 
         $this->attachmentRepository->create($attachment);

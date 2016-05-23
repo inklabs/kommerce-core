@@ -1,11 +1,13 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
+use inklabs\kommerce\Entity\ManagedFileInterface;
+
 interface FileManagerInterface
 {
     /**
-     * @param string $filePath
-     * @return string
+     * @param string $sourceFilePath
+     * @return ManagedFileInterface
      */
-    public function saveFile($filePath);
+    public function saveFile($sourceFilePath);
 }

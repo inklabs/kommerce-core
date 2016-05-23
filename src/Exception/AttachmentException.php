@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Exception;
 
 class AttachmentException extends Kommerce400Exception
 {
-    const ATTACHMENT_NOT_ALLOWED = 0;
+    const ATTACHMENT_NOT_ALLOWED = 1;
 
     public static function notAllowed()
     {

@@ -61,6 +61,7 @@ class AttachmentServiceTest extends ServiceTestCase
 
         $this->fileManager->shouldReceive('saveFile')
             ->with($uploadFileDTO->getFilePath())
+            ->andReturn($this->dummyData->getRemoteManagedFile())
             ->once();
 
         $this->attachmentRepository->shouldReceive('create')
