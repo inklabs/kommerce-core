@@ -15,7 +15,7 @@ class LocalManagedFile implements ManagedFileInterface
     /** @var string */
     private $basePath;
 
-    /** @var int|null */
+    /** @var int */
     private $imageType;
 
     /** @var string */
