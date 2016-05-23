@@ -1,8 +1,14 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
+
 class LocalManagedFile implements ManagedFileInterface
 {
+    /** @var UuidInterface */
+    private $id;
+
     /** @var string */
     private $baseFileName;
 
@@ -25,17 +31,16 @@ class LocalManagedFile implements ManagedFileInterface
     private $uriPrefix;
 
     public function __construct(
-        $baseFileName,
         $fileExtension,
-        $subPath,
         $basePath,
         $imageType,
         $mimeType,
         $uriPrefix = null
     ) {
-        $this->baseFileName = (string) $baseFileName;
+        $this->id = Uuid::uuid4();
+        $this->baseFileName = $this->id->getHex();
+        $this->subPath = $this->buildSubPath();
         $this->fileExtension = (string) $fileExtension;
-        $this->subPath = (string) $subPath;
         $this->basePath = (string) $basePath;
         $this->imageType = (int) $imageType;
         $this->mimeType = (string) $mimeType;
@@ -78,5 +83,10 @@ class LocalManagedFile implements ManagedFileInterface
     private function getRelativePath()
     {
         return $this->getSubPath() . '/' . $this->getFileName();
+    }
+
+    private function buildSubPath()
+    {
+        return substr($this->baseFileName, 0, 3) . '/' . substr($this->baseFileName, 3, 3);
     }
 }

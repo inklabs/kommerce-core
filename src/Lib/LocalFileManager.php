@@ -5,7 +5,6 @@ use Exception;
 use inklabs\kommerce\Entity\LocalManagedFile;
 use inklabs\kommerce\Entity\ManagedFileInterface;
 use inklabs\kommerce\Exception\FileManagerException;
-use Ramsey\Uuid\Uuid;
 
 class LocalFileManager implements FileManagerInterface
 {
@@ -53,16 +52,12 @@ class LocalFileManager implements FileManagerInterface
         $this->checkUploadedFile($sourceFilePath);
         $this->checkValidImage($sourceFilePath);
 
-        $baseFileName = $this->getRandomHash();
         $fileExtension = $this->getFileExtension($sourceFilePath);
-        $subPath = $this->getSubPath($baseFileName);
         $imageType = $this->getImageType($sourceFilePath);
         $mimeType = $this->getMimeType($imageType);
 
         $managedFile = new LocalManagedFile(
-            $baseFileName,
             $fileExtension,
-            $subPath,
             $this->destinationPath,
             $imageType,
             $mimeType,
@@ -95,30 +90,12 @@ class LocalFileManager implements FileManagerInterface
     }
 
     /**
-     * @return string
-     */
-    private function getRandomHash()
-    {
-        $uuid = Uuid::uuid4();
-        return $uuid->getHex();
-    }
-
-    /**
      * @param string $destinationPath
      * @throws FileManagerException
      */
     private function setDestinationPath($destinationPath)
     {
         $this->destinationPath = $destinationPath;
-    }
-
-    /**
-     * @param string $newFileName
-     * @return string abc/def
-     */
-    private function getSubPath($newFileName)
-    {
-        return substr($newFileName, 0, 3) . '/' . substr($newFileName, 3, 3);
     }
 
     /**
@@ -149,15 +126,6 @@ class LocalFileManager implements FileManagerInterface
                 throw FileManagerException::unableToCreateDirectory();
             }
         }
-    }
-
-    /**
-     * @param string $sourceFilePath
-     * @return bool
-     */
-    private function fileIs12BytesOrMore($sourceFilePath)
-    {
-        return filesize($sourceFilePath) > 11;
     }
 
     /**
@@ -196,10 +164,18 @@ class LocalFileManager implements FileManagerInterface
         }
 
         $imageType = $this->getImageType($sourceFilePath);
-
         if (! in_array($imageType, $this->allowedImageTypes)) {
             throw FileManagerException::invalidImageType();
         }
+    }
+
+    /**
+     * @param string $sourceFilePath
+     * @return bool
+     */
+    private function fileIs12BytesOrMore($sourceFilePath)
+    {
+        return filesize($sourceFilePath) > 11;
     }
 
     private function checkDestination()
