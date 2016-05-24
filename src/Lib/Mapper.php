@@ -1,13 +1,13 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
+use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
-use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
@@ -64,6 +64,9 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->serviceFactory->getCart();
                 } elseif ($parameterClassName === CouponServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getCoupon();
+                } elseif ($parameterClassName === EntityManager::class) {
+                    // TODO: Remove after uuid_migration
+                    $constructorParameters[] = $this->serviceFactory->getRepositoryFactory()->getEntityManager();
                 } elseif ($parameterClassName === FileManagerInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getFileManager();
                 } elseif ($parameterClassName === InventoryServiceInterface::class) {

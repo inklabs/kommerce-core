@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Order implements EntityInterface, ValidationInterface, ReferenceNumberEntityInterface
 {
-    use TimeTrait, IdTrait, EventGeneratorTrait;
+    use TimeTrait, IdTrait, TempUuidTrait, EventGeneratorTrait;
 
     /** @var string */
     protected $externalId;
@@ -56,6 +56,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
         $this->orderItems = new ArrayCollection;
         $this->payments = new ArrayCollection;
@@ -226,6 +227,9 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
         return $this->billingAddress;
     }
 
+    /**
+     * @return OrderItem[]
+     */
     public function getOrderItems()
     {
         return $this->orderItems;

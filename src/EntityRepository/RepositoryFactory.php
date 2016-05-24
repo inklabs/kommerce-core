@@ -324,4 +324,13 @@ class RepositoryFactory
     {
         return $this->entityManager->getRepository(Warehouse::class);
     }
+
+    /**
+     * TODO: Remove after uuid_migration
+     * @return EntityManager
+     */
+    public function getEntityManager()
+    {
+        return $this->entityManager;
+    }
 }

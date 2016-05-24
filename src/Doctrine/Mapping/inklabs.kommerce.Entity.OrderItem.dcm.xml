@@ -18,6 +18,9 @@
             </options>
         </id>
 
+        <field name="uuid" type="uuid_binary"/>
+        <field name="order_uuid" type="uuid_binary"/>
+
         <field name="quantity" type="smallint">
             <options>
                 <option name="unsigned">true</option>

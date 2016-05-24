@@ -18,6 +18,8 @@
             </options>
         </id>
 
+        <field name="uuid" type="uuid_binary"/>
+
         <field name="externalId" type="string" length="255" nullable="true" unique="true"/>
 
         <field name="referenceNumber" type="string" length="255" nullable="true" unique="true"/>

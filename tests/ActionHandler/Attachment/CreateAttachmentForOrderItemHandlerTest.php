@@ -1,8 +1,7 @@
 <?php
-namespace inklabs\kommerce\ActionHandler\Image;
+namespace inklabs\kommerce\ActionHandler\Attachment;
 
 use inklabs\kommerce\Action\Attachment\CreateAttachmentForOrderItemCommand;
-use inklabs\kommerce\ActionHandler\Attachment\CreateAttachmentForOrderItemHandler;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class CreateAttachmentForOrderItemHandlerTest extends ActionTestCase

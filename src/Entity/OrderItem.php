@@ -4,12 +4,17 @@ namespace inklabs\kommerce\Entity;
 use inklabs\kommerce\EntityDTO\Builder\OrderItemDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Exception\AttachmentException;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait;
+
+    use TempUuidTrait;
+    protected $order_uuid;
 
     /** @var int */
     protected $quantity;
@@ -52,6 +57,9 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
 
     public function __construct()
     {
+        $this->setUuid();
+        $this->order_uuid = Uuid::uuid4();
+
         $this->setCreated();
         $this->catalogPromotions = new ArrayCollection();
         $this->productQuantityDiscounts = new ArrayCollection();
@@ -329,5 +337,10 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
     public function areAttachmentsEnabled()
     {
         return $this->product->areAttachmentsEnabled();
+    }
+
+    public function setOrderUuid(UuidInterface $uuid)
+    {
+        $this->order_uuid = $uuid;
     }
 }
