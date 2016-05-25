@@ -9,6 +9,8 @@ class UserRole implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
+    use TempUuidTrait;
+
     /** @var string */
     protected $name;
 
@@ -17,6 +19,7 @@ class UserRole implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
     }
 

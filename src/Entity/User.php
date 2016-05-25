@@ -13,6 +13,8 @@ class User implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait, EventGeneratorTrait;
 
+    use TempUuidTrait;
+
     /** @var string */
     protected $externalId;
 
@@ -37,16 +39,16 @@ class User implements EntityInterface, ValidationInterface
     /** @var UserStatusType */
     protected $status;
 
-    /** @var ArrayCollection|UserRole[] */
+    /** @var ArrayCollection | UserRole[] */
     protected $userRoles;
 
-    /** @var ArrayCollection|UserToken[] */
+    /** @var ArrayCollection | UserToken[] */
     protected $userTokens;
 
-    /** @var ArrayCollection|UserLogin[] */
+    /** @var ArrayCollection | UserLogin[] */
     protected $userLogins;
 
-    /** @var ArrayCollection|Order[] */
+    /** @var ArrayCollection | Order[] */
     protected $orders;
 
     /** @var Cart */
@@ -54,6 +56,7 @@ class User implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
         $this->userRoles = new ArrayCollection;
         $this->userTokens = new ArrayCollection;
@@ -274,6 +277,9 @@ class User implements EntityInterface, ValidationInterface
         }
     }
 
+    /**
+     * @return UserLogin[]
+     */
     public function getUserLogins()
     {
         return $this->userLogins;

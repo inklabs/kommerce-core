@@ -2,12 +2,17 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\UserLoginDTOBuilder;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class UserLogin implements EntityInterface, ValidationInterface
 {
     use CreatedTrait, IdTrait;
+
+    use TempUuidTrait;
+    private $user_uuid;
+    private $userToken_uuid;
 
     /** @var string */
     protected $email;
@@ -26,6 +31,7 @@ class UserLogin implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
         $this->setResult(UserLoginResultType::fail());
     }
@@ -103,5 +109,17 @@ class UserLogin implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new UserLoginDTOBuilder($this);
+    }
+
+    // TODO: Remove after uuid_migration
+    public function setUserUuid(UuidInterface $uuid)
+    {
+        $this->user_uuid = $uuid;
+    }
+
+    // TODO: Remove after uuid_migration
+    public function setUserTokenUuid(UuidInterface $uuid)
+    {
+        $this->userToken_uuid = $uuid;
     }
 }

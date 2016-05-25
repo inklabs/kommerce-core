@@ -4,12 +4,16 @@ namespace inklabs\kommerce\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\EntityDTO\Builder\UserTokenDTOBuilder;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class UserToken implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
+
+    use TempUuidTrait;
+    protected $user_uuid;
 
     /** @var string */
     protected $userAgent;
@@ -34,6 +38,7 @@ class UserToken implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
         $this->setType(UserTokenType::internal());
         $this->userLogins = new ArrayCollection;
@@ -179,5 +184,11 @@ class UserToken implements EntityInterface, ValidationInterface
     public function getIp4()
     {
         return long2ip($this->ip4);
+    }
+
+    // TODO: Remove after uuid_migration
+    public function setUserUuid(UuidInterface $uuid)
+    {
+        $this->user_uuid = $uuid;
     }
 }

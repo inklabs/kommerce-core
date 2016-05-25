@@ -8,7 +8,7 @@ class MigrateToUUIDHandlerTest extends ActionTestCase
     public function testHandle()
     {
         $this->setupEntityManager();
-        $this->setupOrder();
+        $this->setupDB();
 
         $handler = new MigrateToUUIDHandler($this->entityManager);
 
@@ -16,7 +16,7 @@ class MigrateToUUIDHandlerTest extends ActionTestCase
         $handler->handle();
     }
 
-    private function setupOrder($referenceNumber = null)
+    private function setupDB($referenceNumber = null)
     {
         $uniqueId = crc32($referenceNumber);
 
@@ -26,7 +26,11 @@ class MigrateToUUIDHandlerTest extends ActionTestCase
 
         $product = $this->dummyData->getProduct($uniqueId);
         $price = $this->dummyData->getPrice();
+
+        $userLogin = $this->dummyData->getUserLogin();
         $user = $this->dummyData->getUser($uniqueId);
+        $user->addUserLogin($userLogin);
+
         $orderItem1 = $this->dummyData->getOrderItem($product, $price);
         $orderItem1->addCatalogPromotion($catalogPromotion);
 
@@ -46,6 +50,7 @@ class MigrateToUUIDHandlerTest extends ActionTestCase
         $this->entityManager->persist($tag);
         $this->entityManager->persist($catalogPromotion);
         $this->entityManager->persist($product);
+        $this->entityManager->persist($user);
         $this->entityManager->persist($user);
         $this->entityManager->persist($taxRate);
         $this->entityManager->persist($order);

@@ -18,6 +18,9 @@
             </options>
         </id>
 
+        <field name="uuid" type="uuid_binary"/>
+        <field name="user_uuid" type="uuid_binary"/>
+
         <field name="userAgent" type="string" length="200"/>
 
         <field name="ip4" type="integer">

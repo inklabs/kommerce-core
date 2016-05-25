@@ -6,6 +6,11 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TempUuidTrait;
+use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Entity\UserLogin;
+use inklabs\kommerce\Entity\UserRole;
+use inklabs\kommerce\Entity\UserToken;
+use inklabs\kommerce\Entity\Warehouse;
 
 class MigrateToUUIDHandler
 {
@@ -19,15 +24,61 @@ class MigrateToUUIDHandler
 
     public function handle()
     {
-        $this->migrateTags();
+        $this->migrateAllEntities();
+        $this->migrateUsers();
         $this->migrateCatalogPromotions();
         $this->migrateOrders();
     }
 
-    private function migrateTags()
+    private function migrateAllEntities()
     {
-        $entityQuery = $this->getEntityQuery(Tag::class);
+        $this->migrateEntities([
+            Tag::class,
+            UserLogin::class,
+            UserRole::class,
+            UserToken::class,
+            Warehouse::class
+        ]);
+    }
+
+    private function migrateEntities(array $entityClassNames)
+    {
+        foreach ($entityClassNames as $entityClassName) {
+            $entityQuery = $this->getEntityQuery($entityClassName);
+            $this->setUUIDAndFlush($entityQuery);
+        }
+    }
+
+    private function migrateUsers()
+    {
+        $entityQuery = $this->getEntityQuery(User::class);
         $this->setUUIDAndFlush($entityQuery);
+
+        foreach ($this->iterate($entityQuery) as $user) {
+            $this->migrateUserLogins($user);
+            $this->migrateUserTokens($user);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    private function migrateUserLogins(User $user)
+    {
+        foreach ($user->getUserLogins() as $userLogin) {
+            $userLogin->setUserUuid($user->getUuid());
+
+            $userToken = $userLogin->getUserToken();
+            if ($userToken !== null) {
+                $userLogin->setUserTokenUuid($userToken->getUuid());
+            }
+        }
+    }
+
+    private function migrateUserTokens(User $user)
+    {
+        foreach ($user->getUserTokens() as $userToken) {
+            $userToken->setUserUuid($user->getUuid());
+        }
     }
 
     private function migrateCatalogPromotions()

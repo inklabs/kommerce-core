@@ -14,6 +14,10 @@
             </options>
         </id>
 
+        <field name="uuid" type="uuid_binary"/>
+        <field name="user_uuid" type="uuid_binary" nullable="true"/>
+        <field name="userToken_uuid" type="uuid_binary" nullable="true"/>
+
         <field name="email" type="string" length="255"/>
         <field name="ip4" type="integer">
             <options>
