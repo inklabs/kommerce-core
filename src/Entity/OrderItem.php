@@ -339,6 +339,7 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         return $this->product->areAttachmentsEnabled();
     }
 
+    // TODO: Remove after uuid_migration
     public function setOrderUuid(UuidInterface $uuid)
     {
         $this->order_uuid = $uuid;
