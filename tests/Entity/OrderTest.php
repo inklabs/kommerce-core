@@ -122,8 +122,8 @@ class OrderTest extends EntityTestCase
     {
         $orderItem = $this->dummyData->getOrderItem();
         $orderItem->setQuantity(2);
-        $shipmentItem = $this->dummyData->getShipmentItem($orderItem, 2);
-        $shipment = $this->dummyData->getShipment($shipmentItem);
+        $shipment = $this->dummyData->getShipment();
+        $shipmentItem = $this->dummyData->getShipmentItem($shipment, $orderItem, 2);
         $order = new Order;
         $order->addOrderItem($orderItem);
 
@@ -137,8 +137,9 @@ class OrderTest extends EntityTestCase
     {
         $orderItem = $this->dummyData->getOrderItem();
         $orderItem->setQuantity(2);
-        $shipmentItem = $this->dummyData->getShipmentItem($orderItem, 1);
-        $shipment = $this->dummyData->getShipment($shipmentItem);
+        $shipment = $this->dummyData->getShipment();
+        $this->dummyData->getShipmentItem($shipment, $orderItem, 1);
+
         $order = new Order;
         $order->addOrderItem($orderItem);
 

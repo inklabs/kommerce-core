@@ -167,7 +167,7 @@ class OrderService implements OrderServiceInterface
         $shipment->addShipmentTracker($shipmentTracker);
 
         if ($comment !== '') {
-            $shipment->addShipmentComment(new ShipmentComment($comment));
+            new ShipmentComment($shipment, $comment);
         }
 
         $this->addShipmentItemsFromOrderItems($orderItemQtyDTO, $shipment);
@@ -185,9 +185,7 @@ class OrderService implements OrderServiceInterface
         foreach ($orderItemQtyDTO->getItems() as $orderItemId => $quantity) {
             $orderItem = $this->orderItemRepository->findOneById($orderItemId);
 
-            $shipment->addShipmentItem(
-                new ShipmentItem($orderItem, $quantity)
-            );
+            new ShipmentItem($shipment, $orderItem, $quantity);
         }
     }
 

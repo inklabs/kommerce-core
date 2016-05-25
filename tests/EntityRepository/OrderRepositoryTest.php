@@ -74,8 +74,8 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $orderItem = $this->dummyData->getOrderItem($product, $price);
         $cartTotal = $this->dummyData->getCartTotal();
         $taxRate = $this->dummyData->getTaxRate();
-        $shipmentItem = $this->dummyData->getShipmentItem($orderItem, 1);
-        $shipment = $this->dummyData->getShipment($shipmentItem);
+        $shipment = $this->dummyData->getShipment();
+        $shipmentItem = $this->dummyData->getShipmentItem($shipment, $orderItem, 1);
 
         $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
         $order->setUser($user);
@@ -137,8 +137,8 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
 
         $taxRate = $this->dummyData->getTaxRate();
 
-        $shipmentItem = $this->dummyData->getShipmentItem($orderItem, 1);
-        $shipment = $this->dummyData->getShipment($shipmentItem);
+        $shipment = $this->dummyData->getShipment();
+        $shipmentItem = $this->dummyData->getShipmentItem($shipment, $orderItem, 1);
 
         $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
         $order->setUser($user);

@@ -17,6 +17,9 @@
             </options>
         </id>
 
+        <field name="uuid" type="uuid_binary"/>
+        <field name="shipment_uuid" type="uuid_binary"/>
+
         <field name="trackingCode" type="string" length="255" nullable="false"/>
         <field name="externalId" type="string" length="60" nullable="true" unique="true"/>
 

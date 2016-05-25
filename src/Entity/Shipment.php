@@ -10,6 +10,9 @@ class Shipment implements EntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
 
+    use TempUuidTrait;
+    private $order_uuid;
+
     /** @var ShipmentTracker[]|ArrayCollection */
     protected $shipmentTrackers;
 
@@ -18,12 +21,12 @@ class Shipment implements EntityInterface, ValidationInterface
 
     /** @var ShipmentComment[]|ArrayCollection */
     protected $shipmentComments;
-
     /** @var Order */
     protected $order;
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
         $this->shipmentTrackers = new ArrayCollection;
         $this->shipmentItems = new ArrayCollection;
@@ -37,11 +40,6 @@ class Shipment implements EntityInterface, ValidationInterface
         $metadata->addPropertyConstraint('shipmentComments', new Assert\Valid);
     }
 
-    public function setOrder(Order $order)
-    {
-        $this->order = $order;
-    }
-
     public function getOrder()
     {
         return $this->order;
@@ -49,10 +47,12 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function addShipmentTracker(ShipmentTracker $shipmentTracker)
     {
-        $shipmentTracker->setShipment($this);
         $this->shipmentTrackers->add($shipmentTracker);
     }
 
+    /**
+     * @return ShipmentTracker[]
+     */
     public function getShipmentTrackers()
     {
         return $this->shipmentTrackers;
@@ -60,10 +60,12 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function addShipmentItem(ShipmentItem $shipmentItem)
     {
-        $shipmentItem->setShipment($this);
         $this->shipmentItems->add($shipmentItem);
     }
 
+    /**
+     * @return ShipmentItem[]
+     */
     public function getShipmentItems()
     {
         return $this->shipmentItems;
@@ -71,10 +73,12 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function addShipmentComment(ShipmentComment $shipmentComment)
     {
-        $shipmentComment->setShipment($this);
         $this->shipmentComments->add($shipmentComment);
     }
 
+    /**
+     * @return ShipmentComment[]
+     */
     public function getShipmentComments()
     {
         return $this->shipmentComments;
@@ -98,5 +102,11 @@ class Shipment implements EntityInterface, ValidationInterface
         }
 
         return null;
+    }
+
+    public function setOrder(Order $order)
+    {
+        $this->order = $order;
+        $this->order_uuid = $order->getUuid();
     }
 }

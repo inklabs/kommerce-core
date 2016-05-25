@@ -12,7 +12,7 @@ class MigrateToUUIDHandlerTest extends ActionTestCase
 
         $handler = new MigrateToUUIDHandler($this->entityManager);
 
-        $this->setCountLogger(true);
+//        $this->setCountLogger(true);
         $handler->handle();
     }
 
@@ -38,8 +38,8 @@ class MigrateToUUIDHandlerTest extends ActionTestCase
 
         $cartTotal = $this->dummyData->getCartTotal();
         $taxRate = $this->dummyData->getTaxRate();
-        $shipmentItem = $this->dummyData->getShipmentItem($orderItem1, 1);
-        $shipment = $this->dummyData->getShipment($shipmentItem);
+        $shipment = $this->dummyData->getShipment();
+        $shipmentItem = $this->dummyData->getShipmentItem($shipment, $orderItem1, 1);
 
         $order = $this->dummyData->getOrder($cartTotal, [$orderItem1, $orderItem2]);
         $order->setUser($user);

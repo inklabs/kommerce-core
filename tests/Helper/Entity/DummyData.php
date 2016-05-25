@@ -810,17 +810,9 @@ class DummyData
         );
     }
 
-    public function getShipment(ShipmentItem $shipmentItem = null)
+    public function getShipment()
     {
-        if ($shipmentItem === null) {
-            $shipmentItem = $this->getShipmentItem();
-        }
-
-        $shipment = new Shipment;
-        $shipment->addShipmentItem($shipmentItem);
-        $shipment->addShipmentTracker($this->getShipmentTracker());
-        $shipment->addShipmentComment($this->getShipmentComment());
-
+        $shipment = new Shipment();
         return $shipment;
     }
 
@@ -829,18 +821,26 @@ class DummyData
         return ShipmentCarrierType::ups();
     }
 
-    public function getShipmentComment()
+    public function getShipmentComment(Shipment $shipment = null)
     {
-        return new ShipmentComment('A shipment comment');
+        if ($shipment === null) {
+            $shipment = $this->getShipment();
+        }
+
+        return new ShipmentComment($shipment, 'A shipment comment');
     }
 
-    public function getShipmentItem(OrderItem $orderItem = null, $quantityToShip = 1)
+    public function getShipmentItem(Shipment $shipment = null, OrderItem $orderItem = null, $quantityToShip = 1)
     {
+        if ($shipment === null) {
+            $shipment = $this->getShipment();
+        }
+
         if ($orderItem === null) {
             $orderItem = $this->getOrderItem();
         }
 
-        $shipmentItem = new ShipmentItem($orderItem, $quantityToShip);
+        $shipmentItem = new ShipmentItem($shipment, $orderItem, $quantityToShip);
 
         return $shipmentItem;
     }
