@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Migrate;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Tag;
@@ -9,10 +9,10 @@ use inklabs\kommerce\Entity\TempUuidTrait;
 
 class MigrateToUUIDHandler
 {
-    /** @var EntityManager */
+    /** @var EntityManagerInterface */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
