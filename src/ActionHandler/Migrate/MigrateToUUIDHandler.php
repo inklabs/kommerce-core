@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\ActionHandler\Migrate;
 
 use Doctrine\ORM\EntityManager;
-use inklabs\kommerce\Action\Migrate\MigrateToUUIDCommand;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Tag;
@@ -18,7 +17,7 @@ class MigrateToUUIDHandler
         $this->entityManager = $entityManager;
     }
 
-    public function handle(MigrateToUUIDCommand $command)
+    public function handle()
     {
         $this->migrateTags();
         $this->migrateCatalogPromotions();

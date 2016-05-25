@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Migrate;
 
-use inklabs\kommerce\Action\Migrate\MigrateToUUIDCommand;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class MigrateToUUIDHandlerTest extends ActionTestCase
@@ -11,11 +10,10 @@ class MigrateToUUIDHandlerTest extends ActionTestCase
         $this->setupEntityManager();
         $this->setupOrder();
 
-        $command = new MigrateToUUIDCommand();
         $handler = new MigrateToUUIDHandler($this->entityManager);
 
         $this->setCountLogger(true);
-        $handler->handle($command);
+        $handler->handle();
     }
 
     private function setupOrder($referenceNumber = null)
