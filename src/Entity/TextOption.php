@@ -10,6 +10,8 @@ class TextOption implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
+    use TempUuidTrait;
+
     /** @var string */
     protected $name;
 
@@ -27,8 +29,8 @@ class TextOption implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
-
         $this->tags = new ArrayCollection;
         $this->sortOrder = 0;
         $this->setType(TextOptionType::text());

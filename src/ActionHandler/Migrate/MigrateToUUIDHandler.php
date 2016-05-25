@@ -5,7 +5,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TempUuidTrait;
+use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserRole;
@@ -34,6 +36,9 @@ class MigrateToUUIDHandler
     {
         $this->migrateEntities([
             Tag::class,
+            TaxRate::class,
+            TextOption::class,
+            User::class,
             UserLogin::class,
             UserRole::class,
             UserToken::class,
@@ -52,7 +57,6 @@ class MigrateToUUIDHandler
     private function migrateUsers()
     {
         $entityQuery = $this->getEntityQuery(User::class);
-        $this->setUUIDAndFlush($entityQuery);
 
         foreach ($this->iterate($entityQuery) as $user) {
             $this->migrateUserLogins($user);

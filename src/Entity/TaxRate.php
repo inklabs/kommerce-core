@@ -9,6 +9,8 @@ class TaxRate implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
+    use TempUuidTrait;
+
     /** @var string */
     protected $state;
 
@@ -29,8 +31,8 @@ class TaxRate implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
-
         $this->applyToShipping = false;
     }
 

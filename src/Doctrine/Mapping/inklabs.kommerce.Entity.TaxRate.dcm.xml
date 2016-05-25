@@ -18,6 +18,8 @@
             </options>
         </id>
 
+        <field name="uuid" type="uuid_binary"/>
+
         <field name="state" type="string" length="2" nullable="true">
             <options>
                 <option name="fixed">true</option>
