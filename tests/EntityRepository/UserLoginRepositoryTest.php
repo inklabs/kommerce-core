@@ -31,10 +31,8 @@ class UserLoginRepositoryTest extends EntityRepositoryTestCase
     private function setupUserLogin()
     {
         $user = $this->dummyData->getUser();
-        $userToken = $this->dummyData->getUserToken();
-        $userLogin = $this->dummyData->getUserLogin();
-        $userLogin->setUser($user);
-        $userLogin->setUserToken($userToken);
+        $userToken = $this->dummyData->getUserToken($user);
+        $userLogin = $this->dummyData->getUserLogin($user, $userToken);
 
         $this->entityManager->persist($user);
         $this->entityManager->persist($userLogin);

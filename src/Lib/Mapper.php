@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
@@ -64,7 +64,7 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->serviceFactory->getCart();
                 } elseif ($parameterClassName === CouponServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getCoupon();
-                } elseif ($parameterClassName === EntityManager::class) {
+                } elseif ($parameterClassName === EntityManagerInterface::class) {
                     // TODO: Remove after uuid_migration
                     $constructorParameters[] = $this->serviceFactory->getRepositoryFactory()->getEntityManager();
                 } elseif ($parameterClassName === FileManagerInterface::class) {

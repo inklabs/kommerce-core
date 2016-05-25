@@ -109,13 +109,13 @@ class UserService implements UserServiceInterface
      */
     protected function recordLogin($email, $remoteIp, UserLoginResultType $result, User $user = null)
     {
-        $userLogin = new UserLogin;
+        $userLogin = new UserLogin($user);
         $userLogin->setEmail($email);
         $userLogin->setIp4($remoteIp);
         $userLogin->setResult($result);
 
-        if ($user !== null) {
-            $userLogin->setUser($user);
+        if ($result->isSuccess()) {
+            $user->incrementTotalLogins();
         }
 
         $this->userLoginRepository->create($userLogin);
@@ -147,13 +147,12 @@ class UserService implements UserServiceInterface
 
         $token = UserToken::getRandomToken();
 
-        $userToken = new UserToken;
+        $userToken = new UserToken($user);
         $userToken->setType(UserTokenType::internal());
         $userToken->setToken($token);
         $userToken->setUserAgent($userAgent);
         $userToken->setIp4($ip4);
         $userToken->setExpires(new DateTime('+1 hour'));
-        $userToken->setUser($user);
 
         $this->userTokenRepository->create($userToken);
 

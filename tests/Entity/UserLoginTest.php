@@ -22,12 +22,10 @@ class UserLoginTest extends EntityTestCase
         $userToken = $this->dummyData->getUserToken();
         $userLoginResult = $this->dummyData->getUserLoginResultType();
 
-        $userLogin = new UserLogin;
+        $userLogin = new UserLogin($user, $userToken);
         $userLogin->setEmail('test@example.com');
         $userLogin->setIp4('127.0.0.1');
         $userLogin->setResult($userLoginResult);
-        $userLogin->setUser($user);
-        $userLogin->setUserToken($userToken);
 
         $this->assertEntityValid($userLogin);
         $this->assertSame('test@example.com', $userLogin->getEmail());

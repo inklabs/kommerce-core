@@ -951,9 +951,9 @@ class DummyData
         return $user;
     }
 
-    public function getUserLogin()
+    public function getUserLogin(User $user = null, UserToken $userToken = null)
     {
-        $userLogin = new UserLogin;
+        $userLogin = new UserLogin($user, $userToken);
         $userLogin->setEmail('john@example.com');
         $userLogin->setIp4('8.8.8.8');
         $userLogin->setResult($this->getUserLoginResultType());
@@ -980,9 +980,13 @@ class DummyData
         return UserStatusType::inactive();
     }
 
-    public function getUserToken()
+    public function getUserToken(User $user = null)
     {
-        $userToken = new UserToken;
+        if ($user === null) {
+            $user = $this->getUser();
+        }
+
+        $userToken = new UserToken($user);
         $userToken->setUserAgent('SampleBot/1.1');
         $userToken->setToken('xxxx');
         $userToken->setIp4('8.8.8.8');

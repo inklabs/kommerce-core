@@ -36,9 +36,14 @@ class UserToken implements EntityInterface, ValidationInterface
     /** @var UserLogin[] */
     protected $userLogins;
 
-    public function __construct()
+    public function __construct(User $user)
     {
         $this->setUuid();
+        $this->setUserUuid($user->getUuid());
+
+        $user->addUserToken($this);
+        $this->user = $user;
+
         $this->setCreated();
         $this->setType(UserTokenType::internal());
         $this->userLogins = new ArrayCollection;
@@ -146,11 +151,6 @@ class UserToken implements EntityInterface, ValidationInterface
         $expires = new DateTime();
         $expires->setTimestamp($this->expires);
         return $expires;
-    }
-
-    public function setUser(User $user)
-    {
-        $this->user = $user;
     }
 
     public function getUser()

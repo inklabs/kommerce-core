@@ -29,11 +29,21 @@ class UserLogin implements EntityInterface, ValidationInterface
     /** @var UserToken */
     protected $userToken;
 
-    public function __construct()
+    public function __construct(User $user = null, UserToken $userToken = null)
     {
         $this->setUuid();
         $this->setCreated();
         $this->setResult(UserLoginResultType::fail());
+
+        if ($user !== null) {
+            $user->addUserLogin($this);
+            $this->user = $user;
+        }
+
+        if ($userToken !== null) {
+            $userToken->addUserLogin($this);
+            $this->userToken = $userToken;
+        }
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -59,12 +69,6 @@ class UserLogin implements EntityInterface, ValidationInterface
     public function getEmail()
     {
         return $this->email;
-    }
-
-    public function setUser(User $user)
-    {
-        $user->addUserLogin($this);
-        $this->user = $user;
     }
 
     public function getUser()
@@ -93,12 +97,6 @@ class UserLogin implements EntityInterface, ValidationInterface
     public function getResult()
     {
         return $this->result;
-    }
-
-    public function setUserToken(UserToken $userToken)
-    {
-        $userToken->addUserLogin($this);
-        $this->userToken = $userToken;
     }
 
     public function getUserToken()

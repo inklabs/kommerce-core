@@ -188,8 +188,7 @@ class UserServiceTest extends ServiceTestCase
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
-        $userToken = $this->dummyData->getUserToken();
-        $userToken->setUser($user);
+        $userToken = $this->dummyData->getUserToken($user);
         $this->userTokenRepository->create($userToken);
 
         $this->setExpectedException(
@@ -205,10 +204,9 @@ class UserServiceTest extends ServiceTestCase
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
-        $userToken = $this->dummyData->getUserToken();
+        $userToken = $this->dummyData->getUserToken($user);
         $userToken->setToken('token999');
         $userToken->setExpires(new DateTime('-1 day'));
-        $userToken->setUser($user);
         $this->userTokenRepository->create($userToken);
 
         $this->setExpectedException(
@@ -224,10 +222,9 @@ class UserServiceTest extends ServiceTestCase
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
-        $userToken = $this->dummyData->getUserToken();
+        $userToken = $this->dummyData->getUserToken($user);
         $userToken->setToken('token999');
         $userToken->setExpires(new DateTime('+1 hour'));
-        $userToken->setUser($user);
         $this->userTokenRepository->create($userToken);
 
         $this->userService->loginWithToken($user->getEmail(), 'token999', '127.0.0.1');

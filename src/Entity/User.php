@@ -259,8 +259,7 @@ class User implements EntityInterface, ValidationInterface
 
     public function addUserToken(UserToken $userToken)
     {
-        $userToken->setUser($this);
-        $this->userTokens[] = $userToken;
+        $this->userTokens->add($userToken);
     }
 
     public function getUserTokens()

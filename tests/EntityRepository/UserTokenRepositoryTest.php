@@ -28,9 +28,8 @@ class UserTokenRepositoryTest extends EntityRepositoryTestCase
 
     public function setupUserWithToken()
     {
-        $userToken = $this->dummyData->getUserToken();
-
         $user = $this->dummyData->getUser();
+        $userToken = $this->dummyData->getUserToken($user);
         $user->addUserToken($userToken);
 
         $this->entityManager->persist($userToken);
@@ -41,7 +40,10 @@ class UserTokenRepositoryTest extends EntityRepositoryTestCase
 
     public function testCRUD()
     {
-        $userToken = $this->dummyData->getUserToken();
+        $user = $this->dummyData->getUser();
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        $userToken = $this->dummyData->getUserToken($user);
 
         $this->userTokenRepository->create($userToken);
         $this->assertSame(1, $userToken->getId());

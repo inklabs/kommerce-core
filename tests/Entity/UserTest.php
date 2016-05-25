@@ -27,9 +27,7 @@ class UserTest extends EntityTestCase
 
     public function testCreate()
     {
-        $userLogin = $this->dummyData->getUserLogin();
         $userRole = $this->dummyData->getUserRole();
-        $userToken = $this->dummyData->getUserToken();
         $userStatus = $this->dummyData->getUserStatusType();
 
         $order = $this->dummyData->getOrder();
@@ -43,10 +41,13 @@ class UserTest extends EntityTestCase
         $user->setFirstName('John');
         $user->setLastName('Doe');
         $user->addUserRole($userRole);
-        $user->addUserToken($userToken);
-        $user->addUserLogin($userLogin);
         $user->addOrder($order);
         $user->setCart($cart);
+
+        $userLogin = $this->dummyData->getUserLogin($user);
+        $userToken = $this->dummyData->getUserToken($user);
+
+        $user->incrementTotalLogins();
 
         $this->assertEntityValid($user);
         $this->assertSame($userStatus, $user->getStatus());

@@ -8,7 +8,6 @@ class UserTokenDTOBuilderTest extends EntityDTOBuilderTestCase
     public function testBuild()
     {
         $entityUserToken = $this->dummyData->getUserToken();
-        $entityUserToken->setUser($this->dummyData->getUser());
 
         $userToken = $entityUserToken->getDTOBuilder()
             ->withAllData()
