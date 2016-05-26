@@ -3,16 +3,9 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
-use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\Exception\InvalidCartActionException;
-use inklabs\kommerce\Entity\Money;
-use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\ShipmentRate;
-use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
-use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
@@ -21,7 +14,6 @@ use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryLocationRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryTransactionRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
@@ -171,10 +163,7 @@ class CartServiceTest extends ServiceTestCase
         $this->couponRepository->create($coupon);
 
         $cart = $this->getCartThatRepositoryWillFind();
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->once();
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $couponIndex = $this->cartService->addCouponByCode($cart->getId(), $coupon->getCode());
 
@@ -194,13 +183,8 @@ class CartServiceTest extends ServiceTestCase
     public function testGetCoupons()
     {
         $coupon = $this->dummyData->getCoupon();
-        $cart = $this->dummyData->getCart();
+        $cart = $this->getCartThatRepositoryWillFind();
         $cart->addCoupon($coupon);
-
-        $this->cartRepository
-            ->shouldReceive('findOneByUuid')
-            ->with($cart->getId())
-            ->andReturn($cart);
 
         $coupons = $this->cartService->getCoupons($cart->getId());
 
@@ -210,7 +194,6 @@ class CartServiceTest extends ServiceTestCase
     public function testRemoveCart()
     {
         $cart = $this->getCartThatRepositoryWillFind();
-
         $this->cartRepository
             ->shouldReceive('delete')
             ->with($cart)
@@ -222,18 +205,9 @@ class CartServiceTest extends ServiceTestCase
     public function testRemoveCoupon()
     {
         $coupon = $this->dummyData->getCoupon();
-        $cart = $this->dummyData->getCart();
+        $cart = $this->getCartThatRepositoryWillFind();
         $couponIndex = $cart->addCoupon($coupon);
-
-        $this->cartRepository
-            ->shouldReceive('findOneByUuid')
-            ->with($cart->getId())
-            ->andReturn($cart);
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->with($cart)
-            ->once();
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $this->cartService->removeCoupon($cart->getId(), $couponIndex);
 
@@ -246,9 +220,7 @@ class CartServiceTest extends ServiceTestCase
         $sessionId = '6is7ujb3crb5ja85gf91g9en62';
         $ip4 = '10.0.0.1';
 
-        $this->cartRepository
-            ->shouldReceive('create')
-            ->once();
+        $this->cartRepositoryShouldCreateOnce();
 
         $cart = $this->cartService->create($userId, $sessionId, $ip4);
 
@@ -266,9 +238,7 @@ class CartServiceTest extends ServiceTestCase
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
-        $this->cartRepository
-            ->shouldReceive('create')
-            ->once();
+        $this->cartRepositoryShouldCreateOnce();
 
         $cart = $this->cartService->create($user->getId(), $sessionId, $ip4);
 
@@ -303,10 +273,7 @@ class CartServiceTest extends ServiceTestCase
         $this->productRepository->create($product);
 
         $cart = $this->getCartThatRepositoryWillFind();
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->once();
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getid());
 
@@ -337,16 +304,9 @@ class CartServiceTest extends ServiceTestCase
         $this->productRepository->create($product);
 
         $cart = $this->getCartThatRepositoryWillFind();
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->once();
-
+        $this->cartRepositoryShouldUpdateOnce($cart);
         $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->once();
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $this->cartService->addItemOptionProducts($cart->getId(), $cartItemIndex, $optionProductIds);
 
@@ -361,16 +321,9 @@ class CartServiceTest extends ServiceTestCase
         $this->productRepository->create($product);
 
         $cart = $this->getCartThatRepositoryWillFind();
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->once();
-
+        $this->cartRepositoryShouldUpdateOnce($cart);
         $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->once();
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $this->cartService->addItemOptionValues($cart->getId(), $cartItemIndex, $optionValueIds);
 
@@ -389,16 +342,9 @@ class CartServiceTest extends ServiceTestCase
         $this->productRepository->create($product);
 
         $cart = $this->getCartThatRepositoryWillFind();
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->once();
-
+        $this->cartRepositoryShouldUpdateOnce($cart);
         $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->once();
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $this->cartService->addItemTextOptionValues($cart->getId(), $cartItemIndex, $textOptionValues);
 
@@ -411,19 +357,9 @@ class CartServiceTest extends ServiceTestCase
         $fromCart = $this->dummyData->getCart([$cartItem]);
         $toCart = $this->dummyData->getCart();
 
-        $this->cartRepository
-            ->shouldReceive('findOneByUuid')
-            ->with($fromCart->getId())
-            ->andReturn($fromCart);
-
-        $this->cartRepository
-            ->shouldReceive('findOneByUuid')
-            ->with($toCart->getId())
-            ->andReturn($toCart);
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->with($toCart);
+        $this->getCartThatRepositoryWillFind($fromCart);
+        $this->getCartThatRepositoryWillFind($toCart);
+        $this->cartRepositoryShouldUpdateOnce($toCart);
 
         $this->cartService->copyCartItems($fromCart->getId(), $toCart->getId());
 
@@ -435,16 +371,8 @@ class CartServiceTest extends ServiceTestCase
         $cartItem = $this->dummyData->getCartItem();
         $cart = $this->dummyData->getCart([$cartItem]);
         $cart->setShipmentRate($this->dummyData->getShipmentRate());
-
-        $this->cartRepository
-            ->shouldReceive('findOneByUuid')
-            ->with($cart->getId())
-            ->andReturn($cart);
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->with($cart)
-            ->once();
+        $this->getCartThatRepositoryWillFind($cart);
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $cartItemIndex = 0;
         $quantity = 2;
@@ -459,16 +387,8 @@ class CartServiceTest extends ServiceTestCase
         $cartItem = $this->dummyData->getCartItem();
         $cart = $this->dummyData->getCart([$cartItem]);
         $cart->setShipmentRate($this->dummyData->getShipmentRate());
-
-        $this->cartRepository
-            ->shouldReceive('findOneByUuid')
-            ->with($cart->getId())
-            ->andReturn($cart);
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->with($cart)
-            ->once();
+        $this->getCartThatRepositoryWillFind($cart);
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $cartItemIndex = 0;
         $this->cartService->deleteItem($cart->getId(), $cartItemIndex);
@@ -480,22 +400,17 @@ class CartServiceTest extends ServiceTestCase
     public function testFindOneById()
     {
         $cart = $this->getCartThatRepositoryWillFind();
-
-        $cart = $this->cartService->findOneById($cart->getId());
+        $this->assertSame($cart, $this->cartService->findOneById($cart->getId()));
     }
 
     public function testSetTaxRate()
     {
         $cart = $this->getCartThatRepositoryWillFind();
-
         $taxRate = $this->dummyData->getTaxRate();
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->with($cart)
-            ->once();
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $this->cartService->setTaxRate($cart->getId(), $taxRate);
+
         $this->assertSame($taxRate, $cart->getTaxRate());
     }
 
@@ -503,13 +418,8 @@ class CartServiceTest extends ServiceTestCase
     {
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
-
         $cart = $this->getCartThatRepositoryWillFind();
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->with($cart)
-            ->once();
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $this->cartService->setUserById($cart->getId(), $user->getId());
 
@@ -519,13 +429,8 @@ class CartServiceTest extends ServiceTestCase
     public function testSetSessionId()
     {
         $sessionId = '6is7ujb3crb5ja85gf91g9en62';
-
         $cart = $this->getCartThatRepositoryWillFind();
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->with($cart)
-            ->once();
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $this->cartService->setSessionId($cart->getId(), $sessionId);
 
@@ -535,11 +440,7 @@ class CartServiceTest extends ServiceTestCase
     public function testSetExternalShipmentRate()
     {
         $cart = $this->getCartThatRepositoryWillFind();
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->with($cart)
-            ->once();
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $zip5 = '76667';
         $shipmentRateExternalId = 'shp_xxxxxxxx';
@@ -558,12 +459,7 @@ class CartServiceTest extends ServiceTestCase
     {
         $shipmentRate = $this->dummyData->getShipmentRate();
         $cart = $this->getCartThatRepositoryWillFind();
-
-        $this->cartRepository
-            ->shouldReceive('update')
-            ->with($cart)
-            ->once();
-
+        $this->cartRepositoryShouldUpdateOnce($cart);
 
         $this->cartService->setShipmentRate($cart->getId(), $shipmentRate);
 
@@ -571,16 +467,35 @@ class CartServiceTest extends ServiceTestCase
     }
 
     /**
+     * @param Cart $cart
      * @return Cart
      */
-    private function getCartThatRepositoryWillFind()
+    private function getCartThatRepositoryWillFind(Cart $cart = null)
     {
-        $cart = $this->dummyData->getCart();
+        if ($cart === null) {
+            $cart = $this->dummyData->getCart();
+        }
+
         $this->cartRepository
             ->shouldReceive('findOneByUuid')
             ->with($cart->getId())
             ->andReturn($cart);
 
         return $cart;
+    }
+
+    private function cartRepositoryShouldUpdateOnce(Cart $cart)
+    {
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->with($cart)
+            ->once();
+    }
+
+    private function cartRepositoryShouldCreateOnce()
+    {
+        $this->cartRepository
+            ->shouldReceive('create')
+            ->once();
     }
 }
