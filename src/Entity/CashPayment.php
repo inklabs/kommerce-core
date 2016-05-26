@@ -12,7 +12,7 @@ class CashPayment extends AbstractPayment
      */
     public function __construct($amount)
     {
-        $this->setCreated();
+        parent::__construct();
         $this->amount = (int) $amount;
     }
 

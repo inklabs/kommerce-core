@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Migrate;
 
 use Doctrine\ORM\EntityManagerInterface;
+use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\CatalogPromotion;
@@ -47,6 +48,7 @@ class MigrateToUUIDHandler
     private function migrateAllEntities()
     {
         $this->migrateEntities([
+            AbstractPayment::class,
             Attribute::class,
             AttributeValue::class,
             Product::class,
@@ -223,6 +225,7 @@ class MigrateToUUIDHandler
 
         foreach ($this->iterate($entityQuery) as $order) {
             $this->migrateOrderItems($order);
+            $this->migratePayments($order);
         }
 
         $this->entityManager->flush();
@@ -233,6 +236,13 @@ class MigrateToUUIDHandler
         foreach ($order->getOrderItems() as $orderItem) {
             $orderItem->setUuid();
             $orderItem->setOrderUuid($order->getUuid());
+        }
+    }
+
+    private function migratePayments(Order $order)
+    {
+        foreach ($order->getPayments() as $payment) {
+            $payment->setOrderUuid($order->getUuid());
         }
     }
 

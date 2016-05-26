@@ -25,7 +25,7 @@ class CheckPayment extends AbstractPayment
      */
     public function __construct($amount, $checkNumber, $checkDate, $memo = null)
     {
-        $this->setCreated();
+        parent::__construct();
         $this->amount = (int) $amount;
         $this->checkNumber = (string) $checkNumber;
         $this->checkDate = $checkDate;

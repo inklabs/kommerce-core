@@ -13,7 +13,7 @@ class CreditPayment extends AbstractPayment
 
     public function __construct(ChargeResponse $chargeResponse)
     {
-        $this->setCreated();
+        parent::__construct();
         $this->amount = $chargeResponse->getAmount();
         $this->chargeResponse = $chargeResponse;
     }

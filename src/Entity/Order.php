@@ -246,6 +246,9 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
         $this->payments[] = $payment;
     }
 
+    /**
+     * @return AbstractPayment[]
+     */
     public function getPayments()
     {
         return $this->payments;
