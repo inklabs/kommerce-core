@@ -15,6 +15,7 @@ abstract class AbstractPayment implements EntityInterface, ValidationInterface
 
     /** @var int */
     protected $amount;
+
     /** @var Order */
     protected $order;
 

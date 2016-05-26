@@ -15,6 +15,7 @@ class ShipmentComment implements EntityInterface, ValidationInterface
 
     /** @var string */
     protected $comment;
+
     /** @var Shipment */
     protected $shipment;
 

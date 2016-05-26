@@ -17,8 +17,10 @@ class OptionProduct implements EntityInterface, ValidationInterface
 
     /** @var int */
     protected $sortOrder;
+
     /** @var Product */
     protected $product;
+
     /** @var Option */
     protected $option;
 

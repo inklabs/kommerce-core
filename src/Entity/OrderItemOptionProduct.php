@@ -23,6 +23,7 @@ class OrderItemOptionProduct
 
     /** @var OptionProduct */
     protected $optionProduct;
+
     /** @var OrderItem */
     protected $orderItem;
 

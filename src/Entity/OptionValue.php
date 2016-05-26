@@ -27,6 +27,7 @@ class OptionValue implements EntityInterface, ValidationInterface
 
     /** @var int */
     protected $sortOrder;
+
     /** @var Option */
     protected $option;
 

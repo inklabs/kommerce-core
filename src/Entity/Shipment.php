@@ -21,6 +21,7 @@ class Shipment implements EntityInterface, ValidationInterface
 
     /** @var ShipmentComment[]|ArrayCollection */
     protected $shipmentComments;
+
     /** @var Order */
     protected $order;
 
