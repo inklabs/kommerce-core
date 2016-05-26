@@ -4,8 +4,9 @@ namespace inklabs\kommerce\Lib\ReferenceNumber;
 use inklabs\kommerce\Exception\RuntimeException;
 use inklabs\kommerce\tests\Helper\Entity\FakeReferenceNumberEntity;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeReferenceNumberRepository;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class HashSegmentGeneratorTest extends \PHPUnit_Framework_TestCase
+class HashSegmentReferenceNumberGeneratorTest extends EntityTestCase
 {
     /** @var HashSegmentReferenceNumberGenerator */
     protected $hashSegmentGenerator;

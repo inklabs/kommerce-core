@@ -42,11 +42,7 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
             'referenceNumber' => $referenceNumber
         ]);
 
-        if ($result === null) {
-            return false;
-        } else {
-            return true;
-        }
+        return $result !== null;
     }
 
     public function getLatestOrders(Pagination & $pagination = null)

@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
 use inklabs\kommerce\tests\Helper\Entity\FakeReferenceNumberEntity;
+use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class SequentialGeneratorTest extends \PHPUnit_Framework_TestCase
+class SequentialReferenceNumberGeneratorTest extends EntityTestCase
 {
     public function providerBase()
     {
