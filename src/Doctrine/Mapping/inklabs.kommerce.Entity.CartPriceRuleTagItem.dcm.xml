@@ -6,6 +6,8 @@
 
     <entity name="inklabs\kommerce\Entity\CartPriceRuleTagItem">
 
+        <field name="tag_uuid" type="uuid_binary" nullable="true"/>
+
         <many-to-one field="tag" target-entity="inklabs\kommerce\Entity\Tag" fetch="EAGER"/>
 
     </entity>

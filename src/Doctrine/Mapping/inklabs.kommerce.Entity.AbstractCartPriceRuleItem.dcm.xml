@@ -23,6 +23,7 @@
         </id>
 
         <field name="uuid" type="uuid_binary"/>
+        <field name="cartPriceRule_uuid" type="uuid_binary"/>
 
         <field name="quantity" type="smallint">
             <options>

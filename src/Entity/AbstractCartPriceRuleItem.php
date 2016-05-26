@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\AbstractCartPriceRuleItemDTOBuilder;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -10,6 +11,7 @@ abstract class AbstractCartPriceRuleItem implements EntityInterface, ValidationI
     use TimeTrait, IdTrait;
 
     use TempUuidTrait;
+    private $cartPriceRule_uuid;
 
     /** @var int */
     protected $quantity;
@@ -47,6 +49,7 @@ abstract class AbstractCartPriceRuleItem implements EntityInterface, ValidationI
     public function setCartPriceRule(CartPriceRule $cartPriceRule)
     {
         $this->cartPriceRule = $cartPriceRule;
+        $this->setCartPriceRuleUuid($cartPriceRule->getUuid());
     }
 
     public function getCartPriceRule()
@@ -58,4 +61,10 @@ abstract class AbstractCartPriceRuleItem implements EntityInterface, ValidationI
      * @return AbstractCartPriceRuleItemDTOBuilder
      */
     abstract public function getDTOBuilder();
+
+    // TODO: Remove after uuid_migration
+    public function setCartPriceRuleUuid(UuidInterface $uuid)
+    {
+        $this->cartPriceRule_uuid = $uuid;
+    }
 }

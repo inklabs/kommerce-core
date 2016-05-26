@@ -33,6 +33,9 @@ class CartPriceRule extends AbstractPromotion
         $this->cartPriceRuleItems[] = $item;
     }
 
+    /**
+     * @return CartPriceRuleProductItem[]|CartPriceRuleTagItem[]
+     */
     public function getCartPriceRuleItems()
     {
         return $this->cartPriceRuleItems;
@@ -44,6 +47,9 @@ class CartPriceRule extends AbstractPromotion
         $this->cartPriceRuleDiscounts[] = $discount;
     }
 
+    /**
+     * @return CartPriceRuleDiscount[]
+     */
     public function getCartPriceRuleDiscounts()
     {
         return $this->cartPriceRuleDiscounts;

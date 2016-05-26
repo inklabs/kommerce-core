@@ -6,12 +6,10 @@ use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
-use inklabs\kommerce\Entity\CartItem;
-use inklabs\kommerce\Entity\CartItemOptionProduct;
-use inklabs\kommerce\Entity\CartItemOptionValue;
-use inklabs\kommerce\Entity\CartItemTextOptionValue;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
+use inklabs\kommerce\Entity\CartPriceRuleProductItem;
+use inklabs\kommerce\Entity\CartPriceRuleTagItem;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Image;
@@ -56,6 +54,7 @@ class MigrateToUUIDHandler
     {
         $this->migrateAllEntities();
         $this->migrateAttributes();
+        $this->migrateCartPriceRules();
         $this->migrateOptions();
         $this->migrateProducts();
         $this->migrateShipments();
@@ -143,6 +142,37 @@ class MigrateToUUIDHandler
     {
         foreach ($attributeValue->getProductAttributes() as $productAttribute) {
             $productAttribute->setAttributeValueUuid($attributeValue->getUuid());
+        }
+    }
+
+    private function migrateCartPriceRules()
+    {
+        $entityQuery = $this->getEntityQuery(CartPriceRule::class);
+
+        foreach ($this->iterate($entityQuery) as $cartPriceRule) {
+            $this->migrateCartPriceRuleChildren($cartPriceRule);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    private function migrateCartPriceRuleChildren(CartPriceRule $cartPriceRule)
+    {
+        foreach ($cartPriceRule->getCartPriceRuleDiscounts() as $cartPriceRuleDiscount) {
+            $cartPriceRuleDiscount->setCartPriceRuleUuid($cartPriceRule->getUuid());
+            $cartPriceRuleDiscount->setProductUuid($cartPriceRuleDiscount->getProduct()->getUuid());
+        }
+
+        foreach ($cartPriceRule->getCartPriceRuleItems() as $cartPriceRuleItem) {
+            $cartPriceRuleItem->setCartPriceRuleUuid($cartPriceRule->getUuid());
+
+            if ($cartPriceRuleItem instanceof CartPriceRuleProductItem) {
+                $cartPriceRuleItem->setProductUuid($cartPriceRuleItem->getProduct()->getUuid());
+            }
+
+            if ($cartPriceRuleItem instanceof CartPriceRuleTagItem) {
+                $cartPriceRuleItem->setTagUuid($cartPriceRuleItem->getTag()->getUuid());
+            }
         }
     }
 
