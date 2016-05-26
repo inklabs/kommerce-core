@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib\PricingInterface;
 
 class CartItemOptionProduct
 {
-    use TimeTrait, IdTrait;
+    use TimeTrait, UuidTrait;
 
     /** @var OptionProduct */
     protected $optionProduct;
@@ -16,6 +16,7 @@ class CartItemOptionProduct
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
     }
 

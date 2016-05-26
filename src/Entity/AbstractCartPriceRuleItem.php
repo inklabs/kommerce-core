@@ -9,11 +9,19 @@ abstract class AbstractCartPriceRuleItem implements EntityInterface, ValidationI
 {
     use TimeTrait, IdTrait;
 
+    use TempUuidTrait;
+
     /** @var int */
     protected $quantity;
 
     /** @var CartPriceRule */
     protected $cartPriceRule;
+
+    public function __construct()
+    {
+        $this->setUuid();
+        $this->setCreated();
+    }
 
     abstract public function matches(CartItem $cartItem);
 

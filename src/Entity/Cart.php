@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Cart implements EntityInterface, ValidationInterface
 {
-    use TimeTrait, IdTrait;
+    use TimeTrait, UuidTrait;
 
     /** @var string */
     protected $sessionId;
@@ -38,6 +38,7 @@ class Cart implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
 
         $this->cartItems = new ArrayCollection;
@@ -71,11 +72,15 @@ class Cart implements EntityInterface, ValidationInterface
     }
 
     /**
-     * @param string $sessionId
+     * @param string | null $sessionId
      */
     public function setSessionId($sessionId)
     {
-        $this->sessionId = (string) $sessionId;
+        if ($sessionId !== null) {
+            $sessionId = (string) $sessionId;
+        }
+
+        $this->sessionId = $sessionId;
     }
 
     /**

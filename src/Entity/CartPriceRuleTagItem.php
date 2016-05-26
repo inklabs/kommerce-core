@@ -11,7 +11,7 @@ class CartPriceRuleTagItem extends AbstractCartPriceRuleItem
 
     public function __construct(Tag $tag, $quantity)
     {
-        $this->setCreated();
+        parent::__construct();
         $this->tag = $tag;
         $this->quantity = $quantity;
     }

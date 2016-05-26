@@ -2,10 +2,21 @@
 namespace inklabs\kommerce\ActionHandler\Migrate;
 
 use Doctrine\ORM\EntityManagerInterface;
+use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\Entity\CartItem;
+use inklabs\kommerce\Entity\CartItemOptionProduct;
+use inklabs\kommerce\Entity\CartItemOptionValue;
+use inklabs\kommerce\Entity\CartItemTextOptionValue;
+use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\InventoryLocation;
+use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\OptionValue;
@@ -56,10 +67,17 @@ class MigrateToUUIDHandler
     private function migrateAllEntities()
     {
         $this->migrateEntities([
+            AbstractCartPriceRuleItem::class,
             AbstractPayment::class,
             Attribute::class,
             AttributeValue::class,
             CatalogPromotion::class,
+            CartPriceRule::class,
+            CartPriceRuleDiscount::class,
+            Coupon::class,
+            Image::class,
+            InventoryTransaction::class,
+            InventoryLocation::class,
             Option::class,
             OptionProduct::class,
             OptionValue::class,

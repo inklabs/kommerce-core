@@ -61,7 +61,6 @@ class CartRepositoryTest extends EntityRepositoryTestCase
     {
         $cart = $this->dummyData->getCart();
         $this->cartRepository->create($cart);
-        $this->assertSame(1, $cart->getId());
 
         $cart->setSessionId('sessionidXXX');
         $this->assertSame(null, $cart->getUpdated());
@@ -70,20 +69,19 @@ class CartRepositoryTest extends EntityRepositoryTestCase
         $this->assertTrue($cart->getUpdated() instanceof DateTime);
 
         $this->entityManager->clear();
-        $cart = $this->cartRepository->findOneById($cart->getId());
+        $cart = $this->cartRepository->findOneByUuId($cart->getId());
         $this->assertSame('10.0.0.1', $cart->getIp4());
 
         $this->cartRepository->delete($cart);
-        $this->assertSame(null, $cart->getId());
     }
 
-    public function testFindOneById()
+    public function testFindOneByUuId()
     {
-        $this->setupCart();
+        $cart = $this->setupCart();
 
         $this->setCountLogger();
 
-        $cart = $this->cartRepository->findOneById(1);
+        $cart = $this->cartRepository->findOneByUuId($cart->getId());
 
         $cart->getCartItems()->toArray();
         $cart->getUser()->getCreated();
@@ -92,35 +90,6 @@ class CartRepositoryTest extends EntityRepositoryTestCase
 
         $this->assertTrue($cart instanceof Cart);
         $this->assertSame(3, $this->getTotalQueries());
-    }
-
-    public function testSave()
-    {
-        $user1 = $this->dummyData->getUser(1);
-        $user2 = $this->dummyData->getUser(2);
-        $cart = $this->dummyData->getCart();
-        $cart->setUser($user1);
-
-        $this->entityManager->persist($user1);
-        $this->entityManager->persist($user2);
-
-        $this->cartRepository->create($cart);
-
-        $cart->setUser($user2);
-        $this->assertSame(null, $cart->getUpdated());
-        $this->cartRepository->update($cart);
-        $this->assertTrue($cart->getUpdated() instanceof DateTime);
-    }
-
-    public function testRemove()
-    {
-        $cart = $this->dummyData->getCart();
-
-        $this->cartRepository->create($cart);
-
-        $this->assertSame(1, $cart->getId());
-        $this->cartRepository->delete($cart);
-        $this->assertSame(null, $cart->getId());
     }
 
     public function testFindByUser()

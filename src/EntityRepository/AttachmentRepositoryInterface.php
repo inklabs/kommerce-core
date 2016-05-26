@@ -4,9 +4,6 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Attachment;
 use Ramsey\Uuid\UuidInterface;
 
-/**
- * @method Attachment findOneById($id)
- */
 interface AttachmentRepositoryInterface extends RepositoryInterface
 {
     /**

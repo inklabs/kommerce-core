@@ -9,6 +9,8 @@ class InventoryLocation implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
+    use TempUuidTrait;
+
     /** @var string */
     protected $name;
 
@@ -20,6 +22,7 @@ class InventoryLocation implements EntityInterface, ValidationInterface
 
     public function __construct(Warehouse $warehouse, $name, $code)
     {
+        $this->setUuid();
         $this->setCreated();
         $this->setWarehouse($warehouse);
         $this->setName($name);

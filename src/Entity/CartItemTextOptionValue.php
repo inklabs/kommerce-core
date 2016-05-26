@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CartItemTextOptionValue implements EntityInterface, ValidationInterface
 {
-    use TimeTrait, IdTrait;
+    use TimeTrait, UuidTrait;
 
     /** @var string */
     protected $textOptionValue;
@@ -20,6 +20,7 @@ class CartItemTextOptionValue implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
     }
 

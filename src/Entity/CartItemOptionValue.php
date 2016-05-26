@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\CartItemOptionValueDTOBuilder;
 
 class CartItemOptionValue
 {
-    use TimeTrait, IdTrait;
+    use TimeTrait, UuidTrait;
 
     /** @var OptionValue */
     protected $optionValue;
@@ -15,6 +15,7 @@ class CartItemOptionValue
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
     }
 

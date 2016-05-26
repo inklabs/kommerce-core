@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Entity\Money;
@@ -32,6 +33,7 @@ use inklabs\kommerce\tests\Helper\EntityRepository\FakeCouponRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
+use Ramsey\Uuid\Uuid;
 
 class CartServiceTest extends ServiceTestCase
 {
@@ -41,7 +43,7 @@ class CartServiceTest extends ServiceTestCase
     /** @var CartCalculator */
     protected $cartCalculator;
 
-    /** @var FakeCartRepository */
+    /** @var CartRepositoryInterface | \Mockery\Mock */
     protected $cartRepository;
 
     /** @var FakeCouponRepository */
@@ -88,7 +90,7 @@ class CartServiceTest extends ServiceTestCase
         parent::setUp();
 
         $this->cartCalculator = new CartCalculator(new Pricing);
-        $this->cartRepository = new FakeCartRepository;
+        $this->cartRepository = $this->mockRepository->getCartRepository();
         $this->couponRepository = new FakeCouponRepository;
         $this->fakeEventDispatcher = new FakeEventDispatcher;
         $this->productRepository = new FakeProductRepository;
@@ -135,15 +137,30 @@ class CartServiceTest extends ServiceTestCase
         );
     }
 
-    public function testFindByUser()
+    public function testFindOneByUser()
     {
-        $cart = $this->cartService->findByUser(1);
+        $userId = 1;
+        $this->cartRepository
+            ->shouldReceive('findOneByUser')
+            ->with($userId)
+            ->andReturn($this->dummyData->getCart());
+
+        $cart = $this->cartService->findByUser($userId);
+
         $this->assertTrue($cart instanceof Cart);
     }
 
-    public function testFindBySession()
+    public function testFindOneBySession()
     {
-        $cart = $this->cartService->findBySession('6is7ujb3crb5ja85gf91g9en62');
+        $sessionId = '6is7ujb3crb5ja85gf91g9en62';
+
+        $this->cartRepository
+            ->shouldReceive('findOneBySession')
+            ->with($sessionId)
+            ->andReturn($this->dummyData->getCart());
+
+        $cart = $this->cartService->findBySession($sessionId);
+
         $this->assertTrue($cart instanceof Cart);
     }
 
@@ -152,9 +169,15 @@ class CartServiceTest extends ServiceTestCase
         $coupon = $this->dummyData->getCoupon();
         $coupon->setCode('20PCT');
         $this->couponRepository->create($coupon);
-        $this->cartRepository->create(new Cart);
 
-        $couponIndex = $this->cartService->addCouponByCode(1, $coupon->getCode());
+        $cart = $this->getCartThatRepositoryWillFind();
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->once();
+
+        $couponIndex = $this->cartService->addCouponByCode($cart->getId(), $coupon->getCode());
+
         $this->assertSame(0, $couponIndex);
     }
 
@@ -165,60 +188,92 @@ class CartServiceTest extends ServiceTestCase
             'Coupon not found'
         );
 
-        $this->cartService->addCouponByCode(1, 'code');
+        $this->cartService->addCouponByCode(Uuid::uuid4(), 'code');
     }
 
     public function testGetCoupons()
     {
         $coupon = $this->dummyData->getCoupon();
-        $coupon->setCode('20PCT');
-        $this->couponRepository->create($coupon);
+        $cart = $this->dummyData->getCart();
+        $cart->addCoupon($coupon);
 
-        $cart = new Cart;
-        $this->cartRepository->create($cart);
-        $couponIndex = $this->cartService->addCouponByCode($cart->getId(), $coupon->getCode());
+        $this->cartRepository
+            ->shouldReceive('findOneByUuid')
+            ->with($cart->getId())
+            ->andReturn($cart);
 
         $coupons = $this->cartService->getCoupons($cart->getId());
-        $this->assertTrue($coupons[0] instanceof Coupon);
+
+        $this->assertSame($coupon, $coupons[0]);
     }
 
     public function testRemoveCart()
     {
-        $this->cartRepository->create(new Cart);
-        $this->cartService->removeCart(1);
+        $cart = $this->getCartThatRepositoryWillFind();
+
+        $this->cartRepository
+            ->shouldReceive('delete')
+            ->with($cart)
+            ->once();
+
+        $this->cartService->removeCart($cart->getId());
     }
 
     public function testRemoveCoupon()
     {
         $coupon = $this->dummyData->getCoupon();
-        $coupon->setCode('20PCT');
-        $this->couponRepository->create($coupon);
+        $cart = $this->dummyData->getCart();
+        $couponIndex = $cart->addCoupon($coupon);
 
-        $this->cartRepository->create(new Cart);
-        $couponIndex = $this->cartService->addCouponByCode(1, $coupon->getCode());
+        $this->cartRepository
+            ->shouldReceive('findOneByUuid')
+            ->with($cart->getId())
+            ->andReturn($cart);
 
-        $coupons = $this->cartService->getCoupons(1);
-        $this->assertSame(1, count($coupons));
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->with($cart)
+            ->once();
 
-        $this->cartService->removeCoupon(1, $couponIndex);
+        $this->cartService->removeCoupon($cart->getId(), $couponIndex);
 
-        $coupons = $this->cartService->getCoupons(1);
-        $this->assertSame(0, count($coupons));
+        $this->assertCount(0, $cart->getCoupons());
     }
 
     public function testCreateWithSession()
     {
-        $cart = $this->cartService->create(null, '6is7ujb3crb5ja85gf91g9en62', '10.0.0.1');
-        $this->assertTrue($cart instanceof Cart);
+        $userId = null;
+        $sessionId = '6is7ujb3crb5ja85gf91g9en62';
+        $ip4 = '10.0.0.1';
+
+        $this->cartRepository
+            ->shouldReceive('create')
+            ->once();
+
+        $cart = $this->cartService->create($userId, $sessionId, $ip4);
+
+        $this->assertSame($userId, $cart->getUser());
+        $this->assertSame($sessionId, $cart->getSessionId());
+        $this->assertSame($ip4, $cart->getIp4());
     }
 
     public function testCreateWithUser()
     {
+        $sessionId = null;
+        $ip4 = '10.0.0.1';
+
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
-        $cart = $this->cartService->create(1, null, '10.0.0.1');
-        $this->assertTrue($cart instanceof Cart);
+        $this->cartRepository
+            ->shouldReceive('create')
+            ->once();
+
+        $cart = $this->cartService->create($user->getId(), $sessionId, $ip4);
+
+        $this->assertSame($user, $cart->getUser());
+        $this->assertSame($sessionId, $cart->getSessionId());
+        $this->assertSame($ip4, $cart->getIp4());
     }
 
     public function testCreateFailsWithMissingUser()
@@ -243,77 +298,82 @@ class CartServiceTest extends ServiceTestCase
 
     public function testAddItem()
     {
-        $product = new Product;
-        $cart = new Cart;
-        $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
-        $this->cartRepository->create($cart);
+        $product = $this->dummyData->getProduct();
         $this->productRepository->create($product);
-        $cartItemIndex = $this->cartService->addItem($product->getId(), 1);
 
-        $cart = $this->cartService->findOneById(1);
+        $cart = $this->getCartThatRepositoryWillFind();
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->once();
+
+        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getid());
 
         $this->assertSame(0, $cartItemIndex);
-        $this->assertTrue($cart->getCartItem(0) instanceof CartItem);
+        $this->assertTrue($cart->getCartItem($cartItemIndex) instanceof CartItem);
         $this->assertSame(null, $cart->getShipmentRate());
     }
 
     public function testAddItemWithMissingProductThrowsException()
     {
-        $cartId = 1;
         $productId = 2001;
+
+        $cart = $this->dummyData->getCart();
 
         $this->setExpectedException(
             EntityNotFoundException::class,
             'Product not found'
         );
 
-        $this->cartService->addItem($cartId, $productId);
+        $this->cartService->addItem($cart->getId(), $productId);
     }
 
     public function testAddItemOptionProducts()
     {
-        $cartId = 1;
         $optionProductIds = [101];
 
-        $product = new Product;
-        $product->setId(2001);
-
-        $this->cartRepository->create(new Cart);
+        $product = $this->dummyData->getProduct();
         $this->productRepository->create($product);
 
-        $cartItemIndex = $this->cartService->addItem($cartId, $product->getId());
-        $this->cartService->addItemOptionProducts($cartId, $cartItemIndex, $optionProductIds);
-    }
+        $cart = $this->getCartThatRepositoryWillFind();
 
-    public function testAddItemOptionProductsThrowsException()
-    {
-        $cartId = 1;
-        $cartItemIndex = 1;
-        $optionProductIds = [101];
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->once();
 
-        $this->cartRepository->create(new Cart);
+        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
 
-        $this->setExpectedException(
-            InvalidCartActionException::class,
-            'CartItem not found'
-        );
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->once();
 
-        $this->cartService->addItemOptionProducts($cartId, $cartItemIndex, $optionProductIds);
+        $this->cartService->addItemOptionProducts($cart->getId(), $cartItemIndex, $optionProductIds);
+
+        // TODO: Test CartService::addItemOptionProducts()
     }
 
     public function testAddItemOptionValues()
     {
-        $cartId = 1;
         $optionValueIds = [201];
 
-        $product = new Product;
-        $product->setId(2001);
-
-        $this->cartRepository->create(new Cart);
+        $product = $this->dummyData->getProduct();
         $this->productRepository->create($product);
 
-        $cartItemIndex = $this->cartService->addItem($cartId, $product->getId());
-        $this->cartService->addItemOptionValues($cartId, $cartItemIndex, $optionValueIds);
+        $cart = $this->getCartThatRepositoryWillFind();
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->once();
+
+        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->once();
+
+        $this->cartService->addItemOptionValues($cart->getId(), $cartItemIndex, $optionValueIds);
+
+        // TODO: Test CartService::addItemOptionValues()
     }
 
     public function testAddItemTextOptionValues()
@@ -322,150 +382,204 @@ class CartServiceTest extends ServiceTestCase
         $textOption->setId(301);
         $this->textOptionRepository->setReturnValue($textOption);
 
-        $cartId = 1;
         $textOptionValues = [$textOption->getId() => 'Happy Birthday'];
 
-        $product = new Product;
-        $product->setId(2001);
-
-        $this->cartRepository->create(new Cart);
+        $product = $this->dummyData->getProduct();
         $this->productRepository->create($product);
 
-        $cartItemIndex = $this->cartService->addItem($cartId, $product->getId());
-        $this->cartService->addItemTextOptionValues($cartId, $cartItemIndex, $textOptionValues);
+        $cart = $this->getCartThatRepositoryWillFind();
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->once();
+
+        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->once();
+
+        $this->cartService->addItemTextOptionValues($cart->getId(), $cartItemIndex, $textOptionValues);
+
+        // TODO: Test CartService::addItemTextOptionValues()
     }
 
     public function testCopyCartItems()
     {
-        $fromCart = $this->dummyData->getCart([$this->dummyData->getCartItemFull()]);
-        $this->cartRepository->create($fromCart);
-
+        $cartItem = $this->dummyData->getCartItem();
+        $fromCart = $this->dummyData->getCart([$cartItem]);
         $toCart = $this->dummyData->getCart();
-        $this->cartRepository->create($toCart);
+
+        $this->cartRepository
+            ->shouldReceive('findOneByUuid')
+            ->with($fromCart->getId())
+            ->andReturn($fromCart);
+
+        $this->cartRepository
+            ->shouldReceive('findOneByUuid')
+            ->with($toCart->getId())
+            ->andReturn($toCart);
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->with($toCart);
 
         $this->cartService->copyCartItems($fromCart->getId(), $toCart->getId());
+
+        $this->assertEquals($cartItem->getId(), $toCart->getCartItem(0)->getId());
     }
 
     public function testUpdateQuantity()
     {
-        $product = new Product;
-        $cart = new Cart;
-        $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
-        $this->cartRepository->create($cart);
-        $this->productRepository->create($product);
-        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
+        $cartItem = $this->dummyData->getCartItem();
+        $cart = $this->dummyData->getCart([$cartItem]);
+        $cart->setShipmentRate($this->dummyData->getShipmentRate());
 
-        $this->cartService->updateQuantity($cart->getId(), $cartItemIndex, 2);
+        $this->cartRepository
+            ->shouldReceive('findOneByUuid')
+            ->with($cart->getId())
+            ->andReturn($cart);
 
-        $cart = $this->cartService->findOneById($cart->getId());
-        $this->assertSame(2, $cart->getCartItem(0)->getQuantity());
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->with($cart)
+            ->once();
+
+        $cartItemIndex = 0;
+        $quantity = 2;
+        $this->cartService->updateQuantity($cart->getId(), $cartItemIndex, $quantity);
+
+        $this->assertSame($quantity, $cart->getCartItem($cartItemIndex)->getQuantity());
         $this->assertSame(null, $cart->getShipmentRate());
     }
 
     public function testDeleteItem()
     {
-        $product = new Product;
-        $cart = new Cart;
-        $cart->setShipmentRate(new ShipmentRate(new Money(295, 'USD')));
-        $this->cartRepository->create($cart);
-        $this->productRepository->create($product);
-        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
+        $cartItem = $this->dummyData->getCartItem();
+        $cart = $this->dummyData->getCart([$cartItem]);
+        $cart->setShipmentRate($this->dummyData->getShipmentRate());
 
+        $this->cartRepository
+            ->shouldReceive('findOneByUuid')
+            ->with($cart->getId())
+            ->andReturn($cart);
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->with($cart)
+            ->once();
+
+        $cartItemIndex = 0;
         $this->cartService->deleteItem($cart->getId(), $cartItemIndex);
 
-        $cart = $this->cartService->findOneById($cart->getId());
-        $this->assertSame(0, count($cart->getCartItems()));
+        $this->assertCount(0, $cart->getCartItems());
         $this->assertSame(null, $cart->getShipmentRate());
     }
 
-    public function testGetItems()
+    public function testFindOneById()
     {
-        $cartId = 1;
+        $cart = $this->getCartThatRepositoryWillFind();
 
-        $product = new Product;
-        $product->setId(2001);
-
-        $this->cartRepository->create(new Cart);
-        $this->productRepository->create($product);
-
-        $this->cartService->addItem($cartId, $product->getId());
-
-        $cart = $this->cartService->findOneById($cartId);
-
-        $this->assertTrue($cart->getCartItem(0) instanceof CartItem);
+        $cart = $this->cartService->findOneById($cart->getId());
     }
 
     public function testSetTaxRate()
     {
-        $this->cartRepository->create(new Cart);
-        $this->cartService->setTaxRate(1, new TaxRate);
+        $cart = $this->getCartThatRepositoryWillFind();
+
+        $taxRate = $this->dummyData->getTaxRate();
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->with($cart)
+            ->once();
+
+        $this->cartService->setTaxRate($cart->getId(), $taxRate);
+        $this->assertSame($taxRate, $cart->getTaxRate());
     }
 
     public function testSetUserById()
     {
-        $cart = new Cart;
-        $this->cartRepository->create($cart);
-
-        $user = new User;
+        $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
+
+        $cart = $this->getCartThatRepositoryWillFind();
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->with($cart)
+            ->once();
 
         $this->cartService->setUserById($cart->getId(), $user->getId());
 
-        $cart = $this->cartService->findOneById($cart->getId());
-        $this->assertTrue($cart->getUser() instanceof User);
+        $this->assertSame($user, $cart->getUser());
     }
 
     public function testSetSessionId()
     {
         $sessionId = '6is7ujb3crb5ja85gf91g9en62';
 
-        $cart = new Cart;
-        $this->cartRepository->create($cart);
+        $cart = $this->getCartThatRepositoryWillFind();
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->with($cart)
+            ->once();
 
         $this->cartService->setSessionId($cart->getId(), $sessionId);
 
-        $testCart = $this->cartService->findOneById($cart->getId());
-        $this->assertSame($sessionId, $testCart->getSessionId());
-    }
-
-    public function testSetUserWithMissingUserThrowsException()
-    {
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'User not found'
-        );
-
-        $this->cartService->setUserById(1, 1);
+        $this->assertSame($sessionId, $cart->getSessionId());
     }
 
     public function testSetExternalShipmentRate()
     {
+        $cart = $this->getCartThatRepositoryWillFind();
+
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->with($cart)
+            ->once();
+
+        $zip5 = '76667';
+        $shipmentRateExternalId = 'shp_xxxxxxxx';
+
         $orderAddress = $this->dummyData->getOrderAddress();
-        $orderAddress->setZip5('76667');
+        $orderAddress->setZip5($zip5);
         $orderAddressDTO = $orderAddress->getDTOBuilder()->build();
 
-        $cart = $this->dummyData->getCart();
-        $this->cartRepository->create($cart);
-        $cartId = $cart->getId();
+        $this->cartService->setExternalShipmentRate($cart->getId(), $shipmentRateExternalId, $orderAddressDTO);
 
-        $this->cartService->setExternalShipmentRate($cartId, 'shp_xxxxxxxx', $orderAddressDTO);
-
-        $cart = $this->cartRepository->findOneById($cartId);
-        $this->assertSame('shp_xxxxxxxx', $cart->getShipmentRate()->getShipmentExternalId());
-        $this->assertSame('76667', $cart->getShippingAddress()->getZip5());
+        $this->assertSame($shipmentRateExternalId, $cart->getShipmentRate()->getShipmentExternalId());
+        $this->assertSame($zip5, $cart->getShippingAddress()->getZip5());
     }
 
     public function testSetShipmentRate()
     {
-        $shipmentRate = $this->dummyData->getShipmentRate(1000, 'USD');
+        $shipmentRate = $this->dummyData->getShipmentRate();
+        $cart = $this->getCartThatRepositoryWillFind();
 
+        $this->cartRepository
+            ->shouldReceive('update')
+            ->with($cart)
+            ->once();
+
+
+        $this->cartService->setShipmentRate($cart->getId(), $shipmentRate);
+
+        $this->assertSame($shipmentRate, $cart->getShipmentRate());
+    }
+
+    /**
+     * @return Cart
+     */
+    private function getCartThatRepositoryWillFind()
+    {
         $cart = $this->dummyData->getCart();
-        $this->cartRepository->create($cart);
-        $cartId = $cart->getId();
+        $this->cartRepository
+            ->shouldReceive('findOneByUuid')
+            ->with($cart->getId())
+            ->andReturn($cart);
 
-        $this->cartService->setShipmentRate($cartId, $shipmentRate);
-
-        $cart = $this->cartRepository->findOneById($cartId);
-        $this->assertEquals(new Money(1000, 'USD'), $cart->getShipmentRate()->getRate());
+        return $cart;
     }
 }

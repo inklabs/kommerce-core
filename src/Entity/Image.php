@@ -9,6 +9,8 @@ class Image implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
+    use TempUuidTrait;
+
     /** @var string */
     protected $path;
 
@@ -29,6 +31,7 @@ class Image implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
         $this->setSortOrder(0);
     }

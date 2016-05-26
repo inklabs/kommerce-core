@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 class CartDTO
 {
-    use IdDTOTrait, TimeDTOTrait;
+    use UuidDTOTrait, TimeDTOTrait;
 
     /** @var int */
     public $totalItems;

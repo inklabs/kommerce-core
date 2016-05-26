@@ -7,6 +7,7 @@ use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 interface CartServiceInterface
 {
@@ -23,27 +24,27 @@ interface CartServiceInterface
     public function findByUser($userId);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param string $couponCode
      * @return int
      * @throws EntityNotFoundException
      */
-    public function addCouponByCode($cartId, $couponCode);
+    public function addCouponByCode(UuidInterface $cartId, $couponCode);
 
-    public function getCoupons($cartId);
+    public function getCoupons(UuidInterface $cartId);
 
     public function delete(Cart $cart);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      */
-    public function removeCart($cartId);
+    public function removeCart(UuidInterface $cartId);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param int $couponIndex
      */
-    public function removeCoupon($cartId, $couponIndex);
+    public function removeCoupon(UuidInterface $cartId, $couponIndex);
 
     /**
      * @param int $userId
@@ -54,102 +55,102 @@ interface CartServiceInterface
     public function create($userId, $sessionId, $ip4);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param string $productId
      * @param int $quantity
      * @return int $cartItemIndex
      * @throws EntityNotFoundException
      */
-    public function addItem($cartId, $productId, $quantity = 1);
+    public function addItem(UuidInterface $cartId, $productId, $quantity = 1);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param int $cartItemIndex
      * @param string[] $optionProductIds
      * @throws EntityNotFoundException
      * @throws InvalidCartActionException
      */
-    public function addItemOptionProducts($cartId, $cartItemIndex, array $optionProductIds);
+    public function addItemOptionProducts(UuidInterface $cartId, $cartItemIndex, array $optionProductIds);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param int $cartItemIndex
      * @param string[] $optionValueIds
      * @throws EntityNotFoundException
      * @throws InvalidCartActionException
      */
-    public function addItemOptionValues($cartId, $cartItemIndex, array $optionValueIds);
+    public function addItemOptionValues(UuidInterface $cartId, $cartItemIndex, array $optionValueIds);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param int $cartItemIndex
      * @param array $textOptionValues
      * @throws EntityNotFoundException
      * @throws InvalidCartActionException
      */
-    public function addItemTextOptionValues($cartId, $cartItemIndex, array $textOptionValues);
+    public function addItemTextOptionValues(UuidInterface $cartId, $cartItemIndex, array $textOptionValues);
 
     /**
-     * @param int $fromCartId
-     * @param int $toCartId
+     * @param UuidInterface $fromCartId
+     * @param UuidInterface $toCartId
      * @throws EntityNotFoundException
      */
-    public function copyCartItems($fromCartId, $toCartId);
+    public function copyCartItems(UuidInterface $fromCartId, UuidInterface $toCartId);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param int $cartItemIndex
      * @param int $quantity
      * @throws EntityNotFoundException
      * @throws InvalidCartActionException
      */
-    public function updateQuantity($cartId, $cartItemIndex, $quantity);
+    public function updateQuantity(UuidInterface $cartId, $cartItemIndex, $quantity);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param int $cartItemIndex
      * @throws EntityNotFoundException
      * @throws InvalidCartActionException
      */
-    public function deleteItem($cartId, $cartItemIndex);
+    public function deleteItem(UuidInterface $cartId, $cartItemIndex);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @return Cart
      * @throws EntityNotFoundException
      */
-    public function findOneById($cartId);
+    public function findOneById(UuidInterface $cartId);
 
-    public function setTaxRate($cartId, TaxRate $taxRate = null);
+    public function setTaxRate(UuidInterface $cartId, TaxRate $taxRate = null);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param int $userId
      * @throws EntityNotFoundException
      */
-    public function setUserById($cartId, $userId);
+    public function setUserById(UuidInterface $cartId, $userId);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param int $sessionId
      * @throws EntityNotFoundException
      */
-    public function setSessionId($cartId, $sessionId);
+    public function setSessionId(UuidInterface $cartId, $sessionId);
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param string $shipmentRateExternalId
      * @param OrderAddressDTO $shippingAddressDTO
      */
     public function setExternalShipmentRate(
-        $cartId,
+        UuidInterface $cartId,
         $shipmentRateExternalId,
         OrderAddressDTO $shippingAddressDTO
     );
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param ShipmentRate $shipmentRate
      */
-    public function setShipmentRate($cartId, ShipmentRate $shipmentRate);
+    public function setShipmentRate(UuidInterface $cartId, ShipmentRate $shipmentRate);
 }

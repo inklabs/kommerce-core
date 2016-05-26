@@ -3,10 +3,8 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
+use Ramsey\Uuid\UuidInterface;
 
-/**
- * @method Cart findOneById($id)
- */
 class FakeCartRepository extends AbstractFakeRepository implements CartRepositoryInterface
 {
     public function __construct()
@@ -22,5 +20,14 @@ class FakeCartRepository extends AbstractFakeRepository implements CartRepositor
     public function findOneBySession($sessionId)
     {
         return $this->getReturnValue();
+    }
+
+    /**
+     * @param UuidInterface $uuid4
+     * @return Cart
+     */
+    public function findOneByUuid(UuidInterface $uuid4)
+    {
+        // TODO: Implement findOneByUuid() method.
     }
 }

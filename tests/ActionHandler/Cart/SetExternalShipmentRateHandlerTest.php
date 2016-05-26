@@ -3,6 +3,7 @@ namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\SetExternalShipmentRateCommand;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
+use Ramsey\Uuid\Uuid;
 
 class SetExternalShipmentRateHandlerTest extends ActionTestCase
 {
@@ -12,7 +13,7 @@ class SetExternalShipmentRateHandlerTest extends ActionTestCase
         $cartService->shouldReceive('setExternalShipmentRate')
             ->once();
 
-        $cartId = 1;
+        $cartId = Uuid::uuid4();
         $shipmentRateExternalId = 'shp_xxxxxxxx';
         $orderAddressDTO = $this->dummyData->getOrderAddress()
             ->getDTOBuilder()

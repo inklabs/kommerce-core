@@ -15,7 +15,6 @@ class CartItemDTOBuilder
 
         $this->cartItemDTO = new CartItemDTO;
         $this->cartItemDTO->id             = $this->cartItem->getId();
-        $this->cartItemDTO->encodedId      = BaseConvert::encode($this->cartItem->getId());
         $this->cartItemDTO->fullSku        = $this->cartItem->getFullSku();
         $this->cartItemDTO->quantity       = $this->cartItem->getQuantity();
         $this->cartItemDTO->shippingWeight = $this->cartItem->getShippingWeight();
