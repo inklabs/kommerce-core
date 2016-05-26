@@ -255,6 +255,7 @@ class CartServiceTest extends ServiceTestCase
         $this->assertSame($userId, $cart->getUser());
         $this->assertSame($sessionId, $cart->getSessionId());
         $this->assertSame($ip4, $cart->getIp4());
+        $this->assertTrue($cart->getUpdated()->getTimestamp() > 0);
     }
 
     public function testCreateWithUser()

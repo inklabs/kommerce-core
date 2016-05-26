@@ -175,6 +175,7 @@ class CartService implements CartServiceInterface
         $cart = new Cart;
         $cart->setIp4($ip4);
         $cart->setSessionId($sessionId);
+        $cart->setUpdated();
 
         $this->addUserToCartIfExists($userId, $cart);
 
