@@ -2,8 +2,13 @@
 namespace inklabs\kommerce\ActionHandler\Migrate;
 
 use Doctrine\ORM\EntityManagerInterface;
+use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductAttribute;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\ShipmentComment;
 use inklabs\kommerce\Entity\ShipmentItem;
@@ -31,6 +36,8 @@ class MigrateToUUIDHandler
     public function handle()
     {
         $this->migrateAllEntities();
+        $this->migrateAttributes();
+        $this->migrateProducts();
         $this->migrateShipments();
         $this->migrateUsers();
         $this->migrateCatalogPromotions();
@@ -40,6 +47,11 @@ class MigrateToUUIDHandler
     private function migrateAllEntities()
     {
         $this->migrateEntities([
+            Attribute::class,
+            AttributeValue::class,
+            Product::class,
+            ProductAttribute::class,
+            ProductQuantityDiscount::class,
             Shipment::class,
             ShipmentComment::class,
             ShipmentItem::class,
@@ -60,6 +72,66 @@ class MigrateToUUIDHandler
         foreach ($entityClassNames as $entityClassName) {
             $entityQuery = $this->getEntityQuery($entityClassName);
             $this->setUUIDAndFlush($entityQuery);
+        }
+    }
+
+    private function migrateAttributes()
+    {
+        $entityQuery = $this->getEntityQuery(Attribute::class);
+
+        foreach ($this->iterate($entityQuery) as $attribute) {
+            $this->migrateAttributeValues($attribute);
+            $this->migrateAttribute2ProductAttributes($attribute);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    private function migrateAttributeValues(Attribute $attribute)
+    {
+        foreach ($attribute->getAttributeValues() as $attributeValue) {
+            $attributeValue->setAttributeUuid($attribute->getUuid());
+            $this->migrateAttributeValue2ProductAttributes($attributeValue);
+        }
+    }
+
+    private function migrateAttribute2ProductAttributes(Attribute $attribute)
+    {
+        foreach ($attribute->getProductAttributes() as $productAttribute) {
+            $productAttribute->setAttributeUuid($attribute->getUuid());
+        }
+    }
+
+    private function migrateAttributeValue2ProductAttributes(AttributeValue $attributeValue)
+    {
+        foreach ($attributeValue->getProductAttributes() as $productAttribute) {
+            $productAttribute->setAttributeValueUuid($attributeValue->getUuid());
+        }
+    }
+
+    private function migrateProducts()
+    {
+        $entityQuery = $this->getEntityQuery(Product::class);
+
+        foreach ($this->iterate($entityQuery) as $product) {
+            $this->migrateProductQuantityDiscounts($product);
+            $this->migrateProductAttributes($product);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    private function migrateProductQuantityDiscounts(Product $product)
+    {
+        foreach ($product->getProductQuantityDiscounts() as $productQuantityDiscount) {
+            $productQuantityDiscount->setProductUuid($product->getUuid());
+        }
+    }
+
+    private function migrateProductAttributes(Product $product)
+    {
+        foreach ($product->getProductAttributes() as $productAttribute) {
+            $productAttribute->setProductUuid($product->getUuid());
         }
     }
 
@@ -85,15 +157,15 @@ class MigrateToUUIDHandler
 
     private function migrateShipmentItems(Shipment $shipment)
     {
-        foreach ($shipment->getShipmentItems() as $shipmentComment) {
-            $shipmentComment->setShipmentUuid($shipment->getUuid());
+        foreach ($shipment->getShipmentItems() as $shipmentItem) {
+            $shipmentItem->setShipmentUuid($shipment->getUuid());
         }
     }
 
     private function migrateShipmentTrackers(Shipment $shipment)
     {
-        foreach ($shipment->getShipmentTrackers() as $shipmentComment) {
-            $shipmentComment->setShipmentUuid($shipment->getUuid());
+        foreach ($shipment->getShipmentTrackers() as $shipmentTracker) {
+            $shipmentTracker->setShipmentUuid($shipment->getUuid());
         }
     }
 

@@ -3,12 +3,16 @@ namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\EntityDTO\Builder\AttributeValueDTOBuilder;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class AttributeValue implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
+
+    use TempUuidTrait;
+    private $attribute_uuid;
 
     /** @var string */
     protected $sku;
@@ -30,11 +34,13 @@ class AttributeValue implements EntityInterface, ValidationInterface
 
     public function __construct(Attribute $attribute)
     {
+        $this->setUuid();
         $this->setCreated();
-        $this->productAttributes = new ArrayCollection;
+        $this->productAttributes = new ArrayCollection();
         $this->attribute = $attribute;
 
         $attribute->addAttributeValue($this);
+        $this->attribute_uuid = $attribute->getUuid();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -108,6 +114,9 @@ class AttributeValue implements EntityInterface, ValidationInterface
         return $this->attribute;
     }
 
+    /**
+     * @return ProductAttribute[]
+     */
     public function getProductAttributes()
     {
         return $this->productAttributes;
@@ -121,5 +130,11 @@ class AttributeValue implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new AttributeValueDTOBuilder($this);
+    }
+
+    // TODO: Remove after uuid_migration
+    public function setAttributeUuid(UuidInterface $uuid)
+    {
+        $this->attribute_uuid = $uuid;
     }
 }

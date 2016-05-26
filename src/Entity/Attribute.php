@@ -10,6 +10,8 @@ class Attribute implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
+    use TempUuidTrait;
+
     /** @var string */
     protected $name;
 
@@ -27,6 +29,7 @@ class Attribute implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
         $this->attributeValues = new ArrayCollection;
         $this->productAttributes = new ArrayCollection;
@@ -90,11 +93,17 @@ class Attribute implements EntityInterface, ValidationInterface
         $this->attributeValues->add($attributeValue);
     }
 
+    /**
+     * @return AttributeValue[]
+     */
     public function getAttributeValues()
     {
         return $this->attributeValues;
     }
 
+    /**
+     * @return ProductAttribute[]
+     */
     public function getProductAttributes()
     {
         return $this->productAttributes;

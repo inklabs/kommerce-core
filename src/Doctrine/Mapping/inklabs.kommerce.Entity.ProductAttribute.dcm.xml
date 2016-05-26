@@ -18,6 +18,11 @@
             </options>
         </id>
 
+        <field name="uuid" type="uuid_binary"/>
+        <field name="product_uuid" type="uuid_binary"/>
+        <field name="attribute_uuid" type="uuid_binary"/>
+        <field name="attributeValue_uuid" type="uuid_binary"/>
+
         <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>

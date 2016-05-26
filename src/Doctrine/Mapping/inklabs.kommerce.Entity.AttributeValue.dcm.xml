@@ -18,6 +18,9 @@
             </options>
         </id>
 
+        <field name="uuid" type="uuid_binary"/>
+        <field name="attribute_uuid" type="uuid_binary"/>
+
         <field name="name" type="string" length="255"/>
         <field name="sku" type="string" length="64" nullable="true"/>
         <field name="description" type="text" length="65535" nullable="true"/>
@@ -40,7 +43,7 @@
             </options>
         </field>
 
-        <one-to-many field="productAttributes" target-entity="ProductAttribute" mapped-by="attribute" fetch="EXTRA_LAZY">
+        <one-to-many field="productAttributes" target-entity="ProductAttribute" mapped-by="attributeValue" fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>

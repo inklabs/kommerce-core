@@ -11,6 +11,8 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
 {
     use TimeTrait, IdTrait, StringSetterTrait;
 
+    use TempUuidTrait;
+
     /** @var string */
     protected $sku;
 
@@ -73,6 +75,7 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
         $this->tags = new ArrayCollection();
         $this->images = new ArrayCollection();
