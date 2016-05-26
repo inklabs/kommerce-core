@@ -65,7 +65,7 @@
             </cascade>
         </one-to-many>
 
-        <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product" fetch="EAGER"/>
+        <many-to-one field="product" target-entity="Product" fetch="EAGER"/>
 
         <many-to-one field="cart" target-entity="Cart" inversed-by="cartItems" fetch="EAGER">
             <join-column nullable="false"/>

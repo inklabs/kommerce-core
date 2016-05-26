@@ -19,6 +19,8 @@
         </id>
 
         <field name="uuid" type="uuid_binary"/>
+        <field name="user_uuid" type="uuid_binary"/>
+        <field name="taxRate_uuid" type="uuid_binary" nullable="true"/>
 
         <field name="externalId" type="string" length="255" nullable="true" unique="true"/>
 
@@ -66,8 +68,12 @@
             </cascade>
         </one-to-many>
 
-        <many-to-one field="user" target-entity="User" inversed-by="orders" fetch="EAGER"/>
+        <many-to-one field="user" target-entity="User" inversed-by="orders" fetch="EAGER">
+            <join-column nullable="false"/>
+        </many-to-one>
+
         <many-to-one field="taxRate" target-entity="TaxRate" fetch="EAGER"/>
+
         <many-to-many field="coupons" target-entity="Coupon" fetch="EXTRA_LAZY"/>
 
     </entity>

@@ -290,6 +290,9 @@ class User implements EntityInterface, ValidationInterface
         $this->orders[] = $order;
     }
 
+    /**
+     * @return Order[]
+     */
     public function getOrders()
     {
         return $this->orders;

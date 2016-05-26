@@ -6,7 +6,14 @@ use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
+use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\OrderItemOptionProduct;
+use inklabs\kommerce\Entity\OrderItemOptionValue;
+use inklabs\kommerce\Entity\OrderItemTextOptionValue;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
@@ -38,6 +45,7 @@ class MigrateToUUIDHandler
     {
         $this->migrateAllEntities();
         $this->migrateAttributes();
+        $this->migrateOptions();
         $this->migrateProducts();
         $this->migrateShipments();
         $this->migrateUsers();
@@ -51,6 +59,15 @@ class MigrateToUUIDHandler
             AbstractPayment::class,
             Attribute::class,
             AttributeValue::class,
+            CatalogPromotion::class,
+            Option::class,
+            OptionProduct::class,
+            OptionValue::class,
+            Order::class,
+            OrderItem::class,
+            OrderItemOptionProduct::class,
+            OrderItemOptionValue::class,
+            OrderItemTextOptionValue::class,
             Product::class,
             ProductAttribute::class,
             ProductQuantityDiscount::class,
@@ -108,6 +125,33 @@ class MigrateToUUIDHandler
     {
         foreach ($attributeValue->getProductAttributes() as $productAttribute) {
             $productAttribute->setAttributeValueUuid($attributeValue->getUuid());
+        }
+    }
+
+    private function migrateOptions()
+    {
+        $entityQuery = $this->getEntityQuery(Option::class);
+
+        foreach ($this->iterate($entityQuery) as $option) {
+            $this->migrateOptionProducts($option);
+            $this->migrateOptionValues($option);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    private function migrateOptionProducts(Option $option)
+    {
+        foreach ($option->getOptionProducts() as $optionProduct) {
+            $optionProduct->setOptionUuid($option->getUuid());
+            $optionProduct->setProductUuid($optionProduct->getProduct()->getUuid());
+        }
+    }
+
+    private function migrateOptionValues(Option $option)
+    {
+        foreach ($option->getOptionValues() as $optionProduct) {
+            $optionProduct->setOptionUuid($option->getUuid());
         }
     }
 
@@ -178,6 +222,7 @@ class MigrateToUUIDHandler
         foreach ($this->iterate($entityQuery) as $user) {
             $this->migrateUserLogins($user);
             $this->migrateUserTokens($user);
+            $this->migrateUserOrders($user);
         }
 
         $this->entityManager->flush();
@@ -202,10 +247,16 @@ class MigrateToUUIDHandler
         }
     }
 
+    private function migrateUserOrders(User $user)
+    {
+        foreach ($user->getOrders() as $order) {
+            $order->setUserUuid($user->getUuid());
+        }
+    }
+
     private function migrateCatalogPromotions()
     {
         $entityQuery = $this->getEntityQuery(CatalogPromotion::class);
-        $this->setUUIDAndFlush($entityQuery);
 
         foreach ($this->iterate($entityQuery) as $catalogPromotion) {
             /** @var CatalogPromotion $catalogPromotion */
@@ -221,11 +272,16 @@ class MigrateToUUIDHandler
     private function migrateOrders()
     {
         $entityQuery = $this->getEntityQuery(Order::class);
-        $this->setUUIDAndFlush($entityQuery);
 
         foreach ($this->iterate($entityQuery) as $order) {
+            /** @var Order $order */
             $this->migrateOrderItems($order);
             $this->migratePayments($order);
+
+            $taxRate = $order->getTaxRate();
+            if ($taxRate !== null) {
+                $order->setTaxRateUuid($order->getTaxRate()->getUuid());
+            }
         }
 
         $this->entityManager->flush();
@@ -234,8 +290,40 @@ class MigrateToUUIDHandler
     private function migrateOrderItems(Order $order)
     {
         foreach ($order->getOrderItems() as $orderItem) {
-            $orderItem->setUuid();
             $orderItem->setOrderUuid($order->getUuid());
+
+            $product = $orderItem->getProduct();
+            if ($product !== null) {
+                $orderItem->setProductUuid($product->getUuid());
+            }
+
+            $this->migrateOrderItemOptionProducts($orderItem);
+            $this->migrateOrderItemOptionValues($orderItem);
+            $this->migrateOrderItemTextOptionValues($orderItem);
+        }
+    }
+
+    private function migrateOrderItemOptionProducts(OrderItem $orderItem)
+    {
+        foreach ($orderItem->getOrderItemOptionProducts() as $orderItemOptionProduct) {
+            $orderItemOptionProduct->setOrderItemUuid($orderItem->getUuid());
+            $orderItemOptionProduct->setOptionProductUuid($orderItemOptionProduct->getOptionProduct()->getUuid());
+        }
+    }
+
+    private function migrateOrderItemOptionValues(OrderItem $orderItem)
+    {
+        foreach ($orderItem->getOrderItemOptionValues() as $orderItemOptionValue) {
+            $orderItemOptionValue->setOrderItemUuid($orderItem->getUuid());
+            $orderItemOptionValue->setOptionValueUuid($orderItemOptionValue->getOptionValue()->getUuid());
+        }
+    }
+
+    private function migrateOrderItemTextOptionValues(OrderItem $orderItem)
+    {
+        foreach ($orderItem->getOrderItemTextOptionValues() as $orderItemTextOptionValue) {
+            $orderItemTextOptionValue->setOrderItemUuid($orderItem->getUuid());
+            $orderItemTextOptionValue->setTextOptionUuid($orderItemTextOptionValue->getTextOption()->getUuid());
         }
     }
 

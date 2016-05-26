@@ -15,6 +15,7 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
 
     use TempUuidTrait;
     protected $order_uuid;
+    protected $product_uuid;
 
     /** @var int */
     protected $quantity;
@@ -106,6 +107,9 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         return $this->product;
     }
 
+    /**
+     * @return OrderItemOptionProduct[]
+     */
     public function getOrderItemOptionProducts()
     {
         return $this->orderItemOptionProducts;
@@ -119,6 +123,9 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         $this->setSku();
     }
 
+    /**
+     * @return OrderItemOptionValue[]
+     */
     public function getOrderItemOptionValues()
     {
         return $this->orderItemOptionValues;
@@ -132,6 +139,9 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         $this->setSku();
     }
 
+    /**
+     * @return OrderItemTextOptionValue[]
+     */
     public function getOrderItemTextOptionValues()
     {
         return $this->orderItemTextOptionValues;
@@ -343,5 +353,11 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
     public function setOrderUuid(UuidInterface $uuid)
     {
         $this->order_uuid = $uuid;
+    }
+
+    // TODO: Remove after uuid_migration
+    public function setProductUuid(UuidInterface $uuid)
+    {
+        $this->product_uuid = $uuid;
     }
 }

@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Attachment;
+use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\Product;
@@ -86,6 +87,7 @@ class AttachmentServiceTest extends ServiceTestCase
             Tag::class,
             TaxRate::class,
             User::class,
+            Cart::class,
         ]);
 
         $attachmentService = $this->getServiceFactory()->getAttachmentService();
@@ -94,9 +96,12 @@ class AttachmentServiceTest extends ServiceTestCase
         $product->enableAttachments();
         $orderItem = $this->dummyData->getOrderItem($product);
         $orderItem->setId(1);
+        $user = $this->dummyData->getUser();
         $order = $this->dummyData->getOrder(null, [$orderItem]);
+        $order->setUser($user);
 
         $this->entityManager->persist($product);
+        $this->entityManager->persist($user);
         $this->entityManager->persist($order);
         $this->entityManager->flush();
         $this->entityManager->clear();

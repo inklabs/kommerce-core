@@ -10,6 +10,8 @@ class Option implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
+    use TempUuidTrait;
+
     /** @var string */
     protected $name;
 
@@ -33,6 +35,7 @@ class Option implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
 
         $this->setType(OptionType::select());
@@ -126,6 +129,9 @@ class Option implements EntityInterface, ValidationInterface
         $this->optionProducts->add($optionProduct);
     }
 
+    /**
+     * @return OptionProduct[]
+     */
     public function getOptionProducts()
     {
         return $this->optionProducts;
@@ -136,6 +142,9 @@ class Option implements EntityInterface, ValidationInterface
         $this->optionValues->add($optionValue);
     }
 
+    /**
+     * @return OptionValue[]
+     */
     public function getOptionValues()
     {
         return $this->optionValues;

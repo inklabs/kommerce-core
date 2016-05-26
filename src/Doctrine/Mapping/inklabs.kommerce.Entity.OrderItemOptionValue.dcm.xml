@@ -14,6 +14,10 @@
             </options>
         </id>
 
+        <field name="uuid" type="uuid_binary"/>
+        <field name="orderItem_uuid" type="uuid_binary"/>
+        <field name="optionValue_uuid" type="uuid_binary"/>
+
         <field name="sku" type="string" length="64" nullable="true"/>
         <field name="optionName" type="string" length="255"/>
         <field name="optionValueName" type="string" length="255"/>

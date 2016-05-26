@@ -76,6 +76,12 @@ class ImportOrderItemServiceTest extends ServiceTestCase
         $order2->setExternalId('CO1103-0027');
         $order3->setExternalId('CO1104-0032');
 
+        $user = $this->dummyData->getUser();
+        $order1->setUser($user);
+        $order2->setUser($user);
+        $order3->setUser($user);
+
+        $this->entityManager->persist($user);
         $this->entityManager->persist($order1);
         $this->entityManager->persist($order2);
         $this->entityManager->persist($order3);

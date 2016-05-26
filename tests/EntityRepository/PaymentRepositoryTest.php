@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CheckPayment;
 use inklabs\kommerce\Entity\Order;
@@ -15,6 +16,7 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
     protected $metaDataClassNames = [
         Order::class,
         User::class,
+        Cart::class,
         TaxRate::class,
         AbstractPayment::class,
     ];
@@ -31,9 +33,12 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
     public function setupPayment(AbstractPayment & $payment)
     {
         $cartTotal = $this->dummyData->getCartTotal();
+        $user = $this->dummyData->getUser();
         $order = $this->dummyData->getOrder($cartTotal);
+        $order->setUser($user);
         $order->addPayment($payment);
 
+        $this->entityManager->persist($user);
         $this->entityManager->persist($order);
 
         $this->paymentRepository->create($payment);
@@ -71,7 +76,7 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
 
         $this->assertTrue($payment instanceof CashPayment);
         $this->assertSame(100, $payment->getAmount());
-        $this->assertSame(2, $this->getTotalQueries());
+        $this->assertSame(3, $this->getTotalQueries());
     }
 
     public function testFindCheckPayment()
@@ -91,7 +96,7 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
         $this->assertSame('0001234', $payment->getCheckNumber());
         $this->assertSame('memo area', $payment->getMemo());
         $this->assertEquals(new DateTime('4/13/2016'), $payment->getCheckDate());
-        $this->assertSame(2, $this->getTotalQueries());
+        $this->assertSame(3, $this->getTotalQueries());
     }
 
     public function testFindCreditPayment()

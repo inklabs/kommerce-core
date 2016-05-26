@@ -18,6 +18,10 @@
             </options>
         </id>
 
+        <field name="uuid" type="uuid_binary"/>
+        <field name="option_uuid" type="uuid_binary"/>
+        <field name="product_uuid" type="uuid_binary"/>
+
         <field name="sortOrder" type="smallint">
             <options>
                 <option name="unsigned">true</option>

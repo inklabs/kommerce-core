@@ -2,10 +2,15 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderItemTextOptionValueDTOBuilder;
+use Ramsey\Uuid\UuidInterface;
 
 class OrderItemTextOptionValue
 {
     use TimeTrait, IdTrait;
+
+    use TempUuidTrait;
+    private $orderItem_uuid;
+    private $textOption_uuid;
 
     /** @var string */
     protected $textOptionName;
@@ -21,6 +26,7 @@ class OrderItemTextOptionValue
 
     public function __construct()
     {
+        $this->setUuid();
         $this->setCreated();
     }
 
@@ -33,6 +39,7 @@ class OrderItemTextOptionValue
     {
         $this->textOption = $textOption;
         $this->textOptionName = $textOption->getName();
+        $this->setTextOptionUuid($textOption->getUuid());
     }
 
     public function getTextOptionName()
@@ -61,10 +68,23 @@ class OrderItemTextOptionValue
     public function setOrderItem(OrderItem $orderItem)
     {
         $this->orderItem = $orderItem;
+        $this->setOrderItemUuid($orderItem->getUuid());
     }
 
     public function getDTOBuilder()
     {
         return new OrderItemTextOptionValueDTOBuilder($this);
+    }
+
+    // TODO: Remove after uuid_migration
+    public function setOrderItemUuid(UuidInterface $uuid)
+    {
+        $this->orderItem_uuid = $uuid;
+    }
+
+    // TODO: Remove after uuid_migration
+    public function setTextOptionUuid(UuidInterface $uuid)
+    {
+        $this->textOption_uuid = $uuid;
     }
 }
