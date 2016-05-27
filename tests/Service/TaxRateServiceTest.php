@@ -40,7 +40,8 @@ class TaxRateServiceTest extends ServiceTestCase
 
     public function testFind()
     {
-        $this->taxRateRepository->create(new TaxRate);
+        $taxRate = $this->dummyData->getTaxRate();
+        $this->taxRateRepository->create($taxRate);
 
         $taxRate = $this->taxRateService->findOneById(1);
         $this->assertTrue($taxRate instanceof TaxRate);

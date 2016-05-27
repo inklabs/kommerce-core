@@ -67,7 +67,8 @@ class UserServiceTest extends ServiceTestCase
 
     public function testFind()
     {
-        $this->userRepository->create(new User);
+        $user = $this->dummyData->getUser();
+        $this->userRepository->create($user);
         $user = $this->userService->findOneById(1);
         $this->assertTrue($user instanceof User);
     }

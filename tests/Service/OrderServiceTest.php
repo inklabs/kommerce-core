@@ -93,7 +93,8 @@ class OrderServiceTest extends ServiceTestCase
 
     public function testFind()
     {
-        $this->fakeOrderRepository->create(new Order);
+        $order = $this->dummyData->getOrder();
+        $this->fakeOrderRepository->create($order);
         $order = $this->orderService->findOneById(1);
         $this->assertTrue($order instanceof Order);
     }

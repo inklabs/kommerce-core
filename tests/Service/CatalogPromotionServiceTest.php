@@ -41,7 +41,8 @@ class CatalogPromotionServiceTest extends ServiceTestCase
 
     public function testFind()
     {
-        $this->catalogPromotionRepository->create(new CatalogPromotion);
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
+        $this->catalogPromotionRepository->create($catalogPromotion);
 
         $catalogPromotion = $this->catalogPromotionService->findOneById(1);
         $this->assertTrue($catalogPromotion instanceof CatalogPromotion);

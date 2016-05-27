@@ -27,7 +27,8 @@ class MapperTest extends ActionTestCase
 
     public function testGetQueryHandler()
     {
-        $this->mapper->getQueryHandler(new FakeQuery(new FakeRequest(), new FakeResponse()));
+        $query = new FakeQuery(new FakeRequest(), new FakeResponse());
+        $this->mapper->getQueryHandler($query);
     }
 
     public function testGetHandlerOnAllHandlers()

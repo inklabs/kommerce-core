@@ -20,13 +20,14 @@ class ProductRepositoryInterfaceTest extends EntityRepositoryTestCase
 
     public function testFind()
     {
-        $this->productRepository->create(new Product);
+        $product = $this->dummyData->getProduct();
+        $this->productRepository->create($product);
         $this->assertTrue($this->productRepository->findOneById(1) instanceof Product);
     }
 
     public function testFindOneBy()
     {
-        $product = new Product;
+        $product = $this->dummyData->getProduct();
         $product->setSku('a');
         $this->productRepository->create($product);
 
@@ -90,27 +91,32 @@ class ProductRepositoryInterfaceTest extends EntityRepositoryTestCase
 
     public function testCreate()
     {
-        $this->productRepository->create(new Product);
+        $product = $this->dummyData->getProduct();
+        $this->productRepository->create($product);
     }
 
     public function testSave()
     {
-        $this->productRepository->update(new Product);
+        $product = $this->dummyData->getProduct();
+        $this->productRepository->update($product);
     }
 
     public function testDelete()
     {
-        $this->productRepository->delete(new Product);
+        $product = $this->dummyData->getProduct();
+        $this->productRepository->delete($product);
     }
 
     public function testRemove()
     {
-        $this->productRepository->remove(new Product);
+        $product = $this->dummyData->getProduct();
+        $this->productRepository->remove($product);
     }
 
     public function testPersist()
     {
-        $this->productRepository->persist(new Product);
+        $product = $this->dummyData->getProduct();
+        $this->productRepository->persist($product);
     }
 
     public function testFlush()

@@ -41,7 +41,8 @@ class CartPriceRuleServiceTest extends ServiceTestCase
 
     public function testFind()
     {
-        $this->cartPriceRuleRepository->create(new CartPriceRule);
+        $cartPriceRule = $this->dummyData->getCartPriceRule();
+        $this->cartPriceRuleRepository->create($cartPriceRule);
         $product = $this->cartPriceRuleService->findOneById(1);
         $this->assertTrue($product instanceof CartPriceRule);
     }
