@@ -89,7 +89,8 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
             'Product not found'
         );
 
-        $this->productRepository->update(new Product);
+        $product = $this->dummyData->getProduct();
+        $this->productRepository->update($product);
     }
 
     public function testFindOneById()
