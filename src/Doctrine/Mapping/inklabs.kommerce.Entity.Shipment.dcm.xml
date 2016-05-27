@@ -18,6 +18,7 @@
         </id>
 
         <field name="uuid" type="uuid_binary"/>
+        <field name="order_uuid" type="uuid_binary"/>
 
         <field name="created" type="integer">
             <options>

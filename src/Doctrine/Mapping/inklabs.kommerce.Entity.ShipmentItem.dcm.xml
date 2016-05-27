@@ -19,6 +19,7 @@
 
         <field name="uuid" type="uuid_binary"/>
         <field name="shipment_uuid" type="uuid_binary"/>
+        <field name="orderItem_uuid" type="uuid_binary"/>
 
         <field name="quantityToShip" type="smallint">
             <options>

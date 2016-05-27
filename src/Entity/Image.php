@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\ImageDTOBuilder;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -10,6 +11,8 @@ class Image implements EntityInterface, ValidationInterface
     use TimeTrait, IdTrait;
 
     use TempUuidTrait;
+    private $product_uuid;
+    private $tag_uuid;
 
     /** @var string */
     protected $path;
@@ -117,6 +120,7 @@ class Image implements EntityInterface, ValidationInterface
     public function setProduct(Product $product)
     {
         $this->product = $product;
+        $this->setProductUuid($product->getUuid());
     }
 
     public function getProduct()
@@ -127,6 +131,7 @@ class Image implements EntityInterface, ValidationInterface
     public function setTag(Tag $tag)
     {
         $this->tag = $tag;
+        $this->setTagUuid($tag->getUuid());
     }
 
     public function getTag()
@@ -137,5 +142,17 @@ class Image implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new ImageDTOBuilder($this);
+    }
+
+    // TODO: Remove after uuid_migration
+    public function setProductUuid(UuidInterface $uuid)
+    {
+        $this->product_uuid = $uuid;
+    }
+
+    // TODO: Remove after uuid_migration
+    public function setTagUuid(UuidInterface $uuid)
+    {
+        $this->tag_uuid = $uuid;
     }
 }

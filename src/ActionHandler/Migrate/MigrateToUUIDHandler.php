@@ -55,12 +55,14 @@ class MigrateToUUIDHandler
         $this->migrateAllEntities();
         $this->migrateAttributes();
         $this->migrateCartPriceRules();
+        $this->migrateImages();
         $this->migrateOptions();
         $this->migrateProducts();
         $this->migrateShipments();
         $this->migrateUsers();
         $this->migrateCatalogPromotions();
         $this->migrateOrders();
+        $this->migrateInventoryLocations();
     }
 
     private function migrateAllEntities()
@@ -176,6 +178,27 @@ class MigrateToUUIDHandler
         }
     }
 
+    private function migrateImages()
+    {
+        $entityQuery = $this->getEntityQuery(Image::class);
+
+        foreach ($this->iterate($entityQuery) as $image) {
+            /** @var Image $image */
+
+            $product = $image->getProduct();
+            if ($product !== null) {
+                $image->setProductUuid($product->getUuid());
+            }
+
+            $tag = $image->getTag();
+            if ($tag !== null) {
+                $image->setTagUuid($tag->getUuid());
+            }
+        }
+
+        $this->entityManager->flush();
+    }
+
     private function migrateOptions()
     {
         $entityQuery = $this->getEntityQuery(Option::class);
@@ -253,6 +276,7 @@ class MigrateToUUIDHandler
     {
         foreach ($shipment->getShipmentItems() as $shipmentItem) {
             $shipmentItem->setShipmentUuid($shipment->getUuid());
+            $shipmentItem->setOrderItemUuid($shipmentItem->getOrderItem()->getUuid());
         }
     }
 
@@ -330,6 +354,10 @@ class MigrateToUUIDHandler
             if ($taxRate !== null) {
                 $order->setTaxRateUuid($order->getTaxRate()->getUuid());
             }
+
+            foreach ($order->getShipments() as $shipment) {
+                $shipment->setOrderUuid($order->getUuid());
+            }
         }
 
         $this->entityManager->flush();
@@ -380,6 +408,19 @@ class MigrateToUUIDHandler
         foreach ($order->getPayments() as $payment) {
             $payment->setOrderUuid($order->getUuid());
         }
+    }
+
+    private function migrateInventoryLocations()
+    {
+        $entityQuery = $this->getEntityQuery(InventoryLocation::class);
+
+        foreach ($this->iterate($entityQuery) as $inventoryLocation) {
+            /** @var InventoryLocation $inventoryLocation */
+
+            $inventoryLocation->setWarehouseUuid($inventoryLocation->getWarehouse()->getUuid());
+        }
+
+        $this->entityManager->flush();
     }
 
     /**

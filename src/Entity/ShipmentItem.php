@@ -12,6 +12,7 @@ class ShipmentItem implements EntityInterface, ValidationInterface
 
     use TempUuidTrait;
     private $shipment_uuid;
+    private $orderItem_uuid;
 
     /** @var OrderItem */
     protected $orderItem;
@@ -31,7 +32,8 @@ class ShipmentItem implements EntityInterface, ValidationInterface
 
         $shipment->addShipmentItem($this);
         $this->shipment = $shipment;
-        $this->shipment_uuid = $shipment->getUuid();
+        $this->setShipmentUuid($shipment->getUuid());
+        $this->setOrderItemUuid($orderItem->getUuid());
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -62,5 +64,11 @@ class ShipmentItem implements EntityInterface, ValidationInterface
     public function setShipmentUuid(UuidInterface $uuid)
     {
         $this->shipment_uuid = $uuid;
+    }
+
+    // TODO: Remove after uuid_migration
+    public function setOrderItemUuid(UuidInterface $uuid)
+    {
+        $this->orderItem_uuid = $uuid;
     }
 }

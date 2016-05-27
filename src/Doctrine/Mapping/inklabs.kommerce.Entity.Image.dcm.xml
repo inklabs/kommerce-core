@@ -19,6 +19,8 @@
         </id>
 
         <field name="uuid" type="uuid_binary"/>
+        <field name="product_uuid" type="uuid_binary" nullable="true"/>
+        <field name="tag_uuid" type="uuid_binary" nullable="true"/>
 
         <field name="path" type="string" length="255"/>
 

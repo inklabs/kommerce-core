@@ -331,7 +331,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
     }
 
     /**
-     * @return Shipment[]|ArrayCollection
+     * @return Shipment[]
      */
     public function getShipments()
     {
