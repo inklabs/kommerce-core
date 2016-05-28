@@ -74,10 +74,9 @@ class MigrateToUUIDHandler
         $this->migrateJoinTables();
 
         $this->removeForeignKeys();
-        $this->addPrimaryKeys();
 
         $this->sqlMigration();
-        $this->updateSchema();
+//        $this->addPrimaryKeys();
     }
 
     private function migrateSchema()
