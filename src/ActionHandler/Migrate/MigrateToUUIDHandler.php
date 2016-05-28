@@ -76,7 +76,7 @@ class MigrateToUUIDHandler
         $this->removeForeignKeys();
 
         $this->sqlMigration();
-//        $this->addPrimaryKeys();
+        $this->addPrimaryKeys();
     }
 
     private function migrateSchema()
