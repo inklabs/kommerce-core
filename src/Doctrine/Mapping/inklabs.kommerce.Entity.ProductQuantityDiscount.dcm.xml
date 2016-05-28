@@ -7,8 +7,6 @@
     <entity name="inklabs\kommerce\Entity\ProductQuantityDiscount"
             repository-class="inklabs\kommerce\EntityRepository\ProductQuantityDiscountRepository">
 
-        <field name="product_uuid" type="uuid_binary"/>
-
         <field name="flagApplyCatalogPromotions" type="boolean"/>
 
         <field name="quantity" type="smallint">

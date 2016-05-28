@@ -9,8 +9,6 @@
 
         <field name="code" type="string" length="16"/>
 
-        <field name="tag_uuid" type="uuid_binary" nullable="true"/>
-
         <many-to-one field="tag" target-entity="Tag" fetch="EAGER"/>
 
     </entity>

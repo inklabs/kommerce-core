@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 class ImageDTO
 {
-    use IdDTOTrait, TimeDTOTrait;
+    use UuidDTOTrait, TimeDTOTrait;
 
     /** @var string */
     public $path;

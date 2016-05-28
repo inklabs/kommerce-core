@@ -19,7 +19,6 @@ class ImageDTOBuilder
 
         $this->imageDTO = new ImageDTO;
         $this->imageDTO->id        = $this->image->getId();
-        $this->imageDTO->encodedId = BaseConvert::encode($this->image->getId());
         $this->imageDTO->path      = $this->image->getPath();
         $this->imageDTO->width     = $this->image->getWidth();
         $this->imageDTO->height    = $this->image->getHeight();

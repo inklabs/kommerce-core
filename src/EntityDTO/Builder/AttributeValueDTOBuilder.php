@@ -19,7 +19,6 @@ class AttributeValueDTOBuilder
 
         $this->attributeValueDTO = new AttributeValueDTO;
         $this->attributeValueDTO->id          = $this->attributeValue->getId();
-        $this->attributeValueDTO->encodedId   = BaseConvert::encode($this->attributeValue->getId());
         $this->attributeValueDTO->sku         = $this->attributeValue->getSku();
         $this->attributeValueDTO->name        = $this->attributeValue->getName();
         $this->attributeValueDTO->description = $this->attributeValue->getDescription();

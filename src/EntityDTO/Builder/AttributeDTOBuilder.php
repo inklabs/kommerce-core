@@ -19,7 +19,6 @@ class AttributeDTOBuilder
 
         $this->attributeDTO = new AttributeDTO;
         $this->attributeDTO->id          = $this->attribute->getId();
-        $this->attributeDTO->encodedId   = BaseConvert::encode($this->attribute->getId());
         $this->attributeDTO->name        = $this->attribute->getName();
         $this->attributeDTO->description = $this->attribute->getDescription();
         $this->attributeDTO->sortOrder   = $this->attribute->getSortOrder();

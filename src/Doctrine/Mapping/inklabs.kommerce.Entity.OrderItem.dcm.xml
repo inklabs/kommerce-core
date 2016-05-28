@@ -11,16 +11,7 @@
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer">
-            <generator strategy="AUTO"/>
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </id>
-
-        <field name="uuid" type="uuid_binary"/>
-        <field name="order_uuid" type="uuid_binary"/>
-        <field name="product_uuid" type="uuid_binary" nullable="true"/>
+        <id name="id" type="uuid_binary"/>
 
         <field name="quantity" type="smallint">
             <options>

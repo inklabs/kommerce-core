@@ -7,16 +7,7 @@
     <entity name="inklabs\kommerce\Entity\OrderItemTextOptionValue"
             repository-class="inklabs\kommerce\EntityRepository\OrderItemTextOptionValueRepository">
 
-        <id name="id" type="integer">
-            <generator strategy="AUTO"/>
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </id>
-
-        <field name="uuid" type="uuid_binary"/>
-        <field name="orderItem_uuid" type="uuid_binary"/>
-        <field name="textOption_uuid" type="uuid_binary"/>
+        <id name="id" type="uuid_binary"/>
 
         <field name="textOptionName" type="string" length="255"/>
         <field name="textOptionValue" type="string" length="255"/>

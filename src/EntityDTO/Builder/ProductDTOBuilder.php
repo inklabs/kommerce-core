@@ -22,7 +22,6 @@ class ProductDTOBuilder
 
         $this->productDTO = new ProductDTO;
         $this->productDTO->id                  = $this->product->getId();
-        $this->productDTO->encodedId           = BaseConvert::encode($this->product->getId());
         $this->productDTO->slug                = Slug::get($this->product->getName());
         $this->productDTO->sku                 = $this->product->getSku();
         $this->productDTO->name                = $this->product->getName();

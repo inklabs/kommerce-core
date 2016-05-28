@@ -22,7 +22,6 @@ class TagDTOBuilder
 
         $this->tagDTO = new TagDTO;
         $this->tagDTO->id           = $this->tag->getId();
-        $this->tagDTO->encodedId    = BaseConvert::encode($this->tag->getId());
         $this->tagDTO->slug         = Slug::get($this->tag->getName());
         $this->tagDTO->name         = $this->tag->getName();
         $this->tagDTO->code         = $this->tag->getCode();
