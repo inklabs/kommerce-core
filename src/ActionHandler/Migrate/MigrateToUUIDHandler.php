@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Migrate;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Attribute;
@@ -63,6 +64,7 @@ class MigrateToUUIDHandler
         $this->migrateCatalogPromotions();
         $this->migrateOrders();
         $this->migrateInventoryLocations();
+        $this->migrateJoinTables();
     }
 
     private function migrateAllEntities()
@@ -456,5 +458,56 @@ class MigrateToUUIDHandler
         foreach ($entityQuery->iterate() as $row) {
             yield $row[0];
         }
+    }
+
+    private function migrateJoinTables()
+    {
+        $connection = $this->entityManager->getConnection();
+
+        if ($connection->getDriver() instanceof \Doctrine\DBAL\Driver\PDOSqlite\Driver) {
+            return;
+        }
+
+        try {
+            $connection->exec('
+                ALTER TABLE zk_product_tag
+                  ADD COLUMN product_uuid BINARY(16) NOT NULL COMMENT "(DC2Type:uuid_binary)",
+                  ADD COLUMN tag_uuid BINARY(16) NOT NULL COMMENT "(DC2Type:uuid_binary)";
+            ');
+
+            $connection->exec('
+                ALTER TABLE zk_orderitem_catalogpromotion
+                  ADD COLUMN orderitem_uuid BINARY(16) NOT NULL COMMENT "(DC2Type:uuid_binary)",
+                  ADD COLUMN catalogpromotion_uuid BINARY(16) NOT NULL COMMENT "(DC2Type:uuid_binary)";
+            ');
+
+            $connection->exec('
+                ALTER TABLE zk_user_userrole
+                  ADD COLUMN user_uuid BINARY(16) NOT NULL COMMENT "(DC2Type:uuid_binary)",
+                  ADD COLUMN userrole_uuid BINARY(16) NOT NULL COMMENT "(DC2Type:uuid_binary)";
+            ');
+        } catch (Exception $e) {
+        }
+
+        $connection->exec('
+            UPDATE zk_product_tag AS pt
+            INNER JOIN zk_Product AS p ON p.id = pt.product_id
+            INNER JOIN zk_Tag AS t ON t.id = pt.tag_id
+            SET pt.product_uuid = p.uuid, pt.tag_uuid = t.uuid;
+         ');
+
+        $connection->exec('
+            UPDATE zk_orderitem_catalogpromotion AS oc
+            INNER JOIN zk_OrderItem AS o ON o.id = oc.orderitem_id
+            INNER JOIN zk_CatalogPromotion AS c ON c.id = oc.catalogpromotion_id
+            SET oc.orderitem_uuid = o.uuid, oc.catalogpromotion_uuid = c.uuid;
+         ');
+
+        $connection->exec('
+            UPDATE zk_user_userrole AS uu
+            INNER JOIN zk_User AS u ON u.id = uu.user_id
+            INNER JOIN zk_UserRole AS r ON r.id = uu.userrole_id
+            SET uu.user_uuid = u.uuid, uu.userrole_uuid = r.uuid;
+         ');
     }
 }
