@@ -486,6 +486,12 @@ class MigrateToUUIDHandler
                   ADD COLUMN user_uuid BINARY(16) NOT NULL COMMENT "(DC2Type:uuid_binary)",
                   ADD COLUMN userrole_uuid BINARY(16) NOT NULL COMMENT "(DC2Type:uuid_binary)";
             ');
+
+            $connection->exec('
+                ALTER TABLE zk_order_coupon
+                  ADD COLUMN order_uuid BINARY(16) NOT NULL COMMENT "(DC2Type:uuid_binary)",
+                  ADD COLUMN coupon_uuid BINARY(16) NOT NULL COMMENT "(DC2Type:uuid_binary)";
+            ');
         } catch (Exception $e) {
         }
 
@@ -508,6 +514,13 @@ class MigrateToUUIDHandler
             INNER JOIN zk_User AS u ON u.id = uu.user_id
             INNER JOIN zk_UserRole AS r ON r.id = uu.userrole_id
             SET uu.user_uuid = u.uuid, uu.userrole_uuid = r.uuid;
+         ');
+
+        $connection->exec('
+            UPDATE zk_order_coupon AS oc
+            INNER JOIN zk_Order AS o ON o.id = oc.order_id
+            INNER JOIN zk_Coupon AS c ON c.id = oc.coupon_id
+            SET oc.order_uuid = o.uuid, oc.coupon_uuid = c.uuid;
          ');
     }
 }
