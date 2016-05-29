@@ -10,10 +10,6 @@ class CartPriceRuleDiscount implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
-    use TempUuidTrait;
-    private $cartPriceRule_uuid;
-    private $product_uuid;
-
     /** @var int */
     protected $quantity;
 
@@ -25,12 +21,10 @@ class CartPriceRuleDiscount implements EntityInterface, ValidationInterface
 
     public function __construct(Product $product, $quantity = 1)
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->product = $product;
         $this->quantity = $quantity;
-
-        $this->setProductUuid($product->getUuid());
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -60,7 +54,6 @@ class CartPriceRuleDiscount implements EntityInterface, ValidationInterface
     public function setCartPriceRule(CartPriceRule $cartPriceRule)
     {
         $this->cartPriceRule = $cartPriceRule;
-        $this->setCartPriceRuleUuid($cartPriceRule->getUuid());
     }
 
     public function getCartPriceRule()
@@ -71,17 +64,5 @@ class CartPriceRuleDiscount implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new CartPriceRuleDiscountDTOBuilder($this);
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setCartPriceRuleUuid(UuidInterface $uuid)
-    {
-        $this->cartPriceRule_uuid = $uuid;
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setProductUuid(UuidInterface $uuid)
-    {
-        $this->product_uuid = $uuid;
     }
 }

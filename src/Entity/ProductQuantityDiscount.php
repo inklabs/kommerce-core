@@ -5,14 +5,11 @@ use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\ProductQuantityDiscountDTOBuilder;
 use inklabs\kommerce\Exception\BadMethodCallException;
 use inklabs\kommerce\Lib\PricingInterface;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ProductQuantityDiscount extends AbstractPromotion
 {
-    protected $product_uuid;
-
     protected $customerGroup;
 
     /** @var int */
@@ -30,7 +27,6 @@ class ProductQuantityDiscount extends AbstractPromotion
         $this->setFlagApplyCatalogPromotions(false);
         $this->product = $product;
         $product->addProductQuantityDiscount($this);
-        $this->product_uuid = $product->getUuid();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -140,11 +136,5 @@ class ProductQuantityDiscount extends AbstractPromotion
     public function getDTOBuilder()
     {
         return new ProductQuantityDiscountDTOBuilder($this);
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setProductUuid(UuidInterface $uuid)
-    {
-        $this->product_uuid = $uuid;
     }
 }

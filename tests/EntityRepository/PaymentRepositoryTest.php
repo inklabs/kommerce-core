@@ -48,50 +48,64 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
 
     public function testCRUD()
     {
-        $payment = $this->dummyData->getCashPayment();
-        $this->setupPayment($payment);
-        $this->assertSame(1, $payment->getId());
+        $order = $this->setupOrder();
 
-        $payment->setAmount(200);
-        $this->assertSame(null, $payment->getUpdated());
+        $cashPayment = $this->dummyData->getCashPayment();
+        $order->addPayment($cashPayment);
 
-        $this->paymentRepository->update($payment);
-        $this->assertTrue($payment->getUpdated() instanceof DateTime);
+        $this->executeRepositoryCRUD(
+            $this->paymentRepository,
+            $cashPayment
+        );
+    }
 
-        $this->paymentRepository->delete($payment);
-        $this->assertSame(null, $payment->getId());
+    public function setupOrder()
+    {
+        $user = $this->dummyData->getUser();
+        $order = $this->dummyData->getOrder();
+        $order->setUser($user);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+
+        return $order;
     }
 
     public function testFindCashPayment()
     {
-        $payment = $this->dummyData->getCashPayment();
-        $this->setupPayment($payment);
+        $originalPayment = $this->dummyData->getCashPayment();
+        $this->setupPayment($originalPayment);
         $this->entityManager->clear();
 
         $this->setCountLogger();
 
-        $payment = $this->paymentRepository->findOneById(1);
+        $payment = $this->paymentRepository->findOneById(
+            $originalPayment->getId()
+        );
 
         $payment->getOrder()->getCreated();
 
-        $this->assertTrue($payment instanceof CashPayment);
+        $this->assertEquals($originalPayment->getId(), $payment->getId());
         $this->assertSame(100, $payment->getAmount());
         $this->assertSame(3, $this->getTotalQueries());
     }
 
     public function testFindCheckPayment()
     {
-        $payment = $this->dummyData->getCheckPayment();
-        $this->setupPayment($payment);
+        $originalPayment = $this->dummyData->getCheckPayment();
+        $this->setupPayment($originalPayment);
         $this->entityManager->clear();
 
         $this->setCountLogger();
 
-        $payment = $this->paymentRepository->findOneById(1);
+        $payment = $this->paymentRepository->findOneById(
+            $originalPayment->getId()
+        );
 
         $payment->getOrder()->getCreated();
 
-        $this->assertTrue($payment instanceof CheckPayment);
+        $this->assertEquals($originalPayment->getId(), $payment->getId());
         $this->assertSame(100, $payment->getAmount());
         $this->assertSame('0001234', $payment->getCheckNumber());
         $this->assertSame('memo area', $payment->getMemo());

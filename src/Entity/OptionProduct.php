@@ -3,17 +3,12 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OptionProductDTOBuilder;
 use inklabs\kommerce\Lib\PricingInterface;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class OptionProduct implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
-
-    use TempUuidTrait;
-    private $option_uuid;
-    private $product_uuid;
 
     /** @var int */
     protected $sortOrder;
@@ -26,14 +21,12 @@ class OptionProduct implements EntityInterface, ValidationInterface
 
     public function __construct(Option $option, Product $product)
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->option = $option;
         $this->product = $product;
         $option->addOptionProduct($this);
         $product->addOptionProduct($this);
-        $this->setOptionUuid($option->getUuid());
-        $this->setProductUuid($product->getUuid());
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -91,17 +84,5 @@ class OptionProduct implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new OptionProductDTOBuilder($this);
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setOptionUuid(UuidInterface $uuid)
-    {
-        $this->option_uuid = $uuid;
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setProductUuid(UuidInterface $uuid)
-    {
-        $this->product_uuid = $uuid;
     }
 }

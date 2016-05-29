@@ -3,15 +3,11 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\CatalogPromotionDTOBuilder;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class CatalogPromotion extends AbstractPromotion
 {
-    // TODO: Remove after uuid_migration
-    protected $tag_uuid;
-
     /** @var string */
     protected $code;
 
@@ -75,11 +71,5 @@ class CatalogPromotion extends AbstractPromotion
     public function getDTOBuilder()
     {
         return new CatalogPromotionDTOBuilder($this);
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setTagUuid(UuidInterface $uuid)
-    {
-        $this->tag_uuid = $uuid;
     }
 }

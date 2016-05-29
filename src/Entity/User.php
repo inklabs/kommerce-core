@@ -13,8 +13,6 @@ class User implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait, EventGeneratorTrait;
 
-    use TempUuidTrait;
-
     /** @var string */
     protected $externalId;
 
@@ -56,7 +54,7 @@ class User implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->userRoles = new ArrayCollection;
         $this->userTokens = new ArrayCollection;
@@ -151,9 +149,10 @@ class User implements EntityInterface, ValidationInterface
      */
     public function setPassword($password)
     {
+        $oldPasswordHash = $this->passwordHash;
         $this->passwordHash = password_hash((string) $password, PASSWORD_BCRYPT);
 
-        if ($this->id !== null) {
+        if ($oldPasswordHash !== null) {
             $this->raise(
                 new PasswordChangedEvent(
                     $this->id,

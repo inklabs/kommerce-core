@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib\PricingInterface;
 
 class CartItemOptionProduct
 {
-    use TimeTrait, UuidTrait;
+    use TimeTrait, IdTrait;
 
     /** @var OptionProduct */
     protected $optionProduct;

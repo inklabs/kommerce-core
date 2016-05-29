@@ -10,8 +10,6 @@ class Warehouse implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
-    use TempUuidTrait;
-
     /** @var string */
     protected $name;
 
@@ -23,7 +21,7 @@ class Warehouse implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->inventoryLocations = new ArrayCollection;
     }

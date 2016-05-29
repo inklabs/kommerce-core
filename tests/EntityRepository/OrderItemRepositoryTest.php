@@ -46,7 +46,30 @@ class OrderItemRepositoryTest extends EntityRepositoryTestCase
         $this->orderItemRepository = $this->getRepositoryFactory()->getOrderItemRepository();
     }
 
-    public function setupOrderItem()
+    public function testFind()
+    {
+        $originalOrderItem = $this->setupOrderItem();
+        $this->entityManager->clear();
+
+        $this->setCountLogger();
+
+        $orderItem = $this->orderItemRepository->findOneById(
+            $originalOrderItem->getId()
+        );
+
+        $orderItem->getProduct()->getCreated();
+        $orderItem->getOrder()->getCreated();
+        $this->visitElements($orderItem->getCatalogPromotions());
+        $this->visitElements($orderItem->getProductQuantityDiscounts());
+        $this->visitElements($orderItem->getOrderItemOptionProducts());
+        $this->visitElements($orderItem->getOrderItemOptionValues());
+        $this->visitElements($orderItem->getOrderItemTextOptionValues());
+
+        $this->assertEquals($originalOrderItem->getId(), $orderItem->getId());
+        $this->assertSame(7, $this->getTotalQueries());
+    }
+
+    private function setupOrderItem()
     {
         $catalogPromotion = $this->dummyData->getCatalogPromotion();
 
@@ -75,42 +98,5 @@ class OrderItemRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->flush();
 
         return $orderItem;
-    }
-
-    public function testCRUD()
-    {
-        $orderItem = $this->setupOrderItem();
-        $this->assertSame(1, $orderItem->getId());
-
-        $orderItem->setQuantity(5);
-        $this->assertSame(null, $orderItem->getUpdated());
-
-        $this->orderItemRepository->update($orderItem);
-        $this->assertTrue($orderItem->getUpdated() instanceof DateTime);
-
-        $this->orderItemRepository->delete($orderItem);
-        $this->assertSame(null, $orderItem->getId());
-    }
-
-    public function testFind()
-    {
-        $this->setupOrderItem();
-        $this->entityManager->clear();
-
-        $this->setCountLogger();
-
-        $orderItem = $this->orderItemRepository->findOneById(1);
-
-        $orderItem->getProduct()->getCreated();
-        $orderItem->getOrder()->getCreated();
-        $orderItem->getCatalogPromotions()->toArray();
-        $orderItem->getProductQuantityDiscounts()->toArray();
-        $orderItem->getOrderItemOptionProducts()->toArray();
-        $orderItem->getOrderItemOptionValues()->toArray();
-        $orderItem->getOrderItemTextOptionValues()->toArray();
-
-        $this->assertTrue($orderItem instanceof OrderItem);
-        $this->assertSame('1', $orderItem->getSku());
-        $this->assertSame(7, $this->getTotalQueries());
     }
 }

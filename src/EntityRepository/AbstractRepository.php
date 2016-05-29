@@ -4,7 +4,9 @@ namespace inklabs\kommerce\EntityRepository;
 use Doctrine\ORM\EntityRepository;
 use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
 use inklabs\kommerce\Entity\EntityInterface;
+use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 abstract class AbstractRepository extends EntityRepository implements RepositoryInterface
 {
@@ -49,7 +51,7 @@ abstract class AbstractRepository extends EntityRepository implements Repository
             ->flush();
     }
 
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->returnOrThrowNotFoundException(
             parent::findOneBy(['id' => $id])

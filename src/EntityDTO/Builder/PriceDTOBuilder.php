@@ -12,15 +12,24 @@ class PriceDTOBuilder
     /** @var PriceDTO */
     protected $priceDTO;
 
-    public function __construct(Price $price)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(Price $price, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->price = $price;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->priceDTO = new PriceDTO;
+        $this->initializePriceDTO();
         $this->priceDTO->origUnitPrice     = $this->price->origUnitPrice;
         $this->priceDTO->unitPrice         = $this->price->unitPrice;
         $this->priceDTO->origQuantityPrice = $this->price->origQuantityPrice;
         $this->priceDTO->quantityPrice     = $this->price->quantityPrice;
+    }
+
+    protected function initializePriceDTO()
+    {
+        $this->priceDTO = new PriceDTO;
     }
 
     public function withCatalogPromotions()
@@ -29,8 +38,9 @@ class PriceDTOBuilder
 
         if ($catalogPromotions !== null) {
             foreach ($catalogPromotions as $catalogPromotion) {
-                $this->priceDTO->catalogPromotions[] = $catalogPromotion->getDTOBuilder()
-                    ->build();
+                $this->priceDTO->catalogPromotions[] = $this->dtoBuilderFactory
+                    ->getCatalogPromotionDTOBuilder($catalogPromotion)
+                        ->build();
             }
         }
 
@@ -43,8 +53,9 @@ class PriceDTOBuilder
 
         if ($productQuantityDiscounts !== null) {
             foreach ($productQuantityDiscounts as $productQuantityDiscount) {
-                $this->priceDTO->productQuantityDiscounts[] = $productQuantityDiscount->getDTOBuilder()
-                    ->build();
+                $this->priceDTO->productQuantityDiscounts[] = $this->dtoBuilderFactory
+                    ->getProductQuantityDiscountDTOBuilder($productQuantityDiscount)
+                        ->build();
             }
         }
 

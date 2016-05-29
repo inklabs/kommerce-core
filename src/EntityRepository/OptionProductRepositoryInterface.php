@@ -3,9 +3,10 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\Pagination;
+use Ramsey\Uuid\UuidInterface;
 
 /**
- * @method OptionProduct findOneById($id)
+ * @method OptionProduct findOneById(UuidInterface $id)
  */
 interface OptionProductRepositoryInterface extends RepositoryInterface
 {

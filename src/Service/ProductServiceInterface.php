@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 interface ProductServiceInterface
 {
@@ -12,11 +13,11 @@ interface ProductServiceInterface
     public function update(Product & $product);
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Product
      * @throws EntityNotFoundException
      */
-    public function findOneById($id);
+    public function findOneById(UuidInterface $id);
 
     /**
      * @param int $productId
@@ -55,11 +56,11 @@ interface ProductServiceInterface
     public function getRelatedProducts($products, $limit = 12);
 
     /**
-     * @param Tag $tag
+     * @param UuidInterface $tagId
      * @param Pagination $pagination
      * @return Product[]
      */
-    public function getProductsByTag(Tag $tag, Pagination & $pagination = null);
+    public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null);
 
     /**
      * @param int[] $productIds

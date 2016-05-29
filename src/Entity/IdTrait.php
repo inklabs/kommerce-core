@@ -1,14 +1,21 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
+
 trait IdTrait
 {
-    /** @var int */
+    /** @var UuidInterface */
     protected $id;
 
-    public function setId($id)
+    public function setId(UuidInterface $uuid = null)
     {
-        $this->id = (int) $id;
+        if ($uuid === null) {
+            $uuid = Uuid::uuid4();
+        }
+
+        $this->id = $uuid;
     }
 
     public function getId()

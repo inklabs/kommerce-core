@@ -3,14 +3,15 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Pagination;
+use Ramsey\Uuid\UuidInterface;
 
 /**
- * @method AttributeValue findOneById($id)
+ * @method AttributeValue findOneById(UuidInterface $id)
  */
 interface AttributeValueRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param int[] $attributeValueIds
+     * @param UuidInterface[] $attributeValueIds
      * @param Pagination $pagination
      * @return AttributeValue[]
      */

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Attachment implements UuidEntityInterface, ValidationInterface
 {
-    use TimeTrait, UuidTrait;
+    use TimeTrait, IdTrait;
 
     /** @var bool */
     private $isVisible;

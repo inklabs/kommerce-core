@@ -37,20 +37,23 @@ class ProductAttributeRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->persist($productAttribute);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $productAttribute;
     }
 
     public function testFind()
     {
-        $this->setupProductAttribute();
-
+        $originalProductAttribute = $this->setupProductAttribute();
         $this->setCountLogger();
 
-        $productAttribute = $this->productAttributeRepository->findOneById(1);
+        $productAttribute = $this->productAttributeRepository->findOneById(
+            $originalProductAttribute->getId()
+        );
 
         $productAttribute->getAttribute()->getCreated();
         $productAttribute->getAttributeValue()->getCreated();
 
-        $this->assertTrue($productAttribute instanceof ProductAttribute);
+        $this->assertEquals($originalProductAttribute->getId(), $productAttribute->getId());
         $this->assertSame(1, $this->getTotalQueries());
     }
 }

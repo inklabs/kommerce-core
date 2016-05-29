@@ -13,11 +13,15 @@ class ImageDTOBuilder
     /** @var ImageDTO */
     protected $imageDTO;
 
-    public function __construct(Image $image)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(Image $image, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->image = $image;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->imageDTO = new ImageDTO;
+        $this->initializeImageDTO();
         $this->imageDTO->id        = $this->image->getId();
         $this->imageDTO->path      = $this->image->getPath();
         $this->imageDTO->width     = $this->image->getWidth();
@@ -27,11 +31,16 @@ class ImageDTOBuilder
         $this->imageDTO->updated   = $this->image->getUpdated();
     }
 
+    protected function initializeImageDTO()
+    {
+        $this->imageDTO = new ImageDTO;
+    }
+
     public function withProduct()
     {
         $product = $this->image->getProduct();
         if (! empty($product)) {
-            $this->imageDTO->product = $product->getDTOBuilder()
+            $this->imageDTO->product = $this->dtoBuilderFactory->getProductDTOBuilder($product)
                 ->build();
         }
         return $this;
@@ -41,7 +50,7 @@ class ImageDTOBuilder
     {
         $tag = $this->image->getTag();
         if (! empty($tag)) {
-            $this->imageDTO->tag = $tag->getDTOBuilder()
+            $this->imageDTO->tag = $this->dtoBuilderFactory->getTagDTOBuilder($tag)
                 ->build();
         }
         return $this;
@@ -54,8 +63,13 @@ class ImageDTOBuilder
             ->withTag();
     }
 
+    public function preBuild()
+    {
+    }
+
     public function build()
     {
+        $this->preBuild();
         return $this->imageDTO;
     }
 }

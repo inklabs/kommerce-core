@@ -21,6 +21,8 @@ use Symfony\Component\Validator\Validation;
 
 abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
 {
+    const UUID_HEX = '15dc6044910c431aa578430759ef5dcf';
+
     /** @var DummyData */
     protected $dummyData;
 

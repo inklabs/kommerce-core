@@ -1,20 +1,37 @@
 <?php
 namespace inklabs\kommerce\Action\Tag\Query;
 
-use inklabs\kommerce\EntityDTO\TagDTO;
+use inklabs\kommerce\EntityDTO\Builder\TagDTOBuilder;
+use inklabs\kommerce\Lib\Pricing;
 
 class GetTagResponse implements GetTagResponseInterface
 {
-    /** @var TagDTO */
-    protected $tagDTO;
+    /** @var TagDTOBuilder */
+    private $tagDTOBuilder;
 
-    public function setTagDTO(TagDTO $tagDTO)
+    /** @var Pricing */
+    private $pricing;
+
+    public function __construct(Pricing $pricing)
     {
-        $this->tagDTO = $tagDTO;
+        $this->pricing = $pricing;
+    }
+
+    public function setTagDTOBuilder(TagDTOBuilder $tagDTOBuilder)
+    {
+        $this->tagDTOBuilder = $tagDTOBuilder;
     }
 
     public function getTagDTO()
     {
-        return $this->tagDTO;
+        return $this->tagDTOBuilder
+            ->build();
+    }
+
+    public function getTagDTOWithAllData()
+    {
+        return $this->tagDTOBuilder
+            ->withAllData($this->pricing)
+            ->build();
     }
 }

@@ -3,16 +3,12 @@ namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\EntityDTO\Builder\ShipmentDTOBuilder;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Shipment implements EntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
-
-    use TempUuidTrait;
-    private $order_uuid;
 
     /** @var ShipmentTracker[]|ArrayCollection */
     protected $shipmentTrackers;
@@ -28,7 +24,7 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->shipmentTrackers = new ArrayCollection;
         $this->shipmentItems = new ArrayCollection;
@@ -109,12 +105,5 @@ class Shipment implements EntityInterface, ValidationInterface
     public function setOrder(Order $order)
     {
         $this->order = $order;
-        $this->setOrderUuid($order->getUuid());
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setOrderUuid(UuidInterface $uuid)
-    {
-        $this->order_uuid = $uuid;
     }
 }

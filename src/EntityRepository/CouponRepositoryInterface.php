@@ -4,6 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @method Coupon findOneById($id)
@@ -25,7 +26,7 @@ interface CouponRepositoryInterface extends RepositoryInterface
     public function getAllCoupons($queryString = null, Pagination & $pagination = null);
 
     /**
-     * @param int[] $couponIds
+     * @param UuidInterface[] $couponIds
      * @param Pagination $pagination
      * @return Coupon[]
      */

@@ -14,16 +14,18 @@ abstract class AbstractPromotionDTOBuilder
     /** @var AbstractPromotionDTO */
     protected $promotionDTO;
 
-    public function __construct(AbstractPromotion $promotion)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    abstract protected function initializePromotionDTO();
+
+    public function __construct(AbstractPromotion $promotion, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        if ($this->promotionDTO === null) {
-            throw new InvalidArgumentException('promotionDTO has not been initialized');
-        }
-
         $this->promotion = $promotion;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
+        $this->initializePromotionDTO();
         $this->promotionDTO->id             = $this->promotion->getId();
-        $this->promotionDTO->encodedId      = BaseConvert::encode($this->promotion->getId());
         $this->promotionDTO->name           = $this->promotion->getName();
         $this->promotionDTO->value          = $this->promotion->getValue();
         $this->promotionDTO->redemptions    = $this->promotion->getRedemptions();
@@ -47,8 +49,13 @@ abstract class AbstractPromotionDTOBuilder
         }
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
+        $this->preBuild();
         return $this->promotionDTO;
     }
 }

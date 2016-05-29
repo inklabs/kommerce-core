@@ -4,9 +4,10 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
+use Ramsey\Uuid\UuidInterface;
 
 /**
- * @method Product findOneById($id)
+ * @method Product findOneById(UuidInterface $id)
  */
 interface ProductRepositoryInterface extends RepositoryInterface
 {
@@ -39,18 +40,11 @@ interface ProductRepositoryInterface extends RepositoryInterface
     public function loadProductTags(array & $products);
 
     /**
-     * @param Tag $tag
+     * @param UuidInterface $tagId
      * @param Pagination $pagination
      * @return Product[]
      */
-    public function getProductsByTag(Tag $tag, Pagination & $pagination = null);
-
-    /**
-     * @param int $tagId
-     * @param Pagination $pagination
-     * @return Product[]
-     */
-    public function getProductsByTagId($tagId, Pagination & $pagination = null);
+    public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null);
 
     /**
      * @param int[] $productIds

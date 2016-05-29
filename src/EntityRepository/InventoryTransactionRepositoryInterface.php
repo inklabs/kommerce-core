@@ -3,9 +3,10 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
+use Ramsey\Uuid\UuidInterface;
 
 /**
- * @method InventoryTransaction findOneById($id)
+ * @method InventoryTransaction findOneById(UuidInterface $id)
  */
 interface InventoryTransactionRepositoryInterface extends RepositoryInterface
 {

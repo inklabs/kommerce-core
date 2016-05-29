@@ -10,8 +10,6 @@ class Tag implements EntityInterface, ValidationInterface, EnabledAttachmentInte
 {
     use TimeTrait, IdTrait, StringSetterTrait;
 
-    use TempUuidTrait;
-
     /** @var string */
     protected $name;
 
@@ -50,7 +48,7 @@ class Tag implements EntityInterface, ValidationInterface, EnabledAttachmentInte
 
     public function __construct()
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->products = new ArrayCollection;
         $this->images = new ArrayCollection;

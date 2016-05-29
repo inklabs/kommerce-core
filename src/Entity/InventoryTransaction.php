@@ -10,8 +10,6 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
-    use TempUuidTrait;
-
     /** @var int */
     protected $debitQuantity;
 
@@ -36,7 +34,7 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
             $type = InventoryTransactionType::move();
         }
 
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->inventoryLocation = $inventoryLocation;
         $this->type = $type;

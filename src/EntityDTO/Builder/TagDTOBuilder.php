@@ -16,11 +16,15 @@ class TagDTOBuilder
     /** @var TagDTO */
     protected $tagDTO;
 
-    public function __construct(Tag $tag)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(Tag $tag, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->tag = $tag;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->tagDTO = new TagDTO;
+        $this->initializeTagDTO();
         $this->tagDTO->id           = $this->tag->getId();
         $this->tagDTO->slug         = Slug::get($this->tag->getName());
         $this->tagDTO->name         = $this->tag->getName();
@@ -32,6 +36,11 @@ class TagDTOBuilder
         $this->tagDTO->isActive     = $this->tag->isActive();
         $this->tagDTO->created      = $this->tag->getCreated();
         $this->tagDTO->updated      = $this->tag->getUpdated();
+    }
+
+    protected function initializeTagDTO()
+    {
+        $this->tagDTO = new TagDTO();
     }
 
     public static function createFromDTO(TagDTO $tagDTO)
@@ -54,7 +63,7 @@ class TagDTOBuilder
     public function withImages()
     {
         foreach ($this->tag->getImages() as $image) {
-            $this->tagDTO->images[] = $image->getDTOBuilder()
+            $this->tagDTO->images[] = $this->dtoBuilderFactory->getImageDTOBuilder($image)
                 ->build();
         }
         return $this;
@@ -63,7 +72,7 @@ class TagDTOBuilder
     public function withProducts(Pricing $pricing)
     {
         foreach ($this->tag->getProducts() as $product) {
-            $this->tagDTO->products[] = $product->getDTOBuilder()
+            $this->tagDTO->products[] = $this->dtoBuilderFactory->getProductDTOBuilder($product)
                 ->withAllData($pricing)
                 ->build();
         }
@@ -73,7 +82,7 @@ class TagDTOBuilder
     public function withOptions(PricingInterface $pricing)
     {
         foreach ($this->tag->getOptions() as $option) {
-            $this->tagDTO->options[] = $option->getDTOBuilder()
+            $this->tagDTO->options[] = $this->dtoBuilderFactory->getOptionDTOBuilder($option)
                 ->withOptionProducts($pricing)
                 ->withOptionValues()
                 ->build();
@@ -84,7 +93,7 @@ class TagDTOBuilder
     public function withTextOptions()
     {
         foreach ($this->tag->getTextOptions() as $textOption) {
-            $this->tagDTO->textOptions[] = $textOption->getDTOBuilder()
+            $this->tagDTO->textOptions[] = $this->dtoBuilderFactory->getTextOptionDTOBuilder($textOption)
                 ->build();
         }
         return $this;
@@ -99,8 +108,13 @@ class TagDTOBuilder
             ->withTextOptions();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
+        $this->preBuild();
         return $this->tagDTO;
     }
 }

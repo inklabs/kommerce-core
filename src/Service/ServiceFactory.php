@@ -262,13 +262,4 @@ class ServiceFactory
             $this->eventDispatcher
         );
     }
-
-    /**
-     * TODO: Remove after uuid_migration
-     * @return RepositoryFactory
-     */
-    public function getRepositoryFactory()
-    {
-        return $this->repositoryFactory;
-    }
 }

@@ -18,10 +18,10 @@
         <field name="description" type="text" length="65535" nullable="true"/>
         <field name="defaultImage" type="string" length="255" nullable="true"/>
 
-        <field name="isInventoryRequired" type="boolean"/>
-        <field name="isPriceVisible" type="boolean"/>
         <field name="isActive" type="boolean"/>
         <field name="isVisible" type="boolean"/>
+        <field name="isInventoryRequired" type="boolean"/>
+        <field name="isPriceVisible" type="boolean"/>
         <field name="isTaxable" type="boolean"/>
         <field name="isShippable" type="boolean"/>
         <field name="areAttachmentsEnabled" type="boolean"/>

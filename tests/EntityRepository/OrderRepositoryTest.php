@@ -64,56 +64,58 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $this->orderRepository = $this->getRepositoryFactory()->getOrderRepository();
     }
 
-    public function setupOrder($referenceNumber = null)
-    {
-        $uniqueId = crc32($referenceNumber);
-
-        $product = $this->dummyData->getProduct($uniqueId);
-        $price = $this->dummyData->getPrice();
-        $user = $this->dummyData->getUser($uniqueId);
-        $orderItem = $this->dummyData->getOrderItem($product, $price);
-        $cartTotal = $this->dummyData->getCartTotal();
-        $taxRate = $this->dummyData->getTaxRate();
-        $shipment = $this->dummyData->getShipment();
-        $shipmentItem = $this->dummyData->getShipmentItem($shipment, $orderItem, 1);
-
-        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
-        $order->setUser($user);
-        $order->setReferenceNumber($referenceNumber);
-        $order->setTaxRate($taxRate);
-        $order->addShipment($shipment);
-
-        $this->entityManager->persist($product);
-        $this->entityManager->persist($user);
-        $this->entityManager->persist($taxRate);
-
-        $this->orderRepository->create($order);
-
-        $this->entityManager->flush();
-
-        return $order;
-    }
-
     public function testCRUD()
     {
-        $order = $this->setupOrder();
-        $this->assertSame(1, $order->getId());
+        $user = $this->dummyData->getUser();
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
-        $order->setExternalId('newExternalId');
-        $this->assertSame(null, $order->getUpdated());
+        $order = $this->dummyData->getOrder();
+        $order->setUser($user);
 
-        $this->orderRepository->update($order);
-        $this->assertTrue($order->getUpdated() instanceof DateTime);
-
-        $this->entityManager->clear();
-        $order = $this->orderRepository->findOneById($order->getId());
-        $this->assertSame('10.0.0.1', $order->getIp4());
-
-        $this->orderRepository->delete($order);
-        $this->assertSame(null, $order->getId());
+        $this->executeRepositoryCRUD(
+            $this->orderRepository,
+            $order
+        );
     }
 
-    public function setupOrderForFind($referenceNumber = null)
+    public function testFindOneById()
+    {
+        $originalOrder = $this->setupOrderForFind();
+        $this->entityManager->clear();
+
+        $this->setCountLogger();
+
+        $order = $this->orderRepository->findOneById(
+            $originalOrder->getId()
+        );
+
+        $order->getUser()->getCreated();
+        $order->getTaxRate()->getCreated();
+        $this->visitElements($order->getOrderItems());
+        $this->visitElements($order->getPayments());
+        $this->visitElements($order->getCoupons());
+
+        $shipment = $order->getShipments()[0];
+        $this->visitElements($shipment->getShipmentTrackers());
+        $this->visitElements($shipment->getShipmentItems());
+        $this->visitElements($shipment->getShipmentComments());
+
+        $orderItem = $order->getOrderItem(0);
+        $orderItem->getProduct()->getCreated();
+        $orderItem->getOrder()->getCreated();
+        $this->visitElements($orderItem->getCatalogPromotions());
+        $this->visitElements($orderItem->getProductQuantityDiscounts());
+        $this->visitElements($orderItem->getOrderItemOptionProducts());
+        $this->visitElements($orderItem->getOrderItemOptionValues());
+        $this->visitElements($orderItem->getOrderItemTextOptionValues());
+
+        $this->assertEquals($originalOrder->getId(), $order->getId());
+        $this->assertCount(1, $orderItem->getAttachments());
+        $this->assertSame(15, $this->getTotalQueries());
+    }
+
+    private function setupOrderForFind($referenceNumber = null)
     {
         $uniqueId = crc32($referenceNumber);
 
@@ -160,42 +162,6 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         return $order;
     }
 
-    public function testFindOneById()
-    {
-        $this->setupOrderForFind();
-        $this->entityManager->clear();
-
-        $this->setCountLogger();
-
-        $order = $this->orderRepository->findOneById(1);
-
-        $order->getOrderItems()->toArray();
-        $order->getPayments()->toArray();
-        $order->getUser()->getCreated();
-        $order->getCoupons()->toArray();
-        $order->getTaxRate()->getCreated();
-
-        $shipment = $order->getShipments()[0];
-        $shipment->getShipmentTrackers()->toArray();
-        $shipment->getShipmentItems()[0]->getQuantityToShip();
-        $shipment->getShipmentComments()->toArray();
-
-        $this->assertTrue($order instanceof Order);
-
-        $orderItem = $order->getOrderItem(0);
-        $orderItem->getProduct()->getCreated();
-        $orderItem->getOrder()->getCreated();
-        $orderItem->getCatalogPromotions()->toArray();
-        $orderItem->getProductQuantityDiscounts()->toArray();
-        $orderItem->getOrderItemOptionProducts()->toArray();
-        $orderItem->getOrderItemOptionValues()->toArray();
-        $orderItem->getOrderItemTextOptionValues()->toArray();
-
-        $this->assertCount(1, $orderItem->getAttachments());
-
-        $this->assertSame(15, $this->getTotalQueries());
-    }
-
     public function testFindOneByIdThrowsException()
     {
         $this->setExpectedException(
@@ -203,26 +169,18 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
             'Order not found'
         );
 
-        $this->orderRepository->findOneById(1);
+        $this->orderRepository->findOneById(
+            $this->dummyData->getId()
+        );
     }
 
     public function testGetLatestOrders()
     {
-        $this->setupOrder();
+        $originalOrder = $this->setupOrder();
 
         $orders = $this->orderRepository->getLatestOrders();
 
-        $this->assertTrue($orders[0] instanceof Order);
-    }
-
-    public function testCreateWithSequentialReferenceNumber()
-    {
-        $this->orderRepository = $this->getRepositoryFactory()->getOrderWithSequentialGenerator();
-
-        $order = $this->setupOrder();
-
-        $this->assertSame(1, $order->getId());
-        $this->assertSame('0000000001', $order->getReferenceNumber());
+        $this->assertEquals($originalOrder->getId(), $orders[0]->getId());
     }
 
     public function testCreateWithHashReferenceNumber()
@@ -233,7 +191,6 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
 
         $order = $this->setupOrder();
 
-        $this->assertSame(1, $order->getId());
         $this->assertSame('963-1273124-1535857', $order->getReferenceNumber());
     }
 
@@ -252,17 +209,49 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
 
         $order = $this->setupOrder();
 
-        $this->assertSame(4, $order->getId());
         $this->assertSame(null, $order->getReferenceNumber());
     }
 
     public function testGetOrdersByUserId()
     {
-        $this->setupOrder();
+        $originalOrder = $this->setupOrder();
+        $originalUser = $originalOrder->getUser();
 
-        $orders = $this->orderRepository->getOrdersByUserId(1);
+        $orders = $this->orderRepository->getOrdersByUserId(
+            $originalUser->getId()
+        );
 
-        $this->assertTrue($orders[0] instanceof Order);
-        $this->assertSame(1, $orders[0]->getUser()->getId());
+        $this->assertEquals($originalOrder->getId(), $orders[0]->getId());
+        $this->assertEquals($originalUser->getId(), $orders[0]->getUser()->getId());
+    }
+
+    private function setupOrder($referenceNumber = null)
+    {
+        $uniqueId = crc32($referenceNumber);
+
+        $product = $this->dummyData->getProduct($uniqueId);
+        $price = $this->dummyData->getPrice();
+        $user = $this->dummyData->getUser($uniqueId);
+        $orderItem = $this->dummyData->getOrderItem($product, $price);
+        $cartTotal = $this->dummyData->getCartTotal();
+        $taxRate = $this->dummyData->getTaxRate();
+        $shipment = $this->dummyData->getShipment();
+        $shipmentItem = $this->dummyData->getShipmentItem($shipment, $orderItem, 1);
+
+        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
+        $order->setUser($user);
+        $order->setReferenceNumber($referenceNumber);
+        $order->setTaxRate($taxRate);
+        $order->addShipment($shipment);
+
+        $this->entityManager->persist($product);
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($taxRate);
+
+        $this->orderRepository->create($order);
+
+        $this->entityManager->flush();
+
+        return $order;
     }
 }

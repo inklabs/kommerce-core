@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Pagination;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @method CatalogPromotion findOneById($id)
@@ -22,9 +23,9 @@ interface CatalogPromotionRepositoryInterface extends RepositoryInterface
     public function getAllCatalogPromotions($queryString = null, Pagination & $pagination = null);
 
     /**
-     * @param int[] $catalogPromotionIds
+     * @param UuidInterface[] $catalogPromotionIds
      * @param Pagination $pagination
      * @return CatalogPromotion[]
      */
-    public function getAllCatalogPromotionsByIds($catalogPromotionIds, Pagination & $pagination = null);
+    public function getAllCatalogPromotionsByIds(array $catalogPromotionIds, Pagination & $pagination = null);
 }

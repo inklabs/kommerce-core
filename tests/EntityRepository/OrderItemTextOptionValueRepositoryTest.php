@@ -34,7 +34,23 @@ class OrderItemTextOptionValueRepositoryTest extends EntityRepositoryTestCase
             ->getOrderItemTextOptionValueRepository();
     }
 
-    public function setupOrder()
+    public function testFind()
+    {
+        $originalOrderItemTextOptionValue = $this->setupOrderItemTextOptionValue();
+        $this->setCountLogger();
+
+        $orderItemTextOptionValue = $this->orderItemTextOptionValueRepository->findOneById(
+            $originalOrderItemTextOptionValue->getId()
+        );
+
+        $orderItemTextOptionValue->getOrderItem()->getCreated();
+        $orderItemTextOptionValue->getTextOption()->getCreated();
+
+        $this->assertEquals($originalOrderItemTextOptionValue->getId(), $orderItemTextOptionValue->getId());
+        $this->assertSame(3, $this->getTotalQueries());
+    }
+
+    private function setupOrderItemTextOptionValue()
     {
         $textOption = $this->dummyData->getTextOption();
         $orderItemTextOptionValue = $this->dummyData->getOrderItemTextOptionValue($textOption, 'Happy Birthday');
@@ -57,20 +73,7 @@ class OrderItemTextOptionValueRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->persist($order);
         $this->entityManager->flush();
         $this->entityManager->clear();
-    }
 
-    public function testFind()
-    {
-        $this->setupOrder();
-
-        $this->setCountLogger();
-
-        $orderItemTextOptionValue = $this->orderItemTextOptionValueRepository->findOneById(1);
-
-        $orderItemTextOptionValue->getOrderItem()->getCreated();
-        $orderItemTextOptionValue->getTextOption()->getCreated();
-
-        $this->assertTrue($orderItemTextOptionValue instanceof OrderItemTextOptionValue);
-        $this->assertSame(4, $this->getTotalQueries());
+        return $orderItemTextOptionValue;
     }
 }

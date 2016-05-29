@@ -150,7 +150,7 @@ class ProductServiceTest extends ServiceTestCase
     public function testGetProductsByTag()
     {
         $tag = $this->dummyData->getTag();
-        $products = $this->productService->getProductsByTag($tag);
+        $products = $this->productService->getProductsByTagId($tag);
         $this->assertTrue($products[0] instanceof Product);
     }
 

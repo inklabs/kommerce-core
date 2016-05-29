@@ -5,17 +5,12 @@ use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Order implements EntityInterface, ValidationInterface, ReferenceNumberEntityInterface
 {
     use TimeTrait, IdTrait, EventGeneratorTrait;
-
-    use TempUuidTrait;
-    private $user_uuid;
-    private $taxRate_uuid;
 
     /** @var string */
     protected $externalId;
@@ -61,7 +56,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
 
     public function __construct()
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->orderItems = new ArrayCollection;
         $this->payments = new ArrayCollection;
@@ -264,6 +259,9 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
         $this->coupons[] = $coupon;
     }
 
+    /**
+     * @return Coupon[]
+     */
     public function getCoupons()
     {
         return $this->coupons;
@@ -273,7 +271,6 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
     public function setUser(User $user)
     {
         $this->user = $user;
-        $this->setUserUuid($user->getUuid());
     }
 
     public function getUser()
@@ -380,17 +377,5 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
     public function getIp4()
     {
         return long2ip($this->ip4);
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setUserUuid(UuidInterface $uuid)
-    {
-        $this->user_uuid = $uuid;
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setTaxRateUuid(UuidInterface $uuid)
-    {
-        $this->taxRate_uuid = $uuid;
     }
 }

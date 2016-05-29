@@ -16,9 +16,9 @@ interface RepositoryInterface
     public function flush();
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return EntityInterface
      * @throws EntityNotFoundException
      */
-    public function findOneById($id);
+    public function findOneById(UuidInterface $id);
 }

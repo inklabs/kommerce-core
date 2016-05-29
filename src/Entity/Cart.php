@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Cart implements EntityInterface, ValidationInterface
 {
-    use TimeTrait, UuidTrait;
+    use TimeTrait, IdTrait;
 
     /** @var string */
     protected $sessionId;
@@ -111,6 +111,9 @@ class Cart implements EntityInterface, ValidationInterface
         return $this->cartItems[$cartItemIndex];
     }
 
+    /**
+     * @return CartItem[]
+     */
     public function getCartItems()
     {
         return $this->cartItems;
@@ -155,6 +158,9 @@ class Cart implements EntityInterface, ValidationInterface
         $this->coupons->set($couponIndex, $coupon);
     }
 
+    /**
+     * @return Coupon[]
+     */
     public function getCoupons()
     {
         return $this->coupons;

@@ -2,16 +2,12 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\ShipmentTrackerDTOBuilder;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ShipmentTracker implements EntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
-
-    use TempUuidTrait;
-    private $shipment_uuid;
 
     /** @var ShipmentCarrierType */
     protected $carrier;
@@ -37,7 +33,7 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
      */
     public function __construct(ShipmentCarrierType $carrier, $trackingCode)
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->setCarrier($carrier);
         $this->trackingCode = (string) $trackingCode;
@@ -111,11 +107,5 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new ShipmentTrackerDTOBuilder($this);
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setShipmentUuid(UuidInterface $uuid)
-    {
-        $this->shipment_uuid = $uuid;
     }
 }

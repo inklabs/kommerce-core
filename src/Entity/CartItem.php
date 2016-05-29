@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmentInterface
 {
-    use TimeTrait, UuidTrait;
+    use TimeTrait, IdTrait;
 
     /** @var int */
     protected $quantity;

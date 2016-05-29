@@ -2,17 +2,12 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\ShipmentItemDTOBuilder;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ShipmentItem implements EntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
-
-    use TempUuidTrait;
-    private $shipment_uuid;
-    private $orderItem_uuid;
 
     /** @var OrderItem */
     protected $orderItem;
@@ -25,15 +20,13 @@ class ShipmentItem implements EntityInterface, ValidationInterface
 
     public function __construct(Shipment $shipment, OrderItem $orderItem, $quantityToShip)
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->orderItem = $orderItem;
         $this->quantityToShip = (int) $quantityToShip;
 
         $shipment->addShipmentItem($this);
         $this->shipment = $shipment;
-        $this->setShipmentUuid($shipment->getUuid());
-        $this->setOrderItemUuid($orderItem->getUuid());
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -58,17 +51,5 @@ class ShipmentItem implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new ShipmentItemDTOBuilder($this);
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setShipmentUuid(UuidInterface $uuid)
-    {
-        $this->shipment_uuid = $uuid;
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setOrderItemUuid(UuidInterface $uuid)
-    {
-        $this->orderItem_uuid = $uuid;
     }
 }

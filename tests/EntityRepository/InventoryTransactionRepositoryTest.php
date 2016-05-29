@@ -9,6 +9,7 @@ use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class InventoryTransactionRepositoryTest extends EntityRepositoryTestCase
 {
@@ -45,49 +46,53 @@ class InventoryTransactionRepositoryTest extends EntityRepositoryTestCase
 
     public function testCRUD()
     {
-        $inventoryTransaction = $this->setupInventoryTransaction();
+        $warehouse = $this->dummyData->getWarehouse();
+        $inventoryLocation = $this->dummyData->getInventoryLocation($warehouse);
+        $product = $this->dummyData->getProduct();
+        $this->entityManager->persist($warehouse);
+        $this->entityManager->persist($inventoryLocation);
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
 
-        $this->inventoryTransactionRepository->create($inventoryTransaction);
-        $this->assertSame(1, $inventoryTransaction->getId());
-
-        $inventoryTransaction->setMemo('Modified Memo');
-        $this->assertSame(null, $inventoryTransaction->getUpdated());
-        $this->inventoryTransactionRepository->update($inventoryTransaction);
-        $this->assertTrue($inventoryTransaction->getUpdated() instanceof DateTime);
-
-        $this->inventoryTransactionRepository->delete($inventoryTransaction);
-        $this->assertSame(null, $inventoryTransaction->getId());
+        $this->executeRepositoryCRUD(
+            $this->inventoryTransactionRepository,
+            $this->dummyData->getInventoryTransaction($inventoryLocation, $product)
+        );
     }
 
     public function testFindOneById()
     {
-        $inventoryTransaction = $this->setupInventoryTransaction();
-        $this->entityManager->persist($inventoryTransaction);
+        $originalInventoryTransaction = $this->setupInventoryTransaction();
+        $this->entityManager->persist($originalInventoryTransaction);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
         $this->setCountLogger();
 
-        $inventoryTransaction = $this->inventoryTransactionRepository->findOneById(1);
+        $inventoryTransaction = $this->inventoryTransactionRepository->findOneById(
+            $originalInventoryTransaction->getId()
+        );
 
-        $this->assertSame(1, $this->getTotalQueries());
-        $this->assertTrue($inventoryTransaction instanceof InventoryTransaction);
+        $this->assertEquals($originalInventoryTransaction->getId(), $inventoryTransaction->getId());
         $this->assertTrue($inventoryTransaction->getProduct() instanceof Product);
         $this->assertTrue($inventoryTransaction->getInventoryLocation() instanceof InventoryLocation);
         $this->assertSame('Initial Inventory', $inventoryTransaction->getMemo());
         $this->assertSame(null, $inventoryTransaction->getDebitQuantity());
         $this->assertSame(2, $inventoryTransaction->getCreditQuantity());
         $this->assertTrue($inventoryTransaction->getType()->isMove());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 
     public function testFindOneByIdThrowsNotFoundException()
     {
         $this->setExpectedException(
-            \inklabs\kommerce\Exception\EntityNotFoundException::class,
+            EntityNotFoundException::class,
             'InventoryTransaction not found'
         );
 
-        $this->inventoryTransactionRepository->findOneById(1);
+        $this->inventoryTransactionRepository->findOneById(
+            $this->dummyData->getId()
+        );
     }
 
     public function testFindAllByProduct()
@@ -102,21 +107,33 @@ class InventoryTransactionRepositoryTest extends EntityRepositoryTestCase
 
     public function testFindInventoryIdForProductAndQuantity()
     {
+
         $product = $this->setupProductWith2InventoryTransactions();
 
-        $inventoryId = $this->inventoryTransactionRepository->findInventoryIdForProductAndQuantity($product, 2);
+        $inventoryLocationId = $this->inventoryTransactionRepository->findInventoryIdForProductAndQuantity(
+            $product,
+            2
+        );
 
-        $this->assertSame(1, $inventoryId);
+        $this->assertTrue($inventoryLocationId instanceof UuidInterface);
     }
 
-    /**
-     * @return Product
-     */
-    protected function setupProductWith2InventoryTransactions()
+    public function testFindInventoryIdForProductAndQuantityThrowsException()
+    {
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'InventoryTransaction not found'
+        );
+
+        $product = $this->dummyData->getProduct();
+        $this->inventoryTransactionRepository->findInventoryIdForProductAndQuantity($product, 2);
+    }
+
+    private function setupProductWith2InventoryTransactions()
     {
         $warehouse = $this->dummyData->getWarehouse();
         $inventoryLocation = $this->dummyData->getInventoryLocation($warehouse);
-        $product = $this->dummyData->getProduct(1);
+        $product = $this->dummyData->getProduct();
 
         $inventoryTransaction1 = $this->dummyData->getInventoryTransaction($inventoryLocation, $product);
         $inventoryTransaction2 = $this->dummyData->getInventoryTransaction($inventoryLocation, $product);
@@ -128,16 +145,7 @@ class InventoryTransactionRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->persist($inventoryTransaction2);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
         return $product;
-    }
-
-    public function testFindInventoryIdForProductAndQuantityThrowsException()
-    {
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'InventoryTransaction not found'
-        );
-
-        $this->inventoryTransactionRepository->findInventoryIdForProductAndQuantity(new Product, 2);
     }
 }

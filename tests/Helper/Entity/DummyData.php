@@ -71,6 +71,7 @@ use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 use inklabs\kommerce\Lib\Pricing;
+use Ramsey\Uuid\Uuid;
 
 class DummyData
 {
@@ -268,9 +269,13 @@ class DummyData
         return $cartPriceRule;
     }
 
-    public function getCartPriceRuleDiscount()
+    public function getCartPriceRuleDiscount(Product $product = null)
     {
-        return new CartPriceRuleDiscount($this->getProduct(), 1);
+        if ($product === null) {
+            $product = $this->getProduct();
+        }
+
+        return new CartPriceRuleDiscount($product, 1);
     }
 
     public function getCartPriceRuleProductItem(Product $product = null, $quantity = 1)
@@ -319,10 +324,10 @@ class DummyData
         return $payment;
     }
 
-    public function getCatalogPromotion($num = 1)
+    public function getCatalogPromotion()
     {
         $catalogPromotion = new CatalogPromotion;
-        $catalogPromotion->setName('Test Catalog Promotion #' . $num);
+        $catalogPromotion->setName('Test Catalog Promotion');
         $catalogPromotion->setCode('20PCTOFF');
         $catalogPromotion->setValue(20);
 
@@ -353,10 +358,10 @@ class DummyData
         );
     }
 
-    public function getCoupon($num = 1)
+    public function getCoupon()
     {
-        $coupon = new Coupon('20PCT' . $num);
-        $coupon->setName('20% OFF Test Coupon #' . $num);
+        $coupon = new Coupon('20PCT' . uniqid());
+        $coupon->setName('20% OFF Test Coupon');
         $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
 
@@ -384,6 +389,11 @@ class DummyData
     public function getDeliveryMethodType()
     {
         return DeliveryMethodType::twoDay();
+    }
+
+    public function getId()
+    {
+        return Uuid::uuid4();
     }
 
     public function getImage()
@@ -703,11 +713,11 @@ class DummyData
         return $pricing;
     }
 
-    public function getProduct($num = 1)
+    public function getProduct()
     {
         $product = new Product;
-        $product->setSku($num);
-        $product->setName('Test Product #' . $num);
+        $product->setSku($product->getId()->getHex());
+        $product->setName('Test Product');
         $product->setIsInventoryRequired(true);
         $product->setIsPriceVisible(true);
         $product->setIsActive(true);

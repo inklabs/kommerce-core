@@ -4,6 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
+use Ramsey\Uuid\UuidInterface;
 
 class ProductRepositoryDecorator implements ProductRepositoryInterface
 {
@@ -15,7 +16,7 @@ class ProductRepositoryDecorator implements ProductRepositoryInterface
         $this->productRepository = $productRepository;
     }
 
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->productRepository->findOneById($id);
     }
@@ -35,12 +36,7 @@ class ProductRepositoryDecorator implements ProductRepositoryInterface
         return $this->productRepository->getRelatedProductsByIds($productIds, $tagIds, $limit);
     }
 
-    public function getProductsByTag(Tag $tag, Pagination & $pagination = null)
-    {
-        return $this->productRepository->getProductsByTag($tag, $pagination);
-    }
-
-    public function getProductsByTagId($tagId, Pagination & $pagination = null)
+    public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null)
     {
         return $this->productRepository->getProductsByTagId($tagId, $pagination);
     }

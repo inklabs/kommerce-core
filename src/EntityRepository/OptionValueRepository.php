@@ -3,10 +3,11 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Pagination;
+use Ramsey\Uuid\UuidInterface;
 
 class OptionValueRepository extends AbstractRepository implements OptionValueRepositoryInterface
 {
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->getQueryBuilder()
             ->select('OptionValue')
@@ -16,7 +17,7 @@ class OptionValueRepository extends AbstractRepository implements OptionValueRep
             ->innerJoin('OptionValue.option', 'Option')
 
             ->where('OptionValue.id = :id')
-            ->setParameter('id', $id)
+            ->setIdParameter('id', $id)
             ->getQuery()
             ->getSingleResult();
     }
@@ -31,7 +32,7 @@ class OptionValueRepository extends AbstractRepository implements OptionValueRep
             ->innerJoin('OptionValue.option', 'Option')
 
             ->where('OptionValue.id IN (:optionValueIds)')
-            ->setParameter('optionValueIds', $optionValueIds)
+            ->setIdParameter('optionValueIds', $optionValueIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();

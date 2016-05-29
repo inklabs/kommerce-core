@@ -15,12 +15,14 @@ class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
     /** @var CatalogPromotionDTO */
     protected $promotionDTO;
 
-    public function __construct(CatalogPromotion $catalogPromotion)
+    protected function initializePromotionDTO()
     {
         $this->promotionDTO = new CatalogPromotionDTO;
+    }
 
-        parent::__construct($catalogPromotion);
-
+    protected function preBuild()
+    {
+        parent::preBuild();
         $this->promotionDTO->code = $this->promotion->getCode();
     }
 
@@ -28,8 +30,9 @@ class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
     {
         $tag = $this->promotion->getTag();
         if ($tag !== null) {
-            $this->promotionDTO->tag = $tag->getDTOBuilder()
-                ->build();
+            $this->promotionDTO->tag = $this->dtoBuilderFactory
+                ->getTagDTOBuilder($tag)
+                    ->build();
         }
 
         return $this;

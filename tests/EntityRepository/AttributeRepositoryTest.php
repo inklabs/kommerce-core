@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Product;
@@ -29,41 +28,41 @@ class AttributeRepositoryTest extends EntityRepositoryTestCase
 
     private function setupAttribute()
     {
+        $product = $this->dummyData->getProduct();
         $attribute = $this->dummyData->getAttribute();
+        $attributeValue1 = $this->dummyData->getAttributeValue($attribute);
+        $attributeValue2 = $this->dummyData->getAttributeValue($attribute);
+        $productAttribute = $this->dummyData->getProductAttribute($product, $attribute, $attributeValue2);
 
+        $this->entityManager->persist($product);
         $this->entityManager->persist($attribute);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $attribute;
     }
 
     public function testCRUD()
     {
-        $attribute = $this->dummyData->getAttribute();
-        $this->attributeRepository->create($attribute);
-        $this->assertSame(1, $attribute->getId());
-
-        $attribute->setName('New Name');
-        $this->assertSame(null, $attribute->getUpdated());
-
-        $this->attributeRepository->update($attribute);
-        $this->assertTrue($attribute->getUpdated() instanceof DateTime);
-
-        $this->attributeRepository->delete($attribute);
-        $this->assertSame(null, $attribute->getId());
+        $this->executeRepositoryCRUD(
+            $this->attributeRepository,
+            $this->dummyData->getAttribute()
+        );
     }
 
     public function testFindOneById()
     {
-        $this->setupAttribute();
-
+        $originalAttribute = $this->setupAttribute();
         $this->setCountLogger();
 
-        $attribute = $this->attributeRepository->findOneById(1);
+        $attribute = $this->attributeRepository->findOneById(
+            $originalAttribute->getId()
+        );
 
-        $attribute->getAttributeValues()->toArray();
-        $attribute->getProductAttributes()->toArray();
+        $this->visitElements($attribute->getAttributeValues());
+        $this->visitElements($attribute->getProductAttributes());
 
-        $this->assertTrue($attribute instanceof Attribute);
+        $this->assertEquals($originalAttribute->getId(), $attribute->getId());
         $this->assertSame(3, $this->getTotalQueries());
     }
 
@@ -74,6 +73,8 @@ class AttributeRepositoryTest extends EntityRepositoryTestCase
             'Attribute not found'
         );
 
-        $this->attributeRepository->findOneById(1);
+        $this->attributeRepository->findOneById(
+            $this->dummyData->getId()
+        );
     }
 }

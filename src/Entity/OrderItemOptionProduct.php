@@ -2,15 +2,10 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderItemOptionProductDTOBuilder;
-use Ramsey\Uuid\UuidInterface;
 
-class OrderItemOptionProduct
+class OrderItemOptionProduct implements EntityInterface
 {
     use TimeTrait, IdTrait;
-
-    use TempUuidTrait;
-    private $orderItem_uuid;
-    private $optionProduct_uuid;
 
     /** @var string */
     protected $sku;
@@ -29,7 +24,7 @@ class OrderItemOptionProduct
 
     public function __construct()
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
     }
 
@@ -44,8 +39,6 @@ class OrderItemOptionProduct
         $this->sku = $optionProduct->getSku();
         $this->optionName = $optionProduct->getOption()->getName();
         $this->optionProductName = $optionProduct->getName();
-
-        $this->setOptionProductUuid($optionProduct->getUuid());
     }
 
     public function getSku()
@@ -71,23 +64,10 @@ class OrderItemOptionProduct
     public function setOrderItem(OrderItem $orderItem)
     {
         $this->orderItem = $orderItem;
-        $this->setOrderItemUuid($orderItem->getUuid());
     }
 
     public function getDTOBuilder()
     {
         return new OrderItemOptionProductDTOBuilder($this);
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setOrderItemUuid(UuidInterface $uuid)
-    {
-        $this->orderItem_uuid = $uuid;
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setOptionProductUuid(UuidInterface $uuid)
-    {
-        $this->optionProduct_uuid = $uuid;
     }
 }

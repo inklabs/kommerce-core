@@ -5,7 +5,9 @@ use Doctrine;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity\EntityInterface;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
+use inklabs\kommerce\EntityRepository\RepositoryInterface;
 use inklabs\kommerce\Lib\DoctrineHelper;
 use inklabs\kommerce\tests\Helper\CountSQLLogger;
 use inklabs\kommerce\tests\Helper\EntityRepository\MockRepository;
@@ -91,6 +93,11 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
         return new RepositoryFactory($this->entityManager);
     }
 
+    protected function getDTOBuilderFactory()
+    {
+        return new DTOBuilderFactory();
+    }
+
     private function setupTestSchema()
     {
         if ($this->metaDataClassNames === null) {
@@ -148,5 +155,21 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
 
         $this->entityManager->flush();
         $this->entityManager->clear();
+    }
+
+    protected function executeRepositoryCRUD(RepositoryInterface $repository, EntityInterface $entity)
+    {
+        $repository->create($entity);
+        $repository->update($entity);
+        $repository->delete($entity);
+    }
+
+    /**
+     * @param mixed | array $elements
+     */
+    protected function visitElements($elements)
+    {
+        foreach ($elements as $e) {
+        }
     }
 }

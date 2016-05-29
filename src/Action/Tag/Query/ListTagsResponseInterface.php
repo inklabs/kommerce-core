@@ -14,7 +14,6 @@ interface ListTagsResponseInterface
      */
     public function getTagDTOs();
 
-
     /**
      * @return PaginationDTO
      */

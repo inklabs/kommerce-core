@@ -1,11 +1,12 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Ramsey\Uuid\UuidInterface;
+
 interface IdEntityInterface extends EntityInterface
 {
-    /** @return int */
+    /** @return UuidInterface */
     public function getId();
 
-    /** @var int $id */
-    public function setId($id);
+    public function setId(UuidInterface $id);
 }

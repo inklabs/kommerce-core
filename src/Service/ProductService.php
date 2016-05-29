@@ -8,6 +8,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class ProductService implements ProductServiceInterface
 {
@@ -45,11 +46,11 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Product
      * @throws EntityNotFoundException
      */
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->productRepository->findOneById($id);
     }
@@ -141,13 +142,13 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param Tag $tag
+     * @param UuidInterface $tagId
      * @param Pagination $pagination
      * @return Product[]
      */
-    public function getProductsByTag(Tag $tag, Pagination & $pagination = null)
+    public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null)
     {
-        return $this->productRepository->getProductsByTagId($tag->getId(), $pagination);
+        return $this->productRepository->getProductsByTagId($tagId, $pagination);
     }
 
     /**

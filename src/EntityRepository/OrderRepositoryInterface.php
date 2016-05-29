@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberRepositoryInterface;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @method Order findOneById($id)
@@ -24,10 +25,10 @@ interface OrderRepositoryInterface extends RepositoryInterface, ReferenceNumberR
     public function getLatestOrders(Pagination & $pagination = null);
 
     /**
-     * @param int $userId
+     * @param UuidInterface $userId
      * @return Order[]
      */
-    public function getOrdersByUserId($userId);
+    public function getOrdersByUserId(UuidInterface $userId);
 
     public function setReferenceNumberGenerator(ReferenceNumberGeneratorInterface $referenceNumberGenerator);
 }

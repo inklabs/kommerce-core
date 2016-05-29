@@ -2,16 +2,12 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\InventoryLocationDTOBuilder;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class InventoryLocation implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
-
-    use TempUuidTrait;
-    private $warehouse_uuid;
 
     /** @var string */
     protected $name;
@@ -24,12 +20,11 @@ class InventoryLocation implements EntityInterface, ValidationInterface
 
     public function __construct(Warehouse $warehouse, $name, $code)
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->warehouse = $warehouse;
         $this->setName($name);
         $this->setCode($code);
-        $this->setWarehouseUuid($warehouse->getUuid());
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -81,11 +76,5 @@ class InventoryLocation implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new InventoryLocationDTOBuilder($this);
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setWarehouseUuid(UuidInterface $uuid)
-    {
-        $this->warehouse_uuid = $uuid;
     }
 }

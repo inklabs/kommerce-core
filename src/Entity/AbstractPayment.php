@@ -10,9 +10,6 @@ abstract class AbstractPayment implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
-    use TempUuidTrait;
-    private $order_uuid;
-
     /** @var int */
     protected $amount;
 
@@ -21,7 +18,7 @@ abstract class AbstractPayment implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
     }
 
@@ -47,7 +44,6 @@ abstract class AbstractPayment implements EntityInterface, ValidationInterface
     public function setOrder(Order $order)
     {
         $this->order = $order;
-        $this->order_uuid = $order->getUuid();
     }
 
     public function getOrder()
@@ -59,10 +55,4 @@ abstract class AbstractPayment implements EntityInterface, ValidationInterface
      * @return AbstractPaymentDTOBuilder
      */
     abstract public function getDTOBuilder();
-
-    // TODO: Remove after uuid_migration
-    public function setOrderUuid(UuidInterface $uuid)
-    {
-        $this->order_uuid = $uuid;
-    }
 }

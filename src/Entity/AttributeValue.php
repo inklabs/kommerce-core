@@ -11,9 +11,6 @@ class AttributeValue implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
-    use TempUuidTrait;
-    private $attribute_uuid;
-
     /** @var string */
     protected $sku;
 
@@ -34,13 +31,10 @@ class AttributeValue implements EntityInterface, ValidationInterface
 
     public function __construct(Attribute $attribute)
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
+        $this->setAttribute($attribute);
         $this->productAttributes = new ArrayCollection();
-        $this->attribute = $attribute;
-
-        $attribute->addAttributeValue($this);
-        $this->attribute_uuid = $attribute->getUuid();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -132,9 +126,9 @@ class AttributeValue implements EntityInterface, ValidationInterface
         return new AttributeValueDTOBuilder($this);
     }
 
-    // TODO: Remove after uuid_migration
-    public function setAttributeUuid(UuidInterface $uuid)
+    private function setAttribute(Attribute $attribute)
     {
-        $this->attribute_uuid = $uuid;
+        $this->attribute = $attribute;
+        $attribute->addAttributeValue($this);
     }
 }

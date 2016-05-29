@@ -31,19 +31,22 @@ class ProductQuantityDiscountTest extends EntityRepositoryTestCase
         $this->entityManager->persist($productQuantityDiscount);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $productQuantityDiscount;
     }
 
     public function testFind()
     {
-        $this->setupProductWithProductQuantityDiscount();
-
+        $originalProductQuantityDiscount = $this->setupProductWithProductQuantityDiscount();
         $this->setCountLogger();
 
-        $productQuantityDiscount = $this->productQuantityDiscountRepository->findOneById(1);
+        $productQuantityDiscount = $this->productQuantityDiscountRepository->findOneById(
+            $originalProductQuantityDiscount->getId()
+        );
 
         $productQuantityDiscount->getProduct()->getName();
 
-        $this->assertTrue($productQuantityDiscount instanceof ProductQuantityDiscount);
+        $this->assertEquals($originalProductQuantityDiscount->getId(), $productQuantityDiscount->getId());
         $this->assertSame(1, $this->getTotalQueries());
     }
 }

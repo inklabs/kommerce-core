@@ -2,16 +2,12 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\OptionValueDTOBuilder;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class OptionValue implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
-
-    use TempUuidTrait;
-    private $option_uuid;
 
     /** @var string */
     protected $sku;
@@ -33,11 +29,10 @@ class OptionValue implements EntityInterface, ValidationInterface
 
     public function __construct(Option $option)
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->option = $option;
         $option->addOptionValue($this);
-        $this->setOptionUuid($option->getUuid());
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -143,11 +138,5 @@ class OptionValue implements EntityInterface, ValidationInterface
     public function getDTOBuilder()
     {
         return new OptionValueDTOBuilder($this);
-    }
-
-    // TODO: Remove after uuid_migration
-    public function setOptionUuid(UuidInterface $uuid)
-    {
-        $this->option_uuid = $uuid;
     }
 }

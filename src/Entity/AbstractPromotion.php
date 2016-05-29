@@ -10,8 +10,6 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
-    use TempUuidTrait;
-
     /** @var string */
     protected $name;
 
@@ -38,7 +36,7 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
-        $this->setUuid();
+        $this->setId();
         $this->setCreated();
         $this->setType(PromotionType::fixed());
         $this->setRedemptions(0);

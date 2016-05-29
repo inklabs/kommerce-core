@@ -47,33 +47,25 @@ class ImageRepositoryTest extends EntityRepositoryTestCase
 
     public function testCRUD()
     {
-        $image = $this->dummyData->getImage();
-
-        $this->imageRepository->create($image);
-        $this->assertSame(1, $image->getId());
-
-        $image->setPath('New/Path');
-        $this->assertSame(null, $image->getUpdated());
-
-        $this->imageRepository->update($image);
-        $this->assertTrue($image->getUpdated() instanceof DateTime);
-
-        $this->imageRepository->delete($image);
-        $this->assertSame(null, $image->getId());
+        $this->executeRepositoryCRUD(
+            $this->imageRepository,
+            $this->dummyData->getImage()
+        );
     }
 
     public function testFindOneById()
     {
-        $this->setupImageWithProductAndTag();
-
+        $originalImage = $this->setupImageWithProductAndTag();
         $this->setCountLogger();
 
-        $image = $this->imageRepository->findOneById(1);
+        $image = $this->imageRepository->findOneById(
+            $originalImage->getId()
+        );
 
         $image->getProduct()->getName();
         $image->getTag()->getName();
 
-        $this->assertTrue($image instanceof Image);
+        $this->assertEquals($originalImage->getId(), $image->getId());
         $this->assertSame(1, $this->getTotalQueries());
     }
 
@@ -84,6 +76,6 @@ class ImageRepositoryTest extends EntityRepositoryTestCase
             'Image not found'
         );
 
-        $this->imageRepository->findOneById(1);
+        $this->imageRepository->findOneById($this->dummyData->getId());
     }
 }
