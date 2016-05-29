@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\UserLoginException;
+use Ramsey\Uuid\UuidInterface;
 
 interface UserServiceInterface
 {
@@ -30,11 +31,11 @@ interface UserServiceInterface
     public function loginWithToken($email, $token, $remoteIp);
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return User
      * @throws EntityNotFoundException
      */
-    public function findOneById($id);
+    public function findOneById(UuidInterface $id);
 
     /**
      * @param string $email

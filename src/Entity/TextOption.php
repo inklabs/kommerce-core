@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class TextOption implements EntityInterface, ValidationInterface
+class TextOption implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -22,7 +22,7 @@ class TextOption implements EntityInterface, ValidationInterface
     /** @var int */
     protected $sortOrder;
 
-    /** @var ArrayCollection|Tag */
+    /** @var ArrayCollection | Tag[] */
     protected $tags;
 
     public function __construct()
@@ -95,6 +95,9 @@ class TextOption implements EntityInterface, ValidationInterface
         $this->tags[] = $tag;
     }
 
+    /**
+     * @return Tag[]
+     */
     public function getTags()
     {
         return $this->tags;

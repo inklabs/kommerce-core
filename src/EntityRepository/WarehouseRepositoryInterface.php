@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Warehouse;
 
 /**
- * @method Warehouse findOneById($id)
+ * @method Warehouse findOneById(UuidInterface $id)
  */
 interface WarehouseRepositoryInterface extends RepositoryInterface
 {

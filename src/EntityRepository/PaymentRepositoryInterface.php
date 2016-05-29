@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\CheckPayment;
 use inklabs\kommerce\Entity\CreditPayment;
 
 /**
- * @method AbstractPayment | CheckPayment | CheckPayment | CreditPayment findOneById($id)
+ * @method AbstractPayment | CheckPayment | CheckPayment | CreditPayment findOneById(UuidInterface $id)
  */
 interface PaymentRepositoryInterface extends RepositoryInterface
 {

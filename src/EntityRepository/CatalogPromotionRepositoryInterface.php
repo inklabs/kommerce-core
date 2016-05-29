@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Pagination;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @method CatalogPromotion findOneById($id)
+ * @method CatalogPromotion findOneById(UuidInterface $id)
  */
 interface CatalogPromotionRepositoryInterface extends RepositoryInterface
 {

@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 class AttributeValueService
 {
@@ -19,11 +20,11 @@ class AttributeValueService
     }
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return AttributeValue
      * @throws EntityNotFoundException
      */
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->attributeValueRepository->findOneById($id);
     }

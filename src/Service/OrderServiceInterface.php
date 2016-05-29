@@ -12,17 +12,18 @@ use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
+use Ramsey\Uuid\UuidInterface;
 
 interface OrderServiceInterface
 {
     public function update(Order & $order);
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Order
      * @throws EntityNotFoundException
      */
-    public function findOneById($id);
+    public function findOneById(UuidInterface $id);
 
     /**
      * @param int $id

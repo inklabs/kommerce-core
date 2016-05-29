@@ -16,6 +16,7 @@ use inklabs\kommerce\Event\ResetPasswordEvent;
 use inklabs\kommerce\Exception\UserLoginException;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\UserPasswordValidator;
+use Ramsey\Uuid\UuidInterface;
 
 class UserService implements UserServiceInterface
 {
@@ -121,7 +122,7 @@ class UserService implements UserServiceInterface
         $this->userLoginRepository->create($userLogin);
     }
 
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->userRepository->findOneById($id);
     }

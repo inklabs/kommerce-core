@@ -20,26 +20,26 @@ interface ProductServiceInterface
     public function findOneById(UuidInterface $id);
 
     /**
-     * @param int $productId
-     * @param int $tagId
+     * @param UuidInterface $productId
+     * @param UuidInterface $tagId
      * @return Tag
      * @throws EntityNotFoundException
      */
-    public function addTag($productId, $tagId);
+    public function addTag(UuidInterface $productId, UuidInterface $tagId);
 
     /**
-     * @param int $productId
-     * @param int $tagId
+     * @param UuidInterface $productId
+     * @param UuidInterface $tagId
      * @throws EntityNotFoundException
      */
-    public function removeTag($productId, $tagId);
+    public function removeTag(UuidInterface $productId, UuidInterface $tagId);
 
     /**
-     * @param int $productId
-     * @param int $imageId
+     * @param UuidInterface $productId
+     * @param UuidInterface $imageId
      * @throws EntityNotFoundException
      */
-    public function removeImage($productId, $imageId);
+    public function removeImage(UuidInterface $productId, UuidInterface $imageId);
 
     /**
      * @param string $queryString
@@ -63,14 +63,14 @@ interface ProductServiceInterface
     public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null);
 
     /**
-     * @param int[] $productIds
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */
     public function getProductsByIds($productIds, Pagination & $pagination = null);
 
     /**
-     * @param int[] $productIds
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */

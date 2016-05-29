@@ -9,7 +9,7 @@ use inklabs\kommerce\Event\PasswordChangedEvent;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class User implements EntityInterface, ValidationInterface
+class User implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait, EventGeneratorTrait;
 

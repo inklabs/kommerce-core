@@ -2,9 +2,10 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\CartPriceRule;
+use Ramsey\Uuid\UuidInterface;
 
 /**
- * @method CartPriceRule findOneById($id)
+ * @method CartPriceRule findOneById(UuidInterface $id)
  */
 interface CartPriceRuleRepositoryInterface extends RepositoryInterface
 {

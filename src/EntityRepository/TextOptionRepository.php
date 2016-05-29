@@ -12,7 +12,7 @@ class TextOptionRepository extends AbstractRepository implements TextOptionRepos
             ->select('TextOption')
             ->from(TextOption::class, 'TextOption')
             ->where('TextOption.id IN (:optionIds)')
-            ->setParameter('optionIds', $optionIds)
+            ->setIdParameter('optionIds', $optionIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();

@@ -26,6 +26,7 @@ use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class OrderService implements OrderServiceInterface
 {
@@ -76,7 +77,7 @@ class OrderService implements OrderServiceInterface
         $this->orderRepository->update($order);
     }
 
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         $order = $this->orderRepository->findOneById($id);
         $this->loadProductTagsFromOrder($order);

@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\OrderItemTextOptionValue;
 
 /**
- * @method OrderItemTextOptionValue findOneById($id)
+ * @method OrderItemTextOptionValue findOneById(UuidInterface $id)
  */
 interface OrderItemTextOptionValueRepositoryInterface extends RepositoryInterface
 {

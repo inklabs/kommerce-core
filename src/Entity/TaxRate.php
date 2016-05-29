@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\TaxRateDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class TaxRate implements EntityInterface, ValidationInterface
+class TaxRate implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

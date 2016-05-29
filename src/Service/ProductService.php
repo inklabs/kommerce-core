@@ -56,12 +56,12 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param int $productId
-     * @param int $tagId
+     * @param UuidInterface $productId
+     * @param UuidInterface $tagId
      * @return Tag
      * @throws EntityNotFoundException
      */
-    public function addTag($productId, $tagId)
+    public function addTag(UuidInterface $productId, UuidInterface $tagId)
     {
         $product = $product = $this->productRepository->findOneById($productId);
         $tag = $this->tagRepository->findOneById($tagId);
@@ -74,11 +74,11 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param int $productId
-     * @param int $tagId
+     * @param UuidInterface $productId
+     * @param UuidInterface $tagId
      * @throws EntityNotFoundException
      */
-    public function removeTag($productId, $tagId)
+    public function removeTag(UuidInterface $productId, UuidInterface $tagId)
     {
         $product = $this->productRepository->findOneById($productId);
         $tag = $this->tagRepository->findOneById($tagId);
@@ -89,11 +89,11 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param int $productId
-     * @param int $imageId
+     * @param UuidInterface $productId
+     * @param UuidInterface $imageId
      * @throws EntityNotFoundException
      */
-    public function removeImage($productId, $imageId)
+    public function removeImage(UuidInterface $productId, UuidInterface $imageId)
     {
         $product = $this->productRepository->findOneById($productId);
         $image = $this->imageRepository->findOneById($imageId);
@@ -152,7 +152,7 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param int[] $productIds
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */
@@ -162,7 +162,7 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param int[] $productIds
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */

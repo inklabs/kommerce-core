@@ -3,14 +3,15 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\TextOption;
+use Ramsey\Uuid\UuidInterface;
 
 /**
- * @package TextOption find($id)
+ * @method TextOption findOneById(UuidInterface $id)
  */
 interface TextOptionRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param int[] $optionIds
+     * @param UuidInterface[] $optionIds
      * @param Pagination $pagination
      * @return TextOption[]
      */

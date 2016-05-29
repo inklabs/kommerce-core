@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 interface CouponServiceInterface
 {
@@ -16,11 +17,11 @@ interface CouponServiceInterface
     public function delete(Coupon $coupon);
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Coupon
      * @throws EntityNotFoundException
      */
-    public function findOneById($id);
+    public function findOneById(UuidInterface $id);
 
     /**
      * @param string $queryString

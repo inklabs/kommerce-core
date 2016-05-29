@@ -6,14 +6,18 @@ use Ramsey\Uuid\UuidInterface;
 
 class CartRepository extends AbstractRepository implements CartRepositoryInterface
 {
-    public function findOneByUser($userId)
+    public function findOneByUserId(UuidInterface $userId)
     {
-        return $this->findOneBy(['user' => $userId]);
+        return $this->returnOrThrowNotFoundException(
+            $this->findOneBy(['user' => $userId])
+        );
     }
 
     public function findOneBySession($sessionId)
     {
-        return $this->findOneBy(['sessionId' => $sessionId]);
+        return $this->returnOrThrowNotFoundException(
+            $this->findOneBy(['sessionId' => $sessionId])
+        );
     }
 
     /**

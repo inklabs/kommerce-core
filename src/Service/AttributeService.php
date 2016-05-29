@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 class AttributeService
 {
@@ -30,11 +31,11 @@ class AttributeService
     }
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Attribute
      * @throws EntityNotFoundException
      */
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->attributeRepository->findOneById($id);
     }

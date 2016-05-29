@@ -12,7 +12,7 @@ class FakeCartRepository extends AbstractFakeRepository implements CartRepositor
         $this->setReturnValue(new Cart);
     }
 
-    public function findOneByUser($userId)
+    public function findOneByUserId($userId)
     {
         return $this->getReturnValue();
     }

@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\ValidationInterface;
 use inklabs\kommerce\EntityRepository\RepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\KommerceException;
+use Ramsey\Uuid\UuidInterface;
 
 abstract class AbstractFakeRepository implements RepositoryInterface
 {
@@ -52,11 +53,11 @@ abstract class AbstractFakeRepository implements RepositoryInterface
     }
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return EntityInterface
      * @throws \inklabs\kommerce\Exception\EntityNotFoundException
      */
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         if (isset($this->entities[$id])) {
             return $this->entities[$id];

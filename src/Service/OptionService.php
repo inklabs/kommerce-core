@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class OptionService
 {
@@ -31,11 +32,11 @@ class OptionService
     }
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Option
      * @throws EntityNotFoundException
      */
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->optionRepository->findOneById($id);
     }

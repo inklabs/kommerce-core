@@ -6,6 +6,7 @@ use inklabs\kommerce\EntityDTO\ImageDTO;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class ImageService implements ImageServiceInterface
 {
@@ -75,7 +76,7 @@ class ImageService implements ImageServiceInterface
         $this->create($image);
     }
 
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->imageRepository->findOneById($id);
     }

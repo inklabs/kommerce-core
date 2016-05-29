@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\UserToken;
 
 /**
- * @method UserToken findOneById($id)
+ * @method UserToken findOneById(UuidInterface $id)
  */
 interface UserTokenRepositoryInterface extends RepositoryInterface
 {

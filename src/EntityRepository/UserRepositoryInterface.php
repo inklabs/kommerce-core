@@ -4,9 +4,10 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 /**
- * @method User findOneById($id)
+ * @method User findOneById(UuidInterface $id)
  */
 interface UserRepositoryInterface extends RepositoryInterface
 {

@@ -7,7 +7,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @method Coupon findOneById($id)
+ * @method Coupon findOneById(UuidInterface $id)
  */
 interface CouponRepositoryInterface extends RepositoryInterface
 {

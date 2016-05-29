@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Tag implements EntityInterface, ValidationInterface, EnabledAttachmentInterface
+class Tag implements IdEntityInterface, ValidationInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait, StringSetterTrait;
 
@@ -88,6 +88,9 @@ class Tag implements EntityInterface, ValidationInterface, EnabledAttachmentInte
         $this->products[] = $product;
     }
 
+    /**
+     * @return Product[]
+     */
     public function getProducts()
     {
         return $this->products;
@@ -103,6 +106,9 @@ class Tag implements EntityInterface, ValidationInterface, EnabledAttachmentInte
         $this->images->add($image);
     }
 
+    /**
+     * @return Image[]
+     */
     public function getImages()
     {
         return $this->images;
@@ -114,6 +120,9 @@ class Tag implements EntityInterface, ValidationInterface, EnabledAttachmentInte
         $this->options[] = $option;
     }
 
+    /**
+     * @return Option[]
+     */
     public function getOptions()
     {
         return $this->options;
@@ -125,6 +134,9 @@ class Tag implements EntityInterface, ValidationInterface, EnabledAttachmentInte
         $this->textOptions[] = $textOption;
     }
 
+    /**
+     * @return TextOption[]
+     */
     public function getTextOptions()
     {
         return $this->textOptions;

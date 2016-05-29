@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Pagination;
 
 /**
- * @method Option findOneById($id)
+ * @method Option findOneById(UuidInterface $id)
  */
 interface OptionRepositoryInterface extends RepositoryInterface
 {

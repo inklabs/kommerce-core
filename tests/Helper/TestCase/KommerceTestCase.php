@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\Helper\TestCase;
 
 use inklabs\kommerce\Entity\EntityInterface;
+use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\Entity\ValidationInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
@@ -112,5 +113,10 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     {
         $difference = abs($expected - $actual);
         $this->assertTrue($difference >= 0 && $difference <= $delta);
+    }
+
+    protected function assertEqualEntities(IdEntityInterface $entity1, IdEntityInterface $entity2)
+    {
+        $this->assertEquals($entity1->getId(), $entity2->getId());
     }
 }

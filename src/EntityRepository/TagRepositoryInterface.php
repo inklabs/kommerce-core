@@ -26,14 +26,14 @@ interface TagRepositoryInterface extends RepositoryInterface
     public function getAllTags($queryString = null, Pagination & $pagination = null);
 
     /**
-     * @param int []
+     * @param UuidInterface[]
      * @param Pagination $pagination
      * @return Tag[]
      */
     public function getTagsByIds($tagIds, Pagination & $pagination = null);
 
     /**
-     * @param int []
+     * @param UuidInterface[]
      * @param Pagination $pagination
      * @return Tag[]
      */

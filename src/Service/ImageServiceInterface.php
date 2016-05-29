@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\EntityDTO\ImageDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 interface ImageServiceInterface
 {
@@ -26,9 +27,9 @@ interface ImageServiceInterface
     public function setFromDTO(Image & $image, ImageDTO $imageDTO);
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Image
      * @throws EntityNotFoundException
      */
-    public function findOneById($id);
+    public function findOneById(UuidInterface $id);
 }

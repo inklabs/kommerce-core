@@ -13,10 +13,10 @@ interface CartRepositoryInterface extends RepositoryInterface
     public function findOneByUuid(UuidInterface $uuid4);
 
     /**
-     * @param int $userId
+     * @param UuidInterface $userId
      * @return Cart|null
      */
-    public function findOneByUser($userId);
+    public function findOneByUserId(UuidInterface $userId);
 
     /**
      * @param string $sessionId

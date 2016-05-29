@@ -109,7 +109,7 @@ class CartService implements CartServiceInterface
      */
     public function findByUser($userId)
     {
-        return $this->cartRepository->findOneByUser($userId);
+        return $this->cartRepository->findOneByUserId($userId);
     }
 
     /**

@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 class CouponService implements CouponServiceInterface
 {
@@ -36,11 +37,11 @@ class CouponService implements CouponServiceInterface
     }
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Coupon
      * @throws EntityNotFoundException
      */
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->couponRepository->findOneById($id);
     }

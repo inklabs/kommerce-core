@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class TaxRateService
 {
@@ -28,7 +29,7 @@ class TaxRateService
         $this->taxRateRepository->update($taxRate);
     }
 
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->taxRateRepository->findOneById($id);
     }

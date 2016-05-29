@@ -63,6 +63,7 @@ class TaxRateRepository extends AbstractRepository implements TaxRateRepositoryI
         } elseif (! empty($stateTaxRates)) {
             $taxRate = $stateTaxRates[0];
         } else {
+            // TODO: Investigate whether we should throw exception
             return null;
         }
 

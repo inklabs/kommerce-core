@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\Coupon;
@@ -20,6 +19,8 @@ class CartRepositoryTest extends EntityRepositoryTestCase
         User::class,
         TaxRate::class,
     ];
+
+    const SESSION_ID = '6is7ujb3crb5ja85gf91g9en62';
 
     /** @var CartRepositoryInterface */
     protected $cartRepository;
@@ -68,7 +69,6 @@ class CartRepositoryTest extends EntityRepositoryTestCase
     public function testFindOneByUuId()
     {
         $originalCart = $this->setupCart();
-
         $this->setCountLogger();
 
         $cart = $this->cartRepository->findOneByUuId($originalCart->getId());
@@ -78,30 +78,30 @@ class CartRepositoryTest extends EntityRepositoryTestCase
         $this->visitElements($cart->getCartItems());
         $this->visitElements($cart->getCoupons());
 
-        $this->assertEquals($originalCart->getId(), $cart->getId());
+        $this->assertEqualEntities($originalCart, $cart);
         $this->assertSame(3, $this->getTotalQueries());
     }
 
     public function testFindByUser()
     {
-        $this->setupCart();
-
+        $originalCart = $this->setupCart();
         $this->setCountLogger();
 
-        $cart = $this->cartRepository->findOneByUser(1);
+        $cart = $this->cartRepository->findOneByUserId(
+            $originalCart->getUser()->getId()
+        );
 
-        $this->assertTrue($cart instanceof Cart);
+        $this->assertEqualEntities($originalCart, $cart);
     }
 
     public function testFindBySession()
     {
-        $sessionId = '6is7ujb3crb5ja85gf91g9en62';
-        $this->setupCart($sessionId);
-
+        $sessionId = self::SESSION_ID;
+        $originalCart = $this->setupCart($sessionId);
         $this->setCountLogger();
 
         $cart = $this->cartRepository->findOneBySession($sessionId);
 
-        $this->assertTrue($cart instanceof Cart);
+        $this->assertEqualEntities($originalCart, $cart);
     }
 }

@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use Ramsey\Uuid\UuidInterface;
 
 class CartPriceRuleService
 {
@@ -30,11 +31,11 @@ class CartPriceRuleService
     }
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return CartPriceRule
      * @throws EntityNotFoundException
      */
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->cartPriceRuleRepository->findOneById($id);
     }

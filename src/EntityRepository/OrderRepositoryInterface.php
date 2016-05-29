@@ -8,7 +8,7 @@ use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberRepositoryInterface;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @method Order findOneById($id)
+ * @method Order findOneById(UuidInterface $id)
  */
 interface OrderRepositoryInterface extends RepositoryInterface, ReferenceNumberRepositoryInterface
 {
