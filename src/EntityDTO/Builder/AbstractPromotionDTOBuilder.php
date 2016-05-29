@@ -37,7 +37,7 @@ abstract class AbstractPromotionDTOBuilder
 
         $this->promotionDTO->isRedemptionCountValid = $this->promotion->isRedemptionCountValid();
 
-        $this->promotionDTO->type = $this->promotion->getType()->getDTOBuilder()
+        $this->promotionDTO->type = $this->dtoBuilderFactory->getPromotionTypeDTOBuilder($this->promotion->getType())
             ->build();
 
         if ($this->promotionDTO->start !== null) {
@@ -56,6 +56,7 @@ abstract class AbstractPromotionDTOBuilder
     public function build()
     {
         $this->preBuild();
+        unset($this->promotion);
         return $this->promotionDTO;
     }
 }

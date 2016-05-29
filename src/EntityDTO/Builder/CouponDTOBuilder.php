@@ -15,12 +15,13 @@ class CouponDTOBuilder extends AbstractPromotionDTOBuilder
     /** @var CouponDTO */
     protected $promotionDTO;
 
-    public function __construct(Coupon $coupon)
+    protected function initializePromotionDTO()
     {
         $this->promotionDTO = new CouponDTO;
+    }
 
-        parent::__construct($coupon);
-
+    protected function preBuild()
+    {
         $this->promotionDTO->code             = $this->promotion->getCode();
         $this->promotionDTO->flagFreeShipping = $this->promotion->getFlagFreeShipping();
         $this->promotionDTO->minOrderValue    = $this->promotion->getMinOrderValue();

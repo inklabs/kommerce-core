@@ -12,11 +12,12 @@ class GetCouponHandlerTest extends ActionTestCase
     public function testHandle()
     {
         $couponService = $this->mockService->getCouponService();
+        $dtoBuilderFactory = $this->getDTOBuilderFactory();
 
         $request = new GetCouponRequest(1);
         $response = new GetCouponResponse;
 
-        $handler = new GetCouponHandler($couponService);
+        $handler = new GetCouponHandler($couponService, $dtoBuilderFactory);
         $handler->handle(new GetCouponQuery($request, $response));
 
         $this->assertTrue($response->getCouponDTO() instanceof CouponDTO);

@@ -1,20 +1,21 @@
 <?php
 namespace inklabs\kommerce\Action\Coupon\Query;
 
-use inklabs\kommerce\EntityDTO\CouponDTO;
+use inklabs\kommerce\EntityDTO\Builder\CouponDTOBuilder;
 
 class GetCouponResponse implements GetCouponResponseInterface
 {
-    /** @var CouponDTO */
-    protected $couponDTO;
-
-    public function setCouponDTO(CouponDTO $couponDTO)
-    {
-        $this->couponDTO = $couponDTO;
-    }
+    /** @var CouponDTOBuilder */
+    protected $couponDTOBuilder;
 
     public function getCouponDTO()
     {
-        return $this->couponDTO;
+        return $this->couponDTOBuilder
+            ->build();
+    }
+
+    public function setCouponDTOBuilder(CouponDTOBuilder $couponDTOBuilder)
+    {
+        $this->couponDTOBuilder = $couponDTOBuilder;
     }
 }

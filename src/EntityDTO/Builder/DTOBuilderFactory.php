@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
@@ -10,6 +11,7 @@ use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TextOption;
 
@@ -18,6 +20,11 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
     public function getCatalogPromotionDTOBuilder(CatalogPromotion $catalogPromotion)
     {
         return new CatalogPromotionDTOBuilder($catalogPromotion, $this);
+    }
+
+    public function getCouponDTOBuilder(Coupon $coupon)
+    {
+        return new CouponDTOBuilder($coupon, $this);
     }
 
     public function getImageDTOBuilder(Image $image)
@@ -43,6 +50,11 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
     public function getPriceDTOBuilder(Price $price)
     {
         return new PriceDTOBuilder($price, $this);
+    }
+
+    public function getPromotionTypeDTOBuilder(PromotionType $promotionType)
+    {
+        return new PromotionTypeDTOBuilder($promotionType, $this);
     }
 
     public function getProductDTOBuilder(Product $product)

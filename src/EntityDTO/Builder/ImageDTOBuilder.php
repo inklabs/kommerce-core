@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\EntityDTO\ImageDTO;
 use inklabs\kommerce\Lib\BaseConvert;
 
-class ImageDTOBuilder
+class ImageDTOBuilder implements DTOBuilderInterface
 {
     /** @var Image */
     protected $image;
@@ -21,7 +21,7 @@ class ImageDTOBuilder
         $this->image = $image;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->initializeImageDTO();
+        $this->initializeDTO();
         $this->imageDTO->id        = $this->image->getId();
         $this->imageDTO->path      = $this->image->getPath();
         $this->imageDTO->width     = $this->image->getWidth();
@@ -31,7 +31,7 @@ class ImageDTOBuilder
         $this->imageDTO->updated   = $this->image->getUpdated();
     }
 
-    protected function initializeImageDTO()
+    protected function initializeDTO()
     {
         $this->imageDTO = new ImageDTO;
     }
@@ -63,13 +63,14 @@ class ImageDTOBuilder
             ->withTag();
     }
 
-    public function preBuild()
+    protected function preBuild()
     {
     }
 
     public function build()
     {
         $this->preBuild();
+        unset($this->image);
         return $this->imageDTO;
     }
 }

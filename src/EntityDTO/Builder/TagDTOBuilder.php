@@ -115,6 +115,7 @@ class TagDTOBuilder
     public function build()
     {
         $this->preBuild();
+        unset($this->tag);
         return $this->tagDTO;
     }
 }

@@ -160,6 +160,7 @@ class ProductDTOBuilder
     public function build()
     {
         $this->preBuild();
+        unset($this->product);
         return $this->productDTO;
     }
 }
