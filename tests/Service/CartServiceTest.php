@@ -5,8 +5,12 @@ use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Entity\TextOption;
@@ -17,11 +21,6 @@ use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryTransactionRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionProductRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionValueRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeTaxRateRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeTextOptionRepository;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
 class CartServiceTest extends ServiceTestCase
@@ -41,10 +40,10 @@ class CartServiceTest extends ServiceTestCase
     /** @var FakeEventDispatcher */
     protected $fakeEventDispatcher;
 
-    /** @var FakeOptionProductRepository */
+    /** @var OptionProductRepositoryInterface | \Mockery\Mock */
     protected $optionProductRepository;
 
-    /** @var FakeOptionValueRepository */
+    /** @var OptionValueRepositoryInterface | \Mockery\Mock */
     protected $optionValueRepository;
 
     /** @var OrderRepositoryInterface | \Mockery\Mock */
@@ -56,10 +55,10 @@ class CartServiceTest extends ServiceTestCase
     /** @var FakeShipmentGateway */
     protected $fakeShipmentGateway;
 
-    /** @var FakeTaxRateRepository */
+    /** @var TaxRateRepositoryInterface | \Mockery\Mock */
     protected $taxRateRepository;
 
-    /** @var FakeTextOptionRepository */
+    /** @var TextOptionRepositoryInterface | \Mockery\Mock*/
     protected $textOptionRepository;
 
     /** @var UserRepositoryInterface | \Mockery\Mock */
@@ -83,15 +82,15 @@ class CartServiceTest extends ServiceTestCase
         $this->couponRepository = $this->mockRepository->getCouponRepository();
         $this->fakeEventDispatcher = new FakeEventDispatcher;
         $this->productRepository = $this->mockRepository->getProductRepository();
-        $this->optionProductRepository = new FakeOptionProductRepository;
-        $this->optionValueRepository = new FakeOptionValueRepository;
+        $this->optionProductRepository = $this->mockRepository->getOptionProductRepository();
+        $this->optionValueRepository = $this->mockRepository->getOptionValueRepository();
         $this->orderRepository = $this->mockRepository->getOrderRepository();
         $this->fakeShipmentGateway = new FakeShipmentGateway(new OrderAddressDTO);
-        $this->taxRateRepository = new FakeTaxRateRepository;
-        $this->textOptionRepository = new FakeTextOptionRepository;
+        $this->taxRateRepository = $this->mockRepository->getTaxRateRepository();
+        $this->textOptionRepository = $this->mockRepository->getTextOptionRepository();
         $this->userRepository = $this->mockRepository->getUserRepository();
         $this->inventoryLocationRepository = $this->mockRepository->getInventoryLocationRepository();
-        $this->inventoryTransactionRepository = new FakeInventoryTransactionRepository;
+        $this->inventoryTransactionRepository = $this->mockRepository->getInventoryTransactionRepository();
 
         $customerHoldInventoryLocation = $this->dummyData->getInventoryLocation();
         $customerHoldInventoryLocation->setName('Hold For Customer Order');
@@ -266,6 +265,9 @@ class CartServiceTest extends ServiceTestCase
     public function testAddItemOptionProducts()
     {
         $optionProductIds = [101];
+        $this->optionProductRepository->shouldReceive('getAllOptionProductsByIds')
+            ->andReturn([])
+            ->once();
 
         $product = $this->dummyData->getProduct();
         $this->productRepository->shouldReceive('findOneById')
@@ -286,6 +288,9 @@ class CartServiceTest extends ServiceTestCase
     public function testAddItemOptionValues()
     {
         $optionValueIds = [201];
+        $this->optionValueRepository->shouldReceive('getAllOptionValuesByIds')
+            ->andReturn([])
+            ->once();
 
         $product = $this->dummyData->getProduct();
         $this->productRepository->shouldReceive('findOneById')
@@ -305,8 +310,10 @@ class CartServiceTest extends ServiceTestCase
 
     public function testAddItemTextOptionValues()
     {
-        $textOption = new TextOption;
-        $this->textOptionRepository->setReturnValue($textOption);
+        $textOption = $this->dummyData->getTextOption();
+        $this->textOptionRepository->shouldReceive('getAllTextOptionsByIds')
+            ->andReturn([$textOption])
+            ->once();
 
         $textOptionValues = [$textOption->getId()->getHex() => 'Happy Birthday'];
 
@@ -420,17 +427,23 @@ class CartServiceTest extends ServiceTestCase
         $cart = $this->getCartThatRepositoryWillFind();
         $this->cartRepositoryShouldUpdateOnce($cart);
 
-        $zip5 = self::ZIP5;
-        $shipmentRateExternalId = self::SHIPMENT_RATE_EXTERNAL_ID;
+        $orderAddressDTO = new OrderAddressDTO;
+        $orderAddressDTO->zip5 = self::ZIP5;
 
-        $orderAddress = $this->dummyData->getOrderAddress();
-        $orderAddress->setZip5($zip5);
-        $orderAddressDTO = $orderAddress->getDTOBuilder()->build();
+        $taxRate = $this->dummyData->getTaxRate();
+        $this->taxRateRepository->shouldReceive('findByZip5AndState')
+            ->with(self::ZIP5, null)
+            ->andReturn($taxRate)
+            ->once();
 
-        $this->cartService->setExternalShipmentRate($cart->getId(), $shipmentRateExternalId, $orderAddressDTO);
+        $this->cartService->setExternalShipmentRate(
+            $cart->getId(),
+            self::SHIPMENT_RATE_EXTERNAL_ID,
+            $orderAddressDTO
+        );
 
-        $this->assertSame($shipmentRateExternalId, $cart->getShipmentRate()->getShipmentExternalId());
-        $this->assertSame($zip5, $cart->getShippingAddress()->getZip5());
+        $this->assertSame(self::SHIPMENT_RATE_EXTERNAL_ID, $cart->getShipmentRate()->getShipmentExternalId());
+        $this->assertSame(self::ZIP5, $cart->getShippingAddress()->getZip5());
     }
 
     public function testSetShipmentRate()

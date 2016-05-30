@@ -11,12 +11,15 @@ use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
@@ -131,6 +134,22 @@ class MockRepository
     }
 
     /**
+     * @return OptionProductRepositoryInterface | Mockery\Mock
+     */
+    public function getOptionProductRepository()
+    {
+        return $this->getMockeryMock(OptionProductRepositoryInterface::class);
+    }
+
+    /**
+     * @return OptionValueRepositoryInterface | Mockery\Mock
+     */
+    public function getOptionValueRepository()
+    {
+        return $this->getMockeryMock(OptionValueRepositoryInterface::class);
+    }
+
+    /**
      * @return OrderRepositoryInterface | Mockery\Mock
      */
     public function getOrderRepository()
@@ -160,6 +179,14 @@ class MockRepository
     public function getTagRepository()
     {
         return $this->getMockeryMock(TagRepositoryInterface::class);
+    }
+
+    /**
+     * @return TextOptionRepositoryInterface | Mockery\Mock
+     */
+    public function getTextOptionRepository()
+    {
+        return $this->getMockeryMock(TextOptionRepositoryInterface::class);
     }
 
     /**
