@@ -120,12 +120,4 @@ class InventoryTransactionType extends AbstractIntegerType
     {
         return $this->id === self::SHRINKAGE;
     }
-
-    /**
-     * @return InventoryTransactionTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new InventoryTransactionTypeDTOBuilder($this);
-    }
 }

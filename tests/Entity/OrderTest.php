@@ -86,7 +86,6 @@ class OrderTest extends EntityTestCase
         $this->assertSame($taxRate, $order->getTaxRate());
         $this->assertSame($product, $order->getProducts()[0]);
         $this->assertSame($shipment, $order->getShipments()[0]);
-        $this->assertTrue($order->getDTOBuilder() instanceof OrderDTOBuilder);
     }
 
     public function testCreateFromCart()

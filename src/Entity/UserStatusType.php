@@ -60,12 +60,4 @@ class UserStatusType extends AbstractIntegerType
     {
         return $this->id === self::LOCKED;
     }
-
-    /**
-     * @return UserStatusTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new UserStatusTypeDTOBuilder($this);
-    }
 }

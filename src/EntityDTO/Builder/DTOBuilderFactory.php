@@ -37,6 +37,11 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
         return new OptionDTOBuilder($option, $this);
     }
 
+    public function getOrderAddressDTOBuilder($orderAddress)
+    {
+        return new OrderAddressDTOBuilder($orderAddress, $this);
+    }
+
     public function getOptionProductDTOBuilder(OptionProduct $optionProduct)
     {
         return new OptionProductDTOBuilder($optionProduct, $this);
@@ -45,6 +50,11 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
     public function getPaginationDTOBuilder(Pagination $pagination)
     {
         return new PaginationDTOBuilder($pagination, $this);
+    }
+
+    public function getParcelDTOBuilder($parcel)
+    {
+        return new ParcelDTOBuilder($parcel, $this);
     }
 
     public function getPriceDTOBuilder(Price $price)

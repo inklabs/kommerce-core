@@ -48,9 +48,4 @@ abstract class AbstractIntegerType implements ValidationInterface, NameMapInterf
     {
         return new static($id);
     }
-
-    /**
-     * @return AbstractIntegerTypeDTOBuilder
-     */
-    abstract public function getDTOBuilder();
 }

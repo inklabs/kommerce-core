@@ -50,9 +50,4 @@ abstract class AbstractPayment implements IdEntityInterface, ValidationInterface
     {
         return $this->order;
     }
-
-    /**
-     * @return AbstractPaymentDTOBuilder
-     */
-    abstract public function getDTOBuilder();
 }

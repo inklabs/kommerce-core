@@ -72,12 +72,4 @@ class ShipmentCarrierType extends AbstractIntegerType
     {
         return $this->id === self::FEDEX;
     }
-
-    /**
-     * @return ShipmentCarrierTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new ShipmentCarrierTypeDTOBuilder($this);
-    }
 }

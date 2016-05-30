@@ -4,26 +4,32 @@ namespace inklabs\kommerce\Lib\ReferenceNumber;
 use inklabs\kommerce\Exception\RuntimeException;
 use inklabs\kommerce\tests\Helper\Entity\FakeReferenceNumberEntity;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeReferenceNumberRepository;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
-class HashSegmentReferenceNumberGeneratorTest extends EntityTestCase
+class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
 {
     /** @var HashSegmentReferenceNumberGenerator */
     protected $hashSegmentGenerator;
 
-    /** @var FakeReferenceNumberRepository */
+    /** @var ReferenceNumberRepositoryInterface | \Mockery\Mock */
     protected $repository;
 
     public function setUp()
     {
+        parent::setUp();
         mt_srand(0);
 
-        $this->repository = new FakeReferenceNumberRepository;
+        $this->repository = $this->mockRepository->getOrderRepository();
         $this->hashSegmentGenerator = new HashSegmentReferenceNumberGenerator($this->repository);
     }
 
     public function testGenerate()
     {
+        $this->repository->shouldReceive('referenceNumberExists')
+            ->andReturn(false)
+            ->once();
+
         $entity = new FakeReferenceNumberEntity;
         $this->hashSegmentGenerator->generate($entity);
 
@@ -32,6 +38,10 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityTestCase
 
     public function testGenerateWithCustomSegments()
     {
+        $this->repository->shouldReceive('referenceNumberExists')
+            ->andReturn(false)
+            ->once();
+
         $entity = new FakeReferenceNumberEntity;
         $this->hashSegmentGenerator->setSegments([1, 2, 3, 4, 5]);
         $this->hashSegmentGenerator->generate($entity);
@@ -41,8 +51,11 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityTestCase
 
     public function testGenerateThrowsException()
     {
+        $this->repository->shouldReceive('referenceNumberExists')
+            ->andReturn(true)
+            ->times(3);
+
         $entity = new FakeReferenceNumberEntity;
-        $this->repository->setReferenceNumberReturnValue(true);
 
         $this->setExpectedException(
             RuntimeException::class,

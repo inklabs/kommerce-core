@@ -47,9 +47,4 @@ class ShipmentItem implements IdEntityInterface, ValidationInterface
     {
         return $this->quantityToShip;
     }
-
-    public function getDTOBuilder()
-    {
-        return new ShipmentItemDTOBuilder($this);
-    }
 }

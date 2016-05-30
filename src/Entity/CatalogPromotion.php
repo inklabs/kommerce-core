@@ -64,12 +64,4 @@ class CatalogPromotion extends AbstractPromotion
 
         return false;
     }
-
-    /**
-     * @return CatalogPromotionDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new CatalogPromotionDTOBuilder($this);
-    }
 }

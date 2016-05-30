@@ -29,12 +29,4 @@ class CreditPayment extends AbstractPayment
     {
         return $this->chargeResponse;
     }
-
-    /**
-     * @return CreditPaymentDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new CreditPaymentDTOBuilder($this);
-    }
 }

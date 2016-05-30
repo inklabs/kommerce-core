@@ -131,9 +131,4 @@ class Image implements IdEntityInterface, ValidationInterface
     {
         return $this->tag;
     }
-
-    public function getDTOBuilder()
-    {
-        return new ImageDTOBuilder($this);
-    }
 }

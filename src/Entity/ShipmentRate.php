@@ -241,11 +241,6 @@ class ShipmentRate implements ValidationInterface
         return $this->deliveryMethod;
     }
 
-    public function getDTOBuilder()
-    {
-        return new ShipmentRateDTOBuilder($this);
-    }
-
     private function setDeliveryMethod(DeliveryMethodType $deliveryMethod)
     {
         $this->deliveryMethod = $deliveryMethod;

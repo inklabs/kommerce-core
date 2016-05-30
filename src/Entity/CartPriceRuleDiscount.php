@@ -60,9 +60,4 @@ class CartPriceRuleDiscount implements IdEntityInterface, ValidationInterface
     {
         return $this->cartPriceRule;
     }
-
-    public function getDTOBuilder()
-    {
-        return new CartPriceRuleDiscountDTOBuilder($this);
-    }
 }

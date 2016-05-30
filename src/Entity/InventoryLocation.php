@@ -72,9 +72,4 @@ class InventoryLocation implements IdEntityInterface, ValidationInterface
     {
         return $this->warehouse;
     }
-
-    public function getDTOBuilder()
-    {
-        return new InventoryLocationDTOBuilder($this);
-    }
 }

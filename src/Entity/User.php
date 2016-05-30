@@ -302,9 +302,4 @@ class User implements IdEntityInterface, ValidationInterface
     {
         return $this->orders;
     }
-
-    public function getDTOBuilder()
-    {
-        return new UserDTOBuilder($this);
-    }
 }

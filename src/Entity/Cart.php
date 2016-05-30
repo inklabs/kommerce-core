@@ -257,11 +257,6 @@ class Cart implements IdEntityInterface, ValidationInterface
         $this->taxRate = $taxRate;
     }
 
-    public function getDTOBuilder()
-    {
-        return new CartDTOBuilder($this);
-    }
-
     /**
      * @param Coupon $coupon
      * @return bool

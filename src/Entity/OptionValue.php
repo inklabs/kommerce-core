@@ -134,9 +134,4 @@ class OptionValue implements IdEntityInterface, ValidationInterface
     {
         return $this->option;
     }
-
-    public function getDTOBuilder()
-    {
-        return new OptionValueDTOBuilder($this);
-    }
 }

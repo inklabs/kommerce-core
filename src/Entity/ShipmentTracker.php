@@ -103,9 +103,4 @@ class ShipmentTracker implements IdEntityInterface, ValidationInterface
     {
         return $this->externalId;
     }
-
-    public function getDTOBuilder()
-    {
-        return new ShipmentTrackerDTOBuilder($this);
-    }
 }

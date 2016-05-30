@@ -59,8 +59,15 @@ class PricingTest extends EntityRepositoryTestCase
 
     public function testLoadCartPriceRules()
     {
-        $this->pricing->loadCartPriceRules(new FakeCartPriceRuleRepository);
+        $cartPriceRule1 = $this->dummyData->getCartPriceRule();
+        $cartPriceRuleRepository = $this->mockRepository->getCartPriceRuleRepository();
+        $cartPriceRuleRepository->shouldReceive('findAll')
+            ->andReturn([$cartPriceRule1])
+            ->once();
+
+        $this->pricing->loadCartPriceRules($cartPriceRuleRepository);
         $cartPriceRules = $this->pricing->getCartPriceRules();
-        $this->assertTrue($cartPriceRules[0] instanceof CartPriceRule);
+
+        $this->assertEqualEntities($cartPriceRule1, $cartPriceRules[0]);
     }
 }

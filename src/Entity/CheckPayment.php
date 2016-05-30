@@ -61,12 +61,4 @@ class CheckPayment extends AbstractPayment
     {
         return $this->memo;
     }
-
-    /**
-     * @return CheckPaymentDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new CheckPaymentDTOBuilder($this);
-    }
 }

@@ -80,9 +80,4 @@ class OptionProduct implements IdEntityInterface, ValidationInterface
     {
         return $this->product;
     }
-
-    public function getDTOBuilder()
-    {
-        return new OptionProductDTOBuilder($this);
-    }
 }

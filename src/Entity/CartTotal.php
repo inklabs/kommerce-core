@@ -65,9 +65,4 @@ class CartTotal implements ValidationInterface
             ]));
         }
     }
-
-    public function getDTOBuilder()
-    {
-        return new CartTotalDTOBuilder($this);
-    }
 }

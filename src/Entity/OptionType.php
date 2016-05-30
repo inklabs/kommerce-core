@@ -60,12 +60,4 @@ class OptionType extends AbstractIntegerType
     {
         return $this->id === self::CHECKBOX;
     }
-
-    /**
-     * @return OptionTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new OptionTypeDTOBuilder($this);
-    }
 }

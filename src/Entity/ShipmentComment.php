@@ -46,9 +46,4 @@ class ShipmentComment implements IdEntityInterface, ValidationInterface
     {
         $this->shipment = $shipment;
     }
-
-    public function getDTOBuilder()
-    {
-        return new ShipmentCommentDTOBuilder($this);
-    }
 }

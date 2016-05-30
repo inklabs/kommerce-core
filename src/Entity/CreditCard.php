@@ -141,9 +141,4 @@ class CreditCard implements ValidationInterface
     {
         return $this->expirationYear;
     }
-
-    public function getDTOBuilder()
-    {
-        return new CreditCardDTOBuilder($this);
-    }
 }

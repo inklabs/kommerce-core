@@ -5,7 +5,6 @@ use Doctrine;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity\EntityInterface;
-use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\EntityRepository\RepositoryInterface;
 use inklabs\kommerce\Lib\DoctrineHelper;
@@ -91,11 +90,6 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
     protected function getRepositoryFactory()
     {
         return new RepositoryFactory($this->entityManager);
-    }
-
-    protected function getDTOBuilderFactory()
-    {
-        return new DTOBuilderFactory();
     }
 
     private function setupTestSchema()

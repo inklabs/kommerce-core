@@ -175,9 +175,4 @@ class Address implements ValidationInterface
     {
         $this->point = $point;
     }
-
-    public function getDTOBuilder()
-    {
-        return new AddressDTOBuilder($this);
-    }
 }

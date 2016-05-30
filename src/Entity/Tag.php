@@ -221,11 +221,6 @@ class Tag implements IdEntityInterface, ValidationInterface, EnabledAttachmentIn
         return $this->isVisible;
     }
 
-    public function getDTOBuilder()
-    {
-        return new TagDTOBuilder($this);
-    }
-
     public function disableAttachments()
     {
         $this->areAttachmentsEnabled = false;

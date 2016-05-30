@@ -310,11 +310,6 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
         return $products;
     }
 
-    public function getDTOBuilder()
-    {
-        return new OrderDTOBuilder($this);
-    }
-
     public function addShipment(Shipment $shipment)
     {
         $shipment->setOrder($this);

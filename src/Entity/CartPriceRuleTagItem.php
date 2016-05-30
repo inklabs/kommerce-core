@@ -38,9 +38,4 @@ class CartPriceRuleTagItem extends AbstractCartPriceRuleItem
     {
         return $this->tag;
     }
-
-    public function getDTOBuilder()
-    {
-        return new CartPriceRuleTagItemDTOBuilder($this);
-    }
 }

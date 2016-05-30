@@ -95,9 +95,4 @@ class Attachment implements UuidEntityInterface, ValidationInterface
     {
         return $this->orderItems;
     }
-
-    public function getDTOBuilder()
-    {
-        return new AttachmentDTOBuilder($this);
-    }
 }

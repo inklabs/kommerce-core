@@ -55,9 +55,4 @@ class Warehouse implements IdEntityInterface, ValidationInterface
     {
         $this->address = $address;
     }
-
-    public function getDTOBuilder()
-    {
-        return new WarehouseDTOBuilder($this);
-    }
 }

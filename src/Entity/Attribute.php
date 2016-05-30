@@ -111,9 +111,4 @@ class Attribute implements IdEntityInterface, ValidationInterface
     {
         $this->productAttributes->add($productAttribute);
     }
-
-    public function getDTOBuilder()
-    {
-        return new AttributeDTOBuilder($this);
-    }
 }

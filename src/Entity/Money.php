@@ -49,9 +49,4 @@ class Money implements ValidationInterface
     {
         return $this->currency;
     }
-
-    public function getDTOBuilder()
-    {
-        return new MoneyDTOBuilder($this);
-    }
 }

@@ -98,9 +98,4 @@ class Price implements ValidationInterface
 
         return $price;
     }
-
-    public function getDTOBuilder()
-    {
-        return new PriceDTOBuilder($this);
-    }
 }

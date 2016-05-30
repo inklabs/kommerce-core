@@ -65,9 +65,4 @@ class OrderItemOptionProduct implements EntityInterface
     {
         $this->orderItem = $orderItem;
     }
-
-    public function getDTOBuilder()
-    {
-        return new OrderItemOptionProductDTOBuilder($this);
-    }
 }

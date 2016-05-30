@@ -4,6 +4,7 @@ namespace inklabs\kommerce\tests\Helper\TestCase;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\Entity\ValidationInterface;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
@@ -27,6 +28,7 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     const IP4 = '127.0.0.1';
     const ZIP5 = '76667';
     const SHIPMENT_RATE_EXTERNAL_ID = 'shp_xxxxxxxx';
+    const RATE_EXTERNAL_ID = 'rate_xxxxxxxxx';
 
     /** @var DummyData */
     protected $dummyData;
@@ -40,6 +42,11 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     {
         $cartCalculator = new CartCalculator(new Pricing);
         return $cartCalculator;
+    }
+
+    protected function getDTOBuilderFactory()
+    {
+        return new DTOBuilderFactory();
     }
 
     protected function assertFullProductDTO(ProductDTO $productDTO)

@@ -403,11 +403,6 @@ class Product implements IdEntityInterface, ValidationInterface, EnabledAttachme
         $this->productAttributes->add($productAttribute);
     }
 
-    public function getDTOBuilder()
-    {
-        return new ProductDTOBuilder($this);
-    }
-
     public function disableAttachments()
     {
         $this->areAttachmentsEnabled = false;

@@ -121,11 +121,6 @@ class AttributeValue implements IdEntityInterface, ValidationInterface
         $this->productAttributes->add($productAttribute);
     }
 
-    public function getDTOBuilder()
-    {
-        return new AttributeValueDTOBuilder($this);
-    }
-
     private function setAttribute(Attribute $attribute)
     {
         $this->attribute = $attribute;

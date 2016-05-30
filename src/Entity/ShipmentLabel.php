@@ -190,9 +190,4 @@ class ShipmentLabel implements ValidationInterface
     {
         $this->zplUrl = (string) $zplUrl;
     }
-
-    public function getDTOBuilder()
-    {
-        return new ShipmentLabelDTOBuilder($this);
-    }
 }

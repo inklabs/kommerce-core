@@ -177,9 +177,4 @@ class InventoryTransaction implements IdEntityInterface, ValidationInterface
     {
         return $this->creditQuantity - $this->debitQuantity;
     }
-
-    public function getDTOBuilder()
-    {
-        return new InventoryTransactionDTOBuilder($this);
-    }
 }

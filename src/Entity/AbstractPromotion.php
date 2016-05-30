@@ -231,9 +231,4 @@ abstract class AbstractPromotion implements IdEntityInterface, ValidationInterfa
 
         return (int) $returnValue;
     }
-
-    /**
-     * @return AbstractPromotionDTOBuilder
-     */
-    abstract public function getDTOBuilder();
 }

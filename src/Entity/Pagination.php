@@ -60,9 +60,4 @@ class Pagination
     {
         return $this->isTotalIncluded;
     }
-
-    public function getDTOBuilder()
-    {
-        return new PaginationDTOBuilder($this);
-    }
 }

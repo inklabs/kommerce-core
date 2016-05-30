@@ -94,9 +94,4 @@ class UserLogin implements IdEntityInterface, ValidationInterface
     {
         return $this->userToken;
     }
-
-    public function getDTOBuilder()
-    {
-        return new UserLoginDTOBuilder($this);
-    }
 }

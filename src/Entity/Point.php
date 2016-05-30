@@ -75,9 +75,4 @@ class Point implements ValidationInterface
 
         return [$upperLeft, $bottomRight];
     }
-
-    public function getDTOBuilder()
-    {
-        return new PointDTOBuilder($this);
-    }
 }

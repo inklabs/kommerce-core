@@ -314,11 +314,6 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         return true;
     }
 
-    public function getDTOBuilder()
-    {
-        return new OrderItemDTOBuilder($this);
-    }
-
     /**
      * @return Attachment[]
      */

@@ -151,9 +151,4 @@ class TaxRate implements IdEntityInterface, ValidationInterface
 
         return (int) round($newTaxSubtotal * ($this->rate / 100));
     }
-
-    public function getDTOBuilder()
-    {
-        return new TaxRateDTOBuilder($this);
-    }
 }

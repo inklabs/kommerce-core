@@ -48,12 +48,4 @@ class UserLoginResultType extends AbstractIntegerType
     {
         return $this->id === self::SUCCESS;
     }
-
-    /**
-     * @return UserLoginResultTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new UserLoginResultTypeDTOBuilder($this);
-    }
 }

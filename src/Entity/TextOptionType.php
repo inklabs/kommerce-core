@@ -94,12 +94,4 @@ class TextOptionType extends AbstractIntegerType
     {
         return $this->id === self::DATETIME;
     }
-
-    /**
-     * @return TextOptionTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new TextOptionTypeDTOBuilder($this);
-    }
 }

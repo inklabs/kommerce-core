@@ -53,9 +53,4 @@ class UserRole implements IdEntityInterface, ValidationInterface
     {
         return $this->description;
     }
-
-    public function getDTOBuilder()
-    {
-        return new UserRoleDTOBuilder($this);
-    }
 }

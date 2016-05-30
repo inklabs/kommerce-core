@@ -65,9 +65,4 @@ class OrderItemOptionValue
     {
         $this->orderItem = $orderItem;
     }
-
-    public function getDTOBuilder()
-    {
-        return new OrderItemOptionValueDTOBuilder($this);
-    }
 }

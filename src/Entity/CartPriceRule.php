@@ -114,14 +114,6 @@ class CartPriceRule extends AbstractPromotion
     }
 
     /**
-     * @return CartPriceRuleDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new CartPriceRuleDTOBuilder($this);
-    }
-
-    /**
      * @param CartItem[] $cartItems
      * @return CartItem[]
      */

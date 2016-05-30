@@ -58,6 +58,5 @@ class ShipmentRateTest extends EntityTestCase
         $this->assertSame(true, $shipmentRate->isDeliveryDateGuaranteed());
         $this->assertSame(5, $shipmentRate->getEstDeliveryDays());
         $this->assertTrue($shipmentRate->getDeliveryMethod()->isStandard());
-        $this->assertTrue($shipmentRate->getDTOBuilder() instanceof ShipmentRateDTOBuilder);
     }
 }

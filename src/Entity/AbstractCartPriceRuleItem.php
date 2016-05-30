@@ -52,9 +52,4 @@ abstract class AbstractCartPriceRuleItem implements IdEntityInterface, Validatio
     {
         return $this->cartPriceRule;
     }
-
-    /**
-     * @return AbstractCartPriceRuleItemDTOBuilder
-     */
-    abstract public function getDTOBuilder();
 }

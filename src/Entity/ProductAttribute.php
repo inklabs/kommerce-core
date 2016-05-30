@@ -43,9 +43,4 @@ class ProductAttribute
     {
         return $this->attributeValue;
     }
-
-    public function getDTOBuilder()
-    {
-        return new ProductAttributeDTOBuilder($this);
-    }
 }

@@ -245,11 +245,6 @@ class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmen
         return $orderItem;
     }
 
-    public function getDTOBuilder()
-    {
-        return new CartItemDTOBuilder($this);
-    }
-
     public function getAttachments()
     {
         return $this->attachments;

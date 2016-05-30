@@ -64,9 +64,4 @@ class CartItemTextOptionValue implements IdEntityInterface, ValidationInterface
     {
         $this->cartItem = $cartItem;
     }
-
-    public function getDTOBuilder()
-    {
-        return new CartItemTextOptionValueDTOBuilder($this);
-    }
 }

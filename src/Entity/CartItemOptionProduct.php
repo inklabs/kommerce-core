@@ -54,9 +54,4 @@ class CartItemOptionProduct
     {
         $this->cartItem = $cartItem;
     }
-
-    public function getDTOBuilder()
-    {
-        return new CartItemOptionProductDTOBuilder($this);
-    }
 }

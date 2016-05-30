@@ -129,12 +129,4 @@ class ProductQuantityDiscount extends AbstractPromotion
             return false;
         }
     }
-
-    /**
-     * @return ProductQuantityDiscountDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new ProductQuantityDiscountDTOBuilder($this);
-    }
 }

@@ -156,12 +156,4 @@ class Coupon extends AbstractPromotion
             return true;
         }
     }
-
-    /**
-     * @return CouponDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new CouponDTOBuilder($this);
-    }
 }

@@ -75,12 +75,4 @@ class DeliveryMethodType extends AbstractIntegerType
     {
         return $this->id === self::TWO_DAY;
     }
-
-    /**
-     * @return DeliveryMethodTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new DeliveryMethodTypeDTOBuilder($this);
-    }
 }

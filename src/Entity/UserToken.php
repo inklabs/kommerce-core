@@ -163,11 +163,6 @@ class UserToken implements IdEntityInterface, ValidationInterface
         return true;
     }
 
-    public function getDTOBuilder()
-    {
-        return new UserTokenDTOBuilder($this);
-    }
-
     public function addUserLogin(UserLogin $userLogin)
     {
         $this->userLogins->add($userLogin);

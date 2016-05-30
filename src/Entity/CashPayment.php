@@ -20,12 +20,4 @@ class CashPayment extends AbstractPayment
     {
         parent::loadValidatorMetadata($metadata);
     }
-
-    /**
-     * @return CashPaymentDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new CashPaymentDTOBuilder($this);
-    }
 }

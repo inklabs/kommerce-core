@@ -107,9 +107,4 @@ class Parcel
     {
         return $this->predefinedPackage;
     }
-
-    public function getDTOBuilder()
-    {
-        return new ParcelDTOBuilder($this);
-    }
 }

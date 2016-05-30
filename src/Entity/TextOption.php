@@ -115,9 +115,4 @@ class TextOption implements IdEntityInterface, ValidationInterface
     {
         return $this->sortOrder;
     }
-
-    public function getDTOBuilder()
-    {
-        return new TextOptionDTOBuilder($this);
-    }
 }
