@@ -19,40 +19,18 @@ class TagServiceTest extends ServiceTestCase
         $this->tagService = new TagService($this->tagRepository);
     }
 
-    public function testCreate()
+    public function testCRUD()
     {
-        $tag = $this->dummyData->getTag();
-        $this->tagRepository->shouldReceive('create')
-            ->with($tag)
-            ->once();
-
-        $this->tagService->create($tag);
-    }
-
-    public function testUpdate()
-    {
-        $tag = $this->dummyData->getTag();
-        $this->tagRepository->shouldReceive('update')
-            ->with($tag)
-            ->once();
-
-        $this->tagService->update($tag);
-    }
-
-    public function testDelete()
-    {
-        $tag = $this->dummyData->getTag();
-        $this->tagRepository->shouldReceive('delete')
-            ->with($tag)
-            ->once();
-
-        $this->tagService->delete($tag);
+        $this->executeServiceCRUD(
+            $this->tagService,
+            $this->tagRepository,
+            $this->dummyData->getTag()
+        );
     }
 
     public function testFindOneById()
     {
         $tag1 = $this->dummyData->getTag();
-        $tag1->setId(1);
         $this->tagRepository->shouldReceive('findOneById')
             ->with($tag1->getId())
             ->andReturn($tag1)
@@ -60,13 +38,12 @@ class TagServiceTest extends ServiceTestCase
 
         $tag = $this->tagService->findOneById($tag1->getId());
 
-        $this->assertSame($tag1, $tag);
+        $this->assertEqualEntities($tag1, $tag);
     }
 
     public function testFindOneByCode()
     {
         $tag1 = $this->dummyData->getTag();
-        $tag1->setId(1);
         $this->tagRepository->shouldReceive('findOneByCode')
             ->with($tag1->getCode())
             ->andReturn($tag1)
@@ -74,44 +51,46 @@ class TagServiceTest extends ServiceTestCase
 
         $tag = $this->tagService->findOneByCode($tag1->getCode());
 
-        $this->assertSame($tag1, $tag);
+        $this->assertEqualEntities($tag1, $tag);
     }
 
     public function testGetAllTags()
     {
-        $tag = $this->dummyData->getTag();
+        $tag1 = $this->dummyData->getTag();
         $this->tagRepository->shouldReceive('getAllTags')
-            ->andReturn([$tag])
+            ->andReturn([$tag1])
             ->once();
 
         $tags = $this->tagService->getAllTags();
 
-        $this->assertSame($tag, $tags[0]);
+        $this->assertEqualEntities($tag1, $tags[0]);
     }
 
     public function testGetTagsByIds()
     {
-        $tag = $this->dummyData->getTag();
-        $tag->setId(1);
+        $tag1 = $this->dummyData->getTag();
         $this->tagRepository->shouldReceive('getTagsByIds')
-            ->andReturn([$tag])
+            ->with([$tag1->getId()], null)
+            ->andReturn([$tag1])
             ->once();
 
-        $tags = $this->tagService->getTagsByIds([$tag->getId()]);
+        $tags = $this->tagService->getTagsByIds([
+            $tag1->getId()
+        ]);
 
-        $this->assertSame($tag, $tags[0]);
+        $this->assertEqualEntities($tag1, $tags[0]);
     }
 
     public function testAllGetTagsByIds()
     {
-        $tag = $this->dummyData->getTag();
-        $tag->setId(1);
+        $tag1 = $this->dummyData->getTag();
         $this->tagRepository->shouldReceive('getAllTagsByIds')
-            ->andReturn([$tag])
+            ->with([$tag1->getId()], null)
+            ->andReturn([$tag1])
             ->once();
 
-        $tags = $this->tagService->getAllTagsByIds([$tag->getId()]);
+        $tags = $this->tagService->getAllTagsByIds([$tag1->getId()]);
 
-        $this->assertSame($tag, $tags[0]);
+        $this->assertEqualEntities($tag1, $tags[0]);
     }
 }

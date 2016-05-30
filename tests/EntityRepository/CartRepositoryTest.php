@@ -20,8 +20,6 @@ class CartRepositoryTest extends EntityRepositoryTestCase
         TaxRate::class,
     ];
 
-    const SESSION_ID = '6is7ujb3crb5ja85gf91g9en62';
-
     /** @var CartRepositoryInterface */
     protected $cartRepository;
 

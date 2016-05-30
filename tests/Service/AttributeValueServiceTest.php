@@ -2,13 +2,14 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeAttributeValueRepository;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class AttributeValueServiceTest extends ServiceTestCase
 {
-    /** @var FakeAttributeValueRepository */
+    /** @var AttributeValueRepositoryInterface | \Mockery\Mock */
     protected $attributeValueRepository;
 
     /** @var AttributeValueService */
@@ -17,32 +18,36 @@ class AttributeValueServiceTest extends ServiceTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->attributeValueRepository = new FakeAttributeValueRepository;
+        $this->attributeValueRepository = $this->mockRepository->getAttributeValueRepository();
         $this->attributeValueService = new AttributeValueService($this->attributeValueRepository);
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
-        $attribute = $this->dummyData->getAttribute();
-        $attributeValue = new AttributeValue($attribute);
-        $this->attributeValueRepository->create($attributeValue);
-        $attributeValue = $this->attributeValueService->findOneById(1);
-        $this->assertTrue($attributeValue instanceof AttributeValue);
-    }
+        $attributeValue1 = $this->dummyData->getAttributeValue();
+        $this->attributeValueRepository->shouldReceive('findOneById')
+            ->andReturn($attributeValue1)
+            ->once();
 
-    public function testFindMissing()
-    {
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'AttributeValue not found'
+        $attributeValue = $this->attributeValueService->findOneById(
+            $attributeValue1->getId()
         );
 
-        $this->attributeValueService->findOneById(1);
+        $this->assertEqualEntities($attributeValue1, $attributeValue);
     }
 
     public function testGetAttributeValuesByIds()
     {
-        $attributeValues = $this->attributeValueService->getAttributeValuesByIds([1]);
-        $this->assertTrue($attributeValues[0] instanceof AttributeValue);
+        $attributeValue1 = $this->dummyData->getAttributeValue();
+        $this->attributeValueRepository->shouldReceive('getAttributeValuesByIds')
+            ->with([$attributeValue1->getId()], null)
+            ->andReturn([$attributeValue1])
+            ->once();
+
+        $attributeValues = $this->attributeValueService->getAttributeValuesByIds([
+            $attributeValue1->getId()
+        ]);
+
+        $this->assertEqualEntities($attributeValue1, $attributeValues[0]);
     }
 }

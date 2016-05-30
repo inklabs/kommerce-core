@@ -31,7 +31,7 @@ interface CouponServiceInterface
     public function getAllCoupons($queryString = null, Pagination & $pagination = null);
 
     /**
-     * @param int[] $couponIds
+     * @param UuidInterface[] $couponIds
      * @param Pagination $pagination
      * @return Coupon[]
      */

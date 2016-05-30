@@ -84,7 +84,7 @@ class OrderService implements OrderServiceInterface
         return $order;
     }
 
-    public function getOrderItemById($id)
+    public function getOrderItemById(UuidInterface $id)
     {
         $orderItem = $this->orderItemRepository->findOneById($id);
         $this->loadProductTagsFromOrderItem($orderItem);
@@ -108,13 +108,13 @@ class OrderService implements OrderServiceInterface
         return $this->orderRepository->getLatestOrders($pagination);
     }
 
-    public function getOrdersByUserId($userId)
+    public function getOrdersByUserId(UuidInterface $userId)
     {
         return $this->orderRepository->getOrdersByUserId($userId);
     }
 
     public function buyShipmentLabel(
-        $orderId,
+        UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
         $rateExternalId,
@@ -131,14 +131,14 @@ class OrderService implements OrderServiceInterface
     }
 
     /**
-     * @param int $orderId
+     * @param UuidInterface $orderId
      * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment
      * @param int $shipmentCarrierTypeId
      * @param string $trackingCode
      */
     public function addShipmentTrackingCode(
-        $orderId,
+        UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
         $shipmentCarrierTypeId,
@@ -191,10 +191,10 @@ class OrderService implements OrderServiceInterface
     }
 
     /**
-     * @param int $orderId
+     * @param UuidInterface $orderId
      * @param OrderStatusType $orderStatusType
      */
-    public function setOrderStatus($orderId, OrderStatusType $orderStatusType)
+    public function setOrderStatus(UuidInterface $orderId, OrderStatusType $orderStatusType)
     {
         $order = $this->orderRepository->findOneById($orderId);
         $order->setStatus($orderStatusType);

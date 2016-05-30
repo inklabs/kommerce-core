@@ -18,18 +18,6 @@ class CartPriceRuleService
         $this->cartPriceRuleRepository = $cartPriceRuleRepository;
     }
 
-    public function create(CartPriceRule & $cartPriceRule)
-    {
-        $this->throwValidationErrors($cartPriceRule);
-        $this->cartPriceRuleRepository->create($cartPriceRule);
-    }
-
-    public function edit(CartPriceRule & $cartPriceRule)
-    {
-        $this->throwValidationErrors($cartPriceRule);
-        $this->cartPriceRuleRepository->update($cartPriceRule);
-    }
-
     /**
      * @param UuidInterface $id
      * @return CartPriceRule

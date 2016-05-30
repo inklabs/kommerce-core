@@ -25,7 +25,7 @@ class OptionService
         $this->optionRepository->create($option);
     }
 
-    public function edit(Option & $option)
+    public function update(Option & $option)
     {
         $this->throwValidationErrors($option);
         $this->optionRepository->update($option);

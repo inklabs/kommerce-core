@@ -2,16 +2,14 @@
 namespace inklabs\kommerce\Event;
 
 use inklabs\kommerce\Lib\Event\EventInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class OrderCreatedFromCartEvent implements EventInterface
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $orderId;
 
-    /**
-     * @param int $orderId
-     */
-    public function __construct($orderId)
+    public function __construct(UuidInterface $orderId)
     {
         $this->orderId = $orderId;
     }

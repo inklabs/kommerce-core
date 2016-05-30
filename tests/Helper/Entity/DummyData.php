@@ -358,9 +358,13 @@ class DummyData
         );
     }
 
-    public function getCoupon()
+    public function getCoupon($code = null)
     {
-        $coupon = new Coupon('20PCT' . uniqid());
+        if ($code === null) {
+            $code = uniqid();
+        }
+
+        $coupon = new Coupon($code);
         $coupon->setName('20% OFF Test Coupon');
         $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);

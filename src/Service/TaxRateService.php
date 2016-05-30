@@ -23,7 +23,7 @@ class TaxRateService
         $this->taxRateRepository->create($taxRate);
     }
 
-    public function edit(TaxRate & $taxRate)
+    public function update(TaxRate & $taxRate)
     {
         $this->throwValidationErrors($taxRate);
         $this->taxRateRepository->update($taxRate);

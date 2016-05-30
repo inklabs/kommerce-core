@@ -34,32 +34,22 @@ class ImageServiceTest extends ServiceTestCase
         );
     }
 
-    public function testCreate()
+    public function testCRUD()
     {
-        $image = $this->dummyData->getImage();
-        $this->imageRepository->shouldReceive('create')
-            ->with($image)
-            ->once();
-
-        $this->imageService->create($image);
-    }
-
-    public function testUpdate()
-    {
-        $image = $this->dummyData->getImage();
-        $this->imageRepository->shouldReceive('update')
-            ->with($image)
-            ->once();
-
-        $this->imageService->update($image);
+        $this->executeServiceCRUD(
+            $this->imageService,
+            $this->imageRepository,
+            $this->dummyData->getImage()
+        );
     }
 
     public function testCreateFromDTOWithTag()
     {
-        $imageDTO = $this->dummyData->getImage()->getDTOBuilder()->build();
-        $tag = $this->dummyData->getTag();
-        $tag->setId(1);
+        $imageDTO = $this->getDTOBuilderFactory()
+            ->getImageDTOBuilder($this->dummyData->getImage())
+                ->build();
 
+        $tag = $this->dummyData->getTag();
         $this->tagRepository->shouldReceive('findOneById')
             ->with($tag->getId())
             ->andReturn($tag)
@@ -68,33 +58,29 @@ class ImageServiceTest extends ServiceTestCase
         $this->imageRepository->shouldReceive('create')
             ->once();
 
-        $this->imageService->createFromDTOWithTag($imageDTO, $tag->getid());
+        $this->imageService->createFromDTOWithTag($imageDTO, $tag->getId());
     }
 
     public function testCreateWithProduct()
     {
-        $image = $this->dummyData->getImage();
-
         $product = $this->dummyData->getProduct();
-        $product->setId(1);
-
         $this->productRepository->shouldReceive('findOneById')
             ->with($product->getId())
             ->andReturn($product)
             ->once();
 
+        $image = $this->dummyData->getImage();
         $this->imageRepository->shouldReceive('create')
             ->with($image)
             ->once();
 
         $this->imageService->createWithProduct($image, $product->getId());
-        $this->assertSame($product, $image->getProduct());
+        $this->assertEqualEntities($product, $image->getProduct());
     }
 
     public function testFindOneById()
     {
         $image1 = $this->dummyData->getTag();
-        $image1->setId(1);
         $this->imageRepository->shouldReceive('findOneById')
             ->with($image1->getId())
             ->andReturn($image1)
@@ -102,6 +88,6 @@ class ImageServiceTest extends ServiceTestCase
 
         $image = $this->imageService->findOneById($image1->getId());
 
-        $this->assertSame($image1, $image);
+        $this->assertEqualEntities($image1, $image);
     }
 }

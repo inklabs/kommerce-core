@@ -104,14 +104,10 @@ class MockService
      */
     public function getOrderService()
     {
-        $service = $this->getMockeryMock(OrderServiceInterface::class);
-
         $order = $this->dummyData->getOrder();
-        $order->setId(99);
-
         $orderItem = $this->dummyData->getOrderItem();
-        $orderItem->setId(99);
 
+        $service = $this->getMockeryMock(OrderServiceInterface::class);
         $service->shouldReceive('getOrderItemById')
             ->with($orderItem->getId())
             ->andReturn($orderItem);

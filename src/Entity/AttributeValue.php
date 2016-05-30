@@ -7,7 +7,7 @@ use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class AttributeValue implements EntityInterface, ValidationInterface
+class AttributeValue implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

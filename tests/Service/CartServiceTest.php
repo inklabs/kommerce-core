@@ -4,28 +4,25 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
-use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryLocationRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryTransactionRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionProductRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionValueRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTaxRateRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTextOptionRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeCouponRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeUserRepository;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
-use Ramsey\Uuid\Uuid;
 
 class CartServiceTest extends ServiceTestCase
 {
@@ -38,7 +35,7 @@ class CartServiceTest extends ServiceTestCase
     /** @var CartRepositoryInterface | \Mockery\Mock */
     protected $cartRepository;
 
-    /** @var FakeCouponRepository */
+    /** @var CouponRepositoryInterface | \Mockery\Mock */
     protected $couponRepository;
 
     /** @var FakeEventDispatcher */
@@ -50,10 +47,10 @@ class CartServiceTest extends ServiceTestCase
     /** @var FakeOptionValueRepository */
     protected $optionValueRepository;
 
-    /** @var FakeOrderRepository */
+    /** @var OrderRepositoryInterface | \Mockery\Mock */
     protected $orderRepository;
 
-    /** @var FakeProductRepository */
+    /** @var ProductRepositoryInterface | \Mockery\Mock */
     protected $productRepository;
 
     /** @var FakeShipmentGateway */
@@ -65,7 +62,7 @@ class CartServiceTest extends ServiceTestCase
     /** @var FakeTextOptionRepository */
     protected $textOptionRepository;
 
-    /** @var FakeUserRepository */
+    /** @var UserRepositoryInterface | \Mockery\Mock */
     protected $userRepository;
 
     /** @var InventoryLocationRepositoryInterface */
@@ -83,24 +80,22 @@ class CartServiceTest extends ServiceTestCase
 
         $this->cartCalculator = new CartCalculator(new Pricing);
         $this->cartRepository = $this->mockRepository->getCartRepository();
-        $this->couponRepository = new FakeCouponRepository;
+        $this->couponRepository = $this->mockRepository->getCouponRepository();
         $this->fakeEventDispatcher = new FakeEventDispatcher;
-        $this->productRepository = new FakeProductRepository;
+        $this->productRepository = $this->mockRepository->getProductRepository();
         $this->optionProductRepository = new FakeOptionProductRepository;
         $this->optionValueRepository = new FakeOptionValueRepository;
-        $this->orderRepository = new FakeOrderRepository;
+        $this->orderRepository = $this->mockRepository->getOrderRepository();
         $this->fakeShipmentGateway = new FakeShipmentGateway(new OrderAddressDTO);
         $this->taxRateRepository = new FakeTaxRateRepository;
         $this->textOptionRepository = new FakeTextOptionRepository;
-        $this->userRepository = new FakeUserRepository;
-        $this->inventoryLocationRepository = new FakeInventoryLocationRepository;
+        $this->userRepository = $this->mockRepository->getUserRepository();
+        $this->inventoryLocationRepository = $this->mockRepository->getInventoryLocationRepository();
         $this->inventoryTransactionRepository = new FakeInventoryTransactionRepository;
 
         $customerHoldInventoryLocation = $this->dummyData->getInventoryLocation();
         $customerHoldInventoryLocation->setName('Hold For Customer Order');
         $customerHoldInventoryLocation->setCode('CUSTOMER-HOLD');
-
-        $this->inventoryLocationRepository->create($customerHoldInventoryLocation);
 
         $this->inventoryService = new InventoryService(
             $this->inventoryLocationRepository,
@@ -131,53 +126,48 @@ class CartServiceTest extends ServiceTestCase
 
     public function testFindOneByUser()
     {
-        $userId = 1;
+        $user = $this->dummyData->getUser();
+        $cart1 = $this->dummyData->getCart();
+
         $this->cartRepository
-            ->shouldReceive('findOneByUser')
-            ->with($userId)
-            ->andReturn($this->dummyData->getCart());
+            ->shouldReceive('findOneByUserId')
+            ->with($user->getId())
+            ->andReturn($cart1);
 
-        $cart = $this->cartService->findByUser($userId);
+        $cart = $this->cartService->findByUser(
+            $user->getId()
+        );
 
-        $this->assertTrue($cart instanceof Cart);
+        $this->assertEqualEntities($cart1, $cart);
     }
 
     public function testFindOneBySession()
     {
-        $sessionId = '6is7ujb3crb5ja85gf91g9en62';
-
+        $cart1 = $this->dummyData->getCart();
         $this->cartRepository
             ->shouldReceive('findOneBySession')
-            ->with($sessionId)
-            ->andReturn($this->dummyData->getCart());
+            ->with(self::SESSION_ID)
+            ->andReturn($cart1);
 
-        $cart = $this->cartService->findBySession($sessionId);
+        $cart = $this->cartService->findBySession(self::SESSION_ID);
 
-        $this->assertTrue($cart instanceof Cart);
+        $this->assertEqualEntities($cart1, $cart);
     }
 
     public function testAddCouponByCode()
     {
-        $coupon = $this->dummyData->getCoupon();
-        $coupon->setCode('20PCT');
-        $this->couponRepository->create($coupon);
-
         $cart = $this->getCartThatRepositoryWillFind();
         $this->cartRepositoryShouldUpdateOnce($cart);
 
+        $coupon = $this->dummyData->getCoupon('20PCT');
+        $this->couponRepository->shouldReceive('findOneByCode')
+            ->with($coupon->getCode())
+            ->andReturn($coupon)
+            ->once();
+
         $couponIndex = $this->cartService->addCouponByCode($cart->getId(), $coupon->getCode());
 
-        $this->assertSame(0, $couponIndex);
-    }
-
-    public function testAddCouponByCodeMissingThrowsException()
-    {
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'Coupon not found'
-        );
-
-        $this->cartService->addCouponByCode(Uuid::uuid4(), 'code');
+        $this->assertEqualEntities($coupon, $cart->getCoupons()[$couponIndex]);
     }
 
     public function testGetCoupons()
@@ -188,7 +178,7 @@ class CartServiceTest extends ServiceTestCase
 
         $coupons = $this->cartService->getCoupons($cart->getId());
 
-        $this->assertSame($coupon, $coupons[0]);
+        $this->assertEqualEntities($coupon, $coupons[0]);
     }
 
     public function testRemoveCart()
@@ -216,45 +206,33 @@ class CartServiceTest extends ServiceTestCase
 
     public function testCreateWithSession()
     {
-        $userId = null;
-        $sessionId = '6is7ujb3crb5ja85gf91g9en62';
-        $ip4 = '10.0.0.1';
-
         $this->cartRepositoryShouldCreateOnce();
 
-        $cart = $this->cartService->create($userId, $sessionId, $ip4);
+        $userId = null;
+        $cart = $this->cartService->create(self::IP4, $userId, self::SESSION_ID);
 
         $this->assertSame($userId, $cart->getUser());
-        $this->assertSame($sessionId, $cart->getSessionId());
-        $this->assertSame($ip4, $cart->getIp4());
+        $this->assertSame(self::SESSION_ID, $cart->getSessionId());
+        $this->assertSame(self::IP4, $cart->getIp4());
         $this->assertTrue($cart->getUpdated()->getTimestamp() > 0);
     }
 
     public function testCreateWithUser()
     {
-        $sessionId = null;
-        $ip4 = '10.0.0.1';
-
         $user = $this->dummyData->getUser();
-        $this->userRepository->create($user);
+        $this->userRepository->shouldReceive('findOneById')
+            ->with($user->getId())
+            ->andReturn($user)
+            ->once();
 
         $this->cartRepositoryShouldCreateOnce();
 
-        $cart = $this->cartService->create($user->getId(), $sessionId, $ip4);
+        $sessionId = null;
+        $cart = $this->cartService->create(self::IP4, $user->getId(), $sessionId);
 
         $this->assertSame($user, $cart->getUser());
         $this->assertSame($sessionId, $cart->getSessionId());
-        $this->assertSame($ip4, $cart->getIp4());
-    }
-
-    public function testCreateFailsWithMissingUser()
-    {
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'User not found'
-        );
-
-        $this->cartService->create(999, null, '10.0.0.1');
+        $this->assertSame(self::IP4, $cart->getIp4());
     }
 
     public function testCreateWithNone()
@@ -264,13 +242,16 @@ class CartServiceTest extends ServiceTestCase
             'User or session id required'
         );
 
-        $this->cartService->create(null, null, '10.0.0.1');
+        $this->cartService->create(self::IP4);
     }
 
     public function testAddItem()
     {
         $product = $this->dummyData->getProduct();
-        $this->productRepository->create($product);
+        $this->productRepository->shouldReceive('findOneById')
+            ->with($product->getId())
+            ->andReturn($product)
+            ->once();
 
         $cart = $this->getCartThatRepositoryWillFind();
         $this->cartRepositoryShouldUpdateOnce($cart);
@@ -282,26 +263,15 @@ class CartServiceTest extends ServiceTestCase
         $this->assertSame(null, $cart->getShipmentRate());
     }
 
-    public function testAddItemWithMissingProductThrowsException()
-    {
-        $productId = 2001;
-
-        $cart = $this->dummyData->getCart();
-
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'Product not found'
-        );
-
-        $this->cartService->addItem($cart->getId(), $productId);
-    }
-
     public function testAddItemOptionProducts()
     {
         $optionProductIds = [101];
 
         $product = $this->dummyData->getProduct();
-        $this->productRepository->create($product);
+        $this->productRepository->shouldReceive('findOneById')
+            ->with($product->getId())
+            ->andReturn($product)
+            ->once();
 
         $cart = $this->getCartThatRepositoryWillFind();
         $this->cartRepositoryShouldUpdateOnce($cart);
@@ -318,7 +288,10 @@ class CartServiceTest extends ServiceTestCase
         $optionValueIds = [201];
 
         $product = $this->dummyData->getProduct();
-        $this->productRepository->create($product);
+        $this->productRepository->shouldReceive('findOneById')
+            ->with($product->getId())
+            ->andReturn($product)
+            ->once();
 
         $cart = $this->getCartThatRepositoryWillFind();
         $this->cartRepositoryShouldUpdateOnce($cart);
@@ -333,13 +306,15 @@ class CartServiceTest extends ServiceTestCase
     public function testAddItemTextOptionValues()
     {
         $textOption = new TextOption;
-        $textOption->setId(301);
         $this->textOptionRepository->setReturnValue($textOption);
 
-        $textOptionValues = [$textOption->getId() => 'Happy Birthday'];
+        $textOptionValues = [$textOption->getId()->getHex() => 'Happy Birthday'];
 
         $product = $this->dummyData->getProduct();
-        $this->productRepository->create($product);
+        $this->productRepository->shouldReceive('findOneById')
+            ->with($product->getId())
+            ->andReturn($product)
+            ->once();
 
         $cart = $this->getCartThatRepositoryWillFind();
         $this->cartRepositoryShouldUpdateOnce($cart);
@@ -417,7 +392,11 @@ class CartServiceTest extends ServiceTestCase
     public function testSetUserById()
     {
         $user = $this->dummyData->getUser();
-        $this->userRepository->create($user);
+        $this->userRepository->shouldReceive('findOneById')
+            ->with($user->getId())
+            ->andReturn($user)
+            ->once();
+
         $cart = $this->getCartThatRepositoryWillFind();
         $this->cartRepositoryShouldUpdateOnce($cart);
 
@@ -428,13 +407,12 @@ class CartServiceTest extends ServiceTestCase
 
     public function testSetSessionId()
     {
-        $sessionId = '6is7ujb3crb5ja85gf91g9en62';
         $cart = $this->getCartThatRepositoryWillFind();
         $this->cartRepositoryShouldUpdateOnce($cart);
 
-        $this->cartService->setSessionId($cart->getId(), $sessionId);
+        $this->cartService->setSessionId($cart->getId(), self::SESSION_ID);
 
-        $this->assertSame($sessionId, $cart->getSessionId());
+        $this->assertSame(self::SESSION_ID, $cart->getSessionId());
     }
 
     public function testSetExternalShipmentRate()
@@ -442,8 +420,8 @@ class CartServiceTest extends ServiceTestCase
         $cart = $this->getCartThatRepositoryWillFind();
         $this->cartRepositoryShouldUpdateOnce($cart);
 
-        $zip5 = '76667';
-        $shipmentRateExternalId = 'shp_xxxxxxxx';
+        $zip5 = self::ZIP5;
+        $shipmentRateExternalId = self::SHIPMENT_RATE_EXTERNAL_ID;
 
         $orderAddress = $this->dummyData->getOrderAddress();
         $orderAddress->setZip5($zip5);

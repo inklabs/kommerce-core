@@ -26,29 +26,29 @@ interface OrderServiceInterface
     public function findOneById(UuidInterface $id);
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return OrderItem
      * @throws EntityNotFoundException
      */
-    public function getOrderItemById($id);
+    public function getOrderItemById(UuidInterface $id);
 
     public function getLatestOrders(Pagination & $pagination = null);
 
     /**
-     * @param int $userId
+     * @param UuidInterface $userId
      * @return Order[]
      */
-    public function getOrdersByUserId($userId);
+    public function getOrdersByUserId(UuidInterface $userId);
 
     /**
-     * @param int $orderId
+     * @param UuidInterface $orderId
      * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment
      * @param string $rateExternalId
      * @param string $shipmentExternalId
      */
     public function buyShipmentLabel(
-        $orderId,
+        UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
         $rateExternalId,
@@ -56,25 +56,21 @@ interface OrderServiceInterface
     );
 
     /**
-     * @param int $orderId
+     * @param UuidInterface $orderId
      * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment
      * @param int $shipmentCarrierTypeId
      * @param string $trackingCode
      */
     public function addShipmentTrackingCode(
-        $orderId,
+        UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
         $shipmentCarrierTypeId,
         $trackingCode
     );
 
-    /**
-     * @param int $orderId
-     * @param OrderStatusType $orderStatusType
-     */
-    public function setOrderStatus($orderId, OrderStatusType $orderStatusType);
+    public function setOrderStatus(UuidInterface $orderId, OrderStatusType $orderStatusType);
 
     /**
      * @param Order $order

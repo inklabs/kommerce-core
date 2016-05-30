@@ -25,7 +25,7 @@ class CatalogPromotionService
         $this->catalogPromotionRepository->create($catalogPromotion);
     }
 
-    public function edit(CatalogPromotion & $catalogPromotion)
+    public function update(CatalogPromotion & $catalogPromotion)
     {
         $this->throwValidationErrors($catalogPromotion);
         $this->catalogPromotionRepository->update($catalogPromotion);

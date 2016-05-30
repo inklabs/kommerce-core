@@ -2,13 +2,14 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRuleRepository;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class CartPriceRuleServiceTest extends ServiceTestCase
 {
-    /** @var FakeCartPriceRuleRepository */
+    /** @var CartPriceRuleRepositoryInterface | \Mockery\Mock */
     protected $cartPriceRuleRepository;
 
     /** @var CartPriceRuleService */
@@ -17,50 +18,33 @@ class CartPriceRuleServiceTest extends ServiceTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->cartPriceRuleRepository = new FakeCartPriceRuleRepository;
+        $this->cartPriceRuleRepository = $this->mockRepository->getCartPriceRuleRepository();
         $this->cartPriceRuleService = new CartPriceRuleService($this->cartPriceRuleRepository);
-    }
-
-    public function testCreate()
-    {
-        $cartPriceRule = $this->dummyData->getCartPriceRule();
-        $this->cartPriceRuleService->create($cartPriceRule);
-        $this->assertTrue($cartPriceRule instanceof CartPriceRule);
-    }
-
-    public function testEdit()
-    {
-        $newName = 'New Name';
-        $cartPriceRule = $this->dummyData->getCartPriceRule();
-        $this->assertNotSame($newName, $cartPriceRule->getName());
-
-        $cartPriceRule->setName($newName);
-        $this->cartPriceRuleService->edit($cartPriceRule);
-        $this->assertSame($newName, $cartPriceRule->getName());
     }
 
     public function testFind()
     {
-        $cartPriceRule = $this->dummyData->getCartPriceRule();
-        $this->cartPriceRuleRepository->create($cartPriceRule);
-        $product = $this->cartPriceRuleService->findOneById(1);
-        $this->assertTrue($product instanceof CartPriceRule);
-    }
+        $cartPriceRule1 = $this->dummyData->getCartPriceRule();
+        $this->cartPriceRuleRepository->shouldReceive('findOneById')
+            ->andReturn($cartPriceRule1)
+            ->once();
 
-    public function testFindMissing()
-    {
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'CartPriceRule not found'
+        $cartPriceRule = $this->cartPriceRuleService->findOneById(
+            $cartPriceRule1->getId()
         );
 
-        $this->cartPriceRuleService->findOneById(1);
+        $this->assertEqualEntities($cartPriceRule1, $cartPriceRule);
     }
 
     public function testFindAll()
     {
+        $cartPriceRule1 = $this->dummyData->getCartPriceRule();
+        $this->cartPriceRuleRepository->shouldReceive('findAll')
+            ->andReturn([$cartPriceRule1])
+            ->once();
+
         $cartPriceRules = $this->cartPriceRuleService->findAll();
 
-        $this->assertTrue($cartPriceRules[0] instanceof CartPriceRule);
+        $this->assertEqualEntities($cartPriceRule1, $cartPriceRules[0]);
     }
 }

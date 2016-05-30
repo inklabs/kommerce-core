@@ -18,10 +18,10 @@ interface CartServiceInterface
     public function findBySession($sessionId);
 
     /**
-     * @param string $userId
+     * @param UuidInterface $userId
      * @return Cart
      */
-    public function findByUser($userId);
+    public function findByUser(UuidInterface $userId);
 
     /**
      * @param UuidInterface $cartId
@@ -47,21 +47,21 @@ interface CartServiceInterface
     public function removeCoupon(UuidInterface $cartId, $couponIndex);
 
     /**
-     * @param int $userId
-     * @param string $sessionId
      * @param string $ip4
+     * @param UuidInterface $userId
+     * @param string $sessionId
      * @return Cart
      */
-    public function create($userId, $sessionId, $ip4);
+    public function create($ip4, UuidInterface $userId, $sessionId);
 
     /**
      * @param UuidInterface $cartId
-     * @param string $productId
+     * @param UuidInterface $productId
      * @param int $quantity
      * @return int $cartItemIndex
      * @throws EntityNotFoundException
      */
-    public function addItem(UuidInterface $cartId, $productId, $quantity = 1);
+    public function addItem(UuidInterface $cartId, UuidInterface $productId, $quantity = 1);
 
     /**
      * @param UuidInterface $cartId
@@ -125,10 +125,10 @@ interface CartServiceInterface
 
     /**
      * @param UuidInterface $cartId
-     * @param int $userId
+     * @param UuidInterface $userId
      * @throws EntityNotFoundException
      */
-    public function setUserById(UuidInterface $cartId, $userId);
+    public function setUserById(UuidInterface $cartId, UuidInterface $userId);
 
     /**
      * @param UuidInterface $cartId

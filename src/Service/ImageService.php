@@ -43,7 +43,7 @@ class ImageService implements ImageServiceInterface
         $this->imageRepository->update($image);
     }
 
-    public function createFromDTOWithTag(ImageDTO $imageDTO, $tagId = null)
+    public function createFromDTOWithTag(ImageDTO $imageDTO, UuidInterface $tagId = null)
     {
         $image = new Image;
         $this->setFromDTO($image, $imageDTO);
@@ -64,7 +64,7 @@ class ImageService implements ImageServiceInterface
         $image->setSortOrder($imageDTO->sortOrder);
     }
 
-    public function createWithProduct(Image & $image, $productId)
+    public function createWithProduct(Image & $image, UuidInterface $productId)
     {
         $product = $this->productRepository->findOneById($productId);
 

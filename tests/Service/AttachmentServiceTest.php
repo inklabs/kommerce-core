@@ -49,7 +49,6 @@ class AttachmentServiceTest extends ServiceTestCase
         $product = $this->dummyData->getProduct();
         $product->enableAttachments();
         $orderItem = $this->dummyData->getOrderItem($product);
-        $orderItem->setId(1);
         $order = $this->dummyData->getOrder();
         $order->addOrderItem($orderItem);
 
@@ -95,7 +94,6 @@ class AttachmentServiceTest extends ServiceTestCase
         $product = $this->dummyData->getProduct();
         $product->enableAttachments();
         $orderItem = $this->dummyData->getOrderItem($product);
-        $orderItem->setId(1);
         $user = $this->dummyData->getUser();
         $order = $this->dummyData->getOrder(null, [$orderItem]);
         $order->setUser($user);

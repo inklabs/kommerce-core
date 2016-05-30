@@ -13,16 +13,16 @@ interface ImageServiceInterface
 
     /**
      * @param ImageDTO $imageDTO
-     * @param int $tagId
+     * @param UuidInterface $tagId
      */
-    public function createFromDTOWithTag(ImageDTO $imageDTO, $tagId);
+    public function createFromDTOWithTag(ImageDTO $imageDTO, UuidInterface $tagId);
 
     /**
      * @param Image $image
-     * @param int $productId
+     * @param UuidInterface $productId
      * @throws EntityNotFoundException
      */
-    public function createWithProduct(Image &$image, $productId);
+    public function createWithProduct(Image & $image, UuidInterface $productId);
 
     public function setFromDTO(Image & $image, ImageDTO $imageDTO);
 

@@ -57,7 +57,7 @@ class CouponService implements CouponServiceInterface
     }
 
     /**
-     * @param int[] $couponIds
+     * @param UuidInterface[] $couponIds
      * @param Pagination $pagination
      * @return Coupon[]
      */

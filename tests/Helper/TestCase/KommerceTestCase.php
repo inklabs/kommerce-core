@@ -23,6 +23,10 @@ use Symfony\Component\Validator\Validation;
 abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
 {
     const UUID_HEX = '15dc6044910c431aa578430759ef5dcf';
+    const SESSION_ID = '6is7ujb3crb5ja85gf91g9en62';
+    const IP4 = '127.0.0.1';
+    const ZIP5 = '76667';
+    const SHIPMENT_RATE_EXTERNAL_ID = 'shp_xxxxxxxx';
 
     /** @var DummyData */
     protected $dummyData;
