@@ -104,16 +104,13 @@ class UserService implements UserServiceInterface
 
     /**
      * @param string $email
-     * @param string $remoteIp
+     * @param string $ip4
      * @param UserLoginResultType $result
      * @param User $user
      */
-    protected function recordLogin($email, $remoteIp, UserLoginResultType $result, User $user = null)
+    protected function recordLogin($email, $ip4, UserLoginResultType $result, User $user = null)
     {
-        $userLogin = new UserLogin($user, $result);
-        $userLogin->setEmail($email);
-        $userLogin->setIp4($remoteIp);
-
+        $userLogin = new UserLogin($result, $email, $ip4, $user);
         $this->userLoginRepository->create($userLogin);
     }
 
@@ -162,7 +159,7 @@ class UserService implements UserServiceInterface
         );
     }
 
-    public function changePassword($userId, $password)
+    public function changePassword(UuidInterface $userId, $password)
     {
         $user = $this->userRepository->findOneById($userId);
 

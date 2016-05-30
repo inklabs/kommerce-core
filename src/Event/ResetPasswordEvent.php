@@ -2,10 +2,11 @@
 namespace inklabs\kommerce\Event;
 
 use inklabs\kommerce\Lib\Event\EventInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class ResetPasswordEvent implements EventInterface
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $userId;
 
     /** @var string */
@@ -18,14 +19,14 @@ class ResetPasswordEvent implements EventInterface
     private $token;
 
     /**
-     * @param int $userId
+     * @param UuidInterface $userId
      * @param string $email
      * @param string $fullName
      * @param string $token
      */
-    public function __construct($userId, $email, $fullName, $token)
+    public function __construct(UuidInterface $userId, $email, $fullName, $token)
     {
-        $this->userId = (int) $userId;
+        $this->userId = $userId;
         $this->email = (string) $email;
         $this->fullName = (string) $fullName;
         $this->token = (string) $token;

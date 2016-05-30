@@ -62,8 +62,8 @@ interface UserServiceInterface
     public function requestPasswordResetToken($getEmail, $getUserAgent, $getIp4);
 
     /**
-     * @param int $userId
+     * @param UuidInterface $userId
      * @param string $password
      */
-    public function changePassword($userId, $password);
+    public function changePassword(UuidInterface $userId, $password);
 }

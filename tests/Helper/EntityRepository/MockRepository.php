@@ -17,7 +17,9 @@ use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
 use Mockery;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 
@@ -174,5 +176,21 @@ class MockRepository
     public function getUserRepository()
     {
         return $this->getMockeryMock(UserRepositoryInterface::class);
+    }
+
+    /**
+     * @return UserLoginRepositoryInterface | Mockery\Mock
+     */
+    public function getUserLoginRepository()
+    {
+        return $this->getMockeryMock(UserLoginRepositoryInterface::class);
+    }
+
+    /**
+     * @return UserTokenRepositoryInterface | Mockery\Mock
+     */
+    public function getUserTokenRepository()
+    {
+        return $this->getMockeryMock(UserTokenRepositoryInterface::class);
     }
 }
