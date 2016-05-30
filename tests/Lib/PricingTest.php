@@ -7,11 +7,10 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeCatalogPromotionRepository;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRuleRepository;
-use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
-class PricingTest extends EntityTestCase
+class PricingTest extends EntityRepositoryTestCase
 {
     /** @var Pricing */
     protected $pricing;
@@ -46,9 +45,16 @@ class PricingTest extends EntityTestCase
 
     public function testLoadCatalogPromotions()
     {
-        $this->pricing->loadCatalogPromotions(new FakeCatalogPromotionRepository);
+        $originalCatalogPromotion = $this->dummyData->getCatalogPromotion();
+        $catalogPromotionRepository = $this->mockRepository->getCatalogPromotionRepository();
+        $catalogPromotionRepository->shouldreceive('findAll')
+            ->andReturn([$originalCatalogPromotion])
+            ->once();
+
+        $this->pricing->loadCatalogPromotions($catalogPromotionRepository);
+
         $catalogPromotions = $this->pricing->getCatalogPromotions();
-        $this->assertTrue($catalogPromotions[0] instanceof CatalogPromotion);
+        $this->assertEqualEntities($originalCatalogPromotion, $catalogPromotions[0]);
     }
 
     public function testLoadCartPriceRules()

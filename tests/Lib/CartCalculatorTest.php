@@ -51,11 +51,9 @@ class CartCalculatorTest extends LibTestCase
     public function testGetTotalWithCartPriceRules()
     {
         $productShirt = new Product;
-        $productShirt->setId(1);
         $productShirt->setUnitPrice(1200);
 
         $productPoster = new Product;
-        $productPoster->setId(2);
         $productPoster->setUnitPrice(500);
 
         $cartPriceRule = new CartPriceRule;
@@ -96,11 +94,9 @@ class CartCalculatorTest extends LibTestCase
     public function testGetTotalWithCartPriceRulesAppliedTwice()
     {
         $productShirt = new Product;
-        $productShirt->setId(1);
         $productShirt->setUnitPrice(1200);
 
         $productPoster = new Product;
-        $productPoster->setId(2);
         $productPoster->setUnitPrice(500);
 
         $cartPriceRule = new CartPriceRule;
@@ -141,11 +137,9 @@ class CartCalculatorTest extends LibTestCase
     public function testGetTotalWithCartPriceRulesAppliedOnlyTwice()
     {
         $productShirt = new Product;
-        $productShirt->setId(1);
         $productShirt->setUnitPrice(1200);
 
         $productPoster = new Product;
-        $productPoster->setId(2);
         $productPoster->setUnitPrice(500);
 
         $cartPriceRule = new CartPriceRule;
@@ -186,15 +180,12 @@ class CartCalculatorTest extends LibTestCase
     public function testGetTotalCartPriceRuleInvalidCartItems()
     {
         $productShirt = new Product;
-        $productShirt->setId(1);
         $productShirt->setUnitPrice(1200);
 
         $productPoster = new Product;
-        $productPoster->setId(2);
         $productPoster->setUnitPrice(500);
 
         $productJacket = new Product;
-        $productJacket->setId(3);
         $productJacket->setUnitPrice(2500);
 
         $cartPriceRule = new CartPriceRule;
@@ -296,7 +287,6 @@ class CartCalculatorTest extends LibTestCase
         $product->setUnitPrice(500);
 
         $coupon = $this->dummyData->getCoupon();
-        $coupon->setid(1);
         $coupon->setName('20% Off');
         $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
@@ -326,7 +316,6 @@ class CartCalculatorTest extends LibTestCase
     public function testGetTotalWithCouponWithFreeShipping()
     {
         $coupon = $this->dummyData->getCoupon();
-        $coupon->setid(1);
         $coupon->setName('20% Off');
         $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
