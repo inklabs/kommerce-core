@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\EntityDTO\UserLoginDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class UserLoginDTOBuilder
 {
@@ -18,11 +17,10 @@ class UserLoginDTOBuilder
         $this->userLogin = $userLogin;
 
         $this->userLoginDTO = new UserLoginDTO;
-        $this->userLoginDTO->id         = $this->userLogin->getId();
-        $this->userLoginDTO->encodedId  = BaseConvert::encode($this->userLogin->getId());
-        $this->userLoginDTO->email      = $userLogin->getEmail();
-        $this->userLoginDTO->ip4        = $userLogin->getIp4();
-        $this->userLoginDTO->created    = $this->userLogin->getCreated();
+        $this->userLoginDTO->id      = $this->userLogin->getId();
+        $this->userLoginDTO->email   = $userLogin->getEmail();
+        $this->userLoginDTO->ip4     = $userLogin->getIp4();
+        $this->userLoginDTO->created = $this->userLogin->getCreated();
 
         $this->userLoginDTO->result = $userLogin->getResult()->getDTOBuilder()
             ->build();

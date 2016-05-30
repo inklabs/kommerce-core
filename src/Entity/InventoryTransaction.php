@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class InventoryTransaction implements EntityInterface, ValidationInterface
+class InventoryTransaction implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

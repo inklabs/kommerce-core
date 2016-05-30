@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\InventoryLocationDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class InventoryLocation implements EntityInterface, ValidationInterface
+class InventoryLocation implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

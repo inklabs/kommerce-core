@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityDTO\ProductDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\Lib\Slug;

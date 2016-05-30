@@ -55,7 +55,7 @@ class OrderItemTextOptionValueRepositoryTest extends EntityRepositoryTestCase
         $textOption = $this->dummyData->getTextOption();
         $orderItemTextOptionValue = $this->dummyData->getOrderItemTextOptionValue($textOption, 'Happy Birthday');
 
-        $product = $this->dummyData->getProduct(1);
+        $product = $this->dummyData->getProduct();
         $price = $this->dummyData->getPrice();
 
         $orderItem = $this->dummyData->getOrderItem($product, $price);

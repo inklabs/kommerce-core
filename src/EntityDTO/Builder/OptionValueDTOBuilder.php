@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\EntityDTO\OptionValueDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class OptionValueDTOBuilder
 {
@@ -16,7 +15,6 @@ class OptionValueDTOBuilder
 
         $this->optionValueDTO = new OptionValueDTO;
         $this->optionValueDTO->id             = $this->optionValue->getId();
-        $this->optionValueDTO->encodedId      = BaseConvert::encode($this->optionValue->getId());
         $this->optionValueDTO->name           = $this->optionValue->getname();
         $this->optionValueDTO->sku            = $this->optionValue->getSku();
         $this->optionValueDTO->shippingWeight = $this->optionValue->getShippingWeight();

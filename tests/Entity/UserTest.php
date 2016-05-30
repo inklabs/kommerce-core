@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Entity;
 use DateTime;
 use inklabs\kommerce\Event\PasswordChangedEvent;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class UserTest extends EntityTestCase
 {
@@ -11,6 +12,8 @@ class UserTest extends EntityTestCase
     {
         $user = new User;
 
+        $this->assertTrue($user->getId() instanceof UuidInterface);
+        $this->assertTrue($user->getCreated() instanceof DateTime);
         $this->assertTrue($user->getStatus()->isActive());
         $this->assertSame(null, $user->getExternalId());
         $this->assertSame(null, $user->getEmail());
@@ -47,8 +50,6 @@ class UserTest extends EntityTestCase
         $userLogin = $this->dummyData->getUserLogin($user);
         $userToken = $this->dummyData->getUserToken($user);
 
-        $user->incrementTotalLogins();
-
         $this->assertEntityValid($user);
         $this->assertSame($userStatus, $user->getStatus());
         $this->assertSame('5', $user->getExternalId());
@@ -71,7 +72,6 @@ class UserTest extends EntityTestCase
         $user->setPassword('Password1');
         $this->assertSame(0, count($user->releaseEvents()));
 
-        $user->setId(1);
         $user->setPassword('NewPassword123');
 
         /** @var PasswordChangedEvent $event */

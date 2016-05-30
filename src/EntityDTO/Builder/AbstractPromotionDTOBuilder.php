@@ -3,8 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AbstractPromotion;
 use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
-use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\Lib\BaseConvert;
 
 abstract class AbstractPromotionDTOBuilder
 {

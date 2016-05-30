@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\EntityDTO\OptionProductDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\Lib\PricingInterface;
 
 class OptionProductDTOBuilder
@@ -20,7 +19,6 @@ class OptionProductDTOBuilder
 
         $this->optionProductDTO = new OptionProductDTO;
         $this->optionProductDTO->id             = $this->optionProduct->getId();
-        $this->optionProductDTO->encodedId      = BaseConvert::encode($this->optionProduct->getId());
         $this->optionProductDTO->name           = $this->optionProduct->getname();
         $this->optionProductDTO->sku            = $this->optionProduct->getSku();
         $this->optionProductDTO->shippingWeight = $this->optionProduct->getShippingWeight();

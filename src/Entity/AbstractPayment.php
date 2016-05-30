@@ -6,7 +6,7 @@ use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractPayment implements EntityInterface, ValidationInterface
+abstract class AbstractPayment implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class CartPriceRuleTest extends EntityTestCase
 {
@@ -11,6 +12,8 @@ class CartPriceRuleTest extends EntityTestCase
     {
         $cartPriceRule = new CartPriceRule;
 
+        $this->assertTrue($cartPriceRule->getId() instanceof UuidInterface);
+        $this->assertTrue($cartPriceRule->getCreated() instanceof DateTime);
         $this->assertSame(0, count($cartPriceRule->getCartPriceRuleItems()));
         $this->assertSame(0, count($cartPriceRule->getCartPriceRuleDiscounts()));
     }
@@ -31,8 +34,7 @@ class CartPriceRuleTest extends EntityTestCase
 
     public function testIsCartItemsValid()
     {
-        $product = $this->dummyData->getProduct(1);
-        $product->setid(1);
+        $product = $this->dummyData->getProduct();
         $cartPriceRuleProductItem = $this->dummyData->getCartPriceRuleProductItem($product, 1);
         $cartItem = $this->dummyData->getCartItem($product, 1);
         $cartItems = new ArrayCollection([$cartItem]);
@@ -45,10 +47,8 @@ class CartPriceRuleTest extends EntityTestCase
 
     public function testIsCartItemsValidWithMultipleItems()
     {
-        $product1 = $this->dummyData->getProduct(1);
-        $product2 = $this->dummyData->getProduct(2);
-        $product1->setid(1);
-        $product2->setid(2);
+        $product1 = $this->dummyData->getProduct();
+        $product2 = $this->dummyData->getProduct();
         $cartPriceRuleProductItem1 = $this->dummyData->getCartPriceRuleProductItem($product1, 1);
         $cartPriceRuleProductItem2 = $this->dummyData->getCartPriceRuleProductItem($product2, 1);
         $cartItems = new ArrayCollection([
@@ -65,10 +65,8 @@ class CartPriceRuleTest extends EntityTestCase
 
     public function testIsCartItemsValidReturnFalse()
     {
-        $product1 = $this->dummyData->getProduct(1);
-        $product2 = $this->dummyData->getProduct(2);
-        $product1->setid(1);
-        $product2->setid(2);
+        $product1 = $this->dummyData->getProduct();
+        $product2 = $this->dummyData->getProduct();
         $cartPriceRuleProductItem1 = $this->dummyData->getCartPriceRuleProductItem($product1, 1);
         $cartItems = new ArrayCollection([
             $this->dummyData->getCartItem($product2, 1)
@@ -82,8 +80,7 @@ class CartPriceRuleTest extends EntityTestCase
 
     public function testIsValid()
     {
-        $product1 = $this->dummyData->getProduct(1);
-        $product1->setid(1);
+        $product1 = $this->dummyData->getProduct();
         $cartPriceRuleProductItem1 = $this->dummyData->getCartPriceRuleProductItem($product1, 1);
         $cartItems = new ArrayCollection([
             $this->dummyData->getCartItem($product1, 1)

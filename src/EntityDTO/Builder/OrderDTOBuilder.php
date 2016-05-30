@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\EntityDTO\OrderDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class OrderDTOBuilder
 {
@@ -19,7 +18,6 @@ class OrderDTOBuilder
 
         $this->orderDTO = new OrderDTO;
         $this->orderDTO->id              = $this->order->getId();
-        $this->orderDTO->encodedId       = BaseConvert::encode($this->order->getId());
         $this->orderDTO->referenceNumber = $this->order->getReferenceNumber();
         $this->orderDTO->externalId      = $this->order->getExternalId();
         $this->orderDTO->totalItems      = $this->order->totalItems();

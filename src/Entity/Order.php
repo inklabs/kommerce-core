@@ -114,11 +114,6 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
         $metadata->addPropertyConstraint('shipments', new Assert\Valid);
     }
 
-    public function getReferenceId()
-    {
-        return $this->getId();
-    }
-
     public function getReferenceNumber()
     {
         return $this->referenceNumber;

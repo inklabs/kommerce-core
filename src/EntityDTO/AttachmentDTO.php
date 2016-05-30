@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 class AttachmentDTO
 {
-    use UuidDTOTrait, TimeDTOTrait;
+    use IdDTOTrait, TimeDTOTrait;
 
     /** @var bool */
     public $isVisible;

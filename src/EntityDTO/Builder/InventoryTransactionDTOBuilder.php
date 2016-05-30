@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\EntityDTO\InventoryTransactionDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class InventoryTransactionDTOBuilder
 {
@@ -19,7 +18,6 @@ class InventoryTransactionDTOBuilder
 
         $this->inventoryTransactionDTO = new InventoryTransactionDTO;
         $this->inventoryTransactionDTO->id             = $this->inventoryTransaction->getId();
-        $this->inventoryTransactionDTO->encodedId      = BaseConvert::encode($this->inventoryTransaction->getId());
         $this->inventoryTransactionDTO->debitQuantity  = $this->inventoryTransaction->getDebitQuantity();
         $this->inventoryTransactionDTO->creditQuantity = $this->inventoryTransaction->getCreditQuantity();
         $this->inventoryTransactionDTO->memo           = $this->inventoryTransaction->getMemo();

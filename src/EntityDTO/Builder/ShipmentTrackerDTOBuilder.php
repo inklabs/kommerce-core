@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\ShipmentTrackerDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class ShipmentTrackerDTOBuilder
 {
@@ -19,7 +18,6 @@ class ShipmentTrackerDTOBuilder
 
         $this->shipmentTrackerDTO = new ShipmentTrackerDTO;
         $this->shipmentTrackerDTO->id           = $this->shipmentTracker->getId();
-        $this->shipmentTrackerDTO->encodedId    = BaseConvert::encode($this->shipmentTracker->getId());
         $this->shipmentTrackerDTO->created      = $this->shipmentTracker->getCreated();
         $this->shipmentTrackerDTO->updated      = $this->shipmentTracker->getUpdated();
         $this->shipmentTrackerDTO->trackingCode = $this->shipmentTracker->getTrackingCode();

@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\EntityDTO\TextOptionDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class TextOptionDTOBuilder
 {
@@ -19,7 +18,6 @@ class TextOptionDTOBuilder
 
         $this->textOptionDTO = new TextOptionDTO;
         $this->textOptionDTO->id          = $this->textOption->getId();
-        $this->textOptionDTO->encodedId   = BaseConvert::encode($this->textOption->getId());
         $this->textOptionDTO->name        = $this->textOption->getname();
         $this->textOptionDTO->description = $this->textOption->getDescription();
         $this->textOptionDTO->sortOrder   = $this->textOption->getSortOrder();

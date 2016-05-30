@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class CatalogPromotionTest extends EntityTestCase
 {
@@ -10,6 +11,8 @@ class CatalogPromotionTest extends EntityTestCase
     {
         $catalogPromotion = new CatalogPromotion;
 
+        $this->assertTrue($catalogPromotion->getId() instanceof UuidInterface);
+        $this->assertTrue($catalogPromotion->getCreated() instanceof DateTime);
         $this->assertSame(null, $catalogPromotion->getCode());
         $this->assertSame(null, $catalogPromotion->getTag());
     }
@@ -30,8 +33,7 @@ class CatalogPromotionTest extends EntityTestCase
 
     public function testIsTagValid()
     {
-        $tag = $this->dummyData->getTag(1);
-        $tag->setId(1);
+        $tag = $this->dummyData->getTag();
 
         $product = $this->dummyData->getProduct();
         $product->addTag($tag);

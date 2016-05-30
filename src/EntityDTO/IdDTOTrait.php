@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use Ramsey\Uuid\UuidInterface;
+
 trait IdDTOTrait
 {
-    /** @var int */
+    /** @var UuidInterface */
     public $id;
-
-    /** @var string */
-    public $encodedId;
 }

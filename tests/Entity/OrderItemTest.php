@@ -1,8 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\Exception\AttachmentException;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class OrderItemTest extends EntityTestCase
 {
@@ -10,7 +12,8 @@ class OrderItemTest extends EntityTestCase
     {
         $orderItem = new OrderItem;
 
-        $this->assertSame(null, $orderItem->getId());
+        $this->assertTrue($orderItem->getId() instanceof UuidInterface);
+        $this->assertTrue($orderItem->getCreated() instanceof DateTime);
         $this->assertSame(null, $orderItem->getQuantity());
         $this->assertSame(null, $orderItem->getSku());
         $this->assertSame(null, $orderItem->getName());
@@ -79,7 +82,6 @@ class OrderItemTest extends EntityTestCase
             '20% OFF Everything, Buy 1 or more for $1.00 each, Buy 2 or more for $2.00 off',
             $orderItem->getDiscountNames()
         );
-        $this->assertSame(null, $orderItem->getId());
         $this->assertSame($order, $orderItem->getOrder());
         $this->assertSame($product, $orderItem->getProduct());
         $this->assertSame($price, $orderItem->getPrice());
@@ -104,7 +106,7 @@ class OrderItemTest extends EntityTestCase
 
     public function testGetShippingWeight()
     {
-        $product1 = $this->dummyData->getProduct(1);
+        $product1 = $this->dummyData->getProduct();
         $product1->setShippingWeight(1);
 
         $orderItem = new OrderItem;
@@ -113,7 +115,7 @@ class OrderItemTest extends EntityTestCase
 
         $this->assertSame(2, $orderItem->getShippingWeight());
 
-        $product2 = $this->dummyData->getProduct(2);
+        $product2 = $this->dummyData->getProduct();
         $product2->setShippingWeight(3);
         $optionProduct = $this->dummyData->getOptionProduct(null, $product2);
         $orderItemOptionProduct = $this->dummyData->getOrderItemOptionProduct($optionProduct);

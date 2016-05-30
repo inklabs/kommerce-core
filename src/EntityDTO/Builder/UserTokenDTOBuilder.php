@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\EntityDTO\UserTokenDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class UserTokenDTOBuilder
 {
@@ -19,7 +18,6 @@ class UserTokenDTOBuilder
 
         $this->userTokenDTO = new UserTokenDTO;
         $this->userTokenDTO->id        = $this->userToken->getId();
-        $this->userTokenDTO->encodedId = BaseConvert::encode($this->userToken->getId());
         $this->userTokenDTO->userAgent = $this->userToken->getUserAgent();
         $this->userTokenDTO->expires   = $this->userToken->getExpires();
         $this->userTokenDTO->created   = $this->userToken->getCreated();

@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\EntityDTO\ImageDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class ImageDTOBuilder implements DTOBuilderInterface
 {

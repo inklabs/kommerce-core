@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\UserDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class UserDTOBuilder
 {
@@ -19,7 +18,6 @@ class UserDTOBuilder
 
         $this->userDTO = new UserDTO;
         $this->userDTO->id          = $this->user->getId();
-        $this->userDTO->encodedId   = BaseConvert::encode($this->user->getId());
         $this->userDTO->externalId  = $this->user->getExternalId();
         $this->userDTO->email       = $this->user->getEmail();
         $this->userDTO->firstName   = $this->user->getFirstName();

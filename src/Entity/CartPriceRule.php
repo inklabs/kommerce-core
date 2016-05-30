@@ -64,7 +64,7 @@ class CartPriceRule extends AbstractPromotion
     }
 
     /**
-     * @param CartItem[] $cartItems
+     * @param ArrayCollection<CartItem> | CartItem[] $cartItems
      * @return bool
      */
     public function areCartItemsValid(& $cartItems)

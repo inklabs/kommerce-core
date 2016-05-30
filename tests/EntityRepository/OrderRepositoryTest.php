@@ -119,7 +119,7 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
     {
         $uniqueId = crc32($referenceNumber);
 
-        $product = $this->dummyData->getProduct($uniqueId);
+        $product = $this->dummyData->getProduct();
         $product->enableAttachments();
 
         $catalogPromotion = $this->dummyData->getCatalogPromotion();
@@ -229,7 +229,7 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
     {
         $uniqueId = crc32($referenceNumber);
 
-        $product = $this->dummyData->getProduct($uniqueId);
+        $product = $this->dummyData->getProduct();
         $price = $this->dummyData->getPrice();
         $user = $this->dummyData->getUser($uniqueId);
         $orderItem = $this->dummyData->getOrderItem($product, $price);

@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\CartItemTextOptionValueDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartItemTextOptionValue implements EntityInterface, ValidationInterface
+class CartItemTextOptionValue implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

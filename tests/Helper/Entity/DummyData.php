@@ -175,14 +175,14 @@ class DummyData
         $tag = $this->getTag();
         $tag->addImage($this->getImage());
 
-        $product = $this->getProduct(1);
+        $product = $this->getProduct();
         $product->setSku('P1');
         $product->setUnitPrice(100);
         $product->setShippingWeight(10);
         $product->addTag($tag);
         $product->addProductQuantityDiscount($this->getProductQuantityDiscount());
 
-        $product2 = $this->getProduct(2);
+        $product2 = $this->getProduct();
         $product2->setSku('OP1');
         $product2->setUnitPrice(100);
         $product2->setShippingWeight(10);
@@ -713,10 +713,14 @@ class DummyData
         return $pricing;
     }
 
-    public function getProduct()
+    public function getProduct($sku = null)
     {
+        if ($sku === null) {
+            $sku = uniqid();
+        }
+
         $product = new Product;
-        $product->setSku($product->getId()->getHex());
+        $product->setSku($sku);
         $product->setName('Test Product');
         $product->setIsInventoryRequired(true);
         $product->setIsPriceVisible(true);
@@ -733,11 +737,11 @@ class DummyData
 
     public function getProductFull()
     {
-        $product = $this->getProduct(1);
+        $product = $this->getProduct();
         $product->addOptionProduct(
             $this->getOptionProduct(
                 $this->getOption(),
-                $this->getProduct(2)
+                $this->getProduct()
             )
         );
         $product->addProductQuantityDiscount($this->getProductQuantityDiscount());
@@ -898,11 +902,11 @@ class DummyData
         return $shipmentTracker;
     }
 
-    public function getTag($num = 1)
+    public function getTag()
     {
         $tag = new Tag;
-        $tag->setName('Test Tag #' . $num);
-        $tag->setCode('TT' . $num);
+        $tag->setName('Test Tag');
+        $tag->setCode('TT' . uniqid());
         $tag->setDescription('Test Description');
         $tag->setDefaultImage('http://lorempixel.com/400/200/');
         $tag->setSortOrder(0);

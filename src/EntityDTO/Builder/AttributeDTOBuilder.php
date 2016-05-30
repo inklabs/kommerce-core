@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class AttributeDTOBuilder
 {

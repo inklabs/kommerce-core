@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 class TagDTO
 {
-    use UuidDTOTrait, TimeDTOTrait;
+    use IdDTOTrait, TimeDTOTrait;
 
     /** @var string */
     public $slug;

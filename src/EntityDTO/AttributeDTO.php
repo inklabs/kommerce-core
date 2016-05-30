@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityDTO;
 
 class AttributeDTO
 {
-    use UuidDTOTrait, TimeDTOTrait;
+    use IdDTOTrait, TimeDTOTrait;
 
     /** @var string */
     public $name;

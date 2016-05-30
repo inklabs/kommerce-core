@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\ShipmentItemDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ShipmentItem implements EntityInterface, ValidationInterface
+class ShipmentItem implements IdEntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
 

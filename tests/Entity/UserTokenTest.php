@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Entity;
 use DateTime;
 use DateTimeZone;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class UserTokenTest extends EntityTestCase
 {
@@ -22,7 +23,8 @@ class UserTokenTest extends EntityTestCase
 
     public function testCreateDefaults()
     {
-        $this->assertSame(null, $this->userToken->getId());
+        $this->assertTrue($this->userToken->getId() instanceof UuidInterface);
+        $this->assertTrue($this->userToken->getCreated() instanceof DateTime);
         $this->assertSame(null, $this->userToken->getUserAgent());
         $this->assertSame(false, $this->userToken->verifyToken('token'));
         $this->assertSame($this->user, $this->userToken->getUser());
@@ -41,7 +43,6 @@ class UserTokenTest extends EntityTestCase
         $this->userToken->setExpires($expires);
 
         $this->assertEntityValid($this->userToken);
-        $this->assertSame(null, $this->userToken->getId());
         $this->assertSame('UserAgent', $this->userToken->getUserAgent());
         $this->assertTrue($this->userToken->verifyToken('token'));
         $this->assertSame($userTokenType, $this->userToken->getType());

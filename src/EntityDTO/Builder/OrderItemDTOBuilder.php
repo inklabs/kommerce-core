@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\EntityDTO\OrderItemDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class OrderItemDTOBuilder
 {
@@ -18,14 +17,13 @@ class OrderItemDTOBuilder
         $this->orderItem = $orderItem;
 
         $this->orderItemDTO = new OrderItemDTO;
-        $this->orderItemDTO->id             = $this->orderItem->getId();
-        $this->orderItemDTO->encodedId      = BaseConvert::encode($this->orderItem->getId());
-        $this->orderItemDTO->quantity       = $this->orderItem->getQuantity();
-        $this->orderItemDTO->sku            = $this->orderItem->getSku();
-        $this->orderItemDTO->name           = $this->orderItem->getName();
-        $this->orderItemDTO->discountNames  = $this->orderItem->getDiscountNames();
-        $this->orderItemDTO->created        = $this->orderItem->getCreated();
-        $this->orderItemDTO->updated        = $this->orderItem->getUpdated();
+        $this->orderItemDTO->id            = $this->orderItem->getId();
+        $this->orderItemDTO->quantity      = $this->orderItem->getQuantity();
+        $this->orderItemDTO->sku           = $this->orderItem->getSku();
+        $this->orderItemDTO->name          = $this->orderItem->getName();
+        $this->orderItemDTO->discountNames = $this->orderItem->getDiscountNames();
+        $this->orderItemDTO->created       = $this->orderItem->getCreated();
+        $this->orderItemDTO->updated       = $this->orderItem->getUpdated();
         $this->orderItemDTO->areAttachmentsEnabled = $this->orderItem->areAttachmentsEnabled();
 
         if ($this->orderItem->getPrice() !== null) {

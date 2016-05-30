@@ -1,9 +1,11 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\Lib\PaymentGateway;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class OrderTest extends EntityTestCase
 {
@@ -11,7 +13,8 @@ class OrderTest extends EntityTestCase
     {
         $order = new Order;
 
-        $this->assertSame(null, $order->getReferenceId());
+        $this->assertTrue($order->getId() instanceof UuidInterface);
+        $this->assertTrue($order->getCreated() instanceof DateTime);
         $this->assertSame(null, $order->getExternalId());
         $this->assertSame(null, $order->getReferenceNumber());
         $this->assertSame('0.0.0.0', $order->getIp4());
@@ -50,7 +53,6 @@ class OrderTest extends EntityTestCase
         $taxRate = $this->dummyData->getTaxRate();
 
         $order = new Order;
-        $order->setId(1);
         $order->setExternalId('CO1102-0016');
         $order->setReferenceNumber('xxx-xxxxxxx-xxxxxxx');
         $order->setIp4('10.0.0.1');
@@ -66,7 +68,6 @@ class OrderTest extends EntityTestCase
         $order->addPayment($payment);
 
         $this->assertEntityValid($order);
-        $this->assertSame(1, $order->getReferenceId());
         $this->assertSame('CO1102-0016', $order->getExternalId());
         $this->assertSame('xxx-xxxxxxx-xxxxxxx', $order->getReferenceNumber());
         $this->assertSame('10.0.0.1', $order->getIp4());
@@ -113,7 +114,7 @@ class OrderTest extends EntityTestCase
         $this->assertSame($taxRate, $order->getTaxRate());
         $this->assertSame($shipmentRate, $order->getShipmentRate());
         $this->assertSame(
-            'Test Catalog Promotion #1, Buy 1 or more for 5% off',
+            'Test Catalog Promotion, Buy 1 or more for 5% off',
             $order->getOrderItems()[0]->getDiscountNames()
         );
     }

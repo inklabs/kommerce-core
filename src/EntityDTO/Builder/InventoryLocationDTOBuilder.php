@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\EntityDTO\InventoryLocationDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class InventoryLocationDTOBuilder
 {
@@ -18,10 +17,9 @@ class InventoryLocationDTOBuilder
         $this->inventoryTransaction = $inventoryTransaction;
 
         $this->inventoryTransactionDTO = new InventoryLocationDTO;
-        $this->inventoryTransactionDTO->id        = $this->inventoryTransaction->getId();
-        $this->inventoryTransactionDTO->encodedId = BaseConvert::encode($this->inventoryTransaction->getId());
-        $this->inventoryTransactionDTO->name      = $this->inventoryTransaction->getName();
-        $this->inventoryTransactionDTO->code      = $this->inventoryTransaction->getCode();
+        $this->inventoryTransactionDTO->id   = $this->inventoryTransaction->getId();
+        $this->inventoryTransactionDTO->name = $this->inventoryTransaction->getName();
+        $this->inventoryTransactionDTO->code = $this->inventoryTransaction->getCode();
     }
 
     public function withWarehouse()

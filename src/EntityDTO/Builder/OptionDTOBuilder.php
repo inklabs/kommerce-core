@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\EntityDTO\OptionDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\Lib\PricingInterface;
 
 class OptionDTOBuilder
@@ -17,7 +16,6 @@ class OptionDTOBuilder
 
         $this->optionDTO = new OptionDTO;
         $this->optionDTO->id          = $this->option->getId();
-        $this->optionDTO->encodedId   = BaseConvert::encode($this->option->getId());
         $this->optionDTO->name        = $this->option->getname();
         $this->optionDTO->description = $this->option->getDescription();
         $this->optionDTO->sortOrder   = $this->option->getSortOrder();

@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\EntityDTO\UserRoleDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
 class UserRoleDTOBuilder
 {
@@ -19,7 +18,6 @@ class UserRoleDTOBuilder
 
         $this->userRoleDTO = new UserRoleDTO;
         $this->userRoleDTO->id          = $this->userRole->getId();
-        $this->userRoleDTO->encodedId   = BaseConvert::encode($this->userRole->getId());
         $this->userRoleDTO->name        = $this->userRole->getName();
         $this->userRoleDTO->description = $this->userRole->getDescription();
         $this->userRoleDTO->created     = $this->userRole->getCreated();

@@ -6,7 +6,7 @@ use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartPriceRuleDiscount implements EntityInterface, ValidationInterface
+class CartPriceRuleDiscount implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

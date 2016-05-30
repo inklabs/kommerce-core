@@ -1,8 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\Lib\Pricing;
+use DateTime;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class ProductTest extends EntityTestCase
 {
@@ -10,6 +11,8 @@ class ProductTest extends EntityTestCase
     {
         $product = new Product;
 
+        $this->assertTrue($product->getId() instanceof UuidInterface);
+        $this->assertTrue($product->getCreated() instanceof DateTime);
         $this->assertSame(null, $product->getSku());
         $this->assertSame(null, $product->getName());
         $this->assertSame(null, $product->getDescription());

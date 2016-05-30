@@ -85,9 +85,9 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
     protected function setupDBCart()
     {
         $user = $this->dummyData->getUser();
-        $product = $this->dummyData->getProduct(1);
+        $product = $this->dummyData->getProduct();
         $option = $this->dummyData->getOption();
-        $product2 = $this->dummyData->getProduct(2);
+        $product2 = $this->dummyData->getProduct();
         $optionProduct = $this->dummyData->getOptionProduct($option, $product2);
         $cartItemOptionProduct = $this->dummyData->getCartItemOptionProduct($optionProduct);
         $cartItem = $this->dummyData->getCartItem($product);
@@ -97,7 +97,7 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
         $cart->setUser($user);
         $cart->addCartItem($cartItem);
 
-        $warehouse = $this->dummyData->getWarehouse(1);
+        $warehouse = $this->dummyData->getWarehouse();
         $inventoryLocation = $this->dummyData->getInventoryLocation($warehouse);
         $holdLocation = $this->dummyData->getInventoryLocation($warehouse);
         $holdLocation->setName('Customer hold Location');
