@@ -25,8 +25,8 @@ interface ProductRepositoryInterface extends RepositoryInterface
     public function getRelatedProducts($products, $limit = 12);
 
     /**
-     * @param int[] $productIds
-     * @param int[] $tagIds
+     * @param UuidInterface[] $productIds
+     * @param UuidInterface[] $tagIds
      * @param int $limit
      * @return Product[]
      */
@@ -47,7 +47,7 @@ interface ProductRepositoryInterface extends RepositoryInterface
     public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null);
 
     /**
-     * @param int[] $productIds
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */
@@ -61,7 +61,7 @@ interface ProductRepositoryInterface extends RepositoryInterface
     public function getAllProducts($queryString = null, Pagination & $pagination = null);
 
     /**
-     * @param int[] $productIds
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */

@@ -235,6 +235,9 @@ class User implements IdEntityInterface, ValidationInterface
         $this->userRoles->add($userRole);
     }
 
+    /**
+     * @return UserRole[]
+     */
     public function getUserRoles()
     {
         return $this->userRoles;
@@ -261,6 +264,9 @@ class User implements IdEntityInterface, ValidationInterface
         $this->userTokens->add($userToken);
     }
 
+    /**
+     * @return UserToken[]
+     */
     public function getUserTokens()
     {
         return $this->userTokens;

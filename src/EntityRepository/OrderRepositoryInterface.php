@@ -13,7 +13,7 @@ use Ramsey\Uuid\UuidInterface;
 interface OrderRepositoryInterface extends RepositoryInterface, ReferenceNumberRepositoryInterface
 {
     /**
-     * @param int $orderExternalId
+     * @param string $orderExternalId
      * @return Order
      */
     public function findOneByExternalId($orderExternalId);

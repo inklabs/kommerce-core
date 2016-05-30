@@ -24,11 +24,25 @@ class UserLogin implements IdEntityInterface, ValidationInterface
     /** @var UserToken */
     protected $userToken;
 
-    public function __construct(User $user = null, UserToken $userToken = null)
-    {
+    /**
+     * @param UserLoginResultType $result
+     * @param string $email
+     * @param string $ip4
+     * @param User|null $user
+     * @param UserToken|null $userToken
+     */
+    public function __construct(
+        UserLoginResultType $result,
+        $email,
+        $ip4,
+        User $user = null,
+        UserToken $userToken = null
+    ) {
         $this->setId();
         $this->setCreated();
-        $this->setResult(UserLoginResultType::fail());
+        $this->result = $result;
+        $this->email = (string) $email;
+        $this->ip4 = (int) ip2long($ip4);
 
         if ($user !== null) {
             $user->addUserLogin($this);
@@ -56,11 +70,6 @@ class UserLogin implements IdEntityInterface, ValidationInterface
         $metadata->addPropertyConstraint('result', new Assert\Valid);
     }
 
-    public function setEmail($email)
-    {
-        $this->email = (string) $email;
-    }
-
     public function getEmail()
     {
         return $this->email;
@@ -71,22 +80,9 @@ class UserLogin implements IdEntityInterface, ValidationInterface
         return $this->user;
     }
 
-    /**
-     * @param string $ip4
-     */
-    public function setIp4($ip4)
-    {
-        $this->ip4 = (int) ip2long($ip4);
-    }
-
     public function getIp4()
     {
         return long2ip($this->ip4);
-    }
-
-    public function setResult(UserLoginResultType $result)
-    {
-        $this->result = $result;
     }
 
     public function getResult()

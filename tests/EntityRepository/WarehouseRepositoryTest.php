@@ -14,6 +14,8 @@ class WarehouseRepositoryTest extends EntityRepositoryTestCase
     ];
     protected $santaMonicaPoint;
     protected $losAngelesPoint;
+    const RANGE_IN_MILES_SMALL = 1;
+    const RANGE_IN_MILES_LONG = 50;
 
     /** @var WarehouseRepositoryInterface */
     protected $warehouseRepository;
@@ -41,28 +43,22 @@ class WarehouseRepositoryTest extends EntityRepositoryTestCase
 
     public function testCRUD()
     {
-        $warehouse = $this->dummyData->getWarehouse();
-        $this->warehouseRepository->create($warehouse);
-        $this->assertSame(1, $warehouse->getid());
-
-        $warehouse->setName('New Name');
-        $this->assertSame(null, $warehouse->getUpdated());
-
-        $this->warehouseRepository->update($warehouse);
-        $this->assertTrue($warehouse->getUpdated() instanceof DateTime);
-
-        $this->warehouseRepository->delete($warehouse);
-        $this->assertSame(null, $warehouse->getId());
+        $this->executeRepositoryCRUD(
+            $this->warehouseRepository,
+            $this->dummyData->getWarehouse()
+        );
     }
 
     public function testFindOneById()
     {
-        $this->setupWarehouse();
+        $originalWarehouse = $this->setupWarehouse();
         $this->setCountLogger();
 
-        $warehouse = $this->warehouseRepository->findOneById(1);
+        $warehouse = $this->warehouseRepository->findOneById(
+            $originalWarehouse->getId()
+        );
 
-        $this->assertTrue($warehouse instanceof Warehouse);
+        $this->assertEqualEntities($originalWarehouse, $warehouse);
         $this->assertSame(1, $this->getTotalQueries());
     }
 
@@ -73,26 +69,35 @@ class WarehouseRepositoryTest extends EntityRepositoryTestCase
             'Warehouse not found'
         );
 
-        $this->warehouseRepository->findOneById(1);
+        $this->warehouseRepository->findOneById(
+            $this->dummyData->getId()
+        );
     }
 
     public function testFindByPointNotInRange()
     {
         $this->setupWarehouse();
-        $warehouses = $this->warehouseRepository->findByPoint($this->losAngelesPoint, 1);
+        $warehouses = $this->warehouseRepository->findByPoint(
+            $this->losAngelesPoint,
+            self::RANGE_IN_MILES_SMALL
+        );
+
         $this->assertSame(0, count($warehouses));
     }
 
     public function testFindByPoint()
     {
-        $this->setupWarehouse();
+        $originalWarehouse = $this->setupWarehouse();
 
-        $warehouses = $this->warehouseRepository->findByPoint($this->losAngelesPoint, 50);
+        $warehouses = $this->warehouseRepository->findByPoint(
+            $this->losAngelesPoint,
+            self::RANGE_IN_MILES_LONG
+        );
 
         $warehouse = $warehouses[0][0];
         $distance = $warehouses[0]['distance'];
 
-        $this->assertTrue($warehouse instanceof Warehouse);
+        $this->assertEqualEntities($originalWarehouse, $warehouse);
         $this->assertEquals(14.421, $distance, null, FLOAT_DELTA);
     }
 }

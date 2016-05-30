@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\OptionValue;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @method OptionValue findOneById(UuidInterface $id)
@@ -10,7 +11,7 @@ use inklabs\kommerce\Entity\OptionValue;
 interface OptionValueRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param int[] $optionValueIds
+     * @param UuidInterface[] $optionValueIds
      * @param Pagination $pagination
      * @return OptionValue[]
      */

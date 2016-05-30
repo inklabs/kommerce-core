@@ -26,7 +26,7 @@ interface UserRepositoryInterface extends RepositoryInterface
     public function getAllUsers($queryString = null, Pagination & $pagination = null);
 
     /**
-     * @param int[] $userIds
+     * @param UuidInterface[] $userIds
      * @param Pagination $pagination
      * @return User[]
      */

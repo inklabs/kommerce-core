@@ -6,7 +6,7 @@ use inklabs\kommerce\EntityDTO\Builder\WarehouseDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Warehouse implements EntityInterface, ValidationInterface
+class Warehouse implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

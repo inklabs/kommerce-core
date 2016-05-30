@@ -963,12 +963,13 @@ class DummyData
 
     public function getUserLogin(User $user = null, UserToken $userToken = null)
     {
-        $userLogin = new UserLogin($user, $userToken);
-        $userLogin->setEmail('john@example.com');
-        $userLogin->setIp4('8.8.8.8');
-        $userLogin->setResult($this->getUserLoginResultType());
-
-        return $userLogin;
+        return new UserLogin(
+            $this->getUserLoginResultType(),
+            'john@example.com',
+            '127.0.0.1',
+            $user,
+            $userToken
+        );
     }
 
     public function getUserLoginResultType()

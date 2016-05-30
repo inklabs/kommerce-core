@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class InventoryTransactionRepository extends AbstractRepository implements InventoryTransactionRepositoryInterface
 {
@@ -26,7 +27,7 @@ class InventoryTransactionRepository extends AbstractRepository implements Inven
     /**
      * @param Product $product
      * @param int $quantity
-     * @return int
+     * @return UuidInterface
      * @throws EntityNotFoundException
      */
     public function findInventoryIdForProductAndQuantity(Product $product, $quantity)

@@ -11,7 +11,7 @@ use Ramsey\Uuid\UuidInterface;
 interface OptionProductRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param int[] $optionValueIds
+     * @param UuidInterface[] $optionValueIds
      * @param Pagination $pagination
      * @return OptionProduct[]
      */

@@ -2,18 +2,22 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\UserToken;
+use Ramsey\Uuid\UuidInterface;
 
 class UserTokenRepository extends AbstractRepository implements UserTokenRepositoryInterface
 {
-    public function findLatestOneByUserId($userId)
+    public function findLatestOneByUserId(UuidInterface $userUserId)
     {
         $userToken = $this->getQueryBuilder()
             ->select('UserToken')
             ->from(UserToken::class, 'UserToken')
-            ->leftJoin('UserToken.user', 'User')
             ->where('User.id = :userId')
-            ->setParameter('userId', $userId)
+            ->setIdParameter('userId', $userUserId)
             ->orderBy('UserToken.created', 'desc')
+
+            ->addSelect('User')
+            ->leftJoin('UserToken.user', 'User')
+
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();

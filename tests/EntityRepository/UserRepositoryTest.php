@@ -62,28 +62,22 @@ class UserRepositoryTest extends EntityRepositoryTestCase
     public function testCRUD()
     {
         $user = $this->dummyData->getUser();
-        $this->userRepository->create($user);
-        $this->assertSame(1, $user->getId());
+        $userLogin = $this->dummyData->getUserLogin($user);
 
-        $user->setFirstName('New First Name');
-        $this->assertSame(null, $user->getUpdated());
+        $this->executeRepositoryCRUD(
+            $this->userRepository,
+            $user
+        );
 
-        $this->userRepository->update($user);
-        $this->assertTrue($user->getUpdated() instanceof DateTime);
-
-        $this->userRepository->delete($user);
-        $this->assertSame(null, $user->getId());
+        $this->assertSame(1, $user->getTotalLogins());
     }
 
     public function testCreateUserLogin()
     {
-        $userLogin = $this->dummyData->getUserLogin();
-
         $user = $this->dummyData->getUser();
         $this->userRepository->create($user);
 
-        $user->addUserLogin($userLogin);
-
+        $userLogin = $this->dummyData->getUserLogin($user);
         $this->userRepository->update($user);
 
         $this->assertSame(1, $user->getTotalLogins());
@@ -91,19 +85,19 @@ class UserRepositoryTest extends EntityRepositoryTestCase
 
     public function testFindOneById()
     {
-        $this->setupUser();
-
+        $originalUser = $this->setupUser();
         $this->setCountLogger();
 
-        $user = $this->userRepository
-            ->findOneById(1);
+        $user = $this->userRepository->findOneById(
+            $originalUser->getId()
+        );
 
-        $user->getOrders()->toArray();
-        $user->getUserLogins()->toArray();
-        $user->getUserTokens()->toArray();
-        $user->getUserRoles()->toArray();
+        $this->visitElements($user->getOrders());
+        $this->visitElements($user->getUserLogins());
+        $this->visitElements($user->getUserTokens());
+        $this->visitElements($user->getUserRoles());
 
-        $this->assertTrue($user instanceof User);
+        $this->assertEqualEntities($originalUser, $user);
         $this->assertSame(5, $this->getTotalQueries());
     }
 
@@ -114,38 +108,44 @@ class UserRepositoryTest extends EntityRepositoryTestCase
             'User not found'
         );
 
-        $this->userRepository->findOneById(1);
+        $this->userRepository->findOneById(
+            $this->dummyData->getId()
+        );
     }
 
     public function testGetAllUsers()
     {
-        $this->setupUser();
+        $originalUser = $this->setupUser();
 
         $users = $this->userRepository->getAllUsers('John');
 
-        $this->assertTrue($users[0] instanceof User);
+        $this->assertEqualEntities($originalUser, $users[0]);
     }
 
     public function testGetAllUsersByIds()
     {
-        $this->setupUser();
+        $originalUser = $this->setupUser();
 
-        $users = $this->userRepository->getAllUsersByIds([1]);
+        $users = $this->userRepository->getAllUsersByIds([
+            $originalUser->getId()
+        ]);
 
-        $this->assertTrue($users[0] instanceof User);
+        $this->assertEqualEntities($originalUser, $users[0]);
     }
 
     public function testFindByEmailUsingEmail()
     {
-        $this->setupUserWithCart();
-
+        $originalUser = $this->setupUserWithCart();
         $this->setCountLogger();
 
-        $user = $this->userRepository->findOneByEmail('test1@example.com');
-        $user->getUserRoles()->toArray();
-        $user->getCart()->getCreated();
+        $user = $this->userRepository->findOneByEmail(
+            $originalUser->getEmail()
+        );
 
-        $this->assertTrue($user instanceof User);
+        $this->visitElements($user->getUserRoles());
+//        $user->getCart()->getCreated();
+
+        $this->assertEqualEntities($originalUser, $user);
         $this->assertSame(2, $this->getTotalQueries());
     }
 

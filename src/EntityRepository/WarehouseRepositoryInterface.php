@@ -4,6 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Warehouse;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @method Warehouse findOneById(UuidInterface $id)

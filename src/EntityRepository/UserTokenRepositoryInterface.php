@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\UserToken;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @method UserToken findOneById(UuidInterface $id)
@@ -9,8 +10,8 @@ use inklabs\kommerce\Entity\UserToken;
 interface UserTokenRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param int $getId
+     * @param UuidInterface $userId
      * @return UserToken
      */
-    public function findLatestOneByUserId($getId);
+    public function findLatestOneByUserId(UuidInterface $userId);
 }

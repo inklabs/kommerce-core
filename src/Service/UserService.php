@@ -110,14 +110,9 @@ class UserService implements UserServiceInterface
      */
     protected function recordLogin($email, $remoteIp, UserLoginResultType $result, User $user = null)
     {
-        $userLogin = new UserLogin($user);
+        $userLogin = new UserLogin($user, $result);
         $userLogin->setEmail($email);
         $userLogin->setIp4($remoteIp);
-        $userLogin->setResult($result);
-
-        if ($result->isSuccess()) {
-            $user->incrementTotalLogins();
-        }
 
         $this->userLoginRepository->create($userLogin);
     }

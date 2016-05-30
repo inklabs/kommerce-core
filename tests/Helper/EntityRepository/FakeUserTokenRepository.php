@@ -14,10 +14,10 @@ class FakeUserTokenRepository extends AbstractFakeRepository implements UserToke
     /** @var UserToken[] */
     protected $entities = [];
 
-    public function findLatestOneByUserId($userId)
+    public function findLatestOneByUserId($userUserId)
     {
         foreach ($this->entities as $entity) {
-            if ($entity->getUser()->getId() === $userId) {
+            if ($entity->getUser()->getId() === $userUserId) {
                 return $entity;
             }
         }

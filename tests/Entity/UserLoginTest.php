@@ -7,30 +7,44 @@ class UserLoginTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {
-        $userLogin = new UserLogin;
+        $email = 'john.doe@example.com';
+        $ip4 = '127.0.0.1';
+        $result = $this->dummyData->getUserLoginResultType();
 
-        $this->assertSame(null, $userLogin->getEmail());
-        $this->assertSame('0.0.0.0', $userLogin->getIp4());
+        $userLogin = new UserLogin(
+            $result,
+            $email,
+            $ip4
+        );
+
+        $this->assertEntityValid($userLogin);
+        $this->assertSame($email, $userLogin->getEmail());
+        $this->assertSame($ip4, $userLogin->getIp4());
         $this->assertSame(null, $userLogin->getUser());
         $this->assertSame(null, $userLogin->getUserToken());
-        $this->assertTrue($userLogin->getResult()->isFail());
+        $this->assertSame($result, $userLogin->getResult());
     }
 
     public function testCreate()
     {
         $user = $this->dummyData->getUser();
         $userToken = $this->dummyData->getUserToken();
-        $userLoginResult = $this->dummyData->getUserLoginResultType();
+        $result = $this->dummyData->getUserLoginResultType();
+        $email = 'john.doe@example.com';
+        $ip4 = '127.0.0.1';
 
-        $userLogin = new UserLogin($user, $userToken);
-        $userLogin->setEmail('test@example.com');
-        $userLogin->setIp4('127.0.0.1');
-        $userLogin->setResult($userLoginResult);
+        $userLogin = new UserLogin(
+            $result,
+            $email,
+            $ip4,
+            $user,
+            $userToken
+        );
 
         $this->assertEntityValid($userLogin);
-        $this->assertSame('test@example.com', $userLogin->getEmail());
-        $this->assertSame('127.0.0.1', $userLogin->getIp4());
-        $this->assertSame($userLoginResult, $userLogin->getResult());
+        $this->assertSame($email, $userLogin->getEmail());
+        $this->assertSame($ip4, $userLogin->getIp4());
+        $this->assertSame($result, $userLogin->getResult());
         $this->assertSame($user, $userLogin->getUser());
         $this->assertSame($userToken, $userLogin->getUserToken());
     }

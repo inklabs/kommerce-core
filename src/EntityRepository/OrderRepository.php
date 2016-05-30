@@ -11,7 +11,7 @@ use Ramsey\Uuid\UuidInterface;
 class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {
     /**
-     * @param int $orderExternalId
+     * @param string $orderExternalId
      * @return Order
      */
     public function findOneByExternalId($orderExternalId)

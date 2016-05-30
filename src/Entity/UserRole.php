@@ -5,7 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\UserRoleDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserRole implements EntityInterface, ValidationInterface
+class UserRole implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
