@@ -1,14 +1,32 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartItem;
+use inklabs\kommerce\Entity\CartItemOptionProduct;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
+use inklabs\kommerce\Entity\OrderItemOptionProduct;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Shipment;
+use inklabs\kommerce\Entity\ShipmentComment;
+use inklabs\kommerce\Entity\ShipmentItem;
+use inklabs\kommerce\Entity\ShipmentTracker;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\CreditPayment;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\OrderStatusType;
-use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
+use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Event\OrderShippedEvent;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
@@ -16,22 +34,17 @@ use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryLocationRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryTransactionRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderItemRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
 class OrderServiceTest extends ServiceTestCase
 {
-    /** @var FakeOrderRepository */
-    protected $fakeOrderRepository;
+    /** @var OrderRepositoryInterface */
+    protected $orderRepository;
 
-    /** @var FakeOrderItemRepository */
+    /** @var OrderItemRepositoryInterface */
     protected $orderItemRepository;
 
-    /** @var FakeProductRepository */
+    /** @var ProductRepositoryInterface */
     protected $productRepository;
 
     /** @var OrderServiceInterface */
@@ -43,11 +56,11 @@ class OrderServiceTest extends ServiceTestCase
     /** @var FakeEventDispatcher */
     protected $fakeEventDispatcher;
 
-    /** @var FakeInventoryLocationRepository */
-    protected $fakeInventoryLocationRepository;
+    /** @var InventoryLocationRepositoryInterface */
+    protected $inventoryLocationRepository;
 
-    /** @var FakeInventoryTransactionRepository */
-    protected $fakeInventoryTransactionRepository;
+    /** @var InventoryTransactionRepositoryInterface */
+    protected $inventoryTransactionRepository;
 
     /** @var InventoryServiceInterface */
     protected $inventoryService;
@@ -55,35 +68,50 @@ class OrderServiceTest extends ServiceTestCase
     /** @var PaymentGatewayInterface */
     protected $paymentGateway;
 
+    protected $metaDataClassNames = [
+        Cart::class,
+        CartItem::class,
+        CartItemOptionProduct::class,
+        Option::class,
+        OptionProduct::class,
+        Order::class,
+        OrderItem::class,
+        OrderItemOptionProduct::class,
+        AbstractPayment::class,
+        Product::class,
+        Shipment::class,
+        ShipmentComment::class,
+        ShipmentItem::class,
+        ShipmentTracker::class,
+        Tag::class,
+        TaxRate::class,
+        User::class,
+    ];
+
     public function setUp()
     {
         parent::setUp();
 
         $this->fakeEventDispatcher = new FakeEventDispatcher;
-        $this->fakeOrderRepository = new FakeOrderRepository;
-        $this->orderItemRepository = new FakeOrderItemRepository;
-        $this->productRepository = new FakeProductRepository;
+        $this->orderRepository = $this->getRepositoryFactory()->getOrderRepository();
+        $this->orderItemRepository = $this->getRepositoryFactory()->getOrderItemRepository();
+        $this->productRepository = $this->getRepositoryFactory()->getProductRepository();
         $this->shipmentGateway = new FakeShipmentGateway(new OrderAddressDTO);
 
-        $this->fakeInventoryLocationRepository = new FakeInventoryLocationRepository;
-        $this->fakeInventoryTransactionRepository = new FakeInventoryTransactionRepository;
+        $this->inventoryLocationRepository = $this->getRepositoryFactory()->getInventoryLocationRepository();
+        $this->inventoryTransactionRepository = $this->getRepositoryFactory()->getInventoryTransactionRepository();
 
         $this->inventoryService = new InventoryService(
-            $this->fakeInventoryLocationRepository,
-            $this->fakeInventoryTransactionRepository
+            $this->inventoryLocationRepository,
+            $this->inventoryTransactionRepository
         );
 
         $this->paymentGateway = new FakePaymentGateway;
 
-        $this->orderService = $this->getOrderService();
-    }
-
-    private function getOrderService()
-    {
-        return new OrderService(
+        $this->orderService = new OrderService(
             $this->fakeEventDispatcher,
             $this->inventoryService,
-            $this->fakeOrderRepository,
+            $this->orderRepository,
             $this->orderItemRepository,
             $this->paymentGateway,
             $this->productRepository,
@@ -93,166 +121,167 @@ class OrderServiceTest extends ServiceTestCase
 
     public function testFind()
     {
-        $order = $this->dummyData->getOrder();
-        $this->fakeOrderRepository->create($order);
-        $order = $this->orderService->findOneById(1);
-        $this->assertTrue($order instanceof Order);
+        $order1 = $this->getPersistedOrderWith2Items();
+
+        $order = $this->orderService->findOneById(
+            $order1->getId()
+        );
+
+        $this->assertEqualEntities($order1, $order);
     }
 
     public function testGetOrderItem()
     {
-        $orderItemId = 1;
-        $this->orderItemRepository = $this->mockRepository->getOrderItemRepository();
-        $orderService = $this->getOrderService();
+        $order1 = $this->getPersistedOrderWith2Items();
+        $orderItem1 = $order1->getOrderItems()[0];
 
-        $orderItem = $orderService->getOrderItemById($orderItemId);
+        $orderItem = $this->orderService->getOrderItemById(
+            $orderItem1->getId()
+        );
 
-        $this->assertTrue($orderItem instanceof OrderItem);
+        $this->assertEqualEntities($orderItem1, $orderItem);
     }
 
     public function testGetLatestOrders()
     {
+        $order1 = $this->getPersistedOrderWith2Items();
+
         $orders = $this->orderService->getLatestOrders();
-        $this->assertTrue($orders[0] instanceof Order);
+
+        $this->assertEqualEntities($order1, $orders[0]);
     }
 
     public function testGetOrderByUserId()
     {
-        $orders = $this->orderService->getOrdersByUserId(1);
-        $this->assertTrue($orders[0] instanceof Order);
+        $order1 = $this->getPersistedOrderWith2Items();
+
+        $orders = $this->orderService->getOrdersByUserId(
+            $order1->getUser()->getId()
+        );
+
+        $this->assertEqualEntities($order1, $orders[0]);
     }
 
     public function testBuyShipmentLabel()
     {
-        $order = $this->getPersistedDummyOrder();
+        $order1 = $this->getPersistedOrderWith2Items();
+
         $orderItemQtyDTO = new OrderItemQtyDTO;
-        $orderItemQtyDTO->addOrderItemQty(1, 1);
+        $orderItemQtyDTO->addOrderItemQty(
+            $order1->getOrderItems()[0]->getId(),
+            1
+        );
         $comment = 'A comment';
-        $rateExternalId = 'rate_xxxxx';
-        $shipmentExternalId = 'shp_xxxxx';
+        $rateExternalId = self::RATE_EXTERNAL_ID;
+        $shipmentExternalId = self::SHIPMENT_EXTERNAL_ID;
 
         $this->orderService->buyShipmentLabel(
-            $order->getId(),
+            $order1->getId(),
             $orderItemQtyDTO,
             $comment,
             $rateExternalId,
             $shipmentExternalId
         );
 
-        $this->assertSame(1, count($order->getShipments()));
-        $this->assertSame('A comment', $order->getShipments()[0]->getShipmentComments()[0]->getComment());
-        $this->assertOrderShippedEventIsDipatched();
+        $shipment = $order1->getShipments()[0];
+        $shipmentComment = $shipment->getShipmentComments()[0];
+        $shipmentTracker = $shipment->getShipmentTrackers()[0];
+        $this->assertSame(1, count($order1->getShipments()));
+        $this->assertSame('A comment', $shipmentComment->getComment());
+        // TODO: Verify external Ids
+        //$this->assertSame($rateExternalId, $shipmentTracker->getExternalId());
+        //$this->assertSame($shipmentExternalId, $shipmentTracker->getShipmentRate()->getExternalId());
+        $this->assertOrderShippedEventIsDispatched($order1, $shipment);
     }
 
     public function testAddShipmentTrackingCode()
     {
-        $carrier = $this->dummyData->getShipmentCarrierType();
-        $order = $this->getPersistedDummyOrder();
-        $orderItem2 = $this->dummyData->getOrderItemFull();
-        $this->orderItemRepository->create($orderItem2);
-        $order->addOrderItem($orderItem2);
+        $order1 = $this->getPersistedOrderWith2Items();
+        $carrierType = $this->dummyData->getShipmentCarrierType();
 
         $orderItemQtyDTO = new OrderItemQtyDTO;
-        $orderItemQtyDTO->addOrderItemQty(1, 1);
-        $orderItemQtyDTO->addOrderItemQty(2, 0);
+        $orderItemQtyDTO->addOrderItemQty(
+            $order1->getOrderItems()[0]->getId(),
+            1
+        );
 
         $comment = 'A comment';
-        $trackingCode = 'XXXX';
+        $trackingCode = self::SHIPMENT_TRACKING_CODE;
 
         $this->orderService->addShipmentTrackingCode(
-            $order->getId(),
+            $order1->getId(),
             $orderItemQtyDTO,
             $comment,
-            $carrier->getId(),
+            $carrierType->getId(),
             $trackingCode
         );
 
-        $this->assertSame(1, count($order->getShipments()));
-        $this->assertSame(1, count($order->getShipments()[0]->getShipmentItems()));
-        $this->assertSame('A comment', $order->getShipments()[0]->getShipmentComments()[0]->getComment());
-        $this->assertOrderShippedEventIsDipatched();
+        $shipment = $order1->getShipments()[0];
+        $shipmentComment = $shipment->getShipmentComments()[0];
+        $shipmentTracker = $shipment->getShipmentTrackers()[0];
+        $this->assertSame(1, count($order1->getShipments()));
+        $this->assertSame(1, count($shipment->getShipmentItems()));
+        $this->assertSame('A comment', $shipmentComment->getComment());
+        $this->assertSame($trackingCode, $shipmentTracker->getTrackingCode());
+        $this->assertOrderShippedEventIsDispatched($order1, $shipment);
     }
 
     public function testOrderMarkedAsShippedWhen2PartialShipmentsAreFullyShipped()
     {
-        $carrier = $this->dummyData->getShipmentCarrierType();
-        $order = $this->getPersistedDummyOrder();
-        $orderItem2 = $this->dummyData->getOrderItemFull();
-        $this->orderItemRepository->create($orderItem2);
-        $order->addOrderItem($orderItem2);
+        $order1 = $this->getPersistedOrderWith2Items();
+        $orderItem1 = $order1->getOrderItems()[0];
+        $orderItem2 = $order1->getOrderItems()[1];
+        $carrierType = $this->dummyData->getShipmentCarrierType();
 
         $orderItemQtyDTO = new OrderItemQtyDTO;
-        $orderItemQtyDTO->addOrderItemQty($order->getOrderItem(0)->getId(), 1);
+        $orderItemQtyDTO->addOrderItemQty(
+            $orderItem1->getId(),
+            1
+        );
+
         $this->orderService->addShipmentTrackingCode(
-            $order->getId(),
+            $order1->getId(),
             $orderItemQtyDTO,
             '1 of 2 items shipped',
-            $carrier->getId(),
+            $carrierType->getId(),
             'XXXX'
         );
 
-        $this->assertSame(1, count($order->getShipments()));
-        $this->assertTrue($order->getStatus()->isPartiallyShipped());
+        $this->assertSame(1, count($order1->getShipments()));
+        $this->assertTrue($order1->getStatus()->isPartiallyShipped());
 
         $orderItemQtyDTO = new OrderItemQtyDTO;
-        $orderItemQtyDTO->addOrderItemQty($order->getOrderItem(1)->getId(), 1);
+        $orderItemQtyDTO->addOrderItemQty(
+            $orderItem2->getId(),
+            1
+        );
+
         $this->orderService->addShipmentTrackingCode(
-            $order->getId(),
+            $order1->getId(),
             $orderItemQtyDTO,
             '2 of 2 items shipped. This completes your order',
-            $carrier->getId(),
+            $carrierType->getId(),
             'XXXX'
         );
 
-        $this->assertSame(2, count($order->getShipments()));
-        $this->assertTrue($order->getStatus()->isShipped());
+        $this->assertSame(2, count($order1->getShipments()));
+        $this->assertTrue($order1->getStatus()->isShipped());
     }
 
     public function testSetOrderStatus()
     {
-        $order = $this->getPersistedDummyOrder();
-        $this->orderService->setOrderStatus($order->getId(), OrderStatusType::canceled());
-        $this->assertTrue($order->getStatus()->isCanceled());
-    }
+        $order1 = $this->getPersistedOrderWith2Items();
 
-    /**
-     * @return Order
-     */
-    private function getPersistedDummyOrder()
-    {
-        $order = $this->dummyData->getOrderFullWithoutShipments();
-        $this->fakeOrderRepository->create($order);
+        $this->orderService->setOrderStatus($order1->getId(), OrderStatusType::canceled());
 
-        foreach ($order->getOrderItems() as $orderItem) {
-            $this->orderItemRepository->create($orderItem);
-        }
-
-        return $order;
-    }
-
-    private function assertOrderShippedEventIsDipatched()
-    {
-        /** @var OrderShippedEvent $event */
-        $event = $this->fakeEventDispatcher->getDispatchedEvents(OrderShippedEvent::class)[0];
-        $this->assertTrue($event instanceof OrderShippedEvent);
-        $this->assertSame(1, $event->getOrderId());
-        $this->assertSame(1, $event->getShipmentId());
+        $this->assertTrue($order1->getStatus()->isCanceled());
     }
 
     public function testCreateOrderFromCart()
     {
-        $cart = $this->dummyData->getCart();
-        $product = $this->dummyData->getProduct();
-        $cartItem = $this->dummyData->getCartItem($product);
-        $cartItem->addCartItemOptionProduct($this->dummyData->getCartItemOptionProduct());
-        $cart->addCartItem($cartItem);
-        $cart->setUser($this->dummyData->getUser());
+        $cart = $this->getPersistedCart();
 
-        $this->inventoryService = $this->mockService->getInventoryService();
-        $this->inventoryService->shouldReceive('reserveProduct')
-            ->times(2);
-
-        $order = $this->getOrderService()->createOrderFromCart(
+        $order = $this->orderService->createOrderFromCart(
             $cart,
             $this->getCartCalculator(),
             '10.0.0.1',
@@ -264,9 +293,78 @@ class OrderServiceTest extends ServiceTestCase
         $this->assertTrue($order instanceof Order);
         $this->assertTrue($order->getPayments()[0] instanceof CreditPayment);
 
+        // TODO: Test reserveProductsFromInventory
+
         /** @var OrderCreatedFromCartEvent $event */
         $event = $this->fakeEventDispatcher->getDispatchedEvents(OrderCreatedFromCartEvent::class)[0];
         $this->assertTrue($event instanceof OrderCreatedFromCartEvent);
-        $this->assertSame(1, $event->getOrderId());
+        $this->assertSame($order->getId(), $event->getOrderId());
+    }
+
+    /**
+     * @return Order
+     */
+    private function getPersistedOrderWith2Items()
+    {
+        $user = $this->dummyData->getUser();
+        $product1 = $this->dummyData->getProduct();
+        $product2 = $this->dummyData->getProduct();
+        $orderItem1 = $this->dummyData->getOrderItem($product1);
+        $orderItem2 = $this->dummyData->getOrderItem($product2);
+        $order1 = $this->dummyData->getOrder(
+            null,
+            [
+                $orderItem1,
+                $orderItem2
+            ]
+        );
+        $order1->setUser($user);
+
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($order1);
+        $this->entityManager->flush();
+
+        return $order1;
+    }
+
+    private function assertOrderShippedEventIsDispatched(Order $order, Shipment $shipment)
+    {
+        /** @var OrderShippedEvent $event */
+        $event = $this->fakeEventDispatcher->getDispatchedEvents(OrderShippedEvent::class)[0];
+        $this->assertTrue($event instanceof OrderShippedEvent);
+        $this->assertEquals($order->getId(), $event->getOrderId());
+        $this->assertSame($shipment->getId(), $event->getShipmentId());
+    }
+
+    /**
+     * @return \inklabs\kommerce\Entity\Cart
+     */
+    private function getPersistedCart()
+    {
+        $product1 = $this->dummyData->getProduct();
+        $product1->setIsInventoryRequired(false);
+        $product2 = $this->dummyData->getProduct();
+        $product2->setIsInventoryRequired(false);
+        $option = $this->dummyData->getOption();
+        $optionProduct = $this->dummyData->getOptionProduct($option, $product2);
+        $cartItemOptionProduct = $this->dummyData->getCartItemOptionProduct($optionProduct);
+        $cartItem = $this->dummyData->getCartItem($product1);
+        $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
+        $cart = $this->dummyData->getCart([
+            $cartItem
+        ]);
+        $user = $this->dummyData->getUser();
+        $cart->setUser($user);
+
+        $this->entityManager->persist($option);
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($cart);
+        $this->entityManager->flush();
+
+        return $cart;
     }
 }

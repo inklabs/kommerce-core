@@ -1,18 +1,20 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use Ramsey\Uuid\UuidInterface;
+
 final class OrderItemQtyDTO
 {
     private $items;
 
     /**
-     * @param int $orderItemId
+     * @param UuidInterface $orderItemId
      * @param int $quantity
      */
-    public function addOrderItemQty($orderItemId, $quantity)
+    public function addOrderItemQty(UuidInterface $orderItemId, $quantity)
     {
         if ($quantity > 0) {
-            $this->items[$orderItemId] = (int) $quantity;
+            $this->items[$orderItemId->getHex()] = (int) $quantity;
         }
     }
 

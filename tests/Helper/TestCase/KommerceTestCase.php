@@ -28,7 +28,9 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     const EMAIL = 'john.doe@example.com';
     const IP4 = '127.0.0.1';
     const ZIP5 = '76667';
+    const SHIPMENT_EXTERNAL_ID = 'shp_xxxxx';
     const SHIPMENT_RATE_EXTERNAL_ID = 'shp_xxxxxxxx';
+    const SHIPMENT_TRACKING_CODE = 'XXXXXXX';
     const RATE_EXTERNAL_ID = 'rate_xxxxxxxxx';
     const USER_AGENT = 'UserAgent String';
 

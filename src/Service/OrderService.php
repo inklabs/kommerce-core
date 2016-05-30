@@ -26,6 +26,7 @@ use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class OrderService implements OrderServiceInterface
@@ -165,7 +166,8 @@ class OrderService implements OrderServiceInterface
         Order $order
     ) {
         $shipment = new Shipment;
-        $shipment->addShipmentTracker($shipmentTracker);
+
+        $shipmentTracker->setShipment($shipment);
 
         if ($comment !== '') {
             new ShipmentComment($shipment, $comment);
@@ -184,7 +186,7 @@ class OrderService implements OrderServiceInterface
     private function addShipmentItemsFromOrderItems(OrderItemQtyDTO $orderItemQtyDTO, Shipment $shipment)
     {
         foreach ($orderItemQtyDTO->getItems() as $orderItemId => $quantity) {
-            $orderItem = $this->orderItemRepository->findOneById($orderItemId);
+            $orderItem = $this->orderItemRepository->findOneById(Uuid::fromString($orderItemId));
 
             new ShipmentItem($shipment, $orderItem, $quantity);
         }

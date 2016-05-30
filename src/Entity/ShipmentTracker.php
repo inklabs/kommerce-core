@@ -28,6 +28,7 @@ class ShipmentTracker implements IdEntityInterface, ValidationInterface
     protected $shipment;
 
     /**
+     * @param Shipment $shipment
      * @param ShipmentCarrierType $carrier
      * @param string $trackingCode
      */
@@ -54,6 +55,12 @@ class ShipmentTracker implements IdEntityInterface, ValidationInterface
 
         $metadata->addPropertyConstraint('shipmentRate', new Assert\Valid);
         $metadata->addPropertyConstraint('shipmentLabel', new Assert\Valid);
+    }
+
+    public function setShipment(Shipment $shipment)
+    {
+        $this->shipment = $shipment;
+        $shipment->addShipmentTracker($this);
     }
 
     private function setCarrier(ShipmentCarrierType $carrier)
