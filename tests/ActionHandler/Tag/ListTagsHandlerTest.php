@@ -14,15 +14,16 @@ class ListTagsHandlerTest extends ActionTestCase
     {
         $pricing = $this->dummyData->getPricing();
         $tagService = $this->mockService->getTagService();
+        $dtoBuilderFactory = $this->getDTOBuilderFactory();
 
         $queryString = 'TT';
         $request = new ListTagsRequest($queryString, new PaginationDTO);
         $response = new ListTagsResponse;
 
-        $handler = new ListTagsHandler($tagService, $this->getDTOBuilderFactory());
+        $handler = new ListTagsHandler($tagService, $dtoBuilderFactory);
         $handler->handle(new ListTagsQuery($request, $response));
 
-        $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);
+        $this->assertTrue($response->getTagDTOs()->current() instanceof TagDTO);
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
     }
 }

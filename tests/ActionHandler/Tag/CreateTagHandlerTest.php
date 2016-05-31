@@ -13,7 +13,11 @@ class CreateTagHandlerTest extends ActionTestCase
         $tagService->shouldReceive('create')
             ->once();
 
-        $command = new CreateTagCommand(new TagDTO);
+        $tagDTO = $this->getDTOBuilderFactory()
+            ->getTagDTOBuilder($this->dummyData->getTag())
+            ->build();
+
+        $command = new CreateTagCommand($tagDTO);
         $handler = new CreateTagHandler($tagService);
         $handler->handle($command);
     }

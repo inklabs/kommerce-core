@@ -13,7 +13,11 @@ class UpdateTagHandlerTest extends ActionTestCase
         $tagService->shouldReceive('update')
             ->once();
 
-        $command = new UpdateTagCommand(new TagDTO);
+        $tagDTO = $this->getDTOBuilderFactory()
+            ->getTagDTOBuilder($this->dummyData->getTag())
+            ->build();
+
+        $command = new UpdateTagCommand($tagDTO);
         $handler = new UpdateTagHandler($tagService);
         $handler->handle($command);
     }
