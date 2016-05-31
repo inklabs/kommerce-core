@@ -1,17 +1,16 @@
 <?php
 namespace inklabs\kommerce\Action\Order\Query;
 
+use Ramsey\Uuid\UuidInterface;
+
 final class GetOrderRequest
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $orderId;
 
-    /**
-     * @param int $orderId
-     */
-    public function __construct($orderId)
+    public function __construct(UuidInterface $orderId)
     {
-        $this->orderId = (int) $orderId;
+        $this->orderId = $orderId;
     }
 
     public function getOrderId()

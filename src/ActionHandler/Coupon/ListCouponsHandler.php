@@ -3,6 +3,7 @@ namespace inklabs\kommerce\ActionHandler\Coupon;
 
 use inklabs\kommerce\Action\Coupon\ListCouponsQuery;
 use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
 
 final class ListCouponsHandler
@@ -10,9 +11,13 @@ final class ListCouponsHandler
     /** @var CouponServiceInterface */
     private $couponService;
 
-    public function __construct(CouponServiceInterface $couponService)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(CouponServiceInterface $couponService, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->couponService = $couponService;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
     public function handle(ListCouponsQuery $query)
@@ -25,15 +30,13 @@ final class ListCouponsHandler
 
         $coupons = $this->couponService->getAllCoupons($request->getQueryString(), $pagination);
 
-        $response->setPaginationDTO(
-            $pagination->getDTOBuilder()
-                ->build()
+        $response->setPaginationDTOBuilder(
+            $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
         );
 
         foreach ($coupons as $coupon) {
-            $response->addCouponDTO(
-                $coupon->getDTOBuilder()
-                    ->build()
+            $response->addCouponDTOBuilder(
+                $this->dtoBuilderFactory->getCouponDTOBuilder($coupon)
             );
         }
     }

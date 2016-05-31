@@ -23,7 +23,7 @@ class TagDTOBuilder
         $this->tag = $tag;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->initializeTagDTO();
+        $this->tagDTO = $this->getTagDTO();
         $this->tagDTO->id           = $this->tag->getId();
         $this->tagDTO->slug         = Slug::get($this->tag->getName());
         $this->tagDTO->name         = $this->tag->getName();
@@ -37,9 +37,9 @@ class TagDTOBuilder
         $this->tagDTO->updated      = $this->tag->getUpdated();
     }
 
-    protected function initializeTagDTO()
+    protected function getTagDTO()
     {
-        $this->tagDTO = new TagDTO();
+        return new TagDTO();
     }
 
     public static function createFromDTO(TagDTO $tagDTO)

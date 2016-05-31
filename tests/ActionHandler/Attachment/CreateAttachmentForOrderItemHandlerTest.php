@@ -9,14 +9,14 @@ class CreateAttachmentForOrderItemHandlerTest extends ActionTestCase
     public function testHandle()
     {
         $uploadFileDTO = $this->dummyData->getUploadFileDTO();
-        $orderItemId = 1;
+        $orderItem = $this->dummyData->getOrderItem();
 
         $attachmentService = $this->mockService->getAttachmentService();
         $attachmentService->shouldReceive('createAttachmentForOrderItem')
-            ->with($uploadFileDTO, $orderItemId)
+            ->with($uploadFileDTO, $orderItem->getId())
             ->once();
 
-        $command = new CreateAttachmentForOrderItemCommand($uploadFileDTO, $orderItemId);
+        $command = new CreateAttachmentForOrderItemCommand($uploadFileDTO, $orderItem->getId());
         $handler = new CreateAttachmentForOrderItemHandler($attachmentService);
         $handler->handle($command);
     }

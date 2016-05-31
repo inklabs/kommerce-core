@@ -3,23 +3,20 @@ namespace inklabs\kommerce\Action\Image;
 
 use inklabs\kommerce\EntityDTO\ImageDTO;
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use Ramsey\Uuid\UuidInterface;
 
 final class CreateImageCommand implements CommandInterface
 {
     /** @var ImageDTO */
     private $imageDTO;
 
-    /** @var int */
+    /** @var UuidInterface */
     protected $tagId;
 
-    /**
-     * @param ImageDTO $imageDTO
-     * @param int $tagId
-     */
-    public function __construct(ImageDTO $imageDTO, $tagId)
+    public function __construct(ImageDTO $imageDTO, UuidInterface $tagId)
     {
         $this->imageDTO = $imageDTO;
-        $this->tagId = (int) $tagId;
+        $this->tagId = $tagId;
     }
 
     public function getImageDTO()

@@ -18,7 +18,7 @@ class OptionDTOBuilder
         $this->option = $option;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->optionDTO = new OptionDTO;
+        $this->optionDTO = $this->getOptionDTO();
         $this->optionDTO->id          = $this->option->getId();
         $this->optionDTO->name        = $this->option->getname();
         $this->optionDTO->description = $this->option->getDescription();
@@ -29,6 +29,11 @@ class OptionDTOBuilder
         $this->optionDTO->type = $this->dtoBuilderFactory
             ->getOptionTypeDTOBuilder($this->option->getType())
             ->build();
+    }
+
+    protected function getOptionDTO()
+    {
+        return new OptionDTO;
     }
 
     public function withOptionProducts(PricingInterface $pricing)
@@ -74,8 +79,14 @@ class OptionDTOBuilder
             ->withOptionValues();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
+        $this->preBuild();
+        unset($this->option);
         return $this->optionDTO;
     }
 }

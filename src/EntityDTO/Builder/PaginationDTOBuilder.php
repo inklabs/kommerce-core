@@ -25,6 +25,7 @@ class PaginationDTOBuilder
 
     public function build()
     {
+        unset($this->pagination);
         return $this->paginationDTO;
     }
 }

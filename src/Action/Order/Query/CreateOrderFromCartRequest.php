@@ -3,10 +3,11 @@ namespace inklabs\kommerce\Action\Order\Query;
 
 use inklabs\kommerce\EntityDTO\CreditCardDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use Ramsey\Uuid\UuidInterface;
 
 final class CreateOrderFromCartRequest
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $cartId;
 
     /** @var string */
@@ -21,15 +22,22 @@ final class CreateOrderFromCartRequest
     /** @var OrderAddressDTO */
     private $billingAddressDTO;
 
+    /**
+     * @param UuidInterface $cartId
+     * @param string $ip4
+     * @param CreditCardDTO $creditCardDTO
+     * @param OrderAddressDTO $shippingAddressDTO
+     * @param OrderAddressDTO $billingAddressDTO
+     */
     public function __construct(
-        $cartId,
+        UuidInterface $cartId,
         $ip4,
         CreditCardDTO $creditCardDTO,
         OrderAddressDTO $shippingAddressDTO,
         OrderAddressDTO $billingAddressDTO
     ) {
         $this->cartId = $cartId;
-        $this->ip4 = $ip4;
+        $this->ip4 = (string) $ip4;
         $this->creditCardDTO = $creditCardDTO;
         $this->shippingAddressDTO = $shippingAddressDTO;
         $this->billingAddressDTO = $billingAddressDTO;

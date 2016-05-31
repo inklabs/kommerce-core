@@ -8,11 +8,12 @@ class DeleteCouponHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
+        $coupon = $this->dummyData->getCoupon();
         $couponService = $this->mockService->getCouponService();
         $couponService->shouldReceive('delete')
             ->once();
 
-        $command = new DeleteCouponCommand(1);
+        $command = new DeleteCouponCommand($coupon->getId());
         $handler = new DeleteCouponHandler($couponService);
         $handler->handle($command);
     }

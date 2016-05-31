@@ -20,7 +20,7 @@ class UserDTOBuilder
         $this->user = $user;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->userDTO = new UserDTO;
+        $this->userDTO = $this->getUserDTO();
         $this->userDTO->id          = $this->user->getId();
         $this->userDTO->externalId  = $this->user->getExternalId();
         $this->userDTO->email       = $this->user->getEmail();
@@ -34,6 +34,11 @@ class UserDTOBuilder
         $this->userDTO->status = $this->dtoBuilderFactory
             ->getUserStatusTypeDTOBuilder($this->user->getStatus())
             ->build();
+    }
+
+    protected function getUserDTO()
+    {
+        return new UserDTO;
     }
 
     public function withRoles()
@@ -74,8 +79,13 @@ class UserDTOBuilder
             ->withLogins();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
+        $this->preBuild();
         return $this->userDTO;
     }
 }

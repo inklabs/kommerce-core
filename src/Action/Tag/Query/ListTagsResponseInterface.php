@@ -1,21 +1,11 @@
 <?php
 namespace inklabs\kommerce\Action\Tag\Query;
 
-use inklabs\kommerce\EntityDTO\PaginationDTO;
-use inklabs\kommerce\EntityDTO\TagDTO;
+use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
+use inklabs\kommerce\EntityDTO\Builder\TagDTOBuilder;
 
 interface ListTagsResponseInterface
 {
-    public function addTagDTO(TagDTO $tagDTO);
-    public function setPaginationDTO(PaginationDTO $paginationDTO);
-
-    /**
-     * @return TagDTO[]
-     */
-    public function getTagDTOs();
-
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO();
+    public function setPaginationDTOBuilder(PaginationDTOBuilder$paginationDTOBuilder);
+    public function addTagDTOBuilder(TagDTOBuilder $tagDTOBuilder);
 }

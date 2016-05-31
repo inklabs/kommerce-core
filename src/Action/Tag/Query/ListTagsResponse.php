@@ -1,34 +1,44 @@
 <?php
 namespace inklabs\kommerce\Action\Tag\Query;
 
+use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
+use inklabs\kommerce\EntityDTO\Builder\TagDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
 
 class ListTagsResponse implements ListTagsResponseInterface
 {
-    /** @var TagDTO[] */
-    protected $tagDTOs = [];
+    /** @var TagDTOBuilder[] */
+    private $tagDTOBuilders;
 
-    /** @var PaginationDTO */
-    protected $paginationDTO;
+    /** @var PaginationDTOBuilder */
+    private $paginationDTOBuilder;
 
-    public function addTagDTO(TagDTO $tagDTO)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
     {
-        $this->tagDTOs[] = $tagDTO;
+        $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
 
+    public function addTagDTOBuilder(TagDTOBuilder $tagDTOBuilder)
+    {
+        $this->tagDTOBuilders[] = $tagDTOBuilder;
+    }
+
+    /**
+     * @return TagDTO[] | \Generator
+     */
     public function getTagDTOs()
     {
-        return $this->tagDTOs;
+        foreach ($this->tagDTOBuilders as $tagDTOBuilder) {
+            yield $tagDTOBuilder->build();
+        }
     }
 
-    public function setPaginationDTO(PaginationDTO $paginationDTO)
-    {
-        $this->paginationDTO = $paginationDTO;
-    }
-
+    /**
+     * @return PaginationDTO
+     */
     public function getPaginationDTO()
     {
-        return $this->paginationDTO;
+        return $this->paginationDTOBuilder->build();
     }
 }

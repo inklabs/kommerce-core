@@ -2,18 +2,16 @@
 namespace inklabs\kommerce\Action\Tag;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use Ramsey\Uuid\UuidInterface;
 
 final class DeleteTagCommand implements CommandInterface
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $id;
 
-    /**
-     * @param int $id
-     */
-    public function __construct($id)
+    public function __construct(UuidInterface $id)
     {
-        $this->id = (int) $id;
+        $this->id = $id;
     }
 
     public function getId()

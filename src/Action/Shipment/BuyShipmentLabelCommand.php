@@ -3,10 +3,11 @@ namespace inklabs\kommerce\Action\Shipment;
 
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use Ramsey\Uuid\UuidInterface;
 
 final class BuyShipmentLabelCommand implements CommandInterface
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $orderId;
 
     /** @var OrderItemQtyDTO */
@@ -22,14 +23,14 @@ final class BuyShipmentLabelCommand implements CommandInterface
     private $rateExternalId;
 
     /**
-     * @param int $orderId
+     * @param UuidInterface $orderId
      * @param OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment
      * @param string $shipmentExternalId
      * @param string $rateExternalId
      */
     public function __construct(
-        $orderId,
+        UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
         $shipmentExternalId,

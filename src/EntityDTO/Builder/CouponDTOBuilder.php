@@ -18,7 +18,7 @@ class CouponDTOBuilder extends AbstractPromotionDTOBuilder
 
     protected function getPromotionDTO()
     {
-        return new CouponDTO;
+        return new CouponDTO();
     }
 
     protected function preBuild()
