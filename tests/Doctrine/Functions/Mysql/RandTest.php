@@ -58,7 +58,7 @@ class RandTest extends EntityRepositoryTestCase
             ->from(Product::class, 'Product')
             ->addSelect('RAND(:rand) as HIDDEN rand')
             ->orderBy('rand')
-            ->setParameter('rand', $this->product1->getId())
+            ->setParameter('rand', crc32($this->product1->getId()))
             ->getQuery()
             ->getResult();
 

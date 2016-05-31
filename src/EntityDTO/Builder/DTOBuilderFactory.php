@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityDTO\Builder;
 
+use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
+use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Address;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Attribute;
@@ -65,6 +67,7 @@ use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Entity\UserTokenType;
 use inklabs\kommerce\Entity\Warehouse;
+use inklabs\kommerce\Exception\DTOBuilderException;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 
 class DTOBuilderFactory implements DTOBuilderFactoryInterface
@@ -122,6 +125,17 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
     public function getCartPriceRuleDiscountDTOBuilder(CartPriceRuleDiscount $cartPriceRuleDiscount)
     {
         return new CartPriceRuleDiscountDTOBuilder($cartPriceRuleDiscount, $this);
+    }
+
+    public function getCartPriceRuleItemDTOBuilder(AbstractCartPriceRuleItem $cartPriceRuleItem)
+    {
+        if ($cartPriceRuleItem instanceof CartPriceRuleTagItem) {
+            return $this->getCartPriceRuleTagItemDTOBuilder($cartPriceRuleItem);
+        } elseif ($cartPriceRuleItem instanceof CartPriceRuleProductItem) {
+            return $this->getCartPriceRuleProductItemDTOBuilder($cartPriceRuleItem);
+        }
+
+        throw DTOBuilderException::invalidPayment();
     }
 
     public function getCartPriceRuleProductItemDTOBuilder(CartPriceRuleProductItem $cartPriceRuleProductItem)
@@ -267,6 +281,19 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
     public function getParcelDTOBuilder(Parcel $parcel)
     {
         return new ParcelDTOBuilder($parcel, $this);
+    }
+
+    public function getPaymentDTOBuilder(AbstractPayment $payment)
+    {
+        if ($payment instanceof CreditPayment) {
+            return $this->getCreditPaymentDTOBuilder($payment);
+        } elseif ($payment instanceof CashPayment) {
+            return $this->getCashPaymentDTOBuilder($payment);
+        } elseif ($payment instanceof CheckPayment) {
+            return $this->getCheckPaymentDTOBuilder($payment);
+        }
+
+        throw DTOBuilderException::invalidPayment();
     }
 
     public function getPointDTOBuilder(Point $point)

@@ -38,7 +38,8 @@ class CartPriceRuleDTOBuilder extends AbstractPromotionDTOBuilder
     public function withCartPriceRuleDiscounts()
     {
         foreach ($this->promotion->getCartPriceRuleDiscounts() as $cartPriceRuleDiscount) {
-            $this->promotionDTO->cartPriceRuleDiscounts[] = $cartPriceRuleDiscount->getDTOBuilder()
+            $this->promotionDTO->cartPriceRuleDiscounts[] = $this->dtoBuilderFactory
+                ->getCartPriceRuleDiscountDTOBuilder($cartPriceRuleDiscount)
                 ->build();
         }
 

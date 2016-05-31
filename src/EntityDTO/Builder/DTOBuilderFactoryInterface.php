@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityDTO\Builder;
 
+use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
+use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Address;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Attribute;
@@ -134,6 +136,12 @@ interface DTOBuilderFactoryInterface
      * @return CartPriceRuleDiscountDTOBuilder
      */
     public function getCartPriceRuleDiscountDTOBuilder(CartPriceRuleDiscount $cartPriceRuleDiscount);
+
+    /**
+     * @param AbstractCartPriceRuleItem $cartPriceRuleItem
+     * @return AbstractCartPriceRuleItemDTOBuilder
+     */
+    public function getCartPriceRuleItemDTOBuilder(AbstractCartPriceRuleItem $cartPriceRuleItem);
 
     /**
      * @param CartPriceRuleProductItem $cartPriceRuleProductItem
@@ -308,6 +316,12 @@ interface DTOBuilderFactoryInterface
      * @return PaginationDTOBuilder
      */
     public function getParcelDTOBuilder(Parcel $parcel);
+
+    /**
+     * @param AbstractPayment $payment
+     * @return AbstractPaymentDTOBuilder
+     */
+    public function getPaymentDTOBuilder(AbstractPayment $payment);
 
     /**
      * @param Point $point

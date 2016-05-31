@@ -34,7 +34,7 @@ class CartPriceRule extends AbstractPromotion
     }
 
     /**
-     * @return CartPriceRuleProductItem[]|CartPriceRuleTagItem[]
+     * @return AbstractCartPriceRuleItem[]
      */
     public function getCartPriceRuleItems()
     {

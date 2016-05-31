@@ -106,7 +106,8 @@ class OrderDTOBuilder
     public function withCoupons()
     {
         foreach ($this->order->getCoupons() as $coupon) {
-            $this->orderDTO->coupons[] = $coupon->getDTOBuilder()
+            $this->orderDTO->coupons[] = $this->dtoBuilderFactory
+                ->getCouponDTOBuilder($coupon)
                 ->build();
         }
         return $this;
