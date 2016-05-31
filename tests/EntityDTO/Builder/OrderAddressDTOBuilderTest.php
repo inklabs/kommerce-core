@@ -9,7 +9,8 @@ class OrderAddressDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $orderAddress = $this->dummyData->getOrderAddress();
 
-        $orderAddressDTO = $orderAddress->getDTOBuilder()
+        $orderAddressDTO = $this->getDTOBuilderFactory()
+            ->getOrderAddressDTOBuilder($orderAddress)
             ->build();
 
         $this->assertTrue($orderAddressDTO instanceof OrderAddressDTO);

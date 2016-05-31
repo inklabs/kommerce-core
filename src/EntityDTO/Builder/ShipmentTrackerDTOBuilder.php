@@ -12,9 +12,13 @@ class ShipmentTrackerDTOBuilder
     /** @var ShipmentTrackerDTO */
     protected $shipmentTrackerDTO;
 
-    public function __construct(ShipmentTracker $shipmentTracker)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(ShipmentTracker $shipmentTracker, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->shipmentTracker = $shipmentTracker;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->shipmentTrackerDTO = new ShipmentTrackerDTO;
         $this->shipmentTrackerDTO->id           = $this->shipmentTracker->getId();
@@ -23,16 +27,19 @@ class ShipmentTrackerDTOBuilder
         $this->shipmentTrackerDTO->trackingCode = $this->shipmentTracker->getTrackingCode();
         $this->shipmentTrackerDTO->externalId   = $this->shipmentTracker->getExternalId();
 
-        $this->shipmentTrackerDTO->carrier = $this->shipmentTracker->getCarrier()->getDTOBuilder()
+        $this->shipmentTrackerDTO->carrier = $this->dtoBuilderFactory
+            ->getShipmentCarrierTypeDTOBuilder($this->shipmentTracker->getCarrier())
             ->build();
 
         if ($this->shipmentTracker->getShipmentRate() !== null) {
-            $this->shipmentTrackerDTO->shipmentRate = $this->shipmentTracker->getShipmentRate()->getDTOBuilder()
+            $this->shipmentTrackerDTO->shipmentRate = $this->dtoBuilderFactory
+                ->getShipmentRateDTOBuilder($this->shipmentTracker->getShipmentRate())
                 ->build();
         }
 
         if ($this->shipmentTracker->getShipmentLabel() !== null) {
-            $this->shipmentTrackerDTO->shipmentLabel = $this->shipmentTracker->getShipmentLabel()->getDTOBuilder()
+            $this->shipmentTrackerDTO->shipmentLabel = $this->dtoBuilderFactory
+                ->getShipmentLabelDTOBuilder($this->shipmentTracker->getShipmentLabel())
                 ->build();
         }
     }

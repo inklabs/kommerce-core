@@ -1,17 +1,34 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
+use inklabs\kommerce\Entity\CashPayment;
+use inklabs\kommerce\tests\EntityDTO\Builder\AbstractPaymentDTOBuilderTest;
 
-class CashPaymentDTOBuilderTest extends EntityDTOBuilderTestCase
+class CashPaymentDTOBuilderTest extends AbstractPaymentDTOBuilderTest
 {
-    public function testBuild()
+    /**
+     * @return CashPayment
+     */
+    protected function getPayment()
     {
-        $cashPayment = $this->dummyData->getCashPayment();
+        return $this->dummyData->getCashPayment();
+    }
 
-        $cashPaymentDTO = $cashPayment->getDTOBuilder()
+    /**
+     * @return CashPaymentDTO
+     */
+    protected function getPaymentDTO()
+    {
+        return $this->getDTOBuilderFactory()
+            ->getCashPaymentDTOBuilder($this->getPayment())
             ->build();
+    }
 
-        $this->assertTrue($cashPaymentDTO instanceof CashPaymentDTO);
+    public function testExtras()
+    {
+        $payment = $this->getPayment();
+        $paymentDTO = $this->getPaymentDTO();
+
+        $this->assertTrue($paymentDTO instanceof CashPaymentDTO);
     }
 }

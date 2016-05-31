@@ -15,22 +15,17 @@ class UserTokenTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     /** @var UserTokenTypeDTO */
     protected $typeDTO;
 
-    /**
-     * @return UserTokenTypeDTO
-     */
     protected function getTypeDTO()
     {
         return new UserTokenTypeDTO;
     }
 
-    public function __construct(UserTokenType $type)
+    protected function preBuild()
     {
-        parent::__construct($type);
-
         $this->typeDTO->isInternal = $this->type->isInternal();
-        $this->typeDTO->isGoogle = $this->type->isGoogle();
+        $this->typeDTO->isGoogle   = $this->type->isGoogle();
         $this->typeDTO->isFacebook = $this->type->isFacebook();
-        $this->typeDTO->isTwitter = $this->type->isTwitter();
-        $this->typeDTO->isYahoo = $this->type->isYahoo();
+        $this->typeDTO->isTwitter  = $this->type->isTwitter();
+        $this->typeDTO->isYahoo    = $this->type->isYahoo();
     }
 }

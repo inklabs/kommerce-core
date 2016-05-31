@@ -11,7 +11,8 @@ class UserLoginDTOBuilderTest extends EntityDTOBuilderTestCase
         $userToken = $this->dummyData->getUserToken($user);
         $userLogin = $this->dummyData->getUserLogin($user, $userToken);
 
-        $userLogin = $userLogin->getDTOBuilder()
+        $userLogin = $this->getDTOBuilderFactory()
+            ->getUserLoginDTOBuilder($userLogin)
             ->withAllData()
             ->build();
 

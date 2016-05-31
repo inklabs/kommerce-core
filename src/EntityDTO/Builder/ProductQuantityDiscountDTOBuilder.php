@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
 use inklabs\kommerce\EntityDTO\ProductQuantityDiscountDTO;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\PricingInterface;
@@ -17,9 +18,9 @@ class ProductQuantityDiscountDTOBuilder extends AbstractPromotionDTOBuilder
     /** @var ProductQuantityDiscountDTO */
     protected $promotionDTO;
 
-    protected function initializePromotionDTO()
+    protected function getPromotionDTO()
     {
-        $this->promotionDTO = new ProductQuantityDiscountDTO;
+        return new ProductQuantityDiscountDTO;
     }
 
     protected function preBuild()
@@ -43,7 +44,8 @@ class ProductQuantityDiscountDTOBuilder extends AbstractPromotionDTOBuilder
     {
         $product = $this->promotion->getProduct();
         if ($product !== null) {
-            $this->promotionDTO->product = $product->getDTOBuilder()
+            $this->promotionDTO->product = $this->dtoBuilderFactory
+                ->getProductDTOBuilder($product)
                 ->withAllData($pricing)
                 ->build();
         }

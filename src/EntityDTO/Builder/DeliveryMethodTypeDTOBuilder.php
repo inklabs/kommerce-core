@@ -15,18 +15,13 @@ class DeliveryMethodTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     /** @var DeliveryMethodTypeDTO */
     protected $typeDTO;
 
-    /**
-     * @return DeliveryMethodTypeDTO
-     */
     protected function getTypeDTO()
     {
         return new DeliveryMethodTypeDTO;
     }
 
-    public function __construct(DeliveryMethodType $type)
+    protected function preBuild()
     {
-        parent::__construct($type);
-
         $this->typeDTO->isStandard = $this->type->isStandard();
         $this->typeDTO->isOneDay = $this->type->isOneDay();
         $this->typeDTO->isTwoDay = $this->type->isTwoDay();

@@ -12,9 +12,15 @@ class CartItemTextOptionValueDTOBuilder
     /** @var CartItemTextOptionValueDTO */
     protected $cartItemTextOptionValueDTO;
 
-    public function __construct(CartItemTextOptionValue $cartItemTextOptionValue)
-    {
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(
+        CartItemTextOptionValue $cartItemTextOptionValue,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
         $this->cartItemTextOptionValue = $cartItemTextOptionValue;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->cartItemTextOptionValueDTO = new CartItemTextOptionValueDTO;
         $this->cartItemTextOptionValueDTO->id              = $this->cartItemTextOptionValue->getId();
@@ -25,7 +31,8 @@ class CartItemTextOptionValueDTOBuilder
 
     public function withTextOption()
     {
-        $this->cartItemTextOptionValueDTO->textOption = $this->cartItemTextOptionValue->getTextOption()->getDTOBuilder()
+        $this->cartItemTextOptionValueDTO->textOption = $this->dtoBuilderFactory
+            ->getTextOptionDTOBuilder($this->cartItemTextOptionValue->getTextOption())
             ->build();
 
         return $this;

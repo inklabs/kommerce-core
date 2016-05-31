@@ -40,7 +40,7 @@ class PriceDTOBuilder
             foreach ($catalogPromotions as $catalogPromotion) {
                 $this->priceDTO->catalogPromotions[] = $this->dtoBuilderFactory
                     ->getCatalogPromotionDTOBuilder($catalogPromotion)
-                        ->build();
+                    ->build();
             }
         }
 
@@ -55,7 +55,7 @@ class PriceDTOBuilder
             foreach ($productQuantityDiscounts as $productQuantityDiscount) {
                 $this->priceDTO->productQuantityDiscounts[] = $this->dtoBuilderFactory
                     ->getProductQuantityDiscountDTOBuilder($productQuantityDiscount)
-                        ->build();
+                    ->build();
             }
         }
 

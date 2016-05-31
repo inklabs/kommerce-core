@@ -12,9 +12,13 @@ class AttachmentDTOBuilder
     /** @var AttachmentDTO */
     protected $attachmentDTO;
 
-    public function __construct(Attachment $attachment)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(Attachment $attachment, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->attachment = $attachment;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->attachmentDTO = new AttachmentDTO;
         $this->attachmentDTO->id        = $this->attachment->getId();
@@ -28,7 +32,8 @@ class AttachmentDTOBuilder
     public function withOrderItems()
     {
         foreach ($this->attachment->getOrderItems() as $orderItem) {
-            $this->attachmentDTO->orderItems[] = $orderItem->getDTOBuilder()
+            $this->attachmentDTO->orderItems[] = $this->dtoBuilderFactory
+                ->getOrderItemDTOBuilder($orderItem)
                 ->build();
         }
 

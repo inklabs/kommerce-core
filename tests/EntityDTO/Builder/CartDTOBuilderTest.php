@@ -11,6 +11,14 @@ use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\EntityDTO\CartDTO;
+use inklabs\kommerce\EntityDTO\CartItemDTO;
+use inklabs\kommerce\EntityDTO\CartTotalDTO;
+use inklabs\kommerce\EntityDTO\CouponDTO;
+use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
+use inklabs\kommerce\EntityDTO\TaxRateDTO;
+use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
@@ -21,7 +29,8 @@ class CartDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $cart = $this->dummyData->getCartFull();
 
-        $cartDTO = $cart->getDTOBuilder()
+        $cartDTO = $this->getDTOBuilderFactory()
+            ->getCartDTOBuilder($cart)
             ->withAllData($this->getCartCalculator())
             ->build();
 

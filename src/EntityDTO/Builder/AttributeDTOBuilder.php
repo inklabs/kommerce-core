@@ -12,9 +12,13 @@ class AttributeDTOBuilder
     /** @var AttributeDTO */
     protected $attributeDTO;
 
-    public function __construct(Attribute $attribute)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(Attribute $attribute, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->attribute = $attribute;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->attributeDTO = new AttributeDTO;
         $this->attributeDTO->id          = $this->attribute->getId();
@@ -28,7 +32,8 @@ class AttributeDTOBuilder
     public function withAttributeValues()
     {
         foreach ($this->attribute->getAttributeValues() as $attributeValue) {
-            $this->attributeDTO->attributeValues[] = $attributeValue->getDTOBuilder()
+            $this->attributeDTO->attributeValues[] = $this->dtoBuilderFactory
+                ->getAttributeValueDTOBuilder($attributeValue)
                 ->build();
         }
 
@@ -38,7 +43,8 @@ class AttributeDTOBuilder
     public function withProductAttributes()
     {
         foreach ($this->attribute->getProductAttributes() as $productAttribute) {
-            $this->attributeDTO->productAttributes[] = $productAttribute->getDTOBuilder()
+            $this->attributeDTO->productAttributes[] = $this->dtoBuilderFactory
+                ->getProductAttributeDTOBuilder($productAttribute)
                 ->build();
         }
 

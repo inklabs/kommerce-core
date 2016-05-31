@@ -12,23 +12,31 @@ class ShipmentRateDTOBuilder
     /** @var ShipmentRate */
     protected $shipmentRate;
 
-    public function __construct(ShipmentRate $shipmentRate)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(ShipmentRate $shipmentRate, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->shipmentRate = $shipmentRate;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->shipmentRateDTO = new ShipmentRateDTO;
         $this->shipmentRateDTO->externalId = $this->shipmentRate->getExternalId();
         $this->shipmentRateDTO->shipmentExternalId = $this->shipmentRate->getShipmentExternalId();
         $this->shipmentRateDTO->service    = $this->shipmentRate->getService();
         $this->shipmentRateDTO->carrier    = $this->shipmentRate->getCarrier();
-        $this->shipmentRateDTO->rate       = $this->shipmentRate->getRate()->getDTOBuilder()->build();
+
+        $this->shipmentRateDTO->rate = $this->dtoBuilderFactory
+            ->getMoneyDTOBuilder($this->shipmentRate->getRate())
+            ->build();
 
         $this->shipmentRateDTO->isDeliveryDateGuaranteed = $this->shipmentRate->isDeliveryDateGuaranteed();
         $this->shipmentRateDTO->deliveryDays             = $this->shipmentRate->getDeliveryDays();
         $this->shipmentRateDTO->estDeliveryDays          = $this->shipmentRate->getEstDeliveryDays();
 
         if ($this->shipmentRate->getDeliveryMethod()->getId() !== null) {
-            $this->shipmentRateDTO->deliveryMethod = $this->shipmentRate->getDeliveryMethod()->getDTOBuilder()
+            $this->shipmentRateDTO->deliveryMethod = $this->dtoBuilderFactory
+                ->getDeliveryMethodTypeDTOBuilder($this->shipmentRate->getDeliveryMethod())
                 ->build();
         }
 
@@ -37,11 +45,15 @@ class ShipmentRateDTOBuilder
         }
 
         if ($this->shipmentRate->getListRate() !== null) {
-            $this->shipmentRateDTO->listRate = $this->shipmentRate->getListRate()->getDTOBuilder()->build();
+            $this->shipmentRateDTO->listRate = $this->dtoBuilderFactory
+                ->getMoneyDTOBuilder($this->shipmentRate->getListRate())
+                ->build();
         }
 
         if ($this->shipmentRate->getRetailRate() !== null) {
-            $this->shipmentRateDTO->retailRate = $this->shipmentRate->getRetailRate()->getDTOBuilder()->build();
+            $this->shipmentRateDTO->retailRate = $this->dtoBuilderFactory
+                ->getMoneyDTOBuilder($this->shipmentRate->getRetailRate())
+                ->build();
         }
 
     }

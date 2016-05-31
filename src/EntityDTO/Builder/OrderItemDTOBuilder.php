@@ -12,9 +12,13 @@ class OrderItemDTOBuilder
     /** @var OrderItemDTO */
     protected $orderItemDTO;
 
-    public function __construct(OrderItem $orderItem)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(OrderItem $orderItem, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->orderItem = $orderItem;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->orderItemDTO = new OrderItemDTO;
         $this->orderItemDTO->id            = $this->orderItem->getId();
@@ -27,14 +31,16 @@ class OrderItemDTOBuilder
         $this->orderItemDTO->areAttachmentsEnabled = $this->orderItem->areAttachmentsEnabled();
 
         if ($this->orderItem->getPrice() !== null) {
-            $this->orderItemDTO->price = $orderItem->getPrice()->getDTOBuilder()
+            $this->orderItemDTO->price = $this->dtoBuilderFactory
+                ->getPriceDTOBuilder($orderItem->getPrice())
                 ->withAllData()
                 ->build();
         }
 
         if ($this->orderItem->getProduct() !== null) {
             $this->orderItemDTO->shippingWeight = $this->orderItem->getShippingWeight();
-            $this->orderItemDTO->product = $this->orderItem->getProduct()->getDTOBuilder()
+            $this->orderItemDTO->product = $this->dtoBuilderFactory
+                ->getProductDTOBuilder($this->orderItem->getProduct())
                 ->withTags()
                 ->build();
         }
@@ -43,7 +49,8 @@ class OrderItemDTOBuilder
     public function withCatalogPromotions()
     {
         foreach ($this->orderItem->getCatalogPromotions() as $catalogPromotion) {
-            $this->orderItemDTO->catalogPromotions[] = $catalogPromotion->getDTOBuilder()
+            $this->orderItemDTO->catalogPromotions[] = $this->dtoBuilderFactory
+                ->getCatalogPromotionDTOBuilder($catalogPromotion)
                 ->build();
         }
         return $this;
@@ -52,7 +59,8 @@ class OrderItemDTOBuilder
     public function withProductQuantityDiscounts()
     {
         foreach ($this->orderItem->getProductQuantityDiscounts() as $productQuantityDiscount) {
-            $this->orderItemDTO->productQuantityDiscounts[] = $productQuantityDiscount->getDTOBuilder()
+            $this->orderItemDTO->productQuantityDiscounts[] = $this->dtoBuilderFactory
+                ->getProductQuantityDiscountDTOBuilder($productQuantityDiscount)
                 ->build();
         }
         return $this;
@@ -61,7 +69,8 @@ class OrderItemDTOBuilder
     public function withOrderItemOptionProducts()
     {
         foreach ($this->orderItem->getOrderItemOptionProducts() as $orderItemOptionProduct) {
-            $this->orderItemDTO->orderItemOptionProducts[] = $orderItemOptionProduct->getDTOBuilder()
+            $this->orderItemDTO->orderItemOptionProducts[] = $this->dtoBuilderFactory
+                ->getOrderItemOptionProductDTOBuilder($orderItemOptionProduct)
                 ->withAllData()
                 ->build();
         }
@@ -72,7 +81,8 @@ class OrderItemDTOBuilder
     public function withOrderItemOptionValues()
     {
         foreach ($this->orderItem->getOrderItemOptionValues() as $orderItemOptionValue) {
-            $this->orderItemDTO->orderItemOptionValues[] = $orderItemOptionValue->getDTOBuilder()
+            $this->orderItemDTO->orderItemOptionValues[] = $this->dtoBuilderFactory
+                ->getOrderItemOptionValueDTOBuilder($orderItemOptionValue)
                 ->withAllData()
                 ->build();
         }
@@ -83,7 +93,8 @@ class OrderItemDTOBuilder
     public function withOrderItemTextOptionValues()
     {
         foreach ($this->orderItem->getOrderItemTextOptionValues() as $orderItemTextOptionValue) {
-            $this->orderItemDTO->orderItemTextOptionValues[] = $orderItemTextOptionValue->getDTOBuilder()
+            $this->orderItemDTO->orderItemTextOptionValues[] = $this->dtoBuilderFactory
+                ->getOrderItemTextOptionValueDTOBuilder($orderItemTextOptionValue)
                 ->withAllData()
                 ->build();
         }
@@ -94,7 +105,8 @@ class OrderItemDTOBuilder
     public function withAttachments()
     {
         foreach ($this->orderItem->getAttachments() as $attachment) {
-            $this->orderItemDTO->attachments[] = $attachment->getDTOBuilder()
+            $this->orderItemDTO->attachments[] = $this->dtoBuilderFactory
+                ->getAttachmentDTOBuilder($attachment)
                 ->build();
         }
 

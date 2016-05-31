@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
 use inklabs\kommerce\EntityDTO\CouponDTO;
 
 /**
@@ -15,9 +16,9 @@ class CouponDTOBuilder extends AbstractPromotionDTOBuilder
     /** @var CouponDTO */
     protected $promotionDTO;
 
-    protected function initializePromotionDTO()
+    protected function getPromotionDTO()
     {
-        $this->promotionDTO = new CouponDTO;
+        return new CouponDTO;
     }
 
     protected function preBuild()

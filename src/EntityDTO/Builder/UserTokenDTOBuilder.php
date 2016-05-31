@@ -12,9 +12,13 @@ class UserTokenDTOBuilder
     /** @var UserTokenDTO */
     protected $userTokenDTO;
 
-    public function __construct(UserToken $userToken)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(UserToken $userToken, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->userToken = $userToken;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->userTokenDTO = new UserTokenDTO;
         $this->userTokenDTO->id        = $this->userToken->getId();
@@ -23,7 +27,8 @@ class UserTokenDTOBuilder
         $this->userTokenDTO->created   = $this->userToken->getCreated();
         $this->userTokenDTO->updated   = $this->userToken->getUpdated();
 
-        $this->userTokenDTO->type = $this->userToken->getType()->getDTOBuilder()
+        $this->userTokenDTO->type = $this->dtoBuilderFactory
+            ->getUserTokenTypeDTOBuilder($this->userToken->getType())
             ->build();
     }
 
@@ -31,7 +36,8 @@ class UserTokenDTOBuilder
     {
         $user = $this->userToken->getUser();
         if ($user !== null) {
-            $this->userTokenDTO->user = $user->getDTOBuilder()
+            $this->userTokenDTO->user = $this->dtoBuilderFactory
+                ->getUserDTOBuilder($user)
                 ->build();
         }
         return $this;

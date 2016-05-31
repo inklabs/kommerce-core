@@ -15,20 +15,15 @@ class UserStatusTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     /** @var UserStatusTypeDTO */
     protected $typeDTO;
 
-    /**
-     * @return UserStatusTypeDTO
-     */
     protected function getTypeDTO()
     {
         return new UserStatusTypeDTO;
     }
 
-    public function __construct(UserStatusType $type)
+    protected function preBuild()
     {
-        parent::__construct($type);
-
         $this->typeDTO->isInactive = $this->type->isInactive();
-        $this->typeDTO->isActive = $this->type->isActive();
-        $this->typeDTO->isLocked = $this->type->isLocked();
+        $this->typeDTO->isActive   = $this->type->isActive();
+        $this->typeDTO->isLocked   = $this->type->isLocked();
     }
 }

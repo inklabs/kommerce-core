@@ -12,9 +12,15 @@ class CartPriceRuleDiscountDTOBuilder
     /** @var CartPriceRuleDiscountDTO */
     protected $cartPriceRuleDiscountDTO;
 
-    public function __construct(CartPriceRuleDiscount $cartPriceRuleDiscount)
-    {
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(
+        CartPriceRuleDiscount $cartPriceRuleDiscount,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
         $this->cartPriceRuleDiscount = $cartPriceRuleDiscount;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->cartPriceRuleDiscountDTO = new CartPriceRuleDiscountDTO;
         $this->cartPriceRuleDiscountDTO->id       = $this->cartPriceRuleDiscount->getId();
@@ -25,7 +31,8 @@ class CartPriceRuleDiscountDTOBuilder
 
     public function withProduct()
     {
-        $this->cartPriceRuleDiscountDTO->product = $this->cartPriceRuleDiscount->getProduct()->getDTOBuilder()
+        $this->cartPriceRuleDiscountDTO->product = $this->dtoBuilderFactory
+            ->getProductDTOBuilder($this->cartPriceRuleDiscount->getProduct())
             ->withTags()
             ->build();
 

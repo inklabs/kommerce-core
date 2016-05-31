@@ -9,7 +9,8 @@ class CartPriceRuleProductItemDTOBuilderTest extends AbstractCartPriceRuleItemDT
     {
         $item = $this->getItem();
 
-        $itemDTO = $item->getDTOBuilder()
+        $itemDTO = $this->getDTOBuilderFactory()
+            ->getCartPriceRuleProductItemDTOBuilder($item)
             ->withAllData()
             ->build();
 

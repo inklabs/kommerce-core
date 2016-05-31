@@ -9,7 +9,8 @@ class PointDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $point = $this->dummyData->getPoint();
 
-        $pointDTO = $point->getDTOBuilder()
+        $pointDTO = $this->getDTOBuilderFactory()
+            ->getPointDTOBuilder($point)
             ->build();
 
         $this->assertTrue($pointDTO instanceof PointDTO);

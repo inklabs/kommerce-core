@@ -1,20 +1,40 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
+use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
+use inklabs\kommerce\EntityDTO\TagDTO;
+use inklabs\kommerce\tests\EntityDTO\Builder\AbstractPromotionDTOBuilderTest;
 
-class CatalogPromotionDTOBuilderTest extends EntityDTOBuilderTestCase
+class CatalogPromotionDTOBuilderTest extends AbstractPromotionDTOBuilderTest
 {
-    public function testBuild()
+    /**
+     * @return CatalogPromotion
+     */
+    protected function getPromotion()
     {
         $catalogPromotion = $this->dummyData->getCatalogPromotion();
         $catalogPromotion->setTag($this->dummyData->getTag());
+        return $catalogPromotion;
+    }
 
-        $catalogPromotionDTO = $catalogPromotion->getDTOBuilder()
+    /**
+     * @return CatalogPromotionDTO
+     */
+    protected function getPromotionDTO()
+    {
+        return $this->getDTOBuilderFactory()
+            ->getCatalogPromotionDTOBuilder($this->getPromotion())
             ->withAllData()
             ->build();
+    }
 
-        $this->assertTrue($catalogPromotionDTO instanceof CatalogPromotionDTO);
-        $this->assertTrue($catalogPromotionDTO->tag instanceof TagDTO);
+    public function testBuild()
+    {
+        $promotion = $this->getPromotion();
+        $promotionDTO = $this->getPromotionDTO();
+
+        $this->assertTrue($promotionDTO instanceof CatalogPromotionDTO);
+        $this->assertTrue($promotionDTO->tag instanceof TagDTO);
     }
 }

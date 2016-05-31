@@ -27,8 +27,13 @@ abstract class AbstractIntegerTypeDTOBuilder
         $this->typeDTO->nameMap = $this->type->getNameMap();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
+        $this->preBuild();
         return $this->typeDTO;
     }
 }

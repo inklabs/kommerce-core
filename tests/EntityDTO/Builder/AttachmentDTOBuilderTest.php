@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\EntityDTO\AttachmentDTO;
+use inklabs\kommerce\EntityDTO\OrderItemDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 use Ramsey\Uuid\UuidInterface;
 
@@ -16,7 +18,8 @@ class AttachmentDTOBuilderTest extends EntityDTOBuilderTestCase
         $orderItem = $this->dummyData->getOrderItem($product);
         $orderItem->addAttachment($attachment);
 
-        $attachmentDTO = $attachment->getDTOBuilder()
+        $attachmentDTO = $this->getDTOBuilderFactory()
+            ->getAttachmentDTOBuilder($attachment)
             ->withAllData()
             ->build();
 

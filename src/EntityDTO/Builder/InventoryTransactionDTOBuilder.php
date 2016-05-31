@@ -12,9 +12,15 @@ class InventoryTransactionDTOBuilder
     /** @var InventoryTransactionDTO */
     protected $inventoryTransactionDTO;
 
-    public function __construct(InventoryTransaction $inventoryTransaction)
-    {
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(
+        InventoryTransaction $inventoryTransaction,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
         $this->inventoryTransaction = $inventoryTransaction;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->inventoryTransactionDTO = new InventoryTransactionDTO;
         $this->inventoryTransactionDTO->id             = $this->inventoryTransaction->getId();
@@ -22,11 +28,12 @@ class InventoryTransactionDTOBuilder
         $this->inventoryTransactionDTO->creditQuantity = $this->inventoryTransaction->getCreditQuantity();
         $this->inventoryTransactionDTO->memo           = $this->inventoryTransaction->getMemo();
 
-        $this->inventoryTransactionDTO->type = $this->inventoryTransaction->getType()->getDTOBuilder()
+        $this->inventoryTransactionDTO->type = $this->dtoBuilderFactory
+            ->getInventoryTransactionTypeDTOBuilder($this->inventoryTransaction->getType())
             ->build();
 
-        $this->inventoryTransactionDTO->inventoryLocation = $this->inventoryTransaction->getInventoryLocation()
-            ->getDTOBuilder()
+        $this->inventoryTransactionDTO->inventoryLocation = $this->dtoBuilderFactory
+            ->getInventoryLocationDTOBuilder($this->inventoryTransaction->getInventoryLocation())
             ->build();
     }
 
@@ -34,7 +41,8 @@ class InventoryTransactionDTOBuilder
     {
         $product = $this->inventoryTransaction->getProduct();
         if (! empty($product)) {
-            $this->inventoryTransactionDTO->product = $product->getDTOBuilder()
+            $this->inventoryTransactionDTO->product = $this->dtoBuilderFactory
+                ->getProductDTOBuilder($product)
                 ->build();
         }
         return $this;

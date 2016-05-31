@@ -15,14 +15,17 @@ abstract class AbstractPromotionDTOBuilder
     /** @var DTOBuilderFactoryInterface */
     protected $dtoBuilderFactory;
 
-    abstract protected function initializePromotionDTO();
+    /**
+     * @return AbstractPromotionDTO
+     */
+    abstract protected function getPromotionDTO();
 
     public function __construct(AbstractPromotion $promotion, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->promotion = $promotion;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->initializePromotionDTO();
+        $this->promotionDTO = $this->getPromotionDTO();
         $this->promotionDTO->id             = $this->promotion->getId();
         $this->promotionDTO->name           = $this->promotion->getName();
         $this->promotionDTO->value          = $this->promotion->getValue();

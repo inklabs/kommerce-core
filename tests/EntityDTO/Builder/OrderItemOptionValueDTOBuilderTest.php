@@ -9,7 +9,8 @@ class OrderItemOptionValueDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $orderItemOptionValue = $this->dummyData->getOrderItemOptionValue();
 
-        $orderItemOptionValueDTO = $orderItemOptionValue->getDTOBuilder()
+        $orderItemOptionValueDTO = $this->getDTOBuilderFactory()
+            ->getOrderItemOptionValueDTOBuilder($orderItemOptionValue)
             ->withAllData()
             ->build();
 

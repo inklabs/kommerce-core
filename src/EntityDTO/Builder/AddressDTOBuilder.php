@@ -12,9 +12,13 @@ class AddressDTOBuilder
     /** @var AddressDTO */
     private $addressDTO;
 
-    public function __construct(Address $address)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(Address $address, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->address = $address;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->addressDTO = new AddressDTO;
         $this->addressDTO->attention = $this->address->getAttention();
@@ -25,7 +29,10 @@ class AddressDTOBuilder
         $this->addressDTO->state     = $this->address->getstate();
         $this->addressDTO->zip5      = $this->address->getzip5();
         $this->addressDTO->zip4      = $this->address->getzip4();
-        $this->addressDTO->point     = $this->address->getPoint()->getDTOBuilder()->build();
+
+        $this->addressDTO->point     = $this->dtoBuilderFactory
+            ->getPointDTOBuilder($this->address->getPoint())
+            ->build();
     }
 
     public function build()

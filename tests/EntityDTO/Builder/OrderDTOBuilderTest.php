@@ -9,7 +9,8 @@ class OrderDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $order = $this->dummyData->getOrderFull();
 
-        $orderDTO = $order->getDTOBuilder()
+        $orderDTO = $this->getDTOBuilderFactory()
+            ->getOrderDTOBuilder($order)
             ->withAllData()
             ->build();
 

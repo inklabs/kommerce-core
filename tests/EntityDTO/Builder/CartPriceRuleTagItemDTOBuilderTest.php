@@ -10,7 +10,7 @@ class CartPriceRuleTagItemDTOBuilderTest extends AbstractCartPriceRuleItemDTOBui
     {
         $item = $this->getItem();
 
-        $itemDTO = $item->getDTOBuilder()
+        $itemDTO = $this->getDTOBuilderFactory()->getCartPriceRuleTagItemDTOBuilder($item)
             ->withAllData()
             ->build();
 

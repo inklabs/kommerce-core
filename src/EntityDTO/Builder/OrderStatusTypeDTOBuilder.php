@@ -15,18 +15,13 @@ class OrderStatusTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     /** @var OrderStatusTypeDTO */
     protected $typeDTO;
 
-    /**
-     * @return OrderStatusTypeDTO
-     */
     protected function getTypeDTO()
     {
         return new OrderStatusTypeDTO;
     }
 
-    public function __construct(OrderStatusType $type)
+    protected function preBuild()
     {
-        parent::__construct($type);
-
         $this->typeDTO->isPending = $this->type->isPending();
         $this->typeDTO->isProcessing = $this->type->isProcessing();
         $this->typeDTO->isPartiallyShipped = $this->type->isPartiallyShipped();

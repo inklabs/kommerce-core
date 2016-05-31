@@ -12,9 +12,13 @@ class TextOptionDTOBuilder
     /** @var TextOptionDTO */
     protected $textOptionDTO;
 
-    public function __construct(TextOption $textOption)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(TextOption $textOption, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->textOption = $textOption;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->textOptionDTO = new TextOptionDTO;
         $this->textOptionDTO->id          = $this->textOption->getId();
@@ -24,14 +28,16 @@ class TextOptionDTOBuilder
         $this->textOptionDTO->created     = $this->textOption->getCreated();
         $this->textOptionDTO->updated     = $this->textOption->getUpdated();
 
-        $this->textOptionDTO->type = $this->textOption->getType()->getDTOBuilder()
+        $this->textOptionDTO->type = $this->dtoBuilderFactory
+            ->getTextOptionTypeDTOBuilder($this->textOption->getType())
             ->build();
     }
 
     public function withTags()
     {
         foreach ($this->textOption->getTags() as $tag) {
-            $this->textOptionDTO->tags[] = $tag->getDTOBuilder()
+            $this->textOptionDTO->tags[] = $this->dtoBuilderFactory
+                ->getTagDTOBuilder($tag)
                 ->build();
         }
 

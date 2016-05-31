@@ -9,7 +9,8 @@ class ShipmentLabelDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $shipmentLabel = $this->dummyData->getShipmentLabel();
 
-        $shipmentLabelDTO = $shipmentLabel->getDTOBuilder()
+        $shipmentLabelDTO = $this->getDTOBuilderFactory()
+            ->getShipmentLabelDTOBuilder($shipmentLabel)
             ->build();
 
         $this->assertTrue($shipmentLabelDTO instanceof ShipmentLabelDTO);

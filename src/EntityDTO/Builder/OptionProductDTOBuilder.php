@@ -13,9 +13,13 @@ class OptionProductDTOBuilder
     /** @var OptionProductDTO */
     protected $optionProductDTO;
 
-    public function __construct(OptionProduct $optionProduct)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(OptionProduct $optionProduct, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->optionProduct = $optionProduct;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->optionProductDTO = new OptionProductDTO;
         $this->optionProductDTO->id             = $this->optionProduct->getId();
@@ -29,7 +33,8 @@ class OptionProductDTOBuilder
 
     public function withProduct(PricingInterface $pricing)
     {
-        $this->optionProductDTO->product = $this->optionProduct->getProduct()->getDTOBuilder()
+        $this->optionProductDTO->product = $this->dtoBuilderFactory
+            ->getProductDTOBuilder($this->optionProduct->getProduct())
             ->withPrice($pricing)
             ->build();
 
@@ -40,7 +45,8 @@ class OptionProductDTOBuilder
     {
         $option = $this->optionProduct->getOption();
         if ($option !== null) {
-            $this->optionProductDTO->option = $option->getDTOBuilder()
+            $this->optionProductDTO->option = $this->dtoBuilderFactory
+                ->getOptionDTOBuilder($option)
                 ->build();
         }
 

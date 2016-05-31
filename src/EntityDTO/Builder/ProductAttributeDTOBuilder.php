@@ -12,9 +12,13 @@ class ProductAttributeDTOBuilder
     /** @var ProductAttribute */
     protected $productAttribute;
 
-    public function __construct(ProductAttribute $productAttribute)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(ProductAttribute $productAttribute, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->productAttribute = $productAttribute;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->productAttributeDTO = new ProductAttributeDTO;
         $this->productAttributeDTO->id      = $this->productAttribute->getId();
@@ -26,7 +30,8 @@ class ProductAttributeDTOBuilder
     {
         $product = $this->productAttribute->getProduct();
         if ($product !== null) {
-            $this->productAttributeDTO->product = $product->getDTOBuilder()
+            $this->productAttributeDTO->product = $this->dtoBuilderFactory
+                ->getProductDTOBuilder($product)
                 ->build();
         }
 
@@ -35,7 +40,8 @@ class ProductAttributeDTOBuilder
 
     public function withAttribute()
     {
-        $this->productAttributeDTO->attribute = $this->productAttribute->getAttribute()->getDTOBuilder()
+        $this->productAttributeDTO->attribute = $this->dtoBuilderFactory
+            ->getAttributeDTOBuilder($this->productAttribute->getAttribute())
             ->build();
 
         return $this;
@@ -43,7 +49,8 @@ class ProductAttributeDTOBuilder
 
     public function withAttributeValue()
     {
-        $this->productAttributeDTO->attributeValue = $this->productAttribute->getAttributeValue()->getDTOBuilder()
+        $this->productAttributeDTO->attributeValue = $this->dtoBuilderFactory
+            ->getAttributeValueDTOBuilder($this->productAttribute->getAttributeValue())
             ->build();
 
         return $this;

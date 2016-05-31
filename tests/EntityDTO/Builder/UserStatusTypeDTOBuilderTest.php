@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\UserStatusType;
+use inklabs\kommerce\EntityDTO\UserStatusTypeDTO;
 
 class UserStatusTypeDTOBuilderTest extends AbstractIntegerTypeDTOBuilderTest
 {
@@ -13,12 +14,20 @@ class UserStatusTypeDTOBuilderTest extends AbstractIntegerTypeDTOBuilderTest
         return $this->dummyData->getUserStatusType();
     }
 
+    /**
+     * @return UserStatusTypeDTO
+     */
+    protected function getTypeDTO()
+    {
+        return $this->getDTOBuilderFactory()
+            ->getUserStatusTypeDTOBuilder($this->getType())
+            ->build();
+    }
+
     public function testExtras()
     {
         $type = $this->getType();
-
-        $typeDTO = $type->getDTOBuilder()
-            ->build();
+        $typeDTO = $this->getTypeDTO();
 
         $this->assertSame($type->isInactive(), $typeDTO->isInactive);
         $this->assertSame($type->isActive(), $typeDTO->isActive);

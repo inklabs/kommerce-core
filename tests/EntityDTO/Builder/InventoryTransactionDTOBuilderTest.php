@@ -9,7 +9,8 @@ class InventoryTransactionDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $inventoryTransaction = $this->dummyData->getInventoryTransaction();
 
-        $inventoryTransactionDTO = $inventoryTransaction->getDTOBuilder()
+        $inventoryTransactionDTO = $this->getDTOBuilderFactory()
+            ->getInventoryTransactionDTOBuilder($inventoryTransaction)
             ->withAllData()
             ->build();
 

@@ -15,19 +15,14 @@ class UserLoginResultTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     /** @var UserLoginResultTypeDTO */
     protected $typeDTO;
 
-    /**
-     * @return UserLoginResultTypeDTO
-     */
     protected function getTypeDTO()
     {
         return new UserLoginResultTypeDTO;
     }
 
-    public function __construct(UserLoginResultType $type)
+    protected function preBuild()
     {
-        parent::__construct($type);
-
-        $this->typeDTO->isFail = $this->type->isFail();
+        $this->typeDTO->isFail    = $this->type->isFail();
         $this->typeDTO->isSuccess = $this->type->isSuccess();
     }
 }

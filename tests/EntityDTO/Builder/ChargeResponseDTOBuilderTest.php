@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\EntityDTO\ChargeResponseDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class ChargeResponseDTOBuilderTest extends EntityDTOBuilderTestCase
@@ -9,7 +10,8 @@ class ChargeResponseDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $chargeResponse = $this->dummyData->getChargeResponse();
 
-        $chargeResponseDTO = $chargeResponse->getDTOBuilder()
+        $chargeResponseDTO = $this->getDTOBuilderFactory()
+            ->getChargeResponseDTOBuilder($chargeResponse)
             ->build();
 
         $this->assertTrue($chargeResponseDTO instanceof ChargeResponseDTO);

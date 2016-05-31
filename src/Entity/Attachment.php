@@ -91,6 +91,9 @@ class Attachment implements UuidEntityInterface, ValidationInterface
         $this->orderItems->add($orderItem);
     }
 
+    /**
+     * @return OrderItem[]
+     */
     public function getOrderItems()
     {
         return $this->orderItems;

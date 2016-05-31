@@ -143,9 +143,4 @@ class ChargeResponse implements ValidationInterface
     {
         $this->description = (string) $description;
     }
-
-    public function getDTOBuilder()
-    {
-        return new ChargeResponseDTOBuilder($this);
-    }
 }

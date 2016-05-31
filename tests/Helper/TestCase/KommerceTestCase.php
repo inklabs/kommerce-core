@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\Entity\ValidationInterface;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
@@ -48,6 +49,9 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
         return $cartCalculator;
     }
 
+    /**
+     * @return DTOBuilderFactoryInterface
+     */
     protected function getDTOBuilderFactory()
     {
         return new DTOBuilderFactory();

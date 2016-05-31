@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\EntityDTO\CartItemTextOptionValueDTO;
+use inklabs\kommerce\EntityDTO\TextOptionDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class CartItemTextOptionValueDTOBuilderTest extends EntityDTOBuilderTestCase
@@ -9,7 +11,8 @@ class CartItemTextOptionValueDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $cartItemTextOptionValue = $this->dummyData->getCartItemTextOptionValue();
 
-        $cartItemTextOptionValueDTO = $cartItemTextOptionValue->getDTOBuilder()
+        $cartItemTextOptionValueDTO = $this->getDTOBuilderFactory()
+            ->getCartItemTextOptionValueDTOBuilder($cartItemTextOptionValue)
             ->withAllData()
             ->build();
 

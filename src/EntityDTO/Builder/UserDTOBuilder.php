@@ -12,9 +12,13 @@ class UserDTOBuilder
     /** @var UserDTO */
     protected $userDTO;
 
-    public function __construct(User $user)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(User $user, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->user = $user;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->userDTO = new UserDTO;
         $this->userDTO->id          = $this->user->getId();
@@ -27,14 +31,16 @@ class UserDTOBuilder
         $this->userDTO->created     = $this->user->getCreated();
         $this->userDTO->updated     = $this->user->getUpdated();
 
-        $this->userDTO->status = $this->user->getStatus()->getDTOBuilder()
+        $this->userDTO->status = $this->dtoBuilderFactory
+            ->getUserStatusTypeDTOBuilder($this->user->getStatus())
             ->build();
     }
 
     public function withRoles()
     {
         foreach ($this->user->getUserRoles() as $role) {
-            $this->userDTO->userRoles[] = $role->getDTOBuilder()
+            $this->userDTO->userRoles[] = $this->dtoBuilderFactory
+                ->getUserRoleDTOBuilder($role)
                 ->build();
         }
         return $this;
@@ -43,7 +49,8 @@ class UserDTOBuilder
     public function withTokens()
     {
         foreach ($this->user->getUserTokens() as $token) {
-            $this->userDTO->userTokens[] = $token->getDTOBuilder()
+            $this->userDTO->userTokens[] = $this->dtoBuilderFactory
+                ->getUserTokenDTOBuilder($token)
                 ->build();
         }
         return $this;
@@ -52,7 +59,8 @@ class UserDTOBuilder
     public function withLogins()
     {
         foreach ($this->user->getUserLogins() as $login) {
-            $this->userDTO->userLogins[] = $login->getDTOBuilder()
+            $this->userDTO->userLogins[] = $this->dtoBuilderFactory
+                ->getUserLoginDTOBuilder($login)
                 ->build();
         }
         return $this;

@@ -9,7 +9,8 @@ class OptionValueDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $optionValue = $this->dummyData->getOptionValue();
 
-        $optionValueDTO = $optionValue->getDTOBuilder()
+        $optionValueDTO = $this->getDTOBuilderFactory()
+            ->getOptionValueDTOBuilder($optionValue)
             ->withAllData()
             ->build();
 

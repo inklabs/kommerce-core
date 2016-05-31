@@ -11,10 +11,15 @@ class OrderItemTextOptionValueDTOBuilder
 
     /** @var OrderItemTextOptionValueDTO */
     protected $orderItemTextOptionValueDTO;
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
 
-    public function __construct(OrderItemTextOptionValue $orderItemTextOptionValue)
-    {
+    public function __construct(
+        OrderItemTextOptionValue $orderItemTextOptionValue,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
         $this->orderItemTextOptionValue = $orderItemTextOptionValue;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->orderItemTextOptionValueDTO = new OrderItemTextOptionValueDTO;
         $this->orderItemTextOptionValueDTO->id              = $this->orderItemTextOptionValue->getId();
@@ -26,8 +31,8 @@ class OrderItemTextOptionValueDTOBuilder
 
     public function withTextOption()
     {
-        $this->orderItemTextOptionValueDTO->textOption = $this->orderItemTextOptionValue->getTextOption()
-            ->getDTOBuilder()
+        $this->orderItemTextOptionValueDTO->textOption = $this->dtoBuilderFactory
+            ->getTextOptionDTOBuilder($this->orderItemTextOptionValue->getTextOption())
             ->build();
 
         return $this;

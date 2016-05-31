@@ -12,9 +12,13 @@ class CartTotalDTOBuilder
     /** @var CartTotalDTO */
     protected $cartTotalDTO;
 
-    public function __construct(CartTotal $cartTotal)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(CartTotal $cartTotal, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->cartTotal = $cartTotal;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->cartTotalDTO = new CartTotalDTO;
         $this->cartTotalDTO->origSubtotal     = $this->cartTotal->origSubtotal;
@@ -31,7 +35,8 @@ class CartTotalDTOBuilder
     public function withCoupons()
     {
         foreach ($this->cartTotal->coupons as $key => $coupon) {
-            $this->cartTotalDTO->coupons[$key] = $coupon->getDTOBuilder()
+            $this->cartTotalDTO->coupons[$key] = $this->dtoBuilderFactory
+                ->getCouponDTOBuilder($coupon)
                 ->build();
         }
 
@@ -41,7 +46,8 @@ class CartTotalDTOBuilder
     public function withCartPriceRules()
     {
         foreach ($this->cartTotal->cartPriceRules as $key => $cartPriceRule) {
-            $this->cartTotalDTO->cartPriceRules[$key] = $cartPriceRule->getDTOBuilder()
+            $this->cartTotalDTO->cartPriceRules[$key] = $this->dtoBuilderFactory
+                ->getCartPriceRuleDTOBuilder($cartPriceRule)
                 ->build();
         }
 

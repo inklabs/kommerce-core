@@ -20,7 +20,7 @@ class ImageDTOBuilder implements DTOBuilderInterface
         $this->image = $image;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->initializeDTO();
+        $this->imageDTO = new ImageDTO;
         $this->imageDTO->id        = $this->image->getId();
         $this->imageDTO->path      = $this->image->getPath();
         $this->imageDTO->width     = $this->image->getWidth();
@@ -28,11 +28,6 @@ class ImageDTOBuilder implements DTOBuilderInterface
         $this->imageDTO->sortOrder = $this->image->getSortOrder();
         $this->imageDTO->created   = $this->image->getCreated();
         $this->imageDTO->updated   = $this->image->getUpdated();
-    }
-
-    protected function initializeDTO()
-    {
-        $this->imageDTO = new ImageDTO;
     }
 
     public function withProduct()

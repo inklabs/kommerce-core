@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 
 /**
@@ -15,9 +16,9 @@ class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
     /** @var CatalogPromotionDTO */
     protected $promotionDTO;
 
-    protected function initializePromotionDTO()
+    protected function getPromotionDTO()
     {
-        $this->promotionDTO = new CatalogPromotionDTO;
+        return new CatalogPromotionDTO;
     }
 
     protected function preBuild()
@@ -32,7 +33,7 @@ class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
         if ($tag !== null) {
             $this->promotionDTO->tag = $this->dtoBuilderFactory
                 ->getTagDTOBuilder($tag)
-                    ->build();
+                ->build();
         }
 
         return $this;

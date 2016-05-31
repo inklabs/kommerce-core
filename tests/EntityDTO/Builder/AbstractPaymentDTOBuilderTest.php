@@ -1,21 +1,28 @@
 <?php
-namespace inklabs\kommerce\tests\EntityDTO;
+namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
-use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\tests\Helper\EntityDTO\TestablePaymentInvalid;
+use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\EntityDTO\AbstractPaymentDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
-class AbstractPaymentDTOBuilderTest extends EntityDTOBuilderTestCase
+abstract class AbstractPaymentDTOBuilderTest extends EntityDTOBuilderTestCase
 {
-    public function testBuildFails()
+    /**
+     * @return AbstractPayment
+     */
+    abstract protected function getPayment();
+
+    /**
+     * @return AbstractPaymentDTO
+     */
+    abstract protected function getPaymentDTO();
+
+    public function testBuild()
     {
-        $cartPriceRuleItem = new TestablePaymentInvalid;
+        $payment = $this->getPayment();
+        $paymentDTO = $this->getPaymentDTO();
 
-        $this->setExpectedException(
-            InvalidArgumentException::class,
-            'paymentDTO has not been initialized'
-        );
-
-        $cartPriceRuleItem->getDTOBuilder();
+        $this->assertTrue($paymentDTO instanceof AbstractPaymentDTO);
+        $this->assertSame($paymentDTO->amount, $payment->getAmount());
     }
 }

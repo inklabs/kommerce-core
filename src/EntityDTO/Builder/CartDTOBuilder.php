@@ -14,9 +14,13 @@ class CartDTOBuilder
     /** @var CartDTO */
     protected $cartDTO;
 
-    public function __construct(Cart $cart)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(Cart $cart, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->cart = $cart;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->cartDTO = new CartDTO;
         $this->cartDTO->id             = $this->cart->getId();
@@ -29,29 +33,34 @@ class CartDTOBuilder
         $this->cartDTO->shippingWeightInPounds = $this->cart->getShippingWeightInPounds();
 
         if ($cart->getShipmentRate() !== null) {
-            $this->cartDTO->shipmentRate = $cart->getShipmentRate()->getDTOBuilder()
+            $this->cartDTO->shipmentRate = $this->dtoBuilderFactory
+                ->getShipmentRateDTOBuilder($cart->getShipmentRate())
                 ->build();
         }
 
         if ($cart->getShippingAddress() !== null) {
-            $this->cartDTO->shippingAddress = $cart->getShippingAddress()->getDTOBuilder()
+            $this->cartDTO->shippingAddress = $this->dtoBuilderFactory
+                ->getOrderAddressDTOBuilder($cart->getShippingAddress())
                 ->build();
         }
 
         if ($cart->getTaxRate() !== null) {
-            $this->cartDTO->taxRate = $cart->getTaxRate()->getDTOBuilder()
+            $this->cartDTO->taxRate = $this->dtoBuilderFactory
+                ->getTaxRateDTOBuilder($cart->getTaxRate())
                 ->build();
         }
 
         if ($cart->getUser() !== null) {
-            $this->cartDTO->user = $cart->getUser()->getDTOBuilder()
+            $this->cartDTO->user = $this->dtoBuilderFactory
+                ->getUserDTOBuilder($cart->getUser())
                 ->build();
         }
     }
 
     public function withCartTotal(CartCalculatorInterface $cartCalculator)
     {
-        $this->cartDTO->cartTotal = $this->cart->getTotal($cartCalculator)->getDTOBuilder()
+        $this->cartDTO->cartTotal = $this->dtoBuilderFactory
+            ->getCartTotalDTOBuilder($this->cart->getTotal($cartCalculator))
             ->withAllData()
             ->build();
 
@@ -61,7 +70,8 @@ class CartDTOBuilder
     public function withCartItems(CartCalculator $cartCalculator)
     {
         foreach ($this->cart->getCartItems() as $cartItemIndex => $cartItem) {
-            $this->cartDTO->cartItems[$cartItemIndex] = $cartItem->getDTOBuilder()
+            $this->cartDTO->cartItems[$cartItemIndex] = $this->dtoBuilderFactory
+                ->getCartItemDTOBuilder($cartItem)
                 ->withAllData($cartCalculator->getPricing())
                 ->build();
         }
@@ -72,7 +82,8 @@ class CartDTOBuilder
     public function withCoupons()
     {
         foreach ($this->cart->getCoupons() as $key => $coupon) {
-            $this->cartDTO->coupons[$key] = $coupon->getDTOBuilder()
+            $this->cartDTO->coupons[$key] = $this->dtoBuilderFactory
+                ->getCouponDTOBuilder($coupon)
                 ->build();
         }
 

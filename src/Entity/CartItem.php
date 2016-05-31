@@ -119,6 +119,9 @@ class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmen
         $this->quantity = (int) $quantity;
     }
 
+    /**
+     * @return CartItemOptionProduct[]
+     */
     public function getCartItemOptionProducts()
     {
         return $this->cartItemOptionProducts;
@@ -130,6 +133,9 @@ class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmen
         $this->cartItemOptionProducts[] = $cartItemOptionProduct;
     }
 
+    /**
+     * @return CartItemOptionValue[]
+     */
     public function getCartItemOptionValues()
     {
         return $this->cartItemOptionValues;
@@ -141,6 +147,9 @@ class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmen
         $this->cartItemOptionValues[] = $cartItemOptionValue;
     }
 
+    /**
+     * @return CartItemTextOptionValue[]
+     */
     public function getCartItemTextOptionValues()
     {
         return $this->cartItemTextOptionValues;

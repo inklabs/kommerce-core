@@ -10,7 +10,8 @@ class TextOptionDTOBuilderTest extends EntityDTOBuilderTestCase
         $textOption = $this->dummyData->getTextOption();
         $textOption->addTag($this->dummyData->getTag());
 
-        $textOptionDTO = $textOption->getDTOBuilder()
+        $textOptionDTO = $this->getDTOBuilderFactory()
+            ->getTextOptionDTOBuilder($textOption)
             ->withAllData()
             ->build();
 

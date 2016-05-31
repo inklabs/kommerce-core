@@ -12,9 +12,13 @@ class UserLoginDTOBuilder
     /** @var UserLoginDTO */
     protected $userLoginDTO;
 
-    public function __construct(UserLogin $userLogin)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(UserLogin $userLogin, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->userLogin = $userLogin;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->userLoginDTO = new UserLoginDTO;
         $this->userLoginDTO->id      = $this->userLogin->getId();
@@ -22,7 +26,8 @@ class UserLoginDTOBuilder
         $this->userLoginDTO->ip4     = $userLogin->getIp4();
         $this->userLoginDTO->created = $this->userLogin->getCreated();
 
-        $this->userLoginDTO->result = $userLogin->getResult()->getDTOBuilder()
+        $this->userLoginDTO->result = $this->dtoBuilderFactory
+            ->getUserLoginResultTypeDTOBuilder($userLogin->getResult())
             ->build();
     }
 
@@ -30,7 +35,8 @@ class UserLoginDTOBuilder
     {
         $user = $this->userLogin->getUser();
         if ($user !== null) {
-            $this->userLoginDTO->user = $user->getDTOBuilder()
+            $this->userLoginDTO->user = $this->dtoBuilderFactory
+                ->getUserDTOBuilder($user)
                 ->build();
         }
         return $this;
@@ -40,7 +46,8 @@ class UserLoginDTOBuilder
     {
         $userToken = $this->userLogin->getUserToken();
         if ($userToken !== null) {
-            $this->userLoginDTO->userToken = $userToken->getDTOBuilder()
+            $this->userLoginDTO->userToken = $this->dtoBuilderFactory
+                ->getUserTokenDTOBuilder($userToken)
                 ->build();
         }
         return $this;

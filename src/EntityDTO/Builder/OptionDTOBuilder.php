@@ -10,9 +10,13 @@ class OptionDTOBuilder
     /** @var OptionDTO */
     protected $optionDTO;
 
-    public function __construct(Option $option)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(Option $option, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->option = $option;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->optionDTO = new OptionDTO;
         $this->optionDTO->id          = $this->option->getId();
@@ -22,14 +26,16 @@ class OptionDTOBuilder
         $this->optionDTO->created     = $this->option->getCreated();
         $this->optionDTO->updated     = $this->option->getUpdated();
 
-        $this->optionDTO->type = $this->option->getType()->getDTOBuilder()
+        $this->optionDTO->type = $this->dtoBuilderFactory
+            ->getOptionTypeDTOBuilder($this->option->getType())
             ->build();
     }
 
     public function withOptionProducts(PricingInterface $pricing)
     {
         foreach ($this->option->getOptionProducts() as $optionProduct) {
-            $this->optionDTO->optionProducts[] = $optionProduct->getDTOBuilder()
+            $this->optionDTO->optionProducts[] = $this->dtoBuilderFactory
+                ->getOptionProductDTOBuilder($optionProduct)
                 ->withProduct($pricing)
                 ->build();
         }
@@ -40,7 +46,8 @@ class OptionDTOBuilder
     public function withOptionValues()
     {
         foreach ($this->option->getOptionValues() as $optionValue) {
-            $this->optionDTO->optionValues[] = $optionValue->getDTOBuilder()
+            $this->optionDTO->optionValues[] = $this->dtoBuilderFactory
+                ->getOptionValueDTOBuilder($optionValue)
                 ->withPrice()
                 ->build();
         }
@@ -51,7 +58,8 @@ class OptionDTOBuilder
     public function withTags()
     {
         foreach ($this->option->getTags() as $tag) {
-            $this->optionDTO->tags[] = $tag->getDTOBuilder()
+            $this->optionDTO->tags[] = $this->dtoBuilderFactory
+                ->getTagDTOBuilder($tag)
                 ->build();
         }
 

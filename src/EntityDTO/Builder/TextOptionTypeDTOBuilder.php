@@ -15,9 +15,6 @@ class TextOptionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     /** @var TextOptionTypeDTO */
     protected $typeDTO;
 
-    /**
-     * @return TextOptionTypeDTO
-     */
     protected function getTypeDTO()
     {
         return new TextOptionTypeDTO;
@@ -27,11 +24,11 @@ class TextOptionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     {
         parent::__construct($type);
 
-        $this->typeDTO->isText = $this->type->isText();
+        $this->typeDTO->isText     = $this->type->isText();
         $this->typeDTO->isTextarea = $this->type->isTextarea();
-        $this->typeDTO->isFile = $this->type->isFile();
-        $this->typeDTO->isDate = $this->type->isDate();
-        $this->typeDTO->isTime = $this->type->isTime();
+        $this->typeDTO->isFile     = $this->type->isFile();
+        $this->typeDTO->isDate     = $this->type->isDate();
+        $this->typeDTO->isTime     = $this->type->isTime();
         $this->typeDTO->isDateTime = $this->type->isDateTime();
     }
 }

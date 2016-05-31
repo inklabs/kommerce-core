@@ -12,9 +12,13 @@ class OrderDTOBuilder
     /** @var OrderDTO */
     protected $orderDTO;
 
-    public function __construct(Order $order)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(Order $order, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->order = $order;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->orderDTO = new OrderDTO;
         $this->orderDTO->id              = $this->order->getId();
@@ -25,37 +29,44 @@ class OrderDTOBuilder
         $this->orderDTO->created         = $this->order->getCreated();
         $this->orderDTO->updated         = $this->order->getUpdated();
 
-        $this->orderDTO->status = $this->order->getStatus()->getDTOBuilder()
+        $this->orderDTO->status = $this->dtoBuilderFactory
+            ->getOrderStatusTypeDTOBuilder($this->order->getStatus())
             ->build();
 
         if ($this->order->getShippingAddress() !== null) {
-            $this->orderDTO->shippingAddress = $this->order->getShippingAddress()->getDTOBuilder()
+            $this->orderDTO->shippingAddress = $this->dtoBuilderFactory
+                ->getOrderAddressDTOBuilder($this->order->getShippingAddress())
                 ->build();
         }
 
         if ($this->order->getBillingAddress() !== null) {
-            $this->orderDTO->billingAddress = $this->order->getBillingAddress()->getDTOBuilder()
+            $this->orderDTO->billingAddress = $this->dtoBuilderFactory
+                ->getOrderAddressDTOBuilder($this->order->getBillingAddress())
                 ->build();
         }
 
         if ($this->order->getTotal() !== null) {
-            $this->orderDTO->total = $this->order->getTotal()->getDTOBuilder()
+            $this->orderDTO->total = $this->dtoBuilderFactory
+                ->getCartTotalDTOBuilder($this->order->getTotal())
                 ->withAllData()
                 ->build();
         }
 
         if ($this->order->getShipmentRate() !== null) {
-            $this->orderDTO->shipmentRate = $this->order->getShipmentRate()->getDTOBuilder()
+            $this->orderDTO->shipmentRate = $this->dtoBuilderFactory
+                ->getShipmentRateDTOBuilder($this->order->getShipmentRate())
                 ->build();
         }
 
         if ($this->order->getTaxRate() !== null) {
-            $this->orderDTO->taxRate = $this->order->getTaxRate()->getDTOBuilder()
+            $this->orderDTO->taxRate = $this->dtoBuilderFactory
+                ->getTaxRateDTOBuilder($this->order->getTaxRate())
                 ->build();
         }
 
         foreach ($this->order->getShipments() as $shipment) {
-            $this->orderDTO->shipments[] = $shipment->getDTOBuilder()
+            $this->orderDTO->shipments[] = $this->dtoBuilderFactory
+                ->getShipmentDTOBuilder($shipment)
                 ->build();
         }
     }
@@ -64,7 +75,8 @@ class OrderDTOBuilder
     {
         $user = $this->order->getUser();
         if (! empty($user)) {
-            $this->orderDTO->user = $user->getDTOBuilder()
+            $this->orderDTO->user = $this->dtoBuilderFactory
+                ->getUserDTOBuilder($user)
                 ->build();
         }
         return $this;
@@ -73,7 +85,8 @@ class OrderDTOBuilder
     public function withItems()
     {
         foreach ($this->order->getOrderItems() as $orderItem) {
-            $this->orderDTO->orderItems[] = $orderItem->getDTOBuilder()
+            $this->orderDTO->orderItems[] = $this->dtoBuilderFactory
+                ->getOrderItemDTOBuilder($orderItem)
                 ->withAllData()
                 ->build();
         }
@@ -83,7 +96,8 @@ class OrderDTOBuilder
     public function withPayments()
     {
         foreach ($this->order->getPayments() as $payment) {
-            $this->orderDTO->payments[] = $payment->getDTOBuilder()
+            $this->orderDTO->payments[] = $this->dtoBuilderFactory
+                ->getPaymentDTOBuilder($payment)
                 ->build();
         }
         return $this;

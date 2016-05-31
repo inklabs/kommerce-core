@@ -12,9 +12,13 @@ class InventoryLocationDTOBuilder
     /** @var InventoryLocationDTO */
     protected $inventoryTransactionDTO;
 
-    public function __construct(InventoryLocation $inventoryTransaction)
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(InventoryLocation $inventoryTransaction, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->inventoryTransaction = $inventoryTransaction;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->inventoryTransactionDTO = new InventoryLocationDTO;
         $this->inventoryTransactionDTO->id   = $this->inventoryTransaction->getId();
@@ -24,8 +28,8 @@ class InventoryLocationDTOBuilder
 
     public function withWarehouse()
     {
-        $this->inventoryTransactionDTO->warehouse = $this->inventoryTransaction->getWarehouse()
-            ->getDTOBuilder()
+        $this->inventoryTransactionDTO->warehouse = $this->dtoBuilderFactory
+            ->getWarehouseDTOBuilder($this->inventoryTransaction->getWarehouse())
             ->build();
 
         return $this;

@@ -12,9 +12,15 @@ class OrderItemOptionValueDTOBuilder
     /** @var OrderItemOptionValueDTO */
     protected $orderItemOptionValueDTO;
 
-    public function __construct(OrderItemOptionValue $orderItemOptionValue)
-    {
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(
+        OrderItemOptionValue $orderItemOptionValue,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
         $this->orderItemOptionValue = $orderItemOptionValue;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->orderItemOptionValueDTO = new OrderItemOptionValueDTO;
         $this->orderItemOptionValueDTO->id              = $this->orderItemOptionValue->getId();
@@ -27,7 +33,8 @@ class OrderItemOptionValueDTOBuilder
 
     public function withOptionValue()
     {
-        $this->orderItemOptionValueDTO->optionValue = $this->orderItemOptionValue->getOptionValue()->getDTOBuilder()
+        $this->orderItemOptionValueDTO->optionValue = $this->dtoBuilderFactory
+            ->getOptionValueDTOBuilder($this->orderItemOptionValue->getOptionValue())
             ->withOption()
             ->build();
 

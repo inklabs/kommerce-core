@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\TextOptionType;
+use inklabs\kommerce\EntityDTO\TextOptionTypeDTO;
 
 class TextOptionTypeDTOBuilderTest extends AbstractIntegerTypeDTOBuilderTest
 {
@@ -13,12 +14,20 @@ class TextOptionTypeDTOBuilderTest extends AbstractIntegerTypeDTOBuilderTest
         return $this->dummyData->getTextOptionType();
     }
 
+    /**
+     * @return TextOptionTypeDTO
+     */
+    protected function getTypeDTO()
+    {
+        return $this->getDTOBuilderFactory()
+            ->getTextOptionTypeDTOBuilder($this->getType())
+            ->build();
+    }
+
     public function testExtras()
     {
         $type = $this->getType();
-
-        $typeDTO = $type->getDTOBuilder()
-            ->build();
+        $typeDTO = $this->getTypeDTO();
 
         $this->assertSame($type->isText(), $typeDTO->isText);
         $this->assertSame($type->isTextarea(), $typeDTO->isTextarea);

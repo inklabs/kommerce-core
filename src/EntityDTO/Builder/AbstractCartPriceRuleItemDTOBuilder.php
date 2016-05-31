@@ -12,14 +12,18 @@ abstract class AbstractCartPriceRuleItemDTOBuilder
     /** @var AbstractCartPriceRuleItemDTO */
     protected $itemDTO;
 
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
     /**
      * @return AbstractCartPriceRuleItemDTO
      */
     abstract protected function getItemDTO();
 
-    public function __construct(AbstractCartPriceRuleItem $item)
+    public function __construct(AbstractCartPriceRuleItem $item, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->item = $item;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->itemDTO = $this->getItemDTO();
         $this->itemDTO->id = $this->item->getId();

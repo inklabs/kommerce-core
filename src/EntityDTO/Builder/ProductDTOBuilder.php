@@ -54,7 +54,8 @@ class ProductDTOBuilder
     public function withTags()
     {
         foreach ($this->product->getTags() as $tag) {
-            $this->productDTO->tags[] = $this->dtoBuilderFactory->getTagDTOBuilder($tag)
+            $this->productDTO->tags[] = $this->dtoBuilderFactory
+                ->getTagDTOBuilder($tag)
                 ->withImages()
                 ->build();
         }
@@ -65,7 +66,8 @@ class ProductDTOBuilder
     public function withTagsAndOptions(PricingInterface $pricing)
     {
         foreach ($this->product->getTags() as $tag) {
-            $this->productDTO->tags[] = $this->dtoBuilderFactory->getTagDTOBuilder($tag)
+            $this->productDTO->tags[] = $this->dtoBuilderFactory
+                ->getTagDTOBuilder($tag)
                 ->withImages()
                 ->withOptions($pricing)
                 ->withTextOptions()
@@ -78,13 +80,15 @@ class ProductDTOBuilder
     public function withImages()
     {
         foreach ($this->product->getImages() as $image) {
-            $this->productDTO->images[] = $this->dtoBuilderFactory->getImageDTOBuilder($image)
+            $this->productDTO->images[] = $this->dtoBuilderFactory
+                ->getImageDTOBuilder($image)
                 ->build();
         }
 
         foreach ($this->product->getTags() as $tag) {
             foreach ($tag->getImages() as $image) {
-                $this->productDTO->tagImages[] = $this->dtoBuilderFactory->getImageDTOBuilder($image)
+                $this->productDTO->tagImages[] = $this->dtoBuilderFactory
+                    ->getImageDTOBuilder($image)
                     ->build();
             }
         }
@@ -94,7 +98,8 @@ class ProductDTOBuilder
 
     public function withPrice(PricingInterface $pricing)
     {
-        $this->productDTO->price = $this->dtoBuilderFactory->getPriceDTOBuilder($this->product->getPrice($pricing))
+        $this->productDTO->price = $this->dtoBuilderFactory
+            ->getPriceDTOBuilder($this->product->getPrice($pricing))
             ->withAllData()
             ->build();
 
@@ -109,8 +114,8 @@ class ProductDTOBuilder
         foreach ($productQuantityDiscounts as $productQuantityDiscount) {
             $this->productDTO->productQuantityDiscounts[] = $this->dtoBuilderFactory
                 ->getProductQuantityDiscountDTOBuilder($productQuantityDiscount)
-                    ->withPrice($pricing)
-                    ->build();
+                ->withPrice($pricing)
+                ->build();
         }
 
         return $this;
@@ -121,8 +126,8 @@ class ProductDTOBuilder
         foreach ($this->product->getOptionProducts() as $optionProduct) {
             $this->productDTO->optionProducts[] = $this->dtoBuilderFactory
                 ->getOptionProductDTOBuilder($optionProduct)
-                    ->withOption()
-                    ->build();
+                ->withOption()
+                ->build();
         }
 
         return $this;
@@ -133,9 +138,9 @@ class ProductDTOBuilder
         foreach ($this->product->getProductAttributes() as $productAttribute) {
             $this->productDTO->productAttributes[] = $this->dtoBuilderFactory
                 ->getProductAttributeDTOBuilder($productAttribute)
-                    ->withAttribute()
-                    ->withAttributeValue()
-                    ->build();
+                ->withAttribute()
+                ->withAttributeValue()
+                ->build();
         }
 
         return $this;
