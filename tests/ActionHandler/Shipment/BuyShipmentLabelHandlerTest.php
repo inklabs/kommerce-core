@@ -13,11 +13,17 @@ class BuyShipmentLabelHandlerTest extends ActionTestCase
         $orderService->shouldReceive('buyShipmentLabel')
             ->once();
 
+        $orderItem = $this->dummyData->getOrderItem();
+        $order = $this->dummyData->getOrder(null, [$orderItem]);
+
         $orderItemQtyDTO = new OrderItemQtyDTO;
-        $orderItemQtyDTO->addOrderItemQty(1, 2);
+        $orderItemQtyDTO->addOrderItemQty(
+            $orderItem->getId(),
+            2
+        );
 
         $command = new BuyShipmentLabelCommand(
-            1,
+            $order->getId(),
             $orderItemQtyDTO,
             'A comment',
             'shp_xxxxxxx',

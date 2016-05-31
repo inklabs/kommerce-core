@@ -14,6 +14,7 @@ class GetShipmentRatesHandlerTest extends ActionTestCase
     public function testHandle()
     {
         $shipmentGateway = $this->mockService->getShipmentGateway();
+        $dtoBuilderFactoryInterface = $this->getDTOBuilderFactory();
 
         $request = new GetShipmentRatesRequest(
             new OrderAddressDTO,
@@ -21,9 +22,9 @@ class GetShipmentRatesHandlerTest extends ActionTestCase
         );
         $response = new GetShipmentRatesResponse;
 
-        $handler = new GetShipmentRatesHandler($shipmentGateway);
+        $handler = new GetShipmentRatesHandler($shipmentGateway, $dtoBuilderFactoryInterface);
         $handler->handle(new GetShipmentRatesQuery($request, $response));
 
-        $this->assertTrue($response->getShipmentRatesDTO()[0] instanceof ShipmentRateDTO);
+        $this->assertTrue($response->getShipmentRatesDTO()->current() instanceof ShipmentRateDTO);
     }
 }
