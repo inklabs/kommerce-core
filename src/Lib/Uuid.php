@@ -79,12 +79,12 @@ class Uuid implements UuidInterface, Matcher
         return $this->ramseyUuid->toString();
     }
 
-    function __toString()
+    public function __toString()
     {
         return $this->ramseyUuid->toString();
     }
 
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return $this->toString();
     }
