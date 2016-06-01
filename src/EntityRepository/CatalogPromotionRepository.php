@@ -12,7 +12,7 @@ class CatalogPromotionRepository extends AbstractRepository implements CatalogPr
             ->select('CatalogPromotion')
             ->from(CatalogPromotion::class, 'CatalogPromotion');
 
-        if ($queryString !== null) {
+        if (trim($queryString) !== '') {
             $query
                 ->where('CatalogPromotion.name LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');

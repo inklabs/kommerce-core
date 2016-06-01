@@ -24,7 +24,7 @@ class OptionRepository extends AbstractRepository implements OptionRepositoryInt
             ->select('option')
             ->from(Option::class, 'option');
 
-        if ($queryString !== null) {
+        if (trim($queryString) !== '') {
             $query
                 ->where('option.name LIKE :query')
                 ->orWhere('option.description LIKE :query')
