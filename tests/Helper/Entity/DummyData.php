@@ -957,11 +957,11 @@ class DummyData
         );
     }
 
-    public function getUser($num = 1)
+    public function getUser($externalId = null)
     {
         $user = new User;
-        $user->setExternalId($num);
-        $user->setEmail('test' . $num . '@example.com');
+        $user->setExternalId($externalId);
+        $user->setEmail('test' . $externalId . '@example.com');
         $user->setPassword('password1');
         $user->setFirstName('John');
         $user->setLastName('Doe');

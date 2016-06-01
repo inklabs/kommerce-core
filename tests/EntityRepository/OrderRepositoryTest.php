@@ -176,11 +176,12 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
 
     public function testGetLatestOrders()
     {
-        $originalOrder = $this->setupOrder();
+        $order1 = $this->setupOrder(1);
+        $order2 = $this->setupOrder(2);
 
         $orders = $this->orderRepository->getLatestOrders();
 
-        $this->assertEquals($originalOrder->getId(), $orders[0]->getId());
+        $this->assertTrue($orders[0]->getCreated()->getTimestamp() >= $orders[1]->getCreated()->getTimestamp());
     }
 
     public function testCreateWithHashReferenceNumber()
