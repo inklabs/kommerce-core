@@ -20,7 +20,7 @@ class OrderDTOBuilder
         $this->order = $order;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->orderDTO = new OrderDTO;
+        $this->orderDTO = $this->getOrderDTO();
         $this->orderDTO->id              = $this->order->getId();
         $this->orderDTO->referenceNumber = $this->order->getReferenceNumber();
         $this->orderDTO->externalId      = $this->order->getExternalId();
@@ -69,6 +69,11 @@ class OrderDTOBuilder
                 ->getShipmentDTOBuilder($shipment)
                 ->build();
         }
+    }
+
+    protected function getOrderDTO()
+    {
+        return new OrderDTO;
     }
 
     public function withUser()
@@ -122,8 +127,13 @@ class OrderDTOBuilder
             ->withCoupons();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
+        $this->preBuild();
         return $this->orderDTO;
     }
 }
