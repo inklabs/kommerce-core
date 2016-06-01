@@ -4,6 +4,7 @@ namespace inklabs\kommerce\ActionHandler\Order;
 use inklabs\kommerce\Action\Order\CreateOrderFromCartQuery;
 use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\EntityDTO\Builder\CreditCardDTOBuilder;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
@@ -20,14 +21,19 @@ final class CreateOrderFromCartHandler
     /** @var OrderServiceInterface */
     private $orderService;
 
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
     public function __construct(
         CartServiceInterface $cartService,
         CartCalculatorInterface $cartCalculator,
-        OrderServiceInterface $orderService
+        OrderServiceInterface $orderService,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
         $this->cartService = $cartService;
         $this->cartCalculator = $cartCalculator;
         $this->orderService = $orderService;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
     /**
@@ -52,9 +58,8 @@ final class CreateOrderFromCartHandler
 
         $this->cartService->delete($cart);
 
-        $response->setOrderDTO(
-            $order->getDTOBuilder()
-                ->build()
+        $response->setOrderDTOBuilder(
+            $this->dtoBuilderFactory->getOrderDTOBuilder($order)
         );
     }
 }

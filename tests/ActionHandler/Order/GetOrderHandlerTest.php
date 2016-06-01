@@ -11,12 +11,18 @@ class GetOrderHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
+        $dtoBuilderFactory = $this->getDTOBuilderFactory();
+        $order = $this->dummyData->getOrder();
         $orderService = $this->mockService->getOrderService();
+        $orderService->shouldReceive('findOneById')
+            ->with($order->getId())
+            ->andReturn($order)
+            ->once();
 
-        $request = new GetOrderRequest(99);
+        $request = new GetOrderRequest($order->getId());
         $response = new GetOrderResponse;
 
-        $handler = new GetOrderHandler($orderService);
+        $handler = new GetOrderHandler($orderService, $dtoBuilderFactory);
         $handler->handle(new GetOrderQuery($request, $response));
 
         $this->assertTrue($response->getOrderDTO() instanceof OrderDTO);

@@ -50,10 +50,16 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
     public function testHandleWithFullIntegration()
     {
         $cart = $this->setupDBCart();
+        $dtoBuilderFactory = $this->getDTOBuilderFactory();
 
-        $creditCardDTO = $this->dummyData->getCreditCard()->getDTOBuilder()->build();
-        $shippingAddressDTO = $this->dummyData->getOrderAddress()->getDTOBuilder()->build();
-        $billingAddressDTO = $this->dummyData->getOrderAddress()->getDTOBuilder()->build();
+        $creditCardDTO = $dtoBuilderFactory
+            ->getCreditCardDTOBuilder($this->dummyData->getCreditCard())->build();
+
+        $shippingAddressDTO = $dtoBuilderFactory
+            ->getOrderAddressDTOBuilder($this->dummyData->getOrderAddress())->build();
+
+        $billingAddressDTO = $dtoBuilderFactory
+            ->getOrderAddressDTOBuilder($this->dummyData->getOrderAddress())->build();
 
         $request = new CreateOrderFromCartRequest(
             $cart->getId(),
@@ -69,11 +75,14 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
             $serviceFactory->getCart(),
             $serviceFactory->getCartCalculator(),
             $serviceFactory->getOrder(),
-            $this->getPaymentGateway()
+            $this->getDTOBuilderFactory()
         );
         $handler->handle(new CreateOrderFromCartQuery($request, $response));
 
-        $order = $this->getRepositoryFactory()->getOrderRepository()->findOneById(1);
+        $order = $this->getRepositoryFactory()->getOrderRepository()->findOneById(
+            $response->getOrderDTO()->id
+        );
+
         $this->assertTrue($order instanceof Order);
         $this->assertTrue($order->getPayments()[0] instanceof AbstractPayment);
         $this->assertTrue($response->getOrderDTO() instanceof OrderDTO);

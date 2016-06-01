@@ -1,23 +1,20 @@
 <?php
 namespace inklabs\kommerce\Action\Order\Query;
 
-use inklabs\kommerce\EntityDTO\OrderDTO;
+use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 
 class CreateOrderFromCartResponse implements CreateOrderFromCartResponseInterface
 {
-    /** @var OrderDTO */
-    private $orderDTO;
+    /** @var OrderDTOBuilder */
+    private $orderDTOBuilder;
 
-    /**
-     * @param OrderDTO $orderDTO
-     */
-    public function setOrderDTO(OrderDTO $orderDTO)
+    public function setOrderDTOBuilder(OrderDTOBuilder $orderDTOBuilder)
     {
-        $this->orderDTO = $orderDTO;
+        $this->orderDTOBuilder = $orderDTOBuilder;
     }
 
     public function getOrderDTO()
     {
-        return $this->orderDTO;
+        return $this->orderDTOBuilder->build();
     }
 }

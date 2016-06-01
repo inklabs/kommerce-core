@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Action\Order\Query;
 
 use inklabs\kommerce\EntityDTO\CreditCardDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 final class CreateOrderFromCartRequest
