@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class ProductRepositoryDecorator implements ProductRepositoryInterface
 {

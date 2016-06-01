@@ -6,7 +6,7 @@ use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 abstract class AbstractRepository extends EntityRepository implements RepositoryInterface
 {

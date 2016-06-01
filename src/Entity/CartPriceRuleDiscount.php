@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDiscountDTOBuilder;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 

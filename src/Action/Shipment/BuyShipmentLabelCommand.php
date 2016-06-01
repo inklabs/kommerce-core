@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Shipment;
 
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Lib\Command\CommandInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class BuyShipmentLabelCommand implements CommandInterface
 {

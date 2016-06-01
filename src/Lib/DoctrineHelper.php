@@ -3,8 +3,8 @@ namespace inklabs\kommerce\Lib;
 
 use Doctrine;
 use inklabs\kommerce\Doctrine\Extensions\TablePrefix;
+use inklabs\kommerce\Doctrine\Extensions\UuidBinaryType;
 use inklabs\kommerce\Doctrine\Functions as DoctrineFunctions;
-use Ramsey\Uuid\Doctrine\UuidBinaryType;
 
 class DoctrineHelper
 {

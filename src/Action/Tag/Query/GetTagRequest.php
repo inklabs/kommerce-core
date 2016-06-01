@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Action\Tag\Query;
 
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class GetTagRequest
 {

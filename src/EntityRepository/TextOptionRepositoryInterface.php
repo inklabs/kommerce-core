@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\TextOption;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
  * @method TextOption findOneById(UuidInterface $id)

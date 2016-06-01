@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface ProductServiceInterface
 {

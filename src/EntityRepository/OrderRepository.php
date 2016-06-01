@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\RuntimeException;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {

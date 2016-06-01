@@ -2,11 +2,10 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\EntityDTO\Builder\AttachmentDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Attachment implements UuidEntityInterface, ValidationInterface
+class Attachment implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 

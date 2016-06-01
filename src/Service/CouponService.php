@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class CouponService implements CouponServiceInterface
 {

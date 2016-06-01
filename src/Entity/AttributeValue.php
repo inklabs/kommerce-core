@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\EntityDTO\Builder\AttributeValueDTOBuilder;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Pagination;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
  * @method CatalogPromotion findOneById(UuidInterface $id)

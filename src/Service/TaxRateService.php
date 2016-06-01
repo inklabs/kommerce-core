@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class TaxRateService
 {

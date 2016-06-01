@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Attachment;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class AttachmentRepository extends AbstractRepository implements AttachmentRepositoryInterface
 {

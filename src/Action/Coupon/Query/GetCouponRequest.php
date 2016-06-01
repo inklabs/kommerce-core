@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Coupon\Query;
 
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class GetCouponRequest
 {

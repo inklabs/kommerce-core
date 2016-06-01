@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Action\Inventory;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class AdjustInventoryCommand implements CommandInterface
 {

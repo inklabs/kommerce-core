@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Entity;
 use DateTime;
 use DateTimeZone;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class UserTokenTest extends EntityTestCase
 {

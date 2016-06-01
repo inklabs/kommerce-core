@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OptionService
 {

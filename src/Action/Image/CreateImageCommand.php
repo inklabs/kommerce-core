@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Image;
 
 use inklabs\kommerce\EntityDTO\ImageDTO;
 use inklabs\kommerce\Lib\Command\CommandInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class CreateImageCommand implements CommandInterface
 {

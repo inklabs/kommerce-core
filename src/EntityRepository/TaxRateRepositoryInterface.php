@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Exception\InvalidArgumentException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
  * @method TaxRate findOneById(UuidInterface $id)

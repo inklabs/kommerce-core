@@ -71,7 +71,7 @@ use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 use inklabs\kommerce\Lib\Pricing;
-use Ramsey\Uuid\Uuid;
+use inklabs\kommerce\Lib\Uuid;
 
 class DummyData
 {

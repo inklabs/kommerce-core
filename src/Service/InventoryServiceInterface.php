@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\InsufficientInventoryException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface InventoryServiceInterface
 {

@@ -2,8 +2,8 @@
 namespace inklabs\kommerce\Action\Tag;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class DeleteTagCommand implements CommandInterface
 {

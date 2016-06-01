@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\UserLoginException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface UserServiceInterface
 {

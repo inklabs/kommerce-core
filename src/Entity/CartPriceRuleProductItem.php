@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleProductItemDTOBuilder;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class CartPriceRuleProductItem extends AbstractCartPriceRuleItem

@@ -26,8 +26,8 @@ use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OrderService implements OrderServiceInterface
 {

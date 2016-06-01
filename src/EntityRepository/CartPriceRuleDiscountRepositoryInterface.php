@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
  * @method CartPriceRuleDiscount findOneById(UuidInterface $id)

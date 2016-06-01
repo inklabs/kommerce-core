@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class CatalogPromotionService
 {

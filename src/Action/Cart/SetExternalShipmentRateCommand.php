@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Cart;
 
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Lib\Command\CommandInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class SetExternalShipmentRateCommand implements CommandInterface
 {

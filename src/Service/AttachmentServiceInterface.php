@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface AttachmentServiceInterface
 {

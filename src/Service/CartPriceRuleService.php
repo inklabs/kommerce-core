@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class CartPriceRuleService
 {

@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Pagination;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OptionValueRepository extends AbstractRepository implements OptionValueRepositoryInterface
 {

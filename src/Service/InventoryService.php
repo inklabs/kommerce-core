@@ -10,7 +10,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\Exception\InsufficientInventoryException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class InventoryService implements InventoryServiceInterface
 {

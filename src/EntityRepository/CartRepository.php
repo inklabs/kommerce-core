@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Cart;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class CartRepository extends AbstractRepository implements CartRepositoryInterface
 {

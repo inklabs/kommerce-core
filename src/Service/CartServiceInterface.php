@@ -7,7 +7,7 @@ use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface CartServiceInterface
 {

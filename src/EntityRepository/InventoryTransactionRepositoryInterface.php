@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
  * @method InventoryTransaction findOneById(UuidInterface $id)

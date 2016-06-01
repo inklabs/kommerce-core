@@ -9,7 +9,7 @@ use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class InventoryTransactionRepositoryTest extends EntityRepositoryTestCase
 {

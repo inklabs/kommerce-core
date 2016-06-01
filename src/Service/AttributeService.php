@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class AttributeService
 {

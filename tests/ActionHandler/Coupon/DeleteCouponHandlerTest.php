@@ -13,7 +13,7 @@ class DeleteCouponHandlerTest extends ActionTestCase
         $couponService->shouldReceive('delete')
             ->once();
 
-        $command = new DeleteCouponCommand($coupon->getId());
+        $command = new DeleteCouponCommand($coupon->getId()->getHex());
         $handler = new DeleteCouponHandler($couponService);
         $handler->handle($command);
     }

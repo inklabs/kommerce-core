@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface IdEntityInterface extends EntityInterface
 {

@@ -12,7 +12,7 @@ use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface OrderServiceInterface
 {

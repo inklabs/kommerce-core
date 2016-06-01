@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class AttributeValueService
 {

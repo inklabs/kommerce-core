@@ -1,8 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 trait IdTrait
 {

@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
 use inklabs\kommerce\Lib\FileManagerInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class AttachmentService implements AttachmentServiceInterface
 {

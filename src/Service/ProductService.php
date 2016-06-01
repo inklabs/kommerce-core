@@ -8,7 +8,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class ProductService implements ProductServiceInterface
 {

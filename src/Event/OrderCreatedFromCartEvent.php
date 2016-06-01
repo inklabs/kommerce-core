@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Event;
 
 use inklabs\kommerce\Lib\Event\EventInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OrderCreatedFromCartEvent implements EventInterface
 {

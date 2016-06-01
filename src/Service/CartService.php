@@ -24,7 +24,7 @@ use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class CartService implements CartServiceInterface
 {

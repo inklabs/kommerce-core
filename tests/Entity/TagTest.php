@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class TagTest extends EntityTestCase
 {

@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\Action\Order;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class SetOrderStatusCommand implements CommandInterface
 {

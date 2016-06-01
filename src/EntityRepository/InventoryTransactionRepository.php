@@ -4,8 +4,8 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class InventoryTransactionRepository extends AbstractRepository implements InventoryTransactionRepositoryInterface
 {

@@ -6,7 +6,8 @@ use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Point;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
  * @method QueryBuilder|\Doctrine\ORM\QueryBuilder setParameter($key, $value, $type)
@@ -137,7 +138,7 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
             }
             return $this->getBytesFromIds($entityIds);
         } else {
-            return $this->getBytesFromIds($entities->getId());
+            return $this->getBytesFromId($entities->getId());
         }
     }
 
@@ -151,7 +152,7 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
             return $this->getBytesFromIdsArray($ids);
         }
 
-        return $ids->getBytes();
+        return $this->getBytesFromId($ids);
     }
 
     /**
@@ -162,9 +163,18 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
     {
         $idBytes = [];
         foreach ($ids as $id) {
-            $idBytes[] = $id->getBytes();
+            $idBytes[] = $this->getBytesFromId($id);
         }
 
         return $idBytes;
+    }
+
+    /**
+     * @param UuidInterface $id
+     * @return string binary bytes
+     */
+    private function getBytesFromId(UuidInterface $id)
+    {
+        return $id->getBytes();
     }
 }

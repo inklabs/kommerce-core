@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\tests\Helper;
 
 use Doctrine\DBAL\Logging\SQLLogger;
-use Ramsey\Uuid\Uuid;
+use inklabs\kommerce\Lib\Uuid;
 
 /**
  * A SQL logger that counts the total number of queries.

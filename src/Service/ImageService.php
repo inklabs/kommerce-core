@@ -6,7 +6,7 @@ use inklabs\kommerce\EntityDTO\ImageDTO;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class ImageService implements ImageServiceInterface
 {

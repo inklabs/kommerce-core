@@ -16,7 +16,11 @@ class CreateAttachmentForOrderItemHandlerTest extends ActionTestCase
             ->with($uploadFileDTO, $orderItem->getId())
             ->once();
 
-        $command = new CreateAttachmentForOrderItemCommand($uploadFileDTO, $orderItem->getId());
+        $command = new CreateAttachmentForOrderItemCommand(
+            $uploadFileDTO,
+            $orderItem->getId()->getHex()
+        );
+
         $handler = new CreateAttachmentForOrderItemHandler($attachmentService);
         $handler->handle($command);
     }

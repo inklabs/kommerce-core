@@ -16,7 +16,7 @@ use inklabs\kommerce\Event\ResetPasswordEvent;
 use inklabs\kommerce\Exception\UserLoginException;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\UserPasswordValidator;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class UserService implements UserServiceInterface
 {

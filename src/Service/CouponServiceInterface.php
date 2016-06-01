@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface CouponServiceInterface
 {

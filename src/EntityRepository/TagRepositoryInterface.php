@@ -4,7 +4,7 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
  * @method Tag findOneById(UuidInterface $id)

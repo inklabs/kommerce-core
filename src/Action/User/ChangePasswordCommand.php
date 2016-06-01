@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Action\User;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\UserPasswordValidator;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class ChangePasswordCommand implements CommandInterface
 {

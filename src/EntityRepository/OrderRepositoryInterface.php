@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberRepositoryInterface;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
  * @method Order findOneById(UuidInterface $id)

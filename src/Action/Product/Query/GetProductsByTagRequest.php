@@ -2,8 +2,8 @@
 namespace inklabs\kommerce\Action\Product\Query;
 
 use inklabs\kommerce\EntityDTO\PaginationDTO;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class GetProductsByTagRequest
 {

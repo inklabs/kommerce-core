@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use Ramsey\Uuid\UuidInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 trait IdDTOTrait
 {
