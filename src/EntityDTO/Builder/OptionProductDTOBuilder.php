@@ -68,6 +68,7 @@ class OptionProductDTOBuilder implements DTOBuilderInterface
     public function build()
     {
         $this->preBuild();
+        unset($this->entity);
         return $this->entityDTO;
     }
 }

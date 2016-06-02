@@ -40,6 +40,7 @@ abstract class AbstractCartPriceRuleItemDTOBuilder implements DTOBuilderInterfac
     public function build()
     {
         $this->preBuild();
+        unset($this->entity);
         return $this->entityDTO;
     }
 }
