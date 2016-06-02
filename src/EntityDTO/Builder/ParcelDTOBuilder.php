@@ -6,6 +6,8 @@ use inklabs\kommerce\EntityDTO\ParcelDTO;
 
 class ParcelDTOBuilder implements DTOBuilderInterface
 {
+    use TimeDTOBuilderTrait;
+
     /** @var Parcel */
     protected $entity;
 
@@ -17,8 +19,7 @@ class ParcelDTOBuilder implements DTOBuilderInterface
         $this->entity = $parcel;
 
         $this->entityDTO = new ParcelDTO;
-        $this->entityDTO->created    = $this->entity->getCreated();
-        $this->entityDTO->updated    = $this->entity->getUpdated();
+        $this->setTime();
         $this->entityDTO->externalId = $this->entity->getExternalId();
         $this->entityDTO->length     = $this->entity->getLength();
         $this->entityDTO->width      = $this->entity->getWidth();
