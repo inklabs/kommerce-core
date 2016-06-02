@@ -4,62 +4,67 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
 
-class ShipmentRateDTOBuilder
+class ShipmentRateDTOBuilder implements DTOBuilderInterface
 {
-    /** @var ShipmentRateDTO */
-    protected $shipmentRateDTO;
-
     /** @var ShipmentRate */
-    protected $shipmentRate;
+    protected $entity;
+
+    /** @var ShipmentRateDTO */
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(ShipmentRate $shipmentRate, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->shipmentRate = $shipmentRate;
+        $this->entity = $shipmentRate;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->shipmentRateDTO = new ShipmentRateDTO;
-        $this->shipmentRateDTO->externalId = $this->shipmentRate->getExternalId();
-        $this->shipmentRateDTO->shipmentExternalId = $this->shipmentRate->getShipmentExternalId();
-        $this->shipmentRateDTO->service    = $this->shipmentRate->getService();
-        $this->shipmentRateDTO->carrier    = $this->shipmentRate->getCarrier();
+        $this->entityDTO = new ShipmentRateDTO;
+        $this->entityDTO->externalId = $this->entity->getExternalId();
+        $this->entityDTO->shipmentExternalId = $this->entity->getShipmentExternalId();
+        $this->entityDTO->service    = $this->entity->getService();
+        $this->entityDTO->carrier    = $this->entity->getCarrier();
 
-        $this->shipmentRateDTO->rate = $this->dtoBuilderFactory
-            ->getMoneyDTOBuilder($this->shipmentRate->getRate())
+        $this->entityDTO->rate = $this->dtoBuilderFactory
+            ->getMoneyDTOBuilder($this->entity->getRate())
             ->build();
 
-        $this->shipmentRateDTO->isDeliveryDateGuaranteed = $this->shipmentRate->isDeliveryDateGuaranteed();
-        $this->shipmentRateDTO->deliveryDays             = $this->shipmentRate->getDeliveryDays();
-        $this->shipmentRateDTO->estDeliveryDays          = $this->shipmentRate->getEstDeliveryDays();
+        $this->entityDTO->isDeliveryDateGuaranteed = $this->entity->isDeliveryDateGuaranteed();
+        $this->entityDTO->deliveryDays             = $this->entity->getDeliveryDays();
+        $this->entityDTO->estDeliveryDays          = $this->entity->getEstDeliveryDays();
 
-        if ($this->shipmentRate->getDeliveryMethod()->getId() !== null) {
-            $this->shipmentRateDTO->deliveryMethod = $this->dtoBuilderFactory
-                ->getDeliveryMethodTypeDTOBuilder($this->shipmentRate->getDeliveryMethod())
+        if ($this->entity->getDeliveryMethod()->getId() !== null) {
+            $this->entityDTO->deliveryMethod = $this->dtoBuilderFactory
+                ->getDeliveryMethodTypeDTOBuilder($this->entity->getDeliveryMethod())
                 ->build();
         }
 
-        if ($this->shipmentRate->getDeliveryDate() !== null) {
-            $this->shipmentRateDTO->deliveryDate = $this->shipmentRate->getDeliveryDate();
+        if ($this->entity->getDeliveryDate() !== null) {
+            $this->entityDTO->deliveryDate = $this->entity->getDeliveryDate();
         }
 
-        if ($this->shipmentRate->getListRate() !== null) {
-            $this->shipmentRateDTO->listRate = $this->dtoBuilderFactory
-                ->getMoneyDTOBuilder($this->shipmentRate->getListRate())
+        if ($this->entity->getListRate() !== null) {
+            $this->entityDTO->listRate = $this->dtoBuilderFactory
+                ->getMoneyDTOBuilder($this->entity->getListRate())
                 ->build();
         }
 
-        if ($this->shipmentRate->getRetailRate() !== null) {
-            $this->shipmentRateDTO->retailRate = $this->dtoBuilderFactory
-                ->getMoneyDTOBuilder($this->shipmentRate->getRetailRate())
+        if ($this->entity->getRetailRate() !== null) {
+            $this->entityDTO->retailRate = $this->dtoBuilderFactory
+                ->getMoneyDTOBuilder($this->entity->getRetailRate())
                 ->build();
         }
 
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->shipmentRateDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

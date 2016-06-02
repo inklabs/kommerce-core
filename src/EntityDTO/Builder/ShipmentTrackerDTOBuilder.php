@@ -4,48 +4,54 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\ShipmentTrackerDTO;
 
-class ShipmentTrackerDTOBuilder
+class ShipmentTrackerDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var ShipmentTracker */
-    protected $shipmentTracker;
+    protected $entity;
 
     /** @var ShipmentTrackerDTO */
-    protected $shipmentTrackerDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(ShipmentTracker $shipmentTracker, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->shipmentTracker = $shipmentTracker;
+        $this->entity = $shipmentTracker;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->shipmentTrackerDTO = new ShipmentTrackerDTO;
-        $this->shipmentTrackerDTO->id           = $this->shipmentTracker->getId();
-        $this->shipmentTrackerDTO->created      = $this->shipmentTracker->getCreated();
-        $this->shipmentTrackerDTO->updated      = $this->shipmentTracker->getUpdated();
-        $this->shipmentTrackerDTO->trackingCode = $this->shipmentTracker->getTrackingCode();
-        $this->shipmentTrackerDTO->externalId   = $this->shipmentTracker->getExternalId();
+        $this->entityDTO = new ShipmentTrackerDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->trackingCode = $this->entity->getTrackingCode();
+        $this->entityDTO->externalId   = $this->entity->getExternalId();
 
-        $this->shipmentTrackerDTO->carrier = $this->dtoBuilderFactory
-            ->getShipmentCarrierTypeDTOBuilder($this->shipmentTracker->getCarrier())
+        $this->entityDTO->carrier = $this->dtoBuilderFactory
+            ->getShipmentCarrierTypeDTOBuilder($this->entity->getCarrier())
             ->build();
 
-        if ($this->shipmentTracker->getShipmentRate() !== null) {
-            $this->shipmentTrackerDTO->shipmentRate = $this->dtoBuilderFactory
-                ->getShipmentRateDTOBuilder($this->shipmentTracker->getShipmentRate())
+        if ($this->entity->getShipmentRate() !== null) {
+            $this->entityDTO->shipmentRate = $this->dtoBuilderFactory
+                ->getShipmentRateDTOBuilder($this->entity->getShipmentRate())
                 ->build();
         }
 
-        if ($this->shipmentTracker->getShipmentLabel() !== null) {
-            $this->shipmentTrackerDTO->shipmentLabel = $this->dtoBuilderFactory
-                ->getShipmentLabelDTOBuilder($this->shipmentTracker->getShipmentLabel())
+        if ($this->entity->getShipmentLabel() !== null) {
+            $this->entityDTO->shipmentLabel = $this->dtoBuilderFactory
+                ->getShipmentLabelDTOBuilder($this->entity->getShipmentLabel())
                 ->build();
         }
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->shipmentTrackerDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

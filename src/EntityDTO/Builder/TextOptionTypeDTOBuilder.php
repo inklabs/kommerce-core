@@ -10,12 +10,12 @@ use inklabs\kommerce\EntityDTO\TextOptionTypeDTO;
 class TextOptionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var TextOptionType */
-    protected $type;
+    protected $entity;
 
     /** @var TextOptionTypeDTO */
-    protected $typeDTO;
+    protected $entityDTO;
 
-    protected function getTypeDTO()
+    protected function getEntityDTO()
     {
         return new TextOptionTypeDTO;
     }
@@ -24,11 +24,11 @@ class TextOptionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     {
         parent::__construct($type);
 
-        $this->typeDTO->isText     = $this->type->isText();
-        $this->typeDTO->isTextarea = $this->type->isTextarea();
-        $this->typeDTO->isFile     = $this->type->isFile();
-        $this->typeDTO->isDate     = $this->type->isDate();
-        $this->typeDTO->isTime     = $this->type->isTime();
-        $this->typeDTO->isDateTime = $this->type->isDateTime();
+        $this->entityDTO->isText     = $this->entity->isText();
+        $this->entityDTO->isTextarea = $this->entity->isTextarea();
+        $this->entityDTO->isFile     = $this->entity->isFile();
+        $this->entityDTO->isDate     = $this->entity->isDate();
+        $this->entityDTO->isTime     = $this->entity->isTime();
+        $this->entityDTO->isDateTime = $this->entity->isDateTime();
     }
 }

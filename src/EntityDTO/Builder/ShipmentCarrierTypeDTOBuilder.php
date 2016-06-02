@@ -10,15 +10,15 @@ use inklabs\kommerce\EntityDTO\ShipmentCarrierTypeDTO;
 class ShipmentCarrierTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var ShipmentCarrierType */
-    protected $type;
+    protected $entity;
 
     /** @var ShipmentCarrierTypeDTO */
-    protected $typeDTO;
+    protected $entityDTO;
 
     /**
      * @return ShipmentCarrierTypeDTO
      */
-    protected function getTypeDTO()
+    protected function getEntityDTO()
     {
         return new ShipmentCarrierTypeDTO;
     }
@@ -27,9 +27,9 @@ class ShipmentCarrierTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     {
         parent::__construct($type);
 
-        $this->typeDTO->isUnknown = $this->type->isUnknown();
-        $this->typeDTO->isUps = $this->type->isUps();
-        $this->typeDTO->isUsps = $this->type->isUsps();
-        $this->typeDTO->isFedex = $this->type->isFedex();
+        $this->entityDTO->isUnknown = $this->entity->isUnknown();
+        $this->entityDTO->isUps = $this->entity->isUps();
+        $this->entityDTO->isUsps = $this->entity->isUsps();
+        $this->entityDTO->isFedex = $this->entity->isFedex();
     }
 }

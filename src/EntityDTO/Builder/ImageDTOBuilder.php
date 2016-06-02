@@ -6,35 +6,36 @@ use inklabs\kommerce\EntityDTO\ImageDTO;
 
 class ImageDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var Image */
-    protected $image;
+    protected $entity;
 
     /** @var ImageDTO */
-    protected $imageDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(Image $image, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->image = $image;
+        $this->entity = $image;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->imageDTO = new ImageDTO;
-        $this->imageDTO->id        = $this->image->getId();
-        $this->imageDTO->path      = $this->image->getPath();
-        $this->imageDTO->width     = $this->image->getWidth();
-        $this->imageDTO->height    = $this->image->getHeight();
-        $this->imageDTO->sortOrder = $this->image->getSortOrder();
-        $this->imageDTO->created   = $this->image->getCreated();
-        $this->imageDTO->updated   = $this->image->getUpdated();
+        $this->entityDTO = new ImageDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->path      = $this->entity->getPath();
+        $this->entityDTO->width     = $this->entity->getWidth();
+        $this->entityDTO->height    = $this->entity->getHeight();
+        $this->entityDTO->sortOrder = $this->entity->getSortOrder();
     }
 
     public function withProduct()
     {
-        $product = $this->image->getProduct();
+        $product = $this->entity->getProduct();
         if (! empty($product)) {
-            $this->imageDTO->product = $this->dtoBuilderFactory->getProductDTOBuilder($product)
+            $this->entityDTO->product = $this->dtoBuilderFactory->getProductDTOBuilder($product)
                 ->build();
         }
         return $this;
@@ -42,9 +43,9 @@ class ImageDTOBuilder implements DTOBuilderInterface
 
     public function withTag()
     {
-        $tag = $this->image->getTag();
+        $tag = $this->entity->getTag();
         if (! empty($tag)) {
-            $this->imageDTO->tag = $this->dtoBuilderFactory->getTagDTOBuilder($tag)
+            $this->entityDTO->tag = $this->dtoBuilderFactory->getTagDTOBuilder($tag)
                 ->build();
         }
         return $this;
@@ -64,7 +65,7 @@ class ImageDTOBuilder implements DTOBuilderInterface
     public function build()
     {
         $this->preBuild();
-        unset($this->image);
-        return $this->imageDTO;
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

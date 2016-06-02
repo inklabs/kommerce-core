@@ -4,35 +4,36 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
 use inklabs\kommerce\EntityDTO\CartItemTextOptionValueDTO;
 
-class CartItemTextOptionValueDTOBuilder
+class CartItemTextOptionValueDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var CartItemTextOptionValue */
-    protected $cartItemTextOptionValue;
+    protected $entity;
 
     /** @var CartItemTextOptionValueDTO */
-    protected $cartItemTextOptionValueDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(
         CartItemTextOptionValue $cartItemTextOptionValue,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
-        $this->cartItemTextOptionValue = $cartItemTextOptionValue;
+        $this->entity = $cartItemTextOptionValue;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->cartItemTextOptionValueDTO = new CartItemTextOptionValueDTO;
-        $this->cartItemTextOptionValueDTO->id              = $this->cartItemTextOptionValue->getId();
-        $this->cartItemTextOptionValueDTO->created         = $this->cartItemTextOptionValue->getCreated();
-        $this->cartItemTextOptionValueDTO->updated         = $this->cartItemTextOptionValue->getUpdated();
-        $this->cartItemTextOptionValueDTO->textOptionValue = $this->cartItemTextOptionValue->getTextOptionValue();
+        $this->entityDTO = new CartItemTextOptionValueDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->textOptionValue = $this->entity->getTextOptionValue();
     }
 
     public function withTextOption()
     {
-        $this->cartItemTextOptionValueDTO->textOption = $this->dtoBuilderFactory
-            ->getTextOptionDTOBuilder($this->cartItemTextOptionValue->getTextOption())
+        $this->entityDTO->textOption = $this->dtoBuilderFactory
+            ->getTextOptionDTOBuilder($this->entity->getTextOption())
             ->build();
 
         return $this;
@@ -44,8 +45,13 @@ class CartItemTextOptionValueDTOBuilder
             ->withTextOption();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->cartItemTextOptionValueDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

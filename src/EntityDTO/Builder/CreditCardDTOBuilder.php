@@ -4,25 +4,25 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\EntityDTO\CreditCardDTO;
 
-class CreditCardDTOBuilder
+class CreditCardDTOBuilder implements DTOBuilderInterface
 {
     /** @var CreditCard */
-    protected $creditCard;
+    protected $entity;
 
     /** @var CreditCardDTO */
-    protected $creditCardDTO;
+    protected $entityDTO;
 
     public function __construct(CreditCard $creditCard)
     {
-        $this->creditCard = $creditCard;
+        $this->entity = $creditCard;
 
-        $this->creditCardDTO = new CreditCardDTO;
-        $this->creditCardDTO->name            = $this->creditCard->getName();
-        $this->creditCardDTO->zip5            = $this->creditCard->getZip5();
-        $this->creditCardDTO->number          = $this->creditCard->getNumber();
-        $this->creditCardDTO->cvc             = $this->creditCard->getCvc();
-        $this->creditCardDTO->expirationMonth = $this->creditCard->getExpirationMonth();
-        $this->creditCardDTO->expirationYear  = $this->creditCard->getExpirationYear();
+        $this->entityDTO = new CreditCardDTO;
+        $this->entityDTO->name            = $this->entity->getName();
+        $this->entityDTO->zip5            = $this->entity->getZip5();
+        $this->entityDTO->number          = $this->entity->getNumber();
+        $this->entityDTO->cvc             = $this->entity->getCvc();
+        $this->entityDTO->expirationMonth = $this->entity->getExpirationMonth();
+        $this->entityDTO->expirationYear  = $this->entity->getExpirationYear();
     }
 
     public static function createFromDTO(CreditCardDTO $creditCardDTO)
@@ -38,8 +38,13 @@ class CreditCardDTOBuilder
         return $creditCard;
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->creditCardDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

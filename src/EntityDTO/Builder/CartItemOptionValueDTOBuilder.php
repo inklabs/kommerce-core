@@ -4,34 +4,41 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\EntityDTO\CartItemOptionValueDTO;
 
-class CartItemOptionValueDTOBuilder
+class CartItemOptionValueDTOBuilder implements DTOBuilderInterface
 {
-    private $cartItemOptionValue;
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
+    /** @var CartItemOptionValue */
+    private $entity;
 
     /** @var CartItemOptionValueDTO */
-    private $cartItemOptionValueDTO;
+    private $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(CartItemOptionValue $cartItemOptionValue, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->cartItemOptionValue = $cartItemOptionValue;
+        $this->entity = $cartItemOptionValue;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->cartItemOptionValueDTO = new CartItemOptionValueDTO;
-        $this->cartItemOptionValueDTO->id      = $this->cartItemOptionValue->getId();
-        $this->cartItemOptionValueDTO->created = $this->cartItemOptionValue->getCreated();
-        $this->cartItemOptionValueDTO->updated = $this->cartItemOptionValue->getUpdated();
+        $this->entityDTO = new CartItemOptionValueDTO;
+        $this->setId();
+        $this->setTime();
 
-        $this->cartItemOptionValueDTO->optionValue = $this->dtoBuilderFactory
-            ->getOptionValueDTOBuilder($this->cartItemOptionValue->getOptionValue())
+        $this->entityDTO->optionValue = $this->dtoBuilderFactory
+            ->getOptionValueDTOBuilder($this->entity->getOptionValue())
             ->withAllData()
             ->build();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->cartItemOptionValueDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

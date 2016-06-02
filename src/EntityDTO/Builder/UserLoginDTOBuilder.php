@@ -4,38 +4,40 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\EntityDTO\UserLoginDTO;
 
-class UserLoginDTOBuilder
+class UserLoginDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait;
+
     /** @var UserLogin */
-    protected $userLogin;
+    protected $entity;
 
     /** @var UserLoginDTO */
-    protected $userLoginDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(UserLogin $userLogin, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->userLogin = $userLogin;
+        $this->entity = $userLogin;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->userLoginDTO = new UserLoginDTO;
-        $this->userLoginDTO->id      = $this->userLogin->getId();
-        $this->userLoginDTO->email   = $userLogin->getEmail();
-        $this->userLoginDTO->ip4     = $userLogin->getIp4();
-        $this->userLoginDTO->created = $this->userLogin->getCreated();
+        $this->entityDTO = new UserLoginDTO;
+        $this->setId();
+        $this->entityDTO->created = $this->entity->getCreated();
+        $this->entityDTO->email   = $userLogin->getEmail();
+        $this->entityDTO->ip4     = $userLogin->getIp4();
 
-        $this->userLoginDTO->result = $this->dtoBuilderFactory
+        $this->entityDTO->result = $this->dtoBuilderFactory
             ->getUserLoginResultTypeDTOBuilder($userLogin->getResult())
             ->build();
     }
 
     public function withUser()
     {
-        $user = $this->userLogin->getUser();
+        $user = $this->entity->getUser();
         if ($user !== null) {
-            $this->userLoginDTO->user = $this->dtoBuilderFactory
+            $this->entityDTO->user = $this->dtoBuilderFactory
                 ->getUserDTOBuilder($user)
                 ->build();
         }
@@ -44,9 +46,9 @@ class UserLoginDTOBuilder
 
     public function withUserToken()
     {
-        $userToken = $this->userLogin->getUserToken();
+        $userToken = $this->entity->getUserToken();
         if ($userToken !== null) {
-            $this->userLoginDTO->userToken = $this->dtoBuilderFactory
+            $this->entityDTO->userToken = $this->dtoBuilderFactory
                 ->getUserTokenDTOBuilder($userToken)
                 ->build();
         }
@@ -60,8 +62,13 @@ class UserLoginDTOBuilder
             ->withUserToken();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->userLoginDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

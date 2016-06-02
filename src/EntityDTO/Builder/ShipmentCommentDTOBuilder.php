@@ -4,24 +4,33 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\ShipmentComment;
 use inklabs\kommerce\EntityDTO\ShipmentCommentDTO;
 
-class ShipmentCommentDTOBuilder
+class ShipmentCommentDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var ShipmentComment */
-    private $shipmentComment;
+    protected $entity;
+
+    /** @var ShipmentCommentDTO */
+    protected $entityDTO;
 
     public function __construct(ShipmentComment $shipmentComment)
     {
-        $this->shipmentComment = $shipmentComment;
+        $this->entity = $shipmentComment;
 
-        $this->shipmentCommentDTO = new ShipmentCommentDTO;
-        $this->shipmentCommentDTO->id      = $this->shipmentComment->getId();
-        $this->shipmentCommentDTO->created = $this->shipmentComment->getCreated();
-        $this->shipmentCommentDTO->updated = $this->shipmentComment->getUpdated();
-        $this->shipmentCommentDTO->comment = $this->shipmentComment->getComment();
+        $this->entityDTO = new ShipmentCommentDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->comment = $this->entity->getComment();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->shipmentCommentDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

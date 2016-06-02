@@ -4,39 +4,40 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\EntityDTO\UserTokenDTO;
 
-class UserTokenDTOBuilder
+class UserTokenDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var UserToken */
-    protected $userToken;
+    protected $entity;
 
     /** @var UserTokenDTO */
-    protected $userTokenDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(UserToken $userToken, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->userToken = $userToken;
+        $this->entity = $userToken;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->userTokenDTO = new UserTokenDTO;
-        $this->userTokenDTO->id        = $this->userToken->getId();
-        $this->userTokenDTO->userAgent = $this->userToken->getUserAgent();
-        $this->userTokenDTO->expires   = $this->userToken->getExpires();
-        $this->userTokenDTO->created   = $this->userToken->getCreated();
-        $this->userTokenDTO->updated   = $this->userToken->getUpdated();
+        $this->entityDTO = new UserTokenDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->userAgent = $this->entity->getUserAgent();
+        $this->entityDTO->expires   = $this->entity->getExpires();
 
-        $this->userTokenDTO->type = $this->dtoBuilderFactory
-            ->getUserTokenTypeDTOBuilder($this->userToken->getType())
+        $this->entityDTO->type = $this->dtoBuilderFactory
+            ->getUserTokenTypeDTOBuilder($this->entity->getType())
             ->build();
     }
 
     public function withUser()
     {
-        $user = $this->userToken->getUser();
+        $user = $this->entity->getUser();
         if ($user !== null) {
-            $this->userTokenDTO->user = $this->dtoBuilderFactory
+            $this->entityDTO->user = $this->dtoBuilderFactory
                 ->getUserDTOBuilder($user)
                 ->build();
         }
@@ -49,8 +50,13 @@ class UserTokenDTOBuilder
             ->withUser();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->userTokenDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

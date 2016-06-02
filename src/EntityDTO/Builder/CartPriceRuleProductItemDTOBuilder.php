@@ -10,16 +10,16 @@ use inklabs\kommerce\EntityDTO\CartPriceRuleProductItemDTO;
 class CartPriceRuleProductItemDTOBuilder extends AbstractCartPriceRuleItemDTOBuilder
 {
     /** @var CartPriceRuleProductItem */
-    protected $item;
+    protected $entity;
 
     /** @var CartPriceRuleProductItemDTO */
-    protected $itemDTO;
+    protected $entityDTO;
 
     public function withProduct()
     {
-        $product = $this->item->getProduct();
+        $product = $this->entity->getProduct();
         if ($product !== null) {
-            $this->itemDTO->product = $this->dtoBuilderFactory
+            $this->entityDTO->product = $this->dtoBuilderFactory
                 ->getProductDTOBuilder($product)
                 ->build();
         }
@@ -32,7 +32,7 @@ class CartPriceRuleProductItemDTOBuilder extends AbstractCartPriceRuleItemDTOBui
             ->withProduct();
     }
 
-    protected function getItemDTO()
+    protected function getEntityDTO()
     {
         return new CartPriceRuleProductItemDTO;
     }

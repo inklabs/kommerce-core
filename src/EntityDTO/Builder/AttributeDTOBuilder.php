@@ -4,35 +4,36 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 
-class AttributeDTOBuilder
+class AttributeDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var Attribute */
-    protected $attribute;
+    protected $entity;
 
     /** @var AttributeDTO */
-    protected $attributeDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(Attribute $attribute, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->attribute = $attribute;
+        $this->entity = $attribute;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->attributeDTO = new AttributeDTO;
-        $this->attributeDTO->id          = $this->attribute->getId();
-        $this->attributeDTO->name        = $this->attribute->getName();
-        $this->attributeDTO->description = $this->attribute->getDescription();
-        $this->attributeDTO->sortOrder   = $this->attribute->getSortOrder();
-        $this->attributeDTO->created     = $this->attribute->getCreated();
-        $this->attributeDTO->updated     = $this->attribute->getUpdated();
+        $this->entityDTO = new AttributeDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->name        = $this->entity->getName();
+        $this->entityDTO->description = $this->entity->getDescription();
+        $this->entityDTO->sortOrder   = $this->entity->getSortOrder();
     }
 
     public function withAttributeValues()
     {
-        foreach ($this->attribute->getAttributeValues() as $attributeValue) {
-            $this->attributeDTO->attributeValues[] = $this->dtoBuilderFactory
+        foreach ($this->entity->getAttributeValues() as $attributeValue) {
+            $this->entityDTO->attributeValues[] = $this->dtoBuilderFactory
                 ->getAttributeValueDTOBuilder($attributeValue)
                 ->build();
         }
@@ -42,8 +43,8 @@ class AttributeDTOBuilder
 
     public function withProductAttributes()
     {
-        foreach ($this->attribute->getProductAttributes() as $productAttribute) {
-            $this->attributeDTO->productAttributes[] = $this->dtoBuilderFactory
+        foreach ($this->entity->getProductAttributes() as $productAttribute) {
+            $this->entityDTO->productAttributes[] = $this->dtoBuilderFactory
                 ->getProductAttributeDTOBuilder($productAttribute)
                 ->build();
         }
@@ -58,8 +59,13 @@ class AttributeDTOBuilder
             ->withProductAttributes();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->attributeDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

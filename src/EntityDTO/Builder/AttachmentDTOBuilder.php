@@ -4,35 +4,36 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\EntityDTO\AttachmentDTO;
 
-class AttachmentDTOBuilder
+class AttachmentDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var Attachment */
-    protected $attachment;
+    protected $entity;
 
     /** @var AttachmentDTO */
-    protected $attachmentDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(Attachment $attachment, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->attachment = $attachment;
+        $this->entity = $attachment;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->attachmentDTO = new AttachmentDTO;
-        $this->attachmentDTO->id        = $this->attachment->getId();
-        $this->attachmentDTO->isVisible = $this->attachment->isVisible();
-        $this->attachmentDTO->isLocked  = $this->attachment->isLocked();
-        $this->attachmentDTO->uri       = $this->attachment->getUri();
-        $this->attachmentDTO->created   = $this->attachment->getCreated();
-        $this->attachmentDTO->updated   = $this->attachment->getUpdated();
+        $this->entityDTO = new AttachmentDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->isVisible = $this->entity->isVisible();
+        $this->entityDTO->isLocked  = $this->entity->isLocked();
+        $this->entityDTO->uri       = $this->entity->getUri();
     }
 
     public function withOrderItems()
     {
-        foreach ($this->attachment->getOrderItems() as $orderItem) {
-            $this->attachmentDTO->orderItems[] = $this->dtoBuilderFactory
+        foreach ($this->entity->getOrderItems() as $orderItem) {
+            $this->entityDTO->orderItems[] = $this->dtoBuilderFactory
                 ->getOrderItemDTOBuilder($orderItem)
                 ->build();
         }
@@ -46,8 +47,13 @@ class AttachmentDTOBuilder
             ->withOrderItems();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->attachmentDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

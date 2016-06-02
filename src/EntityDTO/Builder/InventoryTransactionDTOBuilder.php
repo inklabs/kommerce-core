@@ -4,44 +4,47 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\EntityDTO\InventoryTransactionDTO;
 
-class InventoryTransactionDTOBuilder
+class InventoryTransactionDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var InventoryTransaction */
-    protected $inventoryTransaction;
+    protected $entity;
 
     /** @var InventoryTransactionDTO */
-    protected $inventoryTransactionDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(
         InventoryTransaction $inventoryTransaction,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
-        $this->inventoryTransaction = $inventoryTransaction;
+        $this->entity = $inventoryTransaction;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->inventoryTransactionDTO = new InventoryTransactionDTO;
-        $this->inventoryTransactionDTO->id             = $this->inventoryTransaction->getId();
-        $this->inventoryTransactionDTO->debitQuantity  = $this->inventoryTransaction->getDebitQuantity();
-        $this->inventoryTransactionDTO->creditQuantity = $this->inventoryTransaction->getCreditQuantity();
-        $this->inventoryTransactionDTO->memo           = $this->inventoryTransaction->getMemo();
+        $this->entityDTO = new InventoryTransactionDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->debitQuantity  = $this->entity->getDebitQuantity();
+        $this->entityDTO->creditQuantity = $this->entity->getCreditQuantity();
+        $this->entityDTO->memo           = $this->entity->getMemo();
 
-        $this->inventoryTransactionDTO->type = $this->dtoBuilderFactory
-            ->getInventoryTransactionTypeDTOBuilder($this->inventoryTransaction->getType())
+        $this->entityDTO->type = $this->dtoBuilderFactory
+            ->getInventoryTransactionTypeDTOBuilder($this->entity->getType())
             ->build();
 
-        $this->inventoryTransactionDTO->inventoryLocation = $this->dtoBuilderFactory
-            ->getInventoryLocationDTOBuilder($this->inventoryTransaction->getInventoryLocation())
+        $this->entityDTO->inventoryLocation = $this->dtoBuilderFactory
+            ->getInventoryLocationDTOBuilder($this->entity->getInventoryLocation())
             ->build();
     }
 
     public function withProduct()
     {
-        $product = $this->inventoryTransaction->getProduct();
+        $product = $this->entity->getProduct();
         if (! empty($product)) {
-            $this->inventoryTransactionDTO->product = $this->dtoBuilderFactory
+            $this->entityDTO->product = $this->dtoBuilderFactory
                 ->getProductDTOBuilder($product)
                 ->build();
         }
@@ -54,8 +57,13 @@ class InventoryTransactionDTOBuilder
             ->withProduct();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->inventoryTransactionDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

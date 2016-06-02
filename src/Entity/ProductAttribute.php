@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ProductAttributeDTOBuilder;
-
 class ProductAttribute
 {
     use TimeTrait, IdTrait;

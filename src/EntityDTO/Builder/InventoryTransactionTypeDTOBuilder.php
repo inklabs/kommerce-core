@@ -9,7 +9,7 @@ use inklabs\kommerce\EntityDTO\InventoryTransactionTypeDTO;
  */
 class InventoryTransactionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
-    protected function getTypeDTO()
+    protected function getEntityDTO()
     {
         return new InventoryTransactionTypeDTO;
     }

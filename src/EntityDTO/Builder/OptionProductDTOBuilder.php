@@ -5,36 +5,37 @@ use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\EntityDTO\OptionProductDTO;
 use inklabs\kommerce\Lib\PricingInterface;
 
-class OptionProductDTOBuilder
+class OptionProductDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var OptionProduct */
-    protected $optionProduct;
+    protected $entity;
 
     /** @var OptionProductDTO */
-    protected $optionProductDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
     protected $dtoBuilderFactory;
 
     public function __construct(OptionProduct $optionProduct, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->optionProduct = $optionProduct;
+        $this->entity = $optionProduct;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->optionProductDTO = new OptionProductDTO;
-        $this->optionProductDTO->id             = $this->optionProduct->getId();
-        $this->optionProductDTO->name           = $this->optionProduct->getname();
-        $this->optionProductDTO->sku            = $this->optionProduct->getSku();
-        $this->optionProductDTO->shippingWeight = $this->optionProduct->getShippingWeight();
-        $this->optionProductDTO->sortOrder      = $this->optionProduct->getSortOrder();
-        $this->optionProductDTO->created        = $this->optionProduct->getCreated();
-        $this->optionProductDTO->updated        = $this->optionProduct->getUpdated();
+        $this->entityDTO = new OptionProductDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->name           = $this->entity->getname();
+        $this->entityDTO->sku            = $this->entity->getSku();
+        $this->entityDTO->shippingWeight = $this->entity->getShippingWeight();
+        $this->entityDTO->sortOrder      = $this->entity->getSortOrder();
     }
 
     public function withProduct(PricingInterface $pricing)
     {
-        $this->optionProductDTO->product = $this->dtoBuilderFactory
-            ->getProductDTOBuilder($this->optionProduct->getProduct())
+        $this->entityDTO->product = $this->dtoBuilderFactory
+            ->getProductDTOBuilder($this->entity->getProduct())
             ->withPrice($pricing)
             ->build();
 
@@ -43,9 +44,9 @@ class OptionProductDTOBuilder
 
     public function withOption()
     {
-        $option = $this->optionProduct->getOption();
+        $option = $this->entity->getOption();
         if ($option !== null) {
-            $this->optionProductDTO->option = $this->dtoBuilderFactory
+            $this->entityDTO->option = $this->dtoBuilderFactory
                 ->getOptionDTOBuilder($option)
                 ->build();
         }
@@ -60,8 +61,13 @@ class OptionProductDTOBuilder
             ->withProduct($pricing);
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->optionProductDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

@@ -11,12 +11,12 @@ use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
 {
     /** @var CatalogPromotion */
-    protected $promotion;
+    protected $entity;
 
     /** @var CatalogPromotionDTO */
-    protected $promotionDTO;
+    protected $entityDTO;
 
-    protected function getPromotionDTO()
+    protected function getEntityDTO()
     {
         return new CatalogPromotionDTO;
     }
@@ -24,14 +24,14 @@ class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
     protected function preBuild()
     {
         parent::preBuild();
-        $this->promotionDTO->code = $this->promotion->getCode();
+        $this->entityDTO->code = $this->entity->getCode();
     }
 
     private function withTag()
     {
-        $tag = $this->promotion->getTag();
+        $tag = $this->entity->getTag();
         if ($tag !== null) {
-            $this->promotionDTO->tag = $this->dtoBuilderFactory
+            $this->entityDTO->tag = $this->dtoBuilderFactory
                 ->getTagDTOBuilder($tag)
                 ->build();
         }

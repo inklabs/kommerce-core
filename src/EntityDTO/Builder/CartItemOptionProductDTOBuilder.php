@@ -5,38 +5,39 @@ use inklabs\kommerce\Entity\CartItemOptionProduct;
 use inklabs\kommerce\EntityDTO\CartItemOptionProductDTO;
 use inklabs\kommerce\Lib\PricingInterface;
 
-class CartItemOptionProductDTOBuilder
+class CartItemOptionProductDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var CartItemOptionProduct */
-    private $cartItemOptionProduct;
+    private $entity;
 
     /** @var CartItemOptionProductDTO  */
-    private $cartItemOptionProductDTO;
+    private $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(
         CartItemOptionProduct $cartItemOptionProduct,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
-        $this->cartItemOptionProduct = $cartItemOptionProduct;
+        $this->entity = $cartItemOptionProduct;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->cartItemOptionProductDTO = new CartItemOptionProductDTO;
-        $this->cartItemOptionProductDTO->id      = $this->cartItemOptionProduct->getId();
-        $this->cartItemOptionProductDTO->created = $this->cartItemOptionProduct->getCreated();
-        $this->cartItemOptionProductDTO->updated = $this->cartItemOptionProduct->getUpdated();
+        $this->entityDTO = new CartItemOptionProductDTO;
+        $this->setId();
+        $this->setTime();
 
-        $this->cartItemOptionProductDTO->optionProduct = $this->dtoBuilderFactory
-            ->getOptionProductDTOBuilder($this->cartItemOptionProduct->getOptionProduct())
+        $this->entityDTO->optionProduct = $this->dtoBuilderFactory
+            ->getOptionProductDTOBuilder($this->entity->getOptionProduct())
             ->build();
     }
 
     public function withOptionProduct(PricingInterface $pricing)
     {
-        $this->cartItemOptionProductDTO->optionProduct = $this->dtoBuilderFactory
-            ->getOptionProductDTOBuilder($this->cartItemOptionProduct->getOptionProduct())
+        $this->entityDTO->optionProduct = $this->dtoBuilderFactory
+            ->getOptionProductDTOBuilder($this->entity->getOptionProduct())
             ->withOption()
             ->withProduct($pricing)
             ->build();
@@ -50,8 +51,13 @@ class CartItemOptionProductDTOBuilder
             ->withOptionProduct($pricing);
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->cartItemOptionProductDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

@@ -4,25 +4,30 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\EntityDTO\PointDTO;
 
-class PointDTOBuilder
+class PointDTOBuilder implements DTOBuilderInterface
 {
     /** @var Point */
-    private $point;
+    protected $entity;
 
     /** @var PointDTO */
-    private $pointDTO;
+    protected $entityDTO;
 
     public function __construct(Point $point)
     {
-        $this->point = $point;
+        $this->entity = $point;
 
-        $this->pointDTO = new PointDTO;
-        $this->pointDTO->latitude = $this->point->getLatitude();
-        $this->pointDTO->longitude = $this->point->getLongitude();
+        $this->entityDTO = new PointDTO;
+        $this->entityDTO->latitude = $this->entity->getLatitude();
+        $this->entityDTO->longitude = $this->entity->getLongitude();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->pointDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

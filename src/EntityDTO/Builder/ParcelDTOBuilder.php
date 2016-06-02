@@ -4,32 +4,36 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\Parcel;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
 
-class ParcelDTOBuilder
+class ParcelDTOBuilder implements DTOBuilderInterface
 {
     /** @var Parcel */
-    private $parcel;
+    protected $entity;
 
     /** @var ParcelDTO */
-    public $parcelDTO;
+    protected $entityDTO;
 
     public function __construct(Parcel $parcel)
     {
-        $this->parcel = $parcel;
+        $this->entity = $parcel;
 
-        $this->parcelDTO = new ParcelDTO;
-        $this->parcelDTO->created    = $this->parcel->getCreated();
-        $this->parcelDTO->updated    = $this->parcel->getUpdated();
-        $this->parcelDTO->updated    = $this->parcel->getUpdated();
-        $this->parcelDTO->externalId = $this->parcel->getExternalId();
-        $this->parcelDTO->length     = $this->parcel->getLength();
-        $this->parcelDTO->width      = $this->parcel->getWidth();
-        $this->parcelDTO->height     = $this->parcel->getHeight();
-        $this->parcelDTO->weight     = $this->parcel->getWeight();
-        $this->parcelDTO->predefinedPackage = $this->parcel->getPredefinedPackage();
+        $this->entityDTO = new ParcelDTO;
+        $this->entityDTO->created    = $this->entity->getCreated();
+        $this->entityDTO->updated    = $this->entity->getUpdated();
+        $this->entityDTO->externalId = $this->entity->getExternalId();
+        $this->entityDTO->length     = $this->entity->getLength();
+        $this->entityDTO->width      = $this->entity->getWidth();
+        $this->entityDTO->height     = $this->entity->getHeight();
+        $this->entityDTO->weight     = $this->entity->getWeight();
+        $this->entityDTO->predefinedPackage = $this->entity->getPredefinedPackage();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->parcelDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

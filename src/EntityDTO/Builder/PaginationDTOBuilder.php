@@ -4,28 +4,33 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 
-class PaginationDTOBuilder
+class PaginationDTOBuilder implements DTOBuilderInterface
 {
     /** @var Pagination */
-    protected $pagination;
+    protected $entity;
 
     /** @var PaginationDTO */
-    protected $paginationDTO;
+    protected $entityDTO;
 
     public function __construct(Pagination $pagination)
     {
-        $this->pagination = $pagination;
+        $this->entity = $pagination;
 
-        $this->paginationDTO = new PaginationDTO;
-        $this->paginationDTO->maxResults      = $this->pagination->getMaxResults();
-        $this->paginationDTO->page            = $this->pagination->getPage();
-        $this->paginationDTO->total           = $this->pagination->getTotal();
-        $this->paginationDTO->isTotalIncluded = $this->pagination->isTotalIncluded();
+        $this->entityDTO = new PaginationDTO;
+        $this->entityDTO->maxResults      = $this->entity->getMaxResults();
+        $this->entityDTO->page            = $this->entity->getPage();
+        $this->entityDTO->total           = $this->entity->getTotal();
+        $this->entityDTO->isTotalIncluded = $this->entity->isTotalIncluded();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        unset($this->pagination);
-        return $this->paginationDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

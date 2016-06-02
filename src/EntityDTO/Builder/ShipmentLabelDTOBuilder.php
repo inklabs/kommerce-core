@@ -4,29 +4,37 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\ShipmentLabel;
 use inklabs\kommerce\EntityDTO\ShipmentLabelDTO;
 
-class ShipmentLabelDTOBuilder
+class ShipmentLabelDTOBuilder implements DTOBuilderInterface
 {
     /** @var ShipmentLabel */
-    private $shipmentLabel;
+    protected $entity;
+
+    /** @var ShipmentLabelDTO */
+    protected $entityDTO;
 
     public function __construct(ShipmentLabel $shipmentLabel)
     {
-        $this->shipmentLabel = $shipmentLabel;
+        $this->entity = $shipmentLabel;
 
-        $this->shipmentLabelDTO = new ShipmentLabelDTO;
-        $this->shipmentLabelDTO->externalId = $this->shipmentLabel->getExternalId();
-        $this->shipmentLabelDTO->resolution = $this->shipmentLabel->getResolution();
-        $this->shipmentLabelDTO->size       = $this->shipmentLabel->getSize();
-        $this->shipmentLabelDTO->type       = $this->shipmentLabel->getType();
-        $this->shipmentLabelDTO->fileType   = $this->shipmentLabel->getFileType();
-        $this->shipmentLabelDTO->url        = $this->shipmentLabel->getUrl();
-        $this->shipmentLabelDTO->pdfUrl     = $this->shipmentLabel->getPdfUrl();
-        $this->shipmentLabelDTO->epl2Url    = $this->shipmentLabel->getEpl2Url();
-        $this->shipmentLabelDTO->zplUrl     = $this->shipmentLabel->getZplUrl();
+        $this->entityDTO = new ShipmentLabelDTO;
+        $this->entityDTO->externalId = $this->entity->getExternalId();
+        $this->entityDTO->resolution = $this->entity->getResolution();
+        $this->entityDTO->size       = $this->entity->getSize();
+        $this->entityDTO->type       = $this->entity->getType();
+        $this->entityDTO->fileType   = $this->entity->getFileType();
+        $this->entityDTO->url        = $this->entity->getUrl();
+        $this->entityDTO->pdfUrl     = $this->entity->getPdfUrl();
+        $this->entityDTO->epl2Url    = $this->entity->getEpl2Url();
+        $this->entityDTO->zplUrl     = $this->entity->getZplUrl();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->shipmentLabelDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

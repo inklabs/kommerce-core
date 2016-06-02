@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\EntityDTO\AttachmentDTO;
-use inklabs\kommerce\EntityDTO\OrderItemDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 use inklabs\kommerce\Lib\UuidInterface;
 

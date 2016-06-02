@@ -10,7 +10,7 @@ use inklabs\kommerce\EntityDTO\CashPaymentDTO;
  */
 class CashPaymentDTOBuilder extends AbstractPaymentDTOBuilder
 {
-    protected function getPaymentDTO()
+    protected function getEntityDTO()
     {
         return new CashPaymentDTO;
     }

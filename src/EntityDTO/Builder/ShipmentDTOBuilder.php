@@ -4,41 +4,42 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\EntityDTO\ShipmentDTO;
 
-class ShipmentDTOBuilder
+class ShipmentDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var Shipment */
-    protected $shipment;
+    protected $entity;
 
     /** @var ShipmentDTO */
-    protected $shipmentDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(Shipment $shipment, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->shipment = $shipment;
+        $this->entity = $shipment;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->shipmentDTO = new ShipmentDTO;
-        $this->shipmentDTO->id      = $this->shipment->getId();
-        $this->shipmentDTO->created = $this->shipment->getCreated();
-        $this->shipmentDTO->updated = $this->shipment->getUpdated();
+        $this->entityDTO = new ShipmentDTO;
+        $this->setId();
+        $this->setTime();
 
-        foreach ($this->shipment->getShipmentTrackers() as $shipmentTracker) {
-            $this->shipmentDTO->shipmentTrackers[] = $this->dtoBuilderFactory
+        foreach ($this->entity->getShipmentTrackers() as $shipmentTracker) {
+            $this->entityDTO->shipmentTrackers[] = $this->dtoBuilderFactory
                 ->getShipmentTrackerDTOBuilder($shipmentTracker)
                 ->build();
         }
 
-        foreach ($this->shipment->getShipmentItems() as $hipmentTrack) {
-            $this->shipmentDTO->shipmentItems[] = $this->dtoBuilderFactory
+        foreach ($this->entity->getShipmentItems() as $hipmentTrack) {
+            $this->entityDTO->shipmentItems[] = $this->dtoBuilderFactory
                 ->getShipmentItemDTOBuilder($hipmentTrack)
                 ->build();
         }
 
-        foreach ($this->shipment->getShipmentComments() as $shipmentComment) {
-            $this->shipmentDTO->shipmentComments[] = $this->dtoBuilderFactory
+        foreach ($this->entity->getShipmentComments() as $shipmentComment) {
+            $this->entityDTO->shipmentComments[] = $this->dtoBuilderFactory
                 ->getShipmentCommentDTOBuilder($shipmentComment)
                 ->build();
         }
@@ -46,21 +47,25 @@ class ShipmentDTOBuilder
 
     public function withOrder()
     {
-        $this->shipmentDTO->order = $this->dtoBuilderFactory
-            ->getOrderDTOBuilder($this->shipment->getOrder())
+        $this->entityDTO->order = $this->dtoBuilderFactory
+            ->getOrderDTOBuilder($this->entity->getOrder())
             ->build();
 
         return $this;
     }
 
-    public function build()
-    {
-        return $this->shipmentDTO;
-    }
-
     public function withAllData()
     {
-        return
-            $this->withOrder();
+        return $this->withOrder();
+    }
+
+    protected function preBuild()
+    {
+    }
+
+    public function build()
+    {
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

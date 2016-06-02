@@ -11,23 +11,23 @@ use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
 class CartPriceRuleDTOBuilder extends AbstractPromotionDTOBuilder
 {
     /** @var CartPriceRule */
-    protected $promotion;
+    protected $entity;
 
     /** @var CartPriceRuleDTO */
-    protected $promotionDTO;
+    protected $entityDTO;
 
     /**
      * @return AbstractPromotionDTO
      */
-    protected function getPromotionDTO()
+    protected function getEntityDTO()
     {
         return new CartPriceRuleDTO;
     }
 
     public function withCartPriceRuleItems()
     {
-        foreach ($this->promotion->getCartPriceRuleItems() as $cartPriceRuleItem) {
-            $this->promotionDTO->cartPriceRuleItems[] = $this->dtoBuilderFactory
+        foreach ($this->entity->getCartPriceRuleItems() as $cartPriceRuleItem) {
+            $this->entityDTO->cartPriceRuleItems[] = $this->dtoBuilderFactory
                 ->getCartPriceRuleItemDTOBuilder($cartPriceRuleItem)
                 ->build();
         }
@@ -37,8 +37,8 @@ class CartPriceRuleDTOBuilder extends AbstractPromotionDTOBuilder
 
     public function withCartPriceRuleDiscounts()
     {
-        foreach ($this->promotion->getCartPriceRuleDiscounts() as $cartPriceRuleDiscount) {
-            $this->promotionDTO->cartPriceRuleDiscounts[] = $this->dtoBuilderFactory
+        foreach ($this->entity->getCartPriceRuleDiscounts() as $cartPriceRuleDiscount) {
+            $this->entityDTO->cartPriceRuleDiscounts[] = $this->dtoBuilderFactory
                 ->getCartPriceRuleDiscountDTOBuilder($cartPriceRuleDiscount)
                 ->build();
         }

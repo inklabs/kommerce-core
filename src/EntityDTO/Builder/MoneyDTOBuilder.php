@@ -4,25 +4,30 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\EntityDTO\MoneyDTO;
 
-class MoneyDTOBuilder
+class MoneyDTOBuilder implements DTOBuilderInterface
 {
     /** @var Money */
-    private $money;
+    protected $entity;
 
     /** @var MoneyDTO */
-    protected $moneyDTO;
+    protected $entityDTO;
 
     public function __construct(Money $money)
     {
-        $this->money = $money;
+        $this->entity = $money;
 
-        $this->moneyDTO = new MoneyDTO;
-        $this->moneyDTO->amount = $this->money->getAmount();
-        $this->moneyDTO->currency = $this->money->getCurrency();
+        $this->entityDTO = new MoneyDTO;
+        $this->entityDTO->amount = $this->entity->getAmount();
+        $this->entityDTO->currency = $this->entity->getCurrency();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->moneyDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

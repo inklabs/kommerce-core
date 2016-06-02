@@ -4,31 +4,40 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\ShipmentItem;
 use inklabs\kommerce\EntityDTO\ShipmentItemDTO;
 
-class ShipmentItemDTOBuilder
+class ShipmentItemDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var ShipmentItem */
-    private $shipmentItem;
+    protected $entity;
+
+    /** @var ShipmentItemDTO */
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(ShipmentItem $shipmentItem, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->shipmentItem = $shipmentItem;
+        $this->entity = $shipmentItem;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->shipmentItemDTO = new ShipmentItemDTO;
-        $this->shipmentItemDTO->id      = $this->shipmentItem->getId();
-        $this->shipmentItemDTO->created = $this->shipmentItem->getCreated();
-        $this->shipmentItemDTO->updated = $this->shipmentItem->getUpdated();
+        $this->entityDTO = new ShipmentItemDTO;
+        $this->setId();
+        $this->setTime();
 
-        $this->shipmentItemDTO->orderItem = $this->dtoBuilderFactory
-            ->getOrderItemDTOBuilder($this->shipmentItem->getOrderItem())
+        $this->entityDTO->orderItem = $this->dtoBuilderFactory
+            ->getOrderItemDTOBuilder($this->entity->getOrderItem())
             ->build();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->shipmentItemDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }

@@ -11,13 +11,13 @@ use inklabs\kommerce\EntityDTO\CreditPaymentDTO;
 class CreditPaymentDTOBuilder extends AbstractPaymentDTOBuilder
 {
     /** @var CreditPayment */
-    protected $payment;
+    protected $entity;
 
     /** @var CreditPaymentDTO */
-    protected $paymentDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactory */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(CreditPayment $payment, DTOBuilderFactory $dtoBuilderFactory)
     {
@@ -25,15 +25,15 @@ class CreditPaymentDTOBuilder extends AbstractPaymentDTOBuilder
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    protected function getPaymentDTO()
+    protected function getEntityDTO()
     {
         return new CreditPaymentDTO;
     }
 
     protected function preBuild()
     {
-        $this->paymentDTO->chargeResponse = $this->dtoBuilderFactory
-            ->getChargeResponseDTOBuilder($this->payment->getChargeResponse())
+        $this->entityDTO->chargeResponse = $this->dtoBuilderFactory
+            ->getChargeResponseDTOBuilder($this->entity->getChargeResponse())
             ->build();
     }
 }

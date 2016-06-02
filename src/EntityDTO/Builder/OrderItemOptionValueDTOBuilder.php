@@ -4,37 +4,38 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\OrderItemOptionValue;
 use inklabs\kommerce\EntityDTO\OrderItemOptionValueDTO;
 
-class OrderItemOptionValueDTOBuilder
+class OrderItemOptionValueDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var OrderItemOptionValue */
-    protected $orderItemOptionValue;
+    protected $entity;
 
     /** @var OrderItemOptionValueDTO */
-    protected $orderItemOptionValueDTO;
+    protected $entityDTO;
 
     /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
+    protected $dtoBuilderFactory;
 
     public function __construct(
         OrderItemOptionValue $orderItemOptionValue,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
-        $this->orderItemOptionValue = $orderItemOptionValue;
+        $this->entity = $orderItemOptionValue;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->orderItemOptionValueDTO = new OrderItemOptionValueDTO;
-        $this->orderItemOptionValueDTO->id              = $this->orderItemOptionValue->getId();
-        $this->orderItemOptionValueDTO->sku             = $this->orderItemOptionValue->getSku();
-        $this->orderItemOptionValueDTO->optionName      = $this->orderItemOptionValue->getOptionName();
-        $this->orderItemOptionValueDTO->optionValueName = $this->orderItemOptionValue->getOptionValueName();
-        $this->orderItemOptionValueDTO->created         = $this->orderItemOptionValue->getCreated();
-        $this->orderItemOptionValueDTO->updated         = $this->orderItemOptionValue->getUpdated();
+        $this->entityDTO = new OrderItemOptionValueDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->sku             = $this->entity->getSku();
+        $this->entityDTO->optionName      = $this->entity->getOptionName();
+        $this->entityDTO->optionValueName = $this->entity->getOptionValueName();
     }
 
     public function withOptionValue()
     {
-        $this->orderItemOptionValueDTO->optionValue = $this->dtoBuilderFactory
-            ->getOptionValueDTOBuilder($this->orderItemOptionValue->getOptionValue())
+        $this->entityDTO->optionValue = $this->dtoBuilderFactory
+            ->getOptionValueDTOBuilder($this->entity->getOptionValue())
             ->withOption()
             ->build();
 
@@ -47,8 +48,13 @@ class OrderItemOptionValueDTOBuilder
             ->withOptionValue();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->orderItemOptionValueDTO;
+        $this->preBuild();
+        return $this->entityDTO;
     }
 }
