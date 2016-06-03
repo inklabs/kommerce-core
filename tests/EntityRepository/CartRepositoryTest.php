@@ -114,5 +114,4 @@ class CartRepositoryTest extends EntityRepositoryTestCase
 
         $this->assertEqualEntities($cartItem1, $cartItem);
     }
-
 }
