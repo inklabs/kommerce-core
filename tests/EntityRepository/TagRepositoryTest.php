@@ -47,6 +47,18 @@ class TagRepositoryTest extends EntityRepositoryTestCase
         );
     }
 
+    public function testUpdateFailsWhenNotManaged()
+    {
+        $tag = $this->dummyData->getTag();
+
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Tag not found'
+        );
+
+        $this->tagRepository->update($tag);
+    }
+
     public function testFindOneById()
     {
         $originalTag = $this->setupTag();

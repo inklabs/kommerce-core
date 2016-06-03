@@ -81,7 +81,7 @@ class Uuid implements UuidInterface, Matcher
 
     public function __toString()
     {
-        return $this->ramseyUuid->toString();
+        return $this->toString();
     }
 
     public function jsonSerialize()
@@ -106,15 +106,13 @@ class Uuid implements UuidInterface, Matcher
 
     public function describeTo(Description $description)
     {
-        $description
-            ->appendText('uuid should match')
-            ->appendValue($this->toString());
+        $description->appendValue($this->toString());
     }
 
     public function describeMismatch($item, Description $description)
     {
         $description
-            ->appendText('was')
-            ->appendValue($this->toString());
+            ->appendText('was ')
+            ->appendValue($item->toString());
     }
 }
