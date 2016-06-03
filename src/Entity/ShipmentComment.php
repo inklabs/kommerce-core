@@ -26,7 +26,7 @@ class ShipmentComment implements IdEntityInterface, ValidationInterface
         $this->comment = (string) $comment;
 
         $shipment->addShipmentComment($this);
-        $this->shipment = $shipment;
+        $this->setShipment($shipment);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -42,7 +42,7 @@ class ShipmentComment implements IdEntityInterface, ValidationInterface
         return $this->comment;
     }
 
-    public function setShipment(Shipment $shipment)
+    private function setShipment(Shipment $shipment)
     {
         $this->shipment = $shipment;
     }

@@ -36,13 +36,18 @@ class UserTokenTest extends EntityTestCase
     {
         $expires = new DateTime;
         $userTokenType = $this->dummyData->getUserTokenType();
+        $userLogin = $this->dummyData->getUserLogin();
+        $ip4 = '127.0.0.1';
 
+        $this->userToken->setIp4($ip4);
         $this->userToken->setUserAgent('UserAgent');
         $this->userToken->setToken('token');
         $this->userToken->setType($userTokenType);
         $this->userToken->setExpires($expires);
+        $this->userToken->addUserLogin($userLogin);
 
         $this->assertEntityValid($this->userToken);
+        $this->assertSame($ip4, $this->userToken->getIp4());
         $this->assertSame('UserAgent', $this->userToken->getUserAgent());
         $this->assertTrue($this->userToken->verifyToken('token'));
         $this->assertSame($userTokenType, $this->userToken->getType());
