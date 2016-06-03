@@ -368,6 +368,8 @@ class DummyData
         $coupon->setName('20% OFF Test Coupon');
         $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
+        $coupon->setStart(new DateTime('-1 Day'));
+        $coupon->setEnd(new DateTime('+1 Day'));
 
         return $coupon;
     }
@@ -889,6 +891,7 @@ class DummyData
         $shipmentRate->setService('Ground');
         $shipmentRate->setListRate(new Money($amount * 1.05, $currency));
         $shipmentRate->setRetailRate(new Money($amount * 1.15, $currency));
+        $shipmentRate->setDeliveryDate(new DateTime());
 
         return $shipmentRate;
     }

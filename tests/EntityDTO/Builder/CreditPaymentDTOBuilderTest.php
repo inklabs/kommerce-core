@@ -20,7 +20,7 @@ class CreditPaymentDTOBuilderTest extends AbstractPaymentDTOBuilderTest
     protected function getPaymentDTO()
     {
         return $this->getDTOBuilderFactory()
-            ->getCreditPaymentDTOBuilder($this->getPayment())
+            ->getPaymentDTOBuilder($this->getPayment())
             ->build();
     }
 

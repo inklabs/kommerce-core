@@ -21,7 +21,7 @@ class CheckPaymentDTOBuilderTest extends AbstractPaymentDTOBuilderTest
     protected function getPaymentDTO()
     {
         return $this->getDTOBuilderFactory()
-            ->getCheckPaymentDTOBuilder($this->getPayment())
+            ->getPaymentDTOBuilder($this->getPayment())
             ->build();
     }
 

@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\EntityDTO;
 
 use inklabs\kommerce\Entity\Coupon;
-use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\tests\EntityDTO\Builder\AbstractPromotionDTOBuilderTest;
 
 class CouponDTOBuilderTest extends AbstractPromotionDTOBuilderTest

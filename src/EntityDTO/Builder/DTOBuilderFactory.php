@@ -129,10 +129,14 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
 
     public function getCartPriceRuleItemDTOBuilder(AbstractCartPriceRuleItem $cartPriceRuleItem)
     {
-        if ($cartPriceRuleItem instanceof CartPriceRuleTagItem) {
-            return $this->getCartPriceRuleTagItemDTOBuilder($cartPriceRuleItem);
-        } elseif ($cartPriceRuleItem instanceof CartPriceRuleProductItem) {
-            return $this->getCartPriceRuleProductItemDTOBuilder($cartPriceRuleItem);
+        switch (true) {
+            case $cartPriceRuleItem instanceof CartPriceRuleTagItem:
+                return $this->getCartPriceRuleTagItemDTOBuilder($cartPriceRuleItem);
+                break;
+
+            case $cartPriceRuleItem instanceof CartPriceRuleProductItem:
+                return $this->getCartPriceRuleProductItemDTOBuilder($cartPriceRuleItem);
+                break;
         }
 
         throw DTOBuilderException::invalidCartPriceRuleItem();
@@ -285,12 +289,18 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
 
     public function getPaymentDTOBuilder(AbstractPayment $payment)
     {
-        if ($payment instanceof CreditPayment) {
-            return $this->getCreditPaymentDTOBuilder($payment);
-        } elseif ($payment instanceof CashPayment) {
-            return $this->getCashPaymentDTOBuilder($payment);
-        } elseif ($payment instanceof CheckPayment) {
-            return $this->getCheckPaymentDTOBuilder($payment);
+        switch(true) {
+            case $payment instanceof CashPayment:
+                return $this->getCashPaymentDTOBuilder($payment);
+                break;
+
+            case $payment instanceof CreditPayment:
+                return $this->getCreditPaymentDTOBuilder($payment);
+                break;
+
+            case $payment instanceof CheckPayment:
+                return $this->getCheckPaymentDTOBuilder($payment);
+                break;
         }
 
         throw DTOBuilderException::invalidPayment();

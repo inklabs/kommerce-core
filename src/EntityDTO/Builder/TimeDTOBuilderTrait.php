@@ -30,32 +30,20 @@ trait TimeDTOBuilderTrait
         }
     }
 
-    private function formatDate(DateTime $dateTime = null, $format = null)
+    private function formatDate(DateTime $dateTime, $format)
     {
-        if ($format === null) {
-            $format = $this->timeFormat;
-        }
-
         $output = new DateTime();
         $output->setTimestamp($dateTime->getTimestamp());
         $output->setTimezone(new DateTimeZone($this->timezone));
-        return $output->format($format);
-    }
 
-    private function formatTime(DateTime $dateTime = null)
-    {
-        return $this->formatDate(
-            $dateTime,
-            $this->timeFormat
-        );
+        return $output->format($format);
     }
 
     private function formatDateTime(DateTime $dateTime = null)
     {
         return $this->formatDate(
             $dateTime,
-            $this->dateFormat . ' ' .
-            $this->timeFormat
+            $this->dateFormat . ' ' . $this->timeFormat
         );
     }
 }

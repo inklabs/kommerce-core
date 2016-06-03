@@ -20,7 +20,7 @@ class CashPaymentDTOBuilderTest extends AbstractPaymentDTOBuilderTest
     protected function getPaymentDTO()
     {
         return $this->getDTOBuilderFactory()
-            ->getCashPaymentDTOBuilder($this->getPayment())
+            ->getPaymentDTOBuilder($this->getPayment())
             ->build();
     }
 
