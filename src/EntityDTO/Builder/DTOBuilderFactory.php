@@ -135,7 +135,7 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
             return $this->getCartPriceRuleProductItemDTOBuilder($cartPriceRuleItem);
         }
 
-        throw DTOBuilderException::invalidPayment();
+        throw DTOBuilderException::invalidCartPriceRuleItem();
     }
 
     public function getCartPriceRuleProductItemDTOBuilder(CartPriceRuleProductItem $cartPriceRuleProductItem)
