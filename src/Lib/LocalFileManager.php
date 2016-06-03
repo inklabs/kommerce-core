@@ -78,13 +78,7 @@ class LocalFileManager implements FileManagerInterface
     {
         $this->createDirectory(dirname($destinationFilePath));
 
-        try {
-            $isSuccess = copy($sourceFilePath, $destinationFilePath);
-        } catch (Exception $e) {
-            throw FileManagerException::failedToCopyFile();
-        }
-
-        if (! $isSuccess) {
+        if (! @copy($sourceFilePath, $destinationFilePath)) {
             throw FileManagerException::failedToCopyFile();
         }
     }
@@ -99,7 +93,7 @@ class LocalFileManager implements FileManagerInterface
     }
 
     /**
-     * @param $sourceFilePath
+     * @param string $sourceFilePath
      * @return string
      * @throws FileManagerException
      */
@@ -119,6 +113,10 @@ class LocalFileManager implements FileManagerInterface
         }
     }
 
+    /**
+     * @param string $directoryPath
+     * @throws FileManagerException
+     */
     private function createDirectory($directoryPath)
     {
         if (! file_exists($directoryPath)) {
@@ -147,7 +145,7 @@ class LocalFileManager implements FileManagerInterface
     }
 
     /**
-     * @param $sourceFilePath
+     * @param string $sourceFilePath
      * @throws FileManagerException
      */
     private function checkUploadedFile($sourceFilePath)
@@ -157,6 +155,10 @@ class LocalFileManager implements FileManagerInterface
         }
     }
 
+    /**
+     * @param string $sourceFilePath
+     * @throws FileManagerException
+     */
     private function checkValidImage($sourceFilePath)
     {
         if (! $this->imageIsLargeEnoughToReadFirstBytes($sourceFilePath)) {

@@ -12,7 +12,8 @@ class LocalFileManagerTest extends EntityTestCase
     const FILE_PATH_BMP = __DIR__ . '/../_files/FileManager/test.bmp';
     const INVALID_SHORT_IMAGE = __DIR__ . '/../_files/FileManager/test.short';
     const DESTINATION_PATH = __DIR__ . '/../_files/_out';
-    const URL_PREFIX = '/data/attachment';
+    const URI_PREFIX = '/data/attachment';
+    const REMOTE_FILE = 'http://www.example.com/robots.txt';
 
     /** @var LocalFileManager */
     private $fileManager;
@@ -23,7 +24,7 @@ class LocalFileManagerTest extends EntityTestCase
 
         $this->fileManager = new LocalFileManager(
             self::DESTINATION_PATH,
-            self::URL_PREFIX,
+            self::URI_PREFIX,
             [
                 IMAGETYPE_JPEG,
                 IMAGETYPE_PNG
@@ -90,7 +91,7 @@ class LocalFileManagerTest extends EntityTestCase
     {
         $fileManager = new LocalFileManager(
             self::DESTINATION_PATH,
-            self::URL_PREFIX,
+            self::URI_PREFIX,
             [IMAGETYPE_BMP]
         );
 
@@ -100,5 +101,15 @@ class LocalFileManagerTest extends EntityTestCase
         );
 
         $fileManager->saveFile(self::FILE_PATH_BMP);
+    }
+
+    public function testInvalidUploadedFile()
+    {
+        $this->setExpectedException(
+            FileManagerException::class,
+            'Invalid uploaded file'
+        );
+
+        $this->fileManager->saveFile(self::REMOTE_FILE);
     }
 }
