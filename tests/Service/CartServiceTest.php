@@ -255,32 +255,31 @@ class CartServiceTest extends ServiceTestCase
         $cart = $this->getCartThatRepositoryWillFind();
         $this->cartRepositoryShouldUpdateOnce($cart);
 
-        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getid());
+        $cartItem = $this->cartService->addItem($cart->getId(), $product->getid());
 
-        $this->assertSame(0, $cartItemIndex);
-        $this->assertTrue($cart->getCartItem($cartItemIndex) instanceof CartItem);
+        $this->assertEqualEntities($cartItem, $cart->getCartItems()[0]);
         $this->assertSame(null, $cart->getShipmentRate());
     }
 
     public function testAddItemOptionProducts()
     {
         $optionProductIds = [101];
+        $product = $this->dummyData->getProduct();
+        $cartItem = $this->dummyData->getCartItem($product);
+        $cart = $this->dummyData->getCart([$cartItem]);
+
         $this->optionProductRepository->shouldReceive('getAllOptionProductsByIds')
             ->andReturn([])
             ->once();
 
-        $product = $this->dummyData->getProduct();
-        $this->productRepository->shouldReceive('findOneById')
-            ->with($product->getId())
-            ->andReturn($product)
+        $this->cartRepository->shouldReceive('getItemById')
+            ->with($cartItem->getId())
+            ->andReturn($cartItem)
             ->once();
 
-        $cart = $this->getCartThatRepositoryWillFind();
-        $this->cartRepositoryShouldUpdateOnce($cart);
-        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
         $this->cartRepositoryShouldUpdateOnce($cart);
 
-        $this->cartService->addItemOptionProducts($cart->getId(), $cartItemIndex, $optionProductIds);
+        $this->cartService->addItemOptionProducts($cartItem->getId(), $optionProductIds);
 
         // TODO: Test CartService::addItemOptionProducts()
     }
@@ -288,28 +287,30 @@ class CartServiceTest extends ServiceTestCase
     public function testAddItemOptionValues()
     {
         $optionValueIds = [201];
+        $cartItem = $this->dummyData->getCartItem();
+        $cart = $this->dummyData->getCart([$cartItem]);
+
         $this->optionValueRepository->shouldReceive('getAllOptionValuesByIds')
             ->andReturn([])
             ->once();
 
-        $product = $this->dummyData->getProduct();
-        $this->productRepository->shouldReceive('findOneById')
-            ->with($product->getId())
-            ->andReturn($product)
+        $this->cartRepository->shouldReceive('getItemById')
+            ->with($cartItem->getId())
+            ->andReturn($cartItem)
             ->once();
 
-        $cart = $this->getCartThatRepositoryWillFind();
-        $this->cartRepositoryShouldUpdateOnce($cart);
-        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
         $this->cartRepositoryShouldUpdateOnce($cart);
 
-        $this->cartService->addItemOptionValues($cart->getId(), $cartItemIndex, $optionValueIds);
+        $this->cartService->addItemOptionValues($cartItem->getId(), $optionValueIds);
 
         // TODO: Test CartService::addItemOptionValues()
     }
 
     public function testAddItemTextOptionValues()
     {
+        $cartItem = $this->dummyData->getCartItem();
+        $cart = $this->dummyData->getCart([$cartItem]);
+
         $textOption = $this->dummyData->getTextOption();
         $this->textOptionRepository->shouldReceive('getAllTextOptionsByIds')
             ->andReturn([$textOption])
@@ -317,18 +318,14 @@ class CartServiceTest extends ServiceTestCase
 
         $textOptionValues = [$textOption->getId()->getHex() => 'Happy Birthday'];
 
-        $product = $this->dummyData->getProduct();
-        $this->productRepository->shouldReceive('findOneById')
-            ->with($product->getId())
-            ->andReturn($product)
+        $this->cartRepository->shouldReceive('getItemById')
+            ->with($cartItem->getId())
+            ->andReturn($cartItem)
             ->once();
 
-        $cart = $this->getCartThatRepositoryWillFind();
-        $this->cartRepositoryShouldUpdateOnce($cart);
-        $cartItemIndex = $this->cartService->addItem($cart->getId(), $product->getId());
         $this->cartRepositoryShouldUpdateOnce($cart);
 
-        $this->cartService->addItemTextOptionValues($cart->getId(), $cartItemIndex, $textOptionValues);
+        $this->cartService->addItemTextOptionValues($cartItem->getId(), $textOptionValues);
 
         // TODO: Test CartService::addItemTextOptionValues()
     }
@@ -345,22 +342,28 @@ class CartServiceTest extends ServiceTestCase
 
         $this->cartService->copyCartItems($fromCart->getId(), $toCart->getId());
 
-        $this->assertEquals($cartItem->getId(), $toCart->getCartItem(0)->getId());
+        $this->assertEqualEntities($cartItem, $toCart->getCartItems()[0]);
     }
 
-    public function testUpdateQuantity()
+    public function testUpdateItemQuantity()
     {
         $cartItem = $this->dummyData->getCartItem();
         $cart = $this->dummyData->getCart([$cartItem]);
         $cart->setShipmentRate($this->dummyData->getShipmentRate());
-        $this->getCartThatRepositoryWillFind($cart);
+
+        $this->cartRepository->shouldReceive('getItemById')
+            ->with($cartItem->getId())
+            ->andReturn($cartItem)
+            ->once();
+
         $this->cartRepositoryShouldUpdateOnce($cart);
 
-        $cartItemIndex = 0;
+        $cartItem = $cart->getCartItems()[0];
         $quantity = 2;
-        $this->cartService->updateQuantity($cart->getId(), $cartItemIndex, $quantity);
 
-        $this->assertSame($quantity, $cart->getCartItem($cartItemIndex)->getQuantity());
+        $this->cartService->updateItemQuantity($cartItem->getId(), $quantity);
+
+        $this->assertSame($quantity, $cartItem->getQuantity());
         $this->assertSame(null, $cart->getShipmentRate());
     }
 
@@ -369,11 +372,15 @@ class CartServiceTest extends ServiceTestCase
         $cartItem = $this->dummyData->getCartItem();
         $cart = $this->dummyData->getCart([$cartItem]);
         $cart->setShipmentRate($this->dummyData->getShipmentRate());
-        $this->getCartThatRepositoryWillFind($cart);
+
+        $this->cartRepository->shouldReceive('getItemById')
+            ->with($cartItem->getId())
+            ->andReturn($cartItem)
+            ->once();
+
         $this->cartRepositoryShouldUpdateOnce($cart);
 
-        $cartItemIndex = 0;
-        $this->cartService->deleteItem($cart->getId(), $cartItemIndex);
+        $this->cartService->deleteItem($cartItem->getId());
 
         $this->assertCount(0, $cart->getCartItems());
         $this->assertSame(null, $cart->getShipmentRate());
@@ -468,7 +475,7 @@ class CartServiceTest extends ServiceTestCase
         }
 
         $this->cartRepository
-            ->shouldReceive('findOneByUuid')
+            ->shouldReceive('findOneById')
             ->with($cart->getId())
             ->andReturn($cart);
 

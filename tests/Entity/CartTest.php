@@ -45,8 +45,7 @@ class CartTest extends EntityTestCase
         $this->assertTrue($cart instanceof Cart);
         $this->assertSame('10.0.0.1', $cart->getIp4());
         $this->assertSame('6is7ujb3crb5ja85gf91g9en62', $cart->getSessionId());
-        $this->assertSame($cartItem, $cart->getCartitem(0));
-        $this->assertSame($cartItem, $cart->getCartitems()[0]);
+        $this->assertSame($cartItem, $cart->getCartItems()[0]);
         $this->assertSame($coupon, $cart->getCoupons()[0]);
         $this->assertSame($shipmentRate, $cart->getShipmentRate());
         $this->assertSame($orderAddress, $cart->getShippingAddress());
@@ -66,40 +65,29 @@ class CartTest extends EntityTestCase
         $this->assertSame(7, $cart->totalQuantity());
     }
 
-    public function testGetCartItemMissingThrowsException()
-    {
-        $cart = new Cart;
-
-        $this->setExpectedException(
-            InvalidCartActionException::class,
-            'CartItem not found'
-        );
-
-        $cart->getCartItem(1);
-    }
-
     public function testDeleteCartItem()
     {
         $cartItem = $this->dummyData->getCartItem(null, 1);
         $cart = new Cart;
-        $cartItemIndex1 = $cart->addCartItem($cartItem);
+        $cart->addCartItem($cartItem);
         $this->assertSame(1, $cart->totalItems());
 
-        $cart->deleteCartItem($cartItemIndex1);
+        $cart->deleteCartItem($cartItem);
 
         $this->assertSame(0, $cart->totalItems());
     }
 
     public function testDeleteCartItemMissing()
     {
-        $cart = new Cart;
+        $cart = $this->dummyData->getCart();
+        $cartItem = $this->dummyData->getCartItem();
 
         $this->setExpectedException(
             InvalidCartActionException::class,
             'CartItem missing'
         );
 
-        $cart->deleteCartItem(1);
+        $cart->deleteCartItem($cartItem);
     }
 
     public function testUpdateCoupon()
@@ -234,10 +222,10 @@ class CartTest extends EntityTestCase
 
     public function testGetShippingWeight()
     {
-        $cartItem1 = $this->dummyData->getCartitem(null, 1);
+        $cartItem1 = $this->dummyData->getCartItem(null, 1);
         $cartItem1->getProduct()->setShippingWeight(16);
 
-        $cartItem2 = $this->dummyData->getCartitem(null, 3);
+        $cartItem2 = $this->dummyData->getCartItem(null, 3);
         $cartItem2->getProduct()->setShippingWeight(16);
 
         $cart = new Cart;
@@ -249,7 +237,7 @@ class CartTest extends EntityTestCase
 
     public function testGetTotal()
     {
-        $cartItem = $this->dummyData->getCartitem(null, 2);
+        $cartItem = $this->dummyData->getCartItem(null, 2);
         $cartItem->getProduct()->setUnitPrice(500);
 
         $cart = new Cart;

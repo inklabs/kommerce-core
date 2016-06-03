@@ -69,7 +69,7 @@ class CartRepositoryTest extends EntityRepositoryTestCase
         $originalCart = $this->setupCart();
         $this->setCountLogger();
 
-        $cart = $this->cartRepository->findOneByUuId($originalCart->getId());
+        $cart = $this->cartRepository->findOneById($originalCart->getId());
 
         $cart->getUser()->getCreated();
         $cart->getTaxRate()->getCreated();
@@ -102,4 +102,17 @@ class CartRepositoryTest extends EntityRepositoryTestCase
 
         $this->assertEqualEntities($originalCart, $cart);
     }
+
+    public function testGetItemById()
+    {
+        $cart1 = $this->setupCart();
+        $cartItem1 = $cart1->getCartItems()[0];
+
+        $cartItem = $this->cartRepository->getItemById(
+            $cartItem1->getId()
+        );
+
+        $this->assertEqualEntities($cartItem1, $cartItem);
+    }
+
 }

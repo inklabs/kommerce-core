@@ -70,8 +70,8 @@ class CartDTOBuilder implements DTOBuilderInterface
 
     public function withCartItems(CartCalculator $cartCalculator)
     {
-        foreach ($this->entity->getCartItems() as $cartItemIndex => $cartItem) {
-            $this->entityDTO->cartItems[$cartItemIndex] = $this->dtoBuilderFactory
+        foreach ($this->entity->getCartItems() as $cartItem) {
+            $this->entityDTO->cartItems[] = $this->dtoBuilderFactory
                 ->getCartItemDTOBuilder($cartItem)
                 ->withAllData($cartCalculator->getPricing())
                 ->build();

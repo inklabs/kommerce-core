@@ -121,7 +121,7 @@ class CartService implements CartServiceInterface
     public function addCouponByCode(UuidInterface $cartId, $couponCode)
     {
         $coupon = $this->couponRepository->findOneByCode($couponCode);
-        $cart = $this->cartRepository->findOneByUuId($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
 
         $couponIndex = $cart->addCoupon($coupon);
 
@@ -132,7 +132,7 @@ class CartService implements CartServiceInterface
 
     public function getCoupons(UuidInterface $cartId)
     {
-        $cart = $this->cartRepository->findOneByUuid($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         return $cart->getCoupons();
     }
 
@@ -143,7 +143,7 @@ class CartService implements CartServiceInterface
 
     public function removeCart(UuidInterface $cartId)
     {
-        $cart = $this->cartRepository->findOneByUuid($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         $this->cartRepository->delete($cart);
     }
 
@@ -153,7 +153,7 @@ class CartService implements CartServiceInterface
      */
     public function removeCoupon(UuidInterface $cartId, $couponIndex)
     {
-        $cart = $this->cartRepository->findOneByUuid($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         $cart->removeCoupon($couponIndex);
 
         $this->cartRepository->update($cart);
@@ -196,39 +196,37 @@ class CartService implements CartServiceInterface
      * @param UuidInterface $cartId
      * @param UuidInterface $productId
      * @param int $quantity
-     * @return int $cartItemIndex
+     * @return CartItem
      * @throws EntityNotFoundException
      */
     public function addItem(UuidInterface $cartId, UuidInterface $productId, $quantity = 1)
     {
         $product = $this->productRepository->findOneById($productId);
-        $cart = $this->cartRepository->findOneByUuid($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         $cart->setShipmentRate(null);
 
         $cartItem = new CartItem;
         $cartItem->setProduct($product);
         $cartItem->setQuantity($quantity);
 
-        $cartItemIndex = $cart->addCartItem($cartItem);
+        $cart->addCartItem($cartItem);
 
         $this->cartRepository->update($cart);
 
-        return $cartItemIndex;
+        return $cartItem;
     }
 
     /**
-     * @param UuidInterface $cartId
-     * @param int $cartItemIndex
+     * @param UuidInterface $cartItemId
      * @param string[] $optionProductIds
      * @throws EntityNotFoundException
-     * @throws InvalidCartActionException
      */
-    public function addItemOptionProducts(UuidInterface $cartId, $cartItemIndex, array $optionProductIds)
+    public function addItemOptionProducts(UuidInterface $cartItemId, array $optionProductIds)
     {
         $optionProducts = $this->optionProductRepository->getAllOptionProductsByIds($optionProductIds);
 
-        $cart = $this->cartRepository->findOneByUuid($cartId);
-        $cartItem = $cart->getCartItem($cartItemIndex);
+        $cartItem = $this->cartRepository->getItemById($cartItemId);
+        $cart = $cartItem->getCart();
 
         foreach ($optionProducts as $optionProduct) {
             $cartItemOptionProduct = new CartItemOptionProduct;
@@ -241,18 +239,16 @@ class CartService implements CartServiceInterface
     }
 
     /**
-     * @param UuidInterface $cartId
-     * @param int $cartItemIndex
+     * @param UuidInterface $cartItemId
      * @param string[] $optionValueIds
      * @throws EntityNotFoundException
-     * @throws InvalidCartActionException
      */
-    public function addItemOptionValues(UuidInterface $cartId, $cartItemIndex, array $optionValueIds)
+    public function addItemOptionValues(UuidInterface $cartItemId, array $optionValueIds)
     {
         $optionValues = $this->optionValueRepository->getAllOptionValuesByIds($optionValueIds);
 
-        $cart = $this->cartRepository->findOneByUuid($cartId);
-        $cartItem = $cart->getCartItem($cartItemIndex);
+        $cartItem = $this->cartRepository->getItemById($cartItemId);
+        $cart = $cartItem->getCart();
 
         foreach ($optionValues as $optionValue) {
             $cartItemOptionValue = new CartItemOptionValue;
@@ -265,19 +261,17 @@ class CartService implements CartServiceInterface
     }
 
     /**
-     * @param UuidInterface $cartId
-     * @param int $cartItemIndex
+     * @param UuidInterface $cartItemId
      * @param array $textOptionValues
      * @throws EntityNotFoundException
-     * @throws InvalidCartActionException
      */
-    public function addItemTextOptionValues(UuidInterface $cartId, $cartItemIndex, array $textOptionValues)
+    public function addItemTextOptionValues(UuidInterface $cartItemId, array $textOptionValues)
     {
         $textOptionIds = array_keys($textOptionValues);
         $textOptions = $this->textOptionRepository->getAllTextOptionsByIds($textOptionIds);
 
-        $cart = $this->cartRepository->findOneByUuid($cartId);
-        $cartItem = $cart->getCartItem($cartItemIndex);
+        $cartItem = $this->cartRepository->getItemById($cartItemId);
+        $cart = $cartItem->getCart();
 
         foreach ($textOptions as $textOption) {
             $textOptionValue = $textOptionValues[$textOption->getId()->getHex()];
@@ -294,8 +288,8 @@ class CartService implements CartServiceInterface
 
     public function copyCartItems(UuidInterface $fromCartId, UuidInterface $toCartId)
     {
-        $fromCart = $this->cartRepository->findOneByUuid($fromCartId);
-        $toCart = $this->cartRepository->findOneByUuid($toCartId);
+        $fromCart = $this->cartRepository->findOneById($fromCartId);
+        $toCart = $this->cartRepository->findOneById($toCartId);
 
         foreach ($fromCart->getCartItems() as $cartItem) {
             $toCart->addCartItem(clone $cartItem);
@@ -305,34 +299,31 @@ class CartService implements CartServiceInterface
     }
 
     /**
-     * @param int $cartId
-     * @param int $cartItemIndex
+     * @param UuidInterface $cartItemId
      * @param int $quantity
      * @throws EntityNotFoundException
-     * @throws InvalidCartActionException
      */
-    public function updateQuantity(UuidInterface $cartId, $cartItemIndex, $quantity)
+    public function updateItemQuantity(UuidInterface $cartItemId, $quantity)
     {
-        $cart = $this->cartRepository->findOneByUuid($cartId);
-        $cart->setShipmentRate(null);
-
-        $cartItem = $cart->getCartItem($cartItemIndex);
+        $cartItem = $this->cartRepository->getItemById($cartItemId);
         $cartItem->setQuantity($quantity);
+
+        $cart = $cartItem->getCart();
+        $cart->setShipmentRate(null);
 
         $this->cartRepository->update($cart);
     }
 
     /**
-     * @param UuidInterface $cartId
-     * @param int $cartItemIndex
+     * @param UuidInterface $cartItemId
      * @throws EntityNotFoundException
-     * @throws InvalidCartActionException
      */
-    public function deleteItem(UuidInterface $cartId, $cartItemIndex)
+    public function deleteItem(UuidInterface $cartItemId)
     {
-        $cart = $this->cartRepository->findOneByUuid($cartId);
+        $cartItem = $this->cartRepository->getItemById($cartItemId);
+        $cart = $cartItem->getCart();
         $cart->setShipmentRate(null);
-        $cart->deleteCartItem($cartItemIndex);
+        $cart->deleteCartItem($cartItem);
 
         $this->cartRepository->update($cart);
     }
@@ -344,12 +335,12 @@ class CartService implements CartServiceInterface
      */
     public function findOneById(UuidInterface $cartId)
     {
-        return $this->cartRepository->findOneByUuid($cartId);
+        return $this->cartRepository->findOneById($cartId);
     }
 
     public function setTaxRate(UuidInterface $cartId, TaxRate $taxRate = null)
     {
-        $cart = $this->cartRepository->findOneByUuid($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         $cart->setTaxRate($taxRate);
 
         $this->cartRepository->update($cart);
@@ -363,7 +354,7 @@ class CartService implements CartServiceInterface
     public function setUserById(UuidInterface $cartId, UuidInterface $userId)
     {
         $user = $this->userRepository->findOneById($userId);
-        $cart = $this->cartRepository->findOneByUuid($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
 
         $cart->setUser($user);
 
@@ -377,7 +368,7 @@ class CartService implements CartServiceInterface
      */
     public function setSessionId(UuidInterface $cartId, $sessionId)
     {
-        $cart = $this->cartRepository->findOneByUuid($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
 
         $cart->setSessionId($sessionId);
 
@@ -394,7 +385,7 @@ class CartService implements CartServiceInterface
         $shipmentRateExternalId,
         OrderAddressDTO $shippingAddressDTO
     ) {
-        $cart = $this->cartRepository->findOneByUuid($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
 
         $shipmentRate = $this->shipmentGateway->getShipmentRateByExternalId($shipmentRateExternalId);
 
@@ -419,7 +410,7 @@ class CartService implements CartServiceInterface
      */
     public function setShipmentRate(UuidInterface $cartId, ShipmentRate $shipmentRate)
     {
-        $cart = $this->cartRepository->findOneByUuid($cartId);
+        $cart = $this->cartRepository->findOneById($cartId);
         $cart->setShipmentRate($shipmentRate);
         $this->cartRepository->update($cart);
     }

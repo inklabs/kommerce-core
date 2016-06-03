@@ -83,32 +83,10 @@ class Cart implements IdEntityInterface, ValidationInterface
         $this->sessionId = $sessionId;
     }
 
-    /**
-     * @param CartItem $cartItem
-     * @return int
-     */
     public function addCartItem(CartItem $cartItem)
     {
         $cartItem->setCart($this);
         $this->cartItems->add($cartItem);
-
-        $this->cartItems->last();
-        $cartItemIndex = $this->cartItems->key();
-        return $cartItemIndex;
-    }
-
-    /**
-     * @param int $cartItemIndex
-     * @return CartItem
-     * @throws InvalidCartActionException
-     */
-    public function getCartItem($cartItemIndex)
-    {
-        if (! isset($this->cartItems[$cartItemIndex])) {
-            throw new InvalidCartActionException('CartItem not found');
-        }
-
-        return $this->cartItems[$cartItemIndex];
     }
 
     /**
@@ -119,13 +97,13 @@ class Cart implements IdEntityInterface, ValidationInterface
         return $this->cartItems;
     }
 
-    public function deleteCartItem($cartItemIndex)
+    public function deleteCartItem(CartItem $cartItem)
     {
-        if (! $this->cartItems->offsetExists($cartItemIndex)) {
+        if (! $this->cartItems->contains($cartItem)) {
             throw new InvalidCartActionException('CartItem missing');
         }
 
-        $this->cartItems->remove($cartItemIndex);
+        $this->cartItems->removeElement($cartItem);
     }
 
     /**
