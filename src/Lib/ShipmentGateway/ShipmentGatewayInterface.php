@@ -16,6 +16,13 @@ interface ShipmentGatewayInterface
     public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel);
 
     /**
+     * @param OrderAddressDTO $toAddress
+     * @param ParcelDTO $parcel
+     * @return ShipmentRate[]
+     */
+    public function getTrimmedRates(OrderAddressDTO $toAddress, ParcelDTO $parcel);
+
+    /**
      * @param string $shipmentRateExternalId
      * @return ShipmentRate
      */
