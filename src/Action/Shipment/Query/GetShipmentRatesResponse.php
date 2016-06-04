@@ -17,10 +17,12 @@ class GetShipmentRatesResponse implements GetShipmentRatesResponseInterface
     /**
      * @return ShipmentRateDTO[] | \Generator
      */
-    public function getShipmentRatesDTO()
+    public function getShipmentRateDTOs()
     {
+        $shipmentRateDTOs = [];
         foreach ($this->shipmentRateDTOBuilders as $shipmentRateDTOBuilder) {
-            yield $shipmentRateDTOBuilder->build();
+            $shipmentRateDTOs[] = $shipmentRateDTOBuilder->build();
         }
+        return $shipmentRateDTOs;
     }
 }

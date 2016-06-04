@@ -21,7 +21,7 @@ class ListCouponsHandlerTest extends ActionTestCase
         $handler = new ListCouponsHandler($couponService, $this->getDTOBuilderFactory());
         $handler->handle(new ListCouponsQuery($request, $response));
 
-        $this->assertTrue($response->getCouponDTOs()->current() instanceof CouponDTO);
+        $this->assertTrue($response->getCouponDTOs()[0] instanceof CouponDTO);
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
     }
 }

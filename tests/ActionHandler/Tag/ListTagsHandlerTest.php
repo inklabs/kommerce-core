@@ -23,7 +23,7 @@ class ListTagsHandlerTest extends ActionTestCase
         $handler = new ListTagsHandler($tagService, $dtoBuilderFactory);
         $handler->handle(new ListTagsQuery($request, $response));
 
-        $this->assertTrue($response->getTagDTOs()->current() instanceof TagDTO);
+        $this->assertTrue($response->getTagDTOs()[0] instanceof TagDTO);
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
     }
 }

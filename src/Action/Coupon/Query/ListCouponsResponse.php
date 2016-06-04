@@ -29,9 +29,11 @@ class ListCouponsResponse implements ListCouponsResponseInterface
      */
     public function getCouponDTOs()
     {
+        $couponDTOs = [];
         foreach ($this->couponDTOBuilders as $couponDTOBuilder) {
-            yield $couponDTOBuilder->build();
+            $couponDTOs[] = $couponDTOBuilder->build();
         }
+        return $couponDTOs;
     }
 
     /**

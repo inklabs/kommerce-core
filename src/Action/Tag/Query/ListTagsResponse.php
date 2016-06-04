@@ -29,9 +29,11 @@ class ListTagsResponse implements ListTagsResponseInterface
      */
     public function getTagDTOs()
     {
+        $tagDTOs = [];
         foreach ($this->tagDTOBuilders as $tagDTOBuilder) {
-            yield $tagDTOBuilder->build();
+            $tagDTOs[] = $tagDTOBuilder->build();
         }
+        return $tagDTOs;
     }
 
     /**

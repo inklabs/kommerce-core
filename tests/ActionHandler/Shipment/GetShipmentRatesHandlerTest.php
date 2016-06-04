@@ -25,6 +25,6 @@ class GetShipmentRatesHandlerTest extends ActionTestCase
         $handler = new GetShipmentRatesHandler($shipmentGateway, $dtoBuilderFactoryInterface);
         $handler->handle(new GetShipmentRatesQuery($request, $response));
 
-        $this->assertTrue($response->getShipmentRatesDTO()->current() instanceof ShipmentRateDTO);
+        $this->assertTrue($response->getShipmentRateDTOs()[0] instanceof ShipmentRateDTO);
     }
 }
