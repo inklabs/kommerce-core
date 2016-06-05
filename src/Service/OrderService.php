@@ -204,6 +204,7 @@ class OrderService implements OrderServiceInterface
     }
 
     /**
+     * @param UuidInterface $orderId
      * @param Cart $cart
      * @param CartCalculatorInterface $cartCalculator
      * @param string $ip4
@@ -211,9 +212,9 @@ class OrderService implements OrderServiceInterface
      * @param OrderAddress $billingAddress
      * @param CreditCard $creditCard
      * @return Order
-     * @throws EntityValidatorException
      */
     public function createOrderFromCart(
+        UuidInterface $orderId,
         Cart $cart,
         CartCalculatorInterface $cartCalculator,
         $ip4,
@@ -223,7 +224,7 @@ class OrderService implements OrderServiceInterface
     ) {
         $this->throwValidationErrors($creditCard);
 
-        $order = Order::fromCart($cart, $cartCalculator, $ip4);
+        $order = Order::fromCart($orderId, $cart, $cartCalculator, $ip4);
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
 

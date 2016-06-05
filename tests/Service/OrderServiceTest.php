@@ -32,6 +32,7 @@ use inklabs\kommerce\Event\OrderShippedEvent;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
@@ -280,8 +281,10 @@ class OrderServiceTest extends ServiceTestCase
     public function testCreateOrderFromCart()
     {
         $cart = $this->getPersistedCart();
+        $orderId = Uuid::uuid4();
 
         $order = $this->orderService->createOrderFromCart(
+            $orderId,
             $cart,
             $this->getCartCalculator(),
             '10.0.0.1',

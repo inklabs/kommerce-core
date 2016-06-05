@@ -1,13 +1,17 @@
 <?php
-namespace inklabs\kommerce\Action\Order\Query;
+namespace inklabs\kommerce\Action\Order;
 
 use inklabs\kommerce\EntityDTO\CreditCardDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
-final class CreateOrderFromCartRequest
+final class CreateOrderFromCartCommand implements CommandInterface
 {
+    /** @var UuidInterface */
+    private $orderId;
+
     /** @var UuidInterface */
     private $cartId;
 
@@ -37,6 +41,7 @@ final class CreateOrderFromCartRequest
         OrderAddressDTO $shippingAddressDTO,
         OrderAddressDTO $billingAddressDTO
     ) {
+        $this->orderId = Uuid::uuid4();
         $this->cartId = $cartId;
         $this->ip4 = (string) $ip4;
         $this->creditCardDTO = $creditCardDTO;
@@ -67,5 +72,10 @@ final class CreateOrderFromCartRequest
     public function getBillingAddressDTO()
     {
         return $this->billingAddressDTO;
+    }
+
+    public function getOrderId()
+    {
+        return $this->orderId;
     }
 }

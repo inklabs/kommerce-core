@@ -80,6 +80,7 @@ interface OrderServiceInterface
     public function addCreditCardPayment(Order $order, CreditCard $creditCard, $amount);
 
     /**
+     * @param UuidInterface $orderId
      * @param Cart $cart
      * @param CartCalculatorInterface $cartCalculator
      * @param string $ip4
@@ -87,9 +88,9 @@ interface OrderServiceInterface
      * @param OrderAddress $billingAddress
      * @param CreditCard $creditCard
      * @return Order
-     * @throws EntityValidatorException
      */
     public function createOrderFromCart(
+        UuidInterface $orderId,
         Cart $cart,
         CartCalculatorInterface $cartCalculator,
         $ip4,

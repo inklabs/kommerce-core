@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Entity;
 use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\Lib\PaymentGateway;
+use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 use inklabs\kommerce\Lib\UuidInterface;
 
@@ -95,6 +96,7 @@ class OrderTest extends EntityTestCase
         $coupon = $this->dummyData->getCoupon();
         $taxRate = $this->dummyData->getTaxRate();
         $shipmentRate = $this->dummyData->getShipmentRate(1000);
+        $orderId = Uuid::uuid4();
 
         $cart = $this->dummyData->getCart([
             $this->dummyData->getCartItemFull()
@@ -104,7 +106,7 @@ class OrderTest extends EntityTestCase
         $cart->setTaxRate($taxRate);
         $cart->setShipmentRate($shipmentRate);
 
-        $order = Order::fromCart($cart, $cartCalculator, '10.0.0.1');
+        $order = Order::fromCart($orderId, $cart, $cartCalculator, '10.0.0.1');
 
         $this->assertTrue($order instanceof Order);
         $this->assertSame('10.0.0.1', $order->getIp4());

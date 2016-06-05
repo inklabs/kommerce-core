@@ -5,6 +5,7 @@ use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -54,9 +55,9 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
     /** @var int */
     protected $ip4;
 
-    public function __construct()
+    public function __construct(UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->orderItems = new ArrayCollection;
         $this->payments = new ArrayCollection;
@@ -67,14 +68,15 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
     }
 
     /**
+     * @param UuidInterface $orderId
      * @param Cart $cart
      * @param CartCalculatorInterface $cartCalculator
      * @param string $ip4
      * @return static
      */
-    public static function fromCart(Cart $cart, CartCalculatorInterface $cartCalculator, $ip4)
+    public static function fromCart(UuidInterface $orderId, Cart $cart, CartCalculatorInterface $cartCalculator, $ip4)
     {
-        $order = new Order;
+        $order = new Order($orderId);
         $order->setIp4($ip4);
         $order->setTotal($cart->getTotal($cartCalculator));
 

@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Order;
 
-use inklabs\kommerce\Action\Order\CreateOrderFromCartQuery;
+use inklabs\kommerce\Action\Order\CreateOrderFromCartCommand;
 use inklabs\kommerce\Action\Order\Query\CreateOrderFromCartRequest;
 use inklabs\kommerce\Action\Order\Query\CreateOrderFromCartResponse;
 use inklabs\kommerce\Entity\AbstractPayment;
@@ -61,31 +61,30 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
         $billingAddressDTO = $dtoBuilderFactory
             ->getOrderAddressDTOBuilder($this->dummyData->getOrderAddress())->build();
 
-        $request = new CreateOrderFromCartRequest(
+        $serviceFactory = $this->getServiceFactory();
+
+        $command = new CreateOrderFromCartCommand(
             $cart->getId(),
             '10.0.0.1',
             $creditCardDTO,
             $shippingAddressDTO,
             $billingAddressDTO
         );
-        $response = new CreateOrderFromCartResponse;
 
-        $serviceFactory = $this->getServiceFactory();
         $handler = new CreateOrderFromCartHandler(
             $serviceFactory->getCart(),
             $serviceFactory->getCartCalculator(),
             $serviceFactory->getOrder(),
             $this->getDTOBuilderFactory()
         );
-        $handler->handle(new CreateOrderFromCartQuery($request, $response));
+        $handler->handle($command);
 
         $order = $this->getRepositoryFactory()->getOrderRepository()->findOneById(
-            $response->getOrderDTO()->id
+            $command->getOrderId()
         );
 
         $this->assertTrue($order instanceof Order);
         $this->assertTrue($order->getPayments()[0] instanceof AbstractPayment);
-        $this->assertTrue($response->getOrderDTO() instanceof OrderDTO);
 
         $this->setExpectedException(EntityNotFoundException::class);
         $this->getRepositoryFactory()->getCartRepository()->findOneById($cart->getId());
