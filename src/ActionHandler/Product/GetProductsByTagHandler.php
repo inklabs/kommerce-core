@@ -4,7 +4,6 @@ namespace inklabs\kommerce\ActionHandler\Product;
 use inklabs\kommerce\Action\Product\GetProductsByTagQuery;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\ProductServiceInterface;
 
 final class GetProductsByTagHandler

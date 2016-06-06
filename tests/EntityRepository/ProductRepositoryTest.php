@@ -205,8 +205,8 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         }
 
         $this->assertSame(2, count($products));
-        $this->assertEquals($product1->getId(), $products[0]->getId());
-        $this->assertEquals($product2->getId(), $products[1]->getid());
+        $this->assertEqualEntities($product1, $products[0]);
+        $this->assertEqualEntities($product2, $products[1]);
         $this->assertSame(2, $this->getTotalQueries());
     }
 

@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use Exception;
 use inklabs\kommerce\Entity\LocalManagedFile;
 use inklabs\kommerce\Entity\ManagedFileInterface;
 use inklabs\kommerce\Exception\FileManagerException;

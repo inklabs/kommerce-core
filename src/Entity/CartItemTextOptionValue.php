@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartItemTextOptionValueDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 

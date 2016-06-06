@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartItemDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Exception\AttachmentException;
 use inklabs\kommerce\Lib\PricingInterface;

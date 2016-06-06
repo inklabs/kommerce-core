@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use DateTimeZone;
-use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Event\PasswordChangedEvent;
 use Symfony\Component\Validator\Mapping\ClassMetadata;

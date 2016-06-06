@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
 use inklabs\kommerce\Entity\ValidationInterface;
-use inklabs\kommerce\EntityDTO\Builder\ChargeResponseDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 

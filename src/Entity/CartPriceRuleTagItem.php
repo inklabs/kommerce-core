@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleTagItemDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class CartPriceRuleTagItem extends AbstractCartPriceRuleItem

@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\InventoryTransactionDTOBuilder;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;

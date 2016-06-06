@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;

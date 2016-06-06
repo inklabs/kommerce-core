@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\OrderItemDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Exception\AttachmentException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;

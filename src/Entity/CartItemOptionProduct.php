@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartItemOptionProductDTOBuilder;
 use inklabs\kommerce\Lib\PricingInterface;
 
 class CartItemOptionProduct

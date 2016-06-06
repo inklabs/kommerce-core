@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\AbstractIntegerTypeDTOBuilder;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 
 abstract class AbstractIntegerType implements ValidationInterface, NameMapInterface

@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\EntityDTO\Builder\UserTokenDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 

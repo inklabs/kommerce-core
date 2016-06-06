@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;

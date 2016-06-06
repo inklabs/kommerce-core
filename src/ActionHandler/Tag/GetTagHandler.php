@@ -3,7 +3,6 @@ namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\TagServiceInterface;
 
 final class GetTagHandler

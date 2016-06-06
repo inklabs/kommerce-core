@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO\Builder;
 
-use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\EntityDTO\InventoryTransactionTypeDTO;
 
 /**

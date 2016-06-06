@@ -10,7 +10,6 @@ use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;

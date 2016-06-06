@@ -2,8 +2,6 @@
 namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\CreateOrderFromCartCommand;
-use inklabs\kommerce\Action\Order\Query\CreateOrderFromCartRequest;
-use inklabs\kommerce\Action\Order\Query\CreateOrderFromCartResponse;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
@@ -21,7 +19,6 @@ use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\Warehouse;
-use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 

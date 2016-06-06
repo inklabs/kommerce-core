@@ -4,7 +4,6 @@ namespace inklabs\kommerce\EntityRepository;
 use Doctrine\ORM\EntityRepository;
 use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
 use inklabs\kommerce\Entity\EntityInterface;
-use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\UuidInterface;
 

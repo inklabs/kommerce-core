@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Lib\UuidInterface;
 
 class ProductRepository extends AbstractRepository implements ProductRepositoryInterface

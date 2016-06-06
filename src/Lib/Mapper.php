@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use Doctrine\ORM\EntityManagerInterface;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;

@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ProductDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;

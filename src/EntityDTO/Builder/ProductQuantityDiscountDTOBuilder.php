@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
-use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
 use inklabs\kommerce\EntityDTO\ProductQuantityDiscountDTO;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\PricingInterface;

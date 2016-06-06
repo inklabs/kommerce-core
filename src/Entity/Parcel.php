@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ParcelDTOBuilder;
-
 class Parcel
 {
     use TimeTrait;

@@ -2,11 +2,9 @@
 namespace inklabs\kommerce\Doctrine\ORM;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Point;
-use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
 /**
