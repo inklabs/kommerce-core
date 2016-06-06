@@ -4,7 +4,6 @@ namespace inklabs\kommerce\ActionHandler\Tag;
 use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
-use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
