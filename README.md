@@ -38,7 +38,7 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
       $this->dispatch(new UpdateProductCommand($productDTO));
       ```
 
-        - There is no return value from the dispatch() method. Only exceptions are thrown if the
+        - There is no return value from the `$this->dispatch(...)` method. Only exceptions are thrown if the
           Command is invalid.
 
     - **Query Actions** are dispatched to the
