@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\EntityDTO\AbstractPaymentDTO;
-use inklabs\kommerce\Exception\InvalidArgumentException;
 
 abstract class AbstractPaymentDTOBuilder implements DTOBuilderInterface
 {

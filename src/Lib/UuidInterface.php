@@ -10,6 +10,7 @@ interface UuidInterface extends \JsonSerializable, \Serializable
     public function compareTo(UuidInterface $other);
 
     /**
+     * @param mixed $other
      * @return bool
      */
     public function equals($other);

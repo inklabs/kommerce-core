@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\OrderItemOptionValue;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
  * @method OrderItemOptionValue|null findOneById(UuidInterface $id)

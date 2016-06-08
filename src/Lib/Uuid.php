@@ -42,6 +42,7 @@ class Uuid implements UuidInterface, Matcher
     }
 
     /**
+     * @param mixed $other
      * @return bool
      */
     public function equals($other)

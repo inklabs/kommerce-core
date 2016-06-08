@@ -27,7 +27,6 @@ class ShipmentTracker implements IdEntityInterface, ValidationInterface
     protected $shipment;
 
     /**
-     * @param Shipment $shipment
      * @param ShipmentCarrierType $carrier
      * @param string $trackingCode
      */
