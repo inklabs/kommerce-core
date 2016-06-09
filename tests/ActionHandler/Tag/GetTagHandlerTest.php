@@ -19,8 +19,11 @@ class GetTagHandlerTest extends ActionTestCase
         $response = new GetTagResponse($pricing);
 
         $handler = new GetTagHandler($tagService, $dtoBuilderFactory);
-        $handler->handle(new GetTagQuery($request, $response));
 
+        $handler->handle(new GetTagQuery($request, $response));
+        $this->assertTrue($response->getTagDTO() instanceof TagDTO);
+
+        $handler->handle(new GetTagQuery($request, $response));
         $this->assertTrue($response->getTagDTOWithAllData() instanceof TagDTO);
     }
 }

@@ -263,13 +263,16 @@ class CartServiceTest extends ServiceTestCase
 
     public function testAddItemOptionProducts()
     {
-        $optionProductIds = [101];
+        $optionProduct = $this->dummyData->getOptionProduct();
+        $optionProductIds = [$optionProduct->getId()];
+
         $product = $this->dummyData->getProduct();
         $cartItem = $this->dummyData->getCartItem($product);
         $cart = $this->dummyData->getCart([$cartItem]);
 
         $this->optionProductRepository->shouldReceive('getAllOptionProductsByIds')
-            ->andReturn([])
+            ->with($optionProductIds)
+            ->andReturn([$optionProduct])
             ->once();
 
         $this->cartRepository->shouldReceive('getItemById')
@@ -281,17 +284,25 @@ class CartServiceTest extends ServiceTestCase
 
         $this->cartService->addItemOptionProducts($cartItem->getId(), $optionProductIds);
 
-        // TODO: Test CartService::addItemOptionProducts()
+        $this->assertEqualEntities(
+            $optionProduct,
+            $cart->getCartItems()[0]
+                ->getCartItemOptionProducts()[0]
+                ->getOptionProduct()
+        );
     }
 
     public function testAddItemOptionValues()
     {
-        $optionValueIds = [201];
+        $optionValue = $this->dummyData->getOptionValue();
+        $optionValueIds = [$optionValue->getId()];
+
         $cartItem = $this->dummyData->getCartItem();
         $cart = $this->dummyData->getCart([$cartItem]);
 
         $this->optionValueRepository->shouldReceive('getAllOptionValuesByIds')
-            ->andReturn([])
+            ->with($optionValueIds)
+            ->andReturn([$optionValue])
             ->once();
 
         $this->cartRepository->shouldReceive('getItemById')
@@ -303,7 +314,12 @@ class CartServiceTest extends ServiceTestCase
 
         $this->cartService->addItemOptionValues($cartItem->getId(), $optionValueIds);
 
-        // TODO: Test CartService::addItemOptionValues()
+        $this->assertEqualEntities(
+            $optionValue,
+            $cart->getCartItems()[0]
+                ->getCartItemOptionValues()[0]
+                ->getOptionValue()
+        );
     }
 
     public function testAddItemTextOptionValues()

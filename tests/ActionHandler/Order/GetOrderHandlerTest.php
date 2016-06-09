@@ -17,14 +17,16 @@ class GetOrderHandlerTest extends ActionTestCase
         $orderService->shouldReceive('findOneById')
             ->with($order->getId())
             ->andReturn($order)
-            ->once();
+            ->twice();
 
         $request = new GetOrderRequest($order->getId());
         $response = new GetOrderResponse;
-
         $handler = new GetOrderHandler($orderService, $dtoBuilderFactory);
-        $handler->handle(new GetOrderQuery($request, $response));
 
+        $handler->handle(new GetOrderQuery($request, $response));
         $this->assertTrue($response->getOrderDTO() instanceof OrderDTO);
+
+        $handler->handle(new GetOrderQuery($request, $response));
+        $this->assertTrue($response->getOrderDTOWithAllData() instanceof OrderDTO);
     }
 }

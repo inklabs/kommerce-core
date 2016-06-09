@@ -73,16 +73,12 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->serviceFactory->getCoupon();
                 } elseif ($parameterClassName === DTOBuilderFactoryInterface::class) {
                     $constructorParameters[] = $this->dtoBuilderFactory;
-                } elseif ($parameterClassName === FileManagerInterface::class) {
-                    $constructorParameters[] = $this->serviceFactory->getFileManager();
                 } elseif ($parameterClassName === InventoryServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getInventoryService();
                 } elseif ($parameterClassName === ImageServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getImageService();
                 } elseif ($parameterClassName === OrderServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getOrder();
-                } elseif ($parameterClassName === Pricing::class) {
-                    $constructorParameters[] = $this->pricing;
                 } elseif ($parameterClassName === ProductServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getProduct();
                 } elseif ($parameterClassName === ShipmentGatewayInterface::class) {
