@@ -289,7 +289,7 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
 
     public function getPaymentDTOBuilder(AbstractPayment $payment)
     {
-        switch(true) {
+        switch (true) {
             case $payment instanceof CashPayment:
                 return $this->getCashPaymentDTOBuilder($payment);
                 break;
