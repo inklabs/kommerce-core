@@ -23,6 +23,7 @@
             <exclude>
                 <directory>src/Doctrine/Functions/Mysql</directory>
                 <file>src/Doctrine/Extensions/TablePrefix.php</file>
+                <file>src/Doctrine/Extensions/UuidBinaryType.php</file>
                 <file>src/Lib/PaymentGateway/Stripe.php</file>
                 <file>src/Lib/ShipmentGateway/EasyPostGateway.php</file>
             </exclude>

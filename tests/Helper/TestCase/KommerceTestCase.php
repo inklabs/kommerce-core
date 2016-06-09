@@ -138,4 +138,29 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($entity1->getId(), $entity2->getId());
     }
+
+    /**
+     * @param IdEntityInterface $expectedEntity
+     * @param IdEntityInterface[] $entities
+     */
+    protected function assertEntityInArray(IdEntityInterface $expectedEntity, array $entities)
+    {
+        $this->assertTrue($this->isEntityInArray($expectedEntity, $entities));
+    }
+
+    /**
+     * @param IdEntityInterface $expectedEntity
+     * @param IdEntityInterface[] $entities
+     * @return bool
+     */
+    protected function isEntityInArray(IdEntityInterface $expectedEntity, array $entities)
+    {
+        foreach ($entities as $entity) {
+            if ($expectedEntity->getId()->equals($entity->getId())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
