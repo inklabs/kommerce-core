@@ -30,5 +30,10 @@ interface UuidInterface extends \JsonSerializable, \Serializable
     /**
      * @return string
      */
+    public function getShortString();
+
+    /**
+     * @return string
+     */
     public function toString();
 }

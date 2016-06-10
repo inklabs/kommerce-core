@@ -31,6 +31,11 @@ class Uuid implements UuidInterface, Matcher
         return new self(RamseyUuid::fromString($uuidString));
     }
 
+    public static function fromShortString($uuidShortString)
+    {
+        return self::fromBytes(self::decodeBase64URLSafe($uuidShortString));
+    }
+
     /**
      * @param UuidInterface $other
      * @return int -1, 0 or 1
@@ -70,6 +75,37 @@ class Uuid implements UuidInterface, Matcher
     public function getHex()
     {
         return $this->ramseyUuid->getHex();
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortString()
+    {
+        return self::encodeBase64URLSafe($this->getBytes());
+    }
+
+    public static function encodeBase64URLSafe($bytesString)
+    {
+        return strtr(
+            base64_encode($bytesString),
+            [
+                '+' => '-',
+                '/' => '_',
+                '=' => '',
+            ]
+        );
+    }
+
+    public static function decodeBase64URLSafe($bytesString)
+    {
+        return base64_decode(strtr(
+            $bytesString,
+            [
+                '-' => '+',
+                '_' => '/',
+            ]
+        ));
     }
 
     /**
