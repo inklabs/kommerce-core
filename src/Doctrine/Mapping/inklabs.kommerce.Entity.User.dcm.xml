@@ -56,10 +56,10 @@
 
         <one-to-many field="userLogins" target-entity="UserLogin" mapped-by="user" fetch="EXTRA_LAZY">
             <cascade>
-                <cascade-persist/>
+                <cascade-all/>
             </cascade>
             <order-by>
-                <order-by-field name="id" direction="DESC"/>
+                <order-by-field name="created" direction="DESC"/>
             </order-by>
         </one-to-many>
 

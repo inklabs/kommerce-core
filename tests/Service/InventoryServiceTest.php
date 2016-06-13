@@ -5,14 +5,10 @@ use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Warehouse;
-use inklabs\kommerce\EntityRepository\InventoryLocationRepository;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
-use inklabs\kommerce\EntityRepository\InventoryTransactionRepository;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\Exception\InsufficientInventoryException;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryLocationRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeInventoryTransactionRepository;
 
 class InventoryServiceTest extends ServiceTestCase
 {
@@ -70,8 +66,10 @@ class InventoryServiceTest extends ServiceTestCase
         $this->inventoryService->reserveProduct($product, 2);
 
         $transactions = $this->inventoryTransactionRepository->findAllByProduct($product);
-        $debitTransaction = $transactions[1];
-        $creditTransaction = $transactions[2];
+
+        $transactions = $this->getDebitCreditTransactions($transactions);
+        $debitTransaction = $transactions[0];
+        $creditTransaction = $transactions[1];
 
         $this->assertTrue($debitTransaction->getType()->isHold());
         $this->assertSame(-2, $debitTransaction->getQuantity());
@@ -117,8 +115,10 @@ class InventoryServiceTest extends ServiceTestCase
         $this->inventoryService->moveProduct($product, 2, $sourceLocation->getId(), $destinationLocation->getId());
 
         $transactions = $this->inventoryTransactionRepository->findAllByProduct($product);
-        $debitTransaction = $transactions[1];
-        $creditTransaction = $transactions[2];
+
+        $transactions = $this->getDebitCreditTransactions($transactions);
+        $debitTransaction = $transactions[0];
+        $creditTransaction = $transactions[1];
 
         $this->assertTrue($debitTransaction->getType()->isMove());
         $this->assertSame(-2, $debitTransaction->getQuantity());
@@ -146,8 +146,10 @@ class InventoryServiceTest extends ServiceTestCase
         );
 
         $transactions = $this->inventoryTransactionRepository->findAllByProduct($product);
-        $debitTransaction = $transactions[1];
-        $creditTransaction = $transactions[2];
+
+        $transactions = $this->getDebitCreditTransactions($transactions);
+        $debitTransaction = $transactions[0];
+        $creditTransaction = $transactions[1];
 
         $this->assertSame(null, $debitTransaction->getInventoryLocation());
         $this->assertTrue($debitTransaction->getType()->isNewProducts());
@@ -177,8 +179,10 @@ class InventoryServiceTest extends ServiceTestCase
         );
 
         $transactions = $this->inventoryTransactionRepository->findAllByProduct($product);
-        $debitTransaction = $transactions[1];
-        $creditTransaction = $transactions[2];
+
+        $transactions = $this->getDebitCreditTransactions($transactions);
+        $debitTransaction = $transactions[0];
+        $creditTransaction = $transactions[1];
 
         $this->assertTrue($debitTransaction->getInventoryLocation() instanceof InventoryLocation);
         $this->assertTrue($debitTransaction->getType()->isShipped());
@@ -208,8 +212,10 @@ class InventoryServiceTest extends ServiceTestCase
         );
 
         $transactions = $this->inventoryTransactionRepository->findAllByProduct($product);
-        $debitTransaction = $transactions[1];
-        $creditTransaction = $transactions[2];
+
+        $transactions = $this->getDebitCreditTransactions($transactions);
+        $debitTransaction = $transactions[0];
+        $creditTransaction = $transactions[1];
 
         $this->assertSame(null, $debitTransaction->getInventoryLocation());
         $this->assertTrue($debitTransaction->getType()->isReturned());
@@ -239,8 +245,10 @@ class InventoryServiceTest extends ServiceTestCase
         );
 
         $transactions = $this->inventoryTransactionRepository->findAllByProduct($product);
-        $debitTransaction = $transactions[1];
-        $creditTransaction = $transactions[2];
+
+        $transactions = $this->getDebitCreditTransactions($transactions);
+        $debitTransaction = $transactions[0];
+        $creditTransaction = $transactions[1];
 
         $this->assertTrue($debitTransaction->getInventoryLocation() instanceof InventoryLocation);
         $this->assertTrue($debitTransaction->getType()->isPromotion());
@@ -270,8 +278,10 @@ class InventoryServiceTest extends ServiceTestCase
         );
 
         $transactions = $this->inventoryTransactionRepository->findAllByProduct($product);
-        $debitTransaction = $transactions[1];
-        $creditTransaction = $transactions[2];
+
+        $transactions = $this->getDebitCreditTransactions($transactions);
+        $debitTransaction = $transactions[0];
+        $creditTransaction = $transactions[1];
 
         $this->assertTrue($debitTransaction->getInventoryLocation() instanceof InventoryLocation);
         $this->assertTrue($debitTransaction->getType()->isDamaged());
@@ -301,8 +311,10 @@ class InventoryServiceTest extends ServiceTestCase
         );
 
         $transactions = $this->inventoryTransactionRepository->findAllByProduct($product);
-        $debitTransaction = $transactions[1];
-        $creditTransaction = $transactions[2];
+
+        $transactions = $this->getDebitCreditTransactions($transactions);
+        $debitTransaction = $transactions[0];
+        $creditTransaction = $transactions[1];
 
         $this->assertTrue($debitTransaction->getInventoryLocation() instanceof InventoryLocation);
         $this->assertTrue($debitTransaction->getType()->isShrinkage());
@@ -313,5 +325,32 @@ class InventoryServiceTest extends ServiceTestCase
         $this->assertTrue($creditTransaction->getType()->isShrinkage());
         $this->assertSame(1, $creditTransaction->getQuantity());
         $this->assertSame('Adjusting inventory: Shrinkage', $creditTransaction->getMemo());
+    }
+
+    /**
+     * @param InventoryTransaction[] $transactions
+     * @return InventoryTransaction[]
+     */
+    private function getDebitCreditTransactions($transactions)
+    {
+        $debitTransaction = $transactions[1];
+        $creditTransaction = $transactions[2];
+
+        foreach ($transactions as $inventoryTransaction) {
+            if ($inventoryTransaction->getMemo() === 'Initial Inventory') {
+                continue;
+            }
+
+            if ($inventoryTransaction->getQuantity() < 0) {
+                $debitTransaction = $inventoryTransaction;
+            } else {
+                $creditTransaction = $inventoryTransaction;
+            }
+        }
+
+        return [
+            $debitTransaction,
+            $creditTransaction
+        ];
     }
 }

@@ -1,14 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
-use Exception;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
-use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
@@ -205,8 +202,8 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         }
 
         $this->assertSame(2, count($products));
-        $this->assertEqualEntities($product1, $products[0]);
-        $this->assertEqualEntities($product2, $products[1]);
+        $this->assertEntityInArray($product1, $products);
+        $this->assertEntityInArray($product2, $products);
         $this->assertSame(2, $this->getTotalQueries());
     }
 
