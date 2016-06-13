@@ -25,7 +25,7 @@ class ListTagsResponse implements ListTagsResponseInterface
     }
 
     /**
-     * @return TagDTO[] | \Generator
+     * @return TagDTO[]
      */
     public function getTagDTOs()
     {

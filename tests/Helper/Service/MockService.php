@@ -130,6 +130,9 @@ class MockService
         $productService->shouldReceive('findOneById')
             ->andReturn($product);
 
+        $productService->shouldReceive('getRelatedProductsByIds')
+            ->andReturn([$product]);
+
         return $productService;
     }
 

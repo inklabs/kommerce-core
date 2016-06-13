@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
@@ -130,6 +129,19 @@ class ProductServiceTest extends ServiceTestCase
         $products = $this->productService->getRelatedProducts($product1);
 
         $this->assertEqualEntities($product2, $products[0]);
+    }
+
+    public function testGetRelatedProductsByIds()
+    {
+        $product = $this->dummyData->getProduct();
+        $this->productRepository->shouldReceive('getRelatedProductsByIds')
+            ->with([self::UUID_HEX], [], 12)
+            ->andReturn([$product])
+            ->once();
+
+        $products = $this->productService->getRelatedProductsByIds([self::UUID_HEX]);
+
+        $this->assertEqualEntities($product, $products[0]);
     }
 
     public function testGetProductsByTag()

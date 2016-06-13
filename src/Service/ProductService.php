@@ -142,6 +142,16 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
+     * @param UuidInterface[] $productIds
+     * @param int $limit
+     * @return Product[]
+     */
+    public function getRelatedProductsByIds(array $productIds, $limit = 12)
+    {
+        return $this->productRepository->getRelatedProductsByIds($productIds, [], $limit);
+    }
+
+    /**
      * @param UuidInterface $tagId
      * @param Pagination $pagination
      * @return Product[]

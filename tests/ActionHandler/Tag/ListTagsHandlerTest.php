@@ -12,7 +12,6 @@ class ListTagsHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $pricing = $this->dummyData->getPricing();
         $tagService = $this->mockService->getTagService();
         $dtoBuilderFactory = $this->getDTOBuilderFactory();
 
