@@ -14,11 +14,17 @@ class AddShipmentTrackingCodeHandlerTest extends ActionTestCase
         $orderService->shouldReceive('addShipmentTrackingCode')
             ->once();
 
+        $orderItem = $this->dummyData->getOrderItem();
+        $order = $this->dummyData->getOrder(null, [$orderItem]);
+
         $orderItemQtyDTO = new OrderItemQtyDTO;
-        $orderItemQtyDTO->addOrderItemQty(1, 2);
+        $orderItemQtyDTO->addOrderItemQty(
+            $orderItem->getId(),
+            2
+        );
 
         $command = new AddShipmentTrackingCodeCommand(
-            1,
+            $order->getId(),
             $orderItemQtyDTO,
             'A comment',
             $carrier->getId(),

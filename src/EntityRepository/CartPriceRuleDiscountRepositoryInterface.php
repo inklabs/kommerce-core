@@ -2,9 +2,10 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
- * @method CartPriceRuleDiscount findOneById($id)
+ * @method CartPriceRuleDiscount findOneById(UuidInterface $id)
  */
 interface CartPriceRuleDiscountRepositoryInterface extends RepositoryInterface
 {

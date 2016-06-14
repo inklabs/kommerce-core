@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\UserStatusTypeDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -59,13 +58,5 @@ class UserStatusType extends AbstractIntegerType
     public function isLocked()
     {
         return $this->id === self::LOCKED;
-    }
-
-    /**
-     * @return UserStatusTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new UserStatusTypeDTOBuilder($this);
     }
 }

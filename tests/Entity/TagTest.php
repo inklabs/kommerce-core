@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class TagTest extends EntityTestCase
 {
@@ -9,6 +11,9 @@ class TagTest extends EntityTestCase
     {
         $tag = new Tag;
 
+        $this->assertTrue($tag->getId() instanceof UuidInterface);
+        $this->assertTrue($tag->getCreated() instanceof DateTime);
+        $this->assertSame(null, $tag->getUpdated());
         $this->assertSame(null, $tag->getName());
         $this->assertSame(null, $tag->getCode());
         $this->assertSame(null, $tag->getDescription());

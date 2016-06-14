@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\User;
 
 use inklabs\kommerce\Action\User\LoginWithTokenQuery;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
 
 final class LoginWithTokenHandler
@@ -9,9 +10,15 @@ final class LoginWithTokenHandler
     /** @var UserServiceInterface */
     private $userService;
 
-    public function __construct(UserServiceInterface $userService)
-    {
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(
+        UserServiceInterface $userService,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
         $this->userService = $userService;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
     public function handle(LoginWithTokenQuery $query)
@@ -24,11 +31,8 @@ final class LoginWithTokenHandler
             $request->getIp4()
         );
 
-        $query->getResponse()->setUserDTO(
-            $user->getDTOBuilder()
-                ->withRoles()
-                ->withTokens()
-                ->build()
+        $query->getResponse()->setUserDTOBuilder(
+            $this->dtoBuilderFactory->getUserDTOBuilder($user)
         );
     }
 }

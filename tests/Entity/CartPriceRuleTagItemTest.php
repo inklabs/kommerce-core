@@ -16,8 +16,8 @@ class CartPriceRuleTagItemTest extends EntityTestCase
 
     public function testTagMatches()
     {
-        $tag1 = $this->getTag(1);
-        $product1 = $this->getProduct(1);
+        $tag1 = $this->dummyData->getTag();
+        $product1 = $this->dummyData->getProduct();
         $product1->addTag($tag1);
         $cartItem = $this->dummyData->getCartItem($product1, 1);
 
@@ -28,8 +28,8 @@ class CartPriceRuleTagItemTest extends EntityTestCase
 
     public function testTagMatchesWithLargerQuantity()
     {
-        $tag1 = $this->getTag(1);
-        $product1 = $this->getProduct(1);
+        $tag1 = $this->dummyData->getTag();
+        $product1 = $this->dummyData->getProduct();
         $product1->addTag($tag1);
         $cartItem = $this->dummyData->getCartItem($product1, 2);
 
@@ -40,9 +40,9 @@ class CartPriceRuleTagItemTest extends EntityTestCase
 
     public function testTagDoesNotMatch()
     {
-        $tag1 = $this->getTag(1);
-        $tag2 = $this->getTag(2);
-        $product1 = $this->getProduct(1);
+        $tag1 = $this->dummyData->getTag();
+        $tag2 = $this->dummyData->getTag();
+        $product1 = $this->dummyData->getProduct();
         $product1->addTag($tag1);
 
         $cartItem = $this->dummyData->getCartItem($product1, 1);
@@ -54,27 +54,13 @@ class CartPriceRuleTagItemTest extends EntityTestCase
 
     public function testTagDoesNotMatchByQuantity()
     {
-        $tag1 = $this->getTag(1);
-        $product1 = $this->getProduct(1);
+        $tag1 = $this->dummyData->getTag();
+        $product1 = $this->dummyData->getProduct();
         $product1->addTag($tag1);
         $cartItem = $this->dummyData->getCartItem($product1, 1);
 
         $priceRule = new CartPriceRuleTagItem($tag1, 2);
 
         $this->assertFalse($priceRule->matches($cartItem));
-    }
-
-    private function getProduct($id)
-    {
-        $product = $this->dummyData->getProduct($id);
-        $product->setId($id);
-        return $product;
-    }
-
-    private function getTag($id)
-    {
-        $tag = $this->dummyData->getTag($id);
-        $tag->setId($id);
-        return $tag;
     }
 }

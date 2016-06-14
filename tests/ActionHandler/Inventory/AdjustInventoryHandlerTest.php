@@ -14,13 +14,14 @@ class AdjustInventoryHandlerTest extends ActionTestCase
         $inventoryService->shouldReceive('adjustInventory')
             ->once();
 
-        $productId = 1;
+        $product = $this->dummyData->getProduct();
+        $inventoryLocation = $this->dummyData->getInventoryLocation();
         $quantity = 3;
-        $inventoryLocationId = 1;
+
         $command = new AdjustInventoryCommand(
-            $productId,
+            $product->getId(),
             $quantity,
-            $inventoryLocationId,
+            $inventoryLocation->getId(),
             InventoryTransactionType::SHIPPED
         );
 

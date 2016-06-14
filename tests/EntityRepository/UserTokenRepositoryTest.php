@@ -28,59 +28,56 @@ class UserTokenRepositoryTest extends EntityRepositoryTestCase
 
     public function setupUserWithToken()
     {
-        $userToken = $this->dummyData->getUserToken();
-
         $user = $this->dummyData->getUser();
-        $user->addUserToken($userToken);
+        $userToken = $this->dummyData->getUserToken($user);
 
         $this->entityManager->persist($userToken);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $userToken;
     }
 
     public function testCRUD()
     {
-        $userToken = $this->dummyData->getUserToken();
+        $user = $this->dummyData->getUser();
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
-        $this->userTokenRepository->create($userToken);
-        $this->assertSame(1, $userToken->getId());
-
-        $userToken->setToken('New Token');
-        $this->assertSame(null, $userToken->getUpdated());
-
-        $this->userTokenRepository->update($userToken);
-        $this->assertTrue($userToken->getUpdated() instanceof DateTime);
-
-        $this->userTokenRepository->delete($userToken);
-        $this->assertSame(null, $userToken->getId());
+        $this->executeRepositoryCRUD(
+            $this->userTokenRepository,
+            $this->dummyData->getUserToken($user)
+        );
     }
 
     public function testFind()
     {
-        $this->setupUserWithToken();
-
+        $originalUserToken = $this->setupUserWithToken();
         $this->setCountLogger();
 
-        $userToken = $this->userTokenRepository->findOneById(1);
+        $userToken = $this->userTokenRepository->findOneById(
+            $originalUserToken->getId()
+        );
 
-        $userToken->getUser()->getEmail();
+        $userToken->getUser()->getCreated();
 
-        $this->assertTrue($userToken instanceof UserToken);
+        $this->assertEqualEntities($originalUserToken, $userToken);
         $this->assertSame(2, $this->getTotalQueries());
     }
 
     public function testFindLatestOneByUserId()
     {
-        $this->setupUserWithToken();
-
+        $originalUserToken = $this->setupUserWithToken();
         $this->setCountLogger();
 
-        $userToken = $this->userTokenRepository->findLatestOneByUserId(1);
+        $userToken = $this->userTokenRepository->findLatestOneByUserId(
+            $originalUserToken->getUser()->getId()
+        );
 
         $userToken->getUser()->getEmail();
 
-        $this->assertTrue($userToken instanceof UserToken);
+        $this->assertEqualEntities($originalUserToken, $userToken);
         $this->assertSame(2, $this->getTotalQueries());
     }
 }

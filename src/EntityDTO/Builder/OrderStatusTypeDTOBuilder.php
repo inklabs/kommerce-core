@@ -10,28 +10,23 @@ use inklabs\kommerce\EntityDTO\OrderStatusTypeDTO;
 class OrderStatusTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var OrderStatusType */
-    protected $type;
+    protected $entity;
 
     /** @var OrderStatusTypeDTO */
-    protected $typeDTO;
+    protected $entityDTO;
 
-    /**
-     * @return OrderStatusTypeDTO
-     */
-    protected function getTypeDTO()
+    protected function getEntityDTO()
     {
         return new OrderStatusTypeDTO;
     }
 
-    public function __construct(OrderStatusType $type)
+    protected function preBuild()
     {
-        parent::__construct($type);
-
-        $this->typeDTO->isPending = $this->type->isPending();
-        $this->typeDTO->isProcessing = $this->type->isProcessing();
-        $this->typeDTO->isPartiallyShipped = $this->type->isPartiallyShipped();
-        $this->typeDTO->isShipped = $this->type->isShipped();
-        $this->typeDTO->isComplete = $this->type->isComplete();
-        $this->typeDTO->isCanceled = $this->type->isCanceled();
+        $this->entityDTO->isPending = $this->entity->isPending();
+        $this->entityDTO->isProcessing = $this->entity->isProcessing();
+        $this->entityDTO->isPartiallyShipped = $this->entity->isPartiallyShipped();
+        $this->entityDTO->isShipped = $this->entity->isShipped();
+        $this->entityDTO->isComplete = $this->entity->isComplete();
+        $this->entityDTO->isCanceled = $this->entity->isCanceled();
     }
 }

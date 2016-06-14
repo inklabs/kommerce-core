@@ -1,17 +1,20 @@
 <?php
 namespace inklabs\kommerce\Action\Tag\Query;
 
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
+
 final class GetTagRequest
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $tagId;
 
     /**
-     * @param int $tagId
+     * @param string $tagIdString
      */
-    public function __construct($tagId)
+    public function __construct($tagIdString)
     {
-        $this->tagId = (int) $tagId;
+        $this->tagId = Uuid::fromString($tagIdString);
     }
 
     public function getTagId()

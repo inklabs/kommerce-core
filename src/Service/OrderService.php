@@ -5,7 +5,6 @@ use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Entity\CreditPayment;
-use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\OrderItem;
@@ -26,6 +25,8 @@ use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OrderService implements OrderServiceInterface
 {
@@ -76,14 +77,14 @@ class OrderService implements OrderServiceInterface
         $this->orderRepository->update($order);
     }
 
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         $order = $this->orderRepository->findOneById($id);
         $this->loadProductTagsFromOrder($order);
         return $order;
     }
 
-    public function getOrderItemById($id)
+    public function getOrderItemById(UuidInterface $id)
     {
         $orderItem = $this->orderItemRepository->findOneById($id);
         $this->loadProductTagsFromOrderItem($orderItem);
@@ -107,13 +108,13 @@ class OrderService implements OrderServiceInterface
         return $this->orderRepository->getLatestOrders($pagination);
     }
 
-    public function getOrdersByUserId($userId)
+    public function getOrdersByUserId(UuidInterface $userId)
     {
         return $this->orderRepository->getOrdersByUserId($userId);
     }
 
     public function buyShipmentLabel(
-        $orderId,
+        UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
         $rateExternalId,
@@ -130,14 +131,14 @@ class OrderService implements OrderServiceInterface
     }
 
     /**
-     * @param int $orderId
+     * @param UuidInterface $orderId
      * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment
      * @param int $shipmentCarrierTypeId
      * @param string $trackingCode
      */
     public function addShipmentTrackingCode(
-        $orderId,
+        UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
         $shipmentCarrierTypeId,
@@ -164,10 +165,11 @@ class OrderService implements OrderServiceInterface
         Order $order
     ) {
         $shipment = new Shipment;
-        $shipment->addShipmentTracker($shipmentTracker);
+
+        $shipmentTracker->setShipment($shipment);
 
         if ($comment !== '') {
-            $shipment->addShipmentComment(new ShipmentComment($comment));
+            new ShipmentComment($shipment, $comment);
         }
 
         $this->addShipmentItemsFromOrderItems($orderItemQtyDTO, $shipment);
@@ -183,19 +185,17 @@ class OrderService implements OrderServiceInterface
     private function addShipmentItemsFromOrderItems(OrderItemQtyDTO $orderItemQtyDTO, Shipment $shipment)
     {
         foreach ($orderItemQtyDTO->getItems() as $orderItemId => $quantity) {
-            $orderItem = $this->orderItemRepository->findOneById($orderItemId);
+            $orderItem = $this->orderItemRepository->findOneById(Uuid::fromString($orderItemId));
 
-            $shipment->addShipmentItem(
-                new ShipmentItem($orderItem, $quantity)
-            );
+            new ShipmentItem($shipment, $orderItem, $quantity);
         }
     }
 
     /**
-     * @param int $orderId
+     * @param UuidInterface $orderId
      * @param OrderStatusType $orderStatusType
      */
-    public function setOrderStatus($orderId, OrderStatusType $orderStatusType)
+    public function setOrderStatus(UuidInterface $orderId, OrderStatusType $orderStatusType)
     {
         $order = $this->orderRepository->findOneById($orderId);
         $order->setStatus($orderStatusType);
@@ -203,6 +203,7 @@ class OrderService implements OrderServiceInterface
     }
 
     /**
+     * @param UuidInterface $orderId
      * @param Cart $cart
      * @param CartCalculatorInterface $cartCalculator
      * @param string $ip4
@@ -210,9 +211,9 @@ class OrderService implements OrderServiceInterface
      * @param OrderAddress $billingAddress
      * @param CreditCard $creditCard
      * @return Order
-     * @throws EntityValidatorException
      */
     public function createOrderFromCart(
+        UuidInterface $orderId,
         Cart $cart,
         CartCalculatorInterface $cartCalculator,
         $ip4,
@@ -222,7 +223,7 @@ class OrderService implements OrderServiceInterface
     ) {
         $this->throwValidationErrors($creditCard);
 
-        $order = Order::fromCart($cart, $cartCalculator, $ip4);
+        $order = Order::fromCart($orderId, $cart, $cartCalculator, $ip4);
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
 

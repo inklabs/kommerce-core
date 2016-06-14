@@ -12,7 +12,7 @@ class DeleteTagHandlerTest extends ActionTestCase
         $tagService->shouldReceive('delete')
             ->once();
 
-        $command = new DeleteTagCommand(1);
+        $command = new DeleteTagCommand(self::UUID_HEX);
         $handler = new DeleteTagHandler($tagService);
         $handler->handle($command);
     }

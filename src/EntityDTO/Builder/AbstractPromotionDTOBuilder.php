@@ -3,52 +3,62 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AbstractPromotion;
 use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
-use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\Lib\BaseConvert;
 
-abstract class AbstractPromotionDTOBuilder
+abstract class AbstractPromotionDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var AbstractPromotion */
-    protected $promotion;
+    protected $entity;
 
     /** @var AbstractPromotionDTO */
-    protected $promotionDTO;
+    protected $entityDTO;
 
-    public function __construct(AbstractPromotion $promotion)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    /**
+     * @return AbstractPromotionDTO
+     */
+    abstract protected function getEntityDTO();
+
+    public function __construct(AbstractPromotion $promotion, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        if ($this->promotionDTO === null) {
-            throw new InvalidArgumentException('promotionDTO has not been initialized');
-        }
+        $this->entity = $promotion;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->promotion = $promotion;
+        $this->entityDTO = $this->getEntityDTO();
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->name           = $this->entity->getName();
+        $this->entityDTO->value          = $this->entity->getValue();
+        $this->entityDTO->redemptions    = $this->entity->getRedemptions();
+        $this->entityDTO->maxRedemptions = $this->entity->getMaxRedemptions();
+        $this->entityDTO->start          = $this->entity->getStart();
+        $this->entityDTO->end            = $this->entity->getEnd();
 
-        $this->promotionDTO->id             = $this->promotion->getId();
-        $this->promotionDTO->encodedId      = BaseConvert::encode($this->promotion->getId());
-        $this->promotionDTO->name           = $this->promotion->getName();
-        $this->promotionDTO->value          = $this->promotion->getValue();
-        $this->promotionDTO->redemptions    = $this->promotion->getRedemptions();
-        $this->promotionDTO->maxRedemptions = $this->promotion->getMaxRedemptions();
-        $this->promotionDTO->start          = $this->promotion->getStart();
-        $this->promotionDTO->end            = $this->promotion->getEnd();
-        $this->promotionDTO->created        = $this->promotion->getCreated();
-        $this->promotionDTO->updated        = $this->promotion->getUpdated();
+        $this->entityDTO->isRedemptionCountValid = $this->entity->isRedemptionCountValid();
 
-        $this->promotionDTO->isRedemptionCountValid = $this->promotion->isRedemptionCountValid();
-
-        $this->promotionDTO->type = $this->promotion->getType()->getDTOBuilder()
+        $this->entityDTO->type = $this->dtoBuilderFactory->getPromotionTypeDTOBuilder($this->entity->getType())
             ->build();
 
-        if ($this->promotionDTO->start !== null) {
-            $this->promotionDTO->startFormatted = $this->promotionDTO->start->format('Y-m-d');
+        if ($this->entityDTO->start !== null) {
+            $this->entityDTO->startFormatted = $this->entityDTO->start->format('Y-m-d');
         }
 
-        if ($this->promotionDTO->end !== null) {
-            $this->promotionDTO->endFormatted = $this->promotionDTO->end->format('Y-m-d');
+        if ($this->entityDTO->end !== null) {
+            $this->entityDTO->endFormatted = $this->entityDTO->end->format('Y-m-d');
         }
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->promotionDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

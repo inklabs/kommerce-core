@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\UserLoginDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserLogin implements EntityInterface, ValidationInterface
+class UserLogin implements IdEntityInterface, ValidationInterface
 {
     use CreatedTrait, IdTrait;
 
@@ -24,10 +23,35 @@ class UserLogin implements EntityInterface, ValidationInterface
     /** @var UserToken */
     protected $userToken;
 
-    public function __construct()
-    {
+    /**
+     * @param UserLoginResultType $result
+     * @param string $email
+     * @param string $ip4
+     * @param User|null $user
+     * @param UserToken|null $userToken
+     */
+    public function __construct(
+        UserLoginResultType $result,
+        $email,
+        $ip4,
+        User $user = null,
+        UserToken $userToken = null
+    ) {
+        $this->setId();
         $this->setCreated();
-        $this->setResult(UserLoginResultType::fail());
+        $this->result = $result;
+        $this->email = (string) $email;
+        $this->ip4 = (int) ip2long($ip4);
+
+        if ($user !== null) {
+            $user->addUserLogin($this);
+            $this->user = $user;
+        }
+
+        if ($userToken !== null) {
+            $userToken->addUserLogin($this);
+            $this->userToken = $userToken;
+        }
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -45,20 +69,9 @@ class UserLogin implements EntityInterface, ValidationInterface
         $metadata->addPropertyConstraint('result', new Assert\Valid);
     }
 
-    public function setEmail($email)
-    {
-        $this->email = (string) $email;
-    }
-
     public function getEmail()
     {
         return $this->email;
-    }
-
-    public function setUser(User $user)
-    {
-        $user->addUserLogin($this);
-        $this->user = $user;
     }
 
     public function getUser()
@@ -66,22 +79,9 @@ class UserLogin implements EntityInterface, ValidationInterface
         return $this->user;
     }
 
-    /**
-     * @param string $ip4
-     */
-    public function setIp4($ip4)
-    {
-        $this->ip4 = (int) ip2long($ip4);
-    }
-
     public function getIp4()
     {
         return long2ip($this->ip4);
-    }
-
-    public function setResult(UserLoginResultType $result)
-    {
-        $this->result = $result;
     }
 
     public function getResult()
@@ -89,19 +89,8 @@ class UserLogin implements EntityInterface, ValidationInterface
         return $this->result;
     }
 
-    public function setUserToken(UserToken $userToken)
-    {
-        $userToken->addUserLogin($this);
-        $this->userToken = $userToken;
-    }
-
     public function getUserToken()
     {
         return $this->userToken;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new UserLoginDTOBuilder($this);
     }
 }

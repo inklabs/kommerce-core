@@ -3,10 +3,11 @@ namespace inklabs\kommerce\Action\Cart;
 
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class SetExternalShipmentRateCommand implements CommandInterface
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $cartId;
 
     /** @var string */
@@ -16,16 +17,16 @@ final class SetExternalShipmentRateCommand implements CommandInterface
     private $shippingAddressDTO;
 
     /**
-     * @param int $cartId
+     * @param UuidInterface $cartId
      * @param string $shipmentRateExternalId
      * @param OrderAddressDTO $shippingAddressDTO
      */
     public function __construct(
-        $cartId,
+        UuidInterface $cartId,
         $shipmentRateExternalId,
         OrderAddressDTO $shippingAddressDTO
     ) {
-        $this->cartId = (int) $cartId;
+        $this->cartId = $cartId;
         $this->shipmentRateExternalId = (string) $shipmentRateExternalId;
         $this->shippingAddressDTO = $shippingAddressDTO;
     }

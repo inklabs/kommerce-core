@@ -9,7 +9,8 @@ class PaginationDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $pagination = $this->dummyData->getPagination();
 
-        $paginationDTO = $pagination->getDTOBuilder()
+        $paginationDTO = $this->getDTOBuilderFactory()
+            ->getPaginationDTOBuilder($pagination)
             ->build();
 
         $this->assertTrue($paginationDTO instanceof PaginationDTO);

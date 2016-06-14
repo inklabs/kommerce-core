@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface TagServiceInterface
 {
@@ -16,11 +17,11 @@ interface TagServiceInterface
     public function delete(Tag $tag);
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Tag
      * @throws EntityNotFoundException
      */
-    public function findOneById($id);
+    public function findOneById(UuidInterface $id);
 
     /**
      * @param string $code

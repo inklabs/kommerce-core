@@ -1,9 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\OrderItemOptionProductDTOBuilder;
-
-class OrderItemOptionProduct
+class OrderItemOptionProduct implements EntityInterface
 {
     use TimeTrait, IdTrait;
 
@@ -24,6 +22,7 @@ class OrderItemOptionProduct
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
     }
 
@@ -63,10 +62,5 @@ class OrderItemOptionProduct
     public function setOrderItem(OrderItem $orderItem)
     {
         $this->orderItem = $orderItem;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new OrderItemOptionProductDTOBuilder($this);
     }
 }

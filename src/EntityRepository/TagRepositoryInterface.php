@@ -4,9 +4,10 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
- * @method Tag findOneById($id)
+ * @method Tag findOneById(UuidInterface $id)
  */
 interface TagRepositoryInterface extends RepositoryInterface
 {
@@ -25,14 +26,14 @@ interface TagRepositoryInterface extends RepositoryInterface
     public function getAllTags($queryString = null, Pagination & $pagination = null);
 
     /**
-     * @param int []
+     * @param UuidInterface[]
      * @param Pagination $pagination
      * @return Tag[]
      */
     public function getTagsByIds($tagIds, Pagination & $pagination = null);
 
     /**
-     * @param int []
+     * @param UuidInterface[]
      * @param Pagination $pagination
      * @return Tag[]
      */

@@ -56,6 +56,5 @@ class OrderAddressTest extends EntityTestCase
         $this->assertSame('john@example.com', $orderAddress->getEmail());
         $this->assertSame('US', $orderAddress->getCountry());
         $this->assertFalse($orderAddress->isResidential());
-        $this->assertTrue($orderAddress->getDTOBuilder() instanceof OrderAddressDTOBuilder);
     }
 }

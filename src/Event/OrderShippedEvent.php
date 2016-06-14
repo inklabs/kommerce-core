@@ -2,19 +2,20 @@
 namespace inklabs\kommerce\Event;
 
 use inklabs\kommerce\Lib\Event\EventInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OrderShippedEvent implements EventInterface
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $orderId;
 
-    /** @var int */
+    /** @var UuidInterface */
     private $shipmentId;
 
-    public function __construct($orderId, $shipmentId)
+    public function __construct(UuidInterface $orderId, UuidInterface $shipmentId)
     {
-        $this->orderId = (int) $orderId;
-        $this->shipmentId = (int) $shipmentId;
+        $this->orderId = $orderId;
+        $this->shipmentId = $shipmentId;
     }
 
     public function getOrderId()

@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\AbstractPaymentDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractPayment implements EntityInterface, ValidationInterface
+abstract class AbstractPayment implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -14,6 +13,12 @@ abstract class AbstractPayment implements EntityInterface, ValidationInterface
 
     /** @var Order */
     protected $order;
+
+    public function __construct()
+    {
+        $this->setId();
+        $this->setCreated();
+    }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
@@ -43,9 +48,4 @@ abstract class AbstractPayment implements EntityInterface, ValidationInterface
     {
         return $this->order;
     }
-
-    /**
-     * @return AbstractPaymentDTOBuilder
-     */
-    abstract public function getDTOBuilder();
 }

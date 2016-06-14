@@ -12,7 +12,7 @@ class OptionRepository extends AbstractRepository implements OptionRepositoryInt
             ->select('Option')
             ->from(Option::class, 'Option')
             ->where('Option.id IN (:optionIds)')
-            ->setParameter('optionIds', $optionIds)
+            ->setIdParameter('optionIds', $optionIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
@@ -24,7 +24,7 @@ class OptionRepository extends AbstractRepository implements OptionRepositoryInt
             ->select('option')
             ->from(Option::class, 'option');
 
-        if ($queryString !== null) {
+        if (trim($queryString) !== '') {
             $query
                 ->where('option.name LIKE :query')
                 ->orWhere('option.description LIKE :query')

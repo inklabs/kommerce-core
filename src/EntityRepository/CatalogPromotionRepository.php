@@ -12,7 +12,7 @@ class CatalogPromotionRepository extends AbstractRepository implements CatalogPr
             ->select('CatalogPromotion')
             ->from(CatalogPromotion::class, 'CatalogPromotion');
 
-        if ($queryString !== null) {
+        if (trim($queryString) !== '') {
             $query
                 ->where('CatalogPromotion.name LIKE :query')
                 ->setParameter('query', '%' . $queryString . '%');
@@ -24,13 +24,13 @@ class CatalogPromotionRepository extends AbstractRepository implements CatalogPr
             ->getResult();
     }
 
-    public function getAllCatalogPromotionsByIds($catalogPromotionIds, Pagination & $pagination = null)
+    public function getAllCatalogPromotionsByIds(array $catalogPromotionIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
             ->select('CatalogPromotion')
             ->from(CatalogPromotion::class, 'CatalogPromotion')
             ->where('CatalogPromotion.id IN (:catalogPromotionIds)')
-            ->setParameter('catalogPromotionIds', $catalogPromotionIds)
+            ->setIdParameter('catalogPromotionIds', $catalogPromotionIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();

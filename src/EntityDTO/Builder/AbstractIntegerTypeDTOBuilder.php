@@ -4,31 +4,37 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\AbstractIntegerType;
 use inklabs\kommerce\EntityDTO\AbstractIntegerTypeDTO;
 
-abstract class AbstractIntegerTypeDTOBuilder
+abstract class AbstractIntegerTypeDTOBuilder implements DTOBuilderInterface
 {
     /** @var AbstractIntegerType */
-    protected $type;
+    protected $entity;
 
     /** @var AbstractIntegerTypeDTO */
-    protected $typeDTO;
+    protected $entityDTO;
 
     /**
      * @return AbstractIntegerTypeDTO
      */
-    abstract protected function getTypeDTO();
+    abstract protected function getEntityDTO();
 
     public function __construct(AbstractIntegerType $type)
     {
-        $this->type = $type;
+        $this->entity = $type;
 
-        $this->typeDTO = $this->getTypeDTO();
-        $this->typeDTO->id = $this->type->getId();
-        $this->typeDTO->name = $this->type->getName();
-        $this->typeDTO->nameMap = $this->type->getNameMap();
+        $this->entityDTO = $this->getEntityDTO();
+        $this->entityDTO->id = $this->entity->getId();
+        $this->entityDTO->name = $this->entity->getName();
+        $this->entityDTO->nameMap = $this->entity->getNameMap();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->typeDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

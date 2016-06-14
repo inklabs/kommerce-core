@@ -45,5 +45,5 @@ class OrderItemDTO
     public $productQuantityDiscounts = [];
 
     /** @var AttachmentDTO[] */
-    public $attachments;
+    public $attachments = [];
 }

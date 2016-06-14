@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use inklabs\kommerce\EntityDTO\Builder\CouponDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -155,13 +154,5 @@ class Coupon extends AbstractPromotion
         } else {
             return true;
         }
-    }
-
-    /**
-     * @return CouponDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new CouponDTOBuilder($this);
     }
 }

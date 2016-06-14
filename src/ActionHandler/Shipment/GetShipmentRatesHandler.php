@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Shipment;
 
 use inklabs\kommerce\Action\Shipment\GetShipmentRatesQuery;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 
 final class GetShipmentRatesHandler
@@ -9,9 +10,15 @@ final class GetShipmentRatesHandler
     /** @var ShipmentGatewayInterface */
     private $shipmentGateway;
 
-    public function __construct(ShipmentGatewayInterface $shipmentGateway)
-    {
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
+    public function __construct(
+        ShipmentGatewayInterface $shipmentGateway,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
         $this->shipmentGateway = $shipmentGateway;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
     public function handle(GetShipmentRatesQuery $query)
@@ -25,9 +32,8 @@ final class GetShipmentRatesHandler
         );
 
         foreach ($shipmentRates as $shipmentRate) {
-            $response->addShipmentRateDTO(
-                $shipmentRate->getDTOBuilder()
-                    ->build()
+            $response->addShipmentRateDTOBuilder(
+                $this->dtoBuilderFactory->getShipmentRateDTOBuilder($shipmentRate)
             );
         }
     }

@@ -1,14 +1,11 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
-use Exception;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
-use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
@@ -39,9 +36,9 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         $this->productRepository = $this->getRepositoryFactory()->getProductRepository();
     }
 
-    private function setupProduct($num = 1)
+    private function setupProduct()
     {
-        $product = $this->dummyData->getProduct($num);
+        $product = $this->dummyData->getProduct();
 
         $this->entityManager->persist($product);
         $this->entityManager->flush();
@@ -52,44 +49,10 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
 
     public function testCRUD()
     {
-        $product = $this->dummyData->getProduct();
-        $this->productRepository->create($product);
-        $this->assertSame(1, $product->getId());
-
-        $product->setName('new name');
-        $this->assertSame(null, $product->getUpdated());
-        $this->productRepository->update($product);
-        $this->assertTrue($product->getUpdated() instanceof DateTime);
-
-        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($product);
-
-        $this->productRepository->update($product);
-        $this->assertTrue($product->getUpdated() instanceof DateTime);
-        $this->assertTrue($product->getProductQuantityDiscounts()[0]->getCreated() instanceof DateTime);
-
-        $product->removeProductQuantityDiscount($product->getProductQuantityDiscounts()[0]);
-        $this->productRepository->update($product);
-        $this->assertTrue($product->getUpdated() instanceof DateTime);
-
-        try {
-            $this->getRepositoryFactory()->getProductQuantityDiscountRepository()->findOneById(1);
-            $this->fail();
-        } catch (Exception $e) {
-            $this->assertTrue(true);
-        }
-
-        $this->productRepository->delete($product);
-        $this->assertSame(null, $product->getId());
-    }
-
-    public function testUpdateThrowsExceptionWhenNotFound()
-    {
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'Product not found'
+        $this->executeRepositoryCRUD(
+            $this->productRepository,
+            $this->dummyData->getProduct()
         );
-
-        $this->productRepository->update(new Product);
     }
 
     public function testFindOneById()
@@ -106,31 +69,31 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         $shippingWeight = 16;
         $rating = 500;
 
-        $product = new Product;
-        $product->setSku($sku);
-        $product->setName($name);
-        $product->setDescription($description);
-        $product->setDefaultImage($defaultImage);
-        $product->setUnitPrice($unitPrice);
-        $product->setQuantity($quantity);
-        $product->setShippingWeight($shippingWeight);
-        $product->setRating($rating);
-        $product->setIsInventoryRequired(true);
-        $product->setIsPriceVisible(true);
-        $product->setIsActive(true);
-        $product->setIsVisible(true);
-        $product->setIsTaxable(true);
-        $product->setIsShippable(true);
-        $product->enableAttachments();
-        $product->addTag($tag);
-        $product->addImage($image);
+        $originalProduct = new Product;
+        $originalProduct->setSku($sku);
+        $originalProduct->setName($name);
+        $originalProduct->setDescription($description);
+        $originalProduct->setDefaultImage($defaultImage);
+        $originalProduct->setUnitPrice($unitPrice);
+        $originalProduct->setQuantity($quantity);
+        $originalProduct->setShippingWeight($shippingWeight);
+        $originalProduct->setRating($rating);
+        $originalProduct->setIsInventoryRequired(true);
+        $originalProduct->setIsPriceVisible(true);
+        $originalProduct->setIsActive(true);
+        $originalProduct->setIsVisible(true);
+        $originalProduct->setIsTaxable(true);
+        $originalProduct->setIsShippable(true);
+        $originalProduct->enableAttachments();
+        $originalProduct->addTag($tag);
+        $originalProduct->addImage($image);
 
         $attribute = $this->dummyData->getAttribute();
         $attributeValue = $this->dummyData->getAttributeValue($attribute);
-        $productAttribute = $this->dummyData->getProductAttribute($product, $attribute, $attributeValue);
+        $productAttribute = $this->dummyData->getProductAttribute($originalProduct, $attribute, $attributeValue);
         $option = $this->dummyData->getOption();
-        $optionProduct = $this->dummyData->getOptionProduct($option, $product);
-        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($product);
+        $optionProduct = $this->dummyData->getOptionProduct($option, $originalProduct);
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($originalProduct);
 
         $this->persistEntityAndFlushClear([
             $tag,
@@ -139,14 +102,16 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
             $optionProduct,
             $attribute,
             $attributeValue,
-            $product,
+            $originalProduct,
         ]);
 
         $this->setCountLogger();
 
-        $product = $this->productRepository->findOneById($product->getId());
+        $product = $this->productRepository->findOneById(
+            $originalProduct->getId()
+        );
 
-        $this->assertTrue($product instanceof Product);
+        $this->assertEquals($originalProduct->getId(), $product->getId());
         $this->assertSame($sku, $product->getSku());
         $this->assertSame($name, $product->getName());
         $this->assertSame($description, $product->getDescription());
@@ -162,11 +127,11 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         $this->assertTrue($product->isTaxable());
         $this->assertTrue($product->isShippable());
         $this->assertTrue($product->areAttachmentsEnabled());
-        $this->assertSame($tag->getId(), $product->getTags()[0]->getId());
-        $this->assertSame($image->getId(), $product->getImages()[0]->getId());
-        $this->assertSame($productQuantityDiscount->getId(), $product->getProductQuantityDiscounts()[0]->getId());
-        $this->assertSame($optionProduct->getId(), $product->getOptionProducts()[0]->getId());
-        $this->assertSame($productAttribute->getId(), $product->getProductAttributes()[0]->getId());
+        $this->assertEquals($tag->getId(), $product->getTags()[0]->getId());
+        $this->assertEquals($image->getId(), $product->getImages()[0]->getId());
+        $this->assertEquals($productQuantityDiscount->getId(), $product->getProductQuantityDiscounts()[0]->getId());
+        $this->assertEquals($optionProduct->getId(), $product->getOptionProducts()[0]->getId());
+        $this->assertEquals($productAttribute->getId(), $product->getProductAttributes()[0]->getId());
         $this->assertSame(6, $this->getTotalQueries());
     }
 
@@ -177,14 +142,16 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
             'Product not found'
         );
 
-        $this->productRepository->findOneById(1);
+        $this->productRepository->findOneById(
+            $this->dummyData->getId()
+        );
     }
 
     public function testGetRelatedProducts()
     {
-        $product1 = $this->dummyData->getProduct(1);
-        $product2 = $this->dummyData->getProduct(2);
-        $product3 = $this->dummyData->getProduct(3);
+        $product1 = $this->dummyData->getProduct();
+        $product2 = $this->dummyData->getProduct();
+        $product3 = $this->dummyData->getProduct();
 
         $tag = new Tag;
         $tag->setName('Test Tag');
@@ -205,24 +172,17 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         $products = $this->productRepository->getRelatedProducts([$product1]);
 
         $this->assertSame(1, count($products));
-        $this->assertSame(2, $products[0]->getId());
+        $this->assertEquals($product2->getId(), $products[0]->getId());
     }
 
-    public function testGetProductsByTag()
+    public function testGetProductsByTagId()
     {
-        $tag = new Tag;
-        $tag->setName('Test Tag');
-        $tag->setDescription('Test Description');
-        $tag->setDefaultImage('http://lorempixel.com/400/200/');
-        $tag->setSortOrder(0);
-        $tag->setIsVisible(true);
-
-        $product1 = $this->dummyData->getProduct(1);
-        $product2 = $this->dummyData->getProduct(2);
-        $product3 = $this->dummyData->getProduct(3);
-
-        $product1->addTag($tag);
-        $product2->addTag($tag);
+        $product1 = $this->dummyData->getProduct();
+        $product2 = $this->dummyData->getProduct();
+        $product3 = $this->dummyData->getProduct();
+        $tag = $this->dummyData->getTag();
+        $tag->addProduct($product1);
+        $tag->addProduct($product2);
 
         $this->entityManager->persist($tag);
         $this->entityManager->persist($product1);
@@ -233,29 +193,34 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
 
         $this->setCountLogger();
 
-        $products = $this->productRepository->getProductsByTag($tag);
+        $products = $this->productRepository->getProductsByTagId(
+            $tag->getId()
+        );
 
         foreach ($products as $product) {
-            $product->getTags()->toArray();
+            $this->visitElements($product->getTags());
         }
 
         $this->assertSame(2, count($products));
-        $this->assertSame(1, $products[0]->getId());
-        $this->assertSame(2, $products[1]->getid());
+        $this->assertEntityInArray($product1, $products);
+        $this->assertEntityInArray($product2, $products);
         $this->assertSame(2, $this->getTotalQueries());
     }
 
     public function testGetProductsByIds()
     {
-        $this->setupProduct(1);
-        $this->setupProduct(2);
+        $product1 = $this->setupProduct();
+        $product2 = $this->setupProduct();
 
         $this->setCountLogger();
 
-        $products = $this->productRepository->getProductsByIds([1, 2]);
+        $products = $this->productRepository->getProductsByIds([
+            $product1->getId(),
+            $product2->getId()
+        ]);
 
         foreach ($products as $product) {
-            $product->getTags()->toArray();
+            $this->visitElements($product->getTags());
         }
 
         $this->assertSame(2, count($products));
@@ -264,27 +229,31 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
 
     public function testGetAllProducts()
     {
-        $this->setupProduct();
+        $originalProduct = $this->setupProduct();
 
-        $products = $this->productRepository->getAllProducts('#1');
+        $products = $this->productRepository->getAllProducts(
+            $originalProduct->getName()
+        );
 
-        $this->assertSame(1, $products[0]->getId());
+        $this->assertEquals($originalProduct->getId(), $products[0]->getId());
     }
 
     public function testGetAllProductsByIds()
     {
-        $this->setupProduct();
+        $originalProduct = $this->setupProduct();
 
-        $products = $this->productRepository->getAllProductsByIds([1]);
+        $products = $this->productRepository->getAllProductsByIds([
+            $originalProduct->getId()
+        ]);
 
-        $this->assertSame(1, $products[0]->getId());
+        $this->assertEquals($originalProduct->getId(), $products[0]->getId());
     }
 
     public function testGetRandomProducts()
     {
-        $product1 = $this->dummyData->getProduct(1);
-        $product2 = $this->dummyData->getProduct(2);
-        $product3 = $this->dummyData->getProduct(3);
+        $product1 = $this->dummyData->getProduct();
+        $product2 = $this->dummyData->getProduct();
+        $product3 = $this->dummyData->getProduct();
 
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
@@ -295,53 +264,5 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         $products = $this->productRepository->getRandomProducts(2);
 
         $this->assertSame(2, count($products));
-    }
-
-    public function testGetProductsByTagPaginated()
-    {
-        $tag = new Tag;
-        $tag->setName('Test Tag');
-        $tag->setDescription('Test Description');
-        $tag->setDefaultImage('http://lorempixel.com/400/200/');
-        $tag->setSortOrder(0);
-        $tag->setIsVisible(true);
-
-        $product1 = $this->dummyData->getProduct(1);
-        $product2 = $this->dummyData->getProduct(2);
-        $product3 = $this->dummyData->getProduct(3);
-
-        $product1->addTag($tag);
-        $product2->addTag($tag);
-        $product3->addTag($tag);
-
-        $this->entityManager->persist($tag);
-
-        $this->entityManager->persist($product1);
-        $this->entityManager->persist($product2);
-        $this->entityManager->persist($product3);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $maxResults = 2;
-        $page = 1;
-        $pagination = new Pagination($maxResults, $page);
-
-        $products = $this->productRepository->getProductsByTag($tag, $pagination);
-
-        $this->assertSame(2, count($products));
-        $this->assertSame(1, $products[0]->getId());
-        $this->assertSame(2, $products[1]->getId());
-        $this->assertSame(3, $pagination->getTotal());
-
-        // Page 2
-        $maxResults = 2;
-        $page = 2;
-        $pagination = new Pagination($maxResults, $page);
-
-        $products = $this->productRepository->getProductsByTag($tag, $pagination);
-
-        $this->assertSame(1, count($products));
-        $this->assertSame(3, $products[0]->getId());
-        $this->assertSame(3, $pagination->getTotal());
     }
 }

@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use DateTime;
 use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CheckPayment;
 use inklabs\kommerce\Entity\Order;
@@ -15,6 +16,7 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
     protected $metaDataClassNames = [
         Order::class,
         User::class,
+        Cart::class,
         TaxRate::class,
         AbstractPayment::class,
     ];
@@ -31,9 +33,12 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
     public function setupPayment(AbstractPayment & $payment)
     {
         $cartTotal = $this->dummyData->getCartTotal();
+        $user = $this->dummyData->getUser();
         $order = $this->dummyData->getOrder($cartTotal);
+        $order->setUser($user);
         $order->addPayment($payment);
 
+        $this->entityManager->persist($user);
         $this->entityManager->persist($order);
 
         $this->paymentRepository->create($payment);
@@ -43,55 +48,69 @@ class PaymentRepositoryTest extends EntityRepositoryTestCase
 
     public function testCRUD()
     {
-        $payment = $this->dummyData->getCashPayment();
-        $this->setupPayment($payment);
-        $this->assertSame(1, $payment->getId());
+        $order = $this->setupOrder();
 
-        $payment->setAmount(200);
-        $this->assertSame(null, $payment->getUpdated());
+        $cashPayment = $this->dummyData->getCashPayment();
+        $order->addPayment($cashPayment);
 
-        $this->paymentRepository->update($payment);
-        $this->assertTrue($payment->getUpdated() instanceof DateTime);
+        $this->executeRepositoryCRUD(
+            $this->paymentRepository,
+            $cashPayment
+        );
+    }
 
-        $this->paymentRepository->delete($payment);
-        $this->assertSame(null, $payment->getId());
+    public function setupOrder()
+    {
+        $user = $this->dummyData->getUser();
+        $order = $this->dummyData->getOrder();
+        $order->setUser($user);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+
+        return $order;
     }
 
     public function testFindCashPayment()
     {
-        $payment = $this->dummyData->getCashPayment();
-        $this->setupPayment($payment);
+        $originalPayment = $this->dummyData->getCashPayment();
+        $this->setupPayment($originalPayment);
         $this->entityManager->clear();
 
         $this->setCountLogger();
 
-        $payment = $this->paymentRepository->findOneById(1);
+        $payment = $this->paymentRepository->findOneById(
+            $originalPayment->getId()
+        );
 
         $payment->getOrder()->getCreated();
 
-        $this->assertTrue($payment instanceof CashPayment);
+        $this->assertEquals($originalPayment->getId(), $payment->getId());
         $this->assertSame(100, $payment->getAmount());
-        $this->assertSame(2, $this->getTotalQueries());
+        $this->assertSame(3, $this->getTotalQueries());
     }
 
     public function testFindCheckPayment()
     {
-        $payment = $this->dummyData->getCheckPayment();
-        $this->setupPayment($payment);
+        $originalPayment = $this->dummyData->getCheckPayment();
+        $this->setupPayment($originalPayment);
         $this->entityManager->clear();
 
         $this->setCountLogger();
 
-        $payment = $this->paymentRepository->findOneById(1);
+        $payment = $this->paymentRepository->findOneById(
+            $originalPayment->getId()
+        );
 
         $payment->getOrder()->getCreated();
 
-        $this->assertTrue($payment instanceof CheckPayment);
+        $this->assertEquals($originalPayment->getId(), $payment->getId());
         $this->assertSame(100, $payment->getAmount());
         $this->assertSame('0001234', $payment->getCheckNumber());
         $this->assertSame('memo area', $payment->getMemo());
         $this->assertEquals(new DateTime('4/13/2016'), $payment->getCheckDate());
-        $this->assertSame(2, $this->getTotalQueries());
+        $this->assertSame(3, $this->getTotalQueries());
     }
 
     public function testFindCreditPayment()

@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\TaxRateDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class TaxRate implements EntityInterface, ValidationInterface
+class TaxRate implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -29,8 +28,8 @@ class TaxRate implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
-
         $this->applyToShipping = false;
     }
 
@@ -150,10 +149,5 @@ class TaxRate implements EntityInterface, ValidationInterface
         }
 
         return (int) round($newTaxSubtotal * ($this->rate / 100));
-    }
-
-    public function getDTOBuilder()
-    {
-        return new TaxRateDTOBuilder($this);
     }
 }

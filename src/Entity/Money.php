@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\MoneyDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -48,10 +47,5 @@ class Money implements ValidationInterface
     public function getCurrency()
     {
         return $this->currency;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new MoneyDTOBuilder($this);
     }
 }

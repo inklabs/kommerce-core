@@ -10,22 +10,23 @@ use inklabs\kommerce\EntityDTO\CouponDTO;
 class CouponDTOBuilder extends AbstractPromotionDTOBuilder
 {
     /** @var Coupon */
-    protected $promotion;
+    protected $entity;
 
     /** @var CouponDTO */
-    protected $promotionDTO;
+    protected $entityDTO;
 
-    public function __construct(Coupon $coupon)
+    protected function getEntityDTO()
     {
-        $this->promotionDTO = new CouponDTO;
+        return new CouponDTO();
+    }
 
-        parent::__construct($coupon);
-
-        $this->promotionDTO->code             = $this->promotion->getCode();
-        $this->promotionDTO->flagFreeShipping = $this->promotion->getFlagFreeShipping();
-        $this->promotionDTO->minOrderValue    = $this->promotion->getMinOrderValue();
-        $this->promotionDTO->maxOrderValue    = $this->promotion->getMaxOrderValue();
-        $this->promotionDTO->canCombineWithOtherCoupons = $this->promotion->getCanCombineWithOtherCoupons();
+    protected function preBuild()
+    {
+        $this->entityDTO->code             = $this->entity->getCode();
+        $this->entityDTO->flagFreeShipping = $this->entity->getFlagFreeShipping();
+        $this->entityDTO->minOrderValue    = $this->entity->getMinOrderValue();
+        $this->entityDTO->maxOrderValue    = $this->entity->getMaxOrderValue();
+        $this->entityDTO->canCombineWithOtherCoupons = $this->entity->getCanCombineWithOtherCoupons();
     }
 
     public static function createFromDTO(CouponDTO $couponDTO)

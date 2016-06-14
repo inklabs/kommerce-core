@@ -8,6 +8,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class ProductService implements ProductServiceInterface
 {
@@ -45,22 +46,22 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Product
      * @throws EntityNotFoundException
      */
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->productRepository->findOneById($id);
     }
 
     /**
-     * @param int $productId
-     * @param int $tagId
+     * @param UuidInterface $productId
+     * @param UuidInterface $tagId
      * @return Tag
      * @throws EntityNotFoundException
      */
-    public function addTag($productId, $tagId)
+    public function addTag(UuidInterface $productId, UuidInterface $tagId)
     {
         $product = $product = $this->productRepository->findOneById($productId);
         $tag = $this->tagRepository->findOneById($tagId);
@@ -73,11 +74,11 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param int $productId
-     * @param int $tagId
+     * @param UuidInterface $productId
+     * @param UuidInterface $tagId
      * @throws EntityNotFoundException
      */
-    public function removeTag($productId, $tagId)
+    public function removeTag(UuidInterface $productId, UuidInterface $tagId)
     {
         $product = $this->productRepository->findOneById($productId);
         $tag = $this->tagRepository->findOneById($tagId);
@@ -88,11 +89,11 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param int $productId
-     * @param int $imageId
+     * @param UuidInterface $productId
+     * @param UuidInterface $imageId
      * @throws EntityNotFoundException
      */
-    public function removeImage($productId, $imageId)
+    public function removeImage(UuidInterface $productId, UuidInterface $imageId)
     {
         $product = $this->productRepository->findOneById($productId);
         $image = $this->imageRepository->findOneById($imageId);
@@ -141,17 +142,27 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param Tag $tag
-     * @param Pagination $pagination
+     * @param UuidInterface[] $productIds
+     * @param int $limit
      * @return Product[]
      */
-    public function getProductsByTag(Tag $tag, Pagination & $pagination = null)
+    public function getRelatedProductsByIds(array $productIds, $limit = 12)
     {
-        return $this->productRepository->getProductsByTagId($tag->getId(), $pagination);
+        return $this->productRepository->getRelatedProductsByIds($productIds, [], $limit);
     }
 
     /**
-     * @param int[] $productIds
+     * @param UuidInterface $tagId
+     * @param Pagination $pagination
+     * @return Product[]
+     */
+    public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null)
+    {
+        return $this->productRepository->getProductsByTagId($tagId, $pagination);
+    }
+
+    /**
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */
@@ -161,7 +172,7 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param int[] $productIds
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */

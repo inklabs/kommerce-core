@@ -4,32 +4,45 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\Address;
 use inklabs\kommerce\EntityDTO\AddressDTO;
 
-class AddressDTOBuilder
+class AddressDTOBuilder implements DTOBuilderInterface
 {
     /** @var Address */
-    private $address;
+    protected $entity;
 
     /** @var AddressDTO */
-    private $addressDTO;
+    protected $entityDTO;
 
-    public function __construct(Address $address)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(Address $address, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->address = $address;
+        $this->entity = $address;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->addressDTO = new AddressDTO;
-        $this->addressDTO->attention = $this->address->getAttention();
-        $this->addressDTO->company   = $this->address->getCompany();
-        $this->addressDTO->address1  = $this->address->getaddress1();
-        $this->addressDTO->address2  = $this->address->getaddress2();
-        $this->addressDTO->city      = $this->address->getcity();
-        $this->addressDTO->state     = $this->address->getstate();
-        $this->addressDTO->zip5      = $this->address->getzip5();
-        $this->addressDTO->zip4      = $this->address->getzip4();
-        $this->addressDTO->point     = $this->address->getPoint()->getDTOBuilder()->build();
+        $this->entityDTO = new AddressDTO;
+        $this->entityDTO->attention = $this->entity->getAttention();
+        $this->entityDTO->company   = $this->entity->getCompany();
+        $this->entityDTO->address1  = $this->entity->getaddress1();
+        $this->entityDTO->address2  = $this->entity->getaddress2();
+        $this->entityDTO->city      = $this->entity->getcity();
+        $this->entityDTO->state     = $this->entity->getstate();
+        $this->entityDTO->zip5      = $this->entity->getzip5();
+        $this->entityDTO->zip4      = $this->entity->getzip4();
+
+        $this->entityDTO->point     = $this->dtoBuilderFactory
+            ->getPointDTOBuilder($this->entity->getPoint())
+            ->build();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->addressDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\PromotionTypeDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -59,13 +58,5 @@ class PromotionType extends AbstractIntegerType
     public function isExact()
     {
         return $this->id === self::EXACT;
-    }
-
-    /**
-     * @return PromotionTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new PromotionTypeDTOBuilder($this);
     }
 }

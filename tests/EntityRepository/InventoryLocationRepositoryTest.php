@@ -38,45 +38,45 @@ class InventoryLocationRepositoryTest extends EntityRepositoryTestCase
 
     public function testCRUD()
     {
-        $inventoryLocation = $this->setupInventoryLocation();
+        $warehouse = $this->dummyData->getWarehouse();
+        $this->entityManager->persist($warehouse);
+        $this->entityManager->flush();
 
-        $this->inventoryLocationRepository->create($inventoryLocation);
-        $this->assertSame(1, $inventoryLocation->getId());
-
-        $inventoryLocation->setName('New name');
-        $this->assertSame(null, $inventoryLocation->getUpdated());
-        $this->inventoryLocationRepository->update($inventoryLocation);
-        $this->assertTrue($inventoryLocation->getUpdated() instanceof DateTime);
-
-        $this->inventoryLocationRepository->delete($inventoryLocation);
-        $this->assertSame(null, $inventoryLocation->getId());
+        $this->executeRepositoryCRUD(
+            $this->inventoryLocationRepository,
+            $this->dummyData->getInventoryLocation($warehouse)
+        );
     }
 
     public function testFindOneById()
     {
-        $inventoryLocation = $this->setupInventoryLocation();
-        $this->entityManager->persist($inventoryLocation);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
+        $originalInventoryLocation = $this->setupInventoryLocation();
+        $this->persistEntityAndFlushClear($originalInventoryLocation);
         $this->setCountLogger();
 
-        $inventoryLocation = $this->inventoryLocationRepository->findOneById(1);
+        $inventoryLocation = $this->inventoryLocationRepository->findOneById(
+            $originalInventoryLocation->getId()
+        );
 
-        $this->assertSame(1, $this->getTotalQueries());
         $this->assertTrue($inventoryLocation instanceof InventoryLocation);
         $this->assertSame('Widget Bin', $inventoryLocation->getName());
         $this->assertSame('Z1-A13-B37-L5-P3', $inventoryLocation->getCode());
         $this->assertTrue($inventoryLocation->getWarehouse() instanceof Warehouse);
+        // TODO: Compare $originalInventoryLocation->getWarehouse()->getId()
+        // TODO: to $inventoryLocation->getWarehouse()->getId()
+        // TODO: for query performance optimization
+        $this->assertSame(1, $this->getTotalQueries());
     }
 
     public function testFindOneByIdThrowsNotFoundException()
     {
         $this->setExpectedException(
-            \inklabs\kommerce\Exception\EntityNotFoundException::class,
+            EntityNotFoundException::class,
             'InventoryLocation not found'
         );
 
-        $this->inventoryLocationRepository->findOneById(1);
+        $this->inventoryLocationRepository->findOneById(
+            $this->dummyData->getId()
+        );
     }
 }

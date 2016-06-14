@@ -13,13 +13,17 @@ class GetTagHandlerTest extends ActionTestCase
     {
         $pricing = $this->dummyData->getPricing();
         $tagService = $this->mockService->getTagService();
+        $dtoBuilderFactory = $this->getDTOBuilderFactory();
 
-        $request = new GetTagRequest(1);
-        $response = new GetTagResponse;
+        $request = new GetTagRequest(self::UUID_HEX);
+        $response = new GetTagResponse($pricing);
 
-        $handler = new GetTagHandler($tagService, $pricing);
+        $handler = new GetTagHandler($tagService, $dtoBuilderFactory);
+
         $handler->handle(new GetTagQuery($request, $response));
-
         $this->assertTrue($response->getTagDTO() instanceof TagDTO);
+
+        $handler->handle(new GetTagQuery($request, $response));
+        $this->assertTrue($response->getTagDTOWithAllData() instanceof TagDTO);
     }
 }

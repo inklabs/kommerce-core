@@ -27,22 +27,15 @@ class CouponRepositoryTest extends EntityRepositoryTestCase
     {
         $coupon = $this->dummyData->getCoupon();
         $this->persistEntityAndFlushClear($coupon);
+        return $coupon;
     }
 
-    public function testSave()
+    public function testCRUD()
     {
-        $coupon = $this->dummyData->getCoupon(1);
-
-        $couponRepository = $this->couponRepository;
-        $couponRepository->create($coupon);
-
-        $coupon->setName('new name');
-        $this->assertSame(null, $coupon->getUpdated());
-        $couponRepository->update($coupon);
-        $this->assertTrue($coupon->getUpdated() instanceof DateTime);
-
-        $this->couponRepository->delete($coupon);
-        $this->assertSame(null, $coupon->getId());
+        $this->executeRepositoryCRUD(
+            $this->couponRepository,
+            $this->dummyData->getCoupon()
+        );
     }
 
     public function testFind()
@@ -54,22 +47,20 @@ class CouponRepositoryTest extends EntityRepositoryTestCase
         $maxOrderValue = 100000;
         $promotionType = PromotionType::fixed();
 
-        $coupon = new Coupon($code);
-        $coupon->setName($name);
-        $coupon->setValue($value);
-        $coupon->setType($promotionType);
-        $coupon->setMinOrderValue($minOrderValue);
-        $coupon->setMaxOrderValue($maxOrderValue);
-        $coupon->setFlagFreeShipping(true);
-        $coupon->setCanCombineWithOtherCoupons(true);
-
-        $this->persistEntityAndFlushClear($coupon);
-
+        $originalCoupon = new Coupon($code);
+        $originalCoupon->setName($name);
+        $originalCoupon->setValue($value);
+        $originalCoupon->setType($promotionType);
+        $originalCoupon->setMinOrderValue($minOrderValue);
+        $originalCoupon->setMaxOrderValue($maxOrderValue);
+        $originalCoupon->setFlagFreeShipping(true);
+        $originalCoupon->setCanCombineWithOtherCoupons(true);
+        $this->persistEntityAndFlushClear($originalCoupon);
         $this->setCountLogger();
 
-        $coupon = $this->couponRepository->findOneById(1);
+        $coupon = $this->couponRepository->findOneById($originalCoupon->getId());
 
-        $this->assertTrue($coupon instanceof Coupon);
+        $this->assertEquals($originalCoupon->getId(), $coupon->getId());
         $this->assertSame($code, $coupon->getCode());
         $this->assertSame($name, $coupon->getName());
         $this->assertSame($value, $coupon->getValue());
@@ -83,9 +74,13 @@ class CouponRepositoryTest extends EntityRepositoryTestCase
 
     public function testFindOneByCode()
     {
-        $this->setupCoupon();
-        $coupon = $this->couponRepository->findOneByCode('20PCT1');
-        $this->assertTrue($coupon instanceof Coupon);
+        $originalCoupon = $this->dummyData->getCoupon();
+        $originalCoupon->setCode('xyz');
+        $this->persistEntityAndFlushClear($originalCoupon);
+
+        $coupon = $this->couponRepository->findOneByCode('xyz');
+
+        $this->assertEquals($originalCoupon->getId(), $coupon->getId());
     }
 
     public function testFindOneByCodeMissingThrowsException()
@@ -95,29 +90,28 @@ class CouponRepositoryTest extends EntityRepositoryTestCase
             'Coupon not found'
         );
 
-        $this->couponRepository->findOneByCode('20PCT1');
+        $this->couponRepository->findOneByCode('xyz');
     }
 
     public function testGetAllCoupons()
     {
-        $this->setupCoupon();
-        $coupons = $this->couponRepository->getAllCoupons('Test');
-        $this->assertTrue($coupons[0] instanceof Coupon);
+        $originalCoupon = $this->setupCoupon();
+
+        $coupons = $this->couponRepository->getAllCoupons(
+            $originalCoupon->getName()
+        );
+
+        $this->assertEquals($originalCoupon->getId(), $coupons[0]->getId());
     }
 
     public function testGetAllCouponsByIds()
     {
-        $this->setupCoupon();
-        $coupons = $this->couponRepository->getAllCouponsByIds([1]);
-        $this->assertTrue($coupons[0] instanceof Coupon);
-    }
+        $originalCoupon = $this->setupCoupon();
 
-    public function testCreate()
-    {
-        $coupon = $this->dummyData->getCoupon(1);
+        $coupons = $this->couponRepository->getAllCouponsByIds([
+            $originalCoupon->getId()
+        ]);
 
-        $this->assertSame(null, $coupon->getId());
-        $this->couponRepository->create($coupon);
-        $this->assertSame(1, $coupon->getId());
+        $this->assertEquals($originalCoupon->getId(), $coupons[0]->getId());
     }
 }

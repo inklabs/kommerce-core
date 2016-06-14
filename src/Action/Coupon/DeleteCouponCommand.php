@@ -2,22 +2,24 @@
 namespace inklabs\kommerce\Action\Coupon;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class DeleteCouponCommand implements CommandInterface
 {
-    /** @var int */
-    private $id;
+    /** @var UuidInterface */
+    private $couponId;
 
     /**
-     * @param int $id
+     * @param string $couponIdString
      */
-    public function __construct($id)
+    public function __construct($couponIdString)
     {
-        $this->id = (int) $id;
+        $this->couponId = Uuid::fromString($couponIdString);
     }
 
-    public function getId()
+    public function getCouponId()
     {
-        return $this->id;
+        return $this->couponId;
     }
 }

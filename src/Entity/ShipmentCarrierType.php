@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ShipmentCarrierTypeDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -71,13 +70,5 @@ class ShipmentCarrierType extends AbstractIntegerType
     public function isFedex()
     {
         return $this->id === self::FEDEX;
-    }
-
-    /**
-     * @return ShipmentCarrierTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new ShipmentCarrierTypeDTOBuilder($this);
     }
 }

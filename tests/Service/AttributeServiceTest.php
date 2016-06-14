@@ -19,30 +19,19 @@ class AttributeServiceTest extends ServiceTestCase
         $this->attributeService = new AttributeService($this->attributeRepository);
     }
 
-    public function testCreate()
+    public function testCRUD()
     {
-        $attribute = $this->dummyData->getAttribute();
-        $this->attributeRepository->shouldReceive('create')
-            ->with($attribute)
-            ->once();
-
-        $this->attributeService->create($attribute);
-    }
-
-    public function testUpdate()
-    {
-        $attribute = $this->dummyData->getAttribute();
-        $this->attributeRepository->shouldReceive('update')
-            ->with($attribute)
-            ->once();
-
-        $this->attributeService->update($attribute);
+        $this->executeServiceCRUD(
+            $this->attributeService,
+            $this->attributeRepository,
+            $this->dummyData->getAttribute()
+        );
     }
 
     public function testFindOneById()
     {
         $attribute1 = $this->dummyData->getAttribute();
-        $attribute1->setId(1);
+
         $this->attributeRepository->shouldReceive('findOneById')
             ->with($attribute1->getId())
             ->andReturn($attribute1)

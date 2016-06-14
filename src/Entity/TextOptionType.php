@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\TextOptionTypeDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -93,13 +92,5 @@ class TextOptionType extends AbstractIntegerType
     public function isDateTime()
     {
         return $this->id === self::DATETIME;
-    }
-
-    /**
-     * @return TextOptionTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new TextOptionTypeDTOBuilder($this);
     }
 }

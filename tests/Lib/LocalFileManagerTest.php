@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Exception\FileManagerException;
+use inklabs\kommerce\tests\Helper\Lib\CallableCreateDirectoryLocalFileManager;
+use inklabs\kommerce\tests\Helper\Lib\IgnoreDestinationLocalFileManager;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class LocalFileManagerTest extends EntityTestCase
@@ -12,7 +14,9 @@ class LocalFileManagerTest extends EntityTestCase
     const FILE_PATH_BMP = __DIR__ . '/../_files/FileManager/test.bmp';
     const INVALID_SHORT_IMAGE = __DIR__ . '/../_files/FileManager/test.short';
     const DESTINATION_PATH = __DIR__ . '/../_files/_out';
-    const URL_PREFIX = '/data/attachment';
+    const MISSING_DIRECTORY_PATH = __DIR__ . '/../_files/_out/missing/directory';
+    const URI_PREFIX = '/data/attachment';
+    const REMOTE_FILE = 'http://www.example.com/robots.txt';
 
     /** @var LocalFileManager */
     private $fileManager;
@@ -23,7 +27,7 @@ class LocalFileManagerTest extends EntityTestCase
 
         $this->fileManager = new LocalFileManager(
             self::DESTINATION_PATH,
-            self::URL_PREFIX,
+            self::URI_PREFIX,
             [
                 IMAGETYPE_JPEG,
                 IMAGETYPE_PNG
@@ -76,7 +80,7 @@ class LocalFileManagerTest extends EntityTestCase
 
     public function testInvalidDestination()
     {
-        $fileManager = new LocalFileManager(__DIR__ . '/../_files/_out/missing/directory');
+        $fileManager = new LocalFileManager(self::MISSING_DIRECTORY_PATH);
 
         $this->setExpectedException(
             FileManagerException::class,
@@ -90,7 +94,7 @@ class LocalFileManagerTest extends EntityTestCase
     {
         $fileManager = new LocalFileManager(
             self::DESTINATION_PATH,
-            self::URL_PREFIX,
+            self::URI_PREFIX,
             [IMAGETYPE_BMP]
         );
 
@@ -100,5 +104,39 @@ class LocalFileManagerTest extends EntityTestCase
         );
 
         $fileManager->saveFile(self::FILE_PATH_BMP);
+    }
+
+    public function testInvalidUploadedFile()
+    {
+        $this->setExpectedException(
+            FileManagerException::class,
+            'Invalid uploaded file'
+        );
+
+        $this->fileManager->saveFile(self::REMOTE_FILE);
+    }
+
+    public function testCopyFailsForUnknownReason()
+    {
+        $fileManager = new IgnoreDestinationLocalFileManager(self::MISSING_DIRECTORY_PATH);
+
+        $this->setExpectedException(
+            FileManagerException::class,
+            'Failed to copy file'
+        );
+
+        $fileManager->saveFile(self::FILE_PATH_JPG);
+    }
+
+    public function testCreateDirectoryFailsForUnknownReason()
+    {
+        $fileManager = new CallableCreateDirectoryLocalFileManager(self::MISSING_DIRECTORY_PATH);
+
+        $this->setExpectedException(
+            FileManagerException::class,
+            'Unable to create directory'
+        );
+
+        $fileManager->callCreateDirectory(self::DESTINATION_PATH);
     }
 }

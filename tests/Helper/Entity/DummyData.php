@@ -71,6 +71,7 @@ use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\Lib\Uuid;
 
 class DummyData
 {
@@ -174,14 +175,14 @@ class DummyData
         $tag = $this->getTag();
         $tag->addImage($this->getImage());
 
-        $product = $this->getProduct(1);
+        $product = $this->getProduct();
         $product->setSku('P1');
         $product->setUnitPrice(100);
         $product->setShippingWeight(10);
         $product->addTag($tag);
         $product->addProductQuantityDiscount($this->getProductQuantityDiscount());
 
-        $product2 = $this->getProduct(2);
+        $product2 = $this->getProduct();
         $product2->setSku('OP1');
         $product2->setUnitPrice(100);
         $product2->setShippingWeight(10);
@@ -268,9 +269,13 @@ class DummyData
         return $cartPriceRule;
     }
 
-    public function getCartPriceRuleDiscount()
+    public function getCartPriceRuleDiscount(Product $product = null)
     {
-        return new CartPriceRuleDiscount($this->getProduct(), 1);
+        if ($product === null) {
+            $product = $this->getProduct();
+        }
+
+        return new CartPriceRuleDiscount($product, 1);
     }
 
     public function getCartPriceRuleProductItem(Product $product = null, $quantity = 1)
@@ -319,10 +324,10 @@ class DummyData
         return $payment;
     }
 
-    public function getCatalogPromotion($num = 1)
+    public function getCatalogPromotion()
     {
         $catalogPromotion = new CatalogPromotion;
-        $catalogPromotion->setName('Test Catalog Promotion #' . $num);
+        $catalogPromotion->setName('Test Catalog Promotion');
         $catalogPromotion->setCode('20PCTOFF');
         $catalogPromotion->setValue(20);
 
@@ -353,12 +358,18 @@ class DummyData
         );
     }
 
-    public function getCoupon($num = 1)
+    public function getCoupon($code = null)
     {
-        $coupon = new Coupon('20PCT' . $num);
-        $coupon->setName('20% OFF Test Coupon #' . $num);
+        if ($code === null) {
+            $code = uniqid();
+        }
+
+        $coupon = new Coupon($code);
+        $coupon->setName('20% OFF Test Coupon');
         $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
+        $coupon->setStart(new DateTime('-1 Day'));
+        $coupon->setEnd(new DateTime('+1 Day'));
 
         return $coupon;
     }
@@ -384,6 +395,11 @@ class DummyData
     public function getDeliveryMethodType()
     {
         return DeliveryMethodType::twoDay();
+    }
+
+    public function getId()
+    {
+        return Uuid::uuid4();
     }
 
     public function getImage()
@@ -703,11 +719,15 @@ class DummyData
         return $pricing;
     }
 
-    public function getProduct($num = 1)
+    public function getProduct($sku = null)
     {
+        if ($sku === null) {
+            $sku = uniqid();
+        }
+
         $product = new Product;
-        $product->setSku($num);
-        $product->setName('Test Product #' . $num);
+        $product->setSku($sku);
+        $product->setName('Test Product');
         $product->setIsInventoryRequired(true);
         $product->setIsPriceVisible(true);
         $product->setIsActive(true);
@@ -723,11 +743,11 @@ class DummyData
 
     public function getProductFull()
     {
-        $product = $this->getProduct(1);
+        $product = $this->getProduct();
         $product->addOptionProduct(
             $this->getOptionProduct(
                 $this->getOption(),
-                $this->getProduct(2)
+                $this->getProduct()
             )
         );
         $product->addProductQuantityDiscount($this->getProductQuantityDiscount());
@@ -810,17 +830,9 @@ class DummyData
         );
     }
 
-    public function getShipment(ShipmentItem $shipmentItem = null)
+    public function getShipment()
     {
-        if ($shipmentItem === null) {
-            $shipmentItem = $this->getShipmentItem();
-        }
-
-        $shipment = new Shipment;
-        $shipment->addShipmentItem($shipmentItem);
-        $shipment->addShipmentTracker($this->getShipmentTracker());
-        $shipment->addShipmentComment($this->getShipmentComment());
-
+        $shipment = new Shipment();
         return $shipment;
     }
 
@@ -829,18 +841,26 @@ class DummyData
         return ShipmentCarrierType::ups();
     }
 
-    public function getShipmentComment()
+    public function getShipmentComment(Shipment $shipment = null)
     {
-        return new ShipmentComment('A shipment comment');
+        if ($shipment === null) {
+            $shipment = $this->getShipment();
+        }
+
+        return new ShipmentComment($shipment, 'A shipment comment');
     }
 
-    public function getShipmentItem(OrderItem $orderItem = null, $quantityToShip = 1)
+    public function getShipmentItem(Shipment $shipment = null, OrderItem $orderItem = null, $quantityToShip = 1)
     {
+        if ($shipment === null) {
+            $shipment = $this->getShipment();
+        }
+
         if ($orderItem === null) {
             $orderItem = $this->getOrderItem();
         }
 
-        $shipmentItem = new ShipmentItem($orderItem, $quantityToShip);
+        $shipmentItem = new ShipmentItem($shipment, $orderItem, $quantityToShip);
 
         return $shipmentItem;
     }
@@ -871,6 +891,7 @@ class DummyData
         $shipmentRate->setService('Ground');
         $shipmentRate->setListRate(new Money($amount * 1.05, $currency));
         $shipmentRate->setRetailRate(new Money($amount * 1.15, $currency));
+        $shipmentRate->setDeliveryDate(new DateTime());
 
         return $shipmentRate;
     }
@@ -888,11 +909,11 @@ class DummyData
         return $shipmentTracker;
     }
 
-    public function getTag($num = 1)
+    public function getTag()
     {
         $tag = new Tag;
-        $tag->setName('Test Tag #' . $num);
-        $tag->setCode('TT' . $num);
+        $tag->setName('Test Tag');
+        $tag->setCode('TT' . uniqid());
         $tag->setDescription('Test Description');
         $tag->setDefaultImage('http://lorempixel.com/400/200/');
         $tag->setSortOrder(0);
@@ -939,11 +960,11 @@ class DummyData
         );
     }
 
-    public function getUser($num = 1)
+    public function getUser($externalId = null)
     {
         $user = new User;
-        $user->setExternalId($num);
-        $user->setEmail('test' . $num . '@example.com');
+        $user->setExternalId($externalId);
+        $user->setEmail('test' . $externalId . '@example.com');
         $user->setPassword('password1');
         $user->setFirstName('John');
         $user->setLastName('Doe');
@@ -951,14 +972,15 @@ class DummyData
         return $user;
     }
 
-    public function getUserLogin()
+    public function getUserLogin(User $user = null, UserToken $userToken = null)
     {
-        $userLogin = new UserLogin;
-        $userLogin->setEmail('john@example.com');
-        $userLogin->setIp4('8.8.8.8');
-        $userLogin->setResult($this->getUserLoginResultType());
-
-        return $userLogin;
+        return new UserLogin(
+            $this->getUserLoginResultType(),
+            'john@example.com',
+            '127.0.0.1',
+            $user,
+            $userToken
+        );
     }
 
     public function getUserLoginResultType()
@@ -980,9 +1002,13 @@ class DummyData
         return UserStatusType::inactive();
     }
 
-    public function getUserToken()
+    public function getUserToken(User $user = null)
     {
-        $userToken = new UserToken;
+        if ($user === null) {
+            $user = $this->getUser();
+        }
+
+        $userToken = new UserToken($user);
         $userToken->setUserAgent('SampleBot/1.1');
         $userToken->setToken('xxxx');
         $userToken->setIp4('8.8.8.8');

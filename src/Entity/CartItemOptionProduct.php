@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartItemOptionProductDTOBuilder;
 use inklabs\kommerce\Lib\PricingInterface;
 
 class CartItemOptionProduct
@@ -16,6 +15,7 @@ class CartItemOptionProduct
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
     }
 
@@ -52,10 +52,5 @@ class CartItemOptionProduct
     public function setCartItem(CartItem $cartItem)
     {
         $this->cartItem = $cartItem;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new CartItemOptionProductDTOBuilder($this);
     }
 }

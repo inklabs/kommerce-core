@@ -10,25 +10,28 @@ use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
 {
     /** @var CatalogPromotion */
-    protected $promotion;
+    protected $entity;
 
     /** @var CatalogPromotionDTO */
-    protected $promotionDTO;
+    protected $entityDTO;
 
-    public function __construct(CatalogPromotion $catalogPromotion)
+    protected function getEntityDTO()
     {
-        $this->promotionDTO = new CatalogPromotionDTO;
+        return new CatalogPromotionDTO;
+    }
 
-        parent::__construct($catalogPromotion);
-
-        $this->promotionDTO->code = $this->promotion->getCode();
+    protected function preBuild()
+    {
+        parent::preBuild();
+        $this->entityDTO->code = $this->entity->getCode();
     }
 
     private function withTag()
     {
-        $tag = $this->promotion->getTag();
+        $tag = $this->entity->getTag();
         if ($tag !== null) {
-            $this->promotionDTO->tag = $tag->getDTOBuilder()
+            $this->entityDTO->tag = $this->dtoBuilderFactory
+                ->getTagDTOBuilder($tag)
                 ->build();
         }
 

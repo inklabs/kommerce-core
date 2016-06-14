@@ -1,14 +1,13 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartItemDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Exception\AttachmentException;
 use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmentInterface
+class CartItem implements IdEntityInterface, ValidationInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait;
 
@@ -35,6 +34,7 @@ class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmen
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
         $this->cartItemOptionProducts = new ArrayCollection;
         $this->cartItemOptionValues = new ArrayCollection;
@@ -118,6 +118,9 @@ class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmen
         $this->quantity = (int) $quantity;
     }
 
+    /**
+     * @return CartItemOptionProduct[]
+     */
     public function getCartItemOptionProducts()
     {
         return $this->cartItemOptionProducts;
@@ -129,6 +132,9 @@ class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmen
         $this->cartItemOptionProducts[] = $cartItemOptionProduct;
     }
 
+    /**
+     * @return CartItemOptionValue[]
+     */
     public function getCartItemOptionValues()
     {
         return $this->cartItemOptionValues;
@@ -140,6 +146,9 @@ class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmen
         $this->cartItemOptionValues[] = $cartItemOptionValue;
     }
 
+    /**
+     * @return CartItemTextOptionValue[]
+     */
     public function getCartItemTextOptionValues()
     {
         return $this->cartItemTextOptionValues;
@@ -242,11 +251,6 @@ class CartItem implements EntityInterface, ValidationInterface, EnabledAttachmen
         }
 
         return $orderItem;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new CartItemDTOBuilder($this);
     }
 
     public function getAttachments()

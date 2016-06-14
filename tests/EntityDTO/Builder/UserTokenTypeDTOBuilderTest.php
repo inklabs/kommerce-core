@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\UserTokenType;
+use inklabs\kommerce\EntityDTO\UserTokenTypeDTO;
 
 class UserTokenTypeDTOBuilderTest extends AbstractIntegerTypeDTOBuilderTest
 {
@@ -13,12 +14,20 @@ class UserTokenTypeDTOBuilderTest extends AbstractIntegerTypeDTOBuilderTest
         return $this->dummyData->getUserTokenType();
     }
 
+    /**
+     * @return UserTokenTypeDTO
+     */
+    protected function getTypeDTO()
+    {
+        return $this->getDTOBuilderFactory()
+            ->getUserTokenTypeDTOBuilder($this->getType())
+            ->build();
+    }
+
     public function testExtras()
     {
         $type = $this->getType();
-
-        $typeDTO = $type->getDTOBuilder()
-            ->build();
+        $typeDTO = $this->getTypeDTO();
 
         $this->assertSame($type->isInternal(), $typeDTO->isInternal);
         $this->assertSame($type->isGoogle(), $typeDTO->isGoogle);

@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ParcelDTOBuilder;
-
 class Parcel
 {
     use TimeTrait;
@@ -106,10 +104,5 @@ class Parcel
     public function getPredefinedPackage()
     {
         return $this->predefinedPackage;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new ParcelDTOBuilder($this);
     }
 }

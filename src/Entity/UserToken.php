@@ -3,11 +3,10 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\EntityDTO\Builder\UserTokenDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserToken implements EntityInterface, ValidationInterface
+class UserToken implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -32,11 +31,13 @@ class UserToken implements EntityInterface, ValidationInterface
     /** @var UserLogin[] */
     protected $userLogins;
 
-    public function __construct()
+    public function __construct(User $user)
     {
+        $this->setId();
         $this->setCreated();
+        $this->setUser($user);
         $this->setType(UserTokenType::internal());
-        $this->userLogins = new ArrayCollection;
+        $this->userLogins = new ArrayCollection();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -143,11 +144,6 @@ class UserToken implements EntityInterface, ValidationInterface
         return $expires;
     }
 
-    public function setUser(User $user)
-    {
-        $this->user = $user;
-    }
-
     public function getUser()
     {
         return $this->user;
@@ -166,11 +162,6 @@ class UserToken implements EntityInterface, ValidationInterface
         return true;
     }
 
-    public function getDTOBuilder()
-    {
-        return new UserTokenDTOBuilder($this);
-    }
-
     public function addUserLogin(UserLogin $userLogin)
     {
         $this->userLogins->add($userLogin);
@@ -179,5 +170,11 @@ class UserToken implements EntityInterface, ValidationInterface
     public function getIp4()
     {
         return long2ip($this->ip4);
+    }
+
+    private function setUser(User $user)
+    {
+        $user->addUserToken($this);
+        $this->user = $user;
     }
 }

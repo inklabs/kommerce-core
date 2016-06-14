@@ -3,31 +3,40 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\EntityDTO\AbstractPaymentDTO;
-use inklabs\kommerce\Exception\InvalidArgumentException;
 
-abstract class AbstractPaymentDTOBuilder
+abstract class AbstractPaymentDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var AbstractPayment */
-    protected $payment;
+    protected $entity;
 
     /** @var AbstractPaymentDTO */
-    protected $paymentDTO;
+    protected $entityDTO;
+
+    /**
+     * @return AbstractPaymentDTO
+     */
+    abstract protected function getEntityDTO();
 
     public function __construct(AbstractPayment $payment)
     {
-        if ($this->paymentDTO === null) {
-            throw new InvalidArgumentException('paymentDTO has not been initialized');
-        }
-        $this->payment = $payment;
+        $this->entity = $payment;
 
-        $this->paymentDTO->id      = $this->payment->getId();
-        $this->paymentDTO->amount  = $this->payment->getAmount();
-        $this->paymentDTO->created = $this->payment->getCreated();
-        $this->paymentDTO->updated = $this->payment->getUpdated();
+        $this->entityDTO = $this->getEntityDTO();
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->amount  = $this->entity->getAmount();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->paymentDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

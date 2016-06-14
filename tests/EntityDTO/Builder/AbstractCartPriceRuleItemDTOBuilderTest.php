@@ -13,15 +13,17 @@ abstract class AbstractCartPriceRuleItemDTOBuilderTest extends EntityDTOBuilderT
      */
     abstract protected function getItem();
 
+    /**
+     * @return AbstractCartPriceRuleItemDTO
+     */
+    abstract protected function getItemDTO();
+
     public function testBuild()
     {
         $item = $this->getItem();
-
-        $itemDTO = $item->getDTOBuilder()
-            ->build();
+        $itemDTO = $this->getItemDTO();
 
         $this->assertTrue($itemDTO instanceof AbstractCartPriceRuleItemDTO);
-        $this->assertSame($item->getId(), $itemDTO->id);
         $this->assertSame($item->getQuantity(), $itemDTO->quantity);
         $this->assertTrue($itemDTO->created instanceof DateTime);
         $this->assertTrue($itemDTO->updated instanceof DateTime);

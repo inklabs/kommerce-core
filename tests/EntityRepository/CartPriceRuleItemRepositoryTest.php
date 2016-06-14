@@ -28,11 +28,12 @@ class CartPriceRuleItemRepositoryTest extends EntityRepositoryTestCase
 
     public function setupCartPriceRuleItem()
     {
-        $productShirt = $this->dummyData->getProduct(1);
-        $productPoster = $this->dummyData->getProduct(2);
+        $productShirt = $this->dummyData->getProduct();
+        $productPoster = $this->dummyData->getProduct();
+        $cartPriceRuleItem = new CartPriceRuleProductItem($productShirt, 1);
 
         $cartPriceRule = $this->dummyData->getCartPriceRule();
-        $cartPriceRule->addItem(new CartPriceRuleProductItem($productShirt, 1));
+        $cartPriceRule->addItem($cartPriceRuleItem);
         $cartPriceRule->addItem(new CartPriceRuleProductItem($productPoster, 1));
         $cartPriceRule->addDiscount(new CartPriceRuleDiscount($productPoster));
 
@@ -41,20 +42,24 @@ class CartPriceRuleItemRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->persist($cartPriceRule);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $cartPriceRuleItem;
     }
 
     public function testFind()
     {
-        $this->setupCartPriceRuleItem();
+        $originalCartPriceRuleItem = $this->setupCartPriceRuleItem();
 
         $this->setCountLogger();
 
-        $cartPriceRuleItem = $this->cartPriceRuleItemRepository->findOneById(1);
+        $cartPriceRuleItem = $this->cartPriceRuleItemRepository->findOneById(
+            $originalCartPriceRuleItem->getId()
+        );
 
         $cartPriceRuleItem->getProduct()->getName();
         $cartPriceRuleItem->getCartPriceRule()->getName();
 
-        $this->assertTrue($cartPriceRuleItem instanceof AbstractCartPriceRuleItem);
-        $this->assertSame(2, $this->getTotalQueries());
+        $this->assertEquals($originalCartPriceRuleItem->getId(), $cartPriceRuleItem->getId());
+        $this->assertSame(3, $this->getTotalQueries());
     }
 }

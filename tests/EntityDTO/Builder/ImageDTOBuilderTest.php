@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\EntityDTO\ImageDTO;
+use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class ImageDTOBuilderTest extends EntityDTOBuilderTestCase
@@ -11,7 +14,8 @@ class ImageDTOBuilderTest extends EntityDTOBuilderTestCase
         $image->setProduct($this->dummyData->getProduct());
         $image->setTag($this->dummyData->getTag());
 
-        $imageDTO = $image->getDTOBuilder()
+        $imageDTO = $this->getDTOBuilderFactory()
+            ->getImageDTOBuilder($image)
             ->withAllData()
             ->build();
 

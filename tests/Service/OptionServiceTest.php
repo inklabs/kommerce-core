@@ -2,12 +2,13 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionRepository;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class OptionServiceTest extends ServiceTestCase
 {
-    /** @var FakeOptionRepository */
+    /** @var OptionRepositoryInterface | \Mockery\Mock */
     protected $optionRepository;
 
     /** @var OptionService */
@@ -16,46 +17,43 @@ class OptionServiceTest extends ServiceTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->optionRepository = new FakeOptionRepository;
+        $this->optionRepository = $this->mockRepository->getOptionRepository();
         $this->optionService = new OptionService($this->optionRepository);
     }
 
-    public function testCreate()
+    public function testCRUD()
     {
-        $option = $this->dummyData->getOption();
-        $this->optionService->create($option);
-        $this->assertTrue($option instanceof Option);
-    }
-
-    public function testEdit()
-    {
-        $newName = 'New Name';
-        $option = $this->dummyData->getOption();
-        $this->assertNotSame($newName, $option->getName());
-
-        $option->setName($newName);
-        $this->optionService->edit($option);
-
-        $this->assertSame($newName, $option->getName());
+        $this->executeServiceCRUD(
+            $this->optionService,
+            $this->optionRepository,
+            $this->dummyData->getOption()
+        );
     }
 
     public function testFind()
     {
         $option1 = $this->dummyData->getOption();
-        $this->optionRepository->create($option1);
+        $this->optionRepository->shouldReceive('findOneById')
+            ->with($option1->getId())
+            ->andReturn($option1)
+            ->once();
 
-        $option = $this->optionService->findOneById(1);
+        $option = $this->optionService->findOneById(
+            $option1->getId()
+        );
 
-        $this->assertTrue($option instanceof Option);
+        $this->assertEqualEntities($option1, $option);
     }
 
     public function testGetAllOptions()
     {
         $option1 = $this->dummyData->getOption();
-        $this->optionRepository->create($option1);
+        $this->optionRepository->shouldReceive('getAllOptions')
+            ->andReturn([$option1])
+            ->once();
 
         $options = $this->optionService->getAllOptions();
 
-        $this->assertTrue($options[1] instanceof Option);
+        $this->assertEqualEntities($option1, $options[0]);
     }
 }

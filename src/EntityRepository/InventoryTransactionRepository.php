@@ -4,6 +4,8 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class InventoryTransactionRepository extends AbstractRepository implements InventoryTransactionRepositoryInterface
 {
@@ -17,7 +19,7 @@ class InventoryTransactionRepository extends AbstractRepository implements Inven
             ->select('InventoryTransaction')
             ->from(InventoryTransaction::class, 'InventoryTransaction')
             ->where('InventoryTransaction.product = :productId')
-            ->setParameter('productId', $product->getId())
+            ->setIdParameter('productId', $product->getId())
             ->getQuery()
             ->getResult();
     }
@@ -25,14 +27,14 @@ class InventoryTransactionRepository extends AbstractRepository implements Inven
     /**
      * @param Product $product
      * @param int $quantity
-     * @return int
+     * @return UuidInterface
      * @throws EntityNotFoundException
      */
     public function findInventoryIdForProductAndQuantity(Product $product, $quantity)
     {
         $locationsAvailableQuantity = [];
         foreach ($this->findAllByProduct($product) as $inventoryTransaction) {
-            $inventoryLocationId = $inventoryTransaction->getInventoryLocation()->getId();
+            $inventoryLocationId = $inventoryTransaction->getInventoryLocation()->getId()->toString();
 
             if (! isset($locationsAvailableQuantity[$inventoryLocationId])) {
                 $locationsAvailableQuantity[$inventoryLocationId] = 0;
@@ -45,7 +47,7 @@ class InventoryTransactionRepository extends AbstractRepository implements Inven
 
         foreach ($locationsAvailableQuantity as $inventoryLocationId => $availableQuantity) {
             if ($quantity <= $availableQuantity) {
-                return $inventoryLocationId;
+                return Uuid::fromString($inventoryLocationId);
             }
         }
 

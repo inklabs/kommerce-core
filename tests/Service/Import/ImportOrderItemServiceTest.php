@@ -7,11 +7,7 @@ use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
-use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Lib\CSVIterator;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderItemRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOrderRepository;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeProductRepository;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class ImportOrderItemServiceTest extends ServiceTestCase
@@ -49,12 +45,11 @@ class ImportOrderItemServiceTest extends ServiceTestCase
 
     public function testImportFail()
     {
-        $orderItemRepository = new FakeOrderItemRepository;
-        $orderItemRepository->setCrudException(new KommerceException);
+        $repositoryFactory = $this->getRepositoryFactory();
         $orderItemService = new ImportOrderItemService(
-            new FakeOrderRepository,
-            $orderItemRepository,
-            new FakeProductRepository
+            $repositoryFactory->getOrderRepository(),
+            $repositoryFactory->getOrderItemRepository(),
+            $repositoryFactory->getProductRepository()
         );
 
         $iterator = new CSVIterator(__DIR__ . '/ImportOrderItemServiceTest.csv');
@@ -76,6 +71,12 @@ class ImportOrderItemServiceTest extends ServiceTestCase
         $order2->setExternalId('CO1103-0027');
         $order3->setExternalId('CO1104-0032');
 
+        $user = $this->dummyData->getUser();
+        $order1->setUser($user);
+        $order2->setUser($user);
+        $order3->setUser($user);
+
+        $this->entityManager->persist($user);
         $this->entityManager->persist($order1);
         $this->entityManager->persist($order2);
         $this->entityManager->persist($order3);

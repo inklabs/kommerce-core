@@ -3,29 +3,39 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\EntityDTO\CartItemDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\PricingInterface;
 
-class CartItemDTOBuilder
+class CartItemDTOBuilder implements DTOBuilderInterface
 {
-    public function __construct(CartItem $cartItem)
-    {
-        $this->cartItem = $cartItem;
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
 
-        $this->cartItemDTO = new CartItemDTO;
-        $this->cartItemDTO->id             = $this->cartItem->getId();
-        $this->cartItemDTO->encodedId      = BaseConvert::encode($this->cartItem->getId());
-        $this->cartItemDTO->fullSku        = $this->cartItem->getFullSku();
-        $this->cartItemDTO->quantity       = $this->cartItem->getQuantity();
-        $this->cartItemDTO->shippingWeight = $this->cartItem->getShippingWeight();
-        $this->cartItemDTO->created        = $this->cartItem->getCreated();
-        $this->cartItemDTO->updated        = $this->cartItem->getUpdated();
+    /** @var CartItem */
+    private $entity;
+
+    /** @var CartItemDTO */
+    private $entityDTO;
+
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(CartItem $cartItem, DTOBuilderFactoryInterface $dtoBuilderFactory)
+    {
+        $this->entity = $cartItem;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
+
+        $this->entityDTO = new CartItemDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->fullSku        = $this->entity->getFullSku();
+        $this->entityDTO->quantity       = $this->entity->getQuantity();
+        $this->entityDTO->shippingWeight = $this->entity->getShippingWeight();
     }
 
     public function withPrice(PricingInterface $pricing)
     {
-        $this->cartItemDTO->price = $this->cartItem->getPrice($pricing)->getDTOBuilder()
+        $this->entityDTO->price = $this->dtoBuilderFactory
+            ->getPriceDTOBuilder($this->entity->getPrice($pricing))
             ->withAllData()
             ->build();
 
@@ -34,7 +44,8 @@ class CartItemDTOBuilder
 
     public function withProduct(Pricing $pricing)
     {
-        $this->cartItemDTO->product = $this->cartItem->getProduct()->getDTOBuilder()
+        $this->entityDTO->product = $this->dtoBuilderFactory
+            ->getProductDTOBuilder($this->entity->getProduct())
             ->withTags()
             ->withProductQuantityDiscounts($pricing)
             ->build();
@@ -44,8 +55,9 @@ class CartItemDTOBuilder
 
     public function withCartItemOptionProducts(PricingInterface $pricing)
     {
-        foreach ($this->cartItem->getCartItemOptionProducts() as $cartItemOptionProduct) {
-            $this->cartItemDTO->cartItemOptionProducts[] = $cartItemOptionProduct->getDTOBuilder()
+        foreach ($this->entity->getCartItemOptionProducts() as $cartItemOptionProduct) {
+            $this->entityDTO->cartItemOptionProducts[] = $this->dtoBuilderFactory
+                ->getCartItemOptionProductDTOBuilder($cartItemOptionProduct)
                 ->withOptionProduct($pricing)
                 ->build();
         }
@@ -55,8 +67,9 @@ class CartItemDTOBuilder
 
     public function withCartItemOptionValues()
     {
-        foreach ($this->cartItem->getCartItemOptionValues() as $cartItemOptionValue) {
-            $this->cartItemDTO->cartItemOptionValues[] = $cartItemOptionValue->getDTOBuilder()
+        foreach ($this->entity->getCartItemOptionValues() as $cartItemOptionValue) {
+            $this->entityDTO->cartItemOptionValues[] = $this->dtoBuilderFactory
+                ->getCartItemOptionValueDTOBuilder($cartItemOptionValue)
                 ->build();
         }
 
@@ -65,8 +78,9 @@ class CartItemDTOBuilder
 
     public function withCartItemTextOptionValues()
     {
-        foreach ($this->cartItem->getCartItemTextOptionValues() as $cartItemTextOptionValue) {
-            $this->cartItemDTO->cartItemTextOptionValues[] = $cartItemTextOptionValue->getDTOBuilder()
+        foreach ($this->entity->getCartItemTextOptionValues() as $cartItemTextOptionValue) {
+            $this->entityDTO->cartItemTextOptionValues[] = $this->dtoBuilderFactory
+                ->getCartItemTextOptionValueDTOBuilder($cartItemTextOptionValue)
                 ->withTextOption()
                 ->build();
         }
@@ -84,8 +98,14 @@ class CartItemDTOBuilder
             ->withCartItemTextOptionValues();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->cartItemDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

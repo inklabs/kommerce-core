@@ -9,8 +9,7 @@ class ShipmentCommentTest extends EntityTestCase
     {
         $shipment = $this->dummyData->getShipment();
 
-        $shipmentComment = new ShipmentComment('Enjoy your items!');
-        $shipmentComment->setShipment($shipment);
+        $shipmentComment = new ShipmentComment($shipment, 'Enjoy your items!');
 
         $this->assertEntityValid($shipmentComment);
         $this->assertSame('Enjoy your items!', $shipmentComment->getComment());

@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Action\Order\Query;
 
-use inklabs\kommerce\EntityDTO\OrderDTO;
+use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 
 interface GetOrderResponseInterface
 {
-    public function setOrderDTO(OrderDTO $orderDTO);
+    public function setOrderDTOBuilder(OrderDTOBuilder $orderDTOBuilder);
 }

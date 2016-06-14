@@ -1,9 +1,12 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\Lib\PaymentGateway;
+use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OrderTest extends EntityTestCase
 {
@@ -11,7 +14,8 @@ class OrderTest extends EntityTestCase
     {
         $order = new Order;
 
-        $this->assertSame(null, $order->getReferenceId());
+        $this->assertTrue($order->getId() instanceof UuidInterface);
+        $this->assertTrue($order->getCreated() instanceof DateTime);
         $this->assertSame(null, $order->getExternalId());
         $this->assertSame(null, $order->getReferenceNumber());
         $this->assertSame('0.0.0.0', $order->getIp4());
@@ -50,7 +54,6 @@ class OrderTest extends EntityTestCase
         $taxRate = $this->dummyData->getTaxRate();
 
         $order = new Order;
-        $order->setId(1);
         $order->setExternalId('CO1102-0016');
         $order->setReferenceNumber('xxx-xxxxxxx-xxxxxxx');
         $order->setIp4('10.0.0.1');
@@ -66,7 +69,6 @@ class OrderTest extends EntityTestCase
         $order->addPayment($payment);
 
         $this->assertEntityValid($order);
-        $this->assertSame(1, $order->getReferenceId());
         $this->assertSame('CO1102-0016', $order->getExternalId());
         $this->assertSame('xxx-xxxxxxx-xxxxxxx', $order->getReferenceNumber());
         $this->assertSame('10.0.0.1', $order->getIp4());
@@ -85,7 +87,6 @@ class OrderTest extends EntityTestCase
         $this->assertSame($taxRate, $order->getTaxRate());
         $this->assertSame($product, $order->getProducts()[0]);
         $this->assertSame($shipment, $order->getShipments()[0]);
-        $this->assertTrue($order->getDTOBuilder() instanceof OrderDTOBuilder);
     }
 
     public function testCreateFromCart()
@@ -95,6 +96,7 @@ class OrderTest extends EntityTestCase
         $coupon = $this->dummyData->getCoupon();
         $taxRate = $this->dummyData->getTaxRate();
         $shipmentRate = $this->dummyData->getShipmentRate(1000);
+        $orderId = Uuid::uuid4();
 
         $cart = $this->dummyData->getCart([
             $this->dummyData->getCartItemFull()
@@ -104,7 +106,7 @@ class OrderTest extends EntityTestCase
         $cart->setTaxRate($taxRate);
         $cart->setShipmentRate($shipmentRate);
 
-        $order = Order::fromCart($cart, $cartCalculator, '10.0.0.1');
+        $order = Order::fromCart($orderId, $cart, $cartCalculator, '10.0.0.1');
 
         $this->assertTrue($order instanceof Order);
         $this->assertSame('10.0.0.1', $order->getIp4());
@@ -113,7 +115,7 @@ class OrderTest extends EntityTestCase
         $this->assertSame($taxRate, $order->getTaxRate());
         $this->assertSame($shipmentRate, $order->getShipmentRate());
         $this->assertSame(
-            'Test Catalog Promotion #1, Buy 1 or more for 5% off',
+            'Test Catalog Promotion, Buy 1 or more for 5% off',
             $order->getOrderItems()[0]->getDiscountNames()
         );
     }
@@ -122,8 +124,8 @@ class OrderTest extends EntityTestCase
     {
         $orderItem = $this->dummyData->getOrderItem();
         $orderItem->setQuantity(2);
-        $shipmentItem = $this->dummyData->getShipmentItem($orderItem, 2);
-        $shipment = $this->dummyData->getShipment($shipmentItem);
+        $shipment = $this->dummyData->getShipment();
+        $shipmentItem = $this->dummyData->getShipmentItem($shipment, $orderItem, 2);
         $order = new Order;
         $order->addOrderItem($orderItem);
 
@@ -137,8 +139,9 @@ class OrderTest extends EntityTestCase
     {
         $orderItem = $this->dummyData->getOrderItem();
         $orderItem->setQuantity(2);
-        $shipmentItem = $this->dummyData->getShipmentItem($orderItem, 1);
-        $shipment = $this->dummyData->getShipment($shipmentItem);
+        $shipment = $this->dummyData->getShipment();
+        $this->dummyData->getShipmentItem($shipment, $orderItem, 1);
+
         $order = new Order;
         $order->addOrderItem($orderItem);
 

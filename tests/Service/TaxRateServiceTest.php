@@ -2,12 +2,13 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeTaxRateRepository;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class TaxRateServiceTest extends ServiceTestCase
 {
-    /** @var FakeTaxRateRepository */
+    /** @var TaxRateRepositoryInterface | \Mockery\Mock */
     protected $taxRateRepository;
 
     /** @var TaxRateService */
@@ -16,45 +17,58 @@ class TaxRateServiceTest extends ServiceTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->taxRateRepository = new FakeTaxRateRepository;
+        $this->taxRateRepository = $this->mockRepository->getTaxRateRepository();
         $this->taxRateService = new TaxRateService($this->taxRateRepository);
     }
 
-    public function testCreate()
+    public function testCRUD()
     {
-        $taxRate = $this->dummyData->getTaxRate();
-        $this->taxRateService->create($taxRate);
-        $this->assertTrue($taxRate instanceof TaxRate);
-    }
-
-    public function testEdit()
-    {
-        $newState = 'XX';
-        $taxRate = $this->dummyData->getTaxRate();
-        $this->assertNotSame($newState, $taxRate->getState());
-
-        $taxRate->setState($newState);
-        $this->taxRateService->edit($taxRate);
-        $this->assertSame($newState, $taxRate->getState());
+        $this->executeServiceCRUD(
+            $this->taxRateService,
+            $this->taxRateRepository,
+            $this->dummyData->getTaxRate()
+        );
     }
 
     public function testFind()
     {
-        $this->taxRateRepository->create(new TaxRate);
+        $taxRate1 = $this->dummyData->getTaxRate();
+        $this->taxRateRepository->shouldReceive('findOneById')
+            ->with($taxRate1->getId())
+            ->andReturn($taxRate1)
+            ->once();
 
-        $taxRate = $this->taxRateService->findOneById(1);
-        $this->assertTrue($taxRate instanceof TaxRate);
+        $taxRate = $this->taxRateService->findOneById(
+            $taxRate1->getId()
+        );
+
+        $this->assertEqualEntities($taxRate1, $taxRate);
     }
 
     public function testFindAll()
     {
+        $taxRate1 = $this->dummyData->getTaxRate();
+        $this->taxRateRepository->shouldReceive('findAll')
+            ->andReturn([$taxRate1])
+            ->once();
+
         $taxRates = $this->taxRateService->findAll();
-        $this->assertTrue($taxRates[0] instanceof TaxRate);
+
+        $this->assertEqualEntities($taxRate1, $taxRates[0]);
     }
 
     public function testFindByZip5AndStateWithZip5()
     {
-        $taxRate = $this->taxRateService->findByZip5AndState('92606');
-        $this->assertTrue($taxRate instanceof TaxRate);
+        $taxRate1 = $this->dummyData->getTaxRate();
+        $this->taxRateRepository->shouldReceive('findByZip5AndState')
+            ->with($taxRate1->getZip5(), null)
+            ->andReturn($taxRate1)
+            ->once();
+
+        $taxRate = $this->taxRateService->findByZip5AndState(
+            $taxRate1->getZip5()
+        );
+
+        $this->assertEqualEntities($taxRate1, $taxRate);
     }
 }

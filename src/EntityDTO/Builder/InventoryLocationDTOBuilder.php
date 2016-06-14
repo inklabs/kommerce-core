@@ -3,31 +3,36 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\EntityDTO\InventoryLocationDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
-class InventoryLocationDTOBuilder
+class InventoryLocationDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var InventoryLocation */
-    protected $inventoryTransaction;
+    protected $entity;
 
     /** @var InventoryLocationDTO */
-    protected $inventoryTransactionDTO;
+    protected $entityDTO;
 
-    public function __construct(InventoryLocation $inventoryTransaction)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(InventoryLocation $inventoryTransaction, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->inventoryTransaction = $inventoryTransaction;
+        $this->entity = $inventoryTransaction;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->inventoryTransactionDTO = new InventoryLocationDTO;
-        $this->inventoryTransactionDTO->id        = $this->inventoryTransaction->getId();
-        $this->inventoryTransactionDTO->encodedId = BaseConvert::encode($this->inventoryTransaction->getId());
-        $this->inventoryTransactionDTO->name      = $this->inventoryTransaction->getName();
-        $this->inventoryTransactionDTO->code      = $this->inventoryTransaction->getCode();
+        $this->entityDTO = new InventoryLocationDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->name = $this->entity->getName();
+        $this->entityDTO->code = $this->entity->getCode();
     }
 
     public function withWarehouse()
     {
-        $this->inventoryTransactionDTO->warehouse = $this->inventoryTransaction->getWarehouse()
-            ->getDTOBuilder()
+        $this->entityDTO->warehouse = $this->dtoBuilderFactory
+            ->getWarehouseDTOBuilder($this->entity->getWarehouse())
             ->build();
 
         return $this;
@@ -39,8 +44,14 @@ class InventoryLocationDTOBuilder
             ->withWarehouse();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->inventoryTransactionDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

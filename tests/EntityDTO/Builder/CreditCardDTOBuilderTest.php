@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\EntityDTO\CreditCardDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class CreditCardDTOBuilderTest extends EntityDTOBuilderTestCase
@@ -9,7 +10,8 @@ class CreditCardDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $creditCard = $this->dummyData->getCreditCard();
 
-        $creditCardDTO = $creditCard->getDTOBuilder()
+        $creditCardDTO = $this->getDTOBuilderFactory()
+            ->getCreditCardDTOBuilder($creditCard)
             ->build();
 
         $this->assertTrue($creditCardDTO instanceof CreditCardDTO);

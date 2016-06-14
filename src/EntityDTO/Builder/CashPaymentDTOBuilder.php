@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO\Builder;
 
-use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\EntityDTO\CashPaymentDTO;
 
 /**
@@ -9,15 +8,8 @@ use inklabs\kommerce\EntityDTO\CashPaymentDTO;
  */
 class CashPaymentDTOBuilder extends AbstractPaymentDTOBuilder
 {
-    /** @var CashPayment */
-    protected $payment;
-
-    /** @var CashPaymentDTO */
-    protected $paymentDTO;
-
-    public function __construct(CashPayment $payment)
+    protected function getEntityDTO()
     {
-        $this->paymentDTO = new CashPaymentDTO;
-        parent::__construct($payment);
+        return new CashPaymentDTO;
     }
 }

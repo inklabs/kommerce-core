@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\InventoryLocationDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class InventoryLocation implements EntityInterface, ValidationInterface
+class InventoryLocation implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -20,8 +19,9 @@ class InventoryLocation implements EntityInterface, ValidationInterface
 
     public function __construct(Warehouse $warehouse, $name, $code)
     {
+        $this->setId();
         $this->setCreated();
-        $this->setWarehouse($warehouse);
+        $this->warehouse = $warehouse;
         $this->setName($name);
         $this->setCode($code);
     }
@@ -67,18 +67,8 @@ class InventoryLocation implements EntityInterface, ValidationInterface
         return $this->code;
     }
 
-    public function setWarehouse(Warehouse $warehouse)
-    {
-        $this->warehouse = $warehouse;
-    }
-
     public function getWarehouse()
     {
         return $this->warehouse;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new InventoryLocationDTOBuilder($this);
     }
 }

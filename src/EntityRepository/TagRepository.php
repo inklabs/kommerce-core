@@ -39,7 +39,7 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
             ->from(Tag::class, 'Tag')
             ->where('Tag.id IN (:tagIds)')
             ->tagActiveAndVisible()
-            ->setParameter('tagIds', $tagIds)
+            ->setIdParameter('tagIds', $tagIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
@@ -51,7 +51,7 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
             ->select('Tag')
             ->from(Tag::class, 'Tag')
             ->where('Tag.id IN (:tagIds)')
-            ->setParameter('tagIds', $tagIds)
+            ->setIdParameter('tagIds', $tagIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();

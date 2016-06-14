@@ -1,13 +1,12 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\OrderItemDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Exception\AttachmentException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachmentInterface
+class OrderItem implements IdEntityInterface, ValidationInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait;
 
@@ -52,6 +51,7 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
         $this->catalogPromotions = new ArrayCollection();
         $this->productQuantityDiscounts = new ArrayCollection();
@@ -98,6 +98,9 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         return $this->product;
     }
 
+    /**
+     * @return OrderItemOptionProduct[]
+     */
     public function getOrderItemOptionProducts()
     {
         return $this->orderItemOptionProducts;
@@ -111,6 +114,9 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         $this->setSku();
     }
 
+    /**
+     * @return OrderItemOptionValue[]
+     */
     public function getOrderItemOptionValues()
     {
         return $this->orderItemOptionValues;
@@ -124,6 +130,9 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         $this->setSku();
     }
 
+    /**
+     * @return OrderItemTextOptionValue[]
+     */
     public function getOrderItemTextOptionValues()
     {
         return $this->orderItemTextOptionValues;
@@ -246,6 +255,9 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         $this->catalogPromotions[] = $catalogPromotion;
     }
 
+    /**
+     * @return CatalogPromotion[]
+     */
     public function getCatalogPromotions()
     {
         return $this->catalogPromotions;
@@ -256,6 +268,9 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         $this->productQuantityDiscounts[] = $productQuantityDiscount;
     }
 
+    /**
+     * @return ProductQuantityDiscount[]
+     */
     public function getProductQuantityDiscounts()
     {
         return $this->productQuantityDiscounts;
@@ -296,11 +311,6 @@ class OrderItem implements EntityInterface, ValidationInterface, EnabledAttachme
         }
 
         return true;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new OrderItemDTOBuilder($this);
     }
 
     /**

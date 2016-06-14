@@ -3,37 +3,42 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\EntityDTO\UserTokenDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
-class UserTokenDTOBuilder
+class UserTokenDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var UserToken */
-    protected $userToken;
+    protected $entity;
 
     /** @var UserTokenDTO */
-    protected $userTokenDTO;
+    protected $entityDTO;
 
-    public function __construct(UserToken $userToken)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(UserToken $userToken, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->userToken = $userToken;
+        $this->entity = $userToken;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->userTokenDTO = new UserTokenDTO;
-        $this->userTokenDTO->id        = $this->userToken->getId();
-        $this->userTokenDTO->encodedId = BaseConvert::encode($this->userToken->getId());
-        $this->userTokenDTO->userAgent = $this->userToken->getUserAgent();
-        $this->userTokenDTO->expires   = $this->userToken->getExpires();
-        $this->userTokenDTO->created   = $this->userToken->getCreated();
-        $this->userTokenDTO->updated   = $this->userToken->getUpdated();
+        $this->entityDTO = new UserTokenDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->userAgent = $this->entity->getUserAgent();
+        $this->entityDTO->expires   = $this->entity->getExpires();
 
-        $this->userTokenDTO->type = $this->userToken->getType()->getDTOBuilder()
+        $this->entityDTO->type = $this->dtoBuilderFactory
+            ->getUserTokenTypeDTOBuilder($this->entity->getType())
             ->build();
     }
 
     public function withUser()
     {
-        $user = $this->userToken->getUser();
+        $user = $this->entity->getUser();
         if ($user !== null) {
-            $this->userTokenDTO->user = $user->getDTOBuilder()
+            $this->entityDTO->user = $this->dtoBuilderFactory
+                ->getUserDTOBuilder($user)
                 ->build();
         }
         return $this;
@@ -45,8 +50,14 @@ class UserTokenDTOBuilder
             ->withUser();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->userTokenDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

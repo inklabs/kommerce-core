@@ -1,6 +1,19 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\EntityDTO\AttachmentDTO;
+use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
+use inklabs\kommerce\EntityDTO\OptionDTO;
+use inklabs\kommerce\EntityDTO\OptionProductDTO;
+use inklabs\kommerce\EntityDTO\OptionValueDTO;
+use inklabs\kommerce\EntityDTO\OrderItemDTO;
+use inklabs\kommerce\EntityDTO\OrderItemOptionProductDTO;
+use inklabs\kommerce\EntityDTO\OrderItemOptionValueDTO;
+use inklabs\kommerce\EntityDTO\OrderItemTextOptionValueDTO;
+use inklabs\kommerce\EntityDTO\PriceDTO;
+use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\EntityDTO\ProductQuantityDiscountDTO;
+use inklabs\kommerce\EntityDTO\TextOptionDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class OrderItemDTOBuilderTest extends EntityDTOBuilderTestCase
@@ -9,7 +22,8 @@ class OrderItemDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $orderItem = $this->dummyData->getOrderItemFull();
 
-        $orderItemDTO = $orderItem->getDTOBuilder()
+        $orderItemDTO = $this->getDTOBuilderFactory()
+            ->getOrderItemDTOBuilder($orderItem)
             ->withAllData()
             ->build();
 

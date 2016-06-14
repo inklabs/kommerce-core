@@ -1,9 +1,9 @@
 <?php
 namespace inklabs\kommerce\Action\Tag\Query;
 
-use inklabs\kommerce\EntityDTO\TagDTO;
+use inklabs\kommerce\EntityDTO\Builder\TagDTOBuilder;
 
 interface GetTagResponseInterface
 {
-    public function setTagDTO(TagDTO $tagDTO);
+    public function setTagDTOBuilder(TagDTOBuilder $tagDTOBuilder);
 }

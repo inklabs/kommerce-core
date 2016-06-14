@@ -1,20 +1,40 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\EntityDTO\PriceDTO;
+use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\EntityDTO\ProductQuantityDiscountDTO;
+use inklabs\kommerce\tests\EntityDTO\Builder\AbstractPromotionDTOBuilderTest;
 
-class ProductQuantityDiscountDTOBuilderTest extends EntityDTOBuilderTestCase
+class ProductQuantityDiscountDTOBuilderTest extends AbstractPromotionDTOBuilderTest
 {
-    public function testBuild()
+    /**
+     * @return ProductQuantityDiscount
+     */
+    protected function getPromotion()
     {
-        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount();
+        return $this->dummyData->getProductQuantityDiscount();
+    }
 
-        $productQuantityDiscountDTO = $productQuantityDiscount->getDTOBuilder()
+    /**
+     * @return ProductQuantityDiscountDTO
+     */
+    protected function getPromotionDTO()
+    {
+        return $this->getDTOBuilderFactory()
+            ->getProductQuantityDiscountDTOBuilder($this->getPromotion())
             ->withAllData($this->dummyData->getPricing())
             ->build();
+    }
 
-        $this->assertTrue($productQuantityDiscountDTO instanceof ProductQuantityDiscountDTO);
-        $this->assertTrue($productQuantityDiscountDTO->price instanceof PriceDTO);
-        $this->assertTrue($productQuantityDiscountDTO->product instanceof ProductDTO);
+    public function testExtras()
+    {
+        $promotion = $this->getPromotion();
+        $promotionDTO = $this->getPromotionDTO();
+
+        $this->assertTrue($promotionDTO instanceof ProductQuantityDiscountDTO);
+        $this->assertTrue($promotionDTO->price instanceof PriceDTO);
+        $this->assertTrue($promotionDTO->product instanceof ProductDTO);
     }
 }

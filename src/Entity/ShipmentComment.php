@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ShipmentCommentDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ShipmentComment implements EntityInterface, ValidationInterface
+class ShipmentComment implements IdEntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
 
@@ -16,12 +15,17 @@ class ShipmentComment implements EntityInterface, ValidationInterface
     protected $shipment;
 
     /**
+     * @param Shipment $shipment
      * @param string $comment
      */
-    public function __construct($comment)
+    public function __construct(Shipment $shipment, $comment)
     {
+        $this->setId();
         $this->setCreated();
         $this->comment = (string) $comment;
+
+        $shipment->addShipmentComment($this);
+        $this->setShipment($shipment);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -37,13 +41,8 @@ class ShipmentComment implements EntityInterface, ValidationInterface
         return $this->comment;
     }
 
-    public function setShipment(Shipment $shipment)
+    private function setShipment(Shipment $shipment)
     {
         $this->shipment = $shipment;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new ShipmentCommentDTOBuilder($this);
     }
 }

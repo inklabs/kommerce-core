@@ -10,4 +10,10 @@ trait TimeDTOTrait
 
     /** @var DateTime  */
     public $updated;
+
+    /** @var string */
+    public $createdFormatted;
+
+    /** @var string  */
+    public $updatedFormatted;
 }

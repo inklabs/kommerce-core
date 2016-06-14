@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\UserLoginResultTypeDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -47,13 +46,5 @@ class UserLoginResultType extends AbstractIntegerType
     public function isSuccess()
     {
         return $this->id === self::SUCCESS;
-    }
-
-    /**
-     * @return UserLoginResultTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new UserLoginResultTypeDTOBuilder($this);
     }
 }

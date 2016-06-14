@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ImageDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Image implements EntityInterface, ValidationInterface
+class Image implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -29,6 +28,7 @@ class Image implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
         $this->setSortOrder(0);
     }
@@ -129,10 +129,5 @@ class Image implements EntityInterface, ValidationInterface
     public function getTag()
     {
         return $this->tag;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new ImageDTOBuilder($this);
     }
 }

@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\InsufficientInventoryException;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface InventoryServiceInterface
 {
@@ -20,17 +21,22 @@ interface InventoryServiceInterface
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $sourceLocationId
-     * @param int $destinationLocationId
+     * @param UuidInterface $sourceLocationId
+     * @param UuidInterface $destinationLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function moveProduct(Product $product, $quantity, $sourceLocationId, $destinationLocationId);
+    public function moveProduct(
+        Product $product,
+        $quantity,
+        UuidInterface $sourceLocationId,
+        UuidInterface $destinationLocationId
+    );
 
     /**
      * @param Product $product
      * @param int $quantity (can be negative)
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @param InventoryTransactionType $transactionType
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
@@ -38,61 +44,61 @@ interface InventoryServiceInterface
     public function adjustInventory(
         Product $product,
         $quantity,
-        $inventoryLocationId,
+        UuidInterface $inventoryLocationId,
         InventoryTransactionType $transactionType
     );
 
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function addProduct(Product $product, $quantity, $inventoryLocationId);
+    public function addProduct(Product $product, $quantity, UuidInterface $inventoryLocationId);
 
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function shipProduct(Product $product, $quantity, $inventoryLocationId);
+    public function shipProduct(Product $product, $quantity, UuidInterface $inventoryLocationId);
 
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function returnProduct(Product $product, $quantity, $inventoryLocationId);
+    public function returnProduct(Product $product, $quantity, UuidInterface $inventoryLocationId);
 
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function reduceProductForPromotion(Product $product, $quantity, $inventoryLocationId);
+    public function reduceProductForPromotion(Product $product, $quantity, UuidInterface $inventoryLocationId);
 
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function reduceProductForDamage(Product $product, $quantity, $inventoryLocationId);
+    public function reduceProductForDamage(Product $product, $quantity, UuidInterface $inventoryLocationId);
 
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function reduceProductForShrinkage(Product $product, $quantity, $inventoryLocationId);
+    public function reduceProductForShrinkage(Product $product, $quantity, UuidInterface $inventoryLocationId);
 }

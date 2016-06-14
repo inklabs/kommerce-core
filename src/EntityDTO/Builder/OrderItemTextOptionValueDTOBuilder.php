@@ -4,30 +4,37 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\OrderItemTextOptionValue;
 use inklabs\kommerce\EntityDTO\OrderItemTextOptionValueDTO;
 
-class OrderItemTextOptionValueDTOBuilder
+class OrderItemTextOptionValueDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var OrderItemTextOptionValue */
-    protected $orderItemTextOptionValue;
+    protected $entity;
 
     /** @var OrderItemTextOptionValueDTO */
-    protected $orderItemTextOptionValueDTO;
+    protected $entityDTO;
 
-    public function __construct(OrderItemTextOptionValue $orderItemTextOptionValue)
-    {
-        $this->orderItemTextOptionValue = $orderItemTextOptionValue;
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
 
-        $this->orderItemTextOptionValueDTO = new OrderItemTextOptionValueDTO;
-        $this->orderItemTextOptionValueDTO->id              = $this->orderItemTextOptionValue->getId();
-        $this->orderItemTextOptionValueDTO->created         = $this->orderItemTextOptionValue->getCreated();
-        $this->orderItemTextOptionValueDTO->updated         = $this->orderItemTextOptionValue->getUpdated();
-        $this->orderItemTextOptionValueDTO->textOptionName  = $this->orderItemTextOptionValue->getTextOptionName();
-        $this->orderItemTextOptionValueDTO->textOptionValue = $this->orderItemTextOptionValue->getTextOptionValue();
+    public function __construct(
+        OrderItemTextOptionValue $orderItemTextOptionValue,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
+        $this->entity = $orderItemTextOptionValue;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
+
+        $this->entityDTO = new OrderItemTextOptionValueDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->textOptionName  = $this->entity->getTextOptionName();
+        $this->entityDTO->textOptionValue = $this->entity->getTextOptionValue();
     }
 
     public function withTextOption()
     {
-        $this->orderItemTextOptionValueDTO->textOption = $this->orderItemTextOptionValue->getTextOption()
-            ->getDTOBuilder()
+        $this->entityDTO->textOption = $this->dtoBuilderFactory
+            ->getTextOptionDTOBuilder($this->entity->getTextOption())
             ->build();
 
         return $this;
@@ -39,8 +46,14 @@ class OrderItemTextOptionValueDTOBuilder
             ->withTextOption();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->orderItemTextOptionValueDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

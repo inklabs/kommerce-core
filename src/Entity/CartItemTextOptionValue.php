@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartItemTextOptionValueDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartItemTextOptionValue implements EntityInterface, ValidationInterface
+class CartItemTextOptionValue implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -20,6 +19,7 @@ class CartItemTextOptionValue implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
     }
 
@@ -62,10 +62,5 @@ class CartItemTextOptionValue implements EntityInterface, ValidationInterface
     public function setCartItem(CartItem $cartItem)
     {
         $this->cartItem = $cartItem;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new CartItemTextOptionValueDTOBuilder($this);
     }
 }

@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ProductAttributeDTOBuilder;
-
 class ProductAttribute
 {
     use TimeTrait, IdTrait;
@@ -18,6 +16,7 @@ class ProductAttribute
 
     public function __construct(Product $product, Attribute $attribute, AttributeValue $attributeValue)
     {
+        $this->setId();
         $this->setCreated();
         $this->product = $product;
         $this->attribute = $attribute;
@@ -41,10 +40,5 @@ class ProductAttribute
     public function getAttributeValue()
     {
         return $this->attributeValue;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new ProductAttributeDTOBuilder($this);
     }
 }

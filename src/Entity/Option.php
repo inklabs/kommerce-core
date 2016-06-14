@@ -1,12 +1,11 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\OptionDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Option implements EntityInterface, ValidationInterface
+class Option implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -33,6 +32,7 @@ class Option implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
 
         $this->setType(OptionType::select());
@@ -116,6 +116,9 @@ class Option implements EntityInterface, ValidationInterface
         $this->tags[] = $tag;
     }
 
+    /**
+     * @return Tag[]
+     */
     public function getTags()
     {
         return $this->tags;
@@ -126,6 +129,9 @@ class Option implements EntityInterface, ValidationInterface
         $this->optionProducts->add($optionProduct);
     }
 
+    /**
+     * @return OptionProduct[]
+     */
     public function getOptionProducts()
     {
         return $this->optionProducts;
@@ -136,13 +142,11 @@ class Option implements EntityInterface, ValidationInterface
         $this->optionValues->add($optionValue);
     }
 
+    /**
+     * @return OptionValue[]
+     */
     public function getOptionValues()
     {
         return $this->optionValues;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new OptionDTOBuilder($this);
     }
 }

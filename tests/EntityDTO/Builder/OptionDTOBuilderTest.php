@@ -12,7 +12,8 @@ class OptionDTOBuilderTest extends EntityDTOBuilderTestCase
         $option->addOptionProduct($this->dummyData->getOptionProduct());
         $option->addOptionValue($this->dummyData->getOptionValue());
 
-        $optionDTO = $option->getDTOBuilder()
+        $optionDTO = $this->getDTOBuilderFactory()
+            ->getOptionDTOBuilder($option)
             ->withAllData($this->dummyData->getPricing())
             ->build();
 

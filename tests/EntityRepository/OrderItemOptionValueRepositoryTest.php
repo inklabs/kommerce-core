@@ -35,13 +35,30 @@ class OrderItemOptionValueRepositoryTest extends EntityRepositoryTestCase
         $this->orderItemOptionValue = $this->getRepositoryFactory()->getOrderItemOptionValueRepository();
     }
 
-    public function setupOrder()
+    public function testFind()
+    {
+        $originalOrderItemOptionValue = $this->setupOrderItemOptionValue();
+
+        $this->setCountLogger();
+
+        $orderItemOptionValue = $this->orderItemOptionValue->findOneById(
+            $originalOrderItemOptionValue->getId()
+        );
+
+        $orderItemOptionValue->getOrderItem()->getCreated();
+        $orderItemOptionValue->getOptionValue()->getCreated();
+
+        $this->assertTrue($orderItemOptionValue instanceof OrderItemOptionValue);
+        $this->assertSame(4, $this->getTotalQueries());
+    }
+
+    private function setupOrderItemOptionValue()
     {
         $option = $this->dummyData->getOption();
         $optionValue = $this->dummyData->getOptionValue($option);
         $orderItemOptionValue = $this->dummyData->getOrderItemOptionValue($optionValue);
 
-        $product = $this->dummyData->getProduct(1);
+        $product = $this->dummyData->getProduct();
         $price = $this->dummyData->getPrice();
 
         $orderItem = $this->dummyData->getOrderItem($product, $price);
@@ -60,20 +77,7 @@ class OrderItemOptionValueRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->persist($order);
         $this->entityManager->flush();
         $this->entityManager->clear();
-    }
 
-    public function testFind()
-    {
-        $this->setupOrder();
-
-        $this->setCountLogger();
-
-        $orderItemOptionValue = $this->orderItemOptionValue->findOneById(1);
-
-        $orderItemOptionValue->getOrderItem()->getCreated();
-        $orderItemOptionValue->getOptionValue()->getCreated();
-
-        $this->assertTrue($orderItemOptionValue instanceof OrderItemOptionValue);
-        $this->assertSame(5, $this->getTotalQueries());
+        return $orderItemOptionValue;
     }
 }

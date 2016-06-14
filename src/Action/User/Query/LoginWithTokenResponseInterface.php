@@ -1,10 +1,9 @@
 <?php
 namespace inklabs\kommerce\Action\User\Query;
 
-use inklabs\kommerce\EntityDTO\UserDTO;
+use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
 
 interface LoginWithTokenResponseInterface
 {
-    public function setUserDTO(UserDTO $tagDTO);
-    public function getUserDTO();
+    public function setUserDTOBuilder(UserDTOBuilder $userDTOBuilder);
 }

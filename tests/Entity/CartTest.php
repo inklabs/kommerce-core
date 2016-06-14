@@ -1,8 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use DateTime;
 use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class CartTest extends EntityTestCase
 {
@@ -10,6 +12,8 @@ class CartTest extends EntityTestCase
     {
         $cart = new Cart;
 
+        $this->assertTrue($cart->getId() instanceof UuidInterface);
+        $this->assertTrue($cart->getCreated() instanceof DateTime);
         $this->assertSame(null, $cart->getSessionId());
         $this->assertSame(null, $cart->getUser());
         $this->assertSame(null, $cart->getShippingAddress());
@@ -41,8 +45,7 @@ class CartTest extends EntityTestCase
         $this->assertTrue($cart instanceof Cart);
         $this->assertSame('10.0.0.1', $cart->getIp4());
         $this->assertSame('6is7ujb3crb5ja85gf91g9en62', $cart->getSessionId());
-        $this->assertSame($cartItem, $cart->getCartitem(0));
-        $this->assertSame($cartItem, $cart->getCartitems()[0]);
+        $this->assertSame($cartItem, $cart->getCartItems()[0]);
         $this->assertSame($coupon, $cart->getCoupons()[0]);
         $this->assertSame($shipmentRate, $cart->getShipmentRate());
         $this->assertSame($orderAddress, $cart->getShippingAddress());
@@ -62,61 +65,47 @@ class CartTest extends EntityTestCase
         $this->assertSame(7, $cart->totalQuantity());
     }
 
-    public function testGetCartItemMissingThrowsException()
-    {
-        $cart = new Cart;
-
-        $this->setExpectedException(
-            InvalidCartActionException::class,
-            'CartItem not found'
-        );
-
-        $cart->getCartItem(1);
-    }
-
     public function testDeleteCartItem()
     {
         $cartItem = $this->dummyData->getCartItem(null, 1);
         $cart = new Cart;
-        $cartItemIndex1 = $cart->addCartItem($cartItem);
+        $cart->addCartItem($cartItem);
         $this->assertSame(1, $cart->totalItems());
 
-        $cart->deleteCartItem($cartItemIndex1);
+        $cart->deleteCartItem($cartItem);
 
         $this->assertSame(0, $cart->totalItems());
     }
 
     public function testDeleteCartItemMissing()
     {
-        $cart = new Cart;
+        $cart = $this->dummyData->getCart();
+        $cartItem = $this->dummyData->getCartItem();
 
         $this->setExpectedException(
             InvalidCartActionException::class,
             'CartItem missing'
         );
 
-        $cart->deleteCartItem(1);
+        $cart->deleteCartItem($cartItem);
     }
 
     public function testUpdateCoupon()
     {
-        $coupon1 = $this->dummyData->getCoupon(1);
-        $coupon1->setId(1);
-
-        $coupon2 = $this->dummyData->getCoupon(2);
-        $coupon2->setid(2);
+        $coupon1 = $this->dummyData->getCoupon();
+        $coupon2 = $this->dummyData->getCoupon();
 
         $cart = new Cart;
         $cart->addCoupon($coupon1);
-        $this->assertSame(1, $cart->getCoupons()[0]->getId());
+        $this->assertEqualEntities($coupon1, $cart->getCoupons()[0]);
 
         $cart->updateCoupon(0, $coupon2);
-        $this->assertSame(2, $cart->getCoupons()[0]->getId());
+        $this->assertEqualEntities($coupon2, $cart->getCoupons()[0]);
     }
 
     public function testAddCouponWithDuplicateCouponThrowsException()
     {
-        $coupon1 = $this->getPercentCoupon(1, 20);
+        $coupon1 = $this->getPercentCoupon(20);
         $coupon1->setCanCombineWithOtherCoupons(true);
 
         $cart = new Cart;
@@ -132,10 +121,10 @@ class CartTest extends EntityTestCase
 
     public function testAddCouponWithNonStackableCouponThrowsException()
     {
-        $coupon1 = $this->getPercentCoupon(1, 20);
+        $coupon1 = $this->getPercentCoupon(20);
         $coupon1->setCanCombineWithOtherCoupons(false);
 
-        $coupon2 = $this->getPercentCoupon(2, 20);
+        $coupon2 = $this->getPercentCoupon(20);
         $coupon2->setCanCombineWithOtherCoupons(false);
 
         $cart = new Cart;
@@ -151,10 +140,10 @@ class CartTest extends EntityTestCase
 
     public function testAddCouponWithSecondStackableCouponThrowsException()
     {
-        $coupon1 = $this->getPercentCoupon(1, 20);
+        $coupon1 = $this->getPercentCoupon(20);
         $coupon1->setCanCombineWithOtherCoupons(false);
 
-        $coupon2 = $this->getPercentCoupon(2, 20);
+        $coupon2 = $this->getPercentCoupon(20);
         $coupon2->setCanCombineWithOtherCoupons(true);
 
         $cart = new Cart;
@@ -170,10 +159,10 @@ class CartTest extends EntityTestCase
 
     public function testAddCouponWithFirstStackableCouponThrowsException()
     {
-        $coupon1 = $this->getPercentCoupon(1, 20);
+        $coupon1 = $this->getPercentCoupon(20);
         $coupon1->setCanCombineWithOtherCoupons(true);
 
-        $coupon2 = $this->getPercentCoupon(2, 20);
+        $coupon2 = $this->getPercentCoupon(20);
         $coupon2->setCanCombineWithOtherCoupons(false);
 
         $cart = new Cart;
@@ -189,10 +178,10 @@ class CartTest extends EntityTestCase
 
     public function testAddCouponWithStackableCoupons()
     {
-        $coupon1 = $this->getPercentCoupon(1, 20);
+        $coupon1 = $this->getPercentCoupon(20);
         $coupon1->setCanCombineWithOtherCoupons(true);
 
-        $coupon2 = $this->getPercentCoupon(2, 20);
+        $coupon2 = $this->getPercentCoupon(20);
         $coupon2->setCanCombineWithOtherCoupons(true);
 
         $cart = new Cart;
@@ -203,7 +192,7 @@ class CartTest extends EntityTestCase
 
     public function testAddNonStackableCoupon()
     {
-        $coupon1 = $this->getPercentCoupon(1, 20);
+        $coupon1 = $this->getPercentCoupon(20);
         $coupon1->setCanCombineWithOtherCoupons(false);
 
         $cart = new Cart;
@@ -233,10 +222,10 @@ class CartTest extends EntityTestCase
 
     public function testGetShippingWeight()
     {
-        $cartItem1 = $this->dummyData->getCartitem(null, 1);
+        $cartItem1 = $this->dummyData->getCartItem(null, 1);
         $cartItem1->getProduct()->setShippingWeight(16);
 
-        $cartItem2 = $this->dummyData->getCartitem(null, 3);
+        $cartItem2 = $this->dummyData->getCartItem(null, 3);
         $cartItem2->getProduct()->setShippingWeight(16);
 
         $cart = new Cart;
@@ -248,7 +237,7 @@ class CartTest extends EntityTestCase
 
     public function testGetTotal()
     {
-        $cartItem = $this->dummyData->getCartitem(null, 2);
+        $cartItem = $this->dummyData->getCartItem(null, 2);
         $cartItem->getProduct()->setUnitPrice(500);
 
         $cart = new Cart;
@@ -258,10 +247,9 @@ class CartTest extends EntityTestCase
         $this->assertTrue($cart->getTotal($cartCalculator) instanceof CartTotal);
     }
 
-    private function getPercentCoupon($id, $value)
+    private function getPercentCoupon($value)
     {
         $coupon = $this->dummyData->getCoupon();
-        $coupon->setId($id);
         $coupon->setName($value . '% Off');
         $coupon->setType(PromotionType::percent());
         $coupon->setValue($value);

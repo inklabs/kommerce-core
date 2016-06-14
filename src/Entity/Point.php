@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\PointDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -74,10 +73,5 @@ class Point implements ValidationInterface
         $bottomRight = new Point($latitudeBottomRight, $longitudeBottomRight);
 
         return [$upperLeft, $bottomRight];
-    }
-
-    public function getDTOBuilder()
-    {
-        return new PointDTOBuilder($this);
     }
 }

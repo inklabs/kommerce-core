@@ -2,11 +2,10 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\EntityDTO\Builder\WarehouseDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Warehouse implements EntityInterface, ValidationInterface
+class Warehouse implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -21,6 +20,7 @@ class Warehouse implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
         $this->inventoryLocations = new ArrayCollection;
     }
@@ -53,10 +53,5 @@ class Warehouse implements EntityInterface, ValidationInterface
     public function setAddress(Address $address)
     {
         $this->address = $address;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new WarehouseDTOBuilder($this);
     }
 }

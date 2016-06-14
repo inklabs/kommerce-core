@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Product;
@@ -42,35 +41,39 @@ class TagRepositoryTest extends EntityRepositoryTestCase
 
     public function testCRUD()
     {
+        $this->executeRepositoryCRUD(
+            $this->tagRepository,
+            $this->dummyData->getTag()
+        );
+    }
+
+    public function testUpdateFailsWhenNotManaged()
+    {
         $tag = $this->dummyData->getTag();
 
-        $this->tagRepository->create($tag);
-        $this->assertSame(1, $tag->getId());
-
-        $tag->setName('New Name');
-        $this->assertSame(null, $tag->getUpdated());
+        $this->setExpectedException(
+            EntityNotFoundException::class,
+            'Tag not found'
+        );
 
         $this->tagRepository->update($tag);
-        $this->assertTrue($tag->getUpdated() instanceof DateTime);
-
-        $this->tagRepository->delete($tag);
-        $this->assertSame(null, $tag->getId());
     }
 
     public function testFindOneById()
     {
-        $this->setupTag();
-
+        $originalTag = $this->setupTag();
         $this->setCountLogger();
 
-        $tag = $this->tagRepository->findOneById(1);
+        $tag = $this->tagRepository->findOneById(
+            $originalTag->getId()
+        );
 
-        $tag->getImages()->toArray();
-        $tag->getProducts()->toArray();
-        $tag->getOptions()->toArray();
-        $tag->getTextOptions()->toArray();
+        $this->visitElements($tag->getImages());
+        $this->visitElements($tag->getProducts());
+        $this->visitElements($tag->getOptions());
+        $this->visitElements($tag->getTextOptions());
 
-        $this->assertTrue($tag instanceof Tag);
+        $this->assertEqualEntities($originalTag, $tag);
         $this->assertSame(5, $this->getTotalQueries());
     }
 
@@ -81,14 +84,16 @@ class TagRepositoryTest extends EntityRepositoryTestCase
             'Tag not found'
         );
 
-        $this->tagRepository->findOneById(1);
+        $this->tagRepository->findOneById(
+            $this->dummyData->getId()
+        );
     }
 
     public function testFindOneByCode()
     {
-        $this->setupTag();
-        $tag = $this->tagRepository->findOneByCode('TT1');
-        $this->assertTrue($tag instanceof Tag);
+        $originalTag = $this->setupTag();
+        $tag = $this->tagRepository->findOneByCode($originalTag->getCode());
+        $this->assertEqualEntities($originalTag, $tag);
     }
 
     public function testFindOneByCodeThrowsException()
@@ -103,45 +108,48 @@ class TagRepositoryTest extends EntityRepositoryTestCase
 
     public function testGetAllTags()
     {
-        $this->setupTag();
-
+        $originalTag = $this->setupTag();
         $this->setCountLogger();
 
         $tags = $this->tagRepository->getAllTags('Test');
 
-        $tags[0]->getImages()->toArray();
-        $tags[0]->getProducts()->toArray();
-        $tags[0]->getOptions()->toArray();
-        $tags[0]->getTextOptions()->toArray();
+        $this->visitElements($tags[0]->getImages());
+        $this->visitElements($tags[0]->getProducts());
+        $this->visitElements($tags[0]->getOptions());
+        $this->visitElements($tags[0]->getTextOptions());
 
-        $this->assertTrue($tags[0] instanceof Tag);
+        $this->assertEqualEntities($originalTag, $tags[0]);
         $this->assertSame(5, $this->getTotalQueries());
     }
 
     public function testGetAllTagsSearchByCode()
     {
-        $this->setupTag();
-        $tags = $this->tagRepository->getAllTags('TT');
-        $this->assertTrue($tags[0] instanceof Tag);
+        $originalTag = $this->setupTag();
+        $tag = $this->tagRepository->getAllTags('TT');
+        $this->assertEqualEntities($originalTag, $tag[0]);
     }
 
     public function testGetTagsByIds()
     {
-        $this->setupTag();
+        $originalTag = $this->setupTag();
 
-        $tags = $this->tagRepository->getTagsByIds([1]);
+        $tags = $this->tagRepository->getTagsByIds([
+            $originalTag->getId()
+        ]);
 
         $this->assertSame(1, count($tags));
-        $this->assertTrue($tags[0] instanceof Tag);
+        $this->assertEqualEntities($originalTag, $tags[0]);
     }
 
     public function testGetAllTagsByIds()
     {
-        $this->setupTag();
+        $originalTag = $this->setupTag();
 
-        $tags = $this->tagRepository->getAllTagsByIds([1]);
+        $tags = $this->tagRepository->getAllTagsByIds([
+            $originalTag->getId()
+        ]);
 
         $this->assertSame(1, count($tags));
-        $this->assertTrue($tags[0] instanceof Tag);
+        $this->assertEqualEntities($originalTag, $tags[0]);
     }
 }

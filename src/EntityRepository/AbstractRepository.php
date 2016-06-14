@@ -5,6 +5,7 @@ use Doctrine\ORM\EntityRepository;
 use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Lib\UuidInterface;
 
 abstract class AbstractRepository extends EntityRepository implements RepositoryInterface
 {
@@ -49,25 +50,29 @@ abstract class AbstractRepository extends EntityRepository implements Repository
             ->flush();
     }
 
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->returnOrThrowNotFoundException(
             parent::findOneBy(['id' => $id])
         );
     }
 
-    protected function returnOrThrowNotFoundException($entity)
+    protected function returnOrThrowNotFoundException($entity, $className = null)
     {
         if ($entity === null) {
-            throw $this->getEntityNotFoundException();
+            throw $this->getEntityNotFoundException($className);
         }
 
         return $entity;
     }
 
-    protected function getEntityNotFoundException()
+    protected function getEntityNotFoundException($className = null)
     {
-        return new EntityNotFoundException($this->getClassName() . ' not found');
+        if ($className === null) {
+            $className = $this->getClassName();
+        }
+
+        return new EntityNotFoundException($className . ' not found');
     }
 
     private function assertManaged(EntityInterface $entity)

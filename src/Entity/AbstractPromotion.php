@@ -2,11 +2,10 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use inklabs\kommerce\EntityDTO\Builder\AbstractPromotionDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractPromotion implements EntityInterface, ValidationInterface
+abstract class AbstractPromotion implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -36,6 +35,7 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
         $this->setType(PromotionType::fixed());
         $this->setRedemptions(0);
@@ -230,9 +230,4 @@ abstract class AbstractPromotion implements EntityInterface, ValidationInterface
 
         return (int) $returnValue;
     }
-
-    /**
-     * @return AbstractPromotionDTOBuilder
-     */
-    abstract public function getDTOBuilder();
 }

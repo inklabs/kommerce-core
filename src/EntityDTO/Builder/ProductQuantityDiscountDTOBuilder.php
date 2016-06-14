@@ -4,6 +4,7 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\EntityDTO\ProductQuantityDiscountDTO;
 use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\Lib\PricingInterface;
 
 /**
  * @method ProductQuantityDiscountDTO build()
@@ -11,36 +12,39 @@ use inklabs\kommerce\Lib\Pricing;
 class ProductQuantityDiscountDTOBuilder extends AbstractPromotionDTOBuilder
 {
     /** @var ProductQuantityDiscount */
-    protected $promotion;
+    protected $entity;
 
     /** @var ProductQuantityDiscountDTO */
-    protected $promotionDTO;
+    protected $entityDTO;
 
-    public function __construct(ProductQuantityDiscount $productQuantityDiscount)
+    protected function getEntityDTO()
     {
-        $this->promotionDTO = new ProductQuantityDiscountDTO;
-
-        parent::__construct($productQuantityDiscount);
-
-        $this->promotionDTO->customerGroup              = $this->promotion->getCustomerGroup();
-        $this->promotionDTO->quantity                   = $this->promotion->getQuantity();
-        $this->promotionDTO->flagApplyCatalogPromotions = $this->promotion->getFlagApplyCatalogPromotions();
+        return new ProductQuantityDiscountDTO;
     }
 
-    public function withPrice(Pricing $pricing)
+    protected function preBuild()
     {
-        $this->promotionDTO->price = $this->promotion->getPrice($pricing)->getDTOBuilder()
-            ->withAllData()
-            ->build();
+        $this->entityDTO->customerGroup  = $this->entity->getCustomerGroup();
+        $this->entityDTO->quantity = $this->entity->getQuantity();
+        $this->entityDTO->flagApplyCatalogPromotions = $this->entity->getFlagApplyCatalogPromotions();
+    }
+
+    public function withPrice(PricingInterface $pricing)
+    {
+        $this->entityDTO->price = $this->dtoBuilderFactory
+            ->getPriceDTOBuilder($this->entity->getPrice($pricing))
+                ->withAllData()
+                ->build();
 
         return $this;
     }
 
     public function withProduct(Pricing $pricing)
     {
-        $product = $this->promotion->getProduct();
+        $product = $this->entity->getProduct();
         if ($product !== null) {
-            $this->promotionDTO->product = $product->getDTOBuilder()
+            $this->entityDTO->product = $this->dtoBuilderFactory
+                ->getProductDTOBuilder($product)
                 ->withAllData($pricing)
                 ->build();
         }

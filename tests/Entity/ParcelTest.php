@@ -34,6 +34,5 @@ class ParcelTest extends EntityTestCase
         $this->assertSame(6.0, $parcel->getWidth());
         $this->assertSame(4.0, $parcel->getHeight());
         $this->assertSame(32, $parcel->getWeight());
-        $this->assertTrue($parcel->getDTOBuilder() instanceof ParcelDTOBuilder);
     }
 }

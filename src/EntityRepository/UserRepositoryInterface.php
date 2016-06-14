@@ -4,9 +4,10 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
- * @method User findOneById($id)
+ * @method User findOneById(UuidInterface $id)
  */
 interface UserRepositoryInterface extends RepositoryInterface
 {
@@ -25,7 +26,7 @@ interface UserRepositoryInterface extends RepositoryInterface
     public function getAllUsers($queryString = null, Pagination & $pagination = null);
 
     /**
-     * @param int[] $userIds
+     * @param UuidInterface[] $userIds
      * @param Pagination $pagination
      * @return User[]
      */

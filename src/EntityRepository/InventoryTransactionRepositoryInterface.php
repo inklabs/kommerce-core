@@ -3,9 +3,10 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
- * @method InventoryTransaction findOneById($id)
+ * @method InventoryTransaction findOneById(UuidInterface $id)
  */
 interface InventoryTransactionRepositoryInterface extends RepositoryInterface
 {
@@ -18,7 +19,7 @@ interface InventoryTransactionRepositoryInterface extends RepositoryInterface
     /**
      * @param Product $product
      * @param int $quantity
-     * @return int
+     * @return UuidInterface
      */
     public function findInventoryIdForProductAndQuantity(Product $product, $quantity);
 }

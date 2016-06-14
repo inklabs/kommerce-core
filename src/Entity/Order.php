@@ -1,14 +1,14 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Order implements EntityInterface, ValidationInterface, ReferenceNumberEntityInterface
+class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEntityInterface
 {
     use TimeTrait, IdTrait, EventGeneratorTrait;
 
@@ -54,8 +54,9 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
     /** @var int */
     protected $ip4;
 
-    public function __construct()
+    public function __construct(UuidInterface $id = null)
     {
+        $this->setId($id);
         $this->setCreated();
         $this->orderItems = new ArrayCollection;
         $this->payments = new ArrayCollection;
@@ -66,14 +67,15 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
     }
 
     /**
+     * @param UuidInterface $orderId
      * @param Cart $cart
      * @param CartCalculatorInterface $cartCalculator
      * @param string $ip4
      * @return static
      */
-    public static function fromCart(Cart $cart, CartCalculatorInterface $cartCalculator, $ip4)
+    public static function fromCart(UuidInterface $orderId, Cart $cart, CartCalculatorInterface $cartCalculator, $ip4)
     {
-        $order = new Order;
+        $order = new Order($orderId);
         $order->setIp4($ip4);
         $order->setTotal($cart->getTotal($cartCalculator));
 
@@ -111,11 +113,6 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
         $metadata->addPropertyConstraint('orderItems', new Assert\Valid);
         $metadata->addPropertyConstraint('payments', new Assert\Valid);
         $metadata->addPropertyConstraint('shipments', new Assert\Valid);
-    }
-
-    public function getReferenceId()
-    {
-        return $this->getId();
     }
 
     public function getReferenceNumber()
@@ -226,6 +223,9 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
         return $this->billingAddress;
     }
 
+    /**
+     * @return OrderItem[]
+     */
     public function getOrderItems()
     {
         return $this->orderItems;
@@ -242,6 +242,9 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
         $this->payments[] = $payment;
     }
 
+    /**
+     * @return AbstractPayment[]
+     */
     public function getPayments()
     {
         return $this->payments;
@@ -252,6 +255,9 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
         $this->coupons[] = $coupon;
     }
 
+    /**
+     * @return Coupon[]
+     */
     public function getCoupons()
     {
         return $this->coupons;
@@ -305,11 +311,6 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
         return $products;
     }
 
-    public function getDTOBuilder()
-    {
-        return new OrderDTOBuilder($this);
-    }
-
     public function addShipment(Shipment $shipment)
     {
         $shipment->setOrder($this);
@@ -318,7 +319,7 @@ class Order implements EntityInterface, ValidationInterface, ReferenceNumberEnti
     }
 
     /**
-     * @return Shipment[]|ArrayCollection
+     * @return Shipment[]
      */
     public function getShipments()
     {

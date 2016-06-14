@@ -2,12 +2,13 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCatalogPromotionRepository;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class CatalogPromotionServiceTest extends ServiceTestCase
 {
-    /** @var FakeCatalogPromotionRepository */
+    /** @var CatalogPromotionRepositoryInterface | \Mockery\Mock */
     protected $catalogPromotionRepository;
 
     /** @var CatalogPromotionService */
@@ -17,51 +18,68 @@ class CatalogPromotionServiceTest extends ServiceTestCase
     {
         parent::setUp();
 
-        $this->catalogPromotionRepository = new FakeCatalogPromotionRepository;
+        $this->catalogPromotionRepository = $this->mockRepository->getCatalogPromotionRepository();
         $this->catalogPromotionService = new CatalogPromotionService($this->catalogPromotionRepository);
     }
 
-    public function testCreate()
+    public function testCRUD()
     {
-        $catalogPromotion = $this->dummyData->getCatalogPromotion();
-        $this->catalogPromotionService->create($catalogPromotion);
-        $this->assertTrue($catalogPromotion instanceof CatalogPromotion);
+        $this->executeServiceCRUD(
+            $this->catalogPromotionService,
+            $this->catalogPromotionRepository,
+            $this->dummyData->getCatalogPromotion()
+        );
     }
 
-    public function testEdit()
+    public function testFindOneById()
     {
-        $newName = 'New Name';
-        $catalogPromotion = $this->dummyData->getCatalogPromotion();
-        $this->assertNotSame($newName, $catalogPromotion->getName());
+        $catalogPromotion1 = $this->dummyData->getAttribute();
+        $this->catalogPromotionRepository->shouldReceive('findOneById')
+            ->with($catalogPromotion1->getId())
+            ->andReturn($catalogPromotion1)
+            ->once();
 
-        $catalogPromotion->setName($newName);
-        $this->catalogPromotionService->edit($catalogPromotion);
-        $this->assertSame($newName, $catalogPromotion->getName());
-    }
+        $catalogPromotion = $this->catalogPromotionService->findOneById($catalogPromotion1->getId());
 
-    public function testFind()
-    {
-        $this->catalogPromotionRepository->create(new CatalogPromotion);
-
-        $catalogPromotion = $this->catalogPromotionService->findOneById(1);
-        $this->assertTrue($catalogPromotion instanceof CatalogPromotion);
+        $this->assertSame($catalogPromotion1, $catalogPromotion);
     }
 
     public function testFindAll()
     {
+        $catalogPromotion1 = $this->dummyData->getAttribute();
+        $this->catalogPromotionRepository->shouldReceive('findAll')
+            ->andReturn([$catalogPromotion1])
+            ->once();
+
         $catalogPromotions = $this->catalogPromotionService->findAll();
-        $this->assertTrue($catalogPromotions[0] instanceof CatalogPromotion);
+
+        $this->assertSame($catalogPromotion1, $catalogPromotions[0]);
     }
 
     public function testGetAllCatalogPromotions()
     {
+        $catalogPromotion1 = $this->dummyData->getAttribute();
+        $this->catalogPromotionRepository->shouldReceive('getAllCatalogPromotions')
+            ->andReturn([$catalogPromotion1])
+            ->once();
+
         $catalogPromotions = $this->catalogPromotionService->getAllCatalogPromotions();
-        $this->assertTrue($catalogPromotions[0] instanceof CatalogPromotion);
+
+        $this->assertSame($catalogPromotion1, $catalogPromotions[0]);
     }
 
     public function testAllGetCatalogPromotionsByIds()
     {
-        $catalogPromotions = $this->catalogPromotionService->getAllCatalogPromotionsByIds([1]);
-        $this->assertTrue($catalogPromotions[0] instanceof CatalogPromotion);
+        $catalogPromotion1 = $this->dummyData->getAttribute();
+        $this->catalogPromotionRepository->shouldReceive('getAllCatalogPromotionsByIds')
+            ->with([$catalogPromotion1->getId()], null)
+            ->andReturn([$catalogPromotion1])
+            ->once();
+
+        $catalogPromotions = $this->catalogPromotionService->getAllCatalogPromotionsByIds([
+            $catalogPromotion1->getId()
+        ]);
+
+        $this->assertSame($catalogPromotion1, $catalogPromotions[0]);
     }
 }

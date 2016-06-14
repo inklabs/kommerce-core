@@ -2,11 +2,10 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\EntityDTO\Builder\AttributeValueDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class AttributeValue implements EntityInterface, ValidationInterface
+class AttributeValue implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -30,11 +29,10 @@ class AttributeValue implements EntityInterface, ValidationInterface
 
     public function __construct(Attribute $attribute)
     {
+        $this->setId();
         $this->setCreated();
-        $this->productAttributes = new ArrayCollection;
-        $this->attribute = $attribute;
-
-        $attribute->addAttributeValue($this);
+        $this->setAttribute($attribute);
+        $this->productAttributes = new ArrayCollection();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -108,6 +106,9 @@ class AttributeValue implements EntityInterface, ValidationInterface
         return $this->attribute;
     }
 
+    /**
+     * @return ProductAttribute[]
+     */
     public function getProductAttributes()
     {
         return $this->productAttributes;
@@ -118,8 +119,9 @@ class AttributeValue implements EntityInterface, ValidationInterface
         $this->productAttributes->add($productAttribute);
     }
 
-    public function getDTOBuilder()
+    private function setAttribute(Attribute $attribute)
     {
-        return new AttributeValueDTOBuilder($this);
+        $this->attribute = $attribute;
+        $attribute->addAttributeValue($this);
     }
 }

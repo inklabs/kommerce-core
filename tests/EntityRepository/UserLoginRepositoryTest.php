@@ -31,10 +31,8 @@ class UserLoginRepositoryTest extends EntityRepositoryTestCase
     private function setupUserLogin()
     {
         $user = $this->dummyData->getUser();
-        $userToken = $this->dummyData->getUserToken();
-        $userLogin = $this->dummyData->getUserLogin();
-        $userLogin->setUser($user);
-        $userLogin->setUserToken($userToken);
+        $userToken = $this->dummyData->getUserToken($user);
+        $userLogin = $this->dummyData->getUserLogin($user, $userToken);
 
         $this->entityManager->persist($user);
         $this->entityManager->persist($userLogin);
@@ -49,10 +47,7 @@ class UserLoginRepositoryTest extends EntityRepositoryTestCase
     {
         $userLogin = $this->dummyData->getUserLogin();
         $this->userLoginRepository->create($userLogin);
-        $this->assertSame(1, $userLogin->getId());
-
         $this->userLoginRepository->delete($userLogin);
-        $this->assertSame(null, $userLogin->getId());
     }
 
     public function testUpdateThrowsException()
@@ -69,17 +64,19 @@ class UserLoginRepositoryTest extends EntityRepositoryTestCase
 
     public function testFind()
     {
-        $this->setupUserLogin();
-
+        $originalUserLogin = $this->setupUserLogin();
         $this->setCountLogger();
-        $userLogin = $this->userLoginRepository->findOneById(1);
+
+        $userLogin = $this->userLoginRepository->findOneById(
+            $originalUserLogin->getId()
+        );
 
         $userLogin->getUser()->getCreated();
         $userLogin->getUserToken()->getCreated();
 
-        $this->assertTrue($userLogin instanceof UserLogin);
-        $this->assertTrue($userLogin->getUser() instanceof User);
-        $this->assertTrue($userLogin->getUserToken() instanceof UserToken);
+        $this->assertEqualEntities($originalUserLogin, $userLogin);
+        $this->assertEqualEntities($originalUserLogin->getUser(), $userLogin->getUser());
+        $this->assertEqualEntities($originalUserLogin->getUserToken(), $userLogin->getUserToken());
         $this->assertSame(2, $this->getTotalQueries());
     }
 }

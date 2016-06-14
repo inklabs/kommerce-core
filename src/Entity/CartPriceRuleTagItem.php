@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleTagItemDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class CartPriceRuleTagItem extends AbstractCartPriceRuleItem
@@ -11,7 +10,7 @@ class CartPriceRuleTagItem extends AbstractCartPriceRuleItem
 
     public function __construct(Tag $tag, $quantity)
     {
-        $this->setCreated();
+        parent::__construct();
         $this->tag = $tag;
         $this->quantity = $quantity;
     }
@@ -37,10 +36,5 @@ class CartPriceRuleTagItem extends AbstractCartPriceRuleItem
     public function getTag()
     {
         return $this->tag;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new CartPriceRuleTagItemDTOBuilder($this);
     }
 }

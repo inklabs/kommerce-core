@@ -13,6 +13,10 @@ class CommandBus implements CommandBusInterface
         $this->mapper = $mapper;
     }
 
+    /**
+     * @param CommandInterface $command
+     * @return void
+     */
     public function execute(CommandInterface $command)
     {
         $handler = $this->mapper->getCommandHandler($command);

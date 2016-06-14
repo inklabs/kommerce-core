@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\OrderItemTextOptionValueDTOBuilder;
-
 class OrderItemTextOptionValue
 {
     use TimeTrait, IdTrait;
@@ -21,6 +19,7 @@ class OrderItemTextOptionValue
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
     }
 
@@ -61,10 +60,5 @@ class OrderItemTextOptionValue
     public function setOrderItem(OrderItem $orderItem)
     {
         $this->orderItem = $orderItem;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new OrderItemTextOptionValueDTOBuilder($this);
     }
 }

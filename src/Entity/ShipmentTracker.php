@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ShipmentTrackerDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ShipmentTracker implements EntityInterface, ValidationInterface
+class ShipmentTracker implements IdEntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
 
@@ -33,6 +32,7 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
      */
     public function __construct(ShipmentCarrierType $carrier, $trackingCode)
     {
+        $this->setId();
         $this->setCreated();
         $this->setCarrier($carrier);
         $this->trackingCode = (string) $trackingCode;
@@ -53,6 +53,12 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
 
         $metadata->addPropertyConstraint('shipmentRate', new Assert\Valid);
         $metadata->addPropertyConstraint('shipmentLabel', new Assert\Valid);
+    }
+
+    public function setShipment(Shipment $shipment)
+    {
+        $this->shipment = $shipment;
+        $shipment->addShipmentTracker($this);
     }
 
     private function setCarrier(ShipmentCarrierType $carrier)
@@ -101,15 +107,5 @@ class ShipmentTracker implements EntityInterface, ValidationInterface
     public function getExternalId()
     {
         return $this->externalId;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new ShipmentTrackerDTOBuilder($this);
-    }
-
-    public function setShipment(Shipment $shipment)
-    {
-        $this->shipment = $shipment;
     }
 }

@@ -1,14 +1,13 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartDTOBuilder;
 use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Cart implements EntityInterface, ValidationInterface
+class Cart implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -38,6 +37,7 @@ class Cart implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
 
         $this->cartItems = new ArrayCollection;
@@ -71,53 +71,38 @@ class Cart implements EntityInterface, ValidationInterface
     }
 
     /**
-     * @param string $sessionId
+     * @param string | null $sessionId
      */
     public function setSessionId($sessionId)
     {
-        $this->sessionId = (string) $sessionId;
+        if ($sessionId !== null) {
+            $sessionId = (string) $sessionId;
+        }
+
+        $this->sessionId = $sessionId;
     }
 
-    /**
-     * @param CartItem $cartItem
-     * @return int
-     */
     public function addCartItem(CartItem $cartItem)
     {
         $cartItem->setCart($this);
         $this->cartItems->add($cartItem);
-
-        $this->cartItems->last();
-        $cartItemIndex = $this->cartItems->key();
-        return $cartItemIndex;
     }
 
     /**
-     * @param int $cartItemIndex
-     * @return CartItem
-     * @throws InvalidCartActionException
+     * @return CartItem[]
      */
-    public function getCartItem($cartItemIndex)
-    {
-        if (! isset($this->cartItems[$cartItemIndex])) {
-            throw new InvalidCartActionException('CartItem not found');
-        }
-
-        return $this->cartItems[$cartItemIndex];
-    }
-
     public function getCartItems()
     {
         return $this->cartItems;
     }
 
-    public function deleteCartItem($cartItemIndex)
+    public function deleteCartItem(CartItem $cartItem)
     {
-        if (! $this->cartItems->offsetExists($cartItemIndex)) {
+        if (! $this->cartItems->contains($cartItem)) {
             throw new InvalidCartActionException('CartItem missing');
         }
 
-        $this->cartItems->remove($cartItemIndex);
+        $this->cartItems->removeElement($cartItem);
     }
 
     /**
@@ -150,6 +135,9 @@ class Cart implements EntityInterface, ValidationInterface
         $this->coupons->set($couponIndex, $coupon);
     }
 
+    /**
+     * @return Coupon[]
+     */
     public function getCoupons()
     {
         return $this->coupons;
@@ -244,11 +232,6 @@ class Cart implements EntityInterface, ValidationInterface
     public function setTaxRate(TaxRate $taxRate = null)
     {
         $this->taxRate = $taxRate;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new CartDTOBuilder($this);
     }
 
     /**

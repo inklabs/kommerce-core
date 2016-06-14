@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\TestCase;
 
+use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcher;
@@ -10,6 +11,7 @@ use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Service\ServiceFactory;
+use inklabs\kommerce\Service\ServiceCRUDInterface;
 use inklabs\kommerce\tests\Helper\Lib\FakeFileManager;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 use inklabs\kommerce\tests\Helper\Service\MockService;
@@ -84,5 +86,33 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
     private function getFileManager()
     {
         return new FakeFileManager;
+    }
+
+    /**
+     * @param mixed | ServiceCRUDInterface $service
+     * @param mixed | \Mockery\Mock $repository
+     * @param EntityInterface $entity
+     */
+    protected function executeServiceCRUD($service, $repository, EntityInterface $entity)
+    {
+        $repository->shouldReceive('create')
+            ->with($entity)
+            ->once();
+
+        $service->create($entity);
+
+        $repository->shouldReceive('update')
+            ->with($entity)
+            ->once();
+
+        $service->update($entity);
+
+        if (method_exists($service, 'delete')) {
+            $repository->shouldReceive('delete')
+                ->with($entity)
+                ->once();
+
+            $service->delete($entity);
+        }
     }
 }

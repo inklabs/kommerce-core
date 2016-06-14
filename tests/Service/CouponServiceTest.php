@@ -2,13 +2,14 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\EntityRepository\FakeCouponRepository;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class CouponServiceTest extends ServiceTestCase
 {
-    /** @var FakeCouponRepository */
+    /** @var CouponRepositoryInterface | \Mockery\Mock */
     protected $couponRepository;
 
     /** @var CouponService */
@@ -18,67 +19,59 @@ class CouponServiceTest extends ServiceTestCase
     {
         parent::setUp();
 
-        $this->couponRepository = new FakeCouponRepository;
+        $this->couponRepository = $this->mockRepository->getCouponRepository();
         $this->couponService = new CouponService($this->couponRepository);
     }
 
-    public function testCreate()
+    public function testCRUD()
     {
-        $coupon = $this->dummyData->getCoupon();
-
-        $this->couponService->create($coupon);
-
-        $coupon = $this->couponRepository->findOneById(1);
-        $this->assertTrue($coupon instanceof Coupon);
-    }
-
-    public function testUpdate()
-    {
-        $newName = 'New Name';
-        $coupon = $this->dummyData->getCoupon();
-        $this->couponRepository->create($coupon);
-
-        $this->assertNotSame($newName, $coupon->getName());
-        $coupon->setName($newName);
-
-        $this->couponService->update($coupon);
-
-        $coupon = $this->couponRepository->findOneById(1);
-        $this->assertSame($newName, $coupon->getName());
-    }
-
-    public function testDelete()
-    {
-        $coupon = $this->dummyData->getCoupon();
-        $this->couponRepository->create($coupon);
-
-        $this->couponService->delete($coupon);
-
-        $this->setExpectedException(
-            EntityNotFoundException::class,
-            'Coupon not found'
+        $this->executeServiceCRUD(
+            $this->couponService,
+            $this->couponRepository,
+            $this->dummyData->getCoupon()
         );
-        $this->couponRepository->findOneById(1);
     }
 
-    public function testFind()
+    public function testFindOnceById()
     {
-        $coupon = $this->dummyData->getCoupon();
-        $this->couponRepository->create($coupon);
+        $coupon1 = $this->dummyData->getCoupon();
 
-        $coupon = $this->couponService->findOneById(1);
-        $this->assertTrue($coupon instanceof Coupon);
+        $this->couponRepository->shouldReceive('findOneById')
+            ->with($coupon1->getId())
+            ->andReturn($coupon1)
+            ->once();
+
+        $coupon = $this->couponService->findOneById($coupon1->getId());
+
+        $this->assertSame($coupon1, $coupon);
     }
 
     public function testGetAllCoupons()
     {
-        $coupons = $this->couponService->getAllCoupons();
-        $this->assertTrue($coupons[0] instanceof Coupon);
+        $coupon1 = $this->dummyData->getCoupon();
+
+        $this->couponRepository->shouldReceive('getAllCoupons')
+            ->andReturn($coupon1)
+            ->once();
+
+        $coupon = $this->couponService->getAllCoupons();
+
+        $this->assertSame($coupon1, $coupon);
     }
 
     public function testAllGetCouponsByIds()
     {
-        $coupons = $this->couponService->getAllCouponsByIds([1]);
-        $this->assertTrue($coupons[0] instanceof Coupon);
+        $coupon1 = $this->dummyData->getCoupon();
+
+        $this->couponRepository->shouldReceive('getAllCouponsByIds')
+            ->with([$coupon1->getId()], null)
+            ->andReturn([$coupon1])
+            ->once();
+
+        $coupons = $this->couponService->getAllCouponsByIds([
+            $coupon1->getId()
+        ]);
+
+        $this->assertSame($coupon1, $coupons[0]);
     }
 }

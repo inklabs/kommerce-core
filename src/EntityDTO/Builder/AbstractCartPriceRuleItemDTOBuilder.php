@@ -4,32 +4,43 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
 use inklabs\kommerce\EntityDTO\AbstractCartPriceRuleItemDTO;
 
-abstract class AbstractCartPriceRuleItemDTOBuilder
+abstract class AbstractCartPriceRuleItemDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var AbstractCartPriceRuleItem */
-    protected $item;
+    protected $entity;
 
     /** @var AbstractCartPriceRuleItemDTO */
-    protected $itemDTO;
+    protected $entityDTO;
+
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
 
     /**
      * @return AbstractCartPriceRuleItemDTO
      */
-    abstract protected function getItemDTO();
+    abstract protected function getEntityDTO();
 
-    public function __construct(AbstractCartPriceRuleItem $item)
+    public function __construct(AbstractCartPriceRuleItem $item, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->item = $item;
+        $this->entity = $item;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->itemDTO = $this->getItemDTO();
-        $this->itemDTO->id = $this->item->getId();
-        $this->itemDTO->quantity = $this->item->getQuantity();
-        $this->itemDTO->created = $this->item->getCreated();
-        $this->itemDTO->updated = $this->item->getUpdated();
+        $this->entityDTO = $this->getEntityDTO();
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->quantity = $this->entity->getQuantity();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->itemDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

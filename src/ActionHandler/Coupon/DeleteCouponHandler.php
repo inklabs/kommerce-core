@@ -16,7 +16,7 @@ final class DeleteCouponHandler
 
     public function handle(DeleteCouponCommand $command)
     {
-        $coupon = $this->couponService->findOneById($command->getId());
+        $coupon = $this->couponService->findOneById($command->getCouponId());
         $this->couponService->delete($coupon);
     }
 }

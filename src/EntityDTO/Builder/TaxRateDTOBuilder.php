@@ -4,32 +4,39 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityDTO\TaxRateDTO;
 
-class TaxRateDTOBuilder
+class TaxRateDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var TaxRate */
-    protected $raxRate;
+    protected $entity;
 
     /** @var TaxRateDTO */
-    protected $taxRateDTO;
+    protected $entityDTO;
 
     public function __construct(TaxRate $taxRate)
     {
-        $this->taxRate = $taxRate;
+        $this->entity = $taxRate;
 
-        $this->taxRateDTO = new TaxRateDTO;
-        $this->taxRateDTO->id              = $this->taxRate->getId();
-        $this->taxRateDTO->state           = $this->taxRate->getState();
-        $this->taxRateDTO->zip5            = $this->taxRate->getZip5();
-        $this->taxRateDTO->zip5From        = $this->taxRate->getZip5From();
-        $this->taxRateDTO->zip5To          = $this->taxRate->getZip5To();
-        $this->taxRateDTO->rate            = $this->taxRate->getRate();
-        $this->taxRateDTO->applyToShipping = $this->taxRate->getApplyToShipping();
-        $this->taxRateDTO->created         = $this->taxRate->getCreated();
-        $this->taxRateDTO->updated         = $this->taxRate->getUpdated();
+        $this->entityDTO = new TaxRateDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->state           = $this->entity->getState();
+        $this->entityDTO->zip5            = $this->entity->getZip5();
+        $this->entityDTO->zip5From        = $this->entity->getZip5From();
+        $this->entityDTO->zip5To          = $this->entity->getZip5To();
+        $this->entityDTO->rate            = $this->entity->getRate();
+        $this->entityDTO->applyToShipping = $this->entity->getApplyToShipping();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->taxRateDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

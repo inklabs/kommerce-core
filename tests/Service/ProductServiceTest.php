@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
@@ -36,30 +35,18 @@ class ProductServiceTest extends ServiceTestCase
         );
     }
 
-    public function testCreate()
+    public function testCRUD()
     {
-        $product = $this->dummyData->getProduct();
-        $this->productRepository->shouldReceive('create')
-            ->with($product)
-            ->once();
-
-        $this->productService->create($product);
-    }
-
-    public function testUpdate()
-    {
-        $product = $this->dummyData->getProduct();
-        $this->productRepository->shouldReceive('update')
-            ->with($product)
-            ->once();
-
-        $this->productService->update($product);
+        $this->executeServiceCRUD(
+            $this->productService,
+            $this->productRepository,
+            $this->dummyData->getProduct()
+        );
     }
 
     public function testFindOneById()
     {
-        $product1 = $this->dummyData->getTag();
-        $product1->setId(1);
+        $product1 = $this->dummyData->getProduct();
         $this->productRepository->shouldReceive('findOneById')
             ->with($product1->getId())
             ->andReturn($product1)
@@ -67,7 +54,7 @@ class ProductServiceTest extends ServiceTestCase
 
         $product = $this->productService->findOneById($product1->getId());
 
-        $this->assertSame($product1, $product);
+        $this->assertEqualEntities($product1, $product);
     }
 
     public function testAddTag()
@@ -75,20 +62,14 @@ class ProductServiceTest extends ServiceTestCase
         $product = $this->dummyData->getProduct();
         $tag1 = $this->dummyData->getTag();
 
-        $this->productRepository->shouldReceive('findOneById')
-            ->with($product->getId())
-            ->andReturn($product);
-
-        $this->tagRepository->shouldReceive('findOneById')
-            ->andReturn($tag1);
-
-        $this->productRepository->shouldReceive('update')
-            ->once();
+        $this->productRepository->shouldReceive('findOneById')->with($product->getId())->andReturn($product);
+        $this->tagRepository->shouldReceive('findOneById')->andReturn($tag1);
+        $this->productRepository->shouldReceive('update')->once();
 
         $tag = $this->productService->addTag($product->getId(), $tag1->getId());
 
-        $this->assertSame($tag, $tag1);
-        $this->assertSame($tag, $product->getTags()[0]);
+        $this->assertEqualEntities($tag1, $tag);
+        $this->assertEqualEntities($tag, $product->getTags()[0]);
     }
 
     public function testRemoveTag()
@@ -97,14 +78,9 @@ class ProductServiceTest extends ServiceTestCase
         $product = $this->dummyData->getProduct();
         $product->addTag($tag);
 
-        $this->productRepository->shouldReceive('findOneById')
-            ->andReturn($product);
-
-        $this->tagRepository->shouldReceive('findOneById')
-            ->andReturn($tag);
-
-        $this->productRepository->shouldReceive('update')
-            ->once();
+        $this->productRepository->shouldReceive('findOneById')->andReturn($product);
+        $this->tagRepository->shouldReceive('findOneById')->andReturn($tag);
+        $this->productRepository->shouldReceive('update')->once();
 
         $this->productService->removeTag($product->getId(), $tag->getId());
 
@@ -117,58 +93,112 @@ class ProductServiceTest extends ServiceTestCase
         $product = $this->dummyData->getProduct();
         $product->addImage($image);
 
-        $this->imageRepository->shouldReceive('findOneById')
-            ->andReturn($image);
-
-        $this->productRepository->shouldReceive('findOneById')
-            ->andReturn($product);
-
-        $this->productRepository->shouldReceive('update')
-            ->with($product)
-            ->once();
-
-        $this->imageRepository->shouldReceive('delete')
-            ->with($image)
-            ->once();
+        $this->imageRepository->shouldReceive('findOneById')->andReturn($image);
+        $this->productRepository->shouldReceive('findOneById')->andReturn($product);
+        $this->productRepository->shouldReceive('update')->with($product)->once();
+        $this->imageRepository->shouldReceive('delete')->with($image)->once();
 
         $this->productService->removeImage($product->getId(), $image->getId());
     }
 
     public function testGetAllProducts()
     {
+        $product1 = $this->dummyData->getProduct();
+        $this->productRepository->shouldReceive('getAllProducts')
+            ->andReturn([$product1])
+            ->once();
+
         $products = $this->productService->getAllProducts();
-        $this->assertTrue($products[0] instanceof Product);
+
+        $this->assertEqualEntities($product1, $products[0]);
     }
 
     public function testGetRelatedProducts()
     {
+        $product1 = $this->dummyData->getProduct();
+        $product2 = $this->dummyData->getProduct();
+        $tag1 = $this->dummyData->getTag();
+        $tag1->addProduct($product1);
+        $tag1->addProduct($product2);
+
+        $this->productRepository->shouldReceive('getRelatedProductsByIds')
+            ->with([$product1->getId()], [$tag1->getId()], 12)
+            ->andReturn([$product2])
+            ->once();
+
+        $products = $this->productService->getRelatedProducts($product1);
+
+        $this->assertEqualEntities($product2, $products[0]);
+    }
+
+    public function testGetRelatedProductsByIds()
+    {
         $product = $this->dummyData->getProduct();
-        $products = $this->productService->getRelatedProducts($product);
-        $this->assertTrue($products[0] instanceof Product);
+        $this->productRepository->shouldReceive('getRelatedProductsByIds')
+            ->with([self::UUID_HEX], [], 12)
+            ->andReturn([$product])
+            ->once();
+
+        $products = $this->productService->getRelatedProductsByIds([self::UUID_HEX]);
+
+        $this->assertEqualEntities($product, $products[0]);
     }
 
     public function testGetProductsByTag()
     {
         $tag = $this->dummyData->getTag();
-        $products = $this->productService->getProductsByTag($tag);
-        $this->assertTrue($products[0] instanceof Product);
+        $product1 = $this->dummyData->getProduct();
+        $this->productRepository->shouldReceive('getProductsByTagId')
+            ->with($tag->getId(), null)
+            ->andReturn([$product1])
+            ->once();
+
+        $products = $this->productService->getProductsByTagId($tag->getId());
+
+        $this->assertEqualEntities($product1, $products[0]);
     }
 
     public function testGetProductsByIds()
     {
-        $products = $this->productService->getProductsByIds([1]);
-        $this->assertTrue($products[0] instanceof Product);
+        $product1 = $this->dummyData->getProduct();
+        $this->productRepository->shouldReceive('getProductsByIds')
+            ->with([$product1->getId()], null)
+            ->andReturn([$product1])
+            ->once();
+
+        $products = $this->productService->getProductsByIds([
+            $product1->getId()
+        ]);
+
+        $this->assertEqualEntities($product1, $products[0]);
     }
 
     public function testGetAllProductsByIds()
     {
-        $products = $this->productService->getAllProductsByIds([1]);
-        $this->assertTrue($products[0] instanceof Product);
+        $product1 = $this->dummyData->getProduct();
+        $this->productRepository->shouldReceive('getAllProductsByIds')
+            ->with([$product1->getId()], null)
+            ->andReturn([$product1])
+            ->once();
+
+        $products = $this->productService->getAllProductsByIds([
+            $product1->getId()
+        ]);
+
+        $this->assertEqualEntities($product1, $products[0]);
     }
 
     public function testGetRandomProducts()
     {
-        $products = $this->productService->getRandomProducts(1);
-        $this->assertTrue($products[0] instanceof Product);
+        $limit = 1;
+        $product1 = $this->dummyData->getProduct();
+        $this->productRepository->shouldReceive('getRandomProducts')
+            ->with($limit)
+            ->andReturn([$product1])
+            ->once();
+
+        $products = $this->productService->getRandomProducts($limit);
+
+        $this->assertEqualEntities($product1, $products[0]);
     }
 }

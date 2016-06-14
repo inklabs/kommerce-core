@@ -3,36 +3,44 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityDTO\TagDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\Lib\Slug;
 
-class TagDTOBuilder
+class TagDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var Tag */
-    protected $tag;
+    protected $entity;
 
     /** @var TagDTO */
-    protected $tagDTO;
+    protected $entityDTO;
 
-    public function __construct(Tag $tag)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(Tag $tag, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->tag = $tag;
+        $this->entity = $tag;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->tagDTO = new TagDTO;
-        $this->tagDTO->id           = $this->tag->getId();
-        $this->tagDTO->encodedId    = BaseConvert::encode($this->tag->getId());
-        $this->tagDTO->slug         = Slug::get($this->tag->getName());
-        $this->tagDTO->name         = $this->tag->getName();
-        $this->tagDTO->code         = $this->tag->getCode();
-        $this->tagDTO->description  = $this->tag->getDescription();
-        $this->tagDTO->defaultImage = $this->tag->getDefaultImage();
-        $this->tagDTO->sortOrder    = $this->tag->getSortOrder();
-        $this->tagDTO->isVisible    = $this->tag->isVisible();
-        $this->tagDTO->isActive     = $this->tag->isActive();
-        $this->tagDTO->created      = $this->tag->getCreated();
-        $this->tagDTO->updated      = $this->tag->getUpdated();
+        $this->entityDTO = $this->getEntityDTO();
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->slug         = Slug::get($this->entity->getName());
+        $this->entityDTO->name         = $this->entity->getName();
+        $this->entityDTO->code         = $this->entity->getCode();
+        $this->entityDTO->description  = $this->entity->getDescription();
+        $this->entityDTO->defaultImage = $this->entity->getDefaultImage();
+        $this->entityDTO->sortOrder    = $this->entity->getSortOrder();
+        $this->entityDTO->isVisible    = $this->entity->isVisible();
+        $this->entityDTO->isActive     = $this->entity->isActive();
+    }
+
+    protected function getEntityDTO()
+    {
+        return new TagDTO();
     }
 
     public static function createFromDTO(TagDTO $tagDTO)
@@ -54,8 +62,8 @@ class TagDTOBuilder
 
     public function withImages()
     {
-        foreach ($this->tag->getImages() as $image) {
-            $this->tagDTO->images[] = $image->getDTOBuilder()
+        foreach ($this->entity->getImages() as $image) {
+            $this->entityDTO->images[] = $this->dtoBuilderFactory->getImageDTOBuilder($image)
                 ->build();
         }
         return $this;
@@ -63,8 +71,8 @@ class TagDTOBuilder
 
     public function withProducts(Pricing $pricing)
     {
-        foreach ($this->tag->getProducts() as $product) {
-            $this->tagDTO->products[] = $product->getDTOBuilder()
+        foreach ($this->entity->getProducts() as $product) {
+            $this->entityDTO->products[] = $this->dtoBuilderFactory->getProductDTOBuilder($product)
                 ->withAllData($pricing)
                 ->build();
         }
@@ -73,8 +81,8 @@ class TagDTOBuilder
 
     public function withOptions(PricingInterface $pricing)
     {
-        foreach ($this->tag->getOptions() as $option) {
-            $this->tagDTO->options[] = $option->getDTOBuilder()
+        foreach ($this->entity->getOptions() as $option) {
+            $this->entityDTO->options[] = $this->dtoBuilderFactory->getOptionDTOBuilder($option)
                 ->withOptionProducts($pricing)
                 ->withOptionValues()
                 ->build();
@@ -84,8 +92,8 @@ class TagDTOBuilder
 
     public function withTextOptions()
     {
-        foreach ($this->tag->getTextOptions() as $textOption) {
-            $this->tagDTO->textOptions[] = $textOption->getDTOBuilder()
+        foreach ($this->entity->getTextOptions() as $textOption) {
+            $this->entityDTO->textOptions[] = $this->dtoBuilderFactory->getTextOptionDTOBuilder($textOption)
                 ->build();
         }
         return $this;
@@ -100,8 +108,14 @@ class TagDTOBuilder
             ->withTextOptions();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->tagDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

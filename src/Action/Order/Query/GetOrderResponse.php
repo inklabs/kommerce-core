@@ -1,20 +1,28 @@
 <?php
 namespace inklabs\kommerce\Action\Order\Query;
 
-use inklabs\kommerce\EntityDTO\OrderDTO;
+use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 
 class GetOrderResponse implements GetOrderResponseInterface
 {
-    /** @var OrderDTO */
-    protected $orderDTO;
+    /** @var OrderDTOBuilder */
+    protected $orderDTOBuilder;
 
-    public function setOrderDTO(OrderDTO $orderDTO)
+    public function setOrderDTOBuilder(OrderDTOBuilder $orderDTOBuilder)
     {
-        $this->orderDTO = $orderDTO;
+        $this->orderDTOBuilder = $orderDTOBuilder;
     }
 
     public function getOrderDTO()
     {
-        return $this->orderDTO;
+        return $this->orderDTOBuilder
+            ->build();
+    }
+
+    public function getOrderDTOWithAllData()
+    {
+        return $this->orderDTOBuilder
+            ->withAllData()
+            ->build();
     }
 }

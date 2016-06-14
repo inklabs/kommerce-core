@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class TagService implements TagServiceInterface
 {
@@ -34,7 +35,7 @@ class TagService implements TagServiceInterface
         $this->tagRepository->delete($tag);
     }
 
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->tagRepository->findOneById($id);
     }

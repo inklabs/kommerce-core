@@ -29,8 +29,8 @@ class CartPriceRuleRepositoryTest extends EntityRepositoryTestCase
 
     public function setupCartPriceRuleDiscount()
     {
-        $productShirt = $this->dummyData->getProduct(1);
-        $productPoster = $this->dummyData->getProduct(2);
+        $productShirt = $this->dummyData->getProduct();
+        $productPoster = $this->dummyData->getProduct();
 
         $cartPriceRule = $this->dummyData->getCartPriceRule();
         $cartPriceRule->addItem(new CartPriceRuleProductItem($productShirt, 1));
@@ -42,35 +42,30 @@ class CartPriceRuleRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->persist($cartPriceRule);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $cartPriceRule;
     }
 
     public function testCRUD()
     {
-        $cartPriceRule = $this->dummyData->getCartPriceRule();
-
-        $this->cartPriceRuleRepository->create($cartPriceRule);
-        $this->assertSame(1, $cartPriceRule->getId());
-
-        $cartPriceRule->setName('New Name');
-        $this->assertSame(null, $cartPriceRule->getUpdated());
-
-        $this->cartPriceRuleRepository->update($cartPriceRule);
-        $this->assertTrue($cartPriceRule->getUpdated() instanceof DateTime);
-
-        $this->cartPriceRuleRepository->delete($cartPriceRule);
-        $this->assertSame(null, $cartPriceRule->getId());
+        $this->executeRepositoryCRUD(
+            $this->cartPriceRuleRepository,
+            $this->dummyData->getCartPriceRule()
+        );
     }
 
     public function testFind()
     {
-        $this->setupCartPriceRuleDiscount();
+        $originalCartPriceRule = $this->setupCartPriceRuleDiscount();
 
         $this->setCountLogger();
 
-        $cartPriceRule = $this->cartPriceRuleRepository->findOneById(1);
+        $cartPriceRule = $this->cartPriceRuleRepository->findOneById(
+            $originalCartPriceRule->getId()
+        );
 
-        $cartPriceRule->getCartPriceRuleItems()->toArray();
-        $cartPriceRule->getCartPriceRuleDiscounts()->toArray();
+        $this->visitElements($cartPriceRule->getCartPriceRuleItems());
+        $this->visitElements($cartPriceRule->getCartPriceRuleDiscounts());
 
         $this->assertTrue($cartPriceRule instanceof CartPriceRule);
         $this->assertSame(4, $this->getTotalQueries());

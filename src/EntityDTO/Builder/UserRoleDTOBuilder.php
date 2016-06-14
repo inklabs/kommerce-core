@@ -3,31 +3,36 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\EntityDTO\UserRoleDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
-class UserRoleDTOBuilder
+class UserRoleDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var UserRole */
-    protected $userRole;
+    protected $entity;
 
     /** @var UserRoleDTO */
-    protected $userRoleDTO;
+    protected $entityDTO;
 
     public function __construct(UserRole $userRole)
     {
-        $this->userRole = $userRole;
+        $this->entity = $userRole;
 
-        $this->userRoleDTO = new UserRoleDTO;
-        $this->userRoleDTO->id          = $this->userRole->getId();
-        $this->userRoleDTO->encodedId   = BaseConvert::encode($this->userRole->getId());
-        $this->userRoleDTO->name        = $this->userRole->getName();
-        $this->userRoleDTO->description = $this->userRole->getDescription();
-        $this->userRoleDTO->created     = $this->userRole->getCreated();
-        $this->userRoleDTO->updated     = $this->userRole->getUpdated();
+        $this->entityDTO = new UserRoleDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->name        = $this->entity->getName();
+        $this->entityDTO->description = $this->entity->getDescription();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->userRoleDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

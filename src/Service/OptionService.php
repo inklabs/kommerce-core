@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OptionService
 {
@@ -24,18 +25,18 @@ class OptionService
         $this->optionRepository->create($option);
     }
 
-    public function edit(Option & $option)
+    public function update(Option & $option)
     {
         $this->throwValidationErrors($option);
         $this->optionRepository->update($option);
     }
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Option
      * @throws EntityNotFoundException
      */
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->optionRepository->findOneById($id);
     }

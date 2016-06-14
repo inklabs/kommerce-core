@@ -7,9 +7,11 @@ class ShipmentTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {
-        $shipment = new Shipment;
+        $shipment = new Shipment();
+        $order = $this->dummyData->getOrder();
+        $order->addShipment($shipment);
 
-        $this->assertSame(null, $shipment->getOrder());
+        $this->assertSame($order, $shipment->getOrder());
         $this->assertSame(0, count($shipment->getShipmentTrackers()));
         $this->assertSame(0, count($shipment->getShipmentItems()));
         $this->assertSame(0, count($shipment->getShipmentComments()));
@@ -18,15 +20,15 @@ class ShipmentTest extends EntityTestCase
     public function testCreate()
     {
         $shipmentTracker = $this->dummyData->getShipmentTracker();
-        $shipmentItem = $this->dummyData->getShipmentItem();
-        $shipmentComment = $this->dummyData->getShipmentComment();
-        $order = $this->dummyData->getOrder();
 
-        $shipment = new Shipment;
-        $shipment->setOrder($order);
+        $shipment = new Shipment();
         $shipment->addShipmentTracker($shipmentTracker);
-        $shipment->addShipmentItem($shipmentItem);
-        $shipment->addShipmentComment($shipmentComment);
+
+        $order = $this->dummyData->getOrder();
+        $order->addShipment($shipment);
+
+        $shipmentItem = $this->dummyData->getShipmentItem($shipment);
+        $shipmentComment = $this->dummyData->getShipmentComment($shipment);
 
         $this->assertEntityValid($shipment);
         $this->assertSame($order, $shipment->getOrder());

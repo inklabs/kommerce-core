@@ -1,6 +1,14 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\EntityDTO\CartItemOptionProductDTO;
+use inklabs\kommerce\EntityDTO\CartItemOptionValueDTO;
+use inklabs\kommerce\EntityDTO\CartItemTextOptionValueDTO;
+use inklabs\kommerce\EntityDTO\ImageDTO;
+use inklabs\kommerce\EntityDTO\PriceDTO;
+use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\EntityDTO\ProductQuantityDiscountDTO;
+use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class CartItemDTOBuilderTest extends EntityDTOBuilderTestCase
@@ -10,7 +18,8 @@ class CartItemDTOBuilderTest extends EntityDTOBuilderTestCase
         $pricing = $this->dummyData->getPricing();
         $cartItem = $this->dummyData->getCartItemFull();
 
-        $cartItemDTO = $cartItem->getDTOBuilder()
+        $cartItemDTO = $this->getDTOBuilderFactory()
+            ->getCartItemDTOBuilder($cartItem)
             ->withAllData($pricing)
             ->build();
 

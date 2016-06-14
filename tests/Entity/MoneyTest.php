@@ -14,6 +14,5 @@ class MoneyTest extends EntityTestCase
         $this->assertEntityValid($money);
         $this->assertSame(1000, $money->getAmount());
         $this->assertSame('USD', $money->getCurrency());
-        $this->assertTrue($money->getDTOBuilder() instanceof MoneyDTOBuilder);
     }
 }

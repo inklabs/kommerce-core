@@ -1,18 +1,35 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
+use inklabs\kommerce\Entity\CreditPayment;
+use inklabs\kommerce\tests\EntityDTO\Builder\AbstractPaymentDTOBuilderTest;
 
-class CreditPaymentDTOBuilderTest extends EntityDTOBuilderTestCase
+class CreditPaymentDTOBuilderTest extends AbstractPaymentDTOBuilderTest
 {
-    public function testBuild()
+    /**
+     * @return CreditPayment
+     */
+    protected function getPayment()
     {
-        $creditPayment = $this->dummyData->getCreditPayment();
+        return $this->dummyData->getCreditPayment();
+    }
 
-        $creditPaymentDTO = $creditPayment->getDTOBuilder()
+    /**
+     * @return CreditPaymentDTO
+     */
+    protected function getPaymentDTO()
+    {
+        return $this->getDTOBuilderFactory()
+            ->getPaymentDTOBuilder($this->getPayment())
             ->build();
+    }
 
-        $this->assertTrue($creditPaymentDTO instanceof CreditPaymentDTO);
-        $this->assertTrue($creditPaymentDTO->chargeResponse instanceof ChargeResponseDTO);
+    public function testExtras()
+    {
+        $payment = $this->getPayment();
+        $paymentDTO = $this->getPaymentDTO();
+
+        $this->assertTrue($paymentDTO instanceof CreditPaymentDTO);
+        $this->assertTrue($paymentDTO->chargeResponse instanceof ChargeResponseDTO);
     }
 }

@@ -7,15 +7,15 @@ class UserTokenDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     public function testBuild()
     {
-        $entityUserToken = $this->dummyData->getUserToken();
-        $entityUserToken->setUser($this->dummyData->getUser());
+        $userToken = $this->dummyData->getUserToken();
 
-        $userToken = $entityUserToken->getDTOBuilder()
+        $userTokenDTO = $this->getDTOBuilderFactory()
+            ->getUserTokenDTOBuilder($userToken)
             ->withAllData()
             ->build();
 
-        $this->assertTrue($userToken instanceof UserTokenDTO);
-        $this->assertTrue($userToken->type instanceof UserTokenTypeDTO);
-        $this->assertTrue($userToken->user instanceof UserDTO);
+        $this->assertTrue($userTokenDTO instanceof UserTokenDTO);
+        $this->assertTrue($userTokenDTO->type instanceof UserTokenTypeDTO);
+        $this->assertTrue($userTokenDTO->user instanceof UserDTO);
     }
 }

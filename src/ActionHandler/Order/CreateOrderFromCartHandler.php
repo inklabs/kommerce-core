@@ -1,9 +1,10 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Order;
 
-use inklabs\kommerce\Action\Order\CreateOrderFromCartQuery;
+use inklabs\kommerce\Action\Order\CreateOrderFromCartCommand;
 use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\EntityDTO\Builder\CreditCardDTOBuilder;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
@@ -20,41 +21,39 @@ final class CreateOrderFromCartHandler
     /** @var OrderServiceInterface */
     private $orderService;
 
+    /** @var DTOBuilderFactoryInterface */
+    private $dtoBuilderFactory;
+
     public function __construct(
         CartServiceInterface $cartService,
         CartCalculatorInterface $cartCalculator,
-        OrderServiceInterface $orderService
+        OrderServiceInterface $orderService,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
         $this->cartService = $cartService;
         $this->cartCalculator = $cartCalculator;
         $this->orderService = $orderService;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
     /**
-     * @param CreateOrderFromCartQuery $query
+     * @param CreateOrderFromCartCommand $command
      * @throws EntityValidatorException
      */
-    public function handle(CreateOrderFromCartQuery $query)
+    public function handle(CreateOrderFromCartCommand $command)
     {
-        $request = $query->getRequest();
-        $response = $query->getResponse();
-
-        $cart = $this->cartService->findOneById($request->getCartId());
+        $cart = $this->cartService->findOneById($command->getCartId());
 
         $order = $this->orderService->createOrderFromCart(
+            $command->getOrderId(),
             $cart,
             $this->cartCalculator,
-            $request->getIp4(),
-            OrderAddressDTOBuilder::createFromDTO($request->getShippingAddressDTO()),
-            OrderAddressDTOBuilder::createFromDTO($request->getBillingAddressDTO()),
-            CreditCardDTOBuilder::createFromDTO($request->getCreditCardDTO())
+            $command->getIp4(),
+            OrderAddressDTOBuilder::createFromDTO($command->getShippingAddressDTO()),
+            OrderAddressDTOBuilder::createFromDTO($command->getBillingAddressDTO()),
+            CreditCardDTOBuilder::createFromDTO($command->getCreditCardDTO())
         );
 
         $this->cartService->delete($cart);
-
-        $response->setOrderDTO(
-            $order->getDTOBuilder()
-                ->build()
-        );
     }
 }

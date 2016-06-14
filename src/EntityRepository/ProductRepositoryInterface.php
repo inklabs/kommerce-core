@@ -3,10 +3,10 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
- * @method Product findOneById($id)
+ * @method Product findOneById(UuidInterface $id)
  */
 interface ProductRepositoryInterface extends RepositoryInterface
 {
@@ -24,8 +24,8 @@ interface ProductRepositoryInterface extends RepositoryInterface
     public function getRelatedProducts($products, $limit = 12);
 
     /**
-     * @param int[] $productIds
-     * @param int[] $tagIds
+     * @param UuidInterface[] $productIds
+     * @param UuidInterface[] $tagIds
      * @param int $limit
      * @return Product[]
      */
@@ -39,21 +39,14 @@ interface ProductRepositoryInterface extends RepositoryInterface
     public function loadProductTags(array & $products);
 
     /**
-     * @param Tag $tag
+     * @param UuidInterface $tagId
      * @param Pagination $pagination
      * @return Product[]
      */
-    public function getProductsByTag(Tag $tag, Pagination & $pagination = null);
+    public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null);
 
     /**
-     * @param int $tagId
-     * @param Pagination $pagination
-     * @return Product[]
-     */
-    public function getProductsByTagId($tagId, Pagination & $pagination = null);
-
-    /**
-     * @param int[] $productIds
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */
@@ -67,7 +60,7 @@ interface ProductRepositoryInterface extends RepositoryInterface
     public function getAllProducts($queryString = null, Pagination & $pagination = null);
 
     /**
-     * @param int[] $productIds
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */

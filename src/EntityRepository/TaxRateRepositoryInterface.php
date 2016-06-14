@@ -3,9 +3,10 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Exception\InvalidArgumentException;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
- * @method TaxRate findOneById($id)
+ * @method TaxRate findOneById(UuidInterface $id)
  */
 interface TaxRateRepositoryInterface extends RepositoryInterface
 {

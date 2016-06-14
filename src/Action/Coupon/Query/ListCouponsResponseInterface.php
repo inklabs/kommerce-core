@@ -1,22 +1,11 @@
 <?php
 namespace inklabs\kommerce\Action\Coupon\Query;
 
-use inklabs\kommerce\EntityDTO\PaginationDTO;
-use inklabs\kommerce\EntityDTO\CouponDTO;
+use inklabs\kommerce\EntityDTO\Builder\CouponDTOBuilder;
+use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 
 interface ListCouponsResponseInterface
 {
-    public function addCouponDTO(CouponDTO $couponDTO);
-    public function setPaginationDTO(PaginationDTO $paginationDTO);
-
-    /**
-     * @return CouponDTO[]
-     */
-    public function getCouponDTOs();
-
-
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO();
+    public function addCouponDTOBuilder(CouponDTOBuilder $couponDTOBuilder);
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder);
 }

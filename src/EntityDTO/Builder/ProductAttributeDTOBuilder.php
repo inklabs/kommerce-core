@@ -4,29 +4,35 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\EntityDTO\ProductAttributeDTO;
 
-class ProductAttributeDTOBuilder
+class ProductAttributeDTOBuilder implements DTOBuilderInterface
 {
-    /** @var ProductAttribute */
-    protected $productAttributeDTO;
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
 
     /** @var ProductAttribute */
-    protected $productAttribute;
+    protected $entity;
 
-    public function __construct(ProductAttribute $productAttribute)
+    /** @var ProductAttributeDTO */
+    protected $entityDTO;
+
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(ProductAttribute $productAttribute, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->productAttribute = $productAttribute;
+        $this->entity = $productAttribute;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->productAttributeDTO = new ProductAttributeDTO;
-        $this->productAttributeDTO->id      = $this->productAttribute->getId();
-        $this->productAttributeDTO->created = $this->productAttribute->getCreated();
-        $this->productAttributeDTO->updated = $this->productAttribute->getUpdated();
+        $this->entityDTO = new ProductAttributeDTO;
+        $this->setId();
+        $this->setTime();
     }
 
     public function withProduct()
     {
-        $product = $this->productAttribute->getProduct();
+        $product = $this->entity->getProduct();
         if ($product !== null) {
-            $this->productAttributeDTO->product = $product->getDTOBuilder()
+            $this->entityDTO->product = $this->dtoBuilderFactory
+                ->getProductDTOBuilder($product)
                 ->build();
         }
 
@@ -35,7 +41,8 @@ class ProductAttributeDTOBuilder
 
     public function withAttribute()
     {
-        $this->productAttributeDTO->attribute = $this->productAttribute->getAttribute()->getDTOBuilder()
+        $this->entityDTO->attribute = $this->dtoBuilderFactory
+            ->getAttributeDTOBuilder($this->entity->getAttribute())
             ->build();
 
         return $this;
@@ -43,7 +50,8 @@ class ProductAttributeDTOBuilder
 
     public function withAttributeValue()
     {
-        $this->productAttributeDTO->attributeValue = $this->productAttribute->getAttributeValue()->getDTOBuilder()
+        $this->entityDTO->attributeValue = $this->dtoBuilderFactory
+            ->getAttributeValueDTOBuilder($this->entity->getAttributeValue())
             ->build();
 
         return $this;
@@ -57,8 +65,14 @@ class ProductAttributeDTOBuilder
             ->withAttributeValue();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->productAttributeDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

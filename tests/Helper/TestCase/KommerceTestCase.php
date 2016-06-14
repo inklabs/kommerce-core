@@ -2,7 +2,10 @@
 namespace inklabs\kommerce\tests\Helper\TestCase;
 
 use inklabs\kommerce\Entity\EntityInterface;
+use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\Entity\ValidationInterface;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
@@ -21,6 +24,17 @@ use Symfony\Component\Validator\Validation;
 
 abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
 {
+    const UUID_HEX = '15dc6044910c431aa578430759ef5dcf';
+    const SESSION_ID = '6is7ujb3crb5ja85gf91g9en62';
+    const EMAIL = 'john.doe@example.com';
+    const IP4 = '127.0.0.1';
+    const ZIP5 = '76667';
+    const SHIPMENT_EXTERNAL_ID = 'shp_xxxxx';
+    const SHIPMENT_RATE_EXTERNAL_ID = 'shp_xxxxxxxx';
+    const SHIPMENT_TRACKING_CODE = 'XXXXXXX';
+    const RATE_EXTERNAL_ID = 'rate_xxxxxxxxx';
+    const USER_AGENT = 'UserAgent String';
+
     /** @var DummyData */
     protected $dummyData;
 
@@ -33,6 +47,14 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     {
         $cartCalculator = new CartCalculator(new Pricing);
         return $cartCalculator;
+    }
+
+    /**
+     * @return DTOBuilderFactoryInterface
+     */
+    protected function getDTOBuilderFactory()
+    {
+        return new DTOBuilderFactory();
     }
 
     protected function assertFullProductDTO(ProductDTO $productDTO)
@@ -110,5 +132,35 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     {
         $difference = abs($expected - $actual);
         $this->assertTrue($difference >= 0 && $difference <= $delta);
+    }
+
+    protected function assertEqualEntities(IdEntityInterface $entity1, IdEntityInterface $entity2)
+    {
+        $this->assertEquals($entity1->getId(), $entity2->getId());
+    }
+
+    /**
+     * @param IdEntityInterface $expectedEntity
+     * @param IdEntityInterface[] $entities
+     */
+    protected function assertEntityInArray(IdEntityInterface $expectedEntity, array $entities)
+    {
+        $this->assertTrue($this->isEntityInArray($expectedEntity, $entities));
+    }
+
+    /**
+     * @param IdEntityInterface $expectedEntity
+     * @param IdEntityInterface[] $entities
+     * @return bool
+     */
+    protected function isEntityInArray(IdEntityInterface $expectedEntity, array $entities)
+    {
+        foreach ($entities as $entity) {
+            if ($expectedEntity->getId()->equals($entity->getId())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

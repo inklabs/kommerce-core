@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
 use inklabs\kommerce\Lib\FileManagerInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class AttachmentService implements AttachmentServiceInterface
 {
@@ -29,10 +30,10 @@ class AttachmentService implements AttachmentServiceInterface
 
     /**
      * @param UploadFileDTO $uploadFileDTO
-     * @param int $orderItemId
+     * @param UuidInterface $orderItemId
      * @return void
      */
-    public function createAttachmentForOrderItem(UploadFileDTO $uploadFileDTO, $orderItemId)
+    public function createAttachmentForOrderItem(UploadFileDTO $uploadFileDTO, UuidInterface $orderItemId)
     {
         $orderItem = $this->orderService->getOrderItemById($orderItemId);
         $order = $orderItem->getOrder();

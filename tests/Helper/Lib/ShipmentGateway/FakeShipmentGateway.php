@@ -52,6 +52,16 @@ class FakeShipmentGateway implements ShipmentGatewayInterface
     }
 
     /**
+     * @param OrderAddressDTO $toAddress
+     * @param ParcelDTO $parcel
+     * @return ShipmentRate[]
+     */
+    public function getTrimmedRates(OrderAddressDTO $toAddress, ParcelDTO $parcel)
+    {
+        return $this->getRates($toAddress, $parcel);
+    }
+
+    /**
      * @param string $shipmentExternalId
      * @param string $rateExternalId
      * @return ShipmentTracker

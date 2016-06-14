@@ -2,18 +2,35 @@
 namespace inklabs\kommerce\EntityDTO;
 
 use DateTime;
-use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
+use inklabs\kommerce\Entity\CheckPayment;
+use inklabs\kommerce\tests\EntityDTO\Builder\AbstractPaymentDTOBuilderTest;
 
-class CheckPaymentDTOBuilderTest extends EntityDTOBuilderTestCase
+class CheckPaymentDTOBuilderTest extends AbstractPaymentDTOBuilderTest
 {
-    public function testBuild()
+    /**
+     * @return CheckPayment
+     */
+    protected function getPayment()
     {
-        $checkPayment = $this->dummyData->getCheckPayment();
+        return $this->dummyData->getCheckPayment();
+    }
 
-        $checkPaymentDTO = $checkPayment->getDTOBuilder()
+    /**
+     * @return CheckPaymentDTO
+     */
+    protected function getPaymentDTO()
+    {
+        return $this->getDTOBuilderFactory()
+            ->getPaymentDTOBuilder($this->getPayment())
             ->build();
+    }
 
-        $this->assertTrue($checkPaymentDTO instanceof CheckPaymentDTO);
-        $this->assertTrue($checkPaymentDTO->checkDate instanceof DateTime);
+    public function testExtras()
+    {
+        $payment = $this->getPayment();
+        $paymentDTO = $this->getPaymentDTO();
+
+        $this->assertTrue($paymentDTO instanceof CheckPaymentDTO);
+        $this->assertTrue($paymentDTO->checkDate instanceof DateTime);
     }
 }

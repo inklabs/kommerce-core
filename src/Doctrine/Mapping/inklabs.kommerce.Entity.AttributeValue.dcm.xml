@@ -11,12 +11,7 @@
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer">
-            <generator strategy="AUTO"/>
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </id>
+        <id name="id" type="uuid_binary"/>
 
         <field name="name" type="string" length="255"/>
         <field name="sku" type="string" length="64" nullable="true"/>
@@ -40,7 +35,7 @@
             </options>
         </field>
 
-        <one-to-many field="productAttributes" target-entity="ProductAttribute" mapped-by="attribute" fetch="EXTRA_LAZY">
+        <one-to-many field="productAttributes" target-entity="ProductAttribute" mapped-by="attributeValue" fetch="EXTRA_LAZY">
             <cascade>
                 <cascade-persist/>
             </cascade>

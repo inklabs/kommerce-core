@@ -2,11 +2,10 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\EntityDTO\Builder\ShipmentDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Shipment implements EntityInterface, ValidationInterface
+class Shipment implements IdEntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
 
@@ -24,6 +23,7 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
         $this->shipmentTrackers = new ArrayCollection;
         $this->shipmentItems = new ArrayCollection;
@@ -37,11 +37,6 @@ class Shipment implements EntityInterface, ValidationInterface
         $metadata->addPropertyConstraint('shipmentComments', new Assert\Valid);
     }
 
-    public function setOrder(Order $order)
-    {
-        $this->order = $order;
-    }
-
     public function getOrder()
     {
         return $this->order;
@@ -49,10 +44,12 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function addShipmentTracker(ShipmentTracker $shipmentTracker)
     {
-        $shipmentTracker->setShipment($this);
         $this->shipmentTrackers->add($shipmentTracker);
     }
 
+    /**
+     * @return ShipmentTracker[]
+     */
     public function getShipmentTrackers()
     {
         return $this->shipmentTrackers;
@@ -60,10 +57,12 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function addShipmentItem(ShipmentItem $shipmentItem)
     {
-        $shipmentItem->setShipment($this);
         $this->shipmentItems->add($shipmentItem);
     }
 
+    /**
+     * @return ShipmentItem[]
+     */
     public function getShipmentItems()
     {
         return $this->shipmentItems;
@@ -71,18 +70,15 @@ class Shipment implements EntityInterface, ValidationInterface
 
     public function addShipmentComment(ShipmentComment $shipmentComment)
     {
-        $shipmentComment->setShipment($this);
         $this->shipmentComments->add($shipmentComment);
     }
 
+    /**
+     * @return ShipmentComment[]
+     */
     public function getShipmentComments()
     {
         return $this->shipmentComments;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new ShipmentDTOBuilder($this);
     }
 
     /**
@@ -98,5 +94,10 @@ class Shipment implements EntityInterface, ValidationInterface
         }
 
         return null;
+    }
+
+    public function setOrder(Order $order)
+    {
+        $this->order = $order;
     }
 }

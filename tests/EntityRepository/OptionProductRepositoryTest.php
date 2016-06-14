@@ -40,46 +40,47 @@ class OptionProductRepositoryTest extends EntityRepositoryTestCase
 
     public function testCRUD()
     {
-        $optionProduct = $this->setupOptionProduct();
-        $this->assertSame(1, $optionProduct->getId());
+        $option = $this->dummyData->getOption();
+        $product = $this->dummyData->getProduct();
+        $this->entityManager->persist($option);
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
 
-        $optionProduct->setSortOrder(5);
-        $this->assertSame(null, $optionProduct->getUpdated());
-
-        $this->optionProductRepository->update($optionProduct);
-        $this->assertTrue($optionProduct->getUpdated() instanceof DateTime);
-
-        $this->optionProductRepository->delete($optionProduct);
-        $this->assertSame(null, $optionProduct->getId());
+        $this->executeRepositoryCRUD(
+            $this->optionProductRepository,
+            $this->dummyData->getOptionProduct($option, $product)
+        );
     }
 
     public function testFind()
     {
-        $this->setupOptionProduct();
-
+        $originalOptionProduct = $this->setupOptionProduct();
         $this->setCountLogger();
 
-        $optionProduct = $this->optionProductRepository->findOneById(1);
+        $optionProduct = $this->optionProductRepository->findOneById(
+            $originalOptionProduct->getId()
+        );
 
         $optionProduct->getProduct()->getCreated();
         $optionProduct->getOption()->getCreated();
 
-        $this->assertTrue($optionProduct instanceof OptionProduct);
+        $this->assertEquals($originalOptionProduct->getid(), $optionProduct->getId());
         $this->assertSame(1, $this->getTotalQueries());
     }
 
     public function testGetAllOptionValuesByIds()
     {
-        $this->setupOptionProduct();
-
+        $originalOptionProduct = $this->setupOptionProduct();
         $this->setCountLogger();
 
-        $optionProducts = $this->optionProductRepository->getAllOptionProductsByIds([1]);
+        $optionProducts = $this->optionProductRepository->getAllOptionProductsByIds([
+            $originalOptionProduct->getId()
+        ]);
 
         $optionProducts[0]->getProduct()->getCreated();
         $optionProducts[0]->getOption()->getCreated();
 
-        $this->assertTrue($optionProducts[0] instanceof OptionProduct);
+        $this->assertEquals($originalOptionProduct->getid(), $optionProducts[0]->getId());
         $this->assertSame(1, $this->getTotalQueries());
     }
 }

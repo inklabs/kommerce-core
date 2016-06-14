@@ -1,20 +1,23 @@
 <?php
 namespace inklabs\kommerce\Action\User\Query;
 
-use inklabs\kommerce\EntityDTO\UserDTO;
+use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
 
 class LoginWithTokenResponse implements LoginWithTokenResponseInterface
 {
-    /** @var UserDTO */
-    protected $userDTO;
+    /** @var UserDTOBuilder */
+    protected $userDTOBuilder;
 
-    public function setUserDTO(UserDTO $userDTO)
+    public function setUserDTOBuilder(UserDTOBuilder $userDTOBuilder)
     {
-        $this->userDTO = $userDTO;
+        $this->userDTOBuilder = $userDTOBuilder;
     }
 
     public function getUserDTO()
     {
-        return $this->userDTO;
+        return $this->userDTOBuilder
+            ->withRoles()
+            ->withTokens()
+            ->build();
     }
 }

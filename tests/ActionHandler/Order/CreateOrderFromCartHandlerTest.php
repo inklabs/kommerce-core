@@ -1,9 +1,7 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Order;
 
-use inklabs\kommerce\Action\Order\CreateOrderFromCartQuery;
-use inklabs\kommerce\Action\Order\Query\CreateOrderFromCartRequest;
-use inklabs\kommerce\Action\Order\Query\CreateOrderFromCartResponse;
+use inklabs\kommerce\Action\Order\CreateOrderFromCartCommand;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
@@ -21,7 +19,6 @@ use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\Warehouse;
-use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
@@ -50,33 +47,41 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
     public function testHandleWithFullIntegration()
     {
         $cart = $this->setupDBCart();
+        $dtoBuilderFactory = $this->getDTOBuilderFactory();
 
-        $creditCardDTO = $this->dummyData->getCreditCard()->getDTOBuilder()->build();
-        $shippingAddressDTO = $this->dummyData->getOrderAddress()->getDTOBuilder()->build();
-        $billingAddressDTO = $this->dummyData->getOrderAddress()->getDTOBuilder()->build();
+        $creditCardDTO = $dtoBuilderFactory
+            ->getCreditCardDTOBuilder($this->dummyData->getCreditCard())->build();
 
-        $request = new CreateOrderFromCartRequest(
+        $shippingAddressDTO = $dtoBuilderFactory
+            ->getOrderAddressDTOBuilder($this->dummyData->getOrderAddress())->build();
+
+        $billingAddressDTO = $dtoBuilderFactory
+            ->getOrderAddressDTOBuilder($this->dummyData->getOrderAddress())->build();
+
+        $serviceFactory = $this->getServiceFactory();
+
+        $command = new CreateOrderFromCartCommand(
             $cart->getId(),
             '10.0.0.1',
             $creditCardDTO,
             $shippingAddressDTO,
             $billingAddressDTO
         );
-        $response = new CreateOrderFromCartResponse;
 
-        $serviceFactory = $this->getServiceFactory();
         $handler = new CreateOrderFromCartHandler(
             $serviceFactory->getCart(),
             $serviceFactory->getCartCalculator(),
             $serviceFactory->getOrder(),
-            $this->getPaymentGateway()
+            $this->getDTOBuilderFactory()
         );
-        $handler->handle(new CreateOrderFromCartQuery($request, $response));
+        $handler->handle($command);
 
-        $order = $this->getRepositoryFactory()->getOrderRepository()->findOneById(1);
+        $order = $this->getRepositoryFactory()->getOrderRepository()->findOneById(
+            $command->getOrderId()
+        );
+
         $this->assertTrue($order instanceof Order);
         $this->assertTrue($order->getPayments()[0] instanceof AbstractPayment);
-        $this->assertTrue($response->getOrderDTO() instanceof OrderDTO);
 
         $this->setExpectedException(EntityNotFoundException::class);
         $this->getRepositoryFactory()->getCartRepository()->findOneById($cart->getId());
@@ -85,9 +90,9 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
     protected function setupDBCart()
     {
         $user = $this->dummyData->getUser();
-        $product = $this->dummyData->getProduct(1);
+        $product = $this->dummyData->getProduct();
         $option = $this->dummyData->getOption();
-        $product2 = $this->dummyData->getProduct(2);
+        $product2 = $this->dummyData->getProduct();
         $optionProduct = $this->dummyData->getOptionProduct($option, $product2);
         $cartItemOptionProduct = $this->dummyData->getCartItemOptionProduct($optionProduct);
         $cartItem = $this->dummyData->getCartItem($product);
@@ -97,7 +102,7 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
         $cart->setUser($user);
         $cart->addCartItem($cartItem);
 
-        $warehouse = $this->dummyData->getWarehouse(1);
+        $warehouse = $this->dummyData->getWarehouse();
         $inventoryLocation = $this->dummyData->getInventoryLocation($warehouse);
         $holdLocation = $this->dummyData->getInventoryLocation($warehouse);
         $holdLocation->setName('Customer hold Location');

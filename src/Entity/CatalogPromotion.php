@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use inklabs\kommerce\EntityDTO\Builder\CatalogPromotionDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -63,13 +62,5 @@ class CatalogPromotion extends AbstractPromotion
         }
 
         return false;
-    }
-
-    /**
-     * @return CatalogPromotionDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new CatalogPromotionDTOBuilder($this);
     }
 }

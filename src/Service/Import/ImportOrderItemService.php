@@ -52,29 +52,29 @@ class ImportOrderItemService
             $unitPrice = $this->convertDollarToCents($row[4]);
             $quantityPrice = $this->convertDollarToCents($row[5]);
 
-            $order = $this->orderRepository->findOneByExternalId($orderExternalId);
-
             $price = new Price;
             $price->origUnitPrice = $unitPrice;
             $price->unitPrice = $unitPrice;
             $price->origQuantityPrice = $quantityPrice;
             $price->quantityPrice = $quantityPrice;
 
-            $orderItem = new OrderItem;
-            $orderItem->setQuantity($quantity);
-            $orderItem->setPrice($price);
-            $orderItem->setOrder($order);
-
-            if ($sku === 'NULL') {
-                $orderItem->setName($note);
-            } else {
-                $product = $this->productRepository->findOneBySku($sku);
-                if ($product !== null) {
-                    $orderItem->setProduct($product);
-                }
-            }
-
             try {
+                $order = $this->orderRepository->findOneByExternalId($orderExternalId);
+
+                $orderItem = new OrderItem;
+                $orderItem->setQuantity($quantity);
+                $orderItem->setPrice($price);
+                $orderItem->setOrder($order);
+
+                if ($sku === 'NULL') {
+                    $orderItem->setName($note);
+                } else {
+                    $product = $this->productRepository->findOneBySku($sku);
+                    if ($product !== null) {
+                        $orderItem->setProduct($product);
+                    }
+                }
+
                 $this->throwValidationErrors($orderItem);
 
                 $this->orderItemRepository->persist($orderItem);

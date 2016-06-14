@@ -3,51 +3,60 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityDTO\ProductDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\Lib\Slug;
 
-class ProductDTOBuilder
+class ProductDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var Product */
-    protected $product;
+    protected $entity;
 
     /** @var ProductDTO */
-    protected $productDTO;
+    protected $entityDTO;
 
-    public function __construct(Product $product)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(Product $product, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->product = $product;
+        $this->entity = $product;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->productDTO = new ProductDTO;
-        $this->productDTO->id                  = $this->product->getId();
-        $this->productDTO->encodedId           = BaseConvert::encode($this->product->getId());
-        $this->productDTO->slug                = Slug::get($this->product->getName());
-        $this->productDTO->sku                 = $this->product->getSku();
-        $this->productDTO->name                = $this->product->getName();
-        $this->productDTO->unitPrice           = $this->product->getUnitPrice();
-        $this->productDTO->quantity            = $this->product->getQuantity();
-        $this->productDTO->isInventoryRequired = $this->product->isInventoryRequired();
-        $this->productDTO->isPriceVisible      = $this->product->isPriceVisible();
-        $this->productDTO->isVisible           = $this->product->isVisible();
-        $this->productDTO->isActive            = $this->product->isActive();
-        $this->productDTO->isTaxable           = $this->product->isTaxable();
-        $this->productDTO->isShippable         = $this->product->isShippable();
-        $this->productDTO->shippingWeight      = $this->product->getShippingWeight();
-        $this->productDTO->description         = $this->product->getDescription();
-        $this->productDTO->rating              = $this->product->getRating();
-        $this->productDTO->defaultImage        = $this->product->getDefaultImage();
-        $this->productDTO->created             = $this->product->getCreated();
-        $this->productDTO->updated             = $this->product->getUpdated();
+        $this->initializeProductDTO();
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->slug                = Slug::get($this->entity->getName());
+        $this->entityDTO->sku                 = $this->entity->getSku();
+        $this->entityDTO->name                = $this->entity->getName();
+        $this->entityDTO->unitPrice           = $this->entity->getUnitPrice();
+        $this->entityDTO->quantity            = $this->entity->getQuantity();
+        $this->entityDTO->isInventoryRequired = $this->entity->isInventoryRequired();
+        $this->entityDTO->isPriceVisible      = $this->entity->isPriceVisible();
+        $this->entityDTO->isVisible           = $this->entity->isVisible();
+        $this->entityDTO->isActive            = $this->entity->isActive();
+        $this->entityDTO->isTaxable           = $this->entity->isTaxable();
+        $this->entityDTO->isShippable         = $this->entity->isShippable();
+        $this->entityDTO->shippingWeight      = $this->entity->getShippingWeight();
+        $this->entityDTO->description         = $this->entity->getDescription();
+        $this->entityDTO->rating              = $this->entity->getRating();
+        $this->entityDTO->defaultImage        = $this->entity->getDefaultImage();
 
-        $this->productDTO->isInStock = $this->product->inStock();
+        $this->entityDTO->isInStock = $this->entity->inStock();
+    }
+
+    protected function initializeProductDTO()
+    {
+        $this->entityDTO = new ProductDTO;
     }
 
     public function withTags()
     {
-        foreach ($this->product->getTags() as $tag) {
-            $this->productDTO->tags[] = $tag->getDTOBuilder()
+        foreach ($this->entity->getTags() as $tag) {
+            $this->entityDTO->tags[] = $this->dtoBuilderFactory
+                ->getTagDTOBuilder($tag)
                 ->withImages()
                 ->build();
         }
@@ -57,8 +66,9 @@ class ProductDTOBuilder
 
     public function withTagsAndOptions(PricingInterface $pricing)
     {
-        foreach ($this->product->getTags() as $tag) {
-            $this->productDTO->tags[] = $tag->getDTOBuilder()
+        foreach ($this->entity->getTags() as $tag) {
+            $this->entityDTO->tags[] = $this->dtoBuilderFactory
+                ->getTagDTOBuilder($tag)
                 ->withImages()
                 ->withOptions($pricing)
                 ->withTextOptions()
@@ -70,14 +80,16 @@ class ProductDTOBuilder
 
     public function withImages()
     {
-        foreach ($this->product->getImages() as $image) {
-            $this->productDTO->images[] = $image->getDTOBuilder()
+        foreach ($this->entity->getImages() as $image) {
+            $this->entityDTO->images[] = $this->dtoBuilderFactory
+                ->getImageDTOBuilder($image)
                 ->build();
         }
 
-        foreach ($this->product->getTags() as $tag) {
+        foreach ($this->entity->getTags() as $tag) {
             foreach ($tag->getImages() as $image) {
-                $this->productDTO->tagImages[] = $image->getDTOBuilder()
+                $this->entityDTO->tagImages[] = $this->dtoBuilderFactory
+                    ->getImageDTOBuilder($image)
                     ->build();
             }
         }
@@ -87,7 +99,8 @@ class ProductDTOBuilder
 
     public function withPrice(PricingInterface $pricing)
     {
-        $this->productDTO->price = $this->product->getPrice($pricing)->getDTOBuilder()
+        $this->entityDTO->price = $this->dtoBuilderFactory
+            ->getPriceDTOBuilder($this->entity->getPrice($pricing))
             ->withAllData()
             ->build();
 
@@ -96,11 +109,12 @@ class ProductDTOBuilder
 
     public function withProductQuantityDiscounts(Pricing $pricing)
     {
-        $productQuantityDiscounts = $this->product->getProductQuantityDiscounts();
+        $productQuantityDiscounts = $this->entity->getProductQuantityDiscounts();
         $pricing->setProductQuantityDiscounts($productQuantityDiscounts);
 
         foreach ($productQuantityDiscounts as $productQuantityDiscount) {
-            $this->productDTO->productQuantityDiscounts[] = $productQuantityDiscount->getDTOBuilder()
+            $this->entityDTO->productQuantityDiscounts[] = $this->dtoBuilderFactory
+                ->getProductQuantityDiscountDTOBuilder($productQuantityDiscount)
                 ->withPrice($pricing)
                 ->build();
         }
@@ -110,8 +124,9 @@ class ProductDTOBuilder
 
     public function withOptionProducts()
     {
-        foreach ($this->product->getOptionProducts() as $optionProduct) {
-            $this->productDTO->optionProducts[] = $optionProduct->getDTOBuilder()
+        foreach ($this->entity->getOptionProducts() as $optionProduct) {
+            $this->entityDTO->optionProducts[] = $this->dtoBuilderFactory
+                ->getOptionProductDTOBuilder($optionProduct)
                 ->withOption()
                 ->build();
         }
@@ -121,8 +136,9 @@ class ProductDTOBuilder
 
     public function withProductAttributes()
     {
-        foreach ($this->product->getProductAttributes() as $productAttribute) {
-            $this->productDTO->productAttributes[] = $productAttribute->getDTOBuilder()
+        foreach ($this->entity->getProductAttributes() as $productAttribute) {
+            $this->entityDTO->productAttributes[] = $this->dtoBuilderFactory
+                ->getProductAttributeDTOBuilder($productAttribute)
                 ->withAttribute()
                 ->withAttributeValue()
                 ->build();
@@ -142,8 +158,14 @@ class ProductDTOBuilder
             ->withOptionProducts();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->productDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

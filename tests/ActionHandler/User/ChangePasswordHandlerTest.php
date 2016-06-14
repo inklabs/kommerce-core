@@ -12,7 +12,9 @@ class ChangePasswordHandlerTest extends ActionTestCase
         $userService->shouldReceive('changePassword')
             ->once();
 
-        $command = new ChangePasswordCommand(1, 'newPassword123');
+        $user = $this->dummyData->getUser();
+
+        $command = new ChangePasswordCommand($user->getId(), 'newPassword123');
         $handler = new ChangePasswordHandler($userService);
         $handler->handle($command);
     }

@@ -1,6 +1,10 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\EntityDTO\CartPriceRuleDiscountDTO;
+use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
+use inklabs\kommerce\EntityDTO\CartPriceRuleProductItemDTO;
+use inklabs\kommerce\EntityDTO\CartPriceRuleTagItemDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class CartPriceRuleDTOBuilderTest extends EntityDTOBuilderTestCase
@@ -12,7 +16,8 @@ class CartPriceRuleDTOBuilderTest extends EntityDTOBuilderTestCase
         $cartPriceRule->addItem($this->dummyData->getCartPriceRuleTagItem());
         $cartPriceRule->addDiscount($this->dummyData->getCartPriceRuleDiscount());
 
-        $cartPriceRuleDTO = $cartPriceRule->getDTOBuilder()
+        $cartPriceRuleDTO = $this->getDTOBuilderFactory()
+            ->getCartPriceRuleDTOBuilder($cartPriceRule)
             ->withAllData()
             ->build();
 

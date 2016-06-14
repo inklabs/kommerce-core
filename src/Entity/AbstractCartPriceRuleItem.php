@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\AbstractCartPriceRuleItemDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractCartPriceRuleItem implements EntityInterface, ValidationInterface
+abstract class AbstractCartPriceRuleItem implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -14,6 +13,12 @@ abstract class AbstractCartPriceRuleItem implements EntityInterface, ValidationI
 
     /** @var CartPriceRule */
     protected $cartPriceRule;
+
+    public function __construct()
+    {
+        $this->setId();
+        $this->setCreated();
+    }
 
     abstract public function matches(CartItem $cartItem);
 
@@ -45,9 +50,4 @@ abstract class AbstractCartPriceRuleItem implements EntityInterface, ValidationI
     {
         return $this->cartPriceRule;
     }
-
-    /**
-     * @return AbstractCartPriceRuleItemDTOBuilder
-     */
-    abstract public function getDTOBuilder();
 }

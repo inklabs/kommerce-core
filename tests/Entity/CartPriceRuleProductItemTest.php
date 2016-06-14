@@ -16,7 +16,7 @@ class CartPriceRuleProductItemTest extends EntityTestCase
 
     public function testMatches()
     {
-        $product = $this->getProduct(1);
+        $product = $this->dummyData->getProduct();
         $cartItem = $this->dummyData->getCartItem($product, 1);
 
         $priceRule = new CartPriceRuleProductItem($product, 1);
@@ -26,7 +26,7 @@ class CartPriceRuleProductItemTest extends EntityTestCase
 
     public function testMatchesWithLargerQuantity()
     {
-        $product = $this->getProduct(1);
+        $product = $this->dummyData->getProduct();
         $cartItem = $this->dummyData->getCartItem($product, 2);
 
         $priceRule = new CartPriceRuleProductItem($product, 1);
@@ -36,8 +36,8 @@ class CartPriceRuleProductItemTest extends EntityTestCase
 
     public function testMatchReturnsFalse()
     {
-        $product1 = $this->getProduct(1);
-        $product2 = $this->getProduct(2);
+        $product1 = $this->dummyData->getProduct();
+        $product2 = $this->dummyData->getProduct();
         $cartItem = $this->dummyData->getCartItem($product1, 1);
 
         $priceRule = new CartPriceRuleProductItem($product2, 1);
@@ -47,19 +47,11 @@ class CartPriceRuleProductItemTest extends EntityTestCase
 
     public function testProductDoesNotMatchByQuantity()
     {
-        $product1 = $this->getProduct(1);
+        $product1 = $this->dummyData->getProduct();
         $cartItem = $this->dummyData->getCartItem($product1, 1);
 
         $priceRule = new CartPriceRuleProductItem($product1, 2);
 
         $this->assertFalse($priceRule->matches($cartItem));
-    }
-
-    private function getProduct($id)
-    {
-        $product = $this->dummyData->getProduct($id);
-        $product->setid($id);
-
-        return $product;
     }
 }

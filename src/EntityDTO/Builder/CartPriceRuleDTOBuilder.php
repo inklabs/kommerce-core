@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
 use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
 
 /**
@@ -10,22 +11,24 @@ use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
 class CartPriceRuleDTOBuilder extends AbstractPromotionDTOBuilder
 {
     /** @var CartPriceRule */
-    protected $promotion;
+    protected $entity;
 
     /** @var CartPriceRuleDTO */
-    protected $promotionDTO;
+    protected $entityDTO;
 
-    public function __construct(CartPriceRule $cartPriceRule)
+    /**
+     * @return AbstractPromotionDTO
+     */
+    protected function getEntityDTO()
     {
-        $this->promotionDTO = new CartPriceRuleDTO;
-
-        parent::__construct($cartPriceRule);
+        return new CartPriceRuleDTO;
     }
 
     public function withCartPriceRuleItems()
     {
-        foreach ($this->promotion->getCartPriceRuleItems() as $cartPriceRuleItem) {
-            $this->promotionDTO->cartPriceRuleItems[] = $cartPriceRuleItem->getDTOBuilder()
+        foreach ($this->entity->getCartPriceRuleItems() as $cartPriceRuleItem) {
+            $this->entityDTO->cartPriceRuleItems[] = $this->dtoBuilderFactory
+                ->getCartPriceRuleItemDTOBuilder($cartPriceRuleItem)
                 ->build();
         }
 
@@ -34,8 +37,9 @@ class CartPriceRuleDTOBuilder extends AbstractPromotionDTOBuilder
 
     public function withCartPriceRuleDiscounts()
     {
-        foreach ($this->promotion->getCartPriceRuleDiscounts() as $cartPriceRuleDiscount) {
-            $this->promotionDTO->cartPriceRuleDiscounts[] = $cartPriceRuleDiscount->getDTOBuilder()
+        foreach ($this->entity->getCartPriceRuleDiscounts() as $cartPriceRuleDiscount) {
+            $this->entityDTO->cartPriceRuleDiscounts[] = $this->dtoBuilderFactory
+                ->getCartPriceRuleDiscountDTOBuilder($cartPriceRuleDiscount)
                 ->build();
         }
 

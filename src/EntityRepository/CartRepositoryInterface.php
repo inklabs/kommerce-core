@@ -2,21 +2,33 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartItem;
+use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
- * @method Cart findOneById($id)
+ * @method Cart findOneById(UuidInterface $id)
  */
 interface CartRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param int $userId
-     * @return Cart|null
+     * @param UuidInterface $userId
+     * @return Cart
+     * @throws EntityNotFoundException
      */
-    public function findOneByUser($userId);
+    public function findOneByUserId(UuidInterface $userId);
 
     /**
      * @param string $sessionId
-     * @return Cart|null
+     * @return Cart
+     * @throws EntityNotFoundException
      */
     public function findOneBySession($sessionId);
+
+    /**
+     * @param UuidInterface $cartItemId
+     * @return CartItem
+     * @throws EntityNotFoundException
+     */
+    public function getItemById(UuidInterface $cartItemId);
 }

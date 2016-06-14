@@ -9,7 +9,8 @@ class ProductDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $product = $this->dummyData->getProductFull();
 
-        $productDTO = $product->getDTOBuilder()
+        $productDTO = $this->getDTOBuilderFactory()
+            ->getProductDTOBuilder($product)
             ->withAllData($this->dummyData->getPricing())
             ->build();
 

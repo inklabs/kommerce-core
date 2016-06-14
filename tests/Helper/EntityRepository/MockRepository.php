@@ -3,11 +3,26 @@ namespace inklabs\kommerce\tests\Helper\EntityRepository;
 
 use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
+use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
+use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
+use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
 use Mockery;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 
@@ -35,8 +50,7 @@ class MockRepository
      */
     public function getAttachmentRepository()
     {
-        $repository = $this->getMockeryMock(AttachmentRepositoryInterface::class);
-        return $repository;
+        return $this->getMockeryMock(AttachmentRepositoryInterface::class);
     }
 
     /**
@@ -44,8 +58,47 @@ class MockRepository
      */
     public function getAttributeRepository()
     {
-        $repository = $this->getMockeryMock(AttributeRepositoryInterface::class);
-        return $repository;
+        return $this->getMockeryMock(AttributeRepositoryInterface::class);
+    }
+
+    /**
+     * @return AttributeValueRepositoryInterface | Mockery\Mock
+     */
+    public function getAttributeValueRepository()
+    {
+        return $this->getMockeryMock(AttributeValueRepositoryInterface::class);
+    }
+
+    /**
+     * @return CartRepositoryInterface | Mockery\Mock
+     */
+    public function getCartRepository()
+    {
+        return $this->getMockeryMock(CartRepositoryInterface::class);
+    }
+
+    /**
+     * @return CartPriceRuleRepositoryInterface | Mockery\Mock
+     */
+    public function getCartPriceRuleRepository()
+    {
+        return $this->getMockeryMock(CartPriceRuleRepositoryInterface::class);
+    }
+
+    /**
+     * @return CatalogPromotionRepositoryInterface | Mockery\Mock
+     */
+    public function getCatalogPromotionRepository()
+    {
+        return $this->getMockeryMock(CatalogPromotionRepositoryInterface::class);
+    }
+
+    /**
+     * @return CouponRepositoryInterface | Mockery\Mock
+     */
+    public function getCouponRepository()
+    {
+        return $this->getMockeryMock(CouponRepositoryInterface::class);
     }
 
     /**
@@ -53,8 +106,55 @@ class MockRepository
      */
     public function getImageRepository()
     {
-        $repository = $this->getMockeryMock(ImageRepositoryInterface::class);
-        return $repository;
+        return $this->getMockeryMock(ImageRepositoryInterface::class);
+    }
+
+    /**
+     * @return InventoryLocationRepositoryInterface | Mockery\Mock
+     */
+    public function getInventoryLocationRepository()
+    {
+        return $this->getMockeryMock(InventoryLocationRepositoryInterface::class);
+    }
+
+    /**
+     * @return InventoryTransactionRepositoryInterface | Mockery\Mock
+     */
+    public function getInventoryTransactionRepository()
+    {
+        return $this->getMockeryMock(InventoryTransactionRepositoryInterface::class);
+    }
+
+    /**
+     * @return OptionRepositoryInterface | Mockery\Mock
+     */
+    public function getOptionRepository()
+    {
+        return $this->getMockeryMock(OptionRepositoryInterface::class);
+    }
+
+    /**
+     * @return OptionProductRepositoryInterface | Mockery\Mock
+     */
+    public function getOptionProductRepository()
+    {
+        return $this->getMockeryMock(OptionProductRepositoryInterface::class);
+    }
+
+    /**
+     * @return OptionValueRepositoryInterface | Mockery\Mock
+     */
+    public function getOptionValueRepository()
+    {
+        return $this->getMockeryMock(OptionValueRepositoryInterface::class);
+    }
+
+    /**
+     * @return OrderRepositoryInterface | Mockery\Mock
+     */
+    public function getOrderRepository()
+    {
+        return $this->getMockeryMock(OrderRepositoryInterface::class);
     }
 
     /**
@@ -62,14 +162,7 @@ class MockRepository
      */
     public function getOrderItemRepository()
     {
-        $repository = $this->getMockeryMock(OrderItemRepositoryInterface::class);
-
-        $repository
-            ->shouldReceive('findOneById')
-            ->with(1)
-            ->andReturn($this->dummyData->getOrderItem());
-
-        return $repository;
+        return $this->getMockeryMock(OrderItemRepositoryInterface::class);
     }
 
     /**
@@ -77,34 +170,7 @@ class MockRepository
      */
     public function getProductRepository()
     {
-        $repository = $this->getMockeryMock(ProductRepositoryInterface::class);
-
-        $product = $this->dummyData->getProduct();
-        $product->setId(99);
-
-        $repository->shouldReceive('findOneById')
-            ->with($product->getId())
-            ->andReturn($product);
-
-        $repository->shouldReceive('getAllProducts')
-            ->andReturn([$product]);
-
-        $repository->shouldReceive('getRelatedProductsByIds')
-            ->andReturn([$product]);
-
-        $repository->shouldReceive('getProductsByTagId')
-            ->andReturn([$product]);
-
-        $repository->shouldReceive('getProductsByIds')
-            ->andReturn([$product]);
-
-        $repository->shouldReceive('getAllProductsByIds')
-            ->andReturn([$product]);
-
-        $repository->shouldReceive('getRandomProducts')
-            ->andReturn([$product]);
-
-        return $repository;
+        return $this->getMockeryMock(ProductRepositoryInterface::class);
     }
 
     /**
@@ -112,7 +178,46 @@ class MockRepository
      */
     public function getTagRepository()
     {
-        $repository = $this->getMockeryMock(TagRepositoryInterface::class);
-        return $repository;
+        return $this->getMockeryMock(TagRepositoryInterface::class);
+    }
+
+    /**
+     * @return TextOptionRepositoryInterface | Mockery\Mock
+     */
+    public function getTextOptionRepository()
+    {
+        return $this->getMockeryMock(TextOptionRepositoryInterface::class);
+    }
+
+    /**
+     * @return TaxRateRepositoryInterface | Mockery\Mock
+     */
+    public function getTaxRateRepository()
+    {
+        return $this->getMockeryMock(TaxRateRepositoryInterface::class);
+    }
+
+    /**
+     * @return UserRepositoryInterface | Mockery\Mock
+     */
+    public function getUserRepository()
+    {
+        return $this->getMockeryMock(UserRepositoryInterface::class);
+    }
+
+    /**
+     * @return UserLoginRepositoryInterface | Mockery\Mock
+     */
+    public function getUserLoginRepository()
+    {
+        return $this->getMockeryMock(UserLoginRepositoryInterface::class);
+    }
+
+    /**
+     * @return UserTokenRepositoryInterface | Mockery\Mock
+     */
+    public function getUserTokenRepository()
+    {
+        return $this->getMockeryMock(UserTokenRepositoryInterface::class);
     }
 }

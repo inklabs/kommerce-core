@@ -16,6 +16,7 @@ use inklabs\kommerce\Event\ResetPasswordEvent;
 use inklabs\kommerce\Exception\UserLoginException;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\UserPasswordValidator;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class UserService implements UserServiceInterface
 {
@@ -103,25 +104,17 @@ class UserService implements UserServiceInterface
 
     /**
      * @param string $email
-     * @param string $remoteIp
+     * @param string $ip4
      * @param UserLoginResultType $result
      * @param User $user
      */
-    protected function recordLogin($email, $remoteIp, UserLoginResultType $result, User $user = null)
+    protected function recordLogin($email, $ip4, UserLoginResultType $result, User $user = null)
     {
-        $userLogin = new UserLogin;
-        $userLogin->setEmail($email);
-        $userLogin->setIp4($remoteIp);
-        $userLogin->setResult($result);
-
-        if ($user !== null) {
-            $userLogin->setUser($user);
-        }
-
+        $userLogin = new UserLogin($result, $email, $ip4, $user);
         $this->userLoginRepository->create($userLogin);
     }
 
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->userRepository->findOneById($id);
     }
@@ -147,13 +140,12 @@ class UserService implements UserServiceInterface
 
         $token = UserToken::getRandomToken();
 
-        $userToken = new UserToken;
+        $userToken = new UserToken($user);
         $userToken->setType(UserTokenType::internal());
         $userToken->setToken($token);
         $userToken->setUserAgent($userAgent);
         $userToken->setIp4($ip4);
         $userToken->setExpires(new DateTime('+1 hour'));
-        $userToken->setUser($user);
 
         $this->userTokenRepository->create($userToken);
 
@@ -167,7 +159,7 @@ class UserService implements UserServiceInterface
         );
     }
 
-    public function changePassword($userId, $password)
+    public function changePassword(UuidInterface $userId, $password)
     {
         $user = $this->userRepository->findOneById($userId);
 

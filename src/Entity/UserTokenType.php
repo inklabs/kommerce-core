@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\UserTokenTypeDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -83,13 +82,5 @@ class UserTokenType extends AbstractIntegerType
     public function isYahoo()
     {
         return $this->id === self::YAHOO;
-    }
-
-    /**
-     * @return UserTokenTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new UserTokenTypeDTOBuilder($this);
     }
 }

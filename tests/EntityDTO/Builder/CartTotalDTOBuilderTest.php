@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
+use inklabs\kommerce\EntityDTO\CartTotalDTO;
+use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class CartTotalDTOBuilderTest extends EntityDTOBuilderTestCase
@@ -11,7 +14,8 @@ class CartTotalDTOBuilderTest extends EntityDTOBuilderTestCase
         $cartTotal->coupons = [$this->dummyData->getCoupon()];
         $cartTotal->cartPriceRules = [$this->dummyData->getCartPriceRule()];
 
-        $cartTotalDTO = $cartTotal->getDTOBuilder()
+        $cartTotalDTO = $this->getDTOBuilderFactory()
+            ->getCartTotalDTOBuilder($cartTotal)
             ->withAllData()
             ->build();
 

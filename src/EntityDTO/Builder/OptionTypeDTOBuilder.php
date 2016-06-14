@@ -10,15 +10,15 @@ use inklabs\kommerce\EntityDTO\OptionTypeDTO;
 class OptionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var OptionType */
-    protected $type;
+    protected $entity;
 
     /** @var OptionTypeDTO */
-    protected $typeDTO;
+    protected $entityDTO;
 
     /**
      * @return OptionTypeDTO
      */
-    protected function getTypeDTO()
+    protected function getEntityDTO()
     {
         return new OptionTypeDTO;
     }
@@ -27,8 +27,8 @@ class OptionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     {
         parent::__construct($type);
 
-        $this->typeDTO->isSelect = $this->type->isSelect();
-        $this->typeDTO->isRadio = $this->type->isRadio();
-        $this->typeDTO->isCheckbox = $this->type->isCheckbox();
+        $this->entityDTO->isSelect = $this->entity->isSelect();
+        $this->entityDTO->isRadio = $this->entity->isRadio();
+        $this->entityDTO->isCheckbox = $this->entity->isCheckbox();
     }
 }

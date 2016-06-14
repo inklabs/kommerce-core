@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,6 +32,9 @@ class CartPriceRule extends AbstractPromotion
         $this->cartPriceRuleItems[] = $item;
     }
 
+    /**
+     * @return AbstractCartPriceRuleItem[]
+     */
     public function getCartPriceRuleItems()
     {
         return $this->cartPriceRuleItems;
@@ -44,6 +46,9 @@ class CartPriceRule extends AbstractPromotion
         $this->cartPriceRuleDiscounts[] = $discount;
     }
 
+    /**
+     * @return CartPriceRuleDiscount[]
+     */
     public function getCartPriceRuleDiscounts()
     {
         return $this->cartPriceRuleDiscounts;
@@ -58,7 +63,7 @@ class CartPriceRule extends AbstractPromotion
     }
 
     /**
-     * @param CartItem[] $cartItems
+     * @param ArrayCollection<CartItem> | CartItem[] $cartItems
      * @return bool
      */
     public function areCartItemsValid(& $cartItems)
@@ -105,14 +110,6 @@ class CartPriceRule extends AbstractPromotion
         }
 
         return $numberTimesToApply;
-    }
-
-    /**
-     * @return CartPriceRuleDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new CartPriceRuleDTOBuilder($this);
     }
 
     /**

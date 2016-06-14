@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDiscountDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartPriceRuleDiscount implements EntityInterface, ValidationInterface
+class CartPriceRuleDiscount implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -20,6 +19,7 @@ class CartPriceRuleDiscount implements EntityInterface, ValidationInterface
 
     public function __construct(Product $product, $quantity = 1)
     {
+        $this->setId();
         $this->setCreated();
         $this->product = $product;
         $this->quantity = $quantity;
@@ -44,11 +44,6 @@ class CartPriceRuleDiscount implements EntityInterface, ValidationInterface
         return $this->quantity;
     }
 
-    public function setProduct(Product $product)
-    {
-        $this->product = $product;
-    }
-
     public function getProduct()
     {
         return $this->product;
@@ -62,10 +57,5 @@ class CartPriceRuleDiscount implements EntityInterface, ValidationInterface
     public function getCartPriceRule()
     {
         return $this->cartPriceRule;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new CartPriceRuleDiscountDTOBuilder($this);
     }
 }

@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class CartPriceRuleService
 {
@@ -17,24 +18,12 @@ class CartPriceRuleService
         $this->cartPriceRuleRepository = $cartPriceRuleRepository;
     }
 
-    public function create(CartPriceRule & $cartPriceRule)
-    {
-        $this->throwValidationErrors($cartPriceRule);
-        $this->cartPriceRuleRepository->create($cartPriceRule);
-    }
-
-    public function edit(CartPriceRule & $cartPriceRule)
-    {
-        $this->throwValidationErrors($cartPriceRule);
-        $this->cartPriceRuleRepository->update($cartPriceRule);
-    }
-
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return CartPriceRule
      * @throws EntityNotFoundException
      */
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->cartPriceRuleRepository->findOneById($id);
     }

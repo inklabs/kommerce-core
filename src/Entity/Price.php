@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use inklabs\kommerce\EntityDTO\Builder\PriceDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -97,10 +96,5 @@ class Price implements ValidationInterface
         }
 
         return $price;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new PriceDTOBuilder($this);
     }
 }

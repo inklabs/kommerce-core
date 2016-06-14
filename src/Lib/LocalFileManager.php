@@ -79,14 +79,13 @@ class LocalFileManager implements FileManagerInterface
         $this->createDirectory(dirname($destinationFilePath));
 
         try {
-            $isSuccess = copy($sourceFilePath, $destinationFilePath);
+            if (copy($sourceFilePath, $destinationFilePath)) {
+                return;
+            }
         } catch (Exception $e) {
-            throw FileManagerException::failedToCopyFile();
         }
 
-        if (! $isSuccess) {
-            throw FileManagerException::failedToCopyFile();
-        }
+        throw FileManagerException::failedToCopyFile();
     }
 
     /**
@@ -99,7 +98,7 @@ class LocalFileManager implements FileManagerInterface
     }
 
     /**
-     * @param $sourceFilePath
+     * @param string $sourceFilePath
      * @return string
      * @throws FileManagerException
      */
@@ -119,13 +118,20 @@ class LocalFileManager implements FileManagerInterface
         }
     }
 
-    private function createDirectory($directoryPath)
+    /**
+     * @param string $directoryPath
+     * @throws FileManagerException
+     */
+    protected function createDirectory($directoryPath)
     {
-        if (! file_exists($directoryPath)) {
-            if (! @mkdir($directoryPath, self::DIRECTORY_CHMOD, true)) {
-                throw FileManagerException::unableToCreateDirectory();
+        try {
+            if (mkdir($directoryPath, self::DIRECTORY_CHMOD, true)) {
+                return;
             }
+        } catch (Exception $e) {
         }
+
+        throw FileManagerException::unableToCreateDirectory();
     }
 
     /**
@@ -147,7 +153,7 @@ class LocalFileManager implements FileManagerInterface
     }
 
     /**
-     * @param $sourceFilePath
+     * @param string $sourceFilePath
      * @throws FileManagerException
      */
     private function checkUploadedFile($sourceFilePath)
@@ -157,6 +163,10 @@ class LocalFileManager implements FileManagerInterface
         }
     }
 
+    /**
+     * @param string $sourceFilePath
+     * @throws FileManagerException
+     */
     private function checkValidImage($sourceFilePath)
     {
         if (! $this->imageIsLargeEnoughToReadFirstBytes($sourceFilePath)) {
@@ -178,7 +188,7 @@ class LocalFileManager implements FileManagerInterface
         return filesize($sourceFilePath) > 11;
     }
 
-    private function checkDestination()
+    protected function checkDestination()
     {
         if (! is_dir($this->destinationPath) || ! is_writable(realpath($this->destinationPath))) {
             throw FileManagerException::directoryNotWritable();

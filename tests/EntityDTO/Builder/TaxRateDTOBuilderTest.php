@@ -9,7 +9,8 @@ class TaxRateDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $taxRate = $this->dummyData->getTaxRate();
 
-        $taxRateDTO = $taxRate->getDTOBuilder()
+        $taxRateDTO = $this->getDTOBuilderFactory()
+            ->getTaxRateDTOBuilder($taxRate)
             ->build();
 
         $this->assertTrue($taxRateDTO instanceof TaxRateDTO);

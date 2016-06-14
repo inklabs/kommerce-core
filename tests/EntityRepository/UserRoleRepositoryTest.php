@@ -35,34 +35,28 @@ class UserRoleRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->persist($user);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $userRole;
     }
 
     public function testCRUD()
     {
-        $userRole = $this->dummyData->getUserRole();
-
-        $this->userRoleRepository->create($userRole);
-        $this->assertSame(1, $userRole->getId());
-
-        $userRole->setName('New Name');
-        $this->assertSame(null, $userRole->getUpdated());
-
-        $this->userRoleRepository->update($userRole);
-        $this->assertTrue($userRole->getUpdated() instanceof DateTime);
-
-        $this->userRoleRepository->delete($userRole);
-        $this->assertSame(null, $userRole->getId());
+        $this->executeRepositoryCRUD(
+            $this->userRoleRepository,
+            $this->dummyData->getUserRole()
+        );
     }
 
     public function testFind()
     {
-        $this->setupUserWithRole();
-
+        $originalUserRole = $this->setupUserWithRole();
         $this->setCountLogger();
 
-        $userRole = $this->userRoleRepository->findOneById(1);
+        $userRole = $this->userRoleRepository->findOneById(
+            $originalUserRole->getId()
+        );
 
-        $this->assertTrue($userRole instanceof UserRole);
+        $this->assertEqualEntities($originalUserRole, $userRole);
         $this->assertSame(1, $this->getTotalQueries());
     }
 }

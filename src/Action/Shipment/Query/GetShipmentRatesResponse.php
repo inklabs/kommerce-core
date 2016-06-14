@@ -1,20 +1,28 @@
 <?php
 namespace inklabs\kommerce\Action\Shipment\Query;
 
+use inklabs\kommerce\EntityDTO\Builder\ShipmentRateDTOBuilder;
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
 
 class GetShipmentRatesResponse implements GetShipmentRatesResponseInterface
 {
-    /** @var ShipmentRateDTO[] */
-    private $shipmentRatesDTO = [];
+    /** @var ShipmentRateDTOBuilder[] */
+    private $shipmentRateDTOBuilders = [];
 
-    public function addShipmentRateDTO(ShipmentRateDTO $shipmentRateDTO)
+    public function addShipmentRateDTOBuilder(ShipmentRateDTOBuilder $shipmentRateDTOBuilder)
     {
-        $this->shipmentRatesDTO[] = $shipmentRateDTO;
+        $this->shipmentRateDTOBuilders[] = $shipmentRateDTOBuilder;
     }
 
-    public function getShipmentRatesDTO()
+    /**
+     * @return ShipmentRateDTO[] | \Generator
+     */
+    public function getShipmentRateDTOs()
     {
-        return $this->shipmentRatesDTO;
+        $shipmentRateDTOs = [];
+        foreach ($this->shipmentRateDTOBuilders as $shipmentRateDTOBuilder) {
+            $shipmentRateDTOs[] = $shipmentRateDTOBuilder->build();
+        }
+        return $shipmentRateDTOs;
     }
 }

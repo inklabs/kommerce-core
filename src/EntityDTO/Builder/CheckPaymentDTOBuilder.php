@@ -10,18 +10,20 @@ use inklabs\kommerce\EntityDTO\CheckPaymentDTO;
 class CheckPaymentDTOBuilder extends AbstractPaymentDTOBuilder
 {
     /** @var CheckPayment */
-    protected $payment;
+    protected $entity;
 
     /** @var CheckPaymentDTO */
-    protected $paymentDTO;
+    protected $entityDTO;
 
-    public function __construct(CheckPayment $payment)
+    protected function getEntityDTO()
     {
-        $this->paymentDTO = new CheckPaymentDTO;
-        parent::__construct($payment);
+        return new CheckPaymentDTO();
+    }
 
-        $this->paymentDTO->checkNumber = $payment->getCheckNumber();
-        $this->paymentDTO->memo = $payment->getMemo();
-        $this->paymentDTO->checkDate = $payment->getCHeckDate();
+    protected function preBuild()
+    {
+        $this->entityDTO->checkNumber = $this->entity->getCheckNumber();
+        $this->entityDTO->memo = $this->entity->getMemo();
+        $this->entityDTO->checkDate = $this->entity->getCHeckDate();
     }
 }

@@ -43,45 +43,39 @@ class OptionValueRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->persist($option);
         $this->entityManager->flush();
 
-        $optionValue = $this->dummyData->getOptionValue($option);
-        $this->optionValueRepository->create($optionValue);
-        $this->assertSame(1, $optionValue->getId());
-
-        $optionValue->setName('New Name');
-        $this->assertSame(null, $optionValue->getUpdated());
-
-        $this->optionValueRepository->update($optionValue);
-        $this->assertTrue($optionValue->getUpdated() instanceof DateTime);
-
-        $this->optionValueRepository->delete($optionValue);
-        $this->assertSame(null, $optionValue->getId());
+        $this->executeRepositoryCRUD(
+            $this->optionValueRepository,
+            $this->dummyData->getOptionValue($option)
+        );
     }
 
     public function testFind()
     {
-        $this->setupOptionValue();
-
+        $originalOptionValue = $this->setupOptionValue();
         $this->setCountLogger();
 
-        $optionValue = $this->optionValueRepository->findOneById(1);
+        $optionValue = $this->optionValueRepository->findOneById(
+            $originalOptionValue->getId()
+        );
 
         $optionValue->getOption()->getCreated();
 
-        $this->assertTrue($optionValue instanceof OptionValue);
+        $this->assertEquals($originalOptionValue->getId(), $optionValue->getId());
         $this->assertSame(1, $this->getTotalQueries());
     }
 
     public function testGetAllOptionValuesByIds()
     {
-        $this->setupOptionValue();
-
+        $originalOptionValue = $this->setupOptionValue();
         $this->setCountLogger();
 
-        $optionValues = $this->optionValueRepository->getAllOptionValuesByIds([1]);
+        $optionValues = $this->optionValueRepository->getAllOptionValuesByIds([
+            $originalOptionValue->getId()
+        ]);
 
         $optionValues[0]->getOption()->getCreated();
 
-        $this->assertTrue($optionValues[0] instanceof OptionValue);
+        $this->assertEquals($originalOptionValue->getId(), $optionValues[0]->getId());
         $this->assertSame(1, $this->getTotalQueries());
     }
 }

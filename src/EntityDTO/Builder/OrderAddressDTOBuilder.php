@@ -4,33 +4,33 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 
-class OrderAddressDTOBuilder
+class OrderAddressDTOBuilder implements DTOBuilderInterface
 {
     /** @var OrderAddress */
-    protected $orderAddress;
+    protected $entity;
 
     /** @var OrderAddressDTO */
-    protected $orderAddressDTO;
+    protected $entityDTO;
 
     public function __construct(OrderAddress $orderAddress)
     {
-        $this->orderAddress = $orderAddress;
+        $this->entity = $orderAddress;
 
-        $this->orderAddressDTO = new OrderAddressDTO;
-        $this->orderAddressDTO->firstName = $this->orderAddress->getFirstName();
-        $this->orderAddressDTO->lastName  = $this->orderAddress->getLastName();
-        $this->orderAddressDTO->fullName  = $this->orderAddress->getFullName();
-        $this->orderAddressDTO->company   = $this->orderAddress->getCompany();
-        $this->orderAddressDTO->address1  = $this->orderAddress->getAddress1();
-        $this->orderAddressDTO->address2  = $this->orderAddress->getAddress2();
-        $this->orderAddressDTO->city      = $this->orderAddress->getCity();
-        $this->orderAddressDTO->state     = $this->orderAddress->getState();
-        $this->orderAddressDTO->zip5      = $this->orderAddress->getZip5();
-        $this->orderAddressDTO->zip4      = $this->orderAddress->getZip4();
-        $this->orderAddressDTO->phone     = $this->orderAddress->getPhone();
-        $this->orderAddressDTO->email     = $this->orderAddress->getEmail();
-        $this->orderAddressDTO->country   = $this->orderAddress->getCountry();
-        $this->orderAddressDTO->isResidential = $this->orderAddress->isResidential();
+        $this->entityDTO = new OrderAddressDTO;
+        $this->entityDTO->firstName = $this->entity->getFirstName();
+        $this->entityDTO->lastName  = $this->entity->getLastName();
+        $this->entityDTO->fullName  = $this->entity->getFullName();
+        $this->entityDTO->company   = $this->entity->getCompany();
+        $this->entityDTO->address1  = $this->entity->getAddress1();
+        $this->entityDTO->address2  = $this->entity->getAddress2();
+        $this->entityDTO->city      = $this->entity->getCity();
+        $this->entityDTO->state     = $this->entity->getState();
+        $this->entityDTO->zip5      = $this->entity->getZip5();
+        $this->entityDTO->zip4      = $this->entity->getZip4();
+        $this->entityDTO->phone     = $this->entity->getPhone();
+        $this->entityDTO->email     = $this->entity->getEmail();
+        $this->entityDTO->country   = $this->entity->getCountry();
+        $this->entityDTO->isResidential = $this->entity->isResidential();
     }
 
     /**
@@ -57,8 +57,14 @@ class OrderAddressDTOBuilder
         return $orderAddress;
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->orderAddressDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

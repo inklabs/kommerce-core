@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartTotalDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -64,10 +63,5 @@ class CartTotal implements ValidationInterface
                 'max' => 4294967295,
             ]));
         }
-    }
-
-    public function getDTOBuilder()
-    {
-        return new CartTotalDTOBuilder($this);
     }
 }

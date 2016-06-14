@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\AddressDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -174,10 +173,5 @@ class Address implements ValidationInterface
     public function setPoint(Point $point)
     {
         $this->point = $point;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new AddressDTOBuilder($this);
     }
 }

@@ -1,17 +1,34 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\tests\EntityDTO\Builder\AbstractPromotionDTOBuilderTest;
 
-class CouponDTOBuilderTest extends EntityDTOBuilderTestCase
+class CouponDTOBuilderTest extends AbstractPromotionDTOBuilderTest
 {
-    public function testBuild()
+    /**
+     * @return Coupon
+     */
+    protected function getPromotion()
     {
-        $coupon = $this->dummyData->getCoupon();
+        return $this->dummyData->getCoupon();
+    }
 
-        $couponDTO = $coupon->getDTOBuilder()
+    /**
+     * @return CouponDTO
+     */
+    protected function getPromotionDTO()
+    {
+        return $this->getDTOBuilderFactory()
+            ->getCouponDTOBuilder($this->getPromotion())
             ->build();
+    }
 
-        $this->assertTrue($couponDTO instanceof CouponDTO);
+    public function testExtras()
+    {
+        $promotion = $this->getPromotion();
+        $promotionDTO = $this->getPromotionDTO();
+
+        $this->assertTrue($promotionDTO instanceof CouponDTO);
     }
 }

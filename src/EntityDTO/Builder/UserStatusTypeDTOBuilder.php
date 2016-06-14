@@ -10,25 +10,20 @@ use inklabs\kommerce\EntityDTO\UserStatusTypeDTO;
 class UserStatusTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var UserStatusType */
-    protected $type;
+    protected $entity;
 
     /** @var UserStatusTypeDTO */
-    protected $typeDTO;
+    protected $entityDTO;
 
-    /**
-     * @return UserStatusTypeDTO
-     */
-    protected function getTypeDTO()
+    protected function getEntityDTO()
     {
         return new UserStatusTypeDTO;
     }
 
-    public function __construct(UserStatusType $type)
+    protected function preBuild()
     {
-        parent::__construct($type);
-
-        $this->typeDTO->isInactive = $this->type->isInactive();
-        $this->typeDTO->isActive = $this->type->isActive();
-        $this->typeDTO->isLocked = $this->type->isLocked();
+        $this->entityDTO->isInactive = $this->entity->isInactive();
+        $this->entityDTO->isActive   = $this->entity->isActive();
+        $this->entityDTO->isLocked   = $this->entity->isLocked();
     }
 }

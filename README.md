@@ -15,7 +15,7 @@ are using the PSR-4 standard.
 
 ## Description
 
-This project is over 42,000 lines of code. Unit tests account for 30-40% of that total and execute in
+This project is over 46,000 lines of code. Unit tests account for 30-40% of that total and execute in
 under 10 seconds. The repository tests use an in-memory SQLite database.
 
 ## Design Patterns
@@ -27,38 +27,52 @@ under 10 seconds. The repository tests use an in-memory SQLite database.
 ![Flow of Control](https://i.imgur.com/ZkPtmsA.png)
 
 * <a name="action"></a>Action
-    - These are the use cases into the application. Command Actions are passed a Command object containing the required
-      data payload. There is nothing returned from the dispatch() method. Only exceptions are thrown if the
-      Command/Transaction is invalid.
-      
-      ```php
-      $productDTO->sku = 'NEW-SKU';
-      $this->dispatch(new EditProductCommand($productDTO));
-      ```
-      
-    - Query Actions are passed a Request and Response object. There is nothing returned from the dispatchQuery()
-      method. The return value is attached to the Response as defined in the ResponseInterface
-      (GetProductResponseInterface in this case). The main application can implement this or use/extend the
-      provided one. 
+    - Command and Queries are the Use Cases and main entry-point into the application.
+
+    - **Command Actions** are dispatched to the
+      [CommandBusInterface](src/Lib/Command/CommandBusInterface.php) to be handled.
 
       ```php
-      $request = new GetProductRequest(1);
-      $response = new GetProductResponse;
-      $this->dispatchQuery($request, $response);
+      $productDTO->id = '15dc6044-910c-431a-a578-430759ef5dcf';
+      $productDTO->sku = 'NEW-SKU';
+      $this->dispatch(new UpdateProductCommand($productDTO));
+      ```
+
+        - There is no return value from the `$this->dispatch(...)` method. Only exceptions are thrown if the
+          Command is invalid.
+
+    - **Query Actions** are dispatched to the
+      [QueryBusInterface](src/Lib/Query/QueryBusInterface.php) to be handled.
+      Instead of returning the [Product](src/Entity/Product.php) object, the handler will inject a
+      [ProductDTOBuilder](src/EntityDTO/Builder/ProductDTOBuilder.php) object into the Response. The DTO Builder
+      is used to produce a [ProductDTO](src/EntityDTO/ProductDTO.php) which can be retrieved using the
+      `$response->getProductDTO()` method.
+
+      Main Application:
+      ```php
+      $productId = '15dc6044-910c-431a-a578-430759ef5dcf';
+      $request = new GetProductRequest($productId);
+      $response = new GetProductResponse();
+      $this->dispatchQuery(new GetProductQuery($request, $response));
 
       $productDTO = $response->getProductDTO();
-      echo $productDTO->sku;
-      echo $productDTO->price->unitPrice;
-      echo $productDTO->tags[0]->name;
       ```
 
-    - Attaching the return value to the Response is needed to maintain type hints in your IDE. Using the
-      command/query bus allows for decoupling the main application from the Use Case handler implementation.
-      The main application only needs to know about these objects from the above examples:
-      
-      - CommandInterface (EditProductCommand)
-      - RequestInterface (GetProductRequest)
-      - ResponseInterface (GetProductResponseInterface)
+      View:
+      ```html
+      Product: <?=$productDTO->name?> - <?=$productDTO->sku?>
+      Price: <?=$productDTO->price->unitPrice?>
+      Tag: <?=$productDTO->tags[0]->name?>
+      ```
+
+    - Both implementations ([CommandBus](src/Lib/Command/CommandBus.php) and [QueryBus](src/Lib/Query/QueryBus.php))
+      defer to the [MapperInterface](src/Lib/MapperInterface.php) to determine the location of the
+      class to handle the execution.
+
+    - This CQRS strategy allows us to separate Commands from Queries while also keeping the [Entity](src/Entity)
+      business objects separate from the main application. We prefer not to expose internal classes containing
+      methods with business logic. This also serves to decouple the main application from the Use Cases handler
+      implementation. The main application only needs to know about the Use Case [Actions](src/Action).
 
 * <a name="domain-event"></a>Domain Event
     - Domain Events can be raised in the Entity layer and are dispatched in the service layer.

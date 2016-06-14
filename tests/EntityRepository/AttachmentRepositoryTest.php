@@ -2,14 +2,15 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Attachment;
+use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
-use Ramsey\Uuid\Uuid;
 
 class AttachmentRepositoryTest extends EntityRepositoryTestCase
 {
     protected $metaDataClassNames = [
         Attachment::class,
+        OrderItem::class,
     ];
 
     /** @var AttachmentRepositoryInterface */
@@ -32,15 +33,22 @@ class AttachmentRepositoryTest extends EntityRepositoryTestCase
         return $attachment;
     }
 
+    public function testCRUD()
+    {
+        $this->executeRepositoryCRUD(
+            $this->attachmentRepository,
+            $this->dummyData->getAttachment()
+        );
+    }
+
     public function testFindOneById()
     {
-        $expectedAttachment = $this->setupAttachment();
-
+        $originalAttachment = $this->setupAttachment();
         $this->setCountLogger();
 
-        $attachment = $this->attachmentRepository->findOneByUuid($expectedAttachment->getId());
+        $attachment = $this->attachmentRepository->findOneByUuid($originalAttachment->getId());
 
-        $this->assertSame($expectedAttachment->getId()->toString(), $attachment->getId()->toString());
+        $this->assertEquals($originalAttachment->getId(), $attachment->getId());
         $this->assertSame(1, $this->getTotalQueries());
     }
 
@@ -51,6 +59,6 @@ class AttachmentRepositoryTest extends EntityRepositoryTestCase
             'Attachment not found'
         );
 
-        $this->attachmentRepository->findOneByUuid(Uuid::uuid4());
+        $this->attachmentRepository->findOneById($this->dummyData->getId());
     }
 }

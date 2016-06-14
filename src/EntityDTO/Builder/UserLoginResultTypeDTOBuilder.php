@@ -10,24 +10,19 @@ use inklabs\kommerce\EntityDTO\UserLoginResultTypeDTO;
 class UserLoginResultTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var UserLoginResultType */
-    protected $type;
+    protected $entity;
 
     /** @var UserLoginResultTypeDTO */
-    protected $typeDTO;
+    protected $entityDTO;
 
-    /**
-     * @return UserLoginResultTypeDTO
-     */
-    protected function getTypeDTO()
+    protected function getEntityDTO()
     {
         return new UserLoginResultTypeDTO;
     }
 
-    public function __construct(UserLoginResultType $type)
+    protected function preBuild()
     {
-        parent::__construct($type);
-
-        $this->typeDTO->isFail = $this->type->isFail();
-        $this->typeDTO->isSuccess = $this->type->isSuccess();
+        $this->entityDTO->isFail    = $this->entity->isFail();
+        $this->entityDTO->isSuccess = $this->entity->isSuccess();
     }
 }

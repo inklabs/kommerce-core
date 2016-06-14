@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use inklabs\kommerce\EntityDTO\Builder\ProductQuantityDiscountDTOBuilder;
 use inklabs\kommerce\Exception\BadMethodCallException;
 use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -128,13 +127,5 @@ class ProductQuantityDiscount extends AbstractPromotion
         } else {
             return false;
         }
-    }
-
-    /**
-     * @return ProductQuantityDiscountDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new ProductQuantityDiscountDTOBuilder($this);
     }
 }

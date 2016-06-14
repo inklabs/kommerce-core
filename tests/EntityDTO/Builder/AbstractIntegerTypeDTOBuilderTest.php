@@ -3,6 +3,7 @@ namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AbstractIntegerType;
 use inklabs\kommerce\EntityDTO\AbstractIntegerTypeDTO;
+use inklabs\kommerce\EntityDTO\Builder\AbstractIntegerTypeDTOBuilder;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 abstract class AbstractIntegerTypeDTOBuilderTest extends EntityDTOBuilderTestCase
@@ -12,12 +13,15 @@ abstract class AbstractIntegerTypeDTOBuilderTest extends EntityDTOBuilderTestCas
      */
     abstract protected function getType();
 
+    /**
+     * @return AbstractIntegerTypeDTO
+     */
+    abstract protected function getTypeDTO();
+
     public function testBuild()
     {
         $type = $this->getType();
-
-        $typeDTO = $type->getDTOBuilder()
-            ->build();
+        $typeDTO = $this->getTypeDTO();
 
         $this->assertTrue($typeDTO instanceof AbstractIntegerTypeDTO);
         $this->assertSame($type->getId(), $typeDTO->id);

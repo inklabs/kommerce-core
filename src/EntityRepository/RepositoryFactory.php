@@ -35,7 +35,6 @@ use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentReferenceNumberGenerator;
-use inklabs\kommerce\Lib\ReferenceNumber\SequentialReferenceNumberGenerator;
 
 class RepositoryFactory
 {
@@ -183,17 +182,6 @@ class RepositoryFactory
         /** @var OrderRepositoryInterface $orderRepository */
         $orderRepository = $this->entityManager->getRepository(Order::class);
         $orderRepository->setReferenceNumberGenerator(new HashSegmentReferenceNumberGenerator($orderRepository));
-        return $orderRepository;
-    }
-
-    /**
-     * @return OrderRepositoryInterface
-     */
-    public function getOrderWithSequentialGenerator()
-    {
-        /** @var OrderRepositoryInterface $orderRepository */
-        $orderRepository = $this->entityManager->getRepository(Order::class);
-        $orderRepository->setReferenceNumberGenerator(new SequentialReferenceNumberGenerator);
         return $orderRepository;
     }
 

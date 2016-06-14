@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\OrderStatusTypeDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -95,13 +94,5 @@ class OrderStatusType extends AbstractIntegerType
     public function isCanceled()
     {
         return $this->id === self::CANCELED;
-    }
-
-    /**
-     * @return OrderStatusTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new OrderStatusTypeDTOBuilder($this);
     }
 }

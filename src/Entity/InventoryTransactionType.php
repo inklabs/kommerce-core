@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\InventoryTransactionTypeDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -119,13 +118,5 @@ class InventoryTransactionType extends AbstractIntegerType
     public function isShrinkage()
     {
         return $this->id === self::SHRINKAGE;
-    }
-
-    /**
-     * @return InventoryTransactionTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new InventoryTransactionTypeDTOBuilder($this);
     }
 }

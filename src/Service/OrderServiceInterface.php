@@ -4,7 +4,6 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CreditCard;
-use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\OrderItem;
@@ -12,42 +11,43 @@ use inklabs\kommerce\Entity\OrderStatusType;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface OrderServiceInterface
 {
     public function update(Order & $order);
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Order
      * @throws EntityNotFoundException
      */
-    public function findOneById($id);
+    public function findOneById(UuidInterface $id);
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return OrderItem
      * @throws EntityNotFoundException
      */
-    public function getOrderItemById($id);
+    public function getOrderItemById(UuidInterface $id);
 
     public function getLatestOrders(Pagination & $pagination = null);
 
     /**
-     * @param int $userId
+     * @param UuidInterface $userId
      * @return Order[]
      */
-    public function getOrdersByUserId($userId);
+    public function getOrdersByUserId(UuidInterface $userId);
 
     /**
-     * @param int $orderId
+     * @param UuidInterface $orderId
      * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment
      * @param string $rateExternalId
      * @param string $shipmentExternalId
      */
     public function buyShipmentLabel(
-        $orderId,
+        UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
         $rateExternalId,
@@ -55,25 +55,21 @@ interface OrderServiceInterface
     );
 
     /**
-     * @param int $orderId
+     * @param UuidInterface $orderId
      * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment
      * @param int $shipmentCarrierTypeId
      * @param string $trackingCode
      */
     public function addShipmentTrackingCode(
-        $orderId,
+        UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
         $comment,
         $shipmentCarrierTypeId,
         $trackingCode
     );
 
-    /**
-     * @param int $orderId
-     * @param OrderStatusType $orderStatusType
-     */
-    public function setOrderStatus($orderId, OrderStatusType $orderStatusType);
+    public function setOrderStatus(UuidInterface $orderId, OrderStatusType $orderStatusType);
 
     /**
      * @param Order $order
@@ -83,6 +79,7 @@ interface OrderServiceInterface
     public function addCreditCardPayment(Order $order, CreditCard $creditCard, $amount);
 
     /**
+     * @param UuidInterface $orderId
      * @param Cart $cart
      * @param CartCalculatorInterface $cartCalculator
      * @param string $ip4
@@ -90,9 +87,9 @@ interface OrderServiceInterface
      * @param OrderAddress $billingAddress
      * @param CreditCard $creditCard
      * @return Order
-     * @throws EntityValidatorException
      */
     public function createOrderFromCart(
+        UuidInterface $orderId,
         Cart $cart,
         CartCalculatorInterface $cartCalculator,
         $ip4,

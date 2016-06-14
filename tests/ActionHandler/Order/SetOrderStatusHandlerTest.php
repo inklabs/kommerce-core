@@ -13,7 +13,9 @@ class SetOrderStatusHandlerTest extends ActionTestCase
         $orderService->shouldReceive('setOrderStatus')
             ->once();
 
-        $command = new SetOrderStatusCommand(1, OrderStatusType::SHIPPED);
+        $order = $this->dummyData->getOrder();
+
+        $command = new SetOrderStatusCommand($order->getid(), OrderStatusType::SHIPPED);
         $handler = new SetOrderStatusHandler($orderService);
         $handler->handle($command);
     }

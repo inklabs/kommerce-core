@@ -10,27 +10,22 @@ use inklabs\kommerce\EntityDTO\UserTokenTypeDTO;
 class UserTokenTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var UserTokenType */
-    protected $type;
+    protected $entity;
 
     /** @var UserTokenTypeDTO */
-    protected $typeDTO;
+    protected $entityDTO;
 
-    /**
-     * @return UserTokenTypeDTO
-     */
-    protected function getTypeDTO()
+    protected function getEntityDTO()
     {
         return new UserTokenTypeDTO;
     }
 
-    public function __construct(UserTokenType $type)
+    protected function preBuild()
     {
-        parent::__construct($type);
-
-        $this->typeDTO->isInternal = $this->type->isInternal();
-        $this->typeDTO->isGoogle = $this->type->isGoogle();
-        $this->typeDTO->isFacebook = $this->type->isFacebook();
-        $this->typeDTO->isTwitter = $this->type->isTwitter();
-        $this->typeDTO->isYahoo = $this->type->isYahoo();
+        $this->entityDTO->isInternal = $this->entity->isInternal();
+        $this->entityDTO->isGoogle   = $this->entity->isGoogle();
+        $this->entityDTO->isFacebook = $this->entity->isFacebook();
+        $this->entityDTO->isTwitter  = $this->entity->isTwitter();
+        $this->entityDTO->isYahoo    = $this->entity->isYahoo();
     }
 }

@@ -3,35 +3,48 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\EntityDTO\OptionDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 use inklabs\kommerce\Lib\PricingInterface;
 
-class OptionDTOBuilder
+class OptionDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
+    /** @var Option */
+    protected $entity;
+
     /** @var OptionDTO */
-    protected $optionDTO;
+    protected $entityDTO;
 
-    public function __construct(Option $option)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(Option $option, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->option = $option;
+        $this->entity = $option;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->optionDTO = new OptionDTO;
-        $this->optionDTO->id          = $this->option->getId();
-        $this->optionDTO->encodedId   = BaseConvert::encode($this->option->getId());
-        $this->optionDTO->name        = $this->option->getname();
-        $this->optionDTO->description = $this->option->getDescription();
-        $this->optionDTO->sortOrder   = $this->option->getSortOrder();
-        $this->optionDTO->created     = $this->option->getCreated();
-        $this->optionDTO->updated     = $this->option->getUpdated();
+        $this->entityDTO = $this->getEntityDTO();
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->name        = $this->entity->getname();
+        $this->entityDTO->description = $this->entity->getDescription();
+        $this->entityDTO->sortOrder   = $this->entity->getSortOrder();
 
-        $this->optionDTO->type = $this->option->getType()->getDTOBuilder()
+        $this->entityDTO->type = $this->dtoBuilderFactory
+            ->getOptionTypeDTOBuilder($this->entity->getType())
             ->build();
+    }
+
+    protected function getEntityDTO()
+    {
+        return new OptionDTO;
     }
 
     public function withOptionProducts(PricingInterface $pricing)
     {
-        foreach ($this->option->getOptionProducts() as $optionProduct) {
-            $this->optionDTO->optionProducts[] = $optionProduct->getDTOBuilder()
+        foreach ($this->entity->getOptionProducts() as $optionProduct) {
+            $this->entityDTO->optionProducts[] = $this->dtoBuilderFactory
+                ->getOptionProductDTOBuilder($optionProduct)
                 ->withProduct($pricing)
                 ->build();
         }
@@ -41,8 +54,9 @@ class OptionDTOBuilder
 
     public function withOptionValues()
     {
-        foreach ($this->option->getOptionValues() as $optionValue) {
-            $this->optionDTO->optionValues[] = $optionValue->getDTOBuilder()
+        foreach ($this->entity->getOptionValues() as $optionValue) {
+            $this->entityDTO->optionValues[] = $this->dtoBuilderFactory
+                ->getOptionValueDTOBuilder($optionValue)
                 ->withPrice()
                 ->build();
         }
@@ -52,8 +66,9 @@ class OptionDTOBuilder
 
     public function withTags()
     {
-        foreach ($this->option->getTags() as $tag) {
-            $this->optionDTO->tags[] = $tag->getDTOBuilder()
+        foreach ($this->entity->getTags() as $tag) {
+            $this->entityDTO->tags[] = $this->dtoBuilderFactory
+                ->getTagDTOBuilder($tag)
                 ->build();
         }
 
@@ -68,8 +83,14 @@ class OptionDTOBuilder
             ->withOptionValues();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->optionDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

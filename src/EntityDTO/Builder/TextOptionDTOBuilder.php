@@ -3,37 +3,42 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\EntityDTO\TextOptionDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
-class TextOptionDTOBuilder
+class TextOptionDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var TextOption */
-    protected $textOption;
+    protected $entity;
 
     /** @var TextOptionDTO */
-    protected $textOptionDTO;
+    protected $entityDTO;
 
-    public function __construct(TextOption $textOption)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(TextOption $textOption, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->textOption = $textOption;
+        $this->entity = $textOption;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->textOptionDTO = new TextOptionDTO;
-        $this->textOptionDTO->id          = $this->textOption->getId();
-        $this->textOptionDTO->encodedId   = BaseConvert::encode($this->textOption->getId());
-        $this->textOptionDTO->name        = $this->textOption->getname();
-        $this->textOptionDTO->description = $this->textOption->getDescription();
-        $this->textOptionDTO->sortOrder   = $this->textOption->getSortOrder();
-        $this->textOptionDTO->created     = $this->textOption->getCreated();
-        $this->textOptionDTO->updated     = $this->textOption->getUpdated();
+        $this->entityDTO = new TextOptionDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->name        = $this->entity->getname();
+        $this->entityDTO->description = $this->entity->getDescription();
+        $this->entityDTO->sortOrder   = $this->entity->getSortOrder();
 
-        $this->textOptionDTO->type = $this->textOption->getType()->getDTOBuilder()
+        $this->entityDTO->type = $this->dtoBuilderFactory
+            ->getTextOptionTypeDTOBuilder($this->entity->getType())
             ->build();
     }
 
     public function withTags()
     {
-        foreach ($this->textOption->getTags() as $tag) {
-            $this->textOptionDTO->tags[] = $tag->getDTOBuilder()
+        foreach ($this->entity->getTags() as $tag) {
+            $this->entityDTO->tags[] = $this->dtoBuilderFactory
+                ->getTagDTOBuilder($tag)
                 ->build();
         }
 
@@ -46,8 +51,14 @@ class TextOptionDTOBuilder
             ->withTags();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->textOptionDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

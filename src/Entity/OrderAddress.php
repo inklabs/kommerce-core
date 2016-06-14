@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -278,10 +277,5 @@ class OrderAddress implements ValidationInterface
     public function getFullName()
     {
         return trim($this->firstName . ' ' . $this->lastName);
-    }
-
-    public function getDTOBuilder()
-    {
-        return new OrderAddressDTOBuilder($this);
     }
 }

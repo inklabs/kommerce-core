@@ -35,14 +35,30 @@ class OrderItemOptionProductRepositoryTest extends EntityRepositoryTestCase
         $this->orderItemOptionProductRepository = $this->getRepositoryFactory()->getOrderItemOptionProductRepository();
     }
 
-    public function setupOrder()
+    public function testFind()
     {
-        $product2 = $this->dummyData->getProduct(2);
+        $originalOrderItemOptionProduct = $this->setupOrderItemOptionProduct();
+        $this->setCountLogger();
+
+        $orderItemOptionProduct = $this->orderItemOptionProductRepository->findOneById(
+            $originalOrderItemOptionProduct->getId()
+        );
+
+        $orderItemOptionProduct->getOrderItem()->getCreated();
+        $orderItemOptionProduct->getOptionProduct()->getCreated();
+
+        $this->assertTrue($orderItemOptionProduct instanceof OrderItemOptionProduct);
+        $this->assertSame(4, $this->getTotalQueries());
+    }
+
+    private function setupOrderItemOptionProduct()
+    {
+        $product2 = $this->dummyData->getProduct();
         $option = $this->dummyData->getOption();
         $optionProduct = $this->dummyData->getOptionProduct($option, $product2);
         $orderItemOptionProduct = $this->dummyData->getOrderItemOptionProduct($optionProduct);
 
-        $product = $this->dummyData->getProduct(1);
+        $product = $this->dummyData->getProduct();
         $price = $this->dummyData->getPrice();
 
         $orderItem = $this->dummyData->getOrderItem($product, $price);
@@ -62,20 +78,7 @@ class OrderItemOptionProductRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->persist($order);
         $this->entityManager->flush();
         $this->entityManager->clear();
-    }
 
-    public function testFind()
-    {
-        $this->setupOrder();
-
-        $this->setCountLogger();
-
-        $orderItemOptionProduct = $this->orderItemOptionProductRepository->findOneById(1);
-
-        $orderItemOptionProduct->getOrderItem()->getCreated();
-        $orderItemOptionProduct->getOptionProduct()->getCreated();
-
-        $this->assertTrue($orderItemOptionProduct instanceof OrderItemOptionProduct);
-        $this->assertSame(5, $this->getTotalQueries());
+        return $orderItemOptionProduct;
     }
 }

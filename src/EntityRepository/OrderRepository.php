@@ -6,11 +6,12 @@ use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\RuntimeException;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {
     /**
-     * @param int $orderExternalId
+     * @param string $orderExternalId
      * @return Order
      */
     public function findOneByExternalId($orderExternalId)
@@ -42,11 +43,7 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
             'referenceNumber' => $referenceNumber
         ]);
 
-        if ($result === null) {
-            return false;
-        } else {
-            return true;
-        }
+        return $result !== null;
     }
 
     public function getLatestOrders(Pagination & $pagination = null)
@@ -55,7 +52,7 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
             ->select('o')
             ->from(Order::class, 'o')
             ->paginate($pagination)
-            ->orderBy('o.id', 'DESC')
+            ->orderBy('o.created', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -76,7 +73,7 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
         }
     }
 
-    public function getOrdersByUserId($userId)
+    public function getOrdersByUserId(UuidInterface $userId)
     {
         return $this->findBy(['user' => $userId], ['created' => 'DESC']);
     }

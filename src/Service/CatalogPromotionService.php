@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class CatalogPromotionService
 {
@@ -24,18 +25,18 @@ class CatalogPromotionService
         $this->catalogPromotionRepository->create($catalogPromotion);
     }
 
-    public function edit(CatalogPromotion & $catalogPromotion)
+    public function update(CatalogPromotion & $catalogPromotion)
     {
         $this->throwValidationErrors($catalogPromotion);
         $this->catalogPromotionRepository->update($catalogPromotion);
     }
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return CatalogPromotion
      * @throws EntityNotFoundException
      */
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->catalogPromotionRepository->findOneById($id);
     }

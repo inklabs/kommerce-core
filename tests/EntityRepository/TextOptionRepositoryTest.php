@@ -29,45 +29,41 @@ class TextOptionRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->persist($textOption);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $textOption;
     }
 
     public function testCRUD()
     {
-        $textOption = $this->dummyData->getTextOption();
-
-        $this->textOptionRepository->create($textOption);
-        $this->assertSame(1, $textOption->getId());
-
-        $textOption->setName('New Name');
-        $this->assertSame(null, $textOption->getUpdated());
-
-        $this->textOptionRepository->update($textOption);
-        $this->assertTrue($textOption->getUpdated() instanceof DateTime);
-
-        $this->textOptionRepository->delete($textOption);
-        $this->assertSame(null, $textOption->getId());
+        $this->executeRepositoryCRUD(
+            $this->textOptionRepository,
+            $this->dummyData->getTextOption()
+        );
     }
 
     public function testFind()
     {
-        $this->setupOption();
-
+        $originalTextOption = $this->setupOption();
         $this->setCountLogger();
 
-        $textOption = $this->textOptionRepository->findOneById(1);
+        $textOption = $this->textOptionRepository->findOneById(
+            $originalTextOption->getId()
+        );
 
-        $textOption->getTags()->toArray();
+        $this->visitElements($textOption->getTags());
 
-        $this->assertTrue($textOption instanceof TextOption);
+        $this->assertEqualEntities($originalTextOption, $textOption);
         $this->assertSame(2, $this->getTotalQueries());
     }
 
     public function testGetAllOptionsByIds()
     {
-        $this->setupOption();
+        $originalTextOption = $this->setupOption();
 
-        $textOptions = $this->textOptionRepository->getAllTextOptionsByIds([1]);
+        $textOptions = $this->textOptionRepository->getAllTextOptionsByIds([
+            $originalTextOption->getId()
+        ]);
 
-        $this->assertTrue($textOptions[0] instanceof TextOption);
+        $this->assertEqualEntities($originalTextOption, $textOptions[0]);
     }
 }

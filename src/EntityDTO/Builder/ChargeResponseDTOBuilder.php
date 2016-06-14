@@ -4,30 +4,36 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\EntityDTO\ChargeResponseDTO;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 
-class ChargeResponseDTOBuilder
+class ChargeResponseDTOBuilder implements DTOBuilderInterface
 {
     /** @var ChargeResponse */
-    protected $chargeResponse;
+    protected $entity;
 
     /** @var ChargeResponseDTO */
-    protected $chargeResponseDTO;
+    protected $entityDTO;
 
     public function __construct(ChargeResponse $chargeResponse)
     {
-        $this->chargeResponse = $chargeResponse;
+        $this->entity = $chargeResponse;
 
-        $this->chargeResponseDTO = new ChargeResponseDTO;
-        $this->chargeResponseDTO->externalId  = $this->chargeResponse->getExternalId();
-        $this->chargeResponseDTO->amount      = $this->chargeResponse->getAmount();
-        $this->chargeResponseDTO->last4       = $this->chargeResponse->getLast4();
-        $this->chargeResponseDTO->brand       = $this->chargeResponse->getBrand();
-        $this->chargeResponseDTO->currency    = $this->chargeResponse->getCurrency();
-        $this->chargeResponseDTO->description = $this->chargeResponse->getDescription();
-        $this->chargeResponseDTO->created     = $this->chargeResponse->getCreated();
+        $this->entityDTO = new ChargeResponseDTO;
+        $this->entityDTO->externalId  = $this->entity->getExternalId();
+        $this->entityDTO->amount      = $this->entity->getAmount();
+        $this->entityDTO->last4       = $this->entity->getLast4();
+        $this->entityDTO->brand       = $this->entity->getBrand();
+        $this->entityDTO->currency    = $this->entity->getCurrency();
+        $this->entityDTO->description = $this->entity->getDescription();
+        $this->entityDTO->created     = $this->entity->getCreated();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->chargeResponseDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

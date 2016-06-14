@@ -3,70 +3,86 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\EntityDTO\OrderDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
-class OrderDTOBuilder
+class OrderDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var Order */
-    protected $order;
+    protected $entity;
 
     /** @var OrderDTO */
-    protected $orderDTO;
+    protected $entityDTO;
 
-    public function __construct(Order $order)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(Order $order, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->order = $order;
+        $this->entity = $order;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->orderDTO = new OrderDTO;
-        $this->orderDTO->id              = $this->order->getId();
-        $this->orderDTO->encodedId       = BaseConvert::encode($this->order->getId());
-        $this->orderDTO->referenceNumber = $this->order->getReferenceNumber();
-        $this->orderDTO->externalId      = $this->order->getExternalId();
-        $this->orderDTO->totalItems      = $this->order->totalItems();
-        $this->orderDTO->totalQuantity   = $this->order->totalQuantity();
-        $this->orderDTO->created         = $this->order->getCreated();
-        $this->orderDTO->updated         = $this->order->getUpdated();
+        $this->entityDTO = $this->getEntityDTO();
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->referenceNumber = $this->entity->getReferenceNumber();
+        $this->entityDTO->externalId      = $this->entity->getExternalId();
+        $this->entityDTO->totalItems      = $this->entity->totalItems();
+        $this->entityDTO->totalQuantity   = $this->entity->totalQuantity();
 
-        $this->orderDTO->status = $this->order->getStatus()->getDTOBuilder()
+        $this->entityDTO->status = $this->dtoBuilderFactory
+            ->getOrderStatusTypeDTOBuilder($this->entity->getStatus())
             ->build();
 
-        if ($this->order->getShippingAddress() !== null) {
-            $this->orderDTO->shippingAddress = $this->order->getShippingAddress()->getDTOBuilder()
+        if ($this->entity->getShippingAddress() !== null) {
+            $this->entityDTO->shippingAddress = $this->dtoBuilderFactory
+                ->getOrderAddressDTOBuilder($this->entity->getShippingAddress())
                 ->build();
         }
 
-        if ($this->order->getBillingAddress() !== null) {
-            $this->orderDTO->billingAddress = $this->order->getBillingAddress()->getDTOBuilder()
+        if ($this->entity->getBillingAddress() !== null) {
+            $this->entityDTO->billingAddress = $this->dtoBuilderFactory
+                ->getOrderAddressDTOBuilder($this->entity->getBillingAddress())
                 ->build();
         }
 
-        if ($this->order->getTotal() !== null) {
-            $this->orderDTO->total = $this->order->getTotal()->getDTOBuilder()
+        if ($this->entity->getTotal() !== null) {
+            $this->entityDTO->total = $this->dtoBuilderFactory
+                ->getCartTotalDTOBuilder($this->entity->getTotal())
                 ->withAllData()
                 ->build();
         }
 
-        if ($this->order->getShipmentRate() !== null) {
-            $this->orderDTO->shipmentRate = $this->order->getShipmentRate()->getDTOBuilder()
+        if ($this->entity->getShipmentRate() !== null) {
+            $this->entityDTO->shipmentRate = $this->dtoBuilderFactory
+                ->getShipmentRateDTOBuilder($this->entity->getShipmentRate())
                 ->build();
         }
 
-        if ($this->order->getTaxRate() !== null) {
-            $this->orderDTO->taxRate = $this->order->getTaxRate()->getDTOBuilder()
+        if ($this->entity->getTaxRate() !== null) {
+            $this->entityDTO->taxRate = $this->dtoBuilderFactory
+                ->getTaxRateDTOBuilder($this->entity->getTaxRate())
                 ->build();
         }
 
-        foreach ($this->order->getShipments() as $shipment) {
-            $this->orderDTO->shipments[] = $shipment->getDTOBuilder()
+        foreach ($this->entity->getShipments() as $shipment) {
+            $this->entityDTO->shipments[] = $this->dtoBuilderFactory
+                ->getShipmentDTOBuilder($shipment)
                 ->build();
         }
     }
 
+    protected function getEntityDTO()
+    {
+        return new OrderDTO;
+    }
+
     public function withUser()
     {
-        $user = $this->order->getUser();
+        $user = $this->entity->getUser();
         if (! empty($user)) {
-            $this->orderDTO->user = $user->getDTOBuilder()
+            $this->entityDTO->user = $this->dtoBuilderFactory
+                ->getUserDTOBuilder($user)
                 ->build();
         }
         return $this;
@@ -74,8 +90,9 @@ class OrderDTOBuilder
 
     public function withItems()
     {
-        foreach ($this->order->getOrderItems() as $orderItem) {
-            $this->orderDTO->orderItems[] = $orderItem->getDTOBuilder()
+        foreach ($this->entity->getOrderItems() as $orderItem) {
+            $this->entityDTO->orderItems[] = $this->dtoBuilderFactory
+                ->getOrderItemDTOBuilder($orderItem)
                 ->withAllData()
                 ->build();
         }
@@ -84,8 +101,9 @@ class OrderDTOBuilder
 
     public function withPayments()
     {
-        foreach ($this->order->getPayments() as $payment) {
-            $this->orderDTO->payments[] = $payment->getDTOBuilder()
+        foreach ($this->entity->getPayments() as $payment) {
+            $this->entityDTO->payments[] = $this->dtoBuilderFactory
+                ->getPaymentDTOBuilder($payment)
                 ->build();
         }
         return $this;
@@ -93,8 +111,9 @@ class OrderDTOBuilder
 
     public function withCoupons()
     {
-        foreach ($this->order->getCoupons() as $coupon) {
-            $this->orderDTO->coupons[] = $coupon->getDTOBuilder()
+        foreach ($this->entity->getCoupons() as $coupon) {
+            $this->entityDTO->coupons[] = $this->dtoBuilderFactory
+                ->getCouponDTOBuilder($coupon)
                 ->build();
         }
         return $this;
@@ -109,8 +128,14 @@ class OrderDTOBuilder
             ->withCoupons();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->orderDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

@@ -1,19 +1,22 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\EntityDTO\InventoryLocationDTO;
+use inklabs\kommerce\EntityDTO\WarehouseDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class InventoryLocationDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     public function testBuild()
     {
-        $inventoryTransaction = $this->dummyData->getInventoryLocation();
+        $inventoryLocation = $this->dummyData->getInventoryLocation();
 
-        $inventoryTransactionDTO = $inventoryTransaction->getDTOBuilder()
+        $inventoryLocationDTO = $this->getDTOBuilderFactory()
+            ->getInventoryLocationDTOBuilder($inventoryLocation)
             ->withAllData()
             ->build();
 
-        $this->assertTrue($inventoryTransactionDTO instanceof InventoryLocationDTO);
-        $this->assertTrue($inventoryTransactionDTO->warehouse instanceof WarehouseDTO);
+        $this->assertTrue($inventoryLocationDTO instanceof InventoryLocationDTO);
+        $this->assertTrue($inventoryLocationDTO->warehouse instanceof WarehouseDTO);
     }
 }

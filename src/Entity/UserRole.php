@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\UserRoleDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserRole implements EntityInterface, ValidationInterface
+class UserRole implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -17,6 +16,7 @@ class UserRole implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
     }
 
@@ -51,10 +51,5 @@ class UserRole implements EntityInterface, ValidationInterface
     public function getDescription()
     {
         return $this->description;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new UserRoleDTOBuilder($this);
     }
 }

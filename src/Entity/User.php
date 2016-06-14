@@ -3,13 +3,12 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use DateTimeZone;
-use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Event\PasswordChangedEvent;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class User implements EntityInterface, ValidationInterface
+class User implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait, EventGeneratorTrait;
 
@@ -37,16 +36,16 @@ class User implements EntityInterface, ValidationInterface
     /** @var UserStatusType */
     protected $status;
 
-    /** @var ArrayCollection|UserRole[] */
+    /** @var ArrayCollection | UserRole[] */
     protected $userRoles;
 
-    /** @var ArrayCollection|UserToken[] */
+    /** @var ArrayCollection | UserToken[] */
     protected $userTokens;
 
-    /** @var ArrayCollection|UserLogin[] */
+    /** @var ArrayCollection | UserLogin[] */
     protected $userLogins;
 
-    /** @var ArrayCollection|Order[] */
+    /** @var ArrayCollection | Order[] */
     protected $orders;
 
     /** @var Cart */
@@ -54,6 +53,7 @@ class User implements EntityInterface, ValidationInterface
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
         $this->userRoles = new ArrayCollection;
         $this->userTokens = new ArrayCollection;
@@ -148,9 +148,10 @@ class User implements EntityInterface, ValidationInterface
      */
     public function setPassword($password)
     {
+        $oldPasswordHash = $this->passwordHash;
         $this->passwordHash = password_hash((string) $password, PASSWORD_BCRYPT);
 
-        if ($this->id !== null) {
+        if ($oldPasswordHash !== null) {
             $this->raise(
                 new PasswordChangedEvent(
                     $this->id,
@@ -233,6 +234,9 @@ class User implements EntityInterface, ValidationInterface
         $this->userRoles->add($userRole);
     }
 
+    /**
+     * @return UserRole[]
+     */
     public function getUserRoles()
     {
         return $this->userRoles;
@@ -256,10 +260,12 @@ class User implements EntityInterface, ValidationInterface
 
     public function addUserToken(UserToken $userToken)
     {
-        $userToken->setUser($this);
-        $this->userTokens[] = $userToken;
+        $this->userTokens->add($userToken);
     }
 
+    /**
+     * @return UserToken[]
+     */
     public function getUserTokens()
     {
         return $this->userTokens;
@@ -274,6 +280,9 @@ class User implements EntityInterface, ValidationInterface
         }
     }
 
+    /**
+     * @return UserLogin[]
+     */
     public function getUserLogins()
     {
         return $this->userLogins;
@@ -285,13 +294,11 @@ class User implements EntityInterface, ValidationInterface
         $this->orders[] = $order;
     }
 
+    /**
+     * @return Order[]
+     */
     public function getOrders()
     {
         return $this->orders;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new UserDTOBuilder($this);
     }
 }

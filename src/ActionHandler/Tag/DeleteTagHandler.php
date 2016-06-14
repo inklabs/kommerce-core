@@ -16,7 +16,7 @@ final class DeleteTagHandler
 
     public function handle(DeleteTagCommand $command)
     {
-        $tag = $this->tagService->findOneById($command->getId());
+        $tag = $this->tagService->findOneById($command->getTagId());
         $this->tagService->delete($tag);
     }
 }

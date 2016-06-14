@@ -12,7 +12,8 @@ class UserDTOBuilderTest extends EntityDTOBuilderTestCase
         $user->addUserRole($this->dummyData->getUserRole());
         $user->addUserLogin($this->dummyData->getUserLogin());
 
-        $userDTO = $user->getDTOBuilder()
+        $userDTO = $this->getDTOBuilderFactory()
+            ->getUserDTOBuilder($user)
             ->withAllData()
             ->build();
 

@@ -5,7 +5,9 @@ use Doctrine;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity\EntityInterface;
+use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
+use inklabs\kommerce\EntityRepository\RepositoryInterface;
 use inklabs\kommerce\Lib\DoctrineHelper;
 use inklabs\kommerce\tests\Helper\CountSQLLogger;
 use inklabs\kommerce\tests\Helper\EntityRepository\MockRepository;
@@ -36,6 +38,14 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
         parent::setUp();
 
         $this->mockRepository = new MockRepository($this->dummyData);
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+        if ($this->entityManager !== null) {
+            $this->entityManager->getConnection()->close();
+        }
     }
 
     protected function setupEntityManager($metaDataClassNames = null)
@@ -148,5 +158,22 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
 
         $this->entityManager->flush();
         $this->entityManager->clear();
+    }
+
+    protected function executeRepositoryCRUD(RepositoryInterface $repository, EntityInterface $entity)
+    {
+        $repository->create($entity);
+        $repository->update($entity);
+        $repository->delete($entity);
+    }
+
+    /**
+     * @param IdEntityInterface[] $elements
+     */
+    protected function visitElements($elements)
+    {
+        foreach ($elements as $e) {
+            $e->getId()->toString();
+        }
     }
 }

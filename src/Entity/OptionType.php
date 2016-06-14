@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\OptionTypeDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -59,13 +58,5 @@ class OptionType extends AbstractIntegerType
     public function isCheckbox()
     {
         return $this->id === self::CHECKBOX;
-    }
-
-    /**
-     * @return OptionTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new OptionTypeDTOBuilder($this);
     }
 }

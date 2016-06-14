@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\PromotionType;
+use inklabs\kommerce\EntityDTO\PromotionTypeDTO;
 
 class PromotionTypeDTOBuilderTest extends AbstractIntegerTypeDTOBuilderTest
 {
@@ -13,12 +14,20 @@ class PromotionTypeDTOBuilderTest extends AbstractIntegerTypeDTOBuilderTest
         return $this->dummyData->getPromotionType();
     }
 
+    /**
+     * @return PromotionTypeDTO
+     */
+    protected function getTypeDTO()
+    {
+        return $this->getDTOBuilderFactory()
+            ->getPromotionTypeDTOBuilder($this->getType())
+            ->build();
+    }
+
     public function testExtras()
     {
         $type = $this->getType();
-
-        $typeDTO = $type->getDTOBuilder()
-            ->build();
+        $typeDTO = $this->getTypeDTO();
 
         $this->assertSame($type->isFixed(), $typeDTO->isFixed);
         $this->assertSame($type->isPercent(), $typeDTO->isPercent);

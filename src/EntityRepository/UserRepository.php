@@ -33,7 +33,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
             ->select('User')
             ->from(User::class, 'User');
 
-        if ($queryString !== null) {
+        if (trim($queryString) !== '') {
             $query
                 ->where('User.firstName LIKE :query')
                 ->orWhere('User.lastName LIKE :query')
@@ -53,7 +53,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
             ->select('User')
             ->from(User::class, 'User')
             ->where('User.id IN (:userIds)')
-            ->setParameter('userIds', $userIds)
+            ->setIdParameter('userIds', $userIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();

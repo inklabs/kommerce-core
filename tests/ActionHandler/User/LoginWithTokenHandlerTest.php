@@ -12,15 +12,16 @@ class LoginWithTokenHandlerTest extends ActionTestCase
     public function testHandle()
     {
         $userService = $this->mockService->getUserService();
+        $dtoBuilderFactory = $this->getDTOBuilderFactory();
 
-        $request = new \inklabs\kommerce\Action\User\Query\LoginWithTokenRequest(
+        $request = new LoginWithTokenRequest(
             'test1@example.com',
             'xxxx',
             '8.8.8.8'
         );
         $response = new LoginWithTokenResponse;
 
-        $handler = new LoginWithTokenHandler($userService);
+        $handler = new LoginWithTokenHandler($userService, $dtoBuilderFactory);
         $handler->handle(new LoginWithTokenQuery($request, $response));
 
         $this->assertTrue($response->getUserDTO() instanceof UserDTO);

@@ -13,7 +13,10 @@ class CreateImageHandlerTest extends ActionTestCase
         $imageService->shouldReceive('createFromDTOWithTag')
             ->once();
 
-        $command = new CreateImageCommand(new ImageDTO, 1);
+        $imageDTO = new ImageDTO;
+        $tag = $this->dummyData->getTag();
+
+        $command = new CreateImageCommand($imageDTO, $tag->getId());
         $handler = new CreateImageHandler($imageService);
         $handler->handle($command);
     }

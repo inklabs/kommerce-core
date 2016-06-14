@@ -10,18 +10,29 @@ use inklabs\kommerce\EntityDTO\CreditPaymentDTO;
 class CreditPaymentDTOBuilder extends AbstractPaymentDTOBuilder
 {
     /** @var CreditPayment */
-    protected $payment;
+    protected $entity;
 
     /** @var CreditPaymentDTO */
-    protected $paymentDTO;
+    protected $entityDTO;
 
-    public function __construct(CreditPayment $payment)
+    /** @var DTOBuilderFactory */
+    protected $dtoBuilderFactory;
+
+    public function __construct(CreditPayment $payment, DTOBuilderFactory $dtoBuilderFactory)
     {
-        $this->paymentDTO = new CreditPaymentDTO;
-
         parent::__construct($payment);
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
+    }
 
-        $this->paymentDTO->chargeResponse = $payment->getChargeResponse()->getDTOBuilder()
+    protected function getEntityDTO()
+    {
+        return new CreditPaymentDTO;
+    }
+
+    protected function preBuild()
+    {
+        $this->entityDTO->chargeResponse = $this->dtoBuilderFactory
+            ->getChargeResponseDTOBuilder($this->entity->getChargeResponse())
             ->build();
     }
 }

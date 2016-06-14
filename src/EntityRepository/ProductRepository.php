@@ -3,7 +3,7 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class ProductRepository extends AbstractRepository implements ProductRepositoryInterface
 {
@@ -32,11 +32,11 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
             ->select('Product')
             ->from(Product::class, 'Product')
             ->where('Product.id NOT IN (:productId)')
-            ->setParameter('productId', $productIds)
+            ->setIdParameter('productId', $productIds)
             ->productActiveAndVisible()
             ->productAvailable()
             ->addSelect('RAND(:rand) as HIDDEN rand')
-            ->setParameter('rand', array_sum($productIds))
+            ->setParameter('rand', crc32(json_encode($productIds)))
             ->orderBy('rand')
             ->setMaxResults($limit);
 
@@ -44,7 +44,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
             $query
                 ->innerJoin('Product.tags', 'tag')
                 ->andWhere('tag.id IN (:tagIds)')
-                ->setParameter('tagIds', $tagIds);
+                ->setIdParameter('tagIds', $tagIds);
         }
 
         return $query
@@ -52,21 +52,16 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
             ->getResult();
     }
 
-    public function getProductsByTag(Tag $tag, Pagination & $pagination = null)
-    {
-        return $this->getProductsByTagId($tag->getId(), $pagination);
-    }
-
-    public function getProductsByTagId($tagId, Pagination & $pagination = null)
+    public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null)
     {
         $products = $this->getQueryBuilder()
             ->select('Product')
             ->from(Product::class, 'Product')
             ->innerJoin('Product.tags', 'tag')
             ->where('tag.id = :tagId')
+            ->setIdParameter('tagId', $tagId)
             ->productActiveAndVisible()
             ->productAvailable()
-            ->setParameter('tagId', $tagId)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
@@ -83,18 +78,13 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
      */
     public function loadProductTags(array & $products)
     {
-        $productIds = [];
-        foreach ($products as $product) {
-            $productIds[] = $product->getId();
-        }
-
         $this->getQueryBuilder()
             ->select('Product')
             ->from(Product::class, 'Product')
             ->where('Product.id IN (:productIds)')
             ->addSelect('tag2')
             ->leftJoin('Product.tags', 'tag2')
-            ->setParameter('productIds', $productIds)
+            ->setEntityParameter('productIds', $products)
             ->getQuery()
             ->getResult();
     }
@@ -107,7 +97,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
             ->where('Product.id IN (:productIds)')
             ->productActiveAndVisible()
             ->productAvailable()
-            ->setParameter('productIds', $productIds)
+            ->setIdParameter('productIds', $productIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();
@@ -142,7 +132,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
             ->select('Product')
             ->from(Product::class, 'Product')
             ->where('Product.id IN (:productIds)')
-            ->setParameter('productIds', $productIds)
+            ->setIdParameter('productIds', $productIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();

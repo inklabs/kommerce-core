@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Entity;
 use DateTime;
 use inklabs\kommerce\Event\PasswordChangedEvent;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class UserTest extends EntityTestCase
 {
@@ -11,6 +12,8 @@ class UserTest extends EntityTestCase
     {
         $user = new User;
 
+        $this->assertTrue($user->getId() instanceof UuidInterface);
+        $this->assertTrue($user->getCreated() instanceof DateTime);
         $this->assertTrue($user->getStatus()->isActive());
         $this->assertSame(null, $user->getExternalId());
         $this->assertSame(null, $user->getEmail());
@@ -27,9 +30,7 @@ class UserTest extends EntityTestCase
 
     public function testCreate()
     {
-        $userLogin = $this->dummyData->getUserLogin();
         $userRole = $this->dummyData->getUserRole();
-        $userToken = $this->dummyData->getUserToken();
         $userStatus = $this->dummyData->getUserStatusType();
 
         $order = $this->dummyData->getOrder();
@@ -43,10 +44,11 @@ class UserTest extends EntityTestCase
         $user->setFirstName('John');
         $user->setLastName('Doe');
         $user->addUserRole($userRole);
-        $user->addUserToken($userToken);
-        $user->addUserLogin($userLogin);
         $user->addOrder($order);
         $user->setCart($cart);
+
+        $userLogin = $this->dummyData->getUserLogin($user);
+        $userToken = $this->dummyData->getUserToken($user);
 
         $this->assertEntityValid($user);
         $this->assertSame($userStatus, $user->getStatus());
@@ -70,7 +72,6 @@ class UserTest extends EntityTestCase
         $user->setPassword('Password1');
         $this->assertSame(0, count($user->releaseEvents()));
 
-        $user->setId(1);
         $user->setPassword('NewPassword123');
 
         /** @var PasswordChangedEvent $event */

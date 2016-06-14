@@ -2,22 +2,24 @@
 namespace inklabs\kommerce\Action\Tag;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class DeleteTagCommand implements CommandInterface
 {
-    /** @var int */
-    private $id;
+    /** @var UuidInterface */
+    private $tagId;
 
     /**
-     * @param int $id
+     * @param string $tagIdString
      */
-    public function __construct($id)
+    public function __construct($tagIdString)
     {
-        $this->id = (int) $id;
+        $this->tagId = Uuid::fromString($tagIdString);
     }
 
-    public function getId()
+    public function getTagId()
     {
-        return $this->id;
+        return $this->tagId;
     }
 }

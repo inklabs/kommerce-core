@@ -4,9 +4,10 @@ namespace inklabs\kommerce\EntityRepository;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Warehouse;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
- * @method Warehouse findOneById($id)
+ * @method Warehouse findOneById(UuidInterface $id)
  */
 interface WarehouseRepositoryInterface extends RepositoryInterface
 {

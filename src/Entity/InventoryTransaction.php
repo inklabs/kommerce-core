@@ -1,12 +1,11 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\InventoryTransactionDTOBuilder;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class InventoryTransaction implements EntityInterface, ValidationInterface
+class InventoryTransaction implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -34,6 +33,7 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
             $type = InventoryTransactionType::move();
         }
 
+        $this->setId();
         $this->setCreated();
         $this->inventoryLocation = $inventoryLocation;
         $this->type = $type;
@@ -175,10 +175,5 @@ class InventoryTransaction implements EntityInterface, ValidationInterface
     public function getQuantity()
     {
         return $this->creditQuantity - $this->debitQuantity;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new InventoryTransactionDTOBuilder($this);
     }
 }

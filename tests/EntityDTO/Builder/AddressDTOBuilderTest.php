@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\EntityDTO\AddressDTO;
+use inklabs\kommerce\EntityDTO\PointDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class AddressDTOBuilderTest extends EntityDTOBuilderTestCase
@@ -9,7 +11,8 @@ class AddressDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $address = $this->dummyData->getAddress();
 
-        $addressDTO = $address->getDTOBuilder()
+        $addressDTO = $this->getDTOBuilderFactory()
+            ->getAddressDTOBuilder($address)
             ->build();
 
         $this->assertTrue($addressDTO instanceof AddressDTO);

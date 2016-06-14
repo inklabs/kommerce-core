@@ -2,8 +2,10 @@
 namespace inklabs\kommerce\Doctrine\ORM;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Point;
+use inklabs\kommerce\Lib\UuidInterface;
 
 /**
  * @method QueryBuilder|\Doctrine\ORM\QueryBuilder setParameter($key, $value, $type)
@@ -28,6 +30,7 @@ use inklabs\kommerce\Entity\Point;
  * @method QueryBuilder|\Doctrine\ORM\QueryBuilder orHaving($having)
  * @method QueryBuilder|\Doctrine\ORM\QueryBuilder orderBy($sort, $order)
  * @method QueryBuilder|\Doctrine\ORM\QueryBuilder addOrderBy($sort, $order)
+ * @method QueryBuilder|\Doctrine\ORM\QueryBuilder setMaxResults($maxResults)
  */
 class QueryBuilder extends \Doctrine\ORM\QueryBuilder
 {
@@ -94,5 +97,82 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
                 'DISTANCE(Warehouse.address.point.latitude,Warehouse.address.point.longitude,' .
                 $point->getLatitude() . ',' . $point->getLongitude() . ') AS distance'
             );
+    }
+
+    /**
+     * @param string|integer $key   The parameter position or name.
+     * @param mixed          $value The parameter value.
+     * @param string|null    $type  PDO::PARAM_* or \Doctrine\DBAL\Types\Type::* constant
+     * @return self
+     */
+    public function setIdParameter($key, $value, $type = null)
+    {
+        return $this
+            ->setParameter($key, $this->getBytesFromIds($value), $type);
+    }
+
+    /**
+     * @param string|integer $key   The parameter position or name.
+     * @param mixed          $value The parameter value.
+     * @param string|null    $type  PDO::PARAM_* or \Doctrine\DBAL\Types\Type::* constant
+     * @return self
+     */
+    public function setEntityParameter($key, $value, $type = null)
+    {
+        return $this
+            ->setParameter($key, $this->getBytesFromEntities($value), $type);
+    }
+
+    /**
+     * @param IdEntityInterface | IdEntityInterface[] $entities
+     * @return string | string[]
+     */
+    private function getBytesFromEntities(& $entities)
+    {
+        if (is_array($entities)) {
+            $entityIds = [];
+            foreach ($entities as $entity) {
+                $entityIds[] = $entity->getId();
+            }
+            return $this->getBytesFromIds($entityIds);
+        } else {
+            return $this->getBytesFromId($entities->getId());
+        }
+    }
+
+    /**
+     * @param UuidInterface | UuidInterface[] $ids
+     * @return string | string[]
+     */
+    private function getBytesFromIds(& $ids)
+    {
+        if (is_array($ids)) {
+            return $this->getBytesFromIdsArray($ids);
+        }
+
+        return $this->getBytesFromId($ids);
+    }
+
+    /**
+     * @param UuidInterface[] $ids
+     * @return string[]
+     */
+    private function getBytesFromIdsArray(array & $ids)
+    {
+        $idBytes = [];
+        foreach ($ids as $id) {
+            $idBytes[] = $this->getBytesFromId($id);
+        }
+
+        return $idBytes;
+    }
+
+    /**
+     * @param UuidInterface $id
+     * @return string binary bytes
+     */
+    private function getBytesFromId(UuidInterface $id)
+    {
+        return $id->getBytes();
     }
 }

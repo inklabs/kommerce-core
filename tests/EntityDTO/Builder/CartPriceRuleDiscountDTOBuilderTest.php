@@ -9,7 +9,8 @@ class CartPriceRuleDiscountDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $cartPriceRuleDiscount = $this->dummyData->getCartPriceRuleDiscount();
 
-        $cartPriceRuleDiscountDTO = $cartPriceRuleDiscount->getDTOBuilder()
+        $cartPriceRuleDiscountDTO = $this->getDTOBuilderFactory()
+            ->getCartPriceRuleDiscountDTOBuilder($cartPriceRuleDiscount)
             ->withAllData()
             ->build();
 

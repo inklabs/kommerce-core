@@ -2,32 +2,37 @@
 namespace inklabs\kommerce\Action\Inventory;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class AdjustInventoryCommand implements CommandInterface
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $productId;
 
     /** @var int */
     private $quantity;
 
-    /** @var int */
+    /** @var UuidInterface */
     private $inventoryLocationId;
 
     /** @var int */
     private $transactionTypeId;
 
     /**
-     * @param int $productId
+     * @param UuidInterface $productId
      * @param int $quantity (can be negative)
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @param int $transactionTypeId
      */
-    public function __construct($productId, $quantity, $inventoryLocationId, $transactionTypeId)
-    {
-        $this->productId = (int) $productId;
+    public function __construct(
+        UuidInterface $productId,
+        $quantity,
+        UuidInterface $inventoryLocationId,
+        $transactionTypeId
+    ) {
+        $this->productId = $productId;
         $this->quantity = (int) $quantity;
-        $this->inventoryLocationId = (int) $inventoryLocationId;
+        $this->inventoryLocationId = $inventoryLocationId;
         $this->transactionTypeId = (int) $transactionTypeId;
     }
 

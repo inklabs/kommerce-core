@@ -13,7 +13,8 @@ class TagDTOBuilderTest extends EntityDTOBuilderTestCase
         $tag->addOption($this->dummyData->getOption());
         $tag->addTextOption($this->dummyData->getTextOption());
 
-        $tagDTO = $tag->getDTOBuilder()
+        $tagDTO = $this->getDTOBuilderFactory()
+            ->getTagDTOBuilder($tag)
             ->withAllData($this->dummyData->getPricing())
             ->build();
 

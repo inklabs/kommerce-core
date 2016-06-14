@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class TaxRateService
 {
@@ -22,13 +23,13 @@ class TaxRateService
         $this->taxRateRepository->create($taxRate);
     }
 
-    public function edit(TaxRate & $taxRate)
+    public function update(TaxRate & $taxRate)
     {
         $this->throwValidationErrors($taxRate);
         $this->taxRateRepository->update($taxRate);
     }
 
-    public function findOneById($id)
+    public function findOneById(UuidInterface $id)
     {
         return $this->taxRateRepository->findOneById($id);
     }

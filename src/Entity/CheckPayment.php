@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CheckPaymentDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
@@ -25,7 +24,7 @@ class CheckPayment extends AbstractPayment
      */
     public function __construct($amount, $checkNumber, $checkDate, $memo = null)
     {
-        $this->setCreated();
+        parent::__construct();
         $this->amount = (int) $amount;
         $this->checkNumber = (string) $checkNumber;
         $this->checkDate = $checkDate;
@@ -60,13 +59,5 @@ class CheckPayment extends AbstractPayment
     public function getMemo()
     {
         return $this->memo;
-    }
-
-    /**
-     * @return CheckPaymentDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new CheckPaymentDTOBuilder($this);
     }
 }

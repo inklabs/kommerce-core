@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\CartItemOptionValueDTOBuilder;
-
 class CartItemOptionValue
 {
     use TimeTrait, IdTrait;
@@ -15,6 +13,7 @@ class CartItemOptionValue
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
     }
 
@@ -51,10 +50,5 @@ class CartItemOptionValue
     public function setCartItem(CartItem $cartItem)
     {
         $this->cartItem = $cartItem;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new CartItemOptionValueDTOBuilder($this);
     }
 }

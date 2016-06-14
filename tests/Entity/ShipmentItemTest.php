@@ -7,11 +7,10 @@ class ShipmentItemTest extends EntityTestCase
 {
     public function testCreate()
     {
-        $orderItem = $this->dummyData->getOrderItem();
         $shipment = $this->dummyData->getShipment();
+        $orderItem = $this->dummyData->getOrderItem();
 
-        $shipmentItem = new ShipmentItem($orderItem, 1);
-        $shipmentItem->setShipment($shipment);
+        $shipmentItem = new ShipmentItem($shipment, $orderItem, 1);
 
         $this->assertEntityValid($shipmentItem);
         $this->assertSame(1, $shipmentItem->getQuantityToShip());

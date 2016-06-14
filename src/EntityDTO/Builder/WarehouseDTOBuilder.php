@@ -3,31 +3,43 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\EntityDTO\WarehouseDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
-class WarehouseDTOBuilder
+class WarehouseDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var Warehouse */
-    protected $warehouse;
+    protected $entity;
 
     /** @var WarehouseDTO */
-    protected $warehouseDTO;
+    protected $entityDTO;
 
-    public function __construct(Warehouse $warehouse)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(Warehouse $warehouse, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->warehouse = $warehouse;
+        $this->entity = $warehouse;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->warehouseDTO = new WarehouseDTO;
-        $this->warehouseDTO->id        = $this->warehouse->getId();
-        $this->warehouseDTO->encodedId = BaseConvert::encode($this->warehouse->getId());
-        $this->warehouseDTO->name      = $this->warehouse->getName();
-        $this->warehouseDTO->address   = $this->warehouse->getAddress()->getDTOBuilder()->build();
-        $this->warehouseDTO->created   = $this->warehouse->getCreated();
-        $this->warehouseDTO->updated   = $this->warehouse->getUpdated();
+        $this->entityDTO = new WarehouseDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->name    = $this->entity->getName();
+
+        $this->entityDTO->address = $this->dtoBuilderFactory
+            ->getAddressDTOBuilder($this->entity->getAddress())
+            ->build();
+    }
+
+    protected function preBuild()
+    {
     }
 
     public function build()
     {
-        return $this->warehouseDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

@@ -7,12 +7,7 @@
     <entity name="inklabs\kommerce\Entity\OrderItemOptionProduct"
             repository-class="inklabs\kommerce\EntityRepository\OrderItemOptionProductRepository">
 
-        <id name="id" type="integer">
-            <generator strategy="AUTO"/>
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </id>
+        <id name="id" type="uuid_binary"/>
 
         <field name="sku" type="string" length="64" nullable="true"/>
         <field name="optionName" type="string" length="255"/>
@@ -30,8 +25,13 @@
             </options>
         </field>
 
-        <many-to-one field="orderItem" target-entity="OrderItem" inversed-by="orderItemOptionValues" fetch="EAGER"/>
-        <many-to-one field="optionProduct" target-entity="OptionProduct" fetch="EAGER" />
+        <many-to-one field="orderItem" target-entity="OrderItem" inversed-by="orderItemOptionValues" fetch="EAGER">
+            <join-column nullable="false"/>
+        </many-to-one>
+
+        <many-to-one field="optionProduct" target-entity="OptionProduct" fetch="EAGER">
+            <join-column nullable="false"/>
+        </many-to-one>
 
     </entity>
 

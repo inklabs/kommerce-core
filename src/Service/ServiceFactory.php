@@ -229,6 +229,9 @@ class ServiceFactory
         );
     }
 
+    /**
+     * @return ShipmentGatewayInterface
+     */
     public function getShipmentGateway()
     {
         return $this->shipmentGateway;

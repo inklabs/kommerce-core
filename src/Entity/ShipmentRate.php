@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use inklabs\kommerce\EntityDTO\Builder\ShipmentRateDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -239,11 +238,6 @@ class ShipmentRate implements ValidationInterface
     public function getDeliveryMethod()
     {
         return $this->deliveryMethod;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new ShipmentRateDTOBuilder($this);
     }
 
     private function setDeliveryMethod(DeliveryMethodType $deliveryMethod)

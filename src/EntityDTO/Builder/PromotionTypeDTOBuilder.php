@@ -10,15 +10,15 @@ use inklabs\kommerce\EntityDTO\PromotionTypeDTO;
 class PromotionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var PromotionType */
-    protected $type;
+    protected $entity;
 
     /** @var PromotionTypeDTO */
-    protected $typeDTO;
+    protected $entityDTO;
 
     /**
      * @return PromotionTypeDTO
      */
-    protected function getTypeDTO()
+    protected function getEntityDTO()
     {
         return new PromotionTypeDTO;
     }
@@ -27,8 +27,8 @@ class PromotionTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
     {
         parent::__construct($type);
 
-        $this->typeDTO->isFixed = $this->type->isFixed();
-        $this->typeDTO->isPercent = $this->type->isPercent();
-        $this->typeDTO->isExact = $this->type->isExact();
+        $this->entityDTO->isFixed = $this->entity->isFixed();
+        $this->entityDTO->isPercent = $this->entity->isPercent();
+        $this->entityDTO->isExact = $this->entity->isExact();
     }
 }

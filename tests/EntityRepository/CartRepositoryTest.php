@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\Coupon;
@@ -59,90 +58,60 @@ class CartRepositoryTest extends EntityRepositoryTestCase
 
     public function testCRUD()
     {
-        $cart = $this->dummyData->getCart();
-        $this->cartRepository->create($cart);
-        $this->assertSame(1, $cart->getId());
-
-        $cart->setSessionId('sessionidXXX');
-        $this->assertSame(null, $cart->getUpdated());
-
-        $this->cartRepository->update($cart);
-        $this->assertTrue($cart->getUpdated() instanceof DateTime);
-
-        $this->entityManager->clear();
-        $cart = $this->cartRepository->findOneById($cart->getId());
-        $this->assertSame('10.0.0.1', $cart->getIp4());
-
-        $this->cartRepository->delete($cart);
-        $this->assertSame(null, $cart->getId());
+        $this->executeRepositoryCRUD(
+            $this->cartRepository,
+            $this->dummyData->getCart()
+        );
     }
 
-    public function testFindOneById()
+    public function testFindOneByUuId()
     {
-        $this->setupCart();
-
+        $originalCart = $this->setupCart();
         $this->setCountLogger();
 
-        $cart = $this->cartRepository->findOneById(1);
+        $cart = $this->cartRepository->findOneById($originalCart->getId());
 
-        $cart->getCartItems()->toArray();
         $cart->getUser()->getCreated();
-        $cart->getCoupons()->toArray();
         $cart->getTaxRate()->getCreated();
+        $this->visitElements($cart->getCartItems());
+        $this->visitElements($cart->getCoupons());
 
-        $this->assertTrue($cart instanceof Cart);
+        $this->assertEqualEntities($originalCart, $cart);
         $this->assertSame(3, $this->getTotalQueries());
-    }
-
-    public function testSave()
-    {
-        $user1 = $this->dummyData->getUser(1);
-        $user2 = $this->dummyData->getUser(2);
-        $cart = $this->dummyData->getCart();
-        $cart->setUser($user1);
-
-        $this->entityManager->persist($user1);
-        $this->entityManager->persist($user2);
-
-        $this->cartRepository->create($cart);
-
-        $cart->setUser($user2);
-        $this->assertSame(null, $cart->getUpdated());
-        $this->cartRepository->update($cart);
-        $this->assertTrue($cart->getUpdated() instanceof DateTime);
-    }
-
-    public function testRemove()
-    {
-        $cart = $this->dummyData->getCart();
-
-        $this->cartRepository->create($cart);
-
-        $this->assertSame(1, $cart->getId());
-        $this->cartRepository->delete($cart);
-        $this->assertSame(null, $cart->getId());
     }
 
     public function testFindByUser()
     {
-        $this->setupCart();
-
+        $originalCart = $this->setupCart();
         $this->setCountLogger();
 
-        $cart = $this->cartRepository->findOneByUser(1);
+        $cart = $this->cartRepository->findOneByUserId(
+            $originalCart->getUser()->getId()
+        );
 
-        $this->assertTrue($cart instanceof Cart);
+        $this->assertEqualEntities($originalCart, $cart);
     }
 
     public function testFindBySession()
     {
-        $sessionId = '6is7ujb3crb5ja85gf91g9en62';
-        $this->setupCart($sessionId);
-
+        $sessionId = self::SESSION_ID;
+        $originalCart = $this->setupCart($sessionId);
         $this->setCountLogger();
 
         $cart = $this->cartRepository->findOneBySession($sessionId);
 
-        $this->assertTrue($cart instanceof Cart);
+        $this->assertEqualEntities($originalCart, $cart);
+    }
+
+    public function testGetItemById()
+    {
+        $cart1 = $this->setupCart();
+        $cartItem1 = $cart1->getCartItems()[0];
+
+        $cartItem = $this->cartRepository->getItemById(
+            $cartItem1->getId()
+        );
+
+        $this->assertEqualEntities($cartItem1, $cartItem);
     }
 }

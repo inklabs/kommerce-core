@@ -13,7 +13,11 @@ class UpdateCouponHandlerTest extends ActionTestCase
         $couponService->shouldReceive('update')
             ->once();
 
-        $command = new UpdateCouponCommand(new CouponDTO);
+        $couponDTO = $this->getDTOBuilderFactory()
+            ->getCouponDTOBuilder($this->dummyData->getCoupon())
+            ->build();
+
+        $command = new UpdateCouponCommand($couponDTO);
         $handler = new UpdateCouponHandler($couponService);
         $handler->handle($command);
     }

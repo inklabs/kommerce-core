@@ -3,40 +3,50 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\UserDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
-class UserDTOBuilder
+class UserDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var User */
-    protected $user;
+    protected $entity;
 
     /** @var UserDTO */
-    protected $userDTO;
+    protected $entityDTO;
 
-    public function __construct(User $user)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(User $user, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->user = $user;
+        $this->entity = $user;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->userDTO = new UserDTO;
-        $this->userDTO->id          = $this->user->getId();
-        $this->userDTO->encodedId   = BaseConvert::encode($this->user->getId());
-        $this->userDTO->externalId  = $this->user->getExternalId();
-        $this->userDTO->email       = $this->user->getEmail();
-        $this->userDTO->firstName   = $this->user->getFirstName();
-        $this->userDTO->lastName    = $this->user->getLastName();
-        $this->userDTO->totalLogins = $this->user->getTotalLogins();
-        $this->userDTO->lastLogin   = $this->user->getLastLogin();
-        $this->userDTO->created     = $this->user->getCreated();
-        $this->userDTO->updated     = $this->user->getUpdated();
+        $this->entityDTO = $this->getEntityDTO();
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->externalId  = $this->entity->getExternalId();
+        $this->entityDTO->email       = $this->entity->getEmail();
+        $this->entityDTO->firstName   = $this->entity->getFirstName();
+        $this->entityDTO->lastName    = $this->entity->getLastName();
+        $this->entityDTO->totalLogins = $this->entity->getTotalLogins();
+        $this->entityDTO->lastLogin   = $this->entity->getLastLogin();
 
-        $this->userDTO->status = $this->user->getStatus()->getDTOBuilder()
+        $this->entityDTO->status = $this->dtoBuilderFactory
+            ->getUserStatusTypeDTOBuilder($this->entity->getStatus())
             ->build();
+    }
+
+    protected function getEntityDTO()
+    {
+        return new UserDTO;
     }
 
     public function withRoles()
     {
-        foreach ($this->user->getUserRoles() as $role) {
-            $this->userDTO->userRoles[] = $role->getDTOBuilder()
+        foreach ($this->entity->getUserRoles() as $role) {
+            $this->entityDTO->userRoles[] = $this->dtoBuilderFactory
+                ->getUserRoleDTOBuilder($role)
                 ->build();
         }
         return $this;
@@ -44,8 +54,9 @@ class UserDTOBuilder
 
     public function withTokens()
     {
-        foreach ($this->user->getUserTokens() as $token) {
-            $this->userDTO->userTokens[] = $token->getDTOBuilder()
+        foreach ($this->entity->getUserTokens() as $token) {
+            $this->entityDTO->userTokens[] = $this->dtoBuilderFactory
+                ->getUserTokenDTOBuilder($token)
                 ->build();
         }
         return $this;
@@ -53,8 +64,9 @@ class UserDTOBuilder
 
     public function withLogins()
     {
-        foreach ($this->user->getUserLogins() as $login) {
-            $this->userDTO->userLogins[] = $login->getDTOBuilder()
+        foreach ($this->entity->getUserLogins() as $login) {
+            $this->entityDTO->userLogins[] = $this->dtoBuilderFactory
+                ->getUserLoginDTOBuilder($login)
                 ->build();
         }
         return $this;
@@ -68,8 +80,14 @@ class UserDTOBuilder
             ->withLogins();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->userDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

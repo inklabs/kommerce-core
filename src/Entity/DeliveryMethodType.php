@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\DeliveryMethodTypeDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -74,13 +73,5 @@ class DeliveryMethodType extends AbstractIntegerType
     public function isTwoDay()
     {
         return $this->id === self::TWO_DAY;
-    }
-
-    /**
-     * @return DeliveryMethodTypeDTOBuilder
-     */
-    public function getDTOBuilder()
-    {
-        return new DeliveryMethodTypeDTOBuilder($this);
     }
 }

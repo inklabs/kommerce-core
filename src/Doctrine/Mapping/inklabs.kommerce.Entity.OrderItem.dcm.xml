@@ -11,12 +11,7 @@
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
-        <id name="id" type="integer">
-            <generator strategy="AUTO"/>
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </id>
+        <id name="id" type="uuid_binary"/>
 
         <field name="quantity" type="smallint">
             <options>
@@ -69,7 +64,7 @@
             </cascade>
         </one-to-many>
 
-        <many-to-one field="product" target-entity="inklabs\kommerce\Entity\Product" fetch="EAGER"/>
+        <many-to-one field="product" target-entity="Product" fetch="EAGER"/>
 
         <many-to-one field="order" target-entity="Order" inversed-by="orderItems" fetch="EAGER">
             <join-column nullable="false"/>

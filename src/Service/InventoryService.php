@@ -10,6 +10,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\Exception\InsufficientInventoryException;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class InventoryService implements InventoryServiceInterface
 {
@@ -38,6 +39,7 @@ class InventoryService implements InventoryServiceInterface
     public function reserveProduct(Product $product, $quantity)
     {
         if (! $product->isInventoryRequired()) {
+            // TODO: Investigate throwing exception in this case
             return;
         }
 
@@ -65,13 +67,17 @@ class InventoryService implements InventoryServiceInterface
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $sourceLocationId
-     * @param int $destinationLocationId
+     * @param UuidInterface $sourceLocationId
+     * @param UuidInterface $destinationLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function moveProduct(Product $product, $quantity, $sourceLocationId, $destinationLocationId)
-    {
+    public function moveProduct(
+        Product $product,
+        $quantity,
+        UuidInterface $sourceLocationId,
+        UuidInterface $destinationLocationId
+    ) {
         $sourceLocation = $this->inventoryLocationRepository->findOneById($sourceLocationId);
         $destinationLocation = $this->inventoryLocationRepository->findOneById($destinationLocationId);
 
@@ -88,11 +94,11 @@ class InventoryService implements InventoryServiceInterface
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function addProduct(Product $product, $quantity, $inventoryLocationId)
+    public function addProduct(Product $product, $quantity, UuidInterface $inventoryLocationId)
     {
         $this->adjustInventory(
             $product,
@@ -105,11 +111,11 @@ class InventoryService implements InventoryServiceInterface
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function shipProduct(Product $product, $quantity, $inventoryLocationId)
+    public function shipProduct(Product $product, $quantity, UuidInterface $inventoryLocationId)
     {
         $this->adjustInventory(
             $product,
@@ -122,11 +128,11 @@ class InventoryService implements InventoryServiceInterface
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function returnProduct(Product $product, $quantity, $inventoryLocationId)
+    public function returnProduct(Product $product, $quantity, UuidInterface $inventoryLocationId)
     {
         $this->adjustInventory(
             $product,
@@ -139,11 +145,11 @@ class InventoryService implements InventoryServiceInterface
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function reduceProductForPromotion(Product $product, $quantity, $inventoryLocationId)
+    public function reduceProductForPromotion(Product $product, $quantity, UuidInterface $inventoryLocationId)
     {
         $this->adjustInventory(
             $product,
@@ -156,11 +162,11 @@ class InventoryService implements InventoryServiceInterface
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function reduceProductForDamage(Product $product, $quantity, $inventoryLocationId)
+    public function reduceProductForDamage(Product $product, $quantity, UuidInterface $inventoryLocationId)
     {
         $this->adjustInventory(
             $product,
@@ -173,11 +179,11 @@ class InventoryService implements InventoryServiceInterface
     /**
      * @param Product $product
      * @param int $quantity
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
      */
-    public function reduceProductForShrinkage(Product $product, $quantity, $inventoryLocationId)
+    public function reduceProductForShrinkage(Product $product, $quantity, UuidInterface $inventoryLocationId)
     {
         $this->adjustInventory(
             $product,
@@ -190,7 +196,7 @@ class InventoryService implements InventoryServiceInterface
     /**
      * @param Product $product
      * @param int $quantity (can be negative)
-     * @param int $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @param InventoryTransactionType $transactionType
      * @throws EntityNotFoundException
      * @throws EntityValidatorException
@@ -198,7 +204,7 @@ class InventoryService implements InventoryServiceInterface
     public function adjustInventory(
         Product $product,
         $quantity,
-        $inventoryLocationId,
+        UuidInterface $inventoryLocationId,
         InventoryTransactionType $transactionType
     ) {
         $inventoryLocation = $this->inventoryLocationRepository->findOneById($inventoryLocationId);
@@ -253,5 +259,6 @@ class InventoryService implements InventoryServiceInterface
 
         $this->inventoryTransactionRepository->persist($debitTransaction);
         $this->inventoryTransactionRepository->persist($creditTransaction);
+        $this->inventoryTransactionRepository->flush();
     }
 }

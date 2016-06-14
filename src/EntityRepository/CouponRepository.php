@@ -23,7 +23,7 @@ class CouponRepository extends AbstractRepository implements CouponRepositoryInt
             ->select('Coupon')
             ->from(Coupon::class, 'Coupon');
 
-        if ($queryString !== null) {
+        if (trim($queryString) !== '') {
             $query
                 ->orWhere('Coupon.name LIKE :query')
                 ->orWhere('Coupon.code LIKE :query')
@@ -42,7 +42,7 @@ class CouponRepository extends AbstractRepository implements CouponRepositoryInt
             ->select('Coupon')
             ->from(Coupon::class, 'Coupon')
             ->where('Coupon.id IN (:couponIds)')
-            ->setParameter('couponIds', $couponIds)
+            ->setIdParameter('couponIds', $couponIds)
             ->paginate($pagination)
             ->getQuery()
             ->getResult();

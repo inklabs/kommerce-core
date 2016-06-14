@@ -1,34 +1,46 @@
 <?php
 namespace inklabs\kommerce\Action\Coupon\Query;
 
-use inklabs\kommerce\EntityDTO\PaginationDTO;
+use inklabs\kommerce\EntityDTO\Builder\CouponDTOBuilder;
+use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\CouponDTO;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 
 class ListCouponsResponse implements ListCouponsResponseInterface
 {
-    /** @var CouponDTO[] */
-    protected $couponDTOs = [];
+    /** @var CouponDTOBuilder[] */
+    protected $couponDTOBuilders = [];
 
-    /** @var PaginationDTO */
-    protected $paginationDTO;
+    /** @var PaginationDTOBuilder */
+    protected $paginationDTOBuilder;
 
-    public function addCouponDTO(CouponDTO $couponDTO)
+    public function addCouponDTOBuilder(CouponDTOBuilder $couponDTOBuilder)
     {
-        $this->couponDTOs[] = $couponDTO;
+        $this->couponDTOBuilders[] = $couponDTOBuilder;
     }
 
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    {
+        $this->paginationDTOBuilder = $paginationDTOBuilder;
+    }
+
+    /**
+     * @return CouponDTO[] | \Generator
+     */
     public function getCouponDTOs()
     {
-        return $this->couponDTOs;
+        $couponDTOs = [];
+        foreach ($this->couponDTOBuilders as $couponDTOBuilder) {
+            $couponDTOs[] = $couponDTOBuilder->build();
+        }
+        return $couponDTOs;
     }
 
-    public function setPaginationDTO(PaginationDTO $paginationDTO)
-    {
-        $this->paginationDTO = $paginationDTO;
-    }
-
+    /**
+     * @return PaginationDTO
+     */
     public function getPaginationDTO()
     {
-        return $this->paginationDTO;
+        return $this->paginationDTOBuilder->build();
     }
 }

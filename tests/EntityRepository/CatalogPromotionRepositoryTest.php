@@ -32,63 +32,59 @@ class CatalogPromotionRepositoryTest extends EntityRepositoryTestCase
         $this->entityManager->persist($tag);
         $this->entityManager->flush();
         $this->entityManager->clear();
+
+        return $catalogPromotion;
     }
 
     public function testCRUD()
     {
-        $catalogPromotion = $this->dummyData->getCatalogPromotion();
-
-        $this->catalogPromotionRepository->create($catalogPromotion);
-        $this->assertSame(1, $catalogPromotion->getId());
-
-        $catalogPromotion->setName('New Name');
-        $this->assertSame(null, $catalogPromotion->getUpdated());
-
-        $this->catalogPromotionRepository->update($catalogPromotion);
-        $this->assertTrue($catalogPromotion->getUpdated() instanceof DateTime);
-
-        $this->catalogPromotionRepository->delete($catalogPromotion);
-        $this->assertSame(null, $catalogPromotion->getId());
+        $this->executeRepositoryCRUD(
+            $this->catalogPromotionRepository,
+            $this->dummyData->getCatalogPromotion()
+        );
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
-        $this->setupCatalogPromotion();
-
+        $originalCatalogPromotion = $this->setupCatalogPromotion();
         $this->setCountLogger();
 
-        $catalogPromotion = $this->catalogPromotionRepository->findOneById(1);
+        $catalogPromotion = $this->catalogPromotionRepository->findOneById(
+            $originalCatalogPromotion->getId()
+        );
 
-        $catalogPromotion->getTag()->getName();
+        $catalogPromotion->getTag()->getCreated();
 
-        $this->assertTrue($catalogPromotion instanceof CatalogPromotion);
+        $this->assertEquals($originalCatalogPromotion->getId(), $catalogPromotion->getId());
         $this->assertSame(1, $this->getTotalQueries());
     }
 
     public function testFindAll()
     {
-        $this->setupCatalogPromotion();
+        $originalCatalogPromotion = $this->setupCatalogPromotion();
 
         $catalogPromotions = $this->catalogPromotionRepository->findAll();
 
-        $this->assertTrue($catalogPromotions[0] instanceof CatalogPromotion);
+        $this->assertEquals($originalCatalogPromotion->getId(), $catalogPromotions[0]->getId());
     }
 
     public function testGetAllCatalogPromotions()
     {
-        $this->setupCatalogPromotion();
+        $originalCatalogPromotion = $this->setupCatalogPromotion();
 
         $catalogPromotions = $this->catalogPromotionRepository->getAllCatalogPromotions('Test');
 
-        $this->assertTrue($catalogPromotions[0] instanceof CatalogPromotion);
+        $this->assertEquals($originalCatalogPromotion->getId(), $catalogPromotions[0]->getId());
     }
 
     public function testGetAllCatalogPromotionsByIds()
     {
-        $this->setupCatalogPromotion();
+        $originalCatalogPromotion = $this->setupCatalogPromotion();
 
-        $catalogPromotions = $this->catalogPromotionRepository->getAllCatalogPromotionsByIds([1]);
+        $catalogPromotions = $this->catalogPromotionRepository->getAllCatalogPromotionsByIds([
+            $originalCatalogPromotion->getId()
+        ]);
 
-        $this->assertTrue($catalogPromotions[0] instanceof CatalogPromotion);
+        $this->assertEquals($originalCatalogPromotion->getId(), $catalogPromotions[0]->getId());
     }
 }

@@ -1,17 +1,16 @@
 <?php
 namespace inklabs\kommerce\Action\Coupon\Query;
 
+use inklabs\kommerce\Lib\UuidInterface;
+
 final class GetCouponRequest
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $couponId;
 
-    /**
-     * @param int $couponId
-     */
-    public function __construct($couponId)
+    public function __construct(UuidInterface $couponId)
     {
-        $this->couponId = (int) $couponId;
+        $this->couponId = $couponId;
     }
 
     public function getCouponId()

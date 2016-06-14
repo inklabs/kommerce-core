@@ -7,10 +7,17 @@ class ShipmentDTOBuilderTest extends EntityDTOBuilderTestCase
 {
     public function testBuild()
     {
+        $shipmentTracker = $this->dummyData->getShipmentTracker();
+
         $shipment = $this->dummyData->getShipment();
         $shipment->setOrder($this->dummyData->getOrder());
+        $shipment->addShipmentTracker($shipmentTracker);
 
-        $shipmentDTO = $shipment->getDTOBuilder()
+        $this->dummyData->getShipmentItem($shipment);
+        $this->dummyData->getShipmentComment($shipment);
+
+        $shipmentDTO = $this->getDTOBuilderFactory()
+            ->getShipmentDTOBuilder($shipment)
             ->withAllData()
             ->build();
 

@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Lib\UuidInterface;
 
 interface ProductServiceInterface
 {
@@ -12,33 +13,33 @@ interface ProductServiceInterface
     public function update(Product & $product);
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @return Product
      * @throws EntityNotFoundException
      */
-    public function findOneById($id);
+    public function findOneById(UuidInterface $id);
 
     /**
-     * @param int $productId
-     * @param int $tagId
+     * @param UuidInterface $productId
+     * @param UuidInterface $tagId
      * @return Tag
      * @throws EntityNotFoundException
      */
-    public function addTag($productId, $tagId);
+    public function addTag(UuidInterface $productId, UuidInterface $tagId);
 
     /**
-     * @param int $productId
-     * @param int $tagId
+     * @param UuidInterface $productId
+     * @param UuidInterface $tagId
      * @throws EntityNotFoundException
      */
-    public function removeTag($productId, $tagId);
+    public function removeTag(UuidInterface $productId, UuidInterface $tagId);
 
     /**
-     * @param int $productId
-     * @param int $imageId
+     * @param UuidInterface $productId
+     * @param UuidInterface $imageId
      * @throws EntityNotFoundException
      */
-    public function removeImage($productId, $imageId);
+    public function removeImage(UuidInterface $productId, UuidInterface $imageId);
 
     /**
      * @param string $queryString
@@ -55,21 +56,28 @@ interface ProductServiceInterface
     public function getRelatedProducts($products, $limit = 12);
 
     /**
-     * @param Tag $tag
+     * @param UuidInterface[] $productIds
+     * @param int $limit
+     * @return Product[]
+     */
+    public function getRelatedProductsByIds(array $productIds, $limit = 12);
+
+    /**
+     * @param UuidInterface $tagId
      * @param Pagination $pagination
      * @return Product[]
      */
-    public function getProductsByTag(Tag $tag, Pagination & $pagination = null);
+    public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null);
 
     /**
-     * @param int[] $productIds
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */
     public function getProductsByIds($productIds, Pagination & $pagination = null);
 
     /**
-     * @param int[] $productIds
+     * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */

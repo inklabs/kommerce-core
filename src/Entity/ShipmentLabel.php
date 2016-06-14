@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ShipmentLabelDTOBuilder;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -189,10 +188,5 @@ class ShipmentLabel implements ValidationInterface
     public function setZplUrl($zplUrl)
     {
         $this->zplUrl = (string) $zplUrl;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new ShipmentLabelDTOBuilder($this);
     }
 }

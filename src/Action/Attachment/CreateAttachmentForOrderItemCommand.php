@@ -3,22 +3,24 @@ namespace inklabs\kommerce\Action\Attachment;
 
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class CreateAttachmentForOrderItemCommand implements CommandInterface
 {
     /** @var UploadFileDTO */
     private $uploadFileDTO;
 
-    /** @var int */
+    /** @var UuidInterface */
     private $orderItemId;
 
     /**
      * @param UploadFileDTO $uploadFileDTO
-     * @param int $orderItemId 236390
+     * @param string $orderItemIdString
      */
-    public function __construct(UploadFileDTO $uploadFileDTO, $orderItemId)
+    public function __construct(UploadFileDTO $uploadFileDTO, $orderItemIdString)
     {
-        $this->orderItemId = $orderItemId;
+        $this->orderItemId = Uuid::fromString($orderItemIdString);
         $this->uploadFileDTO = $uploadFileDTO;
     }
 

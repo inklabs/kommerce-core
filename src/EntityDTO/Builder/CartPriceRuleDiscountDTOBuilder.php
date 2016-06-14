@@ -4,28 +4,36 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 use inklabs\kommerce\EntityDTO\CartPriceRuleDiscountDTO;
 
-class CartPriceRuleDiscountDTOBuilder
+class CartPriceRuleDiscountDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var CartPriceRuleDiscount */
-    protected $cartPriceRuleDiscount;
+    protected $entity;
 
     /** @var CartPriceRuleDiscountDTO */
-    protected $cartPriceRuleDiscountDTO;
+    protected $entityDTO;
 
-    public function __construct(CartPriceRuleDiscount $cartPriceRuleDiscount)
-    {
-        $this->cartPriceRuleDiscount = $cartPriceRuleDiscount;
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
 
-        $this->cartPriceRuleDiscountDTO = new CartPriceRuleDiscountDTO;
-        $this->cartPriceRuleDiscountDTO->id       = $this->cartPriceRuleDiscount->getId();
-        $this->cartPriceRuleDiscountDTO->quantity = $this->cartPriceRuleDiscount->getQuantity();
-        $this->cartPriceRuleDiscountDTO->created  = $this->cartPriceRuleDiscount->getCreated();
-        $this->cartPriceRuleDiscountDTO->updated  = $this->cartPriceRuleDiscount->getUpdated();
+    public function __construct(
+        CartPriceRuleDiscount $cartPriceRuleDiscount,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
+        $this->entity = $cartPriceRuleDiscount;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
+
+        $this->entityDTO = new CartPriceRuleDiscountDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->quantity = $this->entity->getQuantity();
     }
 
     public function withProduct()
     {
-        $this->cartPriceRuleDiscountDTO->product = $this->cartPriceRuleDiscount->getProduct()->getDTOBuilder()
+        $this->entityDTO->product = $this->dtoBuilderFactory
+            ->getProductDTOBuilder($this->entity->getProduct())
             ->withTags()
             ->build();
 
@@ -38,8 +46,14 @@ class CartPriceRuleDiscountDTOBuilder
             ->withProduct();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->cartPriceRuleDiscountDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

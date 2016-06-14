@@ -9,7 +9,7 @@ class WarehouseDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $warehouse = $this->dummyData->getWarehouse();
 
-        $warehouseDTO = $warehouse->getDTOBuilder()
+        $warehouseDTO = $this->getDTOBuilderFactory()->getWarehouseDTOBuilder($warehouse)
             ->build();
 
         $this->assertTrue($warehouseDTO instanceof WarehouseDTO);

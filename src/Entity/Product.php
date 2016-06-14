@@ -1,13 +1,12 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ProductDTOBuilder;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Product implements EntityInterface, ValidationInterface, EnabledAttachmentInterface
+class Product implements IdEntityInterface, ValidationInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait, StringSetterTrait;
 
@@ -73,6 +72,7 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
 
     public function __construct()
     {
+        $this->setId();
         $this->setCreated();
         $this->tags = new ArrayCollection();
         $this->images = new ArrayCollection();
@@ -400,11 +400,6 @@ class Product implements EntityInterface, ValidationInterface, EnabledAttachment
     public function addProductAttribute(ProductAttribute $productAttribute)
     {
         $this->productAttributes->add($productAttribute);
-    }
-
-    public function getDTOBuilder()
-    {
-        return new ProductDTOBuilder($this);
     }
 
     public function disableAttachments()

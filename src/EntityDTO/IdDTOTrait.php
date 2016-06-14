@@ -1,11 +1,10 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
+use inklabs\kommerce\Lib\UuidInterface;
+
 trait IdDTOTrait
 {
-    /** @var int */
+    /** @var UuidInterface */
     public $id;
-
-    /** @var string */
-    public $encodedId;
 }

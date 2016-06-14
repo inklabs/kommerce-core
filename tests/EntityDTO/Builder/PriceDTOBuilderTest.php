@@ -9,7 +9,8 @@ class PriceDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $price = $this->dummyData->getPriceFull();
 
-        $priceDTO = $price->getDTOBuilder()
+        $priceDTO = $this->getDTOBuilderFactory()
+            ->getPriceDTOBuilder($price)
             ->withAllData()
             ->build();
 

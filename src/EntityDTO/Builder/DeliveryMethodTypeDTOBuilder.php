@@ -10,25 +10,20 @@ use inklabs\kommerce\EntityDTO\DeliveryMethodTypeDTO;
 class DeliveryMethodTypeDTOBuilder extends AbstractIntegerTypeDTOBuilder
 {
     /** @var DeliveryMethodType */
-    protected $type;
+    protected $entity;
 
     /** @var DeliveryMethodTypeDTO */
-    protected $typeDTO;
+    protected $entityDTO;
 
-    /**
-     * @return DeliveryMethodTypeDTO
-     */
-    protected function getTypeDTO()
+    protected function getEntityDTO()
     {
         return new DeliveryMethodTypeDTO;
     }
 
-    public function __construct(DeliveryMethodType $type)
+    protected function preBuild()
     {
-        parent::__construct($type);
-
-        $this->typeDTO->isStandard = $this->type->isStandard();
-        $this->typeDTO->isOneDay = $this->type->isOneDay();
-        $this->typeDTO->isTwoDay = $this->type->isTwoDay();
+        $this->entityDTO->isStandard = $this->entity->isStandard();
+        $this->entityDTO->isOneDay = $this->entity->isOneDay();
+        $this->entityDTO->isTwoDay = $this->entity->isTwoDay();
     }
 }

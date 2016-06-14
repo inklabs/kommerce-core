@@ -1,12 +1,11 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\OptionProductDTOBuilder;
 use inklabs\kommerce\Lib\PricingInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OptionProduct implements EntityInterface, ValidationInterface
+class OptionProduct implements IdEntityInterface, ValidationInterface
 {
     use TimeTrait, IdTrait;
 
@@ -21,6 +20,7 @@ class OptionProduct implements EntityInterface, ValidationInterface
 
     public function __construct(Option $option, Product $product)
     {
+        $this->setId();
         $this->setCreated();
         $this->option = $option;
         $this->product = $product;
@@ -78,10 +78,5 @@ class OptionProduct implements EntityInterface, ValidationInterface
     public function getProduct()
     {
         return $this->product;
-    }
-
-    public function getDTOBuilder()
-    {
-        return new OptionProductDTOBuilder($this);
     }
 }

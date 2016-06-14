@@ -3,35 +3,39 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
-use inklabs\kommerce\Lib\BaseConvert;
 
-class AttributeValueDTOBuilder
+class AttributeValueDTOBuilder implements DTOBuilderInterface
 {
+    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+
     /** @var AttributeValue */
-    protected $attributeValue;
+    protected $entity;
 
     /** @var AttributeValueDTO */
-    protected $attributeValueDTO;
+    protected $entityDTO;
 
-    public function __construct(AttributeValue $attributeValue)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(AttributeValue $attributeValue, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->attributeValue = $attributeValue;
+        $this->entity = $attributeValue;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->attributeValueDTO = new AttributeValueDTO;
-        $this->attributeValueDTO->id          = $this->attributeValue->getId();
-        $this->attributeValueDTO->encodedId   = BaseConvert::encode($this->attributeValue->getId());
-        $this->attributeValueDTO->sku         = $this->attributeValue->getSku();
-        $this->attributeValueDTO->name        = $this->attributeValue->getName();
-        $this->attributeValueDTO->description = $this->attributeValue->getDescription();
-        $this->attributeValueDTO->sortOrder   = $this->attributeValue->getSortOrder();
-        $this->attributeValueDTO->created     = $this->attributeValue->getCreated();
-        $this->attributeValueDTO->updated     = $this->attributeValue->getUpdated();
+        $this->entityDTO = new AttributeValueDTO;
+        $this->setId();
+        $this->setTime();
+        $this->entityDTO->sku         = $this->entity->getSku();
+        $this->entityDTO->name        = $this->entity->getName();
+        $this->entityDTO->description = $this->entity->getDescription();
+        $this->entityDTO->sortOrder   = $this->entity->getSortOrder();
     }
 
     public function withAttribute()
     {
-        if ($this->attributeValue->getAttribute() !== null) {
-            $this->attributeValueDTO->attribute = $this->attributeValue->getAttribute()->getDTOBuilder()
+        if ($this->entity->getAttribute() !== null) {
+            $this->entityDTO->attribute = $this->dtoBuilderFactory
+                ->getAttributeDTOBuilder($this->entity->getAttribute())
                 ->build();
         }
 
@@ -40,8 +44,9 @@ class AttributeValueDTOBuilder
 
     public function withProductAttributes()
     {
-        foreach ($this->attributeValue->getProductAttributes() as $productAttribute) {
-            $this->attributeValueDTO->productAttributes[] = $productAttribute->getDTOBuilder()
+        foreach ($this->entity->getProductAttributes() as $productAttribute) {
+            $this->entityDTO->productAttributes[] = $this->dtoBuilderFactory
+                ->getProductAttributeDTOBuilder($productAttribute)
                 ->withProduct()
                 ->build();
         }
@@ -56,8 +61,14 @@ class AttributeValueDTOBuilder
             ->withProductAttributes();
     }
 
+    protected function preBuild()
+    {
+    }
+
     public function build()
     {
-        return $this->attributeValueDTO;
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

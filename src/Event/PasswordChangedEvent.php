@@ -2,10 +2,11 @@
 namespace inklabs\kommerce\Event;
 
 use inklabs\kommerce\Lib\Event\EventInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class PasswordChangedEvent implements EventInterface
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $userId;
 
     /** @var string */
@@ -15,13 +16,13 @@ class PasswordChangedEvent implements EventInterface
     private $fullName;
 
     /**
-     * @param int $userId
+     * @param UuidInterface $userId
      * @param string $email
      * @param string $fullName
      */
-    public function __construct($userId, $email, $fullName)
+    public function __construct(UuidInterface $userId, $email, $fullName)
     {
-        $this->userId = (int) $userId;
+        $this->userId = $userId;
         $this->email = (string) $email;
         $this->fullName = (string) $fullName;
     }
