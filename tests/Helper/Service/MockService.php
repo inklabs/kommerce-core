@@ -48,7 +48,11 @@ class MockService
      */
     public function getCartService()
     {
+        $cart = $this->dummyData->getCart();
+
         $cartService = $this->getMockeryMock(CartServiceInterface::class);
+        $cartService->shouldReceive('findOneById')
+            ->andReturn($cart);
 
         return $cartService;
     }
