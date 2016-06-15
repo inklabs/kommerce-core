@@ -8,6 +8,7 @@ used to track changes in this project.
 ### Added
 - GetCartQuery
 - GetCartBySessionIdQuery
+- GetCartByUserIdQuery
 - GetProductQuery
 - GetRelatedProductsQuery
 - GetRandomProductsQuery

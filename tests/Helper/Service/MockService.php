@@ -57,6 +57,9 @@ class MockService
         $cartService->shouldReceive('findBySession')
             ->andReturn($cart);
 
+        $cartService->shouldReceive('findByUser')
+            ->andReturn($cart);
+
         return $cartService;
     }
 
