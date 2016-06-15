@@ -179,6 +179,9 @@ class MockService
         $user = $this->dummyData->getUser();
 
         $userService = $this->getMockeryMock(UserServiceInterface::class);
+        $userService->shouldReceive('findOneByEmail')
+            ->andReturn($user);
+
         $userService->shouldReceive('loginWithToken')
             ->andReturn($user);
 
