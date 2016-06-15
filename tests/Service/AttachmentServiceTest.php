@@ -12,6 +12,7 @@ use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
+use inklabs\kommerce\Exception\AttachmentException;
 use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 

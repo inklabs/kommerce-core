@@ -338,6 +338,10 @@ class OrderItem implements IdEntityInterface, ValidationInterface, EnabledAttach
 
     public function areAttachmentsEnabled()
     {
-        return $this->product->areAttachmentsEnabled();
+        if ($this->product !== null) {
+            return $this->product->areAttachmentsEnabled();
+        }
+
+        return false;
     }
 }

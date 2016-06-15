@@ -185,4 +185,18 @@ class OrderItemTest extends EntityTestCase
 
         $orderItem->addAttachment($attachment);
     }
+
+    public function testAddAttachmentFailsWithNoProduct()
+    {
+        $attachment = $this->dummyData->getAttachment();
+
+        $orderItem = $this->dummyData->getOrderItemWithoutProduct();
+
+        $this->setExpectedException(
+            AttachmentException::class,
+            'Attachment not allowed'
+        );
+
+        $orderItem->addAttachment($attachment);
+    }
 }

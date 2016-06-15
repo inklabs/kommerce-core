@@ -593,6 +593,19 @@ class DummyData
         return $orderItem;
     }
 
+    public function getOrderItemWithoutProduct(Price $price = null)
+    {
+        if ($price === null) {
+            $price = $this->getPrice();
+        }
+
+        $orderItem = new OrderItem;
+        $orderItem->setQuantity(1);
+        $orderItem->setPrice($price);
+
+        return $orderItem;
+    }
+
     public function getOrderItemFull()
     {
         $product = $this->getProduct();
