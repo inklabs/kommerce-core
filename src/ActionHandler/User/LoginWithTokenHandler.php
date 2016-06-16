@@ -1,8 +1,7 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\User;
 
-use inklabs\kommerce\Action\User\LoginWithTokenQuery;
-use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
+use inklabs\kommerce\Action\User\LoginWithTokenCommand;
 use inklabs\kommerce\Service\UserServiceInterface;
 
 final class LoginWithTokenHandler
@@ -10,29 +9,17 @@ final class LoginWithTokenHandler
     /** @var UserServiceInterface */
     private $userService;
 
-    /** @var DTOBuilderFactoryInterface */
-    private $dtoBuilderFactory;
-
-    public function __construct(
-        UserServiceInterface $userService,
-        DTOBuilderFactoryInterface $dtoBuilderFactory
-    ) {
+    public function __construct(UserServiceInterface $userService)
+    {
         $this->userService = $userService;
-        $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(LoginWithTokenQuery $query)
+    public function handle(LoginWithTokenCommand $command)
     {
-        $request = $query->getRequest();
-
-        $user = $this->userService->loginWithToken(
-            $request->getEmail(),
-            $request->getToken(),
-            $request->getIp4()
-        );
-
-        $query->getResponse()->setUserDTOBuilder(
-            $this->dtoBuilderFactory->getUserDTOBuilder($user)
+        $this->userService->loginWithToken(
+            $command->getEmail(),
+            $command->getToken(),
+            $command->getRemoteIp4()
         );
     }
 }

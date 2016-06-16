@@ -14,7 +14,12 @@ class LoginHandlerTest extends ActionTestCase
         $userService->shouldReceive('login')
             ->once();
 
-        $command = new LoginCommand($user->getEmail(), 'password1', self::IP4);
+        $command = new LoginCommand(
+            $user->getEmail(),
+            'password1',
+            self::IP4
+        );
+
         $handler = new LoginHandler($userService);
         $handler->handle($command);
     }

@@ -191,9 +191,6 @@ class MockService
         $userService->shouldReceive('findOneByEmail')
             ->andReturn($user);
 
-        $userService->shouldReceive('loginWithToken')
-            ->andReturn($user);
-
         return $userService;
     }
 }

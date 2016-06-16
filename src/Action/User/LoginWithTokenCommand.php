@@ -1,7 +1,9 @@
 <?php
-namespace inklabs\kommerce\Action\User\Query;
+namespace inklabs\kommerce\Action\User;
 
-final class LoginWithTokenRequest
+use inklabs\kommerce\Lib\Command\CommandInterface;
+
+final class LoginWithTokenCommand implements CommandInterface
 {
     /** @var string */
     private $email;
@@ -10,18 +12,18 @@ final class LoginWithTokenRequest
     private $token;
 
     /** @var string */
-    private $ip4;
+    private $remoteIp4;
 
     /**
      * @param string $email
      * @param string $token
-     * @param string $ip4
+     * @param string $remoteIp4
      */
-    public function __construct($email, $token, $ip4)
+    public function __construct($email, $token, $remoteIp4)
     {
         $this->email = (string) $email;
         $this->token = (string) $token;
-        $this->ip4 = (string) $ip4;
+        $this->remoteIp4 = (string) $remoteIp4;
     }
 
     public function getEmail()
@@ -34,8 +36,8 @@ final class LoginWithTokenRequest
         return $this->token;
     }
 
-    public function getIp4()
+    public function getRemoteIp4()
     {
-        return $this->ip4;
+        return $this->remoteIp4;
     }
 }

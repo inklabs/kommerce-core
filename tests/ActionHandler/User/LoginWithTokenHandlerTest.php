@@ -1,29 +1,26 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\User;
 
-use inklabs\kommerce\Action\User\LoginWithTokenQuery;
-use inklabs\kommerce\Action\User\Query\LoginWithTokenRequest;
-use inklabs\kommerce\Action\User\Query\LoginWithTokenResponse;
-use inklabs\kommerce\EntityDTO\UserDTO;
+use inklabs\kommerce\Action\User\LoginWithTokenCommand;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class LoginWithTokenHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
+        $user = $this->dummyData->getUser();
+
         $userService = $this->mockService->getUserService();
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
+        $userService->shouldReceive('loginWithToken')
+            ->once();
 
-        $request = new LoginWithTokenRequest(
-            'test1@example.com',
-            'xxxx',
-            '8.8.8.8'
+        $command = new LoginWithTokenCommand(
+            $user->getEmail(),
+            'token123',
+            self::IP4
         );
-        $response = new LoginWithTokenResponse;
 
-        $handler = new LoginWithTokenHandler($userService, $dtoBuilderFactory);
-        $handler->handle(new LoginWithTokenQuery($request, $response));
-
-        $this->assertTrue($response->getUserDTO() instanceof UserDTO);
+        $handler = new LoginWithTokenHandler($userService);
+        $handler->handle($command);
     }
 }
