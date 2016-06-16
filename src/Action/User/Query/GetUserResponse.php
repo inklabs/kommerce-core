@@ -1,0 +1,29 @@
+<?php
+namespace inklabs\kommerce\Action\User\Query;
+
+use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
+
+class GetUserResponse implements GetUserResponseInterface
+{
+    /** @var UserDTOBuilder */
+    private $productDTOBuilder;
+
+    public function setUserDTOBuilder(UserDTOBuilder $productDTOBuilder)
+    {
+        $this->productDTOBuilder = $productDTOBuilder;
+    }
+
+    public function getUserDTO()
+    {
+        return $this->productDTOBuilder
+            ->build();
+    }
+
+    public function getUserDTOWithRolesAndTokens()
+    {
+        return $this->productDTOBuilder
+            ->withRoles()
+            ->withTokens()
+            ->build();
+    }
+}

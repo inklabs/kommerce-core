@@ -12,7 +12,9 @@ used to track changes in this project.
 - GetProductQuery
 - GetRelatedProductsQuery
 - GetRandomProductsQuery
+- GetUserQuery
 - GetUserByEmailQuery
+- LoginCommand
 
 ### Changed
 - Migrate to UUIDs for primary keys
