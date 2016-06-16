@@ -18,4 +18,12 @@ class GetUserByEmailResponse implements GetUserByEmailResponseInterface
         return $this->productDTOBuilder
             ->build();
     }
+
+    public function getUserDTOWithRolesAndTokens()
+    {
+        return $this->productDTOBuilder
+            ->withRoles()
+            ->withTokens()
+            ->build();
+    }
 }

@@ -22,5 +22,8 @@ class GetUserByEmailHandlerTest extends ActionTestCase
 
         $handler->handle(new GetUserByEmailQuery($request, $response));
         $this->assertTrue($response->getUserDTO() instanceof UserDTO);
+
+        $handler->handle(new GetUserByEmailQuery($request, $response));
+        $this->assertTrue($response->getUserDTOWithRolesAndTokens() instanceof UserDTO);
     }
 }
