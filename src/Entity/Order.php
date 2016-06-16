@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Event\OrderShippedEvent;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -316,6 +317,10 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
         $shipment->setOrder($this);
         $this->shipments->add($shipment);
         $this->setOrderShippedStatus();
+
+        $this->raise(
+            new OrderShippedEvent($this->getId(), $shipment->getId())
+        );
     }
 
     /**

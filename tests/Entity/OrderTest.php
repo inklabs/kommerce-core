@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
+use inklabs\kommerce\Event\OrderShippedEvent;
 use inklabs\kommerce\Lib\PaymentGateway;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
@@ -149,5 +150,18 @@ class OrderTest extends EntityTestCase
         $order->addShipment($shipment);
 
         $this->assertTrue($order->getStatus()->isPartiallyShipped());
+    }
+
+    public function testAddShipmentRaisesEvent()
+    {
+        $shipment = $this->dummyData->getShipment();
+        $order = $this->dummyData->getOrder();
+        $order->addShipment($shipment);
+
+        /** @var OrderShippedEvent $event */
+        $event = $order->releaseEvents()[0];
+        $this->assertTrue($event instanceof OrderShippedEvent);
+        $this->assertTrue($order->getId()->equals($event->getOrderId()));
+        $this->assertTrue($shipment->getId()->equals($event->getShipmentId()));
     }
 }

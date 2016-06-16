@@ -19,7 +19,6 @@ use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
-use inklabs\kommerce\Event\OrderShippedEvent;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
@@ -75,6 +74,7 @@ class OrderService implements OrderServiceInterface
     {
         $this->throwValidationErrors($order);
         $this->orderRepository->update($order);
+        $this->eventDispatcher->dispatch($order->releaseEvents());
     }
 
     public function findOneById(UuidInterface $id)
@@ -176,10 +176,6 @@ class OrderService implements OrderServiceInterface
 
         $order->addShipment($shipment);
         $this->update($order);
-
-        $this->eventDispatcher->dispatchEvent(
-            new OrderShippedEvent($order->getId(), $shipment->getId())
-        );
     }
 
     private function addShipmentItemsFromOrderItems(OrderItemQtyDTO $orderItemQtyDTO, Shipment $shipment)
