@@ -18,6 +18,7 @@ used to track changes in this project.
 - Product
   - AddTagToProductCommand
   - CreateProductCommand
+  - RemoveTagFromProductCommand
   - UpdateProductCommand
   - GetProductQuery
   - GetRelatedProductsQuery
