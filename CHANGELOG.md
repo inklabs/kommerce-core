@@ -6,17 +6,21 @@ used to track changes in this project.
 
 ## [Unreleased]
 ### Added
-- GetCartQuery
-- GetCartBySessionIdQuery
-- GetCartByUserIdQuery
-- GetProductQuery
-- GetRelatedProductsQuery
-- GetRandomProductsQuery
-- GetUserQuery
-- GetUserByEmailQuery
-- LoginCommand
-- SetCartSessionIdCommand
-- SetCartUserCommand
+- Cart
+  - CopyCartItemsCommand
+  - GetCartQuery
+  - GetCartBySessionIdQuery
+  - GetCartByUserIdQuery
+  - SetCartSessionIdCommand
+  - SetCartUserCommand
+- Product
+  - GetProductQuery
+  - GetRelatedProductsQuery
+  - GetRandomProductsQuery
+- User
+  - GetUserQuery
+  - GetUserByEmailQuery
+  - LoginCommand
 
 ### Changed
 - Migrate to UUIDs for primary keys
