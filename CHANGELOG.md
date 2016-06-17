@@ -15,6 +15,8 @@ used to track changes in this project.
 - GetUserQuery
 - GetUserByEmailQuery
 - LoginCommand
+- SetCartSessionIdCommand
+- SetCartUserCommand
 
 ### Changed
 - Migrate to UUIDs for primary keys

@@ -124,7 +124,7 @@ interface CartServiceInterface
 
     /**
      * @param UuidInterface $cartId
-     * @param int $sessionId
+     * @param string $sessionId
      * @throws EntityNotFoundException
      */
     public function setSessionId(UuidInterface $cartId, $sessionId);
