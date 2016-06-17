@@ -8,20 +8,21 @@ used to track changes in this project.
 ### Added
 - Cart
   - CopyCartItemsCommand
-  - GetCartQuery
-  - GetCartBySessionIdQuery
-  - GetCartByUserIdQuery
+  - DeleteCartItemCommand
   - RemoveCartCommand
   - SetCartSessionIdCommand
   - SetCartUserCommand
+  - GetCartQuery
+  - GetCartBySessionIdQuery
+  - GetCartByUserIdQuery
 - Product
   - GetProductQuery
   - GetRelatedProductsQuery
   - GetRandomProductsQuery
 - User
+  - LoginCommand
   - GetUserQuery
   - GetUserByEmailQuery
-  - LoginCommand
 
 ### Changed
 - Migrate to UUIDs for primary keys
