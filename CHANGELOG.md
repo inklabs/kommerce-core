@@ -16,6 +16,7 @@ used to track changes in this project.
   - GetCartBySessionIdQuery
   - GetCartByUserIdQuery
 - Product
+  - CreateProductCommand
   - GetProductQuery
   - GetRelatedProductsQuery
   - GetRandomProductsQuery

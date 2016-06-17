@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\CreateTagCommand;
-use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class CreateTagHandlerTest extends ActionTestCase

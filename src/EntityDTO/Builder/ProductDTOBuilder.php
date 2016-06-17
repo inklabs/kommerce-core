@@ -47,6 +47,30 @@ class ProductDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->isInStock = $this->entity->inStock();
     }
 
+    public static function createFromDTO(ProductDTO $productDTO)
+    {
+        $product = new Product;
+        self::setFromDTO($product, $productDTO);
+        return $product;
+    }
+
+    public static function setFromDTO(Product & $product, ProductDTO $productDTO)
+    {
+        $product->setName($productDTO->name);
+        $product->setUnitPrice($productDTO->unitPrice);
+        $product->setQuantity($productDTO->quantity);
+        $product->setIsInventoryRequired($productDTO->isInventoryRequired);
+        $product->setIsPriceVisible($productDTO->isPriceVisible);
+        $product->setIsActive($productDTO->isActive);
+        $product->setIsVisible($productDTO->isVisible);
+        $product->setIsTaxable($productDTO->isTaxable);
+        $product->setIsShippable($productDTO->isShippable);
+        $product->setShippingWeight($productDTO->shippingWeight);
+        $product->setDescription($productDTO->description);
+        $product->setRating($productDTO->rating);
+        $product->setDefaultImage($productDTO->defaultImage);
+    }
+
     protected function initializeProductDTO()
     {
         $this->entityDTO = new ProductDTO;
