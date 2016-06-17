@@ -20,3 +20,4 @@ used to track changes in this project.
 - Migrate to UUIDs for primary keys
 - LoginWithTokenQuery to LoginWithTokenCommand
 - Moved raising OrderShippedEvent from OrderService::addShipment() to Order::addShipment()
+- Moved raising ResetPasswordEvent from UserService::requestPasswordResetToken() to UserToken::createResetPasswordToken()

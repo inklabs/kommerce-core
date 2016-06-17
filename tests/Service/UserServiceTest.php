@@ -9,6 +9,7 @@ use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
 use inklabs\kommerce\Event\ResetPasswordEvent;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\UserLoginException;
+use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
@@ -251,9 +252,7 @@ class UserServiceTest extends ServiceTestCase
             ->andReturn($user1)
             ->once();
 
-        $token = 'token123';
         $userToken = $this->dummyData->getUserToken($user1);
-        $userToken->setToken($token);
         $this->userTokenRepository->shouldReceive('findLatestOneByUserId')
             ->with($user1->getId())
             ->andReturn($userToken)
@@ -277,10 +276,7 @@ class UserServiceTest extends ServiceTestCase
             ->andReturn($user1)
             ->once();
 
-        $token = 'token123';
-        $userToken = $this->dummyData->getUserToken($user1);
-        $userToken->setToken($token);
-        $userToken->setExpires(new DateTime('-1 day'));
+        $userToken = $this->dummyData->getUserToken($user1, new DateTime('-1 hour'));
         $this->userTokenRepository->shouldReceive('findLatestOneByUserId')
             ->with($user1->getId())
             ->andReturn($userToken)
@@ -294,7 +290,7 @@ class UserServiceTest extends ServiceTestCase
             'Token expired'
         );
 
-        $this->userService->loginWithToken($user1->getEmail(), $token, self::IP4);
+        $this->userService->loginWithToken($user1->getEmail(), DummyData::USER_TOKEN_STRING, self::IP4);
     }
 
     public function testLoginWithTokenSucceeds()
@@ -304,10 +300,7 @@ class UserServiceTest extends ServiceTestCase
             ->andReturn($user1)
             ->once();
 
-        $token = 'token123';
         $userToken = $this->dummyData->getUserToken($user1);
-        $userToken->setToken($token);
-        $userToken->setExpires(new DateTime('+1 hour'));
         $this->userTokenRepository->shouldReceive('findLatestOneByUserId')
             ->with($user1->getId())
             ->andReturn($userToken)
@@ -316,7 +309,7 @@ class UserServiceTest extends ServiceTestCase
         $this->userLoginRepository->shouldReceive('create')
             ->once();
 
-        $this->userService->loginWithToken($user1->getEmail(), $token, self::IP4);
+        $this->userService->loginWithToken($user1->getEmail(), DummyData::USER_TOKEN_STRING, self::IP4);
     }
 
     public function testRequestPasswordResetToken()
@@ -334,20 +327,6 @@ class UserServiceTest extends ServiceTestCase
             ->once();
 
         $this->userService->requestPasswordResetToken($user1->getEmail(), $userAgent, $ip4);
-
-//        $userToken = $this->userTokenRepository->findOneById(
-//            $user1->getId()
-//        );
-//
-//        $this->assertTrue($userToken instanceof UserToken);
-//        $this->assertSame($ip4, $userToken->getIp4());
-//        $this->assertSame($userAgent, $userToken->getUserAgent());
-//        $this->assertSame($user, $userToken->getUser());
-//        $this->assertCloseTo(
-//            3600,
-//            $userToken->getExpires()->getTimestamp() - $userToken->getCreated()->getTimestamp()
-//        );
-//        $this->assertTrue($userToken->getType()->isInternal());
 
         /** @var ResetPasswordEvent $event */
         $event = $this->fakeEventDispatcher->getDispatchedEvents(ResetPasswordEvent::class)[0];

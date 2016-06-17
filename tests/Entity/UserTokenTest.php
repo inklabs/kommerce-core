@@ -8,56 +8,64 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class UserTokenTest extends EntityTestCase
 {
+    const TOKEN = 'token123';
+
     /** @var UserToken */
     private $userToken;
 
     /** @var User */
     private $user;
 
+    /** @var DateTime */
+    private $expires;
+
     public function setUp()
     {
         parent::setUp();
         $this->user = $this->dummyData->getUser();
-        $this->userToken = new UserToken($this->user);
+        $this->expires = new DateTime('2015-10-21', new DateTimeZone('UTC'));
+
+        $this->userToken = new UserToken(
+            $this->user,
+            $this->dummyData->getUserTokenType(),
+            self::TOKEN,
+            self::USER_AGENT,
+            self::IP4,
+            $this->expires
+        );
     }
 
     public function testCreateDefaults()
     {
+        $this->assertEntityValid($this->userToken);
         $this->assertTrue($this->userToken->getId() instanceof UuidInterface);
         $this->assertTrue($this->userToken->getCreated() instanceof DateTime);
-        $this->assertSame(null, $this->userToken->getUserAgent());
-        $this->assertSame(false, $this->userToken->verifyToken('token'));
-        $this->assertSame($this->user, $this->userToken->getUser());
-        $this->assertSame(null, $this->userToken->getExpires());
+        $this->assertSame(self::USER_AGENT, $this->userToken->getUserAgent());
+        $this->assertFalse($this->userToken->verifyToken('wrong-token'));
+        $this->assertTrue($this->userToken->verifyToken(self::TOKEN));
+        $this->assertEqualEntities($this->user, $this->userToken->getUser());
+        $this->assertEquals($this->expires, $this->userToken->getExpires());
         $this->assertTrue($this->userToken->getType()->isInternal());
     }
 
     public function testCreate()
     {
-        $expires = new DateTime;
-        $userTokenType = $this->dummyData->getUserTokenType();
         $userLogin = $this->dummyData->getUserLogin();
-        $ip4 = '127.0.0.1';
-
-        $this->userToken->setIp4($ip4);
-        $this->userToken->setUserAgent('UserAgent');
-        $this->userToken->setToken('token');
-        $this->userToken->setType($userTokenType);
-        $this->userToken->setExpires($expires);
         $this->userToken->addUserLogin($userLogin);
-
         $this->assertEntityValid($this->userToken);
-        $this->assertSame($ip4, $this->userToken->getIp4());
-        $this->assertSame('UserAgent', $this->userToken->getUserAgent());
-        $this->assertTrue($this->userToken->verifyToken('token'));
-        $this->assertSame($userTokenType, $this->userToken->getType());
-        $this->assertEquals($expires, $this->userToken->getExpires());
     }
 
     public function testCreateWithNullExpires()
     {
-        $this->userToken->setExpires(null);
-        $this->assertSame(null, $this->userToken->getExpires());
+        $userToken = new UserToken(
+            $this->user,
+            $this->dummyData->getUserTokenType(),
+            self::TOKEN,
+            self::USER_AGENT,
+            self::IP4
+        );
+
+        $this->assertSame(null, $userToken->getExpires());
     }
 
     public function testGetRandomToken()
@@ -67,8 +75,6 @@ class UserTokenTest extends EntityTestCase
 
     public function testVerifyTokenDateValid()
     {
-        $this->userToken->setExpires(new DateTime('2015-10-21', new DateTimeZone('UTC')));
-
         $this->assertFalse($this->userToken->verifyTokenDateValid());
         $this->assertFalse($this->userToken->verifyTokenDateValid(new DateTime('2016-10-22', new DateTimeZone('UTC'))));
         $this->assertTrue($this->userToken->verifyTokenDateValid(new DateTime('2014-10-22', new DateTimeZone('UTC'))));

@@ -54,6 +54,13 @@ class UserService implements UserServiceInterface
         $this->userRepository->create($user);
     }
 
+    public function createUserToken(UserToken & $userToken)
+    {
+        $this->throwValidationErrors($userToken);
+        $this->userTokenRepository->create($userToken);
+        $this->eventDispatcher->dispatch($userToken->releaseEvents());
+    }
+
     public function update(User & $user)
     {
         $this->throwValidationErrors($user);
@@ -138,25 +145,14 @@ class UserService implements UserServiceInterface
     {
         $user = $this->userRepository->findOneByEmail($email);
 
-        $token = UserToken::getRandomToken();
-
-        $userToken = new UserToken($user);
-        $userToken->setType(UserTokenType::internal());
-        $userToken->setToken($token);
-        $userToken->setUserAgent($userAgent);
-        $userToken->setIp4($ip4);
-        $userToken->setExpires(new DateTime('+1 hour'));
-
-        $this->userTokenRepository->create($userToken);
-
-        $this->eventDispatcher->dispatchEvent(
-            new ResetPasswordEvent(
-                $user->getId(),
-                $user->getEmail(),
-                $user->getFullName(),
-                $token
-            )
+        $userToken = UserToken::createResetPasswordToken(
+            $user,
+            UserToken::getRandomToken(),
+            $userAgent,
+            $ip4
         );
+
+        $this->createUserToken($userToken);
     }
 
     public function changePassword(UuidInterface $userId, $password)

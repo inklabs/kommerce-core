@@ -75,6 +75,10 @@ use inklabs\kommerce\Lib\Uuid;
 
 class DummyData
 {
+    const USER_TOKEN_STRING = 'tokenstringxxx';
+    const IP4 = '127.0.0.1';
+    const USER_AGENT = 'DummyData/1.1';
+
     public function getAddress()
     {
         $address = new Address;
@@ -1015,20 +1019,24 @@ class DummyData
         return UserStatusType::inactive();
     }
 
-    public function getUserToken(User $user = null)
+    public function getUserToken(User $user = null, DateTime $expires = null)
     {
         if ($user === null) {
             $user = $this->getUser();
         }
 
-        $userToken = new UserToken($user);
-        $userToken->setUserAgent('SampleBot/1.1');
-        $userToken->setToken('xxxx');
-        $userToken->setIp4('8.8.8.8');
-        $userToken->setexpires(new DateTime);
-        $userToken->setType(UserTokenType::facebook());
+        if ($expires === null) {
+            $expires = new DateTime('+1 hour');
+        }
 
-        return $userToken;
+        return new UserToken(
+            $user,
+            UserTokenType::internal(),
+            self::USER_TOKEN_STRING,
+            self::USER_AGENT,
+            self::IP4,
+            $expires
+        );
     }
 
     public function getUserTokenType()

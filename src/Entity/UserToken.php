@@ -3,12 +3,13 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Event\ResetPasswordEvent;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class UserToken implements IdEntityInterface, ValidationInterface
 {
-    use TimeTrait, IdTrait;
+    use TimeTrait, IdTrait, EventGeneratorTrait;
 
     /** @var string */
     protected $userAgent;
@@ -31,12 +32,25 @@ class UserToken implements IdEntityInterface, ValidationInterface
     /** @var UserLogin[] */
     protected $userLogins;
 
-    public function __construct(User $user)
+    /**
+     * @param User $user
+     * @param UserTokenType $type
+     * @param string $token
+     * @param string $userAgent
+     * @param string $ip4
+     * @param DateTime $expires
+     */
+    public function __construct(User $user, UserTokenType $type, $token, $userAgent, $ip4, DateTime $expires = null)
     {
         $this->setId();
         $this->setCreated();
         $this->setUser($user);
-        $this->setType(UserTokenType::internal());
+        $this->setType($type);
+        $this->setUserAgent($userAgent);
+        $this->setToken($token);
+        $this->setIp4($ip4);
+        $this->setExpires($expires);
+
         $this->userLogins = new ArrayCollection();
     }
 
@@ -64,9 +78,41 @@ class UserToken implements IdEntityInterface, ValidationInterface
     }
 
     /**
+     * @param User $user
+     * @param string $token
+     * @param string $userAgent
+     * @param string $ip4
+     * @return self
+     */
+    public static function createResetPasswordToken(User $user, $token, $userAgent, $ip4)
+    {
+        $expires = new DateTime('+1 hour');
+
+        $userToken = new self(
+            $user,
+            UserTokenType::internal(),
+            $token,
+            $userAgent,
+            $ip4,
+            $expires
+        );
+
+        $userToken->raise(
+            new ResetPasswordEvent(
+                $user->getId(),
+                $user->getEmail(),
+                $user->getFullName(),
+                $token
+            )
+        );
+
+        return $userToken;
+    }
+
+    /**
      * @param string $userAgent
      */
-    public function setUserAgent($userAgent)
+    private function setUserAgent($userAgent)
     {
         $this->userAgent = (string) $userAgent;
     }
@@ -79,7 +125,7 @@ class UserToken implements IdEntityInterface, ValidationInterface
     /**
      * @param string $ip4
      */
-    public function setIp4($ip4)
+    private function setIp4($ip4)
     {
         $this->ip4 = (int) ip2long($ip4);
     }
@@ -96,7 +142,7 @@ class UserToken implements IdEntityInterface, ValidationInterface
     /**
      * @param string $token
      */
-    public function setToken($token)
+    private function setToken($token)
     {
         $this->tokenHash = password_hash((string) $token, PASSWORD_BCRYPT);
     }
@@ -110,7 +156,7 @@ class UserToken implements IdEntityInterface, ValidationInterface
         return password_verify($token, $this->tokenHash);
     }
 
-    public function setType(UserTokenType $type)
+    private function setType(UserTokenType $type)
     {
         $this->type = $type;
     }
@@ -120,7 +166,7 @@ class UserToken implements IdEntityInterface, ValidationInterface
         return $this->type;
     }
 
-    public function setExpires(DateTime $expires = null)
+    private function setExpires(DateTime $expires = null)
     {
         if ($expires === null) {
             $this->expires = null;

@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\UserLoginException;
 use inklabs\kommerce\Lib\UuidInterface;
@@ -11,6 +12,7 @@ interface UserServiceInterface
 {
     public function create(User & $user);
     public function update(User & $user);
+    public function createUserToken(UserToken & $userToken);
 
     /**
      * @param string $email
