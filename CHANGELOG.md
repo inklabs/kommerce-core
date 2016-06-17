@@ -17,6 +17,7 @@ used to track changes in this project.
   - GetCartByUserIdQuery
 - Product
   - CreateProductCommand
+  - UpdateProductCommand
   - GetProductQuery
   - GetRelatedProductsQuery
   - GetRandomProductsQuery
