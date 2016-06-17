@@ -11,6 +11,7 @@ used to track changes in this project.
   - GetCartQuery
   - GetCartBySessionIdQuery
   - GetCartByUserIdQuery
+  - RemoveCartCommand
   - SetCartSessionIdCommand
   - SetCartUserCommand
 - Product
