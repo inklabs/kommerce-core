@@ -61,7 +61,8 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
         $serviceFactory = $this->getServiceFactory();
 
         $command = new CreateOrderFromCartCommand(
-            $cart->getId(),
+            $cart->getId()->getHex(),
+            $cart->getUser()->getId()->getHex(),
             '10.0.0.1',
             $creditCardDTO,
             $shippingAddressDTO,
@@ -72,6 +73,7 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
             $serviceFactory->getCart(),
             $serviceFactory->getCartCalculator(),
             $serviceFactory->getOrder(),
+            $serviceFactory->getUser(),
             $this->getDTOBuilderFactory()
         );
         $handler->handle($command);

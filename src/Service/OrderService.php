@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CreditCard;
@@ -200,6 +201,7 @@ class OrderService implements OrderServiceInterface
 
     /**
      * @param UuidInterface $orderId
+     * @param User $user
      * @param Cart $cart
      * @param CartCalculatorInterface $cartCalculator
      * @param string $ip4
@@ -210,6 +212,7 @@ class OrderService implements OrderServiceInterface
      */
     public function createOrderFromCart(
         UuidInterface $orderId,
+        User $user,
         Cart $cart,
         CartCalculatorInterface $cartCalculator,
         $ip4,
@@ -219,7 +222,7 @@ class OrderService implements OrderServiceInterface
     ) {
         $this->throwValidationErrors($creditCard);
 
-        $order = Order::fromCart($orderId, $cart, $cartCalculator, $ip4);
+        $order = Order::fromCart($orderId, $user, $cart, $cartCalculator, $ip4);
         $order->setShippingAddress($shippingAddress);
         $order->setBillingAddress($billingAddress);
 

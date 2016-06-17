@@ -15,6 +15,9 @@ final class CreateOrderFromCartCommand implements CommandInterface
     /** @var UuidInterface */
     private $cartId;
 
+    /** @var UuidInterface */
+    private $userId;
+
     /** @var string */
     private $ip4;
 
@@ -28,21 +31,24 @@ final class CreateOrderFromCartCommand implements CommandInterface
     private $billingAddressDTO;
 
     /**
-     * @param UuidInterface $cartId
+     * @param string $cartIdString
+     * @param string $userIdString
      * @param string $ip4
      * @param CreditCardDTO $creditCardDTO
      * @param OrderAddressDTO $shippingAddressDTO
      * @param OrderAddressDTO $billingAddressDTO
      */
     public function __construct(
-        UuidInterface $cartId,
+        $cartIdString,
+        $userIdString,
         $ip4,
         CreditCardDTO $creditCardDTO,
         OrderAddressDTO $shippingAddressDTO,
         OrderAddressDTO $billingAddressDTO
     ) {
         $this->orderId = Uuid::uuid4();
-        $this->cartId = $cartId;
+        $this->cartId = Uuid::fromString($cartIdString);
+        $this->userId = Uuid::fromString($userIdString);
         $this->ip4 = (string) $ip4;
         $this->creditCardDTO = $creditCardDTO;
         $this->shippingAddressDTO = $shippingAddressDTO;
@@ -77,5 +83,10 @@ final class CreateOrderFromCartCommand implements CommandInterface
     public function getOrderId()
     {
         return $this->orderId;
+    }
+
+    public function getUserId()
+    {
+        return $this->userId;
     }
 }

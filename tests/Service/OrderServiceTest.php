@@ -285,6 +285,7 @@ class OrderServiceTest extends ServiceTestCase
 
         $order = $this->orderService->createOrderFromCart(
             $orderId,
+            $cart->getUser(),
             $cart,
             $this->getCartCalculator(),
             '10.0.0.1',

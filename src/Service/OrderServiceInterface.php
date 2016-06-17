@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CreditCard;
@@ -80,6 +81,7 @@ interface OrderServiceInterface
 
     /**
      * @param UuidInterface $orderId
+     * @param User $user
      * @param Cart $cart
      * @param CartCalculatorInterface $cartCalculator
      * @param string $ip4
@@ -90,6 +92,7 @@ interface OrderServiceInterface
      */
     public function createOrderFromCart(
         UuidInterface $orderId,
+        User $user,
         Cart $cart,
         CartCalculatorInterface $cartCalculator,
         $ip4,

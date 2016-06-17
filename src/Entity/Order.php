@@ -69,13 +69,19 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
 
     /**
      * @param UuidInterface $orderId
+     * @param User $user
      * @param Cart $cart
      * @param CartCalculatorInterface $cartCalculator
      * @param string $ip4
      * @return static
      */
-    public static function fromCart(UuidInterface $orderId, Cart $cart, CartCalculatorInterface $cartCalculator, $ip4)
-    {
+    public static function fromCart(
+        UuidInterface $orderId,
+        User $user,
+        Cart $cart,
+        CartCalculatorInterface $cartCalculator,
+        $ip4
+    ) {
         $order = new Order($orderId);
         $order->setIp4($ip4);
         $order->setTotal($cart->getTotal($cartCalculator));
@@ -88,7 +94,7 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
             $order->addCoupon($coupon);
         }
 
-        $order->setUser($cart->getUser());
+        $order->setUser($user);
         $order->setTaxRate($cart->getTaxRate());
         $order->setShipmentRate($cart->getShipmentRate());
 

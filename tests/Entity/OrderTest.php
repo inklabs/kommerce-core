@@ -107,7 +107,7 @@ class OrderTest extends EntityTestCase
         $cart->setTaxRate($taxRate);
         $cart->setShipmentRate($shipmentRate);
 
-        $order = Order::fromCart($orderId, $cart, $cartCalculator, '10.0.0.1');
+        $order = Order::fromCart($orderId, $user, $cart, $cartCalculator, '10.0.0.1');
 
         $this->assertTrue($order instanceof Order);
         $this->assertSame('10.0.0.1', $order->getIp4());
