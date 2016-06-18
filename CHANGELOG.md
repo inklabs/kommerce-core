@@ -25,6 +25,7 @@ used to track changes in this project.
   - GetRelatedProductsQuery
   - GetRandomProductsQuery
 - User
+  - ImportUsersFromCSVCommand
   - LoginCommand
   - GetUserQuery
   - GetUserByEmailQuery
