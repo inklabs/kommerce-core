@@ -22,7 +22,7 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
         $this->entity = $orderItem;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
 
-        $this->entityDTO = new OrderItemDTO;
+        $this->entityDTO = $this->getEntityDTO();
         $this->setId();
         $this->setTime();
         $this->entityDTO->quantity      = $this->entity->getQuantity();
@@ -45,6 +45,11 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
                 ->withTags()
                 ->build();
         }
+    }
+
+    protected function getEntityDTO()
+    {
+        return new OrderItemDTO;
     }
 
     public function withCatalogPromotions()

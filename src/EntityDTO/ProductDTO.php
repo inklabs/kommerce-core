@@ -41,6 +41,9 @@ class ProductDTO
     /** @var bool */
     public $isInStock;
 
+    /** @var bool */
+    public $areAttachmentsEnabled;
+
     /** @var int */
     public $shippingWeight;
 

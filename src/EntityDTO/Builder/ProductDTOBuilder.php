@@ -45,6 +45,7 @@ class ProductDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->defaultImage        = $this->entity->getDefaultImage();
 
         $this->entityDTO->isInStock = $this->entity->inStock();
+        $this->entityDTO->areAttachmentsEnabled = $this->entity->areAttachmentsEnabled();
     }
 
     public static function createFromDTO(ProductDTO $productDTO)
@@ -65,6 +66,7 @@ class ProductDTOBuilder implements DTOBuilderInterface
         $product->setIsVisible($productDTO->isVisible);
         $product->setIsTaxable($productDTO->isTaxable);
         $product->setIsShippable($productDTO->isShippable);
+        $product->setAreAttachmentsEnabled($productDTO->areAttachmentsEnabled);
         $product->setShippingWeight($productDTO->shippingWeight);
         $product->setDescription($productDTO->description);
         $product->setRating($productDTO->rating);

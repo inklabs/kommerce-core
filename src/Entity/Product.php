@@ -402,6 +402,14 @@ class Product implements IdEntityInterface, ValidationInterface, EnabledAttachme
         $this->productAttributes->add($productAttribute);
     }
 
+    /**
+     * @param bool $areAttachmentsEnabled
+     */
+    public function setAreAttachmentsEnabled($areAttachmentsEnabled)
+    {
+        $this->areAttachmentsEnabled = (bool) $areAttachmentsEnabled;
+    }
+
     public function disableAttachments()
     {
         $this->areAttachmentsEnabled = false;
