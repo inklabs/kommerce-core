@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Product;
 
-use inklabs\kommerce\Action\Product\RemoveTagFromProductCommand;
+use inklabs\kommerce\Action\Product\RemoveImageFromProductCommand;
 use inklabs\kommerce\Service\ProductServiceInterface;
 
-final class RemoveTagFromProductHandler
+final class RemoveImageFromProductHandler
 {
     /** @var ProductServiceInterface */
     protected $productService;
@@ -14,11 +14,11 @@ final class RemoveTagFromProductHandler
         $this->productService = $productService;
     }
 
-    public function handle(RemoveTagFromProductCommand $command)
+    public function handle(RemoveImageFromProductCommand $command)
     {
-        $this->productService->removeTag(
+        $this->productService->removeImage(
             $command->getProductId(),
-            $command->getTagId()
+            $command->getImageId()
         );
     }
 }
