@@ -7,7 +7,7 @@ use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Service\EntityValidationTrait;
 use Iterator;
 
-class ImportUserService
+class ImportUserService implements ImportUserServiceInterface
 {
     use EntityValidationTrait;
 
