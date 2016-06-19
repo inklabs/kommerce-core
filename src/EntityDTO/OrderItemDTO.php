@@ -29,6 +29,9 @@ class OrderItemDTO
     /** @var ProductDTO */
     public $product;
 
+    /** @var OrderDTO */
+    public $order;
+
     /** @var OrderItemOptionProductDTO[] */
     public $orderItemOptionProducts = [];
 

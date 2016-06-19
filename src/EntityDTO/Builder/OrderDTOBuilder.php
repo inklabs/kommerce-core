@@ -77,6 +77,9 @@ class OrderDTOBuilder implements DTOBuilderInterface
         return new OrderDTO;
     }
 
+    /**
+     * @return static
+     */
     public function withUser()
     {
         $user = $this->entity->getUser();
@@ -88,17 +91,23 @@ class OrderDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withItems()
     {
         foreach ($this->entity->getOrderItems() as $orderItem) {
             $this->entityDTO->orderItems[] = $this->dtoBuilderFactory
                 ->getOrderItemDTOBuilder($orderItem)
-                ->withAllData()
+                ->withAllData($this->entityDTO)
                 ->build();
         }
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withPayments()
     {
         foreach ($this->entity->getPayments() as $payment) {
@@ -109,6 +118,9 @@ class OrderDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withCoupons()
     {
         foreach ($this->entity->getCoupons() as $coupon) {

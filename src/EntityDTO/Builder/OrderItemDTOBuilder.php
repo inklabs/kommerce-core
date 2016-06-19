@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\EntityDTO\OrderItemDTO;
 
 class OrderItemDTOBuilder implements DTOBuilderInterface
@@ -52,6 +53,9 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
         return new OrderItemDTO;
     }
 
+    /**
+     * @return static
+     */
     public function withCatalogPromotions()
     {
         foreach ($this->entity->getCatalogPromotions() as $catalogPromotion) {
@@ -62,6 +66,9 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withProductQuantityDiscounts()
     {
         foreach ($this->entity->getProductQuantityDiscounts() as $productQuantityDiscount) {
@@ -72,6 +79,9 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withOrderItemOptionProducts()
     {
         foreach ($this->entity->getOrderItemOptionProducts() as $orderItemOptionProduct) {
@@ -84,6 +94,9 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withOrderItemOptionValues()
     {
         foreach ($this->entity->getOrderItemOptionValues() as $orderItemOptionValue) {
@@ -96,6 +109,9 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withOrderItemTextOptionValues()
     {
         foreach ($this->entity->getOrderItemTextOptionValues() as $orderItemTextOptionValue) {
@@ -108,6 +124,9 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAttachments()
     {
         foreach ($this->entity->getAttachments() as $attachment) {
@@ -119,9 +138,31 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
-    public function withAllData()
+    /**
+     * @param OrderDTO $orderDTO
+     * @return static
+     */
+    public function withOrderDTO(OrderDTO $orderDTO = null)
+    {
+        if ($orderDTO === null) {
+            $orderDTO = $this->dtoBuilderFactory
+                ->getOrderDTOBuilder($this->entity->getOrder())
+                ->build();
+        }
+
+        $this->entityDTO->order = $orderDTO;
+
+        return $this;
+    }
+
+    /**
+     * @param OrderDTO | null $orderDTO
+     * @return static
+     */
+    public function withAllData(OrderDTO $orderDTO = null)
     {
         return $this
+            ->withOrderDTO($orderDTO)
             ->withCatalogPromotions()
             ->withProductQuantityDiscounts()
             ->withOrderItemOptionProducts()
