@@ -12,6 +12,7 @@ used to track changes in this project.
   - DeleteCartItemCommand
   - RemoveCartCommand
   - RemoveCouponFromCartCommand
+  - SetCartFlatRateShipmentRateCommand
   - SetCartSessionIdCommand
   - SetCartTaxRateByZip5AndStateCommand
   - SetCartUserCommand

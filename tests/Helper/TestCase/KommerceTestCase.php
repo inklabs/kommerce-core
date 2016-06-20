@@ -36,6 +36,7 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     const RATE_EXTERNAL_ID = 'rate_xxxxxxxxx';
     const USER_AGENT = 'UserAgent String';
     const COUPON_CODE = 'coupon123';
+    const CURRENCY = 'USD';
 
     /** @var DummyData */
     protected $dummyData;
