@@ -34,6 +34,7 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     const SHIPMENT_TRACKING_CODE = 'XXXXXXX';
     const RATE_EXTERNAL_ID = 'rate_xxxxxxxxx';
     const USER_AGENT = 'UserAgent String';
+    const COUPON_CODE = 'coupon123';
 
     /** @var DummyData */
     protected $dummyData;

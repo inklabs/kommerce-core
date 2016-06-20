@@ -27,7 +27,6 @@ interface CartServiceInterface
     /**
      * @param UuidInterface $cartId
      * @param string $couponCode
-     * @return int
      * @throws EntityNotFoundException
      */
     public function addCouponByCode(UuidInterface $cartId, $couponCode);
@@ -43,9 +42,9 @@ interface CartServiceInterface
 
     /**
      * @param UuidInterface $cartId
-     * @param int $couponIndex
+     * @param UuidInterface $couponId
      */
-    public function removeCoupon(UuidInterface $cartId, $couponIndex);
+    public function removeCoupon(UuidInterface $cartId, UuidInterface $couponId);
 
     /**
      * @param string $ip4

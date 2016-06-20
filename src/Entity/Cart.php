@@ -107,12 +107,11 @@ class Cart implements IdEntityInterface, ValidationInterface
 
     /**
      * @param Coupon $coupon
-     * @return int
      * @throws InvalidCartActionException
      */
     public function addCoupon(Coupon $coupon)
     {
-        if ($this->isExistingCoupon($coupon)) {
+        if ($this->coupons->contains($coupon)) {
             throw new InvalidCartActionException('Duplicate Coupon');
         }
 
@@ -125,9 +124,6 @@ class Cart implements IdEntityInterface, ValidationInterface
         }
 
         $this->coupons->add($coupon);
-
-        $couponIndex = $this->coupons->key();
-        return $couponIndex;
     }
 
     public function updateCoupon($couponIndex, Coupon $coupon)
@@ -143,17 +139,6 @@ class Cart implements IdEntityInterface, ValidationInterface
         return $this->coupons;
     }
 
-    private function isExistingCoupon(Coupon $addedCoupon)
-    {
-        foreach ($this->coupons as $coupon) {
-            if ($coupon->getId() === $addedCoupon->getId()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private function existingCouponsCanCombineWithOtherCoupons()
     {
         foreach ($this->coupons as $coupon) {
@@ -165,16 +150,16 @@ class Cart implements IdEntityInterface, ValidationInterface
     }
 
     /**
-     * @param int $key
+     * @param Coupon $coupon
      * @throws InvalidCartActionException
      */
-    public function removeCoupon($key)
+    public function removeCoupon(Coupon $coupon)
     {
-        if (! isset($this->coupons[$key])) {
+        if (! $this->coupons->contains($coupon)) {
             throw new InvalidCartActionException('Coupon missing');
         }
 
-        unset($this->coupons[$key]);
+        $this->coupons->removeElement($coupon);
     }
 
     public function totalItems()

@@ -7,11 +7,14 @@ used to track changes in this project.
 ## [Unreleased]
 ### Added
 - Cart
+  - AddCouponToCartCommand
   - CopyCartItemsCommand
   - DeleteCartItemCommand
   - RemoveCartCommand
+  - RemoveCouponFromCartCommand
   - SetCartSessionIdCommand
   - SetCartUserCommand
+  - UpdateCartItemQuantityCommand
   - GetCartQuery
   - GetCartBySessionIdQuery
   - GetCartByUserIdQuery
@@ -41,3 +44,4 @@ used to track changes in this project.
 - LoginWithTokenQuery to LoginWithTokenCommand
 - Moved raising OrderShippedEvent from OrderService::addShipment() to Order::addShipment()
 - Moved raising ResetPasswordEvent from UserService::requestPasswordResetToken() to UserToken::createResetPasswordToken()
+- Changed CartService::removeCoupon() to use $couponId instead of $couponIndex

@@ -114,7 +114,6 @@ class CartService implements CartServiceInterface
     /**
      * @param UuidInterface $cartId
      * @param string $couponCode
-     * @return int
      * @throws EntityNotFoundException
      */
     public function addCouponByCode(UuidInterface $cartId, $couponCode)
@@ -122,11 +121,9 @@ class CartService implements CartServiceInterface
         $coupon = $this->couponRepository->findOneByCode($couponCode);
         $cart = $this->cartRepository->findOneById($cartId);
 
-        $couponIndex = $cart->addCoupon($coupon);
+        $cart->addCoupon($coupon);
 
         $this->cartRepository->update($cart);
-
-        return $couponIndex;
     }
 
     public function getCoupons(UuidInterface $cartId)
@@ -148,12 +145,14 @@ class CartService implements CartServiceInterface
 
     /**
      * @param UuidInterface $cartId
-     * @param int $couponIndex
+     * @param UuidInterface $couponId
      */
-    public function removeCoupon(UuidInterface $cartId, $couponIndex)
+    public function removeCoupon(UuidInterface $cartId, UuidInterface $couponId)
     {
         $cart = $this->cartRepository->findOneById($cartId);
-        $cart->removeCoupon($couponIndex);
+        $coupon = $this->couponRepository->findOneById($couponId);
+
+        $cart->removeCoupon($coupon);
 
         $this->cartRepository->update($cart);
     }

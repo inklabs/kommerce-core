@@ -203,21 +203,23 @@ class CartTest extends EntityTestCase
     public function testRemoveCoupon()
     {
         $cart = new Cart;
-        $cart->addCoupon($this->dummyData->getCoupon());
-        $cart->removeCoupon(0);
-        $this->assertSame(0, count($cart->getCoupons()));
+        $coupon = $this->dummyData->getCoupon();
+        $cart->addCoupon($coupon);
+        $cart->removeCoupon($coupon);
+        $this->assertCount(0, $cart->getCoupons());
     }
 
     public function testRemoveCouponMissingThrowsException()
     {
         $cart = new Cart;
+        $coupon = $this->dummyData->getCoupon();
 
         $this->setExpectedException(
             InvalidCartActionException::class,
             'Coupon missing'
         );
 
-        $cart->removeCoupon(0);
+        $cart->removeCoupon($coupon);
     }
 
     public function testGetShippingWeight()

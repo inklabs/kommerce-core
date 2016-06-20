@@ -164,9 +164,9 @@ class CartServiceTest extends ServiceTestCase
             ->andReturn($coupon)
             ->once();
 
-        $couponIndex = $this->cartService->addCouponByCode($cart->getId(), $coupon->getCode());
+        $this->cartService->addCouponByCode($cart->getId(), $coupon->getCode());
 
-        $this->assertEqualEntities($coupon, $cart->getCoupons()[$couponIndex]);
+        $this->assertEqualEntities($coupon, $cart->getCoupons()[0]);
     }
 
     public function testGetCoupons()
@@ -195,10 +195,13 @@ class CartServiceTest extends ServiceTestCase
     {
         $coupon = $this->dummyData->getCoupon();
         $cart = $this->getCartThatRepositoryWillFind();
-        $couponIndex = $cart->addCoupon($coupon);
+        $cart->addCoupon($coupon);
         $this->cartRepositoryShouldUpdateOnce($cart);
+        $this->couponRepository->shouldReceive('findOneById')
+            ->with($coupon->getId())
+            ->andReturn($coupon);
 
-        $this->cartService->removeCoupon($cart->getId(), $couponIndex);
+        $this->cartService->removeCoupon($cart->getId(), $coupon->getId());
 
         $this->assertCount(0, $cart->getCoupons());
     }
