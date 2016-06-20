@@ -11,12 +11,11 @@ class GetUserHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $pricing = $this->dummyData->getPricing();
         $userService = $this->mockService->getUserService();
         $dtoBuilderFactory = $this->getDTOBuilderFactory();
 
         $request = new GetUserRequest(self::UUID_HEX);
-        $response = new GetUserResponse($pricing);
+        $response = new GetUserResponse();
 
         $handler = new GetUserHandler($userService, $dtoBuilderFactory);
 

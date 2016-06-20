@@ -5,5 +5,5 @@ use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
 
 interface GetUserResponseInterface
 {
-    public function setUserDTOBuilder(UserDTOBuilder $productDTOBuilder);
+    public function setUserDTOBuilder(UserDTOBuilder $userDTOBuilder);
 }

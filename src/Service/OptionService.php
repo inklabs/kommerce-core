@@ -7,7 +7,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 
-class OptionService
+class OptionService implements OptionServiceInterface
 {
     use EntityValidationTrait;
 

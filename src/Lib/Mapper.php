@@ -11,6 +11,7 @@ use inklabs\kommerce\Service\CouponServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\Import\ImportUserServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
+use inklabs\kommerce\Service\OptionServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
 use inklabs\kommerce\Service\ServiceFactory;
@@ -80,6 +81,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->serviceFactory->getInventoryService();
                 } elseif ($parameterClassName === ImageServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getImageService();
+                } elseif ($parameterClassName === OptionServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getOption();
                 } elseif ($parameterClassName === OrderServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getOrder();
                 } elseif ($parameterClassName === ProductServiceInterface::class) {

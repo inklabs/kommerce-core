@@ -6,22 +6,22 @@ use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
 class GetUserResponse implements GetUserResponseInterface
 {
     /** @var UserDTOBuilder */
-    private $productDTOBuilder;
+    private $userDTOBuilder;
 
-    public function setUserDTOBuilder(UserDTOBuilder $productDTOBuilder)
+    public function setUserDTOBuilder(UserDTOBuilder $userDTOBuilder)
     {
-        $this->productDTOBuilder = $productDTOBuilder;
+        $this->userDTOBuilder = $userDTOBuilder;
     }
 
     public function getUserDTO()
     {
-        return $this->productDTOBuilder
+        return $this->userDTOBuilder
             ->build();
     }
 
     public function getUserDTOWithRolesAndTokens()
     {
-        return $this->productDTOBuilder
+        return $this->userDTOBuilder
             ->withRoles()
             ->withTokens()
             ->build();

@@ -9,6 +9,7 @@ use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\Import\ImportUserServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
+use inklabs\kommerce\Service\OptionServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
 use inklabs\kommerce\Service\TagServiceInterface;
@@ -115,6 +116,19 @@ class MockService
     {
         $importUserService = $this->getMockeryMock(ImportUserServiceInterface::class);
         return $importUserService;
+    }
+
+    /**
+     * @return OptionServiceInterface | Mockery\Mock
+     */
+    public function getOptionService()
+    {
+        $option = $this->dummyData->getOption();
+        $service = $this->getMockeryMock(OptionServiceInterface::class);
+        $service->shouldReceive('findOneById')
+            ->andReturn($option);
+
+        return $service;
     }
 
     /**

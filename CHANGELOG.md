@@ -24,6 +24,8 @@ used to track changes in this project.
   - GetProductQuery
   - GetRelatedProductsQuery
   - GetRandomProductsQuery
+- Option
+  - GetOptionQuery
 - Order
   - GetOrderItemQuery
 - User
