@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Order\Query;
 
+use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
 final class GetOrderRequest
@@ -8,9 +9,12 @@ final class GetOrderRequest
     /** @var UuidInterface */
     private $orderId;
 
-    public function __construct(UuidInterface $orderId)
+    /**
+     * @param string $orderId
+     */
+    public function __construct($orderId)
     {
-        $this->orderId = $orderId;
+        $this->orderId = Uuid::fromString($orderId);
     }
 
     public function getOrderId()

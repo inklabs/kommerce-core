@@ -24,12 +24,13 @@ used to track changes in this project.
   - GetProductQuery
   - GetRelatedProductsQuery
   - GetRandomProductsQuery
+- Order
+  - GetOrderItemQuery
 - User
   - ImportUsersFromCSVCommand
   - LoginCommand
   - GetUserQuery
   - GetUserByEmailQuery
-
 ### Changed
 - Migrate to UUIDs for primary keys
 - LoginWithTokenQuery to LoginWithTokenCommand
