@@ -53,6 +53,7 @@ class TagDTOBuilder implements DTOBuilderInterface
     public static function setFromDTO(Tag & $tag, TagDTO $tagDTO)
     {
         $tag->setName($tagDTO->name);
+        $tag->setDefaultImage($tagDTO->defaultImage);
         $tag->setCode($tagDTO->code);
         $tag->setDescription($tagDTO->description);
         $tag->setIsActive($tagDTO->isActive);
