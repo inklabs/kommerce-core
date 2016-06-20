@@ -22,6 +22,7 @@ used to track changes in this project.
   - RemoveTagFromProductCommand
   - UpdateProductCommand
   - GetProductQuery
+  - GetProductsByIdsQuery
   - GetRelatedProductsQuery
   - GetRandomProductsQuery
 - Option

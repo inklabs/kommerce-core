@@ -71,7 +71,7 @@ interface ProductServiceInterface
 
     /**
      * @param UuidInterface[] $productIds
-     * @param Pagination $pagination
+     * @param Pagination $pagination  TODO: Remove $pagination
      * @return Product[]
      */
     public function getProductsByIds($productIds, Pagination & $pagination = null);
