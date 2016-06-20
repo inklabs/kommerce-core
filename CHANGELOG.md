@@ -15,6 +15,10 @@ used to track changes in this project.
   - GetCartQuery
   - GetCartBySessionIdQuery
   - GetCartByUserIdQuery
+- Option
+  - GetOptionQuery
+- Order
+  - GetOrderItemQuery
 - Product
   - AddTagToProductCommand
   - CreateProductCommand
@@ -25,10 +29,8 @@ used to track changes in this project.
   - GetProductsByIdsQuery
   - GetRelatedProductsQuery
   - GetRandomProductsQuery
-- Option
-  - GetOptionQuery
-- Order
-  - GetOrderItemQuery
+- Tag
+  - GetTagsByIdsQuery
 - User
   - ImportUsersFromCSVCommand
   - LoginCommand

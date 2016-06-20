@@ -14,7 +14,6 @@ class GetProductsByIdsHandlerTest extends ActionTestCase
         $pricing = $this->dummyData->getPricing();
         $product = $this->dummyData->getProduct();
 
-        $limit = 4;
         $productIds = [
             $product->getId()->getHex(),
         ];
@@ -25,7 +24,7 @@ class GetProductsByIdsHandlerTest extends ActionTestCase
             ->with([$product->getId()])
             ->andReturn([$product]);
 
-        $request = new GetProductsByIdsRequest($productIds, $limit);
+        $request = new GetProductsByIdsRequest($productIds);
         $response = new GetProductsByIdsResponse($pricing);
 
         $handler = new GetProductsByIdsHandler($productService, $dtoBuilderFactory);

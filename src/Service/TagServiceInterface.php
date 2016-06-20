@@ -38,7 +38,7 @@ interface TagServiceInterface
     public function getAllTags($queryString = null, Pagination & $pagination = null);
 
     /**
-     * @param int[] $tagIds
+     * @param UuidInterface[] $tagIds
      * @param Pagination $pagination
      * @return Tag[]
      */
