@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 
-class TaxRateService
+class TaxRateService implements TaxRateServiceInterface
 {
     use EntityValidationTrait;
 
@@ -42,7 +42,7 @@ class TaxRateService
     /**
      * @param string $zip5
      * @param string $state
-     * @return TaxRate|null
+     * @return TaxRate | null
      */
     public function findByZip5AndState($zip5 = null, $state = null)
     {

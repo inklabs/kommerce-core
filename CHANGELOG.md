@@ -13,6 +13,7 @@ used to track changes in this project.
   - RemoveCartCommand
   - RemoveCouponFromCartCommand
   - SetCartSessionIdCommand
+  - SetCartTaxRateByZip5AndStateCommand
   - SetCartUserCommand
   - UpdateCartItemQuantityCommand
   - GetCartQuery

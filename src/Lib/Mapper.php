@@ -16,6 +16,7 @@ use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\Service\TaxRateServiceInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
 use ReflectionClass;
 
@@ -91,6 +92,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->serviceFactory->getShipmentGateway();
                 } elseif ($parameterClassName === TagServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getTagService();
+                } elseif ($parameterClassName === TaxRateServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getTaxRate();
                 } elseif ($parameterClassName === UserServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getUser();
                 }

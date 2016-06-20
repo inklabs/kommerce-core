@@ -13,6 +13,7 @@ use inklabs\kommerce\Service\OptionServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
 use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\Service\TaxRateServiceInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use Mockery;
@@ -192,6 +193,19 @@ class MockService
             ->andReturn([$tag]);
 
         return $tagService;
+    }
+
+    /**
+     * @return TaxRateServiceInterface | Mockery\Mock
+     */
+    public function getTaxRateService()
+    {
+        $taxRate = $this->dummyData->getTaxRate();
+        $service = $this->getMockeryMock(TaxRateServiceInterface::class);
+        $service->shouldReceive('findByZip5AndState')
+            ->andReturn($taxRate);
+
+        return $service;
     }
 
     /**
