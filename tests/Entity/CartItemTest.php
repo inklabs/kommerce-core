@@ -63,6 +63,7 @@ class CartItemTest extends EntityTestCase
         $cartItem = $this->dummyData->getCartItemFull();
         $newCartItem = clone $cartItem;
 
+        $this->assertNotSame($cartItem->getId(), $newCartItem->getId());
         $this->assertNotSame($cartItem, $newCartItem);
 
         $this->assertNotSame(

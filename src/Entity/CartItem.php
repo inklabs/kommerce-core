@@ -44,6 +44,7 @@ class CartItem implements IdEntityInterface, ValidationInterface, EnabledAttachm
 
     public function __clone()
     {
+        $this->setId();
         $this->cloneCartItemOptionProducts();
         $this->cloneCartItemOptionValues();
         $this->cloneCartItemTextOptionValues();
