@@ -16,10 +16,27 @@ final class AddCartItemHandler
 
     public function handle(AddCartItemCommand $command)
     {
-        $this->cartService->addItem(
+        $cartItem = $this->cartService->addItem(
+            $command->getCartItemId(),
             $command->getCartId(),
             $command->getProductId(),
             $command->getQuantity()
         );
+
+        $optionProductIds = $command->getOptionProductIds();
+        $optionValueIds = $command->getOptionValueIds();
+        $textOptionValues = $command->getTextOptionValues();
+
+        if (! empty($optionProductIds)) {
+            $this->cartService->addItemOptionProducts($cartItem->getId(), $optionProductIds);
+        }
+
+        if (! empty($optionValueIds)) {
+            $this->cartService->addItemOptionValues($cartItem->getId(), $optionValueIds);
+        }
+
+        if (! empty($textOptionValues)) {
+            $this->cartService->addItemTextOptionValues($cartItem->getId(), $textOptionValues);
+        }
     }
 }

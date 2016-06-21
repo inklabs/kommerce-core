@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Exception\AttachmentException;
 use inklabs\kommerce\Lib\PricingInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -32,9 +33,9 @@ class CartItem implements IdEntityInterface, ValidationInterface, EnabledAttachm
     /** @var Attachment[] */
     protected $attachments;
 
-    public function __construct()
+    public function __construct(UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->cartItemOptionProducts = new ArrayCollection;
         $this->cartItemOptionValues = new ArrayCollection;

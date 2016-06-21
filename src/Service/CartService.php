@@ -192,19 +192,19 @@ class CartService implements CartServiceInterface
     }
 
     /**
+     * @param UuidInterface $cartItemId
      * @param UuidInterface $cartId
      * @param UuidInterface $productId
      * @param int $quantity
      * @return CartItem
-     * @throws EntityNotFoundException
      */
-    public function addItem(UuidInterface $cartId, UuidInterface $productId, $quantity = 1)
+    public function addItem(UuidInterface $cartItemId, UuidInterface $cartId, UuidInterface $productId, $quantity = 1)
     {
         $product = $this->productRepository->findOneById($productId);
         $cart = $this->cartRepository->findOneById($cartId);
         $cart->setShipmentRate(null);
 
-        $cartItem = new CartItem;
+        $cartItem = new CartItem($cartItemId);
         $cartItem->setProduct($product);
         $cartItem->setQuantity($quantity);
 

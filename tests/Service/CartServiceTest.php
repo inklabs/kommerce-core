@@ -259,7 +259,8 @@ class CartServiceTest extends ServiceTestCase
         $cart = $this->getCartThatRepositoryWillFind();
         $this->cartRepositoryShouldUpdateOnce($cart);
 
-        $cartItem = $this->cartService->addItem($cart->getId(), $product->getid());
+        $cartItemId = Uuid::uuid4();
+        $cartItem = $this->cartService->addItem($cartItemId, $cart->getId(), $product->getid());
 
         $this->assertEqualEntities($cartItem, $cart->getCartItems()[0]);
         $this->assertSame(null, $cart->getShipmentRate());

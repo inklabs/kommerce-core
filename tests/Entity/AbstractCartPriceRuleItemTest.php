@@ -17,7 +17,7 @@ class AbstractCartPriceRuleItemTest extends EntityTestCase
         $mock->setCartPriceRule(new CartPriceRule);
 
         $this->assertEntityValid($mock);
-        $this->assertTrue($mock->matches(new CartItem(new Product, 1)));
+        $this->assertTrue($mock->matches(new CartItem()));
         $this->assertSame(2, $mock->getQuantity());
         $this->assertTrue($mock->getCartPriceRule() instanceof CartPriceRule);
     }
