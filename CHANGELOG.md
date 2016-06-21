@@ -40,6 +40,7 @@ used to track changes in this project.
 - Tag
   - GetTagsByIdsQuery
 - User
+  - CreateUserCommand
   - ImportUsersFromCSVCommand
   - LoginCommand
   - GetUserQuery

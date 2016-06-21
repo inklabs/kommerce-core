@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\EntityDTO\UserDTO;
 
 class UserDTOBuilder implements DTOBuilderInterface
@@ -40,6 +41,22 @@ class UserDTOBuilder implements DTOBuilderInterface
     protected function getEntityDTO()
     {
         return new UserDTO;
+    }
+
+    public static function createFromDTO(UserDTO $userDTO)
+    {
+        $user = new User;
+        self::setFromDTO($user, $userDTO);
+        return $user;
+    }
+
+    public static function setFromDTO(User & $user, UserDTO $userDTO)
+    {
+        $user->setExternalId($userDTO->externalId);
+        $user->setEmail($userDTO->email);
+        $user->setFirstName($userDTO->firstName);
+        $user->setLastName($userDTO->lastName);
+        $user->setStatus(UserStatusType::createById($userDTO->status->id));
     }
 
     public function withRoles()
