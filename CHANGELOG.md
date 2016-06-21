@@ -7,6 +7,7 @@ used to track changes in this project.
 ## [Unreleased]
 ### Added
 - Cart
+  - AddCartItemCommand
   - AddCouponToCartCommand
   - CopyCartItemsCommand
   - CreateCartCommand
