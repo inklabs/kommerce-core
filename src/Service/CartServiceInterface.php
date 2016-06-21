@@ -52,7 +52,7 @@ interface CartServiceInterface
      * @param string $sessionId
      * @return Cart
      */
-    public function create($ip4, UuidInterface $userId, $sessionId);
+    public function create($ip4, UuidInterface $userId = null, $sessionId = null);
 
     /**
      * @param UuidInterface $cartId

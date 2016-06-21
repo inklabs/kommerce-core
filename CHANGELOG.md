@@ -9,6 +9,7 @@ used to track changes in this project.
 - Cart
   - AddCouponToCartCommand
   - CopyCartItemsCommand
+  - CreateCartCommand
   - DeleteCartItemCommand
   - RemoveCartCommand
   - RemoveCouponFromCartCommand
