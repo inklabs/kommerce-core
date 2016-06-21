@@ -158,19 +158,20 @@ class CartService implements CartServiceInterface
     }
 
     /**
+     * @param UuidInterface $cartId
      * @param string $ip4
      * @param UuidInterface | null $userId
      * @param string | null $sessionId
      * @return Cart
      * @throws InvalidArgumentException
      */
-    public function create($ip4, UuidInterface $userId = null, $sessionId = null)
+    public function create(UuidInterface $cartId, $ip4, UuidInterface $userId = null, $sessionId = null)
     {
         if (empty($userId) && empty($sessionId)) {
             throw new InvalidArgumentException('User or session id required.');
         }
 
-        $cart = new Cart;
+        $cart = new Cart($cartId);
         $cart->setIp4($ip4);
         $cart->setSessionId($sessionId);
         $cart->setUpdated();

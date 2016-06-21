@@ -19,6 +19,7 @@ use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
@@ -211,7 +212,7 @@ class CartServiceTest extends ServiceTestCase
         $this->cartRepositoryShouldCreateOnce();
 
         $userId = null;
-        $cart = $this->cartService->create(self::IP4, $userId, self::SESSION_ID);
+        $cart = $this->cartService->create(Uuid::uuid4(), self::IP4, $userId, self::SESSION_ID);
 
         $this->assertSame($userId, $cart->getUser());
         $this->assertSame(self::SESSION_ID, $cart->getSessionId());
@@ -230,7 +231,7 @@ class CartServiceTest extends ServiceTestCase
         $this->cartRepositoryShouldCreateOnce();
 
         $sessionId = null;
-        $cart = $this->cartService->create(self::IP4, $user->getId(), $sessionId);
+        $cart = $this->cartService->create(Uuid::uuid4(), self::IP4, $user->getId(), $sessionId);
 
         $this->assertSame($user, $cart->getUser());
         $this->assertSame($sessionId, $cart->getSessionId());
@@ -244,7 +245,7 @@ class CartServiceTest extends ServiceTestCase
             'User or session id required'
         );
 
-        $this->cartService->create(self::IP4);
+        $this->cartService->create(Uuid::uuid4(), self::IP4);
     }
 
     public function testAddItem()

@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\ShipmentRate;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
@@ -47,12 +48,14 @@ interface CartServiceInterface
     public function removeCoupon(UuidInterface $cartId, UuidInterface $couponId);
 
     /**
+     * @param UuidInterface $cartId
      * @param string $ip4
-     * @param UuidInterface $userId
-     * @param string $sessionId
+     * @param UuidInterface | null $userId
+     * @param string | null $sessionId
      * @return Cart
+     * @throws InvalidArgumentException
      */
-    public function create($ip4, UuidInterface $userId = null, $sessionId = null);
+    public function create(UuidInterface $cartId, $ip4, UuidInterface $userId = null, $sessionId = null);
 
     /**
      * @param UuidInterface $cartId

@@ -17,6 +17,7 @@ final class CreateCartHandler
     public function handle(CreateCartCommand $command)
     {
         $this->cartService->create(
+            $command->getCartId(),
             $command->getRemoteIp4(),
             $command->getUserId(),
             $command->getSessionId()
