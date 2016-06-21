@@ -37,6 +37,8 @@ used to track changes in this project.
   - GetProductsByIdsQuery
   - GetRelatedProductsQuery
   - GetRandomProductsQuery
+- Shipment
+  - GetLowestShipmentRatesByDeliveryMethod
 - Tag
   - GetTagsByIdsQuery
 - User
