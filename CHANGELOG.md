@@ -26,6 +26,7 @@ used to track changes in this project.
   - GetOptionQuery
 - Order
   - GetOrderItemQuery
+  - GetOrdersByUserQuery
 - Product
   - AddTagToProductCommand
   - CreateProductCommand
