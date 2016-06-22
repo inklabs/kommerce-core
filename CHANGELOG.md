@@ -26,6 +26,7 @@ used to track changes in this project.
   - ListCatalogPromotionsQuery
 - Option
   - GetOptionQuery
+  - ListOptionsQuery
 - Order
   - GetOrderItemQuery
   - GetOrdersByUserQuery

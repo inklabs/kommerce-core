@@ -1,31 +1,31 @@
 <?php
-namespace inklabs\kommerce\ActionHandler\Tag;
+namespace inklabs\kommerce\ActionHandler\Option;
 
-use inklabs\kommerce\Action\Tag\ListTagsQuery;
+use inklabs\kommerce\Action\Option\ListOptionsQuery;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\Service\OptionServiceInterface;
 
-final class ListTagsHandler
+final class ListOptionsHandler
 {
-    /** @var TagServiceInterface */
+    /** @var OptionServiceInterface */
     private $tagService;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
-    public function __construct(TagServiceInterface $tagService, DTOBuilderFactoryInterface $dtoBuilderFactory)
+    public function __construct(OptionServiceInterface $tagService, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->tagService = $tagService;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(ListTagsQuery $query)
+    public function handle(ListOptionsQuery $query)
     {
         $paginationDTO = $query->getRequest()->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        $tags = $this->tagService->getAllTags(
+        $tags = $this->tagService->getAllOptions(
             $query->getRequest()->getQueryString(),
             $pagination
         );
@@ -35,8 +35,8 @@ final class ListTagsHandler
         );
 
         foreach ($tags as $tag) {
-            $query->getResponse()->addTagDTOBuilder(
-                $this->dtoBuilderFactory->getTagDTOBuilder($tag)
+            $query->getResponse()->addOptionDTOBuilder(
+                $this->dtoBuilderFactory->getOptionDTOBuilder($tag)
             );
         }
     }

@@ -144,6 +144,9 @@ class MockService
         $service->shouldReceive('findOneById')
             ->andReturn($option);
 
+        $service->shouldReceive('getAllOptions')
+            ->andReturn([$option]);
+
         return $service;
     }
 
