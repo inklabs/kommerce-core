@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityDTO\OrderDTO;
 class GetOrdersByUserResponse implements GetOrdersByUserResponseInterface
 {
     /** @var OrderDTOBuilder[] */
-    private $orderDTOBuilders;
+    private $orderDTOBuilders = [];
 
     public function addOrderDTOBuilder(OrderDTOBuilder $orderDTOBuilder)
     {
