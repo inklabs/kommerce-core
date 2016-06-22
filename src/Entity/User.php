@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class User implements IdEntityInterface, ValidationInterface
 {
-    use TimeTrait, IdTrait, EventGeneratorTrait;
+    use TimeTrait, IdTrait, EventGeneratorTrait, StringSetterTrait;
 
     /** @var string */
     protected $externalId;
@@ -118,7 +118,7 @@ class User implements IdEntityInterface, ValidationInterface
      */
     public function setExternalId($externalId = null)
     {
-        $this->externalId = (string) $externalId;
+        $this->setStringOrNull($this->externalId, $externalId);
     }
 
     public function setStatus(UserStatusType $status)

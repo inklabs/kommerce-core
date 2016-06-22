@@ -18,7 +18,7 @@ trait CreatedTrait
             $created = new DateTime('now', new DateTimeZone('UTC'));
         }
 
-        $this->created = $created->gettimestamp();
+        $this->created = $created->getTimestamp();
     }
 
     /**

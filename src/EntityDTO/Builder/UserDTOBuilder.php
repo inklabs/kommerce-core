@@ -57,7 +57,10 @@ class UserDTOBuilder implements DTOBuilderInterface
         $user->setEmail($userDTO->email);
         $user->setFirstName($userDTO->firstName);
         $user->setLastName($userDTO->lastName);
-        $user->setStatus(UserStatusType::createById($userDTO->status->id));
+
+        if ($userDTO->status !== null) {
+            $user->setStatus(UserStatusType::createById($userDTO->status->id));
+        }
     }
 
     public function withRoles()
