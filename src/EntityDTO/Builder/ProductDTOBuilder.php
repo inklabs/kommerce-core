@@ -58,6 +58,7 @@ class ProductDTOBuilder implements DTOBuilderInterface
     public static function setFromDTO(Product & $product, ProductDTO $productDTO)
     {
         $product->setName($productDTO->name);
+        $product->setSku($productDTO->sku);
         $product->setUnitPrice($productDTO->unitPrice);
         $product->setQuantity($productDTO->quantity);
         $product->setIsInventoryRequired($productDTO->isInventoryRequired);
