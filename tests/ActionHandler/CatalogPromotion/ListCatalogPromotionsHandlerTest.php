@@ -12,14 +12,14 @@ class ListCatalogPromotionsHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $tagService = $this->mockService->getCatalogPromotionService();
+        $catalogPromotionService = $this->mockService->getCatalogPromotionService();
         $dtoBuilderFactory = $this->getDTOBuilderFactory();
 
         $queryString = 'query';
         $request = new ListCatalogPromotionsRequest($queryString, new PaginationDTO);
         $response = new ListCatalogPromotionsResponse;
 
-        $handler = new ListCatalogPromotionsHandler($tagService, $dtoBuilderFactory);
+        $handler = new ListCatalogPromotionsHandler($catalogPromotionService, $dtoBuilderFactory);
         $handler->handle(new ListCatalogPromotionsQuery($request, $response));
 
         $this->assertTrue($response->getCatalogPromotionDTOs()[0] instanceof CatalogPromotionDTO);

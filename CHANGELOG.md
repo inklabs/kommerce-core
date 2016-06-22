@@ -40,6 +40,7 @@ used to track changes in this project.
   - GetProductsByIdsQuery
   - GetRelatedProductsQuery
   - GetRandomProductsQuery
+  - ListProductsQuery
 - Shipment
   - GetLowestShipmentRatesByDeliveryMethod
 - Tag

@@ -172,14 +172,17 @@ class MockService
     {
         $product = $this->dummyData->getProduct();
 
-        $productService = $this->getMockeryMock(ProductServiceInterface::class);
-        $productService->shouldReceive('findOneById')
+        $service = $this->getMockeryMock(ProductServiceInterface::class);
+        $service->shouldReceive('findOneById')
             ->andReturn($product);
 
-        $productService->shouldReceive('getRelatedProductsByIds')
+        $service->shouldReceive('getRelatedProductsByIds')
             ->andReturn([$product]);
 
-        return $productService;
+        $service->shouldReceive('getAllProducts')
+            ->andReturn([$product]);
+
+        return $service;
     }
 
     /**

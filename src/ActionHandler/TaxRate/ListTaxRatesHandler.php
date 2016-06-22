@@ -8,24 +8,24 @@ use inklabs\kommerce\Service\TaxRateServiceInterface;
 final class ListTaxRatesHandler
 {
     /** @var TaxRateServiceInterface */
-    private $tagService;
+    private $taxRateService;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
-    public function __construct(TaxRateServiceInterface $tagService, DTOBuilderFactoryInterface $dtoBuilderFactory)
+    public function __construct(TaxRateServiceInterface $taxRateService, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->tagService = $tagService;
+        $this->taxRateService = $taxRateService;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
     public function handle(ListTaxRatesQuery $query)
     {
-        $tags = $this->tagService->findAll();
+        $taxRates = $this->taxRateService->findAll();
 
-        foreach ($tags as $tag) {
+        foreach ($taxRates as $taxRate) {
             $query->getResponse()->addTaxRateDTOBuilder(
-                $this->dtoBuilderFactory->getTaxRateDTOBuilder($tag)
+                $this->dtoBuilderFactory->getTaxRateDTOBuilder($taxRate)
             );
         }
     }

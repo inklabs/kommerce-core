@@ -9,14 +9,14 @@ use inklabs\kommerce\Service\OptionServiceInterface;
 final class ListOptionsHandler
 {
     /** @var OptionServiceInterface */
-    private $tagService;
+    private $optionService;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
-    public function __construct(OptionServiceInterface $tagService, DTOBuilderFactoryInterface $dtoBuilderFactory)
+    public function __construct(OptionServiceInterface $optionService, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
-        $this->tagService = $tagService;
+        $this->optionService = $optionService;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
@@ -25,7 +25,7 @@ final class ListOptionsHandler
         $paginationDTO = $query->getRequest()->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        $tags = $this->tagService->getAllOptions(
+        $options = $this->optionService->getAllOptions(
             $query->getRequest()->getQueryString(),
             $pagination
         );
@@ -34,9 +34,9 @@ final class ListOptionsHandler
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
         );
 
-        foreach ($tags as $tag) {
+        foreach ($options as $option) {
             $query->getResponse()->addOptionDTOBuilder(
-                $this->dtoBuilderFactory->getOptionDTOBuilder($tag)
+                $this->dtoBuilderFactory->getOptionDTOBuilder($option)
             );
         }
     }
