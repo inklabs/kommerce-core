@@ -162,6 +162,9 @@ class MockService
         $service->shouldReceive('findOneById')
             ->andReturn($order);
 
+        $service->shouldReceive('getLatestOrders')
+            ->andReturn([$order]);
+
         return $service;
     }
 

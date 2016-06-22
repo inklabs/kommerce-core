@@ -30,6 +30,7 @@ used to track changes in this project.
 - Order
   - GetOrderItemQuery
   - GetOrdersByUserQuery
+  - ListOrdersQuery
 - Product
   - AddTagToProductCommand
   - CreateProductCommand
