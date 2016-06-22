@@ -4,6 +4,7 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\EntityDTO\UserDTO;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class UserDTOBuilder implements DTOBuilderInterface
 {
@@ -43,9 +44,9 @@ class UserDTOBuilder implements DTOBuilderInterface
         return new UserDTO;
     }
 
-    public static function createFromDTO(UserDTO $userDTO)
+    public static function createFromDTO(UuidInterface $userId, UserDTO $userDTO)
     {
-        $user = new User;
+        $user = new User($userId);
         self::setFromDTO($user, $userDTO);
         return $user;
     }

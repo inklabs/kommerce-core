@@ -17,7 +17,11 @@ final class CreateUserHandler
 
     public function handle(CreateUserCommand $command)
     {
-        $user = UserDTOBuilder::createFromDTO($command->getUserDTO());
+        $user = UserDTOBuilder::createFromDTO(
+            $command->getUserId(),
+            $command->getUserDTO()
+        );
+
         $this->userService->create($user);
     }
 }

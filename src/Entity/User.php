@@ -5,6 +5,7 @@ use DateTime;
 use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Event\PasswordChangedEvent;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -51,9 +52,9 @@ class User implements IdEntityInterface, ValidationInterface
     /** @var Cart */
     protected $cart;
 
-    public function __construct()
+    public function __construct(UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->userRoles = new ArrayCollection;
         $this->userTokens = new ArrayCollection;
