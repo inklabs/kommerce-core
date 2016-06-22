@@ -8,7 +8,7 @@ use inklabs\kommerce\Lib\PricingInterface;
 class GetRelatedProductsResponse implements GetRelatedProductsResponseInterface
 {
     /** @var ProductDTOBuilder[] */
-    private $productDTOBuilders;
+    private $productDTOBuilders = [];
 
     /** @var PricingInterface */
     private $pricing;

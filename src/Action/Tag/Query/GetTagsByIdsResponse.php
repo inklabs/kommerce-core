@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityDTO\TagDTO;
 class GetTagsByIdsResponse implements GetTagsByIdsResponseInterface
 {
     /** @var TagDTOBuilder[] */
-    private $tagDTOBuilders;
+    private $tagDTOBuilders = [];
 
     public function addTagDTOBuilder(TagDTOBuilder $tagDTOBuilder)
     {

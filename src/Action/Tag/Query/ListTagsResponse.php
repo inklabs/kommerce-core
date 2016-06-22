@@ -9,7 +9,7 @@ use inklabs\kommerce\EntityDTO\TagDTO;
 class ListTagsResponse implements ListTagsResponseInterface
 {
     /** @var TagDTOBuilder[] */
-    private $tagDTOBuilders;
+    private $tagDTOBuilders = [];
 
     /** @var PaginationDTOBuilder */
     private $paginationDTOBuilder;
