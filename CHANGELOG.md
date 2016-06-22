@@ -52,6 +52,7 @@ used to track changes in this project.
   - LoginCommand
   - GetUserQuery
   - GetUserByEmailQuery
+  - ListUsersQuery
 ### Changed
 - Migrate to UUIDs for primary keys
 - LoginWithTokenQuery to LoginWithTokenCommand

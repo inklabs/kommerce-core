@@ -236,13 +236,16 @@ class MockService
     {
         $user = $this->dummyData->getUser();
 
-        $userService = $this->getMockeryMock(UserServiceInterface::class);
-        $userService->shouldReceive('findOneById')
+        $service = $this->getMockeryMock(UserServiceInterface::class);
+        $service->shouldReceive('findOneById')
             ->andReturn($user);
 
-        $userService->shouldReceive('findOneByEmail')
+        $service->shouldReceive('findOneByEmail')
             ->andReturn($user);
 
-        return $userService;
+        $service->shouldReceive('getAllUsers')
+            ->andReturn([$user]);
+
+        return $service;
     }
 }
