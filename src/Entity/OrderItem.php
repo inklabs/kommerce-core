@@ -278,6 +278,7 @@ class OrderItem implements IdEntityInterface, ValidationInterface, EnabledAttach
 
     /**
      * TODO: Flatten this value
+     * shipping weight in ounces
      */
     public function getShippingWeight()
     {

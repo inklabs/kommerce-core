@@ -17,7 +17,7 @@ class OrderItemDTO
     /** @var string */
     public $discountNames;
 
-    /** @var int */
+    /** @var int (in ounces) */
     public $shippingWeight;
 
     /** @var boolean */

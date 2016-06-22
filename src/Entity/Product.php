@@ -43,7 +43,7 @@ class Product implements IdEntityInterface, ValidationInterface, EnabledAttachme
     /** @var boolean */
     protected $areAttachmentsEnabled;
 
-    /** @var int */
+    /** @var int (in ounces) */
     protected $shippingWeight;
 
     /** @var string */
