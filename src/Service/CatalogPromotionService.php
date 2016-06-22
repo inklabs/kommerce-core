@@ -7,7 +7,7 @@ use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\UuidInterface;
 
-class CatalogPromotionService
+class CatalogPromotionService implements CatalogPromotionServiceInterface
 {
     use EntityValidationTrait;
 

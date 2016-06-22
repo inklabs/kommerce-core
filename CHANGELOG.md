@@ -22,6 +22,8 @@ used to track changes in this project.
   - GetCartQuery
   - GetCartBySessionIdQuery
   - GetCartByUserIdQuery
+- CatalogPromotion
+  - ListCatalogPromotionsQuery
 - Option
   - GetOptionQuery
 - Order
@@ -41,6 +43,8 @@ used to track changes in this project.
   - GetLowestShipmentRatesByDeliveryMethod
 - Tag
   - GetTagsByIdsQuery
+- TaxRate
+  - ListTaxRatesQuery
 - User
   - CreateUserCommand
   - ImportUsersFromCSVCommand

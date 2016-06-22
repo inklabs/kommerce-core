@@ -7,6 +7,7 @@ use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
+use inklabs\kommerce\Service\CatalogPromotionServiceInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\Import\ImportUserServiceInterface;
@@ -72,6 +73,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->serviceFactory->getCartCalculator();
                 } elseif ($parameterClassName === CartServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getCart();
+                } elseif ($parameterClassName === CatalogPromotionServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getCatalogPromotion();
                 } elseif ($parameterClassName === CouponServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getCoupon();
                 } elseif ($parameterClassName === DTOBuilderFactoryInterface::class) {

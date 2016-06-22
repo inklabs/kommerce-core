@@ -17,7 +17,7 @@ class ListTagsHandlerTest extends ActionTestCase
 
         $queryString = 'TT';
         $request = new ListTagsRequest($queryString, new PaginationDTO);
-        $response = new ListTagsResponse;
+        $response = new ListTagsResponse();
 
         $handler = new ListTagsHandler($tagService, $dtoBuilderFactory);
         $handler->handle(new ListTagsQuery($request, $response));

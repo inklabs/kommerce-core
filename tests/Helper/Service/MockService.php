@@ -4,6 +4,7 @@ namespace inklabs\kommerce\tests\Helper\Service;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
+use inklabs\kommerce\Service\CatalogPromotionServiceInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
 use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
@@ -64,6 +65,20 @@ class MockService
             ->andReturn($cart);
 
         return $cartService;
+    }
+
+    /**
+     * @return CatalogPromotionServiceInterface | Mockery\Mock
+     */
+    public function getCatalogPromotionService()
+    {
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
+
+        $service = $this->getMockeryMock(CatalogPromotionServiceInterface::class);
+        $service->shouldReceive('getAllCatalogPromotions')
+            ->andReturn([$catalogPromotion]);
+
+        return $service;
     }
 
     /**
@@ -204,6 +219,9 @@ class MockService
         $service = $this->getMockeryMock(TaxRateServiceInterface::class);
         $service->shouldReceive('findByZip5AndState')
             ->andReturn($taxRate);
+
+        $service->shouldReceive('findAll')
+            ->andReturn([$taxRate]);
 
         return $service;
     }
