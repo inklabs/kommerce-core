@@ -48,7 +48,7 @@ class OptionDTOBuilder implements DTOBuilderInterface
         return $option;
     }
 
-    private static function setFromDTO(Option & $option, OptionDTO $optionDTO)
+    public static function setFromDTO(Option & $option, OptionDTO $optionDTO)
     {
         $option->setName($optionDTO->name);
         $option->setDescription($optionDTO->description);
