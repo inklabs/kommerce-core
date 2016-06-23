@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionType;
 use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\Lib\PricingInterface;
 
@@ -38,6 +39,21 @@ class OptionDTOBuilder implements DTOBuilderInterface
     protected function getEntityDTO()
     {
         return new OptionDTO;
+    }
+
+    public static function createFromDTO(OptionDTO $optionDTO)
+    {
+        $option = new Option;
+        self::setFromDTO($option, $optionDTO);
+        return $option;
+    }
+
+    private static function setFromDTO(Option & $option, OptionDTO $optionDTO)
+    {
+        $option->setName($optionDTO->name);
+        $option->setDescription($optionDTO->description);
+        $option->setSortOrder($optionDTO->sortOrder);
+        $option->setType(OptionType::createById($optionDTO->type->id));
     }
 
     public function withOptionProducts(PricingInterface $pricing)
