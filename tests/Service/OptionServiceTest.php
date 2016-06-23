@@ -75,6 +75,42 @@ class OptionServiceTest extends ServiceTestCase
         $this->assertEqualEntities($optionProduct1, $option);
     }
 
+    public function testDelete()
+    {
+        $option = $this->dummyData->getOption();
+        $this->optionRepository->shouldReceive('delete')
+            ->with($option)
+            ->once();
+
+        $this->optionService->delete(
+            $option
+        );
+    }
+
+    public function testDeleteOptionValue()
+    {
+        $optionValue = $this->dummyData->getOptionValue();
+        $this->optionRepository->shouldReceive('delete')
+            ->with($optionValue)
+            ->once();
+
+        $this->optionService->deleteOptionValue(
+            $optionValue
+        );
+    }
+
+    public function testDeleteOptionProduct()
+    {
+        $optionProduct = $this->dummyData->getOptionProduct();
+        $this->optionRepository->shouldReceive('delete')
+            ->with($optionProduct)
+            ->once();
+
+        $this->optionService->deleteOptionProduct(
+            $optionProduct
+        );
+    }
+
     public function testGetAllOptions()
     {
         $option1 = $this->dummyData->getOption();

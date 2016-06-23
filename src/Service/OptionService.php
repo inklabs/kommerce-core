@@ -33,6 +33,11 @@ class OptionService implements OptionServiceInterface
         $this->optionRepository->update($option);
     }
 
+    public function delete(Option $option)
+    {
+        $this->optionRepository->delete($option);
+    }
+
     public function createOptionValue(OptionValue & $optionValue)
     {
         $this->throwValidationErrors($optionValue);
@@ -45,6 +50,11 @@ class OptionService implements OptionServiceInterface
         $this->optionRepository->update($optionValue);
     }
 
+    public function deleteOptionValue(OptionValue $optionValue)
+    {
+        $this->optionRepository->delete($optionValue);
+    }
+
     public function createOptionProduct(OptionProduct & $optionProduct)
     {
         $this->throwValidationErrors($optionProduct);
@@ -55,6 +65,11 @@ class OptionService implements OptionServiceInterface
     {
         $this->throwValidationErrors($optionProduct);
         $this->optionRepository->update($optionProduct);
+    }
+
+    public function deleteOptionProduct(OptionProduct $optionProduct)
+    {
+        $this->optionRepository->delete($optionProduct);
     }
 
     /**

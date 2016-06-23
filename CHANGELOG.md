@@ -30,6 +30,9 @@ used to track changes in this project.
   - CreateOptionCommand
   - CreateOptionValueCommand
   - CreateOptionProductCommand
+  - DeleteOptionCommand
+  - DeleteOptionValueCommand
+  - DeleteOptionProductCommand
   - UpdateOptionCommand
   - UpdateOptionValueCommand
   - UpdateOptionProductCommand
