@@ -53,7 +53,10 @@ class OptionDTOBuilder implements DTOBuilderInterface
         $option->setName($optionDTO->name);
         $option->setDescription($optionDTO->description);
         $option->setSortOrder($optionDTO->sortOrder);
-        $option->setType(OptionType::createById($optionDTO->type->id));
+
+        if ($optionDTO->type !== null) {
+            $option->setType(OptionType::createById($optionDTO->type->id));
+        }
     }
 
     public function withOptionProducts(PricingInterface $pricing)
