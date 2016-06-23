@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
@@ -36,6 +37,12 @@ class OptionService implements OptionServiceInterface
     {
         $this->throwValidationErrors($optionValue);
         $this->optionRepository->create($optionValue);
+    }
+
+    public function createOptionProduct(OptionProduct & $optionProduct)
+    {
+        $this->throwValidationErrors($optionProduct);
+        $this->optionRepository->create($optionProduct);
     }
 
     /**

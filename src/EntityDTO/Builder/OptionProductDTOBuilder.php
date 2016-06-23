@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\EntityDTO\Builder;
 
+use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
+use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityDTO\OptionProductDTO;
 use inklabs\kommerce\Lib\PricingInterface;
 
@@ -30,6 +32,18 @@ class OptionProductDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->sku            = $this->entity->getSku();
         $this->entityDTO->shippingWeight = $this->entity->getShippingWeight();
         $this->entityDTO->sortOrder      = $this->entity->getSortOrder();
+    }
+
+    public static function createFromDTO(Option $option, Product $product, OptionProductDTO $optionProductDTO)
+    {
+        $optionProduct = new OptionProduct($option, $product);
+        self::setFromDTO($optionProduct, $optionProductDTO);
+        return $optionProduct;
+    }
+
+    public static function setFromDTO(OptionProduct & $optionProduct, OptionProductDTO $optionProductDTO)
+    {
+        $optionProduct->setSortOrder($optionProductDTO->sortOrder);
     }
 
     public function withProduct(PricingInterface $pricing)

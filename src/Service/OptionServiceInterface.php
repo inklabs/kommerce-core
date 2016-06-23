@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Exception\EntityNotFoundException;
@@ -13,6 +14,7 @@ interface OptionServiceInterface
     public function create(Option & $option);
     public function update(Option & $option);
     public function createOptionValue(OptionValue & $optionValue);
+    public function createOptionProduct(OptionProduct & $optionProduct);
 
     /**
      * @param UuidInterface $id

@@ -27,6 +27,7 @@ used to track changes in this project.
 - Option
   - CreateOptionCommand
   - CreateOptionValueCommand
+  - CreateOptionProductCommand
   - UpdateOptionCommand
   - GetOptionQuery
   - ListOptionsQuery
