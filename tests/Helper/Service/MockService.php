@@ -169,12 +169,16 @@ class MockService
     public function getOptionService()
     {
         $option = $this->dummyData->getOption();
+        $optionValue = $this->dummyData->getOptionValue();
         $service = $this->getMockeryMock(OptionServiceInterface::class);
         $service->shouldReceive('findOneById')
             ->andReturn($option);
 
         $service->shouldReceive('getAllOptions')
             ->andReturn([$option]);
+
+        $service->shouldReceive('getOptionValueById')
+            ->andReturn($optionValue);
 
         return $service;
     }

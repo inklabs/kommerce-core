@@ -14,6 +14,7 @@ interface OptionServiceInterface
     public function create(Option & $option);
     public function update(Option & $option);
     public function createOptionValue(OptionValue & $optionValue);
+    public function updateOptionValue(OptionValue & $optionValue);
     public function createOptionProduct(OptionProduct & $optionProduct);
 
     /**
@@ -29,4 +30,10 @@ interface OptionServiceInterface
      * @return Option[]
      */
     public function getAllOptions($queryString = null, Pagination &$pagination = null);
+
+    /**
+     * @param UuidInterface $optionValueId
+     * @return OptionValue
+     */
+    public function getOptionValueById(UuidInterface $optionValueId);
 }

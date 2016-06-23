@@ -31,6 +31,7 @@ used to track changes in this project.
   - CreateOptionValueCommand
   - CreateOptionProductCommand
   - UpdateOptionCommand
+  - UpdateOptionValueCommand
   - GetOptionQuery
   - ListOptionsQuery
 - Order
