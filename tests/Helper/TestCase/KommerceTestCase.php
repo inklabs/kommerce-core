@@ -37,7 +37,8 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     const USER_AGENT = 'UserAgent String';
     const COUPON_CODE = 'coupon123';
     const CURRENCY = 'USD';
-    const THREE_USERS_CSV_FILENAME = __DIR__ . '/../../_files/CSVIterator/three_users.csv';
+    const USERS_CSV_FILENAME = __DIR__ . '/../../_files/CSVIterator/users.csv';
+    const ORDERS_CSV_FILENAME = __DIR__ . '/../../_files/CSVIterator/orders.csv';
 
     /** @var DummyData */
     protected $dummyData;

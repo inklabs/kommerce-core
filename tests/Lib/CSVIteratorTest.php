@@ -8,7 +8,7 @@ class CSVIteratorTest extends KommerceTestCase
 {
     public function testCreate()
     {
-        $iterator = new CSVIterator(self::THREE_USERS_CSV_FILENAME);
+        $iterator = new CSVIterator(self::USERS_CSV_FILENAME);
 
         $count = 0;
         foreach ($iterator as $k => $row) {
@@ -20,7 +20,7 @@ class CSVIteratorTest extends KommerceTestCase
 
     public function testCreateWithMultipleIterations()
     {
-        $iterator = new CSVIterator(self::THREE_USERS_CSV_FILENAME);
+        $iterator = new CSVIterator(self::USERS_CSV_FILENAME);
 
         $count = 0;
         foreach ($iterator as $k => $row) {

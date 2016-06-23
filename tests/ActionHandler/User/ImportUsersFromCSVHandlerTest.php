@@ -12,7 +12,7 @@ class ImportUsersFromCSVHandlerTest extends ActionTestCase
         $userImportService->shouldReceive('import')
             ->once();
 
-        $command = new ImportUsersFromCSVCommand(self::THREE_USERS_CSV_FILENAME);
+        $command = new ImportUsersFromCSVCommand(self::USERS_CSV_FILENAME);
         $handler = new ImportUsersFromCSVHandler($userImportService);
         $handler->handle($command);
     }
