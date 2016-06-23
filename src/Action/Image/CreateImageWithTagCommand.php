@@ -3,9 +3,10 @@ namespace inklabs\kommerce\Action\Image;
 
 use inklabs\kommerce\EntityDTO\ImageDTO;
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
-final class CreateImageCommand implements CommandInterface
+final class CreateImageWithTagCommand implements CommandInterface
 {
     /** @var ImageDTO */
     private $imageDTO;
@@ -13,10 +14,15 @@ final class CreateImageCommand implements CommandInterface
     /** @var UuidInterface */
     protected $tagId;
 
-    public function __construct(ImageDTO $imageDTO, UuidInterface $tagId)
+    /**
+     * CreateImageWithTagCommand constructor.
+     * @param ImageDTO $imageDTO
+     * @param string $tagId
+     */
+    public function __construct($tagId, ImageDTO $imageDTO)
     {
+        $this->tagId = Uuid::fromString($tagId);
         $this->imageDTO = $imageDTO;
-        $this->tagId = $tagId;
     }
 
     public function getImageDTO()

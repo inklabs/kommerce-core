@@ -68,3 +68,4 @@ used to track changes in this project.
 - Moved raising OrderShippedEvent from OrderService::addShipment() to Order::addShipment()
 - Moved raising ResetPasswordEvent from UserService::requestPasswordResetToken() to UserToken::createResetPasswordToken()
 - Changed CartService::removeCoupon() to use $couponId instead of $couponIndex
+- Moved CreateImageCommand to CreateImageWithTagCommand

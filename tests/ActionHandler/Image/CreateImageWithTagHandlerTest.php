@@ -1,11 +1,11 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Image;
 
-use inklabs\kommerce\Action\Image\CreateImageCommand;
+use inklabs\kommerce\Action\Image\CreateImageWithTagCommand;
 use inklabs\kommerce\EntityDTO\ImageDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
-class CreateImageHandlerTest extends ActionTestCase
+class CreateImageWithTagHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
@@ -14,10 +14,9 @@ class CreateImageHandlerTest extends ActionTestCase
             ->once();
 
         $imageDTO = new ImageDTO;
-        $tag = $this->dummyData->getTag();
 
-        $command = new CreateImageCommand($imageDTO, $tag->getId());
-        $handler = new CreateImageHandler($imageService);
+        $command = new CreateImageWithTagCommand(self::UUID_HEX, $imageDTO);
+        $handler = new CreateImageWithTagHandler($imageService);
         $handler->handle($command);
     }
 }
