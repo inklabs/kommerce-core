@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityDTO\Builder;
 
+use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\EntityDTO\OptionValueDTO;
 
@@ -25,10 +26,27 @@ class OptionValueDTOBuilder implements DTOBuilderInterface
         $this->entityDTO = new OptionValueDTO;
         $this->setId();
         $this->setTime();
-        $this->entityDTO->name           = $this->entity->getname();
         $this->entityDTO->sku            = $this->entity->getSku();
+        $this->entityDTO->name           = $this->entity->getName();
+        $this->entityDTO->unitPrice      = $this->entity->getUnitPrice();
         $this->entityDTO->shippingWeight = $this->entity->getShippingWeight();
         $this->entityDTO->sortOrder      = $this->entity->getSortOrder();
+    }
+
+    public static function createFromDTO(Option $option, OptionValueDTO $optionValueDTO)
+    {
+        $optionValue = new OptionValue($option);
+        self::setFromDTO($optionValue, $optionValueDTO);
+        return $optionValue;
+    }
+
+    public static function setFromDTO(OptionValue & $optionValue, OptionValueDTO $optionValueDTO)
+    {
+        $optionValue->setSku($optionValueDTO->sku);
+        $optionValue->setName($optionValueDTO->name);
+        $optionValue->setUnitPrice($optionValueDTO->unitPrice);
+        $optionValue->setShippingWeight($optionValueDTO->shippingWeight);
+        $optionValue->setSortOrder($optionValueDTO->sortOrder);
     }
 
     public function withOption()

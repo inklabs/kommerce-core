@@ -12,10 +12,13 @@ class OptionValueDTO
     public $sku;
 
     /** @var int */
-    public $sortOrder;
+    public $unitPrice;
 
     /** @var int */
     public $shippingWeight;
+
+    /** @var int */
+    public $sortOrder;
 
     /** @var OptionDTO */
     public $option;
