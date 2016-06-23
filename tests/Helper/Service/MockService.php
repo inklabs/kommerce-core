@@ -10,6 +10,7 @@ use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderItemServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderServiceInterface;
+use inklabs\kommerce\Service\Import\ImportPaymentServiceInterface;
 use inklabs\kommerce\Service\Import\ImportUserServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OptionServiceInterface;
@@ -135,7 +136,6 @@ class MockService
         $importOrderService = $this->getMockeryMock(ImportOrderServiceInterface::class);
         return $importOrderService;
     }
-
     /**
      * @return ImportOrderItemServiceInterface | Mockery\Mock
      */
@@ -143,6 +143,15 @@ class MockService
     {
         $importOrderService = $this->getMockeryMock(ImportOrderItemServiceInterface::class);
         return $importOrderService;
+    }
+
+    /**
+     * @return ImportPaymentServiceInterface | Mockery\Mock
+     */
+    public function getImportPaymentService()
+    {
+        $importPaymentService = $this->getMockeryMock(ImportPaymentServiceInterface::class);
+        return $importPaymentService;
     }
 
     /**

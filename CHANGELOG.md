@@ -34,6 +34,7 @@ used to track changes in this project.
 - Order
   - ImportOrdersFromCSVCommand
   - ImportOrderItemsFromCSVCommand
+  - ImportPaymentsFromCSVCommand
   - GetOrderItemQuery
   - GetOrdersByUserQuery
   - ListOrdersQuery

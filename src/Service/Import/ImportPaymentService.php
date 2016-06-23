@@ -10,7 +10,7 @@ use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Service\EntityValidationTrait;
 use Iterator;
 
-class ImportPaymentService
+class ImportPaymentService implements ImportPaymentServiceInterface
 {
     use EntityValidationTrait;
 

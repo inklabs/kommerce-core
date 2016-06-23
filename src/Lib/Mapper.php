@@ -12,6 +12,7 @@ use inklabs\kommerce\Service\CouponServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderItemServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderServiceInterface;
+use inklabs\kommerce\Service\Import\ImportPaymentServiceInterface;
 use inklabs\kommerce\Service\Import\ImportUserServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OptionServiceInterface;
@@ -87,6 +88,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->serviceFactory->getImportOrder();
                 } elseif ($parameterClassName === ImportOrderItemServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getImportOrderItem();
+                } elseif ($parameterClassName === ImportPaymentServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getImportPayment();
                 } elseif ($parameterClassName === InventoryServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getInventoryService();
                 } elseif ($parameterClassName === ImageServiceInterface::class) {
