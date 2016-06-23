@@ -8,12 +8,12 @@ class ImportOrdersFromCSVHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $userImportService = $this->mockService->getImportOrderService();
-        $userImportService->shouldReceive('import')
+        $importOrderService = $this->mockService->getImportOrderService();
+        $importOrderService->shouldReceive('import')
             ->once();
 
         $command = new ImportOrdersFromCSVCommand(self::ORDERS_CSV_FILENAME);
-        $handler = new ImportOrdersFromCSVHandler($userImportService);
+        $handler = new ImportOrdersFromCSVHandler($importOrderService);
         $handler->handle($command);
     }
 }

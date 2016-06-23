@@ -8,6 +8,7 @@ use inklabs\kommerce\Service\CatalogPromotionServiceInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
 use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
+use inklabs\kommerce\Service\Import\ImportOrderItemServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderServiceInterface;
 use inklabs\kommerce\Service\Import\ImportUserServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
@@ -132,6 +133,15 @@ class MockService
     public function getImportOrderService()
     {
         $importOrderService = $this->getMockeryMock(ImportOrderServiceInterface::class);
+        return $importOrderService;
+    }
+
+    /**
+     * @return ImportOrderItemServiceInterface | Mockery\Mock
+     */
+    public function getImportOrderItemService()
+    {
+        $importOrderService = $this->getMockeryMock(ImportOrderItemServiceInterface::class);
         return $importOrderService;
     }
 

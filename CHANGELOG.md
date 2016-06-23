@@ -33,6 +33,7 @@ used to track changes in this project.
   - ListOptionsQuery
 - Order
   - ImportOrdersFromCSVCommand
+  - ImportOrderItemsFromCSVCommand
   - GetOrderItemQuery
   - GetOrdersByUserQuery
   - ListOrdersQuery
