@@ -12,10 +12,7 @@ class ImportUsersFromCSVHandlerTest extends ActionTestCase
         $userImportService->shouldReceive('import')
             ->once();
 
-        // TODO: Move this user import csv file to a sane location
-        $fileName = __DIR__ . '/../../Lib/PaymentGateway/CSVIteratorTest.csv';
-
-        $command = new ImportUsersFromCSVCommand($fileName);
+        $command = new ImportUsersFromCSVCommand(self::THREE_USERS_CSV_FILENAME);
         $handler = new ImportUsersFromCSVHandler($userImportService);
         $handler->handle($command);
     }

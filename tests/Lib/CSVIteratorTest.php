@@ -2,12 +2,13 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\Exception\InvalidArgumentException;
+use inklabs\kommerce\tests\Helper\TestCase\KommerceTestCase;
 
-class UserTest extends \PHPUnit_Framework_TestCase
+class CSVIteratorTest extends KommerceTestCase
 {
     public function testCreate()
     {
-        $iterator = new CSVIterator(__DIR__ . '/CSVIteratorTest.csv');
+        $iterator = new CSVIterator(self::THREE_USERS_CSV_FILENAME);
 
         $count = 0;
         foreach ($iterator as $k => $row) {
@@ -19,7 +20,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateWithMultipleIterations()
     {
-        $iterator = new CSVIterator(__DIR__ . '/CSVIteratorTest.csv');
+        $iterator = new CSVIterator(self::THREE_USERS_CSV_FILENAME);
 
         $count = 0;
         foreach ($iterator as $k => $row) {
