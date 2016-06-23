@@ -6,21 +6,21 @@ use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
-final class CreateImageWithTagCommand implements CommandInterface
+final class CreateImageWithProductCommand implements CommandInterface
 {
     /** @var ImageDTO */
     private $imageDTO;
 
     /** @var UuidInterface */
-    protected $tagId;
+    protected $productId;
 
     /**
      * @param ImageDTO $imageDTO
-     * @param string $tagId
+     * @param string $productId
      */
-    public function __construct($tagId, ImageDTO $imageDTO)
+    public function __construct($productId, ImageDTO $imageDTO)
     {
-        $this->tagId = Uuid::fromString($tagId);
+        $this->productId = Uuid::fromString($productId);
         $this->imageDTO = $imageDTO;
     }
 
@@ -29,8 +29,8 @@ final class CreateImageWithTagCommand implements CommandInterface
         return $this->imageDTO;
     }
 
-    public function getTagId()
+    public function getProductId()
     {
-        return $this->tagId;
+        return $this->productId;
     }
 }

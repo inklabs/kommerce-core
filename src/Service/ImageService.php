@@ -43,15 +43,24 @@ class ImageService implements ImageServiceInterface
         $this->imageRepository->update($image);
     }
 
-    public function createFromDTOWithTag(ImageDTO $imageDTO, UuidInterface $tagId = null)
+    public function createFromDTOWithTag(UuidInterface $tagId, ImageDTO $imageDTO)
     {
         $image = new Image;
         $this->setFromDTO($image, $imageDTO);
 
-        if ($tagId !== null) {
-            $tag = $this->tagRepository->findOneById($tagId);
-            $tag->addImage($image);
-        }
+        $tag = $this->tagRepository->findOneById($tagId);
+        $tag->addImage($image);
+
+        $this->create($image);
+    }
+
+    public function createFromDTOWithProduct(UuidInterface $productId, ImageDTO $imageDTO)
+    {
+        $image = new Image;
+        $this->setFromDTO($image, $imageDTO);
+
+        $product = $this->productRepository->findOneById($productId);
+        $product->addImage($image);
 
         $this->create($image);
     }

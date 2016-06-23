@@ -58,7 +58,7 @@ class ImageServiceTest extends ServiceTestCase
         $this->imageRepository->shouldReceive('create')
             ->once();
 
-        $this->imageService->createFromDTOWithTag($imageDTO, $tag->getId());
+        $this->imageService->createFromDTOWithTag($tag->getId(), $imageDTO);
     }
 
     public function testCreateWithProduct()

@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Image;
 
-use inklabs\kommerce\Action\Image\CreateImageWithTagCommand;
+use inklabs\kommerce\Action\Image\CreateImageWithProductCommand;
 use inklabs\kommerce\Service\ImageServiceInterface;
 
-final class CreateImageWithTagHandler
+final class CreateImageWithProductHandler
 {
     /** @var ImageServiceInterface */
     protected $imageService;
@@ -14,10 +14,10 @@ final class CreateImageWithTagHandler
         $this->imageService = $imageService;
     }
 
-    public function handle(CreateImageWithTagCommand $command)
+    public function handle(CreateImageWithProductCommand $command)
     {
-        $this->imageService->createFromDTOWithTag(
-            $command->getTagId(),
+        $this->imageService->createFromDTOWithProduct(
+            $command->getProductId(),
             $command->getImageDTO()
         );
     }

@@ -24,6 +24,8 @@ used to track changes in this project.
   - GetCartByUserIdQuery
 - CatalogPromotion
   - ListCatalogPromotionsQuery
+- Image
+  - CreateImageWithProductCommand
 - Option
   - CreateOptionCommand
   - CreateOptionValueCommand

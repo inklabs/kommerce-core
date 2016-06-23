@@ -11,11 +11,8 @@ interface ImageServiceInterface
     public function create(Image & $image);
     public function update(Image & $image);
 
-    /**
-     * @param ImageDTO $imageDTO
-     * @param UuidInterface $tagId
-     */
-    public function createFromDTOWithTag(ImageDTO $imageDTO, UuidInterface $tagId);
+    public function createFromDTOWithTag(UuidInterface $tagId, ImageDTO $imageDTO);
+    public function createFromDTOWithProduct(UuidInterface $productId, ImageDTO $imageDTO);
 
     /**
      * @param Image $image
