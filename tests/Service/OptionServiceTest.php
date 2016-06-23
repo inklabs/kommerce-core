@@ -60,6 +60,21 @@ class OptionServiceTest extends ServiceTestCase
         $this->assertEqualEntities($optionValue1, $option);
     }
 
+    public function testGetOptionProductById()
+    {
+        $optionProduct1 = $this->dummyData->getOptionProduct();
+        $this->optionRepository->shouldReceive('getOptionProductById')
+            ->with($optionProduct1->getId())
+            ->andReturn($optionProduct1)
+            ->once();
+
+        $option = $this->optionService->getOptionProductById(
+            $optionProduct1->getId()
+        );
+
+        $this->assertEqualEntities($optionProduct1, $option);
+    }
+
     public function testGetAllOptions()
     {
         $option1 = $this->dummyData->getOption();

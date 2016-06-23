@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Lib\UuidInterface;
@@ -23,6 +24,24 @@ class OptionRepository extends AbstractRepository implements OptionRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult(),
             OptionValue::class
+        );
+    }
+
+    /**
+     * @param UuidInterface $optionProductId
+     * @return OptionProduct
+     */
+    public function getOptionProductById(UuidInterface $optionProductId)
+    {
+        return $this->returnOrThrowNotFoundException(
+            $this->getQueryBuilder()
+                ->select('OptionProduct')
+                ->from(OptionProduct::class, 'OptionProduct')
+                ->where('OptionProduct.id = :id')
+                ->setIdParameter('id', $optionProductId)
+                ->getQuery()
+                ->getOneOrNullResult(),
+            OptionProduct::class
         );
     }
 

@@ -51,6 +51,12 @@ class OptionService implements OptionServiceInterface
         $this->optionRepository->create($optionProduct);
     }
 
+    public function updateOptionProduct(OptionProduct & $optionProduct)
+    {
+        $this->throwValidationErrors($optionProduct);
+        $this->optionRepository->update($optionProduct);
+    }
+
     /**
      * @param UuidInterface $id
      * @return Option
@@ -68,6 +74,15 @@ class OptionService implements OptionServiceInterface
     public function getOptionValueById(UuidInterface $optionValueId)
     {
         return $this->optionRepository->getOptionValueById($optionValueId);
+    }
+
+    /**
+     * @param UuidInterface $optionProductId
+     * @return OptionProduct
+     */
+    public function getOptionProductById(UuidInterface $optionProductId)
+    {
+        return $this->optionRepository->getOptionProductById($optionProductId);
     }
 
     /**
