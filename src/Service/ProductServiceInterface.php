@@ -11,6 +11,7 @@ interface ProductServiceInterface
 {
     public function create(Product & $product);
     public function update(Product & $product);
+    public function delete(Product $product);
 
     /**
      * @param UuidInterface $id

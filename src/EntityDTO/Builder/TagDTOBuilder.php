@@ -6,6 +6,7 @@ use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\Lib\Slug;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class TagDTOBuilder implements DTOBuilderInterface
 {
@@ -43,9 +44,9 @@ class TagDTOBuilder implements DTOBuilderInterface
         return new TagDTO();
     }
 
-    public static function createFromDTO(TagDTO $tagDTO)
+    public static function createFromDTO(UuidInterface $tagId, TagDTO $tagDTO)
     {
-        $tag = new Tag;
+        $tag = new Tag($tagId);
         self::setFromDTO($tag, $tagDTO);
         return $tag;
     }

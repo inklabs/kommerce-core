@@ -45,6 +45,11 @@ class ProductService implements ProductServiceInterface
         $this->productRepository->update($product);
     }
 
+    public function delete(Product $product)
+    {
+        $this->productRepository->delete($product);
+    }
+
     /**
      * @param UuidInterface $id
      * @return Product

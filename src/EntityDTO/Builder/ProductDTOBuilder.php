@@ -6,6 +6,7 @@ use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\Lib\Slug;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class ProductDTOBuilder implements DTOBuilderInterface
 {
@@ -48,9 +49,9 @@ class ProductDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->areAttachmentsEnabled = $this->entity->areAttachmentsEnabled();
     }
 
-    public static function createFromDTO(ProductDTO $productDTO)
+    public static function createFromDTO(UuidInterface $productId, ProductDTO $productDTO)
     {
-        $product = new Product;
+        $product = new Product($productId);
         self::setFromDTO($product, $productDTO);
         return $product;
     }

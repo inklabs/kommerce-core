@@ -48,6 +48,7 @@ used to track changes in this project.
 - Product
   - AddTagToProductCommand
   - CreateProductCommand
+  - DeleteProductCommand
   - RemoveImageFromProductCommand
   - RemoveTagFromProductCommand
   - UpdateProductCommand

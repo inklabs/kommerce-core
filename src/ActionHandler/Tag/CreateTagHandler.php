@@ -17,7 +17,11 @@ final class CreateTagHandler
 
     public function handle(CreateTagCommand $command)
     {
-        $tag = TagDTOBuilder::createFromDTO($command->getTagDTO());
+        $tag = TagDTOBuilder::createFromDTO(
+            $command->getTagId(),
+            $command->getTagDTO()
+        );
+
         $this->tagService->create($tag);
     }
 }

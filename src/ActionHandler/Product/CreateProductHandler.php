@@ -17,7 +17,11 @@ final class CreateProductHandler
 
     public function handle(CreateProductCommand $command)
     {
-        $product = ProductDTOBuilder::createFromDTO($command->getProductDTO());
+        $product = ProductDTOBuilder::createFromDTO(
+            $command->getProductId(),
+            $command->getProductDTO()
+        );
+
         $this->productService->create($product);
     }
 }
