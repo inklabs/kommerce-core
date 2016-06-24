@@ -10,11 +10,11 @@ final class GetCartRequest
     private $cartId;
 
     /**
-     * @param string $cartIdString
+     * @param string $cartId
      */
-    public function __construct($cartIdString)
+    public function __construct($cartId)
     {
-        $this->cartId = Uuid::fromString($cartIdString);
+        $this->cartId = Uuid::fromString($cartId);
     }
 
     public function getCartId()

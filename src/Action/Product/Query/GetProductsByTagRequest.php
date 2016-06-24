@@ -14,12 +14,12 @@ final class GetProductsByTagRequest
     private $paginationDTO;
 
     /**
-     * @param string $tagIdString
+     * @param string $tagId
      * @param PaginationDTO $paginationDTO
      */
-    public function __construct($tagIdString, PaginationDTO $paginationDTO)
+    public function __construct($tagId, PaginationDTO $paginationDTO)
     {
-        $this->tagId = Uuid::fromString($tagIdString);
+        $this->tagId = Uuid::fromString($tagId);
         $this->paginationDTO = $paginationDTO;
     }
 

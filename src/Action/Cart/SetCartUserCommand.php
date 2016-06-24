@@ -14,13 +14,13 @@ final class SetCartUserCommand implements CommandInterface
     private $userId;
 
     /**
-     * @param string $cartIdString
-     * @param string $userIdString
+     * @param string $cartId
+     * @param string $userId
      */
-    public function __construct($cartIdString, $userIdString)
+    public function __construct($cartId, $userId)
     {
-        $this->cartId = Uuid::fromString($cartIdString);
-        $this->userId = Uuid::fromString($userIdString);
+        $this->cartId = Uuid::fromString($cartId);
+        $this->userId = Uuid::fromString($userId);
     }
 
     public function getCartId()

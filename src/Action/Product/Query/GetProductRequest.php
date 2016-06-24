@@ -10,11 +10,11 @@ final class GetProductRequest
     private $productId;
 
     /**
-     * @param string $productIdString
+     * @param string $productId
      */
-    public function __construct($productIdString)
+    public function __construct($productId)
     {
-        $this->productId = Uuid::fromString($productIdString);
+        $this->productId = Uuid::fromString($productId);
     }
 
     public function getProductId()

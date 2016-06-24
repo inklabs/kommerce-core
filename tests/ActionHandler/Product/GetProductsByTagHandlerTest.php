@@ -19,8 +19,7 @@ class GetProductsByTagHandlerTest extends ActionTestCase
             ->andReturn([$this->dummyData->getProduct()])
             ->once();
 
-        $tagIdString = self::UUID_HEX;
-        $request = new GetProductsByTagRequest($tagIdString, new PaginationDTO);
+        $request = new GetProductsByTagRequest(self::UUID_HEX, new PaginationDTO);
         $response = new GetProductsByTagResponse($pricing);
 
         $handler = new GetProductsByTagHandler($productService, $dtoBuilderFactory);

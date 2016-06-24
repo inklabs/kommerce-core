@@ -14,12 +14,12 @@ final class SetCartSessionIdCommand implements CommandInterface
     private $sessionId;
 
     /**
-     * @param string $cartIdString
+     * @param string $cartId
      * @param string $sessionId
      */
-    public function __construct($cartIdString, $sessionId)
+    public function __construct($cartId, $sessionId)
     {
-        $this->cartId = Uuid::fromString($cartIdString);
+        $this->cartId = Uuid::fromString($cartId);
         $this->sessionId = (string) $sessionId;
     }
 

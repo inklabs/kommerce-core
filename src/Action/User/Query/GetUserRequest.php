@@ -10,11 +10,11 @@ final class GetUserRequest
     private $userId;
 
     /**
-     * @param string $userIdString
+     * @param string $userId
      */
-    public function __construct($userIdString)
+    public function __construct($userId)
     {
-        $this->userId = Uuid::fromString($userIdString);
+        $this->userId = Uuid::fromString($userId);
     }
 
     public function getUserId()

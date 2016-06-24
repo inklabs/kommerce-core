@@ -17,13 +17,13 @@ final class SetCartTaxRateByZip5AndStateCommand implements CommandInterface
     private $state;
 
     /**
-     * @param string $cartIdString
+     * @param string $cartId
      * @param string $zip5
      * @param string $state
      */
-    public function __construct($cartIdString, $zip5, $state)
+    public function __construct($cartId, $zip5, $state)
     {
-        $this->cartId = Uuid::fromString($cartIdString);
+        $this->cartId = Uuid::fromString($cartId);
         $this->zip5 = (string) $zip5;
         $this->state = (string) $state;
     }

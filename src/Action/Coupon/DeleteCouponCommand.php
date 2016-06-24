@@ -11,11 +11,11 @@ final class DeleteCouponCommand implements CommandInterface
     private $couponId;
 
     /**
-     * @param string $couponIdString
+     * @param string $couponId
      */
-    public function __construct($couponIdString)
+    public function __construct($couponId)
     {
-        $this->couponId = Uuid::fromString($couponIdString);
+        $this->couponId = Uuid::fromString($couponId);
     }
 
     public function getCouponId()

@@ -11,11 +11,11 @@ final class DeleteTagCommand implements CommandInterface
     private $tagId;
 
     /**
-     * @param string $tagIdString
+     * @param string $tagId
      */
-    public function __construct($tagIdString)
+    public function __construct($tagId)
     {
-        $this->tagId = Uuid::fromString($tagIdString);
+        $this->tagId = Uuid::fromString($tagId);
     }
 
     public function getTagId()
