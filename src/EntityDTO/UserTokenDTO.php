@@ -8,6 +8,9 @@ class UserTokenDTO
     /** @var string */
     public $userAgent;
 
+    /** @var string */
+    public $ip4;
+
     /** @var int */
     public $expires;
 

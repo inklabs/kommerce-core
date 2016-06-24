@@ -1,13 +1,16 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CartItemOptionProduct;
 use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
 use inklabs\kommerce\Entity\ShipmentRate;
+use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
+use inklabs\kommerce\InputDTO\TextOptionValueDTO;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Entity\TaxRate;
@@ -23,6 +26,7 @@ use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
 class CartService implements CartServiceInterface
@@ -217,7 +221,7 @@ class CartService implements CartServiceInterface
 
     /**
      * @param UuidInterface $cartItemId
-     * @param string[] $optionProductIds
+     * @param UuidInterface[] $optionProductIds
      * @throws EntityNotFoundException
      */
     public function addItemOptionProducts(UuidInterface $cartItemId, array $optionProductIds)
@@ -239,7 +243,7 @@ class CartService implements CartServiceInterface
 
     /**
      * @param UuidInterface $cartItemId
-     * @param string[] $optionValueIds
+     * @param UuidInterface[] $optionValueIds
      * @throws EntityNotFoundException
      */
     public function addItemOptionValues(UuidInterface $cartItemId, array $optionValueIds)
@@ -261,28 +265,48 @@ class CartService implements CartServiceInterface
 
     /**
      * @param UuidInterface $cartItemId
-     * @param array $textOptionValues
+     * @param TextOptionValueDTO[] $textOptionValueDTOs
      * @throws EntityNotFoundException
      */
-    public function addItemTextOptionValues(UuidInterface $cartItemId, array $textOptionValues)
+    public function addItemTextOptionValues(UuidInterface $cartItemId, array $textOptionValueDTOs)
     {
-        $textOptionIds = array_keys($textOptionValues);
-        $textOptions = $this->textOptionRepository->getAllTextOptionsByIds($textOptionIds);
+        $textOptionCollection = $this->getTextOptionsCollection($textOptionValueDTOs);
 
         $cartItem = $this->cartRepository->getItemById($cartItemId);
         $cart = $cartItem->getCart();
 
-        foreach ($textOptions as $textOption) {
-            $textOptionValue = $textOptionValues[$textOption->getId()->getHex()];
+        foreach ($textOptionValueDTOs as $textOptionValueDTO) {
+            $textOption = $textOptionCollection->get($textOptionValueDTO->getTextOptionId()->getHex());
 
             $cartItemTextOptionValue = new CartItemTextOptionValue;
             $cartItemTextOptionValue->setTextOption($textOption);
-            $cartItemTextOptionValue->setTextOptionValue($textOptionValue);
+            $cartItemTextOptionValue->setTextOptionValue($textOptionValueDTO->getTextOptionValue());
 
             $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
         }
 
         $this->cartRepository->update($cart);
+    }
+
+    /**
+     * @param TextOptionValueDTO[] $textOptionValueDTOs
+     * @return ArrayCollection | TextOption[]
+     */
+    private function getTextOptionsCollection(array $textOptionValueDTOs)
+    {
+        $textOptionIds = [];
+        foreach ($textOptionValueDTOs as $textOptionValueDTO) {
+            $textOptionIds[] = $textOptionValueDTO->getTextOptionId();
+        }
+
+        $textOptions = $this->textOptionRepository->getAllTextOptionsByIds($textOptionIds);
+
+        $textOptionCollection = new ArrayCollection();
+        foreach ($textOptions as $textOption) {
+            $textOptionCollection->set($textOption->getId()->getHex(), $textOption);
+        }
+
+        return $textOptionCollection;
     }
 
     public function copyCartItems(UuidInterface $fromCartId, UuidInterface $toCartId)

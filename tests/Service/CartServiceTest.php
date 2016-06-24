@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
+use inklabs\kommerce\InputDTO\TextOptionValueDTO;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
@@ -337,7 +338,11 @@ class CartServiceTest extends ServiceTestCase
             ->andReturn([$textOption])
             ->once();
 
-        $textOptionValues = [$textOption->getId()->getHex() => 'Happy Birthday'];
+        $textOptionValue = 'Happy Birthday';
+        $textOptionValueDTO = new TextOptionValueDTO(
+            $textOption->getId()->getHex(),
+            $textOptionValue
+        );
 
         $this->cartRepository->shouldReceive('getItemById')
             ->with($cartItem->getId())
@@ -346,9 +351,17 @@ class CartServiceTest extends ServiceTestCase
 
         $this->cartRepositoryShouldUpdateOnce($cart);
 
-        $this->cartService->addItemTextOptionValues($cartItem->getId(), $textOptionValues);
+        $this->cartService->addItemTextOptionValues($cartItem->getId(), [$textOptionValueDTO]);
 
-        // TODO: Test CartService::addItemTextOptionValues()
+        $cartItemTextOptionValue = $cart->getCartItems()[0]
+            ->getCartItemTextOptionValues()[0];
+
+        $this->assertSame($textOptionValue, $cartItemTextOptionValue->getTextOptionValue());
+        $this->assertEqualEntities(
+            $textOption,
+            $cartItemTextOptionValue
+                ->getTextOption()
+        );
     }
 
     public function testCopyCartItems()

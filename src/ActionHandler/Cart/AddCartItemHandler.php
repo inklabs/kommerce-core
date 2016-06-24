@@ -25,7 +25,7 @@ final class AddCartItemHandler
 
         $optionProductIds = $command->getOptionProductIds();
         $optionValueIds = $command->getOptionValueIds();
-        $textOptionValues = $command->getTextOptionValues();
+        $textOptionValueDTOs = $command->getTextOptionValueDTOs();
 
         if (! empty($optionProductIds)) {
             $this->cartService->addItemOptionProducts($cartItem->getId(), $optionProductIds);
@@ -35,8 +35,8 @@ final class AddCartItemHandler
             $this->cartService->addItemOptionValues($cartItem->getId(), $optionValueIds);
         }
 
-        if (! empty($textOptionValues)) {
-            $this->cartService->addItemTextOptionValues($cartItem->getId(), $textOptionValues);
+        if (! empty($textOptionValueDTOs)) {
+            $this->cartService->addItemTextOptionValues($cartItem->getId(), $textOptionValueDTOs);
         }
     }
 }

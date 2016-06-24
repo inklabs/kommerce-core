@@ -73,18 +73,6 @@ class ImageService implements ImageServiceInterface
         $image->setSortOrder($imageDTO->sortOrder);
     }
 
-    public function createWithProduct(Image & $image, UuidInterface $productId)
-    {
-        $product = $this->productRepository->findOneById($productId);
-
-        if ($product->getDefaultImage() === null) {
-            $product->setDefaultImage($image->getPath());
-        }
-
-        $image->setProduct($product);
-        $this->create($image);
-    }
-
     public function findOneById(UuidInterface $id)
     {
         return $this->imageRepository->findOneById($id);

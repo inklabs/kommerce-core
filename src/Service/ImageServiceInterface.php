@@ -14,13 +14,6 @@ interface ImageServiceInterface
     public function createFromDTOWithTag(UuidInterface $tagId, ImageDTO $imageDTO);
     public function createFromDTOWithProduct(UuidInterface $productId, ImageDTO $imageDTO);
 
-    /**
-     * @param Image $image
-     * @param UuidInterface $productId
-     * @throws EntityNotFoundException
-     */
-    public function createWithProduct(Image & $image, UuidInterface $productId);
-
     public function setFromDTO(Image & $image, ImageDTO $imageDTO);
 
     /**

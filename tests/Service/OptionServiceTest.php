@@ -30,6 +30,32 @@ class OptionServiceTest extends ServiceTestCase
         );
     }
 
+    public function testOptionValueCRUD()
+    {
+        $optionValue = $this->dummyData->getOptionValue();
+
+        $this->optionRepository->shouldReceive('create')->with($optionValue)->once();
+        $this->optionRepository->shouldReceive('update')->with($optionValue)->once();
+        $this->optionRepository->shouldReceive('delete')->with($optionValue)->once();
+
+        $this->optionService->createOptionValue($optionValue);
+        $this->optionService->updateOptionValue($optionValue);
+        $this->optionService->deleteOptionValue($optionValue);
+    }
+
+    public function testOptionProductCRUD()
+    {
+        $optionProduct = $this->dummyData->getOptionProduct();
+
+        $this->optionRepository->shouldReceive('create')->with($optionProduct)->once();
+        $this->optionRepository->shouldReceive('update')->with($optionProduct)->once();
+        $this->optionRepository->shouldReceive('delete')->with($optionProduct)->once();
+
+        $this->optionService->createOptionProduct($optionProduct);
+        $this->optionService->updateOptionProduct($optionProduct);
+        $this->optionService->deleteOptionProduct($optionProduct);
+    }
+
     public function testFind()
     {
         $option1 = $this->dummyData->getOption();
@@ -73,42 +99,6 @@ class OptionServiceTest extends ServiceTestCase
         );
 
         $this->assertEqualEntities($optionProduct1, $option);
-    }
-
-    public function testDelete()
-    {
-        $option = $this->dummyData->getOption();
-        $this->optionRepository->shouldReceive('delete')
-            ->with($option)
-            ->once();
-
-        $this->optionService->delete(
-            $option
-        );
-    }
-
-    public function testDeleteOptionValue()
-    {
-        $optionValue = $this->dummyData->getOptionValue();
-        $this->optionRepository->shouldReceive('delete')
-            ->with($optionValue)
-            ->once();
-
-        $this->optionService->deleteOptionValue(
-            $optionValue
-        );
-    }
-
-    public function testDeleteOptionProduct()
-    {
-        $optionProduct = $this->dummyData->getOptionProduct();
-        $this->optionRepository->shouldReceive('delete')
-            ->with($optionProduct)
-            ->once();
-
-        $this->optionService->deleteOptionProduct(
-            $optionProduct
-        );
     }
 
     public function testGetAllOptions()

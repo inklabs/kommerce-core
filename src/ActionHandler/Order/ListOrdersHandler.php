@@ -26,10 +26,8 @@ final class ListOrdersHandler
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
         // TODO: Add query search
-        //$query->getRequest()->getQueryString(),
-        $orders = $this->orderService->getLatestOrders(
-            $pagination
-        );
+        $queryString = $query->getRequest()->getQueryString();
+        $orders = $this->orderService->getLatestOrders($pagination);
 
         $query->getResponse()->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)

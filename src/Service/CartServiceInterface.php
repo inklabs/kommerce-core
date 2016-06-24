@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\ShipmentRate;
+use inklabs\kommerce\InputDTO\TextOptionValueDTO;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Entity\TaxRate;
@@ -68,24 +69,24 @@ interface CartServiceInterface
 
     /**
      * @param UuidInterface $cartItemId
-     * @param string[] $optionProductIds
+     * @param UuidInterface[] $optionProductIds
      * @throws EntityNotFoundException
      */
     public function addItemOptionProducts(UuidInterface $cartItemId, array $optionProductIds);
 
     /**
      * @param UuidInterface $cartItemId
-     * @param string[] $optionValueIds
+     * @param UuidInterface[] $optionValueIds
      * @throws EntityNotFoundException
      */
     public function addItemOptionValues(UuidInterface $cartItemId, array $optionValueIds);
 
     /**
      * @param UuidInterface $cartItemId
-     * @param array $textOptionValues
+     * @param TextOptionValueDTO[] $textOptionValueDTOs
      * @throws EntityNotFoundException
      */
-    public function addItemTextOptionValues(UuidInterface $cartItemId, array $textOptionValues);
+    public function addItemTextOptionValues(UuidInterface $cartItemId, array $textOptionValueDTOs);
 
     /**
      * @param UuidInterface $fromCartId

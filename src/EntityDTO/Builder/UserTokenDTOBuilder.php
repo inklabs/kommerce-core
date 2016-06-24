@@ -26,6 +26,7 @@ class UserTokenDTOBuilder implements DTOBuilderInterface
         $this->setId();
         $this->setTime();
         $this->entityDTO->userAgent = $this->entity->getUserAgent();
+        $this->entityDTO->ip4       = $this->entity->getIp4();
         $this->entityDTO->expires   = $this->entity->getExpires();
 
         $this->entityDTO->type = $this->dtoBuilderFactory

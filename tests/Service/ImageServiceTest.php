@@ -61,21 +61,22 @@ class ImageServiceTest extends ServiceTestCase
         $this->imageService->createFromDTOWithTag($tag->getId(), $imageDTO);
     }
 
-    public function testCreateWithProduct()
+    public function testCreateFromDTOWithProduct()
     {
+        $imageDTO = $this->getDTOBuilderFactory()
+            ->getImageDTOBuilder($this->dummyData->getImage())
+                ->build();
+
         $product = $this->dummyData->getProduct();
         $this->productRepository->shouldReceive('findOneById')
             ->with($product->getId())
             ->andReturn($product)
             ->once();
 
-        $image = $this->dummyData->getImage();
         $this->imageRepository->shouldReceive('create')
-            ->with($image)
             ->once();
 
-        $this->imageService->createWithProduct($image, $product->getId());
-        $this->assertEqualEntities($product, $image->getProduct());
+        $this->imageService->createFromDTOWithProduct($product->getId(), $imageDTO);
     }
 
     public function testFindOneById()

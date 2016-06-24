@@ -21,6 +21,8 @@ final class ListTaxRatesHandler
 
     public function handle(ListTaxRatesQuery $query)
     {
+        $request = $query->getRequest();
+
         $taxRates = $this->taxRateService->findAll();
 
         foreach ($taxRates as $taxRate) {
