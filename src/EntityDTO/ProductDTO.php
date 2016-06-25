@@ -65,6 +65,12 @@ class ProductDTO
     /** @var ImageDTO[] */
     public $tagImages = [];
 
+    /** @var OptionDTO[] */
+    public $options = [];
+
+    /** @var TextOptionDTO[] */
+    public $textOptions = [];
+
     /** @var ProductQuantityDiscountDTO[] */
     public $productQuantityDiscounts = [];
 

@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\EntityDTO\Builder;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\Lib\Pricing;
@@ -80,6 +81,9 @@ class ProductDTOBuilder implements DTOBuilderInterface
         $this->entityDTO = new ProductDTO;
     }
 
+    /**
+     * @return static
+     */
     public function withTags()
     {
         foreach ($this->entity->getTags() as $tag) {
@@ -92,6 +96,10 @@ class ProductDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @param PricingInterface $pricing
+     * @return static
+     */
     public function withTagsAndOptions(PricingInterface $pricing)
     {
         foreach ($this->entity->getTags() as $tag) {
@@ -103,9 +111,36 @@ class ProductDTOBuilder implements DTOBuilderInterface
                 ->build();
         }
 
+        $this->loadOptionsFromTags();
+
         return $this;
     }
 
+    private function loadOptionsFromTags()
+    {
+        $options = new ArrayCollection();
+        $textOptions = new ArrayCollection();
+        foreach ($this->entityDTO->tags as $tag) {
+            foreach ($tag->options as $option) {
+                if (! $options->contains($option)) {
+                    $options->add($option);
+                }
+            }
+
+            foreach ($tag->textOptions as $textOption) {
+                if (! $textOptions->contains($textOption)) {
+                    $textOptions->add($textOption);
+                }
+            }
+        }
+
+        $this->entityDTO->options = $options->toArray();
+        $this->entityDTO->textOptions = $textOptions->toArray();
+    }
+
+    /**
+     * @return static
+     */
     public function withImages()
     {
         foreach ($this->entity->getImages() as $image) {
@@ -125,6 +160,10 @@ class ProductDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @param PricingInterface $pricing
+     * @return static
+     */
     public function withPrice(PricingInterface $pricing)
     {
         $this->entityDTO->price = $this->dtoBuilderFactory
@@ -135,6 +174,10 @@ class ProductDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @param Pricing $pricing
+     * @return static
+     */
     public function withProductQuantityDiscounts(Pricing $pricing)
     {
         $productQuantityDiscounts = $this->entity->getProductQuantityDiscounts();
@@ -150,6 +193,9 @@ class ProductDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withOptionProducts()
     {
         foreach ($this->entity->getOptionProducts() as $optionProduct) {
@@ -162,6 +208,9 @@ class ProductDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withProductAttributes()
     {
         foreach ($this->entity->getProductAttributes() as $productAttribute) {
