@@ -132,7 +132,12 @@ class Tag implements IdEntityInterface, ValidationInterface, EnabledAttachmentIn
     public function addOption(Option $option)
     {
         $option->addTag($this);
-        $this->options[] = $option;
+        $this->options->add($option);
+    }
+
+    public function removeOption(Option $option)
+    {
+        $this->options->removeElement($option);
     }
 
     /**

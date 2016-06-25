@@ -62,6 +62,7 @@ used to track changes in this project.
 - Tag
   - AddOptionToTagCommand
   - RemoveImageFromTagCommand
+  - RemoveOptionFromTagCommand
   - GetTagsByIdsQuery
 - TaxRate
   - ListTaxRatesQuery

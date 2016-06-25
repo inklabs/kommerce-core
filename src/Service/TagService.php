@@ -83,6 +83,21 @@ class TagService implements TagServiceInterface
         $this->tagRepository->update($tag);
     }
 
+    /**
+     * @param UuidInterface $tagId
+     * @param UuidInterface $optionId
+     * @throws EntityNotFoundException
+     */
+    public function removeOption(UuidInterface $tagId, UuidInterface $optionId)
+    {
+        $option = $this->optionRepository->findOneById($optionId);
+        $tag = $this->tagRepository->findOneById($tagId);
+
+        $tag->removeOption($option);
+
+        $this->tagRepository->update($tag);
+    }
+
     public function findOneById(UuidInterface $id)
     {
         return $this->tagRepository->findOneById($id);
