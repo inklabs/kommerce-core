@@ -24,6 +24,13 @@ interface TagServiceInterface
     public function removeImage(UuidInterface $tagId, UuidInterface $imageId);
 
     /**
+     * @param UuidInterface $tagId
+     * @param UuidInterface $optionId
+     * @throws EntityNotFoundException
+     */
+    public function addOption(UuidInterface $tagId, UuidInterface $optionId);
+
+    /**
      * @param UuidInterface $id
      * @return Tag
      * @throws EntityNotFoundException

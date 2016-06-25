@@ -23,7 +23,6 @@ interface ProductServiceInterface
     /**
      * @param UuidInterface $productId
      * @param UuidInterface $tagId
-     * @return Tag
      * @throws EntityNotFoundException
      */
     public function addTag(UuidInterface $productId, UuidInterface $tagId);

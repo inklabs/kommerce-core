@@ -66,10 +66,9 @@ class ProductServiceTest extends ServiceTestCase
         $this->tagRepository->shouldReceive('findOneById')->andReturn($tag1);
         $this->productRepository->shouldReceive('update')->once();
 
-        $tag = $this->productService->addTag($product->getId(), $tag1->getId());
+        $this->productService->addTag($product->getId(), $tag1->getId());
 
-        $this->assertEqualEntities($tag1, $tag);
-        $this->assertEqualEntities($tag, $product->getTags()[0]);
+        $this->assertEqualEntities($tag1, $product->getTags()[0]);
     }
 
     public function testRemoveTag()

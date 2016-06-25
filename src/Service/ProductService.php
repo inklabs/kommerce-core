@@ -63,19 +63,16 @@ class ProductService implements ProductServiceInterface
     /**
      * @param UuidInterface $productId
      * @param UuidInterface $tagId
-     * @return Tag
      * @throws EntityNotFoundException
      */
     public function addTag(UuidInterface $productId, UuidInterface $tagId)
     {
-        $product = $product = $this->productRepository->findOneById($productId);
+        $product = $this->productRepository->findOneById($productId);
         $tag = $this->tagRepository->findOneById($tagId);
 
         $product->addTag($tag);
 
         $this->productRepository->update($product);
-
-        return $tag;
     }
 
     /**

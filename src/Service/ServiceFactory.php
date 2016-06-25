@@ -244,7 +244,8 @@ class ServiceFactory
     {
         return new TagService(
             $this->repositoryFactory->getTagRepository(),
-            $this->repositoryFactory->getImageRepository()
+            $this->repositoryFactory->getImageRepository(),
+            $this->repositoryFactory->getOptionRepository()
         );
     }
 
