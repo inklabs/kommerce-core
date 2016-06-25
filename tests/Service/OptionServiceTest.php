@@ -1,9 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeOptionRepository;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class OptionServiceTest extends ServiceTestCase

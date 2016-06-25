@@ -13,9 +13,9 @@ class RemoveImageFromProductHandlerTest extends ActionTestCase
             ->once();
 
         $productId = self::UUID_HEX;
-        $tagId = self::UUID_HEX;
+        $imageId = self::UUID_HEX;
 
-        $command = new RemoveImageFromProductCommand($productId, $tagId);
+        $command = new RemoveImageFromProductCommand($productId, $imageId);
         $handler = new RemoveImageFromProductHandler($productService);
         $handler->handle($command);
     }

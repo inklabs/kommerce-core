@@ -113,7 +113,7 @@ class Option implements IdEntityInterface, ValidationInterface
 
     public function addTag(Tag $tag)
     {
-        $this->tags[] = $tag;
+        $this->tags->add($tag);
     }
 
     /**

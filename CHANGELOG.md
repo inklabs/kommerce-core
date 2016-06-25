@@ -60,6 +60,7 @@ used to track changes in this project.
 - Shipment
   - GetLowestShipmentRatesByDeliveryMethod
 - Tag
+  - RemoveImageFromTagCommand
   - GetTagsByIdsQuery
 - TaxRate
   - ListTaxRatesQuery

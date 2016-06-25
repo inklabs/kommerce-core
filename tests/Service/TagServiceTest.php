@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
@@ -9,6 +10,9 @@ class TagServiceTest extends ServiceTestCase
     /** @var TagRepositoryInterface | \Mockery\Mock */
     protected $tagRepository;
 
+    /** @var ImageRepositoryInterface | \Mockery\Mock */
+    protected $imageRepository;
+
     /** @var TagService */
     protected $tagService;
 
@@ -16,7 +20,12 @@ class TagServiceTest extends ServiceTestCase
     {
         parent::setUp();
         $this->tagRepository = $this->mockRepository->getTagRepository();
-        $this->tagService = new TagService($this->tagRepository);
+        $this->imageRepository = $this->mockRepository->getImageRepository();
+
+        $this->tagService = new TagService(
+            $this->tagRepository,
+            $this->imageRepository
+        );
     }
 
     public function testCRUD()

@@ -106,6 +106,21 @@ class Tag implements IdEntityInterface, ValidationInterface, EnabledAttachmentIn
         $this->images->add($image);
     }
 
+    public function removeImage(Image $image)
+    {
+        $result = $this->images->removeElement($image);
+
+        if ($this->getDefaultImage() === $image->getPath()) {
+            if (! $this->images->isEmpty()) {
+                $this->setDefaultImage($this->images->first()->getPath());
+            } else {
+                $this->setDefaultImage(null);
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * @return Image[]
      */

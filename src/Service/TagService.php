@@ -3,7 +3,9 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\UuidInterface;
 
 class TagService implements TagServiceInterface
@@ -13,9 +15,15 @@ class TagService implements TagServiceInterface
     /** @var TagRepositoryInterface */
     private $tagRepository;
 
-    public function __construct(TagRepositoryInterface $tagRepository)
-    {
+    /** @var ImageRepositoryInterface */
+    private $imageRepository;
+
+    public function __construct(
+        TagRepositoryInterface $tagRepository,
+        ImageRepositoryInterface $imageRepository
+    ) {
         $this->tagRepository = $tagRepository;
+        $this->imageRepository = $imageRepository;
     }
 
     public function create(Tag & $tag)
@@ -33,6 +41,25 @@ class TagService implements TagServiceInterface
     public function delete(Tag $tag)
     {
         $this->tagRepository->delete($tag);
+    }
+
+    /**
+     * @param UuidInterface $tagId
+     * @param UuidInterface $imageId
+     * @throws EntityNotFoundException
+     */
+    public function removeImage(UuidInterface $tagId, UuidInterface $imageId)
+    {
+        $tag = $this->tagRepository->findOneById($tagId);
+        $image = $this->imageRepository->findOneById($imageId);
+
+        $tag->removeImage($image);
+
+        $this->tagRepository->update($tag);
+
+        if ($image->getProduct() === null) {
+            $this->imageRepository->delete($image);
+        }
     }
 
     public function findOneById(UuidInterface $id)

@@ -55,7 +55,7 @@
         </one-to-many>
 
         <many-to-many field="tags"
-                      target-entity="inklabs\kommerce\Entity\Tag"
+                      target-entity="Tag"
                       mapped-by="options"
                       fetch="EXTRA_LAZY"/>
     </entity>

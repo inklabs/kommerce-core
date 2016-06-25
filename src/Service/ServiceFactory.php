@@ -242,7 +242,10 @@ class ServiceFactory
      */
     public function getTagService()
     {
-        return new TagService($this->repositoryFactory->getTagRepository());
+        return new TagService(
+            $this->repositoryFactory->getTagRepository(),
+            $this->repositoryFactory->getImageRepository()
+        );
     }
 
     /**
