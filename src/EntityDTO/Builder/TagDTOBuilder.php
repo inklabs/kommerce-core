@@ -37,6 +37,7 @@ class TagDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->sortOrder    = $this->entity->getSortOrder();
         $this->entityDTO->isVisible    = $this->entity->isVisible();
         $this->entityDTO->isActive     = $this->entity->isActive();
+        $this->entityDTO->areAttachmentsEnabled = $this->entity->areAttachmentsEnabled();
     }
 
     protected function getEntityDTO()
@@ -59,6 +60,7 @@ class TagDTOBuilder implements DTOBuilderInterface
         $tag->setDescription($tagDTO->description);
         $tag->setIsActive($tagDTO->isActive);
         $tag->setIsVisible($tagDTO->isVisible);
+        $tag->setAreAttachmentsEnabled($tagDTO->areAttachmentsEnabled);
         $tag->setSortOrder($tagDTO->sortOrder);
     }
 

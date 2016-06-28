@@ -29,6 +29,9 @@ class TagDTO
     /** @var bool */
     public $isActive;
 
+    /** @var bool */
+    public $areAttachmentsEnabled;
+
     /** @var ProductDTO[] */
     public $products = [];
 

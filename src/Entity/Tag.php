@@ -55,6 +55,8 @@ class Tag implements IdEntityInterface, ValidationInterface, EnabledAttachmentIn
         $this->options = new ArrayCollection;
         $this->textOptions = new ArrayCollection;
 
+        $this->disableAttachments();
+
         $this->sortOrder = 0;
         $this->isActive = false;
         $this->isVisible = false;
@@ -239,6 +241,14 @@ class Tag implements IdEntityInterface, ValidationInterface, EnabledAttachmentIn
     public function isVisible()
     {
         return $this->isVisible;
+    }
+
+    /**
+     * @param bool $areAttachmentsEnabled
+     */
+    public function setAreAttachmentsEnabled($areAttachmentsEnabled)
+    {
+        $this->areAttachmentsEnabled = (bool) $areAttachmentsEnabled;
     }
 
     public function disableAttachments()

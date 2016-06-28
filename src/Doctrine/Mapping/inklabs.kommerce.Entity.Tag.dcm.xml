@@ -20,6 +20,7 @@
 
         <field name="isActive" type="boolean"/>
         <field name="isVisible" type="boolean"/>
+        <field name="areAttachmentsEnabled" type="boolean"/>
 
         <field name="sortOrder" type="smallint">
             <options>

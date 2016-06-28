@@ -20,6 +20,7 @@ class TagTest extends EntityTestCase
         $this->assertSame(null, $tag->getDefaultImage());
         $this->assertSame(false, $tag->isActive());
         $this->assertSame(false, $tag->isVisible());
+        $this->assertSame(false, $tag->areAttachmentsEnabled());
         $this->assertSame(0, $tag->getSortOrder());
         $this->assertSame(0, count($tag->getProducts()));
         $this->assertSame(0, count($tag->getImages()));
