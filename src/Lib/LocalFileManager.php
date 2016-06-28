@@ -8,7 +8,7 @@ use inklabs\kommerce\Exception\FileManagerException;
 
 class LocalFileManager implements FileManagerInterface
 {
-    const DIRECTORY_CHMOD = 0744;
+    const DIRECTORY_CHMOD = 0755;
 
     /** @var string */
     private $destinationPath;
