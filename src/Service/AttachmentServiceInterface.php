@@ -12,4 +12,6 @@ interface AttachmentServiceInterface
      * @return void
      */
     public function createAttachmentForOrderItem(UploadFileDTO $uploadFileDTO, UuidInterface $orderItemId);
+
+    public function delete(UuidInterface $attachmentId);
 }

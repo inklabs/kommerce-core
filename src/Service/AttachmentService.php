@@ -49,4 +49,10 @@ class AttachmentService implements AttachmentServiceInterface
         $orderItem->addAttachment($attachment);
         $this->orderService->update($order);
     }
+
+    public function delete(UuidInterface $attachmentId)
+    {
+        $attachment = $this->attachmentRepository->findOneById($attachmentId);
+        $this->attachmentRepository->delete($attachment);
+    }
 }

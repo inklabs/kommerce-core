@@ -118,4 +118,20 @@ class AttachmentServiceTest extends ServiceTestCase
 
         $this->assertCount(1, $order->getOrderItem(0)->getAttachments());
     }
+
+    public function testDeleteAttachment()
+    {
+        $attachment = $this->dummyData->getAttachment();
+
+        $this->attachmentRepository->shouldReceive('findOneById')
+            ->with($attachment->getId())
+            ->andReturn($attachment)
+            ->once();
+
+        $this->attachmentRepository->shouldReceive('delete')
+            ->with($attachment)
+            ->once();
+
+        $this->attachmentService->delete($attachment->getId());
+    }
 }
