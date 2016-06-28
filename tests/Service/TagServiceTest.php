@@ -108,4 +108,68 @@ class TagServiceTest extends ServiceTestCase
 
         $this->assertEqualEntities($tag1, $tags[0]);
     }
+
+    public function testRemoveImage()
+    {
+        $tag1 = $this->dummyData->getTag();
+        $this->tagRepository->shouldReceive('findOneById')
+            ->with($tag1->getId())
+            ->andReturn($tag1)
+            ->once();
+
+        $image1 = $this->dummyData->getImage();
+        $this->imageRepository->shouldReceive('findOneById')
+            ->with($image1->getId())
+            ->andReturn($image1)
+            ->once();
+
+        $this->tagRepository->shouldReceive('update')
+            ->once();
+
+        $this->imageRepository->shouldReceive('delete')
+            ->with($image1)
+            ->once();
+
+        $this->tagService->removeImage($tag1->getId(), $image1->getId());
+    }
+
+    public function testAddOption()
+    {
+        $tag1 = $this->dummyData->getTag();
+        $this->tagRepository->shouldReceive('findOneById')
+            ->with($tag1->getId())
+            ->andReturn($tag1)
+            ->once();
+
+        $option1 = $this->dummyData->getOption();
+        $this->optionRepository->shouldReceive('findOneById')
+            ->with($option1->getId())
+            ->andReturn($option1)
+            ->once();
+
+        $this->tagRepository->shouldReceive('update')
+            ->once();
+
+        $this->tagService->addOption($tag1->getId(), $option1->getId());
+    }
+
+    public function testRemoveOption()
+    {
+        $tag1 = $this->dummyData->getTag();
+        $this->tagRepository->shouldReceive('findOneById')
+            ->with($tag1->getId())
+            ->andReturn($tag1)
+            ->once();
+
+        $option1 = $this->dummyData->getOption();
+        $this->optionRepository->shouldReceive('findOneById')
+            ->with($option1->getId())
+            ->andReturn($option1)
+            ->once();
+
+        $this->tagRepository->shouldReceive('update')
+            ->once();
+
+        $this->tagService->removeOption($tag1->getId(), $option1->getId());
+    }
 }

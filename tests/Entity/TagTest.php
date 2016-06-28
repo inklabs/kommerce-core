@@ -74,4 +74,18 @@ class TagTest extends EntityTestCase
         $this->assertSame(null, $tag->getDescription());
         $this->assertSame(null, $tag->getDefaultImage());
     }
+
+    public function testRemoveImage()
+    {
+        $image1 = $this->dummyData->getImage();
+        $image2 = $this->dummyData->getImage();
+
+        $tag = new Tag;
+        $tag->addImage($image1);
+        $tag->addImage($image2);
+        $this->assertSame(2, count($tag->getImages()));
+
+        $tag->removeImage($image2);
+        $this->assertSame(1, count($tag->getImages()));
+    }
 }
