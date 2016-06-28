@@ -99,7 +99,7 @@ class OrderDTOBuilder implements DTOBuilderInterface
         foreach ($this->entity->getOrderItems() as $orderItem) {
             $this->entityDTO->orderItems[] = $this->dtoBuilderFactory
                 ->getOrderItemDTOBuilder($orderItem)
-                ->withAllData($this->entityDTO)
+                ->withFullData()
                 ->build();
         }
         return $this;

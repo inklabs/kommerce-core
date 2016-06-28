@@ -87,7 +87,7 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
         foreach ($this->entity->getOrderItemOptionProducts() as $orderItemOptionProduct) {
             $this->entityDTO->orderItemOptionProducts[] = $this->dtoBuilderFactory
                 ->getOrderItemOptionProductDTOBuilder($orderItemOptionProduct)
-                ->withAllData()
+                ->withOptionProduct()
                 ->build();
         }
 
@@ -102,7 +102,7 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
         foreach ($this->entity->getOrderItemOptionValues() as $orderItemOptionValue) {
             $this->entityDTO->orderItemOptionValues[] = $this->dtoBuilderFactory
                 ->getOrderItemOptionValueDTOBuilder($orderItemOptionValue)
-                ->withAllData()
+                ->withOptionValue()
                 ->build();
         }
 
@@ -163,6 +163,15 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
     {
         return $this
             ->withOrderDTO($orderDTO)
+            ->withFullData();
+    }
+
+    /**
+     * @return static
+     */
+    public function withFullData()
+    {
+        return $this
             ->withCatalogPromotions()
             ->withProductQuantityDiscounts()
             ->withOrderItemOptionProducts()
