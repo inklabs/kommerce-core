@@ -6,77 +6,9 @@ used to track changes in this project.
 
 ## [Unreleased]
 ### Added
-- Cart
-  - AddCartItemCommand
-  - AddCouponToCartCommand
-  - CopyCartItemsCommand
-  - CreateCartCommand
-  - DeleteCartItemCommand
-  - RemoveCartCommand
-  - RemoveCouponFromCartCommand
-  - SetCartFlatRateShipmentRateCommand
-  - SetCartSessionIdCommand
-  - SetCartTaxRateByZip5AndStateCommand
-  - SetCartUserCommand
-  - UpdateCartItemQuantityCommand
-  - GetCartQuery
-  - GetCartBySessionIdQuery
-  - GetCartByUserIdQuery
-- CatalogPromotion
-  - ListCatalogPromotionsQuery
-- Image
-  - CreateImageWithProductCommand
-- Option
-  - CreateOptionCommand
-  - CreateOptionValueCommand
-  - CreateOptionProductCommand
-  - DeleteOptionCommand
-  - DeleteOptionValueCommand
-  - DeleteOptionProductCommand
-  - UpdateOptionCommand
-  - UpdateOptionValueCommand
-  - UpdateOptionProductCommand
-  - GetOptionQuery
-  - ListOptionsQuery
-- Order
-  - ImportOrdersFromCSVCommand
-  - ImportOrderItemsFromCSVCommand
-  - ImportPaymentsFromCSVCommand
-  - GetOrderItemQuery
-  - GetOrdersByUserQuery
-  - ListOrdersQuery
-- Product
-  - AddTagToProductCommand
-  - CreateProductCommand
-  - DeleteProductCommand
-  - RemoveImageFromProductCommand
-  - RemoveTagFromProductCommand
-  - UpdateProductCommand
-  - GetProductQuery
-  - GetProductsByIdsQuery
-  - GetRelatedProductsQuery
-  - GetRandomProductsQuery
-  - ListProductsQuery
-- Shipment
-  - GetLowestShipmentRatesByDeliveryMethod
-- Tag
-  - AddOptionToTagCommand
-  - RemoveImageFromTagCommand
-  - RemoveOptionFromTagCommand
-  - GetTagsByIdsQuery
-- TaxRate
-  - ListTaxRatesQuery
-- User
-  - CreateUserCommand
-  - ImportUsersFromCSVCommand
-  - LoginCommand
-  - GetUserQuery
-  - GetUserByEmailQuery
-  - ListUsersQuery
+- TBD
 ### Changed
-- Migrate to UUIDs for primary keys
-- LoginWithTokenQuery to LoginWithTokenCommand
-- Moved raising OrderShippedEvent from OrderService::addShipment() to Order::addShipment()
-- Moved raising ResetPasswordEvent from UserService::requestPasswordResetToken() to UserToken::createResetPasswordToken()
-- Changed CartService::removeCoupon() to use $couponId instead of $couponIndex
-- Moved CreateImageCommand to CreateImageWithTagCommand
+- TBD
+
+## [0.6.0]
+### Initial pre-release
