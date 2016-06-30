@@ -366,7 +366,7 @@ class CartServiceTest extends ServiceTestCase
 
     public function testCopyCartItems()
     {
-        $cartItem1 = $this->dummyData->getCartItem();
+        $cartItem1 = $this->dummyData->getCartItemFull();
         $fromCart = $this->dummyData->getCart([$cartItem1]);
         $toCart = $this->dummyData->getCart();
 
@@ -378,6 +378,19 @@ class CartServiceTest extends ServiceTestCase
 
         $cartItem = $toCart->getCartItems()[0];
         $this->assertEqualEntities($cartItem1->getProduct(), $cartItem->getProduct());
+        $this->assertEntitiesNotEqual($cartItem1, $cartItem);
+        $this->assertEntitiesNotEqual(
+            $cartItem1->getCartItemOptionValues()[0],
+            $cartItem->getCartItemOptionValues()[0]
+        );
+        $this->assertEntitiesNotEqual(
+            $cartItem1->getCartItemOptionProducts()[0],
+            $cartItem->getCartItemOptionProducts()[0]
+        );
+        $this->assertEntitiesNotEqual(
+            $cartItem1->getCartItemTextOptionValues()[0],
+            $cartItem->getCartItemTextOptionValues()[0]
+        );
         $this->assertEquals($cartItem1->getQuantity(), $cartItem->getQuantity());
     }
 

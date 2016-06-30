@@ -23,6 +23,11 @@ class CartItemTextOptionValue implements IdEntityInterface, ValidationInterface
         $this->setCreated();
     }
 
+    public function __clone()
+    {
+        $this->setId();
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('textOptionValue', new Assert\NotBlank);

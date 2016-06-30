@@ -141,7 +141,24 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
 
     protected function assertEqualEntities(IdEntityInterface $entity1, IdEntityInterface $entity2)
     {
-        $this->assertEquals($entity1->getId(), $entity2->getId());
+        if (! $entity1->getId()->equals($entity2->getId())) {
+            $this->fail(
+                'Failed asserting entities ARE equal:' . PHP_EOL .
+                get_class($entity1) . ': ' . $entity1->getId()->getHex() . PHP_EOL .
+                get_class($entity2) . ': ' . $entity2->getId()->getHex()
+            );
+        }
+    }
+
+    protected function assertEntitiesNotEqual(IdEntityInterface $entity1, IdEntityInterface $entity2)
+    {
+        if ($entity1->getId()->equals($entity2->getId())) {
+            $this->fail(
+                'Failed asserting entities NOT equal:' . PHP_EOL .
+                get_class($entity1) . ': ' . $entity1->getId()->getHex() . PHP_EOL .
+                get_class($entity2) . ': ' . $entity2->getId()->getHex()
+            );
+        }
     }
 
     /**

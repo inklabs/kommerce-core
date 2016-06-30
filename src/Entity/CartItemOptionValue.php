@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-class CartItemOptionValue
+class CartItemOptionValue implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 
@@ -15,6 +15,11 @@ class CartItemOptionValue
     {
         $this->setId();
         $this->setCreated();
+    }
+
+    public function __clone()
+    {
+        $this->setId();
     }
 
     public function getOptionValue()

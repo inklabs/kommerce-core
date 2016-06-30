@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Lib\PricingInterface;
 
-class CartItemOptionProduct
+class CartItemOptionProduct implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 
@@ -17,6 +17,11 @@ class CartItemOptionProduct
     {
         $this->setId();
         $this->setCreated();
+    }
+
+    public function __clone()
+    {
+        $this->setId();
     }
 
     public function getOptionProduct()
