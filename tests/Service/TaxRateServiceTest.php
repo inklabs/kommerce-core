@@ -42,7 +42,7 @@ class TaxRateServiceTest extends ServiceTestCase
             $taxRate1->getId()
         );
 
-        $this->assertEqualEntities($taxRate1, $taxRate);
+        $this->assertEntitiesEqual($taxRate1, $taxRate);
     }
 
     public function testFindAll()
@@ -54,7 +54,7 @@ class TaxRateServiceTest extends ServiceTestCase
 
         $taxRates = $this->taxRateService->findAll();
 
-        $this->assertEqualEntities($taxRate1, $taxRates[0]);
+        $this->assertEntitiesEqual($taxRate1, $taxRates[0]);
     }
 
     public function testFindByZip5AndStateWithZip5()
@@ -69,6 +69,6 @@ class TaxRateServiceTest extends ServiceTestCase
             $taxRate1->getZip5()
         );
 
-        $this->assertEqualEntities($taxRate1, $taxRate);
+        $this->assertEntitiesEqual($taxRate1, $taxRate);
     }
 }

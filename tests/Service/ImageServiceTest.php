@@ -89,6 +89,6 @@ class ImageServiceTest extends ServiceTestCase
 
         $image = $this->imageService->findOneById($image1->getId());
 
-        $this->assertEqualEntities($image1, $image);
+        $this->assertEntitiesEqual($image1, $image);
     }
 }

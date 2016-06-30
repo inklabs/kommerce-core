@@ -33,7 +33,7 @@ class CartPriceRuleServiceTest extends ServiceTestCase
             $cartPriceRule1->getId()
         );
 
-        $this->assertEqualEntities($cartPriceRule1, $cartPriceRule);
+        $this->assertEntitiesEqual($cartPriceRule1, $cartPriceRule);
     }
 
     public function testFindAll()
@@ -45,6 +45,6 @@ class CartPriceRuleServiceTest extends ServiceTestCase
 
         $cartPriceRules = $this->cartPriceRuleService->findAll();
 
-        $this->assertEqualEntities($cartPriceRule1, $cartPriceRules[0]);
+        $this->assertEntitiesEqual($cartPriceRule1, $cartPriceRules[0]);
     }
 }

@@ -52,7 +52,7 @@ class TextOptionRepositoryTest extends EntityRepositoryTestCase
 
         $this->visitElements($textOption->getTags());
 
-        $this->assertEqualEntities($originalTextOption, $textOption);
+        $this->assertEntitiesEqual($originalTextOption, $textOption);
         $this->assertSame(2, $this->getTotalQueries());
     }
 
@@ -64,6 +64,6 @@ class TextOptionRepositoryTest extends EntityRepositoryTestCase
             $originalTextOption->getId()
         ]);
 
-        $this->assertEqualEntities($originalTextOption, $textOptions[0]);
+        $this->assertEntitiesEqual($originalTextOption, $textOptions[0]);
     }
 }

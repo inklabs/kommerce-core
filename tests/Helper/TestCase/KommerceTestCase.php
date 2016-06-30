@@ -139,7 +139,7 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue($difference >= 0 && $difference <= $delta);
     }
 
-    protected function assertEqualEntities(IdEntityInterface $entity1, IdEntityInterface $entity2)
+    protected function assertEntitiesEqual(IdEntityInterface $entity1, IdEntityInterface $entity2)
     {
         if (! $entity1->getId()->equals($entity2->getId())) {
             $this->fail(

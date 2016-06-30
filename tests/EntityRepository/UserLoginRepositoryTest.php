@@ -74,9 +74,9 @@ class UserLoginRepositoryTest extends EntityRepositoryTestCase
         $userLogin->getUser()->getCreated();
         $userLogin->getUserToken()->getCreated();
 
-        $this->assertEqualEntities($originalUserLogin, $userLogin);
-        $this->assertEqualEntities($originalUserLogin->getUser(), $userLogin->getUser());
-        $this->assertEqualEntities($originalUserLogin->getUserToken(), $userLogin->getUserToken());
+        $this->assertEntitiesEqual($originalUserLogin, $userLogin);
+        $this->assertEntitiesEqual($originalUserLogin->getUser(), $userLogin->getUser());
+        $this->assertEntitiesEqual($originalUserLogin->getUserToken(), $userLogin->getUserToken());
         $this->assertSame(2, $this->getTotalQueries());
     }
 }

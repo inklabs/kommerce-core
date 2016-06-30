@@ -97,10 +97,10 @@ class CartTest extends EntityTestCase
 
         $cart = new Cart;
         $cart->addCoupon($coupon1);
-        $this->assertEqualEntities($coupon1, $cart->getCoupons()[0]);
+        $this->assertEntitiesEqual($coupon1, $cart->getCoupons()[0]);
 
         $cart->updateCoupon(0, $coupon2);
-        $this->assertEqualEntities($coupon2, $cart->getCoupons()[0]);
+        $this->assertEntitiesEqual($coupon2, $cart->getCoupons()[0]);
     }
 
     public function testAddCouponWithDuplicateCouponThrowsException()

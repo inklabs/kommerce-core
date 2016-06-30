@@ -54,7 +54,7 @@ class PricingTest extends EntityRepositoryTestCase
         $this->pricing->loadCatalogPromotions($catalogPromotionRepository);
 
         $catalogPromotions = $this->pricing->getCatalogPromotions();
-        $this->assertEqualEntities($originalCatalogPromotion, $catalogPromotions[0]);
+        $this->assertEntitiesEqual($originalCatalogPromotion, $catalogPromotions[0]);
     }
 
     public function testLoadCartPriceRules()
@@ -68,6 +68,6 @@ class PricingTest extends EntityRepositoryTestCase
         $this->pricing->loadCartPriceRules($cartPriceRuleRepository);
         $cartPriceRules = $this->pricing->getCartPriceRules();
 
-        $this->assertEqualEntities($cartPriceRule1, $cartPriceRules[0]);
+        $this->assertEntitiesEqual($cartPriceRule1, $cartPriceRules[0]);
     }
 }

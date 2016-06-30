@@ -53,7 +53,7 @@ class TagServiceTest extends ServiceTestCase
 
         $tag = $this->tagService->findOneById($tag1->getId());
 
-        $this->assertEqualEntities($tag1, $tag);
+        $this->assertEntitiesEqual($tag1, $tag);
     }
 
     public function testFindOneByCode()
@@ -66,7 +66,7 @@ class TagServiceTest extends ServiceTestCase
 
         $tag = $this->tagService->findOneByCode($tag1->getCode());
 
-        $this->assertEqualEntities($tag1, $tag);
+        $this->assertEntitiesEqual($tag1, $tag);
     }
 
     public function testGetAllTags()
@@ -78,7 +78,7 @@ class TagServiceTest extends ServiceTestCase
 
         $tags = $this->tagService->getAllTags();
 
-        $this->assertEqualEntities($tag1, $tags[0]);
+        $this->assertEntitiesEqual($tag1, $tags[0]);
     }
 
     public function testGetTagsByIds()
@@ -93,7 +93,7 @@ class TagServiceTest extends ServiceTestCase
             $tag1->getId()
         ]);
 
-        $this->assertEqualEntities($tag1, $tags[0]);
+        $this->assertEntitiesEqual($tag1, $tags[0]);
     }
 
     public function testAllGetTagsByIds()
@@ -106,7 +106,7 @@ class TagServiceTest extends ServiceTestCase
 
         $tags = $this->tagService->getAllTagsByIds([$tag1->getId()]);
 
-        $this->assertEqualEntities($tag1, $tags[0]);
+        $this->assertEntitiesEqual($tag1, $tags[0]);
     }
 
     public function testRemoveImage()

@@ -54,7 +54,7 @@ class ProductServiceTest extends ServiceTestCase
 
         $product = $this->productService->findOneById($product1->getId());
 
-        $this->assertEqualEntities($product1, $product);
+        $this->assertEntitiesEqual($product1, $product);
     }
 
     public function testAddTag()
@@ -68,7 +68,7 @@ class ProductServiceTest extends ServiceTestCase
 
         $this->productService->addTag($product->getId(), $tag1->getId());
 
-        $this->assertEqualEntities($tag1, $product->getTags()[0]);
+        $this->assertEntitiesEqual($tag1, $product->getTags()[0]);
     }
 
     public function testRemoveTag()
@@ -109,7 +109,7 @@ class ProductServiceTest extends ServiceTestCase
 
         $products = $this->productService->getAllProducts();
 
-        $this->assertEqualEntities($product1, $products[0]);
+        $this->assertEntitiesEqual($product1, $products[0]);
     }
 
     public function testGetRelatedProducts()
@@ -127,7 +127,7 @@ class ProductServiceTest extends ServiceTestCase
 
         $products = $this->productService->getRelatedProducts($product1);
 
-        $this->assertEqualEntities($product2, $products[0]);
+        $this->assertEntitiesEqual($product2, $products[0]);
     }
 
     public function testGetRelatedProductsByIds()
@@ -140,7 +140,7 @@ class ProductServiceTest extends ServiceTestCase
 
         $products = $this->productService->getRelatedProductsByIds([self::UUID_HEX]);
 
-        $this->assertEqualEntities($product, $products[0]);
+        $this->assertEntitiesEqual($product, $products[0]);
     }
 
     public function testGetProductsByTag()
@@ -154,7 +154,7 @@ class ProductServiceTest extends ServiceTestCase
 
         $products = $this->productService->getProductsByTagId($tag->getId());
 
-        $this->assertEqualEntities($product1, $products[0]);
+        $this->assertEntitiesEqual($product1, $products[0]);
     }
 
     public function testGetProductsByIds()
@@ -169,7 +169,7 @@ class ProductServiceTest extends ServiceTestCase
             $product1->getId()
         ]);
 
-        $this->assertEqualEntities($product1, $products[0]);
+        $this->assertEntitiesEqual($product1, $products[0]);
     }
 
     public function testGetAllProductsByIds()
@@ -184,7 +184,7 @@ class ProductServiceTest extends ServiceTestCase
             $product1->getId()
         ]);
 
-        $this->assertEqualEntities($product1, $products[0]);
+        $this->assertEntitiesEqual($product1, $products[0]);
     }
 
     public function testGetRandomProducts()
@@ -198,6 +198,6 @@ class ProductServiceTest extends ServiceTestCase
 
         $products = $this->productService->getRandomProducts($limit);
 
-        $this->assertEqualEntities($product1, $products[0]);
+        $this->assertEntitiesEqual($product1, $products[0]);
     }
 }

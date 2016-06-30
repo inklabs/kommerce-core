@@ -95,7 +95,7 @@ class OptionRepositoryTest extends EntityRepositoryTestCase
 
         $optionValue = $this->optionRepository->getOptionValueById($optionValue1->getId());
 
-        $this->assertEqualEntities($optionValue1, $optionValue);
+        $this->assertEntitiesEqual($optionValue1, $optionValue);
     }
 
     public function testGetOptionProductById()
@@ -111,6 +111,6 @@ class OptionRepositoryTest extends EntityRepositoryTestCase
 
         $optionProduct = $this->optionRepository->getOptionProductById($optionProduct1->getId());
 
-        $this->assertEqualEntities($optionProduct1, $optionProduct);
+        $this->assertEntitiesEqual($optionProduct1, $optionProduct);
     }
 }

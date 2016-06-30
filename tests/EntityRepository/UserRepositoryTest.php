@@ -97,7 +97,7 @@ class UserRepositoryTest extends EntityRepositoryTestCase
         $this->visitElements($user->getUserTokens());
         $this->visitElements($user->getUserRoles());
 
-        $this->assertEqualEntities($originalUser, $user);
+        $this->assertEntitiesEqual($originalUser, $user);
         $this->assertSame(5, $this->getTotalQueries());
     }
 
@@ -119,7 +119,7 @@ class UserRepositoryTest extends EntityRepositoryTestCase
 
         $users = $this->userRepository->getAllUsers('John');
 
-        $this->assertEqualEntities($originalUser, $users[0]);
+        $this->assertEntitiesEqual($originalUser, $users[0]);
     }
 
     public function testGetAllUsersByIds()
@@ -130,7 +130,7 @@ class UserRepositoryTest extends EntityRepositoryTestCase
             $originalUser->getId()
         ]);
 
-        $this->assertEqualEntities($originalUser, $users[0]);
+        $this->assertEntitiesEqual($originalUser, $users[0]);
     }
 
     public function testFindByEmailUsingEmail()
@@ -145,7 +145,7 @@ class UserRepositoryTest extends EntityRepositoryTestCase
         $this->visitElements($user->getUserRoles());
 //        $user->getCart()->getCreated();
 
-        $this->assertEqualEntities($originalUser, $user);
+        $this->assertEntitiesEqual($originalUser, $user);
         $this->assertSame(2, $this->getTotalQueries());
     }
 

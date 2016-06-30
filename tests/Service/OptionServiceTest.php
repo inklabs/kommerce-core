@@ -66,7 +66,7 @@ class OptionServiceTest extends ServiceTestCase
             $option1->getId()
         );
 
-        $this->assertEqualEntities($option1, $option);
+        $this->assertEntitiesEqual($option1, $option);
     }
 
     public function testGetOptionValueById()
@@ -81,7 +81,7 @@ class OptionServiceTest extends ServiceTestCase
             $optionValue1->getId()
         );
 
-        $this->assertEqualEntities($optionValue1, $option);
+        $this->assertEntitiesEqual($optionValue1, $option);
     }
 
     public function testGetOptionProductById()
@@ -96,7 +96,7 @@ class OptionServiceTest extends ServiceTestCase
             $optionProduct1->getId()
         );
 
-        $this->assertEqualEntities($optionProduct1, $option);
+        $this->assertEntitiesEqual($optionProduct1, $option);
     }
 
     public function testGetAllOptions()
@@ -108,6 +108,6 @@ class OptionServiceTest extends ServiceTestCase
 
         $options = $this->optionService->getAllOptions();
 
-        $this->assertEqualEntities($option1, $options[0]);
+        $this->assertEntitiesEqual($option1, $options[0]);
     }
 }

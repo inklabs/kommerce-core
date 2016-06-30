@@ -56,7 +56,7 @@ class UserRoleRepositoryTest extends EntityRepositoryTestCase
             $originalUserRole->getId()
         );
 
-        $this->assertEqualEntities($originalUserRole, $userRole);
+        $this->assertEntitiesEqual($originalUserRole, $userRole);
         $this->assertSame(1, $this->getTotalQueries());
     }
 }

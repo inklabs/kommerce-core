@@ -58,7 +58,7 @@ class WarehouseRepositoryTest extends EntityRepositoryTestCase
             $originalWarehouse->getId()
         );
 
-        $this->assertEqualEntities($originalWarehouse, $warehouse);
+        $this->assertEntitiesEqual($originalWarehouse, $warehouse);
         $this->assertSame(1, $this->getTotalQueries());
     }
 
@@ -97,7 +97,7 @@ class WarehouseRepositoryTest extends EntityRepositoryTestCase
         $warehouse = $warehouses[0][0];
         $distance = $warehouses[0]['distance'];
 
-        $this->assertEqualEntities($originalWarehouse, $warehouse);
+        $this->assertEntitiesEqual($originalWarehouse, $warehouse);
         $this->assertEquals(14.421, $distance, null, FLOAT_DELTA);
     }
 }

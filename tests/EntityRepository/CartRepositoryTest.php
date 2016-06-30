@@ -76,7 +76,7 @@ class CartRepositoryTest extends EntityRepositoryTestCase
         $this->visitElements($cart->getCartItems());
         $this->visitElements($cart->getCoupons());
 
-        $this->assertEqualEntities($originalCart, $cart);
+        $this->assertEntitiesEqual($originalCart, $cart);
         $this->assertSame(3, $this->getTotalQueries());
     }
 
@@ -89,7 +89,7 @@ class CartRepositoryTest extends EntityRepositoryTestCase
             $originalCart->getUser()->getId()
         );
 
-        $this->assertEqualEntities($originalCart, $cart);
+        $this->assertEntitiesEqual($originalCart, $cart);
     }
 
     public function testFindBySession()
@@ -100,7 +100,7 @@ class CartRepositoryTest extends EntityRepositoryTestCase
 
         $cart = $this->cartRepository->findOneBySession($sessionId);
 
-        $this->assertEqualEntities($originalCart, $cart);
+        $this->assertEntitiesEqual($originalCart, $cart);
     }
 
     public function testGetItemById()
@@ -112,6 +112,6 @@ class CartRepositoryTest extends EntityRepositoryTestCase
             $cartItem1->getId()
         );
 
-        $this->assertEqualEntities($cartItem1, $cartItem);
+        $this->assertEntitiesEqual($cartItem1, $cartItem);
     }
 }

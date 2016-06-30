@@ -62,7 +62,7 @@ class UserTokenRepositoryTest extends EntityRepositoryTestCase
 
         $userToken->getUser()->getCreated();
 
-        $this->assertEqualEntities($originalUserToken, $userToken);
+        $this->assertEntitiesEqual($originalUserToken, $userToken);
         $this->assertSame(2, $this->getTotalQueries());
     }
 
@@ -77,7 +77,7 @@ class UserTokenRepositoryTest extends EntityRepositoryTestCase
 
         $userToken->getUser()->getEmail();
 
-        $this->assertEqualEntities($originalUserToken, $userToken);
+        $this->assertEntitiesEqual($originalUserToken, $userToken);
         $this->assertSame(2, $this->getTotalQueries());
     }
 }

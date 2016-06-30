@@ -73,7 +73,7 @@ class TagRepositoryTest extends EntityRepositoryTestCase
         $this->visitElements($tag->getOptions());
         $this->visitElements($tag->getTextOptions());
 
-        $this->assertEqualEntities($originalTag, $tag);
+        $this->assertEntitiesEqual($originalTag, $tag);
         $this->assertSame(5, $this->getTotalQueries());
     }
 
@@ -93,7 +93,7 @@ class TagRepositoryTest extends EntityRepositoryTestCase
     {
         $originalTag = $this->setupTag();
         $tag = $this->tagRepository->findOneByCode($originalTag->getCode());
-        $this->assertEqualEntities($originalTag, $tag);
+        $this->assertEntitiesEqual($originalTag, $tag);
     }
 
     public function testFindOneByCodeThrowsException()
@@ -118,7 +118,7 @@ class TagRepositoryTest extends EntityRepositoryTestCase
         $this->visitElements($tags[0]->getOptions());
         $this->visitElements($tags[0]->getTextOptions());
 
-        $this->assertEqualEntities($originalTag, $tags[0]);
+        $this->assertEntitiesEqual($originalTag, $tags[0]);
         $this->assertSame(5, $this->getTotalQueries());
     }
 
@@ -126,7 +126,7 @@ class TagRepositoryTest extends EntityRepositoryTestCase
     {
         $originalTag = $this->setupTag();
         $tag = $this->tagRepository->getAllTags('TT');
-        $this->assertEqualEntities($originalTag, $tag[0]);
+        $this->assertEntitiesEqual($originalTag, $tag[0]);
     }
 
     public function testGetTagsByIds()
@@ -138,7 +138,7 @@ class TagRepositoryTest extends EntityRepositoryTestCase
         ]);
 
         $this->assertSame(1, count($tags));
-        $this->assertEqualEntities($originalTag, $tags[0]);
+        $this->assertEntitiesEqual($originalTag, $tags[0]);
     }
 
     public function testGetAllTagsByIds()
@@ -150,6 +150,6 @@ class TagRepositoryTest extends EntityRepositoryTestCase
         ]);
 
         $this->assertSame(1, count($tags));
-        $this->assertEqualEntities($originalTag, $tags[0]);
+        $this->assertEntitiesEqual($originalTag, $tags[0]);
     }
 }

@@ -128,7 +128,7 @@ class OrderServiceTest extends ServiceTestCase
             $order1->getId()
         );
 
-        $this->assertEqualEntities($order1, $order);
+        $this->assertEntitiesEqual($order1, $order);
     }
 
     public function testGetOrderItem()
@@ -140,7 +140,7 @@ class OrderServiceTest extends ServiceTestCase
             $orderItem1->getId()
         );
 
-        $this->assertEqualEntities($orderItem1, $orderItem);
+        $this->assertEntitiesEqual($orderItem1, $orderItem);
     }
 
     public function testGetLatestOrders()
@@ -149,7 +149,7 @@ class OrderServiceTest extends ServiceTestCase
 
         $orders = $this->orderService->getLatestOrders();
 
-        $this->assertEqualEntities($order1, $orders[0]);
+        $this->assertEntitiesEqual($order1, $orders[0]);
     }
 
     public function testGetOrderByUserId()
@@ -160,7 +160,7 @@ class OrderServiceTest extends ServiceTestCase
             $order1->getUser()->getId()
         );
 
-        $this->assertEqualEntities($order1, $orders[0]);
+        $this->assertEntitiesEqual($order1, $orders[0]);
     }
 
     public function testBuyShipmentLabel()

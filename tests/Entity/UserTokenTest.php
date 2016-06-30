@@ -43,7 +43,7 @@ class UserTokenTest extends EntityTestCase
         $this->assertSame(self::USER_AGENT, $this->userToken->getUserAgent());
         $this->assertFalse($this->userToken->verifyToken('wrong-token'));
         $this->assertTrue($this->userToken->verifyToken(self::TOKEN));
-        $this->assertEqualEntities($this->user, $this->userToken->getUser());
+        $this->assertEntitiesEqual($this->user, $this->userToken->getUser());
         $this->assertEquals($this->expires, $this->userToken->getExpires());
         $this->assertTrue($this->userToken->getType()->isInternal());
     }

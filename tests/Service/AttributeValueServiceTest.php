@@ -33,7 +33,7 @@ class AttributeValueServiceTest extends ServiceTestCase
             $attributeValue1->getId()
         );
 
-        $this->assertEqualEntities($attributeValue1, $attributeValue);
+        $this->assertEntitiesEqual($attributeValue1, $attributeValue);
     }
 
     public function testGetAttributeValuesByIds()
@@ -48,6 +48,6 @@ class AttributeValueServiceTest extends ServiceTestCase
             $attributeValue1->getId()
         ]);
 
-        $this->assertEqualEntities($attributeValue1, $attributeValues[0]);
+        $this->assertEntitiesEqual($attributeValue1, $attributeValues[0]);
     }
 }

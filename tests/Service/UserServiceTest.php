@@ -67,7 +67,7 @@ class UserServiceTest extends ServiceTestCase
             $user1->getId()
         );
 
-        $this->assertEqualEntities($user1, $user);
+        $this->assertEntitiesEqual($user1, $user);
     }
 
     public function testFindOneByEmail()
@@ -82,7 +82,7 @@ class UserServiceTest extends ServiceTestCase
             $user1->getEmail()
         );
 
-        $this->assertEqualEntities($user1, $user);
+        $this->assertEntitiesEqual($user1, $user);
     }
 
     public function testUserLogin()
@@ -100,7 +100,7 @@ class UserServiceTest extends ServiceTestCase
 
         $loginUser = $this->userService->login($user1->getEmail(), 'password1', self::IP4);
 
-        $this->assertEqualEntities($user1, $loginUser);
+        $this->assertEntitiesEqual($user1, $loginUser);
         $this->assertSame(1, $user1->getTotalLogins());
     }
 
@@ -170,7 +170,7 @@ class UserServiceTest extends ServiceTestCase
 
         $users = $this->userService->getAllUsers();
 
-        $this->assertEqualEntities($user1, $users[0]);
+        $this->assertEntitiesEqual($user1, $users[0]);
     }
 
     public function testAllGetUsersByIds()
@@ -185,7 +185,7 @@ class UserServiceTest extends ServiceTestCase
             $user1->getId()
         ]);
 
-        $this->assertEqualEntities($user1, $users[0]);
+        $this->assertEntitiesEqual($user1, $users[0]);
     }
 
     public function testLoginWithTokenThrowsExceptionWhenUserNotFound()

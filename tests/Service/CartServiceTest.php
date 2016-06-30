@@ -139,7 +139,7 @@ class CartServiceTest extends ServiceTestCase
             $user->getId()
         );
 
-        $this->assertEqualEntities($cart1, $cart);
+        $this->assertEntitiesEqual($cart1, $cart);
     }
 
     public function testFindOneBySession()
@@ -152,7 +152,7 @@ class CartServiceTest extends ServiceTestCase
 
         $cart = $this->cartService->findBySession(self::SESSION_ID);
 
-        $this->assertEqualEntities($cart1, $cart);
+        $this->assertEntitiesEqual($cart1, $cart);
     }
 
     public function testAddCouponByCode()
@@ -168,7 +168,7 @@ class CartServiceTest extends ServiceTestCase
 
         $this->cartService->addCouponByCode($cart->getId(), $coupon->getCode());
 
-        $this->assertEqualEntities($coupon, $cart->getCoupons()[0]);
+        $this->assertEntitiesEqual($coupon, $cart->getCoupons()[0]);
     }
 
     public function testGetCoupons()
@@ -179,7 +179,7 @@ class CartServiceTest extends ServiceTestCase
 
         $coupons = $this->cartService->getCoupons($cart->getId());
 
-        $this->assertEqualEntities($coupon, $coupons[0]);
+        $this->assertEntitiesEqual($coupon, $coupons[0]);
     }
 
     public function testRemoveCart()
@@ -263,7 +263,7 @@ class CartServiceTest extends ServiceTestCase
         $cartItemId = Uuid::uuid4();
         $cartItem = $this->cartService->addItem($cartItemId, $cart->getId(), $product->getid());
 
-        $this->assertEqualEntities($cartItem, $cart->getCartItems()[0]);
+        $this->assertEntitiesEqual($cartItem, $cart->getCartItems()[0]);
         $this->assertSame(null, $cart->getShipmentRate());
     }
 
@@ -290,7 +290,7 @@ class CartServiceTest extends ServiceTestCase
 
         $this->cartService->addItemOptionProducts($cartItem->getId(), $optionProductIds);
 
-        $this->assertEqualEntities(
+        $this->assertEntitiesEqual(
             $optionProduct,
             $cart->getCartItems()[0]
                 ->getCartItemOptionProducts()[0]
@@ -320,7 +320,7 @@ class CartServiceTest extends ServiceTestCase
 
         $this->cartService->addItemOptionValues($cartItem->getId(), $optionValueIds);
 
-        $this->assertEqualEntities(
+        $this->assertEntitiesEqual(
             $optionValue,
             $cart->getCartItems()[0]
                 ->getCartItemOptionValues()[0]
@@ -357,7 +357,7 @@ class CartServiceTest extends ServiceTestCase
             ->getCartItemTextOptionValues()[0];
 
         $this->assertSame($textOptionValue, $cartItemTextOptionValue->getTextOptionValue());
-        $this->assertEqualEntities(
+        $this->assertEntitiesEqual(
             $textOption,
             $cartItemTextOptionValue
                 ->getTextOption()
@@ -377,7 +377,7 @@ class CartServiceTest extends ServiceTestCase
         $this->cartService->copyCartItems($fromCart->getId(), $toCart->getId());
 
         $cartItem = $toCart->getCartItems()[0];
-        $this->assertEqualEntities($cartItem1->getProduct(), $cartItem->getProduct());
+        $this->assertEntitiesEqual($cartItem1->getProduct(), $cartItem->getProduct());
         $this->assertEntitiesNotEqual($cartItem1, $cartItem);
         $this->assertEntitiesNotEqual(
             $cartItem1->getCartItemOptionValues()[0],

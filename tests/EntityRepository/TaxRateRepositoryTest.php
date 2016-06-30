@@ -83,25 +83,25 @@ class TaxRateRepositoryTest extends EntityRepositoryTestCase
     public function testFindByZip5AndStateWithZip5()
     {
         $taxRate = $this->taxRateRepository->findByZip5AndState('92606');
-        $this->assertEqualEntities($this->taxRates[1], $taxRate);
+        $this->assertEntitiesEqual($this->taxRates[1], $taxRate);
     }
 
     public function testFindByZip5AndStateWithZip5Ranged()
     {
         $taxRate = $this->taxRateRepository->findByZip5AndState('92603');
-        $this->assertEqualEntities($this->taxRates[2], $taxRate);
+        $this->assertEntitiesEqual($this->taxRates[2], $taxRate);
     }
 
     public function testFindByZip5AndStateWithState()
     {
         $taxRate = $this->taxRateRepository->findByZip5AndState(null, 'CA');
-        $this->assertEqualEntities($this->taxRates[0], $taxRate);
+        $this->assertEntitiesEqual($this->taxRates[0], $taxRate);
     }
 
     public function testFindByZip5AndStateWithZip5AndState()
     {
         $taxRate = $this->taxRateRepository->findByZip5AndState('92606', 'CA');
-        $this->assertEqualEntities($this->taxRates[1], $taxRate);
+        $this->assertEntitiesEqual($this->taxRates[1], $taxRate);
     }
 
     public function testFindByZip5AndStateMissing()
