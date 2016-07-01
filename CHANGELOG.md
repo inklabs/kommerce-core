@@ -8,7 +8,7 @@ used to track changes in this project.
 ### Added
 - TBD
 ### Changed
-- TBD
+- #42: Change all use case Actions to require a string ID instead of UuidInterface
 
 ## [0.6.0]
 ### Initial pre-release
