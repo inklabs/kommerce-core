@@ -13,7 +13,7 @@ class SetExternalShipmentRateHandlerTest extends ActionTestCase
         $cartService->shouldReceive('setExternalShipmentRate')
             ->once();
 
-        $cartId = Uuid::uuid4();
+        $cartId = self::UUID_HEX;
         $shipmentRateExternalId = 'shp_xxxxxxxx';
         $orderAddressDTO = $this->getDTOBuilderFactory()
             ->getOrderAddressDTOBuilder($this->dummyData->getOrderAddress())

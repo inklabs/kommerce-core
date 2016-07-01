@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Action\User;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\UserPasswordValidator;
+use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
 final class ChangePasswordCommand implements CommandInterface
@@ -15,14 +16,14 @@ final class ChangePasswordCommand implements CommandInterface
     private $password;
 
     /**
-     * @param UuidInterface $userId
+     * @param string $userId
      * @param string $password
      */
-    public function __construct(UuidInterface $userId, $password)
+    public function __construct($userId, $password)
     {
         $this->assertPasswordValid($password);
 
-        $this->userId = $userId;
+        $this->userId = Uuid::fromString($userId);
         $this->password = (string) $password;
     }
 

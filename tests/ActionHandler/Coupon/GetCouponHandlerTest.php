@@ -15,7 +15,7 @@ class GetCouponHandlerTest extends ActionTestCase
         $couponService = $this->mockService->getCouponService();
         $dtoBuilderFactory = $this->getDTOBuilderFactory();
 
-        $request = new GetCouponRequest($coupon->getId());
+        $request = new GetCouponRequest($coupon->getId()->getHex());
         $response = new GetCouponResponse;
 
         $handler = new GetCouponHandler($couponService, $dtoBuilderFactory);

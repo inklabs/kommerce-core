@@ -14,7 +14,11 @@ class ChangePasswordHandlerTest extends ActionTestCase
 
         $user = $this->dummyData->getUser();
 
-        $command = new ChangePasswordCommand($user->getId(), 'newPassword123');
+        $command = new ChangePasswordCommand(
+            $user->getId()->getHex(),
+            'newPassword123'
+        );
+
         $handler = new ChangePasswordHandler($userService);
         $handler->handle($command);
     }

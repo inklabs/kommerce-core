@@ -23,7 +23,7 @@ class BuyShipmentLabelHandlerTest extends ActionTestCase
         );
 
         $command = new BuyShipmentLabelCommand(
-            $order->getId(),
+            $order->getId()->getHex(),
             $orderItemQtyDTO,
             'A comment',
             'shp_xxxxxxx',

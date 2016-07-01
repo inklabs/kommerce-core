@@ -24,7 +24,7 @@ class AddShipmentTrackingCodeHandlerTest extends ActionTestCase
         );
 
         $command = new AddShipmentTrackingCodeCommand(
-            $order->getId(),
+            $order->getId()->getHex(),
             $orderItemQtyDTO,
             'A comment',
             $carrier->getId(),

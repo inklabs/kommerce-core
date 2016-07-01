@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Action\Order;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
 final class SetOrderStatusCommand implements CommandInterface
@@ -13,12 +14,12 @@ final class SetOrderStatusCommand implements CommandInterface
     private $orderStatusTypeId;
 
     /**
-     * @param UuidInterface $orderId
+     * @param string $orderId
      * @param int $orderStatusTypeId
      */
-    public function __construct(UuidInterface $orderId, $orderStatusTypeId)
+    public function __construct($orderId, $orderStatusTypeId)
     {
-        $this->orderId = $orderId;
+        $this->orderId = Uuid::fromString($orderId);
         $this->orderStatusTypeId = (int) $orderStatusTypeId;
     }
 

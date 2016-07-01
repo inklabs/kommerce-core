@@ -15,7 +15,11 @@ class SetOrderStatusHandlerTest extends ActionTestCase
 
         $order = $this->dummyData->getOrder();
 
-        $command = new SetOrderStatusCommand($order->getid(), OrderStatusType::SHIPPED);
+        $command = new SetOrderStatusCommand(
+            $order->getid()->getHex(),
+            OrderStatusType::SHIPPED
+        );
+
         $handler = new SetOrderStatusHandler($orderService);
         $handler->handle($command);
     }

@@ -19,9 +19,9 @@ class AdjustInventoryHandlerTest extends ActionTestCase
         $quantity = 3;
 
         $command = new AdjustInventoryCommand(
-            $product->getId(),
+            $product->getId()->getHex(),
             $quantity,
-            $inventoryLocation->getId(),
+            $inventoryLocation->getId()->getHex(),
             InventoryTransactionType::SHIPPED
         );
 
