@@ -85,7 +85,7 @@ class CartCalculatorTest extends LibTestCase
         $expectedCartTotal->tax = 0;
         $expectedCartTotal->total = 1200;
         $expectedCartTotal->savings = 500;
-        $expectedCartTotal->cartPriceRules = [$cartPriceRule];
+        $expectedCartTotal->addCartPriceRule($cartPriceRule);
 
         $cartCalculator = new CartCalculator($pricing);
         $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
@@ -128,7 +128,7 @@ class CartCalculatorTest extends LibTestCase
         $expectedCartTotal->tax = 0;
         $expectedCartTotal->total = 2400;
         $expectedCartTotal->savings = 1000;
-        $expectedCartTotal->cartPriceRules = [$cartPriceRule];
+        $expectedCartTotal->addCartPriceRule($cartPriceRule);
 
         $cartCalculator = new CartCalculator($pricing);
         $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
@@ -171,7 +171,7 @@ class CartCalculatorTest extends LibTestCase
         $expectedCartTotal->tax = 0;
         $expectedCartTotal->total = 3600;
         $expectedCartTotal->savings = 1000;
-        $expectedCartTotal->cartPriceRules = [$cartPriceRule];
+        $expectedCartTotal->addCartPriceRule($cartPriceRule);
 
         $cartCalculator = new CartCalculator($pricing);
         $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
@@ -217,7 +217,6 @@ class CartCalculatorTest extends LibTestCase
         $expectedCartTotal->tax = 0;
         $expectedCartTotal->total = 3700;
         $expectedCartTotal->savings = 0;
-        $expectedCartTotal->cartPriceRules = [];
 
         $cartCalculator = new CartCalculator($pricing);
         $this->assertEquals($expectedCartTotal, $cartCalculator->getTotal($cart));
@@ -274,7 +273,7 @@ class CartCalculatorTest extends LibTestCase
         $expectedCartTotal->tax = 96;
         $expectedCartTotal->total = 1296;
         $expectedCartTotal->savings = 500;
-        $expectedCartTotal->cartPriceRules = [$cartPriceRule];
+        $expectedCartTotal->addCartPriceRule($cartPriceRule);
         $expectedCartTotal->taxRate = $taxRate;
 
         $cartCalculator = new CartCalculator($pricing);

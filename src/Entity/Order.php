@@ -43,6 +43,9 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
     /** @var Coupon[] */
     protected $coupons;
 
+    /** @var CartPriceRule[] */
+    protected $cartPriceRules;
+
     /** @var ShipmentRate */
     protected $shipmentRate;
 
@@ -55,14 +58,18 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
     /** @var int */
     protected $ip4;
 
+    /** @var string */
+    protected $discountNames;
+
     public function __construct(UuidInterface $id = null)
     {
         $this->setId($id);
         $this->setCreated();
-        $this->orderItems = new ArrayCollection;
-        $this->payments = new ArrayCollection;
-        $this->coupons = new ArrayCollection;
-        $this->shipments = new ArrayCollection;
+        $this->orderItems = new ArrayCollection();
+        $this->payments = new ArrayCollection();
+        $this->coupons = new ArrayCollection();
+        $this->cartPriceRules = new ArrayCollection();
+        $this->shipments = new ArrayCollection();
 
         $this->setStatus(OrderStatusType::pending());
     }
@@ -73,7 +80,7 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
      * @param Cart $cart
      * @param CartCalculatorInterface $cartCalculator
      * @param string $ip4
-     * @return static
+     * @return Order
      */
     public static function fromCart(
         UuidInterface $orderId,
@@ -200,14 +207,26 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
         return $this->status;
     }
 
-    public function setTotal(CartTotal $total)
-    {
-        $this->total = $total;
-    }
-
     public function getTotal()
     {
         return $this->total;
+    }
+
+    public function setTotal(CartTotal $total)
+    {
+        $this->total = $total;
+        $this->setDiscountNames();
+    }
+
+    private function setDiscountNames()
+    {
+        $discountNames = [];
+        foreach ($this->total->getCartPriceRules() as $cartPriceRule) {
+            $this->cartPriceRules[] = $cartPriceRule;
+            $discountNames[] = $cartPriceRule->getName();
+        }
+
+        $this->discountNames = implode(', ', $discountNames);
     }
 
     public function setShippingAddress(OrderAddress $shippingAddress)
@@ -379,5 +398,15 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
     public function getIp4()
     {
         return long2ip($this->ip4);
+    }
+
+    public function getDiscountNames()
+    {
+        return $this->discountNames;
+    }
+
+    public function getCartPriceRules()
+    {
+        return $this->cartPriceRules;
     }
 }

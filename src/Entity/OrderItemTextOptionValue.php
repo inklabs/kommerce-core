@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-class OrderItemTextOptionValue
+class OrderItemTextOptionValue implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 

@@ -92,24 +92,44 @@ class OrderTest extends EntityTestCase
 
     public function testCreateFromCart()
     {
+        $productX = $this->dummyData->getProduct('PROD-X');
+        $productY = $this->dummyData->getProduct('PROD-X');
+        $cartPriceRuleItem = $this->dummyData->getCartPriceRuleProductItem($productX);
+        $cartPriceRuleDiscount = $this->dummyData->getCartPriceRuleDiscount($productY);
+
         $cartPriceRule = $this->dummyData->getCartPriceRule();
-        $pricing = $this->dummyData->getPricing();
+        $cartPriceRule->setName('Buy X get Y FREE');
+        $cartPriceRule->addItem($cartPriceRuleItem);
+        $cartPriceRule->addDiscount($cartPriceRuleDiscount);
+
+        $catalogPromotion = $this->dummyData->getCatalogPromotion();
+        $catalogPromotion->setName('10% OFF Site Wide Catalog Promotion');
+
+        $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($productX);
+
+        $pricing = $this->dummyData->getPricing([$catalogPromotion], [$productQuantityDiscount]);
         $pricing->setCartPriceRules([$cartPriceRule]);
+
         $cartCalculator = $this->dummyData->getCartCalculator($pricing);
+
         $user = $this->dummyData->getUser();
         $coupon = $this->dummyData->getCoupon();
         $taxRate = $this->dummyData->getTaxRate();
         $shipmentRate = $this->dummyData->getShipmentRate(1000);
-        $orderId = Uuid::uuid4();
+
+        $cartItem1 = $this->dummyData->getCartItem($productX);
+        $cartItem2 = $this->dummyData->getCartItem($productY);
 
         $cart = $this->dummyData->getCart([
-            $this->dummyData->getCartItemFull()
+            $cartItem1,
+            $cartItem2
         ]);
         $cart->setUser($user);
         $cart->addCoupon($coupon);
         $cart->setTaxRate($taxRate);
         $cart->setShipmentRate($shipmentRate);
 
+        $orderId = Uuid::uuid4();
         $order = Order::fromCart($orderId, $user, $cart, $cartCalculator, '10.0.0.1');
 
         $this->assertTrue($order instanceof Order);
@@ -118,15 +138,18 @@ class OrderTest extends EntityTestCase
         $this->assertSame($coupon, $order->getCoupons()[0]);
         $this->assertSame($taxRate, $order->getTaxRate());
         $this->assertSame($shipmentRate, $order->getShipmentRate());
+
+        $orderItem1 = $order->getOrderItems()[0];
+        $this->assertEntitiesEqual($catalogPromotion, $orderItem1->getCatalogPromotions()[0]);
+        $this->assertEntitiesEqual($productQuantityDiscount, $orderItem1->getProductQuantityDiscounts()[0]);
+
         $this->assertSame(
-            'Test Catalog Promotion, Buy 1 or more for 5% off',
-            $order->getOrderItems()[0]->getDiscountNames()
+            '10% OFF Site Wide Catalog Promotion, Buy 1 or more for 5% off',
+            $orderItem1->getDiscountNames()
         );
 
-//        $this->assertSame(
-//            'Buy X get Y FREE',
-//            $order->getDiscountNames()
-//        );
+        $this->assertEntitiesEqual($cartPriceRule, $order->getCartPriceRules()[0]);
+        $this->assertSame('Buy X get Y FREE', $order->getDiscountNames());
     }
 
     public function testAddShipmentChangesOrderStatusToShipped()

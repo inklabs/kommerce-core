@@ -40,7 +40,7 @@ class CartTotal implements ValidationInterface
     public $coupons = [];
 
     /** @var CartPriceRule[] */
-    public $cartPriceRules = [];
+    protected $cartPriceRules = [];
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
@@ -63,5 +63,15 @@ class CartTotal implements ValidationInterface
                 'max' => 4294967295,
             ]));
         }
+    }
+
+    public function getCartPriceRules()
+    {
+        return $this->cartPriceRules;
+    }
+
+    public function addCartPriceRule(CartPriceRule $cartPriceRule)
+    {
+        $this->cartPriceRules[] = $cartPriceRule;
     }
 }

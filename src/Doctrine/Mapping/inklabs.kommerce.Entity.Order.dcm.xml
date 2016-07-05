@@ -14,7 +14,7 @@
         <id name="id" type="uuid_binary"/>
 
         <field name="externalId" type="string" length="255" nullable="true" unique="true"/>
-
+        <field name="discountNames" type="string" length="255" nullable="true"/>
         <field name="referenceNumber" type="string" length="255" nullable="true" unique="true"/>
 
         <field name="ip4" type="integer">
@@ -66,6 +66,7 @@
         <many-to-one field="taxRate" target-entity="TaxRate" fetch="EAGER"/>
 
         <many-to-many field="coupons" target-entity="Coupon" fetch="EXTRA_LAZY"/>
+        <many-to-many field="cartPriceRules" target-entity="CartPriceRule" fetch="EXTRA_LAZY"/>
 
     </entity>
 

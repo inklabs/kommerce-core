@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\OptionProduct;
@@ -37,6 +37,7 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         AbstractPayment::class,
         Attachment::class,
         Cart::class,
+        CartPriceRule::class,
         CatalogPromotion::class,
         Coupon::class,
         Order::class,
@@ -95,6 +96,7 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $this->visitElements($order->getOrderItems());
         $this->visitElements($order->getPayments());
         $this->visitElements($order->getCoupons());
+        $this->visitElements($order->getCartPriceRules());
 
         $shipment = $order->getShipments()[0];
         $this->visitElements($shipment->getShipmentTrackers());
@@ -111,8 +113,9 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $this->visitElements($orderItem->getOrderItemTextOptionValues());
 
         $this->assertEquals($originalOrder->getId(), $order->getId());
+        $this->assertSame('Test Cart Price Rule', $order->getDiscountNames());
         $this->assertCount(1, $orderItem->getAttachments());
-        $this->assertSame(15, $this->getTotalQueries());
+        $this->assertSame(16, $this->getTotalQueries());
     }
 
     private function setupOrderForFind($referenceNumber = null)
@@ -135,7 +138,10 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $orderItem = $this->dummyData->getOrderItem($product, $price);
         $orderItem->addAttachment($attachmentForOrderItem);
 
+        $cartPriceRule = $this->dummyData->getCartPriceRule();
+
         $cartTotal = $this->dummyData->getCartTotal();
+        $cartTotal->addCartPriceRule($cartPriceRule);
 
         $taxRate = $this->dummyData->getTaxRate();
 
@@ -150,6 +156,7 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
 
         $this->entityManager->persist($catalogPromotion);
         $this->entityManager->persist($productQuantityDiscount);
+        $this->entityManager->persist($cartPriceRule);
         $this->entityManager->persist($product);
         $this->entityManager->persist($attachmentForOrderItem);
         $this->entityManager->persist($user);

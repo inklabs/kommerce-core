@@ -275,13 +275,13 @@ class DummyData
         return $cartPriceRule;
     }
 
-    public function getCartPriceRuleDiscount(Product $product = null)
+    public function getCartPriceRuleDiscount(Product $product = null, $quantity = 1)
     {
         if ($product === null) {
             $product = $this->getProduct();
         }
 
-        return new CartPriceRuleDiscount($product, 1);
+        return new CartPriceRuleDiscount($product, $quantity);
     }
 
     public function getCartPriceRuleProductItem(Product $product = null, $quantity = 1)
@@ -729,11 +729,24 @@ class DummyData
         return $price;
     }
 
-    public function getPricing()
+    /**
+     * @param CatalogPromotion[] | null $catalogPromotions
+     * @param ProductQuantityDiscount[] | null $productQuantityDiscounts
+     * @return Pricing
+     */
+    public function getPricing(array $catalogPromotions = null, array $productQuantityDiscounts = null)
     {
+        if ($catalogPromotions === null) {
+            $catalogPromotions = [$this->getCatalogPromotion()];
+        }
+
+        if ($productQuantityDiscounts === null) {
+            $productQuantityDiscounts = [$this->getProductQuantityDiscount()];
+        }
+
         $pricing = new Pricing;
-        $pricing->setCatalogPromotions([$this->getCatalogPromotion()]);
-        $pricing->setProductQuantityDiscounts([$this->getProductQuantityDiscount()]);
+        $pricing->setCatalogPromotions($catalogPromotions);
+        $pricing->setProductQuantityDiscounts($productQuantityDiscounts);
 
         return $pricing;
     }

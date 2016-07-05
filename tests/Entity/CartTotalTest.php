@@ -20,7 +20,7 @@ class CartTotalTest extends EntityTestCase
         $this->assertSame(0, $cartTotal->savings);
         $this->assertSame(null, $cartTotal->taxRate);
         $this->assertSame(0, count($cartTotal->coupons));
-        $this->assertSame(0, count($cartTotal->cartPriceRules));
+        $this->assertSame(0, count($cartTotal->getCartPriceRules()));
     }
 
     public function testCreate()
@@ -40,7 +40,7 @@ class CartTotalTest extends EntityTestCase
         $cartTotal->total = 8;
         $cartTotal->savings = 9;
         $cartTotal->coupons = [$coupon];
-        $cartTotal->cartPriceRules = [$cartPriceRule];
+        $cartTotal->addCartPriceRule($cartPriceRule);
         $cartTotal->taxRate = $taxRate;
 
         $this->assertTrue($cartTotal instanceof CartTotal);
@@ -55,6 +55,6 @@ class CartTotalTest extends EntityTestCase
         $this->assertSame(9, $cartTotal->savings);
         $this->assertSame($taxRate, $cartTotal->taxRate);
         $this->assertSame($coupon, $cartTotal->coupons[0]);
-        $this->assertSame($cartPriceRule, $cartTotal->cartPriceRules[0]);
+        $this->assertSame($cartPriceRule, $cartTotal->getCartPriceRules()[0]);
     }
 }

@@ -45,8 +45,8 @@ class CartTotalDTOBuilder implements DTOBuilderInterface
 
     public function withCartPriceRules()
     {
-        foreach ($this->entity->cartPriceRules as $key => $cartPriceRule) {
-            $this->entityDTO->cartPriceRules[$key] = $this->dtoBuilderFactory
+        foreach ($this->entity->getCartPriceRules() as $cartPriceRule) {
+            $this->entityDTO->cartPriceRules[] = $this->dtoBuilderFactory
                 ->getCartPriceRuleDTOBuilder($cartPriceRule)
                 ->build();
         }

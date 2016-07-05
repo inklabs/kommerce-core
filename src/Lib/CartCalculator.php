@@ -75,7 +75,7 @@ class CartCalculator implements CartCalculatorInterface
                         $this->cartTotal->taxSubtotal -= $discountValue;
                     }
 
-                    $this->cartTotal->cartPriceRules[] = $cartPriceRule;
+                    $this->cartTotal->addCartPriceRule($cartPriceRule);
                 }
             }
         }

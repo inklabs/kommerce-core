@@ -12,7 +12,7 @@ class CartTotalDTOBuilderTest extends EntityDTOBuilderTestCase
     {
         $cartTotal = $this->dummyData->getCartTotal();
         $cartTotal->coupons = [$this->dummyData->getCoupon()];
-        $cartTotal->cartPriceRules = [$this->dummyData->getCartPriceRule()];
+        $cartTotal->addCartPriceRule($this->dummyData->getCartPriceRule());
 
         $cartTotalDTO = $this->getDTOBuilderFactory()
             ->getCartTotalDTOBuilder($cartTotal)
