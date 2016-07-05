@@ -149,7 +149,10 @@ class OrderTest extends EntityTestCase
         );
 
         $this->assertEntitiesEqual($cartPriceRule, $order->getCartPriceRules()[0]);
-        $this->assertSame('Buy X get Y FREE', $order->getDiscountNames());
+        $this->assertSame(
+            'Buy X get Y FREE, 20% OFF Test Coupon',
+            $order->getDiscountNames()
+        );
     }
 
     public function testAddShipmentChangesOrderStatusToShipped()

@@ -26,6 +26,9 @@ class OrderDTO
     /** @var int */
     public $totalQuantity;
 
+    /** @var string */
+    public $discountNames;
+
     /** @var CartTotalDTO */
     public $total;
 

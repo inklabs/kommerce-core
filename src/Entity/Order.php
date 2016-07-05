@@ -19,6 +19,9 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
     /** @var string */
     protected $referenceNumber;
 
+    /** @var string */
+    protected $discountNames;
+
     /** @var CartTotal */
     protected $total;
 
@@ -58,9 +61,6 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
     /** @var int */
     protected $ip4;
 
-    /** @var string */
-    protected $discountNames;
-
     public function __construct(UuidInterface $id = null)
     {
         $this->setId($id);
@@ -91,7 +91,6 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
     ) {
         $order = new Order($orderId);
         $order->setIp4($ip4);
-        $order->setTotal($cart->getTotal($cartCalculator));
 
         foreach ($cart->getCartItems() as $item) {
             $order->addOrderItem($item->getOrderItem($cartCalculator->getPricing()));
@@ -104,6 +103,7 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
         $order->setUser($user);
         $order->setTaxRate($cart->getTaxRate());
         $order->setShipmentRate($cart->getShipmentRate());
+        $order->setTotal($cart->getTotal($cartCalculator));
 
         return $order;
     }
@@ -224,6 +224,10 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
         foreach ($this->total->getCartPriceRules() as $cartPriceRule) {
             $this->cartPriceRules[] = $cartPriceRule;
             $discountNames[] = $cartPriceRule->getName();
+        }
+
+        foreach ($this->getCoupons() as $coupon) {
+            $discountNames[] = $coupon->getName();
         }
 
         $this->discountNames = implode(', ', $discountNames);

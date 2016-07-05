@@ -29,6 +29,7 @@ class OrderDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->externalId      = $this->entity->getExternalId();
         $this->entityDTO->totalItems      = $this->entity->totalItems();
         $this->entityDTO->totalQuantity   = $this->entity->totalQuantity();
+        $this->entityDTO->discountNames   = $this->entity->getDiscountNames();
 
         $this->entityDTO->status = $this->dtoBuilderFactory
             ->getOrderStatusTypeDTOBuilder($this->entity->getStatus())
