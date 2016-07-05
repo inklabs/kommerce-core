@@ -9,6 +9,9 @@ used to track changes in this project.
 - TBD
 ### Changed
 - #42: Change all use case Actions to require a string ID instead of UuidInterface
+- #21 Cart price rules carried over and linked to an Order (DB migration)
+### DB Migration
+- TBD
 
 ## [0.6.0]
 ### Initial pre-release
