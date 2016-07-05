@@ -15,6 +15,9 @@ class CartPriceRuleProductItemDTOBuilder extends AbstractCartPriceRuleItemDTOBui
     /** @var CartPriceRuleProductItemDTO */
     protected $entityDTO;
 
+    /**
+     * @return static
+     */
     public function withProduct()
     {
         $product = $this->entity->getProduct();
@@ -26,6 +29,9 @@ class CartPriceRuleProductItemDTOBuilder extends AbstractCartPriceRuleItemDTOBui
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

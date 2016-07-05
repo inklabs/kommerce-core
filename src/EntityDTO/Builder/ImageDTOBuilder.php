@@ -31,6 +31,9 @@ class ImageDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->sortOrder = $this->entity->getSortOrder();
     }
 
+    /**
+     * @return static
+     */
     public function withProduct()
     {
         $product = $this->entity->getProduct();
@@ -41,6 +44,9 @@ class ImageDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withTag()
     {
         $tag = $this->entity->getTag();
@@ -51,6 +57,9 @@ class ImageDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

@@ -46,6 +46,10 @@ class OptionProductDTOBuilder implements DTOBuilderInterface
         $optionProduct->setSortOrder($optionProductDTO->sortOrder);
     }
 
+    /**
+     * @param PricingInterface $pricing
+     * @return static
+     */
     public function withProduct(PricingInterface $pricing)
     {
         $this->entityDTO->product = $this->dtoBuilderFactory
@@ -56,6 +60,9 @@ class OptionProductDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withOption()
     {
         $option = $this->entity->getOption();
@@ -68,6 +75,10 @@ class OptionProductDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @param PricingInterface $pricing
+     * @return static
+     */
     public function withAllData(PricingInterface $pricing)
     {
         return $this

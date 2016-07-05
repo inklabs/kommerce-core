@@ -64,6 +64,9 @@ class TagDTOBuilder implements DTOBuilderInterface
         $tag->setSortOrder($tagDTO->sortOrder);
     }
 
+    /**
+     * @return static
+     */
     public function withImages()
     {
         foreach ($this->entity->getImages() as $image) {
@@ -73,6 +76,9 @@ class TagDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withProducts(Pricing $pricing)
     {
         foreach ($this->entity->getProducts() as $product) {
@@ -83,6 +89,9 @@ class TagDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withOptions(PricingInterface $pricing)
     {
         foreach ($this->entity->getOptions() as $option) {
@@ -94,6 +103,9 @@ class TagDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withTextOptions()
     {
         foreach ($this->entity->getTextOptions() as $textOption) {
@@ -103,6 +115,9 @@ class TagDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData(Pricing $pricing)
     {
         return $this

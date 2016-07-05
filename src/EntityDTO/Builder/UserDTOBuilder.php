@@ -63,6 +63,9 @@ class UserDTOBuilder implements DTOBuilderInterface
         }
     }
 
+    /**
+     * @return static
+     */
     public function withRoles()
     {
         foreach ($this->entity->getUserRoles() as $role) {
@@ -73,6 +76,9 @@ class UserDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withTokens()
     {
         foreach ($this->entity->getUserTokens() as $token) {
@@ -83,6 +89,9 @@ class UserDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withLogins()
     {
         foreach ($this->entity->getUserLogins() as $login) {
@@ -93,6 +102,9 @@ class UserDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

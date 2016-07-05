@@ -27,6 +27,9 @@ class ProductAttributeDTOBuilder implements DTOBuilderInterface
         $this->setTime();
     }
 
+    /**
+     * @return static
+     */
     public function withProduct()
     {
         $product = $this->entity->getProduct();
@@ -39,6 +42,9 @@ class ProductAttributeDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAttribute()
     {
         $this->entityDTO->attribute = $this->dtoBuilderFactory
@@ -48,6 +54,9 @@ class ProductAttributeDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAttributeValue()
     {
         $this->entityDTO->attributeValue = $this->dtoBuilderFactory
@@ -57,6 +66,9 @@ class ProductAttributeDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

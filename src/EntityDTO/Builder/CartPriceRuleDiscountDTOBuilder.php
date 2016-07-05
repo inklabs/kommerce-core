@@ -30,6 +30,9 @@ class CartPriceRuleDiscountDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->quantity = $this->entity->getQuantity();
     }
 
+    /**
+     * @return static
+     */
     public function withProduct()
     {
         $this->entityDTO->product = $this->dtoBuilderFactory
@@ -40,6 +43,9 @@ class CartPriceRuleDiscountDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

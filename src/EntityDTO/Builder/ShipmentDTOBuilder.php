@@ -45,6 +45,9 @@ class ShipmentDTOBuilder implements DTOBuilderInterface
         }
     }
 
+    /**
+     * @return static
+     */
     public function withOrder()
     {
         $this->entityDTO->order = $this->dtoBuilderFactory
@@ -54,6 +57,9 @@ class ShipmentDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this->withOrder();

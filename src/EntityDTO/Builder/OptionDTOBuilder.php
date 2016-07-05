@@ -59,6 +59,10 @@ class OptionDTOBuilder implements DTOBuilderInterface
         }
     }
 
+    /**
+     * @param PricingInterface $pricing
+     * @return static
+     */
     public function withOptionProducts(PricingInterface $pricing)
     {
         foreach ($this->entity->getOptionProducts() as $optionProduct) {
@@ -71,6 +75,9 @@ class OptionDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withOptionValues()
     {
         foreach ($this->entity->getOptionValues() as $optionValue) {
@@ -83,6 +90,9 @@ class OptionDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withTags()
     {
         foreach ($this->entity->getTags() as $tag) {
@@ -94,6 +104,10 @@ class OptionDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @param PricingInterface $pricing
+     * @return static
+     */
     public function withAllData(PricingInterface $pricing)
     {
         return $this

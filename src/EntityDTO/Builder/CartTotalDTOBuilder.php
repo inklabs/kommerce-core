@@ -32,6 +32,9 @@ class CartTotalDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->savings          = $this->entity->savings;
     }
 
+    /**
+     * @return static
+     */
     public function withCoupons()
     {
         foreach ($this->entity->coupons as $key => $coupon) {
@@ -43,6 +46,9 @@ class CartTotalDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withCartPriceRules()
     {
         foreach ($this->entity->getCartPriceRules() as $cartPriceRule) {
@@ -54,6 +60,9 @@ class CartTotalDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

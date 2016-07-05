@@ -32,6 +32,9 @@ class PriceDTOBuilder implements DTOBuilderInterface
         $this->entityDTO = new PriceDTO;
     }
 
+    /**
+     * @return static
+     */
     public function withCatalogPromotions()
     {
         $catalogPromotions = $this->entity->getCatalogPromotions();
@@ -47,6 +50,9 @@ class PriceDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withProductQuantityDiscounts()
     {
         $productQuantityDiscounts = $this->entity->getProductQuantityDiscounts();
@@ -62,6 +68,9 @@ class PriceDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

@@ -43,6 +43,9 @@ class CartPriceRuleDTOBuilder
         return new CartPriceRuleDTO;
     }
 
+    /**
+     * @return static
+     */
     public function withCartPriceRuleItems()
     {
         foreach ($this->entity->getCartPriceRuleItems() as $cartPriceRuleItem) {
@@ -54,6 +57,9 @@ class CartPriceRuleDTOBuilder
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withCartPriceRuleDiscounts()
     {
         foreach ($this->entity->getCartPriceRuleDiscounts() as $cartPriceRuleDiscount) {
@@ -65,6 +71,9 @@ class CartPriceRuleDTOBuilder
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

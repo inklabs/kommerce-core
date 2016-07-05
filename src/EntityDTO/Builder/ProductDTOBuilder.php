@@ -224,6 +224,9 @@ class ProductDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData(Pricing $pricing)
     {
         return $this

@@ -33,6 +33,9 @@ class UserLoginDTOBuilder implements DTOBuilderInterface
             ->build();
     }
 
+    /**
+     * @return static
+     */
     public function withUser()
     {
         $user = $this->entity->getUser();
@@ -44,6 +47,9 @@ class UserLoginDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withUserToken()
     {
         $userToken = $this->entity->getUserToken();
@@ -55,6 +61,9 @@ class UserLoginDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

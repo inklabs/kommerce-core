@@ -30,6 +30,9 @@ class AttachmentDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->uri       = $this->entity->getUri();
     }
 
+    /**
+     * @return static
+     */
     public function withOrderItems()
     {
         foreach ($this->entity->getOrderItems() as $orderItem) {
@@ -41,6 +44,9 @@ class AttachmentDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

@@ -40,6 +40,9 @@ class InventoryTransactionDTOBuilder implements DTOBuilderInterface
             ->build();
     }
 
+    /**
+     * @return static
+     */
     public function withProduct()
     {
         $product = $this->entity->getProduct();
@@ -51,6 +54,9 @@ class InventoryTransactionDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

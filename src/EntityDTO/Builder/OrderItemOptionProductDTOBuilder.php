@@ -32,6 +32,9 @@ class OrderItemOptionProductDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->optionProductName = $this->entity->getOptionProductName();
     }
 
+    /**
+     * @return static
+     */
     public function withOptionProduct()
     {
         $this->entityDTO->optionProduct = $this->dtoBuilderFactory
@@ -42,6 +45,9 @@ class OrderItemOptionProductDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

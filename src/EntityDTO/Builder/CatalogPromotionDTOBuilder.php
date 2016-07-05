@@ -26,6 +26,9 @@ class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
         $this->entityDTO->code = $this->entity->getCode();
     }
 
+    /**
+     * @return static
+     */
     private function withTag()
     {
         $tag = $this->entity->getTag();
@@ -38,6 +41,9 @@ class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

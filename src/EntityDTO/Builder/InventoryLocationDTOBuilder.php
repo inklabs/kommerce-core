@@ -29,6 +29,9 @@ class InventoryLocationDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->code = $this->entity->getCode();
     }
 
+    /**
+     * @return static
+     */
     public function withWarehouse()
     {
         $this->entityDTO->warehouse = $this->dtoBuilderFactory
@@ -38,6 +41,9 @@ class InventoryLocationDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

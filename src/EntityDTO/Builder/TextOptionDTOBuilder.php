@@ -34,6 +34,9 @@ class TextOptionDTOBuilder implements DTOBuilderInterface
             ->build();
     }
 
+    /**
+     * @return static
+     */
     public function withTags()
     {
         foreach ($this->entity->getTags() as $tag) {
@@ -45,6 +48,9 @@ class TextOptionDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

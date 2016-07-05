@@ -32,6 +32,9 @@ class CartItemDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->shippingWeight = $this->entity->getShippingWeight();
     }
 
+    /**
+     * @return static
+     */
     public function withPrice(PricingInterface $pricing)
     {
         $this->entityDTO->price = $this->dtoBuilderFactory
@@ -42,6 +45,9 @@ class CartItemDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withProduct(Pricing $pricing)
     {
         $this->entityDTO->product = $this->dtoBuilderFactory
@@ -53,6 +59,9 @@ class CartItemDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withCartItemOptionProducts(PricingInterface $pricing)
     {
         foreach ($this->entity->getCartItemOptionProducts() as $cartItemOptionProduct) {
@@ -65,6 +74,9 @@ class CartItemDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withCartItemOptionValues()
     {
         foreach ($this->entity->getCartItemOptionValues() as $cartItemOptionValue) {
@@ -76,6 +88,9 @@ class CartItemDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withCartItemTextOptionValues()
     {
         foreach ($this->entity->getCartItemTextOptionValues() as $cartItemTextOptionValue) {
@@ -88,6 +103,9 @@ class CartItemDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData(Pricing $pricing)
     {
         return $this

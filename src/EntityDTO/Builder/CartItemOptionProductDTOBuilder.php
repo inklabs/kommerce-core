@@ -34,6 +34,9 @@ class CartItemOptionProductDTOBuilder implements DTOBuilderInterface
             ->build();
     }
 
+    /**
+     * @return static
+     */
     public function withOptionProduct(PricingInterface $pricing)
     {
         $this->entityDTO->optionProduct = $this->dtoBuilderFactory
@@ -45,6 +48,9 @@ class CartItemOptionProductDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData(PricingInterface $pricing)
     {
         return $this

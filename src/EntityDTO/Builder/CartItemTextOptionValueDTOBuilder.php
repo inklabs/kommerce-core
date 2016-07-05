@@ -30,6 +30,9 @@ class CartItemTextOptionValueDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->textOptionValue = $this->entity->getTextOptionValue();
     }
 
+    /**
+     * @return static
+     */
     public function withTextOption()
     {
         $this->entityDTO->textOption = $this->dtoBuilderFactory
@@ -39,6 +42,9 @@ class CartItemTextOptionValueDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

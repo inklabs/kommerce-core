@@ -31,6 +31,9 @@ class AttributeValueDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->sortOrder   = $this->entity->getSortOrder();
     }
 
+    /**
+     * @return static
+     */
     public function withAttribute()
     {
         if ($this->entity->getAttribute() !== null) {
@@ -42,6 +45,9 @@ class AttributeValueDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withProductAttributes()
     {
         foreach ($this->entity->getProductAttributes() as $productAttribute) {
@@ -54,6 +60,9 @@ class AttributeValueDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData()
     {
         return $this

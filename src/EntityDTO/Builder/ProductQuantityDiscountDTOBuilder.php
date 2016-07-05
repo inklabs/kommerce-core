@@ -29,6 +29,9 @@ class ProductQuantityDiscountDTOBuilder extends AbstractPromotionDTOBuilder
         $this->entityDTO->flagApplyCatalogPromotions = $this->entity->getFlagApplyCatalogPromotions();
     }
 
+    /**
+     * @return static
+     */
     public function withPrice(PricingInterface $pricing)
     {
         $this->entityDTO->price = $this->dtoBuilderFactory
@@ -39,6 +42,9 @@ class ProductQuantityDiscountDTOBuilder extends AbstractPromotionDTOBuilder
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withProduct(Pricing $pricing)
     {
         $product = $this->entity->getProduct();
@@ -51,6 +57,9 @@ class ProductQuantityDiscountDTOBuilder extends AbstractPromotionDTOBuilder
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData(Pricing $pricing)
     {
         return $this

@@ -58,6 +58,9 @@ class CartDTOBuilder implements DTOBuilderInterface
         }
     }
 
+    /**
+     * @return static
+     */
     public function withCartTotal(CartCalculatorInterface $cartCalculator)
     {
         $this->entityDTO->cartTotal = $this->dtoBuilderFactory
@@ -68,6 +71,9 @@ class CartDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withCartItems(CartCalculator $cartCalculator)
     {
         foreach ($this->entity->getCartItems() as $cartItem) {
@@ -80,6 +86,9 @@ class CartDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withCoupons()
     {
         foreach ($this->entity->getCoupons() as $key => $coupon) {
@@ -91,6 +100,9 @@ class CartDTOBuilder implements DTOBuilderInterface
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function withAllData(CartCalculator $cartCalculator)
     {
         return $this
