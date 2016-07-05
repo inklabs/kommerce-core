@@ -92,7 +92,10 @@ class OrderTest extends EntityTestCase
 
     public function testCreateFromCart()
     {
-        $cartCalculator = $this->dummyData->getCartCalculator();
+        $cartPriceRule = $this->dummyData->getCartPriceRule();
+        $pricing = $this->dummyData->getPricing();
+        $pricing->setCartPriceRules([$cartPriceRule]);
+        $cartCalculator = $this->dummyData->getCartCalculator($pricing);
         $user = $this->dummyData->getUser();
         $coupon = $this->dummyData->getCoupon();
         $taxRate = $this->dummyData->getTaxRate();

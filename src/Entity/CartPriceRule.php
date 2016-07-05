@@ -68,6 +68,10 @@ class CartPriceRule extends AbstractPromotion
      */
     public function areCartItemsValid(& $cartItems)
     {
+        if (count($this->cartPriceRuleItems) === 0) {
+            return false;
+        }
+
         $matchedItems = $this->getCartItemMatches($cartItems);
 
         if (iterator_count($matchedItems) === count($this->cartPriceRuleItems)) {

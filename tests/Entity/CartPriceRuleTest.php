@@ -78,6 +78,14 @@ class CartPriceRuleTest extends EntityTestCase
         $this->assertFalse($cartPriceRule->areCartItemsValid($cartItems));
     }
 
+    public function testIsCartItemsValidReturnFalseWhenNoItems()
+    {
+        $cartItems = new ArrayCollection();
+        $cartPriceRule = new CartPriceRule;
+
+        $this->assertFalse($cartPriceRule->areCartItemsValid($cartItems));
+    }
+
     public function testIsValid()
     {
         $product1 = $this->dummyData->getProduct();

@@ -156,9 +156,13 @@ class DummyData
 
     }
 
-    public function getCartCalculator()
+    public function getCartCalculator(Pricing $pricing = null)
     {
-        return new CartCalculator($this->getPricing());
+        if ($pricing === null) {
+            $pricing = $this->getPricing();
+        }
+
+        return new CartCalculator($pricing);
     }
 
     public function getCartItem($product = null, $quantity = 2)
