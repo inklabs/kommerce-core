@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 trait PromotionRedemptionTrait
 {
     /** @var int */
@@ -8,6 +11,20 @@ trait PromotionRedemptionTrait
 
     /** @var int */
     protected $maxRedemptions;
+
+    public static function loadPromotionRedemptionValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('redemptions', new Assert\NotNull);
+        $metadata->addPropertyConstraint('redemptions', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+
+        $metadata->addPropertyConstraint('maxRedemptions', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+    }
 
     public function isRedemptionCountValid()
     {

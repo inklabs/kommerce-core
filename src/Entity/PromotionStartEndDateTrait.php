@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait PromotionStartEndDateTrait
 {
@@ -10,6 +12,19 @@ trait PromotionStartEndDateTrait
 
     /** @var int | null */
     protected $end;
+
+    public static function loadPromotionStartEndDateValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('start', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+
+        $metadata->addPropertyConstraint('end', new Assert\Range([
+            'min' => 0,
+            'max' => 4294967295,
+        ]));
+    }
 
     public function isDateValid(DateTime $date)
     {

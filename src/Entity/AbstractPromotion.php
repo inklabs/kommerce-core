@@ -43,26 +43,8 @@ abstract class AbstractPromotion implements IdEntityInterface, ValidationInterfa
             'max' => 4294967295,
         ]));
 
-        $metadata->addPropertyConstraint('redemptions', new Assert\NotNull);
-        $metadata->addPropertyConstraint('redemptions', new Assert\Range([
-            'min' => 0,
-            'max' => 65535,
-        ]));
-
-        $metadata->addPropertyConstraint('maxRedemptions', new Assert\Range([
-            'min' => 0,
-            'max' => 65535,
-        ]));
-
-        $metadata->addPropertyConstraint('start', new Assert\Range([
-            'min' => 0,
-            'max' => 4294967295,
-        ]));
-
-        $metadata->addPropertyConstraint('end', new Assert\Range([
-            'min' => 0,
-            'max' => 4294967295,
-        ]));
+        self::loadPromotionRedemptionValidatorMetadata($metadata);
+        self::loadPromotionStartEndDateValidatorMetadata($metadata);
     }
 
     public function setName($name)

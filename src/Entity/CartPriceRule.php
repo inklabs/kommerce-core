@@ -16,8 +16,9 @@ class CartPriceRule implements IdEntityInterface, ValidationInterface
     /** @var boolean */
     protected $reducesTaxSubtotal;
 
-    /** @var CartPriceRuleProductItem[]|CartPriceRuleTagItem[] */
+    /** @var CartPriceRuleProductItem[] | CartPriceRuleTagItem[] */
     protected $cartPriceRuleItems;
+
     /** @var CartPriceRuleDiscount[] */
     protected $cartPriceRuleDiscounts;
 
@@ -33,7 +34,12 @@ class CartPriceRule implements IdEntityInterface, ValidationInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-//        parent::loadValidatorMetadata($metadata);
+        $metadata->addPropertyConstraint('name', new Assert\Length([
+            'max' => 255,
+        ]));
+
+        self::loadPromotionRedemptionValidatorMetadata($metadata);
+        self::loadPromotionStartEndDateValidatorMetadata($metadata);
     }
 
     public function addItem(AbstractCartPriceRuleItem $item)
