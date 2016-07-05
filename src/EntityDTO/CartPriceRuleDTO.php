@@ -1,8 +1,16 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-class CartPriceRuleDTO extends AbstractPromotionDTO
+class CartPriceRuleDTO
 {
+    use IdDTOTrait, TimeDTOTrait, PromotionRedemptionDTOTrait, PromotionStartEndDateDTOTrait;
+
+    /** @var string */
+    public $name;
+
+    /** @var int */
+    public $reducesTaxSubtotal;
+
     /** @var CartPriceRuleProductItemDTO|CartPriceRuleTagItemDTO[] */
     public $cartPriceRuleItems = [];
 

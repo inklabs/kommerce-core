@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class AbstractPromotion implements IdEntityInterface, ValidationInterface
 {
-    use TimeTrait, IdTrait;
+    use TimeTrait, IdTrait, PromotionRedemptionTrait, PromotionStartEndDateTrait;
 
     /** @var string */
     protected $name;
@@ -18,20 +18,8 @@ abstract class AbstractPromotion implements IdEntityInterface, ValidationInterfa
     /** @var int */
     protected $value;
 
-    /** @var int */
-    protected $redemptions;
-
-    /** @var int */
-    protected $maxRedemptions;
-
     /** @var boolean */
     protected $reducesTaxSubtotal;
-
-    /** @var int|null */
-    protected $start;
-
-    /** @var int|null */
-    protected $end;
 
     public function __construct()
     {
@@ -107,26 +95,6 @@ abstract class AbstractPromotion implements IdEntityInterface, ValidationInterfa
         return $this->value;
     }
 
-    public function setRedemptions($redemptions)
-    {
-        $this->redemptions = (int) $redemptions;
-    }
-
-    public function getRedemptions()
-    {
-        return $this->redemptions;
-    }
-
-    public function setMaxRedemptions($maxRedemptions)
-    {
-        $this->maxRedemptions = $maxRedemptions;
-    }
-
-    public function getMaxRedemptions()
-    {
-        return $this->maxRedemptions;
-    }
-
     /**
      * @param boolean $reducesTaxSubtotal
      */
@@ -140,76 +108,10 @@ abstract class AbstractPromotion implements IdEntityInterface, ValidationInterfa
         return $this->reducesTaxSubtotal;
     }
 
-    public function setStart(DateTime $start = null)
-    {
-        if ($start === null) {
-            $this->start = null;
-        } else {
-            $this->start = $start->getTimestamp();
-        }
-    }
-
-    public function getStart()
-    {
-        if ($this->start === null) {
-            return null;
-        }
-
-        $start = new DateTime();
-        $start->setTimestamp($this->start);
-        return $start;
-    }
-
-    public function setEnd(DateTime $end = null)
-    {
-        if ($end === null) {
-            $this->end = null;
-        } else {
-            $this->end = $end->getTimestamp();
-        }
-    }
-
-    public function getEnd()
-    {
-        if ($this->end === null) {
-            return null;
-        }
-
-        $end = new DateTime();
-        $end->setTimestamp($this->end);
-        return $end;
-    }
-
     public function isValidPromotion(DateTime $date)
     {
         return $this->isDateValid($date)
             and $this->isRedemptionCountValid();
-    }
-
-    public function isDateValid(DateTime $date)
-    {
-        $currentDateTs = $date->getTimestamp();
-
-        if (($this->start !== null) && ($currentDateTs < $this->start)) {
-            return false;
-        }
-
-        if (($this->end !== null) && ($currentDateTs > $this->end)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function isRedemptionCountValid()
-    {
-        if ($this->maxRedemptions === null) {
-            return true;
-        } elseif ($this->redemptions < $this->maxRedemptions) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**

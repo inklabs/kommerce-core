@@ -7,6 +7,48 @@
     <entity name="inklabs\kommerce\Entity\CartPriceRule"
             repository-class="inklabs\kommerce\EntityRepository\CartPriceRuleRepository">
 
+        <id name="id" type="uuid_binary"/>
+
+        <field name="name" type="string" length="255" nullable="true"/>
+
+        <field name="redemptions" type="smallint">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="maxRedemptions" type="smallint" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="reducesTaxSubtotal" type="boolean"/>
+
+        <field name="start" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="end" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="created" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="updated" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <one-to-many field="cartPriceRuleItems"
                      target-entity="inklabs\kommerce\Entity\AbstractCartPriceRuleItem"
                      mapped-by="cartPriceRule"

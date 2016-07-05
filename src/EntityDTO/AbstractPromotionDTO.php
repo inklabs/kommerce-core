@@ -1,11 +1,9 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use DateTime;
-
 class AbstractPromotionDTO
 {
-    use IdDTOTrait, TimeDTOTrait;
+    use IdDTOTrait, TimeDTOTrait, PromotionRedemptionDTOTrait, PromotionStartEndDateDTOTrait;
 
     /** @var string */
     public $name;
@@ -14,28 +12,7 @@ class AbstractPromotionDTO
     public $value;
 
     /** @var int */
-    public $redemptions;
-
-    /** @var int */
-    public $maxRedemptions;
-
-    /** @var int */
     public $reducesTaxSubtotal;
-
-    /** @var string */
-    public $startFormatted;
-
-    /** @var string */
-    public $endFormatted;
-
-    /** @var bool */
-    public $isRedemptionCountValid;
-
-    /** @var DateTime */
-    public $start;
-
-    /** @var DateTime */
-    public $end;
 
     /** @var PromotionTypeDTO */
     public $type;

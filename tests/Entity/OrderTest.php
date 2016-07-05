@@ -122,6 +122,11 @@ class OrderTest extends EntityTestCase
             'Test Catalog Promotion, Buy 1 or more for 5% off',
             $order->getOrderItems()[0]->getDiscountNames()
         );
+
+//        $this->assertSame(
+//            'Buy X get Y FREE',
+//            $order->getDiscountNames()
+//        );
     }
 
     public function testAddShipmentChangesOrderStatusToShipped()

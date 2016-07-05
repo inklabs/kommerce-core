@@ -271,8 +271,6 @@ class DummyData
     {
         $cartPriceRule = new CartPriceRule;
         $cartPriceRule->setName('Test Cart Price Rule');
-        $cartPriceRule->setType(PromotionType::fixed());
-        $cartPriceRule->setValue(0);
 
         return $cartPriceRule;
     }

@@ -6,24 +6,34 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartPriceRule extends AbstractPromotion
+class CartPriceRule implements IdEntityInterface, ValidationInterface
 {
+    use IdTrait, TimeTrait, PromotionRedemptionTrait, PromotionStartEndDateTrait;
+
+    /** @var string */
+    protected $name;
+
+    /** @var boolean */
+    protected $reducesTaxSubtotal;
+
     /** @var CartPriceRuleProductItem[]|CartPriceRuleTagItem[] */
     protected $cartPriceRuleItems;
-
     /** @var CartPriceRuleDiscount[] */
     protected $cartPriceRuleDiscounts;
 
     public function __construct()
     {
-        parent::__construct();
-        $this->cartPriceRuleItems = new ArrayCollection;
-        $this->cartPriceRuleDiscounts = new ArrayCollection;
+        $this->setId();
+        $this->setCreated();
+        $this->setRedemptions(0);
+        $this->setReducesTaxSubtotal(true);
+        $this->cartPriceRuleItems = new ArrayCollection();
+        $this->cartPriceRuleDiscounts = new ArrayCollection();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        parent::loadValidatorMetadata($metadata);
+//        parent::loadValidatorMetadata($metadata);
     }
 
     public function addItem(AbstractCartPriceRuleItem $item)
@@ -54,12 +64,26 @@ class CartPriceRule extends AbstractPromotion
         return $this->cartPriceRuleDiscounts;
     }
 
+    /**
+     * @param boolean $reducesTaxSubtotal
+     */
+    public function setReducesTaxSubtotal($reducesTaxSubtotal)
+    {
+        $this->reducesTaxSubtotal = (bool) $reducesTaxSubtotal;
+    }
+
+    public function getReducesTaxSubtotal()
+    {
+        return $this->reducesTaxSubtotal;
+    }
+
     public function isValid(DateTime $date, $cartItems)
     {
         $localCartItems = $this->cloneCartItems($cartItems);
 
-        return $this->isValidPromotion($date)
-            and $this->areCartItemsValid($localCartItems);
+        return $this->isDateValid($date)
+            && $this->isRedemptionCountValid()
+            && $this->areCartItemsValid($localCartItems);
     }
 
     /**
@@ -129,5 +153,18 @@ class CartPriceRule extends AbstractPromotion
         }
 
         return $localCartItems;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = (string) $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 }

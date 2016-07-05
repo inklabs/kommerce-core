@@ -2,22 +2,41 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\CartPriceRule;
-use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
 use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
 
-/**
- * @method CartPriceRuleDTO build()
- */
-class CartPriceRuleDTOBuilder extends AbstractPromotionDTOBuilder
+class CartPriceRuleDTOBuilder
 {
+    use IdDTOBuilderTrait,
+        TimeDTOBuilderTrait,
+        PromotionStartEndDateDTOBuilderTrait,
+        PromotionRedemptionDTOBuilderTrait;
+
     /** @var CartPriceRule */
     protected $entity;
 
     /** @var CartPriceRuleDTO */
     protected $entityDTO;
 
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(CartPriceRule $cartPriceRule, DTOBuilderFactoryInterface $dtoBuilderFactory)
+    {
+        $this->entity = $cartPriceRule;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
+
+        $this->entityDTO = $this->getEntityDTO();
+        $this->setId();
+        $this->setTime();
+        $this->setStartEndDate();
+        $this->setRedemption();
+        $this->entityDTO->name = $this->entity->getName();
+        $this->entityDTO->reducesTaxSubtotal = $this->entity->getReducesTaxSubtotal();
+        $this->entityDTO->isRedemptionCountValid = $this->entity->isRedemptionCountValid();
+    }
+
     /**
-     * @return AbstractPromotionDTO
+     * @return CartPriceRuleDTO
      */
     protected function getEntityDTO()
     {
@@ -51,5 +70,16 @@ class CartPriceRuleDTOBuilder extends AbstractPromotionDTOBuilder
         return $this
             ->withCartPriceRuleItems()
             ->withCartPriceRuleDiscounts();
+    }
+
+    protected function preBuild()
+    {
+    }
+
+    public function build()
+    {
+        $this->preBuild();
+        unset($this->entity);
+        return $this->entityDTO;
     }
 }

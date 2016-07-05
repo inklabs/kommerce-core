@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PromotionType extends AbstractIntegerType
 {
     const FIXED = 0;
-    const PERCENT   = 1;
+    const PERCENT = 1;
     const EXACT = 2;
 
     public static function getNameMap()

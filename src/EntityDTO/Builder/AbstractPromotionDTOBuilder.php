@@ -6,7 +6,10 @@ use inklabs\kommerce\EntityDTO\AbstractPromotionDTO;
 
 abstract class AbstractPromotionDTOBuilder implements DTOBuilderInterface
 {
-    use IdDTOBuilderTrait, TimeDTOBuilderTrait;
+    use IdDTOBuilderTrait,
+        TimeDTOBuilderTrait,
+        PromotionStartEndDateDTOBuilderTrait,
+        PromotionRedemptionDTOBuilderTrait;
 
     /** @var AbstractPromotion */
     protected $entity;
@@ -30,25 +33,15 @@ abstract class AbstractPromotionDTOBuilder implements DTOBuilderInterface
         $this->entityDTO = $this->getEntityDTO();
         $this->setId();
         $this->setTime();
-        $this->entityDTO->name           = $this->entity->getName();
-        $this->entityDTO->value          = $this->entity->getValue();
-        $this->entityDTO->redemptions    = $this->entity->getRedemptions();
-        $this->entityDTO->maxRedemptions = $this->entity->getMaxRedemptions();
-        $this->entityDTO->start          = $this->entity->getStart();
-        $this->entityDTO->end            = $this->entity->getEnd();
-
+        $this->setStartEndDate();
+        $this->setRedemption();
+        $this->entityDTO->name = $this->entity->getName();
+        $this->entityDTO->value = $this->entity->getValue();
+        $this->entityDTO->reducesTaxSubtotal = $this->entity->getReducesTaxSubtotal();
         $this->entityDTO->isRedemptionCountValid = $this->entity->isRedemptionCountValid();
 
         $this->entityDTO->type = $this->dtoBuilderFactory->getPromotionTypeDTOBuilder($this->entity->getType())
             ->build();
-
-        if ($this->entityDTO->start !== null) {
-            $this->entityDTO->startFormatted = $this->entityDTO->start->format('Y-m-d');
-        }
-
-        if ($this->entityDTO->end !== null) {
-            $this->entityDTO->endFormatted = $this->entityDTO->end->format('Y-m-d');
-        }
     }
 
     protected function preBuild()
