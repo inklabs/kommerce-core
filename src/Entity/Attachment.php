@@ -65,7 +65,7 @@ class Attachment implements IdEntityInterface, ValidationInterface
         $this->isVisible = false;
     }
 
-    private function setVisible()
+    public function setVisible()
     {
         $this->isVisible = true;
     }

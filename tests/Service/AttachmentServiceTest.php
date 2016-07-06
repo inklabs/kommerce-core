@@ -45,6 +45,15 @@ class AttachmentServiceTest extends ServiceTestCase
         );
     }
 
+    public function testCRUD()
+    {
+        $this->executeServiceCRUD(
+            $this->attachmentService,
+            $this->attachmentRepository,
+            $this->dummyData->getAttachment()
+        );
+    }
+
     public function testCreateAttachmentForOrderItem()
     {
         $product = $this->dummyData->getProduct();
@@ -117,21 +126,5 @@ class AttachmentServiceTest extends ServiceTestCase
         $order = $orderRepository->findOneById($order->getId());
 
         $this->assertCount(1, $order->getOrderItem(0)->getAttachments());
-    }
-
-    public function testDeleteAttachment()
-    {
-        $attachment = $this->dummyData->getAttachment();
-
-        $this->attachmentRepository->shouldReceive('findOneById')
-            ->with($attachment->getId())
-            ->andReturn($attachment)
-            ->once();
-
-        $this->attachmentRepository->shouldReceive('delete')
-            ->with($attachment)
-            ->once();
-
-        $this->attachmentService->delete($attachment->getId());
     }
 }

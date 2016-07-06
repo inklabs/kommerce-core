@@ -4,11 +4,14 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 
 class AttachmentService implements AttachmentServiceInterface
 {
+    use EntityValidationTrait;
+
     /** @var AttachmentRepositoryInterface */
     private $attachmentRepository;
 
@@ -26,6 +29,33 @@ class AttachmentService implements AttachmentServiceInterface
         $this->attachmentRepository = $attachmentRepository;
         $this->fileManager = $fileManager;
         $this->orderService = $orderService;
+    }
+
+    public function create(Attachment & $attachment)
+    {
+        $this->throwValidationErrors($attachment);
+        $this->attachmentRepository->create($attachment);
+    }
+
+    public function update(Attachment & $attachment)
+    {
+        $this->throwValidationErrors($attachment);
+        $this->attachmentRepository->update($attachment);
+    }
+
+    public function delete(Attachment $attachment)
+    {
+        $this->attachmentRepository->delete($attachment);
+    }
+
+    /**
+     * @param UuidInterface $attachmentId
+     * @return Attachment
+     * @throws EntityNotFoundException
+     */
+    public function getOneById(UuidInterface $attachmentId)
+    {
+        return $this->attachmentRepository->findOneById($attachmentId);
     }
 
     /**
@@ -48,11 +78,5 @@ class AttachmentService implements AttachmentServiceInterface
 
         $orderItem->addAttachment($attachment);
         $this->orderService->update($order);
-    }
-
-    public function delete(UuidInterface $attachmentId)
-    {
-        $attachment = $this->attachmentRepository->findOneById($attachmentId);
-        $this->attachmentRepository->delete($attachment);
     }
 }

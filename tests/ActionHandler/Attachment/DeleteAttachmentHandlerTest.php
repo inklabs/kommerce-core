@@ -8,14 +8,11 @@ class DeleteAttachmentHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $attachment = $this->dummyData->getAttachment();
-
         $attachmentService = $this->mockService->getAttachmentService();
         $attachmentService->shouldReceive('delete')
-            ->with($attachment->getId())
             ->once();
 
-        $command = new DeleteAttachmentCommand($attachment->getId()->getHex());
+        $command = new DeleteAttachmentCommand(self::UUID_HEX);
         $handler = new DeleteAttachmentHandler($attachmentService);
         $handler->handle($command);
     }

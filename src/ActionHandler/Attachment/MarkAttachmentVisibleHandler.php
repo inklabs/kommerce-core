@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Attachment;
 
-use inklabs\kommerce\Action\Attachment\DeleteAttachmentCommand;
+use inklabs\kommerce\Action\Attachment\MarkAttachmentVisibleCommand;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
 
-class DeleteAttachmentHandler
+class MarkAttachmentVisibleHandler
 {
     /** @var AttachmentServiceInterface */
     private $attachmentService;
@@ -14,9 +14,11 @@ class DeleteAttachmentHandler
         $this->attachmentService = $attachmentService;
     }
 
-    public function handle(DeleteAttachmentCommand $command)
+    public function handle(MarkAttachmentVisibleCommand $command)
     {
         $attachment = $this->attachmentService->getOneById($command->getAttachmentId());
-        $this->attachmentService->delete($attachment);
+        $attachment->setVisible();
+
+        $this->attachmentService->update($attachment);
     }
 }
