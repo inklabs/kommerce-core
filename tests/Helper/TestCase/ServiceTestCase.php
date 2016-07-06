@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\Helper\TestCase;
 
 use inklabs\kommerce\Entity\EntityInterface;
+use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcher;
@@ -15,6 +16,8 @@ use inklabs\kommerce\Service\ServiceCRUDInterface;
 use inklabs\kommerce\tests\Helper\Lib\FakeFileManager;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 use inklabs\kommerce\tests\Helper\Service\MockService;
+use Mockery\Mock;
+use Mockery\MockInterface;
 
 abstract class ServiceTestCase extends EntityRepositoryTestCase
 {
@@ -90,7 +93,7 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
 
     /**
      * @param mixed | ServiceCRUDInterface $service
-     * @param mixed | \Mockery\Mock $repository
+     * @param mixed | Mock $repository
      * @param EntityInterface $entity
      */
     protected function executeServiceCRUD($service, $repository, EntityInterface $entity)
@@ -114,5 +117,39 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
 
             $service->delete($entity);
         }
+    }
+
+    /**
+     * @param MockInterface | Mock $service
+     * @param IdEntityInterface $entity
+     */
+    protected function serviceShouldGetOneById(MockInterface $service, IdEntityInterface $entity)
+    {
+        $service->shouldReceive('getOneById')
+            ->with($entity->getId())
+            ->andReturn($entity)
+            ->once();
+    }
+
+    /**
+     * @param MockInterface | Mock $service
+     * @param IdEntityInterface $entity
+     */
+    protected function serviceShouldUpdate(MockInterface $service, IdEntityInterface $entity)
+    {
+        $service->shouldReceive('update')
+            ->with($entity)
+            ->once();
+    }
+
+    /**
+     * @param MockInterface | Mock $service
+     * @param IdEntityInterface $entity
+     */
+    protected function serviceShouldDelete(MockInterface $service, IdEntityInterface $entity)
+    {
+        $service->shouldReceive('delete')
+            ->with($entity)
+            ->once();
     }
 }

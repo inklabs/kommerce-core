@@ -46,12 +46,7 @@ class MockService
      */
     public function getAttachmentService()
     {
-        $attachment = $this->dummyData->getAttachment();
-
         $attachmentService = $this->getMockeryMock(AttachmentServiceInterface::class);
-        $attachmentService->shouldReceive('getOneById')
-            ->andReturn($attachment);
-
         return $attachmentService;
     }
 

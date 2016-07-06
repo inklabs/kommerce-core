@@ -8,12 +8,17 @@ class MarkAttachmentNotVisibleHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $attachmentService = $this->mockService->getAttachmentService();
-        $attachmentService->shouldReceive('update')
-            ->once();
+        $attachment = $this->dummyData->getAttachment();
+        $attachment->setVisible();
 
-        $command = new MarkAttachmentNotVisibleCommand(self::UUID_HEX);
+        $attachmentService = $this->mockService->getAttachmentService();
+        $this->serviceShouldGetOneById($attachmentService, $attachment);
+        $this->serviceShouldUpdate($attachmentService, $attachment);
+
+        $command = new MarkAttachmentNotVisibleCommand($attachment->getId()->getHex());
         $handler = new MarkAttachmentNotVisibleHandler($attachmentService);
         $handler->handle($command);
+
+        $this->assertFalse($attachment->isVisible());
     }
 }
