@@ -112,29 +112,11 @@ class ProductServiceTest extends ServiceTestCase
         $this->assertEntitiesEqual($product1, $products[0]);
     }
 
-    public function testGetRelatedProducts()
-    {
-        $product1 = $this->dummyData->getProduct();
-        $product2 = $this->dummyData->getProduct();
-        $tag1 = $this->dummyData->getTag();
-        $tag1->addProduct($product1);
-        $tag1->addProduct($product2);
-
-        $this->productRepository->shouldReceive('getRelatedProductsByIds')
-            ->with([$product1->getId()], [$tag1->getId()], 12)
-            ->andReturn([$product2])
-            ->once();
-
-        $products = $this->productService->getRelatedProducts($product1);
-
-        $this->assertEntitiesEqual($product2, $products[0]);
-    }
-
     public function testGetRelatedProductsByIds()
     {
         $product = $this->dummyData->getProduct();
         $this->productRepository->shouldReceive('getRelatedProductsByIds')
-            ->with([self::UUID_HEX], [], 12)
+            ->with([self::UUID_HEX], 12)
             ->andReturn([$product])
             ->once();
 

@@ -12,42 +12,33 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
         return parent::findOneBy(['sku' => $sku]);
     }
 
-    public function getRelatedProducts($products, $limit = 12)
+    /**
+     * @param UuidInterface[] $productIds
+     * @param int $limit
+     * @return Product[]
+     */
+    public function getRelatedProductsByIds(array $productIds, $limit = 12)
     {
-        $productIds = [];
-        $tagIds = [];
-        foreach ($products as $product) {
-            $productIds[] = $product->getId();
-            foreach ($product->getTags() as $tag) {
-                $tagIds[] = $tag->getId();
-            }
-        }
+        $tagIdsQuery = $this->getQueryBuilder()
+            ->select('DISTINCT Tag2.id')
+            ->from(Product::class, 'Product2')
+            ->where('Product2.id IN (:productIds)')
+            ->innerJoin('Product2.tags', 'Tag2')
+            ->getQuery();
 
-        return $this->getRelatedProductsByIds($productIds, $tagIds, $limit);
-    }
-
-    public function getRelatedProductsByIds(array $productIds, $tagIds = null, $limit = 12)
-    {
-        $query = $this->getQueryBuilder()
+        return $this->getQueryBuilder()
             ->select('Product')
             ->from(Product::class, 'Product')
-            ->where('Product.id NOT IN (:productId)')
-            ->setIdParameter('productId', $productIds)
+            ->innerJoin('Product.tags', 'Tag')
+            ->where('Product.id NOT IN (:productIds)')
+            ->andWhere('Tag.id IN (' . $tagIdsQuery->getDQL() . ')')
+            ->setIdParameter('productIds', $productIds)
             ->productActiveAndVisible()
             ->productAvailable()
             ->addSelect('RAND(:rand) as HIDDEN rand')
             ->setParameter('rand', crc32(json_encode($productIds)))
             ->orderBy('rand')
-            ->setMaxResults($limit);
-
-        if (! empty($tagIds)) {
-            $query
-                ->innerJoin('Product.tags', 'tag')
-                ->andWhere('tag.id IN (:tagIds)')
-                ->setIdParameter('tagIds', $tagIds);
-        }
-
-        return $query
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }

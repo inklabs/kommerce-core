@@ -49,13 +49,6 @@ interface ProductServiceInterface
     public function getAllProducts($queryString = null, Pagination & $pagination = null);
 
     /**
-     * @param Product|Product[] $products
-     * @param int $limit
-     * @return Product[]
-     */
-    public function getRelatedProducts($products, $limit = 12);
-
-    /**
      * @param UuidInterface[] $productIds
      * @param int $limit
      * @return Product[]

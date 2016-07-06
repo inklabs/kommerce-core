@@ -17,19 +17,11 @@ interface ProductRepositoryInterface extends RepositoryInterface
     public function findOneBySku($sku);
 
     /**
-     * @param Product[] $products
-     * @param int $limit
-     * @return Product[]
-     */
-    public function getRelatedProducts($products, $limit = 12);
-
-    /**
      * @param UuidInterface[] $productIds
-     * @param UuidInterface[] $tagIds
      * @param int $limit
      * @return Product[]
      */
-    public function getRelatedProductsByIds(array $productIds, $tagIds = [], $limit = 12);
+    public function getRelatedProductsByIds(array $productIds, $limit = 12);
 
     /**
      * Load product tags to avoid query in loop for pricing

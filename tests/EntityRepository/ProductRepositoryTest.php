@@ -27,7 +27,7 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         OptionProduct::class,
     ];
 
-    /** @var ProductRepositoryInterface */
+    /** @var ProductRepository */
     protected $productRepository;
 
     public function setUp()
@@ -161,18 +161,16 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         $product2->addTag($tag);
 
         $this->entityManager->persist($tag);
-
-        $this->productRepository->create($product1);
-        $this->productRepository->create($product2);
-        $this->productRepository->create($product3);
-
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->persist($product3);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
-        $products = $this->productRepository->getRelatedProducts([$product1]);
+        $products = $this->productRepository->getRelatedProductsByIds([$product1->getId()]);
 
         $this->assertSame(1, count($products));
-        $this->assertEquals($product2->getId(), $products[0]->getId());
+        $this->assertEntitiesEqual($product2, $products[0]);
     }
 
     public function testGetProductsByTagId()

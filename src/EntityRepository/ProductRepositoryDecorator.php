@@ -25,14 +25,9 @@ class ProductRepositoryDecorator implements ProductRepositoryInterface
         return $this->productRepository->findOneBySku($sku);
     }
 
-    public function getRelatedProducts($products, $limit = 12)
+    public function getRelatedProductsByIds(array $productIds, $limit = 12)
     {
-        return $this->productRepository->getRelatedProducts($products, $limit);
-    }
-
-    public function getRelatedProductsByIds(array $productIds, $tagIds = [], $limit = 12)
-    {
-        return $this->productRepository->getRelatedProductsByIds($productIds, $tagIds, $limit);
+        return $this->productRepository->getRelatedProductsByIds($productIds, $limit);
     }
 
     public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null)

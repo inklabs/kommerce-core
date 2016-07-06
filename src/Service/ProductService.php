@@ -120,37 +120,13 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param Product | Product[] $products
-     * @param int $limit
-     * @return Product[]
-     */
-    public function getRelatedProducts($products, $limit = 12)
-    {
-        if (! is_array($products)) {
-            $products = [$products];
-        }
-        /** @var Product[] $products */
-
-        $productIds = [];
-        $tagIds = [];
-        foreach ($products as $product) {
-            $productIds[] = $product->getId();
-            foreach ($product->getTags() as $tag) {
-                $tagIds[] = $tag->getId();
-            }
-        }
-
-        return $this->productRepository->getRelatedProductsByIds($productIds, $tagIds, $limit);
-    }
-
-    /**
      * @param UuidInterface[] $productIds
      * @param int $limit
      * @return Product[]
      */
     public function getRelatedProductsByIds(array $productIds, $limit = 12)
     {
-        return $this->productRepository->getRelatedProductsByIds($productIds, [], $limit);
+        return $this->productRepository->getRelatedProductsByIds($productIds, $limit);
     }
 
     /**
