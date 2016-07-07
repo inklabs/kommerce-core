@@ -25,5 +25,5 @@
 * Sign the [Contributor License Agreement](https://www.clahub.com/agreements/inklabs/kommerce-core).
 * Push your changes to a topic branch in your fork of the repository.
 * Submit a pull request.
-* After feedback has been given we expect responses within two weeks. After two
+* After feedback has been given we expect a response from you within two weeks. After two
   weeks we may close the pull request if it isn't showing any activity.
