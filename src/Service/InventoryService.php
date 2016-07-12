@@ -10,6 +10,7 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\Exception\InsufficientInventoryException;
+use inklabs\kommerce\Exception\InventoryException;
 use inklabs\kommerce\Lib\UuidInterface;
 
 class InventoryService implements InventoryServiceInterface
@@ -22,17 +23,23 @@ class InventoryService implements InventoryServiceInterface
     /** @var InventoryTransactionRepositoryInterface */
     private $inventoryTransactionRepository;
 
+    /** @var UuidInterface */
+    private $inventoryHoldLocationId;
+
     public function __construct(
         InventoryLocationRepositoryInterface $inventoryLocationRepository,
-        InventoryTransactionRepositoryInterface $inventoryTransactionRepository
+        InventoryTransactionRepositoryInterface $inventoryTransactionRepository,
+        UuidInterface $inventoryHoldLocationId
     ) {
         $this->inventoryLocationRepository = $inventoryLocationRepository;
         $this->inventoryTransactionRepository = $inventoryTransactionRepository;
+        $this->inventoryHoldLocationId = $inventoryHoldLocationId;
     }
 
     /**
      * @param Product $product
      * @param int $quantity
+     * @throws InventoryException
      * @throws InsufficientInventoryException
      * @throws EntityValidatorException
      */
@@ -41,6 +48,12 @@ class InventoryService implements InventoryServiceInterface
         if (! $product->isInventoryRequired()) {
             // TODO: Investigate throwing exception in this case
             return;
+        }
+
+        try {
+            $inventoryHoldLocation = $this->inventoryLocationRepository->findOneById($this->inventoryHoldLocationId);
+        } catch (EntityNotFoundException $e) {
+            throw InventoryException::missingInventoryHoldLocation();
         }
 
         try {
@@ -59,7 +72,7 @@ class InventoryService implements InventoryServiceInterface
             $quantity,
             'Hold ' . ngettext('item', 'items', $quantity) . ' for order',
             $inventoryLocation,
-            null,
+            $inventoryHoldLocation,
             InventoryTransactionType::hold()
         );
     }

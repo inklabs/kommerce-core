@@ -10,7 +10,8 @@ class OrderItemTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {
-        $orderItem = new OrderItem;
+        $order = $this->dummyData->getOrder();
+        $orderItem = new OrderItem($order);
 
         $this->assertTrue($orderItem->getId() instanceof UuidInterface);
         $this->assertTrue($orderItem->getCreated() instanceof DateTime);
@@ -20,7 +21,7 @@ class OrderItemTest extends EntityTestCase
         $this->assertSame(null, $orderItem->getDiscountNames());
         $this->assertSame(null, $orderItem->getPrice());
         $this->assertSame(null, $orderItem->getProduct());
-        $this->assertSame(null, $orderItem->getOrder());
+        $this->assertSame($order, $orderItem->getOrder());
         $this->assertSame(0, count($orderItem->getOrderItemOptionProducts()));
         $this->assertSame(0, count($orderItem->getOrderItemOptionValues()));
         $this->assertSame(0, count($orderItem->getOrderItemTextOptionValues()));
@@ -65,11 +66,10 @@ class OrderItemTest extends EntityTestCase
 
         $order = $this->dummyData->getOrder();
 
-        $orderItem = new OrderItem;
+        $orderItem = new OrderItem($order);
         $orderItem->setProduct($product);
         $orderItem->setQuantity(2);
         $orderItem->setPrice($price);
-        $orderItem->setOrder($order);
         $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
         $orderItem->addOrderItemOptionValue($orderItemOptionValue);
         $orderItem->addOrderItemTextOptionValue($orderItemTextOptionValue);
@@ -94,7 +94,8 @@ class OrderItemTest extends EntityTestCase
 
     public function testCreateWithCustomItem()
     {
-        $orderItem = new OrderItem;
+        $order = $this->dummyData->getOrder();
+        $orderItem = new OrderItem($order);
         $orderItem->setName('Free Entry Line Item');
         $orderItem->setQuantity(3);
 
@@ -109,7 +110,8 @@ class OrderItemTest extends EntityTestCase
         $product1 = $this->dummyData->getProduct();
         $product1->setShippingWeight(1);
 
-        $orderItem = new OrderItem;
+        $order = $this->dummyData->getOrder();
+        $orderItem = new OrderItem($order);
         $orderItem->setProduct($product1);
         $orderItem->setQuantity(2);
 
@@ -138,7 +140,7 @@ class OrderItemTest extends EntityTestCase
         $attachment = $this->dummyData->getAttachment();
         $product = $this->dummyData->getProduct();
         $product->enableAttachments();
-        $orderItem = $this->dummyData->getOrderItem($product);
+        $orderItem = $this->dummyData->getOrderItem(null, $product);
         $orderItem->addAttachment($attachment);
 
         $this->assertSame($attachment, $orderItem->getAttachments()[0]);
@@ -159,7 +161,7 @@ class OrderItemTest extends EntityTestCase
 
         $attachment = $this->dummyData->getAttachment();
 
-        $orderItem = $this->dummyData->getOrderItem($product);
+        $orderItem = $this->dummyData->getOrderItem(null, $product);
         $orderItem->addAttachment($attachment);
 
         $this->assertSame($attachment, $orderItem->getAttachments()[0]);
@@ -176,7 +178,7 @@ class OrderItemTest extends EntityTestCase
 
         $attachment = $this->dummyData->getAttachment();
 
-        $orderItem = $this->dummyData->getOrderItem($product);
+        $orderItem = $this->dummyData->getOrderItem(null, $product);
 
         $this->setExpectedException(
             AttachmentException::class,

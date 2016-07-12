@@ -71,6 +71,12 @@ class OrderItemRepositoryTest extends EntityRepositoryTestCase
 
     private function setupOrderItem()
     {
+        $user = $this->dummyData->getUser();
+        $cartTotal = $this->dummyData->getCartTotal();
+
+        $order = $this->dummyData->getOrder($cartTotal);
+        $order->setUser($user);
+
         $catalogPromotion = $this->dummyData->getCatalogPromotion();
 
         $product = $this->dummyData->getProduct();
@@ -80,12 +86,7 @@ class OrderItemRepositoryTest extends EntityRepositoryTestCase
         $price->addCatalogPromotion($catalogPromotion);
         $price->addProductQuantityDiscount($productQuantityDiscount);
 
-        $user = $this->dummyData->getUser();
-        $orderItem = $this->dummyData->getOrderItem($product, $price);
-        $cartTotal = $this->dummyData->getCartTotal();
-
-        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
-        $order->setUser($user);
+        $orderItem = $this->dummyData->getOrderItem($order, $product, $price);
 
         $this->entityManager->persist($catalogPromotion);
         $this->entityManager->persist($productQuantityDiscount);

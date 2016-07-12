@@ -94,9 +94,7 @@ class CartServiceTest extends ServiceTestCase
         $this->inventoryLocationRepository = $this->mockRepository->getInventoryLocationRepository();
         $this->inventoryTransactionRepository = $this->mockRepository->getInventoryTransactionRepository();
 
-        $customerHoldInventoryLocation = $this->dummyData->getInventoryLocation();
-        $customerHoldInventoryLocation->setName('Hold For Customer Order');
-        $customerHoldInventoryLocation->setCode('CUSTOMER-HOLD');
+        $customerHoldInventoryLocation = $this->dummyData->getCustomerHoldInventoryLocation();
 
         $this->inventoryService = new InventoryService(
             $this->inventoryLocationRepository,

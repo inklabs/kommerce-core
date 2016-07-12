@@ -93,7 +93,7 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
         $order->setIp4($ip4);
 
         foreach ($cart->getCartItems() as $item) {
-            $order->addOrderItem($item->getOrderItem($cartCalculator->getPricing()));
+            $order->addOrderItem($item->getOrderItem($order, $cartCalculator->getPricing()));
         }
 
         foreach ($cart->getCoupons() as $coupon) {
@@ -152,20 +152,7 @@ class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEn
      */
     public function addOrderItem(OrderItem $orderItem)
     {
-        $orderItem->setOrder($this);
-        $this->orderItems[] = $orderItem;
-
-        $orderItemIndex = $this->getLastOrderItemIndex();
-        return $orderItemIndex;
-    }
-
-    /**
-     * @return int
-     */
-    private function getLastOrderItemIndex()
-    {
-        end($this->orderItems);
-        return key($this->orderItems);
+        $this->orderItems->add($orderItem);
     }
 
     public function getExternalId()

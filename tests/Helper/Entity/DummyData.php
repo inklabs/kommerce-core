@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\tests\Helper\Entity;
 
 use DateTime;
+use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity\Address;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Attribute;
@@ -430,6 +431,17 @@ class DummyData
         return $inventoryLocation;
     }
 
+    public function getCustomerHoldInventoryLocation(Warehouse $warehouse = null)
+    {
+        if ($warehouse === null) {
+            $warehouse = $this->getWarehouse();
+        }
+
+        $inventoryLocation = new InventoryLocation($warehouse, 'Hold For Customer Order', 'CUSTOMER-HOLD');
+
+        return $inventoryLocation;
+    }
+
     public function getInventoryTransaction(InventoryLocation $inventoryLocation = null, Product $product = null)
     {
         if ($inventoryLocation === null) {
@@ -513,10 +525,9 @@ class DummyData
 
     /**
      * @param CartTotal $cartTotal
-     * @param OrderItem[] $orderItems
      * @return Order
      */
-    public function getOrder(CartTotal $cartTotal = null, array $orderItems = null)
+    public function getOrder(CartTotal $cartTotal = null)
     {
         if ($cartTotal === null) {
             $cartTotal = $this->getCartTotal();
@@ -529,12 +540,6 @@ class DummyData
         $order->setTotal($cartTotal);
         $order->setShippingAddress($orderAddress);
         $order->setBillingAddress($orderAddress);
-
-        if ($orderItems !== null) {
-            foreach ($orderItems as $orderItem) {
-                $order->addOrderItem($orderItem);
-            }
-        }
 
         return $order;
     }
@@ -550,13 +555,14 @@ class DummyData
     public function getOrderFullWithoutShipments()
     {
         $cartTotal = $this->getCartTotal();
-        $orderItems = [$this->getOrderItemFull()];
-        $order = $this->getOrder($cartTotal, $orderItems);
+        $order = $this->getOrder($cartTotal);
         $order->setUser($this->getUser());
         $order->addCoupon($this->getCoupon());
         $order->addPayment($this->getCashPayment());
         $order->setShipmentRate($this->getShipmentRate());
         $order->setTaxRate($this->getTaxRate());
+
+        $this->getOrderItemFull($order);
 
         return $order;
     }
@@ -581,8 +587,12 @@ class DummyData
         return $orderAddress;
     }
 
-    public function getOrderItem(Product $product = null, Price $price = null)
+    public function getOrderItem(Order $order = null, Product $product = null, Price $price = null)
     {
+        if ($order === null) {
+            $order = $this->getOrder();
+        }
+
         if ($product === null) {
             $product = $this->getProduct();
         }
@@ -591,7 +601,7 @@ class DummyData
             $price = $this->getPrice();
         }
 
-        $orderItem = new OrderItem;
+        $orderItem = new OrderItem($order);
         $orderItem->setProduct($product);
         $orderItem->setQuantity(1);
         $orderItem->setPrice($price);
@@ -599,25 +609,33 @@ class DummyData
         return $orderItem;
     }
 
-    public function getOrderItemWithoutProduct(Price $price = null)
+    public function getOrderItemWithoutProduct(Order $order = null, Price $price = null)
     {
+        if ($order === null) {
+            $order = $this->getOrder();
+        }
+
         if ($price === null) {
             $price = $this->getPrice();
         }
 
-        $orderItem = new OrderItem;
+        $orderItem = new OrderItem($order);
         $orderItem->setQuantity(1);
         $orderItem->setPrice($price);
 
         return $orderItem;
     }
 
-    public function getOrderItemFull()
+    public function getOrderItemFull(Order $order)
     {
+        if ($order === null) {
+            $order = $this->getOrder();
+        }
+
         $product = $this->getProduct();
         $product->enableAttachments();
 
-        $orderItem = new OrderItem;
+        $orderItem = new OrderItem($order);
         $orderItem->setProduct($product);
         $orderItem->setQuantity(1);
         $orderItem->setPrice($this->getPriceFull());

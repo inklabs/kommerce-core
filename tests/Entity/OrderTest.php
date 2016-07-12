@@ -42,10 +42,6 @@ class OrderTest extends EntityTestCase
         $shippingAddress = $this->dummyData->getOrderAddress();
         $billingAddress = clone $shippingAddress;
 
-        $product = $this->dummyData->getProduct();
-        $orderItem = $this->dummyData->getOrderItem($product);
-        $orderItem->setQuantity(2);
-
         $user = $this->dummyData->getUser();
         $coupon = $this->dummyData->getCoupon();
         $shipment = $this->dummyData->getShipment();
@@ -66,8 +62,11 @@ class OrderTest extends EntityTestCase
         $order->setTotal($cartTotal);
         $order->addShipment($shipment);
         $order->setShipmentRate($shipmentRate);
-        $order->addOrderItem($orderItem);
         $order->addPayment($payment);
+
+        $product = $this->dummyData->getProduct();
+        $orderItem = $this->dummyData->getOrderItem($order, $product);
+        $orderItem->setQuantity(2);
 
         $this->assertEntityValid($order);
         $this->assertSame('CO1102-0016', $order->getExternalId());

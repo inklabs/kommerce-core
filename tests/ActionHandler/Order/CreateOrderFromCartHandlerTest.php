@@ -60,6 +60,10 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
 
         $serviceFactory = $this->getServiceFactory();
 
+        $warehouse = $this->getInitializeWarehouse();
+        $holdLocation = $this->getInitializedHoldInventoryLocation($warehouse);
+        $serviceFactory->setHoldLocationId($holdLocation->getId());
+
         $command = new CreateOrderFromCartCommand(
             $cart->getId()->getHex(),
             $cart->getUser()->getId()->getHex(),
@@ -106,8 +110,6 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
 
         $warehouse = $this->dummyData->getWarehouse();
         $inventoryLocation = $this->dummyData->getInventoryLocation($warehouse);
-        $holdLocation = $this->dummyData->getInventoryLocation($warehouse);
-        $holdLocation->setName('Customer hold Location');
 
         $inventoryTransaction1 = $this->dummyData->getInventoryTransaction($inventoryLocation, $product);
         $inventoryTransaction2 = $this->dummyData->getInventoryTransaction($inventoryLocation, $product2);
@@ -118,12 +120,12 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
         $this->entityManager->persist($product2);
         $this->entityManager->persist($optionProduct);
         $this->entityManager->persist($cart);
+
         $this->entityManager->persist($warehouse);
-        $this->entityManager->persist($holdLocation);
         $this->entityManager->persist($inventoryLocation);
         $this->entityManager->persist($inventoryTransaction1);
         $this->entityManager->persist($inventoryTransaction2);
-        $this->entityManager->flush($product);
+        $this->entityManager->flush();
 
         return $cart;
     }

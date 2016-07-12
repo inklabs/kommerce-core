@@ -61,10 +61,9 @@ class ImportOrderItemService implements ImportOrderItemServiceInterface
             try {
                 $order = $this->orderRepository->findOneByExternalId($orderExternalId);
 
-                $orderItem = new OrderItem;
+                $orderItem = new OrderItem($order);
                 $orderItem->setQuantity($quantity);
                 $orderItem->setPrice($price);
-                $orderItem->setOrder($order);
 
                 if ($sku === 'NULL') {
                     $orderItem->setName($note);

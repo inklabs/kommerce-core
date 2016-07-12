@@ -31,6 +31,9 @@ class InventoryServiceTest extends ServiceTestCase
     /** @var Warehouse */
     private $warehouse;
 
+    /** @var InventoryLocation */
+    protected $holdInventoryLocation;
+
     public function setUp()
     {
         parent::setUp();
@@ -38,19 +41,13 @@ class InventoryServiceTest extends ServiceTestCase
         $this->inventoryLocationRepository = $this->getRepositoryFactory()->getInventoryLocationRepository();
         $this->inventoryTransactionRepository = $this->getRepositoryFactory()->getInventoryTransactionRepository();
 
+        $this->warehouse = $this->getInitializeWarehouse();
+
         $this->inventoryService = new InventoryService(
             $this->inventoryLocationRepository,
-            $this->inventoryTransactionRepository
+            $this->inventoryTransactionRepository,
+            $this->getInitializedHoldInventoryLocation($this->warehouse)->getId()
         );
-
-        $this->initializeWarehouse();
-    }
-
-    private function initializeWarehouse()
-    {
-        $this->warehouse = $this->dummyData->getWarehouse();
-        $this->entityManager->persist($this->warehouse);
-        $this->entityManager->flush();
     }
 
     public function testReserveProduct()

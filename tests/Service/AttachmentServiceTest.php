@@ -56,11 +56,11 @@ class AttachmentServiceTest extends ServiceTestCase
 
     public function testCreateAttachmentForOrderItem()
     {
+        $order = $this->dummyData->getOrder();
+
         $product = $this->dummyData->getProduct();
         $product->enableAttachments();
-        $orderItem = $this->dummyData->getOrderItem($product);
-        $order = $this->dummyData->getOrder();
-        $order->addOrderItem($orderItem);
+        $orderItem = $this->dummyData->getOrderItem($order, $product);
 
         $uploadFileDTO = $this->dummyData->getUploadFileDTO();
 
@@ -101,12 +101,13 @@ class AttachmentServiceTest extends ServiceTestCase
 
         $attachmentService = $this->getServiceFactory()->getAttachmentService();
 
+        $user = $this->dummyData->getUser();
+        $order = $this->dummyData->getOrder(null);
+        $order->setUser($user);
+
         $product = $this->dummyData->getProduct();
         $product->enableAttachments();
-        $orderItem = $this->dummyData->getOrderItem($product);
-        $user = $this->dummyData->getUser();
-        $order = $this->dummyData->getOrder(null, [$orderItem]);
-        $order->setUser($user);
+        $orderItem = $this->dummyData->getOrderItem($order, $product);
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);

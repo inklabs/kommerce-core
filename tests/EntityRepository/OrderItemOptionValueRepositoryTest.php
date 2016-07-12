@@ -58,17 +58,17 @@ class OrderItemOptionValueRepositoryTest extends EntityRepositoryTestCase
         $optionValue = $this->dummyData->getOptionValue($option);
         $orderItemOptionValue = $this->dummyData->getOrderItemOptionValue($optionValue);
 
-        $product = $this->dummyData->getProduct();
-        $price = $this->dummyData->getPrice();
-
-        $orderItem = $this->dummyData->getOrderItem($product, $price);
-        $orderItem->addOrderItemOptionValue($orderItemOptionValue);
-
         $cartTotal = $this->dummyData->getCartTotal();
 
         $user = $this->dummyData->getUser();
-        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
+        $order = $this->dummyData->getOrder($cartTotal);
         $order->setUser($user);
+
+        $product = $this->dummyData->getProduct();
+        $price = $this->dummyData->getPrice();
+
+        $orderItem = $this->dummyData->getOrderItem($order, $product, $price);
+        $orderItem->addOrderItemOptionValue($orderItemOptionValue);
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);

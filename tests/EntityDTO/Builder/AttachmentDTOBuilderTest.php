@@ -13,7 +13,7 @@ class AttachmentDTOBuilderTest extends EntityDTOBuilderTestCase
         $product = $this->dummyData->getProduct();
         $product->enableAttachments();
 
-        $orderItem = $this->dummyData->getOrderItem($product);
+        $orderItem = $this->dummyData->getOrderItem(null, $product);
         $orderItem->addAttachment($attachment);
 
         $attachmentDTO = $this->getDTOBuilderFactory()

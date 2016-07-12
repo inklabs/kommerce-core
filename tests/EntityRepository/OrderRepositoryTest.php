@@ -128,15 +128,11 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $catalogPromotion = $this->dummyData->getCatalogPromotion();
         $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($product);
 
+        $user = $this->dummyData->getUser($uniqueId);
+
         $price = $this->dummyData->getPrice();
         $price->addCatalogPromotion($catalogPromotion);
         $price->addProductQuantityDiscount($productQuantityDiscount);
-
-        $user = $this->dummyData->getUser($uniqueId);
-
-        $attachmentForOrderItem = $this->dummyData->getAttachment();
-        $orderItem = $this->dummyData->getOrderItem($product, $price);
-        $orderItem->addAttachment($attachmentForOrderItem);
 
         $cartPriceRule = $this->dummyData->getCartPriceRule();
 
@@ -145,13 +141,18 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
 
         $taxRate = $this->dummyData->getTaxRate();
 
-        $shipment = $this->dummyData->getShipment();
-        $shipmentItem = $this->dummyData->getShipmentItem($shipment, $orderItem, 1);
-
-        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
+        $order = $this->dummyData->getOrder($cartTotal);
         $order->setUser($user);
         $order->setReferenceNumber($referenceNumber);
         $order->setTaxRate($taxRate);
+
+        $attachmentForOrderItem = $this->dummyData->getAttachment();
+        $orderItem = $this->dummyData->getOrderItem($order, $product, $price);
+        $orderItem->addAttachment($attachmentForOrderItem);
+
+        $shipment = $this->dummyData->getShipment();
+        $shipmentItem = $this->dummyData->getShipmentItem($shipment, $orderItem, 1);
+
         $order->addShipment($shipment);
 
         $this->entityManager->persist($catalogPromotion);
@@ -240,16 +241,19 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $product = $this->dummyData->getProduct();
         $price = $this->dummyData->getPrice();
         $user = $this->dummyData->getUser($uniqueId);
-        $orderItem = $this->dummyData->getOrderItem($product, $price);
         $cartTotal = $this->dummyData->getCartTotal();
         $taxRate = $this->dummyData->getTaxRate();
-        $shipment = $this->dummyData->getShipment();
-        $shipmentItem = $this->dummyData->getShipmentItem($shipment, $orderItem, 1);
 
-        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
+        $order = $this->dummyData->getOrder($cartTotal);
         $order->setUser($user);
         $order->setReferenceNumber($referenceNumber);
         $order->setTaxRate($taxRate);
+
+        $orderItem = $this->dummyData->getOrderItem($order, $product, $price);
+
+        $shipment = $this->dummyData->getShipment();
+        $shipmentItem = $this->dummyData->getShipmentItem($shipment, $orderItem, 1);
+
         $order->addShipment($shipment);
 
         $this->entityManager->persist($product);

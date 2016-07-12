@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CartItemOptionProduct;
+use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\OrderItemOptionProduct;
@@ -16,6 +17,7 @@ use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\CreditPayment;
 use inklabs\kommerce\Entity\Order;
@@ -73,6 +75,7 @@ class OrderServiceTest extends ServiceTestCase
         Cart::class,
         CartItem::class,
         CartItemOptionProduct::class,
+        InventoryLocation::class,
         Option::class,
         OptionProduct::class,
         Order::class,
@@ -87,6 +90,7 @@ class OrderServiceTest extends ServiceTestCase
         Tag::class,
         TaxRate::class,
         User::class,
+        Warehouse::class,
     ];
 
     public function setUp()
@@ -102,9 +106,12 @@ class OrderServiceTest extends ServiceTestCase
         $this->inventoryLocationRepository = $this->getRepositoryFactory()->getInventoryLocationRepository();
         $this->inventoryTransactionRepository = $this->getRepositoryFactory()->getInventoryTransactionRepository();
 
+        $warehouse = $this->getInitializeWarehouse();
+
         $this->inventoryService = new InventoryService(
             $this->inventoryLocationRepository,
-            $this->inventoryTransactionRepository
+            $this->inventoryTransactionRepository,
+            $this->getInitializedHoldInventoryLocation($warehouse)->getId()
         );
 
         $this->paymentGateway = new FakePaymentGateway;
@@ -313,16 +320,11 @@ class OrderServiceTest extends ServiceTestCase
         $user = $this->dummyData->getUser();
         $product1 = $this->dummyData->getProduct();
         $product2 = $this->dummyData->getProduct();
-        $orderItem1 = $this->dummyData->getOrderItem($product1);
-        $orderItem2 = $this->dummyData->getOrderItem($product2);
-        $order1 = $this->dummyData->getOrder(
-            null,
-            [
-                $orderItem1,
-                $orderItem2
-            ]
-        );
+        $order1 = $this->dummyData->getOrder(null);
         $order1->setUser($user);
+
+        $orderItem1 = $this->dummyData->getOrderItem($order1, $product1);
+        $orderItem2 = $this->dummyData->getOrderItem($order1, $product2);
 
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);

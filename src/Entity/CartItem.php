@@ -226,9 +226,9 @@ class CartItem implements IdEntityInterface, ValidationInterface, EnabledAttachm
         return $quantityShippingWeight;
     }
 
-    public function getOrderItem(PricingInterface $pricing)
+    public function getOrderItem(Order $order, PricingInterface $pricing)
     {
-        $orderItem = new OrderItem;
+        $orderItem = new OrderItem($order);
         $orderItem->setProduct($this->getProduct());
         $orderItem->setQuantity($this->getQuantity());
         $orderItem->setPrice($this->getPrice($pricing));

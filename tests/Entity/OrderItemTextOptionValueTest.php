@@ -17,7 +17,7 @@ class OrderItemTextOptionValueTest extends EntityTestCase
     public function testCreate()
     {
         $textOption = $this->dummyData->getTextOption();
-        $orderItem = new OrderItem;
+        $orderItem = $this->dummyData->getOrderItem();
 
         $orderItemTextOptionValue = new OrderItemTextOptionValue;
         $orderItemTextOptionValue->setTextOptionValue('Happy Birthday');

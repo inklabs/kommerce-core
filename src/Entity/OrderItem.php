@@ -49,7 +49,7 @@ class OrderItem implements IdEntityInterface, ValidationInterface, EnabledAttach
     /** @var Attachment[] */
     protected $attachments;
 
-    public function __construct()
+    public function __construct(Order $order)
     {
         $this->setId();
         $this->setCreated();
@@ -59,6 +59,9 @@ class OrderItem implements IdEntityInterface, ValidationInterface, EnabledAttach
         $this->orderItemOptionValues = new ArrayCollection();
         $this->orderItemTextOptionValues = new ArrayCollection();
         $this->attachments = new ArrayCollection();
+
+        $this->order = $order;
+        $order->addOrderItem($this);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -238,11 +241,6 @@ class OrderItem implements IdEntityInterface, ValidationInterface, EnabledAttach
     public function getDiscountNames()
     {
         return $this->discountNames;
-    }
-
-    public function setOrder(Order $order)
-    {
-        $this->order = $order;
     }
 
     public function getOrder()

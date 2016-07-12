@@ -52,20 +52,19 @@ class OrderItemTextOptionValueRepositoryTest extends EntityRepositoryTestCase
 
     private function setupOrderItemTextOptionValue()
     {
+        $user = $this->dummyData->getUser();
+        $cartTotal = $this->dummyData->getCartTotal();
+        $order = $this->dummyData->getOrder($cartTotal);
+        $order->setUser($user);
+
         $textOption = $this->dummyData->getTextOption();
         $orderItemTextOptionValue = $this->dummyData->getOrderItemTextOptionValue($textOption, 'Happy Birthday');
 
         $product = $this->dummyData->getProduct();
         $price = $this->dummyData->getPrice();
 
-        $orderItem = $this->dummyData->getOrderItem($product, $price);
+        $orderItem = $this->dummyData->getOrderItem($order, $product, $price);
         $orderItem->addOrderItemTextOptionValue($orderItemTextOptionValue);
-
-        $cartTotal = $this->dummyData->getCartTotal();
-
-        $user = $this->dummyData->getUser();
-        $order = $this->dummyData->getOrder($cartTotal, [$orderItem]);
-        $order->setUser($user);
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);

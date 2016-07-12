@@ -85,7 +85,9 @@ class CartItemTest extends EntityTestCase
     public function testGetOrderItem()
     {
         $cartItem = $this->dummyData->getCartItemFull();
-        $orderItem = $cartItem->getOrderItem(new Pricing);
+        $pricing = $this->dummyData->getPricing();
+        $order = $this->dummyData->getOrder();
+        $orderItem = $cartItem->getOrderItem($order, $pricing);
 
         $this->assertTrue($orderItem instanceof OrderItem);
         $this->assertTrue($orderItem->getProduct() instanceof Product);
