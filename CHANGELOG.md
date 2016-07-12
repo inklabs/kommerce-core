@@ -13,6 +13,7 @@ used to track changes in this project.
 - [#42](../../issues/42): Change all use case Actions to require a string ID instead of UuidInterface
 - [#21](../../issues/21): Cart price rules carried over and linked to an Order (DB migration)
 - [#40](../../issues/40): Change ProductRepository::getRelatedProductsByIds to not require $tagIds
+- [#47](../../issues/47): Modify OrderItem to require Order in the constructor
 
 ### DB Migration
 - TBD
