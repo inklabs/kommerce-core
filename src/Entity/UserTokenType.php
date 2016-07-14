@@ -4,9 +4,6 @@ namespace inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @method static UserTokenType createById($id)
- */
 class UserTokenType extends AbstractIntegerType
 {
     const INTERNAL = 0;

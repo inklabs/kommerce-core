@@ -41,7 +41,7 @@ abstract class AbstractIntegerType implements ValidationInterface, NameMapInterf
 
     /**
      * @param int $id
-     * @return AbstractIntegerType
+     * @return static
      */
     public static function createById($id)
     {

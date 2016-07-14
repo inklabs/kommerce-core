@@ -4,9 +4,6 @@ namespace inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @method static InventoryTransactionType createById($id)
- */
 class InventoryTransactionType extends AbstractIntegerType
 {
     const MOVE = 0;

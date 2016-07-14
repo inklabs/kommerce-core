@@ -4,9 +4,6 @@ namespace inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @method static OrderStatusType createById($id)
- */
 class OrderStatusType extends AbstractIntegerType
 {
     const PENDING    = 0;

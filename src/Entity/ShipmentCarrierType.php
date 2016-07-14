@@ -4,9 +4,6 @@ namespace inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @method static ShipmentCarrierType createById($id)
- */
 class ShipmentCarrierType extends AbstractIntegerType
 {
     const UNKNOWN = 0;
