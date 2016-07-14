@@ -11,8 +11,8 @@ use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Entity\UserProductAttachment;
 use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
-use inklabs\kommerce\Exception\AttachmentException;
 use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
@@ -27,6 +27,12 @@ class AttachmentServiceTest extends ServiceTestCase
     /** @var OrderServiceInterface | \Mockery\Mock */
     private $orderService;
 
+    /** @var ProductServiceInterface | \Mockery\Mock */
+    private $productService;
+
+    /** @var UserServiceInterface | \Mockery\Mock */
+    private $userService;
+
     /** @var AttachmentService */
     private $attachmentService;
 
@@ -37,11 +43,15 @@ class AttachmentServiceTest extends ServiceTestCase
         $this->attachmentRepository = $this->mockRepository->getAttachmentRepository();
         $this->fileManager = $this->mockService->getFileManager();
         $this->orderService = $this->mockService->getOrderService();
+        $this->productService = $this->mockService->getProductService();
+        $this->userService = $this->mockService->getUserService();
 
         $this->attachmentService = new AttachmentService(
             $this->attachmentRepository,
             $this->fileManager,
-            $this->orderService
+            $this->orderService,
+            $this->productService,
+            $this->userService
         );
     }
 
@@ -127,5 +137,46 @@ class AttachmentServiceTest extends ServiceTestCase
         $order = $orderRepository->findOneById($order->getId());
 
         $this->assertCount(1, $order->getOrderItem(0)->getAttachments());
+    }
+
+    public function testCreateAttachmentForUserProductReal()
+    {
+        $this->setupEntityManager([
+            AbstractPayment::class,
+            Attachment::class,
+            Cart::class,
+            Product::class,
+            Tag::class,
+            TaxRate::class,
+            User::class,
+            UserProductAttachment::class,
+        ]);
+
+        $attachmentService = $this->getServiceFactory()->getAttachmentService();
+
+        $uploadFileDTO = $this->dummyData->getUploadFileDTO();
+        $user = $this->dummyData->getUser();
+        $product = $this->dummyData->getProduct();
+        $product->enableAttachments();
+
+        $this->entityManager->persist($product);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        $attachmentService->createAttachmentForUserProduct(
+            $uploadFileDTO,
+            $user->getId(),
+            $product->getId()
+        );
+
+        $this->entityManager->clear();
+        $attachmentRepository = $this->getRepositoryFactory()->getAttachmentRepository();
+        $attachments = $attachmentRepository->getUserProductAttachments(
+            $user->getId(),
+            $product->getId()
+        );
+
+        $this->assertCount(1, $attachments);
     }
 }

@@ -64,7 +64,9 @@ class ServiceFactory
         return new AttachmentService(
             $this->repositoryFactory->getAttachmentRepository(),
             $this->getFileManager(),
-            $this->getOrder()
+            $this->getOrder(),
+            $this->getProduct(),
+            $this->getUser()
         );
     }
 

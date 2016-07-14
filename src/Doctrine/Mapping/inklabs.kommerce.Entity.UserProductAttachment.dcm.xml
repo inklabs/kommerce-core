@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="inklabs\kommerce\Entity\UserProductAttachment">
+
+        <id name="id" type="uuid_binary"/>
+
+        <many-to-one field="user" target-entity="User" fetch="EAGER"/>
+        <many-to-one field="product" target-entity="Product" fetch="EAGER"/>
+        <many-to-one field="attachment" target-entity="Attachment" fetch="EAGER"/>
+
+    </entity>
+
+</doctrine-mapping>

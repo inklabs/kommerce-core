@@ -11,4 +11,11 @@ interface AttachmentRepositoryInterface extends RepositoryInterface
      * @return Attachment
      */
     public function findOneByUuid(UuidInterface $uuid4);
+
+    /**
+     * @param UuidInterface $userId
+     * @param UuidInterface $productId
+     * @return Attachment[]
+     */
+    public function getUserProductAttachments(UuidInterface $userId, UuidInterface $productId);
 }

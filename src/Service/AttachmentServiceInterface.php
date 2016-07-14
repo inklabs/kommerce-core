@@ -24,4 +24,16 @@ interface AttachmentServiceInterface
      * @return void
      */
     public function createAttachmentForOrderItem(UploadFileDTO $uploadFileDTO, UuidInterface $orderItemId);
+
+    /**
+     * @param UploadFileDTO $uploadFileDTO
+     * @param UuidInterface $userId
+     * @param UuidInterface $productId
+     * @return void
+     */
+    public function createAttachmentForUserProduct(
+        UploadFileDTO $uploadFileDTO,
+        UuidInterface $userId,
+        UuidInterface $productId
+    );
 }

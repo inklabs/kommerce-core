@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Attachment;
+use inklabs\kommerce\Entity\UserProductAttachment;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
@@ -21,14 +22,24 @@ class AttachmentService implements AttachmentServiceInterface
     /** @var OrderServiceInterface */
     private $orderService;
 
+    /** @var ProductServiceInterface */
+    private $productService;
+
+    /** @var UserServiceInterface */
+    private $userService;
+
     public function __construct(
         AttachmentRepositoryInterface $attachmentRepository,
         FileManagerInterface $fileManager,
-        OrderServiceInterface $orderService
+        OrderServiceInterface $orderService,
+        ProductServiceInterface $productService,
+        UserServiceInterface $userService
     ) {
         $this->attachmentRepository = $attachmentRepository;
         $this->fileManager = $fileManager;
         $this->orderService = $orderService;
+        $this->productService = $productService;
+        $this->userService = $userService;
     }
 
     public function create(Attachment & $attachment)
@@ -68,6 +79,38 @@ class AttachmentService implements AttachmentServiceInterface
         $orderItem = $this->orderService->getOrderItemById($orderItemId);
         $order = $orderItem->getOrder();
 
+        $attachment = $this->createAttachment($uploadFileDTO);
+
+        $orderItem->addAttachment($attachment);
+        $this->orderService->update($order);
+    }
+
+    /**
+     * @param UploadFileDTO $uploadFileDTO
+     * @param UuidInterface $userId
+     * @param UuidInterface $productId
+     * @return void
+     */
+    public function createAttachmentForUserProduct(
+        UploadFileDTO $uploadFileDTO,
+        UuidInterface $userId,
+        UuidInterface $productId
+    ) {
+        $user = $this->userService->findOneById($userId);
+        $product = $this->productService->findOneById($productId);
+
+        $attachment = $this->createAttachment($uploadFileDTO);
+
+        $userProductAttachment = new UserProductAttachment($user, $product, $attachment);
+        $this->attachmentRepository->create($userProductAttachment);
+    }
+
+    /**
+     * @param UploadFileDTO $uploadFileDTO
+     * @return Attachment
+     */
+    private function createAttachment(UploadFileDTO $uploadFileDTO)
+    {
         $managedFile = $this->fileManager->saveFile($uploadFileDTO->getFilePath());
 
         $attachment = new Attachment(
@@ -76,7 +119,6 @@ class AttachmentService implements AttachmentServiceInterface
 
         $this->attachmentRepository->create($attachment);
 
-        $orderItem->addAttachment($attachment);
-        $this->orderService->update($order);
+        return $attachment;
     }
 }
