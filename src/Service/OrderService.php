@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Cart;
@@ -197,6 +198,39 @@ class OrderService implements OrderServiceInterface
         $order = $this->orderRepository->findOneById($orderId);
         $order->setStatus($orderStatusType);
         $this->update($order);
+
+        if ($orderStatusType->isFinished()) {
+            $this->lockOrderAttachments($order);
+        }
+    }
+
+    private function lockOrderAttachments(Order $order)
+    {
+        foreach ($order->getOrderItems() as $orderItem) {
+            $this->lockOrderItemAttachments($orderItem);
+        }
+    }
+
+    private function lockOrderItemAttachments(OrderItem $orderItem)
+    {
+        foreach ($orderItem->getAttachments() as $attachment) {
+            $this->lockAttachment($attachment);
+        }
+    }
+
+    private function lockAttachment(Attachment $attachment)
+    {
+        if (! $attachment->isLocked()) {
+            $attachment->setLocked();
+            $this->updateAttachment($attachment);
+        }
+    }
+
+    private function updateAttachment(Attachment & $attachment)
+    {
+        // TODO: Move this responsibility to the Attachment Service without a cyclic dependency
+        $this->throwValidationErrors($attachment);
+        $this->orderRepository->update($attachment);
     }
 
     /**

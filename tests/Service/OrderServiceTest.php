@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CartItemOptionProduct;
@@ -72,6 +73,7 @@ class OrderServiceTest extends ServiceTestCase
     protected $paymentGateway;
 
     protected $metaDataClassNames = [
+        Attachment::class,
         Cart::class,
         CartItem::class,
         CartItemOptionProduct::class,
@@ -285,6 +287,20 @@ class OrderServiceTest extends ServiceTestCase
         $this->assertTrue($order1->getStatus()->isCanceled());
     }
 
+    public function testSetOrderStatusLocksAttachments()
+    {
+        $order1 = $this->getPersistedOrderWith2ItemsWithAttachments();
+
+        $this->setCountLogger();
+
+        $this->orderService->setOrderStatus($order1->getId(), OrderStatusType::canceled());
+
+        $this->assertTrue($order1->getStatus()->isCanceled());
+        $this->assertTrue($order1->getOrderItems()[0]->getAttachments()[0]->isLocked());
+        $this->assertTrue($order1->getOrderItems()[1]->getAttachments()[0]->isLocked());
+        $this->assertSame(10, $this->getTotalQueries());
+    }
+
     public function testCreateOrderFromCart()
     {
         $cart = $this->getPersistedCart();
@@ -326,6 +342,44 @@ class OrderServiceTest extends ServiceTestCase
         $orderItem1 = $this->dummyData->getOrderItem($order1, $product1);
         $orderItem2 = $this->dummyData->getOrderItem($order1, $product2);
 
+        $this->entityManager->persist($product1);
+        $this->entityManager->persist($product2);
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($order1);
+        $this->entityManager->flush();
+
+        return $order1;
+    }
+
+    /**
+     * @return Order
+     */
+    private function getPersistedOrderWith2ItemsWithAttachments()
+    {
+        $attachment1 = $this->dummyData->getAttachment();
+        $attachment2 = $this->dummyData->getAttachment();
+
+        $attachment1->setUnlocked();
+        $attachment2->setUnlocked();
+
+        $user = $this->dummyData->getUser();
+        $product1 = $this->dummyData->getProduct();
+        $product2 = $this->dummyData->getProduct();
+
+        $product1->enableAttachments();
+        $product2->enableAttachments();
+
+        $order1 = $this->dummyData->getOrder(null);
+        $order1->setUser($user);
+
+        $orderItem1 = $this->dummyData->getOrderItem($order1, $product1);
+        $orderItem2 = $this->dummyData->getOrderItem($order1, $product2);
+
+        $orderItem1->addAttachment($attachment1);
+        $orderItem2->addAttachment($attachment2);
+
+        $this->entityManager->persist($attachment1);
+        $this->entityManager->persist($attachment2);
         $this->entityManager->persist($product1);
         $this->entityManager->persist($product2);
         $this->entityManager->persist($user);

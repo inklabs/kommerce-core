@@ -92,4 +92,9 @@ class OrderStatusType extends AbstractIntegerType
     {
         return $this->id === self::CANCELED;
     }
+
+    public function isFinished()
+    {
+        return $this->isComplete() || $this->isCanceled();
+    }
 }
