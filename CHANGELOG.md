@@ -7,7 +7,7 @@ used to track changes in this project.
 ## [Unreleased]
 
 ### Added
-- TBD
+- [#53](../../issues/53): Admin user should be able to manage attachments (multiple features)
 
 ### Changed
 - [#42](../../issues/42): Change all use case Actions to require a string ID instead of UuidInterface
