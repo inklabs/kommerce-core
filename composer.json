@@ -20,7 +20,7 @@
         "ramsey/uuid": "3.4.1",
         "ramsey/uuid-doctrine": "1.2.0",
         "hamcrest/hamcrest-php": "~2.0.0",
-        "symfony/validator": "2.6.6",
+        "symfony/validator": "~3.1",
         "stripe/stripe-php": "3.4.0",
         "easypost/easypost-php": "2.1.1"
     },
