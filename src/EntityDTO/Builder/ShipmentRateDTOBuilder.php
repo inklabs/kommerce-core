@@ -55,7 +55,6 @@ class ShipmentRateDTOBuilder implements DTOBuilderInterface
                 ->getMoneyDTOBuilder($this->entity->getRetailRate())
                 ->build();
         }
-
     }
 
     protected function preBuild()

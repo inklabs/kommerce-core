@@ -154,7 +154,6 @@ class DummyData
         $cart->setUser($this->getUser());
 
         return $cart;
-
     }
 
     public function getCartCalculator(Pricing $pricing = null)
