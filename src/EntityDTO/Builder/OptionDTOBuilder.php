@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionType;
 use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\Lib\PricingInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OptionDTOBuilder implements DTOBuilderInterface
 {
@@ -41,9 +42,9 @@ class OptionDTOBuilder implements DTOBuilderInterface
         return new OptionDTO;
     }
 
-    public static function createFromDTO(OptionDTO $optionDTO)
+    public static function createFromDTO(UuidInterface $optionId, OptionDTO $optionDTO)
     {
-        $option = new Option;
+        $option = new Option($optionId);
         self::setFromDTO($option, $optionDTO);
         return $option;
     }

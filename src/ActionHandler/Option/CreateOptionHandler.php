@@ -17,7 +17,10 @@ final class CreateOptionHandler
 
     public function handle(CreateOptionCommand $command)
     {
-        $option = OptionDTOBuilder::createFromDTO($command->getOptionDTO());
+        $option = OptionDTOBuilder::createFromDTO(
+            $command->getOptionId(),
+            $command->getOptionDTO()
+        );
         $this->optionService->create($option);
     }
 }
