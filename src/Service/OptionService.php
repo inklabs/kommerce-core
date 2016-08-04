@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 use inklabs\kommerce\Lib\UuidInterface;
@@ -70,6 +71,23 @@ class OptionService implements OptionServiceInterface
     public function deleteOptionProduct(OptionProduct $optionProduct)
     {
         $this->optionRepository->delete($optionProduct);
+    }
+
+    public function createTextOption(TextOption & $textOption)
+    {
+        $this->throwValidationErrors($textOption);
+        $this->optionRepository->create($textOption);
+    }
+
+    public function updateTextOption(TextOption & $textOption)
+    {
+        $this->throwValidationErrors($textOption);
+        $this->optionRepository->update($textOption);
+    }
+
+    public function deleteTextOption(TextOption $textOption)
+    {
+        $this->optionRepository->delete($textOption);
     }
 
     /**

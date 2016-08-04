@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Service;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class TagServiceTest extends ServiceTestCase
@@ -17,6 +18,9 @@ class TagServiceTest extends ServiceTestCase
     /** @var OptionRepositoryInterface | \Mockery\Mock */
     protected $optionRepository;
 
+    /** @var TextOptionRepositoryInterface | \Mockery\Mock */
+    private $textOptionRepository;
+
     /** @var TagService */
     protected $tagService;
 
@@ -26,11 +30,13 @@ class TagServiceTest extends ServiceTestCase
         $this->tagRepository = $this->mockRepository->getTagRepository();
         $this->imageRepository = $this->mockRepository->getImageRepository();
         $this->optionRepository = $this->mockRepository->getOptionRepository();
+        $this->textOptionRepository = $this->mockRepository->getTextOptionRepository();
 
         $this->tagService = new TagService(
             $this->tagRepository,
             $this->imageRepository,
-            $this->optionRepository
+            $this->optionRepository,
+            $this->textOptionRepository
         );
     }
 

@@ -32,6 +32,13 @@ interface TagServiceInterface
 
     /**
      * @param UuidInterface $tagId
+     * @param UuidInterface $textTextOptionId
+     * @throws EntityNotFoundException
+     */
+    public function addTextOption(UuidInterface $tagId, UuidInterface $textTextOptionId);
+
+    /**
+     * @param UuidInterface $tagId
      * @param UuidInterface $optionId
      * @throws EntityNotFoundException
      */

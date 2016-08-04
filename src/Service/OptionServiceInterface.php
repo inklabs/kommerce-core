@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Pagination;
+use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\UuidInterface;
 
@@ -22,6 +23,12 @@ interface OptionServiceInterface
     public function createOptionProduct(OptionProduct & $optionProduct);
     public function updateOptionProduct(OptionProduct & $optionProduct);
     public function deleteOptionProduct(OptionProduct $optionProduct);
+
+    public function createTextOption(TextOption & $textOption);
+
+    public function updateTextOption(TextOption & $textOption);
+
+    public function deleteTextOption(TextOption $textOption);
 
     /**
      * @param UuidInterface $id

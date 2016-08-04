@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -15,18 +16,18 @@ class TextOption implements IdEntityInterface, ValidationInterface
     /** @var string */
     protected $description;
 
-    /** @var TextOptionType */
-    protected $type;
-
     /** @var int */
     protected $sortOrder;
+
+    /** @var TextOptionType */
+    protected $type;
 
     /** @var ArrayCollection | Tag[] */
     protected $tags;
 
-    public function __construct()
+    public function __construct(UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->tags = new ArrayCollection;
         $this->sortOrder = 0;

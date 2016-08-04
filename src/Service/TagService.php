@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\UuidInterface;
 
@@ -22,14 +23,19 @@ class TagService implements TagServiceInterface
     /** @var OptionRepositoryInterface */
     private $optionRepository;
 
+    /** @var TextOptionRepositoryInterface */
+    private $textOptionRepository;
+
     public function __construct(
         TagRepositoryInterface $tagRepository,
         ImageRepositoryInterface $imageRepository,
-        OptionRepositoryInterface $optionRepository
+        OptionRepositoryInterface $optionRepository,
+        TextOptionRepositoryInterface $textOptionRepository
     ) {
         $this->tagRepository = $tagRepository;
         $this->imageRepository = $imageRepository;
         $this->optionRepository = $optionRepository;
+        $this->textOptionRepository = $textOptionRepository;
     }
 
     public function create(Tag & $tag)
@@ -79,6 +85,21 @@ class TagService implements TagServiceInterface
         $tag = $this->tagRepository->findOneById($tagId);
 
         $tag->addOption($option);
+
+        $this->tagRepository->update($tag);
+    }
+
+    /**
+     * @param UuidInterface $tagId
+     * @param UuidInterface $textOptionId
+     * @throws EntityNotFoundException
+     */
+    public function addTextOption(UuidInterface $tagId, UuidInterface $textOptionId)
+    {
+        $textOption = $this->textOptionRepository->findOneById($textOptionId);
+        $tag = $this->tagRepository->findOneById($tagId);
+
+        $tag->addTextOption($textOption);
 
         $this->tagRepository->update($tag);
     }
