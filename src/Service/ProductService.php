@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
@@ -48,6 +49,23 @@ class ProductService implements ProductServiceInterface
     public function delete(Product $product)
     {
         $this->productRepository->delete($product);
+    }
+
+    public function createProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount)
+    {
+        $this->throwValidationErrors($productQuantityDiscount);
+        $this->productRepository->create($productQuantityDiscount);
+    }
+
+    public function updateProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount)
+    {
+        $this->throwValidationErrors($productQuantityDiscount);
+        $this->productRepository->update($productQuantityDiscount);
+    }
+
+    public function deleteProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
+    {
+        $this->productRepository->delete($productQuantityDiscount);
     }
 
     /**

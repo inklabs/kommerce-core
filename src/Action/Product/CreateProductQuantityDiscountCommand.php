@@ -1,18 +1,15 @@
 <?php
-namespace inklabs\kommerce\Action\CatalogPromotion;
+namespace inklabs\kommerce\Action\Product;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 use DateTime;
 
-final class CreateCatalogPromotionCommand implements CommandInterface
+final class CreateProductQuantityDiscountCommand implements CommandInterface
 {
     /** @var UuidInterface */
-    private $catalogPromotionId;
-
-    /** @var string */
-    private $name;
+    private $productQuantityDiscountId;
 
     /** @var int */
     private $promotionTypeId;
@@ -32,46 +29,49 @@ final class CreateCatalogPromotionCommand implements CommandInterface
     /** @var DateTime */
     private $endDate;
 
-    /** @var UuidInterface | null */
-    private $tagId;
+    /** @var UuidInterface */
+    private $productId;
+
+    /** @var int */
+    private $quantity;
+
+    /** @var bool */
+    private $flagApplyCatalogPromotions;
 
     /**
-     * @param string $name
      * @param int $promotionTypeId
      * @param int $value
      * @param bool $reducesTaxSubtotal
      * @param int $maxRedemptions
      * @param DateTime $startDate
      * @param DateTime $endDate
-     * @param string | null $tagId
+     * @param string $productId
+     * @param int $quantity
+     * @param bool $flagApplyCatalogPromotions
      */
     public function __construct(
-        $name,
         $promotionTypeId,
         $value,
         $reducesTaxSubtotal,
         $maxRedemptions,
         $startDate,
         $endDate,
-        $tagId = null
+        $productId,
+        $quantity,
+        $flagApplyCatalogPromotions
     ) {
-        $this->catalogPromotionId = Uuid::uuid4();
-        $this->name = $name;
+        $this->productQuantityDiscountId = Uuid::uuid4();
         $this->promotionTypeId = $promotionTypeId;
         $this->value = $value;
         $this->reducesTaxSubtotal = $reducesTaxSubtotal;
-        $this->maxRedemptions = $maxRedemptions;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
-
-        if ($tagId !== null) {
-            $this->tagId = Uuid::fromString($tagId);
-        }
+        $this->productId = Uuid::fromString($productId);
+        $this->quantity = $quantity;
+        $this->flagApplyCatalogPromotions = $flagApplyCatalogPromotions;
     }
 
-    public function getCatalogPromotionId()
+    public function getProductQuantityDiscountId()
     {
-        return $this->catalogPromotionId;
+        return $this->productQuantityDiscountId;
     }
 
     public function getName()
@@ -109,8 +109,18 @@ final class CreateCatalogPromotionCommand implements CommandInterface
         return $this->endDate;
     }
 
-    public function getTagId()
+    public function getProductId()
     {
-        return $this->tagId;
+        return $this->productId;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    public function getFlagApplyCatalogPromotions()
+    {
+        return $this->flagApplyCatalogPromotions;
     }
 }

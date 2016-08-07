@@ -4,6 +4,7 @@ namespace inklabs\kommerce\Entity;
 use DateTime;
 use inklabs\kommerce\Exception\BadMethodCallException;
 use inklabs\kommerce\Lib\PricingInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,9 +21,9 @@ class ProductQuantityDiscount extends AbstractPromotion
     /** @var Product */
     protected $product;
 
-    public function __construct(Product $product)
+    public function __construct(Product $product, UuidInterface $id = null)
     {
-        parent::__construct();
+        parent::__construct($id);
         $this->setFlagApplyCatalogPromotions(false);
         $this->product = $product;
         $product->addProductQuantityDiscount($this);

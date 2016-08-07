@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,9 +22,9 @@ abstract class AbstractPromotion implements IdEntityInterface, ValidationInterfa
     /** @var boolean */
     protected $reducesTaxSubtotal;
 
-    public function __construct()
+    public function __construct(UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->setType(PromotionType::fixed());
         $this->setRedemptions(0);

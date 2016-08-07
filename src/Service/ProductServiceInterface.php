@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\UuidInterface;
@@ -12,6 +13,10 @@ interface ProductServiceInterface
     public function create(Product & $product);
     public function update(Product & $product);
     public function delete(Product $product);
+
+    public function createProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount);
+    public function updateProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount);
+    public function deleteProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount);
 
     /**
      * @param UuidInterface $id

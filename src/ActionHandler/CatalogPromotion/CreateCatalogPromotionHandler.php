@@ -33,6 +33,7 @@ final class CreateCatalogPromotionHandler
         $catalogPromotion->setType(PromotionType::createById($command->getPromotionTypeId()));
         $catalogPromotion->setValue($command->getValue());
         $catalogPromotion->setReducesTaxSubtotal($command->getReducesTaxSubtotal());
+        $catalogPromotion->setMaxRedemptions($command->getMaxRedemptions());
         $catalogPromotion->setStart($command->getStartDate());
         $catalogPromotion->setEnd($command->getEndDate());
 
