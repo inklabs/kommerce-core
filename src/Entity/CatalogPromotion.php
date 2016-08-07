@@ -7,8 +7,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CatalogPromotion extends AbstractPromotion
 {
-    /** @var string */
-    protected $code;
+    /**
+     * @var string
+     * @deprecated
+     * */
+    protected $code = 'd';
 
     /** @var Tag */
     protected $tag;
@@ -23,11 +26,19 @@ class CatalogPromotion extends AbstractPromotion
         ]));
     }
 
+    /**
+     * @param $code
+     * @deprecated
+     */
     public function setCode($code)
     {
         $this->code = (string) $code;
     }
 
+    /**
+     * @return string
+     * @deprecated
+     */
     public function getCode()
     {
         return $this->code;

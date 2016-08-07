@@ -13,7 +13,7 @@ class CatalogPromotionTest extends EntityTestCase
 
         $this->assertTrue($catalogPromotion->getId() instanceof UuidInterface);
         $this->assertTrue($catalogPromotion->getCreated() instanceof DateTime);
-        $this->assertSame(null, $catalogPromotion->getCode());
+        $this->assertSame('d', $catalogPromotion->getCode());
         $this->assertSame(null, $catalogPromotion->getTag());
     }
 
