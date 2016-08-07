@@ -74,11 +74,6 @@ final class CreateProductQuantityDiscountCommand implements CommandInterface
         return $this->productQuantityDiscountId;
     }
 
-    public function getName()
-    {
-        return $this->name;
-    }
-
     public function getPromotionTypeId()
     {
         return $this->promotionTypeId;
