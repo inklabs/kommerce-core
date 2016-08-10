@@ -17,7 +17,7 @@ used to track changes in this project.
 - [#40](../../issues/40): Change ProductRepository::getRelatedProductsByIds to not require $tagIds
 - [#47](../../issues/47): Modify OrderItem to require Order in the constructor
 - Deprecated CatalogPromotion.code
-- Changed CreateCouponCommand from using a DTO to scalar types.
+- Changed CreateCouponCommand from using a DTO to scalar types
 
 ### DB Migration
 - TBD
