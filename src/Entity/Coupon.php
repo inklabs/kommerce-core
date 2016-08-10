@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,10 +25,11 @@ class Coupon extends AbstractPromotion
 
     /**
      * @param string $code
+     * @param UuidInterface $id
      */
-    public function __construct($code)
+    public function __construct($code, UuidInterface $id = null)
     {
-        parent::__construct();
+        parent::__construct($id);
         $this->flagFreeShipping = false;
         $this->canCombineWithOtherCoupons = false;
         $this->setCode($code);
