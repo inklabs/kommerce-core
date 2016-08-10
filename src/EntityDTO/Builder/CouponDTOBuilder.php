@@ -29,13 +29,6 @@ class CouponDTOBuilder extends AbstractPromotionDTOBuilder
         $this->entityDTO->canCombineWithOtherCoupons = $this->entity->getCanCombineWithOtherCoupons();
     }
 
-    public static function createFromDTO(CouponDTO $couponDTO)
-    {
-        $coupon = new Coupon($couponDTO->code);
-        self::setFromDTO($coupon, $couponDTO);
-        return $coupon;
-    }
-
     public static function setFromDTO(Coupon & $coupon, CouponDTO $couponDTO)
     {
         $coupon->setCode($couponDTO->code);

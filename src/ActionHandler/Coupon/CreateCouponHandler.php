@@ -2,6 +2,8 @@
 namespace inklabs\kommerce\ActionHandler\Coupon;
 
 use inklabs\kommerce\Action\Coupon\CreateCouponCommand;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\EntityDTO\Builder\CouponDTOBuilder;
 use inklabs\kommerce\Service\CouponServiceInterface;
 
@@ -17,7 +19,19 @@ final class CreateCouponHandler
 
     public function handle(CreateCouponCommand $command)
     {
-        $coupon = CouponDTOBuilder::createFromDTO($command->getCouponDTO());
+        $coupon = new Coupon(
+            $command->getCode(),
+            $command->getCouponId()
+        );
+
+        $coupon->setName($command->getName());
+        $coupon->setType(PromotionType::createById($command->getPromotionTypeId()));
+        $coupon->setValue($command->getValue());
+        $coupon->setReducesTaxSubtotal($command->getReducesTaxSubtotal());
+        $coupon->setMaxRedemptions($command->getMaxRedemptions());
+        $coupon->setStart($command->getStartDate());
+        $coupon->setEnd($command->getEndDate());
+
         $this->couponService->create($coupon);
     }
 }
