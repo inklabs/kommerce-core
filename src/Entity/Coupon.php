@@ -82,11 +82,15 @@ class Coupon extends AbstractPromotion
     }
 
     /**
-     * @param int $minOrderValue
+     * @param int | null $minOrderValue
      */
     public function setMinOrderValue($minOrderValue)
     {
-        $this->minOrderValue = (int) $minOrderValue;
+        if ($minOrderValue !== null) {
+            $minOrderValue = (int) $minOrderValue;
+        }
+
+        $this->minOrderValue = $minOrderValue;
     }
 
     public function getMinOrderValue()
@@ -95,11 +99,15 @@ class Coupon extends AbstractPromotion
     }
 
     /**
-     * @param int $maxOrderValue
+     * @param int | null $maxOrderValue
      */
     public function setMaxOrderValue($maxOrderValue)
     {
-        $this->maxOrderValue = (int) $maxOrderValue;
+        if ($maxOrderValue !== null) {
+            $maxOrderValue = (int) $maxOrderValue;
+        }
+
+        $this->maxOrderValue = $maxOrderValue;
     }
 
     public function getMaxOrderValue()
