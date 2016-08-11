@@ -24,6 +24,11 @@ final class CreateCouponHandler
             $command->getCouponId()
         );
 
+        $coupon->setFlagFreeShipping($command->getFlagFreeShipping());
+        $coupon->setMinOrderValue($command->getMinOrderValue());
+        $coupon->setMaxOrderValue($command->getMaxOrderValue());
+        $coupon->setCanCombineWithOtherCoupons($command->canCombineWithOtherCoupons());
+
         $coupon->setName($command->getName());
         $coupon->setType(PromotionType::createById($command->getPromotionTypeId()));
         $coupon->setValue($command->getValue());

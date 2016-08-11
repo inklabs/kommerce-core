@@ -101,7 +101,7 @@ final class CreateCouponCommand implements CommandInterface
         return $this->code;
     }
 
-    public function isFlagFreeShipping()
+    public function getFlagFreeShipping()
     {
         return $this->flagFreeShipping;
     }
@@ -116,7 +116,7 @@ final class CreateCouponCommand implements CommandInterface
         return $this->maxOrderValue;
     }
 
-    public function isCanCombineWithOtherCoupons()
+    public function canCombineWithOtherCoupons()
     {
         return $this->canCombineWithOtherCoupons;
     }
