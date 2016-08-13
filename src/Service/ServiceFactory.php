@@ -223,7 +223,7 @@ class ServiceFactory
         return new OrderService(
             $this->eventDispatcher,
             $this->getInventoryService(),
-            $this->repositoryFactory->getOrderRepository(),
+            $this->repositoryFactory->getOrderWithHashSegmentGenerator(),
             $this->repositoryFactory->getOrderItemRepository(),
             $this->paymentGateway,
             $this->repositoryFactory->getProductRepository(),
