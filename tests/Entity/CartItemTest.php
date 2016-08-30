@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Exception\AttachmentException;
+use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
@@ -56,6 +57,21 @@ class CartItemTest extends EntityTestCase
         $this->assertSame($cartItemOptionProduct, $cartItem->getCartItemOptionProducts()[0]);
         $this->assertSame($cartItemOptionValue, $cartItem->getCartItemOptionValues()[0]);
         $this->assertSame($cartItemTextOptionValue, $cartItem->getCartItemTextOptionValues()[0]);
+    }
+
+    /**
+     * @TODO: Do not allow zero quantity
+     */
+    public function testInvalidNegativeQuantity()
+    {
+        $cartItem = $this->dummyData->getCartItem();
+
+        $this->setExpectedException(
+            InvalidCartActionException::class,
+            'Invalid quantity: -1'
+        );
+
+        $cartItem->setQuantity(-1);
     }
 
     public function testClone()

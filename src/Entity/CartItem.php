@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use inklabs\kommerce\Exception\AttachmentException;
+use inklabs\kommerce\Exception\InvalidCartActionException;
 use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -117,6 +118,9 @@ class CartItem implements IdEntityInterface, ValidationInterface, EnabledAttachm
 
     public function setQuantity($quantity)
     {
+        if ($quantity < 0) {
+            throw InvalidCartActionException::invalidQuantity($quantity);
+        }
         $this->quantity = (int) $quantity;
     }
 
