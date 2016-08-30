@@ -25,9 +25,7 @@ class EntityValidator
                 $message .= $error->getPropertyPath() . ', '  . $error->getMessage() . PHP_EOL;
             }
 
-            $exception = new EntityValidatorException($message);
-            $exception->errors = $errors;
-            throw $exception;
+            throw EntityValidatorException::withErrors($message, $errors);
         }
     }
 }
