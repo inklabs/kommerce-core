@@ -12,8 +12,12 @@ class EntityValidatorException extends Kommerce400Exception
     /** @var ConstraintViolationListInterface */
     private $errors;
 
-    public function __construct($message, $code = 400, Exception $previous = null, ConstraintViolationList $errors)
-    {
+    public function __construct(
+        $message,
+        $code = 400,
+        Exception $previous = null,
+        ConstraintViolationList $errors = null
+    ) {
         parent::__construct($message, $code, $previous);
         $this->errors = $errors;
     }
