@@ -147,7 +147,7 @@ class ShipmentRate implements ValidationInterface
      */
     public function setDeliveryDate(DateTime $deliveryDate = null)
     {
-        $this->deliveryDate = $deliveryDate->gettimestamp();
+        $this->deliveryDate = $deliveryDate->getTimestamp();
     }
 
     /**

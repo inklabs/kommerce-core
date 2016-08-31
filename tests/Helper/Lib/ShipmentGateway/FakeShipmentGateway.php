@@ -28,7 +28,7 @@ class FakeShipmentGateway implements ShipmentGatewayInterface
     {
         $dummyData = new DummyData;
 
-        $shipmentExternalId = 'shp_xxxxxxxx';
+        $shipmentExternalId = $this->getRandomShipmentExternalId();
 
         $shipmentRate1 = $dummyData->getShipmentRate(225);
         $shipmentRate1->setDeliveryDays(7);
@@ -86,7 +86,15 @@ class FakeShipmentGateway implements ShipmentGatewayInterface
 
         $shipmentRate = $dummyData->getShipmentRate(225);
         $shipmentRate->setDeliveryDays(7);
-        $shipmentRate->setShipmentExternalId('shp_xxxxxxxx');
+        $shipmentRate->setShipmentExternalId($shipmentRateExternalId);
         return $shipmentRate;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRandomShipmentExternalId()
+    {
+        return 'shp_' . uniqid();
     }
 }
