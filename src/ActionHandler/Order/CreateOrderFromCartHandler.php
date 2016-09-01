@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\CreateOrderFromCartCommand;
-use inklabs\kommerce\Entity\EntityValidatorException;
+use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\EntityDTO\Builder\CreditCardDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;

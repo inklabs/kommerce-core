@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity\EntityValidatorException;
+use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Exception\EntityNotFoundException;

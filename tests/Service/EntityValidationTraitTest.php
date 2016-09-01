@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity\EntityValidatorException;
+use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 use inklabs\kommerce\tests\Helper\Entity\InvalidEntity;
 

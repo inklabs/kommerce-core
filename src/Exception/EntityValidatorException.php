@@ -1,5 +1,5 @@
 <?php
-namespace inklabs\kommerce\Entity;
+namespace inklabs\kommerce\Exception;
 
 use Exception;
 use inklabs\kommerce\Exception\Kommerce400Exception;
