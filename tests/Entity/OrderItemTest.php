@@ -105,7 +105,7 @@ class OrderItemTest extends EntityTestCase
         $this->assertSame('Free Entry Line Item', $orderItem->getName());
     }
 
-    public function testGetShippingWeight()
+    public function testGetQuantityShippingWeight()
     {
         $product1 = $this->dummyData->getProduct();
         $product1->setShippingWeight(1);
@@ -115,7 +115,8 @@ class OrderItemTest extends EntityTestCase
         $orderItem->setProduct($product1);
         $orderItem->setQuantity(2);
 
-        $this->assertSame(2, $orderItem->getShippingWeight());
+        $this->assertSame(1, $orderItem->getShippingWeight());
+        $this->assertSame(2, $orderItem->getQuantityShippingWeight());
 
         $product2 = $this->dummyData->getProduct();
         $product2->setShippingWeight(3);
@@ -124,7 +125,7 @@ class OrderItemTest extends EntityTestCase
         $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
         $orderItem->addOrderItemOptionProduct($orderItemOptionProduct);
 
-        $this->assertSame(14, $orderItem->getShippingWeight());
+        $this->assertSame(14, $orderItem->getQuantityShippingWeight());
 
         $optionValue = $this->dummyData->getOptionValue();
         $optionValue->setShippingWeight(5);
@@ -132,7 +133,8 @@ class OrderItemTest extends EntityTestCase
         $orderItem->addOrderItemOptionValue($orderItemOptionValue);
         $orderItem->addOrderItemOptionValue($orderItemOptionValue);
 
-        $this->assertSame(34, $orderItem->getShippingWeight());
+        $this->assertSame(17, $orderItem->getShippingWeight());
+        $this->assertSame(34, $orderItem->getQuantityShippingWeight());
     }
 
     public function testAddRemoveAttachmentViaProduct()

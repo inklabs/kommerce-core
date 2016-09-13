@@ -41,6 +41,7 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
 
         if ($this->entity->getProduct() !== null) {
             $this->entityDTO->shippingWeight = $this->entity->getShippingWeight();
+            $this->entityDTO->quantityShippingWeight = $this->entity->getQuantityShippingWeight();
             $this->entityDTO->product = $this->dtoBuilderFactory
                 ->getProductDTOBuilder($this->entity->getProduct())
                 ->withTags()

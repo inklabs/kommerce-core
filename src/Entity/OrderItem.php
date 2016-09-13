@@ -276,7 +276,21 @@ class OrderItem implements IdEntityInterface, ValidationInterface, EnabledAttach
 
     /**
      * TODO: Flatten this value
-     * shipping weight in ounces
+     *
+     * @param int | null $quantity
+     * @return int shipping weight in ounces
+     */
+    public function getQuantityShippingWeight($quantity = null)
+    {
+        if ($quantity === null) {
+            $quantity = $this->quantity;
+        }
+
+        return $this->getShippingWeight() * (int) $quantity;
+    }
+
+    /**
+     * @return int shipping weight in ounces
      */
     public function getShippingWeight()
     {
@@ -292,9 +306,7 @@ class OrderItem implements IdEntityInterface, ValidationInterface, EnabledAttach
 
         // No shippingWeight for orderItemTextOptionValues
 
-        $quantityShippingWeight = $shippingWeight * $this->quantity;
-
-        return $quantityShippingWeight;
+        return $shippingWeight;
     }
 
     public function isShipmentFullyShipped(Shipment $shipment)

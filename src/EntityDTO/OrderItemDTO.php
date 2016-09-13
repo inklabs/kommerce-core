@@ -20,6 +20,9 @@ class OrderItemDTO
     /** @var int (in ounces) */
     public $shippingWeight;
 
+    /** @var int (in ounces) */
+    public $quantityShippingWeight;
+
     /** @var boolean */
     public $areAttachmentsEnabled;
 

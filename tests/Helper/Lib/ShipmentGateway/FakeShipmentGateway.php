@@ -32,10 +32,12 @@ class FakeShipmentGateway implements ShipmentGatewayInterface
 
         $shipmentRate1 = $dummyData->getShipmentRate(225);
         $shipmentRate1->setDeliveryDays(7);
+        $shipmentRate1->setDeliveryDate(new DateTime('+7 days'));
         $shipmentRate1->setShipmentExternalId($shipmentExternalId);
 
         $shipmentRate2 = $dummyData->getShipmentRate(775);
         $shipmentRate2->setDeliveryDays(3);
+        $shipmentRate2->setDeliveryDate(new DateTime('+3 days'));
         $shipmentRate2->setShipmentExternalId($shipmentExternalId);
 
         $shipmentRate3 = $dummyData->getShipmentRate(1195);
