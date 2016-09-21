@@ -6,7 +6,7 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class OptionServiceTest extends ServiceTestCase
 {
-    /** @var OptionRepositoryInterface | \Mockery\Mock */
+    /** @var OptionRepositoryInterface|\Mockery\Mock */
     protected $optionRepository;
 
     /** @var OptionService */

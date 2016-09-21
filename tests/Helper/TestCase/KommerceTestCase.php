@@ -188,8 +188,8 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $exceptionClassName
-     * @param string | null $message
-     * @param int | string | null $code
+     * @param string|null $message
+     * @param int|string|null $code
      */
     public function setExpectedException($exceptionClassName, $message = null, $code = null)
     {

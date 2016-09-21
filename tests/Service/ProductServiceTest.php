@@ -8,13 +8,13 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class ProductServiceTest extends ServiceTestCase
 {
-    /** @var ProductRepositoryInterface | \Mockery\Mock */
+    /** @var ProductRepositoryInterface|\Mockery\Mock */
     protected $productRepository;
 
-    /** @var TagRepositoryInterface | \Mockery\Mock */
+    /** @var TagRepositoryInterface|\Mockery\Mock */
     protected $tagRepository;
 
-    /** @var ImageRepositoryInterface | \Mockery\Mock */
+    /** @var ImageRepositoryInterface|\Mockery\Mock */
     protected $imageRepository;
 
     /** @var ProductService */

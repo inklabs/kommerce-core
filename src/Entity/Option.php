@@ -22,7 +22,7 @@ class Option implements IdEntityInterface, ValidationInterface
     /** @var int */
     protected $sortOrder;
 
-    /** @var Tag[] | ArrayCollection */
+    /** @var Tag[]|ArrayCollection */
     protected $tags;
 
     /** @var OptionProduct[] */

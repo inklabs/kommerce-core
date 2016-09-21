@@ -33,7 +33,7 @@ class EntityValidatorException extends Kommerce400Exception
     }
 
     /**
-     * @return ConstraintViolationListInterface | ConstraintViolationInterface[]
+     * @return ConstraintViolationListInterface|ConstraintViolationInterface[]
      */
     public function getErrors()
     {

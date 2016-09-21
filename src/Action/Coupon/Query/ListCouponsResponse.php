@@ -25,7 +25,7 @@ class ListCouponsResponse implements ListCouponsResponseInterface
     }
 
     /**
-     * @return CouponDTO[] | \Generator
+     * @return CouponDTO[]|\Generator
      */
     public function getCouponDTOs()
     {

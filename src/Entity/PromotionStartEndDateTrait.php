@@ -7,10 +7,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait PromotionStartEndDateTrait
 {
-    /** @var int | null */
+    /** @var int|null */
     protected $start;
 
-    /** @var int | null */
+    /** @var int|null */
     protected $end;
 
     public static function loadPromotionStartEndDateValidatorMetadata(ClassMetadata $metadata)

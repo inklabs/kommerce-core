@@ -164,8 +164,8 @@ class CartService implements CartServiceInterface
     /**
      * @param UuidInterface $cartId
      * @param string $ip4
-     * @param UuidInterface | null $userId
-     * @param string | null $sessionId
+     * @param UuidInterface|null $userId
+     * @param string|null $sessionId
      * @return Cart
      * @throws InvalidArgumentException
      */
@@ -290,7 +290,7 @@ class CartService implements CartServiceInterface
 
     /**
      * @param TextOptionValueDTO[] $textOptionValueDTOs
-     * @return ArrayCollection | TextOption[]
+     * @return ArrayCollection|TextOption[]
      */
     private function getTextOptionsCollection(array $textOptionValueDTOs)
     {

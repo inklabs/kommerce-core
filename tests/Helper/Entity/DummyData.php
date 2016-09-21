@@ -747,8 +747,8 @@ class DummyData
     }
 
     /**
-     * @param CatalogPromotion[] | null $catalogPromotions
-     * @param ProductQuantityDiscount[] | null $productQuantityDiscounts
+     * @param CatalogPromotion[]|null $catalogPromotions
+     * @param ProductQuantityDiscount[]|null $productQuantityDiscounts
      * @return Pricing
      */
     public function getPricing(array $catalogPromotions = null, array $productQuantityDiscounts = null)

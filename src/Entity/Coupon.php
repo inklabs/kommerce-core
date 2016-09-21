@@ -82,7 +82,7 @@ class Coupon extends AbstractPromotion
     }
 
     /**
-     * @param int | null $minOrderValue
+     * @param int|null $minOrderValue
      */
     public function setMinOrderValue($minOrderValue)
     {
@@ -99,7 +99,7 @@ class Coupon extends AbstractPromotion
     }
 
     /**
-     * @param int | null $maxOrderValue
+     * @param int|null $maxOrderValue
      */
     public function setMaxOrderValue($maxOrderValue)
     {

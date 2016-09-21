@@ -13,7 +13,7 @@ class LocalFileManager implements FileManagerInterface
     /** @var string */
     private $destinationPath;
 
-    /** @var null | string */
+    /** @var null|string */
     private $uriPrefix;
 
     /** @var int[] */
@@ -24,7 +24,7 @@ class LocalFileManager implements FileManagerInterface
      * /full/path/abc/def/abcdefxxx.jpg
      *
      * @param string $destinationPath /full/path
-     * @param null | string $uriPrefix /uri/prefix
+     * @param null|string $uriPrefix /uri/prefix
      * @param int[] $allowedImageTypes
      * @throws FileManagerException
      */

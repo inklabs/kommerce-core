@@ -15,13 +15,13 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class UserServiceTest extends ServiceTestCase
 {
-    /** @var UserRepositoryInterface | \Mockery\Mock */
+    /** @var UserRepositoryInterface|\Mockery\Mock */
     protected $userRepository;
 
-    /** @var UserLoginRepositoryInterface | \Mockery\Mock */
+    /** @var UserLoginRepositoryInterface|\Mockery\Mock */
     protected $userLoginRepository;
 
-    /** @var UserTokenRepositoryInterface | \Mockery\Mock */
+    /** @var UserTokenRepositoryInterface|\Mockery\Mock */
     protected $userTokenRepository;
 
     /** @var FakeEventDispatcher */

@@ -157,7 +157,7 @@ class OrderItemDTOBuilder implements DTOBuilderInterface
     }
 
     /**
-     * @param OrderDTO | null $orderDTO
+     * @param OrderDTO|null $orderDTO
      * @return static
      */
     public function withAllData(OrderDTO $orderDTO = null)

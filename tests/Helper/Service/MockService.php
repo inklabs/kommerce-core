@@ -42,7 +42,7 @@ class MockService
     }
 
     /**
-     * @return AttachmentServiceInterface | Mockery\Mock
+     * @return AttachmentServiceInterface|Mockery\Mock
      */
     public function getAttachmentService()
     {
@@ -51,7 +51,7 @@ class MockService
     }
 
     /**
-     * @return CartServiceInterface | Mockery\Mock
+     * @return CartServiceInterface|Mockery\Mock
      */
     public function getCartService()
     {
@@ -71,7 +71,7 @@ class MockService
     }
 
     /**
-     * @return CatalogPromotionServiceInterface | Mockery\Mock
+     * @return CatalogPromotionServiceInterface|Mockery\Mock
      */
     public function getCatalogPromotionService()
     {
@@ -85,7 +85,7 @@ class MockService
     }
 
     /**
-     * @return CouponServiceInterface | Mockery\Mock
+     * @return CouponServiceInterface|Mockery\Mock
      */
     public function getCouponService()
     {
@@ -102,7 +102,7 @@ class MockService
     }
 
     /**
-     * @return FileManagerInterface | Mockery\Mock
+     * @return FileManagerInterface|Mockery\Mock
      */
     public function getFileManager()
     {
@@ -111,7 +111,7 @@ class MockService
     }
 
     /**
-     * @return InventoryServiceInterface | Mockery\Mock
+     * @return InventoryServiceInterface|Mockery\Mock
      */
     public function getInventoryService()
     {
@@ -120,7 +120,7 @@ class MockService
     }
 
     /**
-     * @return ImageServiceInterface | Mockery\Mock
+     * @return ImageServiceInterface|Mockery\Mock
      */
     public function getImageService()
     {
@@ -129,7 +129,7 @@ class MockService
     }
 
     /**
-     * @return ImportOrderServiceInterface | Mockery\Mock
+     * @return ImportOrderServiceInterface|Mockery\Mock
      */
     public function getImportOrderService()
     {
@@ -137,7 +137,7 @@ class MockService
         return $importOrderService;
     }
     /**
-     * @return ImportOrderItemServiceInterface | Mockery\Mock
+     * @return ImportOrderItemServiceInterface|Mockery\Mock
      */
     public function getImportOrderItemService()
     {
@@ -146,7 +146,7 @@ class MockService
     }
 
     /**
-     * @return ImportPaymentServiceInterface | Mockery\Mock
+     * @return ImportPaymentServiceInterface|Mockery\Mock
      */
     public function getImportPaymentService()
     {
@@ -155,7 +155,7 @@ class MockService
     }
 
     /**
-     * @return ImportUserServiceInterface | Mockery\Mock
+     * @return ImportUserServiceInterface|Mockery\Mock
      */
     public function getImportUserService()
     {
@@ -164,7 +164,7 @@ class MockService
     }
 
     /**
-     * @return OptionServiceInterface | Mockery\Mock
+     * @return OptionServiceInterface|Mockery\Mock
      */
     public function getOptionService()
     {
@@ -186,7 +186,7 @@ class MockService
     }
 
     /**
-     * @return OrderServiceInterface | Mockery\Mock
+     * @return OrderServiceInterface|Mockery\Mock
      */
     public function getOrderService()
     {
@@ -204,7 +204,7 @@ class MockService
     }
 
     /**
-     * @return ProductServiceInterface | Mockery\Mock
+     * @return ProductServiceInterface|Mockery\Mock
      */
     public function getProductService()
     {
@@ -224,7 +224,7 @@ class MockService
     }
 
     /**
-     * @return ShipmentGatewayInterface | Mockery\Mock
+     * @return ShipmentGatewayInterface|Mockery\Mock
      */
     public function getShipmentGateway()
     {
@@ -238,7 +238,7 @@ class MockService
     }
 
     /**
-     * @return TagServiceInterface | Mockery\Mock
+     * @return TagServiceInterface|Mockery\Mock
      */
     public function getTagService()
     {
@@ -255,7 +255,7 @@ class MockService
     }
 
     /**
-     * @return TaxRateServiceInterface | Mockery\Mock
+     * @return TaxRateServiceInterface|Mockery\Mock
      */
     public function getTaxRateService()
     {
@@ -271,7 +271,7 @@ class MockService
     }
 
     /**
-     * @return UserServiceInterface | Mockery\Mock
+     * @return UserServiceInterface|Mockery\Mock
      */
     public function getUserService()
     {

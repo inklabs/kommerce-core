@@ -124,8 +124,8 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
     }
 
     /**
-     * @param IdEntityInterface | IdEntityInterface[] $entities
-     * @return string | string[]
+     * @param IdEntityInterface|IdEntityInterface[] $entities
+     * @return string|string[]
      */
     private function getBytesFromEntities(& $entities)
     {
@@ -141,8 +141,8 @@ class QueryBuilder extends \Doctrine\ORM\QueryBuilder
     }
 
     /**
-     * @param UuidInterface | UuidInterface[] $ids
-     * @return string | string[]
+     * @param UuidInterface|UuidInterface[] $ids
+     * @return string|string[]
      */
     private function getBytesFromIds(& $ids)
     {

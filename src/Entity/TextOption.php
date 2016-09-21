@@ -22,7 +22,7 @@ class TextOption implements IdEntityInterface, ValidationInterface
     /** @var TextOptionType */
     protected $type;
 
-    /** @var ArrayCollection | Tag[] */
+    /** @var ArrayCollection|Tag[] */
     protected $tags;
 
     public function __construct(UuidInterface $id = null)

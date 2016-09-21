@@ -5,15 +5,15 @@ use DateTime;
 
 trait PromotionStartEndDateDTOTrait
 {
-    /** @var DateTime | null */
+    /** @var DateTime|null */
     public $start;
 
-    /** @var DateTime | null */
+    /** @var DateTime|null */
     public $end;
 
-    /** @var string | null */
+    /** @var string|null */
     public $startFormatted;
 
-    /** @var string | null */
+    /** @var string|null */
     public $endFormatted;
 }

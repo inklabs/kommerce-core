@@ -38,13 +38,13 @@ class OrderDTO
     /** @var OrderItemDTO[] */
     public $orderItems = [];
 
-    /** @var CreditPaymentDTO[] | CashPaymentDTO[] | CheckPaymentDTO[] */
+    /** @var CreditPaymentDTO[]|CashPaymentDTO[]|CheckPaymentDTO[] */
     public $payments = [];
 
     /** @var CouponDTO[] */
     public $coupons = [];
 
-    /** @var ShipmentRateDTO | null */
+    /** @var ShipmentRateDTO|null */
     public $shipmentRate;
 
     /** @var TaxRateDTO */

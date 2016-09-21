@@ -8,7 +8,7 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class TaxRateServiceTest extends ServiceTestCase
 {
-    /** @var TaxRateRepositoryInterface | \Mockery\Mock */
+    /** @var TaxRateRepositoryInterface|\Mockery\Mock */
     protected $taxRateRepository;
 
     /** @var TaxRateService */

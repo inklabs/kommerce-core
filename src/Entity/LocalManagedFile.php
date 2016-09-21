@@ -27,7 +27,7 @@ class LocalManagedFile implements ManagedFileInterface
     /** @var string */
     private $mimeType;
 
-    /** @var null | string */
+    /** @var null|string */
     private $uriPrefix;
 
     public function __construct(

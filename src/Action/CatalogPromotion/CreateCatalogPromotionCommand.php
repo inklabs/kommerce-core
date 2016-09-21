@@ -32,7 +32,7 @@ final class CreateCatalogPromotionCommand implements CommandInterface
     /** @var DateTime */
     private $endDate;
 
-    /** @var UuidInterface | null */
+    /** @var UuidInterface|null */
     private $tagId;
 
     /**
@@ -43,7 +43,7 @@ final class CreateCatalogPromotionCommand implements CommandInterface
      * @param int $maxRedemptions
      * @param DateTime $startDate
      * @param DateTime $endDate
-     * @param string | null $tagId
+     * @param string|null $tagId
      */
     public function __construct(
         $name,

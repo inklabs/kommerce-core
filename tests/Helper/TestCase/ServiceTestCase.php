@@ -92,8 +92,8 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
     }
 
     /**
-     * @param mixed | ServiceCRUDInterface $service
-     * @param mixed | Mock $repository
+     * @param mixed|ServiceCRUDInterface $service
+     * @param mixed|Mock $repository
      * @param EntityInterface $entity
      */
     protected function executeServiceCRUD($service, $repository, EntityInterface $entity)
@@ -120,7 +120,7 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
     }
 
     /**
-     * @param MockInterface | Mock $service
+     * @param MockInterface|Mock $service
      * @param IdEntityInterface $entity
      */
     protected function serviceShouldGetOneById(MockInterface $service, IdEntityInterface $entity)
@@ -132,7 +132,7 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
     }
 
     /**
-     * @param MockInterface | Mock $service
+     * @param MockInterface|Mock $service
      * @param IdEntityInterface $entity
      */
     protected function serviceShouldUpdate(MockInterface $service, IdEntityInterface $entity)
@@ -143,7 +143,7 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
     }
 
     /**
-     * @param MockInterface | Mock $service
+     * @param MockInterface|Mock $service
      * @param IdEntityInterface $entity
      */
     protected function serviceShouldDelete(MockInterface $service, IdEntityInterface $entity)

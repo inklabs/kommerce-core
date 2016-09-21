@@ -277,7 +277,7 @@ class OrderItem implements IdEntityInterface, ValidationInterface, EnabledAttach
     /**
      * TODO: Flatten this value
      *
-     * @param int | null $quantity
+     * @param int|null $quantity
      * @return int shipping weight in ounces
      */
     public function getQuantityShippingWeight($quantity = null)

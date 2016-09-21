@@ -33,37 +33,37 @@ class CartServiceTest extends ServiceTestCase
     /** @var CartCalculator */
     protected $cartCalculator;
 
-    /** @var CartRepositoryInterface | \Mockery\Mock */
+    /** @var CartRepositoryInterface|\Mockery\Mock */
     protected $cartRepository;
 
-    /** @var CouponRepositoryInterface | \Mockery\Mock */
+    /** @var CouponRepositoryInterface|\Mockery\Mock */
     protected $couponRepository;
 
     /** @var FakeEventDispatcher */
     protected $fakeEventDispatcher;
 
-    /** @var OptionProductRepositoryInterface | \Mockery\Mock */
+    /** @var OptionProductRepositoryInterface|\Mockery\Mock */
     protected $optionProductRepository;
 
-    /** @var OptionValueRepositoryInterface | \Mockery\Mock */
+    /** @var OptionValueRepositoryInterface|\Mockery\Mock */
     protected $optionValueRepository;
 
-    /** @var OrderRepositoryInterface | \Mockery\Mock */
+    /** @var OrderRepositoryInterface|\Mockery\Mock */
     protected $orderRepository;
 
-    /** @var ProductRepositoryInterface | \Mockery\Mock */
+    /** @var ProductRepositoryInterface|\Mockery\Mock */
     protected $productRepository;
 
     /** @var FakeShipmentGateway */
     protected $fakeShipmentGateway;
 
-    /** @var TaxRateRepositoryInterface | \Mockery\Mock */
+    /** @var TaxRateRepositoryInterface|\Mockery\Mock */
     protected $taxRateRepository;
 
-    /** @var TextOptionRepositoryInterface | \Mockery\Mock*/
+    /** @var TextOptionRepositoryInterface|\Mockery\Mock*/
     protected $textOptionRepository;
 
-    /** @var UserRepositoryInterface | \Mockery\Mock */
+    /** @var UserRepositoryInterface|\Mockery\Mock */
     protected $userRepository;
 
     /** @var InventoryLocationRepositoryInterface */

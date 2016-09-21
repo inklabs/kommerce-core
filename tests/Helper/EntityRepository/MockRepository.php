@@ -46,7 +46,7 @@ class MockRepository
     }
 
     /**
-     * @return AttachmentRepositoryInterface | Mockery\Mock
+     * @return AttachmentRepositoryInterface|Mockery\Mock
      */
     public function getAttachmentRepository()
     {
@@ -54,7 +54,7 @@ class MockRepository
     }
 
     /**
-     * @return AttributeRepositoryInterface | Mockery\Mock
+     * @return AttributeRepositoryInterface|Mockery\Mock
      */
     public function getAttributeRepository()
     {
@@ -62,7 +62,7 @@ class MockRepository
     }
 
     /**
-     * @return AttributeValueRepositoryInterface | Mockery\Mock
+     * @return AttributeValueRepositoryInterface|Mockery\Mock
      */
     public function getAttributeValueRepository()
     {
@@ -70,7 +70,7 @@ class MockRepository
     }
 
     /**
-     * @return CartRepositoryInterface | Mockery\Mock
+     * @return CartRepositoryInterface|Mockery\Mock
      */
     public function getCartRepository()
     {
@@ -78,7 +78,7 @@ class MockRepository
     }
 
     /**
-     * @return CartPriceRuleRepositoryInterface | Mockery\Mock
+     * @return CartPriceRuleRepositoryInterface|Mockery\Mock
      */
     public function getCartPriceRuleRepository()
     {
@@ -86,7 +86,7 @@ class MockRepository
     }
 
     /**
-     * @return CatalogPromotionRepositoryInterface | Mockery\Mock
+     * @return CatalogPromotionRepositoryInterface|Mockery\Mock
      */
     public function getCatalogPromotionRepository()
     {
@@ -94,7 +94,7 @@ class MockRepository
     }
 
     /**
-     * @return CouponRepositoryInterface | Mockery\Mock
+     * @return CouponRepositoryInterface|Mockery\Mock
      */
     public function getCouponRepository()
     {
@@ -102,7 +102,7 @@ class MockRepository
     }
 
     /**
-     * @return ImageRepositoryInterface | Mockery\Mock
+     * @return ImageRepositoryInterface|Mockery\Mock
      */
     public function getImageRepository()
     {
@@ -110,7 +110,7 @@ class MockRepository
     }
 
     /**
-     * @return InventoryLocationRepositoryInterface | Mockery\Mock
+     * @return InventoryLocationRepositoryInterface|Mockery\Mock
      */
     public function getInventoryLocationRepository()
     {
@@ -118,7 +118,7 @@ class MockRepository
     }
 
     /**
-     * @return InventoryTransactionRepositoryInterface | Mockery\Mock
+     * @return InventoryTransactionRepositoryInterface|Mockery\Mock
      */
     public function getInventoryTransactionRepository()
     {
@@ -126,7 +126,7 @@ class MockRepository
     }
 
     /**
-     * @return OptionRepositoryInterface | Mockery\Mock
+     * @return OptionRepositoryInterface|Mockery\Mock
      */
     public function getOptionRepository()
     {
@@ -134,7 +134,7 @@ class MockRepository
     }
 
     /**
-     * @return OptionProductRepositoryInterface | Mockery\Mock
+     * @return OptionProductRepositoryInterface|Mockery\Mock
      */
     public function getOptionProductRepository()
     {
@@ -142,7 +142,7 @@ class MockRepository
     }
 
     /**
-     * @return OptionValueRepositoryInterface | Mockery\Mock
+     * @return OptionValueRepositoryInterface|Mockery\Mock
      */
     public function getOptionValueRepository()
     {
@@ -150,7 +150,7 @@ class MockRepository
     }
 
     /**
-     * @return OrderRepositoryInterface | Mockery\Mock
+     * @return OrderRepositoryInterface|Mockery\Mock
      */
     public function getOrderRepository()
     {
@@ -158,7 +158,7 @@ class MockRepository
     }
 
     /**
-     * @return OrderItemRepositoryInterface | Mockery\Mock
+     * @return OrderItemRepositoryInterface|Mockery\Mock
      */
     public function getOrderItemRepository()
     {
@@ -166,7 +166,7 @@ class MockRepository
     }
 
     /**
-     * @return ProductRepositoryInterface | Mockery\Mock
+     * @return ProductRepositoryInterface|Mockery\Mock
      */
     public function getProductRepository()
     {
@@ -174,7 +174,7 @@ class MockRepository
     }
 
     /**
-     * @return TagRepositoryInterface | Mockery\Mock
+     * @return TagRepositoryInterface|Mockery\Mock
      */
     public function getTagRepository()
     {
@@ -182,7 +182,7 @@ class MockRepository
     }
 
     /**
-     * @return TextOptionRepositoryInterface | Mockery\Mock
+     * @return TextOptionRepositoryInterface|Mockery\Mock
      */
     public function getTextOptionRepository()
     {
@@ -190,7 +190,7 @@ class MockRepository
     }
 
     /**
-     * @return TaxRateRepositoryInterface | Mockery\Mock
+     * @return TaxRateRepositoryInterface|Mockery\Mock
      */
     public function getTaxRateRepository()
     {
@@ -198,7 +198,7 @@ class MockRepository
     }
 
     /**
-     * @return UserRepositoryInterface | Mockery\Mock
+     * @return UserRepositoryInterface|Mockery\Mock
      */
     public function getUserRepository()
     {
@@ -206,7 +206,7 @@ class MockRepository
     }
 
     /**
-     * @return UserLoginRepositoryInterface | Mockery\Mock
+     * @return UserLoginRepositoryInterface|Mockery\Mock
      */
     public function getUserLoginRepository()
     {
@@ -214,7 +214,7 @@ class MockRepository
     }
 
     /**
-     * @return UserTokenRepositoryInterface | Mockery\Mock
+     * @return UserTokenRepositoryInterface|Mockery\Mock
      */
     public function getUserTokenRepository()
     {

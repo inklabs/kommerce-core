@@ -9,7 +9,7 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class AttributeValueServiceTest extends ServiceTestCase
 {
-    /** @var AttributeValueRepositoryInterface | \Mockery\Mock */
+    /** @var AttributeValueRepositoryInterface|\Mockery\Mock */
     protected $attributeValueRepository;
 
     /** @var AttributeValueService */

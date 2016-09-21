@@ -19,10 +19,10 @@ class Price implements ValidationInterface
     /** @var int */
     public $quantityPrice;
 
-    /** @var CatalogPromotion[] | ArrayCollection | null */
+    /** @var CatalogPromotion[]|ArrayCollection|null */
     protected $catalogPromotions;
 
-    /** @var ProductQuantityDiscount[] | ArrayCollection | null */
+    /** @var ProductQuantityDiscount[]|ArrayCollection|null */
     protected $productQuantityDiscounts;
 
     public function __construct()

@@ -33,9 +33,9 @@ final class AddCartItemCommand implements CommandInterface
      * @param string $cartId
      * @param string $productId
      * @param int $quantity
-     * @param string[] | null $optionProductIds
-     * @param string[] | null $optionValuesIds
-     * @param TextOptionValueDTO[] | null $textOptionValueDTOs
+     * @param string[]|null $optionProductIds
+     * @param string[]|null $optionValuesIds
+     * @param TextOptionValueDTO[]|null $textOptionValueDTOs
      */
     public function __construct(
         $cartId,

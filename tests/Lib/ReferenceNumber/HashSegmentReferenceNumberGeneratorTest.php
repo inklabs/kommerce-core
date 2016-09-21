@@ -12,7 +12,7 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
     /** @var HashSegmentReferenceNumberGenerator */
     protected $hashSegmentGenerator;
 
-    /** @var ReferenceNumberRepositoryInterface | \Mockery\Mock */
+    /** @var ReferenceNumberRepositoryInterface|\Mockery\Mock */
     protected $repository;
 
     public function setUp()

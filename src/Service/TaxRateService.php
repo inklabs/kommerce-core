@@ -42,7 +42,7 @@ class TaxRateService implements TaxRateServiceInterface
     /**
      * @param string $zip5
      * @param string $state
-     * @return TaxRate | null
+     * @return TaxRate|null
      */
     public function findByZip5AndState($zip5 = null, $state = null)
     {

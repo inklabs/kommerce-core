@@ -16,7 +16,7 @@ class CartPriceRule implements IdEntityInterface, ValidationInterface
     /** @var boolean */
     protected $reducesTaxSubtotal;
 
-    /** @var CartPriceRuleProductItem[] | CartPriceRuleTagItem[] */
+    /** @var CartPriceRuleProductItem[]|CartPriceRuleTagItem[] */
     protected $cartPriceRuleItems;
 
     /** @var CartPriceRuleDiscount[] */
@@ -93,7 +93,7 @@ class CartPriceRule implements IdEntityInterface, ValidationInterface
     }
 
     /**
-     * @param ArrayCollection<CartItem> | CartItem[] $cartItems
+     * @param ArrayCollection<CartItem>|CartItem[] $cartItems
      * @return bool
      */
     public function areCartItemsValid(& $cartItems)

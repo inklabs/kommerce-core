@@ -6,7 +6,7 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class AttributeServiceTest extends ServiceTestCase
 {
-    /** @var AttributeRepositoryInterface | \Mockery\Mock */
+    /** @var AttributeRepositoryInterface|\Mockery\Mock */
     protected $attributeRepository;
 
     /** @var AttributeService */

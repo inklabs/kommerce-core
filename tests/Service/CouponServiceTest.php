@@ -9,7 +9,7 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class CouponServiceTest extends ServiceTestCase
 {
-    /** @var CouponRepositoryInterface | \Mockery\Mock */
+    /** @var CouponRepositoryInterface|\Mockery\Mock */
     protected $couponRepository;
 
     /** @var CouponService */

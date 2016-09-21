@@ -51,8 +51,8 @@ interface CartServiceInterface
     /**
      * @param UuidInterface $cartId
      * @param string $ip4
-     * @param UuidInterface | null $userId
-     * @param string | null $sessionId
+     * @param UuidInterface|null $userId
+     * @param string|null $sessionId
      * @return Cart
      * @throws InvalidArgumentException
      */

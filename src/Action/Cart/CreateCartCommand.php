@@ -21,8 +21,8 @@ final class CreateCartCommand implements CommandInterface
 
     /**
      * @param string $remoteIp4
-     * @param string | null $userId
-     * @param string | null $sessionId
+     * @param string|null $userId
+     * @param string|null $sessionId
      */
     public function __construct($remoteIp4, $userId = null, $sessionId = null)
     {

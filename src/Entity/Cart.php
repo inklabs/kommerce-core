@@ -30,10 +30,10 @@ class Cart implements IdEntityInterface, ValidationInterface
     /** @var TaxRate */
     protected $taxRate;
 
-    /** @var CartItem[] | ArrayCollection */
+    /** @var CartItem[]|ArrayCollection */
     protected $cartItems;
 
-    /** @var Coupon[] | ArrayCollection */
+    /** @var Coupon[]|ArrayCollection */
     protected $coupons;
 
     public function __construct(UuidInterface $id = null)
@@ -72,7 +72,7 @@ class Cart implements IdEntityInterface, ValidationInterface
     }
 
     /**
-     * @param string | null $sessionId
+     * @param string|null $sessionId
      */
     public function setSessionId($sessionId)
     {

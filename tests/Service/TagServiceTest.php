@@ -9,16 +9,16 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class TagServiceTest extends ServiceTestCase
 {
-    /** @var TagRepositoryInterface | \Mockery\Mock */
+    /** @var TagRepositoryInterface|\Mockery\Mock */
     protected $tagRepository;
 
-    /** @var ImageRepositoryInterface | \Mockery\Mock */
+    /** @var ImageRepositoryInterface|\Mockery\Mock */
     protected $imageRepository;
 
-    /** @var OptionRepositoryInterface | \Mockery\Mock */
+    /** @var OptionRepositoryInterface|\Mockery\Mock */
     protected $optionRepository;
 
-    /** @var TextOptionRepositoryInterface | \Mockery\Mock */
+    /** @var TextOptionRepositoryInterface|\Mockery\Mock */
     private $textOptionRepository;
 
     /** @var TagService */

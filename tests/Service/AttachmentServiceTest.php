@@ -18,19 +18,19 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class AttachmentServiceTest extends ServiceTestCase
 {
-    /** @var AttachmentRepositoryInterface | \Mockery\Mock */
+    /** @var AttachmentRepositoryInterface|\Mockery\Mock */
     private $attachmentRepository;
 
-    /** @var FileManagerInterface | \Mockery\Mock */
+    /** @var FileManagerInterface|\Mockery\Mock */
     private $fileManager;
 
-    /** @var OrderServiceInterface | \Mockery\Mock */
+    /** @var OrderServiceInterface|\Mockery\Mock */
     private $orderService;
 
-    /** @var ProductServiceInterface | \Mockery\Mock */
+    /** @var ProductServiceInterface|\Mockery\Mock */
     private $productService;
 
-    /** @var UserServiceInterface | \Mockery\Mock */
+    /** @var UserServiceInterface|\Mockery\Mock */
     private $userService;
 
     /** @var AttachmentService */

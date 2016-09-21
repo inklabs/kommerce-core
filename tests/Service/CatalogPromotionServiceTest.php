@@ -8,7 +8,7 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class CatalogPromotionServiceTest extends ServiceTestCase
 {
-    /** @var CatalogPromotionRepositoryInterface | \Mockery\Mock */
+    /** @var CatalogPromotionRepositoryInterface|\Mockery\Mock */
     protected $catalogPromotionRepository;
 
     /** @var CatalogPromotionService */

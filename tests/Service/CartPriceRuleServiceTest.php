@@ -9,7 +9,7 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class CartPriceRuleServiceTest extends ServiceTestCase
 {
-    /** @var CartPriceRuleRepositoryInterface | \Mockery\Mock */
+    /** @var CartPriceRuleRepositoryInterface|\Mockery\Mock */
     protected $cartPriceRuleRepository;
 
     /** @var CartPriceRuleService */

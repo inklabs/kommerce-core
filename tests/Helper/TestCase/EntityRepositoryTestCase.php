@@ -145,7 +145,7 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
     }
 
     /**
-     * @param EntityInterface | EntityInterface[] $entities
+     * @param EntityInterface|EntityInterface[] $entities
      */
     protected function persistEntityAndFlushClear($entities)
     {
