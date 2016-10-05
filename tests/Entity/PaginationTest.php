@@ -12,18 +12,19 @@ class PaginationTest extends EntityTestCase
         $this->assertSame(10, $pagination->getMaxResults());
         $this->assertSame(1, $pagination->getPage());
         $this->assertSame(null, $pagination->getTotal());
-        $this->assertTrue($pagination->isTotalIncluded());
+        $this->assertFalse($pagination->isTotalIncluded());
+        $this->assertTrue($pagination->shouldIncludeTotal());
     }
 
     public function testCreate()
     {
-        $pagination = new Pagination(10, 1);
+        $pagination = new Pagination(10, 1, false);
         $pagination->setTotal(100);
-        $pagination->setIsTotalIncluded(false);
 
         $this->assertSame(10, $pagination->getMaxResults());
         $this->assertSame(1, $pagination->getPage());
         $this->assertSame(100, $pagination->getTotal());
-        $this->assertFalse($pagination->isTotalIncluded());
+        $this->assertTrue($pagination->isTotalIncluded());
+        $this->assertFalse($pagination->shouldIncludeTotal());
     }
 }

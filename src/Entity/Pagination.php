@@ -9,18 +9,17 @@ class Pagination
     /** @var int */
     protected $page;
 
-    /** @var int */
+    /** @var int|null */
     protected $total;
 
     /** @var bool */
-    protected $isTotalIncluded;
+    protected $shouldIncludeTotal;
 
-    public function __construct($maxResults = 10, $page = 1)
+    public function __construct($maxResults = 10, $page = 1, $shouldIncludeTotal = true)
     {
         $this->maxResults = $maxResults;
         $this->page = $page;
-
-        $this->setIsTotalIncluded(true);
+        $this->shouldIncludeTotal = $shouldIncludeTotal;
     }
 
     public function getMaxResults()
@@ -46,16 +45,13 @@ class Pagination
         return $this->total;
     }
 
-    /**
-     * @param bool $isTotalIncluded
-     */
-    public function setIsTotalIncluded($isTotalIncluded)
-    {
-        $this->isTotalIncluded = (bool) $isTotalIncluded;
-    }
-
     public function isTotalIncluded()
     {
-        return $this->isTotalIncluded;
+        return $this->total !== null;
+    }
+
+    public function shouldIncludeTotal()
+    {
+        return $this->shouldIncludeTotal;
     }
 }

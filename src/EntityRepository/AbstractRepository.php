@@ -9,6 +9,9 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 abstract class AbstractRepository extends EntityRepository implements RepositoryInterface
 {
+    /**
+     * @return QueryBuilder
+     */
     public function getQueryBuilder()
     {
         return new QueryBuilder($this->getEntityManager());
