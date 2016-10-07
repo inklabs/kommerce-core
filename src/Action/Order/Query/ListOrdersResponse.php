@@ -37,6 +37,20 @@ class ListOrdersResponse implements ListOrdersResponseInterface
     }
 
     /**
+     * @return OrderDTO[]
+     */
+    public function getOrderWithUserDTOs()
+    {
+        $orderDTOs = [];
+        foreach ($this->orderDTOBuilders as $orderDTOBuilder) {
+            $orderDTOs[] = $orderDTOBuilder
+                ->withUser()
+                ->build();
+        }
+        return $orderDTOs;
+    }
+
+    /**
      * @return PaginationDTO
      */
     public function getPaginationDTO()
