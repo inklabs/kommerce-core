@@ -28,6 +28,7 @@ use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\InventoryTransactionType;
+use inklabs\kommerce\Entity\LocalManagedFile;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
@@ -876,6 +877,25 @@ class DummyData
             'http://lorempixel.com/400/200/',
             IMAGETYPE_JPEG,
             'image/jpeg'
+        );
+    }
+
+    public function getLocalManagedFile()
+    {
+        $fileExtension = 'jpg';
+        $basePath = '/tmp';
+        $mimeType = 'image/jpeg';
+        $imageType = IMAGETYPE_JPEG;
+        $width = 400;
+        $height = 400;
+
+        return new LocalManagedFile(
+            $fileExtension,
+            $basePath,
+            $imageType,
+            $mimeType,
+            $width,
+            $height
         );
     }
 

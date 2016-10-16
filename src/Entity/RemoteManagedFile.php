@@ -14,6 +14,12 @@ class RemoteManagedFile implements ManagedFileInterface
     /** @var string */
     private $mimeType;
 
+    /** @var int */
+    private $width;
+
+    /** @var int */
+    private $height;
+
     /**
      * @param string $uri
      * @param int $imageType
@@ -24,6 +30,9 @@ class RemoteManagedFile implements ManagedFileInterface
         $this->uri = (string) $uri;
         $this->imageType = (int) $imageType;
         $this->mimeType = (string) $mimeType;
+
+        $this->width = 0;
+        $this->height = 0;
     }
 
     public function getUri()
@@ -44,5 +53,21 @@ class RemoteManagedFile implements ManagedFileInterface
     public function getMimeType()
     {
         return $this->mimeType;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHeight()
+    {
+        return $this->height;
     }
 }

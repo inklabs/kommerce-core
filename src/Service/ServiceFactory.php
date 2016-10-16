@@ -150,6 +150,7 @@ class ServiceFactory
     public function getImageService()
     {
         return new ImageService(
+            $this->getFileManager(),
             $this->repositoryFactory->getImageRepository(),
             $this->repositoryFactory->getProductRepository(),
             $this->repositoryFactory->getTagRepository()

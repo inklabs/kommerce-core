@@ -22,4 +22,14 @@ interface ManagedFileInterface
      * @return string
      */
     public function getMimeType();
+
+    /**
+     * @return int
+     */
+    public function getWidth();
+
+    /**
+     * @return int
+     */
+    public function getHeight();
 }

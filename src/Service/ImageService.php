@@ -3,14 +3,19 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\EntityDTO\ImageDTO;
+use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 
 class ImageService implements ImageServiceInterface
 {
     use EntityValidationTrait;
+
+    /** @var FileManagerInterface */
+    private $fileManager;
 
     /** @var ImageRepositoryInterface */
     private $imageRepository;
@@ -22,6 +27,7 @@ class ImageService implements ImageServiceInterface
     private $tagRepository;
 
     public function __construct(
+        FileManagerInterface $fileManager,
         ImageRepositoryInterface $imageRepository,
         ProductRepositoryInterface $productRepository,
         TagRepositoryInterface $tagRepository
@@ -29,6 +35,7 @@ class ImageService implements ImageServiceInterface
         $this->imageRepository = $imageRepository;
         $this->productRepository = $productRepository;
         $this->tagRepository = $tagRepository;
+        $this->fileManager = $fileManager;
     }
 
     public function create(Image & $image)
@@ -43,21 +50,14 @@ class ImageService implements ImageServiceInterface
         $this->imageRepository->update($image);
     }
 
-    public function createFromDTOWithTag(UuidInterface $tagId, ImageDTO $imageDTO)
+    public function createImageForProduct(UploadFileDTO $uploadFileDTO, UuidInterface $productId)
     {
+        $managedFile = $this->fileManager->saveFile($uploadFileDTO->getFilePath());
+
         $image = new Image;
-        $this->setFromDTO($image, $imageDTO);
-
-        $tag = $this->tagRepository->findOneById($tagId);
-        $tag->addImage($image);
-
-        $this->create($image);
-    }
-
-    public function createFromDTOWithProduct(UuidInterface $productId, ImageDTO $imageDTO)
-    {
-        $image = new Image;
-        $this->setFromDTO($image, $imageDTO);
+        $image->setPath($managedFile->getUri());
+        $image->setWidth($managedFile->getWidth());
+        $image->setHeight($managedFile->getHeight());
 
         $product = $this->productRepository->findOneById($productId);
         $product->addImage($image);
@@ -65,12 +65,19 @@ class ImageService implements ImageServiceInterface
         $this->create($image);
     }
 
-    public function setFromDTO(Image & $image, ImageDTO $imageDTO)
+    public function createImageForTag(UploadFileDTO $uploadFileDTO, UuidInterface $tagId)
     {
-        $image->setpath($imageDTO->path);
-        $image->setWidth($imageDTO->width);
-        $image->setHeight($imageDTO->height);
-        $image->setSortOrder($imageDTO->sortOrder);
+        $managedFile = $this->fileManager->saveFile($uploadFileDTO->getFilePath());
+
+        $image = new Image;
+        $image->setPath($managedFile->getUri());
+        $image->setWidth($managedFile->getWidth());
+        $image->setHeight($managedFile->getHeight());
+
+        $tag = $this->tagRepository->findOneById($tagId);
+        $tag->addImage($image);
+
+        $this->create($image);
     }
 
     public function findOneById(UuidInterface $id)

@@ -25,6 +25,7 @@ class GetProductResponse implements GetProductResponseInterface
     public function getProductDTO()
     {
         return $this->productDTOBuilder
+            ->withPrice($this->pricing)
             ->build();
     }
 

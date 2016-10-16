@@ -30,11 +30,28 @@ class LocalManagedFile implements ManagedFileInterface
     /** @var null|string */
     private $uriPrefix;
 
+    /** @var int */
+    private $width;
+
+    /** @var int */
+    private $height;
+
+    /**
+     * @param string $fileExtension
+     * @param string $basePath
+     * @param int $imageType
+     * @param string $mimeType
+     * @param int $width
+     * @param int $height
+     * @param string|null $uriPrefix
+     */
     public function __construct(
         $fileExtension,
         $basePath,
         $imageType,
         $mimeType,
+        $width,
+        $height,
         $uriPrefix = null
     ) {
         $this->id = Uuid::uuid4();
@@ -44,6 +61,8 @@ class LocalManagedFile implements ManagedFileInterface
         $this->basePath = (string) $basePath;
         $this->imageType = (int) $imageType;
         $this->mimeType = (string) $mimeType;
+        $this->width = (int) $width;
+        $this->height = (int) $height;
 
         if ($uriPrefix !== null) {
             $this->uriPrefix = (string) $uriPrefix;
@@ -88,5 +107,21 @@ class LocalManagedFile implements ManagedFileInterface
     private function buildSubPath()
     {
         return substr($this->baseFileName, 0, 3) . '/' . substr($this->baseFileName, 3, 3);
+    }
+
+    /**
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHeight()
+    {
+        return $this->height;
     }
 }

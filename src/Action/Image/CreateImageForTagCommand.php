@@ -1,32 +1,32 @@
 <?php
 namespace inklabs\kommerce\Action\Image;
 
-use inklabs\kommerce\EntityDTO\ImageDTO;
+use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
-final class CreateImageWithTagCommand implements CommandInterface
+final class CreateImageForTagCommand implements CommandInterface
 {
-    /** @var ImageDTO */
-    private $imageDTO;
+    /** @var UploadFileDTO */
+    private $uploadFileDTO;
 
     /** @var UuidInterface */
     protected $tagId;
 
     /**
-     * @param ImageDTO $imageDTO
+     * @param UploadFileDTO $uploadFileDTO
      * @param string $tagId
      */
-    public function __construct($tagId, ImageDTO $imageDTO)
+    public function __construct(UploadFileDTO $uploadFileDTO, $tagId)
     {
         $this->tagId = Uuid::fromString($tagId);
-        $this->imageDTO = $imageDTO;
+        $this->uploadFileDTO = $uploadFileDTO;
     }
 
-    public function getImageDTO()
+    public function getUploadFileDTO()
     {
-        return $this->imageDTO;
+        return $this->uploadFileDTO;
     }
 
     public function getTagId()

@@ -1,10 +1,10 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\Image;
 
-use inklabs\kommerce\Action\Image\CreateImageWithProductCommand;
+use inklabs\kommerce\Action\Image\CreateImageForProductCommand;
 use inklabs\kommerce\Service\ImageServiceInterface;
 
-final class CreateImageWithProductHandler
+final class CreateImageForProductHandler
 {
     /** @var ImageServiceInterface */
     protected $imageService;
@@ -14,11 +14,11 @@ final class CreateImageWithProductHandler
         $this->imageService = $imageService;
     }
 
-    public function handle(CreateImageWithProductCommand $command)
+    public function handle(CreateImageForProductCommand $command)
     {
-        $this->imageService->createFromDTOWithProduct(
-            $command->getProductId(),
-            $command->getImageDTO()
+        $this->imageService->createImageForProduct(
+            $command->getUploadFileDTO(),
+            $command->getProductId()
         );
     }
 }

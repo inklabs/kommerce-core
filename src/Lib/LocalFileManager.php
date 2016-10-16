@@ -56,11 +56,15 @@ class LocalFileManager implements FileManagerInterface
         $imageType = $this->getImageType($sourceFilePath);
         $mimeType = $this->getMimeType($imageType);
 
+        list($width, $height) = getimagesize($sourceFilePath);
+
         $managedFile = new LocalManagedFile(
             $fileExtension,
             $this->destinationPath,
             $imageType,
             $mimeType,
+            $width,
+            $height,
             $this->uriPrefix
         );
 
