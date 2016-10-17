@@ -8,12 +8,12 @@ class DeleteProductHandlerTest extends ActionTestCase
 {
     public function testHandle()
     {
-        $tagService = $this->mockService->getProductService();
-        $tagService->shouldReceive('delete')
+        $productService = $this->mockService->getProductService();
+        $productService->shouldReceive('delete')
             ->once();
 
         $command = new DeleteProductCommand(self::UUID_HEX);
-        $handler = new DeleteProductHandler($tagService);
+        $handler = new DeleteProductHandler($productService);
         $handler->handle($command);
     }
 }

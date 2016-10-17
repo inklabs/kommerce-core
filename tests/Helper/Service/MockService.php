@@ -124,8 +124,13 @@ class MockService
      */
     public function getImageService()
     {
-        $imageService = $this->getMockeryMock(ImageServiceInterface::class);
-        return $imageService;
+        $image = $this->dummyData->getImage();
+
+        $service = $this->getMockeryMock(ImageServiceInterface::class);
+        $service->shouldReceive('findOneById')
+            ->andReturn($image);
+
+        return $service;
     }
 
     /**
