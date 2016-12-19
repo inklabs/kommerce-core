@@ -3,7 +3,10 @@ namespace inklabs\kommerce\EntityDTO;
 
 class CatalogPromotionDTO extends AbstractPromotionDTO
 {
-    /** @var string */
+    /**
+     * @var string
+     * @deprecated
+     */
     public $code;
 
     /** @var TagDTO */
