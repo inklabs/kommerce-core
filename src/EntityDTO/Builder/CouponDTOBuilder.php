@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\EntityDTO\CouponDTO;
 
 /**
@@ -31,10 +32,15 @@ class CouponDTOBuilder extends AbstractPromotionDTOBuilder
 
     public static function setFromDTO(Coupon & $coupon, CouponDTO $couponDTO)
     {
+        $coupon->setName($couponDTO->name);
         $coupon->setCode($couponDTO->code);
-        $coupon->setFlagFreeShipping($couponDTO->flagFreeShipping);
+        $coupon->setType(PromotionType::createById($couponDTO->type->id));
+        $coupon->setValue($couponDTO->value);
         $coupon->setMinOrderValue($couponDTO->minOrderValue);
         $coupon->setMaxOrderValue($couponDTO->maxOrderValue);
+        $coupon->setMaxRedemptions($couponDTO->maxRedemptions);
+        $coupon->setFlagFreeShipping($couponDTO->flagFreeShipping);
+        $coupon->setReducesTaxSubtotal($couponDTO->reducesTaxSubtotal);
         $coupon->setCanCombineWithOtherCoupons($couponDTO->canCombineWithOtherCoupons);
     }
 }
