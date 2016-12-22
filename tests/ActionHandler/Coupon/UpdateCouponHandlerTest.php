@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\ActionHandler\Coupon;
 
 use inklabs\kommerce\Action\Coupon\UpdateCouponCommand;
-use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class UpdateCouponHandlerTest extends ActionTestCase

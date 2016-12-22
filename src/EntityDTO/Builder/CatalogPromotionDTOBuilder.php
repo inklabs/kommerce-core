@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 
 /**
@@ -24,6 +25,18 @@ class CatalogPromotionDTOBuilder extends AbstractPromotionDTOBuilder
     {
         parent::preBuild();
         $this->entityDTO->code = $this->entity->getCode();
+    }
+
+    public static function setFromDTO(CatalogPromotion & $catalogPromotion, CatalogPromotionDTO $catalogPromotionDTO)
+    {
+        $catalogPromotion->setName($catalogPromotionDTO->name);
+        $catalogPromotion->setType(PromotionType::createById($catalogPromotionDTO->type->id));
+        $catalogPromotion->setValue($catalogPromotionDTO->value);
+        $catalogPromotion->setMaxRedemptions($catalogPromotionDTO->maxRedemptions);
+        $catalogPromotion->setReducesTaxSubtotal($catalogPromotionDTO->reducesTaxSubtotal);
+
+        // TODO:
+        //$catalogPromotion->setTag();
     }
 
     /**

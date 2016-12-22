@@ -78,6 +78,9 @@ class MockService
         $catalogPromotion = $this->dummyData->getCatalogPromotion();
 
         $service = $this->getMockeryMock(CatalogPromotionServiceInterface::class);
+        $service->shouldReceive('findOneById')
+            ->andReturn($catalogPromotion);
+
         $service->shouldReceive('getAllCatalogPromotions')
             ->andReturn([$catalogPromotion]);
 
