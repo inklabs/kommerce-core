@@ -13,8 +13,10 @@ final class GetCatalogPromotionHandler
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
-    public function __construct(CatalogPromotionServiceInterface $catalogPromotionService, DTOBuilderFactoryInterface $dtoBuilderFactory)
-    {
+    public function __construct(
+        CatalogPromotionServiceInterface $catalogPromotionService,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
         $this->catalogPromotionService = $catalogPromotionService;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
