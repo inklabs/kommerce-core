@@ -39,6 +39,10 @@ class TaxRate implements IdEntityInterface, ValidationInterface
             'min' => 2,
             'max' => 2,
         ]));
+        $metadata->addPropertyConstraint('state', new Assert\Choice([
+            'choices' => array_keys(self::getValidStatesMap()),
+            'message' => 'Must be a valid state code',
+        ]));
 
         $zipRegex = [
             'pattern' => '/[0-9]{5}/',
@@ -149,5 +153,70 @@ class TaxRate implements IdEntityInterface, ValidationInterface
         }
 
         return (int) round($newTaxSubtotal * ($this->rate / 100));
+    }
+
+    public static function getValidStatesMap()
+    {
+        return array(
+            'AL' => 'Alabama',
+            'AK' => 'Alaska',
+            'AZ' => 'Arizona',
+            'AR' => 'Arkansas',
+            'CA' => 'California',
+            'CO' => 'Colorado',
+            'CT' => 'Connecticut',
+            'DE' => 'Delaware',
+            'DC' => 'District Of Columbia',
+            'FL' => 'Florida',
+            'GA' => 'Georgia',
+            'HI' => 'Hawaii',
+            'ID' => 'Idaho',
+            'IL' => 'Illinois',
+            'IN' => 'Indiana',
+            'IA' => 'Iowa',
+            'KS' => 'Kansas',
+            'KY' => 'Kentucky',
+            'LA' => 'Louisiana',
+            'ME' => 'Maine',
+            'MD' => 'Maryland',
+            'MA' => 'Massachusetts',
+            'MI' => 'Michigan',
+            'MN' => 'Minnesota',
+            'MS' => 'Mississippi',
+            'MO' => 'Missouri',
+            'MT' => 'Montana',
+            'NE' => 'Nebraska',
+            'NV' => 'Nevada',
+            'NH' => 'New Hampshire',
+            'NJ' => 'New Jersey',
+            'NM' => 'New Mexico',
+            'NY' => 'New York',
+            'NC' => 'North Carolina',
+            'ND' => 'North Dakota',
+            'OH' => 'Ohio',
+            'OK' => 'Oklahoma',
+            'OR' => 'Oregon',
+            'PA' => 'Pennsylvania',
+            'RI' => 'Rhode Island',
+            'SC' => 'South Carolina',
+            'SD' => 'South Dakota',
+            'TN' => 'Tennessee',
+            'TX' => 'Texas',
+            'UT' => 'Utah',
+            'VT' => 'Vermont',
+            'VA' => 'Virginia',
+            'WA' => 'Washington',
+            'WV' => 'West Virginia',
+            'WI' => 'Wisconsin',
+            'WY' => 'Wyoming',
+
+            'GU' => 'Guam',
+            'FM' => 'Federated States of Micronesia',
+            'MH' => 'Marshall Islands',
+            'PW' => 'Palau',
+            'AA' => 'US Armed Forces - Americas',
+            'AE' => 'US Armed Forces - Europe',
+            'AP' => 'US Armed Forces - Pacific',
+        );
     }
 }
