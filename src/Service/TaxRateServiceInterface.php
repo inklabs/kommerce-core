@@ -10,6 +10,11 @@ interface TaxRateServiceInterface
     public function update(TaxRate & $taxRate);
 
     /**
+     * @param TaxRate $taxRate
+     */
+    public function delete(TaxRate $taxRate);
+
+    /**
      * @param UuidInterface $id
      * @return TaxRate
      */

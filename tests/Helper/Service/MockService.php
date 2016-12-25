@@ -1,12 +1,12 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\Service;
 
+use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\CatalogPromotionServiceInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
-use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderItemServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderServiceInterface;
@@ -269,6 +269,9 @@ class MockService
     {
         $taxRate = $this->dummyData->getTaxRate();
         $service = $this->getMockeryMock(TaxRateServiceInterface::class);
+        $service->shouldReceive('findOneById')
+            ->andReturn($taxRate);
+
         $service->shouldReceive('findByZip5AndState')
             ->andReturn($taxRate);
 

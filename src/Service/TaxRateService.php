@@ -29,6 +29,11 @@ class TaxRateService implements TaxRateServiceInterface
         $this->taxRateRepository->update($taxRate);
     }
 
+    public function delete(TaxRate $taxRate)
+    {
+        $this->taxRateRepository->delete($taxRate);
+    }
+
     public function findOneById(UuidInterface $id)
     {
         return $this->taxRateRepository->findOneById($id);
