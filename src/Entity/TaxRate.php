@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -26,9 +27,12 @@ class TaxRate implements IdEntityInterface, ValidationInterface
     /** @var boolean */
     protected $applyToShipping;
 
-    public function __construct()
+    /**
+     * @param UuidInterface $id
+     */
+    public function __construct($id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->applyToShipping = false;
     }
@@ -59,6 +63,56 @@ class TaxRate implements IdEntityInterface, ValidationInterface
             'min' => 0,
             'max' => 100,
         ]));
+    }
+
+    /**
+     * @param string $zip5
+     * @param float $rate
+     * @param bool $applyToShipping
+     * @param UuidInterface $id
+     * @return TaxRate
+     */
+    public static function createZip5($zip5, $rate, $applyToShipping, $id = null)
+    {
+        $taxRate = new self($id);
+        $taxRate->setZip5($zip5);
+        $taxRate->setRate($rate);
+        $taxRate->setApplyToShipping($applyToShipping);
+        return $taxRate;
+    }
+
+    /**
+     * @param string $zip5From
+     * @param string $zip5To
+     * @param float $rate
+     * @param bool $applyToShipping
+     * @param UuidInterface $id
+     * @return TaxRate
+     */
+    public static function createZip5Range($zip5From, $zip5To, $rate, $applyToShipping, $id = null)
+    {
+        $taxRate = new self($id);
+        $taxRate->setZip5From($zip5From);
+        $taxRate->setZip5To($zip5To);
+        $taxRate->setRate($rate);
+        $taxRate->setApplyToShipping($applyToShipping);
+        return $taxRate;
+    }
+
+    /**
+     * @param string $state
+     * @param float $rate
+     * @param bool $applyToShipping
+     * @param UuidInterface $id
+     * @return TaxRate
+     */
+    public static function createState($state, $rate, $applyToShipping, $id = null)
+    {
+        $taxRate = new self($id);
+        $taxRate->setState($state);
+        $taxRate->setRate($rate);
+        $taxRate->setApplyToShipping($applyToShipping);
+        return $taxRate;
     }
 
     public function setState($state)
