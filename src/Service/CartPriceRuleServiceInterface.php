@@ -8,6 +8,10 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface CartPriceRuleServiceInterface
 {
+    public function create(CartPriceRule & $cartPriceRule);
+    public function update(CartPriceRule & $cartPriceRule);
+    public function delete(CartPriceRule $cartPriceRule);
+
     /**
      * @param UuidInterface $id
      * @return CartPriceRule

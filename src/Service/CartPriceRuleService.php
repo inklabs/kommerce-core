@@ -19,6 +19,23 @@ class CartPriceRuleService implements CartPriceRuleServiceInterface
         $this->cartPriceRuleRepository = $cartPriceRuleRepository;
     }
 
+    public function create(CartPriceRule & $cartPriceRule)
+    {
+        $this->throwValidationErrors($cartPriceRule);
+        $this->cartPriceRuleRepository->create($cartPriceRule);
+    }
+
+    public function update(CartPriceRule & $cartPriceRule)
+    {
+        $this->throwValidationErrors($cartPriceRule);
+        $this->cartPriceRuleRepository->update($cartPriceRule);
+    }
+
+    public function delete(CartPriceRule $cartPriceRule)
+    {
+        $this->cartPriceRuleRepository->delete($cartPriceRule);
+    }
+
     /**
      * @param UuidInterface $id
      * @return CartPriceRule

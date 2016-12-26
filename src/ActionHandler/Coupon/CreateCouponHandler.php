@@ -4,7 +4,6 @@ namespace inklabs\kommerce\ActionHandler\Coupon;
 use inklabs\kommerce\Action\Coupon\CreateCouponCommand;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\PromotionType;
-use inklabs\kommerce\EntityDTO\Builder\CouponDTOBuilder;
 use inklabs\kommerce\Service\CouponServiceInterface;
 
 final class CreateCouponHandler

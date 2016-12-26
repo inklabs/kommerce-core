@@ -43,6 +43,15 @@ class CartPriceRuleDTOBuilder
         return new CartPriceRuleDTO;
     }
 
+    public static function setFromDTO(CartPriceRule & $cartPriceRule, CartPriceRuleDTO $cartPriceRuleDTO)
+    {
+        $cartPriceRule->setName($cartPriceRuleDTO->name);
+        $cartPriceRule->setMaxRedemptions($cartPriceRuleDTO->maxRedemptions);
+        $cartPriceRule->setReducesTaxSubtotal($cartPriceRuleDTO->reducesTaxSubtotal);
+        $cartPriceRule->setStart($cartPriceRuleDTO->start);
+        $cartPriceRule->setEnd($cartPriceRuleDTO->end);
+    }
+
     /**
      * @return static
      */

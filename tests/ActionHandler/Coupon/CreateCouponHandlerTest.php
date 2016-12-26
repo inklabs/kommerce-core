@@ -4,7 +4,6 @@ namespace inklabs\kommerce\ActionHandler\Coupon;
 use DateTime;
 use inklabs\kommerce\Action\Coupon\CreateCouponCommand;
 use inklabs\kommerce\Entity\PromotionType;
-use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class CreateCouponHandlerTest extends ActionTestCase
