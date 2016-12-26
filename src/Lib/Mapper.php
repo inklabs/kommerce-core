@@ -6,6 +6,7 @@ use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
+use inklabs\kommerce\Service\CartPriceRuleServiceInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\CatalogPromotionServiceInterface;
 use inklabs\kommerce\Service\CouponServiceInterface;
@@ -74,6 +75,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->serviceFactory->getAttachmentService();
                 } elseif ($parameterClassName === CartCalculatorInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getCartCalculator();
+                } elseif ($parameterClassName === CartPriceRuleServiceInterface::class) {
+                    $constructorParameters[] = $this->serviceFactory->getCartPriceRule();
                 } elseif ($parameterClassName === CartServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getCart();
                 } elseif ($parameterClassName === CatalogPromotionServiceInterface::class) {

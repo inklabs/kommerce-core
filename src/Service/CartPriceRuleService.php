@@ -2,11 +2,12 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\UuidInterface;
 
-class CartPriceRuleService
+class CartPriceRuleService implements CartPriceRuleServiceInterface
 {
     use EntityValidationTrait;
 
@@ -34,5 +35,15 @@ class CartPriceRuleService
     public function findAll()
     {
         return $this->cartPriceRuleRepository->findAll();
+    }
+
+    /**
+     * @param null|string $queryString
+     * @param null|Pagination $pagination
+     * @return CartPriceRule[]
+     */
+    public function getAllCartPriceRules($queryString = null, Pagination & $pagination = null)
+    {
+        return $this->cartPriceRuleRepository->getAllCartPricerules($queryString, $pagination);
     }
 }

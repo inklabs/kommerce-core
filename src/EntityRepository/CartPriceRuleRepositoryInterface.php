@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\CartPriceRule;
+use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Lib\UuidInterface;
 
 /**
@@ -13,4 +14,11 @@ interface CartPriceRuleRepositoryInterface extends RepositoryInterface
      * @return CartPriceRule[]
      */
     public function findAll();
+
+    /**
+     * @param string $queryString
+     * @param Pagination $pagination
+     * @return CartPriceRule[]
+     */
+    public function getAllCartPriceRules($queryString = null, Pagination & $pagination = null);
 }
