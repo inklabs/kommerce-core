@@ -14,6 +14,13 @@ class GetCartPriceRuleResponse implements GetCartPriceRuleResponseInterface
             ->build();
     }
 
+    public function getCartPriceRuleDTOWithAllData()
+    {
+        return $this->cartPriceRuleDTOBuilder
+            ->withAllData()
+            ->build();
+    }
+
     public function setCartPriceRuleDTOBuilder(CartPriceRuleDTOBuilder $cartPriceRuleDTOBuilder)
     {
         $this->cartPriceRuleDTOBuilder = $cartPriceRuleDTOBuilder;

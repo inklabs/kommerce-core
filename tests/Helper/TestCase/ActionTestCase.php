@@ -21,23 +21,13 @@ abstract class ActionTestCase extends ServiceTestCase
         return new QueryBus($this->getMapper());
     }
 
-    protected function getMapper(
-        ServiceFactory $serviceFactory = null,
-        Pricing $pricing = null,
-        DTOBuilderFactoryInterface $dtoBuilderFactory = null
-    ) {
-        if ($serviceFactory === null) {
-            $serviceFactory = $this->getServiceFactory();
-        }
-
-        if ($pricing === null) {
-            $pricing = new Pricing;
-        }
-
-        if ($dtoBuilderFactory === null) {
-            $dtoBuilderFactory = new DTOBuilderFactory();
-        }
-
-        return new Mapper($serviceFactory, $pricing, $dtoBuilderFactory);
+    protected function getMapper()
+    {
+        return new Mapper(
+            $this->getRepositoryFactory(),
+            $this->getServiceFactory(),
+            $this->getPricing(),
+            $this->getDTOBuilderFactory()
+        );
     }
 }

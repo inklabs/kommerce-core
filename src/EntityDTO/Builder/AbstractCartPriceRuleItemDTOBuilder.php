@@ -22,6 +22,11 @@ abstract class AbstractCartPriceRuleItemDTOBuilder implements DTOBuilderInterfac
      */
     abstract protected function getEntityDTO();
 
+    /**
+     * @return static
+     */
+    abstract public function withAllData();
+
     public function __construct(AbstractCartPriceRuleItem $item, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->entity = $item;

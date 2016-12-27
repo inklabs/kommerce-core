@@ -2,6 +2,12 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
+use inklabs\kommerce\EntityRepository\CartPriceRuleItemRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\RepositoryFactory;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
@@ -27,6 +33,9 @@ use ReflectionClass;
 
 class Mapper implements MapperInterface
 {
+    /** @var RepositoryFactory */
+    private $repositoryFactory;
+
     /** @var ServiceFactory */
     private $serviceFactory;
 
@@ -37,10 +46,12 @@ class Mapper implements MapperInterface
     private $dtoBuilderFactory;
 
     public function __construct(
+        RepositoryFactory $repositoryFactory,
         ServiceFactory $serviceFactory,
         Pricing $pricing,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
+        $this->repositoryFactory = $repositoryFactory;
         $this->serviceFactory = $serviceFactory;
         $this->pricing = $pricing;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
@@ -71,7 +82,17 @@ class Mapper implements MapperInterface
         if ($constructor !== null) {
             foreach ($constructor->getParameters() as $parameter) {
                 $parameterClassName = $parameter->getClass()->getName();
-                if ($parameterClassName === AttachmentServiceInterface::class) {
+                if ($parameterClassName === CartPriceRuleRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getCartPriceRuleRepository();
+                } elseif ($parameterClassName === CartPriceRuleItemRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getCartPriceRuleItemRepository();
+                } elseif ($parameterClassName === ProductRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getProductRepository();
+                } elseif ($parameterClassName === TagRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getTagRepository();
+                } elseif ($parameterClassName === TaxRateRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getTaxRateRepository();
+                } elseif ($parameterClassName === AttachmentServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getAttachmentService();
                 } elseif ($parameterClassName === CartCalculatorInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getCartCalculator();

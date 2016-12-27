@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\Entity\ValidationInterface;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
+use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
@@ -61,6 +62,14 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     protected function getDTOBuilderFactory()
     {
         return new DTOBuilderFactory();
+    }
+
+    /**
+     * @return Pricing
+     */
+    protected function getPricing()
+    {
+        return new Pricing();
     }
 
     protected function assertFullProductDTO(ProductDTO $productDTO)
