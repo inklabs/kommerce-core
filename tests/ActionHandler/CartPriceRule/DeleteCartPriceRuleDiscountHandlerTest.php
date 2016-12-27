@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\CartPriceRule;
 
-use inklabs\kommerce\Action\CartPriceRule\CreateCartPriceRuleDiscountCommand;
 use inklabs\kommerce\Action\CartPriceRule\DeleteCartPriceRuleDiscountCommand;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
