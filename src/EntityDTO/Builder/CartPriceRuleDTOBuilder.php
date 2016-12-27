@@ -75,6 +75,7 @@ class CartPriceRuleDTOBuilder
         foreach ($this->entity->getCartPriceRuleDiscounts() as $cartPriceRuleDiscount) {
             $this->entityDTO->cartPriceRuleDiscounts[] = $this->dtoBuilderFactory
                 ->getCartPriceRuleDiscountDTOBuilder($cartPriceRuleDiscount)
+                ->withAllData()
                 ->build();
         }
 

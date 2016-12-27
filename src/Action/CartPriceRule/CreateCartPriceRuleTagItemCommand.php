@@ -8,7 +8,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 final class CreateCartPriceRuleTagItemCommand implements CommandInterface
 {
     /** @var UuidInterface */
-    private $cartPriceRuleTagId;
+    private $cartPriceRuleTagItemId;
 
     /** @var UuidInterface */
     private $cartPriceRuleId;
@@ -26,15 +26,15 @@ final class CreateCartPriceRuleTagItemCommand implements CommandInterface
      */
     public function __construct($cartPriceRuleId, $tagId, $quantity)
     {
-        $this->cartPriceRuleTagId = Uuid::uuid4();
+        $this->cartPriceRuleTagItemId = Uuid::uuid4();
         $this->cartPriceRuleId = Uuid::fromString($cartPriceRuleId);
         $this->tagId = Uuid::fromString($tagId);
         $this->quantity = $quantity;
     }
 
-    public function getCartPriceRuleTagId()
+    public function getCartPriceRuleTagItemId()
     {
-        return $this->cartPriceRuleTagId;
+        return $this->cartPriceRuleTagItemId;
     }
 
     public function getCartPriceRuleId()

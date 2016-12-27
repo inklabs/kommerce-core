@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
+use inklabs\kommerce\EntityRepository\CartPriceRuleDiscountRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CartPriceRuleItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
@@ -86,6 +87,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getCartPriceRuleRepository();
                 } elseif ($parameterClassName === CartPriceRuleItemRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getCartPriceRuleItemRepository();
+                } elseif ($parameterClassName === CartPriceRuleDiscountRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getCartPriceRuleDiscountRepository();
                 } elseif ($parameterClassName === ProductRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getProductRepository();
                 } elseif ($parameterClassName === TagRepositoryInterface::class) {

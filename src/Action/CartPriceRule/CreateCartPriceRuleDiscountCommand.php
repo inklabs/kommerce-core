@@ -5,10 +5,10 @@ use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
-final class CreateCartPriceRuleProductItemCommand implements CommandInterface
+final class CreateCartPriceRuleDiscountCommand implements CommandInterface
 {
     /** @var UuidInterface */
-    private $cartPriceRuleProductItemId;
+    private $cartPriceRuleDiscountId;
 
     /** @var UuidInterface */
     private $cartPriceRuleId;
@@ -26,15 +26,15 @@ final class CreateCartPriceRuleProductItemCommand implements CommandInterface
      */
     public function __construct($cartPriceRuleId, $productId, $quantity)
     {
-        $this->cartPriceRuleProductItemId = Uuid::uuid4();
+        $this->cartPriceRuleDiscountId = Uuid::uuid4();
         $this->cartPriceRuleId = Uuid::fromString($cartPriceRuleId);
         $this->productId = Uuid::fromString($productId);
         $this->quantity = $quantity;
     }
 
-    public function getCartPriceRuleProductItemId()
+    public function getCartPriceRuleDiscountId()
     {
-        return $this->cartPriceRuleProductItemId;
+        return $this->cartPriceRuleDiscountId;
     }
 
     public function getCartPriceRuleId()
