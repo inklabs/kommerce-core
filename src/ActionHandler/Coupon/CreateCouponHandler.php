@@ -29,12 +29,12 @@ final class CreateCouponHandler
         $coupon->setCanCombineWithOtherCoupons($command->canCombineWithOtherCoupons());
 
         $coupon->setName($command->getName());
-        $coupon->setType(PromotionType::createById($command->getPromotionTypeId()));
+        $coupon->setType($command->getPromotionType());
         $coupon->setValue($command->getValue());
         $coupon->setReducesTaxSubtotal($command->getReducesTaxSubtotal());
         $coupon->setMaxRedemptions($command->getMaxRedemptions());
-        $coupon->setStart($command->getStartDate());
-        $coupon->setEnd($command->getEndDate());
+        $coupon->setStartAt($command->getStartAt());
+        $coupon->setEndAt($command->getEndAt());
 
         $this->couponService->create($coupon);
     }

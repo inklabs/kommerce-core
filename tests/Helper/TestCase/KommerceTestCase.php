@@ -41,6 +41,7 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     const USERS_CSV_FILENAME = __DIR__ . '/../../_files/CSVIterator/users.csv';
     const ORDERS_CSV_FILENAME = __DIR__ . '/../../_files/CSVIterator/orders.csv';
     const FLOAT_TAX_RATE = 9.5;
+    const FAKE_TIMESTAMP = 1482913105;
 
     /** @var DummyData */
     protected $dummyData;

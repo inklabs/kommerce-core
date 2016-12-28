@@ -1,7 +1,7 @@
 <?php
 namespace inklabs\kommerce\Action\Coupon;
 
-use DateTime;
+use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
@@ -29,8 +29,8 @@ final class CreateCouponCommand implements CommandInterface
     /** @var string */
     private $name;
 
-    /** @var int */
-    private $promotionTypeId;
+    /** @var string */
+    private $promotionTypeSlug;
 
     /** @var int */
     private $value;
@@ -41,26 +41,25 @@ final class CreateCouponCommand implements CommandInterface
     /** @var int */
     private $maxRedemptions;
 
-    /** @var DateTime */
-    private $startDate;
+    /** @var int */
+    private $startAt;
 
-    /** @var DateTime */
-    private $endDate;
+    /** @var int */
+    private $endAt;
 
     /**
-     * CreateCouponCommand constructor.
      * @param string $code
      * @param bool $flagFreeShipping
      * @param int $minOrderValue
      * @param int $maxOrderValue
      * @param bool $canCombineWithOtherCoupons
      * @param string $name
-     * @param int $promotionTypeId
+     * @param string $promotionTypeSlug
      * @param int $value
      * @param bool $reducesTaxSubtotal
      * @param int $maxRedemptions
-     * @param DateTime $startDate
-     * @param DateTime $endDate
+     * @param int $startAt
+     * @param int $endAt
      */
     public function __construct(
         $code,
@@ -69,12 +68,12 @@ final class CreateCouponCommand implements CommandInterface
         $maxOrderValue,
         $canCombineWithOtherCoupons,
         $name,
-        $promotionTypeId,
+        $promotionTypeSlug,
         $value,
         $reducesTaxSubtotal,
         $maxRedemptions,
-        $startDate,
-        $endDate
+        $startAt,
+        $endAt
     ) {
         $this->couponId = Uuid::uuid4();
         $this->code = $code;
@@ -83,12 +82,12 @@ final class CreateCouponCommand implements CommandInterface
         $this->maxOrderValue = $maxOrderValue;
         $this->canCombineWithOtherCoupons = $canCombineWithOtherCoupons;
         $this->name = $name;
-        $this->promotionTypeId = $promotionTypeId;
+        $this->promotionTypeSlug = $promotionTypeSlug;
         $this->value = $value;
         $this->reducesTaxSubtotal = $reducesTaxSubtotal;
         $this->maxRedemptions = $maxRedemptions;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
+        $this->startAt = $startAt;
+        $this->endAt = $endAt;
     }
 
     public function getCouponId()
@@ -126,9 +125,12 @@ final class CreateCouponCommand implements CommandInterface
         return $this->name;
     }
 
-    public function getPromotionTypeId()
+    /**
+     * @return PromotionType
+     */
+    public function getPromotionType()
     {
-        return $this->promotionTypeId;
+        return PromotionType::createBySlug($this->promotionTypeSlug);
     }
 
     public function getValue()
@@ -146,13 +148,13 @@ final class CreateCouponCommand implements CommandInterface
         return $this->maxRedemptions;
     }
 
-    public function getStartDate()
+    public function getStartAt()
     {
-        return $this->startDate;
+        return $this->startAt;
     }
 
-    public function getEndDate()
+    public function getEndAt()
     {
-        return $this->endDate;
+        return $this->endAt;
     }
 }

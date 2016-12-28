@@ -41,6 +41,32 @@ trait PromotionStartEndDateTrait
         return true;
     }
 
+    /**
+     * @param int $startAt
+     */
+    public function setStartAt($startAt)
+    {
+        $this->start = (int) $startAt;
+    }
+
+    public function getStartAt()
+    {
+        return $this->start;
+    }
+
+    /**
+     * @param int $endAt
+     */
+    public function setEndAt($endAt)
+    {
+        $this->end = (int) $endAt;
+    }
+
+    public function getEndAt()
+    {
+        return $this->end;
+    }
+
     public function setStart(DateTime $start = null)
     {
         if ($start === null) {

@@ -19,6 +19,49 @@ class PromotionType extends AbstractIntegerType
         ];
     }
 
+    public static function getSlugMap()
+    {
+        return [
+            self::FIXED => 'fixed',
+            self::PERCENT => 'percent',
+            self::EXACT => 'exact',
+        ];
+    }
+
+    /**
+     * @TODO Move up to AbstractIntegerType
+     * @return array
+     */
+    public static function getSlugNameMap()
+    {
+        $slugNameMap = [];
+        $nameMap = static::getNameMap();
+
+        foreach (static::getSlugMap() as $key => $slug) {
+            $slugNameMap[$slug] = $nameMap[$key];
+        }
+
+        return $slugNameMap;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return static::getSlugMap()[$this->id];
+    }
+
+    /**
+     * @param string $slug
+     * @return static
+     */
+    public static function createBySlug($slug)
+    {
+        $id = array_search($slug, static::getSlugMap());
+        return self::createById($id);
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([
