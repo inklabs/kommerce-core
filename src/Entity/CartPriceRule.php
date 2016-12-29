@@ -7,7 +7,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartPriceRule implements IdEntityInterface, ValidationInterface
+class CartPriceRule implements IdEntityInterface
 {
     use IdTrait, TimeTrait, PromotionRedemptionTrait, PromotionStartEndDateTrait;
 

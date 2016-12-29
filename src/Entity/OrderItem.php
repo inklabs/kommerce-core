@@ -6,7 +6,7 @@ use inklabs\kommerce\Exception\AttachmentException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class OrderItem implements IdEntityInterface, ValidationInterface, EnabledAttachmentInterface
+class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait;
 

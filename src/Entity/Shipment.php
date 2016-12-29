@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Shipment implements IdEntityInterface, ValidationInterface
+class Shipment implements IdEntityInterface
 {
     use IdTrait, TimeTrait;
 

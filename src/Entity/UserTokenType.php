@@ -23,6 +23,17 @@ class UserTokenType extends AbstractIntegerType
         ];
     }
 
+    public static function getSlugMap()
+    {
+        return [
+            self::INTERNAL => 'internal',
+            self::GOOGLE => 'google',
+            self::FACEBOOK => 'facebook',
+            self::TWITTER => 'twitter',
+            self::YAHOO => 'yahoo',
+        ];
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([

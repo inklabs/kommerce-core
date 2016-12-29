@@ -6,6 +6,7 @@ use inklabs\kommerce\EntityRepository\CartPriceRuleDiscountRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CartPriceRuleItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
@@ -92,6 +93,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getCartPriceRuleDiscountRepository();
                 } elseif ($parameterClassName === CatalogPromotionRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getCatalogPromotionRepository();
+                } elseif ($parameterClassName === CouponRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getCouponRepository();
                 } elseif ($parameterClassName === ProductRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getProductRepository();
                 } elseif ($parameterClassName === TagRepositoryInterface::class) {

@@ -8,7 +8,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Cart implements IdEntityInterface, ValidationInterface
+class Cart implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 

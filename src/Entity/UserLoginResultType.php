@@ -17,6 +17,14 @@ class UserLoginResultType extends AbstractIntegerType
         ];
     }
 
+    public static function getSlugMap()
+    {
+        return [
+            self::FAIL => 'fail',
+            self::SUCCESS => 'success',
+        ];
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([

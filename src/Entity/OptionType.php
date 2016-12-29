@@ -19,6 +19,15 @@ class OptionType extends AbstractIntegerType
         ];
     }
 
+    public static function getSlugMap()
+    {
+        return [
+            self::SELECT => 'select',
+            self::RADIO => 'radio',
+            self::CHECKBOX => 'checkbox',
+        ];
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([

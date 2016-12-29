@@ -19,6 +19,15 @@ class DeliveryMethodType extends AbstractIntegerType
         ];
     }
 
+    public static function getSlugMap()
+    {
+        return [
+            self::STANDARD => 'standard',
+            self::ONE_DAY => 'one-day',
+            self::TWO_DAY => 'two-day',
+        ];
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([

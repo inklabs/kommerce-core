@@ -9,7 +9,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Order implements IdEntityInterface, ValidationInterface, ReferenceNumberEntityInterface
+class Order implements IdEntityInterface, ReferenceNumberEntityInterface
 {
     use TimeTrait, IdTrait, EventGeneratorTrait;
 

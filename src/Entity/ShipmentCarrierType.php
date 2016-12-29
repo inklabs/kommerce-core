@@ -21,6 +21,16 @@ class ShipmentCarrierType extends AbstractIntegerType
         ];
     }
 
+    public static function getSlugMap()
+    {
+        return [
+            self::UNKNOWN => 'unknown',
+            self::UPS => 'ups',
+            self::USPS => 'usps',
+            self::FEDEX => 'fedex',
+        ];
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([

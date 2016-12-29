@@ -9,7 +9,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class User implements IdEntityInterface, ValidationInterface
+class User implements IdEntityInterface
 {
     use TimeTrait, IdTrait, EventGeneratorTrait, StringSetterTrait;
 

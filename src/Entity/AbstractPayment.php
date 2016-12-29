@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractPayment implements IdEntityInterface, ValidationInterface
+abstract class AbstractPayment implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 

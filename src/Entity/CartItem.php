@@ -9,7 +9,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartItem implements IdEntityInterface, ValidationInterface, EnabledAttachmentInterface
+class CartItem implements IdEntityInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait;
 

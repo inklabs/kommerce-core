@@ -6,9 +6,12 @@ use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\UuidInterface;
+use inklabs\kommerce\Service\EntityValidationTrait;
 
 abstract class AbstractRepository extends EntityRepository implements RepositoryInterface
 {
+    use EntityValidationTrait;
+
     /**
      * @return QueryBuilder
      */
@@ -19,6 +22,7 @@ abstract class AbstractRepository extends EntityRepository implements Repository
 
     public function create(EntityInterface & $entity)
     {
+        $this->throwValidationErrors($entity);
         $this->persist($entity);
         $this->flush();
     }
@@ -26,6 +30,7 @@ abstract class AbstractRepository extends EntityRepository implements Repository
     public function update(EntityInterface & $entity)
     {
         $this->assertManaged($entity);
+        $this->throwValidationErrors($entity);
         $this->flush();
     }
 

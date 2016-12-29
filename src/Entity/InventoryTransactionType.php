@@ -29,6 +29,20 @@ class InventoryTransactionType extends AbstractIntegerType
         ];
     }
 
+    public static function getSlugMap()
+    {
+        return [
+            self::MOVE => 'move',
+            self::HOLD => 'hold',
+            self::NEW_PRODUCTS => 'new-products',
+            self::SHIPPED => 'shipped',
+            self::RETURNED => 'returned',
+            self::PROMOTION => 'promotion',
+            self::DAMAGED => 'damaged',
+            self::SHRINKAGE => 'shrinkage',
+        ];
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([

@@ -25,6 +25,18 @@ class TextOptionType extends AbstractIntegerType
         ];
     }
 
+    public static function getSlugMap()
+    {
+        return [
+            self::TEXT => 'text',
+            self::TEXTAREA => 'textarea',
+            self::FILE => 'file',
+            self::DATE => 'date',
+            self::TIME => 'time',
+            self::DATETIME => 'datetime',
+        ];
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([

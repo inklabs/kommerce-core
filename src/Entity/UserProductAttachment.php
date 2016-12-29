@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserProductAttachment implements IdEntityInterface, ValidationInterface
+class UserProductAttachment implements IdEntityInterface
 {
     use CreatedTrait, IdTrait, EventGeneratorTrait, StringSetterTrait;
 

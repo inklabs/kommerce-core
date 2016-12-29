@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ShipmentItem implements IdEntityInterface, ValidationInterface
+class ShipmentItem implements IdEntityInterface
 {
     use IdTrait, TimeTrait;
 

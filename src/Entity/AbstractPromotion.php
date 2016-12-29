@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractPromotion implements IdEntityInterface, ValidationInterface
+abstract class AbstractPromotion implements IdEntityInterface
 {
     use TimeTrait, IdTrait, PromotionRedemptionTrait, PromotionStartEndDateTrait;
 

@@ -24,6 +24,7 @@ abstract class AbstractIntegerTypeDTOBuilder implements DTOBuilderInterface
         $this->entityDTO = $this->getEntityDTO();
         $this->entityDTO->id = $this->entity->getId();
         $this->entityDTO->name = $this->entity->getName();
+        $this->entityDTO->slug = $this->entity->getSlug();
         $this->entityDTO->nameMap = $this->entity->getNameMap();
     }
 

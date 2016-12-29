@@ -25,6 +25,18 @@ class OrderStatusType extends AbstractIntegerType
         ];
     }
 
+    public static function getSlugMap()
+    {
+        return [
+            self::PENDING => 'pending',
+            self::PROCESSING => 'processing',
+            self::PARTIALLY_SHIPPED => 'partially-shipped',
+            self::SHIPPED => 'shipped',
+            self::COMPLETE => 'complete',
+            self::CANCELED => 'canceled',
+        ];
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([

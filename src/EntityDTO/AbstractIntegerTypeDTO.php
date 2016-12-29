@@ -9,6 +9,9 @@ abstract class AbstractIntegerTypeDTO
     /** @var string */
     public $name;
 
+    /** @var string */
+    public $slug;
+
     /** @var string[] */
     public $nameMap;
 }

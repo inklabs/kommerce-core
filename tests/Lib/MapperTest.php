@@ -35,11 +35,13 @@ class MapperTest extends ActionTestCase
 
     public function testGetHandlerOnAllHandlers()
     {
-        $files = glob(__DIR__ . '/../../src/ActionHandler/*/*Handler.php', GLOB_BRACE);
+        $files = glob(realpath(__DIR__ . '/../..') . '/src/ActionHandler/*/*Handler.php');
 
         foreach ($files as $file) {
-            $handlerClassName = $this->getClassNameFromFile($file);
-            $this->mapper->getHandler($handlerClassName);
+            if (! strpos($file, '/Abstract')) {
+                $handlerClassName = $this->getClassNameFromFile($file);
+                $this->mapper->getHandler($handlerClassName);
+            }
         }
     }
 

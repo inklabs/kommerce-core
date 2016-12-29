@@ -5,7 +5,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class TaxRate implements IdEntityInterface, ValidationInterface
+class TaxRate implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 

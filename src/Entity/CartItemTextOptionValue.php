@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CartItemTextOptionValue implements IdEntityInterface, ValidationInterface
+class CartItemTextOptionValue implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 

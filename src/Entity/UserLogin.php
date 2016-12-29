@@ -4,7 +4,7 @@ namespace inklabs\kommerce\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserLogin implements IdEntityInterface, ValidationInterface
+class UserLogin implements IdEntityInterface
 {
     use CreatedTrait, IdTrait;
 

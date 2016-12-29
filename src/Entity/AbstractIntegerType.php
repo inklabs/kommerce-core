@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Exception\InvalidArgumentException;
 
-abstract class AbstractIntegerType implements ValidationInterface, NameMapInterface
+abstract class AbstractIntegerType implements ValidationInterface, NameMapInterface, SlugMapInterface
 {
     /** @var int */
     protected $id;
@@ -46,5 +46,38 @@ abstract class AbstractIntegerType implements ValidationInterface, NameMapInterf
     public static function createById($id)
     {
         return new static($id);
+    }
+
+        /**
+     * @return array
+     */
+    public static function getSlugNameMap()
+    {
+        $slugNameMap = [];
+        $nameMap = static::getNameMap();
+
+        foreach (static::getSlugMap() as $key => $slug) {
+            $slugNameMap[$slug] = $nameMap[$key];
+        }
+
+        return $slugNameMap;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return static::getSlugMap()[$this->id];
+    }
+
+    /**
+     * @param string $slug
+     * @return static
+     */
+    public static function createBySlug($slug)
+    {
+        $id = array_search($slug, static::getSlugMap());
+        return self::createById($id);
     }
 }

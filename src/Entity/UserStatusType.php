@@ -19,6 +19,15 @@ class UserStatusType extends AbstractIntegerType
         ];
     }
 
+    public static function getSlugMap()
+    {
+        return [
+            self::INACTIVE => 'inactive',
+            self::ACTIVE => 'active',
+            self::LOCKED => 'locked',
+        ];
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([

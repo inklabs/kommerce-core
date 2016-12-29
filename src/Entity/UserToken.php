@@ -7,7 +7,7 @@ use inklabs\kommerce\Event\ResetPasswordEvent;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserToken implements IdEntityInterface, ValidationInterface
+class UserToken implements IdEntityInterface
 {
     use TimeTrait, IdTrait, EventGeneratorTrait;
 

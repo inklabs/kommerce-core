@@ -1,6 +1,8 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+
 class OrderItemOptionValue implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
@@ -24,6 +26,11 @@ class OrderItemOptionValue implements IdEntityInterface
     {
         $this->setId();
         $this->setCreated();
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        // TODO: Implement loadValidatorMetadata() method.
     }
 
     public function getOptionValue()
