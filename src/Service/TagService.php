@@ -40,13 +40,11 @@ class TagService implements TagServiceInterface
 
     public function create(Tag & $tag)
     {
-        $this->throwValidationErrors($tag);
         $this->tagRepository->create($tag);
     }
 
     public function update(Tag & $tag)
     {
-        $this->throwValidationErrors($tag);
         $this->tagRepository->update($tag);
     }
 

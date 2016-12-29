@@ -23,15 +23,6 @@ class CouponServiceTest extends ServiceTestCase
         $this->couponService = new CouponService($this->couponRepository);
     }
 
-    public function testCRUD()
-    {
-        $this->executeServiceCRUD(
-            $this->couponService,
-            $this->couponRepository,
-            $this->dummyData->getCoupon()
-        );
-    }
-
     public function testFindOnceById()
     {
         $coupon1 = $this->dummyData->getCoupon();

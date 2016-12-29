@@ -19,23 +19,6 @@ class CouponService implements CouponServiceInterface
         $this->couponRepository = $couponRepository;
     }
 
-    public function create(Coupon & $coupon)
-    {
-        $this->throwValidationErrors($coupon);
-        $this->couponRepository->create($coupon);
-    }
-
-    public function update(Coupon & $coupon)
-    {
-        $this->throwValidationErrors($coupon);
-        $this->couponRepository->update($coupon);
-    }
-
-    public function delete(Coupon $coupon)
-    {
-        $this->couponRepository->delete($coupon);
-    }
-
     /**
      * @param UuidInterface $id
      * @return Coupon

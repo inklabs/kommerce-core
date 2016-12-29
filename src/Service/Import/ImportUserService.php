@@ -54,8 +54,6 @@ class ImportUserService implements ImportUserServiceInterface
             }
 
             try {
-                $this->throwValidationErrors($user);
-
                 $this->userRepository->create($user);
                 $importResult->incrementSuccess();
             } catch (KommerceException $e) {

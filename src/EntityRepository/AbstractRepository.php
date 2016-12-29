@@ -22,7 +22,6 @@ abstract class AbstractRepository extends EntityRepository implements Repository
 
     public function create(EntityInterface & $entity)
     {
-        $this->throwValidationErrors($entity);
         $this->persist($entity);
         $this->flush();
     }
@@ -48,6 +47,7 @@ abstract class AbstractRepository extends EntityRepository implements Repository
 
     public function persist(EntityInterface & $entity)
     {
+        $this->throwValidationErrors($entity);
         $this->getEntityManager()
             ->persist($entity);
     }

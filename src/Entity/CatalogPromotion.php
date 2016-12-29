@@ -44,7 +44,7 @@ class CatalogPromotion extends AbstractPromotion
         return $this->code;
     }
 
-    public function setTag(Tag $tag)
+    public function setTag(Tag $tag = null)
     {
         $this->tag = $tag;
     }

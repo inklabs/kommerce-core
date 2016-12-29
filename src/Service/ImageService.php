@@ -39,13 +39,11 @@ class ImageService implements ImageServiceInterface
 
     public function create(Image & $image)
     {
-        $this->throwValidationErrors($image);
         $this->imageRepository->create($image);
     }
 
     public function update(Image & $image)
     {
-        $this->throwValidationErrors($image);
         $this->imageRepository->update($image);
     }
 

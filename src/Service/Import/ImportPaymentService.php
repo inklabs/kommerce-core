@@ -58,8 +58,6 @@ class ImportPaymentService implements ImportPaymentServiceInterface
                 $payment->setCreated(new DateTime($date));
                 $payment->setOrder($order);
 
-                $this->throwValidationErrors($payment);
-
                 $this->paymentRepository->persist($payment);
                 $importResult->incrementSuccess();
             } catch (KommerceException $e) {

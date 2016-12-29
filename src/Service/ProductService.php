@@ -36,13 +36,11 @@ class ProductService implements ProductServiceInterface
 
     public function create(Product & $product)
     {
-        $this->throwValidationErrors($product);
         $this->productRepository->create($product);
     }
 
     public function update(Product & $product)
     {
-        $this->throwValidationErrors($product);
         $this->productRepository->update($product);
     }
 
@@ -53,13 +51,11 @@ class ProductService implements ProductServiceInterface
 
     public function createProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount)
     {
-        $this->throwValidationErrors($productQuantityDiscount);
         $this->productRepository->create($productQuantityDiscount);
     }
 
     public function updateProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount)
     {
-        $this->throwValidationErrors($productQuantityDiscount);
         $this->productRepository->update($productQuantityDiscount);
     }
 

@@ -74,7 +74,6 @@ class OrderService implements OrderServiceInterface
 
     public function update(Order & $order)
     {
-        $this->throwValidationErrors($order);
         $this->orderRepository->update($order);
         $this->eventDispatcher->dispatch($order->releaseEvents());
     }
@@ -229,7 +228,6 @@ class OrderService implements OrderServiceInterface
     private function updateAttachment(Attachment & $attachment)
     {
         // TODO: Move this responsibility to the Attachment Service without a cyclic dependency
-        $this->throwValidationErrors($attachment);
         $this->orderRepository->update($attachment);
     }
 

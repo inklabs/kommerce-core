@@ -50,20 +50,17 @@ class UserService implements UserServiceInterface
 
     public function create(User & $user)
     {
-        $this->throwValidationErrors($user);
         $this->userRepository->create($user);
     }
 
     public function createUserToken(UserToken & $userToken)
     {
-        $this->throwValidationErrors($userToken);
         $this->userTokenRepository->create($userToken);
         $this->eventDispatcher->dispatch($userToken->releaseEvents());
     }
 
     public function update(User & $user)
     {
-        $this->throwValidationErrors($user);
         $this->userRepository->update($user);
         $this->eventDispatcher->dispatch($user->releaseEvents());
     }

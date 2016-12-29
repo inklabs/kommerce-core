@@ -8,14 +8,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface CouponServiceInterface
 {
-    public function create(Coupon & $coupon);
-    public function update(Coupon & $coupon);
-
-    /**
-     * @param Coupon $coupon
-     */
-    public function delete(Coupon $coupon);
-
     /**
      * @param UuidInterface $id
      * @return Coupon

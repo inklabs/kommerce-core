@@ -2,25 +2,46 @@
 namespace inklabs\kommerce\ActionHandler\CatalogPromotion;
 
 use inklabs\kommerce\Action\CatalogPromotion\UpdateCatalogPromotionCommand;
-use inklabs\kommerce\EntityDTO\Builder\CatalogPromotionDTOBuilder;
-use inklabs\kommerce\Service\CatalogPromotionServiceInterface;
+use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 
 final class UpdateCatalogPromotionHandler
 {
-    /** @var CatalogPromotionServiceInterface */
-    protected $couponService;
+    /** @var CatalogPromotionRepositoryInterface */
+    private $catalogPromotionRepository;
 
-    public function __construct(CatalogPromotionServiceInterface $couponService)
-    {
-        $this->couponService = $couponService;
+    /** @var TagRepositoryInterface */
+    private $tagRepository;
+
+    public function __construct(
+        CatalogPromotionRepositoryInterface $catalogPromotionRepository,
+        TagRepositoryInterface $tagRepository
+    ) {
+        $this->catalogPromotionRepository = $catalogPromotionRepository;
+        $this->tagRepository = $tagRepository;
     }
 
     public function handle(UpdateCatalogPromotionCommand $command)
     {
-        $couponDTO = $command->getCatalogPromotionDTO();
-        $coupon = $this->couponService->findOneById($couponDTO->id);
-        CatalogPromotionDTOBuilder::setFromDTO($coupon, $couponDTO);
+        $catalogPromotion = $this->catalogPromotionRepository->findOneById(
+            $command->getCatalogPromotionId()
+        );
 
-        $this->couponService->update($coupon);
+        $catalogPromotion->setName($command->getName());
+        $catalogPromotion->setType($command->getPromotionType());
+        $catalogPromotion->setValue($command->getValue());
+        $catalogPromotion->setReducesTaxSubtotal($command->getReducesTaxSubtotal());
+        $catalogPromotion->setMaxRedemptions($command->getMaxRedemptions());
+        $catalogPromotion->setStartAt($command->getStartAt());
+        $catalogPromotion->setEndAt($command->getEndAt());
+
+        if ($command->getTagId() === null) {
+            $catalogPromotion->setTag(null);
+        } else {
+            $tag = $this->tagRepository->findOneById($command->getTagId());
+            $catalogPromotion->setTag($tag);
+        }
+
+        $this->catalogPromotionRepository->update($catalogPromotion);
     }
 }

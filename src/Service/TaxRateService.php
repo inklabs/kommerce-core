@@ -19,13 +19,11 @@ class TaxRateService implements TaxRateServiceInterface
 
     public function create(TaxRate & $taxRate)
     {
-        $this->throwValidationErrors($taxRate);
         $this->taxRateRepository->create($taxRate);
     }
 
     public function update(TaxRate & $taxRate)
     {
-        $this->throwValidationErrors($taxRate);
         $this->taxRateRepository->update($taxRate);
     }
 

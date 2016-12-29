@@ -2,21 +2,21 @@
 namespace inklabs\kommerce\ActionHandler\Coupon;
 
 use inklabs\kommerce\Action\Coupon\DeleteCouponCommand;
-use inklabs\kommerce\Service\CouponServiceInterface;
+use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 
 final class DeleteCouponHandler
 {
-    /** @var CouponServiceInterface */
-    protected $couponService;
+    /** @var CouponRepositoryInterface */
+    protected $couponRepository;
 
-    public function __construct(CouponServiceInterface $couponService)
+    public function __construct(CouponRepositoryInterface $couponRepository)
     {
-        $this->couponService = $couponService;
+        $this->couponRepository = $couponRepository;
     }
 
     public function handle(DeleteCouponCommand $command)
     {
-        $coupon = $this->couponService->findOneById($command->getCouponId());
-        $this->couponService->delete($coupon);
+        $coupon = $this->couponRepository->findOneById($command->getCouponId());
+        $this->couponRepository->delete($coupon);
     }
 }

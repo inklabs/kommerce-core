@@ -21,13 +21,11 @@ class CartPriceRuleService implements CartPriceRuleServiceInterface
 
     public function create(CartPriceRule & $cartPriceRule)
     {
-        $this->throwValidationErrors($cartPriceRule);
         $this->cartPriceRuleRepository->create($cartPriceRule);
     }
 
     public function update(CartPriceRule & $cartPriceRule)
     {
-        $this->throwValidationErrors($cartPriceRule);
         $this->cartPriceRuleRepository->update($cartPriceRule);
     }
 

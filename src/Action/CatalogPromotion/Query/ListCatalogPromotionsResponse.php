@@ -37,6 +37,20 @@ class ListCatalogPromotionsResponse implements ListCatalogPromotionsResponseInte
     }
 
     /**
+     * @return CatalogPromotionDTO[]
+     */
+    public function getCatalogPromotionDTOsWithAllData()
+    {
+        $catalogPromotionDTOs = [];
+        foreach ($this->catalogPromotionDTOBuilders as $catalogPromotionDTOBuilder) {
+            $catalogPromotionDTOs[] = $catalogPromotionDTOBuilder
+                ->withAllData()
+                ->build();
+        }
+        return $catalogPromotionDTOs;
+    }
+
+    /**
      * @return PaginationDTO
      */
     public function getPaginationDTO()

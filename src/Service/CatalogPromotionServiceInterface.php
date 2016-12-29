@@ -8,9 +8,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface CatalogPromotionServiceInterface
 {
-    public function create(CatalogPromotion & $catalogPromotion);
-    public function update(CatalogPromotion & $catalogPromotion);
-
     /**
      * @param UuidInterface $id
      * @return CatalogPromotion

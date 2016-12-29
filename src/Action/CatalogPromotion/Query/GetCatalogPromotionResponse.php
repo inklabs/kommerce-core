@@ -14,6 +14,13 @@ class GetCatalogPromotionResponse implements GetCatalogPromotionResponseInterfac
             ->build();
     }
 
+    public function getCatalogPromotionDTOWithAllData()
+    {
+        return $this->catalogPromotionDTOBuilder
+            ->withAllData()
+            ->build();
+    }
+
     public function setCatalogPromotionDTOBuilder(CatalogPromotionDTOBuilder $catalogPromotionDTOBuilder)
     {
         $this->catalogPromotionDTOBuilder = $catalogPromotionDTOBuilder;

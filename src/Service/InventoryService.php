@@ -267,9 +267,6 @@ class InventoryService implements InventoryServiceInterface
         $creditTransaction->setCreditQuantity($quantity);
         $creditTransaction->setMemo($memo);
 
-        $this->throwValidationErrors($debitTransaction);
-        $this->throwValidationErrors($creditTransaction);
-
         $this->inventoryTransactionRepository->persist($debitTransaction);
         $this->inventoryTransactionRepository->persist($creditTransaction);
         $this->inventoryTransactionRepository->flush();

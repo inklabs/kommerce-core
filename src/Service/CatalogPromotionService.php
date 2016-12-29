@@ -19,18 +19,6 @@ class CatalogPromotionService implements CatalogPromotionServiceInterface
         $this->catalogPromotionRepository = $catalogPromotionRepository;
     }
 
-    public function create(CatalogPromotion & $catalogPromotion)
-    {
-        $this->throwValidationErrors($catalogPromotion);
-        $this->catalogPromotionRepository->create($catalogPromotion);
-    }
-
-    public function update(CatalogPromotion & $catalogPromotion)
-    {
-        $this->throwValidationErrors($catalogPromotion);
-        $this->catalogPromotionRepository->update($catalogPromotion);
-    }
-
     /**
      * @param UuidInterface $id
      * @return CatalogPromotion

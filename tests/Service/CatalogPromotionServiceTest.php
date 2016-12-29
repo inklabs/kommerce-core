@@ -22,15 +22,6 @@ class CatalogPromotionServiceTest extends ServiceTestCase
         $this->catalogPromotionService = new CatalogPromotionService($this->catalogPromotionRepository);
     }
 
-    public function testCRUD()
-    {
-        $this->executeServiceCRUD(
-            $this->catalogPromotionService,
-            $this->catalogPromotionRepository,
-            $this->dummyData->getCatalogPromotion()
-        );
-    }
-
     public function testFindOneById()
     {
         $catalogPromotion1 = $this->dummyData->getAttribute();

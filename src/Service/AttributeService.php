@@ -20,13 +20,11 @@ class AttributeService
 
     public function create(Attribute & $attribute)
     {
-        $this->throwValidationErrors($attribute);
         $this->attributeRepository->create($attribute);
     }
 
     public function update(Attribute & $attribute)
     {
-        $this->throwValidationErrors($attribute);
         $this->attributeRepository->update($attribute);
     }
 

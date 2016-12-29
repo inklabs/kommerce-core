@@ -44,13 +44,11 @@ class AttachmentService implements AttachmentServiceInterface
 
     public function create(Attachment & $attachment)
     {
-        $this->throwValidationErrors($attachment);
         $this->attachmentRepository->create($attachment);
     }
 
     public function update(Attachment & $attachment)
     {
-        $this->throwValidationErrors($attachment);
         $this->attachmentRepository->update($attachment);
     }
 

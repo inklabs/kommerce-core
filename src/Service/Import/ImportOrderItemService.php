@@ -74,8 +74,6 @@ class ImportOrderItemService implements ImportOrderItemServiceInterface
                     }
                 }
 
-                $this->throwValidationErrors($orderItem);
-
                 $this->orderItemRepository->persist($orderItem);
                 $importResult->incrementSuccess();
             } catch (KommerceException $e) {

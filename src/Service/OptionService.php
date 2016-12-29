@@ -24,13 +24,11 @@ class OptionService implements OptionServiceInterface
 
     public function create(Option & $option)
     {
-        $this->throwValidationErrors($option);
         $this->optionRepository->create($option);
     }
 
     public function update(Option & $option)
     {
-        $this->throwValidationErrors($option);
         $this->optionRepository->update($option);
     }
 
@@ -41,13 +39,11 @@ class OptionService implements OptionServiceInterface
 
     public function createOptionValue(OptionValue & $optionValue)
     {
-        $this->throwValidationErrors($optionValue);
         $this->optionRepository->create($optionValue);
     }
 
     public function updateOptionValue(OptionValue & $optionValue)
     {
-        $this->throwValidationErrors($optionValue);
         $this->optionRepository->update($optionValue);
     }
 
@@ -58,13 +54,11 @@ class OptionService implements OptionServiceInterface
 
     public function createOptionProduct(OptionProduct & $optionProduct)
     {
-        $this->throwValidationErrors($optionProduct);
         $this->optionRepository->create($optionProduct);
     }
 
     public function updateOptionProduct(OptionProduct & $optionProduct)
     {
-        $this->throwValidationErrors($optionProduct);
         $this->optionRepository->update($optionProduct);
     }
 
@@ -75,13 +69,11 @@ class OptionService implements OptionServiceInterface
 
     public function createTextOption(TextOption & $textOption)
     {
-        $this->throwValidationErrors($textOption);
         $this->optionRepository->create($textOption);
     }
 
     public function updateTextOption(TextOption & $textOption)
     {
-        $this->throwValidationErrors($textOption);
         $this->optionRepository->update($textOption);
     }
 

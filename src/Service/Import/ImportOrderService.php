@@ -66,8 +66,6 @@ class ImportOrderService implements ImportOrderServiceInterface
             }
 
             try {
-                $this->throwValidationErrors($order);
-
                 $this->orderRepository->create($order);
                 $importResult->incrementSuccess();
             } catch (KommerceException $e) {

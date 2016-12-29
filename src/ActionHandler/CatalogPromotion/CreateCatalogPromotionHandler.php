@@ -3,24 +3,23 @@ namespace inklabs\kommerce\ActionHandler\CatalogPromotion;
 
 use inklabs\kommerce\Action\CatalogPromotion\CreateCatalogPromotionCommand;
 use inklabs\kommerce\Entity\CatalogPromotion;
-use inklabs\kommerce\Entity\PromotionType;
-use inklabs\kommerce\Service\CatalogPromotionServiceInterface;
-use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 
 final class CreateCatalogPromotionHandler
 {
-    /** @var CatalogPromotionServiceInterface */
-    protected $catalogPromotionService;
+    /** @var CatalogPromotionRepositoryInterface */
+    private $catalogPromotionRepository;
 
-    /** @var TagServiceInterface */
-    private $tagService;
+    /** @var TagRepositoryInterface */
+    private $tagRepository;
 
     public function __construct(
-        CatalogPromotionServiceInterface $catalogPromotionService,
-        TagServiceInterface $tagService
+        CatalogPromotionRepositoryInterface $catalogPromotionRepository,
+        TagRepositoryInterface $tagRepository
     ) {
-        $this->catalogPromotionService = $catalogPromotionService;
-        $this->tagService = $tagService;
+        $this->catalogPromotionRepository = $catalogPromotionRepository;
+        $this->tagRepository = $tagRepository;
     }
 
     public function handle(CreateCatalogPromotionCommand $command)
@@ -30,18 +29,18 @@ final class CreateCatalogPromotionHandler
         );
 
         $catalogPromotion->setName($command->getName());
-        $catalogPromotion->setType(PromotionType::createById($command->getPromotionTypeId()));
+        $catalogPromotion->setType($command->getPromotionType());
         $catalogPromotion->setValue($command->getValue());
         $catalogPromotion->setReducesTaxSubtotal($command->getReducesTaxSubtotal());
         $catalogPromotion->setMaxRedemptions($command->getMaxRedemptions());
-        $catalogPromotion->setStart($command->getStartDate());
-        $catalogPromotion->setEnd($command->getEndDate());
+        $catalogPromotion->setStartAt($command->getStartAt());
+        $catalogPromotion->setEndAt($command->getEndAt());
 
         if ($command->getTagId() !== null) {
-            $tag = $this->tagService->findOneById($command->getTagId());
+            $tag = $this->tagRepository->findOneById($command->getTagId());
             $catalogPromotion->setTag($tag);
         }
 
-        $this->catalogPromotionService->create($catalogPromotion);
+        $this->catalogPromotionRepository->create($catalogPromotion);
     }
 }
