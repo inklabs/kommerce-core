@@ -71,14 +71,6 @@ class ServiceFactory
     }
 
     /**
-     * @return AttributeService
-     */
-    public function getAttribute()
-    {
-        return new AttributeService($this->repositoryFactory->getAttributeRepository());
-    }
-
-    /**
      * @return AttributeValueService
      */
     public function getAttributeValue()
