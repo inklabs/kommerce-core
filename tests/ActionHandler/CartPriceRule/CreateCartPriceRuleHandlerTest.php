@@ -1,32 +1,40 @@
 <?php
 namespace inklabs\kommerce\ActionHandler\CartPriceRule;
 
-use DateTime;
 use inklabs\kommerce\Action\CartPriceRule\CreateCartPriceRuleCommand;
+use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class CreateCartPriceRuleHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        CartPriceRule::class,
+    ];
+
     public function testHandle()
     {
-        $couponService = $this->mockService->getCartPriceRuleService();
-        $couponService->shouldReceive('create')
-            ->once();
-
-        $name = '50% OFF Everything';
-        $reducesTaxSubtotal = true;
+        $name = 'Buy X get Y free';
         $maxRedemptions = 100;
-        $startDate = new DateTime();
-        $endDate = new DateTime();
-
+        $reducesTaxSubtotal = true;
+        $startAt = self::FAKE_TIMESTAMP;
+        $endAt = self::FAKE_TIMESTAMP;
         $command = new CreateCartPriceRuleCommand(
             $name,
-            $reducesTaxSubtotal,
             $maxRedemptions,
-            $startDate,
-            $endDate
+            $reducesTaxSubtotal,
+            $startAt,
+            $endAt
         );
-        $handler = new CreateCartPriceRuleHandler($couponService);
-        $handler->handle($command);
+        $this->dispatchCommand($command);
+
+        $this->entityManager->clear();
+        $cartPriceRule = $this->getRepositoryFactory()->getCartPriceRuleRepository()->findOneById(
+            $command->getCartPriceRuleId()
+        );
+        $this->assertSame($name, $cartPriceRule->getName());
+        $this->assertSame($maxRedemptions, $cartPriceRule->getMaxRedemptions());
+        $this->assertSame($reducesTaxSubtotal, $cartPriceRule->getReducesTaxSubtotal());
+        $this->assertSame($startAt, $cartPriceRule->getStartAt());
+        $this->assertSame($endAt, $cartPriceRule->getEndAt());
     }
 }

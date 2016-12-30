@@ -2,22 +2,43 @@
 namespace inklabs\kommerce\ActionHandler\CartPriceRule;
 
 use inklabs\kommerce\Action\CartPriceRule\UpdateCartPriceRuleCommand;
+use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class UpdateCartPriceRuleHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        CartPriceRule::class,
+    ];
+
     public function testHandle()
     {
-        $cartPriceRuleService = $this->mockService->getCartPriceRuleService();
-        $cartPriceRuleService->shouldReceive('update')
-            ->once();
+        $cartPriceRule1 = $this->dummyData->getCartPriceRule();
+        $this->persistEntityAndFlushClear($cartPriceRule1);
+        $name = 'Buy X get Y free';
+        $maxRedemptions = 100;
+        $reducesTaxSubtotal = true;
+        $startAt = self::FAKE_TIMESTAMP;
+        $endAt = self::FAKE_TIMESTAMP;
+        $command = new UpdateCartPriceRuleCommand(
+            $name,
+            $maxRedemptions,
+            $reducesTaxSubtotal,
+            $startAt,
+            $endAt,
+            $cartPriceRule1->getId()->getHex()
+        );
 
-        $cartPriceRuleDTO = $this->getDTOBuilderFactory()
-            ->getCartPriceRuleDTOBuilder($this->dummyData->getCartPriceRule())
-            ->build();
+        $this->dispatchCommand($command);
 
-        $command = new UpdateCartPriceRuleCommand($cartPriceRuleDTO);
-        $handler = new UpdateCartPriceRuleHandler($cartPriceRuleService);
-        $handler->handle($command);
+        $this->entityManager->clear();
+        $cartPriceRule = $this->getRepositoryFactory()->getCartPriceRuleRepository()->findOneById(
+            $command->getCartPriceRuleId()
+        );
+        $this->assertSame($name, $cartPriceRule->getName());
+        $this->assertSame($maxRedemptions, $cartPriceRule->getMaxRedemptions());
+        $this->assertSame($reducesTaxSubtotal, $cartPriceRule->getReducesTaxSubtotal());
+        $this->assertSame($startAt, $cartPriceRule->getStartAt());
+        $this->assertSame($endAt, $cartPriceRule->getEndAt());
     }
 }
