@@ -105,10 +105,8 @@ class DummyData
 
     public function getAttribute()
     {
-        $attribute = new Attribute;
-        $attribute->setName('Test Attribute');
+        $attribute = new Attribute('Test Attribute', 0);
         $attribute->setDescription('Test Attribute Description');
-        $attribute->setSortOrder(0);
 
         return $attribute;
     }

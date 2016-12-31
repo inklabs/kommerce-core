@@ -24,10 +24,16 @@ class Attribute implements IdEntityInterface
     /** @var ProductAttribute[] */
     protected $productAttributes;
 
-    public function __construct()
+    /**
+     * @param string $name
+     * @param int $sortOrder
+     */
+    public function __construct($name, $sortOrder, $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
+        $this->name = (string) $name;
+        $this->sortOrder = (int) $sortOrder;
         $this->attributeValues = new ArrayCollection();
         $this->productAttributes = new ArrayCollection();
     }

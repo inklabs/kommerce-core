@@ -13,10 +13,10 @@
 
         <id name="id" type="uuid_binary"/>
 
-        <field name="name" type="string" length="255"/>
+        <field name="name" type="string" length="255" nullable="false"/>
         <field name="description" type="text" length="65535" nullable="true"/>
 
-        <field name="sortOrder" type="smallint">
+        <field name="sortOrder" type="smallint" nullable="false">
             <options>
                 <option name="unsigned">true</option>
             </options>
