@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,11 +28,19 @@ class AttributeValue implements IdEntityInterface
     /** @var ProductAttribute[] */
     protected $productAttributes;
 
-    public function __construct(Attribute $attribute)
+    /**
+     * @param Attribute $attribute
+     * @param string $name
+     * @param int $sortOrder
+     * @param UuidInterface $id
+     */
+    public function __construct(Attribute $attribute, $name, $sortOrder, UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->setAttribute($attribute);
+        $this->name = (string) $name;
+        $this->sortOrder = (int) $sortOrder;
         $this->productAttributes = new ArrayCollection();
     }
 

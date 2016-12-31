@@ -4,6 +4,7 @@ namespace inklabs\kommerce\ActionHandler\Attribute;
 use inklabs\kommerce\Action\Attribute\AbstractAttributeCommand;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
 abstract class AbstractAttributeHandler
 {

@@ -14,10 +14,10 @@ class DeleteAttributeHandlerTest extends ActionTestCase
 
     public function testHandle()
     {
-        $coupon = $this->dummyData->getAttribute();
-        $this->persistEntityAndFlushClear($coupon);
+        $attribute = $this->dummyData->getAttribute();
+        $this->persistEntityAndFlushClear($attribute);
 
-        $command = new DeleteAttributeCommand($coupon->getId()->getHex());
+        $command = new DeleteAttributeCommand($attribute->getId()->getHex());
         $this->dispatchCommand($command);
 
         $this->entityManager->clear();

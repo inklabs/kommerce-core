@@ -117,11 +117,9 @@ class DummyData
             $attribute = $this->getAttribute();
         }
 
-        $attributeValue = new AttributeValue($attribute);
+        $attributeValue = new AttributeValue($attribute, 'Test Attribute Value', 0);
         $attributeValue->setSku('TAV');
-        $attributeValue->setName('Test Attribute Value');
         $attributeValue->setDescription('Test Attribute Value Description');
-        $attributeValue->setSortOrder(0);
 
         return $attributeValue;
     }

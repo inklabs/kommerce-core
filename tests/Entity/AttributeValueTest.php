@@ -8,12 +8,14 @@ class AttributeValueTest extends EntityTestCase
     public function testCreateDefaults()
     {
         $attribute = $this->dummyData->getAttribute();
-        $attributeValue = new AttributeValue($attribute);
+        $name = 'Test Attribute';
+        $sortOrder = 12;
+        $attributeValue = new AttributeValue($attribute, $name, $sortOrder);
 
         $this->assertSame(null, $attributeValue->getSku());
-        $this->assertSame(null, $attributeValue->getName());
+        $this->assertSame($name, $attributeValue->getName());
         $this->assertSame(null, $attributeValue->getDescription());
-        $this->assertSame(null, $attributeValue->getSortOrder());
+        $this->assertSame($sortOrder, $attributeValue->getSortOrder());
         $this->assertSame($attribute, $attributeValue->getAttribute());
         $this->assertSame(0, count($attributeValue->getProductAttributes()));
     }
@@ -22,17 +24,19 @@ class AttributeValueTest extends EntityTestCase
     {
         $attribute = $this->dummyData->getAttribute();
         $productAttribute = $this->dummyData->getProductAttribute();
+        $name = 'Test Attribute';
+        $sortOrder = 12;
 
-        $attributeValue = new AttributeValue($attribute);
+        $attributeValue = new AttributeValue($attribute, $name, $sortOrder);
         $attributeValue->setSku('TA');
-        $attributeValue->setName('Test Attribute');
+        $attributeValue->setName('Test Attribute2');
         $attributeValue->setDescription('Test attribute description');
         $attributeValue->setSortOrder(0);
         $attributeValue->addProductAttribute($productAttribute);
 
         $this->assertEntityValid($attributeValue);
         $this->assertSame('TA', $attributeValue->getSku());
-        $this->assertSame('Test Attribute', $attributeValue->getName());
+        $this->assertSame('Test Attribute2', $attributeValue->getName());
         $this->assertSame('Test attribute description', $attributeValue->getDescription());
         $this->assertSame(0, $attributeValue->getSortOrder());
         $this->assertSame($attribute, $attributeValue->getAttribute());

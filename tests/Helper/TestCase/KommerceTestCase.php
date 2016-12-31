@@ -43,6 +43,7 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     const FLOAT_TAX_RATE = 9.5;
     const FAKE_TIMESTAMP = 1482913105;
     const FAKE_TEXT = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun';
+    const FAKE_SKU = 'ZK03B7';
 
     /** @var DummyData */
     protected $dummyData;

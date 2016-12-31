@@ -7,16 +7,16 @@ use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
 final class DeleteAttributeHandler
 {
     /** @var AttributeRepositoryInterface */
-    protected $couponRepository;
+    protected $attributeRepository;
 
-    public function __construct(AttributeRepositoryInterface $couponRepository)
+    public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
-        $this->couponRepository = $couponRepository;
+        $this->attributeRepository = $attributeRepository;
     }
 
     public function handle(DeleteAttributeCommand $command)
     {
-        $coupon = $this->couponRepository->findOneById($command->getAttributeId());
-        $this->couponRepository->delete($coupon);
+        $attribute = $this->attributeRepository->findOneById($command->getAttributeId());
+        $this->attributeRepository->delete($attribute);
     }
 }
