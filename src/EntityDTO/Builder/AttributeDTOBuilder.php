@@ -52,6 +52,8 @@ class AttributeDTOBuilder implements DTOBuilderInterface
         foreach ($this->entity->getProductAttributes() as $productAttribute) {
             $this->entityDTO->productAttributes[] = $this->dtoBuilderFactory
                 ->getProductAttributeDTOBuilder($productAttribute)
+                ->withProduct()
+                ->withAttributeValue()
                 ->build();
         }
 
