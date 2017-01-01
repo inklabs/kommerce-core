@@ -23,12 +23,12 @@ final class GetAttributeHandler
 
     public function handle(GetAttributeQuery $query)
     {
-        $coupon = $this->attributeRepository->findOneById(
+        $attribute = $this->attributeRepository->findOneById(
             $query->getRequest()->getAttributeId()
         );
 
         $query->getResponse()->setAttributeDTOBuilder(
-            $this->dtoBuilderFactory->getAttributeDTOBuilder($coupon)
+            $this->dtoBuilderFactory->getAttributeDTOBuilder($attribute)
         );
     }
 }

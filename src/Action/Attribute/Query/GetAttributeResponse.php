@@ -14,6 +14,13 @@ class GetAttributeResponse implements GetAttributeResponseInterface
             ->build();
     }
 
+    public function getAttributeDTOWithAttributeValues()
+    {
+        return $this->attributeDTOBuilder
+            ->withAttributeValues()
+            ->build();
+    }
+
     public function getAttributeDTOWithAllData()
     {
         return $this->attributeDTOBuilder
