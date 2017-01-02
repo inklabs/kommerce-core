@@ -27,7 +27,7 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         OptionProduct::class,
     ];
 
-    /** @var ProductRepository */
+    /** @var ProductRepositoryInterface */
     protected $productRepository;
 
     public function setUp()
@@ -90,7 +90,7 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
 
         $attribute = $this->dummyData->getAttribute();
         $attributeValue = $this->dummyData->getAttributeValue($attribute);
-        $productAttribute = $this->dummyData->getProductAttribute($originalProduct, $attribute, $attributeValue);
+        $productAttribute = $this->dummyData->getProductAttribute($originalProduct, $attributeValue);
         $option = $this->dummyData->getOption();
         $optionProduct = $this->dummyData->getOptionProduct($option, $originalProduct);
         $productQuantityDiscount = $this->dummyData->getProductQuantityDiscount($originalProduct);

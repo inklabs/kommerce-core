@@ -813,15 +813,10 @@ class DummyData
 
     public function getProductAttribute(
         Product $product = null,
-        Attribute $attribute = null,
         AttributeValue $attributeValue = null
     ) {
         if ($product === null) {
             $product = $this->getProduct();
-        }
-
-        if ($attribute === null) {
-            $attribute = $this->getAttribute();
         }
 
         if ($attributeValue === null) {
@@ -830,7 +825,6 @@ class DummyData
 
         return new ProductAttribute(
             $product,
-            $attribute,
             $attributeValue
         );
     }

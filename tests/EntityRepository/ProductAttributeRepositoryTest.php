@@ -30,7 +30,7 @@ class ProductAttributeRepositoryTest extends EntityRepositoryTestCase
         $product = $this->dummyData->getProduct();
         $attribute = $this->dummyData->getAttribute();
         $attributeValue = $this->dummyData->getAttributeValue($attribute);
-        $productAttribute = $this->dummyData->getProductAttribute($product, $attribute, $attributeValue);
+        $productAttribute = $this->dummyData->getProductAttribute($product, $attributeValue);
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($attribute);

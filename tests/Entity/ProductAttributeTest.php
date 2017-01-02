@@ -9,9 +9,9 @@ class ProductAttributeTest extends EntityTestCase
     {
         $product = $this->dummyData->getProduct();
         $attribute = $this->dummyData->getAttribute();
-        $attributeValue = $this->dummyData->getAttributeValue();
+        $attributeValue = $this->dummyData->getAttributeValue($attribute);
 
-        $productAttribute = new ProductAttribute($product, $attribute, $attributeValue);
+        $productAttribute = new ProductAttribute($product, $attributeValue);
 
         $this->assertSame($product, $productAttribute->getProduct());
         $this->assertSame($attribute, $productAttribute->getAttribute());

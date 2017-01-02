@@ -1,30 +1,41 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-class ProductAttribute
+use inklabs\kommerce\Lib\UuidInterface;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+
+class ProductAttribute implements EntityInterface
 {
     use TimeTrait, IdTrait;
 
     /** @var Product */
     protected $product;
 
-    /** @var Attribute */
+    /**
+     * @var Attribute
+     * @deprecated
+     */
     protected $attribute;
 
     /** @var AttributeValue */
     protected $attributeValue;
 
-    public function __construct(Product $product, Attribute $attribute, AttributeValue $attributeValue)
+    public function __construct(Product $product, AttributeValue $attributeValue, UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->product = $product;
-        $this->attribute = $attribute;
+        $this->attribute = $attributeValue->getAttribute();
         $this->attributeValue = $attributeValue;
 
         $product->addProductAttribute($this);
-        $attribute->addProductAttribute($this);
+        $this->attribute->addProductAttribute($this);
         $attributeValue->addProductAttribute($this);
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        // TODO: Implement loadValidatorMetadata() method.
     }
 
     public function getProduct()
@@ -32,6 +43,10 @@ class ProductAttribute
         return $this->product;
     }
 
+    /**
+     * @return Attribute
+     * @deprecated
+     */
     public function getAttribute()
     {
         return $this->attribute;
