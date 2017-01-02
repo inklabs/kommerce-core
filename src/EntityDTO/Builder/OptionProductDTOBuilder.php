@@ -28,10 +28,7 @@ class OptionProductDTOBuilder implements DTOBuilderInterface
         $this->entityDTO = new OptionProductDTO;
         $this->setId();
         $this->setTime();
-        $this->entityDTO->name           = $this->entity->getName();
-        $this->entityDTO->sku            = $this->entity->getSku();
-        $this->entityDTO->shippingWeight = $this->entity->getShippingWeight();
-        $this->entityDTO->sortOrder      = $this->entity->getSortOrder();
+        $this->entityDTO->sortOrder = $this->entity->getSortOrder();
     }
 
     public static function createFromDTO(Option $option, Product $product, OptionProductDTO $optionProductDTO)
