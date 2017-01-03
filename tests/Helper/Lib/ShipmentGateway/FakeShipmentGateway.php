@@ -7,6 +7,7 @@ use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 
 class FakeShipmentGateway implements ShipmentGatewayInterface
@@ -22,9 +23,10 @@ class FakeShipmentGateway implements ShipmentGatewayInterface
     /**
      * @param OrderAddressDTO $toAddress
      * @param ParcelDTO $parcel
+     * @param null|OrderAddressDTO $fromAddress
      * @return ShipmentRate[]
      */
-    public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel)
+    public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel, OrderAddressDTO $fromAddress = null)
     {
         $dummyData = new DummyData;
 
@@ -66,14 +68,16 @@ class FakeShipmentGateway implements ShipmentGatewayInterface
     /**
      * @param string $shipmentExternalId
      * @param string $rateExternalId
+     * @param null|UuidInterface $id
      * @return ShipmentTracker
      */
-    public function buy($shipmentExternalId, $rateExternalId)
+    public function buy($shipmentExternalId, $rateExternalId, UuidInterface $id = null)
     {
         $dummyData = new DummyData;
         $shipmentTracker = $dummyData->getShipmentTracker();
         $shipmentTracker->getShipmentLabel()->setExternalId($shipmentExternalId);
         $shipmentTracker->getShipmentRate()->setExternalId($rateExternalId);
+        $shipmentTracker->setId($id);
 
         return $shipmentTracker;
     }

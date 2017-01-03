@@ -28,7 +28,8 @@ final class GetShipmentRatesHandler
 
         $shipmentRates = $this->shipmentGateway->getRates(
             $request->getToAddressDTO(),
-            $request->getParcelDTO()
+            $request->getParcelDTO(),
+            $request->getFromAddressDTO()
         );
 
         foreach ($shipmentRates as $shipmentRate) {

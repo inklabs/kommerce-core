@@ -26,6 +26,7 @@ use inklabs\kommerce\Entity\OrderItemTextOptionValue;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
@@ -247,6 +248,14 @@ class RepositoryFactory
     public function getProductQuantityDiscountRepository()
     {
         return $this->entityManager->getRepository(ProductQuantityDiscount::class);
+    }
+
+    /**
+     * @return ShipmentTrackerRepositoryInterface
+     */
+    public function getShipmentTrackerRepository()
+    {
+        return $this->entityManager->getRepository(ShipmentTracker::class);
     }
 
     /**

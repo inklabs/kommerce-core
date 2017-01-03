@@ -12,6 +12,7 @@ use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductAttributeRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
+use inklabs\kommerce\EntityRepository\ShipmentTrackerRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
@@ -106,6 +107,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getProductRepository();
                 } elseif ($parameterClassName === ProductAttributeRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getProductAttributeRepository();
+                } elseif ($parameterClassName === ShipmentTrackerRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getShipmentTrackerRepository();
                 } elseif ($parameterClassName === TagRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getTagRepository();
                 } elseif ($parameterClassName === TaxRateRepositoryInterface::class) {

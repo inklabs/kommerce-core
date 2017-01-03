@@ -10,6 +10,7 @@ use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class EasyPostGateway implements ShipmentGatewayInterface
 {
@@ -29,12 +30,17 @@ class EasyPostGateway implements ShipmentGatewayInterface
     /**
      * @param OrderAddressDTO $toAddress
      * @param ParcelDTO $parcel
+     * @param null|OrderAddressDTO $fromAddress
      * @return ShipmentRate[]
      */
-    public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel)
+    public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel, OrderAddressDTO $fromAddress = null)
     {
+        if ($fromAddress === null) {
+            $fromAddress = $this->fromAddress;
+        }
+
         $shipment = EasyPost\Shipment::create([
-            'from_address' => $this->getEasyPostAddress($this->fromAddress),
+            'from_address' => $this->getEasyPostAddress($fromAddress),
             'to_address' => $this->getEasyPostAddress($toAddress),
             'parcel' => $this->getEasyPostParcel($parcel),
         ]);
@@ -90,9 +96,10 @@ class EasyPostGateway implements ShipmentGatewayInterface
     /**
      * @param string $shipmentExternalId
      * @param string $rateExternalId
+     * @param null|UuidInterface $id
      * @return ShipmentTracker
      */
-    public function buy($shipmentExternalId, $rateExternalId)
+    public function buy($shipmentExternalId, $rateExternalId, UuidInterface $id = null)
     {
         $shipment = new EasyPost\Shipment($shipmentExternalId);
         $shipment->buy([
@@ -101,7 +108,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
             ]
         ]);
 
-        return $this->getShipmentTrackerFromEasyPostShipment($shipment);
+        return $this->getShipmentTrackerFromEasyPostShipment($shipment, $id);
     }
 
     /**
@@ -176,7 +183,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
         );
     }
 
-    private function getShipmentTrackerFromEasyPostShipment($shipment)
+    private function getShipmentTrackerFromEasyPostShipment($shipment, UuidInterface $id = null)
     {
         switch (strtolower($shipment->tracker->carrier)) {
             case 'ups':
@@ -192,7 +199,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
                 $carrier = ShipmentCarrierType::unknown();
         }
 
-        $shipmentTracker = new ShipmentTracker($carrier, $shipment->tracking_code);
+        $shipmentTracker = new ShipmentTracker($carrier, $shipment->tracking_code, $id);
         $shipmentTracker->setExternalId($shipment->id);
         $shipmentTracker->setShipmentLabel($this->getShipmentLabelFromEasyPostShipment($shipment));
         $shipmentTracker->setShipmentRate($this->getShipmentRateFromEasyPostRate($shipment->selected_rate));

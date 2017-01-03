@@ -13,6 +13,7 @@ class GetCouponHandlerTest extends ActionTestCase
     protected $metaDataClassNames = [
         Coupon::class,
     ];
+
     public function testHandle()
     {
         $coupon = $this->dummyData->getCoupon();

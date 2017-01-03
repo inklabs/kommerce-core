@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -29,10 +30,11 @@ class ShipmentTracker implements IdEntityInterface
     /**
      * @param ShipmentCarrierType $carrier
      * @param string $trackingCode
+     * @param null|UuidInterface $id
      */
-    public function __construct(ShipmentCarrierType $carrier, $trackingCode)
+    public function __construct(ShipmentCarrierType $carrier, $trackingCode, UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->setCarrier($carrier);
         $this->trackingCode = (string) $trackingCode;

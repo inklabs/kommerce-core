@@ -3,9 +3,6 @@ namespace inklabs\kommerce\EntityDTO;
 
 class OrderAddressDTO
 {
-    /** @var int */
-    public $sortOrder;
-
     /** @var string */
     public $firstName;
 
