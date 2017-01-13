@@ -25,7 +25,7 @@ class ListAttributesResponse implements ListAttributesResponseInterface
     }
 
     /**
-     * @return AttributeDTO[]|\Generator
+     * @return AttributeDTO[]
      */
     public function getAttributeDTOs()
     {
