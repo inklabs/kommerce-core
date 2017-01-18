@@ -5,22 +5,12 @@ use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class UserRoleTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $userRole = new UserRole;
-
-        $this->assertSame(null, $userRole->getName());
-        $this->assertSame(null, $userRole->getDescription());
-    }
-
     public function testCreate()
     {
-        $userRole = new UserRole;
-        $userRole->setName('Administrator');
-        $userRole->setDescription('Admin account with access to everything.');
+        $userRoleType = UserRoleType::admin();
+        $userRole = new UserRole($userRoleType);
 
         $this->assertEntityValid($userRole);
-        $this->assertSame('Administrator', $userRole->getName());
-        $this->assertSame('Admin account with access to everything.', $userRole->getDescription());
+        $this->assertSame($userRoleType, $userRole->getUserRoleType());
     }
 }

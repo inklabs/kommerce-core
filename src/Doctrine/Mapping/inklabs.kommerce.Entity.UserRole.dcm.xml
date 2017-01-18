@@ -7,14 +7,15 @@
     <entity name="inklabs\kommerce\Entity\UserRole"
             repository-class="inklabs\kommerce\EntityRepository\UserRoleRepository">
 
+        <unique-constraints>
+            <unique-constraint columns="userRoleType" />
+        </unique-constraints>
+
         <lifecycle-callbacks>
             <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
 
         <id name="id" type="uuid_binary"/>
-
-        <field name="name" type="string" length="32"/>
-        <field name="description" type="string" length="255"/>
 
         <field name="created" type="integer">
             <options>
@@ -27,6 +28,8 @@
                 <option name="unsigned">true</option>
             </options>
         </field>
+
+        <embedded name="userRoleType" class="UserRoleType" use-column-prefix="false"/>
 
     </entity>
 

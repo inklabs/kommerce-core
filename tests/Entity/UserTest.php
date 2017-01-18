@@ -102,13 +102,12 @@ class UserTest extends EntityTestCase
 
     public function testHasRoles()
     {
-        $adminRole = new UserRole;
-        $adminRole->setName('admin');
+        $adminRole = new UserRole(UserRoleType::admin());
 
         $user = new User;
         $user->addUserRole($adminRole);
 
-        $this->assertTrue($user->hasUserRoles(['admin']));
-        $this->assertFalse($user->hasUserRoles(['developer']));
+        $this->assertTrue($user->hasUserRoles([UserRoleType::admin()]));
+        $this->assertFalse($user->hasUserRoles([UserRoleType::developer()]));
     }
 }

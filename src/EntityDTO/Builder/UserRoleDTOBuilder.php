@@ -14,15 +14,21 @@ class UserRoleDTOBuilder implements DTOBuilderInterface
     /** @var UserRoleDTO */
     protected $entityDTO;
 
-    public function __construct(UserRole $userRole)
+    /** @var DTOBuilderFactoryInterface */
+    protected $dtoBuilderFactory;
+
+    public function __construct(UserRole $userRole, DTOBuilderFactoryInterface $dtoBuilderFactory)
     {
         $this->entity = $userRole;
+        $this->dtoBuilderFactory = $dtoBuilderFactory;
 
         $this->entityDTO = new UserRoleDTO;
         $this->setId();
         $this->setTime();
-        $this->entityDTO->name        = $this->entity->getName();
-        $this->entityDTO->description = $this->entity->getDescription();
+
+        $this->entityDTO->userRoleType = $this->dtoBuilderFactory
+            ->getUserRoleTypeDTOBuilder($this->entity->getUserRoleType())
+            ->build();
     }
 
     protected function preBuild()

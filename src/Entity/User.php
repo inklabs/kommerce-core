@@ -243,15 +243,19 @@ class User implements IdEntityInterface
         return $this->userRoles;
     }
 
-    public function hasUserRoles(array $roleNames)
+    /**
+     * @param UserRoleType[] $userRoleTypes
+     * @return bool
+     */
+    public function hasUserRoles(array $userRoleTypes)
     {
         $userRoles = [];
-        foreach ($this->userRoles as $role) {
-            $userRoles[$role->getName()] = true;
+        foreach ($this->userRoles as $userRole) {
+            $userRoles[$userRole->getUserRoleType()->getId()] = true;
         }
 
-        foreach ($roleNames as $roleName) {
-            if (! isset($userRoles[$roleName])) {
+        foreach ($userRoleTypes as $userRoleType) {
+            if (! isset($userRoles[$userRoleType->getId()])) {
                 return false;
             }
         }

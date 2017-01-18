@@ -65,6 +65,7 @@ use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserLoginResultType;
 use inklabs\kommerce\Entity\UserRole;
+use inklabs\kommerce\Entity\UserRoleType;
 use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Entity\UserTokenType;
@@ -1049,9 +1050,7 @@ class DummyData
 
     public function getUserRole()
     {
-        $userRole = new UserRole;
-        $userRole->setName('Administrator');
-        $userRole->setDescription('Admin account. Access to everything');
+        $userRole = new UserRole(UserRoleType::admin());
 
         return $userRole;
     }

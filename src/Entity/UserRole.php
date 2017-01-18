@@ -8,34 +8,19 @@ class UserRole implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 
-    /** @var string */
-    protected $name;
+    /** @var UserRoleType */
+    protected $userRoleType;
 
-    /** @var string */
-    protected $description;
-
-    public function __construct()
+    public function __construct(UserRoleType $userRoleType)
     {
         $this->setId();
         $this->setCreated();
+        $this->userRoleType = $userRoleType;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('name', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('name', new Assert\Length([
-            'max' => 32,
-        ]));
-
-        $metadata->addPropertyConstraint('description', new Assert\NotBlank);
-        $metadata->addPropertyConstraint('description', new Assert\Length([
-            'max' => 255,
-        ]));
-    }
-
-    public function setName($name)
-    {
-        $this->name = (string) $name;
+        $metadata->addPropertyConstraint('userRoleType', new Assert\Valid);
     }
 
     public function getName()
@@ -51,5 +36,10 @@ class UserRole implements IdEntityInterface
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function getUserRoleType()
+    {
+        return $this->userRoleType;
     }
 }

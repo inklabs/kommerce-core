@@ -63,6 +63,7 @@ use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserLoginResultType;
 use inklabs\kommerce\Entity\UserRole;
+use inklabs\kommerce\Entity\UserRoleType;
 use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Entity\UserTokenType;
@@ -448,6 +449,12 @@ interface DTOBuilderFactoryInterface
      * @return UserRoleDTOBuilder
      */
     public function getUserRoleDTOBuilder(UserRole $userRole);
+
+    /**
+     * @param UserRoleType $userRoleType
+     * @return UserRoleTypeDTOBuilder
+     */
+    public function getUserRoleTypeDTOBuilder(UserRoleType $userRoleType);
 
     /**
      * @param UserStatusType $userStatusType
