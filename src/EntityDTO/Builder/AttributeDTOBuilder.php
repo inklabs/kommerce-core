@@ -26,8 +26,12 @@ class AttributeDTOBuilder implements DTOBuilderInterface
         $this->setId();
         $this->setTime();
         $this->entityDTO->name        = $this->entity->getName();
-        $this->entityDTO->description = $this->entity->getDescription();
         $this->entityDTO->sortOrder   = $this->entity->getSortOrder();
+        $this->entityDTO->description = $this->entity->getDescription();
+
+        $this->entityDTO->choiceType = $this->dtoBuilderFactory
+            ->getAttributeChoiceTypeDTOBuilder($this->entity->getChoiceType())
+            ->build();
     }
 
     /**

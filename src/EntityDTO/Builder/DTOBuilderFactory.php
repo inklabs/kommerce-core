@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Address;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Entity\AttributeChoiceType;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
@@ -68,6 +69,7 @@ use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Entity\UserTokenType;
 use inklabs\kommerce\Entity\Warehouse;
+use inklabs\kommerce\EntityDTO\AttributeChoiceTypeDTO;
 use inklabs\kommerce\Exception\DTOBuilderException;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 
@@ -86,6 +88,11 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
     public function getAttributeDTOBuilder(Attribute $attribute)
     {
         return new AttributeDTOBuilder($attribute, $this);
+    }
+
+    public function getAttributeChoiceTypeDTOBuilder(AttributeChoiceType $attributeChoiceType)
+    {
+        return new AttributeChoiceTypeDTOBuilder($attributeChoiceType, $this);
     }
 
     public function getAttributeValueDTOBuilder(AttributeValue $attributeValue)

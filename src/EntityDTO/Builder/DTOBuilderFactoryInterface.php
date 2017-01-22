@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Address;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Entity\AttributeChoiceType;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
@@ -89,6 +90,12 @@ interface DTOBuilderFactoryInterface
      * @return AttributeDTOBuilder
      */
     public function getAttributeDTOBuilder(Attribute $attribute);
+
+    /**
+     * @param AttributeChoiceType $attributeChoiceType
+     * @return AttributeChoiceTypeDTOBuilder
+     */
+    public function getAttributeChoiceTypeDTOBuilder(AttributeChoiceType $attributeChoiceType);
 
     /**
      * @param AttributeValue $attributeValue

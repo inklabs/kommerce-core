@@ -11,6 +11,9 @@ class AttributeDTO
     /** @var string */
     public $description;
 
+    /** @var AttributeChoiceTypeDTO */
+    public $choiceType;
+
     /** @var int */
     public $sortOrder;
 
