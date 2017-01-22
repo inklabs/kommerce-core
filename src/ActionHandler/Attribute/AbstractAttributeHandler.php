@@ -4,7 +4,6 @@ namespace inklabs\kommerce\ActionHandler\Attribute;
 use inklabs\kommerce\Action\Attribute\AbstractAttributeCommand;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
-use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
 abstract class AbstractAttributeHandler
 {
@@ -19,6 +18,7 @@ abstract class AbstractAttributeHandler
     public function updateAttributeFromCommand(Attribute $attribute, AbstractAttributeCommand $command)
     {
         $attribute->setName($command->getName());
+        $attribute->setChoiceType($command->getChoiceType());
         $attribute->setSortOrder($command->getSortOrder());
         $attribute->setDescription($command->getDescription());
     }

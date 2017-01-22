@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity\Address;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Entity\AttributeChoiceType;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
@@ -106,7 +107,7 @@ class DummyData
 
     public function getAttribute()
     {
-        $attribute = new Attribute('Test Attribute', 0);
+        $attribute = new Attribute('Test Attribute', AttributeChoiceType::select(), 0);
         $attribute->setDescription('Test Attribute Description');
 
         return $attribute;

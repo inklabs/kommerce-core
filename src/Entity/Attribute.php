@@ -15,6 +15,9 @@ class Attribute implements IdEntityInterface
     /** @var string */
     protected $description;
 
+    /** @var AttributeChoiceType */
+    private $choiceType;
+
     /** @var int */
     protected $sortOrder;
 
@@ -26,13 +29,16 @@ class Attribute implements IdEntityInterface
 
     /**
      * @param string $name
+     * @param AttributeChoiceType $choiceType
      * @param int $sortOrder
+     * @param null $id
      */
-    public function __construct($name, $sortOrder, $id = null)
+    public function __construct($name, AttributeChoiceType $choiceType, $sortOrder, $id = null)
     {
         $this->setId($id);
         $this->setCreated();
         $this->name = (string) $name;
+        $this->choiceType = $choiceType;
         $this->sortOrder = (int) $sortOrder;
         $this->attributeValues = new ArrayCollection();
         $this->productAttributes = new ArrayCollection();
@@ -76,6 +82,16 @@ class Attribute implements IdEntityInterface
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function setChoiceType(AttributeChoiceType $choiceType)
+    {
+        $this->choiceType = $choiceType;
+    }
+
+    public function getChoiceType()
+    {
+        return $this->choiceType;
     }
 
     /**

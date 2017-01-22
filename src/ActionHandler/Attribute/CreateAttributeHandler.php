@@ -10,6 +10,7 @@ final class CreateAttributeHandler extends AbstractAttributeHandler
     {
         $attribute = new Attribute(
             $command->getName(),
+            $command->getChoiceType(),
             $command->getSortOrder(),
             $command->getAttributeId()
         );
