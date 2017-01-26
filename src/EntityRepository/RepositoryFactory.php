@@ -11,6 +11,7 @@ use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 use inklabs\kommerce\Entity\CatalogPromotion;
+use inklabs\kommerce\Entity\Configuration;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\InventoryLocation;
@@ -109,6 +110,14 @@ class RepositoryFactory
     public function getCatalogPromotionRepository()
     {
         return $this->entityManager->getRepository(CatalogPromotion::class);
+    }
+
+    /**
+     * @return ConfigurationRepositoryInterface
+     */
+    public function getConfigurationRepository()
+    {
+        return $this->entityManager->getRepository(Configuration::class);
     }
 
     /**

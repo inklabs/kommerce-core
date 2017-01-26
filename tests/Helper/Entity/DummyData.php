@@ -21,6 +21,7 @@ use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\CheckPayment;
+use inklabs\kommerce\Entity\Configuration;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Entity\CreditPayment;
@@ -361,6 +362,11 @@ class DummyData
             new DateTime('4/13/2016'),
             'memo area'
         );
+    }
+
+    public function getConfiguration($key = 'storeTheme')
+    {
+        return new Configuration($key, 'Store Theme', 'cardinal');
     }
 
     public function getCoupon($code = null)

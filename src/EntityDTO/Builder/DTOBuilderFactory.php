@@ -21,6 +21,7 @@ use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\CashPayment;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\CheckPayment;
+use inklabs\kommerce\Entity\Configuration;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Entity\CreditPayment;
@@ -183,6 +184,11 @@ class DTOBuilderFactory implements DTOBuilderFactoryInterface
     public function getCheckPaymentDTOBuilder(CheckPayment $checkPayment)
     {
         return new CheckPaymentDTOBuilder($checkPayment);
+    }
+
+    public function getConfigurationDTOBuilder(Configuration $configuration)
+    {
+        return new ConfigurationDTOBuilder($configuration);
     }
 
     public function getCouponDTOBuilder(Coupon $coupon)
