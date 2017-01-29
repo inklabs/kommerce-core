@@ -29,7 +29,7 @@ class GetConfigurationsByKeysHandlerTest extends ActionTestCase
             'storeTheme',
         ]);
         $response = new GetConfigurationsByKeysResponse();
-        $this->dispatchQuery(new GetconfigurationsByKeysQuery($request, $response));
+        $this->dispatchQuery(new GetConfigurationsByKeysQuery($request, $response));
 
         $configurations = $response->getConfigurationDTOs();
         $this->assertCount(2, $configurations);
