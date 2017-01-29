@@ -200,7 +200,7 @@ class UserServiceTest extends ServiceTestCase
             ->andReturn($user1)
             ->once();
 
-        $userToken = $this->dummyData->getUserToken($user1, new DateTime('-1 hour'));
+        $userToken = $this->dummyData->getUserToken($user1, dummyData::USER_TOKEN_STRING, new DateTime('-1 hour'));
         $this->userTokenRepository->shouldReceive('findLatestOneByUserId')
             ->with($user1->getId())
             ->andReturn($userToken)
@@ -213,25 +213,6 @@ class UserServiceTest extends ServiceTestCase
             UserLoginException::class,
             'Token expired'
         );
-
-        $this->userService->loginWithToken($user1->getEmail(), DummyData::USER_TOKEN_STRING, self::IP4);
-    }
-
-    public function testLoginWithTokenSucceeds()
-    {
-        $user1 = $this->dummyData->getUser();
-        $this->userRepository->shouldReceive('findOneByEmail')
-            ->andReturn($user1)
-            ->once();
-
-        $userToken = $this->dummyData->getUserToken($user1);
-        $this->userTokenRepository->shouldReceive('findLatestOneByUserId')
-            ->with($user1->getId())
-            ->andReturn($userToken)
-            ->once();
-
-        $this->userLoginRepository->shouldReceive('create')
-            ->once();
 
         $this->userService->loginWithToken($user1->getEmail(), DummyData::USER_TOKEN_STRING, self::IP4);
     }

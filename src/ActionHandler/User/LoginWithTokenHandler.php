@@ -2,24 +2,35 @@
 namespace inklabs\kommerce\ActionHandler\User;
 
 use inklabs\kommerce\Action\User\LoginWithTokenCommand;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
 
-final class LoginWithTokenHandler
+final class LoginWithTokenHandler implements CommandHandlerInterface
 {
     /** @var UserServiceInterface */
     private $userService;
 
-    public function __construct(UserServiceInterface $userService)
+    /** @var LoginWithTokenCommand */
+    private $command;
+
+    public function __construct(LoginWithTokenCommand $command, UserServiceInterface $userService)
     {
         $this->userService = $userService;
+        $this->command = $command;
     }
 
-    public function handle(LoginWithTokenCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyCanMakeRequests();
+    }
+
+    public function handle()
     {
         $this->userService->loginWithToken(
-            $command->getEmail(),
-            $command->getToken(),
-            $command->getRemoteIp4()
+            $this->command->getEmail(),
+            $this->command->getToken(),
+            $this->command->getRemoteIp4()
         );
     }
 }

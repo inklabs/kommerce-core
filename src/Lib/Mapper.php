@@ -68,27 +68,35 @@ class Mapper implements MapperInterface
     public function getCommandHandler(CommandInterface $command)
     {
         $handlerClassName = $this->getCommandHandlerClassName($command);
-        return $this->getHandler($handlerClassName);
+        return $this->getHandler($handlerClassName, $command);
     }
 
     public function getQueryHandler(QueryInterface $query)
     {
         $handlerClassName = $this->getQueryHandlerClassName($query);
-        return $this->getHandler($handlerClassName);
+        return $this->getHandler($handlerClassName, $query);
     }
 
     /**
      * @param string $handlerClassName
+     * @param ActionInterface|CommandInterface|QueryInterface $action TODO: Switch to ActionInterface after #98
      * @return null|object
      */
-    public function getHandler($handlerClassName)
+    public function getHandler($handlerClassName, $action)
     {
         $reflection = new ReflectionClass($handlerClassName);
 
         $constructorParameters = [];
         $constructor = $reflection->getConstructor();
         if ($constructor !== null) {
-            foreach ($constructor->getParameters() as $parameter) {
+            foreach ($constructor->getParameters() as $key => $parameter) {
+                // TODO: Switch back when #98 is complete
+                // if ($key === 0 && $action instanceof ActionInterface) {
+                if ($key === 0 && $parameter->getClass()->isSubclassOf(ActionInterface::class)) {
+                    $constructorParameters[] = $action;
+                    continue;
+                }
+
                 $parameterClassName = $parameter->getClass()->getName();
                 if ($parameterClassName === AttributeRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getAttributeRepository();

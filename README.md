@@ -15,7 +15,7 @@ are using the PSR-4 standard.
 
 ## Description
 
-This project is over 54,000 lines of code. Unit tests account for 30-40% of that total and execute in
+This project is over 62,000 lines of code. Unit tests account for 30-40% of that total and execute in
 under 10 seconds. The repository tests use an in-memory SQLite database.
 
 ## Design Patterns

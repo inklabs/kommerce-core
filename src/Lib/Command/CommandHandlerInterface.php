@@ -1,7 +1,16 @@
 <?php
 namespace inklabs\kommerce\Lib\Command;
 
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextException;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+
 interface CommandHandlerInterface
 {
-    public function handle(CommandInterface $command);
+    /**
+     * @param AuthorizationContextInterface $authorizationContext
+     * @return void
+     * @throws AuthorizationContextException
+     */
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext);
+    public function handle();
 }

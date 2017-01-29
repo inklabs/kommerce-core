@@ -100,21 +100,26 @@ class UserService implements UserServiceInterface
             throw UserLoginException::tokenExpired();
         }
 
-        $this->recordLogin($email, $remoteIp, UserLoginResultType::success(), $user);
+        $this->recordLogin($email, $remoteIp, UserLoginResultType::success(), $user, $userToken);
 
         return $user;
     }
-
 
     /**
      * @param string $email
      * @param string $ip4
      * @param UserLoginResultType $result
      * @param User $user
+     * @param UserToken $userToken
      */
-    protected function recordLogin($email, $ip4, UserLoginResultType $result, User $user = null)
-    {
-        $userLogin = new UserLogin($result, $email, $ip4, $user);
+    protected function recordLogin(
+        $email,
+        $ip4,
+        UserLoginResultType $result,
+        User $user = null,
+        UserToken $userToken = null
+    ) {
+        $userLogin = new UserLogin($result, $email, $ip4, $user, $userToken);
         $this->userLoginRepository->create($userLogin);
     }
 

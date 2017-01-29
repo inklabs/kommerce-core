@@ -1,9 +1,10 @@
 <?php
 namespace inklabs\kommerce\Action\User;
 
+use inklabs\kommerce\Lib\ActionInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 
-final class LoginWithTokenCommand implements CommandInterface
+final class LoginWithTokenCommand implements CommandInterface, ActionInterface
 {
     /** @var string */
     private $email;

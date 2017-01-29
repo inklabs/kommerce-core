@@ -1067,7 +1067,7 @@ class DummyData
         return UserStatusType::inactive();
     }
 
-    public function getUserToken(User $user = null, DateTime $expires = null)
+    public function getUserToken(User $user = null, $token = self::USER_TOKEN_STRING, DateTime $expires = null)
     {
         if ($user === null) {
             $user = $this->getUser();
@@ -1080,7 +1080,7 @@ class DummyData
         return new UserToken(
             $user,
             UserTokenType::internal(),
-            self::USER_TOKEN_STRING,
+            $token,
             self::USER_AGENT,
             self::IP4,
             $expires

@@ -1,11 +1,13 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
+use Exception;
 use inklabs\kommerce\tests\Helper\Action\FakeCommand;
 use inklabs\kommerce\tests\Helper\Action\FakeQuery;
 use inklabs\kommerce\tests\Helper\Action\Query\FakeRequest;
 use inklabs\kommerce\tests\Helper\Action\Query\FakeResponse;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
+use ReflectionException;
 
 class MapperTest extends ActionTestCase
 {
@@ -40,7 +42,20 @@ class MapperTest extends ActionTestCase
         foreach ($files as $file) {
             if (! strpos($file, '/Abstract')) {
                 $handlerClassName = $this->getClassNameFromFile($file);
-                $this->mapper->getHandler($handlerClassName);
+
+                try {
+                    $actionClassName = $this->getCommandClassNameFromHandler($handlerClassName);
+                    $reflection = new \ReflectionClass($actionClassName);
+                } catch (ReflectionException $e) {
+                    $actionClassName = $this->getQueryClassNameFromHandler($handlerClassName);
+                    $reflection = new \ReflectionClass($actionClassName);
+                }
+
+                $action = $reflection->newInstanceWithoutConstructor();
+
+                $handler = $this->mapper->getHandler($handlerClassName, $action);
+                // TODO: Add when #98 is complete
+                //$this->assertTrue($handler instanceof HandlerInterface);
             }
         }
     }
@@ -83,5 +98,19 @@ class MapperTest extends ActionTestCase
         }
 
         return $namespace . '\\' . $class;
+    }
+
+    private function getCommandClassNameFromHandler($handlerClassName)
+    {
+        $actionClassName = str_replace('ActionHandler', 'Action', $handlerClassName);
+        $actionClassName = str_replace('Handler', 'Command', $actionClassName);
+        return $actionClassName;
+    }
+
+    private function getQueryClassNameFromHandler($handlerClassName)
+    {
+        $actionClassName = str_replace('ActionHandler', 'Action', $handlerClassName);
+        $actionClassName = str_replace('Handler', 'Query', $actionClassName);
+        return $actionClassName;
     }
 }

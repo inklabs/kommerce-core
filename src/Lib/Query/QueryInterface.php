@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\Lib\Query;
 
-interface QueryInterface
+use inklabs\kommerce\Lib\ActionInterface;
+
+interface QueryInterface extends ActionInterface
 {
     /**
      * @return mixed

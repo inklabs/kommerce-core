@@ -6,6 +6,7 @@ use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Mapper;
 use inklabs\kommerce\Lib\Query\QueryBus;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\tests\Helper\Lib\Authorization\AlwaysAuthorizedForTestingAuthorizationContext;
 
 abstract class ActionTestCase extends ServiceTestCase
 {
@@ -21,7 +22,10 @@ abstract class ActionTestCase extends ServiceTestCase
 
     private function getCommandBus()
     {
-        return new CommandBus($this->getMapper());
+        return new CommandBus(
+            $this->getAuthorizationContext(),
+            $this->getMapper()
+        );
     }
 
     private function getQueryBus()
@@ -37,5 +41,15 @@ abstract class ActionTestCase extends ServiceTestCase
             $this->getPricing(),
             $this->getDTOBuilderFactory()
         );
+    }
+
+    private function getAuthorizationContext()
+    {
+        return $this->getAlwaysAuthorizedForTestingAuthorizationContext();
+    }
+
+    protected function getAlwaysAuthorizedForTestingAuthorizationContext()
+    {
+        return new AlwaysAuthorizedForTestingAuthorizationContext();
     }
 }
