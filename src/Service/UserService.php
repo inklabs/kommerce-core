@@ -133,11 +133,6 @@ class UserService implements UserServiceInterface
         return $this->userRepository->findOneByemail($email);
     }
 
-    public function getAllUsers($queryString = null, Pagination & $pagination = null)
-    {
-        return $this->userRepository->getAllUsers($queryString, $pagination);
-    }
-
     public function getAllUsersByIds($userIds, Pagination & $pagination = null)
     {
         return $this->userRepository->getAllUsersByIds($userIds, $pagination);

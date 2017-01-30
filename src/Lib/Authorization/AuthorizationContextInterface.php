@@ -11,7 +11,13 @@ interface AuthorizationContextInterface
     public function verifyCanMakeRequests();
 
     /**
+     * @param UuidInterface $userId
      * @throws AuthorizationContextException
      */
     public function verifyCanManageUser(UuidInterface $userId);
+
+    /**
+     * @throws AuthorizationContextException
+     */
+    public function verifyIsAdmin();
 }

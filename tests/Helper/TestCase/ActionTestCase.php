@@ -31,7 +31,10 @@ abstract class ActionTestCase extends ServiceTestCase
 
     private function getQueryBus()
     {
-        return new QueryBus($this->getMapper());
+        return new QueryBus(
+            $this->getAuthorizationContext(),
+            $this->getMapper()
+        );
     }
 
     protected function getMapper()

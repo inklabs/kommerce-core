@@ -194,7 +194,7 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
 
     public function testCreateWithHashReferenceNumber()
     {
-        mt_srand(0);
+        $this->seedRandomNumberGenerator();
 
         $this->orderRepository = $this->getRepositoryFactory()->getOrderWithHashSegmentGenerator();
 
@@ -205,7 +205,7 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
 
     public function testCreateWithHashReferenceNumberAndDuplicateFailure()
     {
-        mt_srand(0);
+        $this->seedRandomNumberGenerator();
 
         // Simulate 3 duplicates in a row.
         $this->setupOrder('963-1273124-1535857');

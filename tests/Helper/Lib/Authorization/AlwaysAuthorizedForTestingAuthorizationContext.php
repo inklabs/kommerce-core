@@ -15,4 +15,9 @@ class AlwaysAuthorizedForTestingAuthorizationContext implements AuthorizationCon
     {
         return true;
     }
+
+    public function verifyIsAdmin()
+    {
+        return true;
+    }
 }

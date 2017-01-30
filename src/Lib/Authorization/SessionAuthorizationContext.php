@@ -10,7 +10,7 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
 
     public function verifyCanMakeRequests()
     {
-        return true;
+        return;
     }
 
     /**
@@ -21,5 +21,11 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
         if (! $this->userId->equals($userId)) {
             throw AuthorizationContextException::userAccessDenied();
         }
+    }
+
+    public function verifyIsAdmin()
+    {
+        // TODO:
+        return;
     }
 }

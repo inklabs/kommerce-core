@@ -113,15 +113,6 @@ class UserRepositoryTest extends EntityRepositoryTestCase
         );
     }
 
-    public function testGetAllUsers()
-    {
-        $originalUser = $this->setupUser();
-
-        $users = $this->userRepository->getAllUsers('John');
-
-        $this->assertEntitiesEqual($originalUser, $users[0]);
-    }
-
     public function testGetAllUsersByIds()
     {
         $originalUser = $this->setupUser();

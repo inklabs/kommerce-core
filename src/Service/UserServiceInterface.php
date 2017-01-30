@@ -45,13 +45,6 @@ interface UserServiceInterface
      */
     public function findOneByEmail($email);
 
-    /**
-     * @param string $queryString
-     * @param Pagination $pagination
-     * @return User[]
-     */
-    public function getAllUsers($queryString = null, Pagination & $pagination = null);
-
     public function getAllUsersByIds($userIds, Pagination & $pagination = null);
 
     /**

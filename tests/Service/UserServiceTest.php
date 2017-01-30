@@ -85,18 +85,6 @@ class UserServiceTest extends ServiceTestCase
         $this->assertEntitiesEqual($user1, $user);
     }
 
-    public function testGetAllUsers()
-    {
-        $user1 = $this->dummyData->getUser();
-        $this->userRepository->shouldReceive('getAllUsers')
-            ->andReturn([$user1])
-            ->once();
-
-        $users = $this->userService->getAllUsers();
-
-        $this->assertEntitiesEqual($user1, $users[0]);
-    }
-
     public function testAllGetUsersByIds()
     {
         $user1 = $this->dummyData->getUser();

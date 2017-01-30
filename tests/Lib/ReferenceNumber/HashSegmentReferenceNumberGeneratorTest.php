@@ -18,7 +18,7 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
     public function setUp()
     {
         parent::setUp();
-        mt_srand(0);
+        $this->seedRandomNumberGenerator();
 
         $this->repository = $this->mockRepository->getOrderRepository();
         $this->hashSegmentGenerator = new HashSegmentReferenceNumberGenerator($this->repository);

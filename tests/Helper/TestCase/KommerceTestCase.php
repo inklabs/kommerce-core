@@ -200,6 +200,94 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param IdEntityInterface[] $expectedEntities
+     * @param iterable|array $entities DTO[]
+     */
+    protected function assertEntitiesInDTOList(array $expectedEntities, $entities)
+    {
+        foreach ($expectedEntities as $expectedEntity) {
+            $this->assertEntityInDTOList($expectedEntity, $entities);
+        }
+
+        $this->assertCount(count($expectedEntities), $entities);
+    }
+
+    /**
+     * @param IdEntityInterface $entity1
+     * @param iterable|array $entities DTO[]
+     */
+    protected function assertEntityInDTOList($entity1, $entities)
+    {
+        foreach ($entities as $entity2) {
+            if ($entity1->getId()->equals($entity2->id)) {
+                $this->assertTrue($entity1->getId()->equals($entity2->id));
+                return;
+            }
+        }
+
+        $this->fail(
+            'Failed asserting entitity in list:' . PHP_EOL .
+            get_class($entity1) . ': ' . $entity1->getId()->getHex() . PHP_EOL .
+            json_encode(iterator_to_array($this->getEntityDTOIds($entities)))
+        );
+    }
+
+    /**
+     * @param iterable|array $entities DTO[]
+     * @return \Generator
+     */
+    private function getEntityDTOIds($entities)
+    {
+        foreach ($entities as $entity) {
+            yield $entity->id;
+        }
+    }
+
+    /**
+     * @param IdEntityInterface[] $expectedEntities
+     * @param iterable|IdEntityInterface[] $entities
+     */
+    protected function assertEntitiesInList(array $expectedEntities, $entities)
+    {
+        foreach ($expectedEntities as $expectedEntity) {
+            $this->assertEntityInList($expectedEntity, $entities);
+        }
+
+        $this->assertCount(count($expectedEntities), $entities);
+    }
+
+    /**
+     * @param IdEntityInterface $entity1
+     * @param iterable|IdEntityInterface[] $entities DTO
+     */
+    protected function assertEntityInList($entity1, $entities)
+    {
+        foreach ($entities as $entity2) {
+            if ($entity1->getId()->equals($entity2->getId())) {
+                $this->assertTrue($entity1->getId()->equals($entity2->getId()));
+                return;
+            }
+        }
+
+        $this->fail(
+            'Failed asserting entitity in list:' . PHP_EOL .
+            get_class($entity1) . ': ' . $entity1->getId()->getHex() . PHP_EOL .
+            json_encode(iterator_to_array($this->getEntityIds($entities)))
+        );
+    }
+
+    /**
+     * @param iterable|IdEntityInterface[] $entities
+     * @return \Generator
+     */
+    private function getEntityIds($entities)
+    {
+        foreach ($entities as $entity) {
+            yield $entity->getId();
+        }
+    }
+
+    /**
      * @param string $exceptionClassName
      * @param string|null $message
      * @param int|string|null $code
@@ -214,6 +302,19 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
 
         if ($code !== null) {
             $this->expectExceptionCode($code);
+        }
+    }
+
+    /**
+     * Preserve legacy implementation of mt_srand
+     * TODO: Remove when #16 is complete
+     */
+    protected function seedRandomNumberGenerator()
+    {
+        if (defined('MT_RAND_PHP')) {
+            mt_srand(0, MT_RAND_PHP);
+        } else {
+            mt_srand(0);
         }
     }
 }
