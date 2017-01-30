@@ -1,11 +1,9 @@
 <?php
 namespace inklabs\kommerce\Action\User;
 
-use inklabs\kommerce\Lib\ActionInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 
-// TODO: Move ActionInterface to be extended by CommandInterface when #98 is complete
-final class LoginCommand implements CommandInterface, ActionInterface
+final class LoginCommand implements CommandInterface
 {
     /** @var string */
     private $email;

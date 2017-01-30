@@ -2,31 +2,57 @@
 namespace inklabs\kommerce\ActionHandler\User;
 
 use inklabs\kommerce\Action\User\GetUserByEmailQuery;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
 
-final class GetUserByEmailHandler
+final class GetUserByEmailHandler implements QueryHandlerInterface
 {
+    /** @var GetUserByEmailQuery */
+    private $query;
+
     /** @var UserServiceInterface */
     private $userService;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
-    public function __construct(UserServiceInterface $userService, DTOBuilderFactoryInterface $dtoBuilderFactory)
-    {
+    /** @var User */
+    private $user;
+
+    public function __construct(
+        GetUserByEmailQuery $query,
+        UserServiceInterface $userService,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
+        $this->query = $query;
         $this->userService = $userService;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(GetUserByEmailQuery $query)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $product = $this->userService->findOneByEmail(
-            $query->getRequest()->getEmail()
+        $authorizationContext->verifyCanManageUser(
+            $this->getUser()->getId()
         );
+    }
 
-        $query->getResponse()->setUserDTOBuilder(
-            $this->dtoBuilderFactory->getUserDTOBuilder($product)
+    public function handle()
+    {
+        $this->query->getResponse()->setUserDTOBuilder(
+            $this->dtoBuilderFactory->getUserDTOBuilder($this->getUser())
         );
+    }
+
+    private function getUser()
+    {
+        if ($this->user === null) {
+            $this->user = $this->userService->findOneByEmail(
+                $this->query->getRequest()->getEmail()
+            );
+        }
+        return $this->user;
     }
 }
