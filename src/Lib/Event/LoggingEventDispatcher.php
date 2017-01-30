@@ -1,39 +1,57 @@
 <?php
 namespace inklabs\kommerce\Lib\Event;
 
-class LoggingEventDispatcher extends EventDispatcherDecorator
+class LoggingEventDispatcher implements EventDispatcherInterface
 {
+    /** @var EventDispatcherInterface */
+    private $eventDispatcher;
+
     /** @var EventInterface[] */
-    private $events = [];
+    protected $dispatchedEvents = [];
 
-    public function dispatch(array $events)
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
-        foreach ($events as $event) {
-            $this->logEvent($event);
-        }
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
-        parent::dispatch($events);
+    /**
+     * @param string $eventClassName
+     * @param callable $callback
+     */
+    public function addListener($eventClassName, callable $callback)
+    {
+        $this->eventDispatcher->addListener($eventClassName, $callback);
+    }
+
+    public function addSubscriber(EventSubscriberInterface $subscriber)
+    {
+        $this->eventDispatcher->addSubscriber($subscriber);
     }
 
     public function dispatchEvent(EventInterface $event)
     {
-        $this->logEvent($event);
-        parent::dispatchEvent($event);
+        $this->logDispatchedEvent($event);
+        $this->eventDispatcher->dispatchEvent($event);
     }
 
     /**
-     * @return EventInterface[]
+     * @param EventInterface[] $events
      */
-    public function getEvents()
+    public function dispatchEvents(array $events)
     {
-        return $this->events;
+        foreach ($events as $event) {
+            $this->logDispatchedEvent($event);
+        }
+        $this->eventDispatcher->dispatchEvents($events);
     }
 
-    /**
-     * @param EventInterface $event
-     */
-    protected function logEvent(EventInterface $event)
+    public function getDispatchedEvents()
     {
-        $this->events[] = $event;
+        return $this->dispatchedEvents;
+    }
+
+    private function logDispatchedEvent(EventInterface $event)
+    {
+        $this->dispatchedEvents[] = $event;
     }
 }

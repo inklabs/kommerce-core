@@ -55,15 +55,6 @@ interface UserServiceInterface
     public function getAllUsersByIds($userIds, Pagination & $pagination = null);
 
     /**
-     * @param string $getEmail
-     * @param string $getUserAgent
-     * @param string $getIp4
-     * @return mixed
-     * @throws EntityNotFoundException
-     */
-    public function requestPasswordResetToken($getEmail, $getUserAgent, $getIp4);
-
-    /**
      * @param UuidInterface $userId
      * @param string $password
      */

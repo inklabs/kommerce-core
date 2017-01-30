@@ -75,7 +75,7 @@ class OrderService implements OrderServiceInterface
     public function update(Order & $order)
     {
         $this->orderRepository->update($order);
-        $this->eventDispatcher->dispatch($order->releaseEvents());
+        $this->eventDispatcher->dispatchEvents($order->releaseEvents());
     }
 
     public function findOneById(UuidInterface $id)

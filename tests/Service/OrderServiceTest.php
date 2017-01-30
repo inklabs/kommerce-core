@@ -32,12 +32,13 @@ use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\Event\OrderCreatedFromCartEvent;
 use inklabs\kommerce\Event\OrderShippedEvent;
+use inklabs\kommerce\Lib\Event\EventDispatcher;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
-use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
+use inklabs\kommerce\Lib\Event\LoggingEventDispatcher;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
 class OrderServiceTest extends ServiceTestCase
@@ -57,7 +58,7 @@ class OrderServiceTest extends ServiceTestCase
     /** @var ShipmentGatewayInterface */
     protected $shipmentGateway;
 
-    /** @var FakeEventDispatcher */
+    /** @var LoggingEventDispatcher */
     protected $fakeEventDispatcher;
 
     /** @var InventoryLocationRepositoryInterface */
@@ -99,7 +100,7 @@ class OrderServiceTest extends ServiceTestCase
     {
         parent::setUp();
 
-        $this->fakeEventDispatcher = new FakeEventDispatcher;
+        $this->fakeEventDispatcher = new LoggingEventDispatcher(new EventDispatcher());
         $this->orderRepository = $this->getRepositoryFactory()->getOrderRepository();
         $this->orderItemRepository = $this->getRepositoryFactory()->getOrderItemRepository();
         $this->productRepository = $this->getRepositoryFactory()->getProductRepository();

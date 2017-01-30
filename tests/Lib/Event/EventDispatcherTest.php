@@ -14,7 +14,7 @@ class EventDispatcherTest extends ServiceTestCase
     {
         $eventDispatcher = $this->getEventDispatcher();
         $eventDispatcher->addSubscriber(new FakeEventSubscriber(new DateTime));
-        $eventDispatcher->dispatch(
+        $eventDispatcher->dispatchEvents(
             [new FakeEvent]
         );
 
@@ -25,7 +25,7 @@ class EventDispatcherTest extends ServiceTestCase
     {
         $eventDispatcher = $this->getEventDispatcher();
         $eventDispatcher->addSubscriber(new FakeEventSubscriber(new DateTime));
-        $eventDispatcher->dispatch(
+        $eventDispatcher->dispatchEvents(
             [new FakeEvent2]
         );
 
@@ -43,7 +43,7 @@ class EventDispatcherTest extends ServiceTestCase
 
         $eventDispatcher = $this->getEventDispatcher();
         $eventDispatcher->addListener(FakeEvent::class, $callable);
-        $eventDispatcher->dispatch(
+        $eventDispatcher->dispatchEvents(
             [new FakeEvent]
         );
 

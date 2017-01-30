@@ -24,7 +24,7 @@ class EventDispatcher implements EventDispatcherInterface
         $this->listeners[$eventClassName][] = $callback;
     }
 
-    public function dispatch(array $events)
+    public function dispatchEvents(array $events)
     {
         foreach ($events as $event) {
             $this->dispatchEvent($event);

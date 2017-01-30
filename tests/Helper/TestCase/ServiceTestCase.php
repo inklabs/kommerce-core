@@ -7,6 +7,7 @@ use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcher;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
+use inklabs\kommerce\Lib\Event\LoggingEventDispatcher;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
@@ -24,15 +25,13 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
     /** @var MockService */
     protected $mockService;
 
+    /** @var LoggingEventDispatcher */
+    private $loggineEventDispatcher;
+
     public function setUp()
     {
         parent::setUp();
         $this->mockService = new MockService($this->dummyData);
-    }
-
-    protected function getEventDispatcher()
-    {
-        return new EventDispatcher;
     }
 
     protected function getServiceFactory(
@@ -47,7 +46,7 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
         }
 
         if ($eventDispatcher === null) {
-            $eventDispatcher = new EventDispatcher;
+            $eventDispatcher = $this->getEventDispatcher();
         }
 
         if ($paymentGateway === null) {
@@ -83,12 +82,27 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
 
     protected function getPaymentGateway()
     {
-        return new FakePaymentGateway;
+        return new FakePaymentGateway();
     }
 
     private function getFileManager()
     {
-        return new FakeFileManager;
+        return new FakeFileManager();
+    }
+
+    protected function getEventDispatcher()
+    {
+        if ($this->loggineEventDispatcher === null) {
+            $this->loggineEventDispatcher = new LoggingEventDispatcher(
+                new EventDispatcher()
+            );
+        }
+        return $this->loggineEventDispatcher;
+    }
+
+    protected function getDispatchedEvents()
+    {
+        return $this->getEventDispatcher()->getDispatchedEvents();
     }
 
     /**

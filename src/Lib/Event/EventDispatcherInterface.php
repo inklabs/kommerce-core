@@ -13,6 +13,6 @@ interface EventDispatcherInterface
     /**
      * @param EventInterface[] $events
      */
-    public function dispatch(array $events);
+    public function dispatchEvents(array $events);
     public function dispatchEvent(EventInterface $event);
 }

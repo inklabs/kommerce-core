@@ -28,9 +28,9 @@ abstract class EventDispatcherDecorator implements EventDispatcherInterface
     /**
      * @param EventInterface[] $events
      */
-    public function dispatch(array $events)
+    public function dispatchEvents(array $events)
     {
-        $this->eventDispatcher->dispatch($events);
+        $this->eventDispatcher->dispatchEvents($events);
     }
 
     public function dispatchEvent(EventInterface $event)

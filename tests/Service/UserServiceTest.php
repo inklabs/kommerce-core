@@ -6,11 +6,11 @@ use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
-use inklabs\kommerce\Event\ResetPasswordEvent;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\UserLoginException;
+use inklabs\kommerce\Lib\Event\EventDispatcher;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
-use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
+use inklabs\kommerce\Lib\Event\LoggingEventDispatcher;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class UserServiceTest extends ServiceTestCase
@@ -24,7 +24,7 @@ class UserServiceTest extends ServiceTestCase
     /** @var UserTokenRepositoryInterface|\Mockery\Mock */
     protected $userTokenRepository;
 
-    /** @var FakeEventDispatcher */
+    /** @var LoggingEventDispatcher */
     protected $fakeEventDispatcher;
 
     /** @var UserService */
@@ -36,7 +36,7 @@ class UserServiceTest extends ServiceTestCase
         $this->userRepository = $this->mockRepository->getUserRepository();
         $this->userLoginRepository = $this->mockRepository->getUserLoginRepository();
         $this->userTokenRepository = $this->mockRepository->getUserTokenRepository();
-        $this->fakeEventDispatcher = new FakeEventDispatcher;
+        $this->fakeEventDispatcher = new LoggingEventDispatcher(new EventDispatcher());
 
         $this->userService = new UserService(
             $this->userRepository,
@@ -215,31 +215,6 @@ class UserServiceTest extends ServiceTestCase
         );
 
         $this->userService->loginWithToken($user1->getEmail(), DummyData::USER_TOKEN_STRING, self::IP4);
-    }
-
-    public function testRequestPasswordResetToken()
-    {
-        $user1 = $this->dummyData->getUser();
-
-        $ip4 = self::IP4;
-        $userAgent = self::USER_AGENT;
-
-        $this->userRepository->shouldReceive('findOneByEmail')
-            ->andReturn($user1)
-            ->once();
-
-        $this->userTokenRepository->shouldReceive('create')
-            ->once();
-
-        $this->userService->requestPasswordResetToken($user1->getEmail(), $userAgent, $ip4);
-
-        /** @var ResetPasswordEvent $event */
-        $event = $this->fakeEventDispatcher->getDispatchedEvents(ResetPasswordEvent::class)[0];
-        $this->assertTrue($event instanceof ResetPasswordEvent);
-        $this->assertSame($user1->getId(), $event->getUserId());
-        $this->assertSame($user1->getEmail(), $event->getEmail());
-        $this->assertSame($user1->getFullName(), $event->getFullName());
-        $this->assertSame(40, strlen($event->getToken()));
     }
 
     public function testChangePassword()

@@ -24,7 +24,8 @@ abstract class ActionTestCase extends ServiceTestCase
     {
         return new CommandBus(
             $this->getAuthorizationContext(),
-            $this->getMapper()
+            $this->getMapper(),
+            $this->getEventDispatcher()
         );
     }
 

@@ -14,15 +14,15 @@ use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\Lib\CartCalculator;
+use inklabs\kommerce\Lib\Event\EventDispatcher;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
-use inklabs\kommerce\tests\Helper\Entity\FakeEventDispatcher;
+use inklabs\kommerce\Lib\Event\LoggingEventDispatcher;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
 class CartServiceTest extends ServiceTestCase
@@ -39,7 +39,7 @@ class CartServiceTest extends ServiceTestCase
     /** @var CouponRepositoryInterface|\Mockery\Mock */
     protected $couponRepository;
 
-    /** @var FakeEventDispatcher */
+    /** @var LoggingEventDispatcher */
     protected $fakeEventDispatcher;
 
     /** @var OptionProductRepositoryInterface|\Mockery\Mock */
@@ -82,7 +82,7 @@ class CartServiceTest extends ServiceTestCase
         $this->cartCalculator = new CartCalculator(new Pricing);
         $this->cartRepository = $this->mockRepository->getCartRepository();
         $this->couponRepository = $this->mockRepository->getCouponRepository();
-        $this->fakeEventDispatcher = new FakeEventDispatcher;
+        $this->fakeEventDispatcher = new LoggingEventDispatcher(new EventDispatcher());
         $this->productRepository = $this->mockRepository->getProductRepository();
         $this->optionProductRepository = $this->mockRepository->getOptionProductRepository();
         $this->optionValueRepository = $this->mockRepository->getOptionValueRepository();

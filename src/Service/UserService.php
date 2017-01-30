@@ -56,13 +56,13 @@ class UserService implements UserServiceInterface
     public function createUserToken(UserToken & $userToken)
     {
         $this->userTokenRepository->create($userToken);
-        $this->eventDispatcher->dispatch($userToken->releaseEvents());
+        $this->eventDispatcher->dispatchEvents($userToken->releaseEvents());
     }
 
     public function update(User & $user)
     {
         $this->userRepository->update($user);
-        $this->eventDispatcher->dispatch($user->releaseEvents());
+        $this->eventDispatcher->dispatchEvents($user->releaseEvents());
     }
 
     public function login($email, $password, $remoteIp)
@@ -141,20 +141,6 @@ class UserService implements UserServiceInterface
     public function getAllUsersByIds($userIds, Pagination & $pagination = null)
     {
         return $this->userRepository->getAllUsersByIds($userIds, $pagination);
-    }
-
-    public function requestPasswordResetToken($email, $userAgent, $ip4)
-    {
-        $user = $this->userRepository->findOneByEmail($email);
-
-        $userToken = UserToken::createResetPasswordToken(
-            $user,
-            UserToken::getRandomToken(),
-            $userAgent,
-            $ip4
-        );
-
-        $this->createUserToken($userToken);
     }
 
     public function changePassword(UuidInterface $userId, $password)

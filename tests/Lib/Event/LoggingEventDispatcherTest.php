@@ -21,7 +21,7 @@ class LoggingEventDispatcherTest extends ServiceTestCase
         );
         $loggingEventDispatcher->addSubscriber(new FakeEventSubscriber(new DateTime()));
         $loggingEventDispatcher->dispatchEvent(new FakeEvent());
-        $loggingEventDispatcher->dispatch([
+        $loggingEventDispatcher->dispatchEvents([
             new FakeEvent(),
             new FakeEvent2(),
             new FakeEvent(),
@@ -34,6 +34,6 @@ class LoggingEventDispatcherTest extends ServiceTestCase
             FakeEvent::class
         ];
 
-        $this->assertSame($expected, array_map('get_class', $loggingEventDispatcher->getEvents()));
+        $this->assertSame($expected, array_map('get_class', $loggingEventDispatcher->getDispatchedEvents()));
     }
 }
