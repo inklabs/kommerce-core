@@ -17,7 +17,6 @@ use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OptionServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
-use inklabs\kommerce\Service\TagServiceInterface;
 use inklabs\kommerce\Service\TaxRateServiceInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
@@ -261,23 +260,6 @@ class MockService
             ->andReturn([$shipmentRate]);
 
         return $shipmentGateway;
-    }
-
-    /**
-     * @return TagServiceInterface|Mockery\Mock
-     */
-    public function getTagService()
-    {
-        $tag = $this->dummyData->getTag();
-
-        $tagService = $this->getMockeryMock(TagServiceInterface::class);
-        $tagService->shouldReceive('findOneById')
-            ->andReturn($tag);
-
-        $tagService->shouldReceive('getAllTags')
-            ->andReturn([$tag]);
-
-        return $tagService;
     }
 
     /**

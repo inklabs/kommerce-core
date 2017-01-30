@@ -2,32 +2,43 @@
 namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\SetDefaultImageForTagCommand;
-use inklabs\kommerce\Service\ImageServiceInterface;
-use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class SetDefaultImageForTagHandler
+final class SetDefaultImageForTagHandler implements CommandHandlerInterface
 {
-    /** @var TagServiceInterface */
-    protected $tagService;
+    /** @var SetDefaultImageForTagCommand */
+    private $command;
 
-    /** @var ImageServiceInterface */
-    private $imageService;
+    /** @var TagRepositoryInterface */
+    protected $tagRepository;
+
+    /** @var ImageRepositoryInterface */
+    private $imageRepository;
 
     public function __construct(
-        TagServiceInterface $tagService,
-        ImageServiceInterface $imageService
+        SetDefaultImageForTagCommand $command,
+        TagRepositoryInterface $tagRepository,
+        ImageRepositoryInterface $imageRepository
     ) {
-        $this->tagService = $tagService;
-        $this->imageService = $imageService;
+        $this->command = $command;
+        $this->tagRepository = $tagRepository;
+        $this->imageRepository = $imageRepository;
     }
 
-    public function handle(SetDefaultImageForTagCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $tag = $this->tagService->findOneById($command->getTagId());
-        $image = $this->imageService->findOneById($command->getImageId());
+        $authorizationContext->verifyIsAdmin();
+    }
 
+    public function handle()
+    {
+        $image = $this->imageRepository->findOneById($this->command->getImageId());
+        $tag = $this->tagRepository->findOneById($this->command->getTagId());
         $tag->setDefaultImage($image->getPath());
 
-        $this->tagService->update($tag);
+        $this->tagRepository->update($tag);
     }
 }

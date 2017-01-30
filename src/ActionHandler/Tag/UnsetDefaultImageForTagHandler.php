@@ -2,24 +2,34 @@
 namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\UnsetDefaultImageForTagCommand;
-use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class UnsetDefaultImageForTagHandler
+final class UnsetDefaultImageForTagHandler implements CommandHandlerInterface
 {
-    /** @var TagServiceInterface */
-    protected $tagService;
+    /** @var UnsetDefaultImageForTagCommand */
+    private $command;
 
-    public function __construct(TagServiceInterface $tagService)
+    /** @var TagRepositoryInterface */
+    protected $tagRepository;
+
+    public function __construct(UnsetDefaultImageForTagCommand $command, TagRepositoryInterface $tagRepository)
     {
-        $this->tagService = $tagService;
+        $this->command = $command;
+        $this->tagRepository = $tagRepository;
     }
 
-    public function handle(UnsetDefaultImageForTagCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $tag = $this->tagService->findOneById($command->getTagId());
+        $authorizationContext->verifyIsAdmin();
+    }
 
+    public function handle()
+    {
+        $tag = $this->tagRepository->findOneById($this->command->getTagId());
         $tag->setDefaultImage(null);
 
-        $this->tagService->update($tag);
+        $this->tagRepository->update($tag);
     }
 }

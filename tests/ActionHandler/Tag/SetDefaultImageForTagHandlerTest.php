@@ -2,20 +2,35 @@
 namespace inklabs\kommerce\Tests\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\SetDefaultImageForTagCommand;
-use inklabs\kommerce\ActionHandler\Tag\SetDefaultImageForTagHandler;
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class SetDefaultImageForTagHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Image::class,
+        Tag::class,
+        Product::class,
+    ];
+
     public function testHandle()
     {
-        $imageService = $this->mockService->getImageService();
-        $tagService = $this->mockService->getTagService();
-        $tagService->shouldReceive('update')
-            ->once();
+        $image = $this->dummyData->getImage();
+        $tag = $this->dummyData->getTag();
+        $this->persistEntityAndFlushClear([$tag, $image]);
+        $command = new SetDefaultImageForTagCommand(
+            $tag->getId()->getHex(),
+            $image->getId()->getHex()
+        );
 
-        $command = new SetDefaultImageForTagCommand(self::UUID_HEX, self::UUID_HEX);
-        $handler = new SetDefaultImageForTagHandler($tagService, $imageService);
-        $handler->handle($command);
+        $this->dispatchCommand($command);
+
+        $this->entityManager->clear();
+        $tag = $this->getRepositoryFactory()->getTagRepository()->findOneById(
+            $tag->getId()
+        );
+        $this->assertSame($image->getPath(), $tag->getDefaultImage());
     }
 }

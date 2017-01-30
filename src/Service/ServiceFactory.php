@@ -245,19 +245,6 @@ class ServiceFactory
     }
 
     /**
-     * @return TagService
-     */
-    public function getTagService()
-    {
-        return new TagService(
-            $this->repositoryFactory->getTagRepository(),
-            $this->repositoryFactory->getImageRepository(),
-            $this->repositoryFactory->getOptionRepository(),
-            $this->repositoryFactory->getTextOptionRepository()
-        );
-    }
-
-    /**
      * @return TaxRateService
      */
     public function getTaxRate()

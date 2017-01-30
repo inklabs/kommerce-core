@@ -2,23 +2,43 @@
 namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\RemoveOptionFromTagCommand;
-use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class RemoveOptionFromTagHandler
+final class RemoveOptionFromTagHandler implements CommandHandlerInterface
 {
-    /** @var TagServiceInterface */
-    protected $tagService;
+    /** @var RemoveOptionFromTagCommand */
+    private $command;
 
-    public function __construct(TagServiceInterface $tagService)
-    {
-        $this->tagService = $tagService;
+    /** @var TagRepositoryInterface */
+    private $tagRepository;
+
+    /** @var OptionRepositoryInterface */
+    private $optionRepository;
+
+    public function __construct(
+        RemoveOptionFromTagCommand $command,
+        TagRepositoryInterface $tagRepository,
+        OptionRepositoryInterface $optionRepository
+    ) {
+        $this->command = $command;
+        $this->tagRepository = $tagRepository;
+        $this->optionRepository = $optionRepository;
     }
 
-    public function handle(RemoveOptionFromTagCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $this->tagService->removeOption(
-            $command->getTagId(),
-            $command->getOptionId()
-        );
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $option = $this->optionRepository->findOneById($this->command->getOptionId());
+        $tag = $this->tagRepository->findOneById($this->command->getTagId());
+        $tag->removeOption($option);
+
+        $this->tagRepository->update($tag);
     }
 }
