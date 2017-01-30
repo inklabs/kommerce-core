@@ -14,7 +14,7 @@ class ImportUsersFromCSVHandlerTest extends ActionTestCase
 
     public function testHandle()
     {
-        $fileName = __DIR__ . '/ImportUserServiceTest.csv';
+        $fileName = __DIR__ . '/ImportUsersFromCSVHandlerTest.csv';
         $command = new ImportUsersFromCSVCommand($fileName);
         $this->setCountLogger();
 
