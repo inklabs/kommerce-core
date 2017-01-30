@@ -10,12 +10,14 @@ use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ConfigurationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductAttributeRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\EntityRepository\ShipmentTrackerRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
@@ -116,6 +118,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getConfigurationRepository();
                 } elseif ($parameterClassName === CouponRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getCouponRepository();
+                } elseif ($parameterClassName === OptionRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getOptionRepository();
                 } elseif ($parameterClassName === ProductRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getProductRepository();
                 } elseif ($parameterClassName === ProductAttributeRepositoryInterface::class) {
@@ -124,6 +128,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getShipmentTrackerRepository();
                 } elseif ($parameterClassName === TagRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getTagRepository();
+                } elseif ($parameterClassName === TextOptionRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getTextOptionRepository();
                 } elseif ($parameterClassName === TaxRateRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getTaxRateRepository();
                 } elseif ($parameterClassName === UserRepositoryInterface::class) {

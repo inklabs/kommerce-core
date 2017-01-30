@@ -40,15 +40,6 @@ class TagServiceTest extends ServiceTestCase
         );
     }
 
-    public function testCRUD()
-    {
-        $this->executeServiceCRUD(
-            $this->tagService,
-            $this->tagRepository,
-            $this->dummyData->getTag()
-        );
-    }
-
     public function testFindOneById()
     {
         $tag1 = $this->dummyData->getTag();
@@ -73,33 +64,6 @@ class TagServiceTest extends ServiceTestCase
         $tag = $this->tagService->findOneByCode($tag1->getCode());
 
         $this->assertEntitiesEqual($tag1, $tag);
-    }
-
-    public function testGetAllTags()
-    {
-        $tag1 = $this->dummyData->getTag();
-        $this->tagRepository->shouldReceive('getAllTags')
-            ->andReturn([$tag1])
-            ->once();
-
-        $tags = $this->tagService->getAllTags();
-
-        $this->assertEntitiesEqual($tag1, $tags[0]);
-    }
-
-    public function testGetTagsByIds()
-    {
-        $tag1 = $this->dummyData->getTag();
-        $this->tagRepository->shouldReceive('getTagsByIds')
-            ->with([$tag1->getId()], null)
-            ->andReturn([$tag1])
-            ->once();
-
-        $tags = $this->tagService->getTagsByIds([
-            $tag1->getId()
-        ]);
-
-        $this->assertEntitiesEqual($tag1, $tags[0]);
     }
 
     public function testAllGetTagsByIds()
@@ -137,26 +101,6 @@ class TagServiceTest extends ServiceTestCase
             ->once();
 
         $this->tagService->removeImage($tag1->getId(), $image1->getId());
-    }
-
-    public function testAddOption()
-    {
-        $tag1 = $this->dummyData->getTag();
-        $this->tagRepository->shouldReceive('findOneById')
-            ->with($tag1->getId())
-            ->andReturn($tag1)
-            ->once();
-
-        $option1 = $this->dummyData->getOption();
-        $this->optionRepository->shouldReceive('findOneById')
-            ->with($option1->getId())
-            ->andReturn($option1)
-            ->once();
-
-        $this->tagRepository->shouldReceive('update')
-            ->once();
-
-        $this->tagService->addOption($tag1->getId(), $option1->getId());
     }
 
     public function testRemoveOption()

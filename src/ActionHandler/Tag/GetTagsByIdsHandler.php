@@ -3,30 +3,44 @@ namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\GetTagsByIdsQuery;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
-final class GetTagsByIdsHandler
+final class GetTagsByIdsHandler implements QueryHandlerInterface
 {
-    /** @var TagServiceInterface */
-    private $tagService;
+    /** @var GetTagsByIdsQuery */
+    private $query;
+
+    /** @var TagRepositoryInterface */
+    private $tagRepository;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
-    public function __construct(TagServiceInterface $tagService, DTOBuilderFactoryInterface $dtoBuilderFactory)
-    {
-        $this->tagService = $tagService;
+    public function __construct(
+        GetTagsByIdsQuery $query,
+        TagRepositoryInterface $tagRepository,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
+        $this->query = $query;
+        $this->tagRepository = $tagRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(GetTagsByIdsQuery $query)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $tags = $this->tagService->getTagsByIds(
-            $query->getRequest()->getTagIds()
+        $authorizationContext->verifyCanMakeRequests();
+    }
+
+    public function handle()
+    {
+        $tags = $this->tagRepository->getTagsByIds(
+            $this->query->getRequest()->getTagIds()
         );
 
         foreach ($tags as $tag) {
-            $query->getResponse()->addTagDTOBuilder(
+            $this->query->getResponse()->addTagDTOBuilder(
                 $this->dtoBuilderFactory->getTagDTOBuilder($tag)
             );
         }

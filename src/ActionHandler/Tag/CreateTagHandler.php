@@ -3,25 +3,36 @@ namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\CreateTagCommand;
 use inklabs\kommerce\EntityDTO\Builder\TagDTOBuilder;
-use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateTagHandler
+final class CreateTagHandler implements CommandHandlerInterface
 {
-    /** @var TagServiceInterface */
-    protected $tagService;
+    /** @var CreateTagCommand */
+    private $command;
 
-    public function __construct(TagServiceInterface $tagService)
+    /** @var TagRepositoryInterface */
+    protected $tagRepository;
+
+    public function __construct(CreateTagCommand $command, TagRepositoryInterface $tagRepository)
     {
-        $this->tagService = $tagService;
+        $this->command = $command;
+        $this->tagRepository = $tagRepository;
     }
 
-    public function handle(CreateTagCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $tag = TagDTOBuilder::createFromDTO(
-            $command->getTagId(),
-            $command->getTagDTO()
+            $this->command->getTagId(),
+            $this->command->getTagDTO()
         );
 
-        $this->tagService->create($tag);
+        $this->tagRepository->create($tag);
     }
 }

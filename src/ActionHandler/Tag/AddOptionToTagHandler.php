@@ -2,23 +2,44 @@
 namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\AddOptionToTagCommand;
-use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class AddOptionToTagHandler
+final class AddOptionToTagHandler implements CommandHandlerInterface
 {
-    /** @var TagServiceInterface */
-    protected $tagService;
+    /** @var AddOptionToTagCommand */
+    private $command;
 
-    public function __construct(TagServiceInterface $tagService)
-    {
-        $this->tagService = $tagService;
+    /** @var TagRepositoryInterface */
+    protected $tagRepository;
+
+    /** @var OptionRepositoryInterface */
+    private $optionRepository;
+
+    public function __construct(
+        AddOptionToTagCommand $command,
+        OptionRepositoryInterface $optionRepository,
+        TagRepositoryInterface $tagRepository
+    ) {
+        $this->command = $command;
+        $this->tagRepository = $tagRepository;
+        $this->optionRepository = $optionRepository;
     }
 
-    public function handle(AddOptionToTagCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $this->tagService->addOption(
-            $command->getTagId(),
-            $command->getOptionId()
-        );
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $option = $this->optionRepository->findOneById($this->command->getOptionId());
+        $tag = $this->tagRepository->findOneById($this->command->getTagId());
+
+        $tag->addOption($option);
+
+        $this->tagRepository->update($tag);
     }
 }

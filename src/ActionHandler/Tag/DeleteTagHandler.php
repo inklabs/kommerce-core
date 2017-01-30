@@ -2,21 +2,32 @@
 namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\DeleteTagCommand;
-use inklabs\kommerce\Service\TagServiceInterface;
+use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class DeleteTagHandler
+final class DeleteTagHandler implements CommandHandlerInterface
 {
-    /** @var TagServiceInterface */
-    protected $tagService;
+    /** @var DeleteTagCommand */
+    private $command;
 
-    public function __construct(TagServiceInterface $tagService)
+    /** @var TagRepositoryInterface */
+    private $tagRepository;
+
+    public function __construct(DeleteTagCommand $command, TagRepositoryInterface $tagRepository)
     {
-        $this->tagService = $tagService;
+        $this->command = $command;
+        $this->tagRepository = $tagRepository;
     }
 
-    public function handle(DeleteTagCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $tag = $this->tagService->findOneById($command->getTagId());
-        $this->tagService->delete($tag);
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $tag = $this->tagRepository->findOneById($this->command->getTagId());
+        $this->tagRepository->delete($tag);
     }
 }

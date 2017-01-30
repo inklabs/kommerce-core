@@ -2,21 +2,34 @@
 namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\AddTextOptionToTagCommand;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class AddTextOptionToTagHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Tag::class,
+        TextOption::class,
+    ];
+
     public function testHandle()
     {
-        $tagService = $this->mockService->getTagService();
-        $tagService->shouldReceive('addTextOption')
-            ->once();
+        $tag = $this->dummyData->getTag();
+        $textOption = $this->dummyData->getTextOption();
+        $this->persistEntityAndFlushClear([$tag, $textOption]);
+        $command = new AddTextOptionToTagCommand(
+            $tag->getId()->getHex(),
+            $textOption->getId()->getHex()
+        );
 
-        $tagId = self::UUID_HEX;
-        $imageId = self::UUID_HEX;
+        $this->dispatchCommand($command);
 
-        $command = new AddTextOptionToTagCommand($tagId, $imageId);
-        $handler = new AddTextOptionToTagHandler($tagService);
-        $handler->handle($command);
+        $this->entityManager->clear();
+        $tag = $this->getRepositoryFactory()->getTagRepository()->findOneById(
+            $command->getTagId()
+        );
+        $this->assertEntitiesEqual($textOption, $tag->getTextOptions()[0]);
+
     }
 }

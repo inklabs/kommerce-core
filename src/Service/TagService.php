@@ -38,19 +38,9 @@ class TagService implements TagServiceInterface
         $this->textOptionRepository = $textOptionRepository;
     }
 
-    public function create(Tag & $tag)
-    {
-        $this->tagRepository->create($tag);
-    }
-
     public function update(Tag & $tag)
     {
         $this->tagRepository->update($tag);
-    }
-
-    public function delete(Tag $tag)
-    {
-        $this->tagRepository->delete($tag);
     }
 
     /**
@@ -77,36 +67,6 @@ class TagService implements TagServiceInterface
      * @param UuidInterface $optionId
      * @throws EntityNotFoundException
      */
-    public function addOption(UuidInterface $tagId, UuidInterface $optionId)
-    {
-        $option = $this->optionRepository->findOneById($optionId);
-        $tag = $this->tagRepository->findOneById($tagId);
-
-        $tag->addOption($option);
-
-        $this->tagRepository->update($tag);
-    }
-
-    /**
-     * @param UuidInterface $tagId
-     * @param UuidInterface $textOptionId
-     * @throws EntityNotFoundException
-     */
-    public function addTextOption(UuidInterface $tagId, UuidInterface $textOptionId)
-    {
-        $textOption = $this->textOptionRepository->findOneById($textOptionId);
-        $tag = $this->tagRepository->findOneById($tagId);
-
-        $tag->addTextOption($textOption);
-
-        $this->tagRepository->update($tag);
-    }
-
-    /**
-     * @param UuidInterface $tagId
-     * @param UuidInterface $optionId
-     * @throws EntityNotFoundException
-     */
     public function removeOption(UuidInterface $tagId, UuidInterface $optionId)
     {
         $option = $this->optionRepository->findOneById($optionId);
@@ -125,16 +85,6 @@ class TagService implements TagServiceInterface
     public function findOneByCode($code)
     {
         return $this->tagRepository->findOneByCode($code);
-    }
-
-    public function getAllTags($queryString = null, Pagination & $pagination = null)
-    {
-        return $this->tagRepository->getAllTags($queryString, $pagination);
-    }
-
-    public function getTagsByIds($tagIds, Pagination & $pagination = null)
-    {
-        return $this->tagRepository->getTagsByIds($tagIds, $pagination);
     }
 
     public function getAllTagsByIds($tagIds, Pagination & $pagination = null)

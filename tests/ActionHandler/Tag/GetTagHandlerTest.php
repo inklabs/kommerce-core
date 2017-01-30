@@ -4,26 +4,36 @@ namespace inklabs\kommerce\ActionHandler\Tag;
 use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
-use inklabs\kommerce\EntityDTO\TagDTO;
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetTagHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Image::class,
+        Option::class,
+        Product::class,
+        Tag::class,
+        TextOption::class,
+    ];
+
     public function testHandle()
     {
+        $tag = $this->dummyData->getTag();
+        $this->persistEntityAndFlushClear($tag);
         $pricing = $this->dummyData->getPricing();
-        $tagService = $this->mockService->getTagService();
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
-
-        $request = new GetTagRequest(self::UUID_HEX);
+        $request = new GetTagRequest($tag->getId()->getHex());
         $response = new GetTagResponse($pricing);
+        $query = new GetTagQuery($request, $response);
 
-        $handler = new GetTagHandler($tagService, $dtoBuilderFactory);
+        $this->dispatchQuery($query);
+        $this->assertSame($tag->getId()->getHex(), $response->getTagDTO()->id->getHex());
 
-        $handler->handle(new GetTagQuery($request, $response));
-        $this->assertTrue($response->getTagDTO() instanceof TagDTO);
-
-        $handler->handle(new GetTagQuery($request, $response));
-        $this->assertTrue($response->getTagDTOWithAllData() instanceof TagDTO);
+        $this->dispatchQuery($query);
+        $this->assertSame($tag->getId()->getHex(), $response->getTagDTOWithAllData()->id->getHex());
     }
 }
