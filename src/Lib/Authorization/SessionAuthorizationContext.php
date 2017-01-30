@@ -20,7 +20,7 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
     {
         if ($userId === null) {
             // TODO: Remove and pass correct user
-            $this->userId = Uuid::uuid4();
+            $userId = Uuid::uuid4();
         }
 
         $this->userId = $userId;
