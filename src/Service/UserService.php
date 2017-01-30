@@ -138,18 +138,6 @@ class UserService implements UserServiceInterface
         return $this->userRepository->getAllUsersByIds($userIds, $pagination);
     }
 
-    public function changePassword(UuidInterface $userId, $password)
-    {
-        $user = $this->userRepository->findOneById($userId);
-
-        $userPasswordValidator = new UserPasswordValidator;
-        $userPasswordValidator->assertPasswordValid($user, $password);
-
-        $user->setPassword($password);
-
-        $this->update($user);
-    }
-
     /**
      * @param string $email
      * @param string $remoteIp

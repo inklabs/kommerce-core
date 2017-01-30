@@ -189,21 +189,4 @@ class UserServiceTest extends ServiceTestCase
 
         $this->userService->loginWithToken($user1->getEmail(), DummyData::USER_TOKEN_STRING, self::IP4);
     }
-
-    public function testChangePassword()
-    {
-        $user1 = $this->dummyData->getUser();
-        $this->userRepository->shouldReceive('findOneById')
-            ->with($user1->getid())
-            ->andReturn($user1)
-            ->once();
-
-        $this->userRepository->shouldReceive('update')
-            ->once();
-
-        $newPassword = 'newpassword';
-        $this->userService->changePassword($user1->getId(), $newPassword);
-
-        $this->assertTrue($user1->verifyPassword($newPassword));
-    }
 }

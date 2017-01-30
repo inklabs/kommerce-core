@@ -3,25 +3,36 @@ namespace inklabs\kommerce\ActionHandler\User;
 
 use inklabs\kommerce\Action\User\CreateUserCommand;
 use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
-use inklabs\kommerce\Service\UserServiceInterface;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateUserHandler
+final class CreateUserHandler implements CommandHandlerInterface
 {
-    /** @var UserServiceInterface */
-    protected $userService;
+    /** @var CreateUserCommand */
+    private $command;
 
-    public function __construct(UserServiceInterface $userService)
+    /** @var UserRepositoryInterface */
+    protected $userRepository;
+
+    public function __construct(CreateUserCommand $command, UserRepositoryInterface $userRepository)
     {
-        $this->userService = $userService;
+        $this->command = $command;
+        $this->userRepository = $userRepository;
     }
 
-    public function handle(CreateUserCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $user = UserDTOBuilder::createFromDTO(
-            $command->getUserId(),
-            $command->getUserDTO()
+            $this->command->getUserId(),
+            $this->command->getUserDTO()
         );
 
-        $this->userService->create($user);
+        $this->userRepository->create($user);
     }
 }

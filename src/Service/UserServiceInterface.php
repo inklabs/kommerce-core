@@ -46,10 +46,4 @@ interface UserServiceInterface
     public function findOneByEmail($email);
 
     public function getAllUsersByIds($userIds, Pagination & $pagination = null);
-
-    /**
-     * @param UuidInterface $userId
-     * @param string $password
-     */
-    public function changePassword(UuidInterface $userId, $password);
 }

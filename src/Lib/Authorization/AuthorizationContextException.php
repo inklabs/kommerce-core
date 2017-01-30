@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Lib\Authorization;
 
 use Exception;
 use inklabs\kommerce\Exception\KommerceException;
-use inklabs\kommerce\Lib\UuidInterface;
 
 class AuthorizationContextException extends KommerceException
 {
@@ -15,5 +14,10 @@ class AuthorizationContextException extends KommerceException
     public static function userAccessDenied()
     {
         return new self('Access denied to user');
+    }
+
+    public static function accessDenied()
+    {
+        return new self('Access denied');
     }
 }
