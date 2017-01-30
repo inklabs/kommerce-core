@@ -3,29 +3,43 @@ namespace inklabs\kommerce\ActionHandler\User;
 
 use inklabs\kommerce\Action\User\GetUserQuery;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Service\UserServiceInterface;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
-final class GetUserHandler
+final class GetUserHandler implements QueryHandlerInterface
 {
-    /** @var UserServiceInterface */
-    private $userService;
+    /** @var GetUserQuery */
+    private $query;
+
+    /** @var UserRepositoryInterface */
+    private $userRepository;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
-    public function __construct(UserServiceInterface $userService, DTOBuilderFactoryInterface $dtoBuilderFactory)
-    {
-        $this->userService = $userService;
+    public function __construct(
+        GetUserQuery $query,
+        UserRepositoryInterface $userRepository,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
+        $this->query = $query;
+        $this->userRepository = $userRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(GetUserQuery $query)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $product = $this->userService->findOneById(
-            $query->getRequest()->getUserId()
+        $authorizationContext->verifyCanManageUser($this->query->getRequest()->getUserId());
+    }
+
+    public function handle()
+    {
+        $product = $this->userRepository->findOneById(
+            $this->query->getRequest()->getUserId()
         );
 
-        $query->getResponse()->setUserDTOBuilder(
+        $this->query->getResponse()->setUserDTOBuilder(
             $this->dtoBuilderFactory->getUserDTOBuilder($product)
         );
     }

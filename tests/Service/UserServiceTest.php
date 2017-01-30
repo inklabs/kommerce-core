@@ -55,21 +55,6 @@ class UserServiceTest extends ServiceTestCase
         );
     }
 
-    public function testFind()
-    {
-        $user1 = $this->dummyData->getUser();
-        $this->userRepository->shouldReceive('findOneById')
-            ->with($user1->getId())
-            ->andReturn($user1)
-            ->once();
-
-        $user = $this->userService->findOneById(
-            $user1->getId()
-        );
-
-        $this->assertEntitiesEqual($user1, $user);
-    }
-
     public function testFindOneByEmail()
     {
         $user1 = $this->dummyData->getUser();

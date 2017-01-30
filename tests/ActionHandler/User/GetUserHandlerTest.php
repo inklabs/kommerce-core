@@ -4,25 +4,33 @@ namespace inklabs\kommerce\ActionHandler\User;
 use inklabs\kommerce\Action\User\GetUserQuery;
 use inklabs\kommerce\Action\User\Query\GetUserRequest;
 use inklabs\kommerce\Action\User\Query\GetUserResponse;
-use inklabs\kommerce\EntityDTO\UserDTO;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Entity\UserRole;
+use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetUserHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        User::class,
+        UserRole::class,
+        UserToken::class,
+        Cart::class,
+    ];
+
     public function testHandle()
     {
-        $userService = $this->mockService->getUserService();
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
-
-        $request = new GetUserRequest(self::UUID_HEX);
+        $user = $this->dummyData->getUser();
+        $this->persistEntityAndFlushClear($user);
+        $request = new GetUserRequest($user->getId()->getHex());
         $response = new GetUserResponse();
+        $query = new GetUserQuery($request, $response);
 
-        $handler = new GetUserHandler($userService, $dtoBuilderFactory);
+        $this->dispatchQuery($query);
+        $this->assertSame($user->getId()->getHex(), $response->getUserDTO()->id->getHex());
 
-        $handler->handle(new GetUserQuery($request, $response));
-        $this->assertTrue($response->getUserDTO() instanceof UserDTO);
-
-        $handler->handle(new GetUserQuery($request, $response));
-        $this->assertTrue($response->getUserDTOWithRolesAndTokens() instanceof UserDTO);
+        $this->dispatchQuery($query);
+        $this->assertSame($user->getId()->getHex(), $response->getUserDTOWithRolesAndTokens()->id->getHex());
     }
 }
