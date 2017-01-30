@@ -1,9 +1,10 @@
 <?php
 namespace inklabs\kommerce\Action\User;
 
+use inklabs\kommerce\Lib\ActionInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 
-final class ImportUsersFromCSVCommand implements CommandInterface
+final class ImportUsersFromCSVCommand implements CommandInterface, ActionInterface
 {
     /** @var string */
     private $fileName;
