@@ -3,27 +3,39 @@ namespace inklabs\kommerce\ActionHandler\TaxRate;
 
 use inklabs\kommerce\Action\TaxRate\CreateZip5RangeTaxRateCommand;
 use inklabs\kommerce\Entity\TaxRate;
-use inklabs\kommerce\Service\TaxRateServiceInterface;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateZip5RangeTaxRateHandler
+final class CreateZip5RangeTaxRateHandler implements CommandHandlerInterface
 {
-    /** @var TaxRateServiceInterface */
-    protected $taxRateService;
+    /** @var CreateZip5RangeTaxRateCommand */
+    private $command;
 
-    public function __construct(TaxRateServiceInterface $taxRateService)
+    /** @var TaxRateRepositoryInterface */
+    protected $taxRateRepository;
+
+    public function __construct(CreateZip5RangeTaxRateCommand $command, TaxRateRepositoryInterface $taxRateRepository)
     {
-        $this->taxRateService = $taxRateService;
+        $this->command = $command;
+        $this->taxRateRepository = $taxRateRepository;
     }
 
-    public function handle(CreateZip5RangeTaxRateCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $taxRate = TaxRate::createZip5Range(
-            $command->getZip5From(),
-            $command->getZip5To(),
-            $command->getRate(),
-            $command->applyToShipping()
+            $this->command->getZip5From(),
+            $this->command->getZip5To(),
+            $this->command->getRate(),
+            $this->command->applyToShipping(),
+            $this->command->getTaxRateId()
         );
 
-        $this->taxRateService->create($taxRate);
+        $this->taxRateRepository->create($taxRate);
     }
 }

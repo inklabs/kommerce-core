@@ -2,21 +2,34 @@
 namespace inklabs\kommerce\ActionHandler\TaxRate;
 
 use inklabs\kommerce\Action\TaxRate\DeleteTaxRateCommand;
-use inklabs\kommerce\Service\TaxRateServiceInterface;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class DeleteTaxRateHandler
+final class DeleteTaxRateHandler implements CommandHandlerInterface
 {
-    /** @var TaxRateServiceInterface */
-    protected $taxRateService;
+    /** @var DeleteTaxRateCommand */
+    private $command;
 
-    public function __construct(TaxRateServiceInterface $taxRateService)
+    /** @var TaxRateRepositoryInterface */
+    protected $taxRateRepository;
+
+    public function __construct(DeleteTaxRateCommand $command, TaxRateRepositoryInterface $taxRateRepository)
     {
-        $this->taxRateService = $taxRateService;
+        $this->command = $command;
+        $this->taxRateRepository = $taxRateRepository;
     }
 
-    public function handle(DeleteTaxRateCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $taxRate = $this->taxRateService->findOneById($command->getTaxRateId());
-        $this->taxRateService->delete($taxRate);
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $taxRate = $this->taxRateRepository->findOneById(
+            $this->command->getTaxRateId()
+        );
+        $this->taxRateRepository->delete($taxRate);
     }
 }

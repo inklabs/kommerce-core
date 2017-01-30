@@ -1001,6 +1001,16 @@ class DummyData
         return $taxRate;
     }
 
+    public function getStateTaxRate()
+    {
+        $taxRate = new TaxRate;
+        $taxRate->setState('CA');
+        $taxRate->setRate(7.5);
+        $taxRate->setApplyToShipping(true);
+
+        return $taxRate;
+    }
+
     public function getTextOption()
     {
         $textOption = new TextOption;

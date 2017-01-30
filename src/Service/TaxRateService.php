@@ -3,7 +3,6 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
-use inklabs\kommerce\Lib\UuidInterface;
 
 class TaxRateService implements TaxRateServiceInterface
 {
@@ -15,31 +14,6 @@ class TaxRateService implements TaxRateServiceInterface
     public function __construct(TaxRateRepositoryInterface $taxRateRepository)
     {
         $this->taxRateRepository = $taxRateRepository;
-    }
-
-    public function create(TaxRate & $taxRate)
-    {
-        $this->taxRateRepository->create($taxRate);
-    }
-
-    public function update(TaxRate & $taxRate)
-    {
-        $this->taxRateRepository->update($taxRate);
-    }
-
-    public function delete(TaxRate $taxRate)
-    {
-        $this->taxRateRepository->delete($taxRate);
-    }
-
-    public function findOneById(UuidInterface $id)
-    {
-        return $this->taxRateRepository->findOneById($id);
-    }
-
-    public function findAll()
-    {
-        return $this->taxRateRepository->findAll();
     }
 
     /**

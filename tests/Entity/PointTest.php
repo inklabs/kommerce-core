@@ -12,8 +12,8 @@ class PointTest extends EntityTestCase
     {
         $point = new Point;
 
-        $this->assertEquals(0.0, $point->getLatitude(), '', FLOAT_DELTA);
-        $this->assertEquals(0.0, $point->getLongitude(), '', FLOAT_DELTA);
+        $this->assertFloatEquals(0.0, $point->getLatitude());
+        $this->assertFloatEquals(0.0, $point->getLongitude());
     }
 
     public function testCreate()
@@ -21,8 +21,8 @@ class PointTest extends EntityTestCase
         $point = new Point($this->latitude, $this->longitude);
 
         $this->assertEntityValid($point);
-        $this->assertEquals($this->latitude, $point->getLatitude(), '', FLOAT_DELTA);
-        $this->assertEquals($this->longitude, $point->getLongitude(), '', FLOAT_DELTA);
+        $this->assertFloatEquals($this->latitude, $point->getLatitude());
+        $this->assertFloatEquals($this->longitude, $point->getLongitude());
     }
 
     public function testGetGeoBox()
@@ -33,9 +33,9 @@ class PointTest extends EntityTestCase
         $upperLeft = $points[0];
         $bottomRight = $points[1];
 
-        $this->assertEquals(33.3285403, $upperLeft->getLatitude(), '', FLOAT_DELTA);
-        $this->assertEquals(-118.9673787, $upperLeft->getLongitude(), '', FLOAT_DELTA);
-        $this->assertEquals(34.7759277, $bottomRight->getLatitude(), '', FLOAT_DELTA);
-        $this->assertEquals(-117.5199913, $bottomRight->getLongitude(), '', FLOAT_DELTA);
+        $this->assertFloatEquals(33.3285403, $upperLeft->getLatitude());
+        $this->assertFloatEquals(-118.9673787, $upperLeft->getLongitude());
+        $this->assertFloatEquals(34.7759277, $bottomRight->getLatitude());
+        $this->assertFloatEquals(-117.5199913, $bottomRight->getLongitude());
     }
 }

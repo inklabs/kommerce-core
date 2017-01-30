@@ -2,25 +2,39 @@
 namespace inklabs\kommerce\ActionHandler\TaxRate;
 
 use inklabs\kommerce\Action\TaxRate\UpdateStateTaxRateCommand;
-use inklabs\kommerce\Service\TaxRateServiceInterface;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class UpdateStateTaxRateHandler
+final class UpdateStateTaxRateHandler implements CommandHandlerInterface
 {
-    /** @var TaxRateServiceInterface */
-    protected $taxRateService;
+    /** @var UpdateStateTaxRateCommand */
+    private $command;
 
-    public function __construct(TaxRateServiceInterface $taxRateService)
+    /** @var TaxRateRepositoryInterface */
+    protected $taxRateRepository;
+
+    public function __construct(UpdateStateTaxRateCommand $command, TaxRateRepositoryInterface $taxRateRepository)
     {
-        $this->taxRateService = $taxRateService;
+        $this->command = $command;
+        $this->taxRateRepository = $taxRateRepository;
     }
 
-    public function handle(UpdateStateTaxRateCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $taxRate = $this->taxRateService->findOneById($command->getTaxRateId());
-        $taxRate->setState($command->getState());
-        $taxRate->setRate($command->getRate());
-        $taxRate->setApplyToShipping($command->applyToShipping());
+        $authorizationContext->verifyIsAdmin();
+    }
 
-        $this->taxRateService->update($taxRate);
+    public function handle()
+    {
+        $taxRate = $this->taxRateRepository->findOneById($this->command->getTaxRateId());
+        $taxRate->setZip5(null);
+        $taxRate->setZip5From(null);
+        $taxRate->setZip5To(null);
+        $taxRate->setState($this->command->getState());
+        $taxRate->setRate($this->command->getRate());
+        $taxRate->setApplyToShipping($this->command->applyToShipping());
+
+        $this->taxRateRepository->update($taxRate);
     }
 }

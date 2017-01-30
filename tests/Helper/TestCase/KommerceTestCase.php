@@ -44,6 +44,7 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     const FAKE_TIMESTAMP = 1482913105;
     const FAKE_TEXT = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun';
     const FAKE_SKU = 'ZK03B7';
+    const FLOAT_DELTA = 0.000001;
 
     /** @var DummyData */
     protected $dummyData;
@@ -316,5 +317,10 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
         } else {
             mt_srand(0);
         }
+    }
+
+    protected function assertFloatEquals($expected, $actual)
+    {
+        $this->assertEquals($expected, $actual, null, self::FLOAT_DELTA);
     }
 }

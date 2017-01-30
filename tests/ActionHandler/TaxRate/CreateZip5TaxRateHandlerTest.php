@@ -2,23 +2,37 @@
 namespace inklabs\kommerce\ActionHandler\TaxRate;
 
 use inklabs\kommerce\Action\TaxRate\CreateZip5TaxRateCommand;
+use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class CreateZip5TaxRateHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        TaxRate::class,
+    ];
+
     public function testHandle()
     {
-        $tagService = $this->mockService->getTaxRateService();
-        $tagService->shouldReceive('create')
-            ->once();
-
         $applyToShipping = true;
+        $zip5 = self::ZIP5;
+        $rate = self::FLOAT_TAX_RATE;
         $command = new CreateZip5TaxRateCommand(
-            self::ZIP5,
-            self::FLOAT_TAX_RATE,
+            $zip5,
+            $rate,
             $applyToShipping
         );
-        $handler = new CreateZip5TaxRateHandler($tagService);
-        $handler->handle($command);
+
+        $this->dispatchCommand($command);
+
+        $this->entityManager->clear();
+        $taxRate = $this->getRepositoryFactory()->getTaxRateRepository()->findOneById(
+            $command->getTaxRateId()
+        );
+        $this->assertSame(null, $taxRate->getState());
+        $this->assertSame(null, $taxRate->getZip5From());
+        $this->assertSame(null, $taxRate->getZip5To());
+        $this->assertSame($zip5, $taxRate->getZip5());
+        $this->assertFloatEquals($rate, $taxRate->getRate());
+        $this->assertSame($applyToShipping, $taxRate->getApplyToShipping());
     }
 }

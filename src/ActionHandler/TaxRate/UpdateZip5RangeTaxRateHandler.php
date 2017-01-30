@@ -2,26 +2,39 @@
 namespace inklabs\kommerce\ActionHandler\TaxRate;
 
 use inklabs\kommerce\Action\TaxRate\UpdateZip5RangeTaxRateCommand;
-use inklabs\kommerce\Service\TaxRateServiceInterface;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class UpdateZip5RangeTaxRateHandler
+final class UpdateZip5RangeTaxRateHandler implements CommandHandlerInterface
 {
-    /** @var TaxRateServiceInterface */
-    protected $taxRateService;
+    /** @var UpdateZip5RangeTaxRateCommand */
+    private $command;
 
-    public function __construct(TaxRateServiceInterface $taxRateService)
+    /** @var TaxRateRepositoryInterface */
+    protected $taxRateRepository;
+
+    public function __construct(UpdateZip5RangeTaxRateCommand $command, TaxRateRepositoryInterface $taxRateRepository)
     {
-        $this->taxRateService = $taxRateService;
+        $this->taxRateRepository = $taxRateRepository;
+        $this->command = $command;
     }
 
-    public function handle(UpdateZip5RangeTaxRateCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $taxRate = $this->taxRateService->findOneById($command->getTaxRateId());
-        $taxRate->setZip5From($command->getZip5From());
-        $taxRate->setZip5To($command->getZip5To());
-        $taxRate->setRate($command->getRate());
-        $taxRate->setApplyToShipping($command->applyToShipping());
+        $authorizationContext->verifyIsAdmin();
+    }
 
-        $this->taxRateService->update($taxRate);
+    public function handle()
+    {
+        $taxRate = $this->taxRateRepository->findOneById($this->command->getTaxRateId());
+        $taxRate->setZip5(null);
+        $taxRate->setState(null);
+        $taxRate->setZip5From($this->command->getZip5From());
+        $taxRate->setZip5To($this->command->getZip5To());
+        $taxRate->setRate($this->command->getRate());
+        $taxRate->setApplyToShipping($this->command->applyToShipping());
+
+        $this->taxRateRepository->update($taxRate);
     }
 }

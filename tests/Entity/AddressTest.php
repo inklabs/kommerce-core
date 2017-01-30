@@ -19,8 +19,8 @@ class AddressTest extends EntityTestCase
         $this->assertSame(null, $address->getZip4());
 
         $point = $address->getPoint();
-        $this->assertEquals(0.0, $point->getLatitude(), '', FLOAT_DELTA);
-        $this->assertEquals(0.0, $point->getLongitude(), '', FLOAT_DELTA);
+        $this->assertFloatEquals(0.0, $point->getLatitude());
+        $this->assertFloatEquals(0.0, $point->getLongitude());
     }
 
     public function testCreate()

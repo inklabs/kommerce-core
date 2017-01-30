@@ -21,42 +21,6 @@ class TaxRateServiceTest extends ServiceTestCase
         $this->taxRateService = new TaxRateService($this->taxRateRepository);
     }
 
-    public function testCRUD()
-    {
-        $this->executeServiceCRUD(
-            $this->taxRateService,
-            $this->taxRateRepository,
-            $this->dummyData->getTaxRate()
-        );
-    }
-
-    public function testFind()
-    {
-        $taxRate1 = $this->dummyData->getTaxRate();
-        $this->taxRateRepository->shouldReceive('findOneById')
-            ->with($taxRate1->getId())
-            ->andReturn($taxRate1)
-            ->once();
-
-        $taxRate = $this->taxRateService->findOneById(
-            $taxRate1->getId()
-        );
-
-        $this->assertEntitiesEqual($taxRate1, $taxRate);
-    }
-
-    public function testFindAll()
-    {
-        $taxRate1 = $this->dummyData->getTaxRate();
-        $this->taxRateRepository->shouldReceive('findAll')
-            ->andReturn([$taxRate1])
-            ->once();
-
-        $taxRates = $this->taxRateService->findAll();
-
-        $this->assertEntitiesEqual($taxRate1, $taxRates[0]);
-    }
-
     public function testFindByZip5AndStateWithZip5()
     {
         $taxRate1 = $this->dummyData->getTaxRate();

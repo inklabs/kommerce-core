@@ -3,26 +3,38 @@ namespace inklabs\kommerce\ActionHandler\TaxRate;
 
 use inklabs\kommerce\Action\TaxRate\CreateStateTaxRateCommand;
 use inklabs\kommerce\Entity\TaxRate;
-use inklabs\kommerce\Service\TaxRateServiceInterface;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateStateTaxRateHandler
+final class CreateStateTaxRateHandler implements CommandHandlerInterface
 {
-    /** @var TaxRateServiceInterface */
-    protected $taxRateService;
+    /** @var CreateStateTaxRateCommand */
+    private $command;
 
-    public function __construct(TaxRateServiceInterface $taxRateService)
+    /** @var TaxRateRepositoryInterface */
+    protected $taxRateRepository;
+
+    public function __construct(CreateStateTaxRateCommand $command, TaxRateRepositoryInterface $taxRateRepository)
     {
-        $this->taxRateService = $taxRateService;
+        $this->command = $command;
+        $this->taxRateRepository = $taxRateRepository;
     }
 
-    public function handle(CreateStateTaxRateCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $taxRate = TaxRate::createState(
-            $command->getState(),
-            $command->getRate(),
-            $command->applyToShipping()
+            $this->command->getState(),
+            $this->command->getRate(),
+            $this->command->applyToShipping(),
+            $this->command->getTaxRateId()
         );
 
-        $this->taxRateService->create($taxRate);
+        $this->taxRateRepository->create($taxRate);
     }
 }

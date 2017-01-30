@@ -98,6 +98,6 @@ class WarehouseRepositoryTest extends EntityRepositoryTestCase
         $distance = $warehouses[0]['distance'];
 
         $this->assertEntitiesEqual($originalWarehouse, $warehouse);
-        $this->assertEquals(14.421, $distance, null, FLOAT_DELTA);
+        $this->assertFloatEquals(14.421, $distance);
     }
 }
