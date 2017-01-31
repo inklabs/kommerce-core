@@ -10,10 +10,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface ProductServiceInterface
 {
-    public function create(Product & $product);
-    public function update(Product & $product);
-    public function delete(Product $product);
-
     public function createProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount);
     public function updateProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount);
     public function deleteProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount);
@@ -24,13 +20,6 @@ interface ProductServiceInterface
      * @throws EntityNotFoundException
      */
     public function findOneById(UuidInterface $id);
-
-    /**
-     * @param UuidInterface $productId
-     * @param UuidInterface $tagId
-     * @throws EntityNotFoundException
-     */
-    public function addTag(UuidInterface $productId, UuidInterface $tagId);
 
     /**
      * @param UuidInterface $productId

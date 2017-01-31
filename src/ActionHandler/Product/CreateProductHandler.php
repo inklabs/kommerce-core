@@ -3,25 +3,36 @@ namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\CreateProductCommand;
 use inklabs\kommerce\EntityDTO\Builder\ProductDTOBuilder;
-use inklabs\kommerce\Service\ProductServiceInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateProductHandler
+final class CreateProductHandler implements CommandHandlerInterface
 {
-    /** @var ProductServiceInterface */
-    protected $productService;
+    /** @var CreateProductCommand */
+    private $command;
 
-    public function __construct(ProductServiceInterface $productService)
+    /** @var ProductRepositoryInterface */
+    private $productRepository;
+
+    public function __construct(CreateProductCommand $command, ProductRepositoryInterface $productRepository)
     {
-        $this->productService = $productService;
+        $this->command = $command;
+        $this->productRepository = $productRepository;
     }
 
-    public function handle(CreateProductCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $product = ProductDTOBuilder::createFromDTO(
-            $command->getProductId(),
-            $command->getProductDTO()
+            $this->command->getProductId(),
+            $this->command->getProductDTO()
         );
 
-        $this->productService->create($product);
+        $this->productRepository->create($product);
     }
 }

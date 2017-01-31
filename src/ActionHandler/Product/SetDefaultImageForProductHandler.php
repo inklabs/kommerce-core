@@ -2,32 +2,43 @@
 namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\SetDefaultImageForProductCommand;
-use inklabs\kommerce\Service\ImageServiceInterface;
-use inklabs\kommerce\Service\ProductServiceInterface;
+use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class SetDefaultImageForProductHandler
+final class SetDefaultImageForProductHandler implements CommandHandlerInterface
 {
-    /** @var ProductServiceInterface */
-    protected $productService;
+    /** @var SetDefaultImageForProductCommand */
+    private $command;
 
-    /** @var ImageServiceInterface */
-    private $imageService;
+    /** @var ProductRepositoryInterface */
+    protected $productRepository;
+
+    /** @var ImageRepositoryInterface */
+    private $imageRepository;
 
     public function __construct(
-        ProductServiceInterface $productService,
-        ImageServiceInterface $imageService
+        SetDefaultImageForProductCommand $command,
+        ProductRepositoryInterface $productRepository,
+        ImageRepositoryInterface $imageRepository
     ) {
-        $this->productService = $productService;
-        $this->imageService = $imageService;
+        $this->command = $command;
+        $this->productRepository = $productRepository;
+        $this->imageRepository = $imageRepository;
     }
 
-    public function handle(SetDefaultImageForProductCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $product = $this->productService->findOneById($command->getProductId());
-        $image = $this->imageService->findOneById($command->getImageId());
+        $authorizationContext->verifyIsAdmin();
+    }
 
+    public function handle()
+    {
+        $image = $this->imageRepository->findOneById($this->command->getImageId());
+        $product = $this->productRepository->findOneById($this->command->getProductId());
         $product->setDefaultImage($image->getPath());
 
-        $this->productService->update($product);
+        $this->productRepository->update($product);
     }
 }

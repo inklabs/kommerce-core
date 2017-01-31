@@ -271,7 +271,7 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
         }
 
         $this->fail(
-            'Failed asserting entitity in list:' . PHP_EOL .
+            'Failed asserting entity in list:' . PHP_EOL .
             get_class($entity1) . ': ' . $entity1->getId()->getHex() . PHP_EOL .
             json_encode(iterator_to_array($this->getEntityIds($entities)))
         );

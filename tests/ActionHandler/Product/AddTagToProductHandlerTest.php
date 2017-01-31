@@ -2,21 +2,33 @@
 namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\AddTagToProductCommand;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class AddTagToProductHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Product::class,
+        Tag::class,
+    ];
+
     public function testHandle()
     {
-        $productService = $this->mockService->getProductService();
-        $productService->shouldReceive('addTag')
-            ->once();
+        $tag = $this->dummyData->getTag();
+        $product = $this->dummyData->getProduct();
+        $this->persistEntityAndFlushClear([$tag, $product]);
+        $command = new AddTagToProductCommand(
+            $product->getId()->getHex(),
+            $tag->getId()->getHex()
+        );
 
-        $productId = self::UUID_HEX;
-        $tagId = self::UUID_HEX;
+        $this->dispatchCommand($command);
 
-        $command = new AddTagToProductCommand($productId, $tagId);
-        $handler = new AddTagToProductHandler($productService);
-        $handler->handle($command);
+        $this->entityManager->clear();
+        $product = $this->getRepositoryFactory()->getProductRepository()->findOneById(
+            $product->getId()
+        );
+        $this->assertEntitiesEqual($tag, $product->getTags()[0]);
     }
 }

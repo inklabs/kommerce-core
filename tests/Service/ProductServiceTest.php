@@ -35,15 +35,6 @@ class ProductServiceTest extends ServiceTestCase
         );
     }
 
-    public function testCRUD()
-    {
-        $this->executeServiceCRUD(
-            $this->productService,
-            $this->productRepository,
-            $this->dummyData->getProduct()
-        );
-    }
-
     public function testFindOneById()
     {
         $product1 = $this->dummyData->getProduct();
@@ -55,20 +46,6 @@ class ProductServiceTest extends ServiceTestCase
         $product = $this->productService->findOneById($product1->getId());
 
         $this->assertEntitiesEqual($product1, $product);
-    }
-
-    public function testAddTag()
-    {
-        $product = $this->dummyData->getProduct();
-        $tag1 = $this->dummyData->getTag();
-
-        $this->productRepository->shouldReceive('findOneById')->with($product->getId())->andReturn($product);
-        $this->tagRepository->shouldReceive('findOneById')->andReturn($tag1);
-        $this->productRepository->shouldReceive('update')->once();
-
-        $this->productService->addTag($product->getId(), $tag1->getId());
-
-        $this->assertEntitiesEqual($tag1, $product->getTags()[0]);
     }
 
     public function testRemoveTag()

@@ -2,21 +2,32 @@
 namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\DeleteProductCommand;
-use inklabs\kommerce\Service\ProductServiceInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class DeleteProductHandler
+final class DeleteProductHandler implements CommandHandlerInterface
 {
-    /** @var ProductServiceInterface */
-    protected $productService;
+    /** @var DeleteProductCommand */
+    private $command;
 
-    public function __construct(ProductServiceInterface $productService)
+    /** @var ProductRepositoryInterface */
+    private $productRepository;
+
+    public function __construct(DeleteProductCommand $command, ProductRepositoryInterface $productRepository)
     {
-        $this->productService = $productService;
+        $this->command = $command;
+        $this->productRepository = $productRepository;
     }
 
-    public function handle(DeleteProductCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $product = $this->productService->findOneById($command->getProductId());
-        $this->productService->delete($product);
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $product = $this->productRepository->findOneById($this->command->getProductId());
+        $this->productRepository->delete($product);
     }
 }

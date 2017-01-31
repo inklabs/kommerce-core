@@ -34,21 +34,6 @@ class ProductService implements ProductServiceInterface
         $this->imageRepository = $imageRepository;
     }
 
-    public function create(Product & $product)
-    {
-        $this->productRepository->create($product);
-    }
-
-    public function update(Product & $product)
-    {
-        $this->productRepository->update($product);
-    }
-
-    public function delete(Product $product)
-    {
-        $this->productRepository->delete($product);
-    }
-
     public function createProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount)
     {
         $this->productRepository->create($productQuantityDiscount);
@@ -72,21 +57,6 @@ class ProductService implements ProductServiceInterface
     public function findOneById(UuidInterface $id)
     {
         return $this->productRepository->findOneById($id);
-    }
-
-    /**
-     * @param UuidInterface $productId
-     * @param UuidInterface $tagId
-     * @throws EntityNotFoundException
-     */
-    public function addTag(UuidInterface $productId, UuidInterface $tagId)
-    {
-        $product = $this->productRepository->findOneById($productId);
-        $tag = $this->tagRepository->findOneById($tagId);
-
-        $product->addTag($tag);
-
-        $this->productRepository->update($product);
     }
 
     /**

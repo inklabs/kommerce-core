@@ -3,24 +3,35 @@ namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\UpdateProductCommand;
 use inklabs\kommerce\EntityDTO\Builder\ProductDTOBuilder;
-use inklabs\kommerce\Service\ProductServiceInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class UpdateProductHandler
+final class UpdateProductHandler implements CommandHandlerInterface
 {
-    /** @var ProductServiceInterface */
-    protected $productService;
+    /** @var UpdateProductCommand */
+    private $command;
 
-    public function __construct(ProductServiceInterface $productService)
+    /** @var ProductRepositoryInterface */
+    private $productRepository;
+
+    public function __construct(UpdateProductCommand $command, ProductRepositoryInterface $productRepository)
     {
-        $this->productService = $productService;
+        $this->command = $command;
+        $this->productRepository = $productRepository;
     }
 
-    public function handle(UpdateProductCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $productDTO = $command->getProductDTO();
-        $product = $this->productService->findOneById($productDTO->id);
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $productDTO = $this->command->getProductDTO();
+        $product = $this->productRepository->findOneById($productDTO->id);
         ProductDTOBuilder::setFromDTO($product, $productDTO);
 
-        $this->productService->update($product);
+        $this->productRepository->update($product);
     }
 }
