@@ -4,28 +4,31 @@ namespace inklabs\kommerce\ActionHandler\Product;
 use inklabs\kommerce\Action\Product\GetProductsByTagQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductsByTagRequest;
 use inklabs\kommerce\Action\Product\Query\GetProductsByTagResponse;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
-use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetProductsByTagHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Product::class,
+        Tag::class,
+    ];
+
     public function testHandle()
     {
-        $pricing = $this->dummyData->getPricing();
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
-        $productService = $this->mockService->getProductService();
-        $productService->shouldReceive('getProductsByTagId')
-            ->andReturn([$this->dummyData->getProduct()])
-            ->once();
+        $product = $this->dummyData->getProduct();
+        $tag = $this->dummyData->getTag();
+        $product->addTag($tag);
+        $this->persistEntityAndFlushClear([$product, $tag]);
+        $request = new GetProductsByTagRequest($tag->getId()->getHex(), new PaginationDTO());
+        $response = new GetProductsByTagResponse($this->getPricing());
+        $query = new GetProductsByTagQuery($request, $response);
 
-        $request = new GetProductsByTagRequest(self::UUID_HEX, new PaginationDTO);
-        $response = new GetProductsByTagResponse($pricing);
+        $this->dispatchQuery($query);
 
-        $handler = new GetProductsByTagHandler($productService, $dtoBuilderFactory);
-        $handler->handle(new GetProductsByTagQuery($request, $response));
-
-        $this->assertTrue($response->getProductDTOs()[0] instanceof ProductDTO);
+        $this->assertEquals($product->getId(), $response->getProductDTOs()[0]->id);
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
     }
 }

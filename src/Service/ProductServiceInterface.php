@@ -10,7 +10,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface ProductServiceInterface
 {
-    public function createProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount);
     public function updateProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount);
     public function deleteProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount);
 
@@ -50,29 +49,9 @@ interface ProductServiceInterface
     public function getRelatedProductsByIds(array $productIds, $limit = 12);
 
     /**
-     * @param UuidInterface $tagId
-     * @param Pagination $pagination
-     * @return Product[]
-     */
-    public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null);
-
-    /**
-     * @param UuidInterface[] $productIds
-     * @param Pagination $pagination  TODO: Remove $pagination
-     * @return Product[]
-     */
-    public function getProductsByIds($productIds, Pagination & $pagination = null);
-
-    /**
      * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
      */
     public function getAllProductsByIds($productIds, Pagination & $pagination = null);
-
-    /**
-     * @param int $limit
-     * @return Product[]
-     */
-    public function getRandomProducts($limit);
 }

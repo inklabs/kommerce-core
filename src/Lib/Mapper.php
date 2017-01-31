@@ -13,6 +13,7 @@ use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductAttributeRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductQuantityDiscountRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\EntityRepository\ShipmentTrackerRepositoryInterface;
@@ -124,6 +125,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getOptionRepository();
                 } elseif ($parameterClassName === ProductRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getProductRepository();
+                } elseif ($parameterClassName === ProductQuantityDiscountRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getProductQuantityDiscountRepository();
                 } elseif ($parameterClassName === ProductAttributeRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getProductAttributeRepository();
                 } elseif ($parameterClassName === ShipmentTrackerRepositoryInterface::class) {

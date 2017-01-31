@@ -102,35 +102,6 @@ class ProductServiceTest extends ServiceTestCase
         $this->assertEntitiesEqual($product, $products[0]);
     }
 
-    public function testGetProductsByTag()
-    {
-        $tag = $this->dummyData->getTag();
-        $product1 = $this->dummyData->getProduct();
-        $this->productRepository->shouldReceive('getProductsByTagId')
-            ->with($tag->getId(), null)
-            ->andReturn([$product1])
-            ->once();
-
-        $products = $this->productService->getProductsByTagId($tag->getId());
-
-        $this->assertEntitiesEqual($product1, $products[0]);
-    }
-
-    public function testGetProductsByIds()
-    {
-        $product1 = $this->dummyData->getProduct();
-        $this->productRepository->shouldReceive('getProductsByIds')
-            ->with([$product1->getId()], null)
-            ->andReturn([$product1])
-            ->once();
-
-        $products = $this->productService->getProductsByIds([
-            $product1->getId()
-        ]);
-
-        $this->assertEntitiesEqual($product1, $products[0]);
-    }
-
     public function testGetAllProductsByIds()
     {
         $product1 = $this->dummyData->getProduct();
@@ -142,20 +113,6 @@ class ProductServiceTest extends ServiceTestCase
         $products = $this->productService->getAllProductsByIds([
             $product1->getId()
         ]);
-
-        $this->assertEntitiesEqual($product1, $products[0]);
-    }
-
-    public function testGetRandomProducts()
-    {
-        $limit = 1;
-        $product1 = $this->dummyData->getProduct();
-        $this->productRepository->shouldReceive('getRandomProducts')
-            ->with($limit)
-            ->andReturn([$product1])
-            ->once();
-
-        $products = $this->productService->getRandomProducts($limit);
 
         $this->assertEntitiesEqual($product1, $products[0]);
     }

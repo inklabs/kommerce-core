@@ -4,26 +4,43 @@ namespace inklabs\kommerce\ActionHandler\Product;
 use inklabs\kommerce\Action\Product\GetProductQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductRequest;
 use inklabs\kommerce\Action\Product\Query\GetProductResponse;
-use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\ProductAttribute;
+use inklabs\kommerce\Entity\ProductQuantityDiscount;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetProductHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Attribute::class,
+        AttributeValue::class,
+        Image::class,
+        Option::class,
+        OptionProduct::class,
+        Product::class,
+        ProductAttribute::class,
+        ProductQuantityDiscount::class,
+        Tag::class,
+    ];
+
     public function testHandle()
     {
-        $pricing = $this->dummyData->getPricing();
-        $productService = $this->mockService->getProductService();
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
+        $product = $this->dummyData->getProduct();
+        $this->persistEntityAndFlushClear($product);
+        $request = new GetProductRequest($product->getId()->getHex());
+        $response = new GetProductResponse($this->getPricing());
+        $query = new GetProductQuery($request, $response);
 
-        $request = new GetProductRequest(self::UUID_HEX);
-        $response = new GetProductResponse($pricing);
+        $this->dispatchQuery($query);
+        $this->assertEquals($product->getId(), $response->getProductDTO()->id);
 
-        $handler = new GetProductHandler($productService, $dtoBuilderFactory);
-
-        $handler->handle(new GetProductQuery($request, $response));
-        $this->assertTrue($response->getProductDTO() instanceof ProductDTO);
-
-        $handler->handle(new GetProductQuery($request, $response));
-        $this->assertTrue($response->getProductDTOWithAllData() instanceof ProductDTO);
+        $this->dispatchQuery($query);
+        $this->assertEquals($product->getId(), $response->getProductDTOWithAllData()->id);
     }
 }

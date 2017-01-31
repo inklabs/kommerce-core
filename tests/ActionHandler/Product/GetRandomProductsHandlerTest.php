@@ -4,27 +4,28 @@ namespace inklabs\kommerce\ActionHandler\Product;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
-use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetRandomProductsHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Product::class,
+        Tag::class,
+    ];
+
     public function testHandle()
     {
-        $pricing = $this->dummyData->getPricing();
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
-        $productService = $this->mockService->getProductService();
-        $productService->shouldReceive('getRandomProducts')
-            ->andReturn([$this->dummyData->getProduct()])
-            ->once();
-
+        $product = $this->dummyData->getProduct();
+        $this->persistEntityAndFlushClear($product);
         $limit = 4;
         $request = new GetRandomProductsRequest($limit);
-        $response = new GetRandomProductsResponse($pricing);
+        $response = new GetRandomProductsResponse($this->getPricing());
+        $query = new GetRandomProductsQuery($request, $response);
 
-        $handler = new GetRandomProductsHandler($productService, $dtoBuilderFactory);
-        $handler->handle(new GetRandomProductsQuery($request, $response));
+        $this->dispatchQuery($query);
 
-        $this->assertTrue($response->getProductDTOs()[0] instanceof ProductDTO);
+        $this->assertEquals($product->getId(), $response->getProductDTOs()[0]->id);
     }
 }

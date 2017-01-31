@@ -34,11 +34,6 @@ class ProductService implements ProductServiceInterface
         $this->imageRepository = $imageRepository;
     }
 
-    public function createProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount)
-    {
-        $this->productRepository->create($productQuantityDiscount);
-    }
-
     public function updateProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount)
     {
         $this->productRepository->update($productQuantityDiscount);
@@ -114,26 +109,6 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param UuidInterface $tagId
-     * @param Pagination $pagination
-     * @return Product[]
-     */
-    public function getProductsByTagId(UuidInterface $tagId, Pagination & $pagination = null)
-    {
-        return $this->productRepository->getProductsByTagId($tagId, $pagination);
-    }
-
-    /**
-     * @param UuidInterface[] $productIds
-     * @param Pagination $pagination
-     * @return Product[]
-     */
-    public function getProductsByIds($productIds, Pagination & $pagination = null)
-    {
-        return $this->productRepository->getProductsByIds($productIds, $pagination);
-    }
-
-    /**
      * @param UuidInterface[] $productIds
      * @param Pagination $pagination
      * @return Product[]
@@ -141,14 +116,5 @@ class ProductService implements ProductServiceInterface
     public function getAllProductsByIds($productIds, Pagination & $pagination = null)
     {
         return $this->productRepository->getAllProductsByIds($productIds, $pagination);
-    }
-
-    /**
-     * @param int $limit
-     * @return Product[]
-     */
-    public function getRandomProducts($limit)
-    {
-        return $this->productRepository->getRandomProducts($limit);
     }
 }

@@ -4,38 +4,56 @@ namespace inklabs\kommerce\ActionHandler\Product;
 use inklabs\kommerce\Action\Product\CreateProductQuantityDiscountCommand;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\PromotionType;
-use inklabs\kommerce\Service\ProductServiceInterface;
+use inklabs\kommerce\EntityRepository\ProductQuantityDiscountRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateProductQuantityDiscountHandler
+final class CreateProductQuantityDiscountHandler implements CommandHandlerInterface
 {
-    /** @var ProductServiceInterface */
-    protected $productService;
+    /** @var CreateProductQuantityDiscountCommand */
+    private $command;
 
-    public function __construct(ProductServiceInterface $productService)
-    {
-        $this->productService = $productService;
+    /** @var ProductRepositoryInterface */
+    private $productRepository;
+
+    /** @var ProductQuantityDiscountRepositoryInterface */
+    private $productQuantityDiscountRepository;
+
+    public function __construct(
+        CreateProductQuantityDiscountCommand $command,
+        ProductRepositoryInterface $productRepository,
+        ProductQuantityDiscountRepositoryInterface $productQuantityDiscountRepository
+    ) {
+        $this->command = $command;
+        $this->productRepository = $productRepository;
+        $this->productQuantityDiscountRepository = $productQuantityDiscountRepository;
     }
 
-    public function handle(CreateProductQuantityDiscountCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $product = $this->productService->findOneById(
-            $command->getProductId()
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $product = $this->productRepository->findOneById(
+            $this->command->getProductId()
         );
 
         $productQuantityDiscount = new ProductQuantityDiscount(
             $product,
-            $command->getProductQuantityDiscountId()
+            $this->command->getProductQuantityDiscountId()
         );
+        $productQuantityDiscount->setType(PromotionType::createById($this->command->getPromotionTypeId()));
+        $productQuantityDiscount->setValue($this->command->getValue());
+        $productQuantityDiscount->setReducesTaxSubtotal($this->command->getReducesTaxSubtotal());
+        $productQuantityDiscount->setMaxRedemptions($this->command->getMaxRedemptions());
+        $productQuantityDiscount->setStart($this->command->getStartDate());
+        $productQuantityDiscount->setEnd($this->command->getEndDate());
+        $productQuantityDiscount->setQuantity($this->command->getQuantity());
+        $productQuantityDiscount->setFlagApplyCatalogPromotions($this->command->getFlagApplyCatalogPromotions());
 
-        $productQuantityDiscount->setType(PromotionType::createById($command->getPromotionTypeId()));
-        $productQuantityDiscount->setValue($command->getValue());
-        $productQuantityDiscount->setReducesTaxSubtotal($command->getReducesTaxSubtotal());
-        $productQuantityDiscount->setMaxRedemptions($command->getMaxRedemptions());
-        $productQuantityDiscount->setStart($command->getStartDate());
-        $productQuantityDiscount->setEnd($command->getEndDate());
-        $productQuantityDiscount->setQuantity($command->getQuantity());
-        $productQuantityDiscount->setFlagApplyCatalogPromotions($command->getFlagApplyCatalogPromotions());
-
-        $this->productService->createProductQuantityDiscount($productQuantityDiscount);
+        $this->productQuantityDiscountRepository->create($productQuantityDiscount);
     }
 }

@@ -4,32 +4,27 @@ namespace inklabs\kommerce\ActionHandler\Product;
 use inklabs\kommerce\Action\Product\GetProductsByIdsQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductsByIdsRequest;
 use inklabs\kommerce\Action\Product\Query\GetProductsByIdsResponse;
-use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetProductsByIdsHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Product::class,
+        Tag::class,
+    ];
+
     public function testHandle()
     {
-        $pricing = $this->dummyData->getPricing();
         $product = $this->dummyData->getProduct();
+        $this->persistEntityAndFlushClear($product);
+        $request = new GetProductsByIdsRequest([$product->getId()->getHex(),]);
+        $response = new GetProductsByIdsResponse($this->getPricing());
+        $query = new GetProductsByIdsQuery($request, $response);
 
-        $productIds = [
-            $product->getId()->getHex(),
-        ];
+        $this->dispatchQuery($query);
 
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
-        $productService = $this->mockService->getProductService();
-        $productService->shouldReceive('getProductsByIds')
-            ->with([$product->getId()])
-            ->andReturn([$product]);
-
-        $request = new GetProductsByIdsRequest($productIds);
-        $response = new GetProductsByIdsResponse($pricing);
-
-        $handler = new GetProductsByIdsHandler($productService, $dtoBuilderFactory);
-        $handler->handle(new GetProductsByIdsQuery($request, $response));
-
-        $this->assertTrue($response->getProductDTOs()[0] instanceof ProductDTO);
+        $this->assertEquals($product->getId(), $response->getProductDTOs()[0]->id);
     }
 }
