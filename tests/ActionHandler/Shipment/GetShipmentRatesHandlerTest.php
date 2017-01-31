@@ -11,19 +11,18 @@ use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetShipmentRatesHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [];
+
     public function testHandle()
     {
-        $shipmentGateway = $this->mockService->getShipmentGateway();
-        $dtoBuilderFactoryInterface = $this->getDTOBuilderFactory();
-
         $request = new GetShipmentRatesRequest(
-            new OrderAddressDTO,
-            new ParcelDTO
+            new OrderAddressDTO(),
+            new ParcelDTO()
         );
-        $response = new GetShipmentRatesResponse;
+        $response = new GetShipmentRatesResponse();
+        $query = new GetShipmentRatesQuery($request, $response);
 
-        $handler = new GetShipmentRatesHandler($shipmentGateway, $dtoBuilderFactoryInterface);
-        $handler->handle(new GetShipmentRatesQuery($request, $response));
+        $this->dispatchQuery($query);
 
         $this->assertTrue($response->getShipmentRateDTOs()[0] instanceof ShipmentRateDTO);
     }

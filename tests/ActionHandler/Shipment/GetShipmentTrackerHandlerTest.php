@@ -18,7 +18,6 @@ class GetShipmentTrackerHandlerTest extends ActionTestCase
     {
         $shipmentTracker = $this->dummyData->getShipmentTracker();
         $this->persistEntityAndFlushClear($shipmentTracker);
-
         $request = new GetShipmentTrackerRequest($shipmentTracker->getId()->getHex());
         $response = new GetShipmentTrackerResponse();
 

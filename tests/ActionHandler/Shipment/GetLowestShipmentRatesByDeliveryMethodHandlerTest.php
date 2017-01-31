@@ -11,23 +11,18 @@ use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetLowestShipmentRatesByDeliveryMethodHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [];
+
     public function testHandle()
     {
-        $shipmentRate = $this->dummyData->getShipmentRate();
-        $dtoBuilderFactoryInterface = $this->getDTOBuilderFactory();
-        $shipmentGateway = $this->mockService->getShipmentGateway();
-        $shipmentGateway->shouldReceive('getTrimmedRates')
-            ->andReturn([$shipmentRate])
-            ->once();
-
         $request = new GetLowestShipmentRatesByDeliveryMethodRequest(
-            new OrderAddressDTO,
-            new ParcelDTO
+            new OrderAddressDTO(),
+            new ParcelDTO()
         );
-        $response = new GetLowestShipmentRatesByDeliveryMethodResponse;
+        $response = new GetLowestShipmentRatesByDeliveryMethodResponse();
+        $query =new GetLowestShipmentRatesByDeliveryMethodQuery($request, $response);
 
-        $handler = new GetLowestShipmentRatesByDeliveryMethodHandler($shipmentGateway, $dtoBuilderFactoryInterface);
-        $handler->handle(new GetLowestShipmentRatesByDeliveryMethodQuery($request, $response));
+        $this->dispatchQuery($query);
 
         $this->assertTrue($response->getShipmentRateDTOs()[0] instanceof ShipmentRateDTO);
     }

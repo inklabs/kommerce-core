@@ -3,10 +3,15 @@ namespace inklabs\kommerce\ActionHandler\Shipment;
 
 use inklabs\kommerce\Action\Shipment\BuyAdHocShipmentLabelCommand;
 use inklabs\kommerce\EntityRepository\ShipmentTrackerRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 
-final class BuyAdHocShipmentLabelHandler
+final class BuyAdHocShipmentLabelHandler implements CommandHandlerInterface
 {
+    /** @var BuyAdHocShipmentLabelCommand */
+    private $command;
+
     /** @var ShipmentGatewayInterface */
     private $shipmentGateway;
 
@@ -14,19 +19,26 @@ final class BuyAdHocShipmentLabelHandler
     private $shipmentTrackerRepository;
 
     public function __construct(
+        BuyAdHocShipmentLabelCommand $command,
         ShipmentGatewayInterface $shipmentGateway,
         ShipmentTrackerRepositoryInterface $shipmentTrackerRepository
     ) {
+        $this->command = $command;
         $this->shipmentGateway = $shipmentGateway;
         $this->shipmentTrackerRepository = $shipmentTrackerRepository;
     }
 
-    public function handle(BuyAdHocShipmentLabelCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $shipmentTracker = $this->shipmentGateway->buy(
-            $command->getShipmentExternalId(),
-            $command->getRateExternalId(),
-            $command->getShipmentTrackerId()
+            $this->command->getShipmentExternalId(),
+            $this->command->getRateExternalId(),
+            $this->command->getShipmentTrackerId()
         );
 
         $this->shipmentTrackerRepository->create($shipmentTracker);

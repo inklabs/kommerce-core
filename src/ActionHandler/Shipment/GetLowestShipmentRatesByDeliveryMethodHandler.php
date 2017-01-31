@@ -3,10 +3,15 @@ namespace inklabs\kommerce\ActionHandler\Shipment;
 
 use inklabs\kommerce\Action\Shipment\GetLowestShipmentRatesByDeliveryMethodQuery;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 
-final class GetLowestShipmentRatesByDeliveryMethodHandler
+final class GetLowestShipmentRatesByDeliveryMethodHandler implements QueryHandlerInterface
 {
+    /** @var GetLowestShipmentRatesByDeliveryMethodQuery */
+    private $query;
+
     /** @var ShipmentGatewayInterface */
     private $shipmentGateway;
 
@@ -14,17 +19,24 @@ final class GetLowestShipmentRatesByDeliveryMethodHandler
     private $dtoBuilderFactory;
 
     public function __construct(
+        GetLowestShipmentRatesByDeliveryMethodQuery $query,
         ShipmentGatewayInterface $shipmentGateway,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
+        $this->query = $query;
         $this->shipmentGateway = $shipmentGateway;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(GetLowestShipmentRatesByDeliveryMethodQuery $query)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $request = $query->getRequest();
-        $response = $query->getResponse();
+        $authorizationContext->verifyCanMakeRequests();
+    }
+
+    public function handle()
+    {
+        $request = $this->query->getRequest();
+        $response = $this->query->getResponse();
 
         $shipmentRates = $this->shipmentGateway->getTrimmedRates(
             $request->getToAddressDTO(),
