@@ -4,25 +4,54 @@ namespace inklabs\kommerce\ActionHandler\Order;
 use inklabs\kommerce\Action\Order\ListOrdersQuery;
 use inklabs\kommerce\Action\Order\Query\ListOrdersRequest;
 use inklabs\kommerce\Action\Order\Query\ListOrdersResponse;
+use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Shipment;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
-use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class ListOrdersHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Order::class,
+        OrderItem::class,
+        Product::class,
+        User::class,
+        TaxRate::class,
+        Cart::class,
+        Tag::class,
+        Shipment::class,
+        AbstractPayment::class,
+        Coupon::class,
+    ];
+
     public function testHandle()
     {
-        $tagService = $this->mockService->getOrderService();
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
-
+        $user = $this->dummyData->getUser();
+        $order1 = $this->dummyData->getOrder();
+        $order1->setUser($user);
+        $order2 = $this->dummyData->getOrder();
+        $order2->setUser($user);
+        $this->persistEntityAndFlushClear([
+            $order1,
+            $order2,
+            $user,
+        ]);
         $queryString = 'order';
         $request = new ListOrdersRequest($queryString, new PaginationDTO);
         $response = new ListOrdersResponse();
+        $query = new ListOrdersQuery($request, $response);
 
-        $handler = new ListOrdersHandler($tagService, $dtoBuilderFactory);
-        $handler->handle(new ListOrdersQuery($request, $response));
+        $this->dispatchQuery($query);
 
-        $this->assertTrue($response->getOrderDTOs()[0] instanceof OrderDTO);
+        $this->assertEntitiesInDTOList([$order1, $order2], $response->getOrderDTOs());
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
     }
 }

@@ -26,7 +26,10 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
     protected $mockService;
 
     /** @var LoggingEventDispatcher */
-    private $loggineEventDispatcher;
+    private $loggingEventDispatcher;
+
+    /** @var ServiceFactory */
+    private $serviceFactory;
 
     public function setUp()
     {
@@ -34,30 +37,9 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
         $this->mockService = new MockService($this->dummyData);
     }
 
-    protected function getServiceFactory(
-        CartCalculatorInterface $cartCalculator = null,
-        EventDispatcherInterface $eventDispatcher = null,
-        PaymentGatewayInterface $paymentGateway = null,
-        ShipmentGatewayInterface $shipmentGateway = null,
-        FileManagerInterface $fileManager = null
-    ) {
-        if ($cartCalculator === null) {
-            $cartCalculator = $this->getCartCalculator();
-        }
-
-        if ($eventDispatcher === null) {
-            $eventDispatcher = $this->getEventDispatcher();
-        }
-
-        if ($paymentGateway === null) {
-            $paymentGateway = $this->getPaymentGateway();
-        }
-
-        if ($fileManager === null) {
-            $fileManager = $this->getFileManager();
-        }
-
-        if ($shipmentGateway === null) {
+    protected function getServiceFactory()
+    {
+        if ($this->serviceFactory === null) {
             $fromAddress = new OrderAddressDTO;
             $fromAddress->company = 'Acme Co.';
             $fromAddress->address1 = '123 Any St';
@@ -67,17 +49,17 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
             $fromAddress->zip5 = '90401';
             $fromAddress->phone = '555-123-4567';
 
-            $shipmentGateway = new FakeShipmentGateway($fromAddress);
+            $this->serviceFactory = new ServiceFactory(
+                $this->getRepositoryFactory(),
+                $this->getCartCalculator(),
+                $this->getEventDispatcher(),
+                $this->getPaymentGateway(),
+                new FakeShipmentGateway($fromAddress),
+                $this->getFileManager()
+            );
         }
 
-        return new ServiceFactory(
-            $this->getRepositoryFactory(),
-            $cartCalculator,
-            $eventDispatcher,
-            $paymentGateway,
-            $shipmentGateway,
-            $fileManager
-        );
+        return $this->serviceFactory;
     }
 
     protected function getPaymentGateway()
@@ -92,12 +74,12 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
 
     protected function getEventDispatcher()
     {
-        if ($this->loggineEventDispatcher === null) {
-            $this->loggineEventDispatcher = new LoggingEventDispatcher(
+        if ($this->loggingEventDispatcher === null) {
+            $this->loggingEventDispatcher = new LoggingEventDispatcher(
                 new EventDispatcher()
             );
         }
-        return $this->loggineEventDispatcher;
+        return $this->loggingEventDispatcher;
     }
 
     protected function getDispatchedEvents()

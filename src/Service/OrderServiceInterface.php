@@ -20,25 +20,10 @@ interface OrderServiceInterface
 
     /**
      * @param UuidInterface $id
-     * @return Order
-     * @throws EntityNotFoundException
-     */
-    public function findOneById(UuidInterface $id);
-
-    /**
-     * @param UuidInterface $id
      * @return OrderItem
      * @throws EntityNotFoundException
      */
     public function getOrderItemById(UuidInterface $id);
-
-    public function getLatestOrders(Pagination & $pagination = null);
-
-    /**
-     * @param UuidInterface $userId
-     * @return Order[]
-     */
-    public function getOrdersByUserId(UuidInterface $userId);
 
     /**
      * @param UuidInterface $orderId

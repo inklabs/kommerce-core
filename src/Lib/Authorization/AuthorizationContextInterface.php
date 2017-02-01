@@ -20,4 +20,10 @@ interface AuthorizationContextInterface
      * @throws AuthorizationContextException
      */
     public function verifyIsAdmin();
+
+    /**
+     * @param UuidInterface $orderId
+     * @throws AuthorizationContextException
+     */
+    public function verifyCanViewOrder(UuidInterface $orderId);
 }

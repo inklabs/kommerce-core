@@ -4,24 +4,50 @@ namespace inklabs\kommerce\ActionHandler\Order;
 use inklabs\kommerce\Action\Order\GetOrderQuery;
 use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
 use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
-use inklabs\kommerce\EntityDTO\OrderDTO;
+use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Shipment;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetOrderHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Order::class,
+        OrderItem::class,
+        Product::class,
+        User::class,
+        TaxRate::class,
+        Cart::class,
+        Tag::class,
+        Shipment::class,
+        AbstractPayment::class,
+        Coupon::class,
+    ];
+
     public function testHandle()
     {
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
-        $orderService = $this->mockService->getOrderService();
-
-        $request = new GetOrderRequest(self::UUID_HEX);
+        $user = $this->dummyData->getUser();
+        $order = $this->dummyData->getOrder();
+        $order->setUser($user);
+        $this->persistEntityAndFlushClear([
+            $order,
+            $user,
+        ]);
+        $request = new GetOrderRequest($order->getId()->getHex());
         $response = new GetOrderResponse;
-        $handler = new GetOrderHandler($orderService, $dtoBuilderFactory);
+        $query = new GetOrderQuery($request, $response);
 
-        $handler->handle(new GetOrderQuery($request, $response));
-        $this->assertTrue($response->getOrderDTO() instanceof OrderDTO);
+        $this->dispatchQuery($query);
+        $this->assertEquals($order->getId(), $response->getOrderDTO()->id);
 
-        $handler->handle(new GetOrderQuery($request, $response));
-        $this->assertTrue($response->getOrderDTOWithAllData() instanceof OrderDTO);
+        $this->dispatchQuery($query);
+        $this->assertEquals($order->getId(), $response->getOrderDTOWithAllData()->id);
     }
 }

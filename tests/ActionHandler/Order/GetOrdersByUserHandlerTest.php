@@ -4,42 +4,56 @@ namespace inklabs\kommerce\ActionHandler\Order;
 use inklabs\kommerce\Action\Order\GetOrdersByUserQuery;
 use inklabs\kommerce\Action\Order\Query\GetOrdersByUserRequest;
 use inklabs\kommerce\Action\Order\Query\GetOrdersByUserResponse;
-use inklabs\kommerce\EntityDTO\OrderDTO;
+use inklabs\kommerce\Entity\AbstractPayment;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Shipment;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetOrdersByUserHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Order::class,
+        OrderItem::class,
+        Product::class,
+        User::class,
+        TaxRate::class,
+        Cart::class,
+        Tag::class,
+        Shipment::class,
+        AbstractPayment::class,
+        Coupon::class,
+    ];
+
     public function testHandle()
     {
-        $order = $this->dummyData->getOrder();
-
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
-        $orderService = $this->mockService->getOrderService();
-        $orderService->shouldReceive('getOrdersByUserId')
-            ->andReturn([$order]);
-
-        $request = new GetOrdersByUserRequest(self::UUID_HEX);
+        $user = $this->dummyData->getUser();
+        $order1 = $this->dummyData->getOrder();
+        $order1->setUser($user);
+        $order2 = $this->dummyData->getOrder();
+        $order2->setUser($user);
+        $this->persistEntityAndFlushClear([
+            $order1,
+            $order2,
+            $user,
+        ]);
+        $request = new GetOrdersByUserRequest($user->getId()->getHex());
         $response = new GetOrdersByUserResponse();
-        $handler = new GetOrdersByUserHandler($orderService, $dtoBuilderFactory);
+        $query = new GetOrdersByUserQuery($request, $response);
 
-        $handler->handle(new GetOrdersByUserQuery($request, $response));
-        $this->assertTrue($response->getOrderDTOs()[0] instanceof OrderDTO);
-    }
+        $this->dispatchQuery($query);
+        $this->assertEntitiesInDTOList([$order1, $order2], $response->getOrderDTOs());
 
-    public function testHandleWithAllData()
-    {
-        $order = $this->dummyData->getOrder();
-
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
-        $orderService = $this->mockService->getOrderService();
-        $orderService->shouldReceive('getOrdersByUserId')
-            ->andReturn([$order]);
-
-        $request = new GetOrdersByUserRequest(self::UUID_HEX);
+        $request = new GetOrdersByUserRequest($user->getId()->getHex());
         $response = new GetOrdersByUserResponse();
-        $handler = new GetOrdersByUserHandler($orderService, $dtoBuilderFactory);
-
-        $handler->handle(new GetOrdersByUserQuery($request, $response));
-        $this->assertTrue($response->getOrderDTOsWithAllData()[0] instanceof OrderDTO);
+        $query = new GetOrdersByUserQuery($request, $response);
+        $this->dispatchQuery($query);
+        $this->assertEntitiesInDTOList([$order1, $order2], $response->getOrderDTOsWithAllData());
     }
 }

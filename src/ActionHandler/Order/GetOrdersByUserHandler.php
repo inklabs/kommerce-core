@@ -3,30 +3,44 @@ namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\GetOrdersByUserQuery;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Service\OrderServiceInterface;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
-final class GetOrdersByUserHandler
+final class GetOrdersByUserHandler implements QueryHandlerInterface
 {
-    /** @var OrderServiceInterface */
-    private $orderService;
+    /** @var GetOrdersByUserQuery */
+    private $query;
+
+    /** @var OrderRepositoryInterface */
+    private $orderRepository;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
-    public function __construct(OrderServiceInterface $orderService, DTOBuilderFactoryInterface $dtoBuilderFactory)
-    {
-        $this->orderService = $orderService;
+    public function __construct(
+        GetOrdersByUserQuery $query,
+        OrderRepositoryInterface $orderRepository,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
+        $this->query = $query;
+        $this->orderRepository = $orderRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(GetOrdersByUserQuery $query)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $orders = $this->orderService->getOrdersByUserId(
-            $query->getRequest()->getUserId()
+        $authorizationContext->verifyCanManageUser($this->query->getRequest()->getUserId());
+    }
+
+    public function handle()
+    {
+        $orders = $this->orderRepository->getOrdersByUserId(
+            $this->query->getRequest()->getUserId()
         );
 
         foreach ($orders as $order) {
-            $query->getResponse()->addOrderDTOBuilder(
+            $this->query->getResponse()->addOrderDTOBuilder(
                 $this->dtoBuilderFactory->getOrderDTOBuilder($order)
             );
         }

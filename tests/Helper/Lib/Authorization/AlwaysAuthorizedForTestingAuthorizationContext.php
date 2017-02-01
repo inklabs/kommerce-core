@@ -13,11 +13,16 @@ class AlwaysAuthorizedForTestingAuthorizationContext implements AuthorizationCon
 
     public function verifyCanManageUser(UuidInterface $userId)
     {
-        return true;
+        return;
+    }
+
+    public function verifyCanViewOrder(UuidInterface $orderId)
+    {
+        return;
     }
 
     public function verifyIsAdmin()
     {
-        return true;
+        return;
     }
 }

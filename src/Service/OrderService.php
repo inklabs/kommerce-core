@@ -78,13 +78,6 @@ class OrderService implements OrderServiceInterface
         $this->eventDispatcher->dispatchEvents($order->releaseEvents());
     }
 
-    public function findOneById(UuidInterface $id)
-    {
-        $order = $this->orderRepository->findOneById($id);
-        $this->loadProductTagsFromOrder($order);
-        return $order;
-    }
-
     public function getOrderItemById(UuidInterface $id)
     {
         $orderItem = $this->orderItemRepository->findOneById($id);
@@ -92,26 +85,10 @@ class OrderService implements OrderServiceInterface
         return $orderItem;
     }
 
-    private function loadProductTagsFromOrder(Order $order)
-    {
-        $products = $order->getProducts();
-        $this->productRepository->loadProductTags($products);
-    }
-
     private function loadProductTagsFromOrderItem(OrderItem $orderItem)
     {
         $products = [$orderItem->getProduct()];
         $this->productRepository->loadProductTags($products);
-    }
-
-    public function getLatestOrders(Pagination & $pagination = null)
-    {
-        return $this->orderRepository->getLatestOrders($pagination);
-    }
-
-    public function getOrdersByUserId(UuidInterface $userId)
-    {
-        return $this->orderRepository->getOrdersByUserId($userId);
     }
 
     public function buyShipmentLabel(

@@ -2,19 +2,23 @@
 namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\CreateOrderFromCartCommand;
-use inklabs\kommerce\Exception\EntityValidatorException;
+use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityDTO\Builder\CreditCardDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
-use inklabs\kommerce\Service\CartServiceInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
-use inklabs\kommerce\Service\UserServiceInterface;
 
-final class CreateOrderFromCartHandler
+final class CreateOrderFromCartHandler implements CommandHandlerInterface
 {
-    /** @var CartServiceInterface */
-    private $cartService;
+    /** @var CreateOrderFromCartCommand */
+    private $command;
+
+    /** @var CartRepositoryInterface */
+    private $cartRepository;
 
     /** @var CartCalculatorInterface */
     private $cartCalculator;
@@ -22,46 +26,51 @@ final class CreateOrderFromCartHandler
     /** @var OrderServiceInterface */
     private $orderService;
 
-    /** @var UserServiceInterface */
-    private $userService;
+    /** @var UserRepositoryInterface */
+    private $userRepository;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
     public function __construct(
-        CartServiceInterface $cartService,
+        CreateOrderFromCartCommand $command,
+        CartRepositoryInterface $cartRepository,
         CartCalculatorInterface $cartCalculator,
         OrderServiceInterface $orderService,
-        UserServiceInterface $userService,
+        UserRepositoryInterface $userRepository,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
-        $this->cartService = $cartService;
+        $this->cartRepository = $cartRepository;
         $this->cartCalculator = $cartCalculator;
         $this->orderService = $orderService;
-        $this->userService = $userService;
+        $this->userRepository = $userRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
+        $this->command = $command;
     }
 
-    /**
-     * @param CreateOrderFromCartCommand $command
-     * @throws EntityValidatorException
-     */
-    public function handle(CreateOrderFromCartCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $cart = $this->cartService->findOneById($command->getCartId());
-        $user = $this->userService->findOneById($command->getUserId());
+        $authorizationContext->verifyCanManageUser(
+            $this->command->getUserId()
+        );
+    }
+
+    public function handle()
+    {
+        $cart = $this->cartRepository->findOneById($this->command->getCartId());
+        $user = $this->userRepository->findOneById($this->command->getUserId());
 
         $order = $this->orderService->createOrderFromCart(
-            $command->getOrderId(),
+            $this->command->getOrderId(),
             $user,
             $cart,
             $this->cartCalculator,
-            $command->getIp4(),
-            OrderAddressDTOBuilder::createFromDTO($command->getShippingAddressDTO()),
-            OrderAddressDTOBuilder::createFromDTO($command->getBillingAddressDTO()),
-            CreditCardDTOBuilder::createFromDTO($command->getCreditCardDTO())
+            $this->command->getIp4(),
+            OrderAddressDTOBuilder::createFromDTO($this->command->getShippingAddressDTO()),
+            OrderAddressDTOBuilder::createFromDTO($this->command->getBillingAddressDTO()),
+            CreditCardDTOBuilder::createFromDTO($this->command->getCreditCardDTO())
         );
 
-        $this->cartService->delete($cart);
+        $this->cartRepository->delete($cart);
     }
 }

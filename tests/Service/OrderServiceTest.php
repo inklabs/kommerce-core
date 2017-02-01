@@ -130,17 +130,6 @@ class OrderServiceTest extends ServiceTestCase
         );
     }
 
-    public function testFind()
-    {
-        $order1 = $this->getPersistedOrderWith2Items();
-
-        $order = $this->orderService->findOneById(
-            $order1->getId()
-        );
-
-        $this->assertEntitiesEqual($order1, $order);
-    }
-
     public function testGetOrderItem()
     {
         $order1 = $this->getPersistedOrderWith2Items();
@@ -151,26 +140,6 @@ class OrderServiceTest extends ServiceTestCase
         );
 
         $this->assertEntitiesEqual($orderItem1, $orderItem);
-    }
-
-    public function testGetLatestOrders()
-    {
-        $order1 = $this->getPersistedOrderWith2Items();
-
-        $orders = $this->orderService->getLatestOrders();
-
-        $this->assertEntitiesEqual($order1, $orders[0]);
-    }
-
-    public function testGetOrderByUserId()
-    {
-        $order1 = $this->getPersistedOrderWith2Items();
-
-        $orders = $this->orderService->getOrdersByUserId(
-            $order1->getUser()->getId()
-        );
-
-        $this->assertEntitiesEqual($order1, $orders[0]);
     }
 
     public function testOrderMarkedAsShippedWhen2PartialShipmentsAreFullyShipped()

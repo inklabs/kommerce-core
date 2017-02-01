@@ -7,11 +7,14 @@ use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CartPriceRuleDiscountRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CartPriceRuleItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
+use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ConfigurationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductAttributeRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductQuantityDiscountRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
@@ -107,6 +110,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getAttributeRepository();
                 } elseif ($parameterClassName === AttributeValueRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getAttributeValueRepository();
+                } elseif ($parameterClassName === CartRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getCartRepository();
                 } elseif ($parameterClassName === CartPriceRuleRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getCartPriceRuleRepository();
                 } elseif ($parameterClassName === CartPriceRuleItemRepositoryInterface::class) {
@@ -123,6 +128,10 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getImageRepository();
                 } elseif ($parameterClassName === OptionRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getOptionRepository();
+                } elseif ($parameterClassName === OrderRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getOrderRepository();
+                } elseif ($parameterClassName === OrderItemRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getOrderItemRepository();
                 } elseif ($parameterClassName === ProductRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getProductRepository();
                 } elseif ($parameterClassName === ProductQuantityDiscountRepositoryInterface::class) {

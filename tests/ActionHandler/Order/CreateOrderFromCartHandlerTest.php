@@ -58,11 +58,9 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
         $billingAddressDTO = $dtoBuilderFactory
             ->getOrderAddressDTOBuilder($this->dummyData->getOrderAddress())->build();
 
-        $serviceFactory = $this->getServiceFactory();
-
         $warehouse = $this->getInitializeWarehouse();
         $holdLocation = $this->getInitializedHoldInventoryLocation($warehouse);
-        $serviceFactory->setHoldLocationId($holdLocation->getId());
+        $this->getServiceFactory()->setHoldLocationId($holdLocation->getId());
 
         $command = new CreateOrderFromCartCommand(
             $cart->getId()->getHex(),
@@ -73,14 +71,7 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
             $billingAddressDTO
         );
 
-        $handler = new CreateOrderFromCartHandler(
-            $serviceFactory->getCart(),
-            $serviceFactory->getCartCalculator(),
-            $serviceFactory->getOrder(),
-            $serviceFactory->getUser(),
-            $this->getDTOBuilderFactory()
-        );
-        $handler->handle($command);
+        $this->dispatchCommand($command);
 
         $order = $this->getRepositoryFactory()->getOrderRepository()->findOneById(
             $command->getOrderId()
