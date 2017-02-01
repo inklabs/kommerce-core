@@ -7,7 +7,6 @@ use inklabs\kommerce\Service\AttachmentServiceInterface;
 use inklabs\kommerce\Service\CartPriceRuleServiceInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\CatalogPromotionServiceInterface;
-use inklabs\kommerce\Service\CouponServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderItemServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderServiceInterface;
@@ -102,23 +101,6 @@ class MockService
             ->andReturn([$catalogPromotion]);
 
         return $service;
-    }
-
-    /**
-     * @return CouponServiceInterface|Mockery\Mock
-     */
-    public function getCouponService()
-    {
-        $coupon = $this->dummyData->getCoupon();
-
-        $couponService = $this->getMockeryMock(CouponServiceInterface::class);
-        $couponService->shouldReceive('findOneById')
-            ->andReturn($coupon);
-
-        $couponService->shouldReceive('getAllCoupons')
-            ->andReturn([$coupon]);
-
-        return $couponService;
     }
 
     /**

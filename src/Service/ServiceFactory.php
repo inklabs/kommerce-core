@@ -121,14 +121,6 @@ class ServiceFactory
     }
 
     /**
-     * @return CouponService
-     */
-    public function getCoupon()
-    {
-        return new CouponService($this->repositoryFactory->getCouponRepository());
-    }
-
-    /**
      * @return FileManagerInterface
      */
     public function getFileManager()

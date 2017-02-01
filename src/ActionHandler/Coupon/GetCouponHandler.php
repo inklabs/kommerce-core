@@ -3,29 +3,43 @@ namespace inklabs\kommerce\ActionHandler\Coupon;
 
 use inklabs\kommerce\Action\Coupon\GetCouponQuery;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Service\CouponServiceInterface;
+use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
-final class GetCouponHandler
+final class GetCouponHandler implements QueryHandlerInterface
 {
-    /** @var CouponServiceInterface */
-    private $couponService;
+    /** @var GetCouponQuery */
+    private $query;
+
+    /** @var CouponRepositoryInterface */
+    private $couponRepository;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
-    public function __construct(CouponServiceInterface $couponService, DTOBuilderFactoryInterface $dtoBuilderFactory)
-    {
-        $this->couponService = $couponService;
+    public function __construct(
+        GetCouponQuery $query,
+        CouponRepositoryInterface $couponRepository,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
+        $this->query = $query;
+        $this->couponRepository = $couponRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(GetCouponQuery $query)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $coupon = $this->couponService->findOneById(
-            $query->getRequest()->getCouponId()
+        $authorizationContext->verifyCanMakeRequests();
+    }
+
+    public function handle()
+    {
+        $coupon = $this->couponRepository->findOneById(
+            $this->query->getRequest()->getCouponId()
         );
 
-        $query->getResponse()->setCouponDTOBuilder(
+        $this->query->getResponse()->setCouponDTOBuilder(
             $this->dtoBuilderFactory->getCouponDTOBuilder($coupon)
         );
     }

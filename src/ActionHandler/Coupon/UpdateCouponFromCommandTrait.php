@@ -3,18 +3,9 @@ namespace inklabs\kommerce\ActionHandler\Coupon;
 
 use inklabs\kommerce\Action\Coupon\AbstractCouponCommand;
 use inklabs\kommerce\Entity\Coupon;
-use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 
-abstract class AbstractCouponHandler
+trait UpdateCouponFromCommandTrait
 {
-    /** @var CouponRepositoryInterface */
-    protected $couponRepository;
-
-    public function __construct(CouponRepositoryInterface $couponRepository)
-    {
-        $this->couponRepository = $couponRepository;
-    }
-
     public function updateCouponFromCommand(Coupon $coupon, AbstractCouponCommand $command)
     {
         $coupon->setCode($command->getCode());

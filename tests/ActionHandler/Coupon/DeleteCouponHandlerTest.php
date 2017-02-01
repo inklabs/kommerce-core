@@ -16,12 +16,11 @@ class DeleteCouponHandlerTest extends ActionTestCase
     {
         $coupon = $this->dummyData->getCoupon();
         $this->persistEntityAndFlushClear($coupon);
-
         $command = new DeleteCouponCommand($coupon->getId()->getHex());
+
         $this->dispatchCommand($command);
 
         $this->entityManager->clear();
-
         $this->expectException(EntityNotFoundException::class);
         $this->getRepositoryFactory()->getCouponRepository()->findOneById(
             $command->getCouponId()

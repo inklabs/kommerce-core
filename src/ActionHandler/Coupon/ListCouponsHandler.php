@@ -4,31 +4,45 @@ namespace inklabs\kommerce\ActionHandler\Coupon;
 use inklabs\kommerce\Action\Coupon\ListCouponsQuery;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Service\CouponServiceInterface;
+use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
-final class ListCouponsHandler
+final class ListCouponsHandler implements QueryHandlerInterface
 {
-    /** @var CouponServiceInterface */
-    private $couponService;
+    /** @var ListCouponsQuery */
+    private $query;
+
+    /** @var CouponRepositoryInterface */
+    private $couponRepository;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
-    public function __construct(CouponServiceInterface $couponService, DTOBuilderFactoryInterface $dtoBuilderFactory)
-    {
-        $this->couponService = $couponService;
+    public function __construct(
+        ListCouponsQuery $query,
+        CouponRepositoryInterface $couponRepository,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
+        $this->query = $query;
+        $this->couponRepository = $couponRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(ListCouponsQuery $query)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $request = $query->getRequest();
-        $response = $query->getResponse();
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $request = $this->query->getRequest();
+        $response = $this->query->getResponse();
 
         $paginationDTO = $request->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        $coupons = $this->couponService->getAllCoupons($request->getQueryString(), $pagination);
+        $coupons = $this->couponRepository->getAllCoupons($request->getQueryString(), $pagination);
 
         $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
