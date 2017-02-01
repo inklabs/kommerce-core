@@ -37,8 +37,6 @@ class InventoryLocation implements IdEntityInterface
         $metadata->addPropertyConstraint('code', new Assert\Length([
             'max' => 255,
         ]));
-
-        $metadata->addPropertyConstraint('warehouse', new Assert\Valid);
     }
 
     /**

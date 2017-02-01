@@ -2,22 +2,33 @@
 namespace inklabs\kommerce\ActionHandler\Inventory;
 
 use inklabs\kommerce\Action\Inventory\AdjustInventoryCommand;
+use inklabs\kommerce\Entity\InventoryLocation;
+use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\InventoryTransactionType;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class AdjustInventoryHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Product::class,
+        InventoryLocation::class,
+        InventoryTransaction::class,
+        Warehouse::class,
+    ];
+
     public function testHandle()
     {
-        $productService = $this->mockService->getProductService();
-        $inventoryService = $this->mockService->getInventoryService();
-        $inventoryService->shouldReceive('adjustInventory')
-            ->once();
-
         $product = $this->dummyData->getProduct();
-        $inventoryLocation = $this->dummyData->getInventoryLocation();
+        $warehouse = $this->dummyData->getWarehouse();
+        $inventoryLocation = $this->dummyData->getInventoryLocation($warehouse);
+        $this->persistEntityAndFlushClear([
+            $product,
+            $warehouse,
+            $inventoryLocation,
+        ]);
         $quantity = 3;
-
         $command = new AdjustInventoryCommand(
             $product->getId()->getHex(),
             $quantity,
@@ -25,7 +36,6 @@ class AdjustInventoryHandlerTest extends ActionTestCase
             InventoryTransactionType::SHIPPED
         );
 
-        $handler = new AdjustInventoryHandler($inventoryService, $productService);
-        $handler->handle($command);
+        $this->dispatchCommand($command);
     }
 }

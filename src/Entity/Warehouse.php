@@ -18,10 +18,16 @@ class Warehouse implements IdEntityInterface
     /** @var InventoryLocation[] */
     protected $inventoryLocations;
 
-    public function __construct()
+    /**
+     * @param string $name
+     * @param Address $address
+     */
+    public function __construct($name, Address $address)
     {
         $this->setId();
         $this->setCreated();
+        $this->name = (string) $name;
+        $this->address = $address;
         $this->inventoryLocations = new ArrayCollection;
     }
 

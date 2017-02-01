@@ -3,34 +3,46 @@ namespace inklabs\kommerce\ActionHandler\Inventory;
 
 use inklabs\kommerce\Action\Inventory\AdjustInventoryCommand;
 use inklabs\kommerce\Entity\InventoryTransactionType;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
-use inklabs\kommerce\Service\ProductServiceInterface;
 
-final class AdjustInventoryHandler
+final class AdjustInventoryHandler implements CommandHandlerInterface
 {
+    /** @var AdjustInventoryCommand */
+    private $command;
+
     /** @var InventoryServiceInterface */
     private $inventoryService;
 
-    /** @var ProductServiceInterface */
-    private $productService;
+    /** @var ProductRepositoryInterface */
+    private $productRepository;
 
     public function __construct(
+        AdjustInventoryCommand $command,
         InventoryServiceInterface $inventoryService,
-        ProductServiceInterface $productService
+        ProductRepositoryInterface $productRepository
     ) {
+        $this->command = $command;
         $this->inventoryService = $inventoryService;
-        $this->productService = $productService;
+        $this->productRepository = $productRepository;
     }
 
-    public function handle(AdjustInventoryCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $product = $this->productService->findOneById($command->getProductId());
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $product = $this->productRepository->findOneById($this->command->getProductId());
 
         $this->inventoryService->adjustInventory(
             $product,
-            $command->getQuantity(),
-            $command->getInventoryLocationId(),
-            InventoryTransactionType::createById($command->getTransactionTypeId())
+            $this->command->getQuantity(),
+            $this->command->getInventoryLocationId(),
+            InventoryTransactionType::createById($this->command->getTransactionTypeId())
         );
     }
 }

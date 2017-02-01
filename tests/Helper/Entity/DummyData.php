@@ -1104,10 +1104,9 @@ class DummyData
 
     public function getWarehouse($num = 1)
     {
-        $warehouse = new Warehouse;
-        $warehouse->setName('Test Warehouse #' . $num);
-        $warehouse->setAddress($this->getAddress());
-
-        return $warehouse;
+        return new Warehouse(
+            'Test Warehouse #' . $num,
+            $this->getAddress()
+        );
     }
 }

@@ -73,7 +73,6 @@ class InventoryTransaction implements IdEntityInterface
         $metadata->addPropertyConstraint('product', new Assert\NotNull);
         $metadata->addPropertyConstraint('product', new Assert\Valid);
 
-        $metadata->addPropertyConstraint('inventoryLocation', new Assert\Valid);
         $metadata->addPropertyConstraint('type', new Assert\Valid);
 
         $metadata->addConstraint(new Assert\Callback(
