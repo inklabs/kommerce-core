@@ -32,17 +32,17 @@ class ImportPaymentServiceTest extends ServiceTestCase
             $repositoryFactory->getPaymentRepository()
         );
 
-        $iterator = new CSVIterator(__DIR__ . '/ImportPaymentServiceTest.csv');
+        $iterator = new CSVIterator(self::ORDER_PAYMENTS_CSV_FILENAME);
         $importResult = $paymentService->import($iterator);
 
-        $this->assertSame(11, $importResult->getSuccessCount());
+        $this->assertSame(3, $importResult->getSuccessCount());
         $this->assertSame(1, $importResult->getFailedCount());
-        $this->assertSame(25, $this->getTotalQueries());
+        $this->assertSame(9, $this->getTotalQueries());
 
         $paymentTypes = $this->getPaymentTypeTotals($repositoryFactory);
 
-        $this->assertSame(4, $paymentTypes[CashPayment::class]);
-        $this->assertSame(7, $paymentTypes[CheckPayment::class]);
+        $this->assertSame(2, $paymentTypes[CashPayment::class]);
+        $this->assertSame(1, $paymentTypes[CheckPayment::class]);
     }
 
     private function setupOrdersForImport()

@@ -2,23 +2,36 @@
 namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\ImportOrdersFromCSVCommand;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Lib\CSVIterator;
 use inklabs\kommerce\Service\Import\ImportOrderServiceInterface;
 
-final class ImportOrdersFromCSVHandler
+final class ImportOrdersFromCSVHandler implements CommandHandlerInterface
 {
+    /** @var ImportOrdersFromCSVCommand */
+    private $command;
+
     /** @var ImportOrderServiceInterface */
     private $importOrderService;
 
-    public function __construct(ImportOrderServiceInterface $importOrderService)
-    {
+    public function __construct(
+        ImportOrdersFromCSVCommand $command,
+        ImportOrderServiceInterface $importOrderService
+    ) {
+        $this->command = $command;
         $this->importOrderService = $importOrderService;
     }
 
-    public function handle(ImportOrdersFromCSVCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $iterator = new CSVIterator(
-            $command->getFileName()
+            $this->command->getFileName()
         );
 
         $this->importOrderService->import($iterator);

@@ -3,23 +3,36 @@ namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\SetOrderStatusCommand;
 use inklabs\kommerce\Entity\OrderStatusType;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 
-final class SetOrderStatusHandler
+final class SetOrderStatusHandler implements CommandHandlerInterface
 {
+    /** @var SetOrderStatusCommand */
+    private $command;
+
     /** @var OrderServiceInterface */
     private $orderService;
 
-    public function __construct(OrderServiceInterface $orderService)
-    {
+    public function __construct(
+        SetOrderStatusCommand $command,
+        OrderServiceInterface $orderService
+    ) {
+        $this->command = $command;
         $this->orderService = $orderService;
     }
 
-    public function handle(SetOrderStatusCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $this->orderService->setOrderStatus(
-            $command->getOrderId(),
-            OrderStatusType::createById($command->getOrderStatusTypeId())
+            $this->command->getOrderId(),
+            OrderStatusType::createById($this->command->getOrderStatusTypeId())
         );
     }
 }

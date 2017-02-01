@@ -15,7 +15,7 @@ class CSVIteratorTest extends KommerceTestCase
             $count++;
         }
 
-        $this->assertSame(4, $count);
+        $this->assertSame(5, $count);
     }
 
     public function testCreateWithMultipleIterations()
@@ -31,7 +31,7 @@ class CSVIteratorTest extends KommerceTestCase
             $count++;
         }
 
-        $this->assertSame(8, $count);
+        $this->assertSame(10, $count);
     }
 
     public function testCreateMissingFile()

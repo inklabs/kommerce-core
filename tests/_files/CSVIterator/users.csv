@@ -1,4 +1,5 @@
-id,name,email
-1,John,john@example.com
-2,Jane,jane@example.com
-3,Bob,bob@example.com
+id,name,address,zip5,city,phone,fax,url,email
+19,Laura Customer,,90210,Los Angeles,NULL,NULL,NULL,laura@example.com
+42,John Doe,,NULL,NULL,NULL,NULL,NULL,jane@example.com
+52,Long Company Name,,NULL,NULL,NULL,NULL,NULL,john@example.com
+99,,,,,,,,

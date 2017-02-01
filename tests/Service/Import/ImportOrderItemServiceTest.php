@@ -35,7 +35,7 @@ class ImportOrderItemServiceTest extends ServiceTestCase
             $repositoryFactory->getProductRepository()
         );
 
-        $iterator = new CSVIterator(__DIR__ . '/ImportOrderItemServiceTest.csv');
+        $iterator = new CSVIterator(self::ORDER_ITEMS_CSV_FILENAME);
         $importResult = $orderItemService->import($iterator);
 
         $this->assertSame(0, $importResult->getFailedCount());
@@ -52,7 +52,7 @@ class ImportOrderItemServiceTest extends ServiceTestCase
             $repositoryFactory->getProductRepository()
         );
 
-        $iterator = new CSVIterator(__DIR__ . '/ImportOrderItemServiceTest.csv');
+        $iterator = new CSVIterator(self::ORDER_ITEMS_CSV_FILENAME);
         $importResult = $orderItemService->import($iterator);
 
         $this->assertSame(0, $importResult->getSuccessCount());
