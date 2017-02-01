@@ -2,26 +2,33 @@
 namespace inklabs\kommerce\ActionHandler\Image;
 
 use inklabs\kommerce\Action\Image\CreateImageForProductCommand;
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class CreateImageForProductHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Product::class,
+        Image::class,
+    ];
+
     public function testHandle()
     {
-        $uploadFileDTO = $this->dummyData->getUploadFileDTO();
         $product = $this->dummyData->getProduct();
-
-        $imageService = $this->mockService->getImageService();
-        $imageService->shouldReceive('createImageForProduct')
-            ->with($uploadFileDTO, $product->getId())
-            ->once();
-
+        $this->persistEntityAndFlushClear($product);
+        $uploadFileDTO = $this->dummyData->getUploadFileDTO();
         $command = new CreateImageForProductCommand(
             $uploadFileDTO,
-            $product->getId()
+            $product->getId()->getHex()
         );
 
-        $handler = new CreateImageForProductHandler($imageService);
-        $handler->handle($command);
+        $this->dispatchCommand($command);
+
+        $this->entityManager->clear();
+        $product = $this->getRepositoryFactory()->getProductRepository()->findOneById(
+            $product->getId()
+        );
+        $this->assertNotEmpty($product->getImages());
     }
 }

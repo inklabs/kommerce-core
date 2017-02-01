@@ -2,26 +2,35 @@
 namespace inklabs\kommerce\ActionHandler\Image;
 
 use inklabs\kommerce\Action\Image\CreateImageForTagCommand;
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class CreateImageForTagHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Product::class,
+        Tag::class,
+        Image::class,
+    ];
+
     public function testHandle()
     {
-        $uploadFileDTO = $this->dummyData->getUploadFileDTO();
         $tag = $this->dummyData->getTag();
-
-        $imageService = $this->mockService->getImageService();
-        $imageService->shouldReceive('createImageForTag')
-            ->with($uploadFileDTO, $tag->getId())
-            ->once();
-
+        $this->persistEntityAndFlushClear($tag);
+        $uploadFileDTO = $this->dummyData->getUploadFileDTO();
         $command = new CreateImageForTagCommand(
             $uploadFileDTO,
-            $tag->getId()
+            $tag->getId()->getHex()
         );
 
-        $handler = new CreateImageForTagHandler($imageService);
-        $handler->handle($command);
+        $this->dispatchCommand($command);
+
+        $this->entityManager->clear();
+        $tag = $this->getRepositoryFactory()->getTagRepository()->findOneById(
+            $tag->getId()
+        );
+        $this->assertNotEmpty($tag->getImages());
     }
 }
