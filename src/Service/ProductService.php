@@ -1,10 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
-use inklabs\kommerce\Entity\ProductQuantityDiscount;
-use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
@@ -34,16 +31,6 @@ class ProductService implements ProductServiceInterface
         $this->imageRepository = $imageRepository;
     }
 
-    public function updateProductQuantityDiscount(ProductQuantityDiscount & $productQuantityDiscount)
-    {
-        $this->productRepository->update($productQuantityDiscount);
-    }
-
-    public function deleteProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
-    {
-        $this->productRepository->delete($productQuantityDiscount);
-    }
-
     /**
      * @param UuidInterface $id
      * @return Product
@@ -52,69 +39,5 @@ class ProductService implements ProductServiceInterface
     public function findOneById(UuidInterface $id)
     {
         return $this->productRepository->findOneById($id);
-    }
-
-    /**
-     * @param UuidInterface $productId
-     * @param UuidInterface $tagId
-     * @throws EntityNotFoundException
-     */
-    public function removeTag(UuidInterface $productId, UuidInterface $tagId)
-    {
-        $product = $this->productRepository->findOneById($productId);
-        $tag = $this->tagRepository->findOneById($tagId);
-
-        $product->removeTag($tag);
-
-        $this->productRepository->update($product);
-    }
-
-    /**
-     * @param UuidInterface $productId
-     * @param UuidInterface $imageId
-     * @throws EntityNotFoundException
-     */
-    public function removeImage(UuidInterface $productId, UuidInterface $imageId)
-    {
-        $product = $this->productRepository->findOneById($productId);
-        $image = $this->imageRepository->findOneById($imageId);
-
-        $product->removeImage($image);
-
-        $this->productRepository->update($product);
-
-        if ($image->getTag() === null) {
-            $this->imageRepository->delete($image);
-        }
-    }
-
-    /**
-     * @param string $queryString
-     * @param Pagination $pagination
-     * @return Product[]
-     */
-    public function getAllProducts($queryString = null, Pagination & $pagination = null)
-    {
-        return $this->productRepository->getAllProducts($queryString, $pagination);
-    }
-
-    /**
-     * @param UuidInterface[] $productIds
-     * @param int $limit
-     * @return Product[]
-     */
-    public function getRelatedProductsByIds(array $productIds, $limit = 12)
-    {
-        return $this->productRepository->getRelatedProductsByIds($productIds, $limit);
-    }
-
-    /**
-     * @param UuidInterface[] $productIds
-     * @param Pagination $pagination
-     * @return Product[]
-     */
-    public function getAllProductsByIds($productIds, Pagination & $pagination = null)
-    {
-        return $this->productRepository->getAllProductsByIds($productIds, $pagination);
     }
 }

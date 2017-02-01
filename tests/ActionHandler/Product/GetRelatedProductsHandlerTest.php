@@ -4,28 +4,44 @@ namespace inklabs\kommerce\ActionHandler\Product;
 use inklabs\kommerce\Action\Product\GetRelatedProductsQuery;
 use inklabs\kommerce\Action\Product\Query\GetRelatedProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRelatedProductsResponse;
-use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetRelatedProductsHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Product::class,
+        Tag::class,
+    ];
+
     public function testHandle()
     {
-        $pricing = $this->dummyData->getPricing();
-        $productService = $this->mockService->getProductService();
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
-
+        $product1 = $this->dummyData->getProduct();
+        $product2 = $this->dummyData->getProduct();
+        $product3 = $this->dummyData->getProduct();
+        $product4 = $this->dummyData->getProduct();
+        $tag = $this->dummyData->getTag();
+        $tag->addProduct($product1);
+        $tag->addProduct($product2);
+        $tag->addProduct($product3);
+        $this->persistEntityAndFlushClear([
+            $tag,
+            $product1,
+            $product2,
+            $product3,
+            $product4,
+        ]);
         $limit = 4;
-        $productIds = [
-            self::UUID_HEX
-        ];
+        $request = new GetRelatedProductsRequest(
+            [$product1->getId()->getHex()],
+            $limit
+        );
+        $response = new GetRelatedProductsResponse($this->getPricing());
+        $query = new GetRelatedProductsQuery($request, $response);
 
-        $request = new GetRelatedProductsRequest($productIds, $limit);
-        $response = new GetRelatedProductsResponse($pricing);
+        $this->dispatchQuery($query);
 
-        $handler = new GetRelatedProductsHandler($productService, $dtoBuilderFactory);
-        $handler->handle(new GetRelatedProductsQuery($request, $response));
-
-        $this->assertTrue($response->getProductDTOs()[0] instanceof ProductDTO);
+        $this->assertEntitiesInDTOList([$product2, $product3], $response->getProductDTOs());
     }
 }

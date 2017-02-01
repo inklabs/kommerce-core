@@ -4,38 +4,52 @@ namespace inklabs\kommerce\ActionHandler\Product;
 use inklabs\kommerce\Action\Product\ListProductsQuery;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Service\ProductServiceInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
-final class ListProductsHandler
+final class ListProductsHandler implements QueryHandlerInterface
 {
-    /** @var ProductServiceInterface */
-    private $tagService;
+    /** @var ListProductsQuery */
+    private $query;
+
+    /** @var ProductRepositoryInterface */
+    private $productRepository;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
-    public function __construct(ProductServiceInterface $tagService, DTOBuilderFactoryInterface $dtoBuilderFactory)
-    {
-        $this->tagService = $tagService;
+    public function __construct(
+        ListProductsQuery $query,
+        ProductRepositoryInterface $productRepository,
+        DTOBuilderFactoryInterface $dtoBuilderFactory
+    ) {
+        $this->query = $query;
+        $this->productRepository = $productRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(ListProductsQuery $query)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $paginationDTO = $query->getRequest()->getPaginationDTO();
+        $authorizationContext->verifyCanMakeRequests();
+    }
+
+    public function handle()
+    {
+        $paginationDTO = $this->query->getRequest()->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        $tags = $this->tagService->getAllProducts(
-            $query->getRequest()->getQueryString(),
+        $tags = $this->productRepository->getAllProducts(
+            $this->query->getRequest()->getQueryString(),
             $pagination
         );
 
-        $query->getResponse()->setPaginationDTOBuilder(
+        $this->query->getResponse()->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
         );
 
         foreach ($tags as $tag) {
-            $query->getResponse()->addProductDTOBuilder(
+            $this->query->getResponse()->addProductDTOBuilder(
                 $this->dtoBuilderFactory->getProductDTOBuilder($tag)
             );
         }

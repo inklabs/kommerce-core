@@ -2,21 +2,37 @@
 namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\RemoveTagFromProductCommand;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class RemoveTagFromProductHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Product::class,
+        Tag::class,
+    ];
+
     public function testHandle()
     {
-        $productService = $this->mockService->getProductService();
-        $productService->shouldReceive('removeTag')
-            ->once();
+        $tag = $this->dummyData->getTag();
+        $product = $this->dummyData->getProduct();
+        $product->addTag($tag);
+        $this->persistEntityAndFlushClear([
+            $product,
+            $tag,
+        ]);
+        $command = new RemoveTagFromProductCommand(
+            $product->getId()->getHex(),
+            $tag->getId()->getHex()
+        );
 
-        $productId = self::UUID_HEX;
-        $tagId = self::UUID_HEX;
+        $this->dispatchCommand($command);
 
-        $command = new RemoveTagFromProductCommand($productId, $tagId);
-        $handler = new RemoveTagFromProductHandler($productService);
-        $handler->handle($command);
+        $this->entityManager->clear();
+        $product = $this->getRepositoryFactory()->getProductRepository()->findOneById(
+            $product->getId()
+        );
+        $this->assertEmpty($product->getTags());
     }
 }
