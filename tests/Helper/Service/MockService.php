@@ -6,7 +6,6 @@ use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
 use inklabs\kommerce\Service\CartPriceRuleServiceInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
-use inklabs\kommerce\Service\CatalogPromotionServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderItemServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderServiceInterface;
@@ -84,23 +83,6 @@ class MockService
             ->andReturn($cart);
 
         return $cartService;
-    }
-
-    /**
-     * @return CatalogPromotionServiceInterface|Mockery\Mock
-     */
-    public function getCatalogPromotionService()
-    {
-        $catalogPromotion = $this->dummyData->getCatalogPromotion();
-
-        $service = $this->getMockeryMock(CatalogPromotionServiceInterface::class);
-        $service->shouldReceive('findOneById')
-            ->andReturn($catalogPromotion);
-
-        $service->shouldReceive('getAllCatalogPromotions')
-            ->andReturn([$catalogPromotion]);
-
-        return $service;
     }
 
     /**
