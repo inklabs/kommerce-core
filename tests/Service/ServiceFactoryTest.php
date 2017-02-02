@@ -23,7 +23,6 @@ class ServiceFactoryTest extends ServiceTestCase
         $this->assertTrue($serviceFactory->getAttributeValue() instanceof AttributeValueService);
         $this->assertTrue($serviceFactory->getCart() instanceof CartService);
         $this->assertTrue($serviceFactory->getCartPriceRule() instanceof CartPriceRuleService);
-        $this->assertTrue($serviceFactory->getCatalogPromotion() instanceof CatalogPromotionService);
         $this->assertTrue($serviceFactory->getImageService() instanceof ImageService);
         $this->assertTrue($serviceFactory->getImportOrder() instanceof ImportOrderService);
         $this->assertTrue($serviceFactory->getImportOrderItem() instanceof ImportOrderItemService);

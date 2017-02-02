@@ -3,31 +3,43 @@ namespace inklabs\kommerce\ActionHandler\CatalogPromotion;
 
 use inklabs\kommerce\Action\CatalogPromotion\GetCatalogPromotionQuery;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Service\CatalogPromotionServiceInterface;
+use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
-final class GetCatalogPromotionHandler
+final class GetCatalogPromotionHandler implements QueryHandlerInterface
 {
-    /** @var CatalogPromotionServiceInterface */
-    private $catalogPromotionService;
+    /** @var GetCatalogPromotionQuery */
+    private $query;
+
+    /** @var CatalogPromotionRepositoryInterface */
+    private $catalogPromotionRepository;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
     public function __construct(
-        CatalogPromotionServiceInterface $catalogPromotionService,
+        GetCatalogPromotionQuery $query,
+        CatalogPromotionRepositoryInterface $catalogPromotionRepository,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
-        $this->catalogPromotionService = $catalogPromotionService;
+        $this->query = $query;
+        $this->catalogPromotionRepository = $catalogPromotionRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(GetCatalogPromotionQuery $query)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $catalogPromotion = $this->catalogPromotionService->findOneById(
-            $query->getRequest()->getCatalogPromotionId()
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $catalogPromotion = $this->catalogPromotionRepository->findOneById(
+            $this->query->getRequest()->getCatalogPromotionId()
         );
 
-        $query->getResponse()->setCatalogPromotionDTOBuilder(
+        $this->query->getResponse()->setCatalogPromotionDTOBuilder(
             $this->dtoBuilderFactory->getCatalogPromotionDTOBuilder($catalogPromotion)
         );
     }

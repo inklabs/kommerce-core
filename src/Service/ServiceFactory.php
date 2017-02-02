@@ -113,14 +113,6 @@ class ServiceFactory
     }
 
     /**
-     * @return CatalogPromotionService
-     */
-    public function getCatalogPromotion()
-    {
-        return new CatalogPromotionService($this->repositoryFactory->getCatalogPromotionRepository());
-    }
-
-    /**
      * @return FileManagerInterface
      */
     public function getFileManager()

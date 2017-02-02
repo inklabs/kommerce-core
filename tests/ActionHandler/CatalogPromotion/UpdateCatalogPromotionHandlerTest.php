@@ -19,7 +19,6 @@ class UpdateCatalogPromotionHandlerTest extends ActionTestCase
         $catalogPromotion = $this->dummyData->getCatalogPromotion();
         $tag = $this->dummyData->getTag();
         $this->persistEntityAndFlushClear([$catalogPromotion, $tag]);
-
         $name = '50% OFF Everything';
         $promotionTypeSlug = PromotionType::percent()->getSlug();
         $value = 50;
@@ -27,7 +26,6 @@ class UpdateCatalogPromotionHandlerTest extends ActionTestCase
         $startAt = self::FAKE_TIMESTAMP;
         $endAt = self::FAKE_TIMESTAMP;
         $maxRedemptions = 100;
-
         $command = new UpdateCatalogPromotionCommand(
             $name,
             $promotionTypeSlug,

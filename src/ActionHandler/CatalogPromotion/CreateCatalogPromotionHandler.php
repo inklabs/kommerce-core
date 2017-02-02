@@ -5,9 +5,14 @@ use inklabs\kommerce\Action\CatalogPromotion\CreateCatalogPromotionCommand;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateCatalogPromotionHandler
+final class CreateCatalogPromotionHandler implements CommandHandlerInterface
 {
+    /** @var CreateCatalogPromotionCommand */
+    private $command;
+
     /** @var CatalogPromotionRepositoryInterface */
     private $catalogPromotionRepository;
 
@@ -15,29 +20,36 @@ final class CreateCatalogPromotionHandler
     private $tagRepository;
 
     public function __construct(
+        CreateCatalogPromotionCommand $command,
         CatalogPromotionRepositoryInterface $catalogPromotionRepository,
         TagRepositoryInterface $tagRepository
     ) {
+        $this->command = $command;
         $this->catalogPromotionRepository = $catalogPromotionRepository;
         $this->tagRepository = $tagRepository;
     }
 
-    public function handle(CreateCatalogPromotionCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $catalogPromotion = new CatalogPromotion(
-            $command->getCatalogPromotionId()
+            $this->command->getCatalogPromotionId()
         );
 
-        $catalogPromotion->setName($command->getName());
-        $catalogPromotion->setType($command->getPromotionType());
-        $catalogPromotion->setValue($command->getValue());
-        $catalogPromotion->setReducesTaxSubtotal($command->getReducesTaxSubtotal());
-        $catalogPromotion->setMaxRedemptions($command->getMaxRedemptions());
-        $catalogPromotion->setStartAt($command->getStartAt());
-        $catalogPromotion->setEndAt($command->getEndAt());
+        $catalogPromotion->setName($this->command->getName());
+        $catalogPromotion->setType($this->command->getPromotionType());
+        $catalogPromotion->setValue($this->command->getValue());
+        $catalogPromotion->setReducesTaxSubtotal($this->command->getReducesTaxSubtotal());
+        $catalogPromotion->setMaxRedemptions($this->command->getMaxRedemptions());
+        $catalogPromotion->setStartAt($this->command->getStartAt());
+        $catalogPromotion->setEndAt($this->command->getEndAt());
 
-        if ($command->getTagId() !== null) {
-            $tag = $this->tagRepository->findOneById($command->getTagId());
+        if ($this->command->getTagId() !== null) {
+            $tag = $this->tagRepository->findOneById($this->command->getTagId());
             $catalogPromotion->setTag($tag);
         }
 

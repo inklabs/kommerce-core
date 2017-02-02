@@ -4,40 +4,52 @@ namespace inklabs\kommerce\ActionHandler\CatalogPromotion;
 use inklabs\kommerce\Action\CatalogPromotion\ListCatalogPromotionsQuery;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Service\CatalogPromotionServiceInterface;
+use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
-final class ListCatalogPromotionsHandler
+final class ListCatalogPromotionsHandler implements QueryHandlerInterface
 {
-    /** @var CatalogPromotionServiceInterface */
-    private $catalogPromotionService;
+    /** @var ListCatalogPromotionsQuery */
+    private $query;
+
+    /** @var CatalogPromotionRepositoryInterface */
+    private $catalogPromotionRepository;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
     public function __construct(
-        CatalogPromotionServiceInterface $catalogPromotionService,
+        ListCatalogPromotionsQuery $query,
+        CatalogPromotionRepositoryInterface $catalogPromotionRepository,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
-        $this->catalogPromotionService = $catalogPromotionService;
+        $this->query = $query;
+        $this->catalogPromotionRepository = $catalogPromotionRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(ListCatalogPromotionsQuery $query)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $paginationDTO = $query->getRequest()->getPaginationDTO();
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $paginationDTO = $this->query->getRequest()->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        $catalogPromotions = $this->catalogPromotionService->getAllCatalogPromotions(
-            $query->getRequest()->getQueryString(),
+        $catalogPromotions = $this->catalogPromotionRepository->getAllCatalogPromotions(
+            $this->query->getRequest()->getQueryString(),
             $pagination
         );
 
-        $query->getResponse()->setPaginationDTOBuilder(
+        $this->query->getResponse()->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
         );
 
         foreach ($catalogPromotions as $catalogPromotion) {
-            $query->getResponse()->addCatalogPromotionDTOBuilder(
+            $this->query->getResponse()->addCatalogPromotionDTOBuilder(
                 $this->dtoBuilderFactory->getCatalogPromotionDTOBuilder($catalogPromotion)
             );
         }

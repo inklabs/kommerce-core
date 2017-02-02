@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\ActionHandler\CartPriceRule;
 
 use inklabs\kommerce\Action\CatalogPromotion\DeleteCatalogPromotionCommand;
-use inklabs\kommerce\ActionHandler\CatalogPromotion\DeleteCatalogPromotionHandler;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Exception\EntityNotFoundException;
@@ -19,21 +18,16 @@ class DeleteCatalogPromotionHandlerTest extends ActionTestCase
     {
         $catalogPromotion = $this->dummyData->getCatalogPromotion();
         $this->persistEntityAndFlushClear($catalogPromotion);
-
         $command = new DeleteCatalogPromotionCommand(
             $catalogPromotion->getId()->getHex()
         );
 
-        $repositoryFactory = $this->getRepositoryFactory();
-        $handler = new DeleteCatalogPromotionHandler(
-            $repositoryFactory->getCatalogPromotionRepository()
-        );
-        $handler->handle($command);
+        $this->dispatchCommand($command);
+
         $this->entityManager->clear();
-
         $this->expectException(EntityNotFoundException::class);
-
-        $catalogPromotion = $repositoryFactory->getCatalogPromotionRepository()
-            ->findOneById($command->getCatalogPromotionId());
+        $catalogPromotion = $this->getRepositoryFactory()->getCatalogPromotionRepository()->findOneById(
+            $command->getCatalogPromotionId()
+        );
     }
 }

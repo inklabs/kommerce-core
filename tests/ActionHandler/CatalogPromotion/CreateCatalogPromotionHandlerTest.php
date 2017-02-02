@@ -18,7 +18,6 @@ class CreateCatalogPromotionHandlerTest extends ActionTestCase
     {
         $tag = $this->dummyData->getTag();
         $this->persistEntityAndFlushClear($tag);
-
         $name = '50% OFF Everything';
         $promotionTypeSlug = PromotionType::percent()->getSlug();
         $value = 50;
@@ -26,7 +25,6 @@ class CreateCatalogPromotionHandlerTest extends ActionTestCase
         $reducesTaxSubtotal = true;
         $startAt = self::FAKE_TIMESTAMP;
         $endAt = self::FAKE_TIMESTAMP;
-
         $command = new CreateCatalogPromotionCommand(
             $name,
             $promotionTypeSlug,
