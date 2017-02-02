@@ -23,13 +23,14 @@ class GetConfigurationsByKeysHandlerTest extends ActionTestCase
             $configuration2,
             $configuration3
         ]);
-
         $request = new GetConfigurationsByKeysRequest([
             'adminTheme',
             'storeTheme',
         ]);
         $response = new GetConfigurationsByKeysResponse();
-        $this->dispatchQuery(new GetConfigurationsByKeysQuery($request, $response));
+        $query = new GetConfigurationsByKeysQuery($request, $response);
+
+        $this->dispatchQuery($query);
 
         $configurations = $response->getConfigurationDTOs();
         $this->assertCount(2, $configurations);
