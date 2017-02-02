@@ -2,16 +2,38 @@
 namespace inklabs\kommerce\ActionHandler\Attribute;
 
 use inklabs\kommerce\Action\Attribute\UpdateAttributeCommand;
+use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class UpdateAttributeHandler extends AbstractAttributeHandler
+final class UpdateAttributeHandler implements CommandHandlerInterface
 {
-    public function handle(UpdateAttributeCommand $command)
+    use UpdateAttributeHandlerTrait;
+
+    /** @var UpdateAttributeCommand */
+    private $command;
+
+    /** @var AttributeRepositoryInterface */
+    protected $attributeRepository;
+
+    public function __construct(UpdateAttributeCommand $command, AttributeRepositoryInterface $attributeRepository)
+    {
+        $this->command = $command;
+        $this->attributeRepository = $attributeRepository;
+    }
+
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $attribute = $this->attributeRepository->findOneById(
-            $command->getAttributeId()
+            $this->command->getAttributeId()
         );
 
-        $this->updateAttributeFromCommand($attribute, $command);
+        $this->updateAttributeFromCommand($attribute, $this->command);
 
         $this->attributeRepository->update($attribute);
     }

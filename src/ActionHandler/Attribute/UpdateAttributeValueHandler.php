@@ -3,27 +3,40 @@ namespace inklabs\kommerce\ActionHandler\Attribute;
 
 use inklabs\kommerce\Action\Attribute\UpdateAttributeValueCommand;
 use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class UpdateAttributeValueHandler
+final class UpdateAttributeValueHandler implements CommandHandlerInterface
 {
+    /** @var UpdateAttributeValueCommand */
+    private $command;
+
     /** @var AttributeValueRepositoryInterface */
     private $attributeValueRepository;
 
-    public function __construct(AttributeValueRepositoryInterface $attributeValueRepository)
-    {
+    public function __construct(
+        UpdateAttributeValueCommand $command,
+        AttributeValueRepositoryInterface $attributeValueRepository
+    ) {
+        $this->command = $command;
         $this->attributeValueRepository = $attributeValueRepository;
     }
 
-    public function handle(UpdateAttributeValueCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $attributeValue = $this->attributeValueRepository->findOneById(
-            $command->getAttributeValueId()
+            $this->command->getAttributeValueId()
         );
 
-        $attributeValue->setName($command->getName());
-        $attributeValue->setSortOrder($command->getSortOrder());
-        $attributeValue->setSku($command->getSku());
-        $attributeValue->setDescription($command->getDescription());
+        $attributeValue->setName($this->command->getName());
+        $attributeValue->setSortOrder($this->command->getSortOrder());
+        $attributeValue->setSku($this->command->getSku());
+        $attributeValue->setDescription($this->command->getDescription());
 
         $this->attributeValueRepository->update($attributeValue);
     }

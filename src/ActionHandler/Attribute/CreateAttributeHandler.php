@@ -3,19 +3,41 @@ namespace inklabs\kommerce\ActionHandler\Attribute;
 
 use inklabs\kommerce\Action\Attribute\CreateAttributeCommand;
 use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateAttributeHandler extends AbstractAttributeHandler
+final class CreateAttributeHandler implements CommandHandlerInterface
 {
-    public function handle(CreateAttributeCommand $command)
+    use UpdateAttributeHandlerTrait;
+
+    /** @var CreateAttributeCommand */
+    private $command;
+
+    /** @var AttributeRepositoryInterface */
+    protected $attributeRepository;
+
+    public function __construct(CreateAttributeCommand $command, AttributeRepositoryInterface $attributeRepository)
+    {
+        $this->command = $command;
+        $this->attributeRepository = $attributeRepository;
+    }
+
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $attribute = new Attribute(
-            $command->getName(),
-            $command->getChoiceType(),
-            $command->getSortOrder(),
-            $command->getAttributeId()
+            $this->command->getName(),
+            $this->command->getChoiceType(),
+            $this->command->getSortOrder(),
+            $this->command->getAttributeId()
         );
 
-        $this->updateAttributeFromCommand($attribute, $command);
+        $this->updateAttributeFromCommand($attribute, $this->command);
 
         $this->attributeRepository->create($attribute);
     }

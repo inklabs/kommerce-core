@@ -31,7 +31,6 @@ class DeleteProductAttributeHandlerTest extends ActionTestCase
 
         $this->entityManager->clear();
         $this->expectException(EntityNotFoundException::class);
-
         $productAttribute = $this->getRepositoryFactory()->getProductAttributeRepository()->findOneById(
             $command->getProductAttributeId()
         );

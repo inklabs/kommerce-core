@@ -3,20 +3,35 @@ namespace inklabs\kommerce\ActionHandler\Attribute;
 
 use inklabs\kommerce\Action\Attribute\DeleteAttributeCommand;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class DeleteAttributeHandler
+final class DeleteAttributeHandler implements CommandHandlerInterface
 {
+    /** @var DeleteAttributeCommand */
+    private $command;
+
     /** @var AttributeRepositoryInterface */
     protected $attributeRepository;
 
-    public function __construct(AttributeRepositoryInterface $attributeRepository)
-    {
+    public function __construct(
+        DeleteAttributeCommand $command,
+        AttributeRepositoryInterface $attributeRepository
+    ) {
+        $this->command = $command;
         $this->attributeRepository = $attributeRepository;
     }
 
-    public function handle(DeleteAttributeCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $attribute = $this->attributeRepository->findOneById($command->getAttributeId());
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $attribute = $this->attributeRepository->findOneById(
+            $this->command->getAttributeId()
+        );
         $this->attributeRepository->delete($attribute);
     }
 }

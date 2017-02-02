@@ -16,12 +16,11 @@ class DeleteAttributeHandlerTest extends ActionTestCase
     {
         $attribute = $this->dummyData->getAttribute();
         $this->persistEntityAndFlushClear($attribute);
-
         $command = new DeleteAttributeCommand($attribute->getId()->getHex());
+
         $this->dispatchCommand($command);
 
         $this->entityManager->clear();
-
         $this->expectException(EntityNotFoundException::class);
         $this->getRepositoryFactory()->getAttributeRepository()->findOneById(
             $command->getAttributeId()

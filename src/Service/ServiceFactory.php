@@ -71,14 +71,6 @@ class ServiceFactory
     }
 
     /**
-     * @return AttributeValueService
-     */
-    public function getAttributeValue()
-    {
-        return new AttributeValueService($this->repositoryFactory->getAttributeValueRepository());
-    }
-
-    /**
      * @return CartService
      */
     public function getCart()

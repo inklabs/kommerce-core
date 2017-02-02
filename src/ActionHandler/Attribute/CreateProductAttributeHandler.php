@@ -6,9 +6,14 @@ use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductAttributeRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateProductAttributeHandler
+final class CreateProductAttributeHandler implements CommandHandlerInterface
 {
+    /** @var CreateProductAttributeCommand */
+    private $command;
+
     /** @var ProductRepositoryInterface */
     private $productRepository;
 
@@ -19,29 +24,36 @@ final class CreateProductAttributeHandler
     protected $productAttributeRepository;
 
     public function __construct(
+        CreateProductAttributeCommand $command,
         ProductRepositoryInterface $productRepository,
         AttributeValueRepositoryInterface $attributeValueRepository,
         ProductAttributeRepositoryInterface $productAttributeRepository
     ) {
+        $this->command = $command;
         $this->productRepository = $productRepository;
         $this->attributeValueRepository = $attributeValueRepository;
         $this->productAttributeRepository = $productAttributeRepository;
     }
 
-    public function handle(CreateProductAttributeCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $product = $this->productRepository->findOneById(
-            $command->getProductId()
+            $this->command->getProductId()
         );
 
         $attributeValue = $this->attributeValueRepository->findOneById(
-            $command->getAttributeValueId()
+            $this->command->getAttributeValueId()
         );
 
         $productAttribute = new ProductAttribute(
             $product,
             $attributeValue,
-            $command->getProductAttributeId()
+            $this->command->getProductAttributeId()
         );
 
         $this->productAttributeRepository->create($productAttribute);
