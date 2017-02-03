@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\EntityDTO\OptionProductDTO;
 use inklabs\kommerce\Lib\PricingInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OptionProductDTOBuilder implements DTOBuilderInterface
 {
@@ -31,9 +32,13 @@ class OptionProductDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->sortOrder = $this->entity->getSortOrder();
     }
 
-    public static function createFromDTO(Option $option, Product $product, OptionProductDTO $optionProductDTO)
-    {
-        $optionProduct = new OptionProduct($option, $product);
+    public static function createFromDTO(
+        Option $option,
+        Product $product,
+        OptionProductDTO $optionProductDTO,
+        UuidInterface $optionProductId = null
+    ) {
+        $optionProduct = new OptionProduct($option, $product, $optionProductId);
         self::setFromDTO($optionProduct, $optionProductDTO);
         return $optionProduct;
     }

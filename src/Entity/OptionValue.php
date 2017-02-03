@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -26,9 +27,9 @@ class OptionValue implements IdEntityInterface
     /** @var Option */
     protected $option;
 
-    public function __construct(Option $option)
+    public function __construct(Option $option, UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->option = $option;
         $option->addOptionValue($this);

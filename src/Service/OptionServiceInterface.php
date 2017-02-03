@@ -11,24 +11,10 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface OptionServiceInterface
 {
-
-    public function create(Option & $option);
     public function update(Option & $option);
-    public function delete(Option $option);
-
-    public function createOptionValue(OptionValue & $optionValue);
     public function updateOptionValue(OptionValue & $optionValue);
-    public function deleteOptionValue(OptionValue $optionValue);
-
-    public function createOptionProduct(OptionProduct & $optionProduct);
     public function updateOptionProduct(OptionProduct & $optionProduct);
-    public function deleteOptionProduct(OptionProduct $optionProduct);
-
-    public function createTextOption(TextOption & $textOption);
-
     public function updateTextOption(TextOption & $textOption);
-
-    public function deleteTextOption(TextOption $textOption);
 
     /**
      * @param UuidInterface $id

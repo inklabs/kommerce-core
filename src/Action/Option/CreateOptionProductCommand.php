@@ -9,6 +9,9 @@ use inklabs\kommerce\Lib\UuidInterface;
 final class CreateOptionProductCommand implements CommandInterface
 {
     /** @var UuidInterface */
+    private $optionProductId;
+
+    /** @var UuidInterface */
     private $optionId;
 
     /** @var UuidInterface */
@@ -24,6 +27,7 @@ final class CreateOptionProductCommand implements CommandInterface
      */
     public function __construct($optionId, $productId, OptionProductDTO $optionProductDTO)
     {
+        $this->optionProductId = Uuid::uuid4();
         $this->optionId = Uuid::fromString($optionId);
         $this->productId = Uuid::fromString($productId);
         $this->optionProductDTO = $optionProductDTO;
@@ -42,5 +46,10 @@ final class CreateOptionProductCommand implements CommandInterface
     public function getOptionProductDTO()
     {
         return $this->optionProductDTO;
+    }
+
+    public function getOptionProductId()
+    {
+        return $this->optionProductId;
     }
 }

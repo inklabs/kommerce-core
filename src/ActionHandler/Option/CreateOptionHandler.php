@@ -3,24 +3,37 @@ namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\CreateOptionCommand;
 use inklabs\kommerce\EntityDTO\Builder\OptionDTOBuilder;
-use inklabs\kommerce\Service\OptionServiceInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateOptionHandler
+final class CreateOptionHandler implements CommandHandlerInterface
 {
-    /** @var OptionServiceInterface */
-    protected $optionService;
+    /** @var CreateOptionCommand */
+    private $command;
 
-    public function __construct(OptionServiceInterface $optionService)
-    {
-        $this->optionService = $optionService;
+    /** @var OptionRepositoryInterface */
+    protected $optionRepository;
+
+    public function __construct(
+        CreateOptionCommand $command,
+        OptionRepositoryInterface $optionRepository
+    ) {
+        $this->command = $command;
+        $this->optionRepository = $optionRepository;
     }
 
-    public function handle(CreateOptionCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $option = OptionDTOBuilder::createFromDTO(
-            $command->getOptionId(),
-            $command->getOptionDTO()
+            $this->command->getOptionId(),
+            $this->command->getOptionDTO()
         );
-        $this->optionService->create($option);
+        $this->optionRepository->create($option);
     }
 }

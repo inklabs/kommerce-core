@@ -3,28 +3,49 @@ namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\CreateOptionValueCommand;
 use inklabs\kommerce\EntityDTO\Builder\OptionValueDTOBuilder;
-use inklabs\kommerce\Service\OptionServiceInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateOptionValueHandler
+final class CreateOptionValueHandler implements CommandHandlerInterface
 {
-    /** @var OptionServiceInterface */
-    protected $optionService;
+    /** @var CreateOptionValueCommand */
+    private $command;
 
-    public function __construct(OptionServiceInterface $optionService)
-    {
-        $this->optionService = $optionService;
+    /** @var OptionRepositoryInterface */
+    protected $optionRepository;
+
+    /** @var OptionValueRepositoryInterface */
+    private $optionValueRepository;
+
+    public function __construct(
+        CreateOptionValueCommand $command,
+        OptionRepositoryInterface $optionRepository,
+        OptionValueRepositoryInterface $optionValueRepository
+    ) {
+        $this->command = $command;
+        $this->optionRepository = $optionRepository;
+        $this->optionValueRepository = $optionValueRepository;
     }
 
-    public function handle(CreateOptionValueCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $option = $this->optionService->findOneById(
-            $command->getOptionId()
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $option = $this->optionRepository->findOneById(
+            $this->command->getOptionId()
         );
 
         $optionValue = OptionValueDTOBuilder::createFromDTO(
             $option,
-            $command->getOptionValueDTO()
+            $this->command->getOptionValueDTO(),
+            $this->command->getOptionValueId()
         );
-        $this->optionService->createOptionValue($optionValue);
+
+        $this->optionValueRepository->create($optionValue);
     }
 }

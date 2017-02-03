@@ -2,18 +2,30 @@
 namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\DeleteOptionCommand;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\Tag;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class DeleteOptionHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Option::class,
+        Tag::class,
+    ];
+
     public function testHandle()
     {
-        $optionService = $this->mockService->getOptionService();
-        $optionService->shouldReceive('delete')
-            ->once();
+        $option = $this->dummyData->getOption();
+        $this->persistEntityAndFlushClear($option);
+        $command = new DeleteOptionCommand($option->getId()->getHex());
 
-        $command = new DeleteOptionCommand(self::UUID_HEX);
-        $handler = new DeleteOptionHandler($optionService);
-        $handler->handle($command);
+        $this->dispatchCommand($command);
+
+        $this->entityManager->clear();
+        $this->expectException(EntityNotFoundException::class);
+        $this->getRepositoryFactory()->getOptionRepository()->findOneById(
+            $option->getId()
+        );
     }
 }

@@ -3,26 +3,45 @@ namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\CreateTextOptionCommand;
 use inklabs\kommerce\Entity\TextOption;
-use inklabs\kommerce\Service\OptionServiceInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class CreateTextOptionHandler
+final class CreateTextOptionHandler implements CommandHandlerInterface
 {
-    /** @var OptionServiceInterface */
-    protected $optionService;
+    /** @var CreateTextOptionCommand */
+    private $command;
 
-    public function __construct(OptionServiceInterface $optionService)
-    {
-        $this->optionService = $optionService;
+    /** @var OptionRepositoryInterface */
+    protected $optionRepository;
+
+    /** @var TextOptionRepositoryInterface */
+    private $textOptionRepository;
+
+    public function __construct(
+        CreateTextOptionCommand $command,
+        OptionRepositoryInterface $optionRepository,
+        TextOptionRepositoryInterface $textOptionRepository
+    ) {
+        $this->command = $command;
+        $this->optionRepository = $optionRepository;
+        $this->textOptionRepository = $textOptionRepository;
     }
 
-    public function handle(CreateTextOptionCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $textOption = new TextOption($command->getTextOptionId());
-        $textOption->setName($command->getName());
-        $textOption->setDescription($command->getDescription());
-        $textOption->setSortOrder($command->getSortOrder());
-        $textOption->setType($command->getTextOptionType());
+        $authorizationContext->verifyIsAdmin();
+    }
 
-        $this->optionService->createTextOption($textOption);
+    public function handle()
+    {
+        $textOption = new TextOption($this->command->getTextOptionId());
+        $textOption->setName($this->command->getName());
+        $textOption->setDescription($this->command->getDescription());
+        $textOption->setSortOrder($this->command->getSortOrder());
+        $textOption->setType($this->command->getTextOptionType());
+
+        $this->textOptionRepository->create($textOption);
     }
 }

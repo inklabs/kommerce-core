@@ -4,6 +4,7 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\EntityDTO\OptionValueDTO;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class OptionValueDTOBuilder implements DTOBuilderInterface
 {
@@ -33,9 +34,9 @@ class OptionValueDTOBuilder implements DTOBuilderInterface
         $this->entityDTO->sortOrder      = $this->entity->getSortOrder();
     }
 
-    public static function createFromDTO(Option $option, OptionValueDTO $optionValueDTO)
+    public static function createFromDTO(Option $option, OptionValueDTO $optionValueDTO, UuidInterface $optionValueId)
     {
-        $optionValue = new OptionValue($option);
+        $optionValue = new OptionValue($option, $optionValueId);
         self::setFromDTO($optionValue, $optionValueDTO);
         return $optionValue;
     }

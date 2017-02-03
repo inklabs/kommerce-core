@@ -12,7 +12,9 @@ use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ConfigurationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductAttributeRepositoryInterface;
@@ -126,6 +128,10 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getImageRepository();
                 } elseif ($parameterClassName === OptionRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getOptionRepository();
+                } elseif ($parameterClassName === OptionProductRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getOptionProductRepository();
+                } elseif ($parameterClassName === OptionValueRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getOptionValueRepository();
                 } elseif ($parameterClassName === OrderRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getOrderRepository();
                 } elseif ($parameterClassName === OrderItemRepositoryInterface::class) {

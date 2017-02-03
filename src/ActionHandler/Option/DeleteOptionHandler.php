@@ -2,21 +2,34 @@
 namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\DeleteOptionCommand;
-use inklabs\kommerce\Service\OptionServiceInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class DeleteOptionHandler
+final class DeleteOptionHandler implements CommandHandlerInterface
 {
-    /** @var OptionServiceInterface */
-    protected $optionService;
+    /** @var DeleteOptionCommand */
+    private $command;
 
-    public function __construct(OptionServiceInterface $optionService)
-    {
-        $this->optionService = $optionService;
+    /** @var OptionRepositoryInterface */
+    protected $optionRepository;
+
+    public function __construct(
+        DeleteOptionCommand $command,
+        OptionRepositoryInterface $optionRepository
+    ) {
+        $this->command = $command;
+        $this->optionRepository = $optionRepository;
     }
 
-    public function handle(DeleteOptionCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $option = $this->optionService->findOneById($command->getOptionId());
-        $this->optionService->delete($option);
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $option = $this->optionRepository->findOneById($this->command->getOptionId());
+        $this->optionRepository->delete($option);
     }
 }

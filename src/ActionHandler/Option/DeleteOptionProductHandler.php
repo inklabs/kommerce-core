@@ -2,21 +2,40 @@
 namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\DeleteOptionProductCommand;
-use inklabs\kommerce\Service\OptionServiceInterface;
+use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class DeleteOptionProductHandler
+final class DeleteOptionProductHandler implements CommandHandlerInterface
 {
-    /** @var OptionServiceInterface */
-    protected $optionService;
+    /** @var DeleteOptionProductCommand */
+    private $command;
 
-    public function __construct(OptionServiceInterface $optionService)
-    {
-        $this->optionService = $optionService;
+    /** @var OptionRepositoryInterface */
+    protected $optionRepository;
+
+    /** @var OptionProductRepositoryInterface */
+    private $optionProductRepository;
+
+    public function __construct(
+        DeleteOptionProductCommand $command,
+        OptionRepositoryInterface $optionRepository,
+        OptionProductRepositoryInterface $optionProductRepository
+    ) {
+        $this->command = $command;
+        $this->optionRepository = $optionRepository;
+        $this->optionProductRepository = $optionProductRepository;
     }
 
-    public function handle(DeleteOptionProductCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $optionProduct = $this->optionService->getOptionProductById($command->getOptionProductId());
-        $this->optionService->deleteOptionProduct($optionProduct);
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $optionProduct = $this->optionRepository->getOptionProductById($this->command->getOptionProductId());
+        $this->optionProductRepository->delete($optionProduct);
     }
 }

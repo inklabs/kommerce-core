@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use inklabs\kommerce\Lib\PricingInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,9 +19,9 @@ class OptionProduct implements IdEntityInterface
     /** @var Option */
     protected $option;
 
-    public function __construct(Option $option, Product $product)
+    public function __construct(Option $option, Product $product, UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->option = $option;
         $this->product = $product;

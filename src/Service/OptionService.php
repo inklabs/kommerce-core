@@ -22,24 +22,9 @@ class OptionService implements OptionServiceInterface
         $this->optionRepository = $optionRepository;
     }
 
-    public function create(Option & $option)
-    {
-        $this->optionRepository->create($option);
-    }
-
     public function update(Option & $option)
     {
         $this->optionRepository->update($option);
-    }
-
-    public function delete(Option $option)
-    {
-        $this->optionRepository->delete($option);
-    }
-
-    public function createOptionValue(OptionValue & $optionValue)
-    {
-        $this->optionRepository->create($optionValue);
     }
 
     public function updateOptionValue(OptionValue & $optionValue)
@@ -47,39 +32,14 @@ class OptionService implements OptionServiceInterface
         $this->optionRepository->update($optionValue);
     }
 
-    public function deleteOptionValue(OptionValue $optionValue)
-    {
-        $this->optionRepository->delete($optionValue);
-    }
-
-    public function createOptionProduct(OptionProduct & $optionProduct)
-    {
-        $this->optionRepository->create($optionProduct);
-    }
-
     public function updateOptionProduct(OptionProduct & $optionProduct)
     {
         $this->optionRepository->update($optionProduct);
     }
 
-    public function deleteOptionProduct(OptionProduct $optionProduct)
-    {
-        $this->optionRepository->delete($optionProduct);
-    }
-
-    public function createTextOption(TextOption & $textOption)
-    {
-        $this->optionRepository->create($textOption);
-    }
-
     public function updateTextOption(TextOption & $textOption)
     {
         $this->optionRepository->update($textOption);
-    }
-
-    public function deleteTextOption(TextOption $textOption)
-    {
-        $this->optionRepository->delete($textOption);
     }
 
     /**
