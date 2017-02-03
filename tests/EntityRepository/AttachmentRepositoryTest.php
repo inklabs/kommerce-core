@@ -46,7 +46,7 @@ class AttachmentRepositoryTest extends EntityRepositoryTestCase
         $originalAttachment = $this->setupAttachment();
         $this->setCountLogger();
 
-        $attachment = $this->attachmentRepository->findOneByUuid($originalAttachment->getId());
+        $attachment = $this->attachmentRepository->findOneById($originalAttachment->getId());
 
         $this->assertEquals($originalAttachment->getId(), $attachment->getId());
         $this->assertSame(1, $this->getTotalQueries());

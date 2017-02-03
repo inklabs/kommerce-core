@@ -2,23 +2,36 @@
 namespace inklabs\kommerce\ActionHandler\Attachment;
 
 use inklabs\kommerce\Action\Attachment\CreateAttachmentForOrderItemCommand;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
 
-class CreateAttachmentForOrderItemHandler
+class CreateAttachmentForOrderItemHandler implements CommandHandlerInterface
 {
+    /** @var CreateAttachmentForOrderItemCommand */
+    private $command;
+
     /** @var AttachmentServiceInterface */
     private $attachmentService;
 
-    public function __construct(AttachmentServiceInterface $attachmentService)
-    {
+    public function __construct(
+        CreateAttachmentForOrderItemCommand $command,
+        AttachmentServiceInterface $attachmentService
+    ) {
+        $this->command = $command;
         $this->attachmentService = $attachmentService;
     }
 
-    public function handle(CreateAttachmentForOrderItemCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
     {
         $this->attachmentService->createAttachmentForOrderItem(
-            $command->getUploadFileDTO(),
-            $command->getOrderItemId()
+            $this->command->getUploadFileDTO(),
+            $this->command->getOrderItemId()
         );
     }
 }

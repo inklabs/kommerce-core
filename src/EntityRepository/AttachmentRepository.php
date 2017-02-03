@@ -8,17 +8,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 class AttachmentRepository extends AbstractRepository implements AttachmentRepositoryInterface
 {
     /**
-     * @param UuidInterface $uuid4
-     * @return Attachment
-     */
-    public function findOneByUuid(UuidInterface $uuid4)
-    {
-        return $this->returnOrThrowNotFoundException(
-            parent::findOneBy(['id' => $uuid4])
-        );
-    }
-
-    /**
      * @param UuidInterface $userId
      * @param UuidInterface $productId
      * @return Attachment[]

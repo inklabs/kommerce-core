@@ -329,7 +329,7 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
      */
     public function getAttachments()
     {
-        return $this->attachments;
+        return $this->attachments->toArray();
     }
 
     public function addAttachment(Attachment $attachment)
