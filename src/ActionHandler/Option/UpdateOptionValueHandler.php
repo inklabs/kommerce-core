@@ -3,24 +3,43 @@ namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\UpdateOptionValueCommand;
 use inklabs\kommerce\EntityDTO\Builder\OptionValueDTOBuilder;
-use inklabs\kommerce\Service\OptionServiceInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class UpdateOptionValueHandler
+final class UpdateOptionValueHandler implements CommandHandlerInterface
 {
-    /** @var OptionServiceInterface */
-    protected $optionService;
+    /** @var UpdateOptionValueCommand */
+    private $command;
 
-    public function __construct(OptionServiceInterface $optionService)
-    {
-        $this->optionService = $optionService;
+    /** @var OptionRepositoryInterface */
+    protected $optionRepository;
+
+    /** @var OptionValueRepositoryInterface */
+    private $optionValueRepository;
+
+    public function __construct(
+        UpdateOptionValueCommand $command,
+        OptionRepositoryInterface $optionRepository,
+        OptionValueRepositoryInterface $optionValueRepository
+    ) {
+        $this->command = $command;
+        $this->optionRepository = $optionRepository;
+        $this->optionValueRepository = $optionValueRepository;
     }
 
-    public function handle(UpdateOptionValueCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $optionValueDTO = $command->getOptionValueDTO();
-        $optionValue = $this->optionService->getOptionValueById($optionValueDTO->id);
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $optionValueDTO = $this->command->getOptionValueDTO();
+        $optionValue = $this->optionRepository->getOptionValueById($optionValueDTO->id);
         OptionValueDTOBuilder::setFromDTO($optionValue, $optionValueDTO);
 
-        $this->optionService->updateOptionValue($optionValue);
+        $this->optionValueRepository->update($optionValue);
     }
 }

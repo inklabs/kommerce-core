@@ -11,11 +11,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface OptionServiceInterface
 {
-    public function update(Option & $option);
-    public function updateOptionValue(OptionValue & $optionValue);
-    public function updateOptionProduct(OptionProduct & $optionProduct);
-    public function updateTextOption(TextOption & $textOption);
-
     /**
      * @param UuidInterface $id
      * @return Option
@@ -29,16 +24,4 @@ interface OptionServiceInterface
      * @return Option[]
      */
     public function getAllOptions($queryString = null, Pagination &$pagination = null);
-
-    /**
-     * @param UuidInterface $optionValueId
-     * @return OptionValue
-     */
-    public function getOptionValueById(UuidInterface $optionValueId);
-
-    /**
-     * @param UuidInterface $optionProductId
-     * @return OptionProduct
-     */
-    public function getOptionProductById(UuidInterface $optionProductId);
 }

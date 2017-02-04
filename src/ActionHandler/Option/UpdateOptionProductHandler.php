@@ -3,24 +3,43 @@ namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\UpdateOptionProductCommand;
 use inklabs\kommerce\EntityDTO\Builder\OptionProductDTOBuilder;
-use inklabs\kommerce\Service\OptionServiceInterface;
+use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class UpdateOptionProductHandler
+final class UpdateOptionProductHandler implements CommandHandlerInterface
 {
-    /** @var OptionServiceInterface */
-    protected $optionService;
+    /** @var UpdateOptionProductCommand */
+    private $command;
 
-    public function __construct(OptionServiceInterface $optionService)
-    {
-        $this->optionService = $optionService;
+    /** @var OptionRepositoryInterface */
+    protected $optionRepository;
+
+    /** @var OptionProductRepositoryInterface */
+    private $optionProductRepository;
+
+    public function __construct(
+        UpdateOptionProductCommand $command,
+        OptionRepositoryInterface $optionRepository,
+        OptionProductRepositoryInterface $optionProductRepository
+    ) {
+        $this->command = $command;
+        $this->optionRepository = $optionRepository;
+        $this->optionProductRepository = $optionProductRepository;
     }
 
-    public function handle(UpdateOptionProductCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $optionProductDTO = $command->getOptionProductDTO();
-        $optionProduct = $this->optionService->getOptionProductById($optionProductDTO->id);
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $optionProductDTO = $this->command->getOptionProductDTO();
+        $optionProduct = $this->optionRepository->getOptionProductById($optionProductDTO->id);
         OptionProductDTOBuilder::setFromDTO($optionProduct, $optionProductDTO);
 
-        $this->optionService->updateOptionProduct($optionProduct);
+        $this->optionProductRepository->update($optionProduct);
     }
 }
