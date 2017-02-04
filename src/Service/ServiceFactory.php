@@ -177,14 +177,6 @@ class ServiceFactory
     }
 
     /**
-     * @return OptionService
-     */
-    public function getOption()
-    {
-        return new OptionService($this->repositoryFactory->getOptionRepository());
-    }
-
-    /**
      * @return OrderService
      */
     public function getOrder()

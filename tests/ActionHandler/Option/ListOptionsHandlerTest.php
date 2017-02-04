@@ -4,25 +4,28 @@ namespace inklabs\kommerce\ActionHandler\Option;
 use inklabs\kommerce\Action\Option\ListOptionsQuery;
 use inklabs\kommerce\Action\Option\Query\ListOptionsRequest;
 use inklabs\kommerce\Action\Option\Query\ListOptionsResponse;
+use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
-use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class ListOptionsHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Option::class,
+    ];
+
     public function testHandle()
     {
-        $optionService = $this->mockService->getOptionService();
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
-
-        $queryString = 'TT';
-        $request = new ListOptionsRequest($queryString, new PaginationDTO);
+        $option = $this->dummyData->getOption();
+        $this->persistEntityAndFlushClear($option);
+        $queryString = 'Size';
+        $request = new ListOptionsRequest($queryString, new PaginationDTO());
         $response = new ListOptionsResponse();
+        $query = new ListOptionsQuery($request, $response);
 
-        $handler = new ListOptionsHandler($optionService, $dtoBuilderFactory);
-        $handler->handle(new ListOptionsQuery($request, $response));
+        $this->dispatchQuery($query);
 
-        $this->assertTrue($response->getOptionDTOs()[0] instanceof OptionDTO);
+        $this->assertEntityInDTOList($option, $response->getOptionDTOs());
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
     }
 }

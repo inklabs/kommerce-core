@@ -12,7 +12,6 @@ use inklabs\kommerce\Service\Import\ImportOrderServiceInterface;
 use inklabs\kommerce\Service\Import\ImportPaymentServiceInterface;
 use inklabs\kommerce\Service\Import\ImportUserServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
-use inklabs\kommerce\Service\OptionServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
 use inklabs\kommerce\Service\ProductServiceInterface;
 use inklabs\kommerce\Service\TaxRateServiceInterface;
@@ -150,28 +149,6 @@ class MockService
     {
         $importUserService = $this->getMockeryMock(ImportUserServiceInterface::class);
         return $importUserService;
-    }
-
-    /**
-     * @return OptionServiceInterface|Mockery\Mock
-     */
-    public function getOptionService()
-    {
-        $option = $this->dummyData->getOption();
-        $service = $this->getMockeryMock(OptionServiceInterface::class);
-        $service->shouldReceive('findOneById')
-            ->andReturn($option);
-
-        $service->shouldReceive('getAllOptions')
-            ->andReturn([$option]);
-
-        $service->shouldReceive('getOptionValueById')
-            ->andReturn($this->dummyData->getOptionValue());
-
-        $service->shouldReceive('getOptionProductById')
-            ->andReturn($this->dummyData->getOptionProduct());
-
-        return $service;
     }
 
     /**

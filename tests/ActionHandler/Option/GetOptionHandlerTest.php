@@ -4,26 +4,35 @@ namespace inklabs\kommerce\ActionHandler\Option;
 use inklabs\kommerce\Action\Option\GetOptionQuery;
 use inklabs\kommerce\Action\Option\Query\GetOptionRequest;
 use inklabs\kommerce\Action\Option\Query\GetOptionResponse;
-use inklabs\kommerce\EntityDTO\OptionDTO;
+use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionProduct;
+use inklabs\kommerce\Entity\OptionValue;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetOptionHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Option::class,
+        OptionProduct::class,
+        OptionValue::class,
+        Product::class,
+        Tag::class,
+    ];
+
     public function testHandle()
     {
-        $pricing = $this->dummyData->getPricing();
-        $userService = $this->mockService->getOptionService();
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
+        $option = $this->dummyData->getOption();
+        $this->persistEntityAndFlushClear($option);
+        $request = new GetOptionRequest($option->getId()->getHex());
+        $response = new GetOptionResponse($this->getPricing());
+        $query = new GetOptionQuery($request, $response);
 
-        $request = new GetOptionRequest(self::UUID_HEX);
-        $response = new GetOptionResponse($pricing);
+        $this->dispatchQuery($query);
+        $this->assertEquals($option->getId(), $response->getOptionDTO()->id);
 
-        $handler = new GetOptionHandler($userService, $dtoBuilderFactory);
-
-        $handler->handle(new GetOptionQuery($request, $response));
-        $this->assertTrue($response->getOptionDTO() instanceof OptionDTO);
-
-        $handler->handle(new GetOptionQuery($request, $response));
-        $this->assertTrue($response->getOptionDTOWithAllData() instanceof OptionDTO);
+        $this->dispatchQuery($query);
+        $this->assertEquals($option->getId(), $response->getOptionDTOWithAllData()->id);
     }
 }
