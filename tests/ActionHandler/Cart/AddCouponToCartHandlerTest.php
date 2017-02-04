@@ -2,22 +2,44 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\AddCouponToCartCommand;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartItem;
+use inklabs\kommerce\Entity\Coupon;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class AddCouponToCartHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Cart::class,
+        CartItem::class,
+        Product::class,
+        Coupon::class,
+        User::class,
+        TaxRate::class,
+    ];
+
     public function testHandle()
     {
-        $cartService = $this->mockService->getCartService();
-        $cartService->shouldReceive('addCouponByCode')
-            ->once();
-
+        $cart = $this->dummyData->getCart();
+        $coupon = $this->dummyData->getCoupon();
+        $this->persistEntityAndFlushClear([
+            $cart,
+            $coupon,
+        ]);
         $command = new AddCouponToCartCommand(
-            self::UUID_HEX,
-            self::COUPON_CODE
+            $cart->getId()->getHex(),
+            $coupon->getCode()
         );
 
-        $handler = new AddCouponToCartHandler($cartService);
-        $handler->handle($command);
+        $this->dispatchCommand($command);
+
+        $this->entityManager->clear();
+        $cart = $this->getRepositoryFactory()->getCartRepository()->findOneById(
+            $cart->getId()
+        );
+        $this->assertEntityInList($coupon, $cart->getCoupons());
     }
 }
