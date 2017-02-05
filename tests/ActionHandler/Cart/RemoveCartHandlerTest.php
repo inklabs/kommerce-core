@@ -2,20 +2,38 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\RemoveCartCommand;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartItem;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class RemoveCartHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Cart::class,
+        CartItem::class,
+        Product::class,
+        User::class,
+        TaxRate::class,
+    ];
+
     public function testHandle()
     {
-        $cartService = $this->mockService->getCartService();
-        $cartService->shouldReceive('removeCart')
-            ->once();
+        $cart = $this->dummyData->getCart();
+        $this->persistEntityAndFlushClear([
+            $cart,
+        ]);
+        $command = new RemoveCartCommand($cart->getId()->getHex());
 
-        $cartId = self::UUID_HEX;
+        $this->dispatchCommand($command);
 
-        $command = new RemoveCartCommand($cartId);
-        $handler = new RemoveCartHandler($cartService);
-        $handler->handle($command);
+        $this->entityManager->clear();
+        $this->expectException(EntityNotFoundException::class);
+        $this->getRepositoryFactory()->getCartRepository()->findOneById(
+            $cart->getId()
+        );
     }
 }

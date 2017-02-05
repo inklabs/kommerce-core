@@ -25,11 +25,6 @@ interface CartServiceInterface
 
     /**
      * @param UuidInterface $cartId
-     */
-    public function removeCart(UuidInterface $cartId);
-
-    /**
-     * @param UuidInterface $cartId
      * @param UuidInterface $couponId
      */
     public function removeCoupon(UuidInterface $cartId, UuidInterface $couponId);

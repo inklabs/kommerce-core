@@ -118,12 +118,6 @@ class CartService implements CartServiceInterface
         return $cart->getCoupons();
     }
 
-    public function removeCart(UuidInterface $cartId)
-    {
-        $cart = $this->cartRepository->findOneById($cartId);
-        $this->cartRepository->delete($cart);
-    }
-
     /**
      * @param UuidInterface $cartId
      * @param UuidInterface $couponId

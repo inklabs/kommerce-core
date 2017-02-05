@@ -150,17 +150,6 @@ class CartServiceTest extends ServiceTestCase
         $this->assertEntitiesEqual($coupon, $coupons[0]);
     }
 
-    public function testRemoveCart()
-    {
-        $cart = $this->getCartThatRepositoryWillFind();
-        $this->cartRepository
-            ->shouldReceive('delete')
-            ->with($cart)
-            ->once();
-
-        $this->cartService->removeCart($cart->getId());
-    }
-
     public function testRemoveCoupon()
     {
         $coupon = $this->dummyData->getCoupon();
