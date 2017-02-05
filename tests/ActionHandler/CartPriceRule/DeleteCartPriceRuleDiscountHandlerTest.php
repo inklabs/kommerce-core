@@ -27,21 +27,16 @@ class DeleteCartPriceRuleDiscountHandlerTest extends ActionTestCase
             $product,
             $cartPriceRuleDiscount,
         ]);
-
         $command = new DeleteCartPriceRuleDiscountCommand(
             $cartPriceRuleDiscount->getId()->getHex()
         );
 
-        $repositoryFactory = $this->getRepositoryFactory();
-        $handler = new DeleteCartPriceRuleDiscountHandler(
-            $repositoryFactory->getCartPriceRuleDiscountRepository()
-        );
-        $handler->handle($command);
+        $this->dispatchCommand($command);
+
         $this->entityManager->clear();
-
         $this->expectException(EntityNotFoundException::class);
-
-        $cartPriceRuleDiscount = $repositoryFactory->getCartPriceRuleDiscountRepository()
-            ->findOneById($command->getCartPriceRuleDiscountId());
+        $this->getRepositoryFactory()->getCartPriceRuleDiscountRepository()->findOneById(
+            $command->getCartPriceRuleDiscountId()
+        );
     }
 }

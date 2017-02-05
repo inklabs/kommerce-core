@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class CartPriceRuleProductItem extends AbstractCartPriceRuleItem
@@ -8,9 +9,9 @@ class CartPriceRuleProductItem extends AbstractCartPriceRuleItem
     /** @var Product */
     protected $product;
 
-    public function __construct(Product $product, $quantity)
+    public function __construct(Product $product, $quantity, UuidInterface $id = null)
     {
-        parent::__construct();
+        parent::__construct($id);
         $this->product = $product;
         $this->quantity = $quantity;
     }

@@ -4,33 +4,45 @@ namespace inklabs\kommerce\ActionHandler\CartPriceRule;
 use inklabs\kommerce\Action\CartPriceRule\ListCartPriceRulesQuery;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
-use inklabs\kommerce\Service\CartPriceRuleServiceInterface;
+use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
-final class ListCartPriceRulesHandler
+final class ListCartPriceRulesHandler implements QueryHandlerInterface
 {
-    /** @var CartPriceRuleServiceInterface */
-    private $cartPriceRuleService;
+    /** @var ListCartPriceRulesQuery */
+    private $query;
+
+    /** @var CartPriceRuleRepositoryInterface */
+    private $cartPriceRuleRepository;
 
     /** @var DTOBuilderFactoryInterface */
     private $dtoBuilderFactory;
 
     public function __construct(
-        CartPriceRuleServiceInterface $cartPriceRuleService,
+        ListCartPriceRulesQuery $query,
+        CartPriceRuleRepositoryInterface $cartPriceRuleRepository,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
-        $this->cartPriceRuleService = $cartPriceRuleService;
+        $this->query = $query;
+        $this->cartPriceRuleRepository = $cartPriceRuleRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function handle(ListCartPriceRulesQuery $query)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $request = $query->getRequest();
-        $response = $query->getResponse();
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $request = $this->query->getRequest();
+        $response = $this->query->getResponse();
 
         $paginationDTO = $request->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        $cartPriceRules = $this->cartPriceRuleService->getAllCartPriceRules($request->getQueryString(), $pagination);
+        $cartPriceRules = $this->cartPriceRuleRepository->getAllCartPriceRules($request->getQueryString(), $pagination);
 
         $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)

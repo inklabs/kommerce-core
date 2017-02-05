@@ -5,6 +5,7 @@ use inklabs\kommerce\Action\CartPriceRule\DeleteCartPriceRuleItemCommand;
 use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class DeleteCartPriceRuleItemHandlerTest extends ActionTestCase
@@ -26,14 +27,15 @@ class DeleteCartPriceRuleItemHandlerTest extends ActionTestCase
             $product,
             $cartPriceRuleItem,
         ]);
-
         $command = new DeleteCartPriceRuleItemCommand(
             $cartPriceRuleItem->getId()->getHex()
         );
 
-        $handler = new DeleteCartPriceRuleItemHandler(
-            $this->getRepositoryFactory()->getCartPriceRuleItemRepository()
+        $this->dispatchCommand($command);
+
+        $this->expectException(EntityNotFoundException::class);
+        $this->getRepositoryFactory()->getCartPriceRuleItemRepository()->findOneById(
+            $command->getCartPriceRuleItemId()
         );
-        $handler->handle($command);
     }
 }

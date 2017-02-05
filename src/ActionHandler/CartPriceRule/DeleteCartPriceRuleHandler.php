@@ -2,21 +2,36 @@
 namespace inklabs\kommerce\ActionHandler\CartPriceRule;
 
 use inklabs\kommerce\Action\CartPriceRule\DeleteCartPriceRuleCommand;
-use inklabs\kommerce\Service\CartPriceRuleServiceInterface;
+use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class DeleteCartPriceRuleHandler
+final class DeleteCartPriceRuleHandler implements CommandHandlerInterface
 {
-    /** @var CartPriceRuleServiceInterface */
-    protected $cartPriceRuleService;
+    /** @var DeleteCartPriceRuleCommand */
+    private $command;
 
-    public function __construct(CartPriceRuleServiceInterface $cartPriceRuleService)
-    {
-        $this->cartPriceRuleService = $cartPriceRuleService;
+    /** @var CartPriceRuleRepositoryInterface */
+    protected $cartPriceRuleRepository;
+
+    public function __construct(
+        DeleteCartPriceRuleCommand $command,
+        CartPriceRuleRepositoryInterface $cartPriceRuleRepository
+    ) {
+        $this->command = $command;
+        $this->cartPriceRuleRepository = $cartPriceRuleRepository;
     }
 
-    public function handle(DeleteCartPriceRuleCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $cartPriceRule = $this->cartPriceRuleService->findOneById($command->getCartPriceRuleId());
-        $this->cartPriceRuleService->delete($cartPriceRule);
+        $authorizationContext->verifyIsAdmin();
+    }
+
+    public function handle()
+    {
+        $cartPriceRule = $this->cartPriceRuleRepository->findOneById(
+            $this->command->getCartPriceRuleId()
+        );
+        $this->cartPriceRuleRepository->delete($cartPriceRule);
     }
 }

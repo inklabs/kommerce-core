@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,9 +15,9 @@ abstract class AbstractCartPriceRuleItem implements IdEntityInterface
     /** @var CartPriceRule */
     protected $cartPriceRule;
 
-    public function __construct()
+    public function __construct(UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
     }
 

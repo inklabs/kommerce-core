@@ -4,7 +4,6 @@ namespace inklabs\kommerce\tests\Helper\Service;
 use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
-use inklabs\kommerce\Service\CartPriceRuleServiceInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 use inklabs\kommerce\Service\ImageServiceInterface;
 use inklabs\kommerce\Service\Import\ImportOrderItemServiceInterface;
@@ -45,23 +44,6 @@ class MockService
     {
         $attachmentService = $this->getMockeryMock(AttachmentServiceInterface::class);
         return $attachmentService;
-    }
-
-    /**
-     * @return CartPriceRuleServiceInterface|Mockery\Mock
-     */
-    public function getCartPriceRuleService()
-    {
-        $cartPriceRule = $this->dummyData->getCartPriceRule();
-
-        $service = $this->getMockeryMock(CartPriceRuleServiceInterface::class);
-        $service->shouldReceive('findOneById')
-            ->andReturn($cartPriceRule);
-
-        $service->shouldReceive('getAllCartPriceRules')
-            ->andReturn([$cartPriceRule]);
-
-        return $service;
     }
 
     /**

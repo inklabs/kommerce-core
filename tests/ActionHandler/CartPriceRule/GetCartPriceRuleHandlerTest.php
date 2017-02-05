@@ -4,23 +4,25 @@ namespace inklabs\kommerce\ActionHandler\CartPriceRule;
 use inklabs\kommerce\Action\CartPriceRule\GetCartPriceRuleQuery;
 use inklabs\kommerce\Action\CartPriceRule\Query\GetCartPriceRuleRequest;
 use inklabs\kommerce\Action\CartPriceRule\Query\GetCartPriceRuleResponse;
-use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
+use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetCartPriceRuleHandlerTest extends ActionTestCase
 {
+     protected $metaDataClassNames = [
+        CartPriceRule::class,
+     ];
+
     public function testHandle()
     {
-        $coupon = $this->dummyData->getCartPriceRule();
-        $couponService = $this->mockService->getCartPriceRuleService();
-        $dtoBuilderFactory = $this->getDTOBuilderFactory();
+        $cartPriceRule = $this->dummyData->getCartPriceRule();
+        $this->persistEntityAndFlushClear($cartPriceRule);
+        $request = new GetCartPriceRuleRequest($cartPriceRule->getId()->getHex());
+        $response = new GetCartPriceRuleResponse();
+        $query = new GetCartPriceRuleQuery($request, $response);
 
-        $request = new GetCartPriceRuleRequest($coupon->getId()->getHex());
-        $response = new GetCartPriceRuleResponse;
+        $this->dispatchQuery($query);
 
-        $handler = new GetCartPriceRuleHandler($couponService, $dtoBuilderFactory);
-        $handler->handle(new GetCartPriceRuleQuery($request, $response));
-
-        $this->assertTrue($response->getCartPriceRuleDTO() instanceof CartPriceRuleDTO);
+        $this->assertEquals($cartPriceRule->getId(), $response->getCartPriceRuleDTO()->id);
     }
 }

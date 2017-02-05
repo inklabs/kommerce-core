@@ -97,14 +97,6 @@ class ServiceFactory
     }
 
     /**
-     * @return CartPriceRuleService
-     */
-    public function getCartPriceRule()
-    {
-        return new CartPriceRuleService($this->repositoryFactory->getCartPriceRuleRepository());
-    }
-
-    /**
      * @return FileManagerInterface
      */
     public function getFileManager()

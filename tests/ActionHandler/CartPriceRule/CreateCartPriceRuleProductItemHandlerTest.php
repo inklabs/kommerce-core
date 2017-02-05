@@ -23,7 +23,6 @@ class CreateCartPriceRuleProductItemHandlerTest extends ActionTestCase
             $cartPriceRule,
             $product,
         ]);
-
         $quantity = 1;
         $command = new CreateCartPriceRuleProductItemCommand(
             $cartPriceRule->getId()->getHex(),
@@ -31,11 +30,13 @@ class CreateCartPriceRuleProductItemHandlerTest extends ActionTestCase
             $quantity
         );
 
-        $repositoryFactory = $this->getRepositoryFactory();
-        $handler = new CreateCartPriceRuleProductItemHandler(
-            $repositoryFactory->getCartPriceRuleRepository(),
-            $repositoryFactory->getProductRepository()
+        $this->dispatchCommand($command);
+
+        $this->entityManager->clear();
+        $cartPriceRuleProductItem = $this->getRepositoryFactory()->getCartPriceRuleItemRepository()->findOneById(
+            $command->getCartPriceRuleProductItemId()
         );
-        $handler->handle($command);
+        $this->assertEntitiesEqual($product, $cartPriceRuleProductItem->getProduct());
+        $this->assertSame($quantity, $cartPriceRuleProductItem->getQuantity());
     }
 }
