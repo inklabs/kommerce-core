@@ -25,12 +25,6 @@ interface CartServiceInterface
 
     /**
      * @param UuidInterface $cartId
-     * @param UuidInterface $couponId
-     */
-    public function removeCoupon(UuidInterface $cartId, UuidInterface $couponId);
-
-    /**
-     * @param UuidInterface $cartId
      * @param string $ip4
      * @param UuidInterface|null $userId
      * @param string|null $sessionId
@@ -101,13 +95,6 @@ interface CartServiceInterface
 
     /**
      * @param UuidInterface $cartId
-     * @param string $sessionId
-     * @throws EntityNotFoundException
-     */
-    public function setSessionId(UuidInterface $cartId, $sessionId);
-
-    /**
-     * @param UuidInterface $cartId
      * @param string $shipmentRateExternalId
      * @param OrderAddressDTO $shippingAddressDTO
      */
@@ -116,10 +103,4 @@ interface CartServiceInterface
         $shipmentRateExternalId,
         OrderAddressDTO $shippingAddressDTO
     );
-
-    /**
-     * @param UuidInterface $cartId
-     * @param ShipmentRate $shipmentRate
-     */
-    public function setShipmentRate(UuidInterface $cartId, ShipmentRate $shipmentRate);
 }

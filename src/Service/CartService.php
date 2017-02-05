@@ -120,20 +120,6 @@ class CartService implements CartServiceInterface
 
     /**
      * @param UuidInterface $cartId
-     * @param UuidInterface $couponId
-     */
-    public function removeCoupon(UuidInterface $cartId, UuidInterface $couponId)
-    {
-        $cart = $this->cartRepository->findOneById($cartId);
-        $coupon = $this->couponRepository->findOneById($couponId);
-
-        $cart->removeCoupon($coupon);
-
-        $this->cartRepository->update($cart);
-    }
-
-    /**
-     * @param UuidInterface $cartId
      * @param string $ip4
      * @param UuidInterface|null $userId
      * @param string|null $sessionId
@@ -347,20 +333,6 @@ class CartService implements CartServiceInterface
 
     /**
      * @param UuidInterface $cartId
-     * @param string $sessionId
-     * @throws EntityNotFoundException
-     */
-    public function setSessionId(UuidInterface $cartId, $sessionId)
-    {
-        $cart = $this->cartRepository->findOneById($cartId);
-
-        $cart->setSessionId($sessionId);
-
-        $this->cartRepository->update($cart);
-    }
-
-    /**
-     * @param UuidInterface $cartId
      * @param string $shipmentRateExternalId
      * @param OrderAddressDTO $shippingAddressDTO
      */
@@ -385,17 +357,6 @@ class CartService implements CartServiceInterface
 
         $cart->setTaxRate($taxRate);
 
-        $this->cartRepository->update($cart);
-    }
-
-    /**
-     * @param UuidInterface $cartId
-     * @param ShipmentRate $shipmentRate
-     */
-    public function setShipmentRate(UuidInterface $cartId, ShipmentRate $shipmentRate)
-    {
-        $cart = $this->cartRepository->findOneById($cartId);
-        $cart->setShipmentRate($shipmentRate);
         $this->cartRepository->update($cart);
     }
 }

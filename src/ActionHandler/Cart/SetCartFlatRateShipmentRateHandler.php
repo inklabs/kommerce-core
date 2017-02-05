@@ -4,29 +4,41 @@ namespace inklabs\kommerce\ActionHandler\Cart;
 use inklabs\kommerce\Action\Cart\SetCartFlatRateShipmentRateCommand;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\ShipmentRate;
-use inklabs\kommerce\Service\CartServiceInterface;
+use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class SetCartFlatRateShipmentRateHandler
+final class SetCartFlatRateShipmentRateHandler implements CommandHandlerInterface
 {
-    /** @var CartServiceInterface */
-    private $cartService;
+    /** @var SetCartFlatRateShipmentRateCommand */
+    private $command;
 
-    public function __construct(CartServiceInterface $cartService)
-    {
-        $this->cartService = $cartService;
+    /** @var CartRepositoryInterface */
+    private $cartRepository;
+
+    public function __construct(
+        SetCartFlatRateShipmentRateCommand $command,
+        CartRepositoryInterface $cartRepository
+    ) {
+        $this->command = $command;
+        $this->cartRepository = $cartRepository;
     }
 
-    public function handle(SetCartFlatRateShipmentRateCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $moneyDTO = $command->getMoneyDTO();
+        $authorizationContext->verifyCanManageCart($this->command->getCartId());
+    }
+
+    public function handle()
+    {
+        $moneyDTO = $this->command->getMoneyDTO();
         $shipmentRate = new ShipmentRate(new Money(
             $moneyDTO->amount,
             $moneyDTO->currency
         ));
 
-        $this->cartService->setShipmentRate(
-            $command->getCartId(),
-            $shipmentRate
-        );
+        $cart = $this->cartRepository->findOneById($this->command->getCartId());
+        $cart->setShipmentRate($shipmentRate);
+        $this->cartRepository->update($cart);
     }
 }

@@ -37,6 +37,7 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
     const RATE_EXTERNAL_ID = 'rate_xxxxxxxxx';
     const USER_AGENT = 'UserAgent String';
     const COUPON_CODE = 'coupon123';
+    const ONE_DOLLAR = 100;
     const CURRENCY = 'USD';
     const USERS_CSV_FILENAME = __DIR__ . '/../../_files/CSVIterator/users.csv';
     const ORDERS_CSV_FILENAME = __DIR__ . '/../../_files/CSVIterator/orders.csv';

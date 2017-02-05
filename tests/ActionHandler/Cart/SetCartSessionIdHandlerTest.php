@@ -2,25 +2,40 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\SetCartSessionIdCommand;
+use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\CartItem;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class SetCartSessionIdHandlerTest extends ActionTestCase
 {
+    protected $metaDataClassNames = [
+        Cart::class,
+        CartItem::class,
+        Product::class,
+        User::class,
+        TaxRate::class,
+    ];
+
     public function testHandle()
     {
-        $cartService = $this->mockService->getCartService();
-        $cartService->shouldReceive('setSessionId')
-            ->once();
-
-        $cartId = self::UUID_HEX;
+        $cart = $this->dummyData->getCart();
+        $this->persistEntityAndFlushClear([
+            $cart,
+        ]);
         $sessionId = self::SESSION_ID;
-
         $command = new SetCartSessionIdCommand(
-            $cartId,
+            $cart->getId()->getHex(),
             $sessionId
         );
 
-        $handler = new SetCartSessionIdHandler($cartService);
-        $handler->handle($command);
+        $this->dispatchCommand($command);
+
+        $cart = $this->getRepositoryFactory()->getCartRepository()->findOneById(
+            $cart->getId()
+        );
+        $this->assertSame($sessionId, $cart->getSessionId());
     }
 }

@@ -150,21 +150,6 @@ class CartServiceTest extends ServiceTestCase
         $this->assertEntitiesEqual($coupon, $coupons[0]);
     }
 
-    public function testRemoveCoupon()
-    {
-        $coupon = $this->dummyData->getCoupon();
-        $cart = $this->getCartThatRepositoryWillFind();
-        $cart->addCoupon($coupon);
-        $this->cartRepositoryShouldUpdateOnce($cart);
-        $this->couponRepository->shouldReceive('findOneById')
-            ->with($coupon->getId())
-            ->andReturn($coupon);
-
-        $this->cartService->removeCoupon($cart->getId(), $coupon->getId());
-
-        $this->assertCount(0, $cart->getCoupons());
-    }
-
     public function testCreateWithSession()
     {
         $this->cartRepositoryShouldCreateOnce();
@@ -419,16 +404,6 @@ class CartServiceTest extends ServiceTestCase
         $this->assertSame($user, $cart->getUser());
     }
 
-    public function testSetSessionId()
-    {
-        $cart = $this->getCartThatRepositoryWillFind();
-        $this->cartRepositoryShouldUpdateOnce($cart);
-
-        $this->cartService->setSessionId($cart->getId(), self::SESSION_ID);
-
-        $this->assertSame(self::SESSION_ID, $cart->getSessionId());
-    }
-
     public function testSetExternalShipmentRate()
     {
         $cart = $this->getCartThatRepositoryWillFind();
@@ -451,17 +426,6 @@ class CartServiceTest extends ServiceTestCase
 
         $this->assertSame(self::SHIPMENT_RATE_EXTERNAL_ID, $cart->getShipmentRate()->getShipmentExternalId());
         $this->assertSame(self::ZIP5, $cart->getShippingAddress()->getZip5());
-    }
-
-    public function testSetShipmentRate()
-    {
-        $shipmentRate = $this->dummyData->getShipmentRate();
-        $cart = $this->getCartThatRepositoryWillFind();
-        $this->cartRepositoryShouldUpdateOnce($cart);
-
-        $this->cartService->setShipmentRate($cart->getId(), $shipmentRate);
-
-        $this->assertSame($shipmentRate, $cart->getShipmentRate());
     }
 
     /**
