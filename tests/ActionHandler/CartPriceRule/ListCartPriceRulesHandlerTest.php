@@ -11,9 +11,9 @@ use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class ListCartPriceRulesHandlerTest extends ActionTestCase
 {
-     protected $metaDataClassNames = [
+    protected $metaDataClassNames = [
         CartPriceRule::class,
-     ];
+    ];
 
     public function testHandle()
     {

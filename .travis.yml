@@ -11,3 +11,9 @@ before_script:
 script:
   - vendor/bin/phpcs --standard=PSR2 src/ tests/
   - vendor/bin/phpunit -c phpunit.xml
+
+notifications:
+  slack:
+    secure: JhidGAi6sIGT7kt9O3RbukRp5QlO0QvsS/4o4P6P8LkhQ37sIy7KMt2XRAO0+f0aMGbdctqfI7l+9AR1hqv1qYHcKL3eCfyDDNzeJOv5hsT+/9sAPg7vsXyPkPi67TUflwPPqBZ2BXgkGkHVC2J4k3hIr87cQLj402la3h4u5OI=
+    on_success: change
+    on_failure: always

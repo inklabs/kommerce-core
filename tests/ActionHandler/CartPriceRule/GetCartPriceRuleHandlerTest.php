@@ -9,9 +9,9 @@ use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetCartPriceRuleHandlerTest extends ActionTestCase
 {
-     protected $metaDataClassNames = [
+    protected $metaDataClassNames = [
         CartPriceRule::class,
-     ];
+    ];
 
     public function testHandle()
     {
