@@ -54,8 +54,7 @@ class MapperTest extends ActionTestCase
                 $action = $reflection->newInstanceWithoutConstructor();
 
                 $handler = $this->mapper->getHandler($handlerClassName, $action);
-                // TODO: Add when #98 is complete
-                //$this->assertTrue($handler instanceof HandlerInterface);
+                $this->assertTrue($handler instanceof HandlerInterface);
             }
         }
     }

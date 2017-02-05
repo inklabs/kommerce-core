@@ -84,7 +84,7 @@ class Mapper implements MapperInterface
 
     /**
      * @param string $handlerClassName
-     * @param ActionInterface|CommandInterface|QueryInterface $action TODO: Switch to ActionInterface after #98
+     * @param ActionInterface
      * @return null|object
      */
     public function getHandler($handlerClassName, $action)
@@ -95,9 +95,7 @@ class Mapper implements MapperInterface
         $constructor = $reflection->getConstructor();
         if ($constructor !== null) {
             foreach ($constructor->getParameters() as $key => $parameter) {
-                // TODO: Switch back when #98 is complete
-                // if ($key === 0 && $action instanceof ActionInterface) {
-                if ($key === 0 && $parameter->getClass()->isSubclassOf(ActionInterface::class)) {
+                if ($key === 0 && $action instanceof ActionInterface) {
                     $constructorParameters[] = $action;
                     continue;
                 }

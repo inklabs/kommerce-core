@@ -35,14 +35,9 @@ class CommandBus implements CommandBusInterface
     public function execute(CommandInterface $command)
     {
         $handler = $this->mapper->getCommandHandler($command);
-        if ($handler instanceof HandlerInterface) {
-            $handler->verifyAuthorization($this->authorizationContext);
-            $handler->handle();
-            $this->dispatchEvents($handler);
-        } else {
-            // TODO: Remove when #98 is complete
-            $handler->handle($command);
-        }
+        $handler->verifyAuthorization($this->authorizationContext);
+        $handler->handle();
+        $this->dispatchEvents($handler);
     }
 
     private function dispatchEvents(HandlerInterface $handler)

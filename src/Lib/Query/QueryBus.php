@@ -28,12 +28,7 @@ class QueryBus implements QueryBusInterface
     public function execute(QueryInterface $query)
     {
         $handler = $this->mapper->getQueryHandler($query);
-        if ($handler instanceof HandlerInterface) {
-            $handler->verifyAuthorization($this->authorizationContext);
-            $handler->handle();
-        } else {
-            // TODO: Remove when #98 is complete
-            $handler->handle($query);
-        }
+        $handler->verifyAuthorization($this->authorizationContext);
+        $handler->handle();
     }
 }
