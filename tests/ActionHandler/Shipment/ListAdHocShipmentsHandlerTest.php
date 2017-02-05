@@ -23,8 +23,9 @@ class ListAdHocShipmentsHandlerTest extends ActionTestCase
         $queryString = 'UPS';
         $request = new ListAdHocShipmentsRequest($queryString, new PaginationDTO());
         $response = new ListAdHocShipmentsResponse();
+        $query = new ListAdHocShipmentsQuery($request, $response);
 
-        $this->dispatchQuery(new ListAdHocShipmentsQuery($request, $response));
+        $this->dispatchQuery($query);
 
         $this->assertTrue($response->getShipmentTrackerDTOs()[0] instanceof ShipmentTrackerDTO);
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);

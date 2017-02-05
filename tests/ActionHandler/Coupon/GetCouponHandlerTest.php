@@ -19,8 +19,9 @@ class GetCouponHandlerTest extends ActionTestCase
         $this->persistEntityAndFlushClear($coupon);
         $request = new GetCouponRequest($coupon->getId()->getHex());
         $response = new GetCouponResponse();
+        $query = new GetCouponQuery($request, $response);
 
-        $this->dispatchQuery(new GetCouponQuery($request, $response));
+        $this->dispatchQuery($query);
 
         $this->assertEquals($coupon->getId(), $response->getCouponDTO()->id);
     }

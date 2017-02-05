@@ -19,8 +19,9 @@ class GetAttributeHandlerTest extends ActionTestCase
         $this->persistEntityAndFlushClear($attribute);
         $request = new GetAttributeRequest($attribute->getId()->getHex());
         $response = new GetAttributeResponse();
+        $query = new GetAttributeQuery($request, $response);
 
-        $this->dispatchQuery(new GetAttributeQuery($request, $response));
+        $this->dispatchQuery($query);
 
         $this->assertEquals($attribute->getId(), $response->getAttributeDTO()->id);
     }

@@ -26,8 +26,9 @@ class ListUsersHandlerTest extends ActionTestCase
         $queryString = 'john';
         $request = new ListUsersRequest($queryString, new PaginationDTO);
         $response = new ListUsersResponse();
+        $query = new ListUsersQuery($request, $response);
 
-        $this->dispatchQuery(new ListUsersQuery($request, $response));
+        $this->dispatchQuery($query);
 
         $expectedEntities = [
             $user1,

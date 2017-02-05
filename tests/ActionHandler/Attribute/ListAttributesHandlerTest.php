@@ -22,8 +22,9 @@ class ListAttributesHandlerTest extends ActionTestCase
         $queryString = 'PCT';
         $request = new ListAttributesRequest($queryString, new PaginationDTO());
         $response = new ListAttributesResponse();
+        $query = new ListAttributesQuery($request, $response);
 
-        $this->dispatchQuery(new ListAttributesQuery($request, $response));
+        $this->dispatchQuery($query);
 
         $this->assertEntitiesInDTOList([$attribute], $response->getAttributeDTOs());
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);

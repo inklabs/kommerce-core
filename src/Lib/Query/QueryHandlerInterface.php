@@ -5,5 +5,4 @@ use inklabs\kommerce\Lib\HandlerInterface;
 
 interface QueryHandlerInterface extends HandlerInterface
 {
-    public function handle();
 }
