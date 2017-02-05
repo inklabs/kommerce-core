@@ -11,7 +11,6 @@ use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
 use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\OrderStatusType;
-use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\ShipmentCarrierType;
 use inklabs\kommerce\Entity\ShipmentComment;
@@ -76,19 +75,6 @@ class OrderService implements OrderServiceInterface
     {
         $this->orderRepository->update($order);
         $this->eventDispatcher->dispatchEvents($order->releaseEvents());
-    }
-
-    public function getOrderItemById(UuidInterface $id)
-    {
-        $orderItem = $this->orderItemRepository->findOneById($id);
-        $this->loadProductTagsFromOrderItem($orderItem);
-        return $orderItem;
-    }
-
-    private function loadProductTagsFromOrderItem(OrderItem $orderItem)
-    {
-        $products = [$orderItem->getProduct()];
-        $this->productRepository->loadProductTags($products);
     }
 
     public function buyShipmentLabel(

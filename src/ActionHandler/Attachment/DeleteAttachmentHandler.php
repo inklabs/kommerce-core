@@ -2,24 +2,24 @@
 namespace inklabs\kommerce\ActionHandler\Attachment;
 
 use inklabs\kommerce\Action\Attachment\DeleteAttachmentCommand;
+use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
 use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
-use inklabs\kommerce\Service\AttachmentServiceInterface;
 
 class DeleteAttachmentHandler implements CommandHandlerInterface
 {
     /** @var DeleteAttachmentCommand */
     private $command;
 
-    /** @var AttachmentServiceInterface */
-    private $attachmentService;
+    /** @var AttachmentRepositoryInterface */
+    private $attachmentRepository;
 
     public function __construct(
         DeleteAttachmentCommand $command,
-        AttachmentServiceInterface $attachmentService
+        AttachmentRepositoryInterface $attachmentRepository
     ) {
         $this->command = $command;
-        $this->attachmentService = $attachmentService;
+        $this->attachmentRepository = $attachmentRepository;
     }
 
     public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
@@ -29,9 +29,9 @@ class DeleteAttachmentHandler implements CommandHandlerInterface
 
     public function handle()
     {
-        $attachment = $this->attachmentService->getOneById(
+        $attachment = $this->attachmentRepository->findOneById(
             $this->command->getAttachmentId()
         );
-        $this->attachmentService->delete($attachment);
+        $this->attachmentRepository->delete($attachment);
     }
 }

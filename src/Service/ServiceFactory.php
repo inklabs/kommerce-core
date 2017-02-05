@@ -64,9 +64,9 @@ class ServiceFactory
         return new AttachmentService(
             $this->repositoryFactory->getAttachmentRepository(),
             $this->getFileManager(),
-            $this->getOrder(),
-            $this->getProduct(),
-            $this->getUser()
+            $this->repositoryFactory->getOrderItemRepository(),
+            $this->repositoryFactory->getProductRepository(),
+            $this->repositoryFactory->getUserRepository()
         );
     }
 
@@ -185,31 +185,11 @@ class ServiceFactory
     }
 
     /**
-     * @return ProductService
-     */
-    public function getProduct()
-    {
-        return new ProductService(
-            $this->repositoryFactory->getProductRepository(),
-            $this->repositoryFactory->getTagRepository(),
-            $this->repositoryFactory->getImageRepository()
-        );
-    }
-
-    /**
      * @return ShipmentGatewayInterface
      */
     public function getShipmentGateway()
     {
         return $this->shipmentGateway;
-    }
-
-    /**
-     * @return TaxRateService
-     */
-    public function getTaxRate()
-    {
-        return new TaxRateService($this->repositoryFactory->getTaxRateRepository());
     }
 
     /**

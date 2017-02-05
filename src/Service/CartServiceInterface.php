@@ -3,11 +3,8 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
-use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\InputDTO\TextOptionValueDTO;
 use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\Exception\InvalidCartActionException;
-use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\UuidInterface;
@@ -20,8 +17,6 @@ interface CartServiceInterface
      * @throws EntityNotFoundException
      */
     public function addCouponByCode(UuidInterface $cartId, $couponCode);
-
-    public function getCoupons(UuidInterface $cartId);
 
     /**
      * @param UuidInterface $cartId

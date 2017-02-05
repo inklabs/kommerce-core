@@ -5,7 +5,9 @@ use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\UserProductAttachment;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
-use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
+use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 
@@ -19,52 +21,27 @@ class AttachmentService implements AttachmentServiceInterface
     /** @var FileManagerInterface */
     private $fileManager;
 
-    /** @var OrderServiceInterface */
-    private $orderService;
+    /** @var OrderItemRepositoryInterface */
+    private $orderItemRepository;
 
-    /** @var ProductServiceInterface */
-    private $productService;
+    /** @var ProductRepositoryInterface */
+    private $productRepository;
 
-    /** @var UserServiceInterface */
-    private $userService;
+    /** @var UserRepositoryInterface */
+    private $userRepository;
 
     public function __construct(
         AttachmentRepositoryInterface $attachmentRepository,
         FileManagerInterface $fileManager,
-        OrderServiceInterface $orderService,
-        ProductServiceInterface $productService,
-        UserServiceInterface $userService
+        OrderItemRepositoryInterface $orderItemRepository,
+        ProductRepositoryInterface $productRepository,
+        UserRepositoryInterface $userRepository
     ) {
         $this->attachmentRepository = $attachmentRepository;
         $this->fileManager = $fileManager;
-        $this->orderService = $orderService;
-        $this->productService = $productService;
-        $this->userService = $userService;
-    }
-
-    public function create(Attachment & $attachment)
-    {
-        $this->attachmentRepository->create($attachment);
-    }
-
-    public function update(Attachment & $attachment)
-    {
-        $this->attachmentRepository->update($attachment);
-    }
-
-    public function delete(Attachment $attachment)
-    {
-        $this->attachmentRepository->delete($attachment);
-    }
-
-    /**
-     * @param UuidInterface $attachmentId
-     * @return Attachment
-     * @throws EntityNotFoundException
-     */
-    public function getOneById(UuidInterface $attachmentId)
-    {
-        return $this->attachmentRepository->findOneById($attachmentId);
+        $this->orderItemRepository = $orderItemRepository;
+        $this->productRepository = $productRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -74,13 +51,13 @@ class AttachmentService implements AttachmentServiceInterface
      */
     public function createAttachmentForOrderItem(UploadFileDTO $uploadFileDTO, UuidInterface $orderItemId)
     {
-        $orderItem = $this->orderService->getOrderItemById($orderItemId);
+        $orderItem = $this->orderItemRepository->findOneById($orderItemId);
         $order = $orderItem->getOrder();
 
         $attachment = $this->createAttachment($uploadFileDTO);
 
         $orderItem->addAttachment($attachment);
-        $this->orderService->update($order);
+        $this->orderItemRepository->update($order);
     }
 
     /**
@@ -94,8 +71,8 @@ class AttachmentService implements AttachmentServiceInterface
         UuidInterface $userId,
         UuidInterface $productId
     ) {
-        $user = $this->userService->findOneById($userId);
-        $product = $this->productService->findOneById($productId);
+        $user = $this->userRepository->findOneById($userId);
+        $product = $this->productRepository->findOneById($productId);
 
         $attachment = $this->createAttachment($uploadFileDTO);
 

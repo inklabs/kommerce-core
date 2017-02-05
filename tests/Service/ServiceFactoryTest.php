@@ -27,8 +27,6 @@ class ServiceFactoryTest extends ServiceTestCase
         $this->assertTrue($serviceFactory->getImportPayment() instanceof ImportPaymentService);
         $this->assertTrue($serviceFactory->getImportUser() instanceof ImportUserService);
         $this->assertTrue($serviceFactory->getOrder() instanceof OrderService);
-        $this->assertTrue($serviceFactory->getProduct() instanceof ProductService);
-        $this->assertTrue($serviceFactory->getTaxRate() instanceof TaxRateService);
         $this->assertTrue($serviceFactory->getUser() instanceof UserService);
     }
 }

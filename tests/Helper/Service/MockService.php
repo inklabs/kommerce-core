@@ -12,8 +12,6 @@ use inklabs\kommerce\Service\Import\ImportPaymentServiceInterface;
 use inklabs\kommerce\Service\Import\ImportUserServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
-use inklabs\kommerce\Service\ProductServiceInterface;
-use inklabs\kommerce\Service\TaxRateServiceInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 use Mockery;
@@ -152,26 +150,6 @@ class MockService
     }
 
     /**
-     * @return ProductServiceInterface|Mockery\Mock
-     */
-    public function getProductService()
-    {
-        $product = $this->dummyData->getProduct();
-
-        $service = $this->getMockeryMock(ProductServiceInterface::class);
-        $service->shouldReceive('findOneById')
-            ->andReturn($product);
-
-        $service->shouldReceive('getRelatedProductsByIds')
-            ->andReturn([$product]);
-
-        $service->shouldReceive('getAllProducts')
-            ->andReturn([$product]);
-
-        return $service;
-    }
-
-    /**
      * @return ShipmentGatewayInterface|Mockery\Mock
      */
     public function getShipmentGateway()
@@ -183,25 +161,6 @@ class MockService
             ->andReturn([$shipmentRate]);
 
         return $shipmentGateway;
-    }
-
-    /**
-     * @return TaxRateServiceInterface|Mockery\Mock
-     */
-    public function getTaxRateService()
-    {
-        $taxRate = $this->dummyData->getTaxRate();
-        $service = $this->getMockeryMock(TaxRateServiceInterface::class);
-        $service->shouldReceive('findOneById')
-            ->andReturn($taxRate);
-
-        $service->shouldReceive('findByZip5AndState')
-            ->andReturn($taxRate);
-
-        $service->shouldReceive('findAll')
-            ->andReturn([$taxRate]);
-
-        return $service;
     }
 
     /**

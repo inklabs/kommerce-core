@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Cart;
-use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\InputDTO\TextOptionValueDTO;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
@@ -121,33 +120,6 @@ class CartServiceTest extends ServiceTestCase
             $this->userRepository,
             $this->inventoryService
         );
-    }
-
-    public function testAddCouponByCode()
-    {
-        $cart = $this->getCartThatRepositoryWillFind();
-        $this->cartRepositoryShouldUpdateOnce($cart);
-
-        $coupon = $this->dummyData->getCoupon('20PCT');
-        $this->couponRepository->shouldReceive('findOneByCode')
-            ->with($coupon->getCode())
-            ->andReturn($coupon)
-            ->once();
-
-        $this->cartService->addCouponByCode($cart->getId(), $coupon->getCode());
-
-        $this->assertEntitiesEqual($coupon, $cart->getCoupons()[0]);
-    }
-
-    public function testGetCoupons()
-    {
-        $coupon = $this->dummyData->getCoupon();
-        $cart = $this->getCartThatRepositoryWillFind();
-        $cart->addCoupon($coupon);
-
-        $coupons = $this->cartService->getCoupons($cart->getId());
-
-        $this->assertEntitiesEqual($coupon, $coupons[0]);
     }
 
     public function testCreateWithSession()

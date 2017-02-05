@@ -19,13 +19,6 @@ interface OrderServiceInterface
     public function update(Order & $order);
 
     /**
-     * @param UuidInterface $id
-     * @return OrderItem
-     * @throws EntityNotFoundException
-     */
-    public function getOrderItemById(UuidInterface $id);
-
-    /**
      * @param UuidInterface $orderId
      * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
      * @param string $comment

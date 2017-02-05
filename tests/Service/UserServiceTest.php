@@ -46,45 +46,6 @@ class UserServiceTest extends ServiceTestCase
         );
     }
 
-    public function testCRUD()
-    {
-        $this->executeServiceCRUD(
-            $this->userService,
-            $this->userRepository,
-            $this->dummyData->getUser()
-        );
-    }
-
-    public function testFindOneByEmail()
-    {
-        $user1 = $this->dummyData->getUser();
-        $this->userRepository->shouldReceive('findOneByEmail')
-            ->with($user1->getEmail())
-            ->andReturn($user1)
-            ->once();
-
-        $user = $this->userService->findOneByEmail(
-            $user1->getEmail()
-        );
-
-        $this->assertEntitiesEqual($user1, $user);
-    }
-
-    public function testAllGetUsersByIds()
-    {
-        $user1 = $this->dummyData->getUser();
-        $this->userRepository->shouldReceive('getAllUsersByIds')
-            ->with([$user1->getId()], null)
-            ->andReturn([$user1])
-            ->once();
-
-        $users = $this->userService->getAllUsersByIds([
-            $user1->getId()
-        ]);
-
-        $this->assertEntitiesEqual($user1, $users[0]);
-    }
-
     public function testLoginWithTokenThrowsExceptionWhenUserNotFound()
     {
         $this->userRepository->shouldReceive('findOneByEmail')

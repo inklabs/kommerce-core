@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
+use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
 use inklabs\kommerce\EntityRepository\AttributeValueRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CartPriceRuleDiscountRepositoryInterface;
@@ -39,9 +40,7 @@ use inklabs\kommerce\Service\Import\ImportPaymentServiceInterface;
 use inklabs\kommerce\Service\Import\ImportUserServiceInterface;
 use inklabs\kommerce\Service\InventoryServiceInterface;
 use inklabs\kommerce\Service\OrderServiceInterface;
-use inklabs\kommerce\Service\ProductServiceInterface;
 use inklabs\kommerce\Service\ServiceFactory;
-use inklabs\kommerce\Service\TaxRateServiceInterface;
 use inklabs\kommerce\Service\UserServiceInterface;
 use ReflectionClass;
 
@@ -104,7 +103,9 @@ class Mapper implements MapperInterface
                 }
 
                 $parameterClassName = $parameter->getClass()->getName();
-                if ($parameterClassName === AttributeRepositoryInterface::class) {
+                if ($parameterClassName === AttachmentRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getAttachmentRepository();
+                } elseif ($parameterClassName === AttributeRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getAttributeRepository();
                 } elseif ($parameterClassName === AttributeValueRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getAttributeValueRepository();
@@ -174,12 +175,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->serviceFactory->getImageService();
                 } elseif ($parameterClassName === OrderServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getOrder();
-                } elseif ($parameterClassName === ProductServiceInterface::class) {
-                    $constructorParameters[] = $this->serviceFactory->getProduct();
                 } elseif ($parameterClassName === ShipmentGatewayInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getShipmentGateway();
-                } elseif ($parameterClassName === TaxRateServiceInterface::class) {
-                    $constructorParameters[] = $this->serviceFactory->getTaxRate();
                 } elseif ($parameterClassName === UserServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getUser();
                 }

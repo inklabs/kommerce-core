@@ -9,7 +9,6 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\Entity\UserToken;
-use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
 class GetUserByEmailHandlerTest extends ActionTestCase

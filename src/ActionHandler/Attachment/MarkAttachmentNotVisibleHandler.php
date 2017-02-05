@@ -2,24 +2,24 @@
 namespace inklabs\kommerce\ActionHandler\Attachment;
 
 use inklabs\kommerce\Action\Attachment\MarkAttachmentNotVisibleCommand;
+use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
 use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
-use inklabs\kommerce\Service\AttachmentServiceInterface;
 
 class MarkAttachmentNotVisibleHandler implements CommandHandlerInterface
 {
     /** @var MarkAttachmentNotVisibleCommand */
     private $command;
 
-    /** @var AttachmentServiceInterface */
-    private $attachmentService;
+    /** @var AttachmentRepositoryInterface */
+    private $attachmentRepository;
 
     public function __construct(
         MarkAttachmentNotVisibleCommand $command,
-        AttachmentServiceInterface $attachmentService
+        AttachmentRepositoryInterface $attachmentRepository
     ) {
         $this->command = $command;
-        $this->attachmentService = $attachmentService;
+        $this->attachmentRepository = $attachmentRepository;
     }
 
     public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
@@ -29,11 +29,11 @@ class MarkAttachmentNotVisibleHandler implements CommandHandlerInterface
 
     public function handle()
     {
-        $attachment = $this->attachmentService->getOneById(
+        $attachment = $this->attachmentRepository->findOneById(
             $this->command->getAttachmentId()
         );
         $attachment->setNotVisible();
 
-        $this->attachmentService->update($attachment);
+        $this->attachmentRepository->update($attachment);
     }
 }

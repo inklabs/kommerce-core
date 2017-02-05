@@ -130,18 +130,6 @@ class OrderServiceTest extends ServiceTestCase
         );
     }
 
-    public function testGetOrderItem()
-    {
-        $order1 = $this->getPersistedOrderWith2Items();
-        $orderItem1 = $order1->getOrderItems()[0];
-
-        $orderItem = $this->orderService->getOrderItemById(
-            $orderItem1->getId()
-        );
-
-        $this->assertEntitiesEqual($orderItem1, $orderItem);
-    }
-
     public function testOrderMarkedAsShippedWhen2PartialShipmentsAreFullyShipped()
     {
         $order1 = $this->getPersistedOrderWith2Items();

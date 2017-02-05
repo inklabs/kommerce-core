@@ -7,13 +7,11 @@ use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\CartItemOptionProduct;
 use inklabs\kommerce\Entity\CartItemOptionValue;
 use inklabs\kommerce\Entity\CartItemTextOptionValue;
-use inklabs\kommerce\Entity\ShipmentRate;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\EntityDTO\Builder\OrderAddressDTOBuilder;
 use inklabs\kommerce\InputDTO\TextOptionValueDTO;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\Exception\InvalidArgumentException;
-use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
@@ -26,7 +24,6 @@ use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
-use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
 class CartService implements CartServiceInterface
@@ -110,12 +107,6 @@ class CartService implements CartServiceInterface
         $cart->addCoupon($coupon);
 
         $this->cartRepository->update($cart);
-    }
-
-    public function getCoupons(UuidInterface $cartId)
-    {
-        $cart = $this->cartRepository->findOneById($cartId);
-        return $cart->getCoupons();
     }
 
     /**

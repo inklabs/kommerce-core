@@ -1,23 +1,11 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
-use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\UuidInterface;
 
 interface AttachmentServiceInterface
 {
-    public function update(Attachment & $attachment);
-    public function delete(Attachment $attachment);
-
-    /**
-     * @param UuidInterface $attachmentId
-     * @return Attachment
-     * @throws EntityNotFoundException
-     */
-    public function getOneById(UuidInterface $attachmentId);
-
     /**
      * @param UploadFileDTO $uploadFileDTO
      * @param UuidInterface $orderItemId

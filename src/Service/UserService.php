@@ -1,22 +1,16 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use DateTime;
-use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserLogin;
 use inklabs\kommerce\Entity\UserLoginResultType;
 use inklabs\kommerce\Entity\UserToken;
-use inklabs\kommerce\Entity\UserTokenType;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\UserLoginRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
-use inklabs\kommerce\Event\ResetPasswordEvent;
 use inklabs\kommerce\Exception\UserLoginException;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
-use inklabs\kommerce\Lib\UserPasswordValidator;
-use inklabs\kommerce\Lib\UuidInterface;
 
 class UserService implements UserServiceInterface
 {
@@ -46,23 +40,6 @@ class UserService implements UserServiceInterface
         $this->userLoginRepository = $userLoginRepository;
         $this->userTokenRepository = $userTokenRepository;
         $this->eventDispatcher = $eventDispatcher;
-    }
-
-    public function create(User & $user)
-    {
-        $this->userRepository->create($user);
-    }
-
-    public function createUserToken(UserToken & $userToken)
-    {
-        $this->userTokenRepository->create($userToken);
-        $this->eventDispatcher->dispatchEvents($userToken->releaseEvents());
-    }
-
-    public function update(User & $user)
-    {
-        $this->userRepository->update($user);
-        $this->eventDispatcher->dispatchEvents($user->releaseEvents());
     }
 
     public function login($email, $password, $remoteIp)
@@ -121,21 +98,6 @@ class UserService implements UserServiceInterface
     ) {
         $userLogin = new UserLogin($result, $email, $ip4, $user, $userToken);
         $this->userLoginRepository->create($userLogin);
-    }
-
-    public function findOneById(UuidInterface $id)
-    {
-        return $this->userRepository->findOneById($id);
-    }
-
-    public function findOneByEmail($email)
-    {
-        return $this->userRepository->findOneByemail($email);
-    }
-
-    public function getAllUsersByIds($userIds, Pagination & $pagination = null)
-    {
-        return $this->userRepository->getAllUsersByIds($userIds, $pagination);
     }
 
     /**
