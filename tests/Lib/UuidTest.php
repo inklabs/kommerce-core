@@ -88,6 +88,7 @@ class UuidTest extends EntityTestCase
         $uuid2->unserialize($serializedString);
 
         $this->assertTrue($uuid1->equals($uuid2));
+        $this->assertTrue($uuid2->equals($uuid1));
     }
 
     public function testFromBytes()

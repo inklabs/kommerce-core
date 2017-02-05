@@ -133,7 +133,7 @@ class Uuid implements UuidInterface, Matcher
 
     public function unserialize($serialized)
     {
-        $this->ramseyUuid = self::fromString($serialized);
+        $this->ramseyUuid = RamseyUuid::fromString($serialized);
     }
 
     public function matches($item)
