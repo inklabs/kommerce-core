@@ -11,6 +11,11 @@ class AlwaysAuthorizedForTestingAuthorizationContext implements AuthorizationCon
         return;
     }
 
+    public function verifyCanManageCart(UuidInterface $cartId)
+    {
+        return;
+    }
+
     public function verifyCanManageUser(UuidInterface $userId)
     {
         return;

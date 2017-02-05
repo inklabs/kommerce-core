@@ -11,6 +11,12 @@ interface AuthorizationContextInterface
     public function verifyCanMakeRequests();
 
     /**
+     * @param UuidInterface $cartId
+     * @throws AuthorizationContextException
+     */
+    public function verifyCanManageCart(UuidInterface $cartId);
+
+    /**
      * @param UuidInterface $userId
      * @throws AuthorizationContextException
      */

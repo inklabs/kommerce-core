@@ -98,24 +98,6 @@ class CartService implements CartServiceInterface
     }
 
     /**
-     * @param string $sessionId
-     * @return Cart
-     */
-    public function findBySession($sessionId)
-    {
-        return $this->cartRepository->findOneBySession($sessionId);
-    }
-
-    /**
-     * @param UuidInterface $userId
-     * @return Cart
-     */
-    public function findByUser(UuidInterface $userId)
-    {
-        return $this->cartRepository->findOneByUserId($userId);
-    }
-
-    /**
      * @param UuidInterface $cartId
      * @param string $couponCode
      * @throws EntityNotFoundException
@@ -134,11 +116,6 @@ class CartService implements CartServiceInterface
     {
         $cart = $this->cartRepository->findOneById($cartId);
         return $cart->getCoupons();
-    }
-
-    public function delete(Cart $cart)
-    {
-        $this->cartRepository->delete($cart);
     }
 
     public function removeCart(UuidInterface $cartId)
@@ -349,16 +326,6 @@ class CartService implements CartServiceInterface
         $cart->deleteCartItem($cartItem);
 
         $this->cartRepository->update($cart);
-    }
-
-    /**
-     * @param UuidInterface $cartId
-     * @return Cart
-     * @throws EntityNotFoundException
-     */
-    public function findOneById(UuidInterface $cartId)
-    {
-        return $this->cartRepository->findOneById($cartId);
     }
 
     public function setTaxRate(UuidInterface $cartId, TaxRate $taxRate = null)

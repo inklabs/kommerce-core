@@ -15,18 +15,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 interface CartServiceInterface
 {
     /**
-     * @param string $sessionId
-     * @return Cart
-     */
-    public function findBySession($sessionId);
-
-    /**
-     * @param UuidInterface $userId
-     * @return Cart
-     */
-    public function findByUser(UuidInterface $userId);
-
-    /**
      * @param UuidInterface $cartId
      * @param string $couponCode
      * @throws EntityNotFoundException
@@ -34,8 +22,6 @@ interface CartServiceInterface
     public function addCouponByCode(UuidInterface $cartId, $couponCode);
 
     public function getCoupons(UuidInterface $cartId);
-
-    public function delete(Cart $cart);
 
     /**
      * @param UuidInterface $cartId
@@ -108,13 +94,6 @@ interface CartServiceInterface
      * @throws EntityNotFoundException
      */
     public function deleteItem(UuidInterface $cartItemId);
-
-    /**
-     * @param UuidInterface $cartId
-     * @return Cart
-     * @throws EntityNotFoundException
-     */
-    public function findOneById(UuidInterface $cartId);
 
     public function setTaxRate(UuidInterface $cartId, TaxRate $taxRate = null);
 

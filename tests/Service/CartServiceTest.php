@@ -123,36 +123,6 @@ class CartServiceTest extends ServiceTestCase
         );
     }
 
-    public function testFindOneByUser()
-    {
-        $user = $this->dummyData->getUser();
-        $cart1 = $this->dummyData->getCart();
-
-        $this->cartRepository
-            ->shouldReceive('findOneByUserId')
-            ->with($user->getId())
-            ->andReturn($cart1);
-
-        $cart = $this->cartService->findByUser(
-            $user->getId()
-        );
-
-        $this->assertEntitiesEqual($cart1, $cart);
-    }
-
-    public function testFindOneBySession()
-    {
-        $cart1 = $this->dummyData->getCart();
-        $this->cartRepository
-            ->shouldReceive('findOneBySession')
-            ->with(self::SESSION_ID)
-            ->andReturn($cart1);
-
-        $cart = $this->cartService->findBySession(self::SESSION_ID);
-
-        $this->assertEntitiesEqual($cart1, $cart);
-    }
-
     public function testAddCouponByCode()
     {
         $cart = $this->getCartThatRepositoryWillFind();
@@ -431,12 +401,6 @@ class CartServiceTest extends ServiceTestCase
 
         $this->assertCount(0, $cart->getCartItems());
         $this->assertSame(null, $cart->getShipmentRate());
-    }
-
-    public function testFindOneById()
-    {
-        $cart = $this->getCartThatRepositoryWillFind();
-        $this->assertSame($cart, $this->cartService->findOneById($cart->getId()));
     }
 
     public function testSetTaxRate()

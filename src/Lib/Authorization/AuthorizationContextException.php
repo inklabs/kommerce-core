@@ -11,6 +11,11 @@ class AuthorizationContextException extends KommerceException
         parent::__construct($message, $code, $previous);
     }
 
+    public static function cartAccessDenied()
+    {
+        return new self('Access denied to cart');
+    }
+
     public static function userAccessDenied()
     {
         return new self('Access denied to user');
