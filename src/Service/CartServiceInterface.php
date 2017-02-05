@@ -72,26 +72,9 @@ interface CartServiceInterface
 
     /**
      * @param UuidInterface $cartItemId
-     * @param int $quantity
-     * @throws EntityNotFoundException
-     * @throws InvalidCartActionException
-     */
-    public function updateItemQuantity(UuidInterface $cartItemId, $quantity);
-
-    /**
-     * @param UuidInterface $cartItemId
      * @throws EntityNotFoundException
      */
     public function deleteItem(UuidInterface $cartItemId);
-
-    public function setTaxRate(UuidInterface $cartId, TaxRate $taxRate = null);
-
-    /**
-     * @param UuidInterface $cartId
-     * @param UuidInterface $userId
-     * @throws EntityNotFoundException
-     */
-    public function setUserById(UuidInterface $cartId, UuidInterface $userId);
 
     /**
      * @param UuidInterface $cartId

@@ -336,28 +336,6 @@ class CartServiceTest extends ServiceTestCase
         $this->assertEquals($cartItem1->getQuantity(), $cartItem->getQuantity());
     }
 
-    public function testUpdateItemQuantity()
-    {
-        $cartItem = $this->dummyData->getCartItem();
-        $cart = $this->dummyData->getCart([$cartItem]);
-        $cart->setShipmentRate($this->dummyData->getShipmentRate());
-
-        $this->cartRepository->shouldReceive('getItemById')
-            ->with($cartItem->getId())
-            ->andReturn($cartItem)
-            ->once();
-
-        $this->cartRepositoryShouldUpdateOnce($cart);
-
-        $cartItem = $cart->getCartItems()[0];
-        $quantity = 2;
-
-        $this->cartService->updateItemQuantity($cartItem->getId(), $quantity);
-
-        $this->assertSame($quantity, $cartItem->getQuantity());
-        $this->assertSame(null, $cart->getShipmentRate());
-    }
-
     public function testDeleteItem()
     {
         $cartItem = $this->dummyData->getCartItem();
@@ -375,33 +353,6 @@ class CartServiceTest extends ServiceTestCase
 
         $this->assertCount(0, $cart->getCartItems());
         $this->assertSame(null, $cart->getShipmentRate());
-    }
-
-    public function testSetTaxRate()
-    {
-        $cart = $this->getCartThatRepositoryWillFind();
-        $taxRate = $this->dummyData->getTaxRate();
-        $this->cartRepositoryShouldUpdateOnce($cart);
-
-        $this->cartService->setTaxRate($cart->getId(), $taxRate);
-
-        $this->assertSame($taxRate, $cart->getTaxRate());
-    }
-
-    public function testSetUserById()
-    {
-        $user = $this->dummyData->getUser();
-        $this->userRepository->shouldReceive('findOneById')
-            ->with($user->getId())
-            ->andReturn($user)
-            ->once();
-
-        $cart = $this->getCartThatRepositoryWillFind();
-        $this->cartRepositoryShouldUpdateOnce($cart);
-
-        $this->cartService->setUserById($cart->getId(), $user->getId());
-
-        $this->assertSame($user, $cart->getUser());
     }
 
     public function testSetExternalShipmentRate()

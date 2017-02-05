@@ -2,33 +2,47 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\SetCartTaxRateByZip5AndStateCommand;
-use inklabs\kommerce\Service\CartServiceInterface;
-use inklabs\kommerce\Service\TaxRateServiceInterface;
+use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
+use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class SetCartTaxRateByZip5AndStateHandler
+final class SetCartTaxRateByZip5AndStateHandler implements CommandHandlerInterface
 {
-    /** @var CartServiceInterface */
-    private $cartService;
+    /** @var SetCartTaxRateByZip5AndStateCommand */
+    private $command;
 
-    /** @var TaxRateServiceInterface */
-    private $taxRateService;
+    /** @var CartRepositoryInterface */
+    private $cartRepository;
 
-    public function __construct(CartServiceInterface $cartService, TaxRateServiceInterface $taxRateService)
-    {
-        $this->cartService = $cartService;
-        $this->taxRateService = $taxRateService;
+    /** @var TaxRateRepositoryInterface */
+    private $taxRateRepository;
+
+    public function __construct(
+        SetCartTaxRateByZip5AndStateCommand $command,
+        CartRepositoryInterface $cartRepository,
+        TaxRateRepositoryInterface $taxRateRepository
+    ) {
+        $this->command = $command;
+        $this->cartRepository = $cartRepository;
+        $this->taxRateRepository = $taxRateRepository;
     }
 
-    public function handle(SetCartTaxRateByZip5AndStateCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $taxRate = $this->taxRateService->findByZip5AndState(
-            $command->getZip5(),
-            $command->getState()
+        $authorizationContext->verifyCanManageCart($this->command->getCartId());
+    }
+
+    public function handle()
+    {
+        $taxRate = $this->taxRateRepository->findByZip5AndState(
+            $this->command->getZip5(),
+            $this->command->getState()
         );
 
-        $this->cartService->setTaxRate(
-            $command->getCartId(),
-            $taxRate
-        );
+        $cart = $this->cartRepository->findOneById($this->command->getCartId());
+        $cart->setTaxRate($taxRate);
+
+        $this->cartRepository->update($cart);
     }
 }

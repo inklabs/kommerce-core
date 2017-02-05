@@ -8,24 +8,24 @@ use inklabs\kommerce\Lib\UuidInterface;
 final class UpdateCartItemQuantityCommand implements CommandInterface
 {
     /** @var UuidInterface */
-    private $cartId;
+    private $cartItemId;
 
     /** @var string */
     private $quantity;
 
     /**
-     * @param string $cartId
+     * @param string $cartItemId
      * @param int $quantity
      */
-    public function __construct($cartId, $quantity)
+    public function __construct($cartItemId, $quantity)
     {
-        $this->cartId = Uuid::fromString($cartId);
+        $this->cartItemId = Uuid::fromString($cartItemId);
         $this->quantity = (int) $quantity;
     }
 
-    public function getCartId()
+    public function getCarItemtId()
     {
-        return $this->cartId;
+        return $this->cartItemId;
     }
 
     public function getQuantity()

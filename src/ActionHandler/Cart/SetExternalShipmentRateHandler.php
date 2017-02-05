@@ -2,24 +2,37 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\SetExternalShipmentRateCommand;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Service\CartServiceInterface;
 
-final class SetExternalShipmentRateHandler
+final class SetExternalShipmentRateHandler implements CommandHandlerInterface
 {
+    /** @var SetExternalShipmentRateCommand */
+    private $command;
+
     /** @var CartServiceInterface */
     private $cartService;
 
-    public function __construct(CartServiceInterface $cartService)
-    {
+    public function __construct(
+        SetExternalShipmentRateCommand $command,
+        CartServiceInterface $cartService
+    ) {
+        $this->command = $command;
         $this->cartService = $cartService;
     }
 
-    public function handle(SetExternalShipmentRateCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    {
+        $authorizationContext->verifyCanManageCart($this->command->getCartId());
+    }
+
+    public function handle()
     {
         $this->cartService->setExternalShipmentRate(
-            $command->getCartId(),
-            $command->getShipmentRateExternalId(),
-            $command->getShippingAddressDTO()
+            $this->command->getCartId(),
+            $this->command->getShipmentRateExternalId(),
+            $this->command->getShippingAddressDTO()
         );
     }
 }

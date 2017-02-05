@@ -280,22 +280,6 @@ class CartService implements CartServiceInterface
 
     /**
      * @param UuidInterface $cartItemId
-     * @param int $quantity
-     * @throws EntityNotFoundException
-     */
-    public function updateItemQuantity(UuidInterface $cartItemId, $quantity)
-    {
-        $cartItem = $this->cartRepository->getItemById($cartItemId);
-        $cartItem->setQuantity($quantity);
-
-        $cart = $cartItem->getCart();
-        $cart->setShipmentRate(null);
-
-        $this->cartRepository->update($cart);
-    }
-
-    /**
-     * @param UuidInterface $cartItemId
      * @throws EntityNotFoundException
      */
     public function deleteItem(UuidInterface $cartItemId)
@@ -304,29 +288,6 @@ class CartService implements CartServiceInterface
         $cart = $cartItem->getCart();
         $cart->setShipmentRate(null);
         $cart->deleteCartItem($cartItem);
-
-        $this->cartRepository->update($cart);
-    }
-
-    public function setTaxRate(UuidInterface $cartId, TaxRate $taxRate = null)
-    {
-        $cart = $this->cartRepository->findOneById($cartId);
-        $cart->setTaxRate($taxRate);
-
-        $this->cartRepository->update($cart);
-    }
-
-    /**
-     * @param UuidInterface $cartId
-     * @param UuidInterface $userId
-     * @throws EntityNotFoundException
-     */
-    public function setUserById(UuidInterface $cartId, UuidInterface $userId)
-    {
-        $user = $this->userRepository->findOneById($userId);
-        $cart = $this->cartRepository->findOneById($cartId);
-
-        $cart->setUser($user);
 
         $this->cartRepository->update($cart);
     }

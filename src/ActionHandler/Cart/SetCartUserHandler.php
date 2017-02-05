@@ -2,23 +2,43 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\SetCartUserCommand;
-use inklabs\kommerce\Service\CartServiceInterface;
+use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
+use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-final class SetCartUserHandler
+final class SetCartUserHandler implements CommandHandlerInterface
 {
-    /** @var CartServiceInterface */
-    private $cartService;
+    /** @var SetCartUserCommand */
+    private $command;
 
-    public function __construct(CartServiceInterface $cartService)
-    {
-        $this->cartService = $cartService;
+    /** @var CartRepositoryInterface */
+    private $cartRepository;
+
+    /** @var UserRepositoryInterface */
+    private $userRepository;
+
+    public function __construct(
+        SetCartUserCommand $command,
+        CartRepositoryInterface $cartRepository,
+        UserRepositoryInterface $userRepository
+    ) {
+        $this->command = $command;
+        $this->cartRepository = $cartRepository;
+        $this->userRepository = $userRepository;
     }
 
-    public function handle(SetCartUserCommand $command)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $this->cartService->setUserById(
-            $command->getCartId(),
-            $command->getUserId()
-        );
+        $authorizationContext->verifyCanManageCart($this->command->getCartId());
+    }
+
+    public function handle()
+    {
+        $user = $this->userRepository->findOneById($this->command->getUserId());
+        $cart = $this->cartRepository->findOneById($this->command->getCartId());
+        $cart->setUser($user);
+
+        $this->cartRepository->update($cart);
     }
 }
