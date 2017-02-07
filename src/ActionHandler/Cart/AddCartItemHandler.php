@@ -24,7 +24,7 @@ final class AddCartItemHandler implements CommandHandlerInterface
 
     public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $authorizationContext->verifyIsAdmin();
+        $authorizationContext->verifyCanManageCart($this->command->getCartId());
     }
 
     public function handle()

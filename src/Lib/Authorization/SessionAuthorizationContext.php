@@ -1,31 +1,44 @@
 <?php
 namespace inklabs\kommerce\Lib\Authorization;
 
-use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
+use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 
 class SessionAuthorizationContext implements AuthorizationContextInterface
 {
-    /** @var UuidInterface */
+    /** @var CartRepositoryInterface */
+    private $cartRepository;
+
+    /** @var OrderRepositoryInterface */
+    private $orderRepository;
+
+    /** @var null|UuidInterface */
     private $userId;
 
-    /** @var string */
+    /** @var null|string */
     private $sessionId;
 
     /** @var bool */
     private $isAdmin;
 
     /**
+     * @param CartRepositoryInterface $cartRepository
+     * @param OrderRepositoryInterface $orderRepository
+     * @param null|string $sessionId
      * @param UuidInterface $userId
      * @param bool $isAdmin
      */
-    public function __construct(UuidInterface $userId = null, $isAdmin = true)
-    {
-        if ($userId === null) {
-            // TODO: Remove and pass correct user
-            $userId = Uuid::uuid4();
-        }
-
+    public function __construct(
+        CartRepositoryInterface $cartRepository,
+        OrderRepositoryInterface $orderRepository,
+        $sessionId = null,
+        UuidInterface $userId = null,
+        $isAdmin = false
+    ) {
+        $this->cartRepository = $cartRepository;
+        $this->orderRepository = $orderRepository;
+        $this->sessionId = $sessionId;
         $this->userId = $userId;
         $this->isAdmin = $isAdmin;
     }
@@ -37,7 +50,20 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
 
     public function verifyCanManageCart(UuidInterface $cartId)
     {
-        // TODO: Validate user can access cart via userId or sessionId
+        $cart = $this->cartRepository->findOneById(
+            $cartId
+        );
+        $cartUser = $cart->getUser();
+        $cartSessionId = $cart->getSessionId();
+
+        if ($this->userId !== null && $cartUser !== null && $this->userId->equals($cart->getUser()->getId())) {
+            return;
+        }
+
+        if ($this->sessionId !== null && $cartSessionId !== null && $this->sessionId === $cartSessionId) {
+            return;
+        }
+
         if (! $this->isAdmin()) {
             throw AuthorizationContextException::cartAccessDenied();
         }
@@ -45,10 +71,12 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
 
     public function verifyCanManageUser(UuidInterface $userId)
     {
-        if (! $this->userId->equals($userId)) {
-            if (! $this->isAdmin()) {
-                throw AuthorizationContextException::userAccessDenied();
-            }
+        if ($this->userId !== null && $this->userId->equals($userId)) {
+            return;
+        }
+
+        if (! $this->isAdmin()) {
+            throw AuthorizationContextException::userAccessDenied();
         }
     }
 
@@ -62,7 +90,12 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
 
     public function verifyCanViewOrder(UuidInterface $orderId)
     {
-        // TODO: Validate user can access order
+        $order = $this->orderRepository->findOneById($orderId);
+
+        if ($this->userId !== null && $this->userId->equals($order->getUser()->getId())) {
+            return;
+        }
+
         if (! $this->isAdmin()) {
             throw AuthorizationContextException::accessDenied();
         }

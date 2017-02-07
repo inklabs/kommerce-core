@@ -30,7 +30,9 @@ final class GetOrdersByUserHandler implements QueryHandlerInterface
 
     public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $authorizationContext->verifyCanManageUser($this->query->getRequest()->getUserId());
+        $authorizationContext->verifyCanManageUser(
+            $this->query->getRequest()->getUserId()
+        );
     }
 
     public function handle()

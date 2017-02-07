@@ -24,7 +24,7 @@ final class CreateCartHandler implements CommandHandlerInterface
 
     public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $authorizationContext->verifyIsAdmin();
+        $authorizationContext->verifyCanMakeRequests();
     }
 
     public function handle()
