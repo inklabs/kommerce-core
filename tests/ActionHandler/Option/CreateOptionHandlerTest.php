@@ -3,6 +3,7 @@ namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\CreateOptionCommand;
 use inklabs\kommerce\Entity\Option;
+use inklabs\kommerce\Entity\OptionType;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
@@ -15,10 +16,16 @@ class CreateOptionHandlerTest extends ActionTestCase
 
     public function testHandle()
     {
-        $optionDTO = $this->getDTOBuilderFactory()
-            ->getOptionDTOBuilder($this->dummyData->getOption())
-            ->build();
-        $command = new CreateOptionCommand($optionDTO);
+        $name = 'new name';
+        $description = 'new description';
+        $sortOrder = 5;
+        $optionTypeSlug = OptionType::checkbox()->getSlug();
+        $command = new CreateOptionCommand(
+            $name,
+            $description,
+            $sortOrder,
+            $optionTypeSlug
+        );
 
         $this->dispatchCommand($command);
 
@@ -26,7 +33,9 @@ class CreateOptionHandlerTest extends ActionTestCase
         $option = $this->getRepositoryFactory()->getOptionRepository()->findOneById(
             $command->getOptionId()
         );
-        $this->assertSame($optionDTO->name, $option->getName());
-        // TODO: Test more attributes
+        $this->assertSame($name, $option->getName());
+        $this->assertSame($description, $option->getDescription());
+        $this->assertSame($sortOrder, $option->getSortOrder());
+        $this->assertSame($optionTypeSlug, $option->getType()->getSlug());
     }
 }

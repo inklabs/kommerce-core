@@ -30,9 +30,12 @@ final class UpdateOptionHandler implements CommandHandlerInterface
 
     public function handle()
     {
-        $optionDTO = $this->command->getOptionDTO();
-        $option = $this->optionRepository->findOneById($optionDTO->id);
-        OptionDTOBuilder::setFromDTO($option, $optionDTO);
+        $option = $this->optionRepository->findOneById($this->command->getOptionId());
+
+        $option->setName($this->command->getName());
+        $option->setDescription($this->command->getDescription());
+        $option->setSortOrder($this->command->getSortOrder());
+        $option->setType($this->command->getOptionType());
 
         $this->optionRepository->update($option);
     }
