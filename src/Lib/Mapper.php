@@ -28,6 +28,7 @@ use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
+use inklabs\kommerce\EntityRepository\WarehouseRepositoryInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
@@ -151,6 +152,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getUserRepository();
                 } elseif ($parameterClassName === UserTokenRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getUserTokenRepository();
+                } elseif ($parameterClassName === WarehouseRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getWarehouseRepository();
                 } elseif ($parameterClassName === AttachmentServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getAttachmentService();
                 } elseif ($parameterClassName === CartCalculatorInterface::class) {

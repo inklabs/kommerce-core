@@ -18,4 +18,25 @@ class WarehouseRepository extends AbstractRepository implements WarehouseReposit
             ->getQuery()
             ->getResult();
     }
+
+    public function getAllWarehouses($queryString = null, Pagination & $pagination = null)
+    {
+        $query = $this->getQueryBuilder()
+            ->select('Warehouse')
+            ->from(Warehouse::class, 'Warehouse');
+
+        if (trim($queryString) !== '') {
+            $query->andWhere(
+                'Warehouse.name LIKE :query' .
+                ' OR Warehouse.address.attention LIKE :query' .
+                ' OR Warehouse.address.company LIKE :query' .
+                ' OR Warehouse.address.zip5 LIKE :query'
+            )->setParameter('query', '%' . $queryString . '%');
+        }
+
+        return $query
+            ->paginate($pagination)
+            ->getQuery()
+            ->getResult();
+    }
 }

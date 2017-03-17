@@ -18,4 +18,6 @@ interface WarehouseRepositoryInterface extends RepositoryInterface
      * @return Warehouse[]
      */
     public function findByPoint(Point $point, $rangeInMiles = 50, Pagination & $pagination = null);
+
+    public function getAllWarehouses($queryString = null, Pagination & $pagination = null);
 }
