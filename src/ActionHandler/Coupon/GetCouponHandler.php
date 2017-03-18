@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Coupon;
 
 use inklabs\kommerce\Action\Coupon\GetCouponQuery;
+use inklabs\kommerce\ActionResponse\Coupon\GetCouponResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
@@ -35,12 +36,16 @@ final class GetCouponHandler implements QueryHandlerInterface
 
     public function handle()
     {
+        $resposne = new GetCouponResponse();
+
         $coupon = $this->couponRepository->findOneById(
-            $this->query->getRequest()->getCouponId()
+            $this->query->getCouponId()
         );
 
-        $this->query->getResponse()->setCouponDTOBuilder(
+        $resposne->setCouponDTOBuilder(
             $this->dtoBuilderFactory->getCouponDTOBuilder($coupon)
         );
+
+        return $resposne;
     }
 }

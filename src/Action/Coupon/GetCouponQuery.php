@@ -1,37 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\Coupon;
 
-use inklabs\kommerce\Action\Coupon\Query\GetCouponRequest;
-use inklabs\kommerce\Action\Coupon\Query\GetCouponResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
-class GetCouponQuery implements QueryInterface
+final class GetCouponQuery implements QueryInterface
 {
-    /** @var GetCouponRequest */
-    private $request;
-
-    /** @var GetCouponResponseInterface */
-    private $response;
-
-    public function __construct(GetCouponRequest $request, GetCouponResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var UuidInterface */
+    private $couponId;
 
     /**
-     * @return GetCouponRequest
+     * @param string $couponId
      */
-    public function getRequest()
+    public function __construct($couponId)
     {
-        return $this->request;
+        $this->couponId = Uuid::fromString($couponId);
     }
 
-    /**
-     * @return GetCouponResponseInterface
-     */
-    public function getResponse()
+    public function getCouponId()
     {
-        return $this->response;
+        return $this->couponId;
     }
 }
