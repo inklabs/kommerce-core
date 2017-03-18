@@ -1,37 +1,34 @@
 <?php
 namespace inklabs\kommerce\Action\Attribute;
 
-use inklabs\kommerce\Action\Attribute\Query\ListAttributesRequest;
-use inklabs\kommerce\Action\Attribute\Query\ListAttributesResponseInterface;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
-class ListAttributesQuery implements QueryInterface
+final class ListAttributesQuery implements QueryInterface
 {
-    /** @var ListAttributesRequest */
-    private $request;
+    /** @var string */
+    private $queryString;
 
-    /** @var ListAttributesResponseInterface */
-    private $response;
-
-    public function __construct(ListAttributesRequest $request, ListAttributesResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var PaginationDTO */
+    private $paginationDTO;
 
     /**
-     * @return ListAttributesRequest
+     * @param string $queryString
+     * @param PaginationDTO $paginationDTO
      */
-    public function getRequest()
+    public function __construct($queryString, PaginationDTO $paginationDTO)
     {
-        return $this->request;
+        $this->queryString = (string) $queryString;
+        $this->paginationDTO = $paginationDTO;
     }
 
-    /**
-     * @return ListAttributesResponseInterface
-     */
-    public function getResponse()
+    public function getQueryString()
     {
-        return $this->response;
+        return $this->queryString;
+    }
+
+    public function getPaginationDTO()
+    {
+        return $this->paginationDTO;
     }
 }

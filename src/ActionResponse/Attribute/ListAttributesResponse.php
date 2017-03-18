@@ -1,12 +1,12 @@
 <?php
-namespace inklabs\kommerce\Action\Attribute\Query;
+namespace inklabs\kommerce\ActionResponse\Attribute;
 
 use inklabs\kommerce\EntityDTO\Builder\AttributeDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 
-class ListAttributesResponse implements ListAttributesResponseInterface
+class ListAttributesResponse
 {
     /** @var AttributeDTOBuilder[] */
     protected $attributeDTOBuilders = [];

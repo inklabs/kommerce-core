@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Attribute;
 
 use inklabs\kommerce\Action\Attribute\ListAttributesQuery;
-use inklabs\kommerce\Action\Attribute\Query\ListAttributesRequest;
-use inklabs\kommerce\Action\Attribute\Query\ListAttributesResponse;
+use inklabs\kommerce\ActionResponse\Attribute\ListAttributesResponse;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
@@ -20,11 +19,10 @@ class ListAttributesHandlerTest extends ActionTestCase
         $attribute->setName('xxxPCTxxx');
         $this->persistEntityAndFlushClear($attribute);
         $queryString = 'PCT';
-        $request = new ListAttributesRequest($queryString, new PaginationDTO());
-        $response = new ListAttributesResponse();
-        $query = new ListAttributesQuery($request, $response);
+        $query = new ListAttributesQuery($queryString, new PaginationDTO());
 
-        $this->dispatchQuery($query);
+        /** @var ListAttributesResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $this->assertEntitiesInDTOList([$attribute], $response->getAttributeDTOs());
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
