@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\User;
 
 use inklabs\kommerce\Action\User\GetUserByEmailQuery;
+use inklabs\kommerce\ActionResponse\User\GetUserByEmailResponse;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
@@ -41,16 +42,20 @@ final class GetUserByEmailHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $this->query->getResponse()->setUserDTOBuilder(
+        $response = new GetUserByEmailResponse();
+
+        $response->setUserDTOBuilder(
             $this->dtoBuilderFactory->getUserDTOBuilder($this->getUser())
         );
+
+        return $response;
     }
 
     private function getUser()
     {
         if ($this->user === null) {
             $this->user = $this->userRepository->findOneByEmail(
-                $this->query->getRequest()->getEmail()
+                $this->query->getEmail()
             );
         }
         return $this->user;

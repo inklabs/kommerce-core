@@ -1,37 +1,23 @@
 <?php
 namespace inklabs\kommerce\Action\User;
 
-use inklabs\kommerce\Action\User\Query\GetUserByEmailRequest;
-use inklabs\kommerce\Action\User\Query\GetUserByEmailResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
-class GetUserByEmailQuery implements QueryInterface
+final class GetUserByEmailQuery implements QueryInterface
 {
-    /** @var GetUserByEmailRequest */
-    private $request;
-
-    /** @var GetUserByEmailResponseInterface */
-    private $response;
-
-    public function __construct(GetUserByEmailRequest $request, GetUserByEmailResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var string */
+    private $email;
 
     /**
-     * @return GetUserByEmailRequest
+     * @param string $email
      */
-    public function getRequest()
+    public function __construct($email)
     {
-        return $this->request;
+        $this->email = (string) $email;
     }
 
-    /**
-     * @return GetUserByEmailResponseInterface
-     */
-    public function getResponse()
+    public function getEmail()
     {
-        return $this->response;
+        return $this->email;
     }
 }
