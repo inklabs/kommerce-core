@@ -1,37 +1,34 @@
 <?php
 namespace inklabs\kommerce\Action\User;
 
-use inklabs\kommerce\Action\User\Query\ListUsersRequest;
-use inklabs\kommerce\Action\User\Query\ListUsersResponseInterface;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
 final class ListUsersQuery implements QueryInterface
 {
-    /** @var ListUsersRequest */
-    private $request;
+    /** @var string */
+    private $queryString;
 
-    /** @var ListUsersResponseInterface */
-    private $response;
-
-    public function __construct(ListUsersRequest $request, ListUsersResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var PaginationDTO */
+    private $paginationDTO;
 
     /**
-     * @return ListUsersRequest
+     * @param string $queryString
+     * @param PaginationDTO $paginationDTO
      */
-    public function getRequest()
+    public function __construct($queryString, PaginationDTO $paginationDTO)
     {
-        return $this->request;
+        $this->queryString = (string) $queryString;
+        $this->paginationDTO = $paginationDTO;
     }
 
-    /**
-     * @return ListUsersResponseInterface
-     */
-    public function getResponse()
+    public function getQueryString()
     {
-        return $this->response;
+        return $this->queryString;
+    }
+
+    public function getPaginationDTO()
+    {
+        return $this->paginationDTO;
     }
 }

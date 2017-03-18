@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\User;
 
 use inklabs\kommerce\Action\User\ListUsersQuery;
+use inklabs\kommerce\ActionResponse\User\ListUsersResponse;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
@@ -36,22 +37,26 @@ final class ListUsersHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $paginationDTO = $this->query->getRequest()->getPaginationDTO();
+        $response = new ListUsersResponse();
+
+        $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
         $users = $this->userRepository->getAllUsers(
-            $this->query->getRequest()->getQueryString(),
+            $this->query->getQueryString(),
             $pagination
         );
 
-        $this->query->getResponse()->setPaginationDTOBuilder(
+        $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
         );
 
         foreach ($users as $user) {
-            $this->query->getResponse()->addUserDTOBuilder(
+            $response->addUserDTOBuilder(
                 $this->dtoBuilderFactory->getUserDTOBuilder($user)
             );
         }
+
+        return $response;
     }
 }
