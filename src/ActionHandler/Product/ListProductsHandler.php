@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\ListProductsQuery;
+use inklabs\kommerce\ActionResponse\Product\ListProductsResponse;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
@@ -36,22 +37,26 @@ final class ListProductsHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $paginationDTO = $this->query->getRequest()->getPaginationDTO();
+        $response = new ListProductsResponse();
+
+        $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
         $tags = $this->productRepository->getAllProducts(
-            $this->query->getRequest()->getQueryString(),
+            $this->query->getQueryString(),
             $pagination
         );
 
-        $this->query->getResponse()->setPaginationDTOBuilder(
+        $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
         );
 
         foreach ($tags as $tag) {
-            $this->query->getResponse()->addProductDTOBuilder(
+            $response->addProductDTOBuilder(
                 $this->dtoBuilderFactory->getProductDTOBuilder($tag)
             );
         }
+
+        return $response;
     }
 }
