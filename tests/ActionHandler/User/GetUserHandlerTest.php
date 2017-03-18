@@ -2,8 +2,6 @@
 namespace inklabs\kommerce\ActionHandler\User;
 
 use inklabs\kommerce\Action\User\GetUserQuery;
-use inklabs\kommerce\Action\User\Query\GetUserRequest;
-use inklabs\kommerce\Action\User\Query\GetUserResponse;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserRole;
@@ -23,14 +21,12 @@ class GetUserHandlerTest extends ActionTestCase
     {
         $user = $this->dummyData->getUser();
         $this->persistEntityAndFlushClear($user);
-        $request = new GetUserRequest($user->getId()->getHex());
-        $response = new GetUserResponse();
-        $query = new GetUserQuery($request, $response);
+        $query = new GetUserQuery($user->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        $response = $this->dispatchQuery($query);
         $this->assertSame($user->getId()->getHex(), $response->getUserDTO()->id->getHex());
 
-        $this->dispatchQuery($query);
+        $response = $this->dispatchQuery($query);
         $this->assertSame($user->getId()->getHex(), $response->getUserDTOWithRolesAndTokens()->id->getHex());
     }
 }
