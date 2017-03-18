@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\GetOptionQuery;
-use inklabs\kommerce\Action\Option\Query\GetOptionRequest;
-use inklabs\kommerce\Action\Option\Query\GetOptionResponse;
+use inklabs\kommerce\ActionResponse\Option\GetOptionResponse;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\OptionValue;
@@ -25,14 +24,13 @@ class GetOptionHandlerTest extends ActionTestCase
     {
         $option = $this->dummyData->getOption();
         $this->persistEntityAndFlushClear($option);
-        $request = new GetOptionRequest($option->getId()->getHex());
-        $response = new GetOptionResponse($this->getPricing());
-        $query = new GetOptionQuery($request, $response);
+        $query = new GetOptionQuery($option->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        /** @var GetOptionResponse $response */
+        $response = $this->dispatchQuery($query);
         $this->assertEquals($option->getId(), $response->getOptionDTO()->id);
 
-        $this->dispatchQuery($query);
+        $response = $this->dispatchQuery($query);
         $this->assertEquals($option->getId(), $response->getOptionDTOWithAllData()->id);
     }
 }
