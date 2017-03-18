@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\ListProductsQuery;
-use inklabs\kommerce\Action\Product\Query\ListProductsRequest;
-use inklabs\kommerce\Action\Product\Query\ListProductsResponse;
+use inklabs\kommerce\ActionResponse\Product\ListProductsResponse;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
@@ -25,11 +24,10 @@ class ListProductsHandlerTest extends ActionTestCase
             $product2,
         ]);
         $queryString = 'product';
-        $request = new ListProductsRequest($queryString, new PaginationDTO());
-        $response = new ListProductsResponse();
-        $query = new ListProductsQuery($request, $response);
+        $query = new ListProductsQuery($queryString, new PaginationDTO());
 
-        $this->dispatchQuery($query);
+        /** @var ListProductsResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $this->assertEntitiesInDTOList([$product1, $product2], $response->getProductDTOs());
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
