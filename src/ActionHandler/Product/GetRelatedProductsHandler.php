@@ -2,15 +2,20 @@
 namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\GetRelatedProductsQuery;
+use inklabs\kommerce\ActionResponse\Product\GetRelatedProductsResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
 final class GetRelatedProductsHandler implements QueryHandlerInterface
 {
     /** @var GetRelatedProductsQuery */
     private $query;
+
+    /** @var PricingInterface */
+    private $pricing;
 
     /** @var ProductRepositoryInterface */
     private $productRepository;
@@ -20,10 +25,12 @@ final class GetRelatedProductsHandler implements QueryHandlerInterface
 
     public function __construct(
         GetRelatedProductsQuery $query,
+        PricingInterface $pricing,
         ProductRepositoryInterface $productRepository,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
         $this->query = $query;
+        $this->pricing = $pricing;
         $this->productRepository = $productRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
@@ -35,15 +42,19 @@ final class GetRelatedProductsHandler implements QueryHandlerInterface
 
     public function handle()
     {
+        $response = new GetRelatedProductsResponse($this->pricing);
+
         $products = $this->productRepository->getRelatedProductsByIds(
-            $this->query->getRequest()->getProductIds(),
-            $this->query->getRequest()->getLimit()
+            $this->query->getProductIds(),
+            $this->query->getLimit()
         );
 
         foreach ($products as $product) {
-            $this->query->getResponse()->addProductDTOBuilder(
+            $response->addProductDTOBuilder(
                 $this->dtoBuilderFactory->getProductDTOBuilder($product)
             );
         }
+
+        return $response;
     }
 }

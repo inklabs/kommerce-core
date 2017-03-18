@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\GetRelatedProductsQuery;
-use inklabs\kommerce\Action\Product\Query\GetRelatedProductsRequest;
-use inklabs\kommerce\Action\Product\Query\GetRelatedProductsResponse;
+use inklabs\kommerce\ActionResponse\Product\GetRelatedProductsResponse;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
@@ -33,14 +32,13 @@ class GetRelatedProductsHandlerTest extends ActionTestCase
             $product4,
         ]);
         $limit = 4;
-        $request = new GetRelatedProductsRequest(
+        $query = new GetRelatedProductsQuery(
             [$product1->getId()->getHex()],
             $limit
         );
-        $response = new GetRelatedProductsResponse($this->getPricing());
-        $query = new GetRelatedProductsQuery($request, $response);
 
-        $this->dispatchQuery($query);
+        /** @var GetRelatedProductsResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $this->assertEntitiesInDTOList([$product2, $product3], $response->getProductDTOs());
     }

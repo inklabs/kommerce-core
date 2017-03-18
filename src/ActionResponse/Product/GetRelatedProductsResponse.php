@@ -1,11 +1,11 @@
 <?php
-namespace inklabs\kommerce\Action\Product\Query;
+namespace inklabs\kommerce\ActionResponse\Product;
 
 use inklabs\kommerce\EntityDTO\Builder\ProductDTOBuilder;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\Lib\PricingInterface;
 
-class GetRelatedProductsResponse implements GetRelatedProductsResponseInterface
+class GetRelatedProductsResponse
 {
     /** @var ProductDTOBuilder[] */
     private $productDTOBuilders = [];
