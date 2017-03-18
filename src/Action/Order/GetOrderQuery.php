@@ -1,37 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\Order;
 
-use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
-use inklabs\kommerce\Action\Order\Query\GetOrderResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
-class GetOrderQuery implements QueryInterface
+final class GetOrderQuery implements QueryInterface
 {
-    /** @var GetOrderRequest */
-    private $request;
-
-    /** @var GetOrderResponseInterface */
-    private $response;
-
-    public function __construct(GetOrderRequest $request, GetOrderResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var UuidInterface */
+    private $orderId;
 
     /**
-     * @return GetOrderRequest
+     * @param string $orderId
      */
-    public function getRequest()
+    public function __construct($orderId)
     {
-        return $this->request;
+        $this->orderId = Uuid::fromString($orderId);
     }
 
-    /**
-     * @return GetOrderResponseInterface
-     */
-    public function getResponse()
+    public function getOrderId()
     {
-        return $this->response;
+        return $this->orderId;
     }
 }

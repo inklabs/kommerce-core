@@ -3,7 +3,7 @@ namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\GetOrderQuery;
 use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
-use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
+use inklabs\kommerce\ActionResponse\Order\GetOrderResponse;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\Coupon;
@@ -40,14 +40,13 @@ class GetOrderHandlerTest extends ActionTestCase
             $order,
             $user,
         ]);
-        $request = new GetOrderRequest($order->getId()->getHex());
-        $response = new GetOrderResponse;
-        $query = new GetOrderQuery($request, $response);
+        $query = new GetOrderQuery($order->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        /** @var GetOrderResponse $response */
+        $response = $this->dispatchQuery($query);
         $this->assertEquals($order->getId(), $response->getOrderDTO()->id);
 
-        $this->dispatchQuery($query);
+        $response = $this->dispatchQuery($query);
         $this->assertEquals($order->getId(), $response->getOrderDTOWithAllData()->id);
     }
 }
