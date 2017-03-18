@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\CatalogPromotion;
 
 use inklabs\kommerce\Action\CatalogPromotion\ListCatalogPromotionsQuery;
+use inklabs\kommerce\ActionResponse\CatalogPromotion\ListCatalogPromotionsResponse;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
@@ -36,22 +37,26 @@ final class ListCatalogPromotionsHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $paginationDTO = $this->query->getRequest()->getPaginationDTO();
+        $response = new ListCatalogPromotionsResponse();
+
+        $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
         $catalogPromotions = $this->catalogPromotionRepository->getAllCatalogPromotions(
-            $this->query->getRequest()->getQueryString(),
+            $this->query->getQueryString(),
             $pagination
         );
 
-        $this->query->getResponse()->setPaginationDTOBuilder(
+        $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
         );
 
         foreach ($catalogPromotions as $catalogPromotion) {
-            $this->query->getResponse()->addCatalogPromotionDTOBuilder(
+            $response->addCatalogPromotionDTOBuilder(
                 $this->dtoBuilderFactory->getCatalogPromotionDTOBuilder($catalogPromotion)
             );
         }
+
+        return $response;
     }
 }

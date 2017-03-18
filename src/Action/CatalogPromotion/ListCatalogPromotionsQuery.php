@@ -1,39 +1,34 @@
 <?php
 namespace inklabs\kommerce\Action\CatalogPromotion;
 
-use inklabs\kommerce\Action\CatalogPromotion\Query\ListCatalogPromotionsRequest;
-use inklabs\kommerce\Action\CatalogPromotion\Query\ListCatalogPromotionsResponseInterface;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
 final class ListCatalogPromotionsQuery implements QueryInterface
 {
-    /** @var ListCatalogPromotionsRequest */
-    private $request;
+    /** @var string */
+    private $queryString;
 
-    /** @var ListCatalogPromotionsResponseInterface */
-    private $response;
-
-    public function __construct(
-        ListCatalogPromotionsRequest $request,
-        ListCatalogPromotionsResponseInterface & $response
-    ) {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var PaginationDTO */
+    private $paginationDTO;
 
     /**
-     * @return ListCatalogPromotionsRequest
+     * @param string $queryString
+     * @param PaginationDTO $paginationDTO
      */
-    public function getRequest()
+    public function __construct($queryString, PaginationDTO $paginationDTO)
     {
-        return $this->request;
+        $this->queryString = (string) $queryString;
+        $this->paginationDTO = $paginationDTO;
     }
 
-    /**
-     * @return ListCatalogPromotionsResponseInterface
-     */
-    public function getResponse()
+    public function getQueryString()
     {
-        return $this->response;
+        return $this->queryString;
+    }
+
+    public function getPaginationDTO()
+    {
+        return $this->paginationDTO;
     }
 }

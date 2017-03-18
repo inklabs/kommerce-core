@@ -1,12 +1,12 @@
 <?php
-namespace inklabs\kommerce\Action\CatalogPromotion\Query;
+namespace inklabs\kommerce\ActionResponse\CatalogPromotion;
 
 use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\CatalogPromotionDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 
-class ListCatalogPromotionsResponse implements ListCatalogPromotionsResponseInterface
+class ListCatalogPromotionsResponse
 {
     /** @var CatalogPromotionDTOBuilder[] */
     private $catalogPromotionDTOBuilders = [];

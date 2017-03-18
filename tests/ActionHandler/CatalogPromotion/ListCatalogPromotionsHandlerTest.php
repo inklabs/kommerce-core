@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\CatalogPromotion;
 
 use inklabs\kommerce\Action\CatalogPromotion\ListCatalogPromotionsQuery;
-use inklabs\kommerce\Action\CatalogPromotion\Query\ListCatalogPromotionsRequest;
-use inklabs\kommerce\Action\CatalogPromotion\Query\ListCatalogPromotionsResponse;
+use inklabs\kommerce\ActionResponse\CatalogPromotion\ListCatalogPromotionsResponse;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
@@ -21,11 +20,10 @@ class ListCatalogPromotionsHandlerTest extends ActionTestCase
         $catalogPromotion = $this->dummyData->getCatalogPromotion();
         $this->persistEntityAndFlushClear($catalogPromotion);
         $queryString = 'Promotion';
-        $request = new ListCatalogPromotionsRequest($queryString, new PaginationDTO());
-        $response = new ListCatalogPromotionsResponse();
-        $query = new ListCatalogPromotionsQuery($request, $response);
+        $query = new ListCatalogPromotionsQuery($queryString, new PaginationDTO());
 
-        $this->dispatchQuery($query);
+        /** @var ListCatalogPromotionsResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $this->assertEntityInDTOList($catalogPromotion, $response->getCatalogPromotionDTOs());
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
