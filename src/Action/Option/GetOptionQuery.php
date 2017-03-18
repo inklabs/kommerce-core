@@ -1,37 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\Option;
 
-use inklabs\kommerce\Action\Option\Query\GetOptionRequest;
-use inklabs\kommerce\Action\Option\Query\GetOptionResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
-class GetOptionQuery implements QueryInterface
+final class GetOptionQuery implements QueryInterface
 {
-    /** @var GetOptionRequest */
-    private $request;
-
-    /** @var GetOptionResponseInterface */
-    private $response;
-
-    public function __construct(GetOptionRequest $request, GetOptionResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var UuidInterface */
+    private $optionId;
 
     /**
-     * @return GetOptionRequest
+     * @param string $optionId
      */
-    public function getRequest()
+    public function __construct($optionId)
     {
-        return $this->request;
+        $this->optionId = Uuid::fromString($optionId);
     }
 
-    /**
-     * @return GetOptionResponseInterface
-     */
-    public function getResponse()
+    public function getOptionId()
     {
-        return $this->response;
+        return $this->optionId;
     }
 }

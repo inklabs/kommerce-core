@@ -1,18 +1,18 @@
 <?php
-namespace inklabs\kommerce\Action\Option\Query;
+namespace inklabs\kommerce\ActionResponse\Option;
 
 use inklabs\kommerce\EntityDTO\Builder\OptionDTOBuilder;
-use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\Lib\PricingInterface;
 
-class GetOptionResponse implements GetOptionResponseInterface
+class GetOptionResponse
 {
     /** @var OptionDTOBuilder */
     private $productDTOBuilder;
 
-    /** @var Pricing */
+    /** @var PricingInterface */
     private $pricing;
 
-    public function __construct(Pricing $pricing)
+    public function __construct(PricingInterface $pricing)
     {
         $this->pricing = $pricing;
     }
