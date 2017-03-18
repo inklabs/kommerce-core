@@ -1,37 +1,34 @@
 <?php
 namespace inklabs\kommerce\Action\Coupon;
 
-use inklabs\kommerce\Action\Coupon\Query\ListCouponsRequest;
-use inklabs\kommerce\Action\Coupon\Query\ListCouponsResponseInterface;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
-class ListCouponsQuery implements QueryInterface
+final class ListCouponsQuery implements QueryInterface
 {
-    /** @var ListCouponsRequest */
-    private $request;
+    /** @var string */
+    private $queryString;
 
-    /** @var ListCouponsResponseInterface */
-    private $response;
-
-    public function __construct(ListCouponsRequest $request, ListCouponsResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var PaginationDTO */
+    private $paginationDTO;
 
     /**
-     * @return ListCouponsRequest
+     * @param string $queryString
+     * @param PaginationDTO $paginationDTO
      */
-    public function getRequest()
+    public function __construct($queryString, PaginationDTO $paginationDTO)
     {
-        return $this->request;
+        $this->queryString = (string) $queryString;
+        $this->paginationDTO = $paginationDTO;
     }
 
-    /**
-     * @return ListCouponsResponseInterface
-     */
-    public function getResponse()
+    public function getQueryString()
     {
-        return $this->response;
+        return $this->queryString;
+    }
+
+    public function getPaginationDTO()
+    {
+        return $this->paginationDTO;
     }
 }
