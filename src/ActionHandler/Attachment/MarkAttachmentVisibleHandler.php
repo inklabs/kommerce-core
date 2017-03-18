@@ -6,7 +6,7 @@ use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
 use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-class MarkAttachmentVisibleHandler implements CommandHandlerInterface
+final class MarkAttachmentVisibleHandler implements CommandHandlerInterface
 {
     /** @var MarkAttachmentVisibleCommand */
     private $command;

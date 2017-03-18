@@ -5,8 +5,9 @@ use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\TagDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class ListTagsResponse
+final class ListTagsResponse implements ResponseInterface
 {
     /** @var TagDTOBuilder[] */
     private $tagDTOBuilders = [];

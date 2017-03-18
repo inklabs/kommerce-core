@@ -3,8 +3,9 @@ namespace inklabs\kommerce\ActionResponse\Product;
 
 use inklabs\kommerce\EntityDTO\Builder\ProductDTOBuilder;
 use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetProductResponse
+final class GetProductResponse implements ResponseInterface
 {
     /** @var ProductDTOBuilder */
     private $productDTOBuilder;

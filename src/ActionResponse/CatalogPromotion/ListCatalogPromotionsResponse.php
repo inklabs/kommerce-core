@@ -5,8 +5,9 @@ use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\CatalogPromotionDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class ListCatalogPromotionsResponse
+final class ListCatalogPromotionsResponse implements ResponseInterface
 {
     /** @var CatalogPromotionDTOBuilder[] */
     private $catalogPromotionDTOBuilders = [];

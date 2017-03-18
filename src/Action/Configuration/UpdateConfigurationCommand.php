@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Action\Configuration;
 
 use inklabs\kommerce\Lib\Command\CommandInterface;
 
-class UpdateConfigurationCommand implements CommandInterface
+final class UpdateConfigurationCommand implements CommandInterface
 {
     /** @var string */
     private $key;

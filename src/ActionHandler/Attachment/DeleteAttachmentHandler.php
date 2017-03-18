@@ -6,7 +6,7 @@ use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
 use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-class DeleteAttachmentHandler implements CommandHandlerInterface
+final class DeleteAttachmentHandler implements CommandHandlerInterface
 {
     /** @var DeleteAttachmentCommand */
     private $command;

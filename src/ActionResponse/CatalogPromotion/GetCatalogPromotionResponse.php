@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\ActionResponse\CatalogPromotion;
 
 use inklabs\kommerce\EntityDTO\Builder\CatalogPromotionDTOBuilder;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetCatalogPromotionResponse
+final class GetCatalogPromotionResponse implements ResponseInterface
 {
     /** @var CatalogPromotionDTOBuilder */
     protected $catalogPromotionDTOBuilder;

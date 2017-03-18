@@ -3,8 +3,9 @@ namespace inklabs\kommerce\ActionResponse\Option;
 
 use inklabs\kommerce\EntityDTO\Builder\OptionDTOBuilder;
 use inklabs\kommerce\Lib\PricingInterface;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetOptionResponse
+final class GetOptionResponse implements ResponseInterface
 {
     /** @var OptionDTOBuilder */
     private $productDTOBuilder;

@@ -3,8 +3,9 @@ namespace inklabs\kommerce\ActionResponse\Cart;
 
 use inklabs\kommerce\EntityDTO\Builder\CartDTOBuilder;
 use inklabs\kommerce\Lib\CartCalculator;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetCartResponse
+final class GetCartResponse implements ResponseInterface
 {
     /** @var CartDTOBuilder */
     private $cartDTOBuilder;

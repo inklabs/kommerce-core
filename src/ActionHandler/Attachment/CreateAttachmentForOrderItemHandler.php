@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
 use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
 
-class CreateAttachmentForOrderItemHandler implements CommandHandlerInterface
+final class CreateAttachmentForOrderItemHandler implements CommandHandlerInterface
 {
     /** @var CreateAttachmentForOrderItemCommand */
     private $command;

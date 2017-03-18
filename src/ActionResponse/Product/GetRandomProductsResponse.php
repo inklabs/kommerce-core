@@ -4,8 +4,9 @@ namespace inklabs\kommerce\ActionResponse\Product;
 use inklabs\kommerce\EntityDTO\Builder\ProductDTOBuilder;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\Lib\PricingInterface;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetRandomProductsResponse
+final class GetRandomProductsResponse implements ResponseInterface
 {
     /** @var ProductDTO[] */
     protected $productDTOs = [];

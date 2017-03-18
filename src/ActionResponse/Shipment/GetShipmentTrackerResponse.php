@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\ActionResponse\Shipment;
 
 use inklabs\kommerce\EntityDTO\Builder\ShipmentTrackerDTOBuilder;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetShipmentTrackerResponse
+final class GetShipmentTrackerResponse implements ResponseInterface
 {
     /** @var ShipmentTrackerDTOBuilder */
     protected $shipmentTrackerDTOBuilder;

@@ -3,8 +3,9 @@ namespace inklabs\kommerce\ActionResponse\Shipment;
 
 use inklabs\kommerce\EntityDTO\Builder\ShipmentRateDTOBuilder;
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetShipmentRatesResponse
+final class GetShipmentRatesResponse implements ResponseInterface
 {
     /** @var ShipmentRateDTOBuilder[] */
     private $shipmentRateDTOBuilders = [];

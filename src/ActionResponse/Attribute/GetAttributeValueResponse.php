@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\ActionResponse\Attribute;
 
 use inklabs\kommerce\EntityDTO\Builder\AttributeValueDTOBuilder;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetAttributeValueResponse
+final class GetAttributeValueResponse implements ResponseInterface
 {
     /** @var AttributeValueDTOBuilder */
     protected $attributeValueDTOBuilder;

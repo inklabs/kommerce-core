@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\GetCartByUserIdQuery;
-use inklabs\kommerce\Action\Cart\Query\GetCartByUserIdResponse;
+use inklabs\kommerce\ActionResponse\Cart\GetCartByUserIdResponse;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\Product;

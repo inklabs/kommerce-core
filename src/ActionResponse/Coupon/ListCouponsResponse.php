@@ -5,8 +5,9 @@ use inklabs\kommerce\EntityDTO\Builder\CouponDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class ListCouponsResponse
+final class ListCouponsResponse implements ResponseInterface
 {
     /** @var CouponDTOBuilder[] */
     protected $couponDTOBuilders = [];

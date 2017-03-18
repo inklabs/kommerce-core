@@ -3,8 +3,9 @@ namespace inklabs\kommerce\ActionResponse\Tag;
 
 use inklabs\kommerce\EntityDTO\Builder\TagDTOBuilder;
 use inklabs\kommerce\EntityDTO\TagDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetTagsByIdsResponse
+final class GetTagsByIdsResponse implements ResponseInterface
 {
     /** @var TagDTOBuilder[] */
     private $tagDTOBuilders = [];

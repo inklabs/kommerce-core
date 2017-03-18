@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\ActionResponse\User;
 
 use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetUserResponse
+final class GetUserResponse implements ResponseInterface
 {
     /** @var UserDTOBuilder */
     private $userDTOBuilder;

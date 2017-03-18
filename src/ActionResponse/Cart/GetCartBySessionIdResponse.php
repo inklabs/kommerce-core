@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\ActionResponse\Cart;
 
 use inklabs\kommerce\EntityDTO\Builder\CartDTOBuilder;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetCartBySessionIdResponse
+final class GetCartBySessionIdResponse implements ResponseInterface
 {
     /** @var CartDTOBuilder */
     private $cartDTOBuilder;

@@ -1,9 +1,10 @@
 <?php
-namespace inklabs\kommerce\Action\Cart\Query;
+namespace inklabs\kommerce\ActionResponse\Cart;
 
 use inklabs\kommerce\EntityDTO\Builder\CartDTOBuilder;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetCartByUserIdResponse implements GetCartByUserIdResponseInterface
+final class GetCartByUserIdResponse implements ResponseInterface
 {
     /** @var CartDTOBuilder */
     private $cartDTOBuilder;
