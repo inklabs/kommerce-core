@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Warehouse;
 
 use inklabs\kommerce\Action\Warehouse\ListWarehousesQuery;
+use inklabs\kommerce\ActionResponse\Warehouse\ListWarehousesResponse;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\WarehouseRepositoryInterface;
@@ -36,14 +37,13 @@ final class ListWarehousesHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $request = $this->query->getRequest();
-        $response = $this->query->getResponse();
+        $response = new ListWarehousesResponse();
 
-        $paginationDTO = $request->getPaginationDTO();
+        $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
         $warehouses = $this->warehouseRepository->getAllWarehouses(
-            $request->getQueryString(),
+            $this->query->getQueryString(),
             $pagination
         );
 
@@ -56,5 +56,7 @@ final class ListWarehousesHandler implements QueryHandlerInterface
                 $this->dtoBuilderFactory->getWarehouseDTOBuilder($warehouse)
             );
         }
+
+        return $response;
     }
 }

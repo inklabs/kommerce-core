@@ -6,6 +6,7 @@ use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Mapper;
 use inklabs\kommerce\Lib\Query\QueryBus;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 use inklabs\kommerce\tests\Helper\Lib\Authorization\AlwaysAuthorizedForTestingAuthorizationContext;
 
 abstract class ActionTestCase extends ServiceTestCase
@@ -15,9 +16,13 @@ abstract class ActionTestCase extends ServiceTestCase
         $this->getCommandBus()->execute($command);
     }
 
+    /**
+     * @param QueryInterface $query
+     * @return ResponseInterface
+     */
     protected function dispatchQuery(QueryInterface $query)
     {
-        $this->getQueryBus()->execute($query);
+        return $this->getQueryBus()->execute($query);
     }
 
     private function getCommandBus()
