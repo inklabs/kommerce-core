@@ -1,37 +1,37 @@
 <?php
 namespace inklabs\kommerce\Action\Product;
 
-use inklabs\kommerce\Action\Product\Query\GetProductsByIdsRequest;
-use inklabs\kommerce\Action\Product\Query\GetProductsByIdsResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class GetProductsByIdsQuery implements QueryInterface
 {
-    /** @var GetProductsByIdsRequest */
-    private $request;
+    /** @var UuidInterface[] */
+    private $productIds;
 
-    /** @var GetProductsByIdsResponseInterface */
-    private $response;
-
-    public function __construct(GetProductsByIdsRequest $request, GetProductsByIdsResponseInterface & $response)
+    /**
+     * @param string[] $productIds
+     */
+    public function __construct(array $productIds)
     {
-        $this->request = $request;
-        $this->response = $response;
+        $this->setProductIds($productIds);
+    }
+
+    public function getProductIds()
+    {
+        return $this->productIds;
     }
 
     /**
-     * @return GetProductsByIdsRequest
+     * @param string[] $productIds
      */
-    public function getRequest()
+    private function setProductIds(array $productIds)
     {
-        return $this->request;
-    }
+        $this->productIds = [];
 
-    /**
-     * @return GetProductsByIdsResponseInterface
-     */
-    public function getResponse()
-    {
-        return $this->response;
+        foreach ($productIds as $productId) {
+            $this->productIds[] = Uuid::fromString($productId);
+        }
     }
 }
