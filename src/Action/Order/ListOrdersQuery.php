@@ -1,37 +1,34 @@
 <?php
 namespace inklabs\kommerce\Action\Order;
 
-use inklabs\kommerce\Action\Order\Query\ListOrdersRequest;
-use inklabs\kommerce\Action\Order\Query\ListOrdersResponseInterface;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
 final class ListOrdersQuery implements QueryInterface
 {
-    /** @var ListOrdersRequest */
-    private $request;
+    /** @var string */
+    private $queryString;
 
-    /** @var ListOrdersResponseInterface */
-    private $response;
-
-    public function __construct(ListOrdersRequest $request, ListOrdersResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var PaginationDTO */
+    private $paginationDTO;
 
     /**
-     * @return ListOrdersRequest
+     * @param string $queryString
+     * @param PaginationDTO $paginationDTO
      */
-    public function getRequest()
+    public function __construct($queryString, PaginationDTO $paginationDTO)
     {
-        return $this->request;
+        $this->queryString = (string) $queryString;
+        $this->paginationDTO = $paginationDTO;
     }
 
-    /**
-     * @return ListOrdersResponseInterface
-     */
-    public function getResponse()
+    public function getQueryString()
     {
-        return $this->response;
+        return $this->queryString;
+    }
+
+    public function getPaginationDTO()
+    {
+        return $this->paginationDTO;
     }
 }

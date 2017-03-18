@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\ListOrdersQuery;
-use inklabs\kommerce\Action\Order\Query\ListOrdersRequest;
-use inklabs\kommerce\Action\Order\Query\ListOrdersResponse;
+use inklabs\kommerce\ActionResponse\Order\ListOrdersResponse;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\Coupon;
@@ -45,11 +44,10 @@ class ListOrdersHandlerTest extends ActionTestCase
             $user,
         ]);
         $queryString = 'order';
-        $request = new ListOrdersRequest($queryString, new PaginationDTO);
-        $response = new ListOrdersResponse();
-        $query = new ListOrdersQuery($request, $response);
+        $query = new ListOrdersQuery($queryString, new PaginationDTO());
 
-        $this->dispatchQuery($query);
+        /** @var ListOrdersResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $this->assertEntitiesInDTOList([$order1, $order2], $response->getOrderDTOs());
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);

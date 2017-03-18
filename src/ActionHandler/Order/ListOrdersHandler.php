@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\ListOrdersQuery;
+use inklabs\kommerce\ActionResponse\Order\ListOrdersResponse;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
@@ -36,21 +37,25 @@ final class ListOrdersHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $paginationDTO = $this->query->getRequest()->getPaginationDTO();
+        $response = new ListOrdersResponse();
+
+        $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
         // TODO: Add query search
-        $queryString = $this->query->getRequest()->getQueryString();
+        $queryString = $this->query->getQueryString();
         $orders = $this->orderRepository->getLatestOrders($pagination);
 
-        $this->query->getResponse()->setPaginationDTOBuilder(
+        $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
         );
 
         foreach ($orders as $order) {
-            $this->query->getResponse()->addOrderDTOBuilder(
+            $response->addOrderDTOBuilder(
                 $this->dtoBuilderFactory->getOrderDTOBuilder($order)
             );
         }
+
+        return $response;
     }
 }

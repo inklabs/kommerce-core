@@ -1,12 +1,12 @@
 <?php
-namespace inklabs\kommerce\Action\Order\Query;
+namespace inklabs\kommerce\ActionResponse\Order;
 
 use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 
-class ListOrdersResponse implements ListOrdersResponseInterface
+class ListOrdersResponse
 {
     /** @var OrderDTOBuilder[] */
     private $orderDTOBuilders = [];
