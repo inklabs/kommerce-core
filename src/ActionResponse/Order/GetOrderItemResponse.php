@@ -1,9 +1,9 @@
 <?php
-namespace inklabs\kommerce\Action\Order\Query;
+namespace inklabs\kommerce\ActionResponse\Order;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderItemDTOBuilder;
 
-class GetOrderItemResponse implements GetOrderItemResponseInterface
+class GetOrderItemResponse
 {
     /** @var OrderItemDTOBuilder */
     protected $orderItemDTOBuilder;

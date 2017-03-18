@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\GetOrderItemQuery;
+use inklabs\kommerce\ActionResponse\Order\GetOrderItemResponse;
 use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\OrderItemRepositoryInterface;
@@ -47,14 +48,18 @@ final class GetOrderItemHandler implements QueryHandlerInterface
 
     public function handle()
     {
+        $response = new GetOrderItemResponse();
+
         $orderItem = $this->getOrderItem();
 
         $products = [$orderItem->getProduct()];
         $this->productRepository->loadProductTags($products);
 
-        $this->query->getResponse()->setOrderItemDTOBuilder(
+        $response->setOrderItemDTOBuilder(
             $this->dtoBuilderFactory->getOrderItemDTOBuilder($orderItem)
         );
+
+        return $response;
     }
 
     /**
@@ -64,7 +69,7 @@ final class GetOrderItemHandler implements QueryHandlerInterface
     {
         if ($this->orderItem === null) {
             $this->orderItem = $this->orderItemRepository->findOneById(
-                $this->query->getRequest()->getOrderItemId()
+                $this->query->getOrderItemId()
             );
         }
         return $this->orderItem;
