@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Shipment;
 
 use inklabs\kommerce\Action\Shipment\GetShipmentTrackerQuery;
+use inklabs\kommerce\ActionResponse\Shipment\GetShipmentTrackerResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\ShipmentTrackerRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
@@ -35,12 +36,16 @@ final class GetShipmentTrackerHandler implements QueryHandlerInterface
 
     public function handle()
     {
+        $response = new GetShipmentTrackerResponse();
+
         $shipmentTracker = $this->shipmentTrackerRepository->findOneById(
-            $this->query->getRequest()->getShipmentTrackerId()
+            $this->query->getShipmentTrackerId()
         );
 
-        $this->query->getResponse()->setShipmentTrackerDTOBuilder(
+        $response->setShipmentTrackerDTOBuilder(
             $this->dtoBuilderFactory->getShipmentTrackerDTOBuilder($shipmentTracker)
         );
+
+        return $response;
     }
 }

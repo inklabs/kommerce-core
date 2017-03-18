@@ -3,7 +3,7 @@ namespace inklabs\kommerce\ActionHandler\Shipment;
 
 use inklabs\kommerce\Action\Shipment\GetShipmentTrackerQuery;
 use inklabs\kommerce\Action\Shipment\Query\GetShipmentTrackerRequest;
-use inklabs\kommerce\Action\Shipment\Query\GetShipmentTrackerResponse;
+use inklabs\kommerce\ActionResponse\Shipment\GetShipmentTrackerResponse;
 use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\ShipmentTrackerDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
@@ -18,11 +18,10 @@ class GetShipmentTrackerHandlerTest extends ActionTestCase
     {
         $shipmentTracker = $this->dummyData->getShipmentTracker();
         $this->persistEntityAndFlushClear($shipmentTracker);
-        $request = new GetShipmentTrackerRequest($shipmentTracker->getId()->getHex());
-        $response = new GetShipmentTrackerResponse();
-        $query = new GetShipmentTrackerQuery($request, $response);
+        $query = new GetShipmentTrackerQuery($shipmentTracker->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        /** @var GetShipmentTrackerResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $this->assertTrue($response->getShipmentTrackerDTO() instanceof ShipmentTrackerDTO);
     }
