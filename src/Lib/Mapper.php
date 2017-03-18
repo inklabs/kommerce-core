@@ -180,7 +180,7 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->serviceFactory->getShipmentGateway();
                 } elseif ($parameterClassName === UserServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getUser();
-                } elseif ($parameterClassName === Pricing::class) {
+                } elseif ($parameterClassName === PricingInterface::class || $parameterClassName === Pricing::class) {
                     $constructorParameters[] = $this->pricing;
                 }
             }

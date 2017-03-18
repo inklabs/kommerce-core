@@ -1,37 +1,47 @@
 <?php
 namespace inklabs\kommerce\Action\Product;
 
-use inklabs\kommerce\Action\Product\Query\GetRelatedProductsRequest;
-use inklabs\kommerce\Action\Product\Query\GetRelatedProductsResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class GetRelatedProductsQuery implements QueryInterface
 {
-    /** @var GetRelatedProductsRequest */
-    private $request;
+    /** @var UuidInterface[] */
+    private $productIds;
 
-    /** @var GetRelatedProductsResponseInterface */
-    private $response;
+    /** @var int */
+    private $limit;
 
-    public function __construct(GetRelatedProductsRequest $request, GetRelatedProductsResponseInterface & $response)
+    /**
+     * @param string[] $productIds
+     * @param int $limit
+     */
+    public function __construct(array $productIds, $limit = 12)
     {
-        $this->request = $request;
-        $this->response = $response;
+        $this->setProductIds($productIds);
+        $this->limit = (int) $limit;
+    }
+
+    public function getProductIds()
+    {
+        return $this->productIds;
+    }
+
+    public function getLimit()
+    {
+        return $this->limit;
     }
 
     /**
-     * @return GetRelatedProductsRequest
+     * @param string[] $productIds
      */
-    public function getRequest()
+    private function setProductIds(array $productIds)
     {
-        return $this->request;
-    }
+        $this->productIds = [];
 
-    /**
-     * @return GetRelatedProductsResponseInterface
-     */
-    public function getResponse()
-    {
-        return $this->response;
+        foreach ($productIds as $productId) {
+            $this->productIds[] = Uuid::fromString($productId);
+        }
     }
 }
