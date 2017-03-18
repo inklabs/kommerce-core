@@ -1,37 +1,23 @@
 <?php
 namespace inklabs\kommerce\Action\Cart;
 
-use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdRequest;
-use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
-class GetCartBySessionIdQuery implements QueryInterface
+final class GetCartBySessionIdQuery implements QueryInterface
 {
-    /** @var GetCartBySessionIdRequest */
-    private $request;
-
-    /** @var GetCartBySessionIdResponseInterface */
-    private $response;
-
-    public function __construct(GetCartBySessionIdRequest $request, GetCartBySessionIdResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var string */
+    private $sessionId;
 
     /**
-     * @return GetCartBySessionIdRequest
+     * @param string $sessionId
      */
-    public function getRequest()
+    public function __construct($sessionId)
     {
-        return $this->request;
+        $this->sessionId = (string) $sessionId;
     }
 
-    /**
-     * @return GetCartBySessionIdResponseInterface
-     */
-    public function getResponse()
+    public function getSessionId()
     {
-        return $this->response;
+        return $this->sessionId;
     }
 }

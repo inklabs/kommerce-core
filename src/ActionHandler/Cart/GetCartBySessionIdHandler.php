@@ -2,10 +2,12 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\GetCartBySessionIdQuery;
+use inklabs\kommerce\ActionResponse\Cart\GetCartBySessionIdResponse;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
 final class GetCartBySessionIdHandler implements QueryHandlerInterface
@@ -38,10 +40,14 @@ final class GetCartBySessionIdHandler implements QueryHandlerInterface
 
     public function handle()
     {
+        $response = new GetCartBySessionIdResponse();
+
         $cart = $this->getCart();
-        $this->query->getResponse()->setCartDTOBuilder(
+        $response->setCartDTOBuilder(
             $this->dtoBuilderFactory->getCartDTOBuilder($cart)
         );
+
+        return $response;
     }
 
     /**
@@ -50,7 +56,7 @@ final class GetCartBySessionIdHandler implements QueryHandlerInterface
     private function getCart()
     {
         return $this->cartRepository->findOneBySession(
-            $this->query->getRequest()->getSessionId()
+            $this->query->getSessionId()
         );
     }
 }
