@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\ListTagsQuery;
-use inklabs\kommerce\Action\Tag\Query\ListTagsResponse;
+use inklabs\kommerce\ActionResponse\Tag\ListTagsResponse;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;

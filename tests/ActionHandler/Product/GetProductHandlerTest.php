@@ -3,7 +3,7 @@ namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\GetProductQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductRequest;
-use inklabs\kommerce\Action\Product\Query\GetProductResponse;
+use inklabs\kommerce\ActionResponse\Product\GetProductResponse;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Image;
@@ -33,14 +33,13 @@ class GetProductHandlerTest extends ActionTestCase
     {
         $product = $this->dummyData->getProduct();
         $this->persistEntityAndFlushClear($product);
-        $request = new GetProductRequest($product->getId()->getHex());
-        $response = new GetProductResponse($this->getPricing());
-        $query = new GetProductQuery($request, $response);
+        $query = new GetProductQuery($product->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        /** @var GetProductResponse $response */
+        $response = $this->dispatchQuery($query);
         $this->assertEquals($product->getId(), $response->getProductDTO()->id);
 
-        $this->dispatchQuery($query);
+        $response = $this->dispatchQuery($query);
         $this->assertEquals($product->getId(), $response->getProductDTOWithAllData()->id);
     }
 }

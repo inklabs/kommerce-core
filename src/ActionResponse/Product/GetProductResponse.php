@@ -1,10 +1,10 @@
 <?php
-namespace inklabs\kommerce\Action\Product\Query;
+namespace inklabs\kommerce\ActionResponse\Product;
 
 use inklabs\kommerce\EntityDTO\Builder\ProductDTOBuilder;
 use inklabs\kommerce\Lib\Pricing;
 
-class GetProductResponse implements GetProductResponseInterface
+class GetProductResponse
 {
     /** @var ProductDTOBuilder */
     private $productDTOBuilder;
