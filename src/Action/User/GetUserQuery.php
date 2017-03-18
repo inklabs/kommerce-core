@@ -1,37 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\User;
 
-use inklabs\kommerce\Action\User\Query\GetUserRequest;
-use inklabs\kommerce\Action\User\Query\GetUserResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
-class GetUserQuery implements QueryInterface
+final class GetUserQuery implements QueryInterface
 {
-    /** @var GetUserRequest */
-    private $request;
-
-    /** @var GetUserResponseInterface */
-    private $response;
-
-    public function __construct(GetUserRequest $request, GetUserResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var UuidInterface */
+    private $userId;
 
     /**
-     * @return GetUserRequest
+     * @param string $userId
      */
-    public function getRequest()
+    public function __construct($userId)
     {
-        return $this->request;
+        $this->userId = Uuid::fromString($userId);
     }
 
-    /**
-     * @return GetUserResponseInterface
-     */
-    public function getResponse()
+    public function getUserId()
     {
-        return $this->response;
+        return $this->userId;
     }
 }

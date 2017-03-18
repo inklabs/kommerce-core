@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\User;
 
 use inklabs\kommerce\Action\User\GetUserQuery;
+use inklabs\kommerce\Action\User\Query\GetUserResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
@@ -30,17 +31,21 @@ final class GetUserHandler implements QueryHandlerInterface
 
     public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $authorizationContext->verifyCanManageUser($this->query->getRequest()->getUserId());
+        $authorizationContext->verifyCanManageUser($this->query->getUserId());
     }
 
     public function handle()
     {
+        $response = new GetUserResponse();
+
         $product = $this->userRepository->findOneById(
-            $this->query->getRequest()->getUserId()
+            $this->query->getUserId()
         );
 
-        $this->query->getResponse()->setUserDTOBuilder(
+        $response->setUserDTOBuilder(
             $this->dtoBuilderFactory->getUserDTOBuilder($product)
         );
+
+        return $response;
     }
 }
