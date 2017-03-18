@@ -5,7 +5,7 @@ use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
-class MarkAttachmentNotVisibleCommand implements CommandInterface
+final class MarkAttachmentNotVisibleCommand implements CommandInterface
 {
     /** @var UuidInterface */
     private $attachmentId;

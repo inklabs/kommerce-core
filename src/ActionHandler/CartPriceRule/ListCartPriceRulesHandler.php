@@ -42,7 +42,10 @@ final class ListCartPriceRulesHandler implements QueryHandlerInterface
         $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        $cartPriceRules = $this->cartPriceRuleRepository->getAllCartPriceRules($this->query->getQueryString(), $pagination);
+        $cartPriceRules = $this->cartPriceRuleRepository->getAllCartPriceRules(
+            $this->query->getQueryString(),
+            $pagination
+        );
 
         $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)

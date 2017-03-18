@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
 
-class CreateAttachmentForUserProductCommand implements CommandInterface
+final class CreateAttachmentForUserProductCommand implements CommandInterface
 {
     /** @var UploadFileDTO */
     private $uploadFileDTO;

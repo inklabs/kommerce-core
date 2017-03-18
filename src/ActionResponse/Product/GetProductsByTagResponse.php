@@ -6,8 +6,9 @@ use inklabs\kommerce\EntityDTO\Builder\ProductDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\Lib\PricingInterface;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetProductsByTagResponse
+final class GetProductsByTagResponse implements ResponseInterface
 {
     /** @var ProductDTO[] */
     protected $productDTOs = [];

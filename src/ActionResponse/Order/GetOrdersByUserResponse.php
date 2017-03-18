@@ -3,8 +3,9 @@ namespace inklabs\kommerce\ActionResponse\Order;
 
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\EntityDTO\OrderDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetOrdersByUserResponse
+final class GetOrdersByUserResponse implements ResponseInterface
 {
     /** @var OrderDTOBuilder[] */
     private $orderDTOBuilders = [];

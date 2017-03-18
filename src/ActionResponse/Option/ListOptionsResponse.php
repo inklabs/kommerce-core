@@ -5,8 +5,9 @@ use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\OptionDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\OptionDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class ListOptionsResponse
+final class ListOptionsResponse implements ResponseInterface
 {
     /** @var OptionDTOBuilder[] */
     private $optionDTOBuilders = [];

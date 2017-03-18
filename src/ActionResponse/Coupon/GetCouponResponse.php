@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\ActionResponse\Coupon;
 
 use inklabs\kommerce\EntityDTO\Builder\CouponDTOBuilder;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class GetCouponResponse
+final class GetCouponResponse implements ResponseInterface
 {
     /** @var CouponDTOBuilder */
     protected $couponDTOBuilder;

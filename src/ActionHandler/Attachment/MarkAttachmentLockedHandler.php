@@ -6,7 +6,7 @@ use inklabs\kommerce\EntityRepository\AttachmentRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
 use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 
-class MarkAttachmentLockedHandler implements CommandHandlerInterface
+final class MarkAttachmentLockedHandler implements CommandHandlerInterface
 {
     /** @var MarkAttachmentLockedCommand */
     private $command;

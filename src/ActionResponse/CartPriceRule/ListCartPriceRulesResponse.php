@@ -5,8 +5,9 @@ use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class ListCartPriceRulesResponse
+final class ListCartPriceRulesResponse implements ResponseInterface
 {
     /** @var CartPriceRuleDTOBuilder[] */
     protected $couponDTOBuilders = [];

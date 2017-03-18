@@ -5,8 +5,9 @@ use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\UserDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class ListUsersResponse
+final class ListUsersResponse implements ResponseInterface
 {
     /** @var UserDTOBuilder[] */
     private $userDTOBuilders = [];

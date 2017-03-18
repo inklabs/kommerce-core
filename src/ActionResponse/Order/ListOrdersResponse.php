@@ -5,8 +5,9 @@ use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\OrderDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class ListOrdersResponse
+final class ListOrdersResponse implements ResponseInterface
 {
     /** @var OrderDTOBuilder[] */
     private $orderDTOBuilders = [];

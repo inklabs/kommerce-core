@@ -3,8 +3,9 @@ namespace inklabs\kommerce\ActionResponse\TaxRate;
 
 use inklabs\kommerce\EntityDTO\Builder\TaxRateDTOBuilder;
 use inklabs\kommerce\EntityDTO\TaxRateDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class ListTaxRatesResponse
+final class ListTaxRatesResponse implements ResponseInterface
 {
     /** @var TaxRateDTOBuilder[] */
     private $tagDTOBuilders = [];

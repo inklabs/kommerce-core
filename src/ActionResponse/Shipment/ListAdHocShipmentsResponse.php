@@ -5,8 +5,9 @@ use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\ShipmentTrackerDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\ShipmentTrackerDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class ListAdHocShipmentsResponse
+final class ListAdHocShipmentsResponse implements ResponseInterface
 {
     /** @var ShipmentTrackerDTOBuilder[] */
     protected $shipmentTrackerDTOBuilders = [];
