@@ -1,37 +1,23 @@
 <?php
 namespace inklabs\kommerce\Action\Product;
 
-use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
-use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
 final class GetRandomProductsQuery implements QueryInterface
 {
-    /** @var GetRandomProductsRequest */
-    private $request;
-
-    /** @var GetRandomProductsResponseInterface */
-    private $response;
-
-    public function __construct(GetRandomProductsRequest $request, GetRandomProductsResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var int */
+    private $limit;
 
     /**
-     * @return GetRandomProductsRequest
+     * @param int $limit
      */
-    public function getRequest()
+    public function __construct($limit)
     {
-        return $this->request;
+        $this->limit = (int) $limit;
     }
 
-    /**
-     * @return GetRandomProductsResponseInterface
-     */
-    public function getResponse()
+    public function getLimit()
     {
-        return $this->response;
+        return $this->limit;
     }
 }
