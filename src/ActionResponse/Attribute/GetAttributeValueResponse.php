@@ -1,9 +1,9 @@
 <?php
-namespace inklabs\kommerce\Action\Attribute\Query;
+namespace inklabs\kommerce\ActionResponse\Attribute;
 
 use inklabs\kommerce\EntityDTO\Builder\AttributeValueDTOBuilder;
 
-class GetAttributeValueResponse implements GetAttributeValueResponseInterface
+class GetAttributeValueResponse
 {
     /** @var AttributeValueDTOBuilder */
     protected $attributeValueDTOBuilder;
