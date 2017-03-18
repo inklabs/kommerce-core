@@ -1,39 +1,29 @@
 <?php
 namespace inklabs\kommerce\Action\Configuration;
 
-use inklabs\kommerce\Action\Configuration\Query\GetConfigurationsByKeysRequest;
-use inklabs\kommerce\Action\Configuration\Query\GetConfigurationsByKeysResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
 final class GetConfigurationsByKeysQuery implements QueryInterface
 {
-    /** @var GetConfigurationsByKeysRequest */
-    private $request;
+    /** @var string[] */
+    private $keys;
 
-    /** @var GetConfigurationsByKeysResponseInterface */
-    private $response;
-
-    public function __construct(
-        GetConfigurationsByKeysRequest $request,
-        GetConfigurationsByKeysResponseInterface & $response
-    ) {
-        $this->request = $request;
-        $this->response = $response;
+    /**
+     * @param string[] $keys
+     */
+    public function __construct(array $keys)
+    {
+        $this->keys = [];
+        foreach ($keys as $key) {
+            $this->keys[] = (string) $key;
+        }
     }
 
     /**
-     * @return GetConfigurationsByKeysRequest
+     * @return string[]
      */
-    public function getRequest()
+    public function getKeys()
     {
-        return $this->request;
-    }
-
-    /**
-     * @return GetConfigurationsByKeysResponseInterface
-     */
-    public function getResponse()
-    {
-        return $this->response;
+        return $this->keys;
     }
 }
