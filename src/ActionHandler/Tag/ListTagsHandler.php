@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\ListTagsQuery;
+use inklabs\kommerce\Action\Tag\Query\ListTagsResponse;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
@@ -36,22 +37,26 @@ final class ListTagsHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $paginationDTO = $this->query->getRequest()->getPaginationDTO();
+        $response = new ListTagsResponse();
+
+        $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
         $tags = $this->tagRepository->getAllTags(
-            $this->query->getRequest()->getQueryString(),
+            $this->query->getQueryString(),
             $pagination
         );
 
-        $this->query->getResponse()->setPaginationDTOBuilder(
+        $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
         );
 
         foreach ($tags as $tag) {
-            $this->query->getResponse()->addTagDTOBuilder(
+            $response->addTagDTOBuilder(
                 $this->dtoBuilderFactory->getTagDTOBuilder($tag)
             );
         }
+
+        return $response;
     }
 }

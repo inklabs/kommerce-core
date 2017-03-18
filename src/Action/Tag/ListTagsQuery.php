@@ -1,37 +1,34 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\Action\Tag\Query\ListTagsRequest;
-use inklabs\kommerce\Action\Tag\Query\ListTagsResponseInterface;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
 final class ListTagsQuery implements QueryInterface
 {
-    /** @var ListTagsRequest */
-    private $request;
+    /** @var string */
+    private $queryString;
 
-    /** @var ListTagsResponseInterface */
-    private $response;
-
-    public function __construct(ListTagsRequest $request, ListTagsResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var PaginationDTO */
+    private $paginationDTO;
 
     /**
-     * @return ListTagsRequest
+     * @param string $queryString
+     * @param PaginationDTO $paginationDTO
      */
-    public function getRequest()
+    public function __construct($queryString, PaginationDTO $paginationDTO)
     {
-        return $this->request;
+        $this->queryString = (string) $queryString;
+        $this->paginationDTO = $paginationDTO;
     }
 
-    /**
-     * @return ListTagsResponseInterface
-     */
-    public function getResponse()
+    public function getQueryString()
     {
-        return $this->response;
+        return $this->queryString;
+    }
+
+    public function getPaginationDTO()
+    {
+        return $this->paginationDTO;
     }
 }
