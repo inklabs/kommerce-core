@@ -1,10 +1,10 @@
 <?php
-namespace inklabs\kommerce\Action\Configuration\Query;
+namespace inklabs\kommerce\ActionResponse\Configuration;
 
 use inklabs\kommerce\EntityDTO\Builder\ConfigurationDTOBuilder;
 use inklabs\kommerce\EntityDTO\ConfigurationDTO;
 
-class GetConfigurationsByKeysResponse implements GetConfigurationsByKeysResponseInterface
+class GetConfigurationsByKeysResponse
 {
     /** @var ConfigurationDTO[] */
     protected $configurationDTOs = [];

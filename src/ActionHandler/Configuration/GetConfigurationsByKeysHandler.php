@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Configuration;
 
 use inklabs\kommerce\Action\Configuration\GetConfigurationsByKeysQuery;
+use inklabs\kommerce\ActionResponse\Configuration\GetConfigurationsByKeysResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\ConfigurationRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
@@ -35,14 +36,18 @@ final class GetConfigurationsByKeysHandler implements QueryHandlerInterface
 
     public function handle()
     {
+        $response = new GetConfigurationsByKeysResponse();
+
         $configurations = $this->configurationRepository->findByKeys(
-            $this->query->getRequest()->getKeys()
+            $this->query->getKeys()
         );
 
         foreach ($configurations as $configuration) {
-            $this->query->getResponse()->addConfigurationDTOBuilder(
+            $response->addConfigurationDTOBuilder(
                 $this->dtoBuilderFactory->getConfigurationDTOBuilder($configuration)
             );
         }
+
+        return $response;
     }
 }

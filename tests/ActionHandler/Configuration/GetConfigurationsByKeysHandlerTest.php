@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Configuration;
 
 use inklabs\kommerce\Action\Configuration\GetConfigurationsByKeysQuery;
-use inklabs\kommerce\Action\Configuration\Query\GetConfigurationsByKeysRequest;
-use inklabs\kommerce\Action\Configuration\Query\GetConfigurationsByKeysResponse;
+use inklabs\kommerce\ActionResponse\Configuration\GetConfigurationsByKeysResponse;
 use inklabs\kommerce\Entity\Configuration;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
@@ -23,14 +22,13 @@ class GetConfigurationsByKeysHandlerTest extends ActionTestCase
             $configuration2,
             $configuration3
         ]);
-        $request = new GetConfigurationsByKeysRequest([
+        $query = new GetConfigurationsByKeysQuery([
             'adminTheme',
             'storeTheme',
         ]);
-        $response = new GetConfigurationsByKeysResponse();
-        $query = new GetConfigurationsByKeysQuery($request, $response);
 
-        $this->dispatchQuery($query);
+        /** @var GetConfigurationsByKeysResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $configurations = $response->getConfigurationDTOs();
         $this->assertCount(2, $configurations);
