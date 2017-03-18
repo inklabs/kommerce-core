@@ -1,37 +1,34 @@
 <?php
 namespace inklabs\kommerce\Action\CartPriceRule;
 
-use inklabs\kommerce\Action\CartPriceRule\Query\ListCartPriceRulesRequest;
-use inklabs\kommerce\Action\CartPriceRule\Query\ListCartPriceRulesResponseInterface;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
-class ListCartPriceRulesQuery implements QueryInterface
+final class ListCartPriceRulesQuery implements QueryInterface
 {
-    /** @var ListCartPriceRulesRequest */
-    private $request;
+    /** @var string */
+    private $queryString;
 
-    /** @var ListCartPriceRulesResponseInterface */
-    private $response;
-
-    public function __construct(ListCartPriceRulesRequest $request, ListCartPriceRulesResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var PaginationDTO */
+    private $paginationDTO;
 
     /**
-     * @return ListCartPriceRulesRequest
+     * @param string $queryString
+     * @param PaginationDTO $paginationDTO
      */
-    public function getRequest()
+    public function __construct($queryString, PaginationDTO $paginationDTO)
     {
-        return $this->request;
+        $this->queryString = (string) $queryString;
+        $this->paginationDTO = $paginationDTO;
     }
 
-    /**
-     * @return ListCartPriceRulesResponseInterface
-     */
-    public function getResponse()
+    public function getQueryString()
     {
-        return $this->response;
+        return $this->queryString;
+    }
+
+    public function getPaginationDTO()
+    {
+        return $this->paginationDTO;
     }
 }

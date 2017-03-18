@@ -1,12 +1,12 @@
 <?php
-namespace inklabs\kommerce\Action\CartPriceRule\Query;
+namespace inklabs\kommerce\ActionResponse\CartPriceRule;
 
 use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 
-class ListCartPriceRulesResponse implements ListCartPriceRulesResponseInterface
+class ListCartPriceRulesResponse
 {
     /** @var CartPriceRuleDTOBuilder[] */
     protected $couponDTOBuilders = [];
