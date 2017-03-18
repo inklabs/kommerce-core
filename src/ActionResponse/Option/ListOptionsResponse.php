@@ -1,12 +1,12 @@
 <?php
-namespace inklabs\kommerce\Action\Option\Query;
+namespace inklabs\kommerce\ActionResponse\Option;
 
 use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\OptionDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\OptionDTO;
 
-class ListOptionsResponse implements ListOptionsResponseInterface
+class ListOptionsResponse
 {
     /** @var OptionDTOBuilder[] */
     private $optionDTOBuilders = [];
