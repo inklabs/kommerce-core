@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Attribute;
 
 use inklabs\kommerce\Action\Attribute\GetAttributeQuery;
+use inklabs\kommerce\ActionResponse\Attribute\GetAttributeResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
@@ -35,12 +36,16 @@ final class GetAttributeHandler implements QueryHandlerInterface
 
     public function handle()
     {
+        $response = new GetAttributeResponse();
+
         $attribute = $this->attributeRepository->findOneById(
-            $this->query->getRequest()->getAttributeId()
+            $this->query->getAttributeId()
         );
 
-        $this->query->getResponse()->setAttributeDTOBuilder(
+        $response->setAttributeDTOBuilder(
             $this->dtoBuilderFactory->getAttributeDTOBuilder($attribute)
         );
+
+        return $response;
     }
 }

@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Attribute;
 
 use inklabs\kommerce\Action\Attribute\GetAttributeQuery;
-use inklabs\kommerce\Action\Attribute\Query\GetAttributeRequest;
-use inklabs\kommerce\Action\Attribute\Query\GetAttributeResponse;
+use inklabs\kommerce\ActionResponse\Attribute\GetAttributeResponse;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
@@ -17,11 +16,10 @@ class GetAttributeHandlerTest extends ActionTestCase
     {
         $attribute = $this->dummyData->getAttribute();
         $this->persistEntityAndFlushClear($attribute);
-        $request = new GetAttributeRequest($attribute->getId()->getHex());
-        $response = new GetAttributeResponse();
-        $query = new GetAttributeQuery($request, $response);
+        $query = new GetAttributeQuery($attribute->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        /** @var GetAttributeResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $this->assertEquals($attribute->getId(), $response->getAttributeDTO()->id);
     }
