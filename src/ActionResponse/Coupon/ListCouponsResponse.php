@@ -1,12 +1,12 @@
 <?php
-namespace inklabs\kommerce\Action\Coupon\Query;
+namespace inklabs\kommerce\ActionResponse\Coupon;
 
 use inklabs\kommerce\EntityDTO\Builder\CouponDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 
-class ListCouponsResponse implements ListCouponsResponseInterface
+class ListCouponsResponse
 {
     /** @var CouponDTOBuilder[] */
     protected $couponDTOBuilders = [];
