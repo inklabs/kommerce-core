@@ -1,37 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\Tag;
 
-use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
-use inklabs\kommerce\Action\Tag\Query\GetTagResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
-class GetTagQuery implements QueryInterface
+final class GetTagQuery implements QueryInterface
 {
-    /** @var GetTagRequest */
-    private $request;
-
-    /** @var GetTagResponseInterface */
-    private $response;
-
-    public function __construct(GetTagRequest $request, GetTagResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var UuidInterface */
+    private $tagId;
 
     /**
-     * @return GetTagRequest
+     * @param string $tagId
      */
-    public function getRequest()
+    public function __construct($tagId)
     {
-        return $this->request;
+        $this->tagId = Uuid::fromString($tagId);
     }
 
-    /**
-     * @return GetTagResponseInterface
-     */
-    public function getResponse()
+    public function getTagId()
     {
-        return $this->response;
+        return $this->tagId;
     }
 }

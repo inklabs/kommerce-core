@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Tag;
 
 use inklabs\kommerce\Action\Tag\GetTagQuery;
-use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
-use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
+use inklabs\kommerce\ActionResponse\Tag\GetTagResponse;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\Product;
@@ -26,14 +25,13 @@ class GetTagHandlerTest extends ActionTestCase
         $tag = $this->dummyData->getTag();
         $this->persistEntityAndFlushClear($tag);
         $pricing = $this->dummyData->getPricing();
-        $request = new GetTagRequest($tag->getId()->getHex());
-        $response = new GetTagResponse($pricing);
-        $query = new GetTagQuery($request, $response);
+        $query = new GetTagQuery($tag->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        /** @var GetTagResponse $response */
+        $response = $this->dispatchQuery($query);
         $this->assertSame($tag->getId()->getHex(), $response->getTagDTO()->id->getHex());
 
-        $this->dispatchQuery($query);
+        $response = $this->dispatchQuery($query);
         $this->assertSame($tag->getId()->getHex(), $response->getTagDTOWithAllData()->id->getHex());
     }
 }
