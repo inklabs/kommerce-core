@@ -19,11 +19,10 @@ class ListTagsHandlerTest extends ActionTestCase
         $tag = $this->dummyData->getTag();
         $this->persistEntityAndFlushClear($tag);
         $queryString = 'TT';
-        $request = new ListTagsRequest($queryString, new PaginationDTO());
-        $response = new ListTagsResponse();
-        $query = new ListTagsQuery($request, $response);
+        $query = new ListTagsQuery($queryString, new PaginationDTO());
 
-        $this->dispatchQuery($query);
+        /** @var ListTagsResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $this->assertEntitiesInDTOList([$tag], $response->getTagDTOs());
         $this->assertTrue($response->getPaginationDTO() instanceof PaginationDTO);
