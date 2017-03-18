@@ -1,10 +1,10 @@
 <?php
-namespace inklabs\kommerce\Action\Tag\Query;
+namespace inklabs\kommerce\ActionResponse\Tag;
 
 use inklabs\kommerce\EntityDTO\Builder\TagDTOBuilder;
 use inklabs\kommerce\Lib\Pricing;
 
-class GetTagResponse implements GetTagResponseInterface
+class GetTagResponse
 {
     /** @var TagDTOBuilder */
     private $tagDTOBuilder;
