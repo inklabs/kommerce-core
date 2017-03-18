@@ -1,12 +1,13 @@
 <?php
-namespace inklabs\kommerce\Action\Warehouse\Query;
+namespace inklabs\kommerce\ActionResponse\Warehouse;
 
 use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\WarehouseDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\WarehouseDTO;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 
-class ListWarehousesResponse implements ListWarehousesResponseInterface
+final class ListWarehousesResponse implements ResponseInterface
 {
     /** @var WarehouseDTOBuilder[] */
     protected $warehouseDTOBuilders = [];
