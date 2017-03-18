@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\ListOptionsQuery;
+use inklabs\kommerce\ActionResponse\Option\ListOptionsResponse;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
@@ -36,22 +37,26 @@ final class ListOptionsHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $paginationDTO = $this->query->getRequest()->getPaginationDTO();
+        $response = new ListOptionsResponse();
+
+        $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
         $options = $this->optionRepository->getAllOptions(
-            $this->query->getRequest()->getQueryString(),
+            $this->query->getQueryString(),
             $pagination
         );
 
-        $this->query->getResponse()->setPaginationDTOBuilder(
+        $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
         );
 
         foreach ($options as $option) {
-            $this->query->getResponse()->addOptionDTOBuilder(
+            $response->addOptionDTOBuilder(
                 $this->dtoBuilderFactory->getOptionDTOBuilder($option)
             );
         }
+
+        return $response;
     }
 }
