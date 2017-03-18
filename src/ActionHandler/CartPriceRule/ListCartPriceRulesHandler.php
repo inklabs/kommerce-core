@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\CartPriceRule;
 
 use inklabs\kommerce\Action\CartPriceRule\ListCartPriceRulesQuery;
+use inklabs\kommerce\ActionResponse\CartPriceRule\ListCartPriceRulesResponse;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
@@ -36,13 +37,12 @@ final class ListCartPriceRulesHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $request = $this->query->getRequest();
-        $response = $this->query->getResponse();
+        $response = new ListCartPriceRulesResponse();
 
-        $paginationDTO = $request->getPaginationDTO();
+        $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        $cartPriceRules = $this->cartPriceRuleRepository->getAllCartPriceRules($request->getQueryString(), $pagination);
+        $cartPriceRules = $this->cartPriceRuleRepository->getAllCartPriceRules($this->query->getQueryString(), $pagination);
 
         $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
@@ -53,5 +53,7 @@ final class ListCartPriceRulesHandler implements QueryHandlerInterface
                 $this->dtoBuilderFactory->getCartPriceRuleDTOBuilder($cartPriceRule)
             );
         }
+
+        return $response;
     }
 }
