@@ -1,39 +1,31 @@
 <?php
 namespace inklabs\kommerce\Action\Shipment;
 
-use inklabs\kommerce\Action\Shipment\Query\GetLowestShipmentRatesByDeliveryMethodRequest;
-use inklabs\kommerce\Action\Shipment\Query\GetLowestShipmentRatesByDeliveryMethodResponseInterface;
+use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
-class GetLowestShipmentRatesByDeliveryMethodQuery implements QueryInterface
+final class GetLowestShipmentRatesByDeliveryMethodQuery implements QueryInterface
 {
-    /** @var GetLowestShipmentRatesByDeliveryMethodRequest */
-    private $request;
+    /** @var OrderAddressDTO */
+    private $toAddressDTO;
 
-    /** @var GetLowestShipmentRatesByDeliveryMethodResponseInterface */
-    private $response;
+    /** @var ParcelDTO */
+    private $parcelDTO;
 
-    public function __construct(
-        GetLowestShipmentRatesByDeliveryMethodRequest $request,
-        GetLowestShipmentRatesByDeliveryMethodResponseInterface & $response
-    ) {
-        $this->request = $request;
-        $this->response = $response;
+    public function __construct(OrderAddressDTO $toAddressDTO, ParcelDTO $parcelDTO)
+    {
+        $this->toAddressDTO = $toAddressDTO;
+        $this->parcelDTO = $parcelDTO;
     }
 
-    /**
-     * @return GetLowestShipmentRatesByDeliveryMethodRequest
-     */
-    public function getRequest()
+    public function getToAddressDTO()
     {
-        return $this->request;
+        return $this->toAddressDTO;
     }
 
-    /**
-     * @return GetLowestShipmentRatesByDeliveryMethodResponseInterface
-     */
-    public function getResponse()
+    public function getParcelDTO()
     {
-        return $this->response;
+        return $this->parcelDTO;
     }
 }

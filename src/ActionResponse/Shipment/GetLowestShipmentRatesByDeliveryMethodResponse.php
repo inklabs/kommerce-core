@@ -1,10 +1,10 @@
 <?php
-namespace inklabs\kommerce\Action\Shipment\Query;
+namespace inklabs\kommerce\ActionResponse\Shipment;
 
 use inklabs\kommerce\EntityDTO\Builder\ShipmentRateDTOBuilder;
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
 
-class GetLowestShipmentRatesByDeliveryMethodResponse implements GetLowestShipmentRatesByDeliveryMethodResponseInterface
+class GetLowestShipmentRatesByDeliveryMethodResponse
 {
     /** @var ShipmentRateDTOBuilder[] */
     private $shipmentRateDTOBuilders = [];
