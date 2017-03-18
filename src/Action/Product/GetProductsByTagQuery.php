@@ -1,37 +1,36 @@
 <?php
 namespace inklabs\kommerce\Action\Product;
 
-use inklabs\kommerce\Action\Product\Query\GetProductsByTagRequest;
-use inklabs\kommerce\Action\Product\Query\GetProductsByTagResponseInterface;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
 final class GetProductsByTagQuery implements QueryInterface
 {
-    /** @var GetProductsByTagRequest */
-    private $request;
+    /** @var UuidInterface */
+    private $tagId;
 
-    /** @var GetProductsByTagResponseInterface */
-    private $response;
-
-    public function __construct(GetProductsByTagRequest $request, GetProductsByTagResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var PaginationDTO */
+    private $paginationDTO;
 
     /**
-     * @return GetProductsByTagRequest
+     * @param string $tagId
+     * @param PaginationDTO $paginationDTO
      */
-    public function getRequest()
+    public function __construct($tagId, PaginationDTO $paginationDTO)
     {
-        return $this->request;
+        $this->tagId = Uuid::fromString($tagId);
+        $this->paginationDTO = $paginationDTO;
     }
 
-    /**
-     * @return GetProductsByTagResponseInterface
-     */
-    public function getResponse()
+    public function getTagId()
     {
-        return $this->response;
+        return $this->tagId;
+    }
+
+    public function getPaginationDTO()
+    {
+        return $this->paginationDTO;
     }
 }
