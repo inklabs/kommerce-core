@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Shipment;
 
 use inklabs\kommerce\Action\Shipment\GetShipmentRatesQuery;
+use inklabs\kommerce\ActionResponse\Shipment\GetShipmentRatesResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
 use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
@@ -35,13 +36,12 @@ final class GetShipmentRatesHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $request = $this->query->getRequest();
-        $response = $this->query->getResponse();
+        $response = new GetShipmentRatesResponse();
 
         $shipmentRates = $this->shipmentGateway->getRates(
-            $request->getToAddressDTO(),
-            $request->getParcelDTO(),
-            $request->getFromAddressDTO()
+            $this->query->getToAddressDTO(),
+            $this->query->getParcelDTO(),
+            $this->query->getFromAddressDTO()
         );
 
         foreach ($shipmentRates as $shipmentRate) {
@@ -49,5 +49,7 @@ final class GetShipmentRatesHandler implements QueryHandlerInterface
                 $this->dtoBuilderFactory->getShipmentRateDTOBuilder($shipmentRate)
             );
         }
+
+        return $response;
     }
 }

@@ -1,37 +1,43 @@
 <?php
 namespace inklabs\kommerce\Action\Shipment;
 
-use inklabs\kommerce\Action\Shipment\Query\GetShipmentRatesRequest;
-use inklabs\kommerce\Action\Shipment\Query\GetShipmentRatesResponseInterface;
+use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 
-class GetShipmentRatesQuery implements QueryInterface
+final class GetShipmentRatesQuery implements QueryInterface
 {
-    /** @var GetShipmentRatesRequest */
-    private $request;
+    /** @var OrderAddressDTO */
+    private $toAddressDTO;
 
-    /** @var GetShipmentRatesResponseInterface */
-    private $response;
+    /** @var ParcelDTO */
+    private $parcelDTO;
 
-    public function __construct(GetShipmentRatesRequest $request, GetShipmentRatesResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
+    /** @var OrderAddressDTO */
+    private $fromAddressDTO;
+
+    public function __construct(
+        OrderAddressDTO $toAddressDTO,
+        ParcelDTO $parcelDTO,
+        OrderAddressDTO $fromAddressDTO = null
+    ) {
+        $this->toAddressDTO = $toAddressDTO;
+        $this->parcelDTO = $parcelDTO;
+        $this->fromAddressDTO = $fromAddressDTO;
     }
 
-    /**
-     * @return GetShipmentRatesRequest
-     */
-    public function getRequest()
+    public function getToAddressDTO()
     {
-        return $this->request;
+        return $this->toAddressDTO;
     }
 
-    /**
-     * @return GetShipmentRatesResponseInterface
-     */
-    public function getResponse()
+    public function getParcelDTO()
     {
-        return $this->response;
+        return $this->parcelDTO;
+    }
+
+    public function getFromAddressDTO()
+    {
+        return $this->fromAddressDTO;
     }
 }
