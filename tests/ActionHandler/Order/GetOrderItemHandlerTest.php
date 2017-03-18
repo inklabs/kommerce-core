@@ -3,7 +3,7 @@ namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\GetOrderItemQuery;
 use inklabs\kommerce\Action\Order\Query\GetOrderItemRequest;
-use inklabs\kommerce\Action\Order\Query\GetOrderItemResponse;
+use inklabs\kommerce\ActionResponse\Order\GetOrderItemResponse;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CatalogPromotion;
@@ -56,14 +56,13 @@ class GetOrderItemHandlerTest extends ActionTestCase
             $product,
             $user,
         ]);
-        $request = new GetOrderItemRequest($orderItem->getId()->getHex());
-        $response = new GetOrderItemResponse;
-        $query = new GetOrderItemQuery($request, $response);
+        $query = new GetOrderItemQuery($orderItem->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        /** @var GetOrderItemResponse $response */
+        $response = $this->dispatchQuery($query);
         $this->assertEquals($orderItem->getId(), $response->getOrderItemDTO()->id);
 
-        $this->dispatchQuery($query);
+        $response = $this->dispatchQuery($query);
         $this->assertEquals($orderItem->getId(), $response->getOrderItemDTOWithAllData()->id);
     }
 }
