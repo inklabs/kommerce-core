@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Shipment;
 
 use inklabs\kommerce\Action\Shipment\ListAdHocShipmentsQuery;
+use inklabs\kommerce\ActionResponse\Shipment\ListAdHocShipmentsResponse;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\ShipmentTrackerRepositoryInterface;
@@ -36,14 +37,13 @@ final class ListAdHocShipmentsHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $request = $this->query->getRequest();
-        $response = $this->query->getResponse();
+        $response = new ListAdHocShipmentsResponse();
 
-        $paginationDTO = $request->getPaginationDTO();
+        $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
         $shipmentTrackers = $this->shipmentTrackerRepository->getAllAdHocShipments(
-            $request->getQueryString(),
+            $this->query->getQueryString(),
             $pagination
         );
 
@@ -56,5 +56,7 @@ final class ListAdHocShipmentsHandler implements QueryHandlerInterface
                 $this->dtoBuilderFactory->getShipmentTrackerDTOBuilder($shipmentTracker)
             );
         }
+
+        return $response;
     }
 }
