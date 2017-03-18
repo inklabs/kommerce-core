@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\GetCartBySessionIdQuery;
-use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdRequest;
-use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdResponse;
+use inklabs\kommerce\ActionResponse\Cart\GetCartBySessionIdResponse;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\Product;
@@ -29,11 +28,10 @@ class GetCartBySessionIdHandlerTest extends ActionTestCase
         $this->persistEntityAndFlushClear([
             $cart,
         ]);
-        $request = new GetCartBySessionIdRequest($sessionId);
-        $response = new GetCartBySessionIdResponse($this->getCartCalculator());
-        $query = new GetCartBySessionIdQuery($request, $response);
+        $query = new GetCartBySessionIdQuery($sessionId);
 
-        $this->dispatchQuery($query);
+        /** @var GetCartBySessionIdResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $this->assertEquals($cart->getId(), $response->getCartDTO()->id);
     }

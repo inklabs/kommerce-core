@@ -1,21 +1,12 @@
 <?php
-namespace inklabs\kommerce\Action\Cart\Query;
+namespace inklabs\kommerce\ActionResponse\Cart;
 
 use inklabs\kommerce\EntityDTO\Builder\CartDTOBuilder;
-use inklabs\kommerce\Lib\CartCalculator;
 
-class GetCartBySessionIdResponse implements GetCartBySessionIdResponseInterface
+class GetCartBySessionIdResponse
 {
     /** @var CartDTOBuilder */
     private $cartDTOBuilder;
-
-    /** @var CartCalculator */
-    private $cartCalculator;
-
-    public function __construct(CartCalculator $cartCalculator)
-    {
-        $this->cartCalculator = $cartCalculator;
-    }
 
     public function setCartDTOBuilder(CartDTOBuilder $cartDTOBuilder)
     {
