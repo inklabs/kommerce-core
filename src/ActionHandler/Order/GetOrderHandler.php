@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\GetOrderQuery;
+use inklabs\kommerce\ActionResponse\Order\GetOrderResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
@@ -37,17 +38,16 @@ final class GetOrderHandler implements QueryHandlerInterface
     public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
         $authorizationContext->verifyCanViewOrder(
-            $this->query->getRequest()->getOrderId()
+            $this->query->getOrderId()
         );
     }
 
     public function handle()
     {
-        $request = $this->query->getRequest();
-        $response = $this->query->getResponse();
+        $response = new GetOrderResponse();
 
         $order = $this->orderRepository->findOneById(
-            $request->getOrderId()
+            $this->query->getOrderId()
         );
 
         $products = $order->getProducts();
@@ -56,5 +56,7 @@ final class GetOrderHandler implements QueryHandlerInterface
         $response->setOrderDTOBuilder(
             $this->dtoBuilderFactory->getOrderDTOBuilder($order)
         );
+
+        return $response;
     }
 }
