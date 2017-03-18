@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Shipment;
 
 use inklabs\kommerce\Action\Shipment\GetLowestShipmentRatesByDeliveryMethodQuery;
+use inklabs\kommerce\ActionResponse\Shipment\GetLowestShipmentRatesByDeliveryMethodResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
 use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
@@ -35,12 +36,11 @@ final class GetLowestShipmentRatesByDeliveryMethodHandler implements QueryHandle
 
     public function handle()
     {
-        $request = $this->query->getRequest();
-        $response = $this->query->getResponse();
+        $response = new GetLowestShipmentRatesByDeliveryMethodResponse();
 
         $shipmentRates = $this->shipmentGateway->getTrimmedRates(
-            $request->getToAddressDTO(),
-            $request->getParcelDTO()
+            $this->query->getToAddressDTO(),
+            $this->query->getParcelDTO()
         );
 
         foreach ($shipmentRates as $shipmentRate) {
@@ -48,5 +48,7 @@ final class GetLowestShipmentRatesByDeliveryMethodHandler implements QueryHandle
                 $this->dtoBuilderFactory->getShipmentRateDTOBuilder($shipmentRate)
             );
         }
+
+        return $response;
     }
 }
