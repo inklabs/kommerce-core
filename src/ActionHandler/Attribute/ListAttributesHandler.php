@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Attribute;
 
 use inklabs\kommerce\Action\Attribute\ListAttributesQuery;
+use inklabs\kommerce\ActionResponse\Attribute\ListAttributesResponse;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\AttributeRepositoryInterface;
@@ -36,13 +37,12 @@ final class ListAttributesHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $request = $this->query->getRequest();
-        $response = $this->query->getResponse();
+        $response = new ListAttributesResponse();
 
-        $paginationDTO = $request->getPaginationDTO();
+        $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        $coupons = $this->attributeRepository->getAllAttributes($request->getQueryString(), $pagination);
+        $coupons = $this->attributeRepository->getAllAttributes($this->query->getQueryString(), $pagination);
 
         $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
@@ -53,5 +53,7 @@ final class ListAttributesHandler implements QueryHandlerInterface
                 $this->dtoBuilderFactory->getAttributeDTOBuilder($coupon)
             );
         }
+
+        return $response;
     }
 }
