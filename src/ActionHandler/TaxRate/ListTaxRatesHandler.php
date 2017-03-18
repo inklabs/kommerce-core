@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\TaxRate;
 
 use inklabs\kommerce\Action\TaxRate\ListTaxRatesQuery;
+use inklabs\kommerce\ActionResponse\TaxRate\ListTaxRatesResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\TaxRateRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
@@ -35,12 +36,16 @@ final class ListTaxRatesHandler implements QueryHandlerInterface
 
     public function handle()
     {
+        $response = new ListTaxRatesResponse();
+
         $taxRates = $this->taxRateRepository->findAll();
 
         foreach ($taxRates as $taxRate) {
-            $this->query->getResponse()->addTaxRateDTOBuilder(
+            $response->addTaxRateDTOBuilder(
                 $this->dtoBuilderFactory->getTaxRateDTOBuilder($taxRate)
             );
         }
+
+        return $response;
     }
 }
