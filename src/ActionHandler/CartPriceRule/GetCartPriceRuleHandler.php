@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\CartPriceRule;
 
 use inklabs\kommerce\Action\CartPriceRule\GetCartPriceRuleQuery;
+use inklabs\kommerce\ActionResponse\CartPriceRule\GetCartPriceRuleResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\CartPriceRuleRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
@@ -35,12 +36,16 @@ final class GetCartPriceRuleHandler implements QueryHandlerInterface
 
     public function handle()
     {
+        $response = new GetCartPriceRuleResponse();
+
         $cartPriceRule = $this->cartPriceRuleRepository->findOneById(
-            $this->query->getRequest()->getCartPriceRuleId()
+            $this->query->getCartPriceRuleId()
         );
 
-        $this->query->getResponse()->setCartPriceRuleDTOBuilder(
+        $response->setCartPriceRuleDTOBuilder(
             $this->dtoBuilderFactory->getCartPriceRuleDTOBuilder($cartPriceRule)
         );
+
+        return $response;
     }
 }
