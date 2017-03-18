@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\GetCartByUserIdQuery;
+use inklabs\kommerce\Action\Cart\Query\GetCartByUserIdResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
@@ -30,17 +31,21 @@ final class GetCartByUserIdHandler implements QueryHandlerInterface
 
     public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
     {
-        $authorizationContext->verifyCanManageUser($this->query->getRequest()->getUserId());
+        $authorizationContext->verifyCanManageUser($this->query->getUserId());
     }
 
     public function handle()
     {
+        $response = new GetCartByUserIdResponse();
+
         $cart = $this->cartRepository->findOneByUserId(
-            $this->query->getRequest()->getUserId()
+            $this->query->getUserId()
         );
 
-        $this->query->getResponse()->setCartDTOBuilder(
+        $response->setCartDTOBuilder(
             $this->dtoBuilderFactory->getCartDTOBuilder($cart)
         );
+
+        return $response;
     }
 }

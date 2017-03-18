@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\GetCartByUserIdQuery;
-use inklabs\kommerce\Action\Cart\Query\GetCartByUserIdRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartByUserIdResponse;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
@@ -30,11 +29,10 @@ class GetCartByUserIdHandlerTest extends ActionTestCase
             $cart,
             $user,
         ]);
-        $request = new GetCartByUserIdRequest($user->getId()->getHex());
-        $response = new GetCartByUserIdResponse($this->getCartCalculator());
-        $query = new GetCartByUserIdQuery($request, $response);
+        $query = new GetCartByUserIdQuery($user->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        /** @var GetCartByUserIdResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $this->assertEquals($cart->getId(), $response->getCartDTO()->id);
     }
