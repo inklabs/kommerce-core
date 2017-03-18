@@ -1,12 +1,12 @@
 <?php
-namespace inklabs\kommerce\Action\Shipment\Query;
+namespace inklabs\kommerce\ActionResponse\Shipment;
 
 use inklabs\kommerce\EntityDTO\Builder\PaginationDTOBuilder;
 use inklabs\kommerce\EntityDTO\Builder\ShipmentTrackerDTOBuilder;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\ShipmentTrackerDTO;
 
-class ListAdHocShipmentsResponse implements ListAdHocShipmentsResponseInterface
+class ListAdHocShipmentsResponse
 {
     /** @var ShipmentTrackerDTOBuilder[] */
     protected $shipmentTrackerDTOBuilders = [];
