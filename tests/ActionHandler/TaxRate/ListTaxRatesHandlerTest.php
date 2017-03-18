@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\TaxRate;
 
 use inklabs\kommerce\Action\TaxRate\ListTaxRatesQuery;
-use inklabs\kommerce\Action\TaxRate\Query\ListTaxRatesRequest;
-use inklabs\kommerce\Action\TaxRate\Query\ListTaxRatesResponse;
+use inklabs\kommerce\ActionResponse\TaxRate\ListTaxRatesResponse;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 
@@ -17,11 +16,10 @@ class ListTaxRatesHandlerTest extends ActionTestCase
     {
         $taxRate = $this->dummyData->getStateTaxRate();
         $this->persistEntityAndFlushClear($taxRate);
-        $request = new ListTaxRatesRequest();
-        $response = new ListTaxRatesResponse();
-        $query = new ListTaxRatesQuery($request, $response);
+        $query = new ListTaxRatesQuery();
 
-        $this->dispatchQuery($query);
+        /** @var ListTaxRatesResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $expectedEntities = [
             $taxRate,

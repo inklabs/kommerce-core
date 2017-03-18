@@ -1,10 +1,10 @@
 <?php
-namespace inklabs\kommerce\Action\TaxRate\Query;
+namespace inklabs\kommerce\ActionResponse\TaxRate;
 
 use inklabs\kommerce\EntityDTO\Builder\TaxRateDTOBuilder;
 use inklabs\kommerce\EntityDTO\TaxRateDTO;
 
-class ListTaxRatesResponse implements ListTaxRatesResponseInterface
+class ListTaxRatesResponse
 {
     /** @var TaxRateDTOBuilder[] */
     private $tagDTOBuilders = [];
