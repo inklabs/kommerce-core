@@ -1,37 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\Product;
 
-use inklabs\kommerce\Action\Product\Query\GetProductRequest;
-use inklabs\kommerce\Action\Product\Query\GetProductResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
-class GetProductQuery implements QueryInterface
+final class GetProductQuery implements QueryInterface
 {
-    /** @var GetProductRequest */
-    private $request;
-
-    /** @var GetProductResponseInterface */
-    private $response;
-
-    public function __construct(GetProductRequest $request, GetProductResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var UuidInterface */
+    private $productId;
 
     /**
-     * @return GetProductRequest
+     * @param string $productId
      */
-    public function getRequest()
+    public function __construct($productId)
     {
-        return $this->request;
+        $this->productId = Uuid::fromString($productId);
     }
 
-    /**
-     * @return GetProductResponseInterface
-     */
-    public function getResponse()
+    public function getProductId()
     {
-        return $this->response;
+        return $this->productId;
     }
 }

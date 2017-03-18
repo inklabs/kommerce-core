@@ -2,15 +2,20 @@
 namespace inklabs\kommerce\ActionHandler\Product;
 
 use inklabs\kommerce\Action\Product\GetProductQuery;
+use inklabs\kommerce\ActionResponse\Product\GetProductResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
 final class GetProductHandler implements QueryHandlerInterface
 {
     /** @var GetProductQuery */
     private $query;
+
+    /** @var Pricing */
+    private $pricing;
 
     /** @var ProductRepositoryInterface */
     private $productRepository;
@@ -20,10 +25,12 @@ final class GetProductHandler implements QueryHandlerInterface
 
     public function __construct(
         GetProductQuery $query,
+        Pricing $pricing,
         ProductRepositoryInterface $productRepository,
         DTOBuilderFactoryInterface $dtoBuilderFactory
     ) {
         $this->query = $query;
+        $this->pricing = $pricing;
         $this->productRepository = $productRepository;
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
@@ -35,12 +42,16 @@ final class GetProductHandler implements QueryHandlerInterface
 
     public function handle()
     {
+        $response = new GetProductResponse($this->pricing);
+
         $product = $this->productRepository->findOneById(
-            $this->query->getRequest()->getProductId()
+            $this->query->getProductId()
         );
 
-        $this->query->getResponse()->setProductDTOBuilder(
+        $response->setProductDTOBuilder(
             $this->dtoBuilderFactory->getProductDTOBuilder($product)
         );
+
+        return $response;
     }
 }
