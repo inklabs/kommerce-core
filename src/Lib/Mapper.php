@@ -156,7 +156,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getWarehouseRepository();
                 } elseif ($parameterClassName === AttachmentServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getAttachmentService();
-                } elseif ($parameterClassName === CartCalculatorInterface::class) {
+                } elseif ($parameterClassName === CartCalculatorInterface::class
+                    || $parameterClassName === CartCalculator::class) {
                     $constructorParameters[] = $this->serviceFactory->getCartCalculator();
                 } elseif ($parameterClassName === CartServiceInterface::class) {
                     $constructorParameters[] = $this->serviceFactory->getCart();

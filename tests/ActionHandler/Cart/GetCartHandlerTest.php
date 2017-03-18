@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\Cart;
 
 use inklabs\kommerce\Action\Cart\GetCartQuery;
-use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
-use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
+use inklabs\kommerce\ActionResponse\Cart\GetCartResponse;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CartItem;
 use inklabs\kommerce\Entity\Coupon;
@@ -29,14 +28,13 @@ class GetCartHandlerTest extends ActionTestCase
         $this->persistEntityAndFlushClear([
             $cart,
         ]);
-        $request = new GetCartRequest($cart->getId()->getHex());
-        $response = new GetCartResponse($this->getCartCalculator());
-        $query = new GetCartQuery($request, $response);
+        $query = new GetCartQuery($cart->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        /** @var GetCartResponse $response */
+        $response = $this->dispatchQuery($query);
         $this->assertEquals($cart->getId(), $response->getCartDTO()->id);
 
-        $this->dispatchQuery($query);
+        $response = $this->dispatchQuery($query);
         $this->assertEquals($cart->getId(), $response->getCartDTOWithAllData()->id);
     }
 }

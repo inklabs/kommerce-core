@@ -1,37 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\Cart;
 
-use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
-use inklabs\kommerce\Action\Cart\Query\GetCartResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
-class GetCartQuery implements QueryInterface
+final class GetCartQuery implements QueryInterface
 {
-    /** @var GetCartRequest */
-    private $request;
-
-    /** @var GetCartResponseInterface */
-    private $response;
-
-    public function __construct(GetCartRequest $request, GetCartResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var UuidInterface */
+    private $cartId;
 
     /**
-     * @return GetCartRequest
+     * @param string $cartId
      */
-    public function getRequest()
+    public function __construct($cartId)
     {
-        return $this->request;
+        $this->cartId = Uuid::fromString($cartId);
     }
 
-    /**
-     * @return GetCartResponseInterface
-     */
-    public function getResponse()
+    public function getCartId()
     {
-        return $this->response;
+        return $this->cartId;
     }
 }
