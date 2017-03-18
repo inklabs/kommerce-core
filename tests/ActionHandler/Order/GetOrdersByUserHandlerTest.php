@@ -3,7 +3,7 @@ namespace inklabs\kommerce\ActionHandler\Order;
 
 use inklabs\kommerce\Action\Order\GetOrdersByUserQuery;
 use inklabs\kommerce\Action\Order\Query\GetOrdersByUserRequest;
-use inklabs\kommerce\Action\Order\Query\GetOrdersByUserResponse;
+use inklabs\kommerce\ActionResponse\Order\GetOrdersByUserResponse;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\Coupon;
@@ -43,17 +43,13 @@ class GetOrdersByUserHandlerTest extends ActionTestCase
             $order2,
             $user,
         ]);
-        $request = new GetOrdersByUserRequest($user->getId()->getHex());
-        $response = new GetOrdersByUserResponse();
-        $query = new GetOrdersByUserQuery($request, $response);
+        $query = new GetOrdersByUserQuery($user->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        /** @var GetOrdersByUserResponse $response */
+        $response = $this->dispatchQuery($query);
         $this->assertEntitiesInDTOList([$order1, $order2], $response->getOrderDTOs());
 
-        $request = new GetOrdersByUserRequest($user->getId()->getHex());
-        $response = new GetOrdersByUserResponse();
-        $query = new GetOrdersByUserQuery($request, $response);
-        $this->dispatchQuery($query);
+        $response = $this->dispatchQuery($query);
         $this->assertEntitiesInDTOList([$order1, $order2], $response->getOrderDTOsWithAllData());
     }
 }
