@@ -1,37 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\Shipment;
 
-use inklabs\kommerce\Action\Shipment\Query\GetShipmentTrackerRequest;
-use inklabs\kommerce\Action\Shipment\Query\GetShipmentTrackerResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
-class GetShipmentTrackerQuery implements QueryInterface
+final class GetShipmentTrackerQuery implements QueryInterface
 {
-    /** @var GetShipmentTrackerRequest */
-    private $request;
-
-    /** @var GetShipmentTrackerResponseInterface */
-    private $response;
-
-    public function __construct(GetShipmentTrackerRequest $request, GetShipmentTrackerResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var UuidInterface */
+    private $shipmentTrackerId;
 
     /**
-     * @return GetShipmentTrackerRequest
+     * @param string $shipmentTrackerId
      */
-    public function getRequest()
+    public function __construct($shipmentTrackerId)
     {
-        return $this->request;
+        $this->shipmentTrackerId = Uuid::fromString($shipmentTrackerId);
     }
 
-    /**
-     * @return GetShipmentTrackerResponseInterface
-     */
-    public function getResponse()
+    public function getShipmentTrackerId()
     {
-        return $this->response;
+        return $this->shipmentTrackerId;
     }
 }
