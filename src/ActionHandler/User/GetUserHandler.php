@@ -2,7 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\User;
 
 use inklabs\kommerce\Action\User\GetUserQuery;
-use inklabs\kommerce\Action\User\Query\GetUserResponse;
+use inklabs\kommerce\ActionResponse\User\GetUserResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
