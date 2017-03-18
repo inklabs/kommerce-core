@@ -1,37 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\Attribute;
 
-use inklabs\kommerce\Action\Attribute\Query\GetAttributeValueRequest;
-use inklabs\kommerce\Action\Attribute\Query\GetAttributeValueResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
-class GetAttributeValueQuery implements QueryInterface
+final class GetAttributeValueQuery implements QueryInterface
 {
-    /** @var GetAttributeValueRequest */
-    private $request;
-
-    /** @var GetAttributeValueResponseInterface */
-    private $response;
-
-    public function __construct(GetAttributeValueRequest $request, GetAttributeValueResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var UuidInterface */
+    private $attributeValueId;
 
     /**
-     * @return GetAttributeValueRequest
+     * @param string $attributeValueId
      */
-    public function getRequest()
+    public function __construct($attributeValueId)
     {
-        return $this->request;
+        $this->attributeValueId = Uuid::fromString($attributeValueId);
     }
 
-    /**
-     * @return GetAttributeValueResponseInterface
-     */
-    public function getResponse()
+    public function getAttributeValueId()
     {
-        return $this->response;
+        return $this->attributeValueId;
     }
 }
