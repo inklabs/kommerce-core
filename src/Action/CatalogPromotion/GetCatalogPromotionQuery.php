@@ -1,37 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\CatalogPromotion;
 
-use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionRequest;
-use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
-class GetCatalogPromotionQuery implements QueryInterface
+final class GetCatalogPromotionQuery implements QueryInterface
 {
-    /** @var GetCatalogPromotionRequest */
-    private $request;
-
-    /** @var GetCatalogPromotionResponseInterface */
-    private $response;
-
-    public function __construct(GetCatalogPromotionRequest $request, GetCatalogPromotionResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var UuidInterface */
+    private $catalogPromotionId;
 
     /**
-     * @return GetCatalogPromotionRequest
+     * @param string $catalogPromotionId
      */
-    public function getRequest()
+    public function __construct($catalogPromotionId)
     {
-        return $this->request;
+        $this->catalogPromotionId = Uuid::fromString($catalogPromotionId);
     }
 
-    /**
-     * @return GetCatalogPromotionResponseInterface
-     */
-    public function getResponse()
+    public function getCatalogPromotionId()
     {
-        return $this->response;
+        return $this->catalogPromotionId;
     }
 }

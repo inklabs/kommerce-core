@@ -2,8 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\CatalogPromotion;
 
 use inklabs\kommerce\Action\CatalogPromotion\GetCatalogPromotionQuery;
-use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionRequest;
-use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionResponse;
+use inklabs\kommerce\ActionResponse\CatalogPromotion\GetCatalogPromotionResponse;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
@@ -19,13 +18,10 @@ class GetCatalogPromotionHandlerTest extends ActionTestCase
     {
         $catalogPromotion = $this->dummyData->getCatalogPromotion();
         $this->persistEntityAndFlushClear($catalogPromotion);
-        $request = new GetCatalogPromotionRequest(
-            $catalogPromotion->getId()->getHex()
-        );
-        $response = new GetCatalogPromotionResponse();
-        $query = new GetCatalogPromotionQuery($request, $response);
+        $query = new GetCatalogPromotionQuery($catalogPromotion->getId()->getHex());
 
-        $this->dispatchQuery($query);
+        /** @var GetCatalogPromotionResponse $response */
+        $response = $this->dispatchQuery($query);
 
         $this->assertEquals($catalogPromotion->getId(), $response->getCatalogPromotionDTO()->id);
     }

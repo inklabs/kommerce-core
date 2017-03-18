@@ -1,9 +1,9 @@
 <?php
-namespace inklabs\kommerce\Action\CatalogPromotion\Query;
+namespace inklabs\kommerce\ActionResponse\CatalogPromotion;
 
 use inklabs\kommerce\EntityDTO\Builder\CatalogPromotionDTOBuilder;
 
-class GetCatalogPromotionResponse implements GetCatalogPromotionResponseInterface
+class GetCatalogPromotionResponse
 {
     /** @var CatalogPromotionDTOBuilder */
     protected $catalogPromotionDTOBuilder;

@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\ActionHandler\CatalogPromotion;
 
 use inklabs\kommerce\Action\CatalogPromotion\GetCatalogPromotionQuery;
+use inklabs\kommerce\ActionResponse\CatalogPromotion\GetCatalogPromotionResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\CatalogPromotionRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
@@ -35,12 +36,16 @@ final class GetCatalogPromotionHandler implements QueryHandlerInterface
 
     public function handle()
     {
+        $response = new GetCatalogPromotionResponse();
+
         $catalogPromotion = $this->catalogPromotionRepository->findOneById(
-            $this->query->getRequest()->getCatalogPromotionId()
+            $this->query->getCatalogPromotionId()
         );
 
-        $this->query->getResponse()->setCatalogPromotionDTOBuilder(
+        $response->setCatalogPromotionDTOBuilder(
             $this->dtoBuilderFactory->getCatalogPromotionDTOBuilder($catalogPromotion)
         );
+
+        return $response;
     }
 }
