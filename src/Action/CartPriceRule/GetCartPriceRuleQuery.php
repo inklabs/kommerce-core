@@ -1,37 +1,25 @@
 <?php
 namespace inklabs\kommerce\Action\CartPriceRule;
 
-use inklabs\kommerce\Action\CartPriceRule\Query\GetCartPriceRuleRequest;
-use inklabs\kommerce\Action\CartPriceRule\Query\GetCartPriceRuleResponseInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Lib\UuidInterface;
 
-class GetCartPriceRuleQuery implements QueryInterface
+final class GetCartPriceRuleQuery implements QueryInterface
 {
-    /** @var GetCartPriceRuleRequest */
-    private $request;
-
-    /** @var GetCartPriceRuleResponseInterface */
-    private $response;
-
-    public function __construct(GetCartPriceRuleRequest $request, GetCartPriceRuleResponseInterface & $response)
-    {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    /** @var UuidInterface */
+    private $cartPriceRuleId;
 
     /**
-     * @return GetCartPriceRuleRequest
+     * @param string $cartPriceRuleId
      */
-    public function getRequest()
+    public function __construct($cartPriceRuleId)
     {
-        return $this->request;
+        $this->cartPriceRuleId = Uuid::fromString($cartPriceRuleId);
     }
 
-    /**
-     * @return GetCartPriceRuleResponseInterface
-     */
-    public function getResponse()
+    public function getCartPriceRuleId()
     {
-        return $this->response;
+        return $this->cartPriceRuleId;
     }
 }

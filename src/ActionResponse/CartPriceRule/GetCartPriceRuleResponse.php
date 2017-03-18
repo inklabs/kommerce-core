@@ -1,9 +1,9 @@
 <?php
-namespace inklabs\kommerce\Action\CartPriceRule\Query;
+namespace inklabs\kommerce\ActionResponse\CartPriceRule;
 
 use inklabs\kommerce\EntityDTO\Builder\CartPriceRuleDTOBuilder;
 
-class GetCartPriceRuleResponse implements GetCartPriceRuleResponseInterface
+class GetCartPriceRuleResponse
 {
     /** @var CartPriceRuleDTOBuilder */
     protected $cartPriceRuleDTOBuilder;
