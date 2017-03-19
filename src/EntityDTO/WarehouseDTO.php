@@ -10,4 +10,7 @@ class WarehouseDTO
 
     /** @var AddressDTO */
     public $address;
+
+    /** @var InventoryLocationDTO[] */
+    public $inventoryLocations;
 }

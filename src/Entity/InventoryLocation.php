@@ -22,6 +22,7 @@ class InventoryLocation implements IdEntityInterface
         $this->setId();
         $this->setCreated();
         $this->warehouse = $warehouse;
+        $this->warehouse->addInventoryLocation($this);
         $this->setName($name);
         $this->setCode($code);
     }

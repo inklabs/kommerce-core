@@ -15,6 +15,13 @@ final class GetWarehouseResponse implements ResponseInterface
             ->build();
     }
 
+    public function getWarehouseDTOWithAllData()
+    {
+        return $this->warehouseDTOBuilder
+            ->withAllData()
+            ->build();
+    }
+
     public function setWarehouseDTOBuilder(WarehouseDTOBuilder $warehouseDTOBuilder)
     {
         $this->warehouseDTOBuilder = $warehouseDTOBuilder;

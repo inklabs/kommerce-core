@@ -62,4 +62,17 @@ class Warehouse implements IdEntityInterface
     {
         $this->address = $address;
     }
+
+    /**
+     * @return InventoryLocation[]
+     */
+    public function getInventoryLocations()
+    {
+        return $this->inventoryLocations;
+    }
+
+    public function addInventoryLocation(InventoryLocation $inventoryLocation)
+    {
+        $this->inventoryLocations->add($inventoryLocation);
+    }
 }

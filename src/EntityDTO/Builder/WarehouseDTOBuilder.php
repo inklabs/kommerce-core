@@ -32,6 +32,22 @@ class WarehouseDTOBuilder implements DTOBuilderInterface
             ->build();
     }
 
+    public function withInventoryLocations()
+    {
+        foreach ($this->entity->getInventoryLocations() as $inventoryLocation) {
+            $this->entityDTO->inventoryLocations[] = $this->dtoBuilderFactory
+                ->getInventoryLocationDTOBuilder($inventoryLocation)
+                ->build();
+        }
+        return $this;
+    }
+
+    public function withAllData()
+    {
+        return $this
+            ->withInventoryLocations();
+    }
+
     protected function preBuild()
     {
     }
