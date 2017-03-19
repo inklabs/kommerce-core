@@ -42,18 +42,18 @@ final class GetProductsByIdsHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $resposne = new GetProductsByIdsResponse($this->pricing);
+        $response = new GetProductsByIdsResponse($this->pricing);
 
         $products = $this->productRepository->getProductsByIds(
             $this->query->getProductIds()
         );
 
         foreach ($products as $product) {
-            $resposne->addProductDTOBuilder(
+            $response->addProductDTOBuilder(
                 $this->dtoBuilderFactory->getProductDTOBuilder($product)
             );
         }
 
-        return $resposne;
+        return $response;
     }
 }

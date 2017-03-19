@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,10 +22,11 @@ class Warehouse implements IdEntityInterface
     /**
      * @param string $name
      * @param Address $address
+     * @param UuidInterface $id
      */
-    public function __construct($name, Address $address)
+    public function __construct($name, Address $address, UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->name = (string) $name;
         $this->address = $address;

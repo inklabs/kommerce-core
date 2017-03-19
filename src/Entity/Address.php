@@ -35,7 +35,7 @@ class Address implements ValidationInterface
 
     public function __construct()
     {
-        $this->point = new Point;
+        $this->point = new Point();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

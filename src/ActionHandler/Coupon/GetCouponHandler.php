@@ -36,16 +36,16 @@ final class GetCouponHandler implements QueryHandlerInterface
 
     public function handle()
     {
-        $resposne = new GetCouponResponse();
+        $response = new GetCouponResponse();
 
         $coupon = $this->couponRepository->findOneById(
             $this->query->getCouponId()
         );
 
-        $resposne->setCouponDTOBuilder(
+        $response->setCouponDTOBuilder(
             $this->dtoBuilderFactory->getCouponDTOBuilder($coupon)
         );
 
-        return $resposne;
+        return $response;
     }
 }

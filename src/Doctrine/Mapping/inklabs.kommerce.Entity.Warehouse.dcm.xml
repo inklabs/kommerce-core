@@ -15,6 +15,18 @@
 
         <field name="name" type="string" length="255"/>
 
+        <field name="created" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="updated" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <embedded name="address" class="Address"/>
 
         <one-to-many field="inventoryLocations" target-entity="InventoryLocation" mapped-by="warehouse" fetch="EXTRA_LAZY"/>
