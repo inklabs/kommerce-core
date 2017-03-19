@@ -18,8 +18,6 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->seedRandomNumberGenerator();
-
         $this->repository = $this->mockRepository->getOrderRepository();
         $this->hashSegmentGenerator = new HashSegmentReferenceNumberGenerator($this->repository);
     }
@@ -33,7 +31,11 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
         $entity = new FakeReferenceNumberEntity;
         $this->hashSegmentGenerator->generate($entity);
 
-        $this->assertSame('963-1273124-1535857', $entity->getReferenceNumber());
+        $pieces = explode('-', $entity->getReferenceNumber());
+        $this->assertCount(3, $pieces);
+        $this->assertSame(3, strlen($pieces[0]));
+        $this->assertSame(7, strlen($pieces[1]));
+        $this->assertSame(7, strlen($pieces[2]));
     }
 
     public function testGenerateWithCustomSegments()
@@ -46,7 +48,13 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
         $this->hashSegmentGenerator->setSegments([1, 2, 3, 4, 5]);
         $this->hashSegmentGenerator->generate($entity);
 
-        $this->assertSame('9-12-153-3247-12944', $entity->getReferenceNumber());
+        $pieces = explode('-', $entity->getReferenceNumber());
+        $this->assertCount(5, $pieces);
+        $this->assertSame(1, strlen($pieces[0]));
+        $this->assertSame(2, strlen($pieces[1]));
+        $this->assertSame(3, strlen($pieces[2]));
+        $this->assertSame(4, strlen($pieces[3]));
+        $this->assertSame(5, strlen($pieces[4]));
     }
 
     public function testGenerateThrowsException()

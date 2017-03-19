@@ -22,7 +22,8 @@
         "hamcrest/hamcrest-php": "~2.0.0",
         "symfony/validator": "~3.1",
         "stripe/stripe-php": "3.4.0",
-        "easypost/easypost-php": "2.1.1"
+        "easypost/easypost-php": "2.1.1",
+        "paragonie/random_compat": "~1.4"
     },
     "autoload": {
         "psr-4": {

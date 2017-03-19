@@ -309,19 +309,6 @@ abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * Preserve legacy implementation of mt_srand
-     * TODO: Remove when #16 is complete
-     */
-    protected function seedRandomNumberGenerator()
-    {
-        if (defined('MT_RAND_PHP')) {
-            mt_srand(0, MT_RAND_PHP);
-        } else {
-            mt_srand(0);
-        }
-    }
-
     protected function assertFloatEquals($expected, $actual)
     {
         $this->assertEquals($expected, $actual, null, self::FLOAT_DELTA);
