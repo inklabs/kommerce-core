@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,9 +18,9 @@ class InventoryLocation implements IdEntityInterface
     /** @var Warehouse */
     protected $warehouse;
 
-    public function __construct(Warehouse $warehouse, $name, $code)
+    public function __construct(Warehouse $warehouse, $name, $code, UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->warehouse = $warehouse;
         $this->warehouse->addInventoryLocation($this);
