@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
-use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Lib\UuidInterface;
 
@@ -12,12 +11,6 @@ use inklabs\kommerce\Lib\UuidInterface;
  */
 interface OptionRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @param UuidInterface $optionValueId
-     * @return OptionValue
-     */
-    public function getOptionValueById(UuidInterface $optionValueId);
-
     /**
      * @param UuidInterface $optionProductId
      * @return OptionProduct

@@ -37,7 +37,9 @@ final class UpdateOptionValueHandler implements CommandHandlerInterface
     public function handle()
     {
         $optionValueDTO = $this->command->getOptionValueDTO();
-        $optionValue = $this->optionRepository->getOptionValueById($optionValueDTO->id);
+        $optionValue = $this->optionValueRepository->findOneById(
+            $optionValueDTO->id
+        );
         OptionValueDTOBuilder::setFromDTO($optionValue, $optionValueDTO);
 
         $this->optionValueRepository->update($optionValue);

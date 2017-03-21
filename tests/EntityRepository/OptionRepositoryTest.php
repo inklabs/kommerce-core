@@ -84,20 +84,6 @@ class OptionRepositoryTest extends EntityRepositoryTestCase
         $this->assertEquals($originalOption->getId(), $options[0]->getId());
     }
 
-    public function testGetOptionValueById()
-    {
-        $option = $this->dummyData->getOption();
-        $optionValue1 = $this->dummyData->getOptionValue($option);
-        $this->entityManager->persist($option);
-        $this->entityManager->persist($optionValue1);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
-
-        $optionValue = $this->optionRepository->getOptionValueById($optionValue1->getId());
-
-        $this->assertEntitiesEqual($optionValue1, $optionValue);
-    }
-
     public function testGetOptionProductById()
     {
         $option = $this->dummyData->getOption();

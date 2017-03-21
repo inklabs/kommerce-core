@@ -12,19 +12,14 @@ final class DeleteOptionValueHandler implements CommandHandlerInterface
     /** @var DeleteOptionValueCommand */
     private $command;
 
-    /** @var OptionRepositoryInterface */
-    protected $optionRepository;
-
     /** @var OptionValueRepositoryInterface */
     private $optionValueRepository;
 
     public function __construct(
         DeleteOptionValueCommand $command,
-        OptionRepositoryInterface $optionRepository,
         OptionValueRepositoryInterface $optionValueRepository
     ) {
         $this->command = $command;
-        $this->optionRepository = $optionRepository;
         $this->optionValueRepository = $optionValueRepository;
     }
 
@@ -35,7 +30,9 @@ final class DeleteOptionValueHandler implements CommandHandlerInterface
 
     public function handle()
     {
-        $optionValue = $this->optionRepository->getOptionValueById($this->command->getOptionValueId());
+        $optionValue = $this->optionValueRepository->findOneById(
+            $this->command->getOptionValueId()
+        );
         $this->optionValueRepository->delete($optionValue);
     }
 }
