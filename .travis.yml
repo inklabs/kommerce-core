@@ -16,5 +16,5 @@ notifications:
   slack:
     rooms:
       - secure: "iGNI6dNCA8z6LUIuxmPUh3bD0r89NlNuq+/gjcbfctqf6ndiWMtns/tbaIDE+zAcvssAKAsBdwz/miWi5sZlNIaZlB28KHP5Ob0T4BKKEelNuNRpxyXfuSfdIu2xt244P0svNedg8R4KW/MXnHkH3OWqX6TACzJQ5U65eSgv9kE="
-    on_success: always
+    on_success: change
     on_failure: always
