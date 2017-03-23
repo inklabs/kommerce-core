@@ -79,7 +79,7 @@ class InventoryTransactionRepositoryTest extends EntityRepositoryTestCase
         $this->assertSame('Initial Inventory', $inventoryTransaction->getMemo());
         $this->assertSame(null, $inventoryTransaction->getDebitQuantity());
         $this->assertSame(2, $inventoryTransaction->getCreditQuantity());
-        $this->assertTrue($inventoryTransaction->getType()->isMove());
+        $this->assertTrue($inventoryTransaction->getType()->isNewProducts());
         $this->assertSame(1, $this->getTotalQueries());
     }
 

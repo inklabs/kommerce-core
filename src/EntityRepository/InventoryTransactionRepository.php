@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\InventoryTransaction;
+use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\Uuid;
@@ -54,5 +55,17 @@ class InventoryTransactionRepository extends AbstractRepository implements Inven
         }
 
         throw $this->getEntityNotFoundException();
+    }
+
+    public function listByInventoryLocation(UuidInterface $inventoryLocationId, Pagination & $pagination = null)
+    {
+        return $this->getQueryBuilder()
+            ->select('InventoryTransaction')
+            ->from(InventoryTransaction::class, 'InventoryTransaction')
+            ->where('InventoryTransaction.inventoryLocation = :inventoryLocationId')
+            ->setIdParameter('inventoryLocationId', $inventoryLocationId)
+            ->paginate($pagination)
+            ->getQuery()
+            ->getResult();
     }
 }

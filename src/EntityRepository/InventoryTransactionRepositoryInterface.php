@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\InventoryTransaction;
+use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Lib\UuidInterface;
 
@@ -22,4 +23,11 @@ interface InventoryTransactionRepositoryInterface extends RepositoryInterface
      * @return UuidInterface
      */
     public function findInventoryIdForProductAndQuantity(Product $product, $quantity);
+
+    /**
+     * @param UuidInterface $inventoryLocationId
+     * @param Pagination|null $pagination
+     * @return InventoryTransaction[]
+     */
+    public function listByInventoryLocation(UuidInterface $inventoryLocationId, Pagination & $pagination = null);
 }

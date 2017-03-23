@@ -257,15 +257,21 @@ class InventoryService implements InventoryServiceInterface
         InventoryLocation $destinationLocation = null,
         InventoryTransactionType $transactionType = null
     ) {
-        $debitTransaction = new InventoryTransaction($sourceLocation, $transactionType);
-        $debitTransaction->setProduct($product);
-        $debitTransaction->setDebitQuantity($quantity);
-        $debitTransaction->setMemo($memo);
+        $debitTransaction = InventoryTransaction::debit(
+            $product,
+            $quantity,
+            $memo,
+            $sourceLocation,
+            $transactionType
+        );
 
-        $creditTransaction = new InventoryTransaction($destinationLocation, $transactionType);
-        $creditTransaction->setProduct($product);
-        $creditTransaction->setCreditQuantity($quantity);
-        $creditTransaction->setMemo($memo);
+        $creditTransaction = InventoryTransaction::credit(
+            $product,
+            $quantity,
+            $memo,
+            $destinationLocation,
+            $transactionType
+        );
 
         $this->inventoryTransactionRepository->persist($debitTransaction);
         $this->inventoryTransactionRepository->persist($creditTransaction);

@@ -27,16 +27,79 @@ class InventoryTransaction implements IdEntityInterface
     /** @var InventoryTransactionType */
     protected $type;
 
-    public function __construct(InventoryLocation $inventoryLocation = null, InventoryTransactionType $type = null)
+    /**
+     * @param InventoryTransactionType $inventoryTransactionType
+     * @param string $memo
+     */
+    public function __construct(InventoryTransactionType $inventoryTransactionType = null, $memo)
     {
-        if ($type === null) {
-            $type = InventoryTransactionType::move();
+        if ($inventoryTransactionType === null) {
+            $inventoryTransactionType = InventoryTransactionType::move();
         }
 
         $this->setId();
         $this->setCreated();
-        $this->inventoryLocation = $inventoryLocation;
-        $this->type = $type;
+        $this->type = $inventoryTransactionType;
+        $this->memo = $memo;
+    }
+
+    /**
+     * @param InventoryLocation $inventoryLocation
+     * @param Product $product
+     * @param int $creditQuantity
+     * @return InventoryTransaction
+     */
+    public static function newProduct(InventoryLocation $inventoryLocation, Product $product, $creditQuantity)
+    {
+        $inventoryTransaction = new self(InventoryTransactionType::newProducts(), 'Initial inventory');
+        $inventoryTransaction->setInventoryLocation($inventoryLocation);
+        $inventoryTransaction->setProduct($product);
+        $inventoryTransaction->setCreditQuantity($creditQuantity);
+        return $inventoryTransaction;
+    }
+
+    /**
+     * @param InventoryLocation $inventoryLocation
+     * @param InventoryTransactionType $transactionType
+     * @param Product $product
+     * @param int $quantity
+     * @param string $memo
+     * @return InventoryTransaction
+     */
+    public static function debit(
+        Product $product,
+        $quantity,
+        $memo,
+        InventoryLocation $inventoryLocation = null,
+        InventoryTransactionType $transactionType = null
+    ) {
+        $inventoryTransaction = new self($transactionType, $memo);
+        $inventoryTransaction->setInventoryLocation($inventoryLocation);
+        $inventoryTransaction->setProduct($product);
+        $inventoryTransaction->setDebitQuantity($quantity);
+        return $inventoryTransaction;
+    }
+
+    /**
+     * @param InventoryLocation $inventoryLocation
+     * @param InventoryTransactionType $transactionType
+     * @param Product $product
+     * @param int $quantity
+     * @param string $memo
+     * @return InventoryTransaction
+     */
+    public static function credit(
+        Product $product,
+        $quantity,
+        $memo,
+        InventoryLocation $inventoryLocation = null,
+        InventoryTransactionType $transactionType = null
+    ) {
+        $inventoryTransaction = new self($transactionType, $memo);
+        $inventoryTransaction->setInventoryLocation($inventoryLocation);
+        $inventoryTransaction->setProduct($product);
+        $inventoryTransaction->setCreditQuantity($quantity);
+        return $inventoryTransaction;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -174,5 +237,10 @@ class InventoryTransaction implements IdEntityInterface
     public function getQuantity()
     {
         return $this->creditQuantity - $this->debitQuantity;
+    }
+
+    private function setInventoryLocation(InventoryLocation $inventoryLocation = null)
+    {
+        $this->inventoryLocation = $inventoryLocation;
     }
 }

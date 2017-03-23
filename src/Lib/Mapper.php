@@ -14,6 +14,7 @@ use inklabs\kommerce\EntityRepository\ConfigurationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\CouponRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
+use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
@@ -127,6 +128,8 @@ class Mapper implements MapperInterface
                     $constructorParameters[] = $this->repositoryFactory->getImageRepository();
                 } elseif ($parameterClassName === InventoryLocationRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getInventoryLocationRepository();
+                } elseif ($parameterClassName === InventoryTransactionRepositoryInterface::class) {
+                    $constructorParameters[] = $this->repositoryFactory->getInventoryTransactionRepository();
                 } elseif ($parameterClassName === OptionRepositoryInterface::class) {
                     $constructorParameters[] = $this->repositoryFactory->getOptionRepository();
                 } elseif ($parameterClassName === OptionProductRepositoryInterface::class) {

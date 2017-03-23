@@ -8,13 +8,13 @@ class InventoryTransactionTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {
-        $inventoryTransaction = new InventoryTransaction;
+        $inventoryTransaction = new InventoryTransaction(InventoryTransactionType::move(), 'memo');
 
         $this->assertSame(null, $inventoryTransaction->getInventoryLocation());
         $this->assertSame(null, $inventoryTransaction->getProduct());
         $this->assertSame(null, $inventoryTransaction->getDebitQuantity());
         $this->assertSame(null, $inventoryTransaction->getCreditQuantity());
-        $this->assertSame(null, $inventoryTransaction->getMemo());
+        $this->assertSame('memo', $inventoryTransaction->getMemo());
         $this->assertTrue($inventoryTransaction->getType()->isMove());
     }
 
@@ -24,10 +24,13 @@ class InventoryTransactionTest extends EntityTestCase
         $inventoryTransactionType = $this->dummyData->getInventoryTransactionType();
         $product = $this->dummyData->getProduct();
 
-        $inventoryTransaction = new InventoryTransaction($inventoryLocation, $inventoryTransactionType);
-        $inventoryTransaction->setProduct($product);
-        $inventoryTransaction->setDebitQuantity(5);
-        $inventoryTransaction->setMemo('Test memo');
+        $inventoryTransaction = InventoryTransaction::debit(
+            $product,
+            5,
+            'Test memo',
+            $inventoryLocation,
+            $inventoryTransactionType
+        );
 
         $this->assertEntityValid($inventoryTransaction);
         $this->assertSame(5, $inventoryTransaction->getDebitQuantity());
@@ -44,15 +47,19 @@ class InventoryTransactionTest extends EntityTestCase
         $widgetBin = new InventoryLocation($warehouse, 'Widget Bin', 'Z1-A13-B37-L5-P3');
         $customerLocation = new InventoryLocation($warehouse, 'Shipped to Customer', 'SHIP');
 
-        $pickTransaction = new InventoryTransaction($widgetBin);
-        $pickTransaction->setProduct($product);
-        $pickTransaction->setDebitQuantity(2);
-        $pickTransaction->setMemo('Picked 2 Widgets');
+        $pickTransaction = InventoryTransaction::debit(
+            $product,
+            2,
+            'Picked 2 Widgets',
+            $widgetBin
+        );
 
-        $shipTransaction = new InventoryTransaction($customerLocation);
-        $shipTransaction->setProduct($product);
-        $shipTransaction->setCreditQuantity(2);
-        $shipTransaction->setMemo('Shipped 2 Widgets to customer');
+        $shipTransaction = InventoryTransaction::credit(
+            $product,
+            2,
+            'Shipped 2 Widgets to customer',
+            $customerLocation
+        );
 
         $this->assertEntityValid($pickTransaction);
         $this->assertEntityValid($shipTransaction);
@@ -104,16 +111,22 @@ class InventoryTransactionTest extends EntityTestCase
         $product = $this->dummyData->getProduct();
 
         $widgetBinLocation = $this->dummyData->getInventoryLocation($warehouse);
-        $debitTransaction = new InventoryTransaction($widgetBinLocation, InventoryTransactionType::hold());
-        $debitTransaction->setProduct($product);
-        $debitTransaction->setDebitQuantity(2);
-        $debitTransaction->setMemo('Hold 2 Widgets for order #123');
+        $debitTransaction = InventoryTransaction::debit(
+            $product,
+            2,
+            'Hold 2 Widgets for order #123',
+            $widgetBinLocation,
+            InventoryTransactionType::hold()
+        );
 
         $customerHoldingLocation = new InventoryLocation($warehouse, 'Reserve for Customer', 'HOLD');
-        $creditTransaction = new InventoryTransaction($customerHoldingLocation, InventoryTransactionType::hold());
-        $creditTransaction->setProduct($product);
-        $creditTransaction->setCreditQuantity(2);
-        $creditTransaction->setMemo('Hold 2 Widgets for order #123');
+        $creditTransaction = InventoryTransaction::credit(
+            $product,
+            2,
+            'Hold 2 Widgets for order #123',
+            $customerHoldingLocation,
+            InventoryTransactionType::hold()
+        );
 
         $this->assertEntityValid($debitTransaction);
         $this->assertEntityValid($creditTransaction);
@@ -127,15 +140,19 @@ class InventoryTransactionTest extends EntityTestCase
         $sourceLocation = new InventoryLocation($warehouse, 'Source Location', 'S1');
         $destinationLocation = new InventoryLocation($warehouse, 'Destination Location', 'D1');
 
-        $debitTransaction = new InventoryTransaction($sourceLocation);
-        $debitTransaction->setProduct($product);
-        $debitTransaction->setDebitQuantity(2);
-        $debitTransaction->setMemo('Move 2 Widgets');
+        $debitTransaction = InventoryTransaction::debit(
+            $product,
+            2,
+            'Move 2 Widgets',
+            $sourceLocation
+        );
 
-        $creditTransaction = new InventoryTransaction($destinationLocation);
-        $creditTransaction->setProduct($product);
-        $creditTransaction->setCreditQuantity(2);
-        $creditTransaction->setMemo('Move 2 Widgets');
+        $creditTransaction = InventoryTransaction::credit(
+            $product,
+            2,
+            'Move 2 Widgets',
+            $destinationLocation
+        );
 
         $this->assertEntityValid($debitTransaction);
         $this->assertEntityValid($creditTransaction);
@@ -144,10 +161,11 @@ class InventoryTransactionTest extends EntityTestCase
     public function testInventoryTransactionFailsIfMoveTypeAndMissingInventoryLocation()
     {
         $product = $this->dummyData->getProduct();
-        $inventoryTransaction = new InventoryTransaction;
-        $inventoryTransaction->setProduct($product);
-        $inventoryTransaction->setDebitQuantity(2);
-        $inventoryTransaction->setMemo('Move 2 Widgets');
+        $inventoryTransaction = InventoryTransaction::debit(
+            $product,
+            2,
+            'Move 2 Widgets'
+        );
 
         $errors = $this->getValidationErrors($inventoryTransaction);
 

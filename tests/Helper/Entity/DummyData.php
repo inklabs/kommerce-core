@@ -456,10 +456,13 @@ class DummyData
             $product = $this->getProduct();
         }
 
-        $inventoryTransaction = new InventoryTransaction($inventoryLocation);
-        $inventoryTransaction->setCreditQuantity(2);
-        $inventoryTransaction->setProduct($product);
-        $inventoryTransaction->setMemo('Initial Inventory');
+        $inventoryTransaction = InventoryTransaction::credit(
+            $product,
+            2,
+            'Initial Inventory',
+            $inventoryLocation,
+            InventoryTransactionType::newProducts()
+        );
 
         return $inventoryTransaction;
     }
