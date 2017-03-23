@@ -3,7 +3,6 @@ namespace inklabs\kommerce\ActionHandler\Warehouse;
 
 use inklabs\kommerce\Action\Warehouse\CreateInventoryLocationCommand;
 use inklabs\kommerce\Entity\InventoryLocation;
-use inklabs\kommerce\EntityDTO\Builder\InventoryLocationDTOBuilder;
 use inklabs\kommerce\EntityRepository\WarehouseRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
@@ -18,16 +17,16 @@ final class CreateInventoryLocationHandler implements CommandHandlerInterface
     protected $warehouseRepository;
 
     /** @var InventoryLocationRepositoryInterface */
-    private $inventoryLocation;
+    private $inventoryLocationRepository;
 
     public function __construct(
         CreateInventoryLocationCommand $command,
         WarehouseRepositoryInterface $warehouseRepository,
-        InventoryLocationRepositoryInterface $inventoryLocation
+        InventoryLocationRepositoryInterface $inventoryLocationRepository
     ) {
         $this->command = $command;
         $this->warehouseRepository = $warehouseRepository;
-        $this->inventoryLocation = $inventoryLocation;
+        $this->inventoryLocationRepository = $inventoryLocationRepository;
     }
 
     public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
@@ -48,6 +47,6 @@ final class CreateInventoryLocationHandler implements CommandHandlerInterface
             $this->command->getInventoryLocationId()
         );
 
-        $this->inventoryLocation->create($inventoryLocation);
+        $this->inventoryLocationRepository->create($inventoryLocation);
     }
 }
