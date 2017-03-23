@@ -8,7 +8,7 @@ class InventoryTransactionTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {
-        $inventoryTransaction = new InventoryTransaction(InventoryTransactionType::move(), 'memo');
+        $inventoryTransaction = new InventoryTransaction('memo', InventoryTransactionType::move());
 
         $this->assertSame(null, $inventoryTransaction->getInventoryLocation());
         $this->assertSame(null, $inventoryTransaction->getProduct());

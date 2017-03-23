@@ -28,10 +28,10 @@ class InventoryTransaction implements IdEntityInterface
     protected $type;
 
     /**
-     * @param InventoryTransactionType $inventoryTransactionType
      * @param string $memo
+     * @param InventoryTransactionType $inventoryTransactionType
      */
-    public function __construct(InventoryTransactionType $inventoryTransactionType = null, $memo)
+    public function __construct($memo, InventoryTransactionType $inventoryTransactionType = null)
     {
         if ($inventoryTransactionType === null) {
             $inventoryTransactionType = InventoryTransactionType::move();
@@ -51,7 +51,7 @@ class InventoryTransaction implements IdEntityInterface
      */
     public static function newProduct(InventoryLocation $inventoryLocation, Product $product, $creditQuantity)
     {
-        $inventoryTransaction = new self(InventoryTransactionType::newProducts(), 'Initial inventory');
+        $inventoryTransaction = new self('Initial inventory', InventoryTransactionType::newProducts());
         $inventoryTransaction->setInventoryLocation($inventoryLocation);
         $inventoryTransaction->setProduct($product);
         $inventoryTransaction->setCreditQuantity($creditQuantity);
@@ -73,7 +73,7 @@ class InventoryTransaction implements IdEntityInterface
         InventoryLocation $inventoryLocation = null,
         InventoryTransactionType $transactionType = null
     ) {
-        $inventoryTransaction = new self($transactionType, $memo);
+        $inventoryTransaction = new self($memo, $transactionType);
         $inventoryTransaction->setInventoryLocation($inventoryLocation);
         $inventoryTransaction->setProduct($product);
         $inventoryTransaction->setDebitQuantity($quantity);
@@ -95,7 +95,7 @@ class InventoryTransaction implements IdEntityInterface
         InventoryLocation $inventoryLocation = null,
         InventoryTransactionType $transactionType = null
     ) {
-        $inventoryTransaction = new self($transactionType, $memo);
+        $inventoryTransaction = new self($memo, $transactionType);
         $inventoryTransaction->setInventoryLocation($inventoryLocation);
         $inventoryTransaction->setProduct($product);
         $inventoryTransaction->setCreditQuantity($quantity);
