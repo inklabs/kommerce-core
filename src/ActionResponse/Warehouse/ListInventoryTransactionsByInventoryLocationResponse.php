@@ -32,7 +32,9 @@ final class ListInventoryTransactionsByInventoryLocationResponse implements Resp
     {
         $inventoryTransactionDTOs = [];
         foreach ($this->inventoryTransactionDTOBuilders as $inventoryTransactionDTOBuilder) {
-            $inventoryTransactionDTOs[] = $inventoryTransactionDTOBuilder->build();
+            $inventoryTransactionDTOs[] = $inventoryTransactionDTOBuilder
+                ->withProduct()
+                ->build();
         }
         return $inventoryTransactionDTOs;
     }
