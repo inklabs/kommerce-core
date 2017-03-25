@@ -6,6 +6,7 @@ use inklabs\kommerce\ActionResponse\Warehouse\ListInventoryTransactionsByInvento
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
@@ -14,6 +15,7 @@ class ListInventoryTransactionsByInventoryLocationHandlerTest extends ActionTest
 {
     protected $metaDataClassNames = [
         Product::class,
+        Tag::class,
         Warehouse::class,
         InventoryLocation::class,
         InventoryTransaction::class,
