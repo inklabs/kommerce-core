@@ -446,14 +446,21 @@ class DummyData
         return $inventoryLocation;
     }
 
-    public function getInventoryTransaction(InventoryLocation $inventoryLocation = null, Product $product = null)
-    {
+    public function getInventoryTransaction(
+        InventoryLocation $inventoryLocation = null,
+        Product $product = null,
+        $quantity = null
+    ) {
         if ($inventoryLocation === null) {
             $inventoryLocation = $this->getInventoryLocation();
         }
 
         if ($product === null) {
             $product = $this->getProduct();
+        }
+
+        if ($quantity === null) {
+            $quantity = 2;
         }
 
         $inventoryTransaction = InventoryTransaction::credit(
