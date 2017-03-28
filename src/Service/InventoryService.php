@@ -44,10 +44,11 @@ class InventoryService implements InventoryServiceInterface
         }
 
         try {
-            $inventoryLocationId = $this->inventoryTransactionRepository->findInventoryIdWithAvailableQuantityForProduct(
-                $product,
-                $quantity
-            );
+            $inventoryLocationId = $this->inventoryTransactionRepository
+                ->findInventoryIdWithAvailableQuantityForProduct(
+                    $product,
+                    $quantity
+                );
 
             $inventoryLocation = $this->inventoryLocationRepository->findOneById($inventoryLocationId);
         } catch (EntityNotFoundException $e) {
