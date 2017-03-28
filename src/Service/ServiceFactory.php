@@ -7,16 +7,9 @@ use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
-use inklabs\kommerce\Lib\Uuid;
-use inklabs\kommerce\Lib\UuidInterface;
 
 class ServiceFactory
 {
-    const HOLD_LOCATION_ID = '1747f54d0baa4e03a9d0cab598848841';
-
-    /** @var UuidInterface */
-    protected $holdLocationId;
-
     /** @var CartCalculatorInterface */
     private $cartCalculator;
 
@@ -49,13 +42,6 @@ class ServiceFactory
         $this->paymentGateway = $paymentGateway;
         $this->shipmentGateway = $shipmentGateway;
         $this->fileManager = $fileManager;
-
-        $this->holdLocationId = Uuid::fromString(self::HOLD_LOCATION_ID);
-    }
-
-    public function setHoldLocationId(UuidInterface $holdLocationId)
-    {
-        $this->holdLocationId = $holdLocationId;
     }
 
     /**
@@ -165,8 +151,7 @@ class ServiceFactory
     {
         return new InventoryService(
             $this->repositoryFactory->getInventoryLocationRepository(),
-            $this->repositoryFactory->getInventoryTransactionRepository(),
-            $this->holdLocationId
+            $this->repositoryFactory->getInventoryTransactionRepository()
         );
     }
 

@@ -108,7 +108,7 @@ class InventoryTransactionRepositoryTest extends EntityRepositoryTestCase
 
         $product = $this->setupProductWith2InventoryTransactions();
 
-        $inventoryLocationId = $this->inventoryTransactionRepository->findInventoryIdForProductAndQuantity(
+        $inventoryLocationId = $this->inventoryTransactionRepository->findInventoryIdWithAvailableQuantityForProduct(
             $product,
             2
         );
@@ -124,7 +124,7 @@ class InventoryTransactionRepositoryTest extends EntityRepositoryTestCase
         );
 
         $product = $this->dummyData->getProduct();
-        $this->inventoryTransactionRepository->findInventoryIdForProductAndQuantity($product, 2);
+        $this->inventoryTransactionRepository->findInventoryIdWithAvailableQuantityForProduct($product, 2);
     }
 
     private function setupProductWith2InventoryTransactions()

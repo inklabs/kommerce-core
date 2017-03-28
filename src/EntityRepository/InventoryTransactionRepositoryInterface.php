@@ -22,7 +22,7 @@ interface InventoryTransactionRepositoryInterface extends RepositoryInterface
      * @param int $quantity
      * @return UuidInterface
      */
-    public function findInventoryIdForProductAndQuantity(Product $product, $quantity);
+    public function findInventoryIdWithAvailableQuantityForProduct(Product $product, $quantity);
 
     /**
      * @param UuidInterface $inventoryLocationId

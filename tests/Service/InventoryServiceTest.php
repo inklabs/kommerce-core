@@ -45,8 +45,7 @@ class InventoryServiceTest extends ServiceTestCase
 
         $this->inventoryService = new InventoryService(
             $this->inventoryLocationRepository,
-            $this->inventoryTransactionRepository,
-            $this->getInitializedHoldInventoryLocation($this->warehouse)->getId()
+            $this->inventoryTransactionRepository
         );
     }
 
@@ -72,9 +71,7 @@ class InventoryServiceTest extends ServiceTestCase
         $this->assertSame(-2, $debitTransaction->getQuantity());
         $this->assertSame('Hold items for order', $debitTransaction->getMemo());
 
-        $this->assertTrue($creditTransaction->getType()->isHold());
-        $this->assertSame(2, $creditTransaction->getQuantity());
-        $this->assertSame('Hold items for order', $creditTransaction->getMemo());
+        $this->assertSame(null, $creditTransaction);
     }
 
     public function testReserveProductDoesNothingForProductsWithoutInventoryRequired()

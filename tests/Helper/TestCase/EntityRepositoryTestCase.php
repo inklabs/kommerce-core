@@ -6,7 +6,6 @@ use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\IdEntityInterface;
-use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\EntityRepository\RepositoryInterface;
 use inklabs\kommerce\Lib\DoctrineHelper;
@@ -185,14 +184,5 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
         $this->entityManager->flush();
 
         return $warehouse;
-    }
-
-    protected function getInitializedHoldInventoryLocation(Warehouse $warehouse = null)
-    {
-        $holdInventoryLocation = $this->dummyData->getCustomerHoldInventoryLocation($warehouse);
-        $this->entityManager->persist($holdInventoryLocation);
-        $this->entityManager->flush();
-
-        return $holdInventoryLocation;
     }
 }

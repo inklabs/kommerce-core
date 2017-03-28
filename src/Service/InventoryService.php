@@ -10,7 +10,6 @@ use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
 use inklabs\kommerce\Exception\InsufficientInventoryException;
-use inklabs\kommerce\Exception\InventoryException;
 use inklabs\kommerce\Lib\UuidInterface;
 
 class InventoryService implements InventoryServiceInterface
@@ -23,23 +22,17 @@ class InventoryService implements InventoryServiceInterface
     /** @var InventoryTransactionRepositoryInterface */
     private $inventoryTransactionRepository;
 
-    /** @var UuidInterface */
-    private $inventoryHoldLocationId;
-
     public function __construct(
         InventoryLocationRepositoryInterface $inventoryLocationRepository,
-        InventoryTransactionRepositoryInterface $inventoryTransactionRepository,
-        UuidInterface $inventoryHoldLocationId
+        InventoryTransactionRepositoryInterface $inventoryTransactionRepository
     ) {
         $this->inventoryLocationRepository = $inventoryLocationRepository;
         $this->inventoryTransactionRepository = $inventoryTransactionRepository;
-        $this->inventoryHoldLocationId = $inventoryHoldLocationId;
     }
 
     /**
      * @param Product $product
      * @param int $quantity
-     * @throws InventoryException
      * @throws InsufficientInventoryException
      * @throws EntityValidatorException
      */
@@ -51,30 +44,26 @@ class InventoryService implements InventoryServiceInterface
         }
 
         try {
-            $inventoryHoldLocation = $this->inventoryLocationRepository->findOneById($this->inventoryHoldLocationId);
-        } catch (EntityNotFoundException $e) {
-            throw InventoryException::missingInventoryHoldLocation();
-        }
-
-        try {
-            $inventoryLocationId = $this->inventoryTransactionRepository->findInventoryIdForProductAndQuantity(
+            $inventoryLocationId = $this->inventoryTransactionRepository->findInventoryIdWithAvailableQuantityForProduct(
                 $product,
                 $quantity
             );
 
             $inventoryLocation = $this->inventoryLocationRepository->findOneById($inventoryLocationId);
         } catch (EntityNotFoundException $e) {
-            throw new InsufficientInventoryException;
+            throw new InsufficientInventoryException();
         }
 
-        $this->transferProduct(
+        $inventoryTransaction = InventoryTransaction::debit(
             $product,
             $quantity,
             'Hold ' . ngettext('item', 'items', $quantity) . ' for order',
             $inventoryLocation,
-            $inventoryHoldLocation,
             InventoryTransactionType::hold()
         );
+
+        $this->inventoryTransactionRepository->persist($inventoryTransaction);
+        $this->inventoryTransactionRepository->flush();
     }
 
     /**

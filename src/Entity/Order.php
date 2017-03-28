@@ -93,7 +93,7 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         $order->setIp4($ip4);
 
         foreach ($cart->getCartItems() as $item) {
-            $order->addOrderItem($item->getOrderItem($order, $cartCalculator->getPricing()));
+            $orderItem = $item->getOrderItem($order, $cartCalculator->getPricing());
         }
 
         foreach ($cart->getCoupons() as $coupon) {

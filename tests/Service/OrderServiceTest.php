@@ -113,8 +113,7 @@ class OrderServiceTest extends ServiceTestCase
 
         $this->inventoryService = new InventoryService(
             $this->inventoryLocationRepository,
-            $this->inventoryTransactionRepository,
-            $this->getInitializedHoldInventoryLocation($warehouse)->getId()
+            $this->inventoryTransactionRepository
         );
 
         $this->paymentGateway = new FakePaymentGateway;
