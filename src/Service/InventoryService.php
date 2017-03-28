@@ -222,22 +222,27 @@ class InventoryService implements InventoryServiceInterface
     ) {
         $inventoryLocation = $this->inventoryLocationRepository->findOneById($inventoryLocationId);
 
-        if ($quantity > 0) {
-            $sourceLocation = null;
-            $destinationLocation = $inventoryLocation;
-        } else {
-            $sourceLocation = $inventoryLocation;
-            $destinationLocation = null;
-        }
+        $memo = 'Adjusting inventory: ' . $transactionType->getName();
 
-        $this->transferProduct(
-            $product,
-            abs($quantity),
-            'Adjusting inventory: ' . $transactionType->getName(),
-            $sourceLocation,
-            $destinationLocation,
-            $transactionType
-        );
+        if ($quantity > 0) {
+            $inventoryTransaction = InventoryTransaction::credit(
+                $product,
+                $quantity,
+                $memo,
+                $inventoryLocation,
+                $transactionType
+            );
+        } else {
+            $inventoryTransaction = InventoryTransaction::debit(
+                $product,
+                abs($quantity),
+                $memo,
+                $inventoryLocation,
+                $transactionType
+            );
+        }
+        $this->inventoryTransactionRepository->persist($inventoryTransaction);
+        $this->inventoryTransactionRepository->flush();
     }
 
     /**
@@ -253,9 +258,9 @@ class InventoryService implements InventoryServiceInterface
         Product $product,
         $quantity,
         $memo,
-        InventoryLocation $sourceLocation = null,
-        InventoryLocation $destinationLocation = null,
-        InventoryTransactionType $transactionType = null
+        InventoryLocation $sourceLocation,
+        InventoryLocation $destinationLocation,
+        InventoryTransactionType $transactionType
     ) {
         $debitTransaction = InventoryTransaction::debit(
             $product,

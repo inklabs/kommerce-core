@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\tests\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Product;
@@ -77,8 +76,7 @@ class InventoryTransactionRepositoryTest extends EntityRepositoryTestCase
         $this->assertTrue($inventoryTransaction->getProduct() instanceof Product);
         $this->assertTrue($inventoryTransaction->getInventoryLocation() instanceof InventoryLocation);
         $this->assertSame('Initial Inventory', $inventoryTransaction->getMemo());
-        $this->assertSame(null, $inventoryTransaction->getDebitQuantity());
-        $this->assertSame(2, $inventoryTransaction->getCreditQuantity());
+        $this->assertSame(2, $inventoryTransaction->getQuantity());
         $this->assertTrue($inventoryTransaction->getType()->isNewProducts());
         $this->assertSame(1, $this->getTotalQueries());
     }

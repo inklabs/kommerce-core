@@ -8,12 +8,20 @@ class InventoryTransactionTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {
-        $inventoryTransaction = new InventoryTransaction('memo', InventoryTransactionType::move());
+        $inventoryLocation = $this->dummyData->getInventoryLocation();
+        $product = $this->dummyData->getProduct();
+        $quantity = 2;
+        $inventoryTransaction = InventoryTransaction::credit(
+            $product,
+            $quantity,
+            'memo',
+            $inventoryLocation,
+            InventoryTransactionType::move()
+        );
 
-        $this->assertSame(null, $inventoryTransaction->getInventoryLocation());
-        $this->assertSame(null, $inventoryTransaction->getProduct());
-        $this->assertSame(null, $inventoryTransaction->getDebitQuantity());
-        $this->assertSame(null, $inventoryTransaction->getCreditQuantity());
+        $this->assertEntitiesEqual($inventoryLocation, $inventoryTransaction->getInventoryLocation());
+        $this->assertEntitiesEqual($product, $inventoryTransaction->getProduct());
+        $this->assertSame($quantity, $inventoryTransaction->getQuantity());
         $this->assertSame('memo', $inventoryTransaction->getMemo());
         $this->assertTrue($inventoryTransaction->getType()->isMove());
     }
@@ -33,7 +41,7 @@ class InventoryTransactionTest extends EntityTestCase
         );
 
         $this->assertEntityValid($inventoryTransaction);
-        $this->assertSame(5, $inventoryTransaction->getDebitQuantity());
+        $this->assertSame(-5, $inventoryTransaction->getQuantity());
         $this->assertSame('Test memo', $inventoryTransaction->getMemo());
         $this->assertSame($inventoryLocation, $inventoryTransaction->getInventoryLocation());
         $this->assertSame($product, $inventoryTransaction->getProduct());
@@ -66,31 +74,11 @@ class InventoryTransactionTest extends EntityTestCase
         $this->assertTrue($pickTransaction->getInventoryLocation() instanceof InventoryLocation);
         $this->assertTrue($pickTransaction->getProduct() instanceof Product);
         $this->assertTrue($pickTransaction->getCreated() instanceof DateTime);
-        $this->assertSame(2, $pickTransaction->getDebitQuantity());
-        $this->assertSame(null, $pickTransaction->getCreditQuantity());
+        $this->assertSame(-2, $pickTransaction->getQuantity());
         $this->assertSame('Picked 2 Widgets', $pickTransaction->getMemo());
         $this->assertTrue($pickTransaction->getType()->isMove());
 
-        $this->assertSame(null, $shipTransaction->getDebitQuantity());
-        $this->assertSame(2, $shipTransaction->getCreditQuantity());
-    }
-
-    public function testBothDebitAndCreditCannotBeNull()
-    {
-        $inventoryTransaction = $this->dummyData->getInventoryTransaction();
-        $inventoryTransaction->setDebitQuantity(null);
-        $inventoryTransaction->setCreditQuantity(null);
-
-        $this->assertInvalidQuantity($inventoryTransaction);
-    }
-
-    public function testDebitOrCreditMustBeNull()
-    {
-        $inventoryTransaction = $this->dummyData->getInventoryTransaction();
-        $inventoryTransaction->setDebitQuantity(2);
-        $inventoryTransaction->setCreditQuantity(2);
-
-        $this->assertInvalidQuantity($inventoryTransaction);
+        $this->assertSame(2, $shipTransaction->getQuantity());
     }
 
     protected function assertInvalidQuantity(InventoryTransaction $inventoryTransaction)
@@ -156,21 +144,5 @@ class InventoryTransactionTest extends EntityTestCase
 
         $this->assertEntityValid($debitTransaction);
         $this->assertEntityValid($creditTransaction);
-    }
-
-    public function testInventoryTransactionFailsIfMoveTypeAndMissingInventoryLocation()
-    {
-        $product = $this->dummyData->getProduct();
-        $inventoryTransaction = InventoryTransaction::debit(
-            $product,
-            2,
-            'Move 2 Widgets'
-        );
-
-        $errors = $this->getValidationErrors($inventoryTransaction);
-
-        $this->assertSame(1, count($errors));
-        $this->assertSame('inventoryLocation', $errors->get(0)->getPropertyPath());
-        $this->assertSame('InventoryLocation must be set for Move operation', $errors->get(0)->getMessage());
     }
 }

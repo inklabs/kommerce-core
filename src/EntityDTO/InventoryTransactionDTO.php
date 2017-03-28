@@ -6,10 +6,7 @@ class InventoryTransactionDTO
     use IdDTOTrait, TimeDTOTrait;
 
     /** @var int */
-    public $debitQuantity;
-
-    /** @var int */
-    public $creditQuantity;
+    public $quantity;
 
     /** @var string */
     public $memo;

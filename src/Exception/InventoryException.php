@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Exception;
 
-use Exception;
-
 class InventoryException extends Kommerce400Exception
 {
     const MISSING_INVENTORY_HOLD = 1;

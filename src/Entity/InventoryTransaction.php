@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -10,10 +9,7 @@ class InventoryTransaction implements IdEntityInterface
     use TimeTrait, IdTrait;
 
     /** @var int */
-    protected $debitQuantity;
-
-    /** @var int */
-    protected $creditQuantity;
+    protected $quantity;
 
     /** @var string */
     protected $memo;
@@ -28,105 +24,95 @@ class InventoryTransaction implements IdEntityInterface
     protected $type;
 
     /**
+     * @param Product $product
+     * @param InventoryLocation $inventoryLocation
+     * @param int $quantity
      * @param string $memo
      * @param InventoryTransactionType $inventoryTransactionType
      */
-    public function __construct($memo, InventoryTransactionType $inventoryTransactionType = null)
-    {
+    private function __construct(
+        Product $product,
+        InventoryLocation $inventoryLocation,
+        $quantity,
+        $memo,
+        InventoryTransactionType $inventoryTransactionType = null
+    ) {
         if ($inventoryTransactionType === null) {
             $inventoryTransactionType = InventoryTransactionType::move();
         }
 
         $this->setId();
         $this->setCreated();
-        $this->type = $inventoryTransactionType;
+        $this->product = $product;
+        $this->inventoryLocation = $inventoryLocation;
+        $this->quantity = $quantity;
         $this->memo = $memo;
+        $this->type = $inventoryTransactionType;
     }
 
     /**
      * @param InventoryLocation $inventoryLocation
      * @param Product $product
-     * @param int $creditQuantity
+     * @param int $quantity
      * @return InventoryTransaction
      */
-    public static function newProduct(InventoryLocation $inventoryLocation, Product $product, $creditQuantity)
+    public static function newProduct(InventoryLocation $inventoryLocation, Product $product, $quantity)
     {
-        $inventoryTransaction = new self('Initial inventory', InventoryTransactionType::newProducts());
-        $inventoryTransaction->setInventoryLocation($inventoryLocation);
-        $inventoryTransaction->setProduct($product);
-        $inventoryTransaction->setCreditQuantity($creditQuantity);
-        return $inventoryTransaction;
+        return self::credit(
+            $product,
+            $quantity,
+            'Initial Inventory',
+            $inventoryLocation,
+            InventoryTransactionType::newProducts()
+        );
     }
 
     /**
-     * @param InventoryLocation $inventoryLocation
-     * @param InventoryTransactionType $transactionType
      * @param Product $product
      * @param int $quantity
      * @param string $memo
+     * @param InventoryLocation $inventoryLocation
+     * @param InventoryTransactionType $transactionType
      * @return InventoryTransaction
      */
     public static function debit(
         Product $product,
         $quantity,
         $memo,
-        InventoryLocation $inventoryLocation = null,
+        InventoryLocation $inventoryLocation,
         InventoryTransactionType $transactionType = null
     ) {
-        $inventoryTransaction = new self($memo, $transactionType);
-        $inventoryTransaction->setInventoryLocation($inventoryLocation);
-        $inventoryTransaction->setProduct($product);
-        $inventoryTransaction->setDebitQuantity($quantity);
-        return $inventoryTransaction;
+        $quantity = -1 * abs($quantity);
+        return new self($product, $inventoryLocation, $quantity, $memo, $transactionType);
     }
 
     /**
-     * @param InventoryLocation $inventoryLocation
-     * @param InventoryTransactionType $transactionType
      * @param Product $product
      * @param int $quantity
      * @param string $memo
+     * @param InventoryLocation $inventoryLocation
+     * @param InventoryTransactionType $transactionType
      * @return InventoryTransaction
      */
     public static function credit(
         Product $product,
         $quantity,
         $memo,
-        InventoryLocation $inventoryLocation = null,
+        InventoryLocation $inventoryLocation,
         InventoryTransactionType $transactionType = null
     ) {
-        $inventoryTransaction = new self($memo, $transactionType);
-        $inventoryTransaction->setInventoryLocation($inventoryLocation);
-        $inventoryTransaction->setProduct($product);
-        $inventoryTransaction->setCreditQuantity($quantity);
-        return $inventoryTransaction;
+        return new self($product, $inventoryLocation, $quantity, $memo, $transactionType);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('debitQuantity', new Assert\Range([
-            'min' => 0,
-            'max' => 65535,
+        $metadata->addPropertyConstraint('quantity', new Assert\Range([
+            'min' => -32768,
+            'max' => 32767,
         ]));
-
-        $metadata->addPropertyConstraint('creditQuantity', new Assert\Range([
-            'min' => 0,
-            'max' => 65535,
+        $metadata->addPropertyConstraint('quantity', new Assert\NotEqualTo([
+            'value' => 0,
         ]));
-
-        $metadata->addConstraint(new Assert\Callback(
-            function (InventoryTransaction $inventoryTransaction, ExecutionContextInterface $context) {
-                if (! $inventoryTransaction->isQuantityValid()) {
-                    $context->buildViolation('Only DebitQuantity or CreditQuantity should be set')
-                        ->atPath('debitQuantity')
-                        ->addViolation();
-
-                    $context->buildViolation('Only DebitQuantity or CreditQuantity should be set')
-                        ->atPath('creditQuantity')
-                        ->addViolation();
-                }
-            }
-        ));
 
         $metadata->addPropertyConstraint('memo', new Assert\NotBlank);
         $metadata->addPropertyConstraint('memo', new Assert\Length([
@@ -137,58 +123,6 @@ class InventoryTransaction implements IdEntityInterface
         $metadata->addPropertyConstraint('product', new Assert\Valid);
 
         $metadata->addPropertyConstraint('type', new Assert\Valid);
-
-        $metadata->addConstraint(new Assert\Callback(
-            function (InventoryTransaction $inventoryTransaction, ExecutionContextInterface $context) {
-                if (! $inventoryTransaction->isLocationValidForMoveOperation()) {
-                    $context->buildViolation('InventoryLocation must be set for Move operation')
-                        ->atPath('inventoryLocation')
-                        ->addViolation();
-                }
-            }
-        ));
-    }
-
-    private function isQuantityValid()
-    {
-        return ($this->getDebitQuantity() !== null ^ $this->getCreditQuantity() !== null);
-    }
-
-    private function isLocationValidForMoveOperation()
-    {
-        if ($this->type->isMove() && $this->inventoryLocation === null) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param int $quantity
-     */
-    public function setDebitQuantity($quantity = null)
-    {
-        $this->debitQuantity = $this->getQuantityOrNull($quantity);
-    }
-
-    /**
-     * @param int $quantity
-     */
-    public function setCreditQuantity($quantity = null)
-    {
-        $this->creditQuantity = $this->getQuantityOrNull($quantity);
-    }
-
-    /**
-     * @param int $quantity
-     * @return int
-     */
-    protected function getQuantityOrNull($quantity = null)
-    {
-        if ($quantity !== null) {
-            $quantity = (int) $quantity;
-        }
-        return $quantity;
     }
 
     /**
@@ -214,14 +148,9 @@ class InventoryTransaction implements IdEntityInterface
         return $this->product;
     }
 
-    public function getDebitQuantity()
+    public function getQuantity()
     {
-        return $this->debitQuantity;
-    }
-
-    public function getCreditQuantity()
-    {
-        return $this->creditQuantity;
+        return $this->quantity;
     }
 
     public function getMemo()
@@ -232,15 +161,5 @@ class InventoryTransaction implements IdEntityInterface
     public function getType()
     {
         return $this->type;
-    }
-
-    public function getQuantity()
-    {
-        return $this->creditQuantity - $this->debitQuantity;
-    }
-
-    private function setInventoryLocation(InventoryLocation $inventoryLocation = null)
-    {
-        $this->inventoryLocation = $inventoryLocation;
     }
 }

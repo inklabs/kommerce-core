@@ -12,12 +12,7 @@ class InventoryLocationRepository extends AbstractRepository implements Inventor
     {
         $results = $this->getQueryBuilder()
             ->select('Product AS product')
-            ->addSelect('SUM(InventoryTransaction.creditQuantity) AS credit')
-            ->addSelect('SUM(InventoryTransaction.debitQuantity) AS debit')
-            ->addSelect(
-                '0 + COALESCE(SUM(InventoryTransaction.creditQuantity), 0) ' .
-                '- COALESCE(SUM(InventoryTransaction.debitQuantity), 0) AS quantity'
-            )
+            ->addSelect('SUM(InventoryTransaction.quantity) AS quantity')
             ->from(Product::class, 'Product')
             ->leftJoin(
                 InventoryTransaction::class,

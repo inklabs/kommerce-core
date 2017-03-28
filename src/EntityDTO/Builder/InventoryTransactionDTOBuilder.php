@@ -27,9 +27,8 @@ class InventoryTransactionDTOBuilder implements DTOBuilderInterface
         $this->entityDTO = new InventoryTransactionDTO;
         $this->setId();
         $this->setTime();
-        $this->entityDTO->debitQuantity  = $this->entity->getDebitQuantity();
-        $this->entityDTO->creditQuantity = $this->entity->getCreditQuantity();
-        $this->entityDTO->memo           = $this->entity->getMemo();
+        $this->entityDTO->quantity = $this->entity->getQuantity();
+        $this->entityDTO->memo = $this->entity->getMemo();
 
         $this->entityDTO->type = $this->dtoBuilderFactory
             ->getInventoryTransactionTypeDTOBuilder($this->entity->getType())

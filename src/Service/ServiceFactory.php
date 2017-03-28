@@ -12,6 +12,8 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class ServiceFactory
 {
+    const HOLD_LOCATION_ID = '1747f54d0baa4e03a9d0cab598848841';
+
     /** @var UuidInterface */
     protected $holdLocationId;
 
@@ -48,7 +50,7 @@ class ServiceFactory
         $this->shipmentGateway = $shipmentGateway;
         $this->fileManager = $fileManager;
 
-        $this->holdLocationId = Uuid::uuid4();
+        $this->holdLocationId = Uuid::fromString(self::HOLD_LOCATION_ID);
     }
 
     public function setHoldLocationId(UuidInterface $holdLocationId)

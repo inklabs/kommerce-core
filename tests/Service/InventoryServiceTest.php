@@ -148,10 +148,7 @@ class InventoryServiceTest extends ServiceTestCase
         $debitTransaction = $transactions[0];
         $creditTransaction = $transactions[1];
 
-        $this->assertSame(null, $debitTransaction->getInventoryLocation());
-        $this->assertTrue($debitTransaction->getType()->isNewProducts());
-        $this->assertSame(-3, $debitTransaction->getQuantity());
-        $this->assertSame('Adjusting inventory: New Products', $debitTransaction->getMemo());
+        $this->assertSame(null, $debitTransaction);
 
         $this->assertTrue($creditTransaction->getInventoryLocation() instanceof InventoryLocation);
         $this->assertTrue($creditTransaction->getType()->isNewProducts());
@@ -186,10 +183,7 @@ class InventoryServiceTest extends ServiceTestCase
         $this->assertSame(-1, $debitTransaction->getQuantity());
         $this->assertSame('Adjusting inventory: Shipped', $debitTransaction->getMemo());
 
-        $this->assertSame(null, $creditTransaction->getInventoryLocation());
-        $this->assertTrue($creditTransaction->getType()->isShipped());
-        $this->assertSame(1, $creditTransaction->getQuantity());
-        $this->assertSame('Adjusting inventory: Shipped', $creditTransaction->getMemo());
+        $this->assertSame(null, $creditTransaction);
     }
 
     public function testReturnProduct()
@@ -214,10 +208,7 @@ class InventoryServiceTest extends ServiceTestCase
         $debitTransaction = $transactions[0];
         $creditTransaction = $transactions[1];
 
-        $this->assertSame(null, $debitTransaction->getInventoryLocation());
-        $this->assertTrue($debitTransaction->getType()->isReturned());
-        $this->assertSame(-1, $debitTransaction->getQuantity());
-        $this->assertSame('Adjusting inventory: Returned', $debitTransaction->getMemo());
+        $this->assertSame(null, $debitTransaction);
 
         $this->assertTrue($creditTransaction->getInventoryLocation() instanceof InventoryLocation);
         $this->assertTrue($creditTransaction->getType()->isReturned());
@@ -252,10 +243,7 @@ class InventoryServiceTest extends ServiceTestCase
         $this->assertSame(-1, $debitTransaction->getQuantity());
         $this->assertSame('Adjusting inventory: Promotion', $debitTransaction->getMemo());
 
-        $this->assertSame(null, $creditTransaction->getInventoryLocation());
-        $this->assertTrue($creditTransaction->getType()->isPromotion());
-        $this->assertSame(1, $creditTransaction->getQuantity());
-        $this->assertSame('Adjusting inventory: Promotion', $creditTransaction->getMemo());
+        $this->assertSame(null, $creditTransaction);
     }
 
     public function testReduceProductForDamage()
@@ -285,10 +273,7 @@ class InventoryServiceTest extends ServiceTestCase
         $this->assertSame(-1, $debitTransaction->getQuantity());
         $this->assertSame('Adjusting inventory: Damaged', $debitTransaction->getMemo());
 
-        $this->assertSame(null, $creditTransaction->getInventoryLocation());
-        $this->assertTrue($creditTransaction->getType()->isDamaged());
-        $this->assertSame(1, $creditTransaction->getQuantity());
-        $this->assertSame('Adjusting inventory: Damaged', $creditTransaction->getMemo());
+        $this->assertSame(null, $creditTransaction);
     }
 
     public function testReduceProductForShrinkage()
@@ -318,10 +303,7 @@ class InventoryServiceTest extends ServiceTestCase
         $this->assertSame(-1, $debitTransaction->getQuantity());
         $this->assertSame('Adjusting inventory: Shrinkage', $debitTransaction->getMemo());
 
-        $this->assertSame(null, $creditTransaction->getInventoryLocation());
-        $this->assertTrue($creditTransaction->getType()->isShrinkage());
-        $this->assertSame(1, $creditTransaction->getQuantity());
-        $this->assertSame('Adjusting inventory: Shrinkage', $creditTransaction->getMemo());
+        $this->assertSame(null, $creditTransaction);
     }
 
     /**
@@ -330,8 +312,8 @@ class InventoryServiceTest extends ServiceTestCase
      */
     private function getDebitCreditTransactions($transactions)
     {
-        $debitTransaction = $transactions[1];
-        $creditTransaction = $transactions[2];
+        $debitTransaction = null;
+        $creditTransaction = null;
 
         foreach ($transactions as $inventoryTransaction) {
             if ($inventoryTransaction->getMemo() === 'Initial Inventory') {
