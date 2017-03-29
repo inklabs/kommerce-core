@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
 use inklabs\kommerce\Exception\RuntimeException;
-use inklabs\kommerce\tests\Helper\Entity\FakeReferenceNumberEntity;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
 class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
@@ -26,10 +25,9 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
             ->andReturn(false)
             ->once();
 
-        $entity = new FakeReferenceNumberEntity;
-        $this->hashSegmentGenerator->generate($entity);
+        $referenceNumber = $this->hashSegmentGenerator->generate();
 
-        $pieces = explode('-', $entity->getReferenceNumber());
+        $pieces = explode('-', $referenceNumber);
         $this->assertCount(3, $pieces);
         $this->assertSame(3, strlen($pieces[0]));
         $this->assertSame(7, strlen($pieces[1]));
@@ -42,11 +40,10 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
             ->andReturn(false)
             ->once();
 
-        $entity = new FakeReferenceNumberEntity;
         $this->hashSegmentGenerator->setSegments([1, 2, 3, 4, 5]);
-        $this->hashSegmentGenerator->generate($entity);
+        $referenceNumber = $this->hashSegmentGenerator->generate();
 
-        $pieces = explode('-', $entity->getReferenceNumber());
+        $pieces = explode('-', $referenceNumber);
         $this->assertCount(5, $pieces);
         $this->assertSame(1, strlen($pieces[0]));
         $this->assertSame(2, strlen($pieces[1]));
@@ -61,13 +58,11 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
             ->andReturn(true)
             ->times(3);
 
-        $entity = new FakeReferenceNumberEntity;
-
         $this->setExpectedException(
             RuntimeException::class,
             'Lookup limit reached'
         );
 
-        $this->hashSegmentGenerator->generate($entity);
+        $this->hashSegmentGenerator->generate();
     }
 }

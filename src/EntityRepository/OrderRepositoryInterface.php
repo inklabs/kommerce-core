@@ -29,6 +29,4 @@ interface OrderRepositoryInterface extends RepositoryInterface, ReferenceNumberR
      * @return Order[]
      */
     public function getOrdersByUserId(UuidInterface $userId);
-
-    public function setReferenceNumberGenerator(ReferenceNumberGeneratorInterface $referenceNumberGenerator);
 }

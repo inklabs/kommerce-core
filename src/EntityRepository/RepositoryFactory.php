@@ -185,17 +185,6 @@ class RepositoryFactory
     }
 
     /**
-     * @return OrderRepositoryInterface
-     */
-    public function getOrderWithHashSegmentGenerator()
-    {
-        /** @var OrderRepositoryInterface $orderRepository */
-        $orderRepository = $this->entityManager->getRepository(Order::class);
-        $orderRepository->setReferenceNumberGenerator(new HashSegmentReferenceNumberGenerator($orderRepository));
-        return $orderRepository;
-    }
-
-    /**
      * @return OrderItemRepositoryInterface
      */
     public function getOrderItemRepository()

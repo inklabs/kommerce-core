@@ -35,6 +35,7 @@ use inklabs\kommerce\Event\OrderShippedEvent;
 use inklabs\kommerce\Lib\Event\EventDispatcher;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
+use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
@@ -73,6 +74,9 @@ class OrderServiceTest extends ServiceTestCase
     /** @var PaymentGatewayInterface */
     protected $paymentGateway;
 
+    /** @var ReferenceNumberGeneratorInterface */
+    protected $referenceNumberGenerator;
+
     protected $metaDataClassNames = [
         Attachment::class,
         Cart::class,
@@ -108,6 +112,7 @@ class OrderServiceTest extends ServiceTestCase
 
         $this->inventoryLocationRepository = $this->getRepositoryFactory()->getInventoryLocationRepository();
         $this->inventoryTransactionRepository = $this->getRepositoryFactory()->getInventoryTransactionRepository();
+        $this->referenceNumberGenerator = $this->getServiceFactory()->getReferenceNumberGenerator();
 
         $warehouse = $this->getInitializeWarehouse();
 
@@ -125,7 +130,8 @@ class OrderServiceTest extends ServiceTestCase
             $this->orderItemRepository,
             $this->paymentGateway,
             $this->productRepository,
-            $this->shipmentGateway
+            $this->shipmentGateway,
+            $this->referenceNumberGenerator
         );
     }
 
@@ -219,6 +225,12 @@ class OrderServiceTest extends ServiceTestCase
         $event = $this->fakeEventDispatcher->getDispatchedEvents(OrderCreatedFromCartEvent::class)[0];
         $this->assertTrue($event instanceof OrderCreatedFromCartEvent);
         $this->assertSame($order->getId(), $event->getOrderId());
+
+        $pieces = explode('-', $order->getReferenceNumber());
+        $this->assertCount(3, $pieces);
+        $this->assertSame(3, strlen($pieces[0]));
+        $this->assertSame(7, strlen($pieces[1]));
+        $this->assertSame(7, strlen($pieces[2]));
     }
 
     /**

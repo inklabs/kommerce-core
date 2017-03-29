@@ -1,11 +1,8 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
-use inklabs\kommerce\Exception\RuntimeException;
-use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 
 class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
@@ -19,22 +16,6 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
         return $this->returnOrThrowNotFoundException(
             parent::findOneBy(['externalId' => $orderExternalId])
         );
-    }
-
-    public function create(EntityInterface & $entity)
-    {
-        parent::create($entity);
-
-        $this->setReferenceNumber($entity);
-        $this->flush();
-    }
-
-    /** @var ReferenceNumberGeneratorInterface */
-    protected $referenceNumberGenerator;
-
-    public function setReferenceNumberGenerator(ReferenceNumberGeneratorInterface $referenceNumberGenerator)
-    {
-        $this->referenceNumberGenerator = $referenceNumberGenerator;
     }
 
     public function referenceNumberExists($referenceNumber)
@@ -55,22 +36,6 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
             ->orderBy('o.created', 'DESC')
             ->getQuery()
             ->getResult();
-    }
-
-    private function setReferenceNumber(Order & $order)
-    {
-        if ($this->referenceNumberGenerator !== null) {
-            $this->tryToGenerateReferenceNumber($order);
-        }
-    }
-
-    private function tryToGenerateReferenceNumber(Order & $order)
-    {
-        try {
-            $this->referenceNumberGenerator->generate($order);
-            $this->update($order);
-        } catch (RuntimeException $e) {
-        }
     }
 
     public function getOrdersByUserId(UuidInterface $userId)

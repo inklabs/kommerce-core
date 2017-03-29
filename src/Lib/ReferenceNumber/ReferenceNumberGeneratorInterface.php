@@ -1,11 +1,13 @@
 <?php
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
+use inklabs\kommerce\Exception\RuntimeException;
+
 interface ReferenceNumberGeneratorInterface
 {
     /**
-     * @param ReferenceNumberEntityInterface $entity
-     * @throws \RuntimeException
+     * @return string
+     * @throws RuntimeException
      */
-    public function generate(ReferenceNumberEntityInterface & $entity);
+    public function generate();
 }

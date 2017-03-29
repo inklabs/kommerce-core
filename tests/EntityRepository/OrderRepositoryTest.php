@@ -193,42 +193,6 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
         $this->assertTrue($orders[0]->getCreated()->getTimestamp() >= $orders[1]->getCreated()->getTimestamp());
     }
 
-    public function testCreateWithHashReferenceNumber()
-    {
-        $this->orderRepository = $this->getRepositoryFactory()->getOrderWithHashSegmentGenerator();
-
-        $order = $this->setupOrder();
-
-        $pieces = explode('-', $order->getReferenceNumber());
-        $this->assertCount(3, $pieces);
-        $this->assertSame(3, strlen($pieces[0]));
-        $this->assertSame(7, strlen($pieces[1]));
-        $this->assertSame(7, strlen($pieces[2]));
-    }
-
-    public function testCreateWithHashReferenceNumberAndDuplicateFailure()
-    {
-        // Simulate 3 duplicates in a row.
-        $this->setupOrder('963-1273124-1535857');
-        $this->setupOrder('324-1294424-1842424');
-        $this->setupOrder('117-1819459-9097917');
-
-        $this->orderRepository->setReferenceNumberGenerator(
-            new ManualSeedHashSegmentReferenceNumberGenerator(
-                $this->orderRepository,
-                [
-                    '963-1273124-1535857',
-                    '324-1294424-1842424',
-                    '117-1819459-9097917',
-                ]
-            )
-        );
-
-        $order = $this->setupOrder();
-
-        $this->assertSame(null, $order->getReferenceNumber());
-    }
-
     public function testGetOrdersByUserId()
     {
         $originalOrder = $this->setupOrder();

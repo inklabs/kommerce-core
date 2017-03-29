@@ -35,10 +35,6 @@ class RepositoryFactoryTest extends EntityRepositoryTestCase
         $this->assertTrue($repositoryFactory->getOptionProductRepository() instanceof OptionProductRepository);
         $this->assertTrue($repositoryFactory->getOptionValueRepository() instanceof OptionValueRepository);
         $this->assertTrue($repositoryFactory->getOrderRepository() instanceof OrderRepository);
-        $this->assertTrue(
-            $repositoryFactory->getOrderWithHashSegmentGenerator()
-            instanceof OrderRepository
-        );
         $this->assertTrue($repositoryFactory->getOrderItemRepository() instanceof OrderItemRepository);
         $this->assertTrue(
             $repositoryFactory->getOrderItemOptionProductRepository()

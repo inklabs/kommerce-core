@@ -25,6 +25,7 @@ use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeRequest;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
+use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\Lib\UuidInterface;
@@ -54,6 +55,9 @@ class OrderService implements OrderServiceInterface
     /** @var PaymentGatewayInterface */
     protected $paymentGateway;
 
+    /** @var ReferenceNumberGeneratorInterface */
+    private $referenceNumberGenerator;
+
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         InventoryServiceInterface $inventoryService,
@@ -61,7 +65,8 @@ class OrderService implements OrderServiceInterface
         OrderItemRepositoryInterface $orderItemRepository,
         PaymentGatewayInterface $paymentGateway,
         ProductRepositoryInterface $productRepository,
-        ShipmentGatewayInterface $shipmentGateway
+        ShipmentGatewayInterface $shipmentGateway,
+        ReferenceNumberGeneratorInterface $referenceNumberGenerator
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->inventoryService = $inventoryService;
@@ -70,6 +75,7 @@ class OrderService implements OrderServiceInterface
         $this->productRepository = $productRepository;
         $this->paymentGateway = $paymentGateway;
         $this->shipmentGateway = $shipmentGateway;
+        $this->referenceNumberGenerator = $referenceNumberGenerator;
     }
 
     public function update(Order & $order)
@@ -223,6 +229,10 @@ class OrderService implements OrderServiceInterface
         $order->setBillingAddress($billingAddress);
 
         $this->throwValidationErrors($order);
+
+        $order->setReferenceNumber(
+            $this->referenceNumberGenerator->generate()
+        );
 
         $this->reserveProductsFromInventory($order);
         $this->addCreditCardPayment($order, $creditCard, $order->getTotal()->total);

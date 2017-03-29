@@ -19,14 +19,14 @@ class HashSegmentReferenceNumberGenerator implements ReferenceNumberGeneratorInt
         $this->repository = $repository;
     }
 
-    public function generate(ReferenceNumberEntityInterface & $entity)
+    public function generate()
     {
         do {
             $this->throwExceptionWhenBeyondLookupLimit();
             $referenceNumber = $this->generateHashSegments();
         } while ($this->repository->referenceNumberExists($referenceNumber));
 
-        $entity->setReferenceNumber($referenceNumber);
+        return $referenceNumber;
     }
 
     protected function generateHashSegments()

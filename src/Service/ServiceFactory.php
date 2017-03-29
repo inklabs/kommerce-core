@@ -6,6 +6,8 @@ use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
 use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
+use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentReferenceNumberGenerator;
+use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 
 class ServiceFactory
@@ -93,6 +95,14 @@ class ServiceFactory
     }
 
     /**
+     * @return ReferenceNumberGeneratorInterface
+     */
+    public function getReferenceNumberGenerator()
+    {
+        return new HashSegmentReferenceNumberGenerator($this->repositoryFactory->getOrderRepository());
+    }
+
+    /**
      * @return ImageService
      */
     public function getImageService()
@@ -163,11 +173,12 @@ class ServiceFactory
         return new OrderService(
             $this->eventDispatcher,
             $this->getInventoryService(),
-            $this->repositoryFactory->getOrderWithHashSegmentGenerator(),
+            $this->repositoryFactory->getOrderRepository(),
             $this->repositoryFactory->getOrderItemRepository(),
             $this->paymentGateway,
             $this->repositoryFactory->getProductRepository(),
-            $this->shipmentGateway
+            $this->shipmentGateway,
+            $this->getReferenceNumberGenerator()
         );
     }
 
