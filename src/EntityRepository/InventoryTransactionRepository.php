@@ -42,9 +42,7 @@ class InventoryTransactionRepository extends AbstractRepository implements Inven
                 $locationsAvailableQuantity[$inventoryLocationId] = 0;
             }
 
-            if (! $inventoryTransaction->getType()->isHold()) {
-                $locationsAvailableQuantity[$inventoryLocationId] += $inventoryTransaction->getQuantity();
-            }
+            $locationsAvailableQuantity[$inventoryLocationId] += $inventoryTransaction->getQuantity();
         }
 
         asort($locationsAvailableQuantity);

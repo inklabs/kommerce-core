@@ -30,6 +30,5 @@ class AddTextOptionToTagHandlerTest extends ActionTestCase
             $command->getTagId()
         );
         $this->assertEntitiesEqual($textOption, $tag->getTextOptions()[0]);
-
     }
 }

@@ -85,7 +85,6 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
         if (! $this->isAdmin()) {
             throw AuthorizationContextException::accessDenied();
         }
-
     }
 
     public function verifyCanViewOrder(UuidInterface $orderId)

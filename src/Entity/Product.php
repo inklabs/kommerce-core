@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Exception\InsufficientInventoryException;
 use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -430,5 +431,18 @@ class Product implements IdEntityInterface, EnabledAttachmentInterface
         }
 
         return $this->areAttachmentsEnabled;
+    }
+
+    /**
+     * @param int $quantity
+     * @throws InsufficientInventoryException
+     */
+    public function reduceQuantity($quantity)
+    {
+        if ($quantity > $this->quantity) {
+            throw new InsufficientInventoryException();
+        }
+
+        $this->quantity -= $quantity;
     }
 }

@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Attachment;
+use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\Entity\Cart;
@@ -259,17 +260,39 @@ class OrderService implements OrderServiceInterface
     private function reserveProductsFromInventory(Order $order)
     {
         foreach ($order->getOrderItems() as $orderItem) {
-            $this->inventoryService->reserveProduct(
+            $this->inventoryService->reserveProductForOrder(
+                $order,
+                $orderItem->getProduct(),
+                $orderItem->getQuantity()
+            );
+
+            $this->reduceProductInventory(
                 $orderItem->getProduct(),
                 $orderItem->getQuantity()
             );
 
             foreach ($orderItem->getOrderItemOptionProducts() as $orderItemOptionProduct) {
-                $this->inventoryService->reserveProduct(
+                $this->inventoryService->reserveProductForOrder(
+                    $order,
+                    $orderItemOptionProduct->getOptionProduct()->getProduct(),
+                    $orderItem->getQuantity()
+                );
+
+                $this->reduceProductInventory(
                     $orderItemOptionProduct->getOptionProduct()->getProduct(),
                     $orderItem->getQuantity()
                 );
             }
         }
+    }
+
+    /**
+     * @param Product $product
+     * @param int $quantity
+     */
+    private function reduceProductInventory(Product $product, $quantity)
+    {
+        $product->reduceQuantity($quantity);
+        $this->productRepository->update($product);
     }
 }

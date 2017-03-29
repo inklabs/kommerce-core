@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
@@ -31,12 +32,13 @@ class InventoryService implements InventoryServiceInterface
     }
 
     /**
+     * @param Order $order
      * @param Product $product
      * @param int $quantity
      * @throws InsufficientInventoryException
      * @throws EntityValidatorException
      */
-    public function reserveProduct(Product $product, $quantity)
+    public function reserveProductForOrder(Order $order, Product $product, $quantity)
     {
         if (! $product->isInventoryRequired()) {
             // TODO: Investigate throwing exception in this case
@@ -58,7 +60,7 @@ class InventoryService implements InventoryServiceInterface
         $inventoryTransaction = InventoryTransaction::debit(
             $product,
             $quantity,
-            'Hold ' . ngettext('item', 'items', $quantity) . ' for order',
+            'Hold ' . ngettext('item', 'items', $quantity) . ' for order #' . $order->getReferenceNumber(),
             $inventoryLocation,
             InventoryTransactionType::hold()
         );

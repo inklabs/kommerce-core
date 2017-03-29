@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Product;
@@ -11,12 +12,13 @@ use inklabs\kommerce\Lib\UuidInterface;
 interface InventoryServiceInterface
 {
     /**
+     * @param Order $order
      * @param Product $product
      * @param int $quantity
      * @throws InsufficientInventoryException
      * @throws EntityValidatorException
      */
-    public function reserveProduct(Product $product, $quantity);
+    public function reserveProductForOrder(Order $order, Product $product, $quantity);
 
     /**
      * @param Product $product

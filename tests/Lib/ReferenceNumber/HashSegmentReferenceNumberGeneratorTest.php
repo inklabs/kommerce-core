@@ -3,9 +3,7 @@ namespace inklabs\kommerce\Lib\ReferenceNumber;
 
 use inklabs\kommerce\Exception\RuntimeException;
 use inklabs\kommerce\tests\Helper\Entity\FakeReferenceNumberEntity;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeReferenceNumberRepository;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
-use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
 {

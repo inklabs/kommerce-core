@@ -3,7 +3,9 @@ namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
+use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryTransactionRepositoryInterface;
@@ -25,6 +27,8 @@ class InventoryServiceTest extends ServiceTestCase
         InventoryLocation::class,
         InventoryTransaction::class,
         Product::class,
+        Order::class,
+        User::class,
         Warehouse::class,
     ];
 
@@ -33,6 +37,9 @@ class InventoryServiceTest extends ServiceTestCase
 
     /** @var InventoryLocation */
     protected $holdInventoryLocation;
+
+    /** @var Order */
+    private $order;
 
     public function setUp()
     {
@@ -47,6 +54,13 @@ class InventoryServiceTest extends ServiceTestCase
             $this->inventoryLocationRepository,
             $this->inventoryTransactionRepository
         );
+
+        $user = $this->dummyData->getUser();
+        $this->order = $this->dummyData->getOrder();
+        $this->order->setUser($user);
+        $this->entityManager->persist($this->order);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 
     public function testReserveProduct()
@@ -59,7 +73,7 @@ class InventoryServiceTest extends ServiceTestCase
         $this->entityManager->persist($initialTransaction);
         $this->entityManager->flush();
 
-        $this->inventoryService->reserveProduct($product, 2);
+        $this->inventoryService->reserveProductForOrder($this->order, $product, 2);
 
         $transactions = $this->inventoryTransactionRepository->findAllByProduct($product);
 
@@ -69,7 +83,7 @@ class InventoryServiceTest extends ServiceTestCase
 
         $this->assertTrue($debitTransaction->getType()->isHold());
         $this->assertSame(-2, $debitTransaction->getQuantity());
-        $this->assertSame('Hold items for order', $debitTransaction->getMemo());
+        $this->assertSame('Hold items for order #' . $this->order->getReferenceNumber(), $debitTransaction->getMemo());
 
         $this->assertSame(null, $creditTransaction);
     }
@@ -79,7 +93,7 @@ class InventoryServiceTest extends ServiceTestCase
         $product = $this->dummyData->getProduct();
         $product->setIsInventoryRequired(false);
 
-        $this->inventoryService->reserveProduct($product, 2);
+        $this->inventoryService->reserveProductForOrder($this->order, $product, 2);
     }
 
     public function testReserveProductThrowsExceptionIfInsufficientInventory()
@@ -91,7 +105,7 @@ class InventoryServiceTest extends ServiceTestCase
             'Insufficient Inventory'
         );
 
-        $this->inventoryService->reserveProduct($product, 2);
+        $this->inventoryService->reserveProductForOrder($this->order, $product, 2);
     }
 
     public function testMoveProductBetweenLocations()
