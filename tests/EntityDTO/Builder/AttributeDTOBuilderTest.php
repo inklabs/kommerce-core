@@ -1,9 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\EntityDTO\AttributeDTO;
-use inklabs\kommerce\EntityDTO\AttributeValueDTO;
-use inklabs\kommerce\EntityDTO\ProductAttributeDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class AttributeDTOBuilderTest extends EntityDTOBuilderTestCase

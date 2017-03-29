@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\TaxRate;

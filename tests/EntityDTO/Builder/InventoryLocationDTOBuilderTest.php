@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\EntityDTO\InventoryLocationDTO;
-use inklabs\kommerce\EntityDTO\WarehouseDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class InventoryLocationDTOBuilderTest extends EntityDTOBuilderTestCase

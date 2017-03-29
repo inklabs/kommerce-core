@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use DateTime;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class ShipmentLabelTest extends EntityTestCase

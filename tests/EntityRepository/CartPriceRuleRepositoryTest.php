@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\AbstractCartPriceRuleItem;
 use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;

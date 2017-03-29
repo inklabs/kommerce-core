@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Lib;
 
 use DateTime;
-use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;

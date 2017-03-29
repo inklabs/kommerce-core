@@ -1,9 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
-use inklabs\kommerce\EntityDTO\CartTotalDTO;
-use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class CartTotalDTOBuilderTest extends EntityDTOBuilderTestCase

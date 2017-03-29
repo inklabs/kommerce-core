@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Lib\Query;
 
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
-use inklabs\kommerce\Lib\HandlerInterface;
 use inklabs\kommerce\Lib\MapperInterface;
 
 class QueryBus implements QueryBusInterface

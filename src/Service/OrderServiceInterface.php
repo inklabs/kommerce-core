@@ -7,10 +7,7 @@ use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\Entity\CreditCard;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderAddress;
-use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Entity\OrderStatusType;
-use inklabs\kommerce\Entity\Pagination;
-use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 

@@ -1,10 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\EntityDTO\CartItemOptionProductDTO;
-use inklabs\kommerce\EntityDTO\OptionDTO;
-use inklabs\kommerce\EntityDTO\OptionProductDTO;
-use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class CartItemOptionProductDTOBuilderTest extends EntityDTOBuilderTestCase

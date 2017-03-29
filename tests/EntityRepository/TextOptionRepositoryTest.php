@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;

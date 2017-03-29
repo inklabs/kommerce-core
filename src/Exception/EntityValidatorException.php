@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\Exception;
 
 use Exception;
-use inklabs\kommerce\Exception\Kommerce400Exception;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;

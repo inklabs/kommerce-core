@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\Service;
 
-use inklabs\kommerce\Lib\CartCalculator;
-use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Service\Import\ImportOrderItemService;
 use inklabs\kommerce\Service\Import\ImportOrderService;
 use inklabs\kommerce\Service\Import\ImportPaymentService;

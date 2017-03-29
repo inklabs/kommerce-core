@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use Exception;
 use inklabs\kommerce\tests\Helper\Action\FakeCommand;
 use inklabs\kommerce\tests\Helper\Action\FakeQuery;
 use inklabs\kommerce\tests\Helper\Action\Query\FakeRequest;

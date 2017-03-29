@@ -2,9 +2,6 @@
 namespace inklabs\kommerce\EntityDTO;
 
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
-use inklabs\kommerce\EntityDTO\PriceDTO;
-use inklabs\kommerce\EntityDTO\ProductDTO;
-use inklabs\kommerce\EntityDTO\ProductQuantityDiscountDTO;
 use inklabs\kommerce\tests\EntityDTO\Builder\AbstractPromotionDTOBuilderTest;
 
 class ProductQuantityDiscountDTOBuilderTest extends AbstractPromotionDTOBuilderTest

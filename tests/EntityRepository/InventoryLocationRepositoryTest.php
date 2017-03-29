@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\tests\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Warehouse;

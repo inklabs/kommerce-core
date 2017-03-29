@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\ActionHandler\Option;
 
 use inklabs\kommerce\Action\Option\DeleteOptionValueCommand;
-use inklabs\kommerce\EntityRepository\OptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\OptionValueRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
 use inklabs\kommerce\Lib\Command\CommandHandlerInterface;

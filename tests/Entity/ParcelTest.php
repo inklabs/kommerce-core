@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
-use inklabs\kommerce\EntityDTO\Builder\ParcelDTOBuilder;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class ParcelTest extends EntityTestCase

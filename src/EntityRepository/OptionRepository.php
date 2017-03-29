@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionProduct;
-use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Lib\UuidInterface;
 

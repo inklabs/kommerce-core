@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Tag;

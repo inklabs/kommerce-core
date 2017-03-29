@@ -1,11 +1,9 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberEntityInterface;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
 class CouponRepositoryTest extends EntityRepositoryTestCase

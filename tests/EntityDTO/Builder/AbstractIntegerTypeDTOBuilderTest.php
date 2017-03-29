@@ -3,7 +3,6 @@ namespace inklabs\kommerce\tests\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\AbstractIntegerType;
 use inklabs\kommerce\EntityDTO\AbstractIntegerTypeDTO;
-use inklabs\kommerce\EntityDTO\Builder\AbstractIntegerTypeDTOBuilder;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 abstract class AbstractIntegerTypeDTOBuilderTest extends EntityDTOBuilderTestCase

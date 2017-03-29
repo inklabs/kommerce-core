@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\EntityDTO\ChargeResponseDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class ChargeResponseDTOBuilderTest extends EntityDTOBuilderTestCase

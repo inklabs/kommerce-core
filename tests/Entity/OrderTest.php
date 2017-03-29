@@ -2,9 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
-use inklabs\kommerce\EntityDTO\Builder\OrderDTOBuilder;
 use inklabs\kommerce\Event\OrderShippedEvent;
-use inklabs\kommerce\Lib\PaymentGateway;
 use inklabs\kommerce\Lib\Uuid;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 use inklabs\kommerce\Lib\UuidInterface;

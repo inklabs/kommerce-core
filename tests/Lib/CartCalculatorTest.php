@@ -7,7 +7,6 @@ use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CartPriceRuleDiscount;
 use inklabs\kommerce\Entity\CartPriceRuleProductItem;
 use inklabs\kommerce\Entity\CartTotal;
-use inklabs\kommerce\Entity\Coupon;
 use inklabs\kommerce\Entity\Money;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\PromotionType;

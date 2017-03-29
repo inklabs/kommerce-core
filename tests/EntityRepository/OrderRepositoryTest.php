@@ -25,8 +25,6 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\TextOption;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentReferenceNumberGenerator;
-use inklabs\kommerce\tests\Helper\EntityRepository\ManualSeedHashSegmentReferenceNumberGenerator;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
 class OrderRepositoryTest extends EntityRepositoryTestCase

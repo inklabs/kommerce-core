@@ -3,7 +3,6 @@ namespace inklabs\kommerce\EntityRepository;
 
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\Pagination;
-use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberRepositoryInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 

@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\Option;
 use inklabs\kommerce\Entity\OptionValue;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;

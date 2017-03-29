@@ -2,8 +2,6 @@
 namespace inklabs\kommerce\EntityDTO;
 
 use inklabs\kommerce\Entity\CatalogPromotion;
-use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
-use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\tests\EntityDTO\Builder\AbstractPromotionDTOBuilderTest;
 
 class CatalogPromotionDTOBuilderTest extends AbstractPromotionDTOBuilderTest

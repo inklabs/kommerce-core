@@ -1,8 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\EntityDTO\CartItemTextOptionValueDTO;
-use inklabs\kommerce\EntityDTO\TextOptionDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class CartItemTextOptionValueDTOBuilderTest extends EntityDTOBuilderTestCase

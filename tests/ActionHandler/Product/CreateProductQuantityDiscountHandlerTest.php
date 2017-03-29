@@ -3,7 +3,6 @@ namespace inklabs\kommerce\ActionHandler\CatalogPromotion;
 
 use DateTime;
 use inklabs\kommerce\Action\Product\CreateProductQuantityDiscountCommand;
-use inklabs\kommerce\ActionHandler\Product\CreateProductQuantityDiscountHandler;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\PromotionType;

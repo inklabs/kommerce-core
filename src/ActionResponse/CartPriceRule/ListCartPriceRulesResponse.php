@@ -26,7 +26,7 @@ final class ListCartPriceRulesResponse implements ResponseInterface
     }
 
     /**
-     * @return CartPriceRuleDTO[]|\Generator
+     * @return CartPriceRuleDTO[]
      */
     public function getCartPriceRuleDTOs()
     {

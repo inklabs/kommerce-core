@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
-use DateTime;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Warehouse;
 use inklabs\kommerce\Exception\EntityNotFoundException;

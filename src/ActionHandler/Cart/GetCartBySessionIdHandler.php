@@ -7,7 +7,6 @@ use inklabs\kommerce\Entity\Cart;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\CartRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
-use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 
 final class GetCartBySessionIdHandler implements QueryHandlerInterface

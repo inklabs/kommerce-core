@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\tests\Entity;
 
 use inklabs\kommerce\Entity\Money;
-use inklabs\kommerce\EntityDTO\Builder\MoneyDTOBuilder;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class MoneyTest extends EntityTestCase

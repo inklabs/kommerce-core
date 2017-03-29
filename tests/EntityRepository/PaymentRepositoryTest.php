@@ -4,8 +4,6 @@ namespace inklabs\kommerce\EntityRepository;
 use DateTime;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Cart;
-use inklabs\kommerce\Entity\CashPayment;
-use inklabs\kommerce\Entity\CheckPayment;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;

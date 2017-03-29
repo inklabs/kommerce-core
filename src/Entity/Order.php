@@ -148,7 +148,6 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
 
     /**
      * @param OrderItem $orderItem
-     * @return int
      */
     public function addOrderItem(OrderItem $orderItem)
     {

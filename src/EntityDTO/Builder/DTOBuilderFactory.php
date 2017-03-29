@@ -70,7 +70,6 @@ use inklabs\kommerce\Entity\UserStatusType;
 use inklabs\kommerce\Entity\UserToken;
 use inklabs\kommerce\Entity\UserTokenType;
 use inklabs\kommerce\Entity\Warehouse;
-use inklabs\kommerce\EntityDTO\AttributeChoiceTypeDTO;
 use inklabs\kommerce\Exception\DTOBuilderException;
 use inklabs\kommerce\Lib\PaymentGateway\ChargeResponse;
 

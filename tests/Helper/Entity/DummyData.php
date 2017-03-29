@@ -2,7 +2,6 @@
 namespace inklabs\kommerce\tests\Helper\Entity;
 
 use DateTime;
-use Doctrine\ORM\EntityManager;
 use inklabs\kommerce\Entity\Address;
 use inklabs\kommerce\Entity\Attachment;
 use inklabs\kommerce\Entity\Attribute;

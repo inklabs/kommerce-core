@@ -1,9 +1,6 @@
 <?php
 namespace inklabs\kommerce\EntityDTO;
 
-use inklabs\kommerce\EntityDTO\ImageDTO;
-use inklabs\kommerce\EntityDTO\ProductDTO;
-use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\tests\Helper\TestCase\EntityDTOBuilderTestCase;
 
 class ImageDTOBuilderTest extends EntityDTOBuilderTestCase

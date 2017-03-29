@@ -3,9 +3,7 @@ namespace inklabs\kommerce\ActionHandler\Warehouse;
 
 use inklabs\kommerce\Action\Warehouse\ListProductStockForInventoryLocationQuery;
 use inklabs\kommerce\ActionResponse\Warehouse\ListProductStockForInventoryLocationResponse;
-use inklabs\kommerce\DTO\ProductStockDTO;
 use inklabs\kommerce\Entity\Pagination;
-use inklabs\kommerce\Entity\ProductStock;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityRepository\InventoryLocationRepositoryInterface;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
