@@ -4,8 +4,11 @@ namespace inklabs\kommerce\ActionHandler\Shipment;
 use inklabs\kommerce\Action\Shipment\BuyShipmentLabelCommand;
 use inklabs\kommerce\Entity\AbstractPayment;
 use inklabs\kommerce\Entity\Cart;
+use inklabs\kommerce\Entity\InventoryTransaction;
+use inklabs\kommerce\Entity\OptionProduct;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\Entity\OrderItem;
+use inklabs\kommerce\Entity\OrderItemOptionProduct;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\Shipment;
 use inklabs\kommerce\Entity\ShipmentComment;
@@ -30,6 +33,9 @@ class BuyShipmentLabelHandlerTest extends ActionTestCase
         ShipmentItem::class,
         ShipmentTracker::class,
         AbstractPayment::class,
+        OptionProduct::class,
+        OrderItemOptionProduct::class,
+        InventoryTransaction::class,
     ];
 
     public function testHandle()

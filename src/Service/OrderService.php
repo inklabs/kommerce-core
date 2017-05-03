@@ -144,6 +144,7 @@ class OrderService implements OrderServiceInterface
         }
 
         $this->addShipmentItemsFromOrderItems($orderItemQtyDTO, $shipment);
+        $this->shipProductsFromInventory($order, $orderItemQtyDTO);
 
         $order->addShipment($shipment);
         $this->update($order);
@@ -292,6 +293,39 @@ class OrderService implements OrderServiceInterface
                     $orderItemOptionProduct->getOptionProduct()->getProduct(),
                     $orderItem->getQuantity()
                 );
+            }
+        }
+    }
+
+    private function shipProductsFromInventory(Order $order, OrderItemQtyDTO $orderItemQtyDTO)
+    {
+        foreach ($order->getOrderItems() as $orderItem) {
+            $quantity = $orderItemQtyDTO->getItemQuantity($orderItem->getId());
+            if ($quantity !== null) {
+
+                $this->inventoryService->shipProductForOrderItem(
+                    $orderItem,
+                    $orderItem->getProduct(),
+                    $quantity
+                );
+
+                $this->reduceProductInventory(
+                    $orderItem->getProduct(),
+                    $quantity
+                );
+
+                foreach ($orderItem->getOrderItemOptionProducts() as $orderItemOptionProduct) {
+                    $this->inventoryService->shipProductForOrderItem(
+                        $orderItem,
+                        $orderItemOptionProduct->getOptionProduct()->getProduct(),
+                        $quantity
+                    );
+
+                    $this->reduceProductInventory(
+                        $orderItemOptionProduct->getOptionProduct()->getProduct(),
+                        $quantity
+                    );
+                }
             }
         }
     }

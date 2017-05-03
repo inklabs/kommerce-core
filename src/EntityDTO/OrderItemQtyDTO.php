@@ -22,4 +22,17 @@ final class OrderItemQtyDTO
     {
         return $this->items;
     }
+
+    /**
+     * @param UuidInterface $orderItemId
+     * @return null|int
+     */
+    public function getItemQuantity(UuidInterface $orderItemId)
+    {
+        if (isset($this->items[$orderItemId->getHex()])) {
+            return $this->items[$orderItemId->getHex()];
+        }
+
+        return null;
+    }
 }

@@ -66,6 +66,7 @@ class InventoryServiceTest extends ServiceTestCase
     public function testReserveProduct()
     {
         $product = $this->dummyData->getProduct();
+        $product->setIsInventoryRequired(true);
         $inventoryLocation = $this->dummyData->getInventoryLocation($this->warehouse);
         $initialTransaction = $this->dummyData->getInventoryTransaction($inventoryLocation, $product);
         $this->entityManager->persist($product);
@@ -99,6 +100,7 @@ class InventoryServiceTest extends ServiceTestCase
     public function testReserveProductThrowsExceptionIfInsufficientInventory()
     {
         $product = $this->dummyData->getProduct();
+        $product->setIsInventoryRequired(true);
 
         $this->setExpectedException(
             InsufficientInventoryException::class,

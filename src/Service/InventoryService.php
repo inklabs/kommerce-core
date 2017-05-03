@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\InventoryTransaction;
@@ -63,6 +64,43 @@ class InventoryService implements InventoryServiceInterface
             'Hold ' . ngettext('item', 'items', $quantity) . ' for order #' . $order->getReferenceNumber(),
             $inventoryLocation,
             InventoryTransactionType::hold()
+        );
+
+        $this->inventoryTransactionRepository->persist($inventoryTransaction);
+        $this->inventoryTransactionRepository->flush();
+    }
+
+    /**
+     * @param OrderItem $orderItem
+     * @param Product $product
+     * @param int $quantity
+     * @throws InsufficientInventoryException
+     */
+    public function shipProductForOrderItem(OrderItem $orderItem, Product $product, $quantity)
+    {
+        if (! $product->isInventoryRequired()) {
+            // TODO: Investigate throwing exception in this case
+            return;
+        }
+
+        try {
+            $inventoryLocationId = $this->inventoryTransactionRepository
+                ->findInventoryIdWithAvailableQuantityForProduct(
+                    $product,
+                    $quantity
+                );
+
+            $inventoryLocation = $this->inventoryLocationRepository->findOneById($inventoryLocationId);
+        } catch (EntityNotFoundException $e) {
+            throw new InsufficientInventoryException();
+        }
+
+        $inventoryTransaction = InventoryTransaction::debit(
+            $product,
+            $quantity,
+            'Shipped ' . ngettext('item', 'items', $quantity) . ' for orderItem #' . $orderItem->getId()->getHex(),
+            $inventoryLocation,
+            InventoryTransactionType::shipped()
         );
 
         $this->inventoryTransactionRepository->persist($inventoryTransaction);

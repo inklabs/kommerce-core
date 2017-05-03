@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Service;
 
 use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\OrderItem;
 use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Product;
@@ -19,6 +20,15 @@ interface InventoryServiceInterface
      * @throws EntityValidatorException
      */
     public function reserveProductForOrder(Order $order, Product $product, $quantity);
+
+    /**
+     * @param OrderItem $orderItem
+     * @param Product $product
+     * @param int $quantity
+     * @return
+     * @internal param Order $order
+     */
+    public function shipProductForOrderItem(OrderItem $orderItem, Product $product, $quantity);
 
     /**
      * @param Product $product

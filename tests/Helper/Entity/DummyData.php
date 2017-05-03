@@ -791,7 +791,7 @@ class DummyData
         $product = new Product;
         $product->setSku($sku);
         $product->setName('Test Product');
-        $product->setIsInventoryRequired(true);
+        $product->setIsInventoryRequired(false);
         $product->setIsPriceVisible(true);
         $product->setIsActive(true);
         $product->setIsVisible(true);

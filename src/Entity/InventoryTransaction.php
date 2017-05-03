@@ -24,6 +24,12 @@ class InventoryTransaction implements IdEntityInterface
     protected $type;
 
     /**
+     * Used when type is hold
+     * @var null|OrderItem
+     */
+    protected $orderItem;
+
+    /**
      * @param Product $product
      * @param InventoryLocation $inventoryLocation
      * @param int $quantity
