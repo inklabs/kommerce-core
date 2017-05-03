@@ -302,7 +302,6 @@ class OrderService implements OrderServiceInterface
         foreach ($order->getOrderItems() as $orderItem) {
             $quantity = $orderItemQtyDTO->getItemQuantity($orderItem->getId());
             if ($quantity !== null) {
-
                 $this->inventoryService->shipProductForOrderItem(
                     $orderItem,
                     $orderItem->getProduct(),
