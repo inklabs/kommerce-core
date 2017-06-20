@@ -14,22 +14,18 @@ final class CreateImageForProductCommand implements CommandInterface
     /** @var UuidInterface */
     protected $productId;
 
-    /**
-     * @param UploadFileDTO $uploadFileDTO
-     * @param string $productId
-     */
-    public function __construct(UploadFileDTO $uploadFileDTO, $productId)
+    public function __construct(UploadFileDTO $uploadFileDTO, string $productId)
     {
         $this->productId = Uuid::fromString($productId);
         $this->uploadFileDTO = $uploadFileDTO;
     }
 
-    public function getUploadFileDTO()
+    public function getUploadFileDTO(): UploadFileDTO
     {
         return $this->uploadFileDTO;
     }
 
-    public function getProductId()
+    public function getProductId(): UuidInterface
     {
         return $this->productId;
     }

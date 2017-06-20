@@ -14,22 +14,18 @@ final class CreateImageForTagCommand implements CommandInterface
     /** @var UuidInterface */
     protected $tagId;
 
-    /**
-     * @param UploadFileDTO $uploadFileDTO
-     * @param string $tagId
-     */
-    public function __construct(UploadFileDTO $uploadFileDTO, $tagId)
+    public function __construct(UploadFileDTO $uploadFileDTO, string $tagId)
     {
         $this->tagId = Uuid::fromString($tagId);
         $this->uploadFileDTO = $uploadFileDTO;
     }
 
-    public function getUploadFileDTO()
+    public function getUploadFileDTO(): UploadFileDTO
     {
         return $this->uploadFileDTO;
     }
 
-    public function getTagId()
+    public function getTagId(): UuidInterface
     {
         return $this->tagId;
     }
