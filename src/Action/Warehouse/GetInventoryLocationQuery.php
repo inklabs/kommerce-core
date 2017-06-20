@@ -10,15 +10,12 @@ final class GetInventoryLocationQuery implements QueryInterface
     /** @var UuidInterface */
     private $inventoryLocationId;
 
-    /**
-     * @param string $inventoryLocationId
-     */
-    public function __construct($inventoryLocationId)
+    public function __construct(string $inventoryLocationId)
     {
         $this->inventoryLocationId = Uuid::fromString($inventoryLocationId);
     }
 
-    public function getInventoryLocationId()
+    public function getInventoryLocationId(): UuidInterface
     {
         return $this->inventoryLocationId;
     }

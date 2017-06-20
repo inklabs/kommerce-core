@@ -43,33 +43,19 @@ abstract class AbstractWarehouseCommand implements CommandInterface
     /** @var string */
     private $longitude;
 
-    /**
-     * @param string $name
-     * @param string $attention
-     * @param string $company
-     * @param string $address1
-     * @param string $address2
-     * @param string $city
-     * @param string $state
-     * @param string $zip5
-     * @param string $zip4
-     * @param string $latitude
-     * @param string $longitude
-     * @param string $warehouseId
-     */
     public function __construct(
-        $name,
-        $attention,
-        $company,
-        $address1,
-        $address2,
-        $city,
-        $state,
-        $zip5,
-        $zip4,
-        $latitude,
-        $longitude,
-        $warehouseId
+        string $name,
+        string $attention,
+        string $company,
+        string $address1,
+        string $address2,
+        string $city,
+        string $state,
+        string $zip5,
+        string $zip4,
+        string $latitude,
+        string $longitude,
+        string $warehouseId
     ) {
         $this->warehouseId = Uuid::fromString($warehouseId);
         $this->name = $name;
@@ -85,62 +71,62 @@ abstract class AbstractWarehouseCommand implements CommandInterface
         $this->longitude = $longitude;
     }
 
-    public function getWarehouseId()
+    public function getWarehouseId(): UuidInterface
     {
         return $this->warehouseId;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getAttention()
+    public function getAttention(): string
     {
         return $this->attention;
     }
 
-    public function getCompany()
+    public function getCompany(): string
     {
         return $this->company;
     }
 
-    public function getAddress1()
+    public function getAddress1(): string
     {
         return $this->address1;
     }
 
-    public function getAddress2()
+    public function getAddress2(): string
     {
         return $this->address2;
     }
 
-    public function getCity()
+    public function getCity(): string
     {
         return $this->city;
     }
 
-    public function getState()
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function getZip5()
+    public function getZip5(): string
     {
         return $this->zip5;
     }
 
-    public function getZip4()
+    public function getZip4(): string
     {
         return $this->zip4;
     }
 
-    public function getLatitude()
+    public function getLatitude(): string
     {
         return $this->latitude;
     }
 
-    public function getLongitude()
+    public function getLongitude(): string
     {
         return $this->longitude;
     }

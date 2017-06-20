@@ -10,15 +10,12 @@ final class GetWarehouseQuery implements QueryInterface
     /** @var UuidInterface */
     private $warehouseId;
 
-    /**
-     * @param string $warehouseId
-     */
-    public function __construct($warehouseId)
+    public function __construct(string $warehouseId)
     {
         $this->warehouseId = Uuid::fromString($warehouseId);
     }
 
-    public function getWarehouseId()
+    public function getWarehouseId(): UuidInterface
     {
         return $this->warehouseId;
     }

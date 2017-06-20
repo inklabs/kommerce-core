@@ -19,12 +19,7 @@ final class CreateInventoryLocationCommand implements CommandInterface
     /** @var string */
     private $code;
 
-    /**
-     * @param string $warehouseId
-     * @param string $name
-     * @param string $code
-     */
-    public function __construct($warehouseId, $name, $code)
+    public function __construct(string $warehouseId, string $name, string $code)
     {
         $this->inventoryLocationId = Uuid::uuid4();
         $this->warehouseId = Uuid::fromString($warehouseId);
@@ -32,22 +27,22 @@ final class CreateInventoryLocationCommand implements CommandInterface
         $this->code = $code;
     }
 
-    public function getInventoryLocationId()
+    public function getInventoryLocationId(): UuidInterface
     {
         return $this->inventoryLocationId;
     }
 
-    public function getWarehouseId()
+    public function getWarehouseId(): UuidInterface
     {
         return $this->warehouseId;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
