@@ -15,12 +15,12 @@ final class ListAttributesResponse implements ResponseInterface
     /** @var PaginationDTOBuilder */
     protected $paginationDTOBuilder;
 
-    public function addAttributeDTOBuilder(AttributeDTOBuilder $attributeDTOBuilder)
+    public function addAttributeDTOBuilder(AttributeDTOBuilder $attributeDTOBuilder): void
     {
         $this->attributeDTOBuilders[] = $attributeDTOBuilder;
     }
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
@@ -28,7 +28,7 @@ final class ListAttributesResponse implements ResponseInterface
     /**
      * @return AttributeDTO[]
      */
-    public function getAttributeDTOs()
+    public function getAttributeDTOs(): array
     {
         $attributeDTOs = [];
         foreach ($this->attributeDTOBuilders as $attributeDTOBuilder) {
@@ -37,10 +37,7 @@ final class ListAttributesResponse implements ResponseInterface
         return $attributeDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }

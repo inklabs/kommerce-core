@@ -15,12 +15,13 @@ final class ListInventoryTransactionsByInventoryLocationResponse implements Resp
     /** @var PaginationDTOBuilder */
     protected $paginationDTOBuilder;
 
-    public function addInventoryTransactionDTOBuilder(InventoryTransactionDTOBuilder $inventoryTransactionDTOBuilder)
-    {
+    public function addInventoryTransactionDTOBuilder(
+        InventoryTransactionDTOBuilder $inventoryTransactionDTOBuilder
+    ): void {
         $this->inventoryTransactionDTOBuilders[] = $inventoryTransactionDTOBuilder;
     }
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
@@ -28,7 +29,7 @@ final class ListInventoryTransactionsByInventoryLocationResponse implements Resp
     /**
      * @return InventoryTransactionDTO[]
      */
-    public function getInventoryTransactionDTOs()
+    public function getInventoryTransactionDTOs(): array
     {
         $inventoryTransactionDTOs = [];
         foreach ($this->inventoryTransactionDTOBuilders as $inventoryTransactionDTOBuilder) {
@@ -39,10 +40,7 @@ final class ListInventoryTransactionsByInventoryLocationResponse implements Resp
         return $inventoryTransactionDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }

@@ -15,12 +15,12 @@ final class ListCatalogPromotionsResponse implements ResponseInterface
     /** @var PaginationDTOBuilder */
     private $paginationDTOBuilder;
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
 
-    public function addCatalogPromotionDTOBuilder(CatalogPromotionDTOBuilder $catalogPromotionDTOBuilder)
+    public function addCatalogPromotionDTOBuilder(CatalogPromotionDTOBuilder $catalogPromotionDTOBuilder): void
     {
         $this->catalogPromotionDTOBuilders[] = $catalogPromotionDTOBuilder;
     }
@@ -28,7 +28,7 @@ final class ListCatalogPromotionsResponse implements ResponseInterface
     /**
      * @return CatalogPromotionDTO[]
      */
-    public function getCatalogPromotionDTOs()
+    public function getCatalogPromotionDTOs(): array
     {
         $catalogPromotionDTOs = [];
         foreach ($this->catalogPromotionDTOBuilders as $catalogPromotionDTOBuilder) {
@@ -40,7 +40,7 @@ final class ListCatalogPromotionsResponse implements ResponseInterface
     /**
      * @return CatalogPromotionDTO[]
      */
-    public function getCatalogPromotionDTOsWithAllData()
+    public function getCatalogPromotionDTOsWithAllData(): array
     {
         $catalogPromotionDTOs = [];
         foreach ($this->catalogPromotionDTOBuilders as $catalogPromotionDTOBuilder) {
@@ -51,10 +51,7 @@ final class ListCatalogPromotionsResponse implements ResponseInterface
         return $catalogPromotionDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }

@@ -15,12 +15,12 @@ final class ListProductsResponse implements ResponseInterface
     /** @var PaginationDTOBuilder */
     private $paginationDTOBuilder;
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
 
-    public function addProductDTOBuilder(ProductDTOBuilder $productDTOBuilder)
+    public function addProductDTOBuilder(ProductDTOBuilder $productDTOBuilder): void
     {
         $this->productDTOBuilders[] = $productDTOBuilder;
     }
@@ -28,7 +28,7 @@ final class ListProductsResponse implements ResponseInterface
     /**
      * @return ProductDTO[]
      */
-    public function getProductDTOs()
+    public function getProductDTOs(): array
     {
         $productDTOs = [];
         foreach ($this->productDTOBuilders as $productDTOBuilder) {
@@ -37,10 +37,7 @@ final class ListProductsResponse implements ResponseInterface
         return $productDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }

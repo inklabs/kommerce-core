@@ -10,7 +10,7 @@ final class GetShipmentRatesResponse implements ResponseInterface
     /** @var ShipmentRateDTOBuilder[] */
     private $shipmentRateDTOBuilders = [];
 
-    public function addShipmentRateDTOBuilder(ShipmentRateDTOBuilder $shipmentRateDTOBuilder)
+    public function addShipmentRateDTOBuilder(ShipmentRateDTOBuilder $shipmentRateDTOBuilder): void
     {
         $this->shipmentRateDTOBuilders[] = $shipmentRateDTOBuilder;
     }
@@ -18,7 +18,7 @@ final class GetShipmentRatesResponse implements ResponseInterface
     /**
      * @return ShipmentRateDTO[]
      */
-    public function getShipmentRateDTOs()
+    public function getShipmentRateDTOs(): array
     {
         $shipmentRateDTOs = [];
         foreach ($this->shipmentRateDTOBuilders as $shipmentRateDTOBuilder) {

@@ -15,12 +15,12 @@ final class ListUsersResponse implements ResponseInterface
     /** @var PaginationDTOBuilder */
     private $paginationDTOBuilder;
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
 
-    public function addUserDTOBuilder(UserDTOBuilder $userDTOBuilder)
+    public function addUserDTOBuilder(UserDTOBuilder $userDTOBuilder): void
     {
         $this->userDTOBuilders[] = $userDTOBuilder;
     }
@@ -28,7 +28,7 @@ final class ListUsersResponse implements ResponseInterface
     /**
      * @return UserDTO[]
      */
-    public function getUserDTOs()
+    public function getUserDTOs(): array
     {
         $userDTOs = [];
         foreach ($this->userDTOBuilders as $userDTOBuilder) {
@@ -37,10 +37,7 @@ final class ListUsersResponse implements ResponseInterface
         return $userDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }

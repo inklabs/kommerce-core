@@ -10,7 +10,7 @@ final class ListTaxRatesResponse implements ResponseInterface
     /** @var TaxRateDTOBuilder[] */
     private $tagDTOBuilders = [];
 
-    public function addTaxRateDTOBuilder(TaxRateDTOBuilder $tagDTOBuilder)
+    public function addTaxRateDTOBuilder(TaxRateDTOBuilder $tagDTOBuilder): void
     {
         $this->tagDTOBuilders[] = $tagDTOBuilder;
     }
@@ -18,7 +18,7 @@ final class ListTaxRatesResponse implements ResponseInterface
     /**
      * @return TaxRateDTO[]
      */
-    public function getTaxRateDTOs()
+    public function getTaxRateDTOs(): array
     {
         $tagDTOs = [];
         foreach ($this->tagDTOBuilders as $tagDTOBuilder) {

@@ -24,25 +24,28 @@ final class GetProductsByTagResponse implements ResponseInterface
         $this->pricing = $pricing;
     }
 
-    public function addProductDTOBuilder(ProductDTOBuilder $productDTOBuilder)
+    public function addProductDTOBuilder(ProductDTOBuilder $productDTOBuilder): void
     {
         $this->productDTOs[] = $productDTOBuilder
             ->withPrice($this->pricing)
             ->build();
     }
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTO = $paginationDTOBuilder
             ->build();
     }
 
-    public function getProductDTOs()
+    /**
+     * @return ProductDTO[]
+     */
+    public function getProductDTOs(): array
     {
         return $this->productDTOs;
     }
 
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTO;
     }

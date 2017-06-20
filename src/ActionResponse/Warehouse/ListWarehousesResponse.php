@@ -15,12 +15,12 @@ final class ListWarehousesResponse implements ResponseInterface
     /** @var PaginationDTOBuilder */
     protected $paginationDTOBuilder;
 
-    public function addWarehouseDTOBuilder(WarehouseDTOBuilder $warehouseDTOBuilder)
+    public function addWarehouseDTOBuilder(WarehouseDTOBuilder $warehouseDTOBuilder): void
     {
         $this->warehouseDTOBuilders[] = $warehouseDTOBuilder;
     }
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
@@ -28,7 +28,7 @@ final class ListWarehousesResponse implements ResponseInterface
     /**
      * @return WarehouseDTO[]
      */
-    public function getWarehouseDTOs()
+    public function getWarehouseDTOs(): array
     {
         $warehouseDTOs = [];
         foreach ($this->warehouseDTOBuilders as $warehouseDTOBuilder) {
@@ -37,10 +37,7 @@ final class ListWarehousesResponse implements ResponseInterface
         return $warehouseDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }

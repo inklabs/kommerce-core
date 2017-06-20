@@ -19,7 +19,7 @@ final class GetProductsByIdsResponse implements ResponseInterface
         $this->pricing = $pricing;
     }
 
-    public function addProductDTOBuilder(ProductDTOBuilder $productDTOBuilder)
+    public function addProductDTOBuilder(ProductDTOBuilder $productDTOBuilder): void
     {
         $this->productDTOBuilders[] = $productDTOBuilder;
     }
@@ -27,7 +27,7 @@ final class GetProductsByIdsResponse implements ResponseInterface
     /**
      * @return ProductDTO[]
      */
-    public function getProductDTOs()
+    public function getProductDTOs(): array
     {
         $productDTOs = [];
         foreach ($this->productDTOBuilders as $productDTOBuilder) {
