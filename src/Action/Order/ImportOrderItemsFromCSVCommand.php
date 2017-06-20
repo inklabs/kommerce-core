@@ -8,15 +8,12 @@ final class ImportOrderItemsFromCSVCommand implements CommandInterface
     /** @var string */
     private $fileName;
 
-    /**
-     * @param string $fileName
-     */
-    public function __construct($fileName)
+    public function __construct(string $fileName)
     {
         $this->fileName = (string) $fileName;
     }
 
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->fileName;
     }

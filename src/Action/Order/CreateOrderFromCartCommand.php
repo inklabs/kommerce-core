@@ -30,18 +30,10 @@ final class CreateOrderFromCartCommand implements CommandInterface
     /** @var OrderAddressDTO */
     private $billingAddressDTO;
 
-    /**
-     * @param string $cartId
-     * @param string $userId
-     * @param string $ip4
-     * @param CreditCardDTO $creditCardDTO
-     * @param OrderAddressDTO $shippingAddressDTO
-     * @param OrderAddressDTO $billingAddressDTO
-     */
     public function __construct(
-        $cartId,
-        $userId,
-        $ip4,
+        string $cartId,
+        string $userId,
+        string $ip4,
         CreditCardDTO $creditCardDTO,
         OrderAddressDTO $shippingAddressDTO,
         OrderAddressDTO $billingAddressDTO
@@ -49,43 +41,43 @@ final class CreateOrderFromCartCommand implements CommandInterface
         $this->orderId = Uuid::uuid4();
         $this->cartId = Uuid::fromString($cartId);
         $this->userId = Uuid::fromString($userId);
-        $this->ip4 = (string) $ip4;
+        $this->ip4 = $ip4;
         $this->creditCardDTO = $creditCardDTO;
         $this->shippingAddressDTO = $shippingAddressDTO;
         $this->billingAddressDTO = $billingAddressDTO;
     }
 
-    public function getCartId()
+    public function getCartId(): UuidInterface
     {
         return $this->cartId;
     }
 
-    public function getIp4()
+    public function getIp4(): string
     {
         return $this->ip4;
     }
 
-    public function getCreditCardDTO()
+    public function getCreditCardDTO(): CreditCardDTO
     {
         return $this->creditCardDTO;
     }
 
-    public function getShippingAddressDTO()
+    public function getShippingAddressDTO(): OrderAddressDTO
     {
         return $this->shippingAddressDTO;
     }
 
-    public function getBillingAddressDTO()
+    public function getBillingAddressDTO(): OrderAddressDTO
     {
         return $this->billingAddressDTO;
     }
 
-    public function getOrderId()
+    public function getOrderId(): UuidInterface
     {
         return $this->orderId;
     }
 
-    public function getUserId()
+    public function getUserId(): UuidInterface
     {
         return $this->userId;
     }
