@@ -10,15 +10,12 @@ final class DeleteCatalogPromotionCommand implements CommandInterface
     /** @var UuidInterface */
     private $catalogPromotionId;
 
-    /**
-     * @param string $catalogPromotionId
-     */
-    public function __construct($catalogPromotionId)
+    public function __construct(string $catalogPromotionId)
     {
         $this->catalogPromotionId = Uuid::fromString($catalogPromotionId);
     }
 
-    public function getCatalogPromotionId()
+    public function getCatalogPromotionId(): UuidInterface
     {
         return $this->catalogPromotionId;
     }
