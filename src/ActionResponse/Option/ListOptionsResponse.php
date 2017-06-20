@@ -15,12 +15,12 @@ final class ListOptionsResponse implements ResponseInterface
     /** @var PaginationDTOBuilder */
     private $paginationDTOBuilder;
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
 
-    public function addOptionDTOBuilder(OptionDTOBuilder $optionDTOBuilder)
+    public function addOptionDTOBuilder(OptionDTOBuilder $optionDTOBuilder): void
     {
         $this->optionDTOBuilders[] = $optionDTOBuilder;
     }
@@ -28,7 +28,7 @@ final class ListOptionsResponse implements ResponseInterface
     /**
      * @return OptionDTO[]
      */
-    public function getOptionDTOs()
+    public function getOptionDTOs(): array
     {
         $optionDTOs = [];
         foreach ($this->optionDTOBuilders as $optionDTOBuilder) {
@@ -37,10 +37,7 @@ final class ListOptionsResponse implements ResponseInterface
         return $optionDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }

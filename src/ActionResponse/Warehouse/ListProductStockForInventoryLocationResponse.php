@@ -6,6 +6,7 @@ use inklabs\kommerce\DTO\ProductStockDTO;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\ProductStock;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\Lib\Query\ResponseInterface;
 
 final class ListProductStockForInventoryLocationResponse implements ResponseInterface
@@ -29,7 +30,7 @@ final class ListProductStockForInventoryLocationResponse implements ResponseInte
         $this->productStockList = $productStockList;
     }
 
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->dtoBuilderFactory->getPaginationDTOBuilder($this->pagination)
             ->build();
@@ -38,7 +39,7 @@ final class ListProductStockForInventoryLocationResponse implements ResponseInte
     /**
      * @return \Generator|ProductStockDTO[]
      */
-    public function getProductStockDTOs()
+    public function getProductStockDTOs(): Generator
     {
         foreach ($this->productStockList as $productStock) {
             $productDTO = $this->dtoBuilderFactory->getProductDTOBuilder($productStock->getProduct())

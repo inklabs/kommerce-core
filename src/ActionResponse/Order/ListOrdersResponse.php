@@ -15,12 +15,12 @@ final class ListOrdersResponse implements ResponseInterface
     /** @var PaginationDTOBuilder */
     private $paginationDTOBuilder;
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
 
-    public function addOrderDTOBuilder(OrderDTOBuilder $orderDTOBuilder)
+    public function addOrderDTOBuilder(OrderDTOBuilder $orderDTOBuilder): void
     {
         $this->orderDTOBuilders[] = $orderDTOBuilder;
     }
@@ -28,7 +28,7 @@ final class ListOrdersResponse implements ResponseInterface
     /**
      * @return OrderDTO[]
      */
-    public function getOrderDTOs()
+    public function getOrderDTOs(): array
     {
         $orderDTOs = [];
         foreach ($this->orderDTOBuilders as $orderDTOBuilder) {
@@ -40,7 +40,7 @@ final class ListOrdersResponse implements ResponseInterface
     /**
      * @return OrderDTO[]
      */
-    public function getOrderWithUserDTOs()
+    public function getOrderWithUserDTOs(): array
     {
         $orderDTOs = [];
         foreach ($this->orderDTOBuilders as $orderDTOBuilder) {
@@ -51,10 +51,7 @@ final class ListOrdersResponse implements ResponseInterface
         return $orderDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }

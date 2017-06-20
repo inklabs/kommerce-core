@@ -15,12 +15,12 @@ final class ListCouponsResponse implements ResponseInterface
     /** @var PaginationDTOBuilder */
     protected $paginationDTOBuilder;
 
-    public function addCouponDTOBuilder(CouponDTOBuilder $couponDTOBuilder)
+    public function addCouponDTOBuilder(CouponDTOBuilder $couponDTOBuilder): void
     {
         $this->couponDTOBuilders[] = $couponDTOBuilder;
     }
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
@@ -28,7 +28,7 @@ final class ListCouponsResponse implements ResponseInterface
     /**
      * @return CouponDTO[]
      */
-    public function getCouponDTOs()
+    public function getCouponDTOs(): array
     {
         $couponDTOs = [];
         foreach ($this->couponDTOBuilders as $couponDTOBuilder) {
@@ -37,10 +37,7 @@ final class ListCouponsResponse implements ResponseInterface
         return $couponDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }

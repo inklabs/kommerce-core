@@ -15,12 +15,12 @@ final class ListCartPriceRulesResponse implements ResponseInterface
     /** @var PaginationDTOBuilder */
     protected $paginationDTOBuilder;
 
-    public function addCartPriceRuleDTOBuilder(CartPriceRuleDTOBuilder $couponDTOBuilder)
+    public function addCartPriceRuleDTOBuilder(CartPriceRuleDTOBuilder $couponDTOBuilder): void
     {
         $this->couponDTOBuilders[] = $couponDTOBuilder;
     }
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
@@ -28,7 +28,7 @@ final class ListCartPriceRulesResponse implements ResponseInterface
     /**
      * @return CartPriceRuleDTO[]
      */
-    public function getCartPriceRuleDTOs()
+    public function getCartPriceRuleDTOs(): array
     {
         $couponDTOs = [];
         foreach ($this->couponDTOBuilders as $couponDTOBuilder) {
@@ -37,10 +37,7 @@ final class ListCartPriceRulesResponse implements ResponseInterface
         return $couponDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }

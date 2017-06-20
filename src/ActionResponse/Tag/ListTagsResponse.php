@@ -15,12 +15,12 @@ final class ListTagsResponse implements ResponseInterface
     /** @var PaginationDTOBuilder */
     private $paginationDTOBuilder;
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
 
-    public function addTagDTOBuilder(TagDTOBuilder $tagDTOBuilder)
+    public function addTagDTOBuilder(TagDTOBuilder $tagDTOBuilder): void
     {
         $this->tagDTOBuilders[] = $tagDTOBuilder;
     }
@@ -28,7 +28,7 @@ final class ListTagsResponse implements ResponseInterface
     /**
      * @return TagDTO[]
      */
-    public function getTagDTOs()
+    public function getTagDTOs(): array
     {
         $tagDTOs = [];
         foreach ($this->tagDTOBuilders as $tagDTOBuilder) {
@@ -37,10 +37,7 @@ final class ListTagsResponse implements ResponseInterface
         return $tagDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }

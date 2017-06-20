@@ -10,12 +10,15 @@ final class GetConfigurationsByKeysResponse implements ResponseInterface
     /** @var ConfigurationDTO[] */
     protected $configurationDTOs = [];
 
-    public function addConfigurationDTOBuilder(ConfigurationDTOBuilder $configurationDTOBuilder)
+    public function addConfigurationDTOBuilder(ConfigurationDTOBuilder $configurationDTOBuilder): void
     {
         $this->configurationDTOs[] = $configurationDTOBuilder->build();
     }
 
-    public function getConfigurationDTOs()
+    /**
+     * @return ConfigurationDTO[]
+     */
+    public function getConfigurationDTOs(): array
     {
         return $this->configurationDTOs;
     }

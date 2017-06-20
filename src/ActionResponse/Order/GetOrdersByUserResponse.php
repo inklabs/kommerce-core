@@ -10,7 +10,7 @@ final class GetOrdersByUserResponse implements ResponseInterface
     /** @var OrderDTOBuilder[] */
     private $orderDTOBuilders = [];
 
-    public function addOrderDTOBuilder(OrderDTOBuilder $orderDTOBuilder)
+    public function addOrderDTOBuilder(OrderDTOBuilder $orderDTOBuilder): void
     {
         $this->orderDTOBuilders[] = $orderDTOBuilder;
     }
@@ -18,7 +18,7 @@ final class GetOrdersByUserResponse implements ResponseInterface
     /**
      * @return OrderDTO[]
      */
-    public function getOrderDTOs()
+    public function getOrderDTOs(): array
     {
         $orderDTOs = [];
         foreach ($this->orderDTOBuilders as $orderDTOBuilder) {
@@ -31,7 +31,7 @@ final class GetOrdersByUserResponse implements ResponseInterface
     /**
      * @return OrderDTO[]
      */
-    public function getOrderDTOsWithAllData()
+    public function getOrderDTOsWithAllData(): array
     {
         $orderDTOs = [];
         foreach ($this->orderDTOBuilders as $orderDTOBuilder) {

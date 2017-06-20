@@ -10,7 +10,7 @@ final class GetTagsByIdsResponse implements ResponseInterface
     /** @var TagDTOBuilder[] */
     private $tagDTOBuilders = [];
 
-    public function addTagDTOBuilder(TagDTOBuilder $tagDTOBuilder)
+    public function addTagDTOBuilder(TagDTOBuilder $tagDTOBuilder): void
     {
         $this->tagDTOBuilders[] = $tagDTOBuilder;
     }
@@ -18,7 +18,7 @@ final class GetTagsByIdsResponse implements ResponseInterface
     /**
      * @return TagDTO[]
      */
-    public function getTagDTOs()
+    public function getTagDTOs(): array
     {
         $tagDTOs = [];
         foreach ($this->tagDTOBuilders as $tagDTOBuilder) {

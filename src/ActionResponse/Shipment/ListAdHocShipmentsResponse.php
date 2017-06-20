@@ -15,12 +15,12 @@ final class ListAdHocShipmentsResponse implements ResponseInterface
     /** @var PaginationDTOBuilder */
     protected $paginationDTOBuilder;
 
-    public function addShipmentTrackerDTOBuilder(ShipmentTrackerDTOBuilder $shipmentTrackerDTOBuilder)
+    public function addShipmentTrackerDTOBuilder(ShipmentTrackerDTOBuilder $shipmentTrackerDTOBuilder): void
     {
         $this->shipmentTrackerDTOBuilders[] = $shipmentTrackerDTOBuilder;
     }
 
-    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder)
+    public function setPaginationDTOBuilder(PaginationDTOBuilder $paginationDTOBuilder): void
     {
         $this->paginationDTOBuilder = $paginationDTOBuilder;
     }
@@ -28,7 +28,7 @@ final class ListAdHocShipmentsResponse implements ResponseInterface
     /**
      * @return ShipmentTrackerDTO[]
      */
-    public function getShipmentTrackerDTOs()
+    public function getShipmentTrackerDTOs(): array
     {
         $shipmentTrackerDTOs = [];
         foreach ($this->shipmentTrackerDTOBuilders as $shipmentTrackerDTOBuilder) {
@@ -37,10 +37,7 @@ final class ListAdHocShipmentsResponse implements ResponseInterface
         return $shipmentTrackerDTOs;
     }
 
-    /**
-     * @return PaginationDTO
-     */
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTOBuilder->build();
     }
