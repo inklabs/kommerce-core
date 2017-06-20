@@ -100,7 +100,7 @@ abstract class AbstractCatalogPromotionCommand implements CommandInterface
         return $this->endAt;
     }
 
-    public function getTagId(): UuidInterface
+    public function getTagId(): ?UuidInterface
     {
         return $this->tagId;
     }

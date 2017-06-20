@@ -13,7 +13,7 @@ final class CreateCartCommand implements CommandInterface
     /** @var string */
     private $remoteIp4;
 
-    /** @var UuidInterface */
+    /** @var UuidInterface|null */
     private $userId;
 
     /** @var string|null */
@@ -45,7 +45,7 @@ final class CreateCartCommand implements CommandInterface
         return $this->remoteIp4;
     }
 
-    public function getUserId(): UuidInterface
+    public function getUserId(): ?UuidInterface
     {
         return $this->userId;
     }
