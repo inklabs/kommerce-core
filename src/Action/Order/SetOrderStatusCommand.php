@@ -13,22 +13,18 @@ final class SetOrderStatusCommand implements CommandInterface
     /** @var int */
     private $orderStatusTypeId;
 
-    /**
-     * @param string $orderId
-     * @param int $orderStatusTypeId
-     */
-    public function __construct($orderId, $orderStatusTypeId)
+    public function __construct(string $orderId, int $orderStatusTypeId)
     {
         $this->orderId = Uuid::fromString($orderId);
-        $this->orderStatusTypeId = (int) $orderStatusTypeId;
+        $this->orderStatusTypeId = $orderStatusTypeId;
     }
 
-    public function getOrderId()
+    public function getOrderId(): UuidInterface
     {
         return $this->orderId;
     }
 
-    public function getOrderStatusTypeId()
+    public function getOrderStatusTypeId(): int
     {
         return $this->orderStatusTypeId;
     }

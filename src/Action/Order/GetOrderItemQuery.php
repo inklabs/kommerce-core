@@ -10,15 +10,12 @@ final class GetOrderItemQuery implements QueryInterface
     /** @var UuidInterface */
     private $orderItemId;
 
-    /**
-     * @param string $orderItemId
-     */
-    public function __construct($orderItemId)
+    public function __construct(string $orderItemId)
     {
         $this->orderItemId = Uuid::fromString($orderItemId);
     }
 
-    public function getOrderItemId()
+    public function getOrderItemId(): UuidInterface
     {
         return $this->orderItemId;
     }
