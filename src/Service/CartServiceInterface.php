@@ -11,12 +11,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface CartServiceInterface
 {
-    /**
-     * @param UuidInterface $cartId
-     * @param string $couponCode
-     * @throws EntityNotFoundException
-     */
-    public function addCouponByCode(UuidInterface $cartId, $couponCode);
+    public function addCouponByCode(UuidInterface $cartId, string $couponCode): void;
 
     public function create(
         UuidInterface $cartId,
@@ -25,57 +20,38 @@ interface CartServiceInterface
         string $sessionId = null
     ): Cart;
 
-    /**
-     * @param UuidInterface $cartItemId
-     * @param UuidInterface $cartId
-     * @param UuidInterface $productId
-     * @param int $quantity
-     * @return CartItem
-     */
-    public function addItem(UuidInterface $cartItemId, UuidInterface $cartId, UuidInterface $productId, $quantity = 1);
+    public function addItem(
+        UuidInterface $cartItemId,
+        UuidInterface $cartId,
+        UuidInterface $productId,
+        int $quantity = 1
+    ): CartItem;
 
     /**
      * @param UuidInterface $cartItemId
      * @param UuidInterface[] $optionProductIds
-     * @throws EntityNotFoundException
      */
-    public function addItemOptionProducts(UuidInterface $cartItemId, array $optionProductIds);
+    public function addItemOptionProducts(UuidInterface $cartItemId, array $optionProductIds): void;
 
     /**
      * @param UuidInterface $cartItemId
      * @param UuidInterface[] $optionValueIds
-     * @throws EntityNotFoundException
      */
-    public function addItemOptionValues(UuidInterface $cartItemId, array $optionValueIds);
+    public function addItemOptionValues(UuidInterface $cartItemId, array $optionValueIds): void;
 
     /**
      * @param UuidInterface $cartItemId
      * @param TextOptionValueDTO[] $textOptionValueDTOs
-     * @throws EntityNotFoundException
      */
-    public function addItemTextOptionValues(UuidInterface $cartItemId, array $textOptionValueDTOs);
+    public function addItemTextOptionValues(UuidInterface $cartItemId, array $textOptionValueDTOs): void;
 
-    /**
-     * @param UuidInterface $fromCartId
-     * @param UuidInterface $toCartId
-     * @throws EntityNotFoundException
-     */
-    public function copyCartItems(UuidInterface $fromCartId, UuidInterface $toCartId);
+    public function copyCartItems(UuidInterface $fromCartId, UuidInterface $toCartId): void;
 
-    /**
-     * @param UuidInterface $cartItemId
-     * @throws EntityNotFoundException
-     */
-    public function deleteItem(UuidInterface $cartItemId);
+    public function deleteItem(UuidInterface $cartItemId): void;
 
-    /**
-     * @param UuidInterface $cartId
-     * @param string $shipmentRateExternalId
-     * @param OrderAddressDTO $shippingAddressDTO
-     */
     public function setExternalShipmentRate(
         UuidInterface $cartId,
-        $shipmentRateExternalId,
+        string $shipmentRateExternalId,
         OrderAddressDTO $shippingAddressDTO
-    );
+    ): void;
 }

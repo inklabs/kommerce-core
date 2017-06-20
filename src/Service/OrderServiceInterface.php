@@ -13,46 +13,27 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface OrderServiceInterface
 {
-    public function update(Order & $order);
+    public function update(Order & $order): void;
 
-    /**
-     * @param UuidInterface $orderId
-     * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
-     * @param string $comment
-     * @param string $rateExternalId
-     * @param string $shipmentExternalId
-     */
     public function buyShipmentLabel(
         UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
-        $comment,
-        $rateExternalId,
-        $shipmentExternalId
-    );
+        string $comment,
+        string $rateExternalId,
+        string $shipmentExternalId
+    ): void;
 
-    /**
-     * @param UuidInterface $orderId
-     * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
-     * @param string $comment
-     * @param int $shipmentCarrierTypeId
-     * @param string $trackingCode
-     */
     public function addShipmentTrackingCode(
         UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
-        $comment,
-        $shipmentCarrierTypeId,
-        $trackingCode
-    );
+        string $comment,
+        int $shipmentCarrierTypeId,
+        string $trackingCode
+    ): void;
 
-    public function setOrderStatus(UuidInterface $orderId, OrderStatusType $orderStatusType);
+    public function setOrderStatus(UuidInterface $orderId, OrderStatusType $orderStatusType): void;
 
-    /**
-     * @param Order $order
-     * @param CreditCard $creditCard
-     * @param int $amount
-     */
-    public function addCreditCardPayment(Order $order, CreditCard $creditCard, $amount);
+    public function addCreditCardPayment(Order $order, CreditCard $creditCard, int $amount): void;
 
     public function createOrderFromCart(
         UuidInterface $orderId,

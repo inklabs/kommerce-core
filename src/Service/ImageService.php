@@ -37,17 +37,17 @@ class ImageService implements ImageServiceInterface
         $this->fileManager = $fileManager;
     }
 
-    public function create(Image & $image)
+    public function create(Image & $image): void
     {
         $this->imageRepository->create($image);
     }
 
-    public function update(Image & $image)
+    public function update(Image & $image): void
     {
         $this->imageRepository->update($image);
     }
 
-    public function createImageForProduct(UploadFileDTO $uploadFileDTO, UuidInterface $productId)
+    public function createImageForProduct(UploadFileDTO $uploadFileDTO, UuidInterface $productId): void
     {
         $managedFile = $this->fileManager->saveFile($uploadFileDTO->getFilePath());
 
@@ -63,7 +63,7 @@ class ImageService implements ImageServiceInterface
         $this->create($image);
     }
 
-    public function createImageForTag(UploadFileDTO $uploadFileDTO, UuidInterface $tagId)
+    public function createImageForTag(UploadFileDTO $uploadFileDTO, UuidInterface $tagId): void
     {
         $managedFile = $this->fileManager->saveFile($uploadFileDTO->getFilePath());
 
@@ -79,7 +79,7 @@ class ImageService implements ImageServiceInterface
         $this->create($image);
     }
 
-    public function findOneById(UuidInterface $id)
+    public function findOneById(UuidInterface $id): Image
     {
         return $this->imageRepository->findOneById($id);
     }

@@ -19,11 +19,7 @@ class ImportUserService implements ImportUserServiceInterface
         $this->userRepository = $userRepository;
     }
 
-    /**
-     * @param Iterator $iterator
-     * @return ImportResult
-     */
-    public function import(Iterator $iterator)
+    public function import(Iterator $iterator): ImportResult
     {
         $importResult = new ImportResult;
         foreach ($iterator as $key => $row) {
@@ -65,11 +61,7 @@ class ImportUserService implements ImportUserServiceInterface
         return $importResult;
     }
 
-    /**
-     * @param string $variable
-     * @return string
-     */
-    private function extractNull($variable)
+    private function extractNull(string $variable): ?string
     {
         if ($variable === 'NULL') {
             $variable = null;
@@ -77,11 +69,7 @@ class ImportUserService implements ImportUserServiceInterface
         return $variable;
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
-    private function parseFirstName($name)
+    private function parseFirstName(string $name): string
     {
         $firstName = '';
 
@@ -93,11 +81,7 @@ class ImportUserService implements ImportUserServiceInterface
         return $firstName;
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
-    private function parseLastName($name)
+    private function parseLastName(string $name): string
     {
         $lastName = '';
 

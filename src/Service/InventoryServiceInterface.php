@@ -12,105 +12,43 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface InventoryServiceInterface
 {
-    /**
-     * @param Order $order
-     * @param Product $product
-     * @param int $quantity
-     * @throws InsufficientInventoryException
-     * @throws EntityValidatorException
-     */
-    public function reserveProductForOrder(Order $order, Product $product, $quantity);
+    public function reserveProductForOrder(Order $order, Product $product, int $quantity): void;
 
-    /**
-     * @param OrderItem $orderItem
-     * @param Product $product
-     * @param int $quantity
-     * @return
-     * @internal param Order $order
-     */
-    public function shipProductForOrderItem(OrderItem $orderItem, Product $product, $quantity);
+    public function shipProductForOrderItem(OrderItem $orderItem, Product $product, int $quantity): void;
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @param UuidInterface $sourceLocationId
-     * @param UuidInterface $destinationLocationId
-     * @throws EntityNotFoundException
-     * @throws EntityValidatorException
-     */
     public function moveProduct(
         Product $product,
-        $quantity,
+        int $quantity,
         UuidInterface $sourceLocationId,
         UuidInterface $destinationLocationId
-    );
+    ): void;
 
-    /**
-     * @param Product $product
-     * @param int $quantity (can be negative)
-     * @param UuidInterface $inventoryLocationId
-     * @param InventoryTransactionType $transactionType
-     * @throws EntityNotFoundException
-     * @throws EntityValidatorException
-     */
     public function adjustInventory(
         Product $product,
-        $quantity,
+        int $quantity,
         UuidInterface $inventoryLocationId,
         InventoryTransactionType $transactionType
-    );
+    ): void;
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @param UuidInterface $inventoryLocationId
-     * @throws EntityNotFoundException
-     * @throws EntityValidatorException
-     */
-    public function addProduct(Product $product, $quantity, UuidInterface $inventoryLocationId);
+    public function addProduct(Product $product, int $quantity, UuidInterface $inventoryLocationId): void;
+    public function shipProduct(Product $product, int $quantity, UuidInterface $inventoryLocationId): void;
+    public function returnProduct(Product $product, int $quantity, UuidInterface $inventoryLocationId): void;
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @param UuidInterface $inventoryLocationId
-     * @throws EntityNotFoundException
-     * @throws EntityValidatorException
-     */
-    public function shipProduct(Product $product, $quantity, UuidInterface $inventoryLocationId);
+    public function reduceProductForPromotion(
+        Product $product,
+        int $quantity,
+        UuidInterface $inventoryLocationId
+    ): void;
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @param UuidInterface $inventoryLocationId
-     * @throws EntityNotFoundException
-     * @throws EntityValidatorException
-     */
-    public function returnProduct(Product $product, $quantity, UuidInterface $inventoryLocationId);
+    public function reduceProductForDamage(
+        Product $product,
+        int $quantity,
+        UuidInterface $inventoryLocationId
+    ): void;
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @param UuidInterface $inventoryLocationId
-     * @throws EntityNotFoundException
-     * @throws EntityValidatorException
-     */
-    public function reduceProductForPromotion(Product $product, $quantity, UuidInterface $inventoryLocationId);
-
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @param UuidInterface $inventoryLocationId
-     * @throws EntityNotFoundException
-     * @throws EntityValidatorException
-     */
-    public function reduceProductForDamage(Product $product, $quantity, UuidInterface $inventoryLocationId);
-
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @param UuidInterface $inventoryLocationId
-     * @throws EntityNotFoundException
-     * @throws EntityValidatorException
-     */
-    public function reduceProductForShrinkage(Product $product, $quantity, UuidInterface $inventoryLocationId);
+    public function reduceProductForShrinkage(
+        Product $product,
+        int $quantity,
+        UuidInterface $inventoryLocationId
+    ): void;
 }

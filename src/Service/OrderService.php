@@ -78,7 +78,7 @@ class OrderService implements OrderServiceInterface
         $this->referenceNumberGenerator = $referenceNumberGenerator;
     }
 
-    public function update(Order & $order)
+    public function update(Order & $order): void
     {
         $this->orderRepository->update($order);
         $this->eventDispatcher->dispatchEvents($order->releaseEvents());
@@ -87,10 +87,10 @@ class OrderService implements OrderServiceInterface
     public function buyShipmentLabel(
         UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
-        $comment,
-        $rateExternalId,
-        $shipmentExternalId
-    ) {
+        string $comment,
+        string $rateExternalId,
+        string $shipmentExternalId
+    ): void {
         $order = $this->orderRepository->findOneById($orderId);
 
         $shipmentTracker = $this->shipmentGateway->buy(
@@ -101,20 +101,13 @@ class OrderService implements OrderServiceInterface
         $this->addShipment($comment, $orderItemQtyDTO, $shipmentTracker, $order);
     }
 
-    /**
-     * @param UuidInterface $orderId
-     * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
-     * @param string $comment
-     * @param int $shipmentCarrierTypeId
-     * @param string $trackingCode
-     */
     public function addShipmentTrackingCode(
         UuidInterface $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
-        $comment,
-        $shipmentCarrierTypeId,
-        $trackingCode
-    ) {
+        string $comment,
+        int $shipmentCarrierTypeId,
+        string $trackingCode
+    ): void {
         $order = $this->orderRepository->findOneById($orderId);
 
         $shipmentCarrierType = ShipmentCarrierType::createById($shipmentCarrierTypeId);
@@ -123,18 +116,12 @@ class OrderService implements OrderServiceInterface
         $this->addShipment($comment, $orderItemQtyDTO, $shipmentTracker, $order);
     }
 
-    /**
-     * @param string $comment
-     * @param \inklabs\kommerce\EntityDTO\OrderItemQtyDTO $orderItemQtyDTO
-     * @param ShipmentTracker $shipmentTracker
-     * @param Order $order
-     */
     private function addShipment(
-        $comment,
+        string $comment,
         OrderItemQtyDTO $orderItemQtyDTO,
         ShipmentTracker $shipmentTracker,
         Order $order
-    ) {
+    ): void {
         $shipment = new Shipment;
 
         $shipmentTracker->setShipment($shipment);
@@ -150,7 +137,7 @@ class OrderService implements OrderServiceInterface
         $this->update($order);
     }
 
-    private function addShipmentItemsFromOrderItems(OrderItemQtyDTO $orderItemQtyDTO, Shipment $shipment)
+    private function addShipmentItemsFromOrderItems(OrderItemQtyDTO $orderItemQtyDTO, Shipment $shipment): void
     {
         foreach ($orderItemQtyDTO->getItems() as $orderItemId => $quantity) {
             $orderItem = $this->orderItemRepository->findOneById(Uuid::fromString($orderItemId));
@@ -159,11 +146,7 @@ class OrderService implements OrderServiceInterface
         }
     }
 
-    /**
-     * @param UuidInterface $orderId
-     * @param OrderStatusType $orderStatusType
-     */
-    public function setOrderStatus(UuidInterface $orderId, OrderStatusType $orderStatusType)
+    public function setOrderStatus(UuidInterface $orderId, OrderStatusType $orderStatusType): void
     {
         $order = $this->orderRepository->findOneById($orderId);
         $order->setStatus($orderStatusType);
@@ -174,21 +157,21 @@ class OrderService implements OrderServiceInterface
         }
     }
 
-    private function lockOrderAttachments(Order $order)
+    private function lockOrderAttachments(Order $order): void
     {
         foreach ($order->getOrderItems() as $orderItem) {
             $this->lockOrderItemAttachments($orderItem);
         }
     }
 
-    private function lockOrderItemAttachments(OrderItem $orderItem)
+    private function lockOrderItemAttachments(OrderItem $orderItem): void
     {
         foreach ($orderItem->getAttachments() as $attachment) {
             $this->lockAttachment($attachment);
         }
     }
 
-    private function lockAttachment(Attachment $attachment)
+    private function lockAttachment(Attachment $attachment): void
     {
         if (! $attachment->isLocked()) {
             $attachment->setLocked();
@@ -196,7 +179,7 @@ class OrderService implements OrderServiceInterface
         }
     }
 
-    private function updateAttachment(Attachment & $attachment)
+    private function updateAttachment(Attachment & $attachment): void
     {
         // TODO: Move this responsibility to the Attachment Service without a cyclic dependency
         $this->orderRepository->update($attachment);
@@ -236,12 +219,7 @@ class OrderService implements OrderServiceInterface
         return $order;
     }
 
-    /**
-     * @param Order $order
-     * @param CreditCard $creditCard
-     * @param int $amount
-     */
-    public function addCreditCardPayment(Order $order, CreditCard $creditCard, $amount)
+    public function addCreditCardPayment(Order $order, CreditCard $creditCard, int $amount): void
     {
         $chargeRequest = new ChargeRequest;
         $chargeRequest->setCreditCard($creditCard);
@@ -257,7 +235,7 @@ class OrderService implements OrderServiceInterface
         $order->addPayment($payment);
     }
 
-    private function reserveProductsFromInventory(Order $order)
+    private function reserveProductsFromInventory(Order $order): void
     {
         foreach ($order->getOrderItems() as $orderItem) {
             $this->inventoryService->reserveProductForOrder(
@@ -286,7 +264,7 @@ class OrderService implements OrderServiceInterface
         }
     }
 
-    private function shipProductsFromInventory(Order $order, OrderItemQtyDTO $orderItemQtyDTO)
+    private function shipProductsFromInventory(Order $order, OrderItemQtyDTO $orderItemQtyDTO): void
     {
         foreach ($order->getOrderItems() as $orderItem) {
             $quantity = $orderItemQtyDTO->getItemQuantity($orderItem->getId());
@@ -318,11 +296,7 @@ class OrderService implements OrderServiceInterface
         }
     }
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     */
-    private function reduceProductInventory(Product $product, $quantity)
+    private function reduceProductInventory(Product $product, int $quantity): void
     {
         $product->reduceQuantity($quantity);
         $this->productRepository->update($product);
