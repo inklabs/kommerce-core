@@ -14,22 +14,18 @@ final class CreateAttachmentForOrderItemCommand implements CommandInterface
     /** @var UuidInterface */
     private $orderItemId;
 
-    /**
-     * @param UploadFileDTO $uploadFileDTO
-     * @param string $orderItemId
-     */
-    public function __construct(UploadFileDTO $uploadFileDTO, $orderItemId)
+    public function __construct(UploadFileDTO $uploadFileDTO, string $orderItemId)
     {
         $this->orderItemId = Uuid::fromString($orderItemId);
         $this->uploadFileDTO = $uploadFileDTO;
     }
 
-    public function getUploadFileDTO()
+    public function getUploadFileDTO(): UploadFileDTO
     {
         return $this->uploadFileDTO;
     }
 
-    public function getOrderItemId()
+    public function getOrderItemId(): UuidInterface
     {
         return $this->orderItemId;
     }
