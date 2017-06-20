@@ -17,10 +17,10 @@ abstract class AbstractCouponCommand implements CommandInterface
     /** @var bool */
     protected $flagFreeShipping;
 
-    /** @var int */
+    /** @var int|null */
     protected $minOrderValue;
 
-    /** @var int */
+    /** @var int|null */
     protected $maxOrderValue;
 
     /** @var bool */
@@ -47,35 +47,20 @@ abstract class AbstractCouponCommand implements CommandInterface
     /** @var int */
     protected $endAt;
 
-    /**
-     * @param string $code
-     * @param bool $flagFreeShipping
-     * @param int $minOrderValue
-     * @param int $maxOrderValue
-     * @param bool $canCombineWithOtherCoupons
-     * @param string $name
-     * @param string $promotionTypeSlug
-     * @param int $value
-     * @param bool $reducesTaxSubtotal
-     * @param int $maxRedemptions
-     * @param int $startAt
-     * @param int $endAt
-     * @param string $couponId
-     */
     public function __construct(
-        $code,
-        $flagFreeShipping,
-        $minOrderValue,
-        $maxOrderValue,
-        $canCombineWithOtherCoupons,
-        $name,
-        $promotionTypeSlug,
-        $value,
-        $reducesTaxSubtotal,
-        $maxRedemptions,
-        $startAt,
-        $endAt,
-        $couponId
+        string $code,
+        bool $flagFreeShipping,
+        ?int $minOrderValue,
+        ?int $maxOrderValue,
+        bool $canCombineWithOtherCoupons,
+        string $name,
+        string $promotionTypeSlug,
+        int $value,
+        bool $reducesTaxSubtotal,
+        int $maxRedemptions,
+        int $startAt,
+        int $endAt,
+        string $couponId
     ) {
         $this->couponId = Uuid::fromString($couponId);
         $this->code = $code;
@@ -92,70 +77,67 @@ abstract class AbstractCouponCommand implements CommandInterface
         $this->endAt = $endAt;
     }
 
-    public function getCouponId()
+    public function getCouponId(): UuidInterface
     {
         return $this->couponId;
     }
 
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
 
-    public function getFlagFreeShipping()
+    public function getFlagFreeShipping(): bool
     {
         return $this->flagFreeShipping;
     }
 
-    public function getMinOrderValue()
+    public function getMinOrderValue(): ?int
     {
         return $this->minOrderValue;
     }
 
-    public function getMaxOrderValue()
+    public function getMaxOrderValue(): ?int
     {
         return $this->maxOrderValue;
     }
 
-    public function canCombineWithOtherCoupons()
+    public function canCombineWithOtherCoupons(): bool
     {
         return $this->canCombineWithOtherCoupons;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return PromotionType
-     */
-    public function getPromotionType()
+    public function getPromotionType(): PromotionType
     {
         return PromotionType::createBySlug($this->promotionTypeSlug);
     }
 
-    public function getValue()
+    public function getValue(): int
     {
         return $this->value;
     }
 
-    public function getReducesTaxSubtotal()
+    public function getReducesTaxSubtotal(): bool
     {
         return $this->reducesTaxSubtotal;
     }
 
-    public function getMaxRedemptions()
+    public function getMaxRedemptions(): int
     {
         return $this->maxRedemptions;
     }
 
-    public function getStartAt()
+    public function getStartAt(): int
     {
         return $this->startAt;
     }
 
-    public function getEndAt()
+    public function getEndAt(): int
     {
         return $this->endAt;
     }
