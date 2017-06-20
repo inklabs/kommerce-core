@@ -23,45 +23,36 @@ final class CreateTextOptionCommand implements CommandInterface
     /** @var TextOptionType */
     private $textOptionType;
 
-    /**
-     * @param string $name
-     * @param string $description
-     * @param int $sortOrder
-     * @param int $textOptionTypeId
-     */
-    public function __construct($name, $description, $sortOrder, $textOptionTypeId)
+    public function __construct(string $name, string $description, int $sortOrder, int $textOptionTypeId)
     {
         $this->textOptionId = Uuid::uuid4();
-        $this->name = (string)$name;
-        $this->description = (string)$description;
-        $this->sortOrder = (int)$sortOrder;
+        $this->name = $name;
+        $this->description = $description;
+        $this->sortOrder = $sortOrder;
         $this->textOptionType = TextOptionType::createById($textOptionTypeId);
     }
 
-    public function getTextOptionId()
+    public function getTextOptionId(): UuidInterface
     {
         return $this->textOptionId;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return $this->sortOrder;
     }
 
-    /**
-     * @return TextOptionType
-     */
-    public function getTextOptionType()
+    public function getTextOptionType(): TextOptionType
     {
         return $this->textOptionType;
     }

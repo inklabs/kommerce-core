@@ -10,15 +10,12 @@ final class DeleteOptionProductCommand implements CommandInterface
     /** @var UuidInterface */
     private $optionProductId;
 
-    /**
-     * @param string $optionProductId
-     */
-    public function __construct($optionProductId)
+    public function __construct(string $optionProductId)
     {
         $this->optionProductId = Uuid::fromString($optionProductId);
     }
 
-    public function getOptionProductId()
+    public function getOptionProductId(): UuidInterface
     {
         return $this->optionProductId;
     }
