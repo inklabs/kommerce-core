@@ -6,8 +6,9 @@ use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
 use inklabs\kommerce\Entity\PromotionType;
+use inklabs\kommerce\tests\Helper\TestCase\KommerceTestCase;
 
-class PricingInterfaceCalculatorTest extends \PHPUnit_Framework_TestCase
+class PricingInterfaceCalculatorTest extends KommerceTestCase
 {
     /** @var PricingCalculator */
     protected $pricingCalculator;

@@ -34,7 +34,7 @@ class TextOption implements IdEntityInterface
         $this->setType(TextOptionType::text());
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([

@@ -18,7 +18,7 @@ class Money implements ValidationInterface
         $this->currency = $currency;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('amount', new Assert\Range([
             'min' => 0,

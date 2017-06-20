@@ -30,7 +30,7 @@ trait UpdatedTrait
         return $updated;
     }
 
-    public function preUpdate(PreUpdateEventArgs $event = null): void
+    public function preUpdate(PreUpdateEventArgs $event = null)
     {
         $this->setUpdated();
     }

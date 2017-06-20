@@ -25,7 +25,7 @@ class CartPriceRuleDiscount implements IdEntityInterface
         $this->quantity = $quantity;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
         $metadata->addPropertyConstraint('quantity', new Assert\Range([

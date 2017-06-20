@@ -31,7 +31,7 @@ class Coupon extends AbstractPromotion
         $this->setCode($code);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         parent::loadValidatorMetadata($metadata);
 

@@ -100,7 +100,7 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         return $order;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('externalId', new Assert\Length([
             'max' => 255,

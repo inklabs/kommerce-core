@@ -24,7 +24,7 @@ class ShipmentComment implements IdEntityInterface
         $this->setShipment($shipment);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('comment', new Assert\NotBlank);
         $metadata->addPropertyConstraint('comment', new Assert\Length([

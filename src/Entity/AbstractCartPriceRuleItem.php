@@ -23,7 +23,7 @@ abstract class AbstractCartPriceRuleItem implements IdEntityInterface
 
     abstract public function matches(CartItem $cartItem): bool;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
         $metadata->addPropertyConstraint('quantity', new Assert\Range([

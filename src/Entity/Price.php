@@ -31,7 +31,7 @@ class Price implements ValidationInterface
         $this->productQuantityDiscounts = new ArrayCollection();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('origUnitPrice', new Assert\NotNull);
         $metadata->addPropertyConstraint('origUnitPrice', new Assert\Range([

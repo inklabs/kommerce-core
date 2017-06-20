@@ -27,7 +27,7 @@ class ProductQuantityDiscount extends AbstractPromotion
         $product->addProductQuantityDiscount($this);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         parent::loadValidatorMetadata($metadata);
 

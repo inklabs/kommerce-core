@@ -66,7 +66,7 @@ class User implements IdEntityInterface
         $this->setStatus(UserStatusType::active());
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('firstName', new Assert\NotBlank);
         $metadata->addPropertyConstraint('firstName', new Assert\Length([

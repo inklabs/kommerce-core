@@ -30,7 +30,7 @@ class CartItemTextOptionValue implements IdEntityInterface
         $this->setId();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('textOptionValue', new Assert\NotBlank);
         $metadata->addPropertyConstraint('textOptionValue', new Assert\Length([

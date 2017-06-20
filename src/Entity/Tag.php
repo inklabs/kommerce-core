@@ -62,7 +62,7 @@ class Tag implements IdEntityInterface, EnabledAttachmentInterface
         $this->isVisible = false;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([

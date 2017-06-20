@@ -31,7 +31,7 @@ abstract class AbstractPromotion implements IdEntityInterface
         $this->setReducesTaxSubtotal(true);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('name', new Assert\Length([
             'max' => 255,

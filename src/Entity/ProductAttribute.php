@@ -33,7 +33,7 @@ class ProductAttribute implements EntityInterface
         $attributeValue->addProductAttribute($this);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         // TODO: Implement loadValidatorMetadata() method.
     }

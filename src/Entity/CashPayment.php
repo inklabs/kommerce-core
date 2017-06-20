@@ -11,7 +11,7 @@ class CashPayment extends AbstractPayment
         $this->amount = $amount;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         parent::loadValidatorMetadata($metadata);
     }

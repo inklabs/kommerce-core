@@ -25,7 +25,7 @@ class CheckPayment extends AbstractPayment
         $this->memo = (string) $memo;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         parent::loadValidatorMetadata($metadata);
 

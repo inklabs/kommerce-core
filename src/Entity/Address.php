@@ -38,7 +38,7 @@ class Address implements ValidationInterface
         $this->point = new Point();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('attention', new Assert\NotBlank);
         $metadata->addPropertyConstraint('attention', new Assert\Length([

@@ -52,7 +52,7 @@ class UserToken implements IdEntityInterface
         $this->userLogins = new ArrayCollection();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('userAgent', new Assert\NotBlank);
         $metadata->addPropertyConstraint('userAgent', new Assert\Length([

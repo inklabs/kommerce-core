@@ -35,7 +35,7 @@ class ShipmentTracker implements IdEntityInterface
         $this->trackingCode = (string) $trackingCode;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('carrier', new Assert\Valid);
 

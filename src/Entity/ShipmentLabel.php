@@ -33,7 +33,7 @@ class ShipmentLabel implements ValidationInterface
     /** @var string|null */
     protected $zplUrl;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('externalId', new Assert\Length([
             'max' => 60,
