@@ -35,27 +35,16 @@ abstract class AbstractCatalogPromotionCommand implements CommandInterface
     /** @var UuidInterface|null */
     private $tagId;
 
-    /**
-     * @param string $name
-     * @param int $promotionTypeSlug
-     * @param int $value
-     * @param bool $reducesTaxSubtotal
-     * @param int $maxRedemptions
-     * @param int $startAt
-     * @param int $endAt
-     * @param string $catalogPromotionId
-     * @param string|null $tagId
-     */
     public function __construct(
-        $name,
-        $promotionTypeSlug,
-        $value,
-        $reducesTaxSubtotal,
-        $maxRedemptions,
-        $startAt,
-        $endAt,
-        $catalogPromotionId,
-        $tagId = null
+        string $name,
+        string $promotionTypeSlug,
+        int $value,
+        bool $reducesTaxSubtotal,
+        int $maxRedemptions,
+        int $startAt,
+        int $endAt,
+        string $catalogPromotionId,
+        ?string $tagId = null
     ) {
         $this->catalogPromotionId = Uuid::fromString($catalogPromotionId);
         $this->name = $name;
@@ -71,50 +60,47 @@ abstract class AbstractCatalogPromotionCommand implements CommandInterface
         }
     }
 
-    public function getCatalogPromotionId()
+    public function getCatalogPromotionId(): UuidInterface
     {
         return $this->catalogPromotionId;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return PromotionType
-     */
-    public function getPromotionType()
+    public function getPromotionType(): PromotionType
     {
         return PromotionType::createBySlug($this->promotionTypeSlug);
     }
 
-    public function getValue()
+    public function getValue(): int
     {
         return $this->value;
     }
 
-    public function getReducesTaxSubtotal()
+    public function getReducesTaxSubtotal(): bool
     {
         return $this->reducesTaxSubtotal;
     }
 
-    public function getMaxRedemptions()
+    public function getMaxRedemptions(): int
     {
         return $this->maxRedemptions;
     }
 
-    public function getStartAt()
+    public function getStartAt(): int
     {
         return $this->startAt;
     }
 
-    public function getEndAt()
+    public function getEndAt(): int
     {
         return $this->endAt;
     }
 
-    public function getTagId()
+    public function getTagId(): UuidInterface
     {
         return $this->tagId;
     }
