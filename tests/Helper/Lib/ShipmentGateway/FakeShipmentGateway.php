@@ -26,7 +26,7 @@ class FakeShipmentGateway implements ShipmentGatewayInterface
      * @param null|OrderAddressDTO $fromAddress
      * @return ShipmentRate[]
      */
-    public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel, OrderAddressDTO $fromAddress = null)
+    public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel, OrderAddressDTO $fromAddress = null): array
     {
         $dummyData = new DummyData;
 
@@ -60,18 +60,12 @@ class FakeShipmentGateway implements ShipmentGatewayInterface
      * @param ParcelDTO $parcel
      * @return ShipmentRate[]
      */
-    public function getTrimmedRates(OrderAddressDTO $toAddress, ParcelDTO $parcel)
+    public function getTrimmedRates(OrderAddressDTO $toAddress, ParcelDTO $parcel): array
     {
         return $this->getRates($toAddress, $parcel);
     }
 
-    /**
-     * @param string $shipmentExternalId
-     * @param string $rateExternalId
-     * @param null|UuidInterface $id
-     * @return ShipmentTracker
-     */
-    public function buy($shipmentExternalId, $rateExternalId, UuidInterface $id = null)
+    public function buy(string $shipmentExternalId, string $rateExternalId, UuidInterface $id = null): ShipmentTracker
     {
         $dummyData = new DummyData;
         $shipmentTracker = $dummyData->getShipmentTracker();
@@ -82,11 +76,7 @@ class FakeShipmentGateway implements ShipmentGatewayInterface
         return $shipmentTracker;
     }
 
-    /**
-     * @param string $shipmentRateExternalId
-     * @return ShipmentRate
-     */
-    public function getShipmentRateByExternalId($shipmentRateExternalId)
+    public function getShipmentRateByExternalId(string $shipmentRateExternalId): ShipmentRate
     {
         $dummyData = new DummyData;
 
@@ -96,10 +86,7 @@ class FakeShipmentGateway implements ShipmentGatewayInterface
         return $shipmentRate;
     }
 
-    /**
-     * @return string
-     */
-    protected function getRandomShipmentExternalId()
+    protected function getRandomShipmentExternalId(): string
     {
         return 'shp_' . uniqid();
     }

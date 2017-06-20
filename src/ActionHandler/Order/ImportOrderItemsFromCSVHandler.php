@@ -23,7 +23,7 @@ final class ImportOrderItemsFromCSVHandler implements CommandHandlerInterface
         $this->importOrderItemService = $importOrderItemService;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

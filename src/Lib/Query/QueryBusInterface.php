@@ -3,9 +3,5 @@ namespace inklabs\kommerce\Lib\Query;
 
 interface QueryBusInterface
 {
-    /**
-     * @param QueryInterface $query
-     * @return void
-     */
-    public function execute(QueryInterface $query);
+    public function execute(QueryInterface $query): ResponseInterface;
 }

@@ -28,11 +28,7 @@ class CommandBus implements CommandBusInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * @param CommandInterface $command
-     * @return void
-     */
-    public function execute(CommandInterface $command)
+    public function execute(CommandInterface $command): void
     {
         $handler = $this->mapper->getCommandHandler($command);
         $handler->verifyAuthorization($this->authorizationContext);
@@ -40,7 +36,7 @@ class CommandBus implements CommandBusInterface
         $this->dispatchEvents($handler);
     }
 
-    private function dispatchEvents(HandlerInterface $handler)
+    private function dispatchEvents(HandlerInterface $handler): void
     {
         if ($handler instanceof ReleaseEventsInterface) {
             $this->eventDispatcher->dispatchEvents($handler->releaseEvents());

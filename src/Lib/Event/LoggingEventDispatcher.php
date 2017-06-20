@@ -14,21 +14,17 @@ class LoggingEventDispatcher implements EventDispatcherInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * @param string $eventClassName
-     * @param callable $callback
-     */
-    public function addListener($eventClassName, callable $callback)
+    public function addListener(string $eventClassName, callable $callback): void
     {
         $this->eventDispatcher->addListener($eventClassName, $callback);
     }
 
-    public function addSubscriber(EventSubscriberInterface $subscriber)
+    public function addSubscriber(EventSubscriberInterface $subscriber): void
     {
         $this->eventDispatcher->addSubscriber($subscriber);
     }
 
-    public function dispatchEvent(EventInterface $event)
+    public function dispatchEvent(EventInterface $event): void
     {
         $this->logDispatchedEvent($event);
         $this->eventDispatcher->dispatchEvent($event);
@@ -37,7 +33,7 @@ class LoggingEventDispatcher implements EventDispatcherInterface
     /**
      * @param EventInterface[] $events
      */
-    public function dispatchEvents(array $events)
+    public function dispatchEvents(array $events): void
     {
         foreach ($events as $event) {
             $this->logDispatchedEvent($event);
@@ -45,12 +41,16 @@ class LoggingEventDispatcher implements EventDispatcherInterface
         $this->eventDispatcher->dispatchEvents($events);
     }
 
-    public function getDispatchedEvents()
+    /**
+     * @return EventInterface[] $events
+     */
+
+    public function getDispatchedEvents(): array
     {
         return $this->dispatchedEvents;
     }
 
-    private function logDispatchedEvent(EventInterface $event)
+    private function logDispatchedEvent(EventInterface $event): void
     {
         $this->dispatchedEvents[] = $event;
     }

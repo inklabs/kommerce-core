@@ -6,14 +6,10 @@ use inklabs\kommerce\Entity\CartTotal;
 
 interface CartCalculatorInterface
 {
-    /**
-     * @param Cart $cart
-     * @return CartTotal
-     */
-    public function getTotal(Cart $cart);
+    public function getTotal(Cart $cart): CartTotal;
 
     /**
-     * @return PricingInterface
+     * @return PricingInterface|Pricing
      */
     public function getPricing();
 }

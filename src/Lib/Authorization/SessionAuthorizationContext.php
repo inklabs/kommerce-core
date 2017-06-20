@@ -22,19 +22,12 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
     /** @var bool */
     private $isAdmin;
 
-    /**
-     * @param CartRepositoryInterface $cartRepository
-     * @param OrderRepositoryInterface $orderRepository
-     * @param null|string $sessionId
-     * @param UuidInterface $userId
-     * @param bool $isAdmin
-     */
     public function __construct(
         CartRepositoryInterface $cartRepository,
         OrderRepositoryInterface $orderRepository,
-        $sessionId = null,
+        ?string $sessionId = null,
         UuidInterface $userId = null,
-        $isAdmin = false
+        bool $isAdmin = false
     ) {
         $this->cartRepository = $cartRepository;
         $this->orderRepository = $orderRepository;
@@ -43,12 +36,12 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
         $this->isAdmin = $isAdmin;
     }
 
-    public function verifyCanMakeRequests()
+    public function verifyCanMakeRequests(): void
     {
         return;
     }
 
-    public function verifyCanManageCart(UuidInterface $cartId)
+    public function verifyCanManageCart(UuidInterface $cartId): void
     {
         $cart = $this->cartRepository->findOneById(
             $cartId
@@ -69,7 +62,7 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
         }
     }
 
-    public function verifyCanManageUser(UuidInterface $userId)
+    public function verifyCanManageUser(UuidInterface $userId): void
     {
         if ($this->userId !== null && $this->userId->equals($userId)) {
             return;
@@ -80,14 +73,14 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
         }
     }
 
-    public function verifyIsAdmin()
+    public function verifyIsAdmin(): void
     {
         if (! $this->isAdmin()) {
             throw AuthorizationContextException::accessDenied();
         }
     }
 
-    public function verifyCanViewOrder(UuidInterface $orderId)
+    public function verifyCanViewOrder(UuidInterface $orderId): void
     {
         $order = $this->orderRepository->findOneById($orderId);
 
@@ -100,7 +93,7 @@ class SessionAuthorizationContext implements AuthorizationContextInterface
         }
     }
 
-    private function isAdmin()
+    private function isAdmin(): bool
     {
         return $this->isAdmin;
     }

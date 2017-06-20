@@ -20,7 +20,7 @@ final class CreateImageForTagHandler implements CommandHandlerInterface
         $this->imageService = $imageService;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

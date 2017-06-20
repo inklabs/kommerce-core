@@ -29,7 +29,7 @@ final class CreateInventoryLocationHandler implements CommandHandlerInterface
         $this->inventoryLocationRepository = $inventoryLocationRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

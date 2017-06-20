@@ -40,7 +40,7 @@ abstract class EntityRepositoryTestCase extends KommerceTestCase
         $this->mockRepository = new MockRepository($this->dummyData);
     }
 
-    protected function tearDown()
+    public function tearDown()
     {
         parent::tearDown();
         if ($this->entityManager !== null) {

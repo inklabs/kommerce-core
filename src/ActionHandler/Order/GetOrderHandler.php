@@ -35,7 +35,7 @@ final class GetOrderHandler implements QueryHandlerInterface
         $this->productRepository = $productRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyCanViewOrder(
             $this->query->getOrderId()

@@ -20,7 +20,7 @@ final class UnsetDefaultImageForTagHandler implements CommandHandlerInterface
         $this->tagRepository = $tagRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

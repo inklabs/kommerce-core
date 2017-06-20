@@ -7,11 +7,7 @@ use inklabs\kommerce\Lib\FileManagerInterface;
 
 class FakeFileManager implements FileManagerInterface
 {
-    /**
-     * @param string $sourceFilePath
-     * @return ManagedFileInterface
-     */
-    public function saveFile($sourceFilePath)
+    public function saveFile(string $sourceFilePath): ManagedFileInterface
     {
         return new RemoteManagedFile(
             'http://lorempixel.com/400/200/',

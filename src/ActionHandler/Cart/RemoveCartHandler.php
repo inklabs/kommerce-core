@@ -22,7 +22,7 @@ final class RemoveCartHandler implements CommandHandlerInterface
         $this->cartRepository = $cartRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyCanManageCart($this->command->getCartId());
     }

@@ -27,11 +27,7 @@ class CSVIterator implements Iterator
     /** @var string */
     private $escape = '\\';
 
-    /**
-     * @param string $file
-     * @throws InvalidArgumentException
-     */
-    public function __construct($file)
+    public function __construct(string $file)
     {
         if (! file_exists($file)) {
             throw new InvalidArgumentException($file);
@@ -43,7 +39,7 @@ class CSVIterator implements Iterator
         $this->fileHandle = fopen($file, 'r');
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         if ($this->key > 0) {
             $this->key = 0;
@@ -53,17 +49,17 @@ class CSVIterator implements Iterator
         $this->next();
     }
 
-    public function current()
+    public function current(): array
     {
         return $this->currentElement;
     }
 
-    public function key()
+    public function key(): int
     {
         return $this->key;
     }
 
-    public function next()
+    public function next(): void
     {
         $this->currentElement = fgetcsv(
             $this->fileHandle,
@@ -76,7 +72,7 @@ class CSVIterator implements Iterator
         $this->key++;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return ! feof($this->fileHandle);
     }

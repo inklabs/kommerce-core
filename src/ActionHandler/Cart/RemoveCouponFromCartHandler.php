@@ -28,7 +28,7 @@ final class RemoveCouponFromCartHandler implements CommandHandlerInterface
         $this->couponRepository = $couponRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyCanManageCart($this->command->getCartId());
     }

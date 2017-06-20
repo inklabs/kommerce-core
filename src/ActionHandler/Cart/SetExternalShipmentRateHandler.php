@@ -22,7 +22,7 @@ final class SetExternalShipmentRateHandler implements CommandHandlerInterface
         $this->cartService = $cartService;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyCanManageCart($this->command->getCartId());
     }

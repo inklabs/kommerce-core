@@ -23,7 +23,7 @@ final class DeleteCartPriceRuleDiscountHandler implements CommandHandlerInterfac
         $this->cartPriceRuleDiscountRepository = $cartPriceRuleDiscountRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

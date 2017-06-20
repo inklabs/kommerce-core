@@ -29,7 +29,7 @@ final class ListTaxRatesHandler implements QueryHandlerInterface
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

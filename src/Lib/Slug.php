@@ -3,7 +3,7 @@ namespace inklabs\kommerce\Lib;
 
 class Slug
 {
-    public static function get($string)
+    public static function get(string $string): string
     {
         $slug = preg_replace(
             ['/\'/', '/[^a-z0-9-]+/'],

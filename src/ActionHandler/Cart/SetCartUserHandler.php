@@ -28,7 +28,7 @@ final class SetCartUserHandler implements CommandHandlerInterface
         $this->userRepository = $userRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyCanManageCart($this->command->getCartId());
     }

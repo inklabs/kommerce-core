@@ -8,5 +8,5 @@ interface EventSubscriberInterface
      *
      * @return string[]
      */
-    public function getSubscribedEvents();
+    public function getSubscribedEvents(): array;
 }

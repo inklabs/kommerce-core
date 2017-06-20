@@ -35,7 +35,7 @@ final class GetRandomProductsHandler implements QueryHandlerInterface
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyCanMakeRequests();
     }

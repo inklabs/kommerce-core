@@ -29,7 +29,7 @@ final class GetConfigurationsByKeysHandler implements QueryHandlerInterface
         $this->configurationRepository = $configurationRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

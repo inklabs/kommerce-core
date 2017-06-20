@@ -28,7 +28,7 @@ final class BuyAdHocShipmentLabelHandler implements CommandHandlerInterface
         $this->shipmentTrackerRepository = $shipmentTrackerRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

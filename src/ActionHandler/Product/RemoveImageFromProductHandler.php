@@ -28,7 +28,7 @@ final class RemoveImageFromProductHandler implements CommandHandlerInterface
         $this->imageRepository = $imageRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

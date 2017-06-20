@@ -3,16 +3,16 @@ namespace inklabs\kommerce\Lib\PaymentGateway;
 
 class Stripe implements PaymentGatewayInterface
 {
-    public function __construct($apiKey)
+    public function __construct(string $apiKey)
     {
         \Stripe\Stripe::setApiKey($apiKey);
     }
 
-    public function getCharge(ChargeRequest $chargeRequest)
+    public function getCharge(ChargeRequest $chargeRequest): ChargeResponse
     {
         $stripeCharge = $this->createCharge($chargeRequest);
 
-        $chargeResponse = new ChargeResponse;
+        $chargeResponse = new ChargeResponse();
         $chargeResponse->setExternalId($stripeCharge['id']);
         $chargeResponse->setAmount($stripeCharge['amount']);
         $chargeResponse->setLast4($stripeCharge['source']['last4']);

@@ -3,12 +3,12 @@ namespace inklabs\kommerce\Lib\PaymentGateway;
 
 class FakePaymentGateway implements PaymentGatewayInterface
 {
-    public function getCharge(ChargeRequest $chargeRequest)
+    public function getCharge(ChargeRequest $chargeRequest): ChargeResponse
     {
         $card = $chargeRequest->getCreditCard();
         $last4 = substr($card->getNumber(), -4);
 
-        $chargeResponse = new ChargeResponse;
+        $chargeResponse = new ChargeResponse();
         $chargeResponse->setExternalId('ch_xxxxxxxxxxxxxx');
         $chargeResponse->setAmount($chargeRequest->getAmount());
         $chargeResponse->setLast4($last4);

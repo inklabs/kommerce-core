@@ -30,17 +30,23 @@ class Pricing implements PricingInterface
         $this->date = new DateTime('now', new DateTimeZone('UTC'));
     }
 
-    public function getDate()
+    public function getDate(): DateTime
     {
         return $this->date;
     }
 
-    public function loadCatalogPromotions(CatalogPromotionRepositoryInterface $catalogPromotionRepository)
+    public function getPrice(Product $product, int $quantity): Price
+    {
+        $pricingCalculator = new PricingCalculator($this);
+        return $pricingCalculator->getPrice($product, $quantity);
+    }
+
+    public function loadCatalogPromotions(CatalogPromotionRepositoryInterface $catalogPromotionRepository): void
     {
         $this->setCatalogPromotions($catalogPromotionRepository->findAll());
     }
 
-    public function setCatalogPromotions(array $catalogPromotions)
+    public function setCatalogPromotions(array $catalogPromotions): void
     {
         $this->catalogPromotions = [];
         foreach ($catalogPromotions as $catalogPromotion) {
@@ -48,22 +54,28 @@ class Pricing implements PricingInterface
         }
     }
 
-    private function addCatalogPromotion(CatalogPromotion $catalogPromotion)
+    private function addCatalogPromotion(CatalogPromotion $catalogPromotion): void
     {
         $this->catalogPromotions[] = $catalogPromotion;
     }
 
-    public function getCatalogPromotions()
+    /**
+     * @return CatalogPromotion[]
+     */
+    public function getCatalogPromotions(): array
     {
         return $this->catalogPromotions;
     }
 
-    public function loadCartPriceRules(CartPriceRuleRepositoryInterface $cartPriceRuleRepository)
+    public function loadCartPriceRules(CartPriceRuleRepositoryInterface $cartPriceRuleRepository): void
     {
         $this->setCartPriceRules($cartPriceRuleRepository->findAll());
     }
 
-    public function setCartPriceRules(array $cartPriceRules)
+    /**
+     * @param CartPriceRule[] $cartPriceRules
+     */
+    public function setCartPriceRules(array $cartPriceRules): void
     {
         $this->cartPriceRules = [];
         foreach ($cartPriceRules as $cartPriceRule) {
@@ -71,17 +83,23 @@ class Pricing implements PricingInterface
         }
     }
 
-    private function addCartPriceRule(CartPriceRule $cartPriceRule)
+    private function addCartPriceRule(CartPriceRule $cartPriceRule): void
     {
         $this->cartPriceRules[] = $cartPriceRule;
     }
 
-    public function getCartPriceRules()
+    /**
+     * @return CartPriceRule[]
+     */
+    public function getCartPriceRules(): array
     {
         return $this->cartPriceRules;
     }
 
-    public function setProductQuantityDiscounts($productQuantityDiscounts)
+    /**
+     * @param ProductQuantityDiscount[] $productQuantityDiscounts
+     */
+    public function setProductQuantityDiscounts($productQuantityDiscounts): void
     {
         foreach ($productQuantityDiscounts as $productQuantityDiscount) {
             $this->addProductQuantityDiscount($productQuantityDiscount);
@@ -90,12 +108,12 @@ class Pricing implements PricingInterface
         $this->sortProductQuantityDiscountsByQuantityDescending();
     }
 
-    private function addProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount)
+    private function addProductQuantityDiscount(ProductQuantityDiscount $productQuantityDiscount): void
     {
         $this->productQuantityDiscounts[] = $productQuantityDiscount;
     }
 
-    private function sortProductQuantityDiscountsByQuantityDescending()
+    private function sortProductQuantityDiscountsByQuantityDescending(): void
     {
         usort(
             $this->productQuantityDiscounts,
@@ -105,19 +123,11 @@ class Pricing implements PricingInterface
         );
     }
 
-    public function getProductQuantityDiscounts()
+    /**
+     * @return ProductQuantityDiscount[]
+     */
+    public function getProductQuantityDiscounts(): array
     {
         return $this->productQuantityDiscounts;
-    }
-
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @return Price
-     */
-    public function getPrice(Product $product, $quantity)
-    {
-        $pricingCalculator = new PricingCalculator($this);
-        return $pricingCalculator->getPrice($product, $quantity);
     }
 }

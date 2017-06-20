@@ -29,7 +29,7 @@ final class CreateOptionValueHandler implements CommandHandlerInterface
         $this->optionValueRepository = $optionValueRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

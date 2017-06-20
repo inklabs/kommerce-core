@@ -8,14 +8,14 @@ class EventDispatcher implements EventDispatcherInterface
 
     protected $dispatchedEvents = [];
 
-    public function addSubscriber(EventSubscriberInterface $subscriber)
+    public function addSubscriber(EventSubscriberInterface $subscriber): void
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $methodName) {
-            $this->addListener($eventName, array($subscriber, $methodName));
+            $this->addListener($eventName, [$subscriber, $methodName]);
         }
     }
 
-    public function addListener($eventClassName, callable $callback)
+    public function addListener(string $eventClassName, callable $callback): void
     {
         if (! isset($this->listeners[$eventClassName])) {
             $this->listeners[$eventClassName] = [];
@@ -24,14 +24,14 @@ class EventDispatcher implements EventDispatcherInterface
         $this->listeners[$eventClassName][] = $callback;
     }
 
-    public function dispatchEvents(array $events)
+    public function dispatchEvents(array $events): void
     {
         foreach ($events as $event) {
             $this->dispatchEvent($event);
         }
     }
 
-    public function dispatchEvent(EventInterface $event)
+    public function dispatchEvent(EventInterface $event): void
     {
         $eventName = get_class($event);
         if (! isset($this->listeners[$eventName])) {

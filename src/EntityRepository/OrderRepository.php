@@ -18,7 +18,7 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
         );
     }
 
-    public function referenceNumberExists($referenceNumber)
+    public function referenceNumberExists(string $referenceNumber): bool
     {
         $result = $this->findOneBy([
             'referenceNumber' => $referenceNumber

@@ -6,12 +6,7 @@ use inklabs\kommerce\Exception\UserPasswordValidationException;
 
 class UserPasswordValidator
 {
-    /**
-     * @param User $user
-     * @param string $password
-     * @throws UserPasswordValidationException
-     */
-    public function assertPasswordValid(User $user, $password)
+    public function assertPasswordValid(User $user, string $password): void
     {
         if (strlen($password) < 8) {
             throw UserPasswordValidationException::invalidLength();

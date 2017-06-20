@@ -35,7 +35,7 @@ final class CreateCartPriceRuleProductItemHandler implements CommandHandlerInter
         $this->productRepository = $productRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

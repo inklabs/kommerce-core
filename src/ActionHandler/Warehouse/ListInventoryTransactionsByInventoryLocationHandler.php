@@ -30,7 +30,7 @@ final class ListInventoryTransactionsByInventoryLocationHandler implements Query
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

@@ -11,17 +11,14 @@ use inklabs\kommerce\Entity\ShipmentTracker;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\Lib\UuidInterface;
+use stdClass;
 
 class EasyPostGateway implements ShipmentGatewayInterface
 {
     /** @var OrderAddressDTO */
     private $fromAddress;
 
-    /**
-     * @param string $apiKey
-     * @param OrderAddressDTO $fromAddress
-     */
-    public function __construct($apiKey, OrderAddressDTO $fromAddress)
+    public function __construct(string $apiKey, OrderAddressDTO $fromAddress)
     {
         $this->fromAddress = $fromAddress;
         EasyPost\EasyPost::setApiKey($apiKey);
@@ -33,7 +30,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
      * @param null|OrderAddressDTO $fromAddress
      * @return ShipmentRate[]
      */
-    public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel, OrderAddressDTO $fromAddress = null)
+    public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel, OrderAddressDTO $fromAddress = null): array
     {
         if ($fromAddress === null) {
             $fromAddress = $this->fromAddress;
@@ -60,7 +57,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
      * @param ParcelDTO $parcel
      * @return ShipmentRate[]
      */
-    public function getTrimmedRates(OrderAddressDTO $toAddress, ParcelDTO $parcel)
+    public function getTrimmedRates(OrderAddressDTO $toAddress, ParcelDTO $parcel): array
     {
         $shipmentRates = $this->getRates($toAddress, $parcel);
 
@@ -82,24 +79,14 @@ class EasyPostGateway implements ShipmentGatewayInterface
         return $newShipmentRates;
     }
 
-    /**
-     * @param string $shipmentRateExternalId
-     * @return ShipmentRate
-     */
-    public function getShipmentRateByExternalId($shipmentRateExternalId)
+    public function getShipmentRateByExternalId(string $shipmentRateExternalId): ShipmentRate
     {
         $rate = EasyPost\Rate::retrieve($shipmentRateExternalId);
         $shipmentRate = $this->getShipmentRateFromEasyPostRate($rate);
         return $shipmentRate;
     }
 
-    /**
-     * @param string $shipmentExternalId
-     * @param string $rateExternalId
-     * @param null|UuidInterface $id
-     * @return ShipmentTracker
-     */
-    public function buy($shipmentExternalId, $rateExternalId, UuidInterface $id = null)
+    public function buy(string $shipmentExternalId, string $rateExternalId, UuidInterface $id = null): ShipmentTracker
     {
         $shipment = new EasyPost\Shipment($shipmentExternalId);
         $shipment->buy([
@@ -111,11 +98,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
         return $this->getShipmentTrackerFromEasyPostShipment($shipment, $id);
     }
 
-    /**
-     * @param OrderAddressDTO $address
-     * @return array
-     */
-    protected function getEasyPostAddress(OrderAddressDTO $address)
+    protected function getEasyPostAddress(OrderAddressDTO $address): array
     {
         return [
             'name' => $address->fullName,
@@ -131,7 +114,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
         ];
     }
 
-    private function getEasyPostParcel(ParcelDTO $parcel)
+    private function getEasyPostParcel(ParcelDTO $parcel): array
     {
         return [
             'length' => $parcel->length,
@@ -142,7 +125,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
         ];
     }
 
-    private function getShipmentRateFromEasyPostRate($rate)
+    private function getShipmentRateFromEasyPostRate(stdClass $rate)
     {
         $shipmentRate = new ShipmentRate(new Money($rate->rate * 100, $rate->currency));
         $shipmentRate->setExternalId($rate->id);
@@ -173,7 +156,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
     /**
      * @param ShipmentRate[] & $shipmentRates
      */
-    protected function sortShipmentRatesLowestToHighest(& $shipmentRates)
+    protected function sortShipmentRatesLowestToHighest(& $shipmentRates): void
     {
         usort(
             $shipmentRates,
@@ -183,7 +166,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
         );
     }
 
-    private function getShipmentTrackerFromEasyPostShipment($shipment, UuidInterface $id = null)
+    private function getShipmentTrackerFromEasyPostShipment(stdClass $shipment, UuidInterface $id = null): ShipmentTracker
     {
         switch (strtolower($shipment->tracker->carrier)) {
             case 'ups':
@@ -206,7 +189,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
         return $shipmentTracker;
     }
 
-    private function getShipmentLabelFromEasyPostShipment($shipment)
+    private function getShipmentLabelFromEasyPostShipment(stdClass $shipment)
     {
         $label = $shipment->postage_label;
 

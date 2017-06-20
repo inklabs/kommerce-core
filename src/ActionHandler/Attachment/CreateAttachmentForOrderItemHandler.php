@@ -22,7 +22,7 @@ final class CreateAttachmentForOrderItemHandler implements CommandHandlerInterfa
         $this->attachmentService = $attachmentService;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

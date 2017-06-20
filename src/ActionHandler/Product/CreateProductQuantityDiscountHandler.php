@@ -30,7 +30,7 @@ final class CreateProductQuantityDiscountHandler implements CommandHandlerInterf
         $this->productQuantityDiscountRepository = $productQuantityDiscountRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

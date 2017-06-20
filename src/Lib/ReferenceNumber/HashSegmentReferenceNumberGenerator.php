@@ -19,7 +19,7 @@ class HashSegmentReferenceNumberGenerator implements ReferenceNumberGeneratorInt
         $this->repository = $repository;
     }
 
-    public function generate()
+    public function generate(): string
     {
         do {
             $this->throwExceptionWhenBeyondLookupLimit();
@@ -29,7 +29,7 @@ class HashSegmentReferenceNumberGenerator implements ReferenceNumberGeneratorInt
         return $referenceNumber;
     }
 
-    protected function generateHashSegments()
+    protected function generateHashSegments(): string
     {
         $referenceNumberPieces = [];
         foreach ($this->segments as $length) {
@@ -40,7 +40,7 @@ class HashSegmentReferenceNumberGenerator implements ReferenceNumberGeneratorInt
         return $referenceNumber;
     }
 
-    protected function generateHashSegment($length)
+    protected function generateHashSegment($length): string
     {
         $largeRandomNumber = random_int(pow(10, $length), pow(10, $length + 1));
         return substr($largeRandomNumber, 0, $length);
@@ -49,12 +49,12 @@ class HashSegmentReferenceNumberGenerator implements ReferenceNumberGeneratorInt
     /**
      * @param int[] $segments
      */
-    public function setSegments(array $segments)
+    public function setSegments(array $segments): void
     {
         $this->segments = $segments;
     }
 
-    private function throwExceptionWhenBeyondLookupLimit()
+    private function throwExceptionWhenBeyondLookupLimit(): void
     {
         if ($this->lookupLimit < 1) {
             throw new RuntimeException('Lookup limit reached');

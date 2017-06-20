@@ -1,17 +1,12 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
+use DateTime;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 
 interface PricingInterface
 {
-    public function getDate();
-
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @return Price
-     */
-    public function getPrice(Product $product, $quantity);
+    public function getDate(): DateTime;
+    public function getPrice(Product $product, int $quantity): Price;
 }
