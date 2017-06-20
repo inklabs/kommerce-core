@@ -19,12 +19,12 @@ final class GetLowestShipmentRatesByDeliveryMethodQuery implements QueryInterfac
         $this->parcelDTO = $parcelDTO;
     }
 
-    public function getToAddressDTO()
+    public function getToAddressDTO(): OrderAddressDTO
     {
         return $this->toAddressDTO;
     }
 
-    public function getParcelDTO()
+    public function getParcelDTO(): ParcelDTO
     {
         return $this->parcelDTO;
     }

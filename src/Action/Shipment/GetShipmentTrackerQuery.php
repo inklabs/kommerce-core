@@ -10,15 +10,12 @@ final class GetShipmentTrackerQuery implements QueryInterface
     /** @var UuidInterface */
     private $shipmentTrackerId;
 
-    /**
-     * @param string $shipmentTrackerId
-     */
-    public function __construct($shipmentTrackerId)
+    public function __construct(string $shipmentTrackerId)
     {
         $this->shipmentTrackerId = Uuid::fromString($shipmentTrackerId);
     }
 
-    public function getShipmentTrackerId()
+    public function getShipmentTrackerId(): UuidInterface
     {
         return $this->shipmentTrackerId;
     }
