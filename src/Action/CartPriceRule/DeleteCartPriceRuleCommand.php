@@ -10,15 +10,12 @@ final class DeleteCartPriceRuleCommand implements CommandInterface
     /** @var UuidInterface */
     private $cartPriceRuleId;
 
-    /**
-     * @param string $cartPriceRuleId
-     */
-    public function __construct($cartPriceRuleId)
+    public function __construct(string $cartPriceRuleId)
     {
         $this->cartPriceRuleId = Uuid::fromString($cartPriceRuleId);
     }
 
-    public function getCartPriceRuleId()
+    public function getCartPriceRuleId(): UuidInterface
     {
         return $this->cartPriceRuleId;
     }

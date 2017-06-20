@@ -19,12 +19,7 @@ final class CreateCartPriceRuleTagItemCommand implements CommandInterface
     /** @var int */
     private $quantity;
 
-    /**
-     * @param string $cartPriceRuleId
-     * @param string $tagId
-     * @param int $quantity
-     */
-    public function __construct($cartPriceRuleId, $tagId, $quantity)
+    public function __construct(string $cartPriceRuleId, string $tagId, int $quantity)
     {
         $this->cartPriceRuleTagItemId = Uuid::uuid4();
         $this->cartPriceRuleId = Uuid::fromString($cartPriceRuleId);
@@ -32,22 +27,22 @@ final class CreateCartPriceRuleTagItemCommand implements CommandInterface
         $this->quantity = $quantity;
     }
 
-    public function getCartPriceRuleTagItemId()
+    public function getCartPriceRuleTagItemId(): UuidInterface
     {
         return $this->cartPriceRuleTagItemId;
     }
 
-    public function getCartPriceRuleId()
+    public function getCartPriceRuleId(): UuidInterface
     {
         return $this->cartPriceRuleId;
     }
 
-    public function getTagId()
+    public function getTagId(): UuidInterface
     {
         return $this->tagId;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
