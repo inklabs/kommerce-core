@@ -23,19 +23,12 @@ abstract class AbstractAttributeCommand implements CommandInterface
     /** @var null|string */
     protected $description;
 
-    /**
-     * @param string $name
-     * @param string $choiceTypeSlug
-     * @param int $sortOrder
-     * @param null|string $description
-     * @param string $attributeId
-     */
     public function __construct(
-        $name,
-        $choiceTypeSlug,
-        $sortOrder,
-        $description,
-        $attributeId
+        string $name,
+        string $choiceTypeSlug,
+        int $sortOrder,
+        ?string $description,
+        string $attributeId
     ) {
         $this->attributeId = Uuid::fromString($attributeId);
         $this->name = $name;
@@ -44,30 +37,27 @@ abstract class AbstractAttributeCommand implements CommandInterface
         $this->description = $description;
     }
 
-    public function getAttributeId()
+    public function getAttributeId(): UuidInterface
     {
         return $this->attributeId;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return AttributeChoiceType
-     */
-    public function getChoiceType()
+    public function getChoiceType(): AttributeChoiceType
     {
         return AttributeChoiceType::createBySlug($this->choiceTypeSlug);
     }
 
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return $this->sortOrder;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }

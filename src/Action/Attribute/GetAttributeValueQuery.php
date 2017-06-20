@@ -10,15 +10,12 @@ final class GetAttributeValueQuery implements QueryInterface
     /** @var UuidInterface */
     private $attributeValueId;
 
-    /**
-     * @param string $attributeValueId
-     */
-    public function __construct($attributeValueId)
+    public function __construct(string $attributeValueId)
     {
         $this->attributeValueId = Uuid::fromString($attributeValueId);
     }
 
-    public function getAttributeValueId()
+    public function getAttributeValueId(): UuidInterface
     {
         return $this->attributeValueId;
     }

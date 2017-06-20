@@ -10,15 +10,12 @@ final class DeleteAttributeValueCommand implements CommandInterface
     /** @var UuidInterface */
     private $attributeIValued;
 
-    /**
-     * @param string $attributeIValued
-     */
-    public function __construct($attributeIValued)
+    public function __construct(string $attributeIValued)
     {
         $this->attributeIValued = Uuid::fromString($attributeIValued);
     }
 
-    public function getAttributeValueId()
+    public function getAttributeValueId(): UuidInterface
     {
         return $this->attributeIValued;
     }

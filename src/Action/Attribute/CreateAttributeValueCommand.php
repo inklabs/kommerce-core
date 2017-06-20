@@ -25,19 +25,12 @@ final class CreateAttributeValueCommand implements CommandInterface
     /** @var UuidInterface */
     protected $attributeId;
 
-    /**
-     * @param string $name
-     * @param int $sortOrder
-     * @param null|string $sku
-     * @param null|string $description
-     * @param string $attributeId
-     */
     public function __construct(
-        $name,
-        $sortOrder,
-        $sku,
-        $description,
-        $attributeId
+        string $name,
+        int $sortOrder,
+        ?string $sku,
+        ?string $description,
+        string $attributeId
     ) {
         $this->attributeValueId = Uuid::uuid4();
         $this->name = $name;
@@ -47,31 +40,31 @@ final class CreateAttributeValueCommand implements CommandInterface
         $this->attributeId = Uuid::fromString($attributeId);
     }
 
-    public function getAttributeValueId()
+    public function getAttributeValueId(): UuidInterface
     {
         return $this->attributeValueId;
     }
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return $this->sortOrder;
     }
 
-    public function getSku()
+    public function getSku(): ?string
     {
         return $this->sku;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function getAttributeId()
+    public function getAttributeId(): UuidInterface
     {
         return $this->attributeId;
     }
