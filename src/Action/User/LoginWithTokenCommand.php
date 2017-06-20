@@ -14,29 +14,24 @@ final class LoginWithTokenCommand implements CommandInterface
     /** @var string */
     private $remoteIp4;
 
-    /**
-     * @param string $email
-     * @param string $token
-     * @param string $remoteIp4
-     */
-    public function __construct($email, $token, $remoteIp4)
+    public function __construct(string $email, string $token, string $remoteIp4)
     {
-        $this->email = (string) $email;
-        $this->token = (string) $token;
-        $this->remoteIp4 = (string) $remoteIp4;
+        $this->email = $email;
+        $this->token = $token;
+        $this->remoteIp4 = $remoteIp4;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getToken()
+    public function getToken(): string
     {
         return $this->token;
     }
 
-    public function getRemoteIp4()
+    public function getRemoteIp4(): string
     {
         return $this->remoteIp4;
     }

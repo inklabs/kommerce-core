@@ -16,15 +16,15 @@ final class ChangePasswordCommand implements CommandInterface
     public function __construct(string $userId, string $password)
     {
         $this->userId = Uuid::fromString($userId);
-        $this->password = (string) $password;
+        $this->password = $password;
     }
 
-    public function getUserId()
+    public function getUserId(): UuidInterface
     {
         return $this->userId;
     }
 
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }

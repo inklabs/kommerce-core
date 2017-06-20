@@ -10,15 +10,12 @@ final class GetUserQuery implements QueryInterface
     /** @var UuidInterface */
     private $userId;
 
-    /**
-     * @param string $userId
-     */
-    public function __construct($userId)
+    public function __construct(string $userId)
     {
         $this->userId = Uuid::fromString($userId);
     }
 
-    public function getUserId()
+    public function getUserId(): UuidInterface
     {
         return $this->userId;
     }
