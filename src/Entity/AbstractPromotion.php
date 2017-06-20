@@ -78,7 +78,7 @@ abstract class AbstractPromotion implements IdEntityInterface
         return $this->value;
     }
 
-    public function setReducesTaxSubtotal(bool $reducesTaxSubtotal): void
+    public function setReducesTaxSubtotal(bool $reducesTaxSubtotal)
     {
         $this->reducesTaxSubtotal = $reducesTaxSubtotal;
     }

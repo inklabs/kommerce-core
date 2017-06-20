@@ -391,12 +391,12 @@ class Product implements IdEntityInterface, EnabledAttachmentInterface
         $this->areAttachmentsEnabled = $areAttachmentsEnabled;
     }
 
-    public function disableAttachments(): void
+    public function disableAttachments()
     {
         $this->areAttachmentsEnabled = false;
     }
 
-    public function enableAttachments(): void
+    public function enableAttachments()
     {
         $this->areAttachmentsEnabled = true;
     }

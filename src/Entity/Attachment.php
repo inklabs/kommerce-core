@@ -57,12 +57,12 @@ class Attachment implements IdEntityInterface
         return $this->isVisible;
     }
 
-    public function setNotVisible(): void
+    public function setNotVisible()
     {
         $this->isVisible = false;
     }
 
-    public function setVisible(): void
+    public function setVisible()
     {
         $this->isVisible = true;
     }
@@ -72,12 +72,12 @@ class Attachment implements IdEntityInterface
         return $this->isLocked;
     }
 
-    public function setLocked(): void
+    public function setLocked()
     {
         $this->isLocked = true;
     }
 
-    public function setUnlocked(): void
+    public function setUnlocked()
     {
         $this->isLocked = false;
     }
