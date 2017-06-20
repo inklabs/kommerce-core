@@ -15,7 +15,7 @@ class ShipmentTracker implements IdEntityInterface
     /** @var string */
     protected $trackingCode;
 
-    /** @var string */
+    /** @var string|null */
     protected $externalId;
 
     /** @var ShipmentRate */
@@ -24,15 +24,10 @@ class ShipmentTracker implements IdEntityInterface
     /** @var ShipmentLabel */
     protected $shipmentLabel;
 
-    /** @var Shipment */
+    /** @var Shipment|null */
     protected $shipment;
 
-    /**
-     * @param ShipmentCarrierType $carrier
-     * @param string $trackingCode
-     * @param null|UuidInterface $id
-     */
-    public function __construct(ShipmentCarrierType $carrier, $trackingCode, UuidInterface $id = null)
+    public function __construct(ShipmentCarrierType $carrier, string $trackingCode, UuidInterface $id = null)
     {
         $this->setId($id);
         $this->setCreated();
@@ -40,7 +35,7 @@ class ShipmentTracker implements IdEntityInterface
         $this->trackingCode = (string) $trackingCode;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('carrier', new Assert\Valid);
 
@@ -68,12 +63,12 @@ class ShipmentTracker implements IdEntityInterface
         $this->carrier = $carrier;
     }
 
-    public function getCarrier()
+    public function getCarrier(): ShipmentCarrierType
     {
         return $this->carrier;
     }
 
-    public function getTrackingCode()
+    public function getTrackingCode(): string
     {
         return $this->trackingCode;
     }
@@ -83,7 +78,7 @@ class ShipmentTracker implements IdEntityInterface
         $this->shipmentRate = $shipmentRate;
     }
 
-    public function getShipmentRate()
+    public function getShipmentRate(): ShipmentRate
     {
         return $this->shipmentRate;
     }
@@ -93,20 +88,17 @@ class ShipmentTracker implements IdEntityInterface
         $this->shipmentLabel = $shipmentLabel;
     }
 
-    public function getShipmentLabel()
+    public function getShipmentLabel(): ShipmentLabel
     {
         return $this->shipmentLabel;
     }
 
-    /**
-     * @param string $externalId
-     */
-    public function setExternalId($externalId)
+    public function setExternalId(string $externalId)
     {
-        $this->externalId = (string) $externalId;
+        $this->externalId = $externalId;
     }
 
-    public function getExternalId()
+    public function getExternalId(): ?string
     {
         return $this->externalId;
     }

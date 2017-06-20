@@ -29,18 +29,11 @@ class InventoryTransaction implements IdEntityInterface
      */
     protected $orderItem;
 
-    /**
-     * @param Product $product
-     * @param InventoryLocation $inventoryLocation
-     * @param int $quantity
-     * @param string $memo
-     * @param InventoryTransactionType $inventoryTransactionType
-     */
     private function __construct(
         Product $product,
         InventoryLocation $inventoryLocation,
-        $quantity,
-        $memo,
+        int $quantity,
+        string $memo,
         InventoryTransactionType $inventoryTransactionType = null
     ) {
         if ($inventoryTransactionType === null) {
@@ -56,14 +49,11 @@ class InventoryTransaction implements IdEntityInterface
         $this->type = $inventoryTransactionType;
     }
 
-    /**
-     * @param InventoryLocation $inventoryLocation
-     * @param Product $product
-     * @param int $quantity
-     * @return InventoryTransaction
-     */
-    public static function newProduct(InventoryLocation $inventoryLocation, Product $product, $quantity)
-    {
+    public static function newProduct(
+        InventoryLocation $inventoryLocation,
+        Product $product,
+        int $quantity
+    ): InventoryTransaction {
         return self::credit(
             $product,
             $quantity,
@@ -73,45 +63,30 @@ class InventoryTransaction implements IdEntityInterface
         );
     }
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @param string $memo
-     * @param InventoryLocation $inventoryLocation
-     * @param InventoryTransactionType $transactionType
-     * @return InventoryTransaction
-     */
     public static function debit(
         Product $product,
-        $quantity,
-        $memo,
+        int $quantity,
+        string $memo,
         InventoryLocation $inventoryLocation,
         InventoryTransactionType $transactionType = null
-    ) {
+    ): InventoryTransaction {
         $quantity = -1 * abs($quantity);
         return new self($product, $inventoryLocation, $quantity, $memo, $transactionType);
     }
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @param string $memo
-     * @param InventoryLocation $inventoryLocation
-     * @param InventoryTransactionType $transactionType
-     * @return InventoryTransaction
-     */
     public static function credit(
         Product $product,
-        $quantity,
-        $memo,
+        int $quantity,
+        string $memo,
         InventoryLocation $inventoryLocation,
         InventoryTransactionType $transactionType = null
-    ) {
+    ): InventoryTransaction {
         return new self($product, $inventoryLocation, $quantity, $memo, $transactionType);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
+        $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
         $metadata->addPropertyConstraint('quantity', new Assert\Range([
             'min' => -32768,
             'max' => 32767,
@@ -131,15 +106,12 @@ class InventoryTransaction implements IdEntityInterface
         $metadata->addPropertyConstraint('type', new Assert\Valid);
     }
 
-    /**
-     * @param string $memo
-     */
-    public function setMemo($memo)
+    public function setMemo(string $memo)
     {
-        $this->memo = (string) $memo;
+        $this->memo = $memo;
     }
 
-    public function getInventoryLocation()
+    public function getInventoryLocation(): InventoryLocation
     {
         return $this->inventoryLocation;
     }
@@ -149,22 +121,22 @@ class InventoryTransaction implements IdEntityInterface
         $this->product = $product;
     }
 
-    public function getProduct()
+    public function getProduct(): Product
     {
         return $this->product;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
 
-    public function getMemo()
+    public function getMemo(): string
     {
         return $this->memo;
     }
 
-    public function getType()
+    public function getType(): InventoryTransactionType
     {
         return $this->type;
     }

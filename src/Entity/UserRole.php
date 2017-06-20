@@ -18,27 +18,12 @@ class UserRole implements IdEntityInterface
         $this->userRoleType = $userRoleType;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('userRoleType', new Assert\Valid);
     }
 
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setDescription($description)
-    {
-        $this->description = (string) $description;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function getUserRoleType()
+    public function getUserRoleType(): UserRoleType
     {
         return $this->userRoleType;
     }

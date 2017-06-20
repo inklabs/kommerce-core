@@ -3,8 +3,6 @@ namespace inklabs\kommerce\EntityDTO;
 
 class ProductQuantityDiscountDTO extends AbstractPromotionDTO
 {
-    public $customerGroup;
-
     /** @var bool */
     public $flagApplyCatalogPromotions;
 

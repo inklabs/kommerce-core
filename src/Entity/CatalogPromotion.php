@@ -13,10 +13,10 @@ class CatalogPromotion extends AbstractPromotion
      * */
     protected $code = 'd';
 
-    /** @var Tag */
+    /** @var Tag|null */
     protected $tag;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         parent::loadValidatorMetadata($metadata);
 
@@ -30,16 +30,16 @@ class CatalogPromotion extends AbstractPromotion
      * @param $code
      * @deprecated
      */
-    public function setCode($code)
+    public function setCode(string $code)
     {
-        $this->code = (string) $code;
+        $this->code = $code;
     }
 
     /**
      * @return string
      * @deprecated
      */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -49,18 +49,18 @@ class CatalogPromotion extends AbstractPromotion
         $this->tag = $tag;
     }
 
-    public function getTag()
+    public function getTag(): ?Tag
     {
         return $this->tag;
     }
 
-    public function isValid(DateTime $date, Product $product)
+    public function isValid(DateTime $date, Product $product): bool
     {
         return $this->isValidPromotion($date)
             and $this->isTagValid($product);
     }
 
-    public function isTagValid(Product $product)
+    public function isTagValid(Product $product): bool
     {
         if ($this->tag === null) {
             return true;

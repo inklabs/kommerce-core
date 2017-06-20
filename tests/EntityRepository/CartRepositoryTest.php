@@ -34,15 +34,15 @@ class CartRepositoryTest extends EntityRepositoryTestCase
         $product = $this->dummyData->getProduct();
 
         $user = $this->dummyData->getUser();
-        $cartItem = $this->dummyData->getCartItem($product);
 
         $taxRate = $this->dummyData->getTaxRate();
 
         $cart = $this->dummyData->getCart();
         $cart->setSessionId($sessionId);
-        $cart->addCartItem($cartItem);
         $cart->setUser($user);
         $cart->setTaxRate($taxRate);
+
+        $cartItem = $this->dummyData->getCartItem($cart, $product);
 
         $this->entityManager->persist($product);
         $this->entityManager->persist($user);

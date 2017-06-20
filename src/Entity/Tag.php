@@ -13,13 +13,13 @@ class Tag implements IdEntityInterface, EnabledAttachmentInterface
     /** @var string */
     protected $name;
 
-    /** @var string */
+    /** @var string|null */
     protected $code;
 
-    /** @var string */
+    /** @var string|null */
     protected $description;
 
-    /** @var string */
+    /** @var string|null */
     protected $defaultImage;
 
     /** @var int */
@@ -62,7 +62,7 @@ class Tag implements IdEntityInterface, EnabledAttachmentInterface
         $this->isVisible = false;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([
@@ -164,104 +164,92 @@ class Tag implements IdEntityInterface, EnabledAttachmentInterface
         return $this->textOptions;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $code
-     */
-    public function setCode($code)
+    public function setCode(?string $code)
     {
         $this->setStringOrNull($this->code, $code);
     }
 
-    public function getCode()
+    public function getCode(): ?string
     {
         return $this->code;
     }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+    public function setDescription(?string $description)
     {
         $this->setStringOrNull($this->description, $description);
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $defaultImage
-     */
-    public function setDefaultImage($defaultImage)
+    public function setDefaultImage(?string $defaultImage)
     {
         $this->setStringOrNull($this->defaultImage, $defaultImage);
     }
 
-    public function getDefaultImage()
+    public function getDefaultImage(): ?string
     {
         return $this->defaultImage;
     }
 
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return $this->sortOrder;
     }
 
-    public function setSortOrder($sortOrder)
+    public function setSortOrder(int $sortOrder)
     {
         $this->sortOrder = $sortOrder;
     }
 
-    public function setIsActive($isActive)
+    public function setIsActive(bool $isActive)
     {
-        $this->isActive = (bool) $isActive;
+        $this->isActive = $isActive;
     }
 
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->isActive;
     }
 
-    public function setIsVisible($isVisible)
+    public function setIsVisible(bool $isVisible)
     {
-        $this->isVisible = (bool) $isVisible;
+        $this->isVisible = $isVisible;
     }
 
-    public function isVisible()
+    public function isVisible(): bool
     {
         return $this->isVisible;
     }
 
-    /**
-     * @param bool $areAttachmentsEnabled
-     */
-    public function setAreAttachmentsEnabled($areAttachmentsEnabled)
+    public function setAreAttachmentsEnabled(bool $areAttachmentsEnabled)
     {
-        $this->areAttachmentsEnabled = (bool) $areAttachmentsEnabled;
+        $this->areAttachmentsEnabled = $areAttachmentsEnabled;
     }
 
-    public function disableAttachments()
+    public function disableAttachments(): void
     {
         $this->areAttachmentsEnabled = false;
     }
 
-    public function enableAttachments()
+    public function enableAttachments(): void
     {
         $this->areAttachmentsEnabled = true;
     }
 
-    public function areAttachmentsEnabled()
+    public function areAttachmentsEnabled(): bool
     {
         return $this->areAttachmentsEnabled;
     }

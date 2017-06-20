@@ -7,9 +7,10 @@ class CartItemTextOptionValueTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {
-        $cartItemTextOptionValue = new CartItemTextOptionValue;
+        $textOptionValue = 'Happy Birthday';
+        $cartItemTextOptionValue = new CartItemTextOptionValue($textOptionValue);
 
-        $this->assertSame(null, $cartItemTextOptionValue->getTextOptionValue());
+        $this->assertSame($textOptionValue, $cartItemTextOptionValue->getTextOptionValue());
         $this->assertSame(null, $cartItemTextOptionValue->getTextOption());
         $this->assertSame(null, $cartItemTextOptionValue->getCartItem());
     }
@@ -19,13 +20,13 @@ class CartItemTextOptionValueTest extends EntityTestCase
         $textOption = $this->dummyData->getTextOption();
         $cartItem = $this->dummyData->getCartItem();
 
-        $cartItemTextOptionValue = new CartItemTextOptionValue;
-        $cartItemTextOptionValue->setTextOptionValue('Happy Birthday');
+        $textOptionValue = 'Happy Birthday';
+        $cartItemTextOptionValue = new CartItemTextOptionValue($textOptionValue);
         $cartItemTextOptionValue->setTextOption($textOption);
         $cartItemTextOptionValue->setCartItem($cartItem);
 
         $this->assertEntityValid($cartItemTextOptionValue);
-        $this->assertSame('Happy Birthday', $cartItemTextOptionValue->getTextOptionValue());
+        $this->assertSame($textOptionValue, $cartItemTextOptionValue->getTextOptionValue());
         $this->assertSame($textOption, $cartItemTextOptionValue->getTextOption());
         $this->assertSame($cartItem, $cartItemTextOptionValue->getCartItem());
     }

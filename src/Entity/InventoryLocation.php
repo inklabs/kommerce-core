@@ -28,7 +28,7 @@ class InventoryLocation implements IdEntityInterface
         $this->setCode($code);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([
@@ -41,33 +41,27 @@ class InventoryLocation implements IdEntityInterface
         ]));
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $code
-     */
-    public function setCode($code)
+    public function setCode(string $code)
     {
-        $this->code = (string) $code;
+        $this->code = $code;
     }
 
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
 
-    public function getWarehouse()
+    public function getWarehouse(): Warehouse
     {
         return $this->warehouse;
     }

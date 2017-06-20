@@ -17,18 +17,18 @@ class ShipmentItem implements IdEntityInterface
     /** @var Shipment */
     protected $shipment;
 
-    public function __construct(Shipment $shipment, OrderItem $orderItem, $quantityToShip)
+    public function __construct(Shipment $shipment, OrderItem $orderItem, int $quantityToShip)
     {
         $this->setId();
         $this->setCreated();
         $this->orderItem = $orderItem;
-        $this->quantityToShip = (int) $quantityToShip;
+        $this->quantityToShip = $quantityToShip;
 
         $shipment->addShipmentItem($this);
         $this->shipment = $shipment;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('quantityToShip', new Assert\NotNull);
         $metadata->addPropertyConstraint('quantityToShip', new Assert\Range([
@@ -37,12 +37,12 @@ class ShipmentItem implements IdEntityInterface
         ]));
     }
 
-    public function getOrderItem()
+    public function getOrderItem(): OrderItem
     {
         return $this->orderItem;
     }
 
-    public function getQuantityToShip()
+    public function getQuantityToShip(): int
     {
         return $this->quantityToShip;
     }

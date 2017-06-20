@@ -51,10 +51,11 @@ class ImageService implements ImageServiceInterface
     {
         $managedFile = $this->fileManager->saveFile($uploadFileDTO->getFilePath());
 
-        $image = new Image;
-        $image->setPath($managedFile->getUri());
-        $image->setWidth($managedFile->getWidth());
-        $image->setHeight($managedFile->getHeight());
+        $image = new Image(
+            $managedFile->getUri(),
+            $managedFile->getWidth(),
+            $managedFile->getHeight()
+        );
 
         $product = $this->productRepository->findOneById($productId);
         $product->addImage($image);
@@ -66,10 +67,11 @@ class ImageService implements ImageServiceInterface
     {
         $managedFile = $this->fileManager->saveFile($uploadFileDTO->getFilePath());
 
-        $image = new Image;
-        $image->setPath($managedFile->getUri());
-        $image->setWidth($managedFile->getWidth());
-        $image->setHeight($managedFile->getHeight());
+        $image = new Image(
+            $managedFile->getUri(),
+            $managedFile->getWidth(),
+            $managedFile->getHeight()
+        );
 
         $tag = $this->tagRepository->findOneById($tagId);
         $tag->addImage($image);

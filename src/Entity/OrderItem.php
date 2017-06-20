@@ -13,19 +13,19 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
     /** @var int */
     protected $quantity;
 
-    /** @var string */
+    /** @var string|null */
     protected $sku;
 
     /** @var string */
     protected $name;
 
-    /** @var string */
+    /** @var string|null */
     protected $discountNames;
 
     /** @var Price */
     protected $price;
 
-    /** @var Product */
+    /** @var Product|null */
     protected $product;
 
     /** @var Order */
@@ -64,7 +64,7 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
         $order->addOrderItem($this);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
         $metadata->addPropertyConstraint('quantity', new Assert\Range([
@@ -96,7 +96,7 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
         $this->setSku();
     }
 
-    public function getProduct()
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
@@ -147,15 +147,12 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
         $this->orderItemTextOptionValues[] = $orderItemTextOptionValue;
     }
 
-    /**
-     * @param int $quantity
-     */
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity)
     {
-        $this->quantity = (int) $quantity;
+        $this->quantity = $quantity;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
@@ -165,7 +162,7 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
         $this->sku = $this->getFullSku();
     }
 
-    private function getFullSku()
+    private function getFullSku(): string
     {
         $fullSku = [];
 
@@ -196,17 +193,17 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
         return implode('-', $fullSku);
     }
 
-    public function getSku()
+    public function getSku(): ?string
     {
         return $this->sku;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -233,17 +230,17 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
         $this->discountNames = implode(', ', $discountNames);
     }
 
-    public function getPrice()
+    public function getPrice(): Price
     {
         return $this->price;
     }
 
-    public function getDiscountNames()
+    public function getDiscountNames(): ?string
     {
         return $this->discountNames;
     }
 
-    public function getOrder()
+    public function getOrder(): Order
     {
         return $this->order;
     }
@@ -280,7 +277,7 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
      * @param int|null $quantity
      * @return int shipping weight in ounces
      */
-    public function getQuantityShippingWeight($quantity = null)
+    public function getQuantityShippingWeight(int $quantity = null): int
     {
         if ($quantity === null) {
             $quantity = $this->quantity;
@@ -292,7 +289,7 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
     /**
      * @return int shipping weight in ounces
      */
-    public function getShippingWeight()
+    public function getShippingWeight(): int
     {
         $shippingWeight = $this->product->getShippingWeight();
 
@@ -309,7 +306,7 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
         return $shippingWeight;
     }
 
-    public function isShipmentFullyShipped(Shipment $shipment)
+    public function isShipmentFullyShipped(Shipment $shipment): bool
     {
         $shipmentItem = $shipment->getShipmentItemForOrderItem($this);
 
@@ -347,7 +344,7 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
         $this->attachments->removeElement($attachment);
     }
 
-    public function areAttachmentsEnabled()
+    public function areAttachmentsEnabled(): bool
     {
         if ($this->product !== null) {
             return $this->product->areAttachmentsEnabled();

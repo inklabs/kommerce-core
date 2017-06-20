@@ -5,5 +5,5 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 interface ValidationInterface
 {
-    public static function loadValidatorMetadata(ClassMetadata $metadata);
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void;
 }

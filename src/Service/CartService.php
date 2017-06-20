@@ -109,16 +109,12 @@ class CartService implements CartServiceInterface
         $this->cartRepository->update($cart);
     }
 
-    /**
-     * @param UuidInterface $cartId
-     * @param string $ip4
-     * @param UuidInterface|null $userId
-     * @param string|null $sessionId
-     * @return Cart
-     * @throws InvalidArgumentException
-     */
-    public function create(UuidInterface $cartId, $ip4, UuidInterface $userId = null, $sessionId = null)
-    {
+    public function create(
+        UuidInterface $cartId,
+        string $ip4,
+        UuidInterface $userId = null,
+        string $sessionId = null
+    ): Cart {
         if (empty($userId) && empty($sessionId)) {
             throw new InvalidArgumentException('User or session id required.');
         }
@@ -156,11 +152,9 @@ class CartService implements CartServiceInterface
         $cart = $this->cartRepository->findOneById($cartId);
         $cart->setShipmentRate(null);
 
-        $cartItem = new CartItem($cartItemId);
+        $cartItem = new CartItem($cart, $cartItemId);
         $cartItem->setProduct($product);
         $cartItem->setQuantity($quantity);
-
-        $cart->addCartItem($cartItem);
 
         $this->cartRepository->update($cart);
 
@@ -226,9 +220,8 @@ class CartService implements CartServiceInterface
         foreach ($textOptionValueDTOs as $textOptionValueDTO) {
             $textOption = $textOptionCollection->get($textOptionValueDTO->getTextOptionId()->getHex());
 
-            $cartItemTextOptionValue = new CartItemTextOptionValue;
+            $cartItemTextOptionValue = new CartItemTextOptionValue($textOptionValueDTO->getTextOptionValue());
             $cartItemTextOptionValue->setTextOption($textOption);
-            $cartItemTextOptionValue->setTextOptionValue($textOptionValueDTO->getTextOptionValue());
 
             $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
         }
@@ -263,7 +256,8 @@ class CartService implements CartServiceInterface
         $toCart = $this->cartRepository->findOneById($toCartId);
 
         foreach ($fromCart->getCartItems() as $cartItem) {
-            $toCart->addCartItem(clone $cartItem);
+            $newCartItem = clone $cartItem;
+            $newCartItem->setCart($toCart);
         }
 
         $this->cartRepository->update($toCart);

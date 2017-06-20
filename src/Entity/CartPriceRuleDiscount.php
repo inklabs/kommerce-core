@@ -14,7 +14,7 @@ class CartPriceRuleDiscount implements IdEntityInterface
     /** @var Product */
     protected $product;
 
-    /** @var CartPriceRule */
+    /** @var CartPriceRule|null */
     protected $cartPriceRule;
 
     public function __construct(Product $product, $quantity = 1)
@@ -25,7 +25,7 @@ class CartPriceRuleDiscount implements IdEntityInterface
         $this->quantity = $quantity;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
         $metadata->addPropertyConstraint('quantity', new Assert\Range([
@@ -34,17 +34,17 @@ class CartPriceRuleDiscount implements IdEntityInterface
         ]));
     }
 
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity)
     {
-        $this->quantity = (int) $quantity;
+        $this->quantity = $quantity;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
 
-    public function getProduct()
+    public function getProduct(): Product
     {
         return $this->product;
     }
@@ -54,7 +54,7 @@ class CartPriceRuleDiscount implements IdEntityInterface
         $this->cartPriceRule = $cartPriceRule;
     }
 
-    public function getCartPriceRule()
+    public function getCartPriceRule(): ?CartPriceRule
     {
         return $this->cartPriceRule;
     }

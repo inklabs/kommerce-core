@@ -10,7 +10,7 @@ class DeliveryMethodType extends AbstractIntegerType
     const ONE_DAY  = 1;
     const TWO_DAY  = 2;
 
-    public static function getNameMap()
+    public static function getNameMap(): array
     {
         return [
             self::STANDARD => 'Standard',
@@ -19,7 +19,7 @@ class DeliveryMethodType extends AbstractIntegerType
         ];
     }
 
-    public static function getSlugMap()
+    public static function getSlugMap(): array
     {
         return [
             self::STANDARD => 'standard',
@@ -28,7 +28,7 @@ class DeliveryMethodType extends AbstractIntegerType
         ];
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([
             'choices' => self::validIds(),
@@ -51,11 +51,7 @@ class DeliveryMethodType extends AbstractIntegerType
         return new self(self::TWO_DAY);
     }
 
-    /**
-     * @param int $deliveryDays
-     * @return DeliveryMethodType
-     */
-    public static function createByDeliveryDays($deliveryDays)
+    public static function createByDeliveryDays(?int $deliveryDays): DeliveryMethodType
     {
         if ($deliveryDays === 1) {
             return self::oneDay();
@@ -66,17 +62,17 @@ class DeliveryMethodType extends AbstractIntegerType
         }
     }
 
-    public function isStandard()
+    public function isStandard(): bool
     {
         return $this->id === self::STANDARD;
     }
 
-    public function isOneDay()
+    public function isOneDay(): bool
     {
         return $this->id === self::ONE_DAY;
     }
 
-    public function isTwoDay()
+    public function isTwoDay(): bool
     {
         return $this->id === self::TWO_DAY;
     }

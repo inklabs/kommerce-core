@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Generator;
 use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,7 +34,7 @@ class CartPriceRule implements IdEntityInterface
         $this->cartPriceRuleDiscounts = new ArrayCollection();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\Length([
             'max' => 255,
@@ -71,12 +72,9 @@ class CartPriceRule implements IdEntityInterface
         return $this->cartPriceRuleDiscounts;
     }
 
-    /**
-     * @param boolean $reducesTaxSubtotal
-     */
-    public function setReducesTaxSubtotal($reducesTaxSubtotal)
+    public function setReducesTaxSubtotal(bool $reducesTaxSubtotal)
     {
-        $this->reducesTaxSubtotal = (bool) $reducesTaxSubtotal;
+        $this->reducesTaxSubtotal = $reducesTaxSubtotal;
     }
 
     public function getReducesTaxSubtotal()
@@ -84,7 +82,7 @@ class CartPriceRule implements IdEntityInterface
         return $this->reducesTaxSubtotal;
     }
 
-    public function isValid(DateTime $date, $cartItems)
+    public function isValid(DateTime $date, $cartItems): bool
     {
         $localCartItems = $this->cloneCartItems($cartItems);
 
@@ -97,7 +95,7 @@ class CartPriceRule implements IdEntityInterface
      * @param ArrayCollection<CartItem>|CartItem[] $cartItems
      * @return bool
      */
-    public function areCartItemsValid(& $cartItems)
+    public function areCartItemsValid(& $cartItems): bool
     {
         if (count($this->cartPriceRuleItems) === 0) {
             return false;
@@ -114,9 +112,9 @@ class CartPriceRule implements IdEntityInterface
 
     /**
      * @param CartItem[] $cartItems
-     * @return CartItem[]|\Generator
+     * @return CartItem[]|Generator
      */
-    private function getCartItemMatches(& $cartItems)
+    private function getCartItemMatches(& $cartItems): Generator
     {
         foreach ($this->cartPriceRuleItems as $cartPriceRuleItem) {
             foreach ($cartItems as & $cartItem) {
@@ -135,7 +133,7 @@ class CartPriceRule implements IdEntityInterface
      * @param CartItem[] $cartItems
      * @return int
      */
-    public function numberTimesToApply($cartItems)
+    public function numberTimesToApply($cartItems): int
     {
         $numberTimesToApply = 0;
         $localCartItems = $this->cloneCartItems($cartItems);
@@ -162,15 +160,12 @@ class CartPriceRule implements IdEntityInterface
         return $localCartItems;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

@@ -55,7 +55,7 @@ class CreateWarehouseHandlerTest extends ActionTestCase
         $this->assertSame($zip5, $address->getzip5());
         $this->assertSame($zip4, $address->getzip4());
         $point = $address->getPoint();
-        $this->assertSame($latitude, $point->getlatitude());
-        $this->assertSame($longitude, $point->getlongitude());
+        $this->assertFloatEquals($latitude, $point->getlatitude());
+        $this->assertFloatEquals($longitude, $point->getlongitude());
     }
 }

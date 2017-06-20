@@ -8,28 +8,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class OrderItemTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $order = $this->dummyData->getOrder();
-        $orderItem = new OrderItem($order);
-
-        $this->assertTrue($orderItem->getId() instanceof UuidInterface);
-        $this->assertTrue($orderItem->getCreated() instanceof DateTime);
-        $this->assertSame(null, $orderItem->getQuantity());
-        $this->assertSame(null, $orderItem->getSku());
-        $this->assertSame(null, $orderItem->getName());
-        $this->assertSame(null, $orderItem->getDiscountNames());
-        $this->assertSame(null, $orderItem->getPrice());
-        $this->assertSame(null, $orderItem->getProduct());
-        $this->assertSame($order, $orderItem->getOrder());
-        $this->assertSame(0, count($orderItem->getOrderItemOptionProducts()));
-        $this->assertSame(0, count($orderItem->getOrderItemOptionValues()));
-        $this->assertSame(0, count($orderItem->getOrderItemTextOptionValues()));
-        $this->assertSame(0, count($orderItem->getCatalogPromotions()));
-        $this->assertSame(0, count($orderItem->getProductQuantityDiscounts()));
-        $this->assertSame(0, count($orderItem->getAttachments()));
-    }
-
     public function testCreate()
     {
         $catalogPromotion = $this->dummyData->getCatalogPromotion();

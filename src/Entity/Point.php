@@ -6,19 +6,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Point implements ValidationInterface
 {
-    /** @var float */
+    /** @var float|null */
     protected $latitude;
 
-    /** @var float */
+    /** @var float|null */
     protected $longitude;
 
-    public function __construct($latitude = null, $longitude = null)
+    public function __construct(float $latitude = null, float $longitude = null)
     {
         $this->setLatitude($latitude);
         $this->setLongitude($longitude);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('latitude', new Assert\Range([
             'min' => -90,
@@ -31,37 +31,31 @@ class Point implements ValidationInterface
         ]));
     }
 
-    public function getLatitude()
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
 
-    /**
-     * @param float $latitude
-     */
-    public function setLatitude($latitude)
+    public function setLatitude(?float $latitude)
     {
-        $this->latitude = (float) $latitude;
+        $this->latitude = $latitude;
     }
 
-    public function getLongitude()
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
 
-    /**
-     * @param float $longitude
-     */
-    public function setLongitude($longitude)
+    public function setLongitude(?float $longitude)
     {
-        $this->longitude = (float) $longitude;
+        $this->longitude = $longitude;
     }
 
     /**
      * @param int $rangeInMiles
      * @return Point[]
      */
-    public function getGeoBox($rangeInMiles)
+    public function getGeoBox(int $rangeInMiles): array
     {
         $milesOffset = ($rangeInMiles / 69.09);
         $latitudeUpperLeft    = round(($this->latitude - $milesOffset), 7);

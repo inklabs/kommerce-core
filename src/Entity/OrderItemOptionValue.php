@@ -7,7 +7,7 @@ class OrderItemOptionValue implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 
-    /** @var string */
+    /** @var string|null */
     protected $sku;
 
     /** @var string */
@@ -28,12 +28,12 @@ class OrderItemOptionValue implements IdEntityInterface
         $this->setCreated();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         // TODO: Implement loadValidatorMetadata() method.
     }
 
-    public function getOptionValue()
+    public function getOptionValue(): OptionValue
     {
         return $this->optionValue;
     }
@@ -46,22 +46,22 @@ class OrderItemOptionValue implements IdEntityInterface
         $this->optionValueName = $optionValue->getName();
     }
 
-    public function getSku()
+    public function getSku(): ?string
     {
         return $this->sku;
     }
 
-    public function getOptionName()
+    public function getOptionName(): string
     {
         return $this->optionName;
     }
 
-    public function getOptionValueName()
+    public function getOptionValueName(): string
     {
         return $this->optionValueName;
     }
 
-    public function getOrderItem()
+    public function getOrderItem(): OrderItem
     {
         return $this->orderItem;
     }

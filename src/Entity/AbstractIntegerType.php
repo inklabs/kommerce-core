@@ -5,36 +5,29 @@ use inklabs\kommerce\Exception\InvalidArgumentException;
 
 abstract class AbstractIntegerType implements ValidationInterface, NameMapInterface, SlugMapInterface
 {
-    /** @var int */
+    /** @var int|null */
     protected $id;
 
-    /**
-     * @param int $id
-     * @throws InvalidArgumentException
-     */
-    protected function __construct($id)
+    protected function __construct(int $id)
     {
         if (! in_array($id, static::validIds())) {
             throw new InvalidArgumentException;
         }
 
-        $this->id = (int) $id;
+        $this->id = $id;
     }
 
-    /**
-     * @return array
-     */
-    protected static function validIds()
+    protected static function validIds(): array
     {
         return array_keys(static::getNameMap());
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->getNameMap()[$this->id];
     }
@@ -43,15 +36,12 @@ abstract class AbstractIntegerType implements ValidationInterface, NameMapInterf
      * @param int $id
      * @return static
      */
-    public static function createById($id)
+    public static function createById(int $id)
     {
         return new static($id);
     }
 
-        /**
-     * @return array
-     */
-    public static function getSlugNameMap()
+    public static function getSlugNameMap(): array
     {
         $slugNameMap = [];
         $nameMap = static::getNameMap();
@@ -63,10 +53,7 @@ abstract class AbstractIntegerType implements ValidationInterface, NameMapInterf
         return $slugNameMap;
     }
 
-    /**
-     * @return string
-     */
-    public function getSlug()
+    public function getSlug(): string
     {
         return static::getSlugMap()[$this->id];
     }
@@ -75,7 +62,7 @@ abstract class AbstractIntegerType implements ValidationInterface, NameMapInterf
      * @param string $slug
      * @return static
      */
-    public static function createBySlug($slug)
+    public static function createBySlug(string $slug)
     {
         $id = array_search($slug, static::getSlugMap());
         return self::createById($id);

@@ -27,11 +27,11 @@ class Price implements ValidationInterface
 
     public function __construct()
     {
-        $this->catalogPromotions = new ArrayCollection;
-        $this->productQuantityDiscounts = new ArrayCollection;
+        $this->catalogPromotions = new ArrayCollection();
+        $this->productQuantityDiscounts = new ArrayCollection();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('origUnitPrice', new Assert\NotNull);
         $metadata->addPropertyConstraint('origUnitPrice', new Assert\Range([
@@ -62,6 +62,9 @@ class Price implements ValidationInterface
         }
     }
 
+    /**
+     * @return ArrayCollection|CatalogPromotion[]|null
+     */
     public function getCatalogPromotions()
     {
         return $this->catalogPromotions;
@@ -74,12 +77,15 @@ class Price implements ValidationInterface
         }
     }
 
+    /**
+     * @return ArrayCollection|ProductQuantityDiscount[]|null
+     */
     public function getProductQuantityDiscounts()
     {
         return $this->productQuantityDiscounts;
     }
 
-    public static function add(Price $a, Price $b)
+    public static function add(Price $a, Price $b): Price
     {
         $price = clone $a;
         $price->unitPrice         += $b->unitPrice;

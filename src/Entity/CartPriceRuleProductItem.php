@@ -16,12 +16,12 @@ class CartPriceRuleProductItem extends AbstractCartPriceRuleItem
         $this->quantity = $quantity;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         parent::loadValidatorMetadata($metadata);
     }
 
-    public function matches(CartItem $cartItem)
+    public function matches(CartItem $cartItem): bool
     {
         if ($cartItem->getProduct()->getId() == $this->product->getId()
             and $cartItem->getQuantity() >= $this->quantity
@@ -32,7 +32,7 @@ class CartPriceRuleProductItem extends AbstractCartPriceRuleItem
         return false;
     }
 
-    public function getProduct()
+    public function getProduct(): Product
     {
         return $this->product;
     }

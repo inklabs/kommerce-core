@@ -18,15 +18,12 @@ interface CartServiceInterface
      */
     public function addCouponByCode(UuidInterface $cartId, $couponCode);
 
-    /**
-     * @param UuidInterface $cartId
-     * @param string $ip4
-     * @param UuidInterface|null $userId
-     * @param string|null $sessionId
-     * @return Cart
-     * @throws InvalidArgumentException
-     */
-    public function create(UuidInterface $cartId, $ip4, UuidInterface $userId = null, $sessionId = null);
+    public function create(
+        UuidInterface $cartId,
+        string $ip4,
+        UuidInterface $userId = null,
+        string $sessionId = null
+    ): Cart;
 
     /**
      * @param UuidInterface $cartItemId

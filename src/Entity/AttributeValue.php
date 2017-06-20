@@ -10,13 +10,13 @@ class AttributeValue implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 
-    /** @var string */
+    /** @var string|null */
     protected $sku;
 
     /** @var string */
     protected $name;
 
-    /** @var string */
+    /** @var string|null */
     protected $description;
 
     /** @var int */
@@ -44,7 +44,7 @@ class AttributeValue implements IdEntityInterface
         $this->productAttributes = new ArrayCollection();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([
@@ -58,59 +58,47 @@ class AttributeValue implements IdEntityInterface
         ]));
     }
 
-    /**
-     * @param string $sku
-     */
-    public function setSku($sku)
+    public function setSku(string $sku)
     {
-        $this->sku = (string) $sku;
+        $this->sku = $sku;
     }
 
-    public function getSku()
+    public function getSku(): ?string
     {
         return $this->sku;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+    public function setDescription(string $description)
     {
-        $this->description = (string) $description;
+        $this->description = $description;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param int $sortOrder
-     */
-    public function setSortOrder($sortOrder)
+    public function setSortOrder(int $sortOrder)
     {
-        $this->sortOrder = (int) $sortOrder;
+        $this->sortOrder = $sortOrder;
     }
 
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return $this->sortOrder;
     }
 
-    public function getAttribute()
+    public function getAttribute(): Attribute
     {
         return $this->attribute;
     }

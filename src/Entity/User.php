@@ -13,25 +13,25 @@ class User implements IdEntityInterface
 {
     use TimeTrait, IdTrait, EventGeneratorTrait, StringSetterTrait;
 
-    /** @var string */
+    /** @var string|null */
     protected $externalId;
 
-    /** @var string */
+    /** @var string|null */
     protected $email;
 
-    /** @var string */
+    /** @var string|null */
     protected $passwordHash;
 
     /** @var string */
     protected $firstName;
 
-    /** @var string */
+    /** @var string|null */
     protected $lastName;
 
     /** @var int */
     protected $totalLogins;
 
-    /** @var int */
+    /** @var int|null */
     protected $lastLogin;
 
     /** @var UserStatusType */
@@ -49,7 +49,7 @@ class User implements IdEntityInterface
     /** @var ArrayCollection|Order[] */
     protected $orders;
 
-    /** @var Cart */
+    /** @var Cart|null */
     protected $cart;
 
     public function __construct(UuidInterface $id = null)
@@ -66,7 +66,7 @@ class User implements IdEntityInterface
         $this->setStatus(UserStatusType::active());
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('firstName', new Assert\NotBlank);
         $metadata->addPropertyConstraint('firstName', new Assert\Length([
@@ -98,7 +98,7 @@ class User implements IdEntityInterface
         $metadata->addPropertyConstraint('status', new Assert\Valid);
     }
 
-    public function getCart()
+    public function getCart(): ?Cart
     {
         return $this->cart;
     }
@@ -108,15 +108,12 @@ class User implements IdEntityInterface
         $this->cart = $cart;
     }
 
-    public function getExternalId()
+    public function getExternalId(): ?string
     {
         return $this->externalId;
     }
 
-    /**
-     * @param string $externalId
-     */
-    public function setExternalId($externalId = null)
+    public function setExternalId(?string $externalId = null)
     {
         $this->setStringOrNull($this->externalId, $externalId);
     }
@@ -126,28 +123,22 @@ class User implements IdEntityInterface
         $this->status = $status;
     }
 
-    public function getStatus()
+    public function getStatus(): UserStatusType
     {
         return $this->status;
     }
 
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
+    public function setEmail(string $email)
     {
-        $this->email = (string) $email;
+        $this->email = $email;
     }
 
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $password
-     */
-    public function setPassword($password)
+    public function setPassword(string $password)
     {
         $oldPasswordHash = $this->passwordHash;
         $this->passwordHash = password_hash((string) $password, PASSWORD_BCRYPT);
@@ -163,53 +154,43 @@ class User implements IdEntityInterface
         }
     }
 
-    /**
-     * @param string $password
-     * @return bool
-     */
-    public function verifyPassword($password)
+    public function verifyPassword(string $password): bool
     {
         return password_verify($password, $this->passwordHash);
     }
 
-    /**
-     * @param string $firstName
-     */
-    public function setFirstName($firstName)
+    public function setFirstName(string $firstName)
     {
-        $this->firstName = (string) $firstName;
+        $this->firstName = $firstName;
     }
 
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    /**
-     * @param string $lastName
-     */
-    public function setLastName($lastName)
+    public function setLastName(string $lastName)
     {
-        $this->lastName = (string) $lastName;
+        $this->lastName = $lastName;
     }
 
-    public function getLastName()
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
-    public function getFullName()
+    public function getFullName(): string
     {
         return trim($this->firstName . ' ' . $this->lastName);
     }
 
-    public function incrementTotalLogins()
+    public function incrementTotalLogins(): void
     {
         $this->totalLogins++;
         $this->setLastLogin(new DateTime('now', new DateTimeZone('UTC')));
     }
 
-    public function getTotalLogins()
+    public function getTotalLogins(): int
     {
         return $this->totalLogins;
     }
@@ -219,7 +200,7 @@ class User implements IdEntityInterface
         $this->lastLogin = $lastLogin->getTimestamp();
     }
 
-    public function getLastLogin()
+    public function getLastLogin(): ?DateTime
     {
         if ($this->lastLogin === null) {
             return null;
@@ -247,7 +228,7 @@ class User implements IdEntityInterface
      * @param UserRoleType[] $userRoleTypes
      * @return bool
      */
-    public function hasUserRoles(array $userRoleTypes)
+    public function hasUserRoles(array $userRoleTypes): bool
     {
         $userRoles = [];
         foreach ($this->userRoles as $userRole) {

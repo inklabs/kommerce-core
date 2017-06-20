@@ -15,7 +15,7 @@ class InventoryTransactionType extends AbstractIntegerType
     const DAMAGED = 6;
     const SHRINKAGE = 7;
 
-    public static function getNameMap()
+    public static function getNameMap(): array
     {
         return [
             self::MOVE => 'Move',
@@ -29,7 +29,7 @@ class InventoryTransactionType extends AbstractIntegerType
         ];
     }
 
-    public static function getSlugMap()
+    public static function getSlugMap(): array
     {
         return [
             self::MOVE => 'move',
@@ -43,7 +43,7 @@ class InventoryTransactionType extends AbstractIntegerType
         ];
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([
             'choices' => self::validIds(),

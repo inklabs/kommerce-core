@@ -5,17 +5,6 @@ use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class OrderItemOptionValueTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $orderItemOptionValue = new OrderItemOptionValue;
-
-        $this->assertSame(null, $orderItemOptionValue->getSku());
-        $this->assertSame(null, $orderItemOptionValue->getOptionName());
-        $this->assertSame(null, $orderItemOptionValue->getOptionValueName());
-        $this->assertSame(null, $orderItemOptionValue->getOptionValue());
-        $this->assertSame(null, $orderItemOptionValue->getOrderItem());
-    }
-
     public function testCreate()
     {
         $option = $this->dummyData->getOption();

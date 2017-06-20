@@ -32,16 +32,14 @@ class UserToken implements IdEntityInterface
     /** @var UserLogin[] */
     protected $userLogins;
 
-    /**
-     * @param User $user
-     * @param UserTokenType $type
-     * @param string $token
-     * @param string $userAgent
-     * @param string $ip4
-     * @param DateTime $expires
-     */
-    public function __construct(User $user, UserTokenType $type, $token, $userAgent, $ip4, DateTime $expires = null)
-    {
+    public function __construct(
+        User $user,
+        UserTokenType $type,
+        string $token,
+        string $userAgent,
+        string $ip4,
+        DateTime $expires = null
+    ) {
         $this->setId();
         $this->setCreated();
         $this->setUser($user);
@@ -54,7 +52,7 @@ class UserToken implements IdEntityInterface
         $this->userLogins = new ArrayCollection();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('userAgent', new Assert\NotBlank);
         $metadata->addPropertyConstraint('userAgent', new Assert\Length([
@@ -77,14 +75,7 @@ class UserToken implements IdEntityInterface
         $metadata->addPropertyConstraint('type', new Assert\Valid);
     }
 
-    /**
-     * @param User $user
-     * @param string $token
-     * @param string $userAgent
-     * @param string $ip4
-     * @return self
-     */
-    public static function createResetPasswordToken(User $user, $token, $userAgent, $ip4)
+    public static function createResetPasswordToken(User $user, string $token, string $userAgent, string $ip4): self
     {
         $expires = new DateTime('+1 hour');
 
@@ -109,12 +100,9 @@ class UserToken implements IdEntityInterface
         return $userToken;
     }
 
-    /**
-     * @param string $userAgent
-     */
-    private function setUserAgent($userAgent)
+    private function setUserAgent(string $userAgent)
     {
-        $this->userAgent = (string) $userAgent;
+        $this->userAgent = $userAgent;
     }
 
     public function getUserAgent()
@@ -122,36 +110,22 @@ class UserToken implements IdEntityInterface
         return $this->userAgent;
     }
 
-    /**
-     * @param string $ip4
-     */
-    private function setIp4($ip4)
+    private function setIp4(string $ip4)
     {
-        $this->ip4 = (int) ip2long($ip4);
+        $this->ip4 = ip2long($ip4);
     }
 
-    /**
-     * TODO: PHP7 - bin2hex(random_bytes($n))
-     * @return string
-     */
-    public static function getRandomToken()
+    public static function getRandomToken(): string
     {
-        return bin2hex(openssl_random_pseudo_bytes(20));
+        return bin2hex(random_bytes(20));
     }
 
-    /**
-     * @param string $token
-     */
-    private function setToken($token)
+    private function setToken(string $token)
     {
         $this->tokenHash = password_hash((string) $token, PASSWORD_BCRYPT);
     }
 
-    /**
-     * @param string $token
-     * @return bool
-     */
-    public function verifyToken($token)
+    public function verifyToken(string $token): bool
     {
         return password_verify($token, $this->tokenHash);
     }
@@ -161,7 +135,7 @@ class UserToken implements IdEntityInterface
         $this->type = $type;
     }
 
-    public function getType()
+    public function getType(): UserTokenType
     {
         return $this->type;
     }
@@ -176,10 +150,7 @@ class UserToken implements IdEntityInterface
         $this->expires = $expires->gettimestamp();
     }
 
-    /**
-     * @return DateTime|null
-     */
-    public function getExpires()
+    public function getExpires(): ?DateTime
     {
         if ($this->expires === null) {
             return null;
@@ -190,7 +161,7 @@ class UserToken implements IdEntityInterface
         return $expires;
     }
 
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }
@@ -213,7 +184,7 @@ class UserToken implements IdEntityInterface
         $this->userLogins->add($userLogin);
     }
 
-    public function getIp4()
+    public function getIp4(): string
     {
         return long2ip($this->ip4);
     }

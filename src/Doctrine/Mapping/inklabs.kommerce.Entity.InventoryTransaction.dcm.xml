@@ -14,7 +14,7 @@
         <id name="id" type="uuid_binary"/>
 
         <field name="memo" type="string" length="255"/>
-        <field name="quantity" type="smallint" nullable="true"/>
+        <field name="quantity" type="smallint"/>
 
         <field name="created" type="integer">
             <options>

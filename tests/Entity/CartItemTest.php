@@ -9,11 +9,12 @@ class CartItemTest extends EntityTestCase
 {
     public function testCreateDefaults()
     {
-        $cartItem = new CartItem;
+        $cart = new Cart();
+        $cartItem = new CartItem($cart);
 
         $this->assertSame(null, $cartItem->getQuantity());
         $this->assertSame(null, $cartItem->getProduct());
-        $this->assertSame(null, $cartItem->getCart());
+        $this->assertSame($cart, $cartItem->getCart());
         $this->assertSame(0, count($cartItem->getCartItemOptionProducts()));
         $this->assertSame(0, count($cartItem->getCartItemOptionValues()));
         $this->assertSame(0, count($cartItem->getCartItemTextOptionValues()));
@@ -38,10 +39,9 @@ class CartItemTest extends EntityTestCase
         $cartItemOptionValue->getOptionValue()->setSku('OV1');
         $cartItemOptionValue->getOptionValue()->setShippingWeight(5);
 
-        $cartItem = new CartItem;
+        $cartItem = new CartItem($cart);
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
-        $cartItem->setCart($cart);
         $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
         $cartItem->addCartItemOptionValue($cartItemOptionValue);
         $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
@@ -129,7 +129,8 @@ class CartItemTest extends EntityTestCase
         $attachment = $this->dummyData->getAttachment();
         $product = $this->dummyData->getProduct();
         $product->enableAttachments();
-        $cartItem = $this->dummyData->getCartItem($product);
+        $cart = $this->dummyData->getCart();
+        $cartItem = $this->dummyData->getCartItem($cart, $product);
         $cartItem->addAttachment($attachment);
 
         $this->assertSame($attachment, $cartItem->getAttachments()[0]);
@@ -150,7 +151,8 @@ class CartItemTest extends EntityTestCase
 
         $attachment = $this->dummyData->getAttachment();
 
-        $cartItem = $this->dummyData->getCartItem($product);
+        $cart = $this->dummyData->getCart();
+        $cartItem = $this->dummyData->getCartItem($cart, $product);
         $cartItem->addAttachment($attachment);
 
         $this->assertSame($attachment, $cartItem->getAttachments()[0]);
@@ -167,7 +169,8 @@ class CartItemTest extends EntityTestCase
 
         $attachment = $this->dummyData->getAttachment();
 
-        $cartItem = $this->dummyData->getCartItem($product);
+        $cart = $this->dummyData->getCart();
+        $cartItem = $this->dummyData->getCartItem($cart, $product);
 
         $this->setExpectedException(
             AttachmentException::class,

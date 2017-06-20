@@ -3,16 +3,12 @@ namespace inklabs\kommerce\Entity;
 
 trait StringSetterTrait
 {
-    /**
-     * @param string $destinationValue
-     * @param string $value
-     */
-    private function setStringOrNull(& $destinationValue, $value)
+    private function setStringOrNull(?string & $destinationValue, ?string $value)
     {
         if (trim($value) === '') {
             $destinationValue = null;
         } else {
-            $destinationValue = (string) $value;
+            $destinationValue = $value;
         }
     }
 }

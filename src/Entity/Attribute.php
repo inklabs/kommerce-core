@@ -12,7 +12,7 @@ class Attribute implements IdEntityInterface
     /** @var string */
     protected $name;
 
-    /** @var string */
+    /** @var string|null */
     protected $description;
 
     /** @var AttributeChoiceType */
@@ -44,7 +44,7 @@ class Attribute implements IdEntityInterface
         $this->productAttributes = new ArrayCollection();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([
@@ -58,28 +58,22 @@ class Attribute implements IdEntityInterface
         ]));
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+    public function setDescription(string $description)
     {
-        $this->description = (string) $description;
+        $this->description = $description;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -89,20 +83,17 @@ class Attribute implements IdEntityInterface
         $this->choiceType = $choiceType;
     }
 
-    public function getChoiceType()
+    public function getChoiceType(): AttributeChoiceType
     {
         return $this->choiceType;
     }
 
-    /**
-     * @param int $sortOrder
-     */
-    public function setSortOrder($sortOrder)
+    public function setSortOrder(int $sortOrder)
     {
-        $this->sortOrder = (int) $sortOrder;
+        $this->sortOrder = $sortOrder;
     }
 
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return $this->sortOrder;
     }

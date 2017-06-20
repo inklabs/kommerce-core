@@ -20,24 +20,14 @@ class ProductQuantityDiscountTest extends EntityTestCase
         $this->productQuantityDiscount = new ProductQuantityDiscount($this->product);
     }
 
-    public function testCreateDefaults()
-    {
-        $this->assertSame(null, $this->productQuantityDiscount->getCustomerGroup());
-        $this->assertSame(null, $this->productQuantityDiscount->getQuantity());
-        $this->assertSame(false, $this->productQuantityDiscount->getFlagApplyCatalogPromotions());
-        $this->assertSame($this->product, $this->productQuantityDiscount->getProduct());
-    }
-
     public function testCreate()
     {
         $pricing = $this->dummyData->getPricing();
 
-        $this->productQuantityDiscount->setCustomerGroup(null);
         $this->productQuantityDiscount->setQuantity(6);
         $this->productQuantityDiscount->setFlagApplyCatalogPromotions(true);
 
         $this->assertEntityValid($this->productQuantityDiscount);
-        $this->assertSame(null, $this->productQuantityDiscount->getCustomerGroup());
         $this->assertSame(6, $this->productQuantityDiscount->getQuantity());
         $this->assertSame(true, $this->productQuantityDiscount->getFlagApplyCatalogPromotions());
         $this->assertSame($this->product, $this->productQuantityDiscount->getProduct());

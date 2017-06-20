@@ -20,7 +20,7 @@ class Parcel
     /** @var int */
     protected $weight;
 
-    /** @var string */
+    /** @var string|null */
     protected $predefinedPackage;
 
     public function __construct()
@@ -28,80 +28,62 @@ class Parcel
         $this->setCreated();
     }
 
-    /**
-     * @param string $externalId
-     */
-    public function setExternalId($externalId)
+    public function setExternalId(string $externalId)
     {
-        $this->externalId = (string) $externalId;
+        $this->externalId = $externalId;
     }
 
-    public function getExternalId()
+    public function getExternalId(): string
     {
         return $this->externalId;
     }
 
-    /**
-     * @param float $length
-     */
-    public function setLength($length)
+    public function setLength(float $length)
     {
-        $this->length = (float) $length;
+        $this->length = $length;
     }
 
-    public function getLength()
+    public function getLength(): float
     {
         return $this->length;
     }
 
-    /**
-     * @param float $width
-     */
-    public function setWidth($width)
+    public function setWidth(float $width)
     {
-        $this->width = (float) $width;
+        $this->width = $width;
     }
 
-    public function getWidth()
+    public function getWidth(): float
     {
         return $this->width;
     }
 
-    /**
-     * @param float $height
-     */
-    public function setHeight($height)
+    public function setHeight(float $height)
     {
-        $this->height = (float) $height;
+        $this->height = $height;
     }
 
-    public function getHeight()
+    public function getHeight(): float
     {
         return $this->height;
     }
 
-    /**
-     * @param int $weight
-     */
-    public function setWeight($weight)
+    public function setWeight(int $weight)
     {
-        $this->weight = (int) $weight;
+        $this->weight = $weight;
     }
 
-    public function getWeight()
+    public function getWeight(): int
     {
         return $this->weight;
     }
 
-    /**
-     * @param string $predefinedPackage
-     */
-    public function setPredefinedPackage($predefinedPackage)
+    public function setPredefinedPackage(string $predefinedPackage)
     {
-        $this->predefinedPackage = (string) $predefinedPackage;
+        $this->predefinedPackage = $predefinedPackage;
     }
 
-    public function getPredefinedPackage()
+    public function getPredefinedPackage(): ?string
     {
         return $this->predefinedPackage;
     }

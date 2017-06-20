@@ -14,20 +14,16 @@ class Coupon extends AbstractPromotion
     /** @var bool */
     protected $flagFreeShipping;
 
-    /** @var int */
+    /** @var int|null */
     protected $minOrderValue;
 
-    /** @var int */
+    /** @var int|null */
     protected $maxOrderValue;
 
     /** @var bool */
     protected $canCombineWithOtherCoupons;
 
-    /**
-     * @param string $code
-     * @param UuidInterface $id
-     */
-    public function __construct($code, UuidInterface $id = null)
+    public function __construct(string $code, UuidInterface $id = null)
     {
         parent::__construct($id);
         $this->flagFreeShipping = false;
@@ -35,7 +31,7 @@ class Coupon extends AbstractPromotion
         $this->setCode($code);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         parent::loadValidatorMetadata($metadata);
 
@@ -55,96 +51,64 @@ class Coupon extends AbstractPromotion
         ]));
     }
 
-    /**
-     * @param string $code
-     */
-    public function setCode($code)
+    public function setCode(string $code)
     {
-        $this->code = (string) $code;
+        $this->code = $code;
     }
 
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
 
-    /**
-     * @param bool $flagFreeShipping
-     */
-    public function setFlagFreeShipping($flagFreeShipping)
+    public function setFlagFreeShipping(bool $flagFreeShipping)
     {
-        $this->flagFreeShipping = (bool) $flagFreeShipping;
+        $this->flagFreeShipping = $flagFreeShipping;
     }
 
-    public function getFlagFreeShipping()
+    public function getFlagFreeShipping(): bool
     {
         return $this->flagFreeShipping;
     }
 
-    /**
-     * @param int|null $minOrderValue
-     */
-    public function setMinOrderValue($minOrderValue)
+    public function setMinOrderValue(?int $minOrderValue)
     {
-        if ($minOrderValue !== null) {
-            $minOrderValue = (int) $minOrderValue;
-        }
-
         $this->minOrderValue = $minOrderValue;
     }
 
-    public function getMinOrderValue()
+    public function getMinOrderValue(): ?int
     {
         return $this->minOrderValue;
     }
 
-    /**
-     * @param int|null $maxOrderValue
-     */
-    public function setMaxOrderValue($maxOrderValue)
+    public function setMaxOrderValue(?int $maxOrderValue)
     {
-        if ($maxOrderValue !== null) {
-            $maxOrderValue = (int) $maxOrderValue;
-        }
-
         $this->maxOrderValue = $maxOrderValue;
     }
 
-    public function getMaxOrderValue()
+    public function getMaxOrderValue(): ?int
     {
         return $this->maxOrderValue;
     }
 
-    public function getCanCombineWithOtherCoupons()
+    public function getCanCombineWithOtherCoupons(): bool
     {
         return $this->canCombineWithOtherCoupons;
     }
 
-    /**
-     * @param bool $canCombineWithOtherCoupons
-     */
-    public function setCanCombineWithOtherCoupons($canCombineWithOtherCoupons)
+    public function setCanCombineWithOtherCoupons(bool $canCombineWithOtherCoupons)
     {
-        $this->canCombineWithOtherCoupons = (bool) $canCombineWithOtherCoupons;
+        $this->canCombineWithOtherCoupons = $canCombineWithOtherCoupons;
     }
 
-    /**
-     * @param DateTime $date
-     * @param int $subtotal
-     * @return bool
-     */
-    public function isValid(DateTime $date, $subtotal)
+    public function isValid(DateTime $date, int $subtotal): bool
     {
         return $this->isValidPromotion($date)
             and $this->isMinOrderValueValid($subtotal)
             and $this->isMaxOrderValueValid($subtotal);
     }
 
-    /**
-     * @param int $subtotal
-     * @return bool
-     */
-    public function isMinOrderValueValid($subtotal)
+    public function isMinOrderValueValid(int $subtotal): bool
     {
         if ($this->minOrderValue !== null and $subtotal < $this->minOrderValue) {
             return false;
@@ -153,11 +117,7 @@ class Coupon extends AbstractPromotion
         }
     }
 
-    /**
-     * @param int $subtotal
-     * @return bool
-     */
-    public function isMaxOrderValueValid($subtotal)
+    public function isMaxOrderValueValid(int $subtotal): bool
     {
         if ($this->maxOrderValue !== null and $subtotal > $this->maxOrderValue) {
             return false;

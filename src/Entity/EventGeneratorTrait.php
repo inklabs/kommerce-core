@@ -7,7 +7,7 @@ trait EventGeneratorTrait
 {
     protected $pendingEvents = [];
 
-    protected function raise(EventInterface $event)
+    protected function raise(EventInterface $event): void
     {
         $this->pendingEvents[] = $event;
     }
@@ -20,7 +20,7 @@ trait EventGeneratorTrait
         $this->pendingEvents = array_merge($this->pendingEvents, $events);
     }
 
-    public function releaseEvents()
+    public function releaseEvents(): array
     {
         $events = $this->pendingEvents;
         $this->pendingEvents = [];

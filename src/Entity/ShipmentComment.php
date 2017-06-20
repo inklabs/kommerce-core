@@ -14,11 +14,7 @@ class ShipmentComment implements IdEntityInterface
     /** @var Shipment */
     protected $shipment;
 
-    /**
-     * @param Shipment $shipment
-     * @param string $comment
-     */
-    public function __construct(Shipment $shipment, $comment)
+    public function __construct(Shipment $shipment, string $comment)
     {
         $this->setId();
         $this->setCreated();
@@ -28,7 +24,7 @@ class ShipmentComment implements IdEntityInterface
         $this->setShipment($shipment);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('comment', new Assert\NotBlank);
         $metadata->addPropertyConstraint('comment', new Assert\Length([
@@ -36,7 +32,7 @@ class ShipmentComment implements IdEntityInterface
         ]));
     }
 
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }

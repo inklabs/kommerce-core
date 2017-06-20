@@ -184,8 +184,8 @@ class CartServiceTest extends ServiceTestCase
         $optionProductIds = [$optionProduct->getId()];
 
         $product = $this->dummyData->getProduct();
-        $cartItem = $this->dummyData->getCartItem($product);
-        $cart = $this->dummyData->getCart([$cartItem]);
+        $cart = $this->dummyData->getCart();
+        $cartItem = $this->dummyData->getCartItem($cart, $product);
 
         $this->optionProductRepository->shouldReceive('getAllOptionProductsByIds')
             ->with($optionProductIds)
@@ -214,8 +214,8 @@ class CartServiceTest extends ServiceTestCase
         $optionValue = $this->dummyData->getOptionValue();
         $optionValueIds = [$optionValue->getId()];
 
-        $cartItem = $this->dummyData->getCartItem();
-        $cart = $this->dummyData->getCart([$cartItem]);
+        $cart = $this->dummyData->getCart();
+        $cartItem = $this->dummyData->getCartItem($cart);
 
         $this->optionValueRepository->shouldReceive('getAllOptionValuesByIds')
             ->with($optionValueIds)
@@ -241,8 +241,8 @@ class CartServiceTest extends ServiceTestCase
 
     public function testAddItemTextOptionValues()
     {
-        $cartItem = $this->dummyData->getCartItem();
-        $cart = $this->dummyData->getCart([$cartItem]);
+        $cart = $this->dummyData->getCart();
+        $cartItem = $this->dummyData->getCartItem($cart);
 
         $textOption = $this->dummyData->getTextOption();
         $this->textOptionRepository->shouldReceive('getAllTextOptionsByIds')
@@ -277,9 +277,10 @@ class CartServiceTest extends ServiceTestCase
 
     public function testCopyCartItems()
     {
-        $cartItem1 = $this->dummyData->getCartItemFull();
-        $fromCart = $this->dummyData->getCart([$cartItem1]);
+        $fromCart = $this->dummyData->getCart();
         $toCart = $this->dummyData->getCart();
+
+        $cartItem1 = $this->dummyData->getCartItemFull($fromCart);
 
         $this->getCartThatRepositoryWillFind($fromCart);
         $this->getCartThatRepositoryWillFind($toCart);
@@ -307,9 +308,10 @@ class CartServiceTest extends ServiceTestCase
 
     public function testDeleteItem()
     {
-        $cartItem = $this->dummyData->getCartItem();
-        $cart = $this->dummyData->getCart([$cartItem]);
+        $cart = $this->dummyData->getCart();
         $cart->setShipmentRate($this->dummyData->getShipmentRate());
+
+        $cartItem = $this->dummyData->getCartItem($cart);
 
         $this->cartRepository->shouldReceive('getItemById')
             ->with($cartItem->getId())

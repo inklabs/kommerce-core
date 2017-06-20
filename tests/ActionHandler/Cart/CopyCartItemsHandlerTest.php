@@ -34,9 +34,9 @@ class CopyCartItemsHandlerTest extends ActionTestCase
     public function testHandle()
     {
         $product = $this->dummyData->getProduct();
-        $cartItem = $this->dummyData->getCartItem($product);
-        $cart1 = $this->dummyData->getCart([$cartItem]);
+        $cart1 = $this->dummyData->getCart();
         $cart2 = $this->dummyData->getCart();
+        $cartItem = $this->dummyData->getCartItem($cart1, $product);
         $this->persistEntityAndFlushClear([
             $cart1,
             $cart2,

@@ -19,12 +19,7 @@ class Warehouse implements IdEntityInterface
     /** @var InventoryLocation[] */
     protected $inventoryLocations;
 
-    /**
-     * @param string $name
-     * @param Address $address
-     * @param UuidInterface $id
-     */
-    public function __construct($name, Address $address, UuidInterface $id = null)
+    public function __construct(string $name, Address $address, UuidInterface $id = null)
     {
         $this->setId($id);
         $this->setCreated();
@@ -33,7 +28,7 @@ class Warehouse implements IdEntityInterface
         $this->inventoryLocations = new ArrayCollection;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([
@@ -43,17 +38,17 @@ class Warehouse implements IdEntityInterface
         $metadata->addPropertyConstraint('address', new Assert\Valid);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    public function getAddress()
+    public function getAddress(): Address
     {
         return $this->address;
     }

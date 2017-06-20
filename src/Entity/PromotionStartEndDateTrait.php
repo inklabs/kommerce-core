@@ -26,7 +26,7 @@ trait PromotionStartEndDateTrait
         ]));
     }
 
-    public function isDateValid(DateTime $date)
+    public function isDateValid(DateTime $date): bool
     {
         $currentDateTs = $date->getTimestamp();
 
@@ -41,28 +41,22 @@ trait PromotionStartEndDateTrait
         return true;
     }
 
-    /**
-     * @param int $startAt
-     */
-    public function setStartAt($startAt)
+    public function setStartAt(int $startAt)
     {
-        $this->start = (int) $startAt;
+        $this->start = $startAt;
     }
 
-    public function getStartAt()
+    public function getStartAt(): ?int
     {
         return $this->start;
     }
 
-    /**
-     * @param int $endAt
-     */
-    public function setEndAt($endAt)
+    public function setEndAt(int $endAt)
     {
-        $this->end = (int) $endAt;
+        $this->end = $endAt;
     }
 
-    public function getEndAt()
+    public function getEndAt(): ?int
     {
         return $this->end;
     }
@@ -76,7 +70,7 @@ trait PromotionStartEndDateTrait
         }
     }
 
-    public function getStart()
+    public function getStart(): ?DateTime
     {
         if ($this->start === null) {
             return null;
@@ -96,7 +90,7 @@ trait PromotionStartEndDateTrait
         }
     }
 
-    public function getEnd()
+    public function getEnd(): ?DateTime
     {
         if ($this->end === null) {
             return null;

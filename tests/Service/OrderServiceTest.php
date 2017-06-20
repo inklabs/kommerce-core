@@ -315,13 +315,12 @@ class OrderServiceTest extends ServiceTestCase
         $option = $this->dummyData->getOption();
         $optionProduct = $this->dummyData->getOptionProduct($option, $product2);
         $cartItemOptionProduct = $this->dummyData->getCartItemOptionProduct($optionProduct);
-        $cartItem = $this->dummyData->getCartItem($product1);
-        $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
-        $cart = $this->dummyData->getCart([
-            $cartItem
-        ]);
+        $cart = $this->dummyData->getCart();
         $user = $this->dummyData->getUser();
         $cart->setUser($user);
+
+        $cartItem = $this->dummyData->getCartItem($cart, $product1);
+        $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
 
         $this->entityManager->persist($option);
         $this->entityManager->persist($product1);

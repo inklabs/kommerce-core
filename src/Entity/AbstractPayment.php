@@ -20,7 +20,7 @@ abstract class AbstractPayment implements IdEntityInterface
         $this->setCreated();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('amount', new Assert\NotNull);
         $metadata->addPropertyConstraint('amount', new Assert\Range([
@@ -29,12 +29,12 @@ abstract class AbstractPayment implements IdEntityInterface
         ]));
     }
 
-    public function setAmount($amount)
+    public function setAmount(int $amount)
     {
-        $this->amount = (int) $amount;
+        $this->amount = $amount;
     }
 
-    public function getAmount()
+    public function getAmount(): int
     {
         return $this->amount;
     }
@@ -44,7 +44,7 @@ abstract class AbstractPayment implements IdEntityInterface
         $this->order = $order;
     }
 
-    public function getOrder()
+    public function getOrder(): Order
     {
         return $this->order;
     }

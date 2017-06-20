@@ -13,7 +13,7 @@ class TextOptionType extends AbstractIntegerType
     const TIME     = 7;
     const DATETIME = 8;
 
-    public static function getNameMap()
+    public static function getNameMap(): array
     {
         return [
             self::TEXT => 'Text',
@@ -25,7 +25,7 @@ class TextOptionType extends AbstractIntegerType
         ];
     }
 
-    public static function getSlugMap()
+    public static function getSlugMap(): array
     {
         return [
             self::TEXT => 'text',
@@ -37,7 +37,7 @@ class TextOptionType extends AbstractIntegerType
         ];
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([
             'choices' => self::validIds(),

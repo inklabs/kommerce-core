@@ -52,8 +52,8 @@ class ImportOrderService implements ImportOrderServiceInterface
             $cartTotal->tax = $tax;
             $cartTotal->total = $total;
 
-            $order = new Order;
-            $order->setIp4(null);
+            $order = new Order();
+            $order->setIp4('0.0.0.0');
             $order->setExternalId($externalId);
             $order->setTotal($cartTotal);
             $order->setCreated(new DateTime($date));

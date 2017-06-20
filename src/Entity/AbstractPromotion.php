@@ -10,13 +10,13 @@ abstract class AbstractPromotion implements IdEntityInterface
 {
     use TimeTrait, IdTrait, PromotionRedemptionTrait, PromotionStartEndDateTrait;
 
-    /** @var string */
+    /** @var string|null */
     protected $name;
 
     /** @var PromotionType */
     protected $type;
 
-    /** @var int */
+    /** @var int|null */
     protected $value;
 
     /** @var boolean */
@@ -31,7 +31,7 @@ abstract class AbstractPromotion implements IdEntityInterface
         $this->setReducesTaxSubtotal(true);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\Length([
             'max' => 255,
@@ -48,12 +48,12 @@ abstract class AbstractPromotion implements IdEntityInterface
         self::loadPromotionStartEndDateValidatorMetadata($metadata);
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -63,30 +63,27 @@ abstract class AbstractPromotion implements IdEntityInterface
         $this->type = $type;
     }
 
-    public function getType()
+    public function getType(): PromotionType
     {
         return $this->type;
     }
 
-    public function setValue($value)
+    public function setValue(int $value)
     {
-        $this->value = (int) $value;
+        $this->value = $value;
     }
 
-    public function getValue()
+    public function getValue(): ?int
     {
         return $this->value;
     }
 
-    /**
-     * @param boolean $reducesTaxSubtotal
-     */
-    public function setReducesTaxSubtotal($reducesTaxSubtotal)
+    public function setReducesTaxSubtotal(bool $reducesTaxSubtotal): void
     {
-        $this->reducesTaxSubtotal = (bool) $reducesTaxSubtotal;
+        $this->reducesTaxSubtotal = $reducesTaxSubtotal;
     }
 
-    public function getReducesTaxSubtotal()
+    public function getReducesTaxSubtotal(): bool
     {
         return $this->reducesTaxSubtotal;
     }
@@ -97,22 +94,18 @@ abstract class AbstractPromotion implements IdEntityInterface
             and $this->isRedemptionCountValid();
     }
 
-    /**
-     * @param int $unitPrice
-     * @return int
-     */
-    public function getUnitPrice($unitPrice)
+    public function getUnitPrice(int $unitPrice): int
     {
         $returnValue = 0;
 
         if ($this->type->isFixed()) {
             $returnValue = $unitPrice - $this->value;
         } elseif ($this->type->isPercent()) {
-            $returnValue = $unitPrice - ($unitPrice * ($this->value / 100));
+            $returnValue = (int) $unitPrice - ($unitPrice * ($this->value / 100));
         } elseif ($this->type->isExact()) {
             $returnValue = $this->value;
         }
 
-        return (int) $returnValue;
+        return $returnValue;
     }
 }

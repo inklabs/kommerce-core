@@ -9,9 +9,6 @@ trait CreatedTrait
     /** @var int */
     protected $created;
 
-    /**
-     * @param DateTime $created
-     */
     public function setCreated(DateTime $created = null)
     {
         if ($created === null) {
@@ -21,10 +18,7 @@ trait CreatedTrait
         $this->created = $created->getTimestamp();
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getCreated()
+    public function getCreated(): DateTime
     {
         $created = new DateTime();
         $created->setTimestamp($this->created);

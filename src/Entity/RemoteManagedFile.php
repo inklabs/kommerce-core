@@ -20,53 +20,42 @@ class RemoteManagedFile implements ManagedFileInterface
     /** @var int */
     private $height;
 
-    /**
-     * @param string $uri
-     * @param int $imageType
-     * @param string $mimeType
-     */
-    public function __construct($uri, $imageType, $mimeType)
+    public function __construct(string $uri, int $imageType, string $mimeType)
     {
-        $this->uri = (string) $uri;
-        $this->imageType = (int) $imageType;
-        $this->mimeType = (string) $mimeType;
+        $this->uri = $uri;
+        $this->imageType = $imageType;
+        $this->mimeType = $mimeType;
 
         $this->width = 0;
         $this->height = 0;
     }
 
-    public function getUri()
+    public function getUri(): string
     {
         return $this->uri;
     }
 
-    public function getFullPath()
+    public function getFullPath(): string
     {
         throw ManagedFileException::invalidMethodCall();
     }
 
-    public function getImageType()
+    public function getImageType(): int
     {
         return $this->imageType;
     }
 
-    public function getMimeType()
+    public function getMimeType(): string
     {
         return $this->mimeType;
     }
 
-    /**
-     * @return int
-     */
-    public function getWidth()
+    public function getWidth(): int
     {
         return $this->width;
     }
 
-    /**
-     * @return int
-     */
-    public function getHeight()
+    public function getHeight(): int
     {
         return $this->height;
     }

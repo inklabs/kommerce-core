@@ -25,11 +25,13 @@
             </options>
         </field>
 
-        <many-to-one field="orderItem" target-entity="OrderItem" inversed-by="orderItemOptionValues" fetch="EAGER"/>
+        <many-to-one field="orderItem" target-entity="OrderItem" inversed-by="orderItemOptionValues" fetch="EAGER">
+            <join-column nullable="false"/>
+        </many-to-one>
 
-        <many-to-one field="optionValue"
-                     target-entity="inklabs\kommerce\Entity\OptionValue"
-                     fetch="EAGER" />
+        <many-to-one field="optionValue" target-entity="inklabs\kommerce\Entity\OptionValue" fetch="EAGER">
+            <join-column nullable="false"/>
+        </many-to-one>
 
     </entity>
 

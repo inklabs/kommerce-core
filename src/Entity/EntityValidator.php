@@ -7,10 +7,6 @@ use Symfony\Component\Validator\Validation;
 
 class EntityValidator
 {
-    /**
-     * @param ValidationInterface $entity
-     * @throws EntityValidatorException
-     */
     public function throwValidationErrors(ValidationInterface $entity)
     {
         $validator = Validation::createValidatorBuilder()

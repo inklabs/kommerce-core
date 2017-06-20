@@ -9,7 +9,7 @@ class UserLoginResultType extends AbstractIntegerType
     const FAIL    = 0;
     const SUCCESS = 1;
 
-    public static function getNameMap()
+    public static function getNameMap(): array
     {
         return [
             self::FAIL => 'Fail',
@@ -17,7 +17,7 @@ class UserLoginResultType extends AbstractIntegerType
         ];
     }
 
-    public static function getSlugMap()
+    public static function getSlugMap(): array
     {
         return [
             self::FAIL => 'fail',
@@ -25,7 +25,7 @@ class UserLoginResultType extends AbstractIntegerType
         ];
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([
             'choices' => self::validIds(),

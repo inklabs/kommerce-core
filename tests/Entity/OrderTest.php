@@ -9,32 +9,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class OrderTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $order = new Order;
-
-        $this->assertTrue($order->getId() instanceof UuidInterface);
-        $this->assertTrue($order->getCreated() instanceof DateTime);
-        $this->assertSame(null, $order->getExternalId());
-        $this->assertSame(null, $order->getReferenceNumber());
-        $this->assertSame('0.0.0.0', $order->getIp4());
-        $this->assertSame(0, $order->totalItems());
-        $this->assertSame(0, $order->totalQuantity());
-        $this->assertTrue($order->getStatus()->isPending());
-        $this->assertSame(null, $order->getTotal());
-        $this->assertSame(null, $order->getShippingAddress());
-        $this->assertSame(null, $order->getBillingAddress());
-        $this->assertSame(null, $order->getUser());
-        $this->assertSame(null, $order->getShipmentRate());
-        $this->assertSame(null, $order->getTaxRate());
-        $this->assertSame(null, $order->getOrderItem(0));
-        $this->assertSame(0, count($order->getOrderItems()));
-        $this->assertSame(0, count($order->getCoupons()));
-        $this->assertSame(0, count($order->getPayments()));
-        $this->assertSame(0, count($order->getProducts()));
-        $this->assertSame(0, count($order->getShipments()));
-    }
-
     public function testCreate()
     {
         $shippingAddress = $this->dummyData->getOrderAddress();
@@ -114,17 +88,14 @@ class OrderTest extends EntityTestCase
         $taxRate = $this->dummyData->getTaxRate();
         $shipmentRate = $this->dummyData->getShipmentRate(1000);
 
-        $cartItem1 = $this->dummyData->getCartItem($productX);
-        $cartItem2 = $this->dummyData->getCartItem($productY);
-
-        $cart = $this->dummyData->getCart([
-            $cartItem1,
-            $cartItem2
-        ]);
+        $cart = $this->dummyData->getCart();
         $cart->setUser($user);
         $cart->addCoupon($coupon);
         $cart->setTaxRate($taxRate);
         $cart->setShipmentRate($shipmentRate);
+
+        $cartItem1 = $this->dummyData->getCartItem($cart, $productX);
+        $cartItem2 = $this->dummyData->getCartItem($cart, $productY);
 
         $orderId = Uuid::uuid4();
         $order = Order::fromCart($orderId, $user, $cart, $cartCalculator, '10.0.0.1');

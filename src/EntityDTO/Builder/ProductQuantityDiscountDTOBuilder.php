@@ -24,7 +24,6 @@ class ProductQuantityDiscountDTOBuilder extends AbstractPromotionDTOBuilder
 
     protected function preBuild()
     {
-        $this->entityDTO->customerGroup  = $this->entity->getCustomerGroup();
         $this->entityDTO->quantity = $this->entity->getQuantity();
         $this->entityDTO->flagApplyCatalogPromotions = $this->entity->getFlagApplyCatalogPromotions();
     }

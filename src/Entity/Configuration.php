@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,13 +18,7 @@ class Configuration implements IdEntityInterface
     /** @var string */
     protected $value;
 
-    /**
-     * @param string $key
-     * @param string $name
-     * @param string $value
-     * @param null $id
-     */
-    public function __construct($key, $name, $value, $id = null)
+    public function __construct(string $key, string $name, string $value, UuidInterface $id = null)
     {
         $this->setId($id);
         $this->setCreated();
@@ -32,7 +27,7 @@ class Configuration implements IdEntityInterface
         $this->value = (string) $value;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('key', new Assert\NotBlank);
         $metadata->addPropertyConstraint('key', new Assert\Length([
@@ -50,41 +45,32 @@ class Configuration implements IdEntityInterface
         ]));
     }
 
-    /**
-     * @param string $key
-     */
-    public function setKey($key)
+    public function setKey(string $key)
     {
-        $this->key = (string) $key;
+        $this->key = $key;
     }
 
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $value
-     */
-    public function setValue($value)
+    public function setValue(string $value)
     {
-        $this->value = (string) $value;
+        $this->value = $value;
     }
 
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }

@@ -12,7 +12,7 @@ class Product implements IdEntityInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait, StringSetterTrait;
 
-    /** @var string */
+    /** @var string|null */
     protected $sku;
 
     /** @var string */
@@ -48,13 +48,13 @@ class Product implements IdEntityInterface, EnabledAttachmentInterface
     /** @var int (in ounces) */
     protected $shippingWeight;
 
-    /** @var string */
+    /** @var string|null */
     protected $description;
 
-    /** @var float */
+    /** @var float|null */
     protected $rating;
 
-    /** @var string */
+    /** @var string|null */
     protected $defaultImage;
 
     /** @var Tag[] */
@@ -96,7 +96,7 @@ class Product implements IdEntityInterface, EnabledAttachmentInterface
         $this->shippingWeight = 0;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([
@@ -130,7 +130,7 @@ class Product implements IdEntityInterface, EnabledAttachmentInterface
         ]));
     }
 
-    public function getPrice(PricingInterface $pricing, $quantity = 1)
+    public function getPrice(PricingInterface $pricing, $quantity = 1): Price
     {
         return $pricing->getPrice(
             $this,
@@ -138,160 +138,142 @@ class Product implements IdEntityInterface, EnabledAttachmentInterface
         );
     }
 
-    public function setSku($sku)
+    public function setSku(?string $sku)
     {
         $this->setStringOrNull($this->sku, $sku);
     }
 
-    public function getSku()
+    public function getSku(): ?string
     {
         return $this->sku;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setUnitPrice($unitPrice)
+    public function setUnitPrice(int $unitPrice)
     {
-        $this->unitPrice = (int) $unitPrice;
+        $this->unitPrice = $unitPrice;
     }
 
-    public function getUnitPrice()
+    public function getUnitPrice(): int
     {
         return $this->unitPrice;
     }
 
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity)
     {
-        $this->quantity = (int) $quantity;
+        $this->quantity = $quantity;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
 
-    /**
-     * @param boolean $isInventoryRequired
-     */
-    public function setIsInventoryRequired($isInventoryRequired)
+    public function setIsInventoryRequired(bool $isInventoryRequired)
     {
-        $this->isInventoryRequired = (bool) $isInventoryRequired;
+        $this->isInventoryRequired = $isInventoryRequired;
     }
 
-    public function isInventoryRequired()
+    public function isInventoryRequired(): bool
     {
         return $this->isInventoryRequired;
     }
 
-    /**
-     * @param boolean $isPriceVisible
-     */
-    public function setIsPriceVisible($isPriceVisible)
+    public function setIsPriceVisible(bool $isPriceVisible)
     {
-        $this->isPriceVisible = (bool) $isPriceVisible;
+        $this->isPriceVisible = $isPriceVisible;
     }
 
-    public function isPriceVisible()
+    public function isPriceVisible(): bool
     {
         return $this->isPriceVisible;
     }
 
-    /**
-     * @param boolean $isActive
-     */
-    public function setIsActive($isActive)
+    public function setIsActive(bool $isActive)
     {
-        $this->isActive = (bool) $isActive;
+        $this->isActive = $isActive;
     }
 
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->isActive;
     }
 
-    /**
-     * @param boolean $isVisible
-     */
-    public function setIsVisible($isVisible)
+    public function setIsVisible(bool $isVisible)
     {
-        $this->isVisible = (bool) $isVisible;
+        $this->isVisible = $isVisible;
     }
 
-    public function isVisible()
+    public function isVisible(): bool
     {
         return $this->isVisible;
     }
 
-    /**
-     * @param boolean $isShippable
-     */
-    public function setIsShippable($isShippable)
+    public function setIsShippable(bool $isShippable)
     {
-        $this->isShippable = (bool) $isShippable;
+        $this->isShippable = $isShippable;
     }
 
-    public function isShippable()
+    public function isShippable(): bool
     {
         return $this->isShippable;
     }
 
-    public function setShippingWeight($shippingWeight)
+    public function setShippingWeight(int $shippingWeight)
     {
-        $this->shippingWeight = (int) $shippingWeight;
+        $this->shippingWeight = $shippingWeight;
     }
 
-    public function getShippingWeight()
+    public function getShippingWeight(): int
     {
         return $this->shippingWeight;
     }
 
-    public function setDescription($description)
+    public function setDescription(?string $description)
     {
         $this->setStringOrNull($this->description, $description);
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDefaultImage($defaultImage)
+    public function setDefaultImage(?string $defaultImage)
     {
         $this->setStringOrNull($this->defaultImage, $defaultImage);
     }
 
-    public function getDefaultImage()
+    public function getDefaultImage(): ?string
     {
         return $this->defaultImage;
     }
 
-    public function setIsTaxable($isTaxable)
+    public function setIsTaxable(bool $isTaxable)
     {
-        $this->isTaxable = (bool) $isTaxable;
+        $this->isTaxable = $isTaxable;
     }
 
-    public function isTaxable()
+    public function isTaxable(): bool
     {
         return $this->isTaxable;
     }
 
-    /**
-     * @param float $rating
-     */
-    public function setRating($rating)
+    public function setRating(?float $rating)
     {
-        $this->rating = (float) $rating;
+        $this->rating = $rating;
     }
 
-    public function getRating()
+    public function getRating(): ?float
     {
         if ($this->rating === null) {
             return null;
@@ -300,7 +282,7 @@ class Product implements IdEntityInterface, EnabledAttachmentInterface
         return ($this->rating / 100);
     }
 
-    public function inStock()
+    public function inStock(): bool
     {
         if ($this->isInventoryRequired && ($this->quantity < 1)) {
             return false;
@@ -404,25 +386,22 @@ class Product implements IdEntityInterface, EnabledAttachmentInterface
         $this->productAttributes->add($productAttribute);
     }
 
-    /**
-     * @param bool $areAttachmentsEnabled
-     */
-    public function setAreAttachmentsEnabled($areAttachmentsEnabled)
+    public function setAreAttachmentsEnabled(bool $areAttachmentsEnabled)
     {
-        $this->areAttachmentsEnabled = (bool) $areAttachmentsEnabled;
+        $this->areAttachmentsEnabled = $areAttachmentsEnabled;
     }
 
-    public function disableAttachments()
+    public function disableAttachments(): void
     {
         $this->areAttachmentsEnabled = false;
     }
 
-    public function enableAttachments()
+    public function enableAttachments(): void
     {
         $this->areAttachmentsEnabled = true;
     }
 
-    public function areAttachmentsEnabled()
+    public function areAttachmentsEnabled(): bool
     {
         foreach ($this->tags as $tag) {
             if ($tag->areAttachmentsEnabled()) {
@@ -433,11 +412,7 @@ class Product implements IdEntityInterface, EnabledAttachmentInterface
         return $this->areAttachmentsEnabled;
     }
 
-    /**
-     * @param int $quantity
-     * @throws InsufficientInventoryException
-     */
-    public function reduceQuantity($quantity)
+    public function reduceQuantity(int $quantity)
     {
         if ($quantity > $this->quantity) {
             throw new InsufficientInventoryException();

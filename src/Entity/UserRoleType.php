@@ -9,7 +9,7 @@ class UserRoleType extends AbstractIntegerType
     const DEVELOPER = 0;
     const ADMIN     = 1;
 
-    public static function getNameMap()
+    public static function getNameMap(): array
     {
         return [
             self::DEVELOPER => 'Developer',
@@ -17,7 +17,7 @@ class UserRoleType extends AbstractIntegerType
         ];
     }
 
-    public static function getSlugMap()
+    public static function getSlugMap(): array
     {
         return [
             self::DEVELOPER => 'developer',
@@ -25,7 +25,7 @@ class UserRoleType extends AbstractIntegerType
         ];
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([
             'choices' => self::validIds(),
