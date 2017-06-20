@@ -5,21 +5,6 @@ use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class ShipmentLabelTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $shipmentLabel = new ShipmentLabel;
-
-        $this->assertSame(null, $shipmentLabel->getExternalId());
-        $this->assertSame(null, $shipmentLabel->getResolution());
-        $this->assertSame(null, $shipmentLabel->getSize());
-        $this->assertSame(null, $shipmentLabel->getType());
-        $this->assertSame(null, $shipmentLabel->getFileType());
-        $this->assertSame(null, $shipmentLabel->getUrl());
-        $this->assertSame(null, $shipmentLabel->getPdfUrl());
-        $this->assertSame(null, $shipmentLabel->getEpl2Url());
-        $this->assertSame(null, $shipmentLabel->getZplUrl());
-    }
-
     public function testCreate()
     {
         $shipmentLabel = new ShipmentLabel;

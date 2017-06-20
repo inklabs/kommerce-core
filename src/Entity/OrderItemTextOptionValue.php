@@ -25,12 +25,12 @@ class OrderItemTextOptionValue implements IdEntityInterface
         $this->setCreated();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         // TODO: Implement loadValidatorMetadata() method.
     }
 
-    public function getTextOption()
+    public function getTextOption(): TextOption
     {
         return $this->textOption;
     }
@@ -41,25 +41,22 @@ class OrderItemTextOptionValue implements IdEntityInterface
         $this->textOptionName = $textOption->getName();
     }
 
-    public function getTextOptionName()
+    public function getTextOptionName(): string
     {
         return $this->textOptionName;
     }
 
-    public function getTextOptionValue()
+    public function getTextOptionValue(): string
     {
         return $this->textOptionValue;
     }
 
-    /**
-     * @param string $textOptionValue
-     */
-    public function setTextOptionValue($textOptionValue)
+    public function setTextOptionValue(string $textOptionValue)
     {
         $this->textOptionValue = $textOptionValue;
     }
 
-    public function getOrderItem()
+    public function getOrderItem(): OrderItem
     {
         return $this->orderItem;
     }

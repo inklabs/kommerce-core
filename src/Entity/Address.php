@@ -6,28 +6,28 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Address implements ValidationInterface
 {
-    /** @var string */
+    /** @var string|null */
     protected $attention;
 
-    /** @var string */
+    /** @var string|null */
     protected $company;
 
-    /** @var string */
+    /** @var string|null */
     protected $address1;
 
-    /** @var string */
+    /** @var string|null */
     protected $address2;
 
-    /** @var string */
+    /** @var string|null */
     protected $city;
 
-    /** @var string */
+    /** @var string|null */
     protected $state;
 
-    /** @var string */
+    /** @var string|null */
     protected $zip5;
 
-    /** @var string */
+    /** @var string|null */
     protected $zip4;
 
     /** @var Point */
@@ -38,7 +38,7 @@ class Address implements ValidationInterface
         $this->point = new Point();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('attention', new Assert\NotBlank);
         $metadata->addPropertyConstraint('attention', new Assert\Length([
@@ -85,87 +85,87 @@ class Address implements ValidationInterface
         $metadata->addPropertyConstraint('point', new Assert\Valid);
     }
 
-    public function getAddress1()
+    public function getAddress1(): ?string
     {
         return $this->address1;
     }
 
-    public function setAddress1($address1)
+    public function setAddress1(string $address1)
     {
-        $this->address1 = (string) $address1;
+        $this->address1 = $address1;
     }
 
-    public function getAddress2()
+    public function getAddress2(): ?string
     {
         return $this->address2;
     }
 
-    public function setAddress2($address2)
+    public function setAddress2(string $address2)
     {
-        $this->address2 = (string) $address2;
+        $this->address2 = $address2;
     }
 
-    public function getAttention()
+    public function getAttention(): ?string
     {
         return $this->attention;
     }
 
-    public function setAttention($attention)
+    public function setAttention(string $attention)
     {
-        $this->attention = (string) $attention;
+        $this->attention = $attention;
     }
 
-    public function getCity()
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    public function setCity($city)
+    public function setCity(string $city)
     {
-        $this->city = (string) $city;
+        $this->city = $city;
     }
 
-    public function getCompany()
+    public function getCompany(): ?string
     {
         return $this->company;
     }
 
-    public function setCompany($company)
+    public function setCompany(string $company)
     {
-        $this->company = (string) $company;
+        $this->company = $company;
     }
 
-    public function getState()
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    public function setState($state)
+    public function setState(string $state)
     {
-        $this->state = (string) $state;
+        $this->state = $state;
     }
 
-    public function getZip4()
+    public function getZip4(): ?string
     {
         return $this->zip4;
     }
 
-    public function setZip4($zip4)
+    public function setZip4(string $zip4)
     {
-        $this->zip4 = (string) $zip4;
+        $this->zip4 = $zip4;
     }
 
-    public function getZip5()
+    public function getZip5(): ?string
     {
         return $this->zip5;
     }
 
-    public function setZip5($zip5)
+    public function setZip5(string $zip5)
     {
-        $this->zip5 = (string) $zip5;
+        $this->zip5 = $zip5;
     }
 
-    public function getPoint()
+    public function getPoint(): Point
     {
         return $this->point;
     }

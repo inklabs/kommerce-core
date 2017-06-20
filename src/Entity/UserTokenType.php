@@ -12,7 +12,7 @@ class UserTokenType extends AbstractIntegerType
     const TWITTER  = 3;
     const YAHOO    = 4;
 
-    public static function getNameMap()
+    public static function getNameMap(): array
     {
         return [
             self::INTERNAL => 'Internal',
@@ -23,7 +23,7 @@ class UserTokenType extends AbstractIntegerType
         ];
     }
 
-    public static function getSlugMap()
+    public static function getSlugMap(): array
     {
         return [
             self::INTERNAL => 'internal',
@@ -34,7 +34,7 @@ class UserTokenType extends AbstractIntegerType
         ];
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([
             'choices' => self::validIds(),

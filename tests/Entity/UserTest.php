@@ -8,26 +8,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class UserTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $user = new User;
-
-        $this->assertTrue($user->getId() instanceof UuidInterface);
-        $this->assertTrue($user->getCreated() instanceof DateTime);
-        $this->assertTrue($user->getStatus()->isActive());
-        $this->assertSame(null, $user->getExternalId());
-        $this->assertSame(null, $user->getEmail());
-        $this->assertSame(null, $user->getFirstName());
-        $this->assertSame(null, $user->getLastName());
-        $this->assertSame(null, $user->getCart());
-        $this->assertSame(null, $user->getLastLogin());
-        $this->assertSame(0, $user->getTotalLogins());
-        $this->assertSame(0, count($user->getUserRoles()));
-        $this->assertSame(0, count($user->getUserTokens()));
-        $this->assertSame(0, count($user->getUserLogins()));
-        $this->assertSame(0, count($user->getOrders()));
-    }
-
     public function testCreate()
     {
         $userRole = $this->dummyData->getUserRole();

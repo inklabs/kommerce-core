@@ -9,16 +9,16 @@ class TaxRate implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 
-    /** @var string */
+    /** @var string|null */
     protected $state;
 
-    /** @var string */
+    /** @var string|null */
     protected $zip5;
 
-    /** @var string */
+    /** @var string|null */
     protected $zip5From;
 
-    /** @var string */
+    /** @var string|null */
     protected $zip5To;
 
     /** @var double */
@@ -27,17 +27,14 @@ class TaxRate implements IdEntityInterface
     /** @var boolean */
     protected $applyToShipping;
 
-    /**
-     * @param UuidInterface $id
-     */
-    public function __construct($id = null)
+    public function __construct(UuidInterface $id = null)
     {
         $this->setId($id);
         $this->setCreated();
         $this->applyToShipping = false;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('state', new Assert\Length([
             'min' => 2,
@@ -65,15 +62,12 @@ class TaxRate implements IdEntityInterface
         ]));
     }
 
-    /**
-     * @param string $zip5
-     * @param float $rate
-     * @param bool $applyToShipping
-     * @param UuidInterface $id
-     * @return TaxRate
-     */
-    public static function createZip5($zip5, $rate, $applyToShipping, $id = null)
-    {
+    public static function createZip5(
+        string $zip5,
+        float $rate,
+        bool $applyToShipping,
+        UuidInterface $id = null
+    ): TaxRate {
         $taxRate = new self($id);
         $taxRate->setZip5($zip5);
         $taxRate->setRate($rate);
@@ -81,16 +75,13 @@ class TaxRate implements IdEntityInterface
         return $taxRate;
     }
 
-    /**
-     * @param string $zip5From
-     * @param string $zip5To
-     * @param float $rate
-     * @param bool $applyToShipping
-     * @param UuidInterface $id
-     * @return TaxRate
-     */
-    public static function createZip5Range($zip5From, $zip5To, $rate, $applyToShipping, $id = null)
-    {
+    public static function createZip5Range(
+        string $zip5From,
+        string $zip5To,
+        float $rate,
+        bool $applyToShipping,
+        UuidInterface $id = null
+    ): TaxRate {
         $taxRate = new self($id);
         $taxRate->setZip5From($zip5From);
         $taxRate->setZip5To($zip5To);
@@ -99,15 +90,12 @@ class TaxRate implements IdEntityInterface
         return $taxRate;
     }
 
-    /**
-     * @param string $state
-     * @param float $rate
-     * @param bool $applyToShipping
-     * @param UuidInterface $id
-     * @return TaxRate
-     */
-    public static function createState($state, $rate, $applyToShipping, $id = null)
-    {
+    public static function createState(
+        string $state,
+        float $rate,
+        bool $applyToShipping,
+        UuidInterface $id = null
+    ): TaxRate {
         $taxRate = new self($id);
         $taxRate->setState($state);
         $taxRate->setRate($rate);
@@ -115,91 +103,67 @@ class TaxRate implements IdEntityInterface
         return $taxRate;
     }
 
-    public function setState($state)
+    public function setState(?string $state)
     {
         $this->state = $state;
     }
 
-    public function getState()
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @param string $zip5
-     */
-    public function setZip5($zip5 = null)
+    public function setZip5(?string $zip5 = null)
     {
-        if ($zip5 !== null) {
-            $zip5 = (string) $zip5;
-        }
-
         $this->zip5 = $zip5;
     }
 
-    public function getZip5()
+    public function getZip5(): ?string
     {
         return $this->zip5;
     }
 
-    /**
-     * @param string $zip5From
-     */
-    public function setZip5From($zip5From = null)
+    public function setZip5From(?string $zip5From = null)
     {
-        if ($zip5From !== null) {
-            $zip5From = (string) $zip5From;
-        }
-
         $this->zip5From = $zip5From;
     }
 
-    public function getZip5From()
+    public function getZip5From(): ?string
     {
         return $this->zip5From;
     }
 
-    /**
-     * @param string $zip5To
-     */
-    public function setZip5To($zip5To = null)
+    public function setZip5To(?string $zip5To = null)
     {
-        if ($zip5To !== null) {
-            $zip5To = (string) $zip5To;
-        }
-
         $this->zip5To = $zip5To;
     }
 
-    public function getZip5To()
+    public function getZip5To(): ?string
     {
         return $this->zip5To;
     }
 
-    /**
-     * @param double $rate
-     */
-    public function setRate($rate)
+    public function setRate(float $rate)
     {
-        $this->rate = (double) $rate;
+        $this->rate = $rate;
     }
 
-    public function getRate()
+    public function getRate(): float
     {
         return $this->rate;
     }
 
-    public function setApplyToShipping($applyToShipping)
+    public function setApplyToShipping(bool $applyToShipping)
     {
-        $this->applyToShipping = (bool) $applyToShipping;
+        $this->applyToShipping = $applyToShipping;
     }
 
-    public function getApplyToShipping()
+    public function getApplyToShipping(): bool
     {
         return $this->applyToShipping;
     }
 
-    public function getTax($taxSubtotal, $shipping = 0)
+    public function getTax(int $taxSubtotal, int $shipping = 0)
     {
         $newTaxSubtotal = $taxSubtotal;
         if ($this->applyToShipping) {
@@ -209,7 +173,7 @@ class TaxRate implements IdEntityInterface
         return (int) round($newTaxSubtotal * ($this->rate / 100));
     }
 
-    public static function getValidStatesMap()
+    public static function getValidStatesMap(): array
     {
         return array(
             'AL' => 'Alabama',

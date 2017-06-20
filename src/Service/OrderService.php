@@ -202,27 +202,16 @@ class OrderService implements OrderServiceInterface
         $this->orderRepository->update($attachment);
     }
 
-    /**
-     * @param UuidInterface $orderId
-     * @param User $user
-     * @param Cart $cart
-     * @param CartCalculatorInterface $cartCalculator
-     * @param string $ip4
-     * @param OrderAddress $shippingAddress
-     * @param OrderAddress $billingAddress
-     * @param CreditCard $creditCard
-     * @return Order
-     */
     public function createOrderFromCart(
         UuidInterface $orderId,
         User $user,
         Cart $cart,
         CartCalculatorInterface $cartCalculator,
-        $ip4,
+        string $ip4,
         OrderAddress $shippingAddress,
         OrderAddress $billingAddress,
         CreditCard $creditCard
-    ) {
+    ): Order {
         $this->throwValidationErrors($creditCard);
 
         $order = Order::fromCart($orderId, $user, $cart, $cartCalculator, $ip4);

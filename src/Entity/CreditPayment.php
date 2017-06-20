@@ -17,14 +17,14 @@ class CreditPayment extends AbstractPayment
         $this->chargeResponse = $chargeResponse;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         parent::loadValidatorMetadata($metadata);
 
         $metadata->addPropertyConstraint('chargeResponse', new Assert\Valid);
     }
 
-    public function getChargeResponse()
+    public function getChargeResponse(): ChargeResponse
     {
         return $this->chargeResponse;
     }

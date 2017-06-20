@@ -19,7 +19,7 @@ class CartPriceRuleTagItemTest extends EntityTestCase
         $tag1 = $this->dummyData->getTag();
         $product1 = $this->dummyData->getProduct();
         $product1->addTag($tag1);
-        $cartItem = $this->dummyData->getCartItem($product1, 1);
+        $cartItem = $this->dummyData->getCartItem(null, $product1, 1);
 
         $priceRule = new CartPriceRuleTagItem($tag1, 1);
 
@@ -31,7 +31,7 @@ class CartPriceRuleTagItemTest extends EntityTestCase
         $tag1 = $this->dummyData->getTag();
         $product1 = $this->dummyData->getProduct();
         $product1->addTag($tag1);
-        $cartItem = $this->dummyData->getCartItem($product1, 2);
+        $cartItem = $this->dummyData->getCartItem(null, $product1, 2);
 
         $priceRule = new CartPriceRuleTagItem($tag1, 1);
 
@@ -45,7 +45,7 @@ class CartPriceRuleTagItemTest extends EntityTestCase
         $product1 = $this->dummyData->getProduct();
         $product1->addTag($tag1);
 
-        $cartItem = $this->dummyData->getCartItem($product1, 1);
+        $cartItem = $this->dummyData->getCartItem(null, $product1, 1);
 
         $priceRule = new CartPriceRuleTagItem($tag2, 1);
 
@@ -57,7 +57,7 @@ class CartPriceRuleTagItemTest extends EntityTestCase
         $tag1 = $this->dummyData->getTag();
         $product1 = $this->dummyData->getProduct();
         $product1->addTag($tag1);
-        $cartItem = $this->dummyData->getCartItem($product1, 1);
+        $cartItem = $this->dummyData->getCartItem(null, $product1, 1);
 
         $priceRule = new CartPriceRuleTagItem($tag1, 2);
 

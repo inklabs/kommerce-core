@@ -9,11 +9,15 @@ class OptionValueTest extends EntityTestCase
     {
         $option = $this->dummyData->getOption();
         $optionValue = new OptionValue($option);
+        $optionValue->setSortOrder(0);
+        $optionValue->setName('Medium Shirt');
+        $optionValue->setShippingWeight(16);
+        $optionValue->setUnitPrice(500);
 
-        $this->assertSame(null, $optionValue->getSortOrder());
+        $this->assertSame(0, $optionValue->getSortOrder());
         $this->assertSame(null, $optionValue->getSku());
-        $this->assertSame(null, $optionValue->getName());
-        $this->assertSame(null, $optionValue->getShippingWeight());
+        $this->assertSame('Medium Shirt', $optionValue->getName());
+        $this->assertSame(16, $optionValue->getShippingWeight());
         $this->assertSame($option, $optionValue->getOption());
         $this->assertTrue($optionValue->getPrice() instanceof Price);
     }

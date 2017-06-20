@@ -15,11 +15,12 @@ class OptionProductTest extends EntityTestCase
         $product->setShippingWeight(6);
 
         $optionProduct = new OptionProduct($option, $product);
+        $optionProduct->setSortOrder(0);
 
         $this->assertSame('sku1', $optionProduct->getSku());
         $this->assertSame('Test Product', $optionProduct->getName());
         $this->assertSame(6, $optionProduct->getShippingWeight());
-        $this->assertSame(null, $optionProduct->getSortOrder());
+        $this->assertSame(0, $optionProduct->getSortOrder());
         $this->assertSame($option, $optionProduct->getOption());
         $this->assertSame($product, $optionProduct->getProduct());
         $this->assertTrue($optionProduct->getPrice($pricing) instanceof Price);

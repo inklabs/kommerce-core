@@ -6,43 +6,43 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class OrderAddress implements ValidationInterface
 {
-    /** @var string */
+    /** @var string|null */
     protected $firstName;
 
-    /** @var string */
+    /** @var string|null */
     protected $lastName;
 
-    /** @var string */
+    /** @var string|null */
     protected $company;
 
-    /** @var string */
+    /** @var string|null */
     protected $address1;
 
-    /** @var string */
+    /** @var string|null */
     protected $address2;
 
-    /** @var string */
+    /** @var string|null */
     protected $city;
 
-    /** @var string */
+    /** @var string|null */
     protected $state;
 
-    /** @var string */
+    /** @var string|null */
     protected $zip5;
 
-    /** @var string */
+    /** @var string|null */
     protected $zip4;
 
-    /** @var string */
+    /** @var string|null */
     protected $phone;
 
-    /** @var string */
+    /** @var string|null */
     protected $email;
 
-    /** @var string */
+    /** @var string|null */
     protected $country;
 
-    /** @var boolean */
+    /** @var boolean|null */
     protected $isResidential;
 
     public function __construct()
@@ -50,7 +50,7 @@ class OrderAddress implements ValidationInterface
         $this->setIsResidential(true);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('firstName', new Assert\Length([
             'max' => 32,
@@ -105,176 +105,137 @@ class OrderAddress implements ValidationInterface
         ]));
     }
 
-    public function getFirstName()
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
-    /**
-     * @param string $firstName
-     */
-    public function setFirstName($firstName)
+    public function setFirstName(?string $firstName)
     {
-        $this->firstName = (string) $firstName;
+        $this->firstName = $firstName;
     }
 
-    public function getLastName()
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
-    /**
-     * @param string $lastName
-     */
-    public function setLastName($lastName)
+    public function setLastName(?string $lastName)
     {
-        $this->lastName = (string) $lastName;
+        $this->lastName = $lastName;
     }
 
-    public function getCompany()
+    public function getCompany(): ?string
     {
         return $this->company;
     }
 
-    /**
-     * @param string $company
-     */
-    public function setCompany($company)
+    public function setCompany(?string $company)
     {
-        $this->company = (string) $company;
+        $this->company = $company;
     }
 
-    public function getAddress1()
+    public function getAddress1(): ?string
     {
         return $this->address1;
     }
 
-    /**
-     * @param string $address1
-     */
-    public function setAddress1($address1)
+    public function setAddress1(?string $address1)
     {
-        $this->address1 = (string) $address1;
+        $this->address1 = $address1;
     }
 
-    public function getAddress2()
+    public function getAddress2(): ?string
     {
         return $this->address2;
     }
 
-    /**
-     * @param string $address2
-     */
-    public function setAddress2($address2)
+    public function setAddress2(?string $address2)
     {
-        $this->address2 = (string) $address2;
+        $this->address2 = $address2;
     }
 
-    public function getCity()
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    /**
-     * @param string $city
-     */
-    public function setCity($city)
+    public function setCity(?string $city)
     {
-        $this->city = (string) $city;
+        $this->city = $city;
     }
 
-    public function getState()
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @param string $state
-     */
-    public function setState($state)
+    public function setState(?string $state)
     {
-        $this->state = (string) $state;
+        $this->state = $state;
     }
 
-    public function getZip5()
+    public function getZip5(): ?string
     {
         return $this->zip5;
     }
 
-    /**
-     * @param string $zip5
-     */
-    public function setZip5($zip5)
+    public function setZip5(?string $zip5)
     {
-        $this->zip5 = (string) $zip5;
+        $this->zip5 = $zip5;
     }
 
-    public function getZip4()
+    public function getZip4(): ?string
     {
         return $this->zip4;
     }
 
-    /**
-     * @param string $zip4
-     */
-    public function setZip4($zip4)
+    public function setZip4(?string $zip4)
     {
-        $this->zip4 = (string) $zip4;
+        $this->zip4 = $zip4;
     }
 
-    public function getPhone()
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    /**
-     * @param string $phone
-     */
-    public function setPhone($phone)
+    public function setPhone(?string $phone)
     {
-        $this->phone = (string) $phone;
+        $this->phone = $phone;
     }
 
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
+    public function setEmail(?string $email)
     {
-        $this->email = (string) $email;
+        $this->email = $email;
     }
 
-    public function getCountry()
+    public function getCountry(): ?string
     {
         return $this->country;
     }
 
-    /**
-     * @param string $country
-     */
-    public function setCountry($country)
+    public function setCountry(?string $country)
     {
-        $this->country = (string) $country;
+        $this->country = $country;
     }
 
-    public function isResidential()
+    public function isResidential(): ?bool
     {
         return $this->isResidential;
     }
 
-    /**
-     * @param boolean $isResidential
-     */
-    public function setIsResidential($isResidential)
+    public function setIsResidential(?bool $isResidential)
     {
-        $this->isResidential = (bool) $isResidential;
+        $this->isResidential = $isResidential;
     }
 
-    public function getFullName()
+    public function getFullName(): string
     {
         return trim($this->firstName . ' ' . $this->lastName);
     }

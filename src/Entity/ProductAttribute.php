@@ -33,12 +33,12 @@ class ProductAttribute implements EntityInterface
         $attributeValue->addProductAttribute($this);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         // TODO: Implement loadValidatorMetadata() method.
     }
 
-    public function getProduct()
+    public function getProduct(): Product
     {
         return $this->product;
     }
@@ -47,12 +47,12 @@ class ProductAttribute implements EntityInterface
      * @return Attribute
      * @deprecated
      */
-    public function getAttribute()
+    public function getAttribute(): Attribute
     {
         return $this->attribute;
     }
 
-    public function getAttributeValue()
+    public function getAttributeValue(): AttributeValue
     {
         return $this->attributeValue;
     }

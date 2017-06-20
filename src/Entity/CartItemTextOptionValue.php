@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,16 +12,17 @@ class CartItemTextOptionValue implements IdEntityInterface
     /** @var string */
     protected $textOptionValue;
 
-    /** @var TextOption */
+    /** @var TextOption|null */
     protected $textOption;
 
-    /** @var CartItem */
+    /** @var CartItem|null */
     protected $cartItem;
 
-    public function __construct()
+    public function __construct(string $textOptionValue, UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
+        $this->textOptionValue = $textOptionValue;
     }
 
     public function __clone()
@@ -28,7 +30,7 @@ class CartItemTextOptionValue implements IdEntityInterface
         $this->setId();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('textOptionValue', new Assert\NotBlank);
         $metadata->addPropertyConstraint('textOptionValue', new Assert\Length([
@@ -36,7 +38,7 @@ class CartItemTextOptionValue implements IdEntityInterface
         ]));
     }
 
-    public function getTextOption()
+    public function getTextOption(): ?TextOption
     {
         return $this->textOption;
     }
@@ -46,20 +48,17 @@ class CartItemTextOptionValue implements IdEntityInterface
         $this->textOption = $textOption;
     }
 
-    public function getTextOptionValue()
+    public function getTextOptionValue(): string
     {
         return $this->textOptionValue;
     }
 
-    /**
-     * @param string $textOptionValue
-     */
-    public function setTextOptionValue($textOptionValue)
+    public function setTextOptionValue(string $textOptionValue)
     {
         $this->textOptionValue = $textOptionValue;
     }
 
-    public function getCartItem()
+    public function getCartItem(): ?CartItem
     {
         return $this->cartItem;
     }

@@ -10,7 +10,7 @@ class UserStatusType extends AbstractIntegerType
     const ACTIVE = 1;
     const LOCKED = 2;
 
-    public static function getNameMap()
+    public static function getNameMap(): array
     {
         return [
             self::INACTIVE => 'Inactive',
@@ -19,7 +19,7 @@ class UserStatusType extends AbstractIntegerType
         ];
     }
 
-    public static function getSlugMap()
+    public static function getSlugMap(): array
     {
         return [
             self::INACTIVE => 'inactive',
@@ -28,7 +28,7 @@ class UserStatusType extends AbstractIntegerType
         ];
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([
             'choices' => self::validIds(),

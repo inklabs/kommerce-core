@@ -28,54 +28,46 @@ class OptionProduct implements IdEntityInterface
         $product->addOptionProduct($this);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
     }
 
-    /**
-     * @param int $sortOrder
-     */
-    public function setSortOrder($sortOrder)
+    public function setSortOrder(int $sortOrder)
     {
-        $this->sortOrder = (int) $sortOrder;
+        $this->sortOrder = $sortOrder;
     }
 
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return $this->sortOrder;
     }
 
-    public function getOption()
+    public function getOption(): Option
     {
         return $this->option;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->product->getName();
     }
 
-    public function getSku()
+    public function getSku(): string
     {
         return $this->product->getSku();
     }
 
-    public function getShippingWeight()
+    public function getShippingWeight(): int
     {
         return $this->getProduct()->getShippingWeight();
     }
 
-    /**
-     * @param PricingInterface $pricing
-     * @param int $quantity
-     * @return Price
-     */
-    public function getPrice(PricingInterface $pricing, $quantity = 1)
+    public function getPrice(PricingInterface $pricing, int $quantity = 1): Price
     {
         return $this->getProduct()->getPrice($pricing, $quantity);
     }
 
-    public function getProduct()
+    public function getProduct(): Product
     {
         return $this->product;
     }

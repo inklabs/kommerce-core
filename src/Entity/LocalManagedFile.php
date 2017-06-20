@@ -36,23 +36,14 @@ class LocalManagedFile implements ManagedFileInterface
     /** @var int */
     private $height;
 
-    /**
-     * @param string $fileExtension
-     * @param string $basePath
-     * @param int $imageType
-     * @param string $mimeType
-     * @param int $width
-     * @param int $height
-     * @param string|null $uriPrefix
-     */
     public function __construct(
-        $fileExtension,
-        $basePath,
-        $imageType,
-        $mimeType,
-        $width,
-        $height,
-        $uriPrefix = null
+        string $fileExtension,
+        string $basePath,
+        int $imageType,
+        string $mimeType,
+        int $width,
+        int $height,
+        string $uriPrefix = null
     ) {
         $this->id = Uuid::uuid4();
         $this->baseFileName = $this->id->getHex();
@@ -69,58 +60,52 @@ class LocalManagedFile implements ManagedFileInterface
         }
     }
 
-    public function getUri()
+    public function getUri(): string
     {
         return $this->uriPrefix . '/' . $this->getRelativePath();
     }
 
-    public function getFullPath()
+    public function getFullPath(): string
     {
         return $this->basePath . '/' . $this->getRelativePath();
     }
 
-    public function getImageType()
+    public function getImageType(): int
     {
         return $this->imageType;
     }
 
-    public function getMimeType()
+    public function getMimeType(): string
     {
         return $this->mimeType;
     }
 
-    private function getFileName()
+    private function getFileName(): string
     {
         return $this->baseFileName . '.' . $this->fileExtension;
     }
 
-    private function getSubPath()
+    private function getSubPath(): string
     {
         return $this->subPath;
     }
 
-    private function getRelativePath()
+    private function getRelativePath(): string
     {
         return $this->getSubPath() . '/' . $this->getFileName();
     }
 
-    private function buildSubPath()
+    private function buildSubPath(): string
     {
         return substr($this->baseFileName, 0, 3) . '/' . substr($this->baseFileName, 3, 3);
     }
 
-    /**
-     * @return int
-     */
-    public function getWidth()
+    public function getWidth(): int
     {
         return $this->width;
     }
 
-    /**
-     * @return int
-     */
-    public function getHeight()
+    public function getHeight(): int
     {
         return $this->height;
     }

@@ -28,7 +28,7 @@ class ChargeResponse implements ValidationInterface
     /** @var int */
     protected $created;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('externalId', new Assert\NotBlank);
         $metadata->addPropertyConstraint('externalId', new Assert\Length([

@@ -130,9 +130,9 @@ class DummyData
      * @param CartItem[] $cartItems
      * @return Cart
      */
-    public function getCart(array $cartItems = [])
+    public function getCart(array $cartItems = [] /** @todo remove */): Cart
     {
-        $cart = new Cart;
+        $cart = new Cart();
         $cart->setIp4('10.0.0.1');
         $cart->setShippingAddress($this->getOrderAddress());
 
@@ -164,21 +164,29 @@ class DummyData
         return new CartCalculator($pricing);
     }
 
-    public function getCartItem($product = null, $quantity = 2)
+    public function getCartItem(Cart $cart = null, Product $product = null, int $quantity = 2): CartItem
     {
+        if ($cart === null) {
+            $cart = $this->getCart();
+        }
+
         if ($product === null) {
             $product = $this->getProduct();
         }
 
-        $cartItem = new CartItem;
+        $cartItem = new CartItem($cart);
         $cartItem->setProduct($product);
         $cartItem->setQuantity($quantity);
 
         return $cartItem;
     }
 
-    public function getCartItemFull()
+    public function getCartItemFull(Cart $cart = null)
     {
+        if ($cart === null) {
+            $cart = new Cart();
+        }
+
         $tag = $this->getTag();
         $tag->addImage($this->getImage());
 
@@ -214,14 +222,12 @@ class DummyData
         $cartItemOptionValue = new CartItemOptionValue;
         $cartItemOptionValue->setOptionValue($optionValue);
 
-        $cartItemTextOptionValue = new CartItemTextOptionValue;
+        $cartItemTextOptionValue = new CartItemTextOptionValue('Happy Birthday');
         $cartItemTextOptionValue->setTextOption($textOption);
-        $cartItemTextOptionValue->setTextOptionValue('Happy Birthday');
 
-        $cartItem = new CartItem;
+        $cartItem = new CartItem($cart);
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
-        $cartItem->setCart(new Cart);
         $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
         $cartItem->addCartItemOptionValue($cartItemOptionValue);
         $cartItem->addCartItemTextOptionValue($cartItemTextOptionValue);
@@ -259,9 +265,8 @@ class DummyData
             $textOption = $this->getTextOption();
         }
 
-        $cartItemTextOptionValue = new CartItemTextOptionValue;
+        $cartItemTextOptionValue = new CartItemTextOptionValue('Happy Birthday');
         $cartItemTextOptionValue->setTextOption($textOption);
-        $cartItemTextOptionValue->setTextOptionValue('Happy Birthday');
 
         return $cartItemTextOptionValue;
     }
@@ -414,10 +419,7 @@ class DummyData
 
     public function getImage()
     {
-        $image = new Image;
-        $image->setPath('http://lorempixel.com/400/200/');
-        $image->setWidth(400);
-        $image->setHeight(200);
+        $image = new Image('http://lorempixel.com/400/200/', 400, 200);
         $image->setSortOrder(0);
 
         return $image;
@@ -856,7 +858,6 @@ class DummyData
         $productQuantityDiscount->setType(PromotionType::percent());
         $productQuantityDiscount->setQuantity(6);
         $productQuantityDiscount->setValue(5);
-        $productQuantityDiscount->setCustomerGroup(null);
         $productQuantityDiscount->setQuantity(1);
         $productQuantityDiscount->setFlagApplyCatalogPromotions(true);
 

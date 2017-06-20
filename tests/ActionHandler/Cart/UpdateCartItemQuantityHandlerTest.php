@@ -22,8 +22,8 @@ class UpdateCartItemQuantityHandlerTest extends ActionTestCase
     public function testHandle()
     {
         $product = $this->dummyData->getProduct();
-        $cartItem = $this->dummyData->getCartItem($product);
-        $cart = $this->dummyData->getCart([$cartItem]);
+        $cart = $this->dummyData->getCart();
+        $cartItem = $this->dummyData->getCartItem($cart, $product);
         $this->persistEntityAndFlushClear([
             $cart,
             $product,

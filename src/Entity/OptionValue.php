@@ -9,7 +9,7 @@ class OptionValue implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 
-    /** @var string */
+    /** @var string|null */
     protected $sku;
 
     /** @var string */
@@ -35,7 +35,7 @@ class OptionValue implements IdEntityInterface
         $option->addOptionValue($this);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([
@@ -59,29 +59,22 @@ class OptionValue implements IdEntityInterface
         ]));
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    /**
-     * @param int $unitPrice
-     */
-    public function setUnitPrice($unitPrice)
+    public function setUnitPrice(int $unitPrice)
     {
-        $this->unitPrice = (int) $unitPrice;
+        $this->unitPrice = $unitPrice;
     }
 
-    /**
-     * @param int $quantity
-     * @return Price
-     */
-    public function getPrice($quantity = 1)
+    public function getPrice(int $quantity = 1): Price
     {
         $price = new Price;
         $price->origUnitPrice = $this->getUnitPrice();
@@ -92,45 +85,42 @@ class OptionValue implements IdEntityInterface
         return $price;
     }
 
-    public function getUnitPrice()
+    public function getUnitPrice(): int
     {
         return $this->unitPrice;
     }
 
-    public function getSku()
+    public function getSku(): ?string
     {
         return $this->sku;
     }
 
-    public function setSku($sku)
+    public function setSku(string $sku)
     {
-        $this->sku = (string) $sku;
+        $this->sku = $sku;
     }
 
-    public function getShippingWeight()
+    public function getShippingWeight(): int
     {
         return $this->shippingWeight;
     }
 
-    public function setShippingWeight($shippingWeight)
+    public function setShippingWeight(int $shippingWeight)
     {
-        $this->shippingWeight = (int) $shippingWeight;
+        $this->shippingWeight = $shippingWeight;
     }
 
-    /**
-     * @param int $sortOrder
-     */
-    public function setSortOrder($sortOrder)
+    public function setSortOrder(int $sortOrder)
     {
-        $this->sortOrder = (int) $sortOrder;
+        $this->sortOrder = $sortOrder;
     }
 
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return $this->sortOrder;
     }
 
-    public function getOption()
+    public function getOption(): Option
     {
         return $this->option;
     }

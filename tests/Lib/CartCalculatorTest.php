@@ -18,21 +18,19 @@ class CartCalculatorTest extends LibTestCase
 {
     public function testGetTotal()
     {
-        $product1 = new Product;
+        $cart = new Cart();
+
+        $product1 = new Product();
         $product1->setUnitPrice(500);
-        $cartItem1 = new CartItem;
+        $cartItem1 = new CartItem($cart);
         $cartItem1->setProduct($product1);
         $cartItem1->setQuantity(2);
 
         $product2 = new Product;
         $product2->setUnitPrice(300);
-        $cartItem2 = new CartItem;
+        $cartItem2 = new CartItem($cart);
         $cartItem2->setProduct($product2);
         $cartItem2->setQuantity(1);
-
-        $cart = new Cart;
-        $cart->addCartItem($cartItem1);
-        $cart->addCartItem($cartItem2);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1300;
@@ -64,17 +62,14 @@ class CartCalculatorTest extends LibTestCase
         $pricing = new Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
-        $cartItem1 = new CartItem;
+        $cart = new Cart();
+        $cartItem1 = new CartItem($cart);
         $cartItem1->setProduct($productShirt);
         $cartItem1->setQuantity(1);
 
-        $cartItem2 = new CartItem;
+        $cartItem2 = new CartItem($cart);
         $cartItem2->setProduct($productPoster);
         $cartItem2->setQuantity(1);
-
-        $cart = new Cart;
-        $cart->addCartItem($cartItem1);
-        $cart->addCartItem($cartItem2);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 1700;
@@ -107,17 +102,14 @@ class CartCalculatorTest extends LibTestCase
         $pricing = new Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
-        $cartItem1 = new CartItem;
+        $cart = new Cart();
+        $cartItem1 = new CartItem($cart);
         $cartItem1->setProduct($productShirt);
         $cartItem1->setQuantity(2);
 
-        $cartItem2 = new CartItem;
+        $cartItem2 = new CartItem($cart);
         $cartItem2->setProduct($productPoster);
         $cartItem2->setQuantity(2);
-
-        $cart = new Cart;
-        $cart->addCartItem($cartItem1);
-        $cart->addCartItem($cartItem2);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 3400;
@@ -150,17 +142,14 @@ class CartCalculatorTest extends LibTestCase
         $pricing = new Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
-        $cartItem1 = new CartItem;
+        $cart = new Cart();
+        $cartItem1 = new CartItem($cart);
         $cartItem1->setProduct($productShirt);
         $cartItem1->setQuantity(3);
 
-        $cartItem2 = new CartItem;
+        $cartItem2 = new CartItem($cart);
         $cartItem2->setProduct($productPoster);
         $cartItem2->setQuantity(2);
-
-        $cart = new Cart;
-        $cart->addCartItem($cartItem1);
-        $cart->addCartItem($cartItem2);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 4600;
@@ -196,17 +185,14 @@ class CartCalculatorTest extends LibTestCase
         $pricing = new Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
-        $cartItem1 = new CartItem;
+        $cart = new Cart();
+        $cartItem1 = new CartItem($cart);
         $cartItem1->setProduct($productShirt);
         $cartItem1->setQuantity(1);
 
-        $cartItem2 = new CartItem;
+        $cartItem2 = new CartItem($cart);
         $cartItem2->setProduct($productJacket);
         $cartItem2->setQuantity(1);
-
-        $cart = new Cart;
-        $cart->addCartItem($cartItem1);
-        $cart->addCartItem($cartItem2);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 3700;
@@ -245,11 +231,12 @@ class CartCalculatorTest extends LibTestCase
         $pricing = new Pricing;
         $pricing->setCartPriceRules([$cartPriceRule]);
 
-        $cartItem1 = new CartItem;
+        $cart = new Cart();
+        $cartItem1 = new CartItem($cart);
         $cartItem1->setProduct($productShirt);
         $cartItem1->setQuantity(1);
 
-        $cartItem2 = new CartItem;
+        $cartItem2 = new CartItem($cart);
         $cartItem2->setProduct($productPoster);
         $cartItem2->setQuantity(1);
 
@@ -258,9 +245,6 @@ class CartCalculatorTest extends LibTestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $cart = new Cart;
-        $cart->addCartItem($cartItem1);
-        $cart->addCartItem($cartItem2);
         $cart->setTaxRate($taxRate);
 
         $expectedCartTotal = new CartTotal;
@@ -289,13 +273,13 @@ class CartCalculatorTest extends LibTestCase
         $coupon->setType(PromotionType::percent());
         $coupon->setValue(20);
 
-        $cartItem = new CartItem;
+        $cart = new Cart();
+
+        $cartItem = new CartItem($cart);
         $cartItem->setProduct($product);
         $cartItem->setQuantity(5);
 
-        $cart = new Cart;
         $cart->addCoupon($coupon);
-        $cart->addCartItem($cartItem);
 
         $expectedCartTotal = new CartTotal;
         $expectedCartTotal->origSubtotal = 2500;
@@ -322,13 +306,13 @@ class CartCalculatorTest extends LibTestCase
         $product = new Product;
         $product->setUnitPrice(500);
 
-        $cartItem = new CartItem;
+        $cart = new Cart();
+
+        $cartItem = new CartItem($cart);
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
 
-        $cart = new Cart;
         $cart->addCoupon($coupon);
-        $cart->addCartItem($cartItem);
         $cart->setShipmentRate(new ShipmentRate(new Money(1000, 'USD')));
 
         $expectedCartTotal = new CartTotal;
@@ -351,12 +335,12 @@ class CartCalculatorTest extends LibTestCase
         $product = new Product;
         $product->setUnitPrice(500);
 
-        $cartItem = new CartItem;
+        $cart = new Cart();
+
+        $cartItem = new CartItem($cart);
         $cartItem->setProduct($product);
         $cartItem->setQuantity(3);
 
-        $cart = new Cart;
-        $cart->addCartItem($cartItem);
         $cart->setShipmentRate(new ShipmentRate(new Money(1000, 'USD')));
 
         $expectedCartTotal = new CartTotal;
@@ -383,12 +367,12 @@ class CartCalculatorTest extends LibTestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $cartItem = new CartItem;
+        $cart = new Cart();
+
+        $cartItem = new CartItem($cart);
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
 
-        $cart = new Cart;
-        $cart->addCartItem($cartItem);
         $cart->setTaxRate($taxRate);
 
         $expectedCartTotal = new CartTotal;
@@ -417,12 +401,12 @@ class CartCalculatorTest extends LibTestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(true);
 
-        $cartItem = new CartItem;
+        $cart = new Cart();
+
+        $cartItem = new CartItem($cart);
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
 
-        $cart = new Cart;
-        $cart->addCartItem($cartItem);
         $cart->setShipmentRate(new ShipmentRate(new Money(1000, 'USD')));
         $cart->setTaxRate($taxRate);
 
@@ -452,12 +436,12 @@ class CartCalculatorTest extends LibTestCase
         $taxRate->setRate(8.0);
         $taxRate->setApplyToShipping(false);
 
-        $cartItem = new CartItem;
+        $cart = new Cart;
+
+        $cartItem = new CartItem($cart);
         $cartItem->setProduct($product);
         $cartItem->setQuantity(2);
 
-        $cart = new Cart;
-        $cart->addCartItem($cartItem);
         $cart->setTaxRate($taxRate);
 
         $expectedCartTotal = new CartTotal;
@@ -492,13 +476,13 @@ class CartCalculatorTest extends LibTestCase
         $coupon->setMaxOrderValue(10000);
         $coupon->setReducesTaxSubtotal(false);
 
-        $cartItem = new CartItem;
+        $cart = new Cart();
+
+        $cartItem = new CartItem($cart);
         $cartItem->setProduct($product);
         $cartItem->setQuantity(1);
 
-        $cart = new Cart;
         $cart->addCoupon($coupon);
-        $cart->addCartItem($cartItem);
         $cart->setTaxRate($taxRate);
 
         $expectedCartTotal = new CartTotal;

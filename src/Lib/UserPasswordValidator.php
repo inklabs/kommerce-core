@@ -14,11 +14,11 @@ class UserPasswordValidator
     public function assertPasswordValid(User $user, $password)
     {
         if (strlen($password) < 8) {
-            throw new UserPasswordValidationException('Password must be at least 8 characters');
+            throw UserPasswordValidationException::invalidLength();
         }
 
         if ($user->verifyPassword($password)) {
-            throw new UserPasswordValidationException('Invalid password');
+            throw UserPasswordValidationException::matchesExistingPassword();
         }
 
         $tooSimilarValues = [
@@ -30,17 +30,12 @@ class UserPasswordValidator
 
         foreach ($tooSimilarValues as $text) {
             if ($this->isTooSimilar($password, $text)) {
-                throw new UserPasswordValidationException('Password is too similar to your name or email');
+                throw UserPasswordValidationException::tooSimilar();
             }
         }
     }
 
-    /**
-     * @param $password
-     * @param $text
-     * @return bool
-     */
-    private function isTooSimilar($password, $text)
+    private function isTooSimilar(string $password, string $text): bool
     {
         if (stripos($text, $password) !== false) {
             return true;
@@ -53,12 +48,7 @@ class UserPasswordValidator
         return $this->getSimilarity($password, $text) > 60;
     }
 
-    /**
-     * @param $password
-     * @param $text
-     * @return int
-     */
-    private function getSimilarity($password, $text)
+    private function getSimilarity(string $password, string $text): int
     {
         $percentDifference = 0;
         similar_text(strtolower($password), strtolower($text), $percentDifference);

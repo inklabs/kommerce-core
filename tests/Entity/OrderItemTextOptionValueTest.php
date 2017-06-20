@@ -5,15 +5,6 @@ use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class OrderItemTextOptionValueTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $orderItemTextOptionValue = new OrderItemTextOptionValue;
-
-        $this->assertSame(null, $orderItemTextOptionValue->getTextOptionValue());
-        $this->assertSame(null, $orderItemTextOptionValue->getTextOption());
-        $this->assertSame(null, $orderItemTextOptionValue->getOrderItem());
-    }
-
     public function testCreate()
     {
         $textOption = $this->dummyData->getTextOption();

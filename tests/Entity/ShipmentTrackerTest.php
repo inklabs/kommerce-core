@@ -5,17 +5,6 @@ use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class ShipmentTrackerTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $shipmentTracking = new ShipmentTracker(
-            $this->dummyData->getShipmentCarrierType(),
-            '1Z9999999999999999'
-        );
-
-        $this->assertSame(null, $shipmentTracking->getShipmentRate());
-        $this->assertSame(null, $shipmentTracking->getShipmentLabel());
-    }
-
     public function testCreate()
     {
         $carrier = $this->dummyData->getShipmentCarrierType();

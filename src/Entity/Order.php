@@ -13,13 +13,13 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
 {
     use TimeTrait, IdTrait, EventGeneratorTrait;
 
-    /** @var string */
+    /** @var string|null */
     protected $externalId;
 
-    /** @var string */
+    /** @var string|null */
     protected $referenceNumber;
 
-    /** @var string */
+    /** @var string|null */
     protected $discountNames;
 
     /** @var CartTotal */
@@ -49,10 +49,10 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
     /** @var CartPriceRule[] */
     protected $cartPriceRules;
 
-    /** @var ShipmentRate */
+    /** @var ShipmentRate|null */
     protected $shipmentRate;
 
-    /** @var TaxRate */
+    /** @var TaxRate|null */
     protected $taxRate;
 
     /** @var Shipment[] */
@@ -74,21 +74,13 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         $this->setStatus(OrderStatusType::pending());
     }
 
-    /**
-     * @param UuidInterface $orderId
-     * @param User $user
-     * @param Cart $cart
-     * @param CartCalculatorInterface $cartCalculator
-     * @param string $ip4
-     * @return Order
-     */
     public static function fromCart(
         UuidInterface $orderId,
         User $user,
         Cart $cart,
         CartCalculatorInterface $cartCalculator,
-        $ip4
-    ) {
+        string $ip4
+    ): Order {
         $order = new Order($orderId);
         $order->setIp4($ip4);
 
@@ -108,7 +100,7 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         return $order;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('externalId', new Assert\Length([
             'max' => 255,
@@ -129,50 +121,37 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         $metadata->addPropertyConstraint('shipments', new Assert\Valid);
     }
 
-    public function getReferenceNumber()
+    public function getReferenceNumber(): ?string
     {
         return $this->referenceNumber;
     }
 
-    /**
-     * @param string|null $referenceNumber
-     */
-    public function setReferenceNumber($referenceNumber = null)
+    public function setReferenceNumber(string $referenceNumber = null)
     {
-        if ($referenceNumber !== null) {
-            $referenceNumber = (string) $referenceNumber;
-        }
-
         $this->referenceNumber = $referenceNumber;
     }
 
-    /**
-     * @param OrderItem $orderItem
-     */
     public function addOrderItem(OrderItem $orderItem)
     {
         $this->orderItems->add($orderItem);
     }
 
-    public function getExternalId()
+    public function getExternalId(): ?string
     {
         return $this->externalId;
     }
 
-    /**
-     * @param string $externalId
-     */
-    public function setExternalId($externalId)
+    public function setExternalId(string $externalId)
     {
-        $this->externalId = (string) $externalId;
+        $this->externalId = $externalId;
     }
 
-    public function totalItems()
+    public function totalItems(): int
     {
         return count($this->orderItems);
     }
 
-    public function totalQuantity()
+    public function totalQuantity(): int
     {
         $total = 0;
 
@@ -188,12 +167,12 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         $this->status = $status;
     }
 
-    public function getStatus()
+    public function getStatus(): OrderStatusType
     {
         return $this->status;
     }
 
-    public function getTotal()
+    public function getTotal(): CartTotal
     {
         return $this->total;
     }
@@ -224,7 +203,7 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         $this->shippingAddress = $shippingAddress;
     }
 
-    public function getShippingAddress()
+    public function getShippingAddress(): OrderAddress
     {
         return $this->shippingAddress;
     }
@@ -234,7 +213,7 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         $this->billingAddress = $billingAddress;
     }
 
-    public function getBillingAddress()
+    public function getBillingAddress(): OrderAddress
     {
         return $this->billingAddress;
     }
@@ -247,7 +226,7 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         return $this->orderItems;
     }
 
-    public function getOrderItem($orderItemIndex)
+    public function getOrderItem(int $orderItemIndex): OrderItem
     {
         return $this->orderItems[$orderItemIndex];
     }
@@ -285,12 +264,12 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         $this->user = $user;
     }
 
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function getShipmentRate()
+    public function getShipmentRate(): ?ShipmentRate
     {
         return $this->shipmentRate;
     }
@@ -300,7 +279,7 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         $this->shipmentRate = $shipmentRate;
     }
 
-    public function getTaxRate()
+    public function getTaxRate(): ?TaxRate
     {
         return $this->taxRate;
     }
@@ -355,7 +334,7 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         }
     }
 
-    private function isFullyShipped()
+    private function isFullyShipped(): bool
     {
         foreach ($this->orderItems as $orderItem) {
             if (! $this->isOrderItemFullyShipped($orderItem)) {
@@ -366,7 +345,7 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         return true;
     }
 
-    private function isOrderItemFullyShipped(OrderItem $orderItem)
+    private function isOrderItemFullyShipped(OrderItem $orderItem): bool
     {
         foreach ($this->getShipments() as $shipment) {
             if ($orderItem->isShipmentFullyShipped($shipment)) {
@@ -377,24 +356,24 @@ class Order implements IdEntityInterface, ReferenceNumberEntityInterface
         return false;
     }
 
-    /**
-     * @param string $ip4
-     */
-    public function setIp4($ip4)
+    public function setIp4(?string $ip4)
     {
-        $this->ip4 = (int) ip2long($ip4);
+        $this->ip4 = ip2long($ip4);
     }
 
-    public function getIp4()
+    public function getIp4(): string
     {
         return long2ip($this->ip4);
     }
 
-    public function getDiscountNames()
+    public function getDiscountNames(): ?string
     {
         return $this->discountNames;
     }
 
+    /**
+     * @return ArrayCollection|CartPriceRule[]
+     */
     public function getCartPriceRules()
     {
         return $this->cartPriceRules;

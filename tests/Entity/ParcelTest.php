@@ -5,18 +5,6 @@ use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class ParcelTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $parcel = new Parcel;
-
-        $this->assertSame(null, $parcel->getExternalId());
-        $this->assertSame(null, $parcel->getPredefinedPackage());
-        $this->assertSame(null, $parcel->getLength());
-        $this->assertSame(null, $parcel->getWidth());
-        $this->assertSame(null, $parcel->getHeight());
-        $this->assertSame(null, $parcel->getWeight());
-    }
-
     public function testCreate()
     {
         $parcel = new Parcel;

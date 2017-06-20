@@ -30,14 +30,14 @@ class Shipment implements IdEntityInterface
         $this->shipmentComments = new ArrayCollection;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('shipmentTrackers', new Assert\Valid);
         $metadata->addPropertyConstraint('shipmentItems', new Assert\Valid);
         $metadata->addPropertyConstraint('shipmentComments', new Assert\Valid);
     }
 
-    public function getOrder()
+    public function getOrder(): Order
     {
         return $this->order;
     }

@@ -10,7 +10,7 @@ class OptionType extends AbstractIntegerType
     const RADIO = 1;
     const CHECKBOX = 2;
 
-    public static function getNameMap()
+    public static function getNameMap(): array
     {
         return [
             self::SELECT => 'Select',
@@ -19,7 +19,7 @@ class OptionType extends AbstractIntegerType
         ];
     }
 
-    public static function getSlugMap()
+    public static function getSlugMap(): array
     {
         return [
             self::SELECT => 'select',
@@ -28,7 +28,7 @@ class OptionType extends AbstractIntegerType
         ];
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([
             'choices' => self::validIds(),

@@ -3,8 +3,5 @@ namespace inklabs\kommerce\Entity;
 
 interface EnabledAttachmentInterface
 {
-    /**
-     * @return boolean
-     */
-    public function areAttachmentsEnabled();
+    public function areAttachmentsEnabled(): bool;
 }

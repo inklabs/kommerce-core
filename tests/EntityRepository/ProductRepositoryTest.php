@@ -119,7 +119,7 @@ class ProductRepositoryTest extends EntityRepositoryTestCase
         $this->assertSame($unitPrice, $product->getUnitPrice());
         $this->assertSame($quantity, $product->getQuantity());
         $this->assertSame($shippingWeight, $product->getShippingWeight());
-        $this->assertSame(5, $product->getRating());
+        $this->assertFloatEquals(5.0, $product->getRating());
         $this->assertTrue($product->isInventoryRequired());
         $this->assertTrue($product->isPriceVisible());
         $this->assertTrue($product->isActive());

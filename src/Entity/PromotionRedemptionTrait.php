@@ -9,7 +9,7 @@ trait PromotionRedemptionTrait
     /** @var int */
     protected $redemptions;
 
-    /** @var int */
+    /** @var int|null */
     protected $maxRedemptions;
 
     public static function loadPromotionRedemptionValidatorMetadata(ClassMetadata $metadata)
@@ -26,7 +26,7 @@ trait PromotionRedemptionTrait
         ]));
     }
 
-    public function isRedemptionCountValid()
+    public function isRedemptionCountValid(): bool
     {
         if ($this->maxRedemptions === null) {
             return true;
@@ -37,22 +37,22 @@ trait PromotionRedemptionTrait
         }
     }
 
-    public function setRedemptions($redemptions)
+    public function setRedemptions(int $redemptions)
     {
-        $this->redemptions = (int) $redemptions;
+        $this->redemptions = $redemptions;
     }
 
-    public function getRedemptions()
+    public function getRedemptions(): int
     {
         return $this->redemptions;
     }
 
-    public function setMaxRedemptions($maxRedemptions)
+    public function setMaxRedemptions(?int $maxRedemptions)
     {
         $this->maxRedemptions = $maxRedemptions;
     }
 
-    public function getMaxRedemptions()
+    public function getMaxRedemptions(): ?int
     {
         return $this->maxRedemptions;
     }

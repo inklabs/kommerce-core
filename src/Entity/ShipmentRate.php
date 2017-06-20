@@ -7,28 +7,28 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ShipmentRate implements ValidationInterface
 {
-    /** @var string */
+    /** @var string|null */
     protected $externalId;
 
-    /** @var string */
+    /** @var string|null */
     protected $shipmentExternalId;
 
-    /** @var string */
+    /** @var string|null */
     protected $service;
 
-    /** @var string */
+    /** @var string|null */
     protected $carrier;
 
-    /** @var int */
+    /** @var int|null */
     protected $deliveryDate;
 
-    /** @var boolean */
+    /** @var boolean|null */
     protected $isDeliveryDateGuaranteed;
 
-    /** @var int */
+    /** @var int|null */
     protected $deliveryDays;
 
-    /** @var int */
+    /** @var int|null */
     protected $estDeliveryDays;
 
     /** @var DeliveryMethodType */
@@ -50,7 +50,7 @@ class ShipmentRate implements ValidationInterface
         $this->setupDeliveryMethod();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('rate', new Assert\Valid);
         $metadata->addPropertyConstraint('listRate', new Assert\Valid);
@@ -85,75 +85,57 @@ class ShipmentRate implements ValidationInterface
         $metadata->addPropertyConstraint('deliveryMethod', new Assert\Valid);
     }
 
-    public function getRate()
+    public function getRate(): Money
     {
         return $this->rate;
     }
 
-    /**
-     * @param string $service
-     */
-    public function setService($service)
+    public function setService(string $service)
     {
-        $this->service = (string) $service;
+        $this->service = $service;
     }
 
-    public function getService()
+    public function getService(): ?string
     {
         return $this->service;
     }
 
-    /**
-     * @param string $carrier
-     */
-    public function setCarrier($carrier)
+    public function setCarrier(string $carrier)
     {
-        $this->carrier = (string) $carrier;
+        $this->carrier = $carrier;
     }
 
-    public function getCarrier()
+    public function getCarrier(): ?string
     {
         return $this->carrier;
     }
 
-    /**
-     * @param string $externalId
-     */
-    public function setExternalId($externalId)
+    public function setExternalId(string $externalId)
     {
-        $this->externalId = (string) $externalId;
+        $this->externalId = $externalId;
     }
 
-    public function getExternalId()
+    public function getExternalId(): ?string
     {
         return $this->externalId;
     }
 
-    /**
-     * @param string $shipmentExternalId
-     */
-    public function setShipmentExternalId($shipmentExternalId)
+    public function setShipmentExternalId(string $shipmentExternalId)
     {
-        $this->shipmentExternalId = (string) $shipmentExternalId;
+        $this->shipmentExternalId = $shipmentExternalId;
     }
 
-    public function getShipmentExternalId()
+    public function getShipmentExternalId(): ?string
     {
         return $this->shipmentExternalId;
     }
 
-    /**
-     * @param DateTime $deliveryDate
-     */
     public function setDeliveryDate(DateTime $deliveryDate = null)
     {
         $this->deliveryDate = $deliveryDate->getTimestamp();
     }
 
-    /**
-     * @return DateTime|null
-     */
-    public function getDeliveryDate()
+    public function getDeliveryDate(): ?DateTime
     {
         if ($this->deliveryDate === null) {
             return null;
@@ -164,46 +146,33 @@ class ShipmentRate implements ValidationInterface
         return $deliveryDate;
     }
 
-    /**
-     * @param boolean $isDeliveryDateGuaranteed
-     */
-    public function setIsDeliveryDateGuaranteed($isDeliveryDateGuaranteed)
+    public function setIsDeliveryDateGuaranteed(bool $isDeliveryDateGuaranteed)
     {
-        $this->isDeliveryDateGuaranteed = (bool) $isDeliveryDateGuaranteed;
+        $this->isDeliveryDateGuaranteed = $isDeliveryDateGuaranteed;
     }
 
-    public function isDeliveryDateGuaranteed()
+    public function isDeliveryDateGuaranteed(): ?bool
     {
         return $this->isDeliveryDateGuaranteed;
     }
 
-    /**
-     * @param int $deliveryDays
-     */
-    public function setDeliveryDays($deliveryDays)
+    public function setDeliveryDays(int $deliveryDays)
     {
-        $this->deliveryDays = (int) $deliveryDays;
+        $this->deliveryDays = $deliveryDays;
         $this->setupDeliveryMethod();
     }
 
-    /**
-     * @param int $estDeliveryDays
-     */
-    public function setEstDeliveryDays($estDeliveryDays = null)
+    public function setEstDeliveryDays(int $estDeliveryDays = null)
     {
-        if ($estDeliveryDays !== null) {
-            $estDeliveryDays = (int) $estDeliveryDays;
-        }
-
         $this->estDeliveryDays = $estDeliveryDays;
     }
 
-    public function getDeliveryDays()
+    public function getDeliveryDays(): ?int
     {
         return $this->deliveryDays;
     }
 
-    public function getEstDeliveryDays()
+    public function getEstDeliveryDays(): ?int
     {
         return $this->estDeliveryDays;
     }
@@ -218,24 +187,24 @@ class ShipmentRate implements ValidationInterface
         $this->retailRate = $retailRate;
     }
 
-    public function getListRate()
+    public function getListRate(): Money
     {
         return $this->listRate;
     }
 
-    public function getRetailRate()
+    public function getRetailRate(): Money
     {
         return $this->retailRate;
     }
 
-    private function setupDeliveryMethod()
+    private function setupDeliveryMethod(): void
     {
         $this->setDeliveryMethod(
             DeliveryMethodType::createByDeliveryDays($this->deliveryDays)
         );
     }
 
-    public function getDeliveryMethod()
+    public function getDeliveryMethod(): DeliveryMethodType
     {
         return $this->deliveryMethod;
     }

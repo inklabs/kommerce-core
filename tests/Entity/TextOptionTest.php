@@ -5,17 +5,6 @@ use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class TextOptionTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $textOption = new TextOption;
-
-        $this->assertSame(null, $textOption->getName());
-        $this->assertSame(null, $textOption->getDescription());
-        $this->assertSame(0, $textOption->getSortOrder());
-        $this->assertSame(0, count($textOption->getTags()));
-        $this->assertTrue($textOption->getType()->isText());
-    }
-
     public function testCreate()
     {
         $textOptionType = $this->dummyData->getTextOptionType();

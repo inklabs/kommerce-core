@@ -21,9 +21,9 @@ abstract class AbstractCartPriceRuleItem implements IdEntityInterface
         $this->setCreated();
     }
 
-    abstract public function matches(CartItem $cartItem);
+    abstract public function matches(CartItem $cartItem): bool;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
         $metadata->addPropertyConstraint('quantity', new Assert\Range([
@@ -32,12 +32,12 @@ abstract class AbstractCartPriceRuleItem implements IdEntityInterface
         ]));
     }
 
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity)
     {
-        $this->quantity = (int) $quantity;
+        $this->quantity = $quantity;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
@@ -47,7 +47,7 @@ abstract class AbstractCartPriceRuleItem implements IdEntityInterface
         $this->cartPriceRule = $cartPriceRule;
     }
 
-    public function getCartPriceRule()
+    public function getCartPriceRule(): CartPriceRule
     {
         return $this->cartPriceRule;
     }

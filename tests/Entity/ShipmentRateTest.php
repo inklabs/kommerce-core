@@ -6,26 +6,6 @@ use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class ShipmentRateTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $rate = $this->dummyData->getMoney(907);
-
-        $shipmentRate = new ShipmentRate($rate);
-
-        $this->assertSame(null, $shipmentRate->getExternalId());
-        $this->assertSame(null, $shipmentRate->getShipmentExternalId());
-        $this->assertSame(null, $shipmentRate->getCarrier());
-        $this->assertSame(null, $shipmentRate->getService());
-        $this->assertSame($rate, $shipmentRate->getRate());
-        $this->assertSame(null, $shipmentRate->getListRate());
-        $this->assertSame(null, $shipmentRate->getRetailRate());
-        $this->assertSame(null, $shipmentRate->getDeliveryDate());
-        $this->assertSame(null, $shipmentRate->getDeliveryDays());
-        $this->assertSame(false, $shipmentRate->isDeliveryDateGuaranteed());
-        $this->assertSame(null, $shipmentRate->getEstDeliveryDays());
-        $this->assertTrue($shipmentRate->getDeliveryMethod()->isStandard());
-    }
-
     public function testCreate()
     {
         $rate = $this->dummyData->getMoney(907);

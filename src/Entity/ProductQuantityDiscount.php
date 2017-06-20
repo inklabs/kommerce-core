@@ -10,8 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ProductQuantityDiscount extends AbstractPromotion
 {
-    protected $customerGroup;
-
     /** @var int */
     protected $quantity;
 
@@ -29,7 +27,7 @@ class ProductQuantityDiscount extends AbstractPromotion
         $product->addProductQuantityDiscount($this);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         parent::loadValidatorMetadata($metadata);
 
@@ -40,16 +38,12 @@ class ProductQuantityDiscount extends AbstractPromotion
         ]));
     }
 
-    /**
-     * @param string $name
-     * @throws BadMethodCallException
-     */
-    public function setName($name)
+    public function setName(string $name)
     {
         throw new BadMethodCallException('Unable to set name');
     }
 
-    public function getName()
+    public function getName(): string
     {
         $name = 'Buy ' . $this->getQuantity() . ' or more for ';
 
@@ -64,12 +58,12 @@ class ProductQuantityDiscount extends AbstractPromotion
         return $name;
     }
 
-    private function displayCents($priceInCents)
+    private function displayCents($priceInCents): string
     {
         return '$' . number_format(($priceInCents / 100), 2);
     }
 
-    public function getPrice(PricingInterface $pricing)
+    public function getPrice(PricingInterface $pricing): Price
     {
         return $pricing->getPrice(
             $this->product,
@@ -77,51 +71,38 @@ class ProductQuantityDiscount extends AbstractPromotion
         );
     }
 
-    public function setCustomerGroup($customerGroup)
-    {
-        $this->customerGroup = $customerGroup;
-    }
-
-    public function getCustomerGroup()
-    {
-        return $this->customerGroup;
-    }
-
-    public function setFlagApplyCatalogPromotions($flagApplyCatalogPromotions)
+    public function setFlagApplyCatalogPromotions(bool $flagApplyCatalogPromotions)
     {
         $this->flagApplyCatalogPromotions = $flagApplyCatalogPromotions;
     }
 
-    public function getFlagApplyCatalogPromotions()
+    public function getFlagApplyCatalogPromotions(): bool
     {
         return $this->flagApplyCatalogPromotions;
     }
 
-    /**
-     * @param int $quantity
-     */
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity)
     {
-        $this->quantity = (int) $quantity;
+        $this->quantity = $quantity;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
 
-    public function getProduct()
+    public function getProduct(): Product
     {
         return $this->product;
     }
 
-    public function isValid(DateTime $date, $quantity)
+    public function isValid(DateTime $date, $quantity): bool
     {
         return $this->isValidPromotion($date)
             and $this->isQuantityValid($quantity);
     }
 
-    public function isQuantityValid($quantity)
+    public function isQuantityValid($quantity): bool
     {
         if ($quantity >= $this->quantity) {
             return true;

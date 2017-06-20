@@ -17,23 +17,16 @@ class UserLogin implements IdEntityInterface
     /** @var UserLoginResultType */
     protected $result;
 
-    /** @var User */
+    /** @var User|null */
     protected $user;
 
     /** @var UserToken */
     protected $userToken;
 
-    /**
-     * @param UserLoginResultType $result
-     * @param string $email
-     * @param string $ip4
-     * @param User|null $user
-     * @param UserToken|null $userToken
-     */
     public function __construct(
         UserLoginResultType $result,
-        $email,
-        $ip4,
+        string $email,
+        string $ip4,
         User $user = null,
         UserToken $userToken = null
     ) {
@@ -54,7 +47,7 @@ class UserLogin implements IdEntityInterface
         }
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('email', new Assert\NotBlank);
         $metadata->addPropertyConstraint('email', new Assert\Length([
@@ -69,27 +62,27 @@ class UserLogin implements IdEntityInterface
         $metadata->addPropertyConstraint('result', new Assert\Valid);
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getUser()
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function getIp4()
+    public function getIp4(): string
     {
         return long2ip($this->ip4);
     }
 
-    public function getResult()
+    public function getResult(): UserLoginResultType
     {
         return $this->result;
     }
 
-    public function getUserToken()
+    public function getUserToken(): ?UserToken
     {
         return $this->userToken;
     }

@@ -12,22 +12,22 @@ class Cart implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 
-    /** @var string */
+    /** @var string|null */
     protected $sessionId;
 
-    /** @var int */
+    /** @var int|null */
     protected $ip4;
 
-    /** @var User */
+    /** @var User|null */
     protected $user;
 
     /** @var OrderAddress */
     protected $shippingAddress;
 
-    /** @var ShipmentRate */
+    /** @var ShipmentRate|null */
     protected $shipmentRate;
 
-    /** @var TaxRate */
+    /** @var TaxRate|null */
     protected $taxRate;
 
     /** @var CartItem[]|ArrayCollection */
@@ -45,9 +45,8 @@ class Cart implements IdEntityInterface
         $this->coupons = new ArrayCollection;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
-        $metadata->addPropertyConstraint('ip4', new Assert\NotBlank);
         $metadata->addPropertyConstraint('ip4', new Assert\GreaterThanOrEqual([
             'value' => 0,
         ]));
@@ -55,7 +54,7 @@ class Cart implements IdEntityInterface
         $metadata->addPropertyConstraint('cartItems', new Assert\Valid);
     }
 
-    public function getUser()
+    public function getUser(): ?User
     {
         return $this->user;
     }
@@ -66,26 +65,18 @@ class Cart implements IdEntityInterface
         $this->user = $user;
     }
 
-    public function getSessionId()
+    public function getSessionId(): ?string
     {
         return $this->sessionId;
     }
 
-    /**
-     * @param string|null $sessionId
-     */
-    public function setSessionId($sessionId)
+    public function setSessionId(?string $sessionId)
     {
-        if ($sessionId !== null) {
-            $sessionId = (string) $sessionId;
-        }
-
         $this->sessionId = $sessionId;
     }
 
     public function addCartItem(CartItem $cartItem)
     {
-        $cartItem->setCart($this);
         $this->cartItems->add($cartItem);
     }
 
@@ -106,10 +97,6 @@ class Cart implements IdEntityInterface
         $this->cartItems->removeElement($cartItem);
     }
 
-    /**
-     * @param Coupon $coupon
-     * @throws InvalidCartActionException
-     */
     public function addCoupon(Coupon $coupon)
     {
         if ($this->coupons->contains($coupon)) {
@@ -127,7 +114,7 @@ class Cart implements IdEntityInterface
         $this->coupons->add($coupon);
     }
 
-    public function updateCoupon($couponIndex, Coupon $coupon)
+    public function updateCoupon(int $couponIndex, Coupon $coupon)
     {
         $this->coupons->set($couponIndex, $coupon);
     }
@@ -140,7 +127,7 @@ class Cart implements IdEntityInterface
         return $this->coupons;
     }
 
-    private function existingCouponsCanCombineWithOtherCoupons()
+    private function existingCouponsCanCombineWithOtherCoupons(): bool
     {
         foreach ($this->coupons as $coupon) {
             if (! $coupon->getCanCombineWithOtherCoupons()) {
@@ -150,10 +137,6 @@ class Cart implements IdEntityInterface
         return true;
     }
 
-    /**
-     * @param Coupon $coupon
-     * @throws InvalidCartActionException
-     */
     public function removeCoupon(Coupon $coupon)
     {
         if (! $this->coupons->contains($coupon)) {
@@ -163,12 +146,12 @@ class Cart implements IdEntityInterface
         $this->coupons->removeElement($coupon);
     }
 
-    public function totalItems()
+    public function totalItems(): int
     {
         return count($this->cartItems);
     }
 
-    public function totalQuantity()
+    public function totalQuantity(): int
     {
         $total = 0;
 
@@ -179,7 +162,7 @@ class Cart implements IdEntityInterface
         return $total;
     }
 
-    public function getShippingWeight()
+    public function getShippingWeight(): int
     {
         $shippingWeight = 0;
 
@@ -190,17 +173,17 @@ class Cart implements IdEntityInterface
         return $shippingWeight;
     }
 
-    public function getShippingWeightInPounds()
+    public function getShippingWeightInPounds(): int
     {
         return (int) ceil($this->getShippingWeight() / 16);
     }
 
-    public function getTotal(CartCalculatorInterface $cartCalculator)
+    public function getTotal(CartCalculatorInterface $cartCalculator): CartTotal
     {
         return $cartCalculator->getTotal($this);
     }
 
-    public function getShipmentRate()
+    public function getShipmentRate(): ?ShipmentRate
     {
         return $this->shipmentRate;
     }
@@ -210,7 +193,7 @@ class Cart implements IdEntityInterface
         $this->shipmentRate = $shipmentRate;
     }
 
-    public function getTaxRate()
+    public function getTaxRate(): ?TaxRate
     {
         return $this->taxRate;
     }
@@ -220,11 +203,7 @@ class Cart implements IdEntityInterface
         $this->taxRate = $taxRate;
     }
 
-    /**
-     * @param Coupon $coupon
-     * @return bool
-     */
-    private function couponCanCombineWithOtherCoupons(Coupon $coupon)
+    private function couponCanCombineWithOtherCoupons(Coupon $coupon): bool
     {
         return ! ($this->coupons->count() > 0 && ! $coupon->getCanCombineWithOtherCoupons());
     }
@@ -239,15 +218,12 @@ class Cart implements IdEntityInterface
         return $this->shippingAddress;
     }
 
-    /**
-     * @param string $ip4
-     */
-    public function setIp4($ip4)
+    public function setIp4(string $ip4)
     {
-        $this->ip4 = (int) ip2long($ip4);
+        $this->ip4 = ip2long($ip4);
     }
 
-    public function getIp4()
+    public function getIp4(): ?string
     {
         return long2ip($this->ip4);
     }

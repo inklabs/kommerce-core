@@ -1,6 +1,7 @@
 <?php
 namespace inklabs\kommerce\Entity;
 
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,21 +21,25 @@ class Image implements IdEntityInterface
     /** @var int */
     protected $sortOrder;
 
-    /** @var Product */
+    /** @var Product|null */
     protected $product;
 
-    /** @var Tag */
+    /** @var Tag|null */
     protected $tag;
 
-    public function __construct()
+    public function __construct(string $path, int $width, int $height, UuidInterface $id = null)
     {
-        $this->setId();
+        $this->setId($id);
         $this->setCreated();
         $this->setSortOrder(0);
+        $this->path = $path;
+        $this->width = $width;
+        $this->height = $height;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
+        $metadata->addPropertyConstraint('path', new Assert\NotNull);
         $metadata->addPropertyConstraint('path', new Assert\NotBlank);
         $metadata->addPropertyConstraint('path', new Assert\Length([
             'max' => 255,
@@ -59,54 +64,42 @@ class Image implements IdEntityInterface
         ]));
     }
 
-    /**
-     * @param string $path
-     */
-    public function setPath($path)
+    public function setPath(string $path)
     {
-        $this->path = (string) $path;
+        $this->path = $path;
     }
 
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * @param int $width
-     */
-    public function setWidth($width)
+    public function setWidth(int $width)
     {
-        $this->width = (int) $width;
+        $this->width = $width;
     }
 
-    public function getWidth()
+    public function getWidth(): int
     {
         return $this->width;
     }
 
-    /**
-     * @param int $height
-     */
-    public function setHeight($height)
+    public function setHeight(int $height)
     {
-        $this->height = (int) $height;
+        $this->height = $height;
     }
 
-    public function getHeight()
+    public function getHeight(): int
     {
         return $this->height;
     }
 
-    /**
-     * @param int $sortOrder
-     */
-    public function setSortOrder($sortOrder)
+    public function setSortOrder(int $sortOrder)
     {
-        $this->sortOrder = (int) $sortOrder;
+        $this->sortOrder = $sortOrder;
     }
 
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return $this->sortOrder;
     }
@@ -116,7 +109,7 @@ class Image implements IdEntityInterface
         $this->product = $product;
     }
 
-    public function getProduct()
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
@@ -126,7 +119,7 @@ class Image implements IdEntityInterface
         $this->tag = $tag;
     }
 
-    public function getTag()
+    public function getTag(): ?Tag
     {
         return $this->tag;
     }

@@ -13,10 +13,10 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
 {
     use TimeTrait, IdTrait;
 
-    /** @var int */
+    /** @var int|null */
     protected $quantity;
 
-    /** @var Product */
+    /** @var Product|null */
     protected $product;
 
     /** @var Cart */
@@ -34,10 +34,12 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
     /** @var Attachment[] */
     protected $attachments;
 
-    public function __construct(UuidInterface $id = null)
+    public function __construct(Cart $cart, UuidInterface $id = null)
     {
         $this->setId($id);
         $this->setCreated();
+        $this->setCart($cart);
+
         $this->cartItemOptionProducts = new ArrayCollection;
         $this->cartItemOptionValues = new ArrayCollection;
         $this->cartItemTextOptionValues = new ArrayCollection;
@@ -52,7 +54,7 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
         $this->cloneCartItemTextOptionValues();
     }
 
-    private function cloneCartItemOptionProducts()
+    private function cloneCartItemOptionProducts(): void
     {
         $cartItemOptionProducts = $this->getCartItemOptionProducts();
 
@@ -62,7 +64,7 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
         }
     }
 
-    private function cloneCartItemOptionValues()
+    private function cloneCartItemOptionValues(): void
     {
         $cartItemOptionValues = $this->getCartItemOptionValues();
 
@@ -72,7 +74,7 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
         }
     }
 
-    private function cloneCartItemTextOptionValues()
+    private function cloneCartItemTextOptionValues(): void
     {
         $cartItemTextOptionValues = $this->getCartItemTextOptionValues();
 
@@ -82,7 +84,7 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
         }
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('quantity', new Assert\NotNull);
         $metadata->addPropertyConstraint('quantity', new Assert\Range([
@@ -91,7 +93,7 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
         ]));
     }
 
-    public function getCart()
+    public function getCart(): Cart
     {
         return $this->cart;
     }
@@ -99,9 +101,10 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
     public function setCart(Cart $cart)
     {
         $this->cart = $cart;
+        $cart->addCartItem($this);
     }
 
-    public function getProduct()
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
@@ -111,17 +114,17 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
         $this->product = $product;
     }
 
-    public function getQuantity()
+    public function getQuantity(): ?int
     {
         return $this->quantity;
     }
 
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity)
     {
         if ($quantity < 0) {
             throw InvalidCartActionException::invalidQuantity($quantity);
         }
-        $this->quantity = (int) $quantity;
+        $this->quantity = $quantity;
     }
 
     /**
@@ -166,7 +169,7 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
         $this->cartItemTextOptionValues[] = $cartItemTextOptionValue;
     }
 
-    public function getPrice(PricingInterface $pricing)
+    public function getPrice(PricingInterface $pricing): Price
     {
         $price = $this->getProduct()->getPrice(
             $pricing,
@@ -193,7 +196,7 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
         return $price;
     }
 
-    public function getFullSku()
+    public function getFullSku(): string
     {
         $fullSku = [];
         $fullSku[] = $this->getProduct()->getSku();
@@ -211,7 +214,7 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
         return implode('-', $fullSku);
     }
 
-    public function getShippingWeight()
+    public function getShippingWeight(): int
     {
         $shippingWeight = $this->getProduct()->getShippingWeight();
 
@@ -230,7 +233,7 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
         return $quantityShippingWeight;
     }
 
-    public function getOrderItem(Order $order, PricingInterface $pricing)
+    public function getOrderItem(Order $order, PricingInterface $pricing): OrderItem
     {
         $orderItem = new OrderItem($order);
         $orderItem->setProduct($this->getProduct());
@@ -278,7 +281,7 @@ class CartItem implements IdEntityInterface, EnabledAttachmentInterface
         $this->attachments->removeElement($attachment);
     }
 
-    public function areAttachmentsEnabled()
+    public function areAttachmentsEnabled(): bool
     {
         return $this->product->areAttachmentsEnabled();
     }

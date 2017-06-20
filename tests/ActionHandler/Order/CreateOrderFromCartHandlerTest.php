@@ -88,12 +88,12 @@ class CreateOrderFromCartHandlerTest extends ActionTestCase
         $product2 = $this->dummyData->getProduct();
         $optionProduct = $this->dummyData->getOptionProduct($option, $product2);
         $cartItemOptionProduct = $this->dummyData->getCartItemOptionProduct($optionProduct);
-        $cartItem = $this->dummyData->getCartItem($product);
-        $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
 
         $cart = $this->dummyData->getCart();
         $cart->setUser($user);
-        $cart->addCartItem($cartItem);
+
+        $cartItem = $this->dummyData->getCartItem($cart, $product);
+        $cartItem->addCartItemOptionProduct($cartItemOptionProduct);
 
         $warehouse = $this->dummyData->getWarehouse();
         $inventoryLocation = $this->dummyData->getInventoryLocation($warehouse);

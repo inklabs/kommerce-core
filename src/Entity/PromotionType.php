@@ -10,7 +10,7 @@ class PromotionType extends AbstractIntegerType
     const PERCENT = 1;
     const EXACT = 2;
 
-    public static function getNameMap()
+    public static function getNameMap(): array
     {
         return [
             self::FIXED => 'Fixed',
@@ -19,7 +19,7 @@ class PromotionType extends AbstractIntegerType
         ];
     }
 
-    public static function getSlugMap()
+    public static function getSlugMap(): array
     {
         return [
             self::FIXED => 'fixed',
@@ -28,7 +28,7 @@ class PromotionType extends AbstractIntegerType
         ];
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('id', new Assert\Choice([
             'choices' => self::validIds(),

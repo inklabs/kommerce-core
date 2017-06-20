@@ -7,27 +7,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class TagTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $tag = new Tag;
-
-        $this->assertTrue($tag->getId() instanceof UuidInterface);
-        $this->assertTrue($tag->getCreated() instanceof DateTime);
-        $this->assertSame(null, $tag->getUpdated());
-        $this->assertSame(null, $tag->getName());
-        $this->assertSame(null, $tag->getCode());
-        $this->assertSame(null, $tag->getDescription());
-        $this->assertSame(null, $tag->getDefaultImage());
-        $this->assertSame(false, $tag->isActive());
-        $this->assertSame(false, $tag->isVisible());
-        $this->assertSame(false, $tag->areAttachmentsEnabled());
-        $this->assertSame(0, $tag->getSortOrder());
-        $this->assertSame(0, count($tag->getProducts()));
-        $this->assertSame(0, count($tag->getImages()));
-        $this->assertSame(0, count($tag->getOptions()));
-        $this->assertSame(0, count($tag->getTextOptions()));
-    }
-
     public function testCreate()
     {
         $product = $this->dummyData->getProduct();

@@ -7,33 +7,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class ProductTest extends EntityTestCase
 {
-    public function testCreateDefaults()
-    {
-        $product = new Product;
-
-        $this->assertTrue($product->getId() instanceof UuidInterface);
-        $this->assertTrue($product->getCreated() instanceof DateTime);
-        $this->assertSame(null, $product->getSku());
-        $this->assertSame(null, $product->getName());
-        $this->assertSame(null, $product->getDescription());
-        $this->assertSame(null, $product->getDefaultImage());
-        $this->assertSame(0, $product->getUnitPrice());
-        $this->assertSame(0, $product->getQuantity());
-        $this->assertSame(0, $product->getShippingWeight());
-        $this->assertSame(null, $product->getRating());
-        $this->assertFalse($product->isInventoryRequired());
-        $this->assertFalse($product->isPriceVisible());
-        $this->assertFalse($product->isActive());
-        $this->assertFalse($product->isVisible());
-        $this->assertFalse($product->isTaxable());
-        $this->assertFalse($product->isShippable());
-        $this->assertSame(0, count($product->getTags()));
-        $this->assertSame(0, count($product->getImages()));
-        $this->assertSame(0, count($product->getProductQuantityDiscounts()));
-        $this->assertSame(0, count($product->getOptionProducts()));
-        $this->assertSame(0, count($product->getProductAttributes()));
-    }
-
     public function testStringOrNull()
     {
         $product = new Product;

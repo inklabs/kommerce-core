@@ -24,7 +24,7 @@ class CreditCard implements ValidationInterface
     /** @var string */
     protected $expirationYear;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('name', new Assert\Length([
@@ -61,82 +61,64 @@ class CreditCard implements ValidationInterface
         ]));
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
     }
 
-    public function getZip5()
+    public function getZip5(): ?string
     {
         return $this->zip5;
     }
 
-    /**
-     * @param string $zip5
-     */
-    public function setZip5($zip5)
+    public function setZip5(string $zip5)
     {
-        $this->zip5 = (string) $zip5;
+        $this->zip5 = $zip5;
     }
 
-    /**
-     * @param string $number
-     */
-    public function setNumber($number)
+    public function setNumber(string $number)
     {
-        $this->number = (string) $number;
+        $this->number = $number;
     }
 
-    public function getNumber()
+    public function getNumber(): ?string
     {
         return $this->number;
     }
 
-    public function getCvc()
+    public function getCvc(): ?string
     {
         return $this->cvc;
     }
 
-    /**
-     * @param string $cvc
-     */
-    public function setCvc($cvc)
+    public function setCvc(string $cvc)
     {
-        $this->cvc = (string) $cvc;
+        $this->cvc = $cvc;
     }
 
-    /**
-     * @param string $expirationMonth
-     */
-    public function setExpirationMonth($expirationMonth)
+    public function setExpirationMonth(string $expirationMonth)
     {
         if ($expirationMonth > 0) {
             $this->expirationMonth = str_pad((string)$expirationMonth, 2, '0', STR_PAD_LEFT);
         }
     }
 
-    public function getExpirationMonth()
+    public function getExpirationMonth(): ?string
     {
         return $this->expirationMonth;
     }
 
-    /**
-     * @param string $expirationYear
-     */
-    public function setExpirationYear($expirationYear)
+    public function setExpirationYear(string $expirationYear)
     {
-        $this->expirationYear = (string) $expirationYear;
+        $this->expirationYear = $expirationYear;
     }
 
-    public function getExpirationYear()
+    public function getExpirationYear(): ?string
     {
         return $this->expirationYear;
     }

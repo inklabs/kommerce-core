@@ -10,9 +10,6 @@ trait UpdatedTrait
     /** @var int */
     protected $updated;
 
-    /**
-     * @param DateTime $updated
-     */
     public function setUpdated(DateTime $updated = null)
     {
         if ($updated === null) {
@@ -22,10 +19,7 @@ trait UpdatedTrait
         $this->updated = $updated->getTimestamp();
     }
 
-    /**
-     * @return DateTime|null
-     */
-    public function getUpdated()
+    public function getUpdated(): ?DateTime
     {
         if (empty($this->updated)) {
             return null;
@@ -36,7 +30,7 @@ trait UpdatedTrait
         return $updated;
     }
 
-    public function preUpdate(PreUpdateEventArgs $event = null)
+    public function preUpdate(PreUpdateEventArgs $event = null): void
     {
         $this->setUpdated();
     }

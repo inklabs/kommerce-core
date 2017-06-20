@@ -8,10 +8,10 @@ class CartItemOptionProduct implements IdEntityInterface
 {
     use TimeTrait, IdTrait;
 
-    /** @var OptionProduct */
+    /** @var OptionProduct|null */
     protected $optionProduct;
 
-    /** @var CartItem */
+    /** @var CartItem|null */
     protected $cartItem;
 
     public function __construct()
@@ -20,7 +20,7 @@ class CartItemOptionProduct implements IdEntityInterface
         $this->setCreated();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         // TODO: Implement loadValidatorMetadata() method.
     }
@@ -30,7 +30,7 @@ class CartItemOptionProduct implements IdEntityInterface
         $this->setId();
     }
 
-    public function getOptionProduct()
+    public function getOptionProduct(): ?OptionProduct
     {
         return $this->optionProduct;
     }
@@ -40,22 +40,22 @@ class CartItemOptionProduct implements IdEntityInterface
         $this->optionProduct = $optionProduct;
     }
 
-    public function getSku()
+    public function getSku(): string
     {
         return $this->optionProduct->getSku();
     }
 
-    public function getPrice(PricingInterface $pricing, $quantity = 1)
+    public function getPrice(PricingInterface $pricing, $quantity = 1): Price
     {
         return $this->optionProduct->getPrice($pricing, $quantity);
     }
 
-    public function getShippingWeight()
+    public function getShippingWeight(): int
     {
         return $this->optionProduct->getShippingWeight();
     }
 
-    public function getCartItem()
+    public function getCartItem(): ?CartItem
     {
         return $this->cartItem;
     }

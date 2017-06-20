@@ -6,34 +6,34 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ShipmentLabel implements ValidationInterface
 {
-    /** @var string */
+    /** @var string|null */
     protected $externalId;
 
-    /** @var int */
+    /** @var int|null */
     protected $resolution;
 
-    /** @var string */
+    /** @var string|null */
     protected $size;
 
-    /** @var string */
+    /** @var string|null */
     protected $type;
 
-    /** @var string */
+    /** @var string|null */
     protected $fileType;
 
-    /** @var string */
+    /** @var string|null */
     protected $url;
 
-    /** @var string */
+    /** @var string|null */
     protected $pdfUrl;
 
-    /** @var string */
+    /** @var string|null */
     protected $epl2Url;
 
-    /** @var string */
+    /** @var string|null */
     protected $zplUrl;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('externalId', new Assert\Length([
             'max' => 60,
@@ -73,120 +73,93 @@ class ShipmentLabel implements ValidationInterface
         ]));
     }
 
-    /**
-     * @param string $externalId
-     */
-    public function setExternalId($externalId)
+    public function setExternalId(string $externalId)
     {
-        $this->externalId = (string) $externalId;
+        $this->externalId = $externalId;
     }
 
-    public function getExternalId()
+    public function getExternalId(): ?string
     {
         return $this->externalId;
     }
 
-    public function getResolution()
+    public function getResolution(): ?int
     {
         return $this->resolution;
     }
 
-    /**
-     * @param int $resolution
-     */
-    public function setResolution($resolution)
+    public function setResolution(int $resolution)
     {
-        $this->resolution = (int) $resolution;
+        $this->resolution = $resolution;
     }
 
-    public function getSize()
+    public function getSize(): ?string
     {
         return $this->size;
     }
 
-    /**
-     * @param string $size
-     */
-    public function setSize($size)
+    public function setSize(string $size)
     {
-        $this->size = (string) $size;
+        $this->size = $size;
     }
 
-    public function getType()
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     */
-    public function setType($type)
+    public function setType(string $type)
     {
-        $this->type = (string) $type;
+        $this->type = $type;
     }
 
-    public function getFileType()
+    public function getFileType(): ?string
     {
         return $this->fileType;
     }
 
-    /**
-     * @param string $fileType
-     */
-    public function setFileType($fileType)
+    public function setFileType(string $fileType)
     {
-        $this->fileType = (string) $fileType;
+        $this->fileType = $fileType;
     }
 
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    /**
-     * @param string $url
-     */
-    public function setUrl($url)
+    public function setUrl(string $url)
     {
-        $this->url = (string) $url;
+        $this->url = $url;
     }
 
-    public function getPdfUrl()
+    public function getPdfUrl(): ?string
     {
         return $this->pdfUrl;
     }
 
-    /**
-     * @param string $pdfUrl
-     */
-    public function setPdfUrl($pdfUrl)
+    public function setPdfUrl(string $pdfUrl)
     {
-        $this->pdfUrl = (string) $pdfUrl;
+        $this->pdfUrl = $pdfUrl;
     }
 
-    public function getEpl2Url()
+    public function getEpl2Url(): ?string
     {
         return $this->epl2Url;
     }
 
-    /**
-     * @param string $epl2Url
-     */
-    public function setEpl2Url($epl2Url)
+    public function setEpl2Url(string $epl2Url)
     {
-        $this->epl2Url = (string) $epl2Url;
+        $this->epl2Url = $epl2Url;
     }
 
-    public function getZplUrl()
+    public function getZplUrl(): ?string
     {
         return $this->zplUrl;
     }
 
-    /**
-     * @param string $zplUrl
-     */
-    public function setZplUrl($zplUrl)
+    public function setZplUrl(string $zplUrl)
     {
-        $this->zplUrl = (string) $zplUrl;
+        $this->zplUrl = $zplUrl;
     }
 }

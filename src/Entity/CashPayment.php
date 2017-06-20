@@ -5,16 +5,13 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class CashPayment extends AbstractPayment
 {
-    /**
-     * @param int $amount
-     */
-    public function __construct($amount)
+    public function __construct(int $amount)
     {
         parent::__construct();
-        $this->amount = (int) $amount;
+        $this->amount = $amount;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         parent::loadValidatorMetadata($metadata);
     }

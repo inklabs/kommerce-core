@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\CartItem;
 
 class FakeCartPriceRuleItem extends AbstractCartPriceRuleItem
 {
-    public function matches(CartItem $cartItem)
+    public function matches(CartItem $cartItem): bool
     {
         return false;
     }

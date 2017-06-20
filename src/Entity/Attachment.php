@@ -34,7 +34,7 @@ class Attachment implements IdEntityInterface
         $this->orderItems = new ArrayCollection();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('uri', new Assert\NotBlank);
         $metadata->addPropertyConstraint('uri', new Assert\Length([
@@ -42,45 +42,42 @@ class Attachment implements IdEntityInterface
         ]));
     }
 
-    public function getUri()
+    public function getUri(): string
     {
         return $this->uri;
     }
 
-    /**
-     * @param string $uri
-     */
-    private function setUri($uri)
+    private function setUri(string $uri)
     {
         $this->uri = $uri;
     }
 
-    public function isVisible()
+    public function isVisible(): bool
     {
         return $this->isVisible;
     }
 
-    public function setNotVisible()
+    public function setNotVisible(): void
     {
         $this->isVisible = false;
     }
 
-    public function setVisible()
+    public function setVisible(): void
     {
         $this->isVisible = true;
     }
 
-    public function isLocked()
+    public function isLocked(): bool
     {
         return $this->isLocked;
     }
 
-    public function setLocked()
+    public function setLocked(): void
     {
         $this->isLocked = true;
     }
 
-    public function setUnlocked()
+    public function setUnlocked(): void
     {
         $this->isLocked = false;
     }

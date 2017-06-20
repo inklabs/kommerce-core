@@ -36,10 +36,10 @@ class CartPriceRuleTest extends EntityTestCase
     {
         $product = $this->dummyData->getProduct();
         $cartPriceRuleProductItem = $this->dummyData->getCartPriceRuleProductItem($product, 1);
-        $cartItem = $this->dummyData->getCartItem($product, 1);
+        $cartItem = $this->dummyData->getCartItem(null, $product, 1);
         $cartItems = new ArrayCollection([$cartItem]);
 
-        $cartPriceRule = new CartPriceRule;
+        $cartPriceRule = new CartPriceRule();
         $cartPriceRule->addItem($cartPriceRuleProductItem);
 
         $this->assertTrue($cartPriceRule->areCartItemsValid($cartItems));
@@ -52,8 +52,8 @@ class CartPriceRuleTest extends EntityTestCase
         $cartPriceRuleProductItem1 = $this->dummyData->getCartPriceRuleProductItem($product1, 1);
         $cartPriceRuleProductItem2 = $this->dummyData->getCartPriceRuleProductItem($product2, 1);
         $cartItems = new ArrayCollection([
-            $this->dummyData->getCartItem($product1, 1),
-            $this->dummyData->getCartItem($product2, 1),
+            $this->dummyData->getCartItem(null, $product1, 1),
+            $this->dummyData->getCartItem(null, $product2, 1),
         ]);
 
         $cartPriceRule = new CartPriceRule;
@@ -69,7 +69,7 @@ class CartPriceRuleTest extends EntityTestCase
         $product2 = $this->dummyData->getProduct();
         $cartPriceRuleProductItem1 = $this->dummyData->getCartPriceRuleProductItem($product1, 1);
         $cartItems = new ArrayCollection([
-            $this->dummyData->getCartItem($product2, 1)
+            $this->dummyData->getCartItem(null, $product2, 1)
         ]);
 
         $cartPriceRule = new CartPriceRule;
@@ -91,7 +91,7 @@ class CartPriceRuleTest extends EntityTestCase
         $product1 = $this->dummyData->getProduct();
         $cartPriceRuleProductItem1 = $this->dummyData->getCartPriceRuleProductItem($product1, 1);
         $cartItems = new ArrayCollection([
-            $this->dummyData->getCartItem($product1, 1)
+            $this->dummyData->getCartItem(null, $product1, 1)
         ]);
 
         $cartPriceRule = new CartPriceRule;

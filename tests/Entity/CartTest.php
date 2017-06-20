@@ -54,12 +54,10 @@ class CartTest extends EntityTestCase
 
     public function testAddCartItemWithDuplicate()
     {
-        $cartItem1 = $this->dummyData->getCartItem(null, 5);
-        $cartItem2 = $this->dummyData->getCartItem(null, 2);
+        $cart = new Cart();
 
-        $cart = new Cart;
-        $cart->addCartItem($cartItem1);
-        $cart->addCartItem($cartItem2);
+        $cartItem1 = $this->dummyData->getCartItem($cart, null, 5);
+        $cartItem2 = $this->dummyData->getCartItem($cart, null, 2);
 
         $this->assertSame(2, $cart->totalItems());
         $this->assertSame(7, $cart->totalQuantity());
@@ -67,9 +65,9 @@ class CartTest extends EntityTestCase
 
     public function testDeleteCartItem()
     {
-        $cartItem = $this->dummyData->getCartItem(null, 1);
-        $cart = new Cart;
-        $cart->addCartItem($cartItem);
+        $cart = new Cart();
+        $cartItem = $this->dummyData->getCartItem($cart, null, 1);
+
         $this->assertSame(1, $cart->totalItems());
 
         $cart->deleteCartItem($cartItem);
@@ -224,26 +222,23 @@ class CartTest extends EntityTestCase
 
     public function testGetShippingWeight()
     {
-        $cartItem1 = $this->dummyData->getCartItem(null, 1);
+        $cart = new Cart();
+
+        $cartItem1 = $this->dummyData->getCartItem($cart, null, 1);
         $cartItem1->getProduct()->setShippingWeight(16);
 
-        $cartItem2 = $this->dummyData->getCartItem(null, 3);
+        $cartItem2 = $this->dummyData->getCartItem($cart, null, 3);
         $cartItem2->getProduct()->setShippingWeight(16);
-
-        $cart = new Cart;
-        $cart->addCartItem($cartItem1);
-        $cart->addCartItem($cartItem2);
 
         $this->assertSame(64, $cart->getShippingWeight());
     }
 
     public function testGetTotal()
     {
-        $cartItem = $this->dummyData->getCartItem(null, 2);
-        $cartItem->getProduct()->setUnitPrice(500);
+        $cart = new Cart();
 
-        $cart = new Cart;
-        $cart->addCartItem($cartItem);
+        $cartItem = $this->dummyData->getCartItem($cart, null, 2);
+        $cartItem->getProduct()->setUnitPrice(500);
 
         $cartCalculator = $this->getCartCalculator();
         $this->assertTrue($cart->getTotal($cartCalculator) instanceof CartTotal);

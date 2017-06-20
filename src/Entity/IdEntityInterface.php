@@ -5,8 +5,6 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface IdEntityInterface extends EntityInterface
 {
-    /** @return UuidInterface */
-    public function getId();
-
+    public function getId(): UuidInterface;
     public function setId(UuidInterface $id);
 }

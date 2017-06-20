@@ -16,13 +16,7 @@ class CheckPayment extends AbstractPayment
     /** @var string */
     private $memo;
 
-    /**
-     * @param int $amount
-     * @param string $checkNumber
-     * @param DateTime $checkDate
-     * @param string $memo
-     */
-    public function __construct($amount, $checkNumber, $checkDate, $memo = null)
+    public function __construct(int $amount, string $checkNumber, DateTime $checkDate, string $memo = null)
     {
         parent::__construct();
         $this->amount = (int) $amount;
@@ -31,7 +25,7 @@ class CheckPayment extends AbstractPayment
         $this->memo = (string) $memo;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         parent::loadValidatorMetadata($metadata);
 
@@ -46,17 +40,17 @@ class CheckPayment extends AbstractPayment
         $metadata->addPropertyConstraint('checkDate', new Assert\Date);
     }
 
-    public function getCheckNumber()
+    public function getCheckNumber(): string
     {
         return $this->checkNumber;
     }
 
-    public function getCheckDate()
+    public function getCheckDate(): DateTime
     {
         return $this->checkDate;
     }
 
-    public function getMemo()
+    public function getMemo(): string
     {
         return $this->memo;
     }
