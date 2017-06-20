@@ -18,7 +18,10 @@ final class GetProductsByIdsQuery implements QueryInterface
         $this->setProductIds($productIds);
     }
 
-    public function getProductIds()
+    /**
+     * @return UuidInterface[]
+     */
+    public function getProductIds(): array
     {
         return $this->productIds;
     }

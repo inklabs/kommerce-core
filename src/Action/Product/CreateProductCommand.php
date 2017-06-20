@@ -20,12 +20,12 @@ final class CreateProductCommand implements CommandInterface
         $this->productDTO = $productDTO;
     }
 
-    public function getProductId()
+    public function getProductId(): UuidInterface
     {
         return $this->productId;
     }
 
-    public function getProductDTO()
+    public function getProductDTO(): ProductDTO
     {
         return $this->productDTO;
     }

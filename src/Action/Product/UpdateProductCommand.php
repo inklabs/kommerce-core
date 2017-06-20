@@ -14,7 +14,7 @@ final class UpdateProductCommand implements CommandInterface
         $this->productDTO = $productDTO;
     }
 
-    public function getProductDTO()
+    public function getProductDTO(): ProductDTO
     {
         return $this->productDTO;
     }

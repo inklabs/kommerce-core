@@ -8,15 +8,12 @@ final class GetRandomProductsQuery implements QueryInterface
     /** @var int */
     private $limit;
 
-    /**
-     * @param int $limit
-     */
-    public function __construct($limit)
+    public function __construct(int $limit)
     {
-        $this->limit = (int) $limit;
+        $this->limit = $limit;
     }
 
-    public function getLimit()
+    public function getLimit(): int
     {
         return $this->limit;
     }

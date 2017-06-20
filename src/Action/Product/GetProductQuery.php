@@ -10,15 +10,12 @@ final class GetProductQuery implements QueryInterface
     /** @var UuidInterface */
     private $productId;
 
-    /**
-     * @param string $productId
-     */
-    public function __construct($productId)
+    public function __construct(string $productId)
     {
         $this->productId = Uuid::fromString($productId);
     }
 
-    public function getProductId()
+    public function getProductId(): UuidInterface
     {
         return $this->productId;
     }

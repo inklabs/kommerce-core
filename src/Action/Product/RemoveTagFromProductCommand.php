@@ -13,22 +13,18 @@ final class RemoveTagFromProductCommand implements CommandInterface
     /** @var UuidInterface */
     private $tagId;
 
-    /**
-     * @param string $productId
-     * @param string $tagId
-     */
-    public function __construct($productId, $tagId)
+    public function __construct(string $productId, string $tagId)
     {
         $this->productId = Uuid::fromString($productId);
         $this->tagId = Uuid::fromString($tagId);
     }
 
-    public function getProductId()
+    public function getProductId(): UuidInterface
     {
         return $this->productId;
     }
 
-    public function getTagId()
+    public function getTagId(): UuidInterface
     {
         return $this->tagId;
     }

@@ -13,22 +13,18 @@ final class RemoveImageFromProductCommand implements CommandInterface
     /** @var UuidInterface */
     private $imageId;
 
-    /**
-     * @param string $productId
-     * @param string $imageId
-     */
-    public function __construct($productId, $imageId)
+    public function __construct(string $productId, string $imageId)
     {
         $this->productId = Uuid::fromString($productId);
         $this->imageId = Uuid::fromString($imageId);
     }
 
-    public function getProductId()
+    public function getProductId(): UuidInterface
     {
         return $this->productId;
     }
 
-    public function getImageId()
+    public function getImageId(): UuidInterface
     {
         return $this->imageId;
     }

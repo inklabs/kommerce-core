@@ -14,22 +14,18 @@ final class GetProductsByTagQuery implements QueryInterface
     /** @var PaginationDTO */
     private $paginationDTO;
 
-    /**
-     * @param string $tagId
-     * @param PaginationDTO $paginationDTO
-     */
-    public function __construct($tagId, PaginationDTO $paginationDTO)
+    public function __construct(string $tagId, PaginationDTO $paginationDTO)
     {
         $this->tagId = Uuid::fromString($tagId);
         $this->paginationDTO = $paginationDTO;
     }
 
-    public function getTagId()
+    public function getTagId(): UuidInterface
     {
         return $this->tagId;
     }
 
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTO;
     }

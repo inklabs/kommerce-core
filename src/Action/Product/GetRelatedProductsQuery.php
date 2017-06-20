@@ -13,22 +13,21 @@ final class GetRelatedProductsQuery implements QueryInterface
     /** @var int */
     private $limit;
 
-    /**
-     * @param string[] $productIds
-     * @param int $limit
-     */
-    public function __construct(array $productIds, $limit = 12)
+    public function __construct(array $productIds, int $limit = 12)
     {
         $this->setProductIds($productIds);
-        $this->limit = (int) $limit;
+        $this->limit = $limit;
     }
 
-    public function getProductIds()
+    /**
+     * @return UuidInterface[]
+     */
+    public function getProductIds(): array
     {
         return $this->productIds;
     }
 
-    public function getLimit()
+    public function getLimit(): int
     {
         return $this->limit;
     }
