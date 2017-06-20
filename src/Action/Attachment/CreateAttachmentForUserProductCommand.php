@@ -17,29 +17,24 @@ final class CreateAttachmentForUserProductCommand implements CommandInterface
     /** @var UuidInterface */
     private $productId;
 
-    /**
-     * @param UploadFileDTO $uploadFileDTO
-     * @param string $userId
-     * @param string $productId
-     */
-    public function __construct(UploadFileDTO $uploadFileDTO, $userId, $productId)
+    public function __construct(UploadFileDTO $uploadFileDTO, string $userId, string $productId)
     {
         $this->userId = Uuid::fromString($userId);
         $this->productId = Uuid::fromString($productId);
         $this->uploadFileDTO = $uploadFileDTO;
     }
 
-    public function getUploadFileDTO()
+    public function getUploadFileDTO(): UploadFileDTO
     {
         return $this->uploadFileDTO;
     }
 
-    public function getUserId()
+    public function getUserId(): UuidInterface
     {
         return $this->userId;
     }
 
-    public function getProductId()
+    public function getProductId(): UuidInterface
     {
         return $this->productId;
     }

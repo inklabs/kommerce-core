@@ -10,15 +10,12 @@ final class MarkAttachmentLockedCommand implements CommandInterface
     /** @var UuidInterface */
     private $attachmentId;
 
-    /**
-     * @param string $attachmentId
-     */
-    public function __construct($attachmentId)
+    public function __construct(string $attachmentId)
     {
         $this->attachmentId = Uuid::fromString($attachmentId);
     }
 
-    public function getAttachmentId()
+    public function getAttachmentId(): UuidInterface
     {
         return $this->attachmentId;
     }
