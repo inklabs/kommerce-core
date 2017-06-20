@@ -22,13 +22,7 @@ final class CreateZip5RangeTaxRateCommand implements CommandInterface
     /** @var UuidInterface */
     private $taxRateId;
 
-    /**
-     * @param string $zip5From
-     * @param string $zip5To
-     * @param float $rate
-     * @param bool $applyToShipping
-     */
-    public function __construct($zip5From, $zip5To, $rate, $applyToShipping)
+    public function __construct(string $zip5From, string $zip5To, float $rate, bool $applyToShipping)
     {
         $this->taxRateId = Uuid::uuid4();
         $this->zip5From = $zip5From;
@@ -37,27 +31,27 @@ final class CreateZip5RangeTaxRateCommand implements CommandInterface
         $this->applyToShipping = $applyToShipping;
     }
 
-    public function getZip5From()
+    public function getZip5From(): string
     {
         return $this->zip5From;
     }
 
-    public function getZip5To()
+    public function getZip5To(): string
     {
         return $this->zip5To;
     }
 
-    public function getRate()
+    public function getRate(): float
     {
         return $this->rate;
     }
 
-    public function applyToShipping()
+    public function applyToShipping(): bool
     {
         return $this->applyToShipping;
     }
 
-    public function getTaxRateId()
+    public function getTaxRateId(): UuidInterface
     {
         return $this->taxRateId;
     }
