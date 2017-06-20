@@ -1,10 +1,6 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-use inklabs\kommerce\tests\Helper\Action\FakeCommand;
-use inklabs\kommerce\tests\Helper\Action\FakeQuery;
-use inklabs\kommerce\tests\Helper\Action\Query\FakeRequest;
-use inklabs\kommerce\tests\Helper\Action\Query\FakeResponse;
 use inklabs\kommerce\tests\Helper\TestCase\ActionTestCase;
 use ReflectionException;
 
@@ -19,19 +15,6 @@ class MapperTest extends ActionTestCase
     {
         parent::setUp();
         $this->mapper = $this->getMapper();
-    }
-
-    public function testGetCommandHandler()
-    {
-        $this->mapper->getCommandHandler(new FakeCommand());
-    }
-
-    public function testGetQueryHandler()
-    {
-        $request = new FakeRequest();
-        $response = new FakeResponse();
-        $query = new FakeQuery($request, $response);
-        $this->mapper->getQueryHandler($query);
     }
 
     public function testGetHandlerOnAllHandlers()

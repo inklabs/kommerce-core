@@ -22,7 +22,7 @@ final class UpdateConfigurationHandler implements CommandHandlerInterface
         $this->configurationRepository = $configurationRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

@@ -28,7 +28,7 @@ final class SetCartTaxRateByZip5AndStateHandler implements CommandHandlerInterfa
         $this->taxRateRepository = $taxRateRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyCanManageCart($this->command->getCartId());
     }

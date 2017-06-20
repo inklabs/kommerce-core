@@ -28,7 +28,7 @@ final class AddOptionToTagHandler implements CommandHandlerInterface
         $this->optionRepository = $optionRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

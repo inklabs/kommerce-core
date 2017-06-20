@@ -15,26 +15,16 @@ interface ShipmentGatewayInterface
      * @param null|OrderAddressDTO $fromAddress
      * @return ShipmentRate[]
      */
-    public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel, OrderAddressDTO $fromAddress = null);
+    public function getRates(OrderAddressDTO $toAddress, ParcelDTO $parcel, OrderAddressDTO $fromAddress = null): array;
 
     /**
      * @param OrderAddressDTO $toAddress
      * @param ParcelDTO $parcel
      * @return ShipmentRate[]
      */
-    public function getTrimmedRates(OrderAddressDTO $toAddress, ParcelDTO $parcel);
+    public function getTrimmedRates(OrderAddressDTO $toAddress, ParcelDTO $parcel): array;
 
-    /**
-     * @param string $shipmentRateExternalId
-     * @return ShipmentRate
-     */
-    public function getShipmentRateByExternalId($shipmentRateExternalId);
+    public function getShipmentRateByExternalId(string $shipmentRateExternalId): ShipmentRate;
 
-    /**
-     * @param string $shipmentExternalId
-     * @param string $rateExternalId
-     * @param null|UuidInterface $id
-     * @return ShipmentTracker
-     */
-    public function buy($shipmentExternalId, $rateExternalId, UuidInterface $id = null);
+    public function buy(string $shipmentExternalId, string $rateExternalId, UuidInterface $id = null): ShipmentTracker;
 }

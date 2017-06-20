@@ -8,15 +8,6 @@ use inklabs\kommerce\Lib\Query\QueryInterface;
 
 interface MapperInterface
 {
-    /**
-     * @param CommandInterface $command
-     * @return CommandHandlerInterface
-     */
-    public function getCommandHandler(CommandInterface $command);
-
-    /**
-     * @param QueryInterface $query
-     * @return QueryHandlerInterface
-     */
-    public function getQueryHandler(QueryInterface $query);
+    public function getCommandHandler(CommandInterface $command): CommandHandlerInterface;
+    public function getQueryHandler(QueryInterface $query): QueryHandlerInterface;
 }

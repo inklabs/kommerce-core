@@ -29,7 +29,7 @@ final class CreateAttributeValueHandler implements CommandHandlerInterface
         $this->attributeValueRepository = $attributeValueRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

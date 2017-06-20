@@ -20,16 +20,20 @@ class CartCalculator implements CartCalculatorInterface
         $this->pricing = $pricing;
     }
 
+    /**
+     * This is not the PricingInterface. CartCalculator is coupled to the Pricing implementation
+     * @return Pricing
+     */
     public function getPricing()
     {
         return $this->pricing;
     }
 
-    public function getTotal(Cart $cart)
+    public function getTotal(Cart $cart): CartTotal
     {
         $this->cart = $cart;
 
-        $this->cartTotal = new CartTotal;
+        $this->cartTotal = new CartTotal();
 
         $this->calculateItemPrices();
         $this->calculateCartPriceRules();
@@ -43,7 +47,7 @@ class CartCalculator implements CartCalculatorInterface
         return $this->cartTotal;
     }
 
-    private function calculateItemPrices()
+    private function calculateItemPrices(): void
     {
         foreach ($this->cart->getCartItems() as $item) {
             $price = $item->getPrice($this->pricing);
@@ -57,7 +61,7 @@ class CartCalculator implements CartCalculatorInterface
         }
     }
 
-    private function calculateCartPriceRules()
+    private function calculateCartPriceRules(): void
     {
         foreach ($this->pricing->getCartPriceRules() as $cartPriceRule) {
             if ($cartPriceRule->isValid($this->pricing->getDate(), $this->cart->getCartItems())) {
@@ -84,7 +88,7 @@ class CartCalculator implements CartCalculatorInterface
         $this->cartTotal->subtotal = max(0, $this->cartTotal->subtotal);
     }
 
-    private function calculateCouponDiscounts()
+    private function calculateCouponDiscounts(): void
     {
         foreach ($this->cart->getCoupons() as $key => $coupon) {
             if ($coupon->isValid($this->pricing->getDate(), $this->cartTotal->subtotal)) {
@@ -108,7 +112,7 @@ class CartCalculator implements CartCalculatorInterface
         $this->cartTotal->taxSubtotal = max(0, $this->cartTotal->taxSubtotal);
     }
 
-    private function calculateShippingPrice()
+    private function calculateShippingPrice(): void
     {
         $shipmentRate = $this->cart->getShipmentRate();
         if ($shipmentRate !== null) {
@@ -116,7 +120,7 @@ class CartCalculator implements CartCalculatorInterface
         }
     }
 
-    private function calculateTaxes()
+    private function calculateTaxes(): void
     {
         $taxRate = $this->cart->getTaxRate();
         if ($taxRate !== null) {
@@ -131,7 +135,7 @@ class CartCalculator implements CartCalculatorInterface
         }
     }
 
-    private function calculateTotal()
+    private function calculateTotal(): void
     {
         $this->cartTotal->total = (
             $this->cartTotal->subtotal
@@ -144,7 +148,7 @@ class CartCalculator implements CartCalculatorInterface
         $this->cartTotal->total = max(0, $this->cartTotal->total);
     }
 
-    private function calculateSavings()
+    private function calculateSavings(): void
     {
         $this->cartTotal->savings = (
             $this->cartTotal->origSubtotal

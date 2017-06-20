@@ -41,12 +41,7 @@ class LocalFileManager implements FileManagerInterface
         $this->allowedImageTypes = $allowedImageTypes;
     }
 
-    /**
-     * @param string $sourceFilePath
-     * @return ManagedFileInterface
-     * @throws FileManagerException
-     */
-    public function saveFile($sourceFilePath)
+    public function saveFile(string $sourceFilePath): ManagedFileInterface
     {
         $this->checkDestination();
         $this->checkUploadedFile($sourceFilePath);

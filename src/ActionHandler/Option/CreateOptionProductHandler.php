@@ -35,7 +35,7 @@ final class CreateOptionProductHandler implements CommandHandlerInterface
         $this->optionProductRepository = $optionProductRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

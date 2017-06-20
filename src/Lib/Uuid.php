@@ -40,7 +40,7 @@ class Uuid implements UuidInterface, Matcher
      * @param UuidInterface $other
      * @return int -1, 0 or 1
      */
-    public function compareTo(UuidInterface $other)
+    public function compareTo(UuidInterface $other): int
     {
         $ramseyOther = RamseyUuid::fromBytes($other->getBytes());
         return $this->ramseyUuid->compareTo($ramseyOther);
@@ -50,7 +50,7 @@ class Uuid implements UuidInterface, Matcher
      * @param mixed $other
      * @return bool
      */
-    public function equals($other)
+    public function equals($other): bool
     {
         if (! ($other instanceof UuidInterface)) {
             return false;
@@ -64,28 +64,22 @@ class Uuid implements UuidInterface, Matcher
      *
      * @return string
      */
-    public function getBytes()
+    public function getBytes(): string
     {
         return $this->ramseyUuid->getBytes();
     }
 
-    /**
-     * @return string
-     */
-    public function getHex()
+    public function getHex(): string
     {
         return $this->ramseyUuid->getHex();
     }
 
-    /**
-     * @return string
-     */
-    public function getShortString()
+    public function getShortString(): string
     {
         return self::encodeBase64URLSafe($this->getBytes());
     }
 
-    public static function encodeBase64URLSafe($bytesString)
+    public static function encodeBase64URLSafe(string $bytesString): string
     {
         return strtr(
             base64_encode($bytesString),
@@ -97,7 +91,7 @@ class Uuid implements UuidInterface, Matcher
         );
     }
 
-    public static function decodeBase64URLSafe($bytesString)
+    public static function decodeBase64URLSafe(string $bytesString): string
     {
         return base64_decode(strtr(
             $bytesString,
@@ -108,15 +102,12 @@ class Uuid implements UuidInterface, Matcher
         ));
     }
 
-    /**
-     * @return string
-     */
-    public function toString()
+    public function toString(): string
     {
         return $this->ramseyUuid->toString();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toString();
     }
@@ -126,7 +117,7 @@ class Uuid implements UuidInterface, Matcher
         return $this->toString();
     }
 
-    public function serialize()
+    public function serialize(): string
     {
         return $this->toString();
     }
@@ -136,7 +127,7 @@ class Uuid implements UuidInterface, Matcher
         $this->ramseyUuid = RamseyUuid::fromString($serialized);
     }
 
-    public function matches($item)
+    public function matches($item): bool
     {
         return $this->equals($item);
     }

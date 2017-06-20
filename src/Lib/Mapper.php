@@ -31,7 +31,9 @@ use inklabs\kommerce\EntityRepository\TextOptionRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserTokenRepositoryInterface;
 use inklabs\kommerce\EntityRepository\WarehouseRepositoryInterface;
+use inklabs\kommerce\Lib\Command\CommandHandlerInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Lib\Query\QueryHandlerInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\AttachmentServiceInterface;
@@ -73,13 +75,13 @@ class Mapper implements MapperInterface
         $this->dtoBuilderFactory = $dtoBuilderFactory;
     }
 
-    public function getCommandHandler(CommandInterface $command)
+    public function getCommandHandler(CommandInterface $command): CommandHandlerInterface
     {
         $handlerClassName = $this->getCommandHandlerClassName($command);
         return $this->getHandler($handlerClassName, $command);
     }
 
-    public function getQueryHandler(QueryInterface $query)
+    public function getQueryHandler(QueryInterface $query): QueryHandlerInterface
     {
         $handlerClassName = $this->getQueryHandlerClassName($query);
         return $this->getHandler($handlerClassName, $query);
@@ -88,9 +90,9 @@ class Mapper implements MapperInterface
     /**
      * @param string $handlerClassName
      * @param ActionInterface
-     * @return null|object
+     * @return null|object|CommandHandlerInterface|QueryHandlerInterface
      */
-    public function getHandler($handlerClassName, $action)
+    public function getHandler(string $handlerClassName, ActionInterface $action)
     {
         $reflection = new ReflectionClass($handlerClassName);
 
@@ -204,11 +206,7 @@ class Mapper implements MapperInterface
         return $handler;
     }
 
-    /**
-     * @param CommandInterface $command
-     * @return string
-     */
-    private function getCommandHandlerClassName($command)
+    private function getCommandHandlerClassName(CommandInterface $command): string
     {
         $className = get_class($command);
         $className = str_replace('\\Action\\', '\\ActionHandler\\', $className);
@@ -222,11 +220,7 @@ class Mapper implements MapperInterface
         return implode('\\', $pieces);
     }
 
-    /**
-     * @param QueryInterface
-     * @return string
-     */
-    private function getQueryHandlerClassName($query)
+    private function getQueryHandlerClassName(QueryInterface $query): string
     {
         $className = get_class($query);
         $className = str_replace('\\Action\\', '\\ActionHandler\\', $className);

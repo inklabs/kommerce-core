@@ -22,12 +22,12 @@ class PricingCalculator
         $this->pricing = $pricing;
     }
 
-    public function getPrice(Product $product, $quantity)
+    public function getPrice(Product $product, $quantity): Price
     {
         $this->product = $product;
         $this->quantity = $quantity;
 
-        $this->price = new Price;
+        $this->price = new Price();
         $this->price->origUnitPrice = $this->product->getUnitPrice();
         $this->price->origQuantityPrice = ($this->price->origUnitPrice * $this->quantity);
         $this->price->unitPrice = $this->price->origUnitPrice;
@@ -39,7 +39,7 @@ class PricingCalculator
         return $this->price;
     }
 
-    private function calculateProductQuantityDiscounts()
+    private function calculateProductQuantityDiscounts(): void
     {
         foreach ($this->pricing->getProductQuantityDiscounts() as $productQuantityDiscount) {
             if ($productQuantityDiscount->isValid($this->pricing->getDate(), $this->quantity)) {
@@ -53,7 +53,7 @@ class PricingCalculator
         $this->price->unitPrice = max(0, $this->price->unitPrice);
     }
 
-    private function calculateCatalogPromotions()
+    private function calculateCatalogPromotions(): void
     {
         foreach ($this->pricing->getCatalogPromotions() as $catalogPromotion) {
             if ($catalogPromotion->isValid($this->pricing->getDate(), $this->product)) {
@@ -66,7 +66,7 @@ class PricingCalculator
         $this->price->unitPrice = max(0, $this->price->unitPrice);
     }
 
-    private function calculateQuantityPrice()
+    private function calculateQuantityPrice(): void
     {
         $this->price->quantityPrice = ($this->price->unitPrice * $this->quantity);
     }

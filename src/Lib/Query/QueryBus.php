@@ -20,11 +20,7 @@ class QueryBus implements QueryBusInterface
         $this->mapper = $mapper;
     }
 
-    /**
-     * @param QueryInterface $query
-     * @return ResponseInterface
-     */
-    public function execute(QueryInterface $query)
+    public function execute(QueryInterface $query): ResponseInterface
     {
         $handler = $this->mapper->getQueryHandler($query);
         $handler->verifyAuthorization($this->authorizationContext);

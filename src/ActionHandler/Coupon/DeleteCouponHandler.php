@@ -20,7 +20,7 @@ final class DeleteCouponHandler implements CommandHandlerInterface
         $this->couponRepository = $couponRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

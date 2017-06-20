@@ -6,27 +6,27 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class AlwaysAuthorizedForTestingAuthorizationContext implements AuthorizationContextInterface
 {
-    public function verifyCanMakeRequests()
+    public function verifyCanMakeRequests(): void
     {
         return;
     }
 
-    public function verifyCanManageCart(UuidInterface $cartId)
+    public function verifyCanManageCart(UuidInterface $cartId): void
     {
         return;
     }
 
-    public function verifyCanManageUser(UuidInterface $userId)
+    public function verifyCanManageUser(UuidInterface $userId): void
     {
         return;
     }
 
-    public function verifyCanViewOrder(UuidInterface $orderId)
+    public function verifyCanViewOrder(UuidInterface $orderId): void
     {
         return;
     }
 
-    public function verifyIsAdmin()
+    public function verifyIsAdmin(): void
     {
         return;
     }

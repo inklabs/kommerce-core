@@ -21,7 +21,7 @@ final class CreateStateTaxRateHandler implements CommandHandlerInterface
         $this->taxRateRepository = $taxRateRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

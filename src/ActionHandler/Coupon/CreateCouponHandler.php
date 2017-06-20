@@ -25,7 +25,7 @@ final class CreateCouponHandler implements CommandHandlerInterface
         $this->command = $command;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

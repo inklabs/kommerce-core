@@ -12,8 +12,8 @@ class EntityValidatorException extends Kommerce400Exception
     private $errors;
 
     public function __construct(
-        $message,
-        $code = 400,
+        string $message,
+        int $code = 400,
         Exception $previous = null,
         ConstraintViolationList $errors = null
     ) {
@@ -26,9 +26,9 @@ class EntityValidatorException extends Kommerce400Exception
      * @param ConstraintViolationList $errors
      * @return static
      */
-    public static function withErrors($message, ConstraintViolationList $errors)
+    public static function withErrors(string $message, ConstraintViolationList $errors)
     {
-        return new self($message, null, null, $errors);
+        return new self($message, 400, null, $errors);
     }
 
     /**

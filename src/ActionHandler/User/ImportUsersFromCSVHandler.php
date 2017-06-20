@@ -26,7 +26,7 @@ final class ImportUsersFromCSVHandler implements CommandHandlerInterface, Releas
         $this->importUserService = $importUserService;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

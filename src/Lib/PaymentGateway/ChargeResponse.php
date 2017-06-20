@@ -70,76 +70,73 @@ class ChargeResponse implements ValidationInterface
         ]));
     }
 
-    public function getExternalId()
+    public function getExternalId(): string
     {
         return $this->externalId;
     }
 
-    /**
-     * @param string $externalId
-     */
-    public function setExternalId($externalId = null)
+    public function setExternalId(string $externalId = null): void
     {
-        $this->externalId = (string) $externalId;
+        $this->externalId = $externalId;
     }
 
-    public function getAmount()
+    public function getAmount(): int
     {
         return $this->amount;
     }
 
-    public function setAmount($amount)
+    public function setAmount(int $amount): void
     {
-        $this->amount = (int) $amount;
+        $this->amount = $amount;
     }
 
-    public function getLast4()
+    public function getLast4(): string
     {
         return $this->last4;
     }
 
-    public function setLast4($last4)
+    public function setLast4(string $last4): void
     {
-        $this->last4 = (string) $last4;
+        $this->last4 = $last4;
     }
 
-    public function getBrand()
+    public function getBrand(): string
     {
         return $this->brand;
     }
 
-    public function setBrand($brand)
+    public function setBrand(string $brand): void
     {
-        $this->brand = (string) $brand;
+        $this->brand = $brand;
     }
 
-    public function getCreated()
+    public function getCreated(): int
     {
         return $this->created;
     }
 
-    public function setCreated($created)
+    public function setCreated(int $created): void
     {
-        $this->created = (int) $created;
+        $this->created = $created;
     }
 
-    public function getCurrency()
+    public function getCurrency(): string
     {
         return $this->currency;
     }
 
-    public function setCurrency($currency)
+    public function setCurrency(string $currency): void
     {
-        $this->currency = (string) $currency;
+        $this->currency = $currency;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescription($description)
+    public function setDescription(string $description): void
     {
-        $this->description = (string) $description;
+        $this->description = $description;
     }
 }

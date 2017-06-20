@@ -7,33 +7,22 @@ interface UuidInterface extends \JsonSerializable, \Serializable
      * @param UuidInterface $other
      * @return int -1, 0 or 1
      */
-    public function compareTo(UuidInterface $other);
+    public function compareTo(UuidInterface $other): int;
 
     /**
      * @param mixed $other
      * @return bool
      */
-    public function equals($other);
+    public function equals($other): bool;
 
     /**
      * 16-byte string (big-endian byte order)
      *
      * @return string
      */
-    public function getBytes();
+    public function getBytes(): string;
 
-    /**
-     * @return string
-     */
-    public function getHex();
-
-    /**
-     * @return string
-     */
-    public function getShortString();
-
-    /**
-     * @return string
-     */
-    public function toString();
+    public function getHex(): string;
+    public function getShortString(): string;
+    public function toString(): string;
 }

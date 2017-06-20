@@ -14,25 +14,26 @@ class FakeEventSubscriber implements EventSubscriberInterface
         self::reset();
     }
 
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             FakeEvent::class => 'onFakeEvent'
         ];
     }
+
     public function onFakeEvent(FakeEvent $event)
     {
         self::$hasBeenCalled = true;
     }
 
-    public static function hasBeenCalled()
+    public static function hasBeenCalled(): bool
     {
         $hasBeenCalled = self::$hasBeenCalled;
         self::reset();
         return $hasBeenCalled;
     }
 
-    protected static function reset()
+    protected static function reset(): void
     {
         self::$hasBeenCalled = false;
     }

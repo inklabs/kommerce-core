@@ -5,7 +5,7 @@ class ArraySession implements SessionInterface
 {
     protected $session = [];
 
-    public function get($key)
+    public function get(string $key)
     {
         if (isset($this->session[$key])) {
             return unserialize($this->session[$key]);
@@ -14,12 +14,12 @@ class ArraySession implements SessionInterface
         }
     }
 
-    public function set($key, $data)
+    public function set(string $key, $data)
     {
         $this->session[$key] = serialize($data);
     }
 
-    public function delete($key)
+    public function delete(string $key)
     {
         unset($this->session[$key]);
     }

@@ -23,7 +23,7 @@ final class ImportPaymentsFromCSVHandler implements CommandHandlerInterface
         $this->importPaymentService = $importPaymentService;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

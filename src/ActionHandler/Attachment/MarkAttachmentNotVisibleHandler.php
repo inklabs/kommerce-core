@@ -22,7 +22,7 @@ final class MarkAttachmentNotVisibleHandler implements CommandHandlerInterface
         $this->attachmentRepository = $attachmentRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

@@ -48,7 +48,7 @@ final class CreateOrderFromCartHandler implements CommandHandlerInterface
         $this->command = $command;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyCanManageCart(
             $this->command->getCartId()

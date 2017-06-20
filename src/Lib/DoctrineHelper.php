@@ -45,27 +45,27 @@ class DoctrineHelper
         $this->eventManager->addEventListener(Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
     }
 
-    public function clearCache()
+    public function clearCache(): void
     {
         $this->cacheDriver->deleteAll();
     }
 
-    public function getCacheDriver()
+    public function getCacheDriver(): Doctrine\Common\Cache\CacheProvider
     {
         return $this->cacheDriver;
     }
 
-    public function getEntityManager()
+    public function getEntityManager(): Doctrine\ORM\EntityManager
     {
         return $this->entityManager;
     }
 
-    public function setSqlLogger(Doctrine\DBAL\Logging\SQLLogger $sqlLogger)
+    public function setSqlLogger(Doctrine\DBAL\Logging\SQLLogger $sqlLogger): void
     {
         $this->entityManagerConfiguration->setSQLLogger($sqlLogger);
     }
 
-    public function setup(array $dbParams)
+    public function setup(array $dbParams): void
     {
         $this->entityManager = Doctrine\ORM\EntityManager::create($dbParams, $this->config, $this->eventManager);
         $this->entityManagerConfiguration = $this->entityManager->getConnection()->getConfiguration();
@@ -74,13 +74,13 @@ class DoctrineHelper
         $this->addMysqlFunctions();
     }
 
-    public function addMysqlFunctions()
+    public function addMysqlFunctions(): void
     {
         $this->config->addCustomNumericFunction('RAND', DoctrineFunctions\Mysql\Rand::class);
         $this->config->addCustomNumericFunction('DISTANCE', DoctrineFunctions\Mysql\Distance::class);
     }
 
-    public function addSqliteFunctions()
+    public function addSqliteFunctions(): void
     {
         $pdo = $this->entityManager->getConnection()->getWrappedConnection();
         $pdo->sqliteCreateFunction('acos', 'acos');
@@ -96,14 +96,14 @@ class DoctrineHelper
         });
     }
 
-    private function addUuidType()
+    private function addUuidType(): void
     {
         $this->setupUuidType();
         $platform = $this->entityManager->getConnection()->getDatabasePlatform();
         $platform->registerDoctrineTypeMapping('uuid_binary', 'binary');
     }
 
-    private function setupUuidType()
+    private function setupUuidType(): void
     {
         static $isAdded = false;
         if (! $isAdded) {

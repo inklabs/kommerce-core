@@ -12,9 +12,10 @@ interface HandlerInterface
      * @return void
      * @throws AuthorizationContextException
      */
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext);
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void;
 
     /**
+     * @todo Break this into separate command and query handler interfaces
      * @return ResponseInterface
      */
     public function handle();

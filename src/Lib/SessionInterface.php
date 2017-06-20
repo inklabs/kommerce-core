@@ -7,16 +7,13 @@ interface SessionInterface
      * @param string $key
      * @return mixed|null
      */
-    public function get($key);
+    public function get(string $key);
 
     /**
      * @param string $key
      * @param mixed $data
      */
-    public function set($key, $data);
+    public function set(string $key, $data);
 
-    /**
-     * @param string $key
-     */
-    public function delete($key);
+    public function delete(string $key);
 }

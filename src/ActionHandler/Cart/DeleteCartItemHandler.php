@@ -28,7 +28,7 @@ final class DeleteCartItemHandler implements CommandHandlerInterface
         $this->cartService = $cartService;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $cartItem = $this->cartRepository->getItemById($this->command->getCartItemId());
         $authorizationContext->verifyCanManageCart($cartItem->getCart()->getId());

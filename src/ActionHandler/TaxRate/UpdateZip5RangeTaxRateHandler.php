@@ -20,7 +20,7 @@ final class UpdateZip5RangeTaxRateHandler implements CommandHandlerInterface
         $this->command = $command;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

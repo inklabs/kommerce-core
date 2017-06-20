@@ -23,7 +23,7 @@ final class UpdateCartItemQuantityHandler implements CommandHandlerInterface
         $this->cartRepository = $cartRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $cartItem = $this->getCartItem();
         $authorizationContext->verifyCanManageCart($cartItem->getCart()->getId());

@@ -5,9 +5,5 @@ use inklabs\kommerce\Entity\ManagedFileInterface;
 
 interface FileManagerInterface
 {
-    /**
-     * @param string $sourceFilePath
-     * @return ManagedFileInterface
-     */
-    public function saveFile($sourceFilePath);
+    public function saveFile(string $sourceFilePath): ManagedFileInterface;
 }

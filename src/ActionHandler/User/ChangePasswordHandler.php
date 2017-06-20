@@ -25,7 +25,7 @@ final class ChangePasswordHandler implements CommandHandlerInterface, ReleaseEve
         $this->command = $command;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyCanManageUser($this->command->getUserId());
     }

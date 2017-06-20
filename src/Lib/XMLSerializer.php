@@ -7,7 +7,7 @@ class XMLSerializer
      * @param mixed $object
      * @return string
      */
-    public function getXml($object)
+    public function getXml($object): string
     {
         $xml = '<?xml version="1.0" encoding="utf-8"?>';
         $xml .= $this->getXmlFromMixed($object);
@@ -19,7 +19,7 @@ class XMLSerializer
      * @param mixed $object
      * @return string
      */
-    public function getXmlFromMixed($object)
+    public function getXmlFromMixed($object): string
     {
         $xml = '';
         if (is_object($object)) {
@@ -37,7 +37,7 @@ class XMLSerializer
      * @param mixed $object
      * @return string
      */
-    public function getXmlFromObject($object)
+    public function getXmlFromObject($object): string
     {
         $xml = '';
 
@@ -54,7 +54,7 @@ class XMLSerializer
      * @param array $object
      * @return string
      */
-    public function getXmlFromArray(array $object)
+    public function getXmlFromArray(array $object): string
     {
         $xml = '';
 
@@ -70,7 +70,7 @@ class XMLSerializer
      * @param mixed $object
      * @return string
      */
-    private function getXmlFromObjectVarsByPublicProperties($object)
+    private function getXmlFromObjectVarsByPublicProperties($object): string
     {
         $properties = get_object_vars($object);
 

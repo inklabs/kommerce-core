@@ -35,7 +35,7 @@ final class CreateProductAttributeHandler implements CommandHandlerInterface
         $this->productAttributeRepository = $productAttributeRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $authorizationContext->verifyIsAdmin();
     }

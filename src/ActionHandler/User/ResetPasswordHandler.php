@@ -33,7 +33,7 @@ final class ResetPasswordHandler implements CommandHandlerInterface, ReleaseEven
         $this->userTokenRepository = $userTokenRepository;
     }
 
-    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext)
+    public function verifyAuthorization(AuthorizationContextInterface $authorizationContext): void
     {
         $user = $this->userRepository->findOneByEmail($this->command->getEmail());
         $authorizationContext->verifyCanManageUser($user->getId());

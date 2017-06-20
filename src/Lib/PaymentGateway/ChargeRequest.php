@@ -41,51 +41,42 @@ class ChargeRequest implements ValidationInterface
         $metadata->addPropertyConstraint('creditCard', new Assert\Valid);
     }
 
-    /**
-     * @param int $amount
-     */
-    public function setAmount($amount)
+    public function setAmount(int $amount): void
     {
-        $this->amount = (int) $amount;
+        $this->amount = $amount;
     }
 
-    /**
-     * @param string $currency
-     */
-    public function setCurrency($currency)
+    public function setCurrency(string $currency): void
     {
-        $this->currency = (string) $currency;
+        $this->currency = $currency;
     }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): void
     {
-        $this->description = (string) $description;
+        $this->description = $description;
     }
 
-    public function setCreditCard(CreditCard $creditCard)
+    public function setCreditCard(CreditCard $creditCard): void
     {
         $this->creditCard = $creditCard;
     }
 
-    public function getAmount()
+    public function getAmount(): int
     {
         return $this->amount;
     }
 
-    public function getCreditCard()
+    public function getCreditCard(): CreditCard
     {
         return $this->creditCard;
     }
 
-    public function getCurrency()
+    public function getCurrency(): string
     {
         return $this->currency;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }

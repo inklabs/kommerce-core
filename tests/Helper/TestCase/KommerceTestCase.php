@@ -55,6 +55,10 @@ abstract class KommerceTestCase extends \PHPUnit\Framework\TestCase
         $this->dummyData = new DummyData;
     }
 
+    public function tearDown()
+    {
+        \Mockery::close();
+    }
     protected function getCartCalculator()
     {
         $cartCalculator = new CartCalculator(new Pricing);
