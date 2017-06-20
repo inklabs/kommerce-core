@@ -22,7 +22,7 @@ final class GetConfigurationsByKeysQuery implements QueryInterface
     /**
      * @return string[]
      */
-    public function getKeys()
+    public function getKeys(): array
     {
         return $this->keys;
     }

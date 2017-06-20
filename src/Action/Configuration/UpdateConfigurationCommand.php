@@ -11,22 +11,18 @@ final class UpdateConfigurationCommand implements CommandInterface
     /** @var string */
     private $value;
 
-    /**
-     * @param string $key
-     * @param string $value
-     */
-    public function __construct($key, $value)
+    public function __construct(string $key, string $value)
     {
         $this->key = $key;
         $this->value = $value;
     }
 
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
 
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
