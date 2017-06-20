@@ -18,7 +18,7 @@ class Point implements ValidationInterface
         $this->setLongitude($longitude);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('latitude', new Assert\Range([
             'min' => -90,

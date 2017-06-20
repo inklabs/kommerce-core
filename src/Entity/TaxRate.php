@@ -34,7 +34,7 @@ class TaxRate implements IdEntityInterface
         $this->applyToShipping = false;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('state', new Assert\Length([
             'min' => 2,

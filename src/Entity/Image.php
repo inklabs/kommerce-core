@@ -37,7 +37,7 @@ class Image implements IdEntityInterface
         $this->height = $height;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('path', new Assert\NotNull);
         $metadata->addPropertyConstraint('path', new Assert\NotBlank);

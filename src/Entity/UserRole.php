@@ -18,7 +18,7 @@ class UserRole implements IdEntityInterface
         $this->userRoleType = $userRoleType;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('userRoleType', new Assert\Valid);
     }

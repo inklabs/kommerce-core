@@ -34,7 +34,7 @@ class CartPriceRule implements IdEntityInterface
         $this->cartPriceRuleDiscounts = new ArrayCollection();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('name', new Assert\Length([
             'max' => 255,

@@ -27,7 +27,7 @@ class Configuration implements IdEntityInterface
         $this->value = (string) $value;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('key', new Assert\NotBlank);
         $metadata->addPropertyConstraint('key', new Assert\Length([

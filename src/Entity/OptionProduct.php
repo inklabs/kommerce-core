@@ -28,7 +28,7 @@ class OptionProduct implements IdEntityInterface
         $product->addOptionProduct($this);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
     }
 

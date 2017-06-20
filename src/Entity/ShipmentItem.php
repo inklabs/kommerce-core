@@ -28,7 +28,7 @@ class ShipmentItem implements IdEntityInterface
         $this->shipment = $shipment;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('quantityToShip', new Assert\NotNull);
         $metadata->addPropertyConstraint('quantityToShip', new Assert\Range([

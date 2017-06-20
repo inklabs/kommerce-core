@@ -42,7 +42,7 @@ class CartTotal implements ValidationInterface
     /** @var CartPriceRule[] */
     protected $cartPriceRules = [];
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $integerColumns = [
             'origSubtotal',

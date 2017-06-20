@@ -47,7 +47,7 @@ class UserLogin implements IdEntityInterface
         }
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('email', new Assert\NotBlank);
         $metadata->addPropertyConstraint('email', new Assert\Length([

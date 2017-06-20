@@ -21,7 +21,7 @@ use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;
 use Symfony\Component\Validator\Validation;
 
-abstract class KommerceTestCase extends \PHPUnit_Framework_TestCase
+abstract class KommerceTestCase extends \PHPUnit\Framework\TestCase
 {
     const UUID_HEX = '15dc6044910c431aa578430759ef5dcf';
     const SESSION_ID = '6is7ujb3crb5ja85gf91g9en62';

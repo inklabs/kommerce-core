@@ -50,7 +50,7 @@ class OrderAddress implements ValidationInterface
         $this->setIsResidential(true);
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('firstName', new Assert\Length([
             'max' => 32,

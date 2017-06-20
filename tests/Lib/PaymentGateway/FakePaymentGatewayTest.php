@@ -2,8 +2,9 @@
 namespace inklabs\kommerce\Lib\PaymentGateway;
 
 use inklabs\kommerce\Entity\CreditCard;
+use inklabs\kommerce\tests\Helper\TestCase\KommerceTestCase;
 
-class FakePaymentGatewayTest extends \PHPUnit_Framework_TestCase
+class FakePaymentGatewayTest extends KommerceTestCase
 {
     public function testGetCharge()
     {

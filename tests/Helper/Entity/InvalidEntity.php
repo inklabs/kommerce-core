@@ -9,7 +9,7 @@ final class InvalidEntity implements ValidationInterface
 {
     protected $isValid = null;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('isValid', new Assert\NotNull);
     }

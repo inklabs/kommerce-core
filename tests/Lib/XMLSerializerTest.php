@@ -3,8 +3,9 @@ namespace inklabs\kommerce\Lib;
 
 use inklabs\kommerce\tests\Helper\Lib\XMLSerializerTestObject;
 use inklabs\kommerce\tests\Helper\Lib\XMLSerializerTestSingleObject;
+use inklabs\kommerce\tests\Helper\TestCase\KommerceTestCase;
 
-class XMLSerializerTest extends \PHPUnit_Framework_TestCase
+class XMLSerializerTest extends KommerceTestCase
 {
     /**
      * @param int $num

@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\Service\Import;
 
-class ImportResultTest extends \PHPUnit_Framework_TestCase
+use inklabs\kommerce\tests\Helper\TestCase\KommerceTestCase;
+
+class ImportResultTest extends KommerceTestCase
 {
     public function testCreate()
     {

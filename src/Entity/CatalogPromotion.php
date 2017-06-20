@@ -16,7 +16,7 @@ class CatalogPromotion extends AbstractPromotion
     /** @var Tag|null */
     protected $tag;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         parent::loadValidatorMetadata($metadata);
 

@@ -16,7 +16,7 @@ class CartPriceRuleProductItem extends AbstractCartPriceRuleItem
         $this->quantity = $quantity;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         parent::loadValidatorMetadata($metadata);
     }

@@ -32,7 +32,7 @@ class UserProductAttachment implements IdEntityInterface
         $this->attachment = $attachment;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('user', new Assert\Valid);
         $metadata->addPropertyConstraint('product', new Assert\Valid);

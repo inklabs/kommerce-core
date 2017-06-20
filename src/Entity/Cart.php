@@ -45,7 +45,7 @@ class Cart implements IdEntityInterface
         $this->coupons = new ArrayCollection;
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('ip4', new Assert\GreaterThanOrEqual([
             'value' => 0,

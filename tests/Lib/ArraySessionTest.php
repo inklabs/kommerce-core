@@ -1,7 +1,9 @@
 <?php
 namespace inklabs\kommerce\Lib;
 
-class ArraySessionTest extends \PHPUnit_Framework_TestCase
+use inklabs\kommerce\tests\Helper\TestCase\KommerceTestCase;
+
+class ArraySessionTest extends KommerceTestCase
 {
     public function testGetAndSet()
     {

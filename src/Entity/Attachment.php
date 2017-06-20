@@ -34,7 +34,7 @@ class Attachment implements IdEntityInterface
         $this->orderItems = new ArrayCollection();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('uri', new Assert\NotBlank);
         $metadata->addPropertyConstraint('uri', new Assert\Length([
