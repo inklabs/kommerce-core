@@ -17,28 +17,24 @@ final class CreateOptionValueCommand implements CommandInterface
     /** @var OptionValueDTO */
     private $optionValueDTO;
 
-    /**
-     * @param string $optionId
-     * @param OptionValueDTO $optionValueDTO
-     */
-    public function __construct($optionId, OptionValueDTO $optionValueDTO)
+    public function __construct(string $optionId, OptionValueDTO $optionValueDTO)
     {
         $this->optionValueId = Uuid::uuid4();
         $this->optionId = Uuid::fromString($optionId);
         $this->optionValueDTO = $optionValueDTO;
     }
 
-    public function getOptionId()
+    public function getOptionId(): UuidInterface
     {
         return $this->optionId;
     }
 
-    public function getOptionValueDTO()
+    public function getOptionValueDTO(): OptionValueDTO
     {
         return $this->optionValueDTO;
     }
 
-    public function getOptionValueId()
+    public function getOptionValueId(): UuidInterface
     {
         return $this->optionValueId;
     }

@@ -14,7 +14,7 @@ final class UpdateOptionValueCommand implements CommandInterface
         $this->optionValueDTO = $optionValueDTO;
     }
 
-    public function getOptionValueDTO()
+    public function getOptionValueDTO(): OptionValueDTO
     {
         return $this->optionValueDTO;
     }

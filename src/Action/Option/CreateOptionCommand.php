@@ -23,49 +23,40 @@ final class CreateOptionCommand implements CommandInterface
     /** @var string */
     private $optionTypeSlug;
 
-    /**
-     * @param string $name
-     * @param string $description
-     * @param int $sortOrder
-     * @param string $optionTypeSlug
-     */
     public function __construct(
-        $name,
-        $description,
-        $sortOrder,
-        $optionTypeSlug
+        string $name,
+        string $description,
+        int $sortOrder,
+        string $optionTypeSlug
     ) {
-        $this->name = (string) $name;
-        $this->description = (string) $description;
-        $this->sortOrder = (int) $sortOrder;
-        $this->optionTypeSlug = (string) $optionTypeSlug;
+        $this->name = $name;
+        $this->description = $description;
+        $this->sortOrder = $sortOrder;
+        $this->optionTypeSlug = $optionTypeSlug;
         $this->optionId = Uuid::uuid4();
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return $this->sortOrder;
     }
 
-    /**
-     * @return OptionType
-     */
-    public function getOptionType()
+    public function getOptionType(): OptionType
     {
         return OptionType::createBySlug($this->optionTypeSlug);
     }
 
-    public function getOptionId()
+    public function getOptionId(): UuidInterface
     {
         return $this->optionId;
     }
