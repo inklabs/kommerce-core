@@ -13,13 +13,13 @@ final class GetShipmentRatesQuery implements QueryInterface
     /** @var ParcelDTO */
     private $parcelDTO;
 
-    /** @var OrderAddressDTO */
+    /** @var OrderAddressDTO|null */
     private $fromAddressDTO;
 
     public function __construct(
         OrderAddressDTO $toAddressDTO,
         ParcelDTO $parcelDTO,
-        OrderAddressDTO $fromAddressDTO = null
+        ?OrderAddressDTO $fromAddressDTO = null
     ) {
         $this->toAddressDTO = $toAddressDTO;
         $this->parcelDTO = $parcelDTO;
@@ -36,7 +36,7 @@ final class GetShipmentRatesQuery implements QueryInterface
         return $this->parcelDTO;
     }
 
-    public function getFromAddressDTO(): OrderAddressDTO
+    public function getFromAddressDTO(): ?OrderAddressDTO
     {
         return $this->fromAddressDTO;
     }
