@@ -13,22 +13,18 @@ final class AddOptionToTagCommand implements CommandInterface
     /** @var UuidInterface */
     private $optionId;
 
-    /**
-     * @param string $tagId
-     * @param string $optionId
-     */
-    public function __construct($tagId, $optionId)
+    public function __construct(string $tagId, string $optionId)
     {
         $this->tagId = Uuid::fromString($tagId);
         $this->optionId = Uuid::fromString($optionId);
     }
 
-    public function getTagId()
+    public function getTagId(): UuidInterface
     {
         return $this->tagId;
     }
 
-    public function getOptionId()
+    public function getOptionId(): UuidInterface
     {
         return $this->optionId;
     }

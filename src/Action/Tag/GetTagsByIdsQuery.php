@@ -18,7 +18,10 @@ final class GetTagsByIdsQuery implements QueryInterface
         $this->setTagIds($tagIds);
     }
 
-    public function getTagIds()
+    /**
+     * @return UuidInterface[]
+     */
+    public function getTagIds(): array
     {
         return $this->tagIds;
     }

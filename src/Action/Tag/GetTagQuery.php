@@ -10,15 +10,12 @@ final class GetTagQuery implements QueryInterface
     /** @var UuidInterface */
     private $tagId;
 
-    /**
-     * @param string $tagId
-     */
-    public function __construct($tagId)
+    public function __construct(string $tagId)
     {
         $this->tagId = Uuid::fromString($tagId);
     }
 
-    public function getTagId()
+    public function getTagId(): UuidInterface
     {
         return $this->tagId;
     }
