@@ -17,32 +17,27 @@ final class SetExternalShipmentRateCommand implements CommandInterface
     /** @var OrderAddressDTO */
     private $shippingAddressDTO;
 
-    /**
-     * @param string $cartId
-     * @param string $shipmentRateExternalId
-     * @param OrderAddressDTO $shippingAddressDTO
-     */
     public function __construct(
-        $cartId,
-        $shipmentRateExternalId,
+        string $cartId,
+        string $shipmentRateExternalId,
         OrderAddressDTO $shippingAddressDTO
     ) {
         $this->cartId = Uuid::fromString($cartId);
-        $this->shipmentRateExternalId = (string) $shipmentRateExternalId;
+        $this->shipmentRateExternalId = $shipmentRateExternalId;
         $this->shippingAddressDTO = $shippingAddressDTO;
     }
 
-    public function getCartId()
+    public function getCartId(): UuidInterface
     {
         return $this->cartId;
     }
 
-    public function getShipmentRateExternalId()
+    public function getShipmentRateExternalId(): string
     {
         return $this->shipmentRateExternalId;
     }
 
-    public function getShippingAddressDTO()
+    public function getShippingAddressDTO(): OrderAddressDTO
     {
         return $this->shippingAddressDTO;
     }

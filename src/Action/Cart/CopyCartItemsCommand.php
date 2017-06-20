@@ -13,22 +13,18 @@ final class CopyCartItemsCommand implements CommandInterface
     /** @var UuidInterface */
     private $toCartId;
 
-    /**
-     * @param string $fromCartId
-     * @param string $toCartId
-     */
-    public function __construct($fromCartId, $toCartId)
+    public function __construct(string $fromCartId, string $toCartId)
     {
         $this->fromCartId = Uuid::fromString($fromCartId);
         $this->toCartId = Uuid::fromString($toCartId);
     }
 
-    public function getFromCartId()
+    public function getFromCartId(): UuidInterface
     {
         return $this->fromCartId;
     }
 
-    public function getToCartId()
+    public function getToCartId(): UuidInterface
     {
         return $this->toCartId;
     }

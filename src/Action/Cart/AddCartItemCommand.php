@@ -38,9 +38,9 @@ final class AddCartItemCommand implements CommandInterface
      * @param TextOptionValueDTO[]|null $textOptionValueDTOs
      */
     public function __construct(
-        $cartId,
-        $productId,
-        $quantity,
+        string $cartId,
+        string $productId,
+        int $quantity,
         array $optionProductIds = null,
         array $optionValuesIds = null,
         array $textOptionValueDTOs = null
@@ -48,7 +48,7 @@ final class AddCartItemCommand implements CommandInterface
         $this->cartItemId = Uuid::uuid4();
         $this->cartId = Uuid::fromString($cartId);
         $this->productId = Uuid::fromString($productId);
-        $this->quantity = (int) $quantity;
+        $this->quantity = $quantity;
 
         if ($optionProductIds !== null) {
             $this->setOptionProductIds($optionProductIds);
@@ -63,36 +63,45 @@ final class AddCartItemCommand implements CommandInterface
         }
     }
 
-    public function getCartItemId()
+    public function getCartItemId(): UuidInterface
     {
         return $this->cartItemId;
     }
 
-    public function getCartId()
+    public function getCartId(): UuidInterface
     {
         return $this->cartId;
     }
 
-    public function getProductId()
+    public function getProductId(): UuidInterface
     {
         return $this->productId;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
 
+    /**
+     * @return UuidInterface[]
+     */
     public function getOptionProductIds()
     {
         return $this->optionProductIds;
     }
 
+    /**
+     * @return UuidInterface[]
+     */
     public function getOptionValueIds()
     {
         return $this->optionValueIds;
     }
 
+    /**
+     * @return TextOptionValueDTO[]
+     */
     public function getTextOptionValueDTOs()
     {
         return $this->textOptionValueDTOs;

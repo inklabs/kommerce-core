@@ -13,22 +13,18 @@ final class UpdateCartItemQuantityCommand implements CommandInterface
     /** @var string */
     private $quantity;
 
-    /**
-     * @param string $cartItemId
-     * @param int $quantity
-     */
-    public function __construct($cartItemId, $quantity)
+    public function __construct(string $cartItemId, int $quantity)
     {
         $this->cartItemId = Uuid::fromString($cartItemId);
-        $this->quantity = (int) $quantity;
+        $this->quantity = $quantity;
     }
 
-    public function getCarItemtId()
+    public function getCarItemtId(): UuidInterface
     {
         return $this->cartItemId;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }

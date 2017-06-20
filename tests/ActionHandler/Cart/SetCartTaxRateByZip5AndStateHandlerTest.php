@@ -22,7 +22,7 @@ class SetCartTaxRateByZip5AndStateHandlerTest extends ActionTestCase
     public function testHandle()
     {
         $cart = $this->dummyData->getCart();
-        $taxRate = $this->dummyData->getStateTaxRate();
+        $taxRate = $this->dummyData->getTaxRate();
         $this->persistEntityAndFlushClear([
             $cart,
             $taxRate,
