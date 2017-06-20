@@ -5,9 +5,5 @@ use Iterator;
 
 interface ImportPaymentServiceInterface
 {
-    /**
-     * @param Iterator $iterator
-     * @return ImportResult
-     */
-    public function import(Iterator $iterator);
+    public function import(Iterator $iterator): ImportResult;
 }

@@ -28,11 +28,7 @@ class ImportPaymentService implements ImportPaymentServiceInterface
         $this->paymentRepository = $paymentRepository;
     }
 
-    /**
-     * @param Iterator $iterator
-     * @return ImportResult
-     */
-    public function import(Iterator $iterator)
+    public function import(Iterator $iterator): ImportResult
     {
         $importResult = new ImportResult;
         foreach ($iterator as $key => $row) {
@@ -71,11 +67,7 @@ class ImportPaymentService implements ImportPaymentServiceInterface
         return $importResult;
     }
 
-    /**
-     * @param float $dollarValue
-     * @return int
-     */
-    private function convertDollarToCents($dollarValue)
+    private function convertDollarToCents(float $dollarValue): int
     {
         return (int) round($dollarValue * 100);
     }

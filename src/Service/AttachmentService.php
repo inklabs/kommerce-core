@@ -44,12 +44,7 @@ class AttachmentService implements AttachmentServiceInterface
         $this->userRepository = $userRepository;
     }
 
-    /**
-     * @param UploadFileDTO $uploadFileDTO
-     * @param UuidInterface $orderItemId
-     * @return void
-     */
-    public function createAttachmentForOrderItem(UploadFileDTO $uploadFileDTO, UuidInterface $orderItemId)
+    public function createAttachmentForOrderItem(UploadFileDTO $uploadFileDTO, UuidInterface $orderItemId): void
     {
         $orderItem = $this->orderItemRepository->findOneById($orderItemId);
         $order = $orderItem->getOrder();
@@ -60,17 +55,11 @@ class AttachmentService implements AttachmentServiceInterface
         $this->orderItemRepository->update($order);
     }
 
-    /**
-     * @param UploadFileDTO $uploadFileDTO
-     * @param UuidInterface $userId
-     * @param UuidInterface $productId
-     * @return void
-     */
     public function createAttachmentForUserProduct(
         UploadFileDTO $uploadFileDTO,
         UuidInterface $userId,
         UuidInterface $productId
-    ) {
+    ): void {
         $user = $this->userRepository->findOneById($userId);
         $product = $this->productRepository->findOneById($productId);
 
@@ -80,11 +69,7 @@ class AttachmentService implements AttachmentServiceInterface
         $this->attachmentRepository->create($userProductAttachment);
     }
 
-    /**
-     * @param UploadFileDTO $uploadFileDTO
-     * @return Attachment
-     */
-    private function createAttachment(UploadFileDTO $uploadFileDTO)
+    private function createAttachment(UploadFileDTO $uploadFileDTO): Attachment
     {
         $managedFile = $this->fileManager->saveFile($uploadFileDTO->getFilePath());
 

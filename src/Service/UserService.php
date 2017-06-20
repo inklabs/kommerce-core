@@ -42,7 +42,7 @@ class UserService implements UserServiceInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function login($email, $password, $remoteIp)
+    public function login(string $email, string $password, string $remoteIp): User
     {
         $user = $this->getUserOrAssertAndRecordLoginFailure($email, $remoteIp);
 
@@ -56,7 +56,7 @@ class UserService implements UserServiceInterface
         return $user;
     }
 
-    public function loginWithToken($email, $token, $remoteIp)
+    public function loginWithToken(string $email, string $token, string $remoteIp): User
     {
         $user = $this->getUserOrAssertAndRecordLoginFailure($email, $remoteIp);
 
@@ -82,31 +82,18 @@ class UserService implements UserServiceInterface
         return $user;
     }
 
-    /**
-     * @param string $email
-     * @param string $ip4
-     * @param UserLoginResultType $result
-     * @param User $user
-     * @param UserToken $userToken
-     */
     protected function recordLogin(
-        $email,
-        $ip4,
+        string $email,
+        string $ip4,
         UserLoginResultType $result,
         User $user = null,
         UserToken $userToken = null
-    ) {
+    ): void {
         $userLogin = new UserLogin($result, $email, $ip4, $user, $userToken);
         $this->userLoginRepository->create($userLogin);
     }
 
-    /**
-     * @param string $email
-     * @param string $remoteIp
-     * @return User
-     * @throws UserLoginException
-     */
-    private function getUserOrAssertAndRecordLoginFailure($email, $remoteIp)
+    private function getUserOrAssertAndRecordLoginFailure(string $email, string $remoteIp): User
     {
         try {
             $user = $this->userRepository->findOneByEmail($email);

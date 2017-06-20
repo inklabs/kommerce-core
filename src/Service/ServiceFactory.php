@@ -9,6 +9,10 @@ use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\ReferenceNumber\HashSegmentReferenceNumberGenerator;
 use inklabs\kommerce\Lib\ReferenceNumber\ReferenceNumberGeneratorInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Service\Import\ImportOrderItemServiceInterface;
+use inklabs\kommerce\Service\Import\ImportOrderServiceInterface;
+use inklabs\kommerce\Service\Import\ImportPaymentServiceInterface;
+use inklabs\kommerce\Service\Import\ImportUserServiceInterface;
 
 class ServiceFactory
 {
@@ -46,10 +50,7 @@ class ServiceFactory
         $this->fileManager = $fileManager;
     }
 
-    /**
-     * @return AttachmentService
-     */
-    public function getAttachmentService()
+    public function getAttachmentService(): AttachmentServiceInterface
     {
         return new AttachmentService(
             $this->repositoryFactory->getAttachmentRepository(),
@@ -60,10 +61,7 @@ class ServiceFactory
         );
     }
 
-    /**
-     * @return CartService
-     */
-    public function getCart()
+    public function getCart(): CartServiceInterface
     {
         return new CartService(
             $this->repositoryFactory->getCartRepository(),
@@ -81,31 +79,22 @@ class ServiceFactory
         );
     }
 
-    public function getCartCalculator()
+    public function getCartCalculator(): CartCalculatorInterface
     {
         return $this->cartCalculator;
     }
 
-    /**
-     * @return FileManagerInterface
-     */
-    public function getFileManager()
+    public function getFileManager(): FileManagerInterface
     {
         return $this->fileManager;
     }
 
-    /**
-     * @return ReferenceNumberGeneratorInterface
-     */
-    public function getReferenceNumberGenerator()
+    public function getReferenceNumberGenerator(): ReferenceNumberGeneratorInterface
     {
         return new HashSegmentReferenceNumberGenerator($this->repositoryFactory->getOrderRepository());
     }
 
-    /**
-     * @return ImageService
-     */
-    public function getImageService()
+    public function getImageService(): ImageServiceInterface
     {
         return new ImageService(
             $this->getFileManager(),
@@ -115,10 +104,7 @@ class ServiceFactory
         );
     }
 
-    /**
-     * @return Import\ImportOrderService
-     */
-    public function getImportOrder()
+    public function getImportOrder(): ImportOrderServiceInterface
     {
         return new Import\ImportOrderService(
             $this->repositoryFactory->getOrderRepository(),
@@ -126,10 +112,7 @@ class ServiceFactory
         );
     }
 
-    /**
-     * @return Import\ImportOrderItemService
-     */
-    public function getImportOrderItem()
+    public function getImportOrderItem(): ImportOrderItemServiceInterface
     {
         return new Import\ImportOrderItemService(
             $this->repositoryFactory->getOrderRepository(),
@@ -138,10 +121,7 @@ class ServiceFactory
         );
     }
 
-    /**
-     * @return Import\ImportPaymentService
-     */
-    public function getImportPayment()
+    public function getImportPayment(): ImportPaymentServiceInterface
     {
         return new Import\ImportPaymentService(
             $this->repositoryFactory->getOrderRepository(),
@@ -149,15 +129,12 @@ class ServiceFactory
         );
     }
 
-    /**
-     * @return Import\ImportUserService
-     */
-    public function getImportUser()
+    public function getImportUser(): ImportUserServiceInterface
     {
         return new Import\ImportUserService($this->repositoryFactory->getUserRepository());
     }
 
-    public function getInventoryService()
+    public function getInventoryService(): InventoryServiceInterface
     {
         return new InventoryService(
             $this->repositoryFactory->getInventoryLocationRepository(),
@@ -165,10 +142,7 @@ class ServiceFactory
         );
     }
 
-    /**
-     * @return OrderService
-     */
-    public function getOrder()
+    public function getOrder(): OrderServiceInterface
     {
         return new OrderService(
             $this->eventDispatcher,
@@ -182,18 +156,12 @@ class ServiceFactory
         );
     }
 
-    /**
-     * @return ShipmentGatewayInterface
-     */
-    public function getShipmentGateway()
+    public function getShipmentGateway(): ShipmentGatewayInterface
     {
         return $this->shipmentGateway;
     }
 
-    /**
-     * @return UserService
-     */
-    public function getUser()
+    public function getUser(): UserServiceInterface
     {
         return new UserService(
             $this->repositoryFactory->getUserRepository(),

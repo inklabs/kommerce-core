@@ -6,21 +6,6 @@ use inklabs\kommerce\Exception\UserLoginException;
 
 interface UserServiceInterface
 {
-    /**
-     * @param string $email
-     * @param string $password
-     * @param string $remoteIp
-     * @return User
-     * @throws UserLoginException
-     */
-    public function login($email, $password, $remoteIp);
-
-    /**
-     * @param string $email
-     * @param string $token
-     * @param string $remoteIp
-     * @return User
-     * @throws UserLoginException
-     */
-    public function loginWithToken($email, $token, $remoteIp);
+    public function login(string $email, string $password, string $remoteIp): User;
+    public function loginWithToken(string $email, string $token, string $remoteIp): User;
 }

@@ -8,16 +8,11 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 interface ImageServiceInterface
 {
-    public function create(Image & $image);
-    public function update(Image & $image);
+    public function create(Image & $image): void;
+    public function update(Image & $image): void;
 
-    public function createImageForProduct(UploadFileDTO $uploadFileDTO, UuidInterface $productId);
-    public function createImageForTag(UploadFileDTO $uploadFileDTO, UuidInterface $tagId);
+    public function createImageForProduct(UploadFileDTO $uploadFileDTO, UuidInterface $productId): void;
+    public function createImageForTag(UploadFileDTO $uploadFileDTO, UuidInterface $tagId): void;
 
-    /**
-     * @param UuidInterface $id
-     * @return Image
-     * @throws EntityNotFoundException
-     */
-    public function findOneById(UuidInterface $id);
+    public function findOneById(UuidInterface $id): Image;
 }

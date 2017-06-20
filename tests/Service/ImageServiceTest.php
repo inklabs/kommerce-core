@@ -40,15 +40,6 @@ class ImageServiceTest extends ServiceTestCase
         );
     }
 
-    public function testCRUD()
-    {
-        $this->executeServiceCRUD(
-            $this->imageService,
-            $this->imageRepository,
-            $this->dummyData->getImage()
-        );
-    }
-
     public function testCreateImageForProduct()
     {
         $uploadFileDTO = $this->dummyData->getUploadFileDTO();
@@ -95,7 +86,7 @@ class ImageServiceTest extends ServiceTestCase
 
     public function testFindOneById()
     {
-        $image1 = $this->dummyData->getTag();
+        $image1 = $this->dummyData->getImage();
         $this->imageRepository->shouldReceive('findOneById')
             ->with($image1->getId())
             ->andReturn($image1)

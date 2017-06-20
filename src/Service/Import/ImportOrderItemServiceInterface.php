@@ -5,9 +5,5 @@ use Iterator;
 
 interface ImportOrderItemServiceInterface
 {
-    /**
-     * @param Iterator $iterator
-     * @return ImportResult
-     */
-    public function import(Iterator $iterator);
+    public function import(Iterator $iterator): ImportResult;
 }

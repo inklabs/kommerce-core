@@ -7,11 +7,7 @@ use inklabs\kommerce\Entity\ValidationInterface;
 
 trait EntityValidationTrait
 {
-    /**
-     * @param ValidationInterface $entity
-     * @throws EntityValidatorException
-     */
-    public function throwValidationErrors(ValidationInterface $entity)
+    public function throwValidationErrors(ValidationInterface $entity): void
     {
         $validator = new EntityValidator;
         $validator->throwValidationErrors($entity);
