@@ -10,15 +10,12 @@ final class DeleteProductAttributeCommand implements CommandInterface
     /** @var UuidInterface */
     private $productAttributeId;
 
-    /**
-     * @param string $productAttributeId
-     */
-    public function __construct($productAttributeId)
+    public function __construct(string $productAttributeId)
     {
         $this->productAttributeId = Uuid::fromString($productAttributeId);
     }
 
-    public function getProductAttributeId()
+    public function getProductAttributeId(): UuidInterface
     {
         return $this->productAttributeId;
     }

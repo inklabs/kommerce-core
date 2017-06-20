@@ -22,19 +22,12 @@ final class UpdateAttributeValueCommand implements CommandInterface
     /** @var null|string */
     protected $description;
 
-    /**
-     * @param string $name
-     * @param int $sortOrder
-     * @param null|string $sku
-     * @param null|string $description
-     * @param string $attributeValueId
-     */
     public function __construct(
-        $name,
-        $sortOrder,
-        $sku,
-        $description,
-        $attributeValueId
+        string $name,
+        int $sortOrder,
+        ?string $sku,
+        ?string $description,
+        string $attributeValueId
     ) {
         $this->name = $name;
         $this->sortOrder = $sortOrder;
@@ -43,26 +36,26 @@ final class UpdateAttributeValueCommand implements CommandInterface
         $this->attributeValueId = Uuid::fromString($attributeValueId);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return $this->sortOrder;
     }
 
-    public function getSku()
+    public function getSku(): ?string
     {
         return $this->sku;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function getAttributeValueId()
+    public function getAttributeValueId(): UuidInterface
     {
         return $this->attributeValueId;
     }

@@ -16,28 +16,24 @@ final class CreateProductAttributeCommand implements CommandInterface
     /** @var UuidInterface */
     private $productId;
 
-    /**
-     * @param string $attributeValueId
-     * @param string $productId
-     */
-    public function __construct($attributeValueId, $productId)
+    public function __construct(string $attributeValueId, string $productId)
     {
         $this->productAttributeId = Uuid::uuid4();
         $this->attributeValueId = Uuid::fromString($attributeValueId);
         $this->productId = Uuid::fromString($productId);
     }
 
-    public function getAttributeValueId()
+    public function getAttributeValueId(): UuidInterface
     {
         return $this->attributeValueId;
     }
 
-    public function getProductId()
+    public function getProductId(): UuidInterface
     {
         return $this->productId;
     }
 
-    public function getProductAttributeId()
+    public function getProductAttributeId(): UuidInterface
     {
         return $this->productAttributeId;
     }
