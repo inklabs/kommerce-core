@@ -16,29 +16,24 @@ final class UpdateInventoryLocationCommand implements CommandInterface
     /** @var UuidInterface */
     private $inventoryLocationId;
 
-    /**
-     * @param string $name
-     * @param string $code
-     * @param string $inventoryLocationId
-     */
-    public function __construct($name, $code, $inventoryLocationId)
+    public function __construct(string $name, string $code, string $inventoryLocationId)
     {
         $this->name = $name;
         $this->code = $code;
         $this->inventoryLocationId = Uuid::fromString($inventoryLocationId);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
 
-    public function getInventoryLocationId()
+    public function getInventoryLocationId(): UuidInterface
     {
         return $this->inventoryLocationId;
     }

@@ -14,22 +14,18 @@ final class ListInventoryTransactionsByInventoryLocationQuery implements QueryIn
     /** @var PaginationDTO */
     private $paginationDTO;
 
-    /**
-     * @param string $inventoryLocationId
-     * @param PaginationDTO $paginationDTO
-     */
-    public function __construct($inventoryLocationId, PaginationDTO $paginationDTO)
+    public function __construct(string $inventoryLocationId, PaginationDTO $paginationDTO)
     {
         $this->inventoryLocationId = Uuid::fromString($inventoryLocationId);
         $this->paginationDTO = $paginationDTO;
     }
 
-    public function getInventoryLocationId()
+    public function getInventoryLocationId(): UuidInterface
     {
         return $this->inventoryLocationId;
     }
 
-    public function getPaginationDTO()
+    public function getPaginationDTO(): PaginationDTO
     {
         return $this->paginationDTO;
     }
