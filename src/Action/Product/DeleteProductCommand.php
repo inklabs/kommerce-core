@@ -8,18 +8,15 @@ use inklabs\kommerce\Lib\UuidInterface;
 final class DeleteProductCommand implements CommandInterface
 {
     /** @var UuidInterface */
-    private $id;
+    private $productId;
 
-    /**
-     * @param string $id
-     */
-    public function __construct($id)
+    public function __construct(string $id)
     {
-        $this->id = Uuid::fromString($id);
+        $this->productId = Uuid::fromString($id);
     }
 
-    public function getProductId()
+    public function getProductId(): UuidInterface
     {
-        return $this->id;
+        return $this->productId;
     }
 }

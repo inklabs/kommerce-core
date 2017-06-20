@@ -20,7 +20,7 @@ final class CreateProductQuantityDiscountCommand implements CommandInterface
     /** @var bool */
     private $reducesTaxSubtotal;
 
-    /** @var int */
+    /** @var int|null */
     private $maxRedemptions;
 
     /** @var DateTime */
@@ -38,83 +38,75 @@ final class CreateProductQuantityDiscountCommand implements CommandInterface
     /** @var bool */
     private $flagApplyCatalogPromotions;
 
-    /**
-     * @param int $promotionTypeId
-     * @param int $value
-     * @param bool $reducesTaxSubtotal
-     * @param int $maxRedemptions
-     * @param DateTime $startDate
-     * @param DateTime $endDate
-     * @param string $productId
-     * @param int $quantity
-     * @param bool $flagApplyCatalogPromotions
-     */
     public function __construct(
-        $promotionTypeId,
-        $value,
-        $reducesTaxSubtotal,
-        $maxRedemptions,
-        $startDate,
-        $endDate,
-        $productId,
-        $quantity,
-        $flagApplyCatalogPromotions
+        int $promotionTypeId,
+        int $value,
+        bool $reducesTaxSubtotal,
+        ?int $maxRedemptions,
+        DateTime $startDate,
+        DateTime $endDate,
+        string $productId,
+        int $quantity,
+        bool $flagApplyCatalogPromotions
     ) {
-        $this->productQuantityDiscountId = Uuid::uuid4();
         $this->promotionTypeId = $promotionTypeId;
         $this->value = $value;
         $this->reducesTaxSubtotal = $reducesTaxSubtotal;
+        $this->maxRedemptions = $maxRedemptions;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
         $this->productId = Uuid::fromString($productId);
         $this->quantity = $quantity;
         $this->flagApplyCatalogPromotions = $flagApplyCatalogPromotions;
+        $this->productQuantityDiscountId = Uuid::uuid4();
     }
 
-    public function getProductQuantityDiscountId()
+    public function getProductQuantityDiscountId(): UuidInterface
     {
         return $this->productQuantityDiscountId;
     }
 
-    public function getPromotionTypeId()
+    public function getPromotionTypeId(): int
     {
         return $this->promotionTypeId;
     }
 
-    public function getValue()
+    public function getValue(): int
     {
         return $this->value;
     }
 
-    public function getReducesTaxSubtotal()
+    public function getReducesTaxSubtotal(): bool
     {
         return $this->reducesTaxSubtotal;
     }
 
-    public function getMaxRedemptions()
+    public function getMaxRedemptions(): ?int
     {
         return $this->maxRedemptions;
     }
 
-    public function getStartDate()
+    public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
-    public function getEndDate()
+    public function getEndDate(): DateTime
     {
         return $this->endDate;
     }
 
-    public function getProductId()
+    public function getProductId(): UuidInterface
     {
         return $this->productId;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
 
-    public function getFlagApplyCatalogPromotions()
+    public function getFlagApplyCatalogPromotions(): bool
     {
         return $this->flagApplyCatalogPromotions;
     }
