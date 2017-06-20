@@ -8,15 +8,12 @@ final class GetUserByEmailQuery implements QueryInterface
     /** @var string */
     private $email;
 
-    /**
-     * @param string $email
-     */
-    public function __construct($email)
+    public function __construct(string $email)
     {
-        $this->email = (string) $email;
+        $this->email = $email;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }

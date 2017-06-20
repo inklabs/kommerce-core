@@ -20,12 +20,12 @@ final class CreateUserCommand implements CommandInterface
         $this->userDTO = $userDTO;
     }
 
-    public function getUserId()
+    public function getUserId(): UuidInterface
     {
         return $this->userId;
     }
 
-    public function getUserDTO()
+    public function getUserDTO(): UserDTO
     {
         return $this->userDTO;
     }

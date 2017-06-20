@@ -14,29 +14,24 @@ final class ResetPasswordCommand implements CommandInterface
     /** @var string */
     private $userAgent;
 
-    /**
-     * @param string $email
-     * @param string $ip4
-     * @param string $userAgent
-     */
-    public function __construct($email, $ip4, $userAgent)
+    public function __construct(string $email, string $ip4, string $userAgent)
     {
         $this->email = $email;
         $this->ip4 = $ip4;
         $this->userAgent = $userAgent;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getIp4()
+    public function getIp4(): string
     {
         return $this->ip4;
     }
 
-    public function getUserAgent()
+    public function getUserAgent(): string
     {
         return $this->userAgent;
     }

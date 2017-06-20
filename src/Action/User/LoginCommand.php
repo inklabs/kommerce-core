@@ -14,29 +14,24 @@ final class LoginCommand implements CommandInterface
     /** @var string */
     private $remoteIp4;
 
-    /**
-     * @param string $email
-     * @param string $password
-     * @param string $remoteIp4
-     */
-    public function __construct($email, $password, $remoteIp4)
+    public function __construct(string $email, string $password, string $remoteIp4)
     {
-        $this->email = (string) $email;
-        $this->password = (string) $password;
-        $this->remoteIp4 = (string) $remoteIp4;
+        $this->email = $email;
+        $this->password = $password;
+        $this->remoteIp4 = $remoteIp4;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function getRemoteIp4()
+    public function getRemoteIp4(): string
     {
         return $this->remoteIp4;
     }
