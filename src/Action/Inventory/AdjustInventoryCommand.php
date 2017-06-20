@@ -19,40 +19,34 @@ final class AdjustInventoryCommand implements CommandInterface
     /** @var int */
     private $transactionTypeId;
 
-    /**
-     * @param string $productId
-     * @param int $quantity (can be negative)
-     * @param string $inventoryLocationId
-     * @param int $transactionTypeId
-     */
     public function __construct(
-        $productId,
-        $quantity,
-        $inventoryLocationId,
-        $transactionTypeId
+        string $productId,
+        int $quantity,
+        string $inventoryLocationId,
+        int $transactionTypeId
     ) {
         $this->productId = Uuid::fromString($productId);
-        $this->quantity = (int) $quantity;
+        $this->quantity = $quantity;
         $this->inventoryLocationId = Uuid::fromString($inventoryLocationId);
-        $this->transactionTypeId = (int) $transactionTypeId;
+        $this->transactionTypeId = $transactionTypeId;
     }
 
-    public function getProductId()
+    public function getProductId(): UuidInterface
     {
         return $this->productId;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
 
-    public function getInventoryLocationId()
+    public function getInventoryLocationId(): UuidInterface
     {
         return $this->inventoryLocationId;
     }
 
-    public function getTransactionTypeId()
+    public function getTransactionTypeId(): int
     {
         return $this->transactionTypeId;
     }
