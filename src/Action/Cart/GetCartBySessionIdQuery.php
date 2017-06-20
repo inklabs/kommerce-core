@@ -8,15 +8,12 @@ final class GetCartBySessionIdQuery implements QueryInterface
     /** @var string */
     private $sessionId;
 
-    /**
-     * @param string $sessionId
-     */
-    public function __construct($sessionId)
+    public function __construct(string $sessionId)
     {
-        $this->sessionId = (string) $sessionId;
+        $this->sessionId = $sessionId;
     }
 
-    public function getSessionId()
+    public function getSessionId(): string
     {
         return $this->sessionId;
     }

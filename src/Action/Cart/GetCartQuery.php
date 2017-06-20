@@ -10,15 +10,12 @@ final class GetCartQuery implements QueryInterface
     /** @var UuidInterface */
     private $cartId;
 
-    /**
-     * @param string $cartId
-     */
-    public function __construct($cartId)
+    public function __construct(string $cartId)
     {
         $this->cartId = Uuid::fromString($cartId);
     }
 
-    public function getCartId()
+    public function getCartId(): UuidInterface
     {
         return $this->cartId;
     }

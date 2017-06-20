@@ -13,22 +13,18 @@ final class RemoveCouponFromCartCommand implements CommandInterface
     /** @var UuidInterface */
     private $couponId;
 
-    /**
-     * @param string $cartId
-     * @param string $couponId
-     */
-    public function __construct($cartId, $couponId)
+    public function __construct(string $cartId, string $couponId)
     {
         $this->cartId = Uuid::fromString($cartId);
         $this->couponId = Uuid::fromString($couponId);
     }
 
-    public function getCartId()
+    public function getCartId(): UuidInterface
     {
         return $this->cartId;
     }
 
-    public function getCouponId()
+    public function getCouponId(): UuidInterface
     {
         return $this->couponId;
     }

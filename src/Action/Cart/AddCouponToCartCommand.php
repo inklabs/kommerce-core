@@ -13,22 +13,18 @@ final class AddCouponToCartCommand implements CommandInterface
     /** @var string */
     private $couponCode;
 
-    /**
-     * @param string $cartId
-     * @param string $couponCode
-     */
-    public function __construct($cartId, $couponCode)
+    public function __construct(string $cartId, string $couponCode)
     {
         $this->cartId = Uuid::fromString($cartId);
-        $this->couponCode = (string) $couponCode;
+        $this->couponCode = $couponCode;
     }
 
-    public function getCartId()
+    public function getCartId(): UuidInterface
     {
         return $this->cartId;
     }
 
-    public function getCouponCode()
+    public function getCouponCode(): string
     {
         return $this->couponCode;
     }

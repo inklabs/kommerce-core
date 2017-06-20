@@ -10,15 +10,12 @@ final class DeleteCartItemCommand implements CommandInterface
     /** @var UuidInterface */
     private $cartItemId;
 
-    /**
-     * @param string $cartItemId
-     */
-    public function __construct($cartItemId)
+    public function __construct(string $cartItemId)
     {
         $this->cartItemId = Uuid::fromString($cartItemId);
     }
 
-    public function getCartItemId()
+    public function getCartItemId(): UuidInterface
     {
         return $this->cartItemId;
     }

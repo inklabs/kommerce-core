@@ -14,22 +14,18 @@ final class SetCartFlatRateShipmentRateCommand implements CommandInterface
     /** @var MoneyDTO */
     private $moneyDTO;
 
-    /**
-     * @param string $cartId
-     * @param MoneyDTO $moneyDTO
-     */
-    public function __construct($cartId, $moneyDTO)
+    public function __construct(string $cartId, MoneyDTO $moneyDTO)
     {
         $this->cartId = Uuid::fromString($cartId);
         $this->moneyDTO = $moneyDTO;
     }
 
-    public function getCartId()
+    public function getCartId(): UuidInterface
     {
         return $this->cartId;
     }
 
-    public function getMoneyDTO()
+    public function getMoneyDTO(): MoneyDTO
     {
         return $this->moneyDTO;
     }

@@ -16,44 +16,36 @@ final class CreateCartCommand implements CommandInterface
     /** @var UuidInterface */
     private $userId;
 
-    /** @var string */
+    /** @var string|null */
     private $sessionId;
 
-    /**
-     * @param string $remoteIp4
-     * @param string|null $userId
-     * @param string|null $sessionId
-     */
-    public function __construct($remoteIp4, $userId = null, $sessionId = null)
+    public function __construct(string $remoteIp4, ?string $userId = null, ?string $sessionId = null)
     {
         $this->cartId = Uuid::uuid4();
-        $this->remoteIp4 = (string) $remoteIp4;
+        $this->remoteIp4 = $remoteIp4;
+        $this->sessionId = $sessionId;
 
         if ($userId !== null) {
             $this->userId = Uuid::fromString($userId);
         }
-
-        if ($sessionId !== null) {
-            $this->sessionId = (string) $sessionId;
-        }
     }
 
-    public function getCartId()
+    public function getCartId(): UuidInterface
     {
         return $this->cartId;
     }
 
-    public function getSessionId()
+    public function getSessionId(): ?string
     {
         return $this->sessionId;
     }
 
-    public function getRemoteIp4()
+    public function getRemoteIp4(): string
     {
         return $this->remoteIp4;
     }
 
-    public function getUserId()
+    public function getUserId(): UuidInterface
     {
         return $this->userId;
     }
