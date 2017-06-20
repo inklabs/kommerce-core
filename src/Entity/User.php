@@ -184,7 +184,7 @@ class User implements IdEntityInterface
         return trim($this->firstName . ' ' . $this->lastName);
     }
 
-    public function incrementTotalLogins(): void
+    public function incrementTotalLogins()
     {
         $this->totalLogins++;
         $this->setLastLogin(new DateTime('now', new DateTimeZone('UTC')));
