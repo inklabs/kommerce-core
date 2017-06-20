@@ -19,13 +19,7 @@ final class UpdateStateTaxRateCommand implements CommandInterface
     /** @var bool */
     private $applyToShipping;
 
-    /**
-     * @param string $taxRateId
-     * @param string $state
-     * @param float $rate
-     * @param bool $applyToShipping
-     */
-    public function __construct($taxRateId, $state, $rate, $applyToShipping)
+    public function __construct(string $taxRateId, string $state, float $rate, bool $applyToShipping)
     {
         $this->taxRateId = Uuid::fromString($taxRateId);
         $this->state = $state;
@@ -33,22 +27,22 @@ final class UpdateStateTaxRateCommand implements CommandInterface
         $this->applyToShipping = $applyToShipping;
     }
 
-    public function getTaxRateId()
+    public function getTaxRateId(): UuidInterface
     {
         return $this->taxRateId;
     }
 
-    public function getState()
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function getRate()
+    public function getRate(): float
     {
         return $this->rate;
     }
 
-    public function applyToShipping()
+    public function applyToShipping(): bool
     {
         return $this->applyToShipping;
     }

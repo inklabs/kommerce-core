@@ -10,15 +10,12 @@ final class DeleteTaxRateCommand implements CommandInterface
     /** @var UuidInterface */
     private $taxRateId;
 
-    /**
-     * @param string $taxRateId
-     */
-    public function __construct($taxRateId)
+    public function __construct(string $taxRateId)
     {
         $this->taxRateId = Uuid::fromString($taxRateId);
     }
 
-    public function getTaxRateId()
+    public function getTaxRateId(): UuidInterface
     {
         return $this->taxRateId;
     }
