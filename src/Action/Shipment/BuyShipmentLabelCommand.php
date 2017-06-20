@@ -23,48 +23,41 @@ final class BuyShipmentLabelCommand implements CommandInterface
     /** @var string */
     private $rateExternalId;
 
-    /**
-     * @param string $orderId
-     * @param OrderItemQtyDTO $orderItemQtyDTO
-     * @param string $comment
-     * @param string $shipmentExternalId
-     * @param string $rateExternalId
-     */
     public function __construct(
-        $orderId,
+        string $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
-        $comment,
-        $shipmentExternalId,
-        $rateExternalId
+        string $comment,
+        string $shipmentExternalId,
+        string $rateExternalId
     ) {
         $this->orderId = Uuid::fromString($orderId);
         $this->orderItemQtyDTO = $orderItemQtyDTO;
-        $this->comment = (string) $comment;
-        $this->shipmentExternalId = (string) $shipmentExternalId;
-        $this->rateExternalId = (string) $rateExternalId;
+        $this->comment = $comment;
+        $this->shipmentExternalId = $shipmentExternalId;
+        $this->rateExternalId = $rateExternalId;
     }
 
-    public function getOrderId()
+    public function getOrderId(): UuidInterface
     {
         return $this->orderId;
     }
 
-    public function getShipmentExternalId()
+    public function getShipmentExternalId(): string
     {
         return $this->shipmentExternalId;
     }
 
-    public function getRateExternalId()
+    public function getRateExternalId(): string
     {
         return $this->rateExternalId;
     }
 
-    public function getOrderItemQtyDTO()
+    public function getOrderItemQtyDTO(): OrderItemQtyDTO
     {
         return $this->orderItemQtyDTO;
     }
 
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }

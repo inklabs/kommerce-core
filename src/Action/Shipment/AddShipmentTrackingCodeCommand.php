@@ -23,48 +23,41 @@ final class AddShipmentTrackingCodeCommand implements CommandInterface
     /** @var string */
     private $trackingCode;
 
-    /**
-     * @param string $orderId
-     * @param OrderItemQtyDTO $orderItemQtyDTO
-     * @param string $comment
-     * @param int $carrier ShipmentTracker::$carrier
-     * @param string $trackingCode
-     */
     public function __construct(
-        $orderId,
+        string $orderId,
         OrderItemQtyDTO $orderItemQtyDTO,
-        $comment,
-        $carrier,
-        $trackingCode
+        string $comment,
+        int $carrier,
+        string $trackingCode
     ) {
         $this->orderId = Uuid::fromString($orderId);
         $this->orderItemQtyDTO = $orderItemQtyDTO;
-        $this->comment = (string) $comment;
-        $this->carrier = (int) $carrier;
-        $this->trackingCode = (string) $trackingCode;
+        $this->comment = $comment;
+        $this->carrier = $carrier;
+        $this->trackingCode = $trackingCode;
     }
 
-    public function getOrderId()
+    public function getOrderId(): UuidInterface
     {
         return $this->orderId;
     }
 
-    public function getOrderItemQtyDTO()
+    public function getOrderItemQtyDTO(): OrderItemQtyDTO
     {
         return $this->orderItemQtyDTO;
     }
 
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
 
-    public function getCarrier()
+    public function getCarrier(): int
     {
         return $this->carrier;
     }
 
-    public function getTrackingCode()
+    public function getTrackingCode(): string
     {
         return $this->trackingCode;
     }

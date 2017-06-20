@@ -16,7 +16,8 @@ class GetShipmentRatesHandlerTest extends ActionTestCase
     {
         $query = new GetShipmentRatesQuery(
             new OrderAddressDTO(),
-            new ParcelDTO()
+            new ParcelDTO(),
+            new OrderAddressDTO()
         );
 
         /** @var GetShipmentRatesResponse $response */

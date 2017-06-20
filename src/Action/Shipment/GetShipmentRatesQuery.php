@@ -26,17 +26,17 @@ final class GetShipmentRatesQuery implements QueryInterface
         $this->fromAddressDTO = $fromAddressDTO;
     }
 
-    public function getToAddressDTO()
+    public function getToAddressDTO(): OrderAddressDTO
     {
         return $this->toAddressDTO;
     }
 
-    public function getParcelDTO()
+    public function getParcelDTO(): ParcelDTO
     {
         return $this->parcelDTO;
     }
 
-    public function getFromAddressDTO()
+    public function getFromAddressDTO(): OrderAddressDTO
     {
         return $this->fromAddressDTO;
     }

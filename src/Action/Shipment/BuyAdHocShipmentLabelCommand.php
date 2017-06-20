@@ -16,30 +16,24 @@ final class BuyAdHocShipmentLabelCommand implements CommandInterface
     /** @var string */
     private $rateExternalId;
 
-    /**
-     * @param string $shipmentExternalId
-     * @param string $rateExternalId
-     */
-    public function __construct(
-        $shipmentExternalId,
-        $rateExternalId
-    ) {
+    public function __construct(string $shipmentExternalId, string $rateExternalId)
+    {
         $this->shipmentTrackerId = Uuid::uuid4();
-        $this->shipmentExternalId = (string) $shipmentExternalId;
-        $this->rateExternalId = (string) $rateExternalId;
+        $this->shipmentExternalId = $shipmentExternalId;
+        $this->rateExternalId = $rateExternalId;
     }
 
-    public function getShipmentTrackerId()
+    public function getShipmentTrackerId(): UuidInterface
     {
         return $this->shipmentTrackerId;
     }
 
-    public function getShipmentExternalId()
+    public function getShipmentExternalId(): string
     {
         return $this->shipmentExternalId;
     }
 
-    public function getRateExternalId()
+    public function getRateExternalId(): string
     {
         return $this->rateExternalId;
     }
