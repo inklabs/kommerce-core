@@ -13,22 +13,18 @@ final class AddTextOptionToTagCommand implements CommandInterface
     /** @var UuidInterface */
     private $textOptionId;
 
-    /**
-     * @param string $tagId
-     * @param string $textOptionId
-     */
-    public function __construct($tagId, $textOptionId)
+    public function __construct(string $tagId, string $textOptionId)
     {
         $this->tagId = Uuid::fromString($tagId);
         $this->textOptionId = Uuid::fromString($textOptionId);
     }
 
-    public function getTagId()
+    public function getTagId(): UuidInterface
     {
         return $this->tagId;
     }
 
-    public function getTextOptionId()
+    public function getTextOptionId(): UuidInterface
     {
         return $this->textOptionId;
     }

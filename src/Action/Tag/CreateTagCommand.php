@@ -20,12 +20,12 @@ final class CreateTagCommand implements CommandInterface
         $this->tagDTO = $tagDTO;
     }
 
-    public function getTagId()
+    public function getTagId(): UuidInterface
     {
         return $this->tagId;
     }
 
-    public function getTagDTO()
+    public function getTagDTO(): TagDTO
     {
         return $this->tagDTO;
     }

@@ -14,7 +14,7 @@ final class UpdateTagCommand implements CommandInterface
         $this->tagDTO = $tagDTO;
     }
 
-    public function getTagDTO()
+    public function getTagDTO(): TagDTO
     {
         return $this->tagDTO;
     }
