@@ -10,7 +10,7 @@ final class ImportPaymentsFromCSVCommand implements CommandInterface
 
     public function __construct(string $fileName)
     {
-        $this->fileName = (string) $fileName;
+        $this->fileName = $fileName;
     }
 
     public function getFileName(): string

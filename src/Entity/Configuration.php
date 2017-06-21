@@ -22,9 +22,9 @@ class Configuration implements IdEntityInterface
     {
         $this->setId($id);
         $this->setCreated();
-        $this->key = (string) $key;
-        $this->name = (string) $name;
-        $this->value = (string) $value;
+        $this->key = $key;
+        $this->name = $name;
+        $this->value = $value;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

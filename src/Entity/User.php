@@ -141,7 +141,7 @@ class User implements IdEntityInterface
     public function setPassword(string $password)
     {
         $oldPasswordHash = $this->passwordHash;
-        $this->passwordHash = password_hash((string) $password, PASSWORD_BCRYPT);
+        $this->passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
         if ($oldPasswordHash !== null) {
             $this->raise(

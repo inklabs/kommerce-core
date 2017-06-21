@@ -18,7 +18,7 @@ class ShipmentComment implements IdEntityInterface
     {
         $this->setId();
         $this->setCreated();
-        $this->comment = (string) $comment;
+        $this->comment = $comment;
 
         $shipment->addShipmentComment($this);
         $this->setShipment($shipment);

@@ -32,9 +32,9 @@ class Attribute implements IdEntityInterface
     {
         $this->setId($id);
         $this->setCreated();
-        $this->name = (string) $name;
+        $this->name = $name;
         $this->choiceType = $choiceType;
-        $this->sortOrder = (int) $sortOrder;
+        $this->sortOrder = $sortOrder;
         $this->attributeValues = new ArrayCollection();
         $this->productAttributes = new ArrayCollection();
     }

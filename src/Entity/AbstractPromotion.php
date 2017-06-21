@@ -101,7 +101,7 @@ abstract class AbstractPromotion implements IdEntityInterface
         if ($this->type->isFixed()) {
             $returnValue = $unitPrice - $this->value;
         } elseif ($this->type->isPercent()) {
-            $returnValue = (int) $unitPrice - ($unitPrice * ($this->value / 100));
+            $returnValue = (int) ($unitPrice - ($unitPrice * ($this->value / 100)));
         } elseif ($this->type->isExact()) {
             $returnValue = $this->value;
         }

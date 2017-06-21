@@ -23,7 +23,7 @@ class Warehouse implements IdEntityInterface
     {
         $this->setId($id);
         $this->setCreated();
-        $this->name = (string) $name;
+        $this->name = $name;
         $this->address = $address;
         $this->inventoryLocations = new ArrayCollection;
     }

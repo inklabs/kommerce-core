@@ -39,8 +39,8 @@ class AttributeValue implements IdEntityInterface
         $this->setId($id);
         $this->setCreated();
         $this->setAttribute($attribute);
-        $this->name = (string) $name;
-        $this->sortOrder = (int) $sortOrder;
+        $this->name = $name;
+        $this->sortOrder = $sortOrder;
         $this->productAttributes = new ArrayCollection();
     }
 

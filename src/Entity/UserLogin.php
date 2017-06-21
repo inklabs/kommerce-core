@@ -33,8 +33,8 @@ class UserLogin implements IdEntityInterface
         $this->setId();
         $this->setCreated();
         $this->result = $result;
-        $this->email = (string) $email;
-        $this->ip4 = (int) ip2long($ip4);
+        $this->email = $email;
+        $this->ip4 = ip2long($ip4);
 
         if ($user !== null) {
             $user->addUserLogin($this);

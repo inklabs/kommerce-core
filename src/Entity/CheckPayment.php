@@ -19,10 +19,10 @@ class CheckPayment extends AbstractPayment
     public function __construct(int $amount, string $checkNumber, DateTime $checkDate, string $memo = null)
     {
         parent::__construct();
-        $this->amount = (int) $amount;
-        $this->checkNumber = (string) $checkNumber;
+        $this->amount = $amount;
+        $this->checkNumber = $checkNumber;
         $this->checkDate = $checkDate;
-        $this->memo = (string) $memo;
+        $this->memo = $memo;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
