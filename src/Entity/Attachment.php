@@ -21,10 +21,7 @@ class Attachment implements IdEntityInterface
     /** @var OrderItem[] */
     private $orderItems;
 
-    /**
-     * @param string $uri
-     */
-    public function __construct($uri)
+    public function __construct(string $uri)
     {
         $this->setId();
         $this->setCreated();

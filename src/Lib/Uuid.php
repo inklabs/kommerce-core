@@ -21,17 +21,17 @@ class Uuid implements UuidInterface, Matcher
         return new self(RamseyUuid::uuid4());
     }
 
-    public static function fromBytes($uuidBytes)
+    public static function fromBytes(string $uuidBytes)
     {
         return new self(RamseyUuid::fromBytes($uuidBytes));
     }
 
-    public static function fromString($uuidString)
+    public static function fromString(string $uuidString)
     {
         return new self(RamseyUuid::fromString($uuidString));
     }
 
-    public static function fromShortString($uuidShortString)
+    public static function fromShortString(string $uuidShortString)
     {
         return self::fromBytes(self::decodeBase64URLSafe($uuidShortString));
     }

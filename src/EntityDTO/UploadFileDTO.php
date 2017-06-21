@@ -15,13 +15,7 @@ class UploadFileDTO
     /** @var int */
     private $size;
 
-    /**
-     * @param string $origName 42-348301152.jpg
-     * @param string $mimeType image/jpeg
-     * @param string $filePath /tmp/php5BBVYd
-     * @param int $size
-     */
-    public function __construct($origName, $mimeType, $filePath, $size)
+    public function __construct(string $origName, string $mimeType, string $filePath, int $size)
     {
         $this->origName = $origName;
         $this->mimeType = $mimeType;
@@ -29,22 +23,22 @@ class UploadFileDTO
         $this->size = $size;
     }
 
-    public function getOrigName()
+    public function getOrigName(): string
     {
         return $this->origName;
     }
 
-    public function getMimeType()
+    public function getMimeType(): string
     {
         return $this->mimeType;
     }
 
-    public function getFilePath()
+    public function getFilePath(): string
     {
         return $this->filePath;
     }
 
-    public function getSize()
+    public function getSize(): int
     {
         return $this->size;
     }

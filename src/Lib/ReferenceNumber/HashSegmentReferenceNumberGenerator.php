@@ -40,7 +40,7 @@ class HashSegmentReferenceNumberGenerator implements ReferenceNumberGeneratorInt
         return $referenceNumber;
     }
 
-    protected function generateHashSegment($length): string
+    protected function generateHashSegment(int $length): string
     {
         $largeRandomNumber = random_int(pow(10, $length), pow(10, $length + 1));
         return substr($largeRandomNumber, 0, $length);

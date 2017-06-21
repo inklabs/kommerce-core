@@ -58,7 +58,7 @@ class ProductQuantityDiscount extends AbstractPromotion
         return $name;
     }
 
-    private function displayCents($priceInCents): string
+    private function displayCents(int $priceInCents): string
     {
         return '$' . number_format(($priceInCents / 100), 2);
     }
@@ -96,13 +96,13 @@ class ProductQuantityDiscount extends AbstractPromotion
         return $this->product;
     }
 
-    public function isValid(DateTime $date, $quantity): bool
+    public function isValid(DateTime $date, int $quantity): bool
     {
         return $this->isValidPromotion($date)
             and $this->isQuantityValid($quantity);
     }
 
-    public function isQuantityValid($quantity): bool
+    public function isQuantityValid(int $quantity): bool
     {
         if ($quantity >= $this->quantity) {
             return true;
