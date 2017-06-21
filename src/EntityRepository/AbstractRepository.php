@@ -62,7 +62,7 @@ abstract class AbstractRepository extends EntityRepository implements Repository
         );
     }
 
-    protected function returnOrThrowNotFoundException($entity, $className = null)
+    protected function returnOrThrowNotFoundException($entity, string $className = null)
     {
         if ($entity === null) {
             throw $this->getEntityNotFoundException($className);
@@ -71,7 +71,7 @@ abstract class AbstractRepository extends EntityRepository implements Repository
         return $entity;
     }
 
-    protected function getEntityNotFoundException($className = null)
+    protected function getEntityNotFoundException(string $className = null)
     {
         if ($className === null) {
             $className = $this->getClassName();

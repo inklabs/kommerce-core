@@ -29,9 +29,9 @@ class LocalFileManager implements FileManagerInterface
      * @throws FileManagerException
      */
     public function __construct(
-        $destinationPath,
-        $uriPrefix = null,
-        $allowedImageTypes = [
+        string $destinationPath,
+        string $uriPrefix = null,
+        array $allowedImageTypes = [
             IMAGETYPE_JPEG,
             IMAGETYPE_PNG
         ]
@@ -68,12 +68,7 @@ class LocalFileManager implements FileManagerInterface
         return $managedFile;
     }
 
-    /**
-     * @param string $sourceFilePath
-     * @param string $destinationFilePath
-     * @throws FileManagerException
-     */
-    private function copy($sourceFilePath, $destinationFilePath)
+    private function copy(string $sourceFilePath, string $destinationFilePath): void
     {
         $this->createDirectory(dirname($destinationFilePath));
 
@@ -87,21 +82,12 @@ class LocalFileManager implements FileManagerInterface
         throw FileManagerException::failedToCopyFile();
     }
 
-    /**
-     * @param string $destinationPath
-     * @throws FileManagerException
-     */
-    private function setDestinationPath($destinationPath)
+    private function setDestinationPath(string $destinationPath): void
     {
         $this->destinationPath = $destinationPath;
     }
 
-    /**
-     * @param string $sourceFilePath
-     * @return string
-     * @throws FileManagerException
-     */
-    private function getFileExtension($sourceFilePath)
+    private function getFileExtension(string $sourceFilePath): string
     {
         $mimeType = exif_imagetype($sourceFilePath);
 
@@ -117,11 +103,7 @@ class LocalFileManager implements FileManagerInterface
         }
     }
 
-    /**
-     * @param string $directoryPath
-     * @throws FileManagerException
-     */
-    protected function createDirectory($directoryPath)
+    protected function createDirectory(string $directoryPath): void
     {
         try {
             if (mkdir($directoryPath, self::DIRECTORY_CHMOD, true)) {
@@ -133,40 +115,24 @@ class LocalFileManager implements FileManagerInterface
         throw FileManagerException::unableToCreateDirectory();
     }
 
-    /**
-     * @param int $imageType
-     * @return string
-     */
-    private function getMimeType($imageType)
+    private function getMimeType(int $imageType): string
     {
         return image_type_to_mime_type($imageType);
     }
 
-    /**
-     * @param string $filePath
-     * @return int
-     */
-    private function getImageType($filePath)
+    private function getImageType(string $filePath): int
     {
         return exif_imagetype($filePath);
     }
 
-    /**
-     * @param string $sourceFilePath
-     * @throws FileManagerException
-     */
-    private function checkUploadedFile($sourceFilePath)
+    private function checkUploadedFile(string $sourceFilePath)
     {
         if (! is_uploaded_file($sourceFilePath)) {
             throw FileManagerException::invalidUploadedFile();
         }
     }
 
-    /**
-     * @param string $sourceFilePath
-     * @throws FileManagerException
-     */
-    private function checkValidImage($sourceFilePath)
+    private function checkValidImage(string $sourceFilePath)
     {
         if (! $this->imageIsLargeEnoughToReadFirstBytes($sourceFilePath)) {
             throw FileManagerException::invalidUploadedFile();
@@ -178,16 +144,12 @@ class LocalFileManager implements FileManagerInterface
         }
     }
 
-    /**
-     * @param string $sourceFilePath
-     * @return bool
-     */
-    private function imageIsLargeEnoughToReadFirstBytes($sourceFilePath)
+    private function imageIsLargeEnoughToReadFirstBytes(string $sourceFilePath): bool
     {
         return filesize($sourceFilePath) > 11;
     }
 
-    protected function checkDestination()
+    protected function checkDestination(): void
     {
         if (! is_dir($this->destinationPath) || ! is_writable(realpath($this->destinationPath))) {
             throw FileManagerException::directoryNotWritable();

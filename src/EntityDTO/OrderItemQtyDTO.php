@@ -7,14 +7,10 @@ final class OrderItemQtyDTO
 {
     private $items;
 
-    /**
-     * @param UuidInterface $orderItemId
-     * @param int $quantity
-     */
-    public function addOrderItemQty(UuidInterface $orderItemId, $quantity)
+    public function addOrderItemQty(UuidInterface $orderItemId, int $quantity): void
     {
         if ($quantity > 0) {
-            $this->items[$orderItemId->getHex()] = (int) $quantity;
+            $this->items[$orderItemId->getHex()] = $quantity;
         }
     }
 
@@ -23,11 +19,7 @@ final class OrderItemQtyDTO
         return $this->items;
     }
 
-    /**
-     * @param UuidInterface $orderItemId
-     * @return null|int
-     */
-    public function getItemQuantity(UuidInterface $orderItemId)
+    public function getItemQuantity(UuidInterface $orderItemId): ?int
     {
         if (isset($this->items[$orderItemId->getHex()])) {
             return $this->items[$orderItemId->getHex()];

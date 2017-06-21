@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,13 +28,7 @@ class Attribute implements IdEntityInterface
     /** @var ProductAttribute[] */
     protected $productAttributes;
 
-    /**
-     * @param string $name
-     * @param AttributeChoiceType $choiceType
-     * @param int $sortOrder
-     * @param null $id
-     */
-    public function __construct($name, AttributeChoiceType $choiceType, $sortOrder, $id = null)
+    public function __construct(string $name, AttributeChoiceType $choiceType, int $sortOrder, UuidInterface $id = null)
     {
         $this->setId($id);
         $this->setCreated();

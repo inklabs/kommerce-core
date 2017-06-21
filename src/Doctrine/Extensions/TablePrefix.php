@@ -9,9 +9,9 @@ class TablePrefix implements EventSubscriber
 {
     protected $prefix = '';
 
-    public function __construct($prefix)
+    public function __construct(string $prefix)
     {
-        $this->prefix = (string) $prefix;
+        $this->prefix = $prefix;
     }
 
     public function getSubscribedEvents()

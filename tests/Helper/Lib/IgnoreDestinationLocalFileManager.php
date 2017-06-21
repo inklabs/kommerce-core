@@ -5,11 +5,11 @@ use inklabs\kommerce\Lib\LocalFileManager;
 
 class IgnoreDestinationLocalFileManager extends LocalFileManager
 {
-    protected function checkDestination()
+    protected function checkDestination(): void
     {
     }
 
-    protected function createDirectory($directoryPath)
+    protected function createDirectory(string $directoryPath): void
     {
     }
 }

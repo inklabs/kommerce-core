@@ -44,7 +44,7 @@ class CartItemOptionValue implements IdEntityInterface
         return $this->optionValue->getSku();
     }
 
-    public function getPrice($quantity = 1): Price
+    public function getPrice(int $quantity = 1): Price
     {
         return $this->optionValue->getPrice($quantity);
     }
