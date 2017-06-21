@@ -13,9 +13,12 @@ use inklabs\kommerce\Lib\UuidInterface;
 interface InventoryLocationRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param string $inventoryLocationId
+     * @param UuidInterface $inventoryLocationId
      * @param Pagination $pagination
      * @return Generator|ProductStock[]
      */
-    public function listProductStockForInventoryLocation($inventoryLocationId, Pagination & $pagination);
+    public function listProductStockForInventoryLocation(
+        UuidInterface $inventoryLocationId,
+        Pagination & $pagination
+    ): Generator;
 }

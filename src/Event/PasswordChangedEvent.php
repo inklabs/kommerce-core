@@ -15,29 +15,24 @@ class PasswordChangedEvent implements EventInterface
     /** @var string */
     private $fullName;
 
-    /**
-     * @param UuidInterface $userId
-     * @param string $email
-     * @param string $fullName
-     */
-    public function __construct(UuidInterface $userId, $email, $fullName)
+    public function __construct(UuidInterface $userId, string $email, string $fullName)
     {
         $this->userId = $userId;
-        $this->email = (string) $email;
-        $this->fullName = (string) $fullName;
+        $this->email = $email;
+        $this->fullName = $fullName;
     }
 
-    public function getUserId()
+    public function getUserId(): UuidInterface
     {
         return $this->userId;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->fullName;
     }

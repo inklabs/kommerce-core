@@ -18,36 +18,30 @@ class ResetPasswordEvent implements EventInterface
     /** @var string */
     private $token;
 
-    /**
-     * @param UuidInterface $userId
-     * @param string $email
-     * @param string $fullName
-     * @param string $token
-     */
-    public function __construct(UuidInterface $userId, $email, $fullName, $token)
+    public function __construct(UuidInterface $userId, string $email, string $fullName, string $token)
     {
         $this->userId = $userId;
-        $this->email = (string) $email;
-        $this->fullName = (string) $fullName;
-        $this->token = (string) $token;
+        $this->email = $email;
+        $this->fullName = $fullName;
+        $this->token = $token;
     }
 
-    public function getUserId()
+    public function getUserId(): UuidInterface
     {
         return $this->userId;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getToken()
+    public function getToken(): string
     {
         return $this->token;
     }
 
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->fullName;
     }

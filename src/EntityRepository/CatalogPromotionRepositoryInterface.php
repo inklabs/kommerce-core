@@ -20,7 +20,7 @@ interface CatalogPromotionRepositoryInterface extends RepositoryInterface
      * @param Pagination $pagination
      * @return CatalogPromotion[]
      */
-    public function getAllCatalogPromotions($queryString = null, Pagination & $pagination = null);
+    public function getAllCatalogPromotions(string $queryString = null, Pagination & $pagination = null);
 
     /**
      * @param UuidInterface[] $catalogPromotionIds

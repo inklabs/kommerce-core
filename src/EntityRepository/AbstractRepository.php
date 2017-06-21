@@ -12,47 +12,44 @@ abstract class AbstractRepository extends EntityRepository implements Repository
 {
     use EntityValidationTrait;
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getQueryBuilder()
+    public function getQueryBuilder(): QueryBuilder
     {
         return new QueryBuilder($this->getEntityManager());
     }
 
-    public function create(EntityInterface & $entity)
+    public function create(EntityInterface & $entity): void
     {
         $this->persist($entity);
         $this->flush();
     }
 
-    public function update(EntityInterface & $entity)
+    public function update(EntityInterface & $entity): void
     {
         $this->assertManaged($entity);
         $this->throwValidationErrors($entity);
         $this->flush();
     }
 
-    public function delete(EntityInterface $entity)
+    public function delete(EntityInterface $entity): void
     {
         $this->remove($entity);
         $this->flush();
     }
 
-    public function remove(EntityInterface $entity)
+    public function remove(EntityInterface $entity): void
     {
         $this->getEntityManager()
             ->remove($entity);
     }
 
-    public function persist(EntityInterface & $entity)
+    public function persist(EntityInterface & $entity): void
     {
         $this->throwValidationErrors($entity);
         $this->getEntityManager()
             ->persist($entity);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->getEntityManager()
             ->flush();

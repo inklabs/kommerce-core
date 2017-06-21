@@ -5,7 +5,7 @@ use inklabs\kommerce\Entity\OrderItemOptionValue;
 use inklabs\kommerce\Lib\UuidInterface;
 
 /**
- * @method OrderItemOptionValue|null findOneById(UuidInterface $id)
+ * @method OrderItemOptionValue findOneById(UuidInterface $id)
  */
 interface OrderItemOptionValueRepositoryInterface extends RepositoryInterface
 {

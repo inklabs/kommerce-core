@@ -8,7 +8,7 @@ trait RaiseEventTrait
     /** @var EventInterface[] */
     protected $pendingEvents = [];
 
-    protected function raiseEvent(EventInterface $event)
+    protected function raiseEvent(EventInterface $event): void
     {
         $this->pendingEvents[] = $event;
     }
@@ -16,7 +16,7 @@ trait RaiseEventTrait
     /**
      * @param EventInterface[] $events
      */
-    protected function raiseEvents($events)
+    protected function raiseEvents(array $events): void
     {
         $this->pendingEvents = array_merge($this->pendingEvents, $events);
     }
@@ -24,7 +24,7 @@ trait RaiseEventTrait
     /**
      * @return EventInterface[]
      */
-    public function releaseEvents()
+    public function releaseEvents(): array
     {
         $events = $this->pendingEvents;
         $this->pendingEvents = [];

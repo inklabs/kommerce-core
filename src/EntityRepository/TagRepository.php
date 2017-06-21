@@ -6,14 +6,14 @@ use inklabs\kommerce\Entity\Tag;
 
 class TagRepository extends AbstractRepository implements TagRepositoryInterface
 {
-    public function findOneByCode($code)
+    public function findOneByCode(string $code): Tag
     {
         return $this->returnOrThrowNotFoundException(
             parent::findOneBy(['code' => $code])
         );
     }
 
-    public function getAllTags($queryString = null, Pagination & $pagination = null)
+    public function getAllTags(string $queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
             ->select('Tag')
@@ -32,7 +32,7 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
             ->getResult();
     }
 
-    public function getTagsByIds($tagIds, Pagination & $pagination = null)
+    public function getTagsByIds(array $tagIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
             ->select('Tag')
@@ -45,7 +45,7 @@ class TagRepository extends AbstractRepository implements TagRepositoryInterface
             ->getResult();
     }
 
-    public function getAllTagsByIds($tagIds, Pagination & $pagination = null)
+    public function getAllTagsByIds(array $tagIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
             ->select('Tag')

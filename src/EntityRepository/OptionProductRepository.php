@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Pagination;
 
 class OptionProductRepository extends AbstractRepository implements OptionProductRepositoryInterface
 {
-    public function getAllOptionProductsByIds($optionValueIds, Pagination & $pagination = null)
+    public function getAllOptionProductsByIds(array $optionValueIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
             ->select('OptionProduct')

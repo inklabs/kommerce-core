@@ -8,37 +8,28 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class CartRepository extends AbstractRepository implements CartRepositoryInterface
 {
-    public function findOneByUserId(UuidInterface $userId)
+    public function findOneByUserId(UuidInterface $userId): Cart
     {
         return $this->returnOrThrowNotFoundException(
             $this->findOneBy(['user' => $userId])
         );
     }
 
-    public function findOneBySession($sessionId)
+    public function findOneBySession(string $sessionId): Cart
     {
         return $this->returnOrThrowNotFoundException(
             $this->findOneBy(['sessionId' => $sessionId])
         );
     }
 
-    /**
-     * @param UuidInterface $uuid4
-     * @return Cart
-     */
-    public function findOneById(UuidInterface $uuid4)
+    public function findOneById(UuidInterface $uuid4): Cart
     {
         return $this->returnOrThrowNotFoundException(
             parent::findOneBy(['id' => $uuid4])
         );
     }
 
-    /**
-     * @param UuidInterface $cartItemId
-     * @return CartItem
-     * @throws EntityNotFoundException
-     */
-    public function getItemById(UuidInterface $cartItemId)
+    public function getItemById(UuidInterface $cartItemId): CartItem
     {
         return $this->returnOrThrowNotFoundException(
             $this->getQueryBuilder()

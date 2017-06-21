@@ -6,7 +6,7 @@ use inklabs\kommerce\Exception\BadMethodCallException;
 
 class UserLoginRepository extends AbstractRepository implements UserLoginRepositoryInterface
 {
-    public function update(EntityInterface & $entity)
+    public function update(EntityInterface & $entity): void
     {
         throw new BadMethodCallException('Update not allowed');
     }

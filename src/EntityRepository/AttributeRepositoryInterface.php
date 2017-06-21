@@ -15,5 +15,5 @@ interface AttributeRepositoryInterface extends RepositoryInterface
      * @param null|Pagination $pagination
      * @return Attribute[]
      */
-    public function getAllAttributes($queryString, Pagination & $pagination = null);
+    public function getAllAttributes(string $queryString = null, Pagination & $pagination = null);
 }

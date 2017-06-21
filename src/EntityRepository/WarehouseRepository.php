@@ -7,7 +7,7 @@ use inklabs\kommerce\Entity\Warehouse;
 
 class WarehouseRepository extends AbstractRepository implements WarehouseRepositoryInterface
 {
-    public function findByPoint(Point $point, $rangeInMiles = 50, Pagination & $pagination = null)
+    public function findByPoint(Point $point, int $rangeInMiles = 50, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
             ->select('Warehouse')
@@ -19,7 +19,7 @@ class WarehouseRepository extends AbstractRepository implements WarehouseReposit
             ->getResult();
     }
 
-    public function getAllWarehouses($queryString = null, Pagination & $pagination = null)
+    public function getAllWarehouses(string $queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
             ->select('Warehouse')

@@ -18,12 +18,12 @@ class OrderShippedEvent implements EventInterface
         $this->shipmentId = $shipmentId;
     }
 
-    public function getOrderId()
+    public function getOrderId(): UuidInterface
     {
         return $this->orderId;
     }
 
-    public function getShipmentId()
+    public function getShipmentId(): UuidInterface
     {
         return $this->shipmentId;
     }

@@ -6,7 +6,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class UserTokenRepository extends AbstractRepository implements UserTokenRepositoryInterface
 {
-    public function findLatestOneByUserId(UuidInterface $userUserId)
+    public function findLatestOneByUserId(UuidInterface $userUserId): UserToken
     {
         $userToken = $this->getQueryBuilder()
             ->select('UserToken')

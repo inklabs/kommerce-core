@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Pagination;
 
 class AttributeRepository extends AbstractRepository implements AttributeRepositoryInterface
 {
-    public function getAllAttributes($queryString = null, Pagination & $pagination = null)
+    public function getAllAttributes(string $queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
             ->select('Attribute')

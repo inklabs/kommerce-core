@@ -6,6 +6,7 @@ use inklabs\kommerce\Entity\CartTotal;
 use inklabs\kommerce\Entity\Order;
 use inklabs\kommerce\EntityRepository\OrderRepositoryInterface;
 use inklabs\kommerce\EntityRepository\UserRepositoryInterface;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Service\EntityValidationTrait;
 use Iterator;
@@ -55,9 +56,10 @@ class ImportOrderService implements ImportOrderServiceInterface
             $order->setCreated(new DateTime($date));
 
             if ($userExternalId !== null) {
-                $user = $this->userRepository->findOneByExternalId($userExternalId);
-                if ($user !== null) {
+                try {
+                    $user = $this->userRepository->findOneByExternalId($userExternalId);
                     $order->setUser($user);
+                } catch (EntityNotFoundException $e) {
                 }
             }
 

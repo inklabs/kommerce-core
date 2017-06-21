@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Pagination;
 
 class CartPriceRuleRepository extends AbstractRepository implements CartPriceRuleRepositoryInterface
 {
-    public function getAllCartPriceRules($queryString = null, Pagination & $pagination = null)
+    public function getAllCartPriceRules(string $queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
             ->select('CartPriceRule')

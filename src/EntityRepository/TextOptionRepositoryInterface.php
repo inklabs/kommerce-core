@@ -15,5 +15,5 @@ interface TextOptionRepositoryInterface extends RepositoryInterface
      * @param Pagination $pagination
      * @return TextOption[]
      */
-    public function getAllTextOptionsByIds($optionIds, Pagination & $pagination = null);
+    public function getAllTextOptionsByIds(array $optionIds, Pagination & $pagination = null);
 }

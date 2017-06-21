@@ -47,274 +47,172 @@ class RepositoryFactory
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @return AttachmentRepositoryInterface
-     */
-    public function getAttachmentRepository()
+    public function getAttachmentRepository(): AttachmentRepositoryInterface
     {
         return $this->entityManager->getRepository(Attachment::class);
     }
 
-    /**
-     * @return AttributeRepositoryInterface
-     */
-    public function getAttributeRepository()
+    public function getAttributeRepository(): AttributeRepositoryInterface
     {
         return $this->entityManager->getRepository(Attribute::class);
     }
 
-    /**
-     * @return AttributeValueRepositoryInterface
-     */
-    public function getAttributeValueRepository()
+    public function getAttributeValueRepository(): AttributeValueRepositoryInterface
     {
         return $this->entityManager->getRepository(AttributeValue::class);
     }
 
-    /**
-     * @return CartRepositoryInterface
-     */
-    public function getCartRepository()
+    public function getCartRepository(): CartRepositoryInterface
     {
         return $this->entityManager->getRepository(Cart::class);
     }
 
-    /**
-     * @return CartPriceRuleRepositoryInterface
-     */
-    public function getCartPriceRuleRepository()
+    public function getCartPriceRuleRepository(): CartPriceRuleRepositoryInterface
     {
         return $this->entityManager->getRepository(CartPriceRule::class);
     }
 
-    /**
-     * @return CartPriceRuleDiscountRepositoryInterface
-     */
-    public function getCartPriceRuleDiscountRepository()
+    public function getCartPriceRuleDiscountRepository(): CartPriceRuleDiscountRepositoryInterface
     {
         return $this->entityManager->getRepository(CartPriceRuleDiscount::class);
     }
 
-    /**
-     * @return CartPriceRuleItemRepositoryInterface
-     */
-    public function getCartPriceRuleItemRepository()
+    public function getCartPriceRuleItemRepository(): CartPriceRuleItemRepositoryInterface
     {
         return $this->entityManager->getRepository(AbstractCartPriceRuleItem::class);
     }
 
-    /**
-     * @return CatalogPromotionRepositoryInterface
-     */
-    public function getCatalogPromotionRepository()
+    public function getCatalogPromotionRepository(): CatalogPromotionRepositoryInterface
     {
         return $this->entityManager->getRepository(CatalogPromotion::class);
     }
 
-    /**
-     * @return ConfigurationRepositoryInterface
-     */
-    public function getConfigurationRepository()
+    public function getConfigurationRepository(): ConfigurationRepositoryInterface
     {
         return $this->entityManager->getRepository(Configuration::class);
     }
 
-    /**
-     * @return CouponRepositoryInterface
-     */
-    public function getCouponRepository()
+    public function getCouponRepository(): CouponRepositoryInterface
     {
         return $this->entityManager->getRepository(Coupon::class);
     }
 
-    /**
-     * @return ImageRepositoryInterface
-     */
-    public function getImageRepository()
+    public function getImageRepository(): ImageRepositoryInterface
     {
         return $this->entityManager->getRepository(Image::class);
     }
 
-    /**
-     * @return InventoryLocationRepositoryInterface
-     */
-    public function getInventoryLocationRepository()
+    public function getInventoryLocationRepository(): InventoryLocationRepositoryInterface
     {
         return $this->entityManager->getRepository(InventoryLocation::class);
     }
 
-    /**
-     * @return InventoryTransactionRepositoryInterface
-     */
-    public function getInventoryTransactionRepository()
+    public function getInventoryTransactionRepository(): InventoryTransactionRepositoryInterface
     {
         return $this->entityManager->getRepository(InventoryTransaction::class);
     }
 
-    /**
-     * @return OptionRepositoryInterface
-     */
-    public function getOptionRepository()
+    public function getOptionRepository(): OptionRepositoryInterface
     {
         return $this->entityManager->getRepository(Option::class);
     }
 
-    /**
-     * @return OptionProductRepositoryInterface
-     */
-    public function getOptionProductRepository()
+    public function getOptionProductRepository(): OptionProductRepositoryInterface
     {
         return $this->entityManager->getRepository(OptionProduct::class);
     }
 
-    /**
-     * @return OptionValueRepositoryInterface
-     */
-    public function getOptionValueRepository()
+    public function getOptionValueRepository(): OptionValueRepositoryInterface
     {
         return $this->entityManager->getRepository(OptionValue::class);
     }
 
-    /**
-     * @return OrderRepositoryInterface
-     */
-    public function getOrderRepository()
+    public function getOrderRepository(): OrderRepositoryInterface
     {
         return $this->entityManager->getRepository(Order::class);
     }
 
-    /**
-     * @return OrderItemRepositoryInterface
-     */
-    public function getOrderItemRepository()
+    public function getOrderItemRepository(): OrderItemRepositoryInterface
     {
         return $this->entityManager->getRepository(OrderItem::class);
     }
 
-    /**
-     * @return OrderItemOptionProductRepositoryInterface
-     */
-    public function getOrderItemOptionProductRepository()
+    public function getOrderItemOptionProductRepository(): OrderItemOptionProductRepositoryInterface
     {
         return $this->entityManager->getRepository(OrderItemOptionProduct::class);
     }
 
-    /**
-     * @return OrderItemOptionValueRepositoryInterface
-     */
-    public function getOrderItemOptionValueRepository()
+    public function getOrderItemOptionValueRepository(): OrderItemOptionValueRepositoryInterface
     {
         return $this->entityManager->getRepository(OrderItemOptionValue::class);
     }
 
-    /**
-     * @return OrderItemTextOptionValueRepositoryInterface
-     */
-    public function getOrderItemTextOptionValueRepository()
+    public function getOrderItemTextOptionValueRepository(): OrderItemTextOptionValueRepositoryInterface
     {
         return $this->entityManager->getRepository(OrderItemTextOptionValue::class);
     }
 
-    /**
-     * @return PaymentRepositoryInterface
-     */
-    public function getPaymentRepository()
+    public function getPaymentRepository(): PaymentRepositoryInterface
     {
         return $this->entityManager->getRepository(AbstractPayment::class);
     }
 
-    /**
-     * @return ProductRepositoryInterface
-     */
-    public function getProductRepository()
+    public function getProductRepository(): ProductRepositoryInterface
     {
         return $this->entityManager->getRepository(Product::class);
     }
 
-    /**
-     * @return ProductAttributeRepositoryInterface
-     */
-    public function getProductAttributeRepository()
+    public function getProductAttributeRepository(): ProductAttributeRepositoryInterface
     {
         return $this->entityManager->getRepository(ProductAttribute::class);
     }
 
-    /**
-     * @return ProductQuantityDiscountRepositoryInterface
-     */
-    public function getProductQuantityDiscountRepository()
+    public function getProductQuantityDiscountRepository(): ProductQuantityDiscountRepositoryInterface
     {
         return $this->entityManager->getRepository(ProductQuantityDiscount::class);
     }
 
-    /**
-     * @return ShipmentTrackerRepositoryInterface
-     */
-    public function getShipmentTrackerRepository()
+    public function getShipmentTrackerRepository(): ShipmentTrackerRepositoryInterface
     {
         return $this->entityManager->getRepository(ShipmentTracker::class);
     }
 
-    /**
-     * @return TagRepositoryInterface
-     */
-    public function getTagRepository()
+    public function getTagRepository(): TagRepositoryInterface
     {
         return $this->entityManager->getRepository(Tag::class);
     }
 
-    /**
-     * @return TaxRateRepositoryInterface
-     */
-    public function getTaxRateRepository()
+    public function getTaxRateRepository(): TaxRateRepositoryInterface
     {
         return $this->entityManager->getRepository(TaxRate::class);
     }
 
-    /**
-     * @return TextOptionRepositoryInterface
-     */
-    public function getTextOptionRepository()
+    public function getTextOptionRepository(): TextOptionRepositoryInterface
     {
         return $this->entityManager->getRepository(TextOption::class);
     }
 
-    /**
-     * @return UserRepositoryInterface
-     */
-    public function getUserRepository()
+    public function getUserRepository(): UserRepositoryInterface
     {
         return $this->entityManager->getRepository(User::class);
     }
 
-    /**
-     * @return UserLoginRepositoryInterface
-     */
-    public function getUserLoginRepository()
+    public function getUserLoginRepository(): UserLoginRepositoryInterface
     {
         return $this->entityManager->getRepository(UserLogin::class);
     }
 
-    /**
-     * @return UserRoleRepositoryInterface
-     */
-    public function getUserRoleRepository()
+    public function getUserRoleRepository(): UserRoleRepositoryInterface
     {
         return $this->entityManager->getRepository(UserRole::class);
     }
 
-    /**
-     * @return UserTokenRepositoryInterface
-     */
-    public function getUserTokenRepository()
+    public function getUserTokenRepository(): UserTokenRepositoryInterface
     {
         return $this->entityManager->getRepository(UserToken::class);
     }
 
-    /**
-     * @return WarehouseRepositoryInterface
-     */
-    public function getWarehouseRepository()
+    public function getWarehouseRepository(): WarehouseRepositoryInterface
     {
         return $this->entityManager->getRepository(Warehouse::class);
     }

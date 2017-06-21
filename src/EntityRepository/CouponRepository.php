@@ -6,18 +6,14 @@ use inklabs\kommerce\Entity\Pagination;
 
 class CouponRepository extends AbstractRepository implements CouponRepositoryInterface
 {
-    public function findOneByCode($couponCode)
+    public function findOneByCode(string $couponCode): Coupon
     {
-        $coupon = parent::findOneBy(['code' => $couponCode]);
-
-        if ($coupon === null) {
-            throw $this->getEntityNotFoundException();
-        }
-
-        return $coupon;
+        return $this->returnOrThrowNotFoundException(
+            parent::findOneBy(['code' => $couponCode])
+        );
     }
 
-    public function getAllCoupons($queryString = null, Pagination & $pagination = null)
+    public function getAllCoupons(string $queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
             ->select('Coupon')
@@ -36,7 +32,7 @@ class CouponRepository extends AbstractRepository implements CouponRepositoryInt
             ->getResult();
     }
 
-    public function getAllCouponsByIds($couponIds, Pagination & $pagination = null)
+    public function getAllCouponsByIds(array $couponIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
             ->select('Coupon')

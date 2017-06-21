@@ -11,24 +11,7 @@ use inklabs\kommerce\Lib\UuidInterface;
  */
 interface CartRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @param UuidInterface $userId
-     * @return Cart
-     * @throws EntityNotFoundException
-     */
-    public function findOneByUserId(UuidInterface $userId);
-
-    /**
-     * @param string $sessionId
-     * @return Cart
-     * @throws EntityNotFoundException
-     */
-    public function findOneBySession($sessionId);
-
-    /**
-     * @param UuidInterface $cartItemId
-     * @return CartItem
-     * @throws EntityNotFoundException
-     */
-    public function getItemById(UuidInterface $cartItemId);
+    public function findOneByUserId(UuidInterface $userId): Cart;
+    public function findOneBySession(string $sessionId): Cart;
+    public function getItemById(UuidInterface $cartItemId): CartItem;
 }

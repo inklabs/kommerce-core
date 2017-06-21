@@ -12,22 +12,18 @@ class TextOptionValueDTO
     /** @var string */
     private $textOptionValue;
 
-    /**
-     * @param string $textOptionId
-     * @param string $textOptionValue
-     */
-    public function __construct($textOptionId, $textOptionValue)
+    public function __construct(string $textOptionId, string $textOptionValue)
     {
         $this->textOptionId = Uuid::fromString($textOptionId);
-        $this->textOptionValue = (string) $textOptionValue;
+        $this->textOptionValue = $textOptionValue;
     }
 
-    public function getTextOptionId()
+    public function getTextOptionId(): UuidInterface
     {
         return $this->textOptionId;
     }
 
-    public function getTextOptionValue()
+    public function getTextOptionValue(): string
     {
         return $this->textOptionValue;
     }

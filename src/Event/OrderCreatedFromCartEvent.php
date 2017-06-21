@@ -14,7 +14,7 @@ class OrderCreatedFromCartEvent implements EventInterface
         $this->orderId = $orderId;
     }
 
-    public function getOrderId()
+    public function getOrderId(): UuidInterface
     {
         return $this->orderId;
     }

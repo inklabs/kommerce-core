@@ -11,30 +11,21 @@ use inklabs\kommerce\Lib\UuidInterface;
  */
 interface UserRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @param string $email
-     * @return User
-     * @throws EntityNotFoundException
-     */
-    public function findOneByEmail($email);
+    public function findOneByEmail(string $email): User;
 
     /**
      * @param string $queryString
      * @param Pagination $pagination
      * @return User[]
      */
-    public function getAllUsers($queryString = null, Pagination & $pagination = null);
+    public function getAllUsers(string $queryString = null, Pagination & $pagination = null);
 
     /**
      * @param UuidInterface[] $userIds
      * @param Pagination $pagination
      * @return User[]
      */
-    public function getAllUsersByIds($userIds, Pagination & $pagination = null);
+    public function getAllUsersByIds(array $userIds, Pagination & $pagination = null);
 
-    /**
-     * @param string $externalId
-     * @return User|null
-     */
-    public function findOneByExternalId($externalId);
+    public function findOneByExternalId(string $externalId): User;
 }

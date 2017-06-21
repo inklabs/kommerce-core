@@ -1,15 +1,19 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use Generator;
 use inklabs\kommerce\Entity\InventoryTransaction;
 use inklabs\kommerce\Entity\Pagination;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductStock;
+use inklabs\kommerce\Lib\UuidInterface;
 
 class InventoryLocationRepository extends AbstractRepository implements InventoryLocationRepositoryInterface
 {
-    public function listProductStockForInventoryLocation($inventoryLocationId, Pagination & $pagination)
-    {
+    public function listProductStockForInventoryLocation(
+        UuidInterface $inventoryLocationId,
+        Pagination & $pagination
+    ): Generator {
         $results = $this->getQueryBuilder()
             ->select('Product AS product')
             ->addSelect('SUM(InventoryTransaction.quantity) AS quantity')
