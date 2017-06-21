@@ -166,8 +166,10 @@ class EasyPostGateway implements ShipmentGatewayInterface
         );
     }
 
-    private function getShipmentTrackerFromEasyPostShipment(stdClass $shipment, UuidInterface $id = null): ShipmentTracker
-    {
+    private function getShipmentTrackerFromEasyPostShipment(
+        stdClass $shipment,
+        UuidInterface $id = null
+    ): ShipmentTracker {
         switch (strtolower($shipment->tracker->carrier)) {
             case 'ups':
                 $carrier = ShipmentCarrierType::ups();
