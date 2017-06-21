@@ -8,11 +8,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class OptionRepository extends AbstractRepository implements OptionRepositoryInterface
 {
-    /**
-     * @param UuidInterface $optionProductId
-     * @return OptionProduct
-     */
-    public function getOptionProductById(UuidInterface $optionProductId)
+    public function getOptionProductById(UuidInterface $optionProductId): OptionProduct
     {
         return $this->returnOrThrowNotFoundException(
             $this->getQueryBuilder()
@@ -38,7 +34,7 @@ class OptionRepository extends AbstractRepository implements OptionRepositoryInt
             ->getResult();
     }
 
-    public function getAllOptions($queryString, Pagination & $pagination = null)
+    public function getAllOptions(?string $queryString, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
             ->select('option')

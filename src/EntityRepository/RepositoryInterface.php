@@ -1,19 +1,20 @@
 <?php
 namespace inklabs\kommerce\EntityRepository;
 
+use inklabs\kommerce\Doctrine\ORM\QueryBuilder;
 use inklabs\kommerce\Entity\EntityInterface;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\UuidInterface;
 
 interface RepositoryInterface
 {
-    public function getQueryBuilder();
-    public function create(EntityInterface & $entity);
-    public function update(EntityInterface & $entity);
-    public function delete(EntityInterface $entity);
-    public function remove(EntityInterface $entity);
-    public function persist(EntityInterface & $entity);
-    public function flush();
+    public function getQueryBuilder(): QueryBuilder;
+    public function create(EntityInterface & $entity): void;
+    public function update(EntityInterface & $entity): void;
+    public function delete(EntityInterface $entity): void;
+    public function remove(EntityInterface $entity): void;
+    public function persist(EntityInterface & $entity): void;
+    public function flush(): void;
 
     /**
      * @param UuidInterface $id

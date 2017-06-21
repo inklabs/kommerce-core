@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\ShipmentTracker;
 
 class ShipmentTrackerRepository extends AbstractRepository implements ShipmentTrackerRepositoryInterface
 {
-    public function getAllAdHocShipments($queryString = null, Pagination & $pagination = null)
+    public function getAllAdHocShipments(string $queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
             ->select('ShipmentTracker')

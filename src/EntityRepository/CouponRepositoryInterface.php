@@ -11,24 +11,19 @@ use inklabs\kommerce\Lib\UuidInterface;
  */
 interface CouponRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @param string $couponCode
-     * @return Coupon
-     * @throws EntityNotFoundException
-     */
-    public function findOneByCode($couponCode);
+    public function findOneByCode(string $couponCode): Coupon;
 
     /**
      * @param string $queryString
      * @param Pagination $pagination
      * @return Coupon[]
      */
-    public function getAllCoupons($queryString = null, Pagination & $pagination = null);
+    public function getAllCoupons(string $queryString = null, Pagination & $pagination = null);
 
     /**
      * @param UuidInterface[] $couponIds
      * @param Pagination $pagination
      * @return Coupon[]
      */
-    public function getAllCouponsByIds($couponIds, Pagination & $pagination = null);
+    public function getAllCouponsByIds(array $couponIds, Pagination & $pagination = null);
 }

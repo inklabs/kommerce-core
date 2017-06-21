@@ -12,7 +12,7 @@ class ImportedUsersFromCSVEvent implements EventInterface
     /** @var int */
     private $failedCount;
 
-    public function __construct($successCount, $failedCount)
+    public function __construct(int $successCount, int $failedCount)
     {
         $this->successCount = $successCount;
         $this->failedCount = $failedCount;
@@ -26,12 +26,12 @@ class ImportedUsersFromCSVEvent implements EventInterface
         );
     }
 
-    public function getSuccessCount()
+    public function getSuccessCount(): int
     {
         return $this->successCount;
     }
 
-    public function getFailedCount()
+    public function getFailedCount(): int
     {
         return $this->failedCount;
     }

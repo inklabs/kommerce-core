@@ -11,11 +11,7 @@ use inklabs\kommerce\Lib\UuidInterface;
  */
 interface OptionRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @param UuidInterface $optionProductId
-     * @return OptionProduct
-     */
-    public function getOptionProductById(UuidInterface $optionProductId);
+    public function getOptionProductById(UuidInterface $optionProductId): OptionProduct;
 
     /**
      * @param UuidInterface[] $optionIds
@@ -29,5 +25,5 @@ interface OptionRepositoryInterface extends RepositoryInterface
      * @param Pagination $pagination
      * @return Option[]
      */
-    public function getAllOptions($queryString, Pagination & $pagination = null);
+    public function getAllOptions(?string $queryString, Pagination & $pagination = null);
 }

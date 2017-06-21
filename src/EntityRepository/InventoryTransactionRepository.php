@@ -25,13 +25,7 @@ class InventoryTransactionRepository extends AbstractRepository implements Inven
             ->getResult();
     }
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @return UuidInterface
-     * @throws EntityNotFoundException
-     */
-    public function findInventoryIdWithAvailableQuantityForProduct(Product $product, $quantity)
+    public function findInventoryIdWithAvailableQuantityForProduct(Product $product, int $quantity): UuidInterface
     {
         $locationsAvailableQuantity = [];
 

@@ -11,11 +11,7 @@ use inklabs\kommerce\Lib\UuidInterface;
  */
 interface OrderRepositoryInterface extends RepositoryInterface, ReferenceNumberRepositoryInterface
 {
-    /**
-     * @param string $orderExternalId
-     * @return Order
-     */
-    public function findOneByExternalId($orderExternalId);
+    public function findOneByExternalId(string $orderExternalId): Order;
 
     /**
      * @param Pagination $pagination

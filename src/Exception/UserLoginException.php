@@ -12,7 +12,7 @@ class UserLoginException extends KommerceException
     const TOKEN_INVALID = 4;
     const TOKEN_EXPIRED = 5;
 
-    public function __construct($message = '', $code = 401, Exception $previous = null)
+    public function __construct(string $message = '', int $code = 401, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

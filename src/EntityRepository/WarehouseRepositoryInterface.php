@@ -14,10 +14,15 @@ interface WarehouseRepositoryInterface extends RepositoryInterface
     /**
      * @param Point $point
      * @param int $rangeInMiles
-     * @param Pagination $pagination
+     * @param Pagination|null $pagination
      * @return Warehouse[]
      */
-    public function findByPoint(Point $point, $rangeInMiles = 50, Pagination & $pagination = null);
+    public function findByPoint(Point $point, int $rangeInMiles = 50, Pagination & $pagination = null);
 
-    public function getAllWarehouses($queryString = null, Pagination & $pagination = null);
+    /**
+     * @param string|null $queryString
+     * @param Pagination|null $pagination
+     * @return Warehouse[]
+     */
+    public function getAllWarehouses(string $queryString = null, Pagination & $pagination = null);
 }

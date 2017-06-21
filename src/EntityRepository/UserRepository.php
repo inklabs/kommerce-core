@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\User;
 
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
-    public function findOneByEmail($email)
+    public function findOneByEmail(string $email): User
     {
         $user = $this->getQueryBuilder()
             ->select('User')
@@ -22,12 +22,14 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
         return $this->returnOrThrowNotFoundException($user);
     }
 
-    public function findOneByExternalId($externalId)
+    public function findOneByExternalId(string $externalId): User
     {
-        return parent::findOneBy(['externalId' => $externalId]);
+        return $this->returnOrThrowNotFoundException(
+            parent::findOneBy(['externalId' => $externalId])
+        );
     }
 
-    public function getAllUsers($queryString = null, Pagination & $pagination = null)
+    public function getAllUsers(string $queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
             ->select('User')
@@ -47,7 +49,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
             ->getResult();
     }
 
-    public function getAllUsersByIds($userIds, Pagination & $pagination = null)
+    public function getAllUsersByIds(array $userIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
             ->select('User')

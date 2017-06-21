@@ -9,11 +9,7 @@ use inklabs\kommerce\Lib\UuidInterface;
  */
 interface ConfigurationRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @param string $key
-     * @return Configuration
-     */
-    public function findOneByKey($key);
+    public function findOneByKey(string $key): Configuration;
 
     /**
      * @param string[] $keys

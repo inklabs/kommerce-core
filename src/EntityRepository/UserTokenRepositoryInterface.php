@@ -9,9 +9,5 @@ use inklabs\kommerce\Lib\UuidInterface;
  */
 interface UserTokenRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @param UuidInterface $userId
-     * @return UserToken
-     */
-    public function findLatestOneByUserId(UuidInterface $userId);
+    public function findLatestOneByUserId(UuidInterface $userId): UserToken;
 }

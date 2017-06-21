@@ -20,5 +20,5 @@ interface CartPriceRuleRepositoryInterface extends RepositoryInterface
      * @param Pagination $pagination
      * @return CartPriceRule[]
      */
-    public function getAllCartPriceRules($queryString = null, Pagination & $pagination = null);
+    public function getAllCartPriceRules(string $queryString = null, Pagination & $pagination = null);
 }

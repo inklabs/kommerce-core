@@ -10,5 +10,5 @@ use inklabs\kommerce\Lib\UuidInterface;
  */
 interface ShipmentTrackerRepositoryInterface extends RepositoryInterface
 {
-    public function getAllAdHocShipments($queryString = null, Pagination & $pagination = null);
+    public function getAllAdHocShipments(string $queryString = null, Pagination & $pagination = null);
 }

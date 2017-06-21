@@ -10,18 +10,14 @@ use inklabs\kommerce\Lib\UuidInterface;
  */
 interface ProductRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @param string $sku
-     * @return Product
-     */
-    public function findOneBySku($sku);
+    public function findOneBySku(string $sku): Product;
 
     /**
      * @param UuidInterface[] $productIds
      * @param int $limit
      * @return Product[]
      */
-    public function getRelatedProductsByIds(array $productIds, $limit = 12);
+    public function getRelatedProductsByIds(array $productIds, int $limit = 12);
 
     /**
      * Load product tags to avoid query in loop for pricing
@@ -49,7 +45,7 @@ interface ProductRepositoryInterface extends RepositoryInterface
      * @param Pagination $pagination
      * @return Product[]
      */
-    public function getAllProducts($queryString = null, Pagination & $pagination = null);
+    public function getAllProducts(string $queryString = null, Pagination & $pagination = null);
 
     /**
      * @param UuidInterface[] $productIds
@@ -62,5 +58,5 @@ interface ProductRepositoryInterface extends RepositoryInterface
      * @param int $limit
      * @return Product[]
      */
-    public function getRandomProducts($limit);
+    public function getRandomProducts(int $limit);
 }

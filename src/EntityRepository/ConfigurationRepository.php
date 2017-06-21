@@ -5,11 +5,7 @@ use inklabs\kommerce\Entity\Configuration;
 
 class ConfigurationRepository extends AbstractRepository implements ConfigurationRepositoryInterface
 {
-    /**
-     * @param string $key
-     * @return Configuration
-     */
-    public function findOneByKey($key)
+    public function findOneByKey(string $key): Configuration
     {
         return $this->returnOrThrowNotFoundException(
             parent::findOneBy(['key' => $key])

@@ -6,7 +6,7 @@ use inklabs\kommerce\Exception\InvalidArgumentException;
 
 class TaxRateRepository extends AbstractRepository implements TaxRateRepositoryInterface
 {
-    public function findByZip5AndState($zip5 = null, $state = null)
+    public function findByZip5AndState(string $zip5 = null, string $state = null): ?TaxRate
     {
         if ($zip5 === null and $state === null) {
             throw new InvalidArgumentException('Missing zip5 or state');
@@ -41,7 +41,7 @@ class TaxRateRepository extends AbstractRepository implements TaxRateRepositoryI
      * @param TaxRate[] $taxRates
      * @return TaxRate
      */
-    protected function getZip5OrRateOrStateTaxRate($taxRates)
+    protected function getZip5OrRateOrStateTaxRate(array $taxRates): ?TaxRate
     {
         $stateTaxRates = $zip5TaxRates = $rangeTaxRates = [];
 

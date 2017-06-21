@@ -15,11 +15,5 @@ interface TaxRateRepositoryInterface extends RepositoryInterface
      */
     public function findAll();
 
-    /**
-     * @param string $zip5
-     * @param string $state
-     * @return TaxRate
-     * @throws InvalidArgumentException
-     */
-    public function findByZip5AndState($zip5 = null, $state = null);
+    public function findByZip5AndState(string $zip5 = null, string $state = null): ?TaxRate;
 }

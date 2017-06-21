@@ -8,5 +8,5 @@ interface ReleaseEventsInterface
     /**
      * @return EventInterface[]
      */
-    public function releaseEvents();
+    public function releaseEvents(): array;
 }

@@ -7,9 +7,11 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class ProductRepository extends AbstractRepository implements ProductRepositoryInterface
 {
-    public function findOneBySku($sku)
+    public function findOneBySku(string $sku): Product
     {
-        return parent::findOneBy(['sku' => $sku]);
+        return $this->returnOrThrowNotFoundException(
+            parent::findOneBy(['sku' => $sku])
+        );
     }
 
     /**
@@ -17,7 +19,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
      * @param int $limit
      * @return Product[]
      */
-    public function getRelatedProductsByIds(array $productIds, $limit = 12)
+    public function getRelatedProductsByIds(array $productIds, int $limit = 12)
     {
         $tagIdsQuery = $this->getQueryBuilder()
             ->select('DISTINCT Tag2.id')
@@ -98,7 +100,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
         return $products;
     }
 
-    public function getAllProducts($queryString = null, Pagination & $pagination = null)
+    public function getAllProducts(string $queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
             ->select('Product')
@@ -129,7 +131,7 @@ class ProductRepository extends AbstractRepository implements ProductRepositoryI
             ->getResult();
     }
 
-    public function getRandomProducts($limit)
+    public function getRandomProducts(int $limit)
     {
         return $this->getQueryBuilder()
             ->select('Product')

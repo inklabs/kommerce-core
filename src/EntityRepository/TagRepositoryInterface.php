@@ -11,31 +11,26 @@ use inklabs\kommerce\Lib\UuidInterface;
  */
 interface TagRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @param string $code
-     * @return Tag
-     * @throws EntityNotFoundException
-     */
-    public function findOneByCode($code);
+    public function findOneByCode(string $code): Tag;
 
     /**
      * @param string $queryString
      * @param Pagination $pagination
      * @return Tag[]
      */
-    public function getAllTags($queryString = null, Pagination & $pagination = null);
+    public function getAllTags(string $queryString = null, Pagination & $pagination = null);
 
     /**
      * @param UuidInterface[]
      * @param Pagination $pagination
      * @return Tag[]
      */
-    public function getTagsByIds($tagIds, Pagination & $pagination = null);
+    public function getTagsByIds(array $tagIds, Pagination & $pagination = null);
 
     /**
      * @param UuidInterface[]
      * @param Pagination $pagination
      * @return Tag[]
      */
-    public function getAllTagsByIds($tagIds, Pagination & $pagination = null);
+    public function getAllTagsByIds(array $tagIds, Pagination & $pagination = null);
 }

@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\TextOption;
 
 class TextOptionRepository extends AbstractRepository implements TextOptionRepositoryInterface
 {
-    public function getAllTextOptionsByIds($optionIds, Pagination & $pagination = null)
+    public function getAllTextOptionsByIds(array $optionIds, Pagination & $pagination = null)
     {
         return $this->getQueryBuilder()
             ->select('TextOption')

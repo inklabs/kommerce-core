@@ -7,11 +7,7 @@ use inklabs\kommerce\Lib\UuidInterface;
 
 class OrderRepository extends AbstractRepository implements OrderRepositoryInterface
 {
-    /**
-     * @param string $orderExternalId
-     * @return Order
-     */
-    public function findOneByExternalId($orderExternalId)
+    public function findOneByExternalId(string $orderExternalId): Order
     {
         return $this->returnOrThrowNotFoundException(
             parent::findOneBy(['externalId' => $orderExternalId])

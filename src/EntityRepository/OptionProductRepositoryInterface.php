@@ -15,5 +15,5 @@ interface OptionProductRepositoryInterface extends RepositoryInterface
      * @param Pagination $pagination
      * @return OptionProduct[]
      */
-    public function getAllOptionProductsByIds($optionValueIds, Pagination & $pagination = null);
+    public function getAllOptionProductsByIds(array $optionValueIds, Pagination & $pagination = null);
 }

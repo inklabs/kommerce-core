@@ -17,12 +17,7 @@ interface InventoryTransactionRepositoryInterface extends RepositoryInterface
      */
     public function findAllByProduct(Product $product);
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @return UuidInterface
-     */
-    public function findInventoryIdWithAvailableQuantityForProduct(Product $product, $quantity);
+    public function findInventoryIdWithAvailableQuantityForProduct(Product $product, int $quantity): UuidInterface;
 
     /**
      * @param UuidInterface $inventoryLocationId

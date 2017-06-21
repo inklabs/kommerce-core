@@ -6,7 +6,7 @@ use inklabs\kommerce\Entity\Pagination;
 
 class CatalogPromotionRepository extends AbstractRepository implements CatalogPromotionRepositoryInterface
 {
-    public function getAllCatalogPromotions($queryString = null, Pagination & $pagination = null)
+    public function getAllCatalogPromotions(string $queryString = null, Pagination & $pagination = null)
     {
         $query = $this->getQueryBuilder()
             ->select('CatalogPromotion')
