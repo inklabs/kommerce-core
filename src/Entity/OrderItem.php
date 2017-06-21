@@ -283,7 +283,7 @@ class OrderItem implements IdEntityInterface, EnabledAttachmentInterface
             $quantity = $this->quantity;
         }
 
-        return $this->getShippingWeight() * (int) $quantity;
+        return $this->getShippingWeight() * $quantity;
     }
 
     /**

@@ -15,7 +15,7 @@ final class GetConfigurationsByKeysQuery implements QueryInterface
     {
         $this->keys = [];
         foreach ($keys as $key) {
-            $this->keys[] = (string) $key;
+            $this->addKey($key);
         }
     }
 
@@ -25,5 +25,10 @@ final class GetConfigurationsByKeysQuery implements QueryInterface
     public function getKeys(): array
     {
         return $this->keys;
+    }
+
+    private function addKey(string $key): void
+    {
+        $this->keys[] = $key;
     }
 }

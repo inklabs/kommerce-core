@@ -48,15 +48,15 @@ class LocalManagedFile implements ManagedFileInterface
         $this->id = Uuid::uuid4();
         $this->baseFileName = $this->id->getHex();
         $this->subPath = $this->buildSubPath();
-        $this->fileExtension = (string) $fileExtension;
-        $this->basePath = (string) $basePath;
-        $this->imageType = (int) $imageType;
-        $this->mimeType = (string) $mimeType;
-        $this->width = (int) $width;
-        $this->height = (int) $height;
+        $this->fileExtension = $fileExtension;
+        $this->basePath = $basePath;
+        $this->imageType = $imageType;
+        $this->mimeType = $mimeType;
+        $this->width = $width;
+        $this->height = $height;
 
         if ($uriPrefix !== null) {
-            $this->uriPrefix = (string) $uriPrefix;
+            $this->uriPrefix = $uriPrefix;
         }
     }
 

@@ -122,7 +122,7 @@ class UserToken implements IdEntityInterface
 
     private function setToken(string $token)
     {
-        $this->tokenHash = password_hash((string) $token, PASSWORD_BCRYPT);
+        $this->tokenHash = password_hash($token, PASSWORD_BCRYPT);
     }
 
     public function verifyToken(string $token): bool

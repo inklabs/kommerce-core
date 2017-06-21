@@ -104,7 +104,7 @@ class CreditCard implements ValidationInterface
     public function setExpirationMonth(string $expirationMonth)
     {
         if ($expirationMonth > 0) {
-            $this->expirationMonth = str_pad((string)$expirationMonth, 2, '0', STR_PAD_LEFT);
+            $this->expirationMonth = str_pad($expirationMonth, 2, '0', STR_PAD_LEFT);
         }
     }
 

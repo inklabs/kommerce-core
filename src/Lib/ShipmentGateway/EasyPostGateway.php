@@ -125,7 +125,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
         ];
     }
 
-    private function getShipmentRateFromEasyPostRate(stdClass $rate)
+    private function getShipmentRateFromEasyPostRate(EasyPost\Rate $rate): ShipmentRate
     {
         $shipmentRate = new ShipmentRate(new Money($rate->rate * 100, $rate->currency));
         $shipmentRate->setExternalId($rate->id);
@@ -156,7 +156,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
     /**
      * @param ShipmentRate[] & $shipmentRates
      */
-    protected function sortShipmentRatesLowestToHighest(& $shipmentRates): void
+    protected function sortShipmentRatesLowestToHighest(array & $shipmentRates): void
     {
         usort(
             $shipmentRates,
@@ -167,7 +167,7 @@ class EasyPostGateway implements ShipmentGatewayInterface
     }
 
     private function getShipmentTrackerFromEasyPostShipment(
-        stdClass $shipment,
+        EasyPost\Shipment $shipment,
         UuidInterface $id = null
     ): ShipmentTracker {
         switch (strtolower($shipment->tracker->carrier)) {
@@ -191,11 +191,11 @@ class EasyPostGateway implements ShipmentGatewayInterface
         return $shipmentTracker;
     }
 
-    private function getShipmentLabelFromEasyPostShipment(stdClass $shipment)
+    private function getShipmentLabelFromEasyPostShipment(EasyPost\Shipment $shipment): ShipmentLabel
     {
         $label = $shipment->postage_label;
 
-        $shipmentLabel = new ShipmentLabel;
+        $shipmentLabel = new ShipmentLabel();
         $shipmentLabel->setExternalId($label->id);
         $shipmentLabel->setResolution($label->label_resolution);
         $shipmentLabel->setSize($label->label_size);

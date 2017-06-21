@@ -32,7 +32,7 @@ class ShipmentTracker implements IdEntityInterface
         $this->setId($id);
         $this->setCreated();
         $this->setCarrier($carrier);
-        $this->trackingCode = (string) $trackingCode;
+        $this->trackingCode = $trackingCode;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
