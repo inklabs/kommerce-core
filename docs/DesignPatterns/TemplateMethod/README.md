@@ -17,7 +17,7 @@ just to log when a product is updated.
 ```php
 class LoggingProductRepository extends ProductRepositoryDecorator
 {
-    public function create(EntityInterface & $entity): void
+    public function update(EntityInterface & $entity): void
     {
         $result = parent::update($entity);
         $this->log('Product Updated: ' . $entity->getId());
