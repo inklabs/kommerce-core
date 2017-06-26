@@ -192,7 +192,7 @@ class ShipmentRate implements ValidationInterface
         return $this->listRate;
     }
 
-    public function getRetailRate(): Money
+    public function getRetailRate(): ?Money
     {
         return $this->retailRate;
     }
