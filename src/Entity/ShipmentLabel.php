@@ -138,7 +138,7 @@ class ShipmentLabel implements ValidationInterface
         return $this->pdfUrl;
     }
 
-    public function setPdfUrl(string $pdfUrl)
+    public function setPdfUrl(?string $pdfUrl)
     {
         $this->pdfUrl = $pdfUrl;
     }
@@ -148,7 +148,7 @@ class ShipmentLabel implements ValidationInterface
         return $this->epl2Url;
     }
 
-    public function setEpl2Url(string $epl2Url)
+    public function setEpl2Url(?string $epl2Url)
     {
         $this->epl2Url = $epl2Url;
     }
@@ -158,7 +158,7 @@ class ShipmentLabel implements ValidationInterface
         return $this->zplUrl;
     }
 
-    public function setZplUrl(string $zplUrl)
+    public function setZplUrl(?string $zplUrl)
     {
         $this->zplUrl = $zplUrl;
     }
