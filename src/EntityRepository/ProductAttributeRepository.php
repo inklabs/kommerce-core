@@ -44,7 +44,8 @@ class ProductAttributeRepository extends AbstractRepository implements ProductAt
                 ProductAttribute::class,
                 'ProductAttribute',
                 'WITH',
-                'ProductAttribute.product = Product.id')
+                'ProductAttribute.product = Product.id'
+            )
             ->where('ProductAttribute.id IN (:productAttributeIds)')
             ->addSelect('tag2')
             ->leftJoin('Product.tags', 'tag2')
