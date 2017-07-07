@@ -3,6 +3,7 @@ namespace inklabs\kommerce\EntityDTO\Builder;
 
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\EntityDTO\ProductAttributeDTO;
+use inklabs\kommerce\Lib\PricingInterface;
 
 class ProductAttributeDTOBuilder implements DTOBuilderInterface
 {
@@ -43,6 +44,23 @@ class ProductAttributeDTOBuilder implements DTOBuilderInterface
     }
 
     /**
+     * @param PricingInterface $pricing
+     * @return static
+     */
+    public function withProductWithPricing(PricingInterface $pricing)
+    {
+        $product = $this->entity->getProduct();
+        if ($product !== null) {
+            $this->entityDTO->product = $this->dtoBuilderFactory
+                ->getProductDTOBuilder($product)
+                ->withPrice($pricing)
+                ->build();
+        }
+
+        return $this;
+    }
+
+    /**
      * @return static
      */
     public function withAttribute()
@@ -67,12 +85,13 @@ class ProductAttributeDTOBuilder implements DTOBuilderInterface
     }
 
     /**
+     * @param PricingInterface $pricing
      * @return static
      */
-    public function withAllData()
+    public function withAllData(PricingInterface $pricing)
     {
         return $this
-            ->withProduct()
+            ->withProductWithPricing($pricing)
             ->withAttribute()
             ->withAttributeValue();
     }

@@ -68,7 +68,7 @@ class CartServiceTest extends ServiceTestCase
     /** @var InventoryLocationRepositoryInterface */
     protected $inventoryLocationRepository;
 
-    /** @var  InventoryTransactionRepositoryInterface */
+    /** @var InventoryTransactionRepositoryInterface */
     protected $inventoryTransactionRepository;
 
     /** @var InventoryServiceInterface */

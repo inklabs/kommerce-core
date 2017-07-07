@@ -10,7 +10,7 @@ class ProductQuantityDiscountTest extends EntityTestCase
     /** @var Product */
     protected $product;
 
-    /** @var  ProductQuantityDiscount */
+    /** @var ProductQuantityDiscount */
     protected $productQuantityDiscount;
 
     public function setUp()

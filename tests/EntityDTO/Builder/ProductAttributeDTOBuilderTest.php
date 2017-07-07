@@ -11,7 +11,7 @@ class ProductAttributeDTOBuilderTest extends EntityDTOBuilderTestCase
 
         $productAttributeDTO = $this->getDTOBuilderFactory()
             ->getProductAttributeDTOBuilder($productAttribute)
-            ->withAllData()
+            ->withAllData($this->getPricing())
             ->build();
 
         $this->assertTrue($productAttributeDTO instanceof ProductAttributeDTO);
