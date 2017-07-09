@@ -103,7 +103,7 @@ class UserService implements UserServiceInterface
         }
 
         if (! $user->getStatus()->isActive()) {
-            $this->recordLogin($email, $remoteIp, UserLoginResultType::fail());
+            $this->recordLogin($email, $remoteIp, UserLoginResultType::fail(), $user);
             throw UserLoginException::userNotActive();
         }
 
