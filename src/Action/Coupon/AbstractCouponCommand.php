@@ -57,9 +57,9 @@ abstract class AbstractCouponCommand implements CommandInterface
         string $promotionTypeSlug,
         int $value,
         bool $reducesTaxSubtotal,
-        int $maxRedemptions,
-        int $startAt,
-        int $endAt,
+        ?int $maxRedemptions,
+        ?int $startAt,
+        ?int $endAt,
         string $couponId
     ) {
         $this->couponId = Uuid::fromString($couponId);
@@ -127,17 +127,17 @@ abstract class AbstractCouponCommand implements CommandInterface
         return $this->reducesTaxSubtotal;
     }
 
-    public function getMaxRedemptions(): int
+    public function getMaxRedemptions(): ?int
     {
         return $this->maxRedemptions;
     }
 
-    public function getStartAt(): int
+    public function getStartAt(): ?int
     {
         return $this->startAt;
     }
 
-    public function getEndAt(): int
+    public function getEndAt(): ?int
     {
         return $this->endAt;
     }

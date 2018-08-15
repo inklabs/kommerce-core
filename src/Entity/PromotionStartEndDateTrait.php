@@ -41,7 +41,7 @@ trait PromotionStartEndDateTrait
         return true;
     }
 
-    public function setStartAt(int $startAt)
+    public function setStartAt(?int $startAt)
     {
         $this->start = $startAt;
     }
@@ -51,7 +51,7 @@ trait PromotionStartEndDateTrait
         return $this->start;
     }
 
-    public function setEndAt(int $endAt)
+    public function setEndAt(?int $endAt)
     {
         $this->end = $endAt;
     }

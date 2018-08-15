@@ -13,24 +13,24 @@ abstract class AbstractCartPriceRuleCommand implements CommandInterface
     /** @var string */
     private $name;
 
-    /** @var int */
+    /** @var int|null */
     private $maxRedemptions;
 
     /** @var bool */
     private $reducesTaxSubtotal;
 
-    /** @var int */
+    /** @var int|null */
     private $startAt;
 
-    /** @var int */
+    /** @var int|null */
     private $endAt;
 
     public function __construct(
         string $name,
-        int $maxRedemptions,
+        ?int $maxRedemptions,
         bool $reducesTaxSubtotal,
-        int $startAt,
-        int $endAt,
+        ?int $startAt,
+        ?int $endAt,
         string $cartPriceRuleId
     ) {
         $this->cartPriceRuleId = Uuid::fromString($cartPriceRuleId);
@@ -51,7 +51,7 @@ abstract class AbstractCartPriceRuleCommand implements CommandInterface
         return $this->name;
     }
 
-    public function getMaxRedemptions(): int
+    public function getMaxRedemptions(): ?int
     {
         return $this->maxRedemptions;
     }
@@ -61,12 +61,12 @@ abstract class AbstractCartPriceRuleCommand implements CommandInterface
         return $this->reducesTaxSubtotal;
     }
 
-    public function getStartAt(): int
+    public function getStartAt(): ?int
     {
         return $this->startAt;
     }
 
-    public function getEndAt(): int
+    public function getEndAt(): ?int
     {
         return $this->endAt;
     }

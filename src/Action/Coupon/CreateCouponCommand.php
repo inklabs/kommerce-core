@@ -15,9 +15,9 @@ final class CreateCouponCommand extends AbstractCouponCommand
         string $promotionTypeSlug,
         int $value,
         bool $reducesTaxSubtotal,
-        int $maxRedemptions,
-        int $startAt,
-        int $endAt
+        ?int $maxRedemptions,
+        ?int $startAt,
+        ?int $endAt
     ) {
         return parent::__construct(
             $code,

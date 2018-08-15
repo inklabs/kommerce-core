@@ -7,10 +7,10 @@ final class CreateCartPriceRuleCommand extends AbstractCartPriceRuleCommand
 {
     public function __construct(
         string $name,
-        int $maxRedemptions,
+        ?int $maxRedemptions,
         bool $reducesTaxSubtotal,
-        int $startAt,
-        int $endAt
+        ?int $startAt,
+        ?int $endAt
     ) {
         return parent::__construct(
             $name,

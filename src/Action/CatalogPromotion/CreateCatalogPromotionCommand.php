@@ -10,9 +10,9 @@ final class CreateCatalogPromotionCommand extends AbstractCatalogPromotionComman
         string $promotionTypeSlug,
         int $value,
         bool $reducesTaxSubtotal,
-        int $maxRedemptions,
-        int $startAt,
-        int $endAt,
+        ?int $maxRedemptions,
+        ?int $startAt,
+        ?int $endAt,
         ?string $tagId = null
     ) {
         return parent::__construct(

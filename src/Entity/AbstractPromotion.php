@@ -2,6 +2,7 @@
 namespace inklabs\kommerce\Entity;
 
 use DateTime;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Lib\UuidInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -70,6 +71,12 @@ abstract class AbstractPromotion implements IdEntityInterface
 
     public function setValue(int $value)
     {
+        if ($this->type->isPercent()) {
+            if ($value < 0 || $value > 100) {
+                throw new InvalidArgumentException('Invalid percent value');
+            }
+        }
+
         $this->value = $value;
     }
 

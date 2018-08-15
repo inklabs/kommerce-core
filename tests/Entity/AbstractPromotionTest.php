@@ -3,6 +3,7 @@ namespace inklabs\kommerce\Entity;
 
 use DateTime;
 use DateTimeZone;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\tests\Helper\TestCase\EntityTestCase;
 
 class AbstractPromotionTest extends EntityTestCase
@@ -167,6 +168,26 @@ class AbstractPromotionTest extends EntityTestCase
         $this->promotion->setType(PromotionType::exact());
         $this->promotion->setValue(20);
         $this->assertSame(20, $this->promotion->getUnitPrice(1000));
+    }
+
+    public function testSetNegativePercentValueFails()
+    {
+        // Given
+        $this->promotion->setType(PromotionType::percent());
+
+        // When
+        $this->setExpectedException(InvalidArgumentException::class, 'Invalid percent value');
+        $this->promotion->setValue(-1);
+    }
+
+    public function testSetPercentValueOver100Fails()
+    {
+        // Given
+        $this->promotion->setType(PromotionType::percent());
+
+        // When
+        $this->setExpectedException(InvalidArgumentException::class, 'Invalid percent value');
+        $this->promotion->setValue(101);
     }
 
     /**
