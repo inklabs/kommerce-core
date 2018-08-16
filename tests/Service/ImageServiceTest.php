@@ -1,6 +1,9 @@
 <?php
 namespace inklabs\kommerce\Service;
 
+use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Product;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\EntityRepository\ImageRepositoryInterface;
 use inklabs\kommerce\EntityRepository\ProductRepositoryInterface;
 use inklabs\kommerce\EntityRepository\TagRepositoryInterface;
@@ -9,29 +12,35 @@ use inklabs\kommerce\tests\Helper\TestCase\ServiceTestCase;
 
 class ImageServiceTest extends ServiceTestCase
 {
-    /** @var ImageRepositoryInterface|\Mockery\Mock */
+    /** @var ImageRepositoryInterface */
     protected $imageRepository;
 
-    /** @var ProductRepositoryInterface|\Mockery\Mock */
+    /** @var ProductRepositoryInterface */
     private $productRepository;
 
-    /** @var TagRepositoryInterface|\Mockery\Mock */
+    /** @var TagRepositoryInterface */
     protected $tagRepository;
 
     /** @var ImageService */
     protected $imageService;
 
-    /** @var FileManagerInterface|\Mockery\Mock */
+    /** @var FileManagerInterface */
     private $fileManager;
+
+    protected $metaDataClassNames = [
+        Image::class,
+        Product::class,
+        Tag::class,
+    ];
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->fileManager = $this->mockService->getFileManager();
-        $this->imageRepository = $this->mockRepository->getImageRepository();
-        $this->productRepository = $this->mockRepository->getProductRepository();
-        $this->tagRepository = $this->mockRepository->getTagRepository();
+        $this->fileManager = $this->getServiceFactory()->getFileManager();
+        $this->imageRepository = $this->getRepositoryFactory()->getImageRepository();
+        $this->productRepository = $this->getRepositoryFactory()->getProductRepository();
+        $this->tagRepository = $this->getRepositoryFactory()->getTagRepository();
         $this->imageService = new ImageService(
             $this->fileManager,
             $this->imageRepository,
@@ -42,55 +51,40 @@ class ImageServiceTest extends ServiceTestCase
 
     public function testCreateImageForProduct()
     {
+        // Given
         $uploadFileDTO = $this->dummyData->getUploadFileDTO();
-
-        $managedFile = $this->dummyData->getLocalManagedFile();
-        $this->fileManager->shouldReceive('saveFile')
-            ->with($uploadFileDTO->getFilePath())
-            ->once()
-            ->andReturn($managedFile);
-
         $product = $this->dummyData->getProduct();
-        $this->productRepository->shouldReceive('findOneById')
-            ->with($product->getId())
-            ->andReturn($product)
-            ->once();
+        $this->persistEntityAndFlushClear($product);
 
-        $this->imageRepository->shouldReceive('create')
-            ->once();
-
+        // When
         $this->imageService->createImageForProduct($uploadFileDTO, $product->getId());
+
+        // Then
+        $this->entityManager->clear();
+        $refreshedProduct = $this->productRepository->findOneById($product->getId());
+        $this->assertTrue($refreshedProduct->getImages()[0] instanceof Image);
     }
 
     public function testCreateImageForTag()
     {
+        // Given
         $uploadFileDTO = $this->dummyData->getUploadFileDTO();
+        $tag = $this->dummyData->getTag();
+        $this->persistEntityAndFlushClear($tag);
 
-        $managedFile = $this->dummyData->getLocalManagedFile();
-        $this->fileManager->shouldReceive('saveFile')
-            ->with($uploadFileDTO->getFilePath())
-            ->once()
-            ->andReturn($managedFile);
-
-        $tag = $this->dummyData->getProduct();
-        $this->tagRepository->shouldReceive('findOneById')
-            ->with($tag->getId())
-            ->andReturn($tag)
-            ->once();
-
-        $this->imageRepository->shouldReceive('create')
-            ->once();
-
+        // When
         $this->imageService->createImageForTag($uploadFileDTO, $tag->getId());
+
+        // Then
+        $this->entityManager->clear();
+        $refreshedTag = $this->tagRepository->findOneById($tag->getId());
+        $this->assertTrue($refreshedTag->getImages()[0] instanceof Image);
     }
 
     public function testFindOneById()
     {
         $image1 = $this->dummyData->getImage();
-        $this->imageRepository->shouldReceive('findOneById')
-            ->with($image1->getId())
-            ->andReturn($image1)
-            ->once();
+        $this->persistEntityAndFlushClear($image1);
 
         $image = $this->imageService->findOneById($image1->getId());
 

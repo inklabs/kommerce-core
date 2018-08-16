@@ -2,15 +2,22 @@
 namespace inklabs\kommerce\Lib;
 
 use DateTime;
+use inklabs\kommerce\Entity\CartPriceRule;
 use inklabs\kommerce\Entity\CatalogPromotion;
 use inklabs\kommerce\Entity\Price;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductQuantityDiscount;
-use inklabs\kommerce\tests\Helper\EntityRepository\FakeCartPriceRuleRepository;
+use inklabs\kommerce\Entity\Tag;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
 class PricingTest extends EntityRepositoryTestCase
 {
+    protected $metaDataClassNames = [
+        CatalogPromotion::class,
+        CartPriceRule::class,
+        Tag::class,
+    ];
+
     /** @var Pricing */
     protected $pricing;
 
@@ -44,11 +51,9 @@ class PricingTest extends EntityRepositoryTestCase
 
     public function testLoadCatalogPromotions()
     {
+        $catalogPromotionRepository = $this->getRepositoryFactory()->getCatalogPromotionRepository();
         $originalCatalogPromotion = $this->dummyData->getCatalogPromotion();
-        $catalogPromotionRepository = $this->mockRepository->getCatalogPromotionRepository();
-        $catalogPromotionRepository->shouldreceive('findAll')
-            ->andReturn([$originalCatalogPromotion])
-            ->once();
+        $this->persistEntityAndFlushClear($originalCatalogPromotion);
 
         $this->pricing->loadCatalogPromotions($catalogPromotionRepository);
 
@@ -58,11 +63,9 @@ class PricingTest extends EntityRepositoryTestCase
 
     public function testLoadCartPriceRules()
     {
+        $cartPriceRuleRepository = $this->getRepositoryFactory()->getCartPriceRuleRepository();
         $cartPriceRule1 = $this->dummyData->getCartPriceRule();
-        $cartPriceRuleRepository = $this->mockRepository->getCartPriceRuleRepository();
-        $cartPriceRuleRepository->shouldReceive('findAll')
-            ->andReturn([$cartPriceRule1])
-            ->once();
+        $this->persistEntityAndFlushClear($cartPriceRule1);
 
         $this->pricing->loadCartPriceRules($cartPriceRuleRepository);
         $cartPriceRules = $this->pricing->getCartPriceRules();

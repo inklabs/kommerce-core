@@ -195,7 +195,7 @@ class DummyData
         $product->setUnitPrice(100);
         $product->setShippingWeight(10);
         $product->addTag($tag);
-        $product->addProductQuantityDiscount($this->getProductQuantityDiscount());
+        $product->addProductQuantityDiscount($this->getProductQuantityDiscount($product));
 
         $product2 = $this->getProduct();
         $product2->setSku('OP1');

@@ -14,9 +14,6 @@
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
-    <listeners>
-        <listener class="\Mockery\Adapter\Phpunit\TestListener"/>
-    </listeners>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="false">
             <directory>src</directory>

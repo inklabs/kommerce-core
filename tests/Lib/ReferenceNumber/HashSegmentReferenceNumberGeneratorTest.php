@@ -1,7 +1,12 @@
 <?php
 namespace inklabs\kommerce\Lib\ReferenceNumber;
 
+use inklabs\kommerce\Entity\Order;
+use inklabs\kommerce\Entity\TaxRate;
+use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Exception\RuntimeException;
+use inklabs\kommerce\tests\Helper\Lib\ReferenceNumber\AlwaysFalseReferenceNumberRepository;
+use inklabs\kommerce\tests\Helper\Lib\ReferenceNumber\AlwaysTrueReferenceNumberRepository;
 use inklabs\kommerce\tests\Helper\TestCase\EntityRepositoryTestCase;
 
 class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
@@ -9,24 +14,24 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
     /** @var HashSegmentReferenceNumberGenerator */
     protected $hashSegmentGenerator;
 
-    /** @var ReferenceNumberRepositoryInterface|\Mockery\Mock */
-    protected $repository;
+    /** @var ReferenceNumberRepositoryInterface */
+    protected $referenceNumberRepository;
 
-    public function setUp()
-    {
-        parent::setUp();
-        $this->repository = $this->mockRepository->getOrderRepository();
-        $this->hashSegmentGenerator = new HashSegmentReferenceNumberGenerator($this->repository);
-    }
+    protected $metaDataClassNames = [
+        Order::class,
+        TaxRate::class,
+        User::class,
+    ];
 
     public function testGenerate()
     {
-        $this->repository->shouldReceive('referenceNumberExists')
-            ->andReturn(false)
-            ->once();
+        // Given
+        $hashSegmentGenerator = new HashSegmentReferenceNumberGenerator(new AlwaysFalseReferenceNumberRepository());
 
-        $referenceNumber = $this->hashSegmentGenerator->generate();
+        // When
+        $referenceNumber = $hashSegmentGenerator->generate();
 
+        // Then
         $pieces = explode('-', $referenceNumber);
         $this->assertCount(3, $pieces);
         $this->assertSame(3, strlen($pieces[0]));
@@ -36,13 +41,14 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
 
     public function testGenerateWithCustomSegments()
     {
-        $this->repository->shouldReceive('referenceNumberExists')
-            ->andReturn(false)
-            ->once();
+        // Given
+        $hashSegmentGenerator = new HashSegmentReferenceNumberGenerator(new AlwaysFalseReferenceNumberRepository());
+        $hashSegmentGenerator->setSegments([1, 2, 3, 4, 5]);
 
-        $this->hashSegmentGenerator->setSegments([1, 2, 3, 4, 5]);
-        $referenceNumber = $this->hashSegmentGenerator->generate();
+        // When
+        $referenceNumber = $hashSegmentGenerator->generate();
 
+        // Then
         $pieces = explode('-', $referenceNumber);
         $this->assertCount(5, $pieces);
         $this->assertSame(1, strlen($pieces[0]));
@@ -54,15 +60,16 @@ class HashSegmentReferenceNumberGeneratorTest extends EntityRepositoryTestCase
 
     public function testGenerateThrowsException()
     {
-        $this->repository->shouldReceive('referenceNumberExists')
-            ->andReturn(true)
-            ->times(3);
+        // Given
+        $hashSegmentGenerator = new HashSegmentReferenceNumberGenerator(new AlwaysTrueReferenceNumberRepository());
 
+        // Then
         $this->setExpectedException(
             RuntimeException::class,
             'Lookup limit reached'
         );
 
-        $this->hashSegmentGenerator->generate();
+        // When
+        $hashSegmentGenerator->generate();
     }
 }

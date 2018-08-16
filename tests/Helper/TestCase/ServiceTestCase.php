@@ -1,7 +1,6 @@
 <?php
 namespace inklabs\kommerce\tests\Helper\TestCase;
 
-use inklabs\kommerce\Entity\IdEntityInterface;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\Lib\Event\EventDispatcher;
 use inklabs\kommerce\Lib\Event\LoggingEventDispatcher;
@@ -9,26 +8,14 @@ use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\tests\Helper\Lib\FakeFileManager;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
-use inklabs\kommerce\tests\Helper\Service\MockService;
-use Mockery\Mock;
-use Mockery\MockInterface;
 
 abstract class ServiceTestCase extends EntityRepositoryTestCase
 {
-    /** @var MockService */
-    protected $mockService;
-
     /** @var LoggingEventDispatcher */
     private $loggingEventDispatcher;
 
     /** @var ServiceFactory */
     private $serviceFactory;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->mockService = new MockService($this->dummyData);
-    }
 
     protected function getServiceFactory()
     {
@@ -78,39 +65,5 @@ abstract class ServiceTestCase extends EntityRepositoryTestCase
     protected function getDispatchedEvents()
     {
         return $this->getEventDispatcher()->getDispatchedEvents();
-    }
-
-    /**
-     * @param MockInterface|Mock $service
-     * @param IdEntityInterface $entity
-     */
-    protected function serviceShouldGetOneById(MockInterface $service, IdEntityInterface $entity)
-    {
-        $service->shouldReceive('getOneById')
-            ->with($entity->getId())
-            ->andReturn($entity)
-            ->once();
-    }
-
-    /**
-     * @param MockInterface|Mock $service
-     * @param IdEntityInterface $entity
-     */
-    protected function serviceShouldUpdate(MockInterface $service, IdEntityInterface $entity)
-    {
-        $service->shouldReceive('update')
-            ->with($entity)
-            ->once();
-    }
-
-    /**
-     * @param MockInterface|Mock $service
-     * @param IdEntityInterface $entity
-     */
-    protected function serviceShouldDelete(MockInterface $service, IdEntityInterface $entity)
-    {
-        $service->shouldReceive('delete')
-            ->with($entity)
-            ->once();
     }
 }
