@@ -197,9 +197,9 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
     public function testGetLatestOrdersFilterdByKeywordForEmail()
     {
         // Given
-        $queryString = "john";
+        $queryString = "james";
         $order1 = $this->setupOrder(1);
-        $order1->getUser()->setEmail("john@example.com");
+        $order1->getUser()->setEmail("james@example.com");
         $order2 = $this->setupOrder(2);
 
         // When
