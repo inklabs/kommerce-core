@@ -23,11 +23,16 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
         return $result !== null;
     }
 
-    public function getLatestOrders(Pagination & $pagination = null)
+    public function getLatestOrders(string $queryString = null, Pagination & $pagination = null): array
     {
         return $this->getQueryBuilder()
             ->select('o')
             ->from(Order::class, 'o')
+            ->innerJoin('o.user', 'User')
+            ->where('User.firstName LIKE :query')
+            ->orWhere('User.lastName LIKE :query')
+            ->orWhere('User.email LIKE :query')
+            ->setParameter('query', '%' . $queryString . '%')
             ->paginate($pagination)
             ->orderBy('o.created', 'DESC')
             ->getQuery()

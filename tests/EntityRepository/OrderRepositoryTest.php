@@ -183,12 +183,30 @@ class OrderRepositoryTest extends EntityRepositoryTestCase
 
     public function testGetLatestOrders()
     {
+        // Given
         $order1 = $this->setupOrder(1);
         $order2 = $this->setupOrder(2);
 
+        // When
         $orders = $this->orderRepository->getLatestOrders();
 
+        // Then
         $this->assertTrue($orders[0]->getCreated()->getTimestamp() >= $orders[1]->getCreated()->getTimestamp());
+    }
+
+    public function testGetLatestOrdersFilterdByKeywordForEmail()
+    {
+        // Given
+        $queryString = "john";
+        $order1 = $this->setupOrder(1);
+        $order1->getUser()->setEmail("john@example.com");
+        $order2 = $this->setupOrder(2);
+
+        // When
+        $orders = $this->orderRepository->getLatestOrders($queryString);
+
+        // Then
+        $this->assertEquals(1, count($orders));
     }
 
     public function testGetOrdersByUserId()
