@@ -14,10 +14,11 @@ interface OrderRepositoryInterface extends RepositoryInterface, ReferenceNumberR
     public function findOneByExternalId(string $orderExternalId): Order;
 
     /**
+     * @param string $queryString
      * @param Pagination $pagination
      * @return Order[]
      */
-    public function getLatestOrders(Pagination & $pagination = null);
+    public function getLatestOrders(string $queryString = null, Pagination & $pagination = null): array;
 
     /**
      * @param UuidInterface $userId

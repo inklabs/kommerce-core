@@ -42,9 +42,8 @@ final class ListOrdersHandler implements QueryHandlerInterface
         $paginationDTO = $this->query->getPaginationDTO();
         $pagination = new Pagination($paginationDTO->maxResults, $paginationDTO->page);
 
-        // TODO: Add query search
         $queryString = $this->query->getQueryString();
-        $orders = $this->orderRepository->getLatestOrders($pagination);
+        $orders = $this->orderRepository->getLatestOrders($queryString, $pagination);
 
         $response->setPaginationDTOBuilder(
             $this->dtoBuilderFactory->getPaginationDTOBuilder($pagination)
