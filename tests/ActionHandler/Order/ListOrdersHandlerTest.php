@@ -43,7 +43,7 @@ class ListOrdersHandlerTest extends ActionTestCase
             $order2,
             $user,
         ]);
-        $queryString = 'order';
+        $queryString = '';
         $query = new ListOrdersQuery($queryString, new PaginationDTO());
 
         /** @var ListOrdersResponse $response */
